@@ -1,20 +1,22 @@
 # Active Context
 
-- Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약과 룰렛 계약을 최대한 확정한다.
+- Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약, 룰렛과 장기전 계약을 최대한 확정한다.
 - User value: Codex가 게임 기획을 임의 해석하거나 구현 중 큰 구조를 되돌리는 일을 줄이고, 승인된 계약을 기준으로 집중해서 코딩한다.
 - Decisions: Godot + GDScript, Windows PC·마우스/키보드, 싱글플레이 PvE, 코드 작업 전 Plan Mode 제안서 필수, 3라인, 후방 6노드, 라인별 전방 3노드, 중앙 접전지, 건물 기반 토큰, 적 30초 전조 웨이브.
-- Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 시작 상태·첫 60초·일시정지·2배속·승패·재도전은 `docs/design/APPROVED_MATCH_STRUCTURE.md`에서 관리한다.
+- Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 웨이브 타이머를 사용한다.
 - Campaign structure: 10~15분 수동 설계 튜토리얼 1개 뒤 정규 스테이지에서 난이도·맵·특수 적을 확장한다. 튜토리얼은 생성기 대상에서 제외한다.
-- Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다.
+- Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브도 StageManifest에 포함한다.
 - Constraint direction: 튜토리얼 완료 후 정규 스테이지 준비 화면에서 공개형 제약을 선택한다. 기본 난이도와 제약은 별도 축이다.
 - Roulette approved core: 기본 판정은 중앙 가로줄이며 아이템으로만 변경한다. 판정 줄 3개가 같은 심벌이어야 보상한다. 완성 줄 1/2/3~7/8개는 각각 1성 병사/엘리트/영웅/전설이다. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
-- Roulette economy: 금화 완성 줄 1/2/3개 이상은 실제 회전 비용의 75%/200%/500%를 지급한다. 시장 특화 시 무한 경제 위험이 있어 구현 전에 별도 회전 제한 안전장치를 확정해야 한다.
+- Roulette economy: 금화 완성 줄 1/2/3개 이상은 실제 회전 비용의 75%/200%/500%를 지급한다. 별도 회전 충전이나 연속 감쇠를 넣지 않고 시장 특화의 고수익을 허용한다.
+- Economy builds: 시장+포탑+상점 용병은 정식 전략이다. 시장 특화는 병영 부족, 노드 점유, 식량, 용병 비용과 공격 전환 필요성을 대가로 가진다.
+- Terminal assault: 기본 초기 가설은 35분에 세 라인 초강력 결전 웨이브 출격이다. 5분 전 경보, T-30/T-15/T-5 전조, T-10 구성 확정을 사용하며 이전에 파괴한 적 생산시설은 대응 병종 증원량을 줄인다. 방어 뒤에도 적 본진이 남으면 강화 웨이브가 반복될 수 있다.
 - Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 행운 아이템이 초기 확률을 높인다. 자연 럭키 찬스와 여러 이동권을 같은 회전에 사용할 수 있고 이동 횟수 상한은 없다.
 - Approved benchmark decisions: 수직 슬라이스 UX 6개, MVP 고정형 3티어, 일반 난이도 정확한 웨이브 수량 공개, 전방 생산시설은 합류 거리만 보상.
 - Reference repositories: `alsdmlals4-eng/Base`의 spec-first 협업 규칙과 `alsdmlals4-eng/urban-legend`의 Godot 구조·검증 사례를 선별 적용한다.
-- Current state: 룰렛 핵심 규칙은 `docs/design/APPROVED_ROULETTE_CORE_RULES.md`에 승인됐다. Issue #6은 줄 변경 아이템, 행운 아이템 수치, 대기칸, 전설 전투력과 금화 안전장치 검토를 위해 열려 있다.
+- Current state: 시장 특화와 결전 웨이브 방향은 `docs/design/APPROVED_ECONOMY_BUILDS_AND_TERMINAL_ASSAULT.md`에 승인됐다. 룰렛 Issue #6은 아이템·대기칸·전설 세부를 위해 열려 있다.
 - Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고, 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
 - Excluded now: `project.godot`, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Files: `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/proposals/0004-roulette-resolution-bench-and-lucky-chance.md`, `docs/design/notes/roulette-proposal-review-questions.md`, `docs/DECISIONS_PENDING.md`.
-- Risks: 금화 500%와 결정론적 금화 보드의 무한 경제, 이동권 다중 사용으로 보드 조작 가치가 지나치게 커질 가능성, 전설 희소성과 성능, 생성기 비대화, UI 정보 과밀, 다수 유닛 성능.
-- Next verification: 금화 안전장치와 룰렛 세부 아이템·대기칸을 결정한 뒤 `건물·경제 → 전투 → 웨이브 → UI·데이터` 순서로 디자인 프리즈를 진행한다.
+- Files: `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_ECONOMY_BUILDS_AND_TERMINAL_ASSAULT.md`, `docs/design/APPROVED_MATCH_STRUCTURE.md`, `docs/DECISIONS_PENDING.md`.
+- Risks: 시장 특화가 다른 빌드를 압도할 가능성, 용병 상점 효율, 결전 웨이브가 너무 빠르거나 사실상 강제 패배가 될 가능성, 이동권 다중 사용, 전설 성능, UI 정보 과밀, 다수 유닛 성능.
+- Next verification: 상점·용병 세부는 별도 제안으로 남기고, 다음 디자인 프리즈는 `건물 Tier·경제·파괴 → 전투 → 웨이브 → UI·데이터` 순서로 진행한다.
