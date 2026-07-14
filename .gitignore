@@ -1,3 +1,20 @@
+# Godot generated files
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Mono/C# generated files are ignored even though GDScript is the default
+.mono/
+data_*/
+
+# Exported builds and packs
+build/
+dist/
+exports/
+*.pck
+*.zip
+
 # OS / editor
 .DS_Store
 Thumbs.db
@@ -12,12 +29,8 @@ Thumbs.db
 !.env.example
 secrets/
 
-# Build and test outputs
-build/
-dist/
+# Test and local outputs
 coverage/
 logs/
 .cache/
 tmp/
-
-# Engine-specific rules are added after the engine is approved.
