@@ -21,7 +21,11 @@
 - Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 공세 타이머를 사용한다.
 - Tutorial: 10~15분 수동 설계 스테이지 1개. 첫 병영 1분 10초, 첫 룰렛 1분 45초, 첫 배치 2분 15초, 첫 역전 5분 15초, 엘리트 5분 45초, Tier 2 선택 8분 10초 이내가 초기 목표다.
 - Tutorial deterministic flow: 첫 룰렛은 중앙 1줄 일반 검사. 두 번째 룰렛은 이동 전 1줄에서 상단 행을 왼쪽으로 움직여 2줄 엘리트 전사로 개선한다. 초기 네 공세는 배치, 포탑·바리케이드 역전, 엘리트 강화, Tier 2 병종을 검증한다.
-- Tutorial Tier 2: 첫 10분 안에 방패병·대검병·광전사 중 하나를 선택하고 외형, 패시브 1 강화, 패시브 2 생성과 공유 토큰 유지를 보여준다.
+- Tutorial combat baseline: 일반 검사 HP 280·공격 32·1.20초, 소형 근접 베일종 HP 65·공격 10·1.40초, 소형 원거리 베일종 HP 48·공격 12·1.80초를 PoC 초기값으로 사용한다. 수치는 플레이테스트 조정 대상이다.
+- Tutorial barracks production: Tier 1 병영 생산 간격 초기값은 105초다. 병영이 약 1:05에 가동되면 일반 검사 생산 완료 목표는 약 2:50·4:35·6:20이며, Tier 2 업그레이드 뒤 약 8:05 생산분은 선택한 방패병·대검병·광전사로 생성한다.
+- Tutorial first four assaults: 1공세 상단 근접 4, 2공세 상단 근접 6+중단 근접 3, 3공세 상단 근접 4+중단 근접 6, 4공세 상단 근접 3+중단 근접 6·원거리 2+하단 근접 3을 사용한다.
+- Tutorial reversal tools: Tier 1 포탑 초기값은 HP 500·공격 18·1.00초·사거리 270·건설 22초다. 두 번째 공세에서 적 접촉 0.5~2.5초 전에 완공되는 장면을 목표로 한다. 바리케이드는 HP 350·시전 1.5초·지속 18초·비용 12·쿨다운 30초이며 근접 6기를 8~11초 지연하는 것을 목표로 한다.
+- Tutorial Tier 2: 첫 10분 안에 방패병·대검병·광전사 중 하나를 선택하고 외형, 패시브 1 강화, 패시브 2 생성과 공유 토큰 유지를 보여준다. 4공세에서 방패병은 원거리 생존, 대검병은 밀집 처치, 광전사는 저체력 가속·흡혈을 보여준다.
 - Stage generation: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 공세, Command Power, 보스 패턴, 비행 위협과 베일의 축복·저주도 StageManifest 대상이다.
 - Constraints: 튜토리얼 완료 후 준비 화면에서 공개형 제약을 선택한다. 세계관에서는 베일의 축복·저주·선언으로 표현할 수 있다.
 - Roulette: 기본 판정은 중앙 가로줄. 판정줄 3칸이 같은 비-X 심벌일 때 보상한다. 완성 줄 1/2/3~7/8개는 일반/엘리트/영웅/전설. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
@@ -43,8 +47,8 @@
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다. 초기 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 5초.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 루메른·실베른·트리븐·베일런 명칭, 베일의 법칙, 벨루, 첫 10분 결정론적 흐름, 전장 토폴로지, 전설 등급, 병영 Tier 성장, 전사 Tier 2 능력, 비행과 전술 명령의 핵심 구조가 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`.
+- Current state: 오멘워드 공식명, 루메른·실베른·트리븐·베일런 명칭, 베일의 법칙, 벨루, 첫 10분 결정론적 흐름, 전장 토폴로지, 첫 4공세 밸런스 기준, 전설 등급, 병영 Tier 성장, 전사 Tier 2 능력, 비행과 전술 명령의 핵심 구조가 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 1920×1080 HUD 와이어프레임과 첫 네 공세의 체력·이동속도·출격 간격·포탑 완공 타이밍을 설계한다.
+- Next verification: 1920×1080 HUD 와이어프레임, 시작 금화·건설·룰렛 비용 정합성, 고정 엘리트·영웅·전설 전사 능력 중 하나를 다음 작업으로 확정한다.
