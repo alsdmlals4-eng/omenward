@@ -27,6 +27,10 @@
 - Faction differentiation: 진영 차이는 숨은 능력치 뻥튀기가 아니라 외형, 스킬 성격, AI, 타기팅, 편성, 진영 수정자와 공개 태그로 만든다. 큰 예외 보정은 `보스`, `공성`, `돌파`, `강화 공세` 같은 태그와 징조로 공개한다.
 - Enemy mythic boundary: `신화급`은 20웨이브 적군 전용 절멸 위계다. 플레이어 룰렛·플레이어 등급표는 일반·엘리트·영웅·전설만 유지한다. 신화급은 전설 구조에 신화 특성과 다중 페이즈를 추가한다.
 - Mirrored buildings: 같은 기능 계열·Tier의 아군·적군 건물은 기본 HP·사거리·생산 주기 예산이 유사하다. 적 건물은 플레이어 경제·룰렛 대신 StageManifest 생산 예산과 공세 시간표를 사용하며 파괴 시 대응 병종 공세가 감소한다.
+- Enemy warrior lineage: 공통 원형 `warrior_heavy_cleaver`를 사용한다. 5웨이브는 Tier 1 엘리트, 10웨이브는 Tier 2 영웅, 15웨이브는 Tier 3 전설 보스, 20웨이브는 Tier 3 신화 최종보스로 상승한다. 표시 이름은 가칭이다.
+- Enemy warrior abilities: Tier 패시브 축은 전투 숙련→파쇄→진군, 등급 스킬 축은 전방 횡베기→진형 붕괴→고정 지면 단층이다. 15웨이브는 직선 돌파·대단절 보스 패키지, 20웨이브는 `끝나지 않는 진군` 신화 특성과 2페이즈를 추가한다.
+- Enemy warrior threat hypothesis: 동일 Tier 일반 1기를 1.0으로 볼 때 엘리트 2.0~2.4, 영웅 4.5~5.5, 전설 비보스 8~10, 전설 보스 20~28, 신화 최종보스 45~60 Threat Cost를 초기 검증 범위로 사용한다. 이는 단순 HP 배율이 아니라 스킬·AI·보스 패턴·페이즈를 합친 총 비용이다.
+- Minor enemy boundary: 튜토리얼의 소형 근접 베일종은 `minor/swarm` 군집형으로, 아군 전사와 1:1 대칭 비교하는 정규 베일 전사 `standard_unit`과 분리한다.
 - Tutorial: 10~15분 수동 설계 스테이지 1개. 첫 병영 1분 10초, 첫 룰렛 1분 45초, 첫 배치 2분 15초, 첫 역전 5분 15초, 엘리트 5분 45초, Tier 2 선택 8분 10초 이내가 초기 목표다.
 - Tutorial wave clock: 첫 웨이브 전까지 온보딩 시간을 별도로 둘 수 있지만 튜토리얼 공세 시계가 시작된 뒤에는 +1:00/+2:00/+3:00/+4:00 간격으로 첫 네 공세가 충돌한다. 일시정지는 이 시계도 멈춘다.
 - Tutorial deterministic flow: 첫 룰렛은 중앙 1줄 일반 검사. 두 번째 룰렛은 이동 전 1줄에서 상단 행을 왼쪽으로 움직여 2줄 엘리트 전사로 개선한다. 초기 네 공세는 배치, 포탑·바리케이드 역전, 엘리트 강화, Tier 2 병종을 검증한다.
@@ -55,8 +59,8 @@
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다. 초기 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 5초.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 첫 4공세, 60초 시계, 5 엘리트·10 영웅·15 전설 보스·20 신화 최종보스, 진영 대칭형 유닛·건물 구조가 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`.
+- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 첫 4공세, 60초 시계, 5 엘리트·10 영웅·15 전설 보스·20 신화 최종보스, 진영 대칭형 유닛·건물 구조와 첫 적 전사 계보가 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 5웨이브 첫 엘리트, 10웨이브 첫 영웅, 15웨이브 전설 보스, 20웨이브 신화 최종보스의 실제 계열·능력·패턴을 설계한다.
+- Next verification: 적 전사 계보의 최종 표시 이름, 정확한 스킬 계수·범위·쿨다운, 웨이브별 호위 편성, 아군 Tier 3 중량 파쇄형 전사를 확정한다.
