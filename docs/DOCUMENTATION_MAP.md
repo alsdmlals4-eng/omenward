@@ -17,7 +17,8 @@
 | 단계와 우선순위 변경 | `ROADMAP.md`, `ACTIVE_CONTEXT.md` |
 | 미확정 수치나 정책을 결정 | `DECISIONS_PENDING.md` |
 | 실제 구현 시작 | 사용자 승인된 제안서, 현재 GitHub Issue와 대응 Goal |
-| 외부 게임·도구·저장소 벤치마킹 | `docs/ai/BENCHMARKING_REFERENCE_GUIDE.md`가 존재하면 읽고, 없으면 Issue에 적용/제외 결론을 기록 |
+| 외부 게임·시장 반응·UX 벤치마킹 | `docs/benchmarks/README.md`, 관련 벤치마킹 제안서와 출처 스냅샷 |
+| 외부 게임·도구·저장소의 일반 벤치마킹 원칙 | `docs/ai/BENCHMARKING_REFERENCE_GUIDE.md`가 존재하면 읽고, 없으면 제안서에 적용/제외 결론을 기록 |
 | 외부 AI·스킬·코드 위임 | `docs/ai/`의 관련 규칙과 `AGENTS.md`의 보안·검증 원칙 |
 | 작업 종료와 인수인계 | `ACTIVE_CONTEXT.md`, PR 템플릿, 완료 보고 형식 |
 
@@ -28,6 +29,7 @@
 - 우선순위, Godot 불변 조건, GitHub 반영 방식, Plan Mode 승인 게이트, 완료 보고: `AGENTS.md`
 - 제안서 형식과 승인 기준: `PROPOSAL_WORKFLOW.md`
 - 게임의 현재 규칙과 플레이어 경험: `GAME_DESIGN.md`
+- 벤치마킹 조사, 반응 근거, 적용·제외 후보: `docs/benchmarks/`
 - Godot 폴더·상태·Scene·UI 계약: `GODOT_PROJECT_STRUCTURE.md`
 - Base·urban-legend 채택 및 제외 기준: `REFERENCE_REPOSITORIES.md`
 - 개발 순서: `ROADMAP.md`
