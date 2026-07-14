@@ -1,0 +1,23 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.tmp
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+secrets/
+
+# Build and test outputs
+build/
+dist/
+coverage/
+logs/
+.cache/
+tmp/
+
+# Engine-specific rules are added after the engine is approved.
