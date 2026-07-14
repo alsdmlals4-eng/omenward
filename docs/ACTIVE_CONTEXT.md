@@ -15,6 +15,9 @@
 - Bellu transient state: 위험·보스·축복·저주·룰렛 등급은 경고등처럼 약 0.5~2초만 반응하고 기본형으로 돌아간다. 지속 상태는 HUD 아이콘과 타이머가 표시한다.
 - Bellu UX/audio: 오른쪽 하단 48~64px 도크, 최대 두 줄 말풍선, 맑은 중성적 음색과 두 음의 종 모티프, 반복 발화 제한을 사용한다.
 - Decisions: Godot + GDScript, Windows PC·마우스/키보드, 싱글플레이 PvE, 코드 작업 전 Plan Mode 제안서 필수, 3라인, 후방 6노드, 라인별 전방 3노드, 중앙 접전지, 건물 기반 토큰, 적 약 30초 전조.
+- Battlefield topology: `아군 본진 → 아군 본진 접전지 → 상·중·하 분기 → 아군 중간요새 → 중앙 접전지 → 적 중간요새 → 상·중·하 수렴 → 적 본진 접전지 → 적 본진` 순서를 고정한다. 상단은 위로, 중단은 직진, 하단은 아래로 진행하며 라인 간 횡단로와 중간요새 간 연결로는 없다.
+- Battlefield scale hypothesis: PoC 블록아웃은 2,880×1,280 world units, 중단 약 2,640, 상·하단 약 2,840 길이를 사용한다. 일반 보행속도 60, 중앙 접전지 점령 반경 120, 기본 포탑 사거리 270은 플레이테스트 초기값이다.
+- Battlefield camera/UI: 기본 전략 줌에서 양측 본진과 세 라인 전체를 표시하고 0.85×~1.55× 확대·축소를 지원한다. 1920×1080 기본 줌에서 일반 34~40px, 엘리트 40~46px, 영웅 46~54px, 전설 54~62px를 목표로 한다. 좌측 하단 3×3 룰렛, 하단 건설·용병·전술 명령, 우측 하단 벨루 도크를 사용한다.
 - Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 공세 타이머를 사용한다.
 - Tutorial: 10~15분 수동 설계 스테이지 1개. 첫 병영 1분 10초, 첫 룰렛 1분 45초, 첫 배치 2분 15초, 첫 역전 5분 15초, 엘리트 5분 45초, Tier 2 선택 8분 10초 이내가 초기 목표다.
 - Tutorial deterministic flow: 첫 룰렛은 중앙 1줄 일반 검사. 두 번째 룰렛은 이동 전 1줄에서 상단 행을 왼쪽으로 움직여 2줄 엘리트 전사로 개선한다. 초기 네 공세는 배치, 포탑·바리케이드 역전, 엘리트 강화, Tier 2 병종을 검증한다.
@@ -40,8 +43,8 @@
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다. 초기 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 5초.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 루메른·실베른·트리븐·베일런 명칭, 베일의 법칙, 벨루, 첫 10분 결정론적 흐름, 전설 등급, 병영 Tier 성장, 전사 Tier 2 능력, 비행과 전술 명령의 핵심 구조가 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`.
+- Current state: 오멘워드 공식명, 루메른·실베른·트리븐·베일런 명칭, 베일의 법칙, 벨루, 첫 10분 결정론적 흐름, 전장 토폴로지, 전설 등급, 병영 Tier 성장, 전사 Tier 2 능력, 비행과 전술 명령의 핵심 구조가 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 첫 10분 HUD 와이어프레임·초기 공세 능력치와 고정 엘리트·영웅·전설 전사 능력 또는 전사 Tier 3 병종을 설계한다.
+- Next verification: 1920×1080 HUD 와이어프레임과 첫 네 공세의 체력·이동속도·출격 간격·포탑 완공 타이밍을 설계한다.
