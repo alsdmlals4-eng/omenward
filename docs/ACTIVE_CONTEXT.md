@@ -1,26 +1,26 @@
 # Active Context
 
-- Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약, 룰렛, 건물 전문화와 전술 명령 계약을 최대한 확정한다.
+- Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약, 룰렛, 장기전, 건물 전문화와 전술 명령 계약을 최대한 확정한다.
 - User value: Codex가 게임 기획을 임의 해석하거나 구현 중 큰 구조를 되돌리는 일을 줄이고, 승인된 계약을 기준으로 집중해서 코딩한다.
 - Decisions: Godot + GDScript, Windows PC·마우스/키보드, 싱글플레이 PvE, 코드 작업 전 Plan Mode 제안서 필수, 3라인, 후방 6노드, 라인별 전방 3노드, 중앙 접전지, 건물 기반 토큰, 적 30초 전조 웨이브.
 - Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 웨이브 타이머를 사용한다.
 - Campaign structure: 10~15분 수동 설계 튜토리얼 1개 뒤 정규 스테이지에서 난이도·맵·특수 적을 확장한다. 튜토리얼은 생성기 대상에서 제외한다.
-- Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브도 StageManifest에 포함한다.
+- Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브와 Command Power도 StageManifest 대상이다.
 - Constraint direction: 튜토리얼 완료 후 정규 스테이지 준비 화면에서 공개형 제약을 선택한다. 기본 난이도와 제약은 별도 축이다.
 - Roulette approved core: 기본 판정은 중앙 가로줄이며 아이템으로만 변경한다. 판정 줄 3개가 같은 심벌이어야 보상한다. 완성 줄 1/2/3~7/8개는 각각 1성 병사/엘리트/영웅/전설이다. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
 - Roulette economy: 금화 완성 줄 1/2/3개 이상은 실제 회전 비용의 75%/200%/500%를 지급한다. 별도 회전 충전이나 연속 감쇠를 넣지 않고 시장 특화의 고수익을 허용한다.
 - Economy builds: 시장+포탑+상점 용병은 정식 전략이다. 시장 특화는 병영 부족, 노드 점유, 식량, 용병 비용과 공격 전환 필요성을 대가로 가진다.
-- Terminal assault: 기본 초기 가설은 35분 결전 웨이브다. 이전에 파괴한 적 생산시설은 대응 병종 증원량을 줄이며, 방어 뒤 적 본진이 남으면 강화 웨이브가 반복될 수 있다.
-- Live construction: 적이 노드 주변에 있거나 피격 중이어도 건설·업그레이드는 계속된다. 건설 중 구조물은 공격받아 완공 전에 파괴될 수 있고, 살아남아 완공되는 틱부터 기능이 활성화된다.
-- Building specialization: 완전 고정형 3티어는 폐기했다. Tier 1 공통 기능 → Tier 2 전문화 → Tier 3 심화·교리 구조다. 토큰 증폭은 한 릴에만 보너스 토큰을 추가하고, 생산 강화와 포탑 제압·요새·장거리 전문화를 허용한다.
-- Barracks specialization: Tier 1 기본 병영은 검사와 검사 토큰을 제공한다. Tier 2에서 기병·창병·궁병 중 하나를 선택하면 이후 생산 병종과 세 릴 기본 토큰이 선택 병종으로 변경된다.
-- Tactical commands: 금화를 쓰는 1회성 전술 명령을 포함한다. 초기 후보는 바리케이드, 화살비, 역병, 강화지대이며 식량·노드·토큰을 사용하지 않는다. 세부 비용·쿨다운·효과는 제안서 0006에서 조정한다.
-- Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 행운 아이템이 초기 확률을 높인다. 자연 럭키 찬스와 여러 이동권을 같은 회전에 사용할 수 있다.
-- Approved benchmark decisions: 수직 슬라이스 UX 6개, 일반 난이도 정확한 웨이브 수량 공개, 전방 생산시설은 합류 거리만 보상. 초기 고정형 Tier 결정은 후속 전문화 결정으로 대체됐다.
+- Terminal assault: 기본 초기 가설은 35분에 세 라인 초강력 결전 웨이브 출격이다. 이전에 파괴한 적 생산시설은 대응 병종 증원량을 줄인다. 방어 뒤에도 적 본진이 남으면 강화 웨이브가 반복될 수 있다.
+- Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 행운 아이템이 초기 확률을 높인다. 자연 럭키 찬스와 여러 이동권을 같은 회전에 사용할 수 있고 이동 횟수 상한은 없다.
+- Building approved direction: 적이 있어도 건설·업그레이드를 계속하며 완공 전에 파괴될 수 있다. Tier 1 공통, Tier 2 전문화, Tier 3 심화·교리를 사용한다. 기본 병영은 Tier 2에서 기병·창병·궁병 중 하나로 전환하며 토큰도 교체한다.
+- Building detail recommendation: 건설 시작 체력 25%, 누적 피해 절대값 보존, 완공 후 공격 순서, 일반 건물 하드 길막 없음, 동일 Tier 전문화 동일 비용, 병영·시장·농장·포탑 교리를 `docs/design/notes/0005a-construction-durability-and-doctrine-recommendation.md`에서 검토 중이다.
+- Tactical command approved direction: 바리케이드·화살비·역병·강화지대를 금화 소모형 1회성 전술 명령으로 사용한다.
+- Tactical detail recommendation: 해금된 명령의 직접 금화 결제, 전역 12초·개별 쿨다운, 일시정지 예약 1개, Command Power와 초기 효과를 `docs/design/notes/0006a-tactical-command-economy-and-cooldown-recommendation.md`에서 검토 중이다.
+- Approved benchmark decisions: 수직 슬라이스 UX 6개, 일반 난이도 정확한 웨이브 수량 공개, 전방 생산시설은 합류 거리만 보상.
 - Reference repositories: `alsdmlals4-eng/Base`의 spec-first 협업 규칙과 `alsdmlals4-eng/urban-legend`의 Godot 구조·검증 사례를 선별 적용한다.
-- Current state: 건물 전문화와 전술 명령 핵심 방향은 `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`에 승인됐다. Issue #8은 건물 세부를, 별도 Issue는 전술 명령 수치를 검토한다.
+- Current state: 건물·전술 명령의 핵심 방향은 승인됐다. 현재 건설 체력·충돌·Tier 교리와 전술 명령 경제·쿨다운 추천안에 대한 사용자 조정안을 기다린다.
 - Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고, 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
 - Excluded now: `project.godot`, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Files: `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/design/proposals/0005-building-tiers-lifecycle-and-economy.md`, `docs/design/proposals/0006-tactical-commands.md`, `docs/DECISIONS_PENDING.md`.
-- Risks: 건설 중 구조물을 이용한 길막 악용, 토큰 증폭이 룰렛을 지나치게 결정적으로 만들 가능성, 전문화 UI 과밀, 전술 명령 스팸, 시장 특화 우세, 다수 유닛 성능.
-- Next verification: 건설 중 체력·충돌, Tier 3 교리, 농장·시장 전문화와 전술 명령 사용 방식·쿨다운을 조정한 뒤 전투 타기팅과 라인 규칙으로 진행한다.
+- Files: `docs/design/proposals/0005-building-tiers-lifecycle-and-economy.md`, `docs/design/notes/0005a-construction-durability-and-doctrine-recommendation.md`, `docs/design/proposals/0006-tactical-commands.md`, `docs/design/notes/0006a-tactical-command-economy-and-cooldown-recommendation.md`, `docs/DECISIONS_PENDING.md`.
+- Risks: 건설 중 포탑의 극적인 완공과 공사장 길막 악용의 균형, 전문화 간 효율 격차, 시장 할인 중첩, 전술 명령이 웨이브를 대체할 가능성, 시장 특화 우세, UI 정보 과밀, 다수 유닛 성능.
+- Next verification: 사용자가 0005-A와 0006-A 추천안을 조정·승인한 뒤 `전투 타기팅·충돌 → 접전지 → 적 웨이브 → UI·데이터` 순서로 진행한다.
