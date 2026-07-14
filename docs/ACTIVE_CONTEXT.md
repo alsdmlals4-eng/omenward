@@ -8,7 +8,10 @@
 - Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브, Command Power, 보스 패턴과 비행 위협도 StageManifest 대상이다.
 - Constraint direction: 튜토리얼 완료 후 정규 스테이지 준비 화면에서 공개형 제약을 선택한다. 기본 난이도와 제약은 별도 축이다.
 - Roulette approved core: 기본 판정은 중앙 가로줄이며 아이템으로만 변경한다. 판정 줄 3개가 같은 심벌이어야 보상한다. 완성 줄 1/2/3~7/8개는 각각 일반/엘리트/영웅/전설이다. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
-- Warrior token family: Tier 1 검사와 Tier 2 이상 전사 계열 병종은 전사 토큰을 공유한다. Tier 2 초기 후보는 방패병·대검병·광전사이며 최종 명칭과 수치는 후속 조정한다.
+- Warrior token family: Tier 1 검사와 Tier 2 이상 전사 계열 병종은 전사 토큰을 공유한다. Tier 2 병종은 방패병·대검병·광전사로 진행하며 각 병종은 일반 등급 전용 패시브 1·2와 고유 1스킬을 가진다.
+- Warrior Tier 1 ability: 검사는 `전투 숙련`으로 경직·밀쳐내기 저항을 얻고 `횡베기`로 짧은 전방 지상 범위 공격을 사용한다.
+- Warrior Tier 2 abilities: 방패병은 `수비 숙련`·`방패 방어`·`방패 밀치기`, 대검병은 `중량 무기 숙련`·`파갑`·`대회전 베기`, 광전사는 `광전 본능`·`피의 갈증`·`광란 연격`을 사용한다.
+- Warrior grade boundary: 방패병·대검병·광전사의 고유 1스킬은 일반 등급 실제 병종용이다. 엘리트·영웅·전설 전사는 계열별 고정 템플릿이며 별도 1·2·3스킬 표를 사용한다.
 - Shared barracks tokens: 같은 기본 병종 계열은 Tier와 세부 병종이 달라도 같은 심벌을 사용한다. 병영 한 동은 각 릴에 공유 토큰 1개를 제공하고 내부 원장은 출처 병영·Tier·세부 병종·패시브 단계를 보존한다.
 - Barracks Tier 3: Tier 3은 상위 세부 병종 1개와 운영 교리 1개를 함께 선택한다. 기병은 중기병·충격기병, 궁병은 석궁병·대공궁병·연사궁병을 초기 분기로 사용하며 창병·전사 Tier 3 분기는 후속 확정한다.
 - Unit candidate roll: 같은 병종 심벌 당첨 뒤 병영 출처 후보를 가중치 추첨한다. 높은 Tier 후보가 더 높은 확률을 가지며 초기 추천은 Tier 1/2/3 가중치 1/2/3이다. 기병·궁병·창병처럼 Tier 1 후보가 없는 계열의 정확한 비율은 플레이테스트 대상이다.
@@ -26,10 +29,10 @@
 - Combat keyword direction: 물리·마법·고정 피해, 치명타, 후방, 돌진, 중단, 군중 제어와 상태이상 공통 규칙을 사용한다. 기본 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 내부 쿨타임 5초를 초기값으로 둔다.
 - Flight direction: 모든 유닛은 지상 또는 비행 레이어를 가진다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다. 공격은 target_layers를 명시하며 대공은 비행 카운터 특화 태그다.
 - Boss counter direction: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되며 범위가 전조 뒤 목표를 계속 추적하지 않는다.
-- Current state: 전설 등급, 전사 공유 토큰, 병영 Tier별 패시브 해금·강화, 룰렛 등급별 스킬 강화·생성, Tier 3 세부 병종과 비행 레이어의 핵심 구조는 승인됐다. 개별 병종 수치·패시브·스킬과 후보 가중치는 플레이테스트 대상이다.
+- Current state: 전설 등급, 전사 공유 토큰, 병영 Tier별 패시브 해금·강화, 룰렛 등급별 스킬 강화·생성, 전사 Tier 2 세 병종 능력, Tier 3 세부 병종과 비행 레이어의 핵심 구조는 승인됐다. 정확한 수치·고정 상위 등급 전사 스킬과 후보 가중치는 플레이테스트 대상이다.
 - Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
 - Excluded now: `project.godot`, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Files: `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
-- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 진화, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 세부 병종·후보 확률.
-- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier별 패시브 강화 정보 과밀, Tier 3 세부 병종과 운영 교리 조합의 경우의 수, 상위 등급 고정 유닛이 일반 세부 병종보다 정체성이 약해지는 문제, 대공궁병의 필수화, 다수 유닛 성능.
-- Next verification: 전사 계열 Tier 2 최종 병종을 확정하고 전사·기병·궁병·창병 계열의 패시브 1·2·3 강화표와 스킬 1·2·3 등급표를 설계한다.
+- Files: `docs/design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md`, `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
+- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 진화, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 세부 병종·후보 확률, #14 전사 Tier 2 능력.
+- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier별 패시브 강화 정보 과밀, Tier 3 세부 병종과 운영 교리 조합의 경우의 수, 상위 등급 고정 유닛이 일반 세부 병종보다 정체성이 약해지는 문제, 방패병의 원거리 방어 범위, 광전사 회복 루프, 대공궁병의 필수화, 다수 유닛 성능.
+- Next verification: 고정 엘리트·영웅·전설 전사 유닛의 1·2·3스킬을 설계하거나 전사 Tier 3 세부 병종과 패시브 3을 먼저 확정한다.
