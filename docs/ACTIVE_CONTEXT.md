@@ -18,15 +18,19 @@
 - Battlefield topology: `아군 본진 → 아군 본진 접전지 → 상·중·하 분기 → 아군 중간요새 → 중앙 접전지 → 적 중간요새 → 상·중·하 수렴 → 적 본진 접전지 → 적 본진` 순서를 고정한다. 상단은 위로, 중단은 직진, 하단은 아래로 진행하며 라인 간 횡단로와 중간요새 간 연결로는 없다.
 - Battlefield scale hypothesis: PoC 블록아웃은 2,880×1,280 world units, 중단 약 2,640, 상·하단 약 2,840 길이를 사용한다. 일반 보행속도 60, 중앙 접전지 점령 반경 120, 기본 포탑 사거리 270은 플레이테스트 초기값이다.
 - Battlefield camera/UI: 기본 전략 줌에서 양측 본진과 세 라인 전체를 표시하고 0.85×~1.55× 확대·축소를 지원한다. 1920×1080 기본 줌에서 일반 34~40px, 엘리트 40~46px, 영웅 46~54px, 전설 54~62px를 목표로 한다. 좌측 하단 3×3 룰렛, 하단 건설·용병·전술 명령, 우측 하단 벨루 도크를 사용한다.
-- Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 공세 타이머를 사용한다.
+- Match structure: 정규 스테이지는 활성 전투 시간 기준 매 60초마다 공세가 중앙 접전지에 충돌한다. 1~14웨이브는 정규 공세, 15웨이브는 강력 보스 결전, 16~19웨이브는 강화 엘리트 초과 공세, 20웨이브는 사실상 패배를 만드는 절멸급 보스 공세다.
+- Victory structure: 표준 승리는 15웨이브 보스 처치, 공격적 조기 승리는 15웨이브 이전 적 본진 파괴다. 20:00 즉시 패배를 강제하지 않지만 절멸 공세의 일반 승률은 매우 낮아야 한다.
+- Wave clock: 정규 스테이지 `wave_collision_time = wave_index × 60초`. 일시정지는 웨이브 시계를 멈추고 이전 공세가 남아 있어도 다음 공세는 예정대로 충돌한다. 일반 징조는 T-30/T-15/T-5, 15웨이브 보스는 T-60부터 예고한다.
+- Overtime: 15웨이브 보스가 살아 있으면 16~19웨이브에 엘리트·상위 병종 비중과 Threat Budget이 빠르게 증가한다. 20웨이브에는 절멸급 보스와 세 라인 강화 호위가 합류한다.
 - Tutorial: 10~15분 수동 설계 스테이지 1개. 첫 병영 1분 10초, 첫 룰렛 1분 45초, 첫 배치 2분 15초, 첫 역전 5분 15초, 엘리트 5분 45초, Tier 2 선택 8분 10초 이내가 초기 목표다.
+- Tutorial wave clock: 첫 웨이브 전까지 온보딩 시간을 별도로 둘 수 있지만 튜토리얼 공세 시계가 시작된 뒤에는 +1:00/+2:00/+3:00/+4:00 간격으로 첫 네 공세가 충돌한다. 일시정지는 이 시계도 멈춘다.
 - Tutorial deterministic flow: 첫 룰렛은 중앙 1줄 일반 검사. 두 번째 룰렛은 이동 전 1줄에서 상단 행을 왼쪽으로 움직여 2줄 엘리트 전사로 개선한다. 초기 네 공세는 배치, 포탑·바리케이드 역전, 엘리트 강화, Tier 2 병종을 검증한다.
 - Tutorial combat baseline: 일반 검사 HP 280·공격 32·1.20초, 소형 근접 베일종 HP 65·공격 10·1.40초, 소형 원거리 베일종 HP 48·공격 12·1.80초를 PoC 초기값으로 사용한다. 수치는 플레이테스트 조정 대상이다.
-- Tutorial barracks production: Tier 1 병영 생산 간격 초기값은 105초다. 병영이 약 1:05에 가동되면 일반 검사 생산 완료 목표는 약 2:50·4:35·6:20이며, Tier 2 업그레이드 뒤 약 8:05 생산분은 선택한 방패병·대검병·광전사로 생성한다.
+- Tutorial barracks production: Tier 1 병영 생산 간격 초기값은 105초다. 생산 타이밍은 60초 공세 시계에 맞춰 후속 조정하며, 원인 없이 튜토리얼 병력을 생성하지 않는다.
 - Tutorial first four assaults: 1공세 상단 근접 4, 2공세 상단 근접 6+중단 근접 3, 3공세 상단 근접 4+중단 근접 6, 4공세 상단 근접 3+중단 근접 6·원거리 2+하단 근접 3을 사용한다.
 - Tutorial reversal tools: Tier 1 포탑 초기값은 HP 500·공격 18·1.00초·사거리 270·건설 22초다. 두 번째 공세에서 적 접촉 0.5~2.5초 전에 완공되는 장면을 목표로 한다. 바리케이드는 HP 350·시전 1.5초·지속 18초·비용 12·쿨다운 30초이며 근접 6기를 8~11초 지연하는 것을 목표로 한다.
 - Tutorial Tier 2: 첫 10분 안에 방패병·대검병·광전사 중 하나를 선택하고 외형, 패시브 1 강화, 패시브 2 생성과 공유 토큰 유지를 보여준다. 4공세에서 방패병은 원거리 생존, 대검병은 밀집 처치, 광전사는 저체력 가속·흡혈을 보여준다.
-- Stage generation: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 공세, Command Power, 보스 패턴, 비행 위협과 베일의 축복·저주도 StageManifest 대상이다.
+- Stage generation: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 60초 공세 시계, 15웨이브 보스, 16~19 초과 공세, 20웨이브 절멸 공세, Command Power, 비행 위협과 베일의 축복·저주도 StageManifest 대상이다.
 - Constraints: 튜토리얼 완료 후 준비 화면에서 공개형 제약을 선택한다. 세계관에서는 베일의 축복·저주·선언으로 표현할 수 있다.
 - Roulette: 기본 판정은 중앙 가로줄. 판정줄 3칸이 같은 비-X 심벌일 때 보상한다. 완성 줄 1/2/3~7/8개는 일반/엘리트/영웅/전설. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
 - Warrior token family: Tier 1 검사와 Tier 2 이상 전사 계열은 전사 토큰을 공유한다. Tier 2 전사는 방패병·대검병·광전사다.
@@ -39,16 +43,15 @@
 - Skill growth: 일반 1스킬, 엘리트 1스킬 강화, 영웅 강화된 1스킬+2스킬 생성, 전설 영웅 효과+2스킬 강화+3스킬 생성.
 - Grade source: 룰렛만 상위 등급을 생성한다. 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 병영 자동 생산은 일반 등급이며 정예훈련은 능력치 버프다.
 - Economy: 금화 완성 줄 1/2/3개 이상은 실제 회전비의 75%/200%/500%. 시장+포탑+용병은 정식 전략이다.
-- Terminal assault: 초기 가설은 약 35분에 세 라인 결전 공세 출격. 미리 파괴한 적 생산시설은 대응 병종 증원량을 줄인다.
 - Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 자연 이동과 여러 이동권을 같은 회전에 사용할 수 있다.
-- Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행은 재개 전까지 멈춘다.
+- Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행과 웨이브 시계는 재개 전까지 멈춘다.
 - Building: 적이 있어도 건설·업그레이드가 계속되며 완공 전에 파괴될 수 있다. Tier 1 공통, Tier 2 전문화, Tier 3 세부 병종·교리 구조다.
 - Tactical commands: 바리케이드·화살비·역병·강화지대. 발동마다 금화 지불, 전역 쿨다운 없음, 명령별 개별 쿨다운만 유지한다.
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다. 초기 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 5초.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 루메른·실베른·트리븐·베일런 명칭, 베일의 법칙, 벨루, 첫 10분 결정론적 흐름, 전장 토폴로지, 첫 4공세 밸런스 기준, 전설 등급, 병영 Tier 성장, 전사 Tier 2 능력, 비행과 전술 명령의 핵심 구조가 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`.
+- Current state: 오멘워드 공식명, 루메른·실베른·트리븐·베일런 명칭, 베일의 법칙, 벨루, 첫 10분 결정론적 흐름, 전장 토폴로지, 첫 4공세 밸런스 기준, 60초 공세 시계, 15웨이브 결전과 20웨이브 절멸 구조, 전설 등급, 병영 Tier 성장, 전사 Tier 2 능력, 비행과 전술 명령의 핵심 구조가 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V1.md`.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 1920×1080 HUD 와이어프레임, 시작 금화·건설·룰렛 비용 정합성, 고정 엘리트·영웅·전설 전사 능력 중 하나를 다음 작업으로 확정한다.
+- Next verification: 1~15웨이브 Threat Budget 곡선, 웨이브 5·10 중간 이정표, 15·20웨이브 보스 설계, 1920×1080 HUD 와이어프레임과 시작 경제표 중 하나를 다음 작업으로 확정한다.
