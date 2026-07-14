@@ -6,6 +6,8 @@
 
 `최신 사용자 지시 → AGENTS.md → BASE_RULES_VERSION.md → DOCUMENTATION_MAP.md → PROPOSAL_WORKFLOW.md → GAME_DESIGN.md → 승인된 설계 결정 → 조건부 문서 → Issue/Goal → 승인된 제안서 → 대상 파일 → ACTIVE_CONTEXT.md`
 
+승인된 `docs/design/APPROVED_*.md` 문서가 `GAME_DESIGN.md`와 충돌하면 더 최근의 승인 문서를 우선한다.
+
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
@@ -16,6 +18,7 @@
 | Godot 프로젝트 생성, Scene·Node·AutoLoad·데이터 구조 | `GODOT_PROJECT_STRUCTURE.md` |
 | Base 또는 urban-legend 구조 참고 | `REFERENCE_REPOSITORIES.md` |
 | 게임 규칙·룰렛·건물·접전지·웨이브 변경 | `GAME_DESIGN.md`, 승인된 `design/` 문서 |
+| 전투 중 건설·건물 전문화·전술 명령·보스 길 뚫기 패턴 | `design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `design/proposals/0005-building-tiers-lifecycle-and-economy.md`, `design/proposals/0006-tactical-commands.md`, `design/proposals/0007-boss-cleave-and-barricade-counter.md` |
 | 단계와 우선순위 변경 | `ROADMAP.md`, `ACTIVE_CONTEXT.md` |
 | 미확정 수치나 정책을 결정 | `DECISIONS_PENDING.md` |
 | 실제 구현 시작 | 사용자 승인된 제안서, 현재 GitHub Issue와 대응 Goal |
@@ -32,6 +35,7 @@
 - 제안서 형식과 승인 기준: `PROPOSAL_WORKFLOW.md`
 - 게임의 전체 구조와 플레이어 경험: `GAME_DESIGN.md`
 - 벤치마킹에서 사용자 승인된 추가 설계: `design/APPROVED_BENCHMARK_DECISIONS.md`
+- 전투 중 건설·선택형 전문화·전술 명령·보스 바리케이드 대응: `design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`
 - 구현 전 기획 완료 조건: `design/DESIGN_FREEZE_CHECKLIST.md`
 - 벤치마킹 조사, 반응 근거, 적용·제외 후보: `docs/benchmarks/`
 - Godot 폴더·상태·Scene·UI 계약: `GODOT_PROJECT_STRUCTURE.md`
