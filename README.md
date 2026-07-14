@@ -23,8 +23,6 @@
 4. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전 확정할 항목
 5. [`docs/BASE_RULES_VERSION.md`](docs/BASE_RULES_VERSION.md) — 공용 Base 규칙 기준 버전
 
-원본 DOCX 기획서는 [`docs/GAME_DESIGN_v0.7.docx`](docs/GAME_DESIGN_v0.7.docx)에 보관합니다.
-
 ## 저장소 구조
 
 ```text
@@ -33,7 +31,6 @@
 ├─ README.md
 ├─ docs/
 │  ├─ GAME_DESIGN.md
-│  ├─ GAME_DESIGN_v0.7.docx
 │  ├─ ROADMAP.md
 │  ├─ DECISIONS_PENDING.md
 │  ├─ ACTIVE_CONTEXT.md
