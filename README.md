@@ -2,8 +2,8 @@
 
 건물로 룰렛의 토큰 풀을 설계하고, 상·중·하 3개 전선을 실시간으로 운영하는 판타지 전략 오토배틀 프로토타입입니다.
 
-> 현재 상태: **기획 확정 및 기술 기반 결정 전**  
-> 구현 엔진과 대상 플랫폼은 아직 확정되지 않았습니다. Codex는 관련 Issue/Goal 승인 전 임의로 엔진 프로젝트를 생성하지 않습니다.
+> 현재 상태: **Godot 엔진 확정 / Phase 0 부트스트랩 준비**  
+> 기본 구현 언어는 GDScript이며, 정확한 Godot minor 버전과 목표 플랫폼·해상도는 Phase 0에서 확정합니다.
 
 ## 핵심 특징
 
@@ -18,38 +18,55 @@
 ## 먼저 읽을 문서
 
 1. [`AGENTS.md`](AGENTS.md) — Codex와 공동 작업자의 작업 규칙
-2. [`docs/GAME_DESIGN.md`](docs/GAME_DESIGN.md) — 현재 게임 기획서
-3. [`docs/ROADMAP.md`](docs/ROADMAP.md) — 단계별 개발 순서
-4. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전 확정할 항목
-5. [`docs/BASE_RULES_VERSION.md`](docs/BASE_RULES_VERSION.md) — 공용 Base 규칙 기준 버전
+2. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 문서 라우터
+3. [`docs/GAME_DESIGN.md`](docs/GAME_DESIGN.md) — 현재 게임 기획서
+4. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — Godot 구조와 상태 소유 원칙
+5. [`docs/REFERENCE_REPOSITORIES.md`](docs/REFERENCE_REPOSITORIES.md) — Base·urban-legend 채택/제외 기준
+6. [`docs/ROADMAP.md`](docs/ROADMAP.md) — 단계별 개발 순서
+7. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전 확정할 항목
 
-## 저장소 구조
+## 예정 저장소 구조
 
 ```text
 .
+├─ project.godot
 ├─ AGENTS.md
 ├─ README.md
-├─ docs/
-│  ├─ GAME_DESIGN.md
-│  ├─ ROADMAP.md
-│  ├─ DECISIONS_PENDING.md
-│  ├─ ACTIVE_CONTEXT.md
-│  ├─ BASE_RULES_VERSION.md
-│  ├─ goals/
-│  ├─ ai/
-│  └─ images/
-├─ src/                 # 엔진 결정 후 실제 프로젝트 구조로 교체
-├─ tests/               # 검증 체계 결정 후 구성
-└─ .github/
-   ├─ ISSUE_TEMPLATE/
-   └─ PULL_REQUEST_TEMPLATE.md
+├─ scenes/
+│  ├─ main/
+│  ├─ battle/
+│  ├─ buildings/
+│  ├─ units/
+│  └─ ui/
+├─ scripts/
+│  ├─ core/
+│  ├─ battle/
+│  ├─ buildings/
+│  ├─ roulette/
+│  ├─ waves/
+│  └─ ui/
+├─ data/
+├─ resources/
+├─ tests/
+├─ assets/
+└─ docs/
+   ├─ GAME_DESIGN.md
+   ├─ GODOT_PROJECT_STRUCTURE.md
+   ├─ REFERENCE_REPOSITORIES.md
+   ├─ ROADMAP.md
+   ├─ DECISIONS_PENDING.md
+   ├─ goals/
+   └─ ai/
 ```
+
+실제 폴더는 Phase 0 Goal에서 최소 프로젝트를 생성하며 확정합니다.
 
 ## Codex 작업 방식
 
 - 모든 구현은 승인된 GitHub Issue 또는 `docs/goals/`의 Goal을 기준으로 진행합니다.
 - Codex는 파일을 수정하기 전에 목표, 범위, 제외 범위, 예상 파일, 위험, 완료 기준, 검증 방법을 먼저 요약합니다.
 - 구현 결과는 별도 브랜치와 Pull Request로 제출합니다.
+- 이 대화에서 확정된 기획과 규칙은 관련 문서에 바로 반영해 `main`에 push합니다.
 - 벤치마킹 대상의 코드, 명칭, UI, 아트 자산을 복제하지 않습니다.
 
 권장 브랜치 이름:
@@ -58,7 +75,14 @@
 codex/issue-<번호>-<짧은-설명>
 ```
 
-## 참고 방향
+## 구조 참고
+
+- [`alsdmlals4-eng/Base`](https://github.com/alsdmlals4-eng/Base): spec-first, Issue/Goal, 검증과 Compound 작업 규칙
+- [`alsdmlals4-eng/urban-legend`](https://github.com/alsdmlals4-eng/urban-legend): Godot 장면·스크립트 분리, AutoLoad, 데이터 기반 구조, 네이티브 UI와 headless 검증 사례
+
+참고 저장소는 구조와 작업 방법을 분석하는 용도입니다. 프로젝트별 게임 코드와 데이터를 직접 복사하거나 자동 동기화하지 않습니다.
+
+## 게임성 참고 방향
 
 - Slotbound: 슬롯과 오토배틀의 결합 방식 참고
 - Commander Quest: 실시간 배치, 건설 노드, 전장 가독성 참고
