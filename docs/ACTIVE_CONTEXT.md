@@ -10,6 +10,9 @@
 - World premise: 플레이어는 인류 최전선에서 괴물 군단이 후방으로 넘어가지 못하게 세 전선을 지휘하는 지휘관이다.
 - Boundary law: 괴물은 정체불명의 `경계의 율`에 따라 웨이브로 경계를 넘는다. 공세 전에는 정확한 징조가 나타나며 전장 조건에 따라 축복·저주가 내려오지만 율의 기원과 목적은 초반에 설명하지 않는다.
 - Roulette lore boundary: 룰렛과 토큰은 반드시 물리적 마법 소환 장치로 설명하지 않는다. 플레이어 UI에서는 룰렛·토큰을 사용하고 세계관 인물은 전술판·증원 경로·전력 표식 정도로 가볍게 번역한다.
+- Mascot direction: `율비`는 경계의 징조와 이상 반응을 감지해 지휘관에게 짧은 경고·조언을 주는 작은 감시 정령이다. 10~30초 튜토리얼, 웨이브·보스 경보, 룰렛 보상 반응과 세계관의 친근한 연결점을 담당한다.
+- Mascot visual and UX: 율비는 둥근 방울·물방울형 비인간 실루엣, 큰 눈, 신호 기관과 몸 중앙 단일 문양을 가진다. HUD에서는 오른쪽 가장자리 하단 1/3의 48~64px 도크를 기본으로 하며 말풍선은 최대 두 줄, 정보 우선순위와 반복 발화 제한을 적용한다.
+- Mascot audio: 맑고 작은 중성적 음색과 두 음의 종 모티프를 사용한다. 음성만으로 필수 정보를 전달하지 않고 텍스트·아이콘·색과 결합한다.
 - Decisions: Godot + GDScript, Windows PC·마우스/키보드, 싱글플레이 PvE, 코드 작업 전 Plan Mode 제안서 필수, 3라인, 후방 6노드, 라인별 전방 3노드, 중앙 접전지, 건물 기반 토큰, 적 30초 전조 웨이브.
 - Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 웨이브 타이머를 사용한다.
 - Campaign structure: 10~15분 수동 설계 튜토리얼 1개 뒤 정규 스테이지에서 난이도·맵·특수 적을 확장한다. 튜토리얼은 생성기 대상에서 제외하며 첫 10분 PoC 역할을 담당한다.
@@ -38,10 +41,10 @@
 - Combat keyword direction: 물리·마법·고정 피해, 치명타, 후방, 돌진, 중단, 군중 제어와 상태이상 공통 규칙을 사용한다. 기본 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 내부 쿨타임 5초를 초기값으로 둔다.
 - Flight direction: 모든 유닛은 지상 또는 비행 레이어를 가진다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다. 공격은 target_layers를 명시하며 대공은 비행 카운터 특화 태그다.
 - Boss counter direction: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되며 범위가 전조 뒤 목표를 계속 추적하지 않는다.
-- Current state: Dopamine Driven Design, 10~30초 빠른 습득, 최전선 지휘관·경계의 율 세계관, 전설 등급, 전사 공유 토큰, 병영 Tier별 패시브 성장, 룰렛 등급별 스킬 성장, 전사 Tier 2 능력, Tier 3 세부 병종과 비행 레이어의 핵심 구조는 승인됐다.
+- Current state: Dopamine Driven Design, 10~30초 빠른 습득, 최전선 지휘관·경계의 율 세계관, 마스코트 율비의 캐릭터·HUD·보이스 방향, 전설 등급, 전사 공유 토큰, 병영 Tier별 패시브 성장, 룰렛 등급별 스킬 성장, 전사 Tier 2 능력, Tier 3 세부 병종과 비행 레이어의 핵심 구조는 승인됐다.
 - Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
 - Excluded now: `project.godot`, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Files: `docs/design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md`, `docs/design/APPROVED_FRONTIER_COMMANDER_AND_BOUNDARY_LAW_WORLD_PREMISE.md`, `docs/design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md`, `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
-- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 진화, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 세부 병종·후보 확률, #14 전사 Tier 2 능력, #15 Dopamine Driven Design·첫 10분, #16 최전선 지휘관·경계의 율 세계관.
-- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier별 패시브 강화 정보 과밀, 10~30초 학습을 위해 설명을 줄이다 판정 조건이 불명확해지는 문제, 첫 10분 시스템 전환이 너무 빨라지는 문제, 경계의 율이 모든 게임 규칙을 억지로 설명하는 설정이 되는 문제, 상위 등급 고정 유닛의 정체성, 방패병 원거리 방어, 광전사 회복, 대공궁병 필수화와 다수 유닛 성능.
-- Next verification: 첫 10분 튜토리얼의 실제 화면 단위 플로우와 부관·정찰관 대사를 설계하고, 국가·요새·외부 영역의 고유명사를 정한 뒤 고정 엘리트·영웅·전설 전사 능력 또는 전사 Tier 3 병종 작업으로 돌아간다.
+- Files: `docs/design/APPROVED_YULBI_MASCOT_CHARACTER_AND_UI_AUDIO_GUIDE.md`, `docs/design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md`, `docs/design/APPROVED_FRONTIER_COMMANDER_AND_BOUNDARY_LAW_WORLD_PREMISE.md`, `docs/design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md`, `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
+- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 진화, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 세부 병종·후보 확률, #14 전사 Tier 2 능력, #15 Dopamine Driven Design·첫 10분, #16 최전선 지휘관·경계의 율 세계관, #17 율비 캐릭터·HUD·보이스.
+- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier별 패시브 강화 정보 과밀, 10~30초 학습을 위해 설명을 줄이다 판정 조건이 불명확해지는 문제, 첫 10분 시스템 전환이 너무 빨라지는 문제, 경계의 율이 모든 게임 규칙을 억지로 설명하는 설정이 되는 문제, 율비 대사 반복 피로와 정찰관·부관 역할 중복, 율비가 중요한 전장 정보를 가리는 문제, 상위 등급 고정 유닛의 정체성, 방패병 원거리 방어, 광전사 회복, 대공궁병 필수화와 다수 유닛 성능.
+- Next verification: 율비의 최종 캐릭터 시트와 첫 10분 화면 단위 HUD 와이어프레임·대사 분담을 확정하고, 국가·요새·외부 영역의 고유명사를 정한 뒤 고정 엘리트·영웅·전설 전사 능력 또는 전사 Tier 3 병종 작업으로 돌아간다.
