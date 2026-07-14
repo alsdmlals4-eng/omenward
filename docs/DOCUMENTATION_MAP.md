@@ -1,55 +1,80 @@
-# Documentation Map
+# 오멘워드 Documentation Map
 
 이 문서는 Codex와 공동 작업자가 현재 작업에 필요한 문서만 읽도록 안내하는 라우터다. 모든 문서를 매번 읽지 않는다.
 
 ## 기본 읽기 순서
 
-`최신 사용자 지시 → AGENTS.md → BASE_RULES_VERSION.md → DOCUMENTATION_MAP.md → PROPOSAL_WORKFLOW.md → GAME_DESIGN.md → 승인된 설계 결정 → 조건부 문서 → Issue/Goal → 승인된 제안서 → 대상 파일 → ACTIVE_CONTEXT.md`
+```text
+최신 사용자 지시
+→ AGENTS.md
+→ BASE_RULES_VERSION.md
+→ DOCUMENTATION_MAP.md
+→ PROPOSAL_WORKFLOW.md
+→ OMENWARD_GAME_DESIGN.md
+→ 관련 APPROVED 문서
+→ 현재 Issue/Goal
+→ 대상 파일
+→ ACTIVE_CONTEXT.md
+```
 
-승인된 `docs/design/APPROVED_*.md` 문서가 `GAME_DESIGN.md`와 충돌하면 더 최근의 승인 문서를 우선한다.
+승인된 `docs/design/APPROVED_*.md`가 메인 기획서와 충돌하면 더 최근 승인 문서를 우선한다.
+
+## 항상 확인할 공식 문서
+
+- 게임 전체: `OMENWARD_GAME_DESIGN.md`
+- 현재 상태: `ACTIVE_CONTEXT.md`
+- 개발 순서: `OMENWARD_ROADMAP.md`
+- 미확정 항목: `DECISIONS_PENDING.md`
+- 공식 명칭·세계관: `design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`
 
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| Codex Plan Mode 검토 또는 구현 전 제안서 | `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal |
-| 프리프로덕션 기획 확정·디자인 프리즈 | `design/DESIGN_FREEZE_CHECKLIST.md`, `DECISIONS_PENDING.md` |
-| 벤치마킹에서 승인된 게임 설계 적용 | `design/APPROVED_BENCHMARK_DECISIONS.md` |
-| Godot 프로젝트 생성, Scene·Node·AutoLoad·데이터 구조 | `GODOT_PROJECT_STRUCTURE.md` |
-| Base 또는 urban-legend 구조 참고 | `REFERENCE_REPOSITORIES.md` |
-| 게임 규칙·룰렛·건물·접전지·웨이브 변경 | `GAME_DESIGN.md`, 승인된 `design/` 문서 |
-| 전투 중 건설·건물 전문화·전술 명령·보스 길 뚫기 패턴 | `design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `design/proposals/0005-building-tiers-lifecycle-and-economy.md`, `design/proposals/0006-tactical-commands.md`, `design/proposals/0007-boss-cleave-and-barricade-counter.md` |
-| 단계와 우선순위 변경 | `ROADMAP.md`, `ACTIVE_CONTEXT.md` |
-| 미확정 수치나 정책을 결정 | `DECISIONS_PENDING.md` |
-| 실제 구현 시작 | 사용자 승인된 제안서, 현재 GitHub Issue와 대응 Goal |
-| 외부 게임·시장 반응·UX 벤치마킹 | `docs/benchmarks/README.md`, 관련 벤치마킹 제안서와 출처 스냅샷 |
-| 외부 게임·도구·저장소의 일반 벤치마킹 원칙 | `docs/ai/BENCHMARKING_REFERENCE_GUIDE.md`가 존재하면 읽고, 없으면 제안서에 적용/제외 결론을 기록 |
-| 외부 AI·스킬·코드 위임 | `docs/ai/`의 관련 규칙과 `AGENTS.md`의 보안·검증 원칙 |
-| 작업 종료와 인수인계 | `ACTIVE_CONTEXT.md`, PR 템플릿, 완료 보고 형식 |
+| Codex Plan Mode 또는 구현 전 제안 | `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal |
+| 프리프로덕션 기획 프리즈 | `design/DESIGN_FREEZE_CHECKLIST.md`, `DECISIONS_PENDING.md` |
+| 벨루·튜토리얼·HUD·대사 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` |
+| Dopamine Driven Design·첫 10분 | `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` |
+| 룰렛·등급·토큰 | `design/APPROVED_ROULETTE_CORE_RULES.md`, `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` |
+| 병영 Tier·세부 병종·공유 토큰 | `design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md` |
+| 전사 Tier 2 능력 | `design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md` |
+| 전투 키워드·상태이상·비행 | `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
+| 건설·전문화·전술 명령·보스 | `design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, 관련 proposals 0005~0007 |
+| Godot 프로젝트·Scene·데이터 | `GODOT_PROJECT_STRUCTURE.md` |
+| 외부 저장소 참고 | `REFERENCE_REPOSITORIES.md` |
+| 외부 게임·시장·UX 벤치마킹 | `benchmarks/README.md`, 관련 제안서와 출처 스냅샷 |
+| 작업 종료·인수인계 | `ACTIVE_CONTEXT.md`, Issue/PR 완료 형식 |
 
-분기 조건이 없으면 해당 문서를 읽지 않는다. 복합 작업은 실제 영향이 있는 갈래만 추가한다.
+## 공식명 사용 규칙
+
+신규 기획·UI·대사·데이터에는 다음 명칭만 사용한다.
+
+```text
+오멘워드 / OMENWARD
+루메른 왕국
+루미엔 영토
+트리븐 전선
+실베른 성채
+베일런 황야
+베일의 법칙
+베일의 징조
+벨루
+베일종
+```
+
+레거시 명칭 `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 링크 호환과 변경 이력 외에는 사용하지 않는다.
 
 ## 책임 원본
 
-- 우선순위, Godot 불변 조건, GitHub 반영 방식, Plan Mode 승인 게이트, 완료 보고: `AGENTS.md`
-- 제안서 형식과 승인 기준: `PROPOSAL_WORKFLOW.md`
-- 게임의 전체 구조와 플레이어 경험: `GAME_DESIGN.md`
-- 벤치마킹에서 사용자 승인된 추가 설계: `design/APPROVED_BENCHMARK_DECISIONS.md`
-- 전투 중 건설·선택형 전문화·전술 명령·보스 바리케이드 대응: `design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`
-- 구현 전 기획 완료 조건: `design/DESIGN_FREEZE_CHECKLIST.md`
-- 벤치마킹 조사, 반응 근거, 적용·제외 후보: `docs/benchmarks/`
-- Godot 폴더·상태·Scene·UI 계약: `GODOT_PROJECT_STRUCTURE.md`
-- Base·urban-legend 채택 및 제외 기준: `REFERENCE_REPOSITORIES.md`
-- 개발 순서: `ROADMAP.md`
-- 미확정 항목: `DECISIONS_PENDING.md`
-- 현재 작업 상태: `ACTIVE_CONTEXT.md`
-- 현재 검토·구현 범위와 완료 기준: 최신 Issue/Goal 및 승인된 제안서
-- 공용 규칙 기준 커밋: `BASE_RULES_VERSION.md`
+- 작업 규칙·Plan Mode·완료 보고: `AGENTS.md`
+- 제안 형식과 승인 기준: `PROPOSAL_WORKFLOW.md`
+- 전체 기획: `OMENWARD_GAME_DESIGN.md`
+- 명칭·세계관: `design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`
+- 벨루 제작·안내: `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`
+- 첫 10분: `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`
+- 개발 순서: `OMENWARD_ROADMAP.md`
+- 미확정: `DECISIONS_PENDING.md`
+- 현재 상태: `ACTIVE_CONTEXT.md`
+- 구현 범위와 완료 기준: 최신 Issue/Goal과 승인 제안서
 
 다른 문서가 같은 내용을 반복하면 위 책임 원본을 링크하고 작업별 차이만 기록한다.
-
-## 참고 저장소 경계
-
-- Base 원격은 공용 규칙의 기준 확인, 동기화, 승격 후보 검토 때 사용한다.
-- urban-legend 원격은 Godot 구조·검증 사례가 현재 작업과 직접 관련될 때 필요한 파일만 확인한다.
-- 외부 저장소 변경을 이 프로젝트에 자동 병합하지 않는다. 채택할 구조는 제안서, Issue/Goal과 프로젝트 문서에서 명시적으로 승인한다.
