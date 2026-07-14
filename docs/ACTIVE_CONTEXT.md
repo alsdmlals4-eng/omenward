@@ -1,35 +1,34 @@
 # Active Context
 
-- Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약, 룰렛, 장기전, 건물 전문화, 전술 명령, 보스 패턴, 유닛 등급·능력 성장과 전투 키워드·비행 레이어 계약을 최대한 확정한다.
-- User value: Codex가 게임 기획을 임의 해석하거나 구현 중 큰 구조를 되돌리는 일을 줄이고, 승인된 계약을 기준으로 집중해서 코딩한다.
+- Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약, 룰렛, 장기전, 건물 전문화, 전술 명령, 보스 패턴, 비행 레이어와 유닛 성장 계약을 최대한 확정한다.
+- User value: Codex가 게임 기획을 임의 해석하거나 구현 중 큰 구조를 되돌리는 일을 줄이고 승인된 계약을 기준으로 집중해서 코딩한다.
 - Decisions: Godot + GDScript, Windows PC·마우스/키보드, 싱글플레이 PvE, 코드 작업 전 Plan Mode 제안서 필수, 3라인, 후방 6노드, 라인별 전방 3노드, 중앙 접전지, 건물 기반 토큰, 적 30초 전조 웨이브.
 - Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 웨이브 타이머를 사용한다.
 - Campaign structure: 10~15분 수동 설계 튜토리얼 1개 뒤 정규 스테이지에서 난이도·맵·특수 적을 확장한다. 튜토리얼은 생성기 대상에서 제외한다.
-- Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브, Command Power, 보스 패턴, 비행 병종과 대공 대응 가용성도 StageManifest 대상이다.
+- Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브, Command Power, 보스 패턴과 비행 위협도 StageManifest 대상이다.
 - Constraint direction: 튜토리얼 완료 후 정규 스테이지 준비 화면에서 공개형 제약을 선택한다. 기본 난이도와 제약은 별도 축이다.
-- Roulette approved core: 기본 판정은 중앙 가로줄이며 아이템으로만 변경한다. 판정 줄 3개가 같은 심벌이어야 보상한다. 완성 줄 1/2/3~7/8개는 각각 일반 병사/엘리트/영웅/전설이다. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
-- Unit grade source: 상위 등급은 룰렛 결과로만 생성한다. 수동 합성, 처치 경험치, 건물 Tier로 등급이 상승하지 않는다. 병영 자동 생산은 기본적으로 일반 등급이며 정예훈련은 등급 변경이 아닌 생산 유닛 영구 능력치 버프다.
-- Unit ability growth: 일반 병사는 핵심 패시브 1개와 핵심 스킬 1개를 가진다. 엘리트·영웅·전설로 올라갈 때마다 신규 핵심 패시브 또는 핵심 스킬 1개가 추가되고 기존 병종 능력에도 강화 효과가 붙는다. 총 핵심 능력은 일반 2, 엘리트 3, 영웅 4, 전설 5개다.
-- Combat keyword core: 대상·이동 레이어·행동·효과 태그를 분리한다. 기본 치명타 5%, 치명타 피해 150%, 후방 120도, 둔화 상한 60%, 스킬 쿨다운 감소 상한 40%, 중단된 스킬은 기본 쿨다운 30%를 적용한다. 같은 틱에는 반응형 저지·중단을 공격 적중보다 먼저 처리한다.
-- Charge and control: 창병은 일반 `[기병] [돌진]`을 충돌 피해 전에 취소하며 저지 내부 쿨타임은 5초다. 보스 돌진은 완전 취소 대신 남은 거리 35%, 피해 30% 감소를 적용한다. 출혈은 출처별 최대 3개, 독은 최대 5스택을 초기 계약으로 사용한다.
-- Flight direction: 비행은 병종이 아니라 `[지상]`과 분리된 이동·점유·타기팅 레이어다. 비행 유닛은 지상 유닛·바리케이드·지상 함정을 넘어가지만 라인과 전장 경계는 유지한다. 모든 공격은 지상·비행 유효 레이어를 명시하며 `[대공]`은 비행 추가 피해·우선 타기팅·지상화 등에 특화된 태그다.
-- Flight capture and control: 비행 유닛은 기본적으로 접전지 점령에 기여하지 않는다. `[점령 가능 비행]` 또는 착륙 상태만 예외다. 비행 중 넘어짐은 면역이며 `지상화` 상태가 되면 지상 충돌·바리케이드·지상 공격 규칙을 사용한다. 비행 급강하는 지상 기병 돌진과 구분하고 `대공 저지`로 대응한다.
+- Roulette approved core: 기본 판정은 중앙 가로줄이며 아이템으로만 변경한다. 판정 줄 3개가 같은 심벌이어야 보상한다. 완성 줄 1/2/3~7/8개는 각각 일반/엘리트/영웅/신화다. 신화는 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
+- Shared barracks tokens: Tier 2와 Tier 3의 같은 기본 병종 계열은 같은 심벌을 사용한다. 병영 한 동은 각 릴에 공유 토큰 1개를 제공하고 내부 원장은 출처 병영·Tier·세부 병종을 보존한다.
+- Barracks Tier 3: Tier 3은 상위 세부 병종 1개와 운영 교리 1개를 함께 선택한다. 기병은 중기병·충격기병, 궁병은 석궁병·대공궁병·연사궁병을 초기 분기로 사용하며 창병 분기는 후속 확정한다.
+- Unit candidate roll: 같은 병종 심벌 당첨 뒤 병영 출처 후보를 가중치 추첨한다. 초기 추천은 Tier 2 가중치 1, Tier 3 가중치 2이며 높은 Tier 후보가 더 높은 확률을 가진다.
+- Grade and variant boundary: 일반 등급은 선택된 출처 병영의 실제 기본·Tier 3 세부 병종을 생성한다. 엘리트·영웅·신화는 기본 병종 계열별 고정 유닛이며 Tier 3 세부 병종 선택과 무관하다.
+- Passive growth: 선택된 훈련 출처가 Tier 2면 핵심 패시브 2개, Tier 3면 3개를 가진다. 이 규칙은 일반·엘리트·영웅·신화 모두에 적용하며 등급 자체는 패시브 수를 늘리지 않는다.
+- Skill growth: 일반은 1스킬, 엘리트는 1스킬과 고정 엘리트 프로필, 영웅은 1스킬 강화와 2스킬 생성, 신화는 영웅 효과에 더해 2스킬 강화와 3스킬 생성을 받는다.
+- Unit grade source: 룰렛만 상위 등급을 생성한다. 수동 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 병영 자동 생산은 항상 일반 등급이며 정예훈련은 등급 변경이 아닌 생산 유닛 영구 능력치 버프다.
 - Roulette economy: 금화 완성 줄 1/2/3개 이상은 실제 회전 비용의 75%/200%/500%를 지급한다. 별도 회전 충전이나 연속 감쇠를 넣지 않고 시장 특화의 고수익을 허용한다.
 - Economy builds: 시장+포탑+상점 용병은 정식 전략이다. 시장 특화는 병영 부족, 노드 점유, 식량, 용병 비용과 공격 전환 필요성을 대가로 가진다. 상점의 상위 등급 용병 직접 판매는 현재 승인 범위에서 제외한다.
 - Terminal assault: 기본 초기 가설은 35분에 세 라인 초강력 결전 웨이브 출격이다. 이전에 파괴한 적 생산시설은 대응 병종 증원량을 줄인다. 방어 뒤에도 적 본진이 남으면 강화 웨이브가 반복될 수 있다.
 - Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 행운 아이템이 초기 확률을 높인다. 자연 럭키 찬스와 여러 이동권을 같은 회전에 사용할 수 있고 이동 횟수 상한은 없다.
-- Pause direction: 일시정지는 전투 시간만 멈추는 계획 모드다. 일시정지 중 룰렛 회전과 결과 처리, 건설·업그레이드·철거, 전술 명령 사용과 목표 지정, 유닛 생산·배치·이동, 상점 구매 등 정상 조작을 허용한다. 금화와 자원은 즉시 확정되지만 이동·공격·건설·생산·시전·지속시간·쿨다운·웨이브 시간은 재개 전까지 진행되지 않는다.
-- Building approved direction: 적이 있어도 건설·업그레이드를 계속하며 완공 전에 파괴될 수 있다. Tier 1 공통, Tier 2 전문화, Tier 3 심화·교리를 사용한다. 기본 병영은 Tier 2에서 기병·창병·궁병 중 하나로 전환하며 토큰도 교체한다.
-- Building detail recommendation: 건설 시작 체력 25%, 누적 피해 절대값 보존, 완공 후 공격 순서, 일반 건물 하드 길막 없음, 동일 Tier 전문화 동일 비용, 병영·시장·농장·포탑 교리를 `docs/design/notes/0005a-construction-durability-and-doctrine-recommendation.md`에서 검토 중이다.
-- Tactical command approved direction: 바리케이드·화살비·역병·강화지대를 해금 후 HUD에서 사용하며 발동마다 금화를 직접 지불한다. 전역 쿨다운과 별도 예약 객체는 사용하지 않고, 명령별 개별 쿨다운만 유지한다. 금화가 충분하면 준비된 서로 다른 명령을 일시정지 중에도 연속 사용할 수 있다.
-- Tactical command layers: 바리케이드는 지상 전용, 화살비는 지상 전용, 역병은 지상·비행, 강화지대는 지상·비행 아군 적용을 초기 방향으로 둔다. 최종 레이어는 개별 명령 데이터에서 검증한다.
-- Boss counter approved direction: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고, 세로축 크게 베기로 바리케이드 뒤 밀집 병력을 공격한다. 두 패턴은 명확히 예고되며 범위가 전조 뒤 목표를 계속 추적하지 않는다.
-- Approved benchmark decisions: 수직 슬라이스 UX 6개, 일반 난이도 정확한 웨이브 수량 공개, 전방 생산시설은 합류 거리만 보상.
-- Reference repositories: `alsdmlals4-eng/Base`의 spec-first 협업 규칙과 `alsdmlals4-eng/urban-legend`의 Godot 구조·검증 사례를 선별 적용한다.
-- Current state: 건물·전술 명령·보스 대응, 룰렛 기반 유닛 등급·능력 성장, 전투 키워드·상태이상·비행 레이어의 핵심 방향은 승인됐다. 건설 체력·충돌·Tier 교리, 전술 명령 개별 비용·효과, 보스 패턴 수치, 병종별 등급 능력표, 첫 비행 병종과 대공 수치는 사용자 조정과 플레이테스트 대상이다.
-- Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고, 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
+- Pause direction: 일시정지는 전투 시간만 멈추는 계획 모드다. 일시정지 중 룰렛 회전과 결과 처리, 건설·업그레이드·철거, 전술 명령 사용과 목표 지정, 유닛 생산·배치·이동, 상점 구매 등 정상 조작을 허용한다. 자원은 즉시 확정되지만 이동·공격·건설·생산·시전·지속시간·쿨다운·웨이브 시간은 재개 전까지 진행되지 않는다.
+- Building direction: 적이 있어도 건설·업그레이드를 계속하며 완공 전에 파괴될 수 있다. Tier 1 공통, Tier 2 전문화, Tier 3 심화를 사용한다. 기본 병영은 Tier 2에서 기병·창병·궁병 중 하나로 전환한다.
+- Tactical command direction: 바리케이드·화살비·역병·강화지대를 HUD에서 사용하며 발동마다 금화를 직접 지불한다. 전역 쿨다운과 별도 예약 객체는 사용하지 않고 명령별 개별 쿨다운만 유지한다.
+- Combat keyword direction: 물리·마법·고정 피해, 치명타, 후방, 돌진, 중단, 군중 제어와 상태이상 공통 규칙을 사용한다. 기본 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 내부 쿨타임 5초를 초기값으로 둔다.
+- Flight direction: 모든 유닛은 지상 또는 비행 레이어를 가진다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다. 공격은 target_layers를 명시하며 대공은 비행 카운터 특화 태그다.
+- Boss counter direction: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되며 범위가 전조 뒤 목표를 계속 추적하지 않는다.
+- Current state: 룰렛 등급, 병영 Tier 3 세부 병종, 공유 토큰, 패시브·스킬 성장과 비행 레이어의 핵심 구조는 승인됐다. 세부 병종 능력치·패시브, 고정 상위 등급 유닛과 Tier 후보 가중치는 플레이테스트 대상이다.
+- Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
 - Excluded now: `project.godot`, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Files: `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/proposals/0005-building-tiers-lifecycle-and-economy.md`, `docs/design/proposals/0006-tactical-commands.md`, `docs/design/proposals/0007-boss-cleave-and-barricade-counter.md`, `docs/DECISIONS_PENDING.md`.
-- Issues: #8 건설·Tier, #9 전술 명령, #10 보스 범위 대응, #11 룰렛 등급·유닛 능력 성장, #12 전투 키워드·상태이상·비행 레이어.
-- Risks: 건설 중 포탑 완공과 공사장 길막의 균형, 전문화 효율 격차, 시장 할인 중첩, 전술 명령 연속 사용이 웨이브를 대체할 가능성, 보스 범위 공격이 직접 회피 불가능한 억울한 피해가 될 가능성, 비행 유닛이 전열·바리케이드·접전지 전략을 무력화할 가능성, 대공 가용성 부족으로 발생하는 소프트락, 상위 등급 능력 수 증가에 따른 UI 정보 과밀, 다수 유닛 성능.
-- Next verification: 검사·방패병·창병·기병·궁병·암살자의 등급별 능력표를 만들고 첫 비행 병종·대공 대응 세트를 정한 뒤 `전투 타기팅·충돌 → 접전지 → 적 웨이브 → UI·데이터` 순서로 진행한다.
+- Files: `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
+- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 Tier 3, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 Tier 3 세부 병종.
+- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier 3 세부 병종과 운영 교리 조합의 경우의 수, 상위 등급 고정 유닛이 Tier 3 일반 병종보다 정체성이 약해지는 문제, 대공궁병의 필수화, 상위 등급 스킬 수 증가에 따른 UI 과밀, 다수 유닛 성능.
+- Next verification: 중기병·충격기병·석궁병·대공궁병·연사궁병의 패시브 1·2·3과 일반 스킬 1을 설계하고, 계열별 고정 엘리트·영웅·신화 유닛과 스킬 2·3을 확정한다.
