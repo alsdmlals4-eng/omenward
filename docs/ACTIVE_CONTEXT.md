@@ -2,9 +2,15 @@
 
 - Goal: 핵심 수직 슬라이스 코딩 전에 게임 규칙, 상태 전이, UI 계약, 데이터 경계, 약 3시간 프로토타입 캠페인, 절차적 생성기, 제약, 룰렛, 장기전, 건물 전문화, 전술 명령, 보스 패턴, 비행 레이어와 유닛 성장 계약을 최대한 확정한다.
 - User value: Codex가 게임 기획을 임의 해석하거나 구현 중 큰 구조를 되돌리는 일을 줄이고 승인된 계약을 기준으로 집중해서 코딩한다.
+- Dopamine-driven principle: 게임은 표면적으로 단순하고 즉각적으로 보상적이어야 한다. 첫 10분 안에 세계·플레이어 역할, 건설과 룰렛 확률의 연결, 첫 병력 획득·배치, 전선 역전과 다음 성장 기대를 체험시킨다.
+- Sharp core fun: `적 위협 확인 → 건물·토큰 선택 → 룰렛 기대와 결과 → 필요한 라인 배치 → 상성과 전술로 역전`이 이 게임의 가장 뾰족한 재미다.
+- Complexity budget: 첫 10분에는 건설, 건물-토큰 연결, 한 줄 룰렛 보상, 라인 배치, 웨이브 전조 대응만 적극적으로 가르친다. 상점 전체·모든 Tier·모든 상태이상·제약·결전은 점진적으로 공개한다.
+- Design writing rule: 모든 기능은 `의도 → 플레이어 경험·감정 → 행동 → 규칙 → 보상·피드백 → 다음 목표` 순서로 설명하고 필요성·핵심 루프 연결·복잡도 비용·예외 처리를 검증한다.
 - Decisions: Godot + GDScript, Windows PC·마우스/키보드, 싱글플레이 PvE, 코드 작업 전 Plan Mode 제안서 필수, 3라인, 후방 6노드, 라인별 전방 3노드, 중앙 접전지, 건물 기반 토큰, 적 30초 전조 웨이브.
 - Match structure: 정규 스테이지 평균 25~35분, 수직 슬라이스 10~15분, 첫 공개 프로토타입 총 약 3시간. 강제 시간패 대신 공개된 결전 웨이브 타이머를 사용한다.
-- Campaign structure: 10~15분 수동 설계 튜토리얼 1개 뒤 정규 스테이지에서 난이도·맵·특수 적을 확장한다. 튜토리얼은 생성기 대상에서 제외한다.
+- Campaign structure: 10~15분 수동 설계 튜토리얼 1개 뒤 정규 스테이지에서 난이도·맵·특수 적을 확장한다. 튜토리얼은 생성기 대상에서 제외하며 첫 10분 PoC 역할을 담당한다.
+- First 10 minute target: 첫 룰렛 2분 이내, 첫 교전 4분 이내, 선택에 의한 첫 역전 7분 이내, 10분 안에 핵심 루프 1회 완주를 초기 검증 목표로 둔다.
+- Worldbuilding direction: 세계관은 긴 선행 설명보다 플레이어 역할, 지켜야 할 대상, 적 웨이브의 이유, 룰렛 장치와 건물 토큰의 세계 내 의미를 행동과 짧은 연출로 전달한다. 구체 세계관은 아직 별도 확정이 필요하다.
 - Stage generation direction: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 결전 웨이브, Command Power, 보스 패턴과 비행 위협도 StageManifest 대상이다.
 - Constraint direction: 튜토리얼 완료 후 정규 스테이지 준비 화면에서 공개형 제약을 선택한다. 기본 난이도와 제약은 별도 축이다.
 - Roulette approved core: 기본 판정은 중앙 가로줄이며 아이템으로만 변경한다. 판정 줄 3개가 같은 심벌이어야 보상한다. 완성 줄 1/2/3~7/8개는 각각 일반/엘리트/영웅/전설이다. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
@@ -29,10 +35,10 @@
 - Combat keyword direction: 물리·마법·고정 피해, 치명타, 후방, 돌진, 중단, 군중 제어와 상태이상 공통 규칙을 사용한다. 기본 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 내부 쿨타임 5초를 초기값으로 둔다.
 - Flight direction: 모든 유닛은 지상 또는 비행 레이어를 가진다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다. 공격은 target_layers를 명시하며 대공은 비행 카운터 특화 태그다.
 - Boss counter direction: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되며 범위가 전조 뒤 목표를 계속 추적하지 않는다.
-- Current state: 전설 등급, 전사 공유 토큰, 병영 Tier별 패시브 해금·강화, 룰렛 등급별 스킬 강화·생성, 전사 Tier 2 세 병종 능력, Tier 3 세부 병종과 비행 레이어의 핵심 구조는 승인됐다. 정확한 수치·고정 상위 등급 전사 스킬과 후보 가중치는 플레이테스트 대상이다.
-- Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다.
+- Current state: Dopamine Driven Design과 첫 10분 검수 원칙, 전설 등급, 전사 공유 토큰, 병영 Tier별 패시브 해금·강화, 룰렛 등급별 스킬 강화·생성, 전사 Tier 2 세 병종 능력, Tier 3 세부 병종과 비행 레이어의 핵심 구조는 승인됐다. 정확한 첫 10분 연출·세계관·개별 수치·고정 상위 등급 전사 스킬과 후보 가중치는 플레이테스트 대상이다.
+- Design principle: 규칙·책임·상태·UI·실패 처리는 구현 전에 잠그고 비용·시간·확률·능력치·거리 같은 수치는 데이터와 플레이테스트로 조정한다. 기능 추가보다 핵심 루프의 즉시 이해·강한 피드백·점진적 공개를 우선한다.
 - Excluded now: `project.godot`, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Files: `docs/design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md`, `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
-- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 진화, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 세부 병종·후보 확률, #14 전사 Tier 2 능력.
-- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier별 패시브 강화 정보 과밀, Tier 3 세부 병종과 운영 교리 조합의 경우의 수, 상위 등급 고정 유닛이 일반 세부 병종보다 정체성이 약해지는 문제, 방패병의 원거리 방어 범위, 광전사 회복 루프, 대공궁병의 필수화, 다수 유닛 성능.
-- Next verification: 고정 엘리트·영웅·전설 전사 유닛의 1·2·3스킬을 설계하거나 전사 Tier 3 세부 병종과 패시브 3을 먼저 확정한다.
+- Files: `docs/design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md`, `docs/design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md`, `docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md`, `docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`, `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md`, `docs/DECISIONS_PENDING.md`.
+- Issues: #6 룰렛 등급·공유 토큰, #8 건설·병영 진화, #9 전술 명령, #10 보스 범위 대응, #11 패시브·스킬 성장, #12 전투 키워드·비행, #13 세부 병종·후보 확률, #14 전사 Tier 2 능력, #15 Dopamine Driven Design·첫 10분.
+- Risks: 한 심벌 안의 병종 후보 확률이 이해하기 어려운 문제, Tier별 패시브 강화 정보 과밀, 첫 10분에 너무 많은 기능을 노출하는 문제, 세계관이 룰렛·건물 규칙과 분리되는 문제, Tier 3 세부 병종과 운영 교리 조합의 경우의 수, 상위 등급 고정 유닛이 일반 세부 병종보다 정체성이 약해지는 문제, 방패병의 원거리 방어 범위, 광전사 회복 루프, 대공궁병의 필수화, 다수 유닛 성능.
+- Next verification: 첫 10분용 세계관 한 문장, 플레이어 역할, 룰렛 장치의 설정상 의미와 튜토리얼 화면 흐름을 확정한 뒤 고정 엘리트·영웅·전설 전사 유닛 또는 전사 Tier 3 세부 병종으로 돌아간다.
