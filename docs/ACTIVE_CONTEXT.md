@@ -2,17 +2,18 @@
 
 - 갱신일: 2026-07-16
 - 공식명: **오멘워드 / OMENWARD**
-- 상태: **프리프로덕션 구조 승인 완료 / 공용 10병종 데이터·진영 비주얼 분리 승인 / Phase 0·수직 슬라이스 Plan Mode 대기 / 구현 전**
+- 상태: **프리프로덕션 구조 승인 완료 / Phase 0 제안서 작성 완료·사용자 검토 대기 / 게임 구현 전**
 - 최초 인수인계: `docs/HANDOFF_CONTEXT.md`
 - 최신 통합 기준: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
-- 다음 작업: Issue #1, Goal 0001
+- 현재 제안서: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
+- 다음 작업: Phase 0 제안서 검토·수정 또는 명시적 승인
 
 ## 핵심 정체성
 
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드.
 - 핵심 루프: `베일의 징조 → 건물·토큰 선택 → 룰렛 → 라인 배치 → 거점·성문·우회 공방`.
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE.
-- 엔진: Godot + GDScript. 정확한 stable 버전은 Issue #1 Plan Mode에서 결정한다.
+- 엔진: Godot + GDScript. Phase 0 제안서는 Godot 4.7.1 standard를 추천하며 사용자 승인 전 확정·구현하지 않는다.
 
 ## 전장 불변 구조
 
@@ -143,20 +144,49 @@ deploy / idle / move / attack_basic / skill_1 / hit_light / death / victory
 - W5 엘리트, W10 영웅, W15 전설 보스, W20 신화 보스.
 - 적 일반 웨이브는 공용 10병종의 Tier·등급·수량·라인 조합.
 
+## Phase 0 제안서 추천안
+
+현재 제안서는 다음을 추천한다. 이는 사용자 승인 전 확정 구현 사양이 아니다.
+
+```text
+Godot 4.7.1 standard x86_64
+Compatibility renderer
+1920×1080 출력 / 960×540 내부 viewport
+viewport stretch / keep aspect / integer scale
+Phase 0 AutoLoad 없음
+공용 typed Resource + StageManifest·replay JSON
+외부 플러그인 없는 GDScript headless test runner
+```
+
+제안된 최소 책임:
+
+- Main이 GameSession을 소유.
+- GameSession 아래 CombatClock, DeterminismService, DataRegistry.
+- 60Hz `active_combat_tick`과 planning pause 분리.
+- 이름 기반 RNG stream과 입력 로그.
+- 정확히 10개 공용 UnitArchetype 골격.
+- archetype마다 allied/veil Visual Profile.
+- 공용 AnimationContract와 Visual 호환 검사.
+- BattlefieldProfile의 3라인 topology validator.
+
+책임 원본: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
+
 ## 현재 실행 순서
 
-1. Issue #1 Phase 0 Codex Plan Mode 제안서.
-2. 사용자 승인.
-3. Godot 기술 기반 구현 PR.
-4. 실제 경로·명령을 Goal 0002와 Issue #32에 갱신.
-5. Issue #32 핵심 수직 슬라이스 Codex Plan Mode.
-6. 사용자 승인.
-7. 3라인·거점·성문·암살자·공용 유닛·최소 모션·룰렛 수직 슬라이스.
-8. 확률·경제·전투 시뮬레이션과 플레이테스트.
+1. Phase 0 제안서 사용자 검토.
+2. 수정 요청이 있으면 같은 제안서를 갱신하고 다시 검토.
+3. 사용자가 `제안서 승인` 또는 동등한 표현으로 명시적 승인.
+4. 승인된 범위의 Godot 기술 기반 구현 PR.
+5. 실제 경로·명령을 Goal 0002와 Issue #32에 갱신.
+6. Issue #32 핵심 수직 슬라이스 Codex Plan Mode.
+7. 사용자 승인.
+8. 3라인·거점·성문·암살자·공용 유닛·최소 모션·룰렛 수직 슬라이스.
+9. 확률·경제·전투 시뮬레이션과 플레이테스트.
 
 ## 구현 경계
 
 - 현재 Godot 코드, Scene, Resource, 테스트는 구현 전이다.
-- Issue #1과 #32 모두 사용자 명시적 승인 전 구현 금지.
+- Phase 0 제안서가 작성됐지만 아직 승인되지 않았다.
+- 사용자 명시적 승인 전 `project.godot`, 코드, Scene, Resource, 데이터, 테스트, 구현 브랜치와 PR을 만들지 않는다.
 - 새로운 대형 시스템보다 승인된 구조의 데이터화·구현·계측이 우선이다.
 - Base 공용 지식은 작업 방법과 사례 참고용이며 프로젝트 책임 문서를 덮어쓰지 않는다.
