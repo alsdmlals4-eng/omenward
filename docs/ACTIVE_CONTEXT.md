@@ -27,47 +27,50 @@
 - Faction differentiation: 진영 차이는 숨은 능력치 뻥튀기가 아니라 외형, 스킬 성격, AI, 타기팅, 편성, 진영 수정자와 공개 태그로 만든다. 큰 예외 보정은 `보스`, `공성`, `돌파`, `강화 공세` 같은 태그와 징조로 공개한다.
 - Enemy mythic boundary: `신화급`은 20웨이브 적군 전용 절멸 위계다. 플레이어 룰렛·플레이어 등급표는 일반·엘리트·영웅·전설만 유지한다. 신화급은 전설 구조에 신화 특성과 다중 페이즈를 추가한다.
 - Mirrored buildings: 같은 기능 계열·Tier의 아군·적군 건물은 기본 HP·사거리·생산 주기 예산이 유사하다. 적 건물은 플레이어 경제·룰렛 대신 StageManifest 생산 예산과 공세 시간표를 사용하며 파괴 시 대응 병종 공세가 감소한다.
-- Flag bearer class: `깃발병`을 아군 병종에 추가한다. 공통 원형은 `banner_commander / banner_line_support`이며 보병·지원·지휘·오라 태그를 가진 같은 라인 전장 보조 지휘관형이다. 단독 전투력은 같은 Tier 전사보다 낮고 주변 아군 3~8기를 강화할 때 비용에 맞는 가치가 발생해야 한다.
-- Flag bearer production: 깃발병은 별도 지휘소가 아니라 **Tier 1 기본 병영의 Tier 2 전문화**다. 업그레이드 중에는 검사 자동생산과 전사 토큰을 유지하고, 완료 뒤 생산 진행률을 보존한 채 일반 깃발병 자동생산과 독립 군기 토큰으로 전환한다. 진행 중 룰렛은 유지하고 다음 회전부터 새 토큰을 적용한다.
-- Flag bearer Tier boundary: 플레이어용 Tier 1 깃발병은 존재하지 않는다. 일반 깃발병은 Tier 2 패시브 구조인 `군기 규율 강화 + 진형 유지`에서 시작하고, Tier 3에서 `승세 고양`을 추가한다.
+- Barracks integrated tree: Tier 1 기본 병영은 검사와 전사 토큰을 제공한다. Tier 2는 방패병·대검병·광전사·깃발병·창병·궁병·기병 중 하나를 전문화한다. 한 병영은 하나의 전문화만 가지며 서로 다른 병영은 다른 전문화를 가질 수 있다.
+- Barracks token families: 방패병·대검병·광전사는 Tier 1 검사와 전사 토큰을 공유한다. 깃발병은 군기 토큰, 창병은 창병 토큰, 궁병은 궁병 토큰, 기병은 기병 토큰을 사용한다. Tier 3 세부 병종은 부모 계열 토큰을 유지한다.
+- Barracks Tier 3 structure: Tier 3은 상위 세부 병종 하나와 대량생산·정예훈련·토큰 증폭 중 운영 교리 하나를 함께 선택한다. 자동생산은 항상 일반 등급이며, 세부 병종 선택은 계열 고정 엘리트·영웅·전설 템플릿의 정체성을 교체하지 않는다.
+- Barracks Tier 3 branches: 방패병→철벽수호병·호위병, 대검병→파쇄검병·처형검병, 광전사→혈전사·광폭전사, 깃발병→전열기수·결전기수, 창병→장창병·미늘창병, 궁병→석궁병·대공궁병·연사궁병, 기병→중기병·충격기병을 1차 역할 구조로 사용한다. 표시명은 후속 조정 가능하다.
+- Barracks PoC economy hypothesis: Tier 1 검사 생산 105초·식량 1을 기준으로 Tier 2 보병은 식량 2·생산 약 115~135초, 기병은 식량 3·생산 150초를 초기값으로 사용한다. Tier 3은 부모 식량 +1, 생산시간 ×1.15를 초기 검증값으로 사용한다.
+- Barracks candidate weighting: 같은 토큰 계열 출처 후보의 초기 가중치는 T1/T2/T3 = 1/2/3이다. 이는 PoC 기본값이며 다수 시드·실전 생산 횟수 검증 뒤 조정할 수 있다.
+- Barracks exclusions: 첫 프로토타입의 암살자·공성병·비행병은 기본 병영 Tier 2 트리에 포함하지 않고 용병·특수 시설·후속 해금 경로로 분리한다.
+- Flag bearer class: `깃발병`은 `banner_commander / banner_line_support` 원형을 사용하는 같은 라인 전장 보조 지휘관형이다. 단독 전투력은 같은 Tier 전사보다 낮고 주변 아군 3~8기를 강화할 때 비용에 맞는 가치가 발생해야 한다.
+- Flag bearer production: 깃발병은 별도 지휘소가 아니라 Tier 1 기본 병영의 Tier 2 전문화다. 업그레이드 중에는 검사 자동생산과 전사 토큰을 유지하고, 완료 뒤 생산 진행률을 보존한 채 일반 깃발병 자동생산과 군기 토큰으로 전환한다.
+- Flag bearer Tier boundary: 플레이어용 Tier 1 깃발병은 존재하지 않는다. 일반 깃발병은 Tier 2 패시브 구조인 `군기 규율 강화 + 진형 유지`에서 시작하고 Tier 3에서 `승세 고양`을 추가한다.
 - Flag bearer positioning: 선택 라인의 전열 뒤 약 100~160 world units를 유지하고 아군 군집을 따라간다. 적을 장거리 추격하지 않으며 주변 아군이 없으면 아군 중간요새 또는 랠리 지점으로 후퇴한다.
-- Flag bearer aura: 기본 오라 초기값은 반경 180, 최대 8기, 같은 라인 전용이다. 동일 `command_aura`는 중첩하지 않고 가장 강한 효과 하나만 적용한다. 여러 깃발병은 같은 군집 무한 증폭보다 다른 라인·군집 지원에 사용한다.
+- Flag bearer aura: 기본 오라 초기값은 반경 180, 최대 8기, 같은 라인 전용이다. 동일 `command_aura`는 중첩하지 않고 가장 강한 효과 하나만 적용한다.
 - Flag bearer growth: Tier 패시브 축은 `군기 규율 → 진형 유지 → 승세 고양`, 등급 스킬 축은 `집결 명령 → 불굴의 군기 → 전선 선언`이다. 정확한 공격속도·보호막·피해 증감 수치는 PoC 가설이다.
-- Flag bearer mirrored enemy: 적군에도 같은 `banner_commander` 계열의 지휘관형 베일종을 둘 수 있다. 가칭은 `베일 표식자`이며 징조에 지원·지휘·오라 태그와 주요 버프를 공개한다. 일반 지휘 오라가 보스에게 적용될 때는 초기 50% 효과 가설을 사용한다.
+- Flag bearer mirrored enemy: 적군에도 같은 `banner_commander` 계열의 지휘관형 베일종을 둘 수 있다. 가칭은 `베일 표식자`이며 징조에 지원·지휘·오라 태그와 주요 버프를 공개한다.
 - Enemy warrior lineage: 공통 원형 `warrior_heavy_cleaver`를 사용한다. 5웨이브는 Tier 1 엘리트, 10웨이브는 Tier 2 영웅, 15웨이브는 Tier 3 전설 보스, 20웨이브는 Tier 3 신화 최종보스로 상승한다. 표시 이름은 가칭이다.
 - Enemy warrior abilities: Tier 패시브 축은 전투 숙련→파쇄→진군, 등급 스킬 축은 전방 횡베기→진형 붕괴→고정 지면 단층이다. 15웨이브는 직선 돌파·대단절 보스 패키지, 20웨이브는 `끝나지 않는 진군` 신화 특성과 2페이즈를 추가한다.
-- Enemy warrior threat hypothesis: 동일 Tier 일반 1기를 1.0으로 볼 때 엘리트 2.0~2.4, 영웅 4.5~5.5, 전설 비보스 8~10, 전설 보스 20~28, 신화 최종보스 45~60 Threat Cost를 초기 검증 범위로 사용한다. 이는 단순 HP 배율이 아니라 스킬·AI·보스 패턴·페이즈를 합친 총 비용이다.
+- Enemy warrior threat hypothesis: 동일 Tier 일반 1기를 1.0으로 볼 때 엘리트 2.0~2.4, 영웅 4.5~5.5, 전설 비보스 8~10, 전설 보스 20~28, 신화 최종보스 45~60 Threat Cost를 초기 검증 범위로 사용한다.
 - Minor enemy boundary: 튜토리얼의 소형 근접 베일종은 `minor/swarm` 군집형으로, 아군 전사와 1:1 대칭 비교하는 정규 베일 전사 `standard_unit`과 분리한다.
 - Tutorial: 10~15분 수동 설계 스테이지 1개. 첫 병영 1분 10초, 첫 룰렛 1분 45초, 첫 배치 2분 15초, 첫 역전 5분 15초, 엘리트 5분 45초, Tier 2 선택 8분 10초 이내가 초기 목표다.
 - Tutorial wave clock: 첫 웨이브 전까지 온보딩 시간을 별도로 둘 수 있지만 튜토리얼 공세 시계가 시작된 뒤에는 +1:00/+2:00/+3:00/+4:00 간격으로 첫 네 공세가 충돌한다. 일시정지는 이 시계도 멈춘다.
-- Tutorial deterministic flow: 첫 룰렛은 중앙 1줄 일반 검사. 두 번째 룰렛은 이동 전 1줄에서 상단 행을 왼쪽으로 움직여 2줄 엘리트 전사로 개선한다. 초기 네 공세는 배치, 포탑·바리케이드 역전, 엘리트 강화, Tier 2 병종을 검증한다.
-- Tutorial combat baseline: 일반 검사 HP 280·공격 32·1.20초, 소형 근접 베일종 HP 65·공격 10·1.40초, 소형 원거리 베일종 HP 48·공격 12·1.80초를 PoC 초기값으로 사용한다. 수치는 플레이테스트 조정 대상이다.
-- Tutorial barracks production: Tier 1 병영 생산 간격 초기값은 105초다. 생산 타이밍은 60초 공세 시계에 맞춰 후속 조정하며, 원인 없이 튜토리얼 병력을 생성하지 않는다.
+- Tutorial deterministic flow: 첫 룰렛은 중앙 1줄 일반 검사. 두 번째 룰렛은 이동 전 1줄에서 상단 행을 왼쪽으로 움직여 2줄 엘리트 전사로 개선한다.
+- Tutorial combat baseline: 일반 검사 HP 280·공격 32·1.20초, 소형 근접 베일종 HP 65·공격 10·1.40초, 소형 원거리 베일종 HP 48·공격 12·1.80초를 PoC 초기값으로 사용한다.
+- Tutorial barracks production: Tier 1 병영 생산 간격 초기값은 105초다. 생산 타이밍은 60초 공세 시계에 맞춰 후속 조정한다.
 - Tutorial first four assaults: 1공세 상단 근접 4, 2공세 상단 근접 6+중단 근접 3, 3공세 상단 근접 4+중단 근접 6, 4공세 상단 근접 3+중단 근접 6·원거리 2+하단 근접 3을 사용한다.
-- Tutorial reversal tools: Tier 1 포탑 초기값은 HP 500·공격 18·1.00초·사거리 270·건설 22초다. 두 번째 공세에서 적 접촉 0.5~2.5초 전에 완공되는 장면을 목표로 한다. 바리케이드는 HP 350·시전 1.5초·지속 18초·비용 12·쿨다운 30초이며 근접 6기를 8~11초 지연하는 것을 목표로 한다.
-- Tutorial Tier 2: 첫 10분 안에 방패병·대검병·광전사 중 하나를 선택하고 외형, 패시브 1 강화, 패시브 2 생성과 공유 토큰 유지를 보여준다. 4공세에서 방패병은 원거리 생존, 대검병은 밀집 처치, 광전사는 저체력 가속·흡혈을 보여준다.
-- Stage generation: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 60초 공세 시계, 5·10·15·20 등급 이정표, Command Power, 비행 위협과 베일의 축복·저주도 StageManifest 대상이다.
+- Tutorial reversal tools: Tier 1 포탑 초기값은 HP 500·공격 18·1.00초·사거리 270·건설 22초다. 바리케이드는 HP 350·시전 1.5초·지속 18초·비용 12·쿨다운 30초다.
+- Tutorial Tier 2: 첫 10분 안에 방패병·대검병·광전사 중 하나를 선택한다. 깃발병·창병·궁병·기병은 기본 첫 10분 튜토리얼 뒤 순차 해금한다.
+- Stage generation: 정규 스테이지만 결정론적 시드, StageManifest, DifficultyProfile, Threat Budget과 Validator로 생성한다. 60초 공세 시계, 5·10·15·20 등급 이정표, 비행 위협과 베일의 축복·저주도 StageManifest 대상이다.
 - Constraints: 튜토리얼 완료 후 준비 화면에서 공개형 제약을 선택한다. 세계관에서는 베일의 축복·저주·선언으로 표현할 수 있다.
 - Roulette: 기본 판정은 중앙 가로줄. 판정줄 3칸이 같은 비-X 심벌일 때 보상한다. 완성 줄 1/2/3~7/8개는 일반/엘리트/영웅/전설. 전설은 한 판당 1회이며 이후 9칸 동일은 영웅 2명이다.
-- Warrior token family: Tier 1 검사와 Tier 2 이상 전사 계열은 전사 토큰을 공유한다. Tier 2 전사는 방패병·대검병·광전사다. 깃발병은 같은 병영에서 전문화하지만 별도 `군기` 토큰 계열을 사용한다.
-- Warrior abilities: 검사는 전투 숙련·횡베기. 방패병은 수비 숙련·방패 방어·방패 밀치기. 대검병은 중량 무기 숙련·파갑·대회전 베기. 광전사는 광전 본능·피의 갈증·광란 연격.
-- Barracks Tier 3: 상위 세부 병종 1개와 운영 교리 1개를 함께 선택한다. 기병은 중기병·충격기병, 궁병은 석궁병·대공궁병·연사궁병. 창병·전사·깃발병 Tier 3은 후속 확정한다.
 - Shared tokens: 같은 계열은 Tier와 세부 병종이 달라도 같은 심벌을 사용한다. 내부 원장은 출처 병영·Tier·세부 병종·패시브 단계를 보존한다.
-- Candidate roll: 같은 심벌 당첨 뒤 출처 병영 후보를 가중치 추첨한다. 높은 Tier 후보가 더 높은 확률을 가지며 초기 추천은 T1/T2/T3 가중치 1/2/3이다.
 - Grade boundary: 일반은 선택된 출처 병영의 실제 병종을 생성한다. 엘리트·영웅·전설은 계열별 고정 유닛이며 Tier 3 세부 병종과 무관하다.
 - Passive growth: T1 패시브 1 기본형, T2 패시브 1 강화+패시브 2 생성, T3 패시브 1 추가 강화+패시브 2 강화+패시브 3 생성.
 - Skill growth: 일반 1스킬, 엘리트 1스킬 강화, 영웅 강화된 1스킬+2스킬 생성, 전설 영웅 효과+2스킬 강화+3스킬 생성.
-- Grade source: 플레이어는 룰렛만 상위 등급을 생성한다. 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 병영 자동 생산은 일반 등급이며 정예훈련은 능력치 버프다. 적군 등급은 공세 시간표·적 건물이 결정한다.
+- Grade source: 플레이어는 룰렛만 상위 등급을 생성한다. 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 병영 자동생산은 일반 등급이다.
 - Economy: 금화 완성 줄 1/2/3개 이상은 실제 회전비의 75%/200%/500%. 시장+포탑+용병은 정식 전략이다.
 - Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 자연 이동과 여러 이동권을 같은 회전에 사용할 수 있다.
 - Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행과 웨이브 시계는 재개 전까지 멈춘다.
 - Building: 적이 있어도 건설·업그레이드가 계속되며 완공 전에 파괴될 수 있다. Tier 1 공통, Tier 2 전문화, Tier 3 세부 병종·교리 구조다.
 - Tactical commands: 바리케이드·화살비·역병·강화지대. 발동마다 금화 지불, 전역 쿨다운 없음, 명령별 개별 쿨다운만 유지한다.
-- Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다. 초기 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 5초.
+- Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 첫 4공세, 60초 시계, 5 엘리트·10 영웅·15 전설 보스·20 신화 최종보스, 진영 대칭형 유닛·건물 구조, 첫 적 전사 계보와 병영 Tier 2 깃발병 전문화가 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_FLAG_BEARER_COMMAND_SUPPORT_CLASS_V2.md`.
+- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 60초 시계, 5·10·15·20 등급 이정표, 진영 대칭 구조, 적 전사 계보, 깃발병과 기본 병영 Tier 2·Tier 3 통합 성장 트리가 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_FLAG_BEARER_COMMAND_SUPPORT_CLASS_V2.md`, `docs/design/APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V1.md`.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 깃발병 Tier 3 심화 방향, 정확한 오라·스킬 수치, 적 지휘관형의 공식 이름·등장 웨이브와 적 전사 계보 최종 명칭을 확정한다.
+- Next verification: 계열별 엘리트·영웅·전설 고정 유닛과 적군 대응 병종의 이름·능력, Tier 3 교리와 식량·생산시간의 실제 수치, 1~15웨이브 편성을 확정한다.
