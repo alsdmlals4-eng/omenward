@@ -10,19 +10,29 @@
 → BASE_RULES_VERSION.md
 → HANDOFF_CONTEXT.md
 → DOCUMENTATION_MAP.md
+→ 현재 Codex 작업이면 work_orders 문서
 → OMENWARD_GAME_DESIGN.md
 → 관련 APPROVED 책임 문서
 → OMENWARD_ROADMAP.md
-→ 현재 Issue / Goal / 제안서
+→ 현재 Issue / Goal / 승인 제안서
 → 실제 파일과 테스트
 → ACTIVE_CONTEXT.md
 ```
 
 - `HANDOFF_CONTEXT.md`는 현재 방향과 다음 행동을 압축한 최초 인수인계 문서다.
+- `docs/work_orders/`는 새 Codex 채팅에 전달하는 작업 요청·컨텍스트 패키지다.
+- `docs/design/proposals/`는 기획 측 사전 기술 추천안이며, Codex가 실제 저장소를 조사해 제출하는 Plan Mode 결과와 구분한다.
 - `APPROVED_*.md`는 세부 승인 규칙의 책임 원본이다.
 - 프로젝트 문서와 Base 공용 자료가 충돌하면 최신 사용자 지시와 프로젝트 책임 문서가 우선한다.
-- 승인 구조, PoC 가설, 제안, 실제 구현, 검증 완료를 구분한다.
-- 현재 Phase 0 제안서는 `design/proposals/0001-phase-0-godot-bootstrap.md`이며 아직 사용자 승인 전이다.
+- 승인 구조, PoC 가설, 작업 요청, Plan Mode 제안서, 실제 구현, 검증 완료를 구분한다.
+
+## 현재 Codex 시작 문서
+
+| 작업 | 시작 문서 | 상태 |
+|---|---|---|
+| Issue #1 Phase 0 Plan Mode | `work_orders/0001-phase-0-codex-plan-mode.md` | 새 Codex 채팅 실행 준비 완료 |
+
+현재 `design/proposals/0001-phase-0-godot-bootstrap.md`는 사전 기술 추천안이다. Codex는 이를 참고하되 실제 저장소와 공식 근거를 확인해 별도의 Plan Mode 제안서를 제출해야 한다.
 
 ## 항상 확인할 공식 문서
 
@@ -34,14 +44,16 @@
 | `OMENWARD_ROADMAP.md` | 단계별 개발 순서와 완료 기준 |
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
-| `design/proposals/0001-phase-0-godot-bootstrap.md` | 현재 Phase 0 기술 제안 / 사용자 검토 대기 |
+| `work_orders/0001-phase-0-codex-plan-mode.md` | 현재 새 Codex 채팅 작업 요청·복사 프롬프트 |
+| `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·검증 대상 |
 
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| Codex Plan Mode 또는 구현 전 제안 | `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal, 현재 제안서 |
-| Phase 0 Godot 부트스트랩 검토 | `design/proposals/0001-phase-0-godot-bootstrap.md`, Issue #1, Goal 0001 |
+| 새 Codex 채팅·Plan Mode 작업 요청 | 현재 `work_orders/*.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal |
+| Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
+| Phase 0 Godot 부트스트랩 검토 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Issue #1, Goal 0001 |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
 | 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
 | 공용 병종 데이터·아군/적군 이미지 분리·UnitProfile | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
@@ -85,9 +97,10 @@
 |---|---|
 | 작업 규칙·Plan Mode·완료 보고 | `AGENTS.md` |
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
+| 현재 Codex 작업 요청 | 현재 `work_orders/*.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |
-| 현재 Phase 0 기술 제안 | `design/proposals/0001-phase-0-godot-bootstrap.md` |
+| Phase 0 사전 기술 추천 | `design/proposals/0001-phase-0-godot-bootstrap.md` |
 | 전체 기획 | `OMENWARD_GAME_DESIGN.md` |
 | 전장·성문·거점·우회로 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` |
 | 공용 10병종 데이터·진영 이미지 | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
@@ -101,7 +114,7 @@
 | 미확정 | `DECISIONS_PENDING.md` |
 | 기술·데이터·테스트 | `GODOT_PROJECT_STRUCTURE.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
 | 현재 상태 | `ACTIVE_CONTEXT.md` |
-| 구현 범위 | 최신 Issue/Goal과 사용자 승인된 제안서 |
+| 구현 범위 | 최신 Issue/Goal, 작업 요청서와 사용자 승인된 Codex Plan Mode 제안서 |
 
 ## Base 공용 지식 라우팅
 
@@ -110,6 +123,7 @@ Base는 프로젝트 특화 사양이 아니라 작업 방법과 사례를 제�
 | 작업 | Base 참고 |
 |---|---|
 | 인수인계 컨텍스트 | `Base/docs/knowledge/methods/PROJECT_HANDOFF_CONTEXT_METHOD.md` |
+| Codex Plan Mode 작업 패키지 | `Base/docs/knowledge/methods/CODEX_PLAN_MODE_WORK_PACKAGE_METHOD.md` |
 | 아트 디렉션 | `Base/docs/knowledge/methods/ART_DIRECTION_METHOD.md` |
 | 애니메이션·전투 연출 | `Base/docs/knowledge/methods/ANIMATION_AND_PRESENTATION_METHOD.md` |
 | 조사·벤치마킹 | `Base/docs/knowledge/research/DESIGN_RESEARCH_AND_EVIDENCE_METHOD.md` |
