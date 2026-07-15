@@ -13,7 +13,7 @@
 → OMENWARD_GAME_DESIGN.md
 → 관련 APPROVED 책임 문서
 → OMENWARD_ROADMAP.md
-→ 현재 Issue / Goal / 승인 제안서
+→ 현재 Issue / Goal / 제안서
 → 실제 파일과 테스트
 → ACTIVE_CONTEXT.md
 ```
@@ -21,7 +21,8 @@
 - `HANDOFF_CONTEXT.md`는 현재 방향과 다음 행동을 압축한 최초 인수인계 문서다.
 - `APPROVED_*.md`는 세부 승인 규칙의 책임 원본이다.
 - 프로젝트 문서와 Base 공용 자료가 충돌하면 최신 사용자 지시와 프로젝트 책임 문서가 우선한다.
-- 승인 구조, PoC 가설, 실제 구현, 검증 완료를 구분한다.
+- 승인 구조, PoC 가설, 제안, 실제 구현, 검증 완료를 구분한다.
+- 현재 Phase 0 제안서는 `design/proposals/0001-phase-0-godot-bootstrap.md`이며 아직 사용자 승인 전이다.
 
 ## 항상 확인할 공식 문서
 
@@ -33,12 +34,14 @@
 | `OMENWARD_ROADMAP.md` | 단계별 개발 순서와 완료 기준 |
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
+| `design/proposals/0001-phase-0-godot-bootstrap.md` | 현재 Phase 0 기술 제안 / 사용자 검토 대기 |
 
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| Codex Plan Mode 또는 구현 전 제안 | `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal, 승인 제안서 |
+| Codex Plan Mode 또는 구현 전 제안 | `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal, 현재 제안서 |
+| Phase 0 Godot 부트스트랩 검토 | `design/proposals/0001-phase-0-godot-bootstrap.md`, Issue #1, Goal 0001 |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
 | 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
 | 공용 병종 데이터·아군/적군 이미지 분리·UnitProfile | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
@@ -84,6 +87,7 @@
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |
+| 현재 Phase 0 기술 제안 | `design/proposals/0001-phase-0-godot-bootstrap.md` |
 | 전체 기획 | `OMENWARD_GAME_DESIGN.md` |
 | 전장·성문·거점·우회로 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` |
 | 공용 10병종 데이터·진영 이미지 | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
@@ -97,7 +101,7 @@
 | 미확정 | `DECISIONS_PENDING.md` |
 | 기술·데이터·테스트 | `GODOT_PROJECT_STRUCTURE.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
 | 현재 상태 | `ACTIVE_CONTEXT.md` |
-| 구현 범위 | 최신 Issue/Goal과 승인 제안서 |
+| 구현 범위 | 최신 Issue/Goal과 사용자 승인된 제안서 |
 
 ## Base 공용 지식 라우팅
 
