@@ -27,19 +27,20 @@
 - Faction differentiation: 진영 차이는 숨은 능력치 뻥튀기가 아니라 외형, 스킬 성격, AI, 타기팅, 편성, 진영 수정자와 공개 태그로 만든다. 큰 예외 보정은 `보스`, `공성`, `돌파`, `강화 공세` 같은 태그와 징조로 공개한다.
 - Enemy mythic boundary: `신화급`은 20웨이브 적군 전용 절멸 위계다. 플레이어 룰렛·플레이어 등급표는 일반·엘리트·영웅·전설만 유지한다. 신화급은 전설 구조에 신화 특성과 다중 페이즈를 추가한다.
 - Mirrored buildings: 같은 기능 계열·Tier의 아군·적군 건물은 기본 HP·사거리·생산 주기 예산이 유사하다. 적 건물은 플레이어 경제·룰렛 대신 StageManifest 생산 예산과 공세 시간표를 사용하며 파괴 시 대응 병종 공세가 감소한다.
-- Ten-unit structure V3: 전체 플레이어 병종은 기본 병영 6종과 특수병단 4종으로 나눈다. 기본 병영은 방패병·대검전사·암살자·창병·궁병·기병, 특수병단은 사제·마법사·거인·비행병을 담당한다.
-- Barracks V3: Tier 1 기본 병영은 검사 자동생산과 전사 토큰을 제공한다. Tier 2는 방패병·대검전사·암살자·창병·궁병·기병 중 하나를 전문화하며 자동생산과 토큰을 함께 제공한다. 사제는 기본 병영에서 제거한다.
+- Ten-unit structure V4: 전체 플레이어 병종은 기본 병영 6종과 특수병단 4종으로 나눈다. 기본 병영은 방패병·대검전사·암살자·창병·궁병·기병, 특수병단은 사제·마법사·거인·비행병을 담당한다.
+- Barracks V4: Tier 1 기본 병영은 검사 자동생산과 전사 토큰을 제공한다. Tier 2는 방패병·대검전사·암살자·창병·궁병·기병 중 하나를 전문화하며 자동생산과 토큰을 함께 제공한다. 사제는 기본 병영에서 제거한다.
 - Barracks tokens: 검사·방패병·대검전사는 전사 토큰을 공유한다. 암살자·창병·궁병·기병은 각각 독립 토큰을 사용한다.
-- Special Corps building: `특수병단`은 별도 건물 계열이다. Tier 1은 자동생산·토큰·전투·경제 효과가 없는 준비 시설이며, 완공 뒤 즉시 Tier 2 전문화를 선택할 수 있다.
-- Special Corps Tier 2: 사제단·마도단·거인단·비행단 중 하나를 선택한다. 완료 순간부터 다음 룰렛 회전에 사제·마법사·거인·비행 토큰을 제공한다. 한 건물은 한 전문화만 가진다.
-- Special Corps acquisition: 특수병단은 기본적으로 유닛을 자동생산하지 않는다. 사제·마법사·거인·비행병은 룰렛 결과로만 생성되어 강한 특수 유닛의 시간 누적을 막는다.
-- Special Corps grade boundary: 특수병종도 일반·엘리트·영웅·전설 등급 계약을 사용하고 플레이어 신화급은 생성하지 않는다. 특수병단 Tier 3은 아직 승인하지 않는다.
+- Special Corps building: `특수병단`은 별도 건물 계열이다. Tier 1은 토큰·자동생산·전투·경제 효과가 없지만 활성 전투 시간에 따라 Tier 2 금화 비용을 낮추는 준비 시설이다.
+- Special Corps preparation discount: Tier 1 완공 뒤 활성 전투 시간 30초마다 Tier 2 금화 비용 -10%, 최대 120초·-40%를 초기 가설로 사용한다. 일시정지 중에는 축적하지 않고 업그레이드 시작 시 할인율을 고정하며 파괴·철거 시 준비도는 사라진다.
+- Special Corps Tier 2: 사제단·마도단·거인단·비행단 중 하나를 선택한다. 완료 순간부터 다음 룰렛에 사제·마법사·거인·비행 토큰을 제공하며 해당 일반 특수 유닛의 장기 자동생산을 시작한다.
+- Special Corps auto production: 사제 180초, 마법사 195초, 비행병 210초, 거인 270초를 초기 생산 간격으로 사용한다. 첫 생산도 전체 시간을 사용하고 일시정지 중에는 멈추며 식량 부족 시 완성 대기한다.
+- Special Corps grade boundary: 자동생산은 일반 등급만 생성한다. 룰렛은 일반·엘리트·영웅·전설 특수 유닛을 생성하며 플레이어 신화급은 없다. 특수병단 Tier 3은 아직 승인하지 않는다.
 - Greatblade warrior role: Tier 2 대검전사는 광역 베기·약한 파쇄·저체력 격노·제한적 흡혈을 함께 가지며, Tier 3에서 파쇄형과 광폭형으로 전문화한다.
-- Priest support role: 사제는 특수병단 사제단 토큰으로 획득한다. Tier 2 역할은 약한 단일 치유와 약한 전투 격려이며, 향후 치유사제·전쟁사제 방향은 능력 계보로 유지하되 특수병단 Tier 3 도입과 함께 재검증한다.
+- Priest support role: 사제는 특수병단 사제단 토큰과 장기 자동생산으로 획득한다. Tier 2 역할은 약한 단일 치유와 약한 전투 격려이며, 향후 치유사제·전쟁사제 방향은 능력 계보로 유지하되 특수병단 Tier 3 도입과 함께 재검증한다.
 - Assassin role: 암살자는 기본 병영 Tier 2 정식 전문화다. 같은 라인의 후열·지원·원거리 적을 우선하며 후방 첫 타격이 강하지만 체력과 정면 지속 교전 능력은 낮다. 다른 라인으로 순간이동하지 않는다.
 - Giant identity: 거인은 `large_giant / giant_siege_frontliner` 원형의 대형·중량·범위·공성 지상 유닛이다. 범위 공격, 최대 체력, 물리 방어력을 모두 높은 수준으로 가진다.
 - Giant combat rhythm: 거인은 한 번의 범위 공격 피해가 높고 최대 6기 지상 적을 타격하지만, 초기 공격간격 2.8초·준비 1.1초·이동속도 30으로 느리다. 높은 단발과 생존력 대신 빗나감·라인 오배치 손실이 크다.
-- Giant resource hypothesis: 거인 식량은 초기 6이며 자동생산되지 않는다. 수량 하드 제한보다 높은 식량·특수 토큰·룰렛 희소성으로 제한한다.
+- Giant resource hypothesis: 거인 식량은 초기 6이고 거인단에서 270초마다 일반 등급으로 자동생산한다. 룰렛은 즉시 획득과 상위 등급 가능성을 제공하며 높은 식량·긴 생산·특수 토큰 희소성으로 수량을 제한한다.
 - Giant counters: 창병의 대형 보너스, 마법 피해, 방어 파쇄, 독·출혈·최대 체력 비례 피해가 주요 대응이다. 거인은 비행 유닛을 공격하지 못한다.
 - Giant siege hypothesis: 구조물 피해 ×1.35, 바리케이드 피해 ×1.50을 초기 가설로 사용한다. 공성 태그는 공개하며 혼자 적 본진을 즉시 철거하지 못한다.
 - Enemy warrior lineage: 공통 원형 `warrior_heavy_cleaver`를 사용한다. 5웨이브는 Tier 1 엘리트, 10웨이브는 Tier 2 영웅, 15웨이브는 Tier 3 전설 보스, 20웨이브는 Tier 3 신화 최종보스로 상승한다. 표시 이름은 가칭이다.
@@ -61,18 +62,18 @@
 - Grade boundary: 일반은 선택된 출처 건물의 실제 병종을 생성한다. 엘리트·영웅·전설은 계열별 고정 유닛이며 세부 병종과 무관하다.
 - Passive growth: T1 패시브 1 기본형, T2 패시브 1 강화+패시브 2 생성, T3 패시브 1 추가 강화+패시브 2 강화+패시브 3 생성.
 - Skill growth: 일반 1스킬, 엘리트 1스킬 강화, 영웅 강화된 1스킬+2스킬 생성, 전설 영웅 효과+2스킬 강화+3스킬 생성.
-- Grade source: 플레이어는 룰렛만 상위 등급을 생성한다. 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 기본 병영 자동생산은 일반 등급이고 특수병단은 자동생산하지 않는다.
+- Grade source: 플레이어는 룰렛만 상위 등급을 생성한다. 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 기본 병영과 특수병단 자동생산은 모두 일반 등급이다.
 - Economy: 금화 완성 줄 1/2/3개 이상은 실제 회전비의 75%/200%/500%. 시장+포탑+용병은 정식 전략이다.
 - Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 자연 이동과 여러 이동권을 같은 회전에 사용할 수 있다.
-- Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행과 웨이브 시계는 재개 전까지 멈춘다.
-- Building: 적이 있어도 건설·업그레이드가 계속되며 완공 전에 파괴될 수 있다. 기본 병영과 특수병단은 서로 다른 생산·토큰 계약을 사용한다.
+- Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행, 준비 할인 축적, 자동생산과 웨이브 시계는 재개 전까지 멈춘다.
+- Building: 적이 있어도 건설·업그레이드가 계속되며 완공 전에 파괴될 수 있다. 기본 병영과 특수병단은 서로 다른 생산·토큰·준비 할인 계약을 사용한다.
 - Tactical commands: 바리케이드·화살비·역병·강화지대. 발동마다 금화 지불, 전역 쿨다운 없음, 명령별 개별 쿨다운만 유지한다.
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 60초 시계, 5·10·15·20 등급 이정표, 진영 대칭 구조, 기본 병영 6종·특수병단 4종의 10병종 구조와 거인 핵심 역할이 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V3.md`, `docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V1.md`, `docs/design/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md`.
-- Legacy documents: `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V1.md`, `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md`, `APPROVED_FLAG_BEARER_COMMAND_SUPPORT_CLASS_V2.md`는 기록용이며 신규 기획·구현 기준으로 사용하지 않는다. 사제 문서의 기본 병영 생산 위치는 V3 트리가 대체한다.
+- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 60초 시계, 5·10·15·20 등급 이정표, 진영 대칭 구조, 기본 병영 6종·특수병단 4종의 10병종 구조, 특수병단 준비 할인·장기 자동생산과 거인 핵심 역할이 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V4.md`, `docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V2.md`, `docs/design/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md`.
+- Legacy documents: `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V1.md`, `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md`, `APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V3.md`, `APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V1.md`, `APPROVED_FLAG_BEARER_COMMAND_SUPPORT_CLASS_V2.md`는 기록용이며 신규 기획·구현 기준으로 사용하지 않는다. 사제 문서의 생산 위치는 V4 트리가 대체한다.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 특수병단 Tier 1·2 비용과 시간, 마법사·비행병·사제·거인의 등급별 능력 계보, 적군 대응 특수병종, 1~15웨이브 편성을 확정한다.
+- Next verification: 특수병단 Tier 1·2 절대 비용·시간과 할인 수치, 마법사·비행병·사제·거인의 등급별 능력 계보, 적군 대응 특수병종, 1~15웨이브 편성을 확정한다.
