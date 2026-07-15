@@ -23,7 +23,11 @@
 - 베일의 징조가 적 라인·병종·수량을 약 30초 전에 공개
 - 적이 접근해도 계속되는 건설과 간발의 차이로 완공되는 포탑
 - 병영 Tier에 따른 병종 분기·패시브 강화와 룰렛 등급별 스킬 성장
+- 좌우 대칭 독립 3라인과 라인별 성문 공방
+- 중간거점을 점령해 건설권과 기본 자원 생산권 탈취
 - 상·중·하 중앙 접전지를 점령해 지속 금화 획득
+- 암살자를 안개 속 우회로로 보내 같은 라인의 적 후열 침투
+- 전장 전체를 기본 화면에서 조망하며 별도 미니맵은 사용하지 않음
 - 시장·병영·포탑·용병 중심의 다양한 빌드
 - 바리케이드·화살비·역병·강화지대 전술 명령
 - 지상·비행 레이어와 대공 대응
@@ -34,12 +38,15 @@
 1. [`AGENTS.md`](AGENTS.md) — Codex와 공동 작업자의 작업 규칙
 2. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 현재 승인 상태와 다음 검증
 3. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 현재 공식 게임 기획서
-4. [`docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`](docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md) — 공식명·세계관·명칭 계약
-5. [`docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`](docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md) — 벨루 캐릭터·UI·오디오 계약
-6. [`docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`](docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md) — 첫 10분 흐름
-7. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 단계별 개발 순서
-8. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전 확정할 항목
-9. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — Godot 구조와 상태 소유 원칙
+4. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 문서 라우터
+5. [`docs/DOCUMENT_LIFECYCLE.md`](docs/DOCUMENT_LIFECYCLE.md) — 최신본 유지·중복 제거·아카이브 규칙
+6. [`docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`](docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md) — 전장·성문·중간거점·암살자 우회로 기준
+7. [`docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`](docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md) — 공식명·세계관·명칭 계약
+8. [`docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`](docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md) — 벨루 캐릭터·UI·오디오 계약
+9. [`docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`](docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md) — 첫 10분 흐름
+10. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 단계별 개발 순서
+11. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전 확정할 항목
+12. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — Godot 구조와 상태 소유 원칙
 
 ## 이름 마이그레이션
 
