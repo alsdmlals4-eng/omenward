@@ -27,6 +27,12 @@
 - Faction differentiation: 진영 차이는 숨은 능력치 뻥튀기가 아니라 외형, 스킬 성격, AI, 타기팅, 편성, 진영 수정자와 공개 태그로 만든다. 큰 예외 보정은 `보스`, `공성`, `돌파`, `강화 공세` 같은 태그와 징조로 공개한다.
 - Enemy mythic boundary: `신화급`은 20웨이브 적군 전용 절멸 위계다. 플레이어 룰렛·플레이어 등급표는 일반·엘리트·영웅·전설만 유지한다. 신화급은 전설 구조에 신화 특성과 다중 페이즈를 추가한다.
 - Mirrored buildings: 같은 기능 계열·Tier의 아군·적군 건물은 기본 HP·사거리·생산 주기 예산이 유사하다. 적 건물은 플레이어 경제·룰렛 대신 StageManifest 생산 예산과 공세 시간표를 사용하며 파괴 시 대응 병종 공세가 감소한다.
+- Flag bearer class: `깃발병`을 아군 병종에 추가한다. 공통 원형은 `banner_commander / banner_line_support`이며 보병·지원·지휘·오라 태그를 가진 같은 라인 전장 보조 지휘관형이다. 단독 전투력은 같은 Tier 전사보다 낮고 주변 아군 3~8기를 강화할 때 비용에 맞는 가치가 발생해야 한다.
+- Flag bearer positioning: 선택 라인의 전열 뒤 약 100~160 world units를 유지하고 아군 군집을 따라간다. 적을 장거리 추격하지 않으며 주변 아군이 없으면 아군 중간요새 또는 랠리 지점으로 후퇴한다.
+- Flag bearer aura: 기본 오라 초기값은 반경 180, 최대 8기, 같은 라인 전용이다. 동일 `command_aura`는 중첩하지 않고 가장 강한 효과 하나만 적용한다. 여러 깃발병은 같은 군집 무한 증폭보다 다른 라인·군집 지원에 사용한다.
+- Flag bearer growth: Tier 패시브 축은 `군기 규율 → 진형 유지 → 승세 고양`, 등급 스킬 축은 `집결 명령 → 불굴의 군기 → 전선 선언`이다. 정확한 공격속도·보호막·피해 증감 수치는 PoC 가설이다.
+- Flag bearer mirrored enemy: 적군에도 같은 `banner_commander` 계열의 지휘관형 베일종을 둘 수 있다. 가칭은 `베일 표식자`이며 징조에 지원·지휘·오라 태그와 주요 버프를 공개한다. 일반 지휘 오라가 보스에게 적용될 때는 초기 50% 효과 가설을 사용한다.
+- Flag bearer acquisition boundary: 생산 건물·토큰은 아직 미확정이다. 초기 추천은 독립 지휘 지원 계열과 독립 토큰이며 첫 10분 튜토리얼에는 넣지 않고 이후 정규 스테이지 해금을 우선 검토한다.
 - Enemy warrior lineage: 공통 원형 `warrior_heavy_cleaver`를 사용한다. 5웨이브는 Tier 1 엘리트, 10웨이브는 Tier 2 영웅, 15웨이브는 Tier 3 전설 보스, 20웨이브는 Tier 3 신화 최종보스로 상승한다. 표시 이름은 가칭이다.
 - Enemy warrior abilities: Tier 패시브 축은 전투 숙련→파쇄→진군, 등급 스킬 축은 전방 횡베기→진형 붕괴→고정 지면 단층이다. 15웨이브는 직선 돌파·대단절 보스 패키지, 20웨이브는 `끝나지 않는 진군` 신화 특성과 2페이즈를 추가한다.
 - Enemy warrior threat hypothesis: 동일 Tier 일반 1기를 1.0으로 볼 때 엘리트 2.0~2.4, 영웅 4.5~5.5, 전설 비보스 8~10, 전설 보스 20~28, 신화 최종보스 45~60 Threat Cost를 초기 검증 범위로 사용한다. 이는 단순 HP 배율이 아니라 스킬·AI·보스 패턴·페이즈를 합친 총 비용이다.
@@ -59,8 +65,8 @@
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다. 초기 치명타 5%, 피해 150%, 후방 120도, 창병 돌진 저지 5초.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 첫 4공세, 60초 시계, 5 엘리트·10 영웅·15 전설 보스·20 신화 최종보스, 진영 대칭형 유닛·건물 구조와 첫 적 전사 계보가 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`.
+- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 첫 4공세, 60초 시계, 5 엘리트·10 영웅·15 전설 보스·20 신화 최종보스, 진영 대칭형 유닛·건물 구조, 첫 적 전사 계보와 깃발병 전장 보조 지휘관형이 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_FLAG_BEARER_COMMAND_SUPPORT_CLASS_V1.md`.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 적 전사 계보의 최종 표시 이름, 정확한 스킬 계수·범위·쿨다운, 웨이브별 호위 편성, 아군 Tier 3 중량 파쇄형 전사를 확정한다.
+- Next verification: 깃발병 생산 건물·토큰 계열, Tier 2 세부 전문화, 정확한 오라·스킬 수치, 적 지휘관형의 공식 이름·등장 웨이브와 적 전사 계보 최종 명칭을 확정한다.
