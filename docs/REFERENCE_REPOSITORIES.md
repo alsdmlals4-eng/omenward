@@ -7,7 +7,7 @@
 
 ## 기준 버전
 
-- Base: `alsdmlals4-eng/Base` 기준 커밋 `e05e1610d03d426232008a418c0bfb2270b3485f`
+- Base: `alsdmlals4-eng/Base` 기준 커밋 `e05e198d9c003623f1a117fa1d4505e97117990e`
 - urban-legend: `alsdmlals4-eng/urban-legend` 검토 커밋 `b36c82c3a44cc4104295766e1f32c93274001ad4`
 - 검토일: `2026-07-16`
 
