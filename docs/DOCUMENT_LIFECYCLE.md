@@ -40,6 +40,15 @@
 5. 구현 순서나 미확정 항목이 바뀔 때만 ROADMAP 또는 DECISIONS_PENDING을 갱신한다.
 6. 변경 뒤 서로 모순되는 오래된 표현이 남았는지 확인한다.
 
+### GitHub Issue 미러
+
+- `docs/issues/`는 GitHub Issue의 추적 가능한 Markdown 미러다.
+- 승인 기획의 책임 원본은 계속 `docs/design/`, Goal, Work Order이며 Issue 미러는 이를 덮어쓰지 않는다.
+- Issue 이벤트는 GitHub Actions가 동기화 PR로 제안하고, 검토·병합 전에는 `main`의 미러를 바꾸지 않는다.
+- `docs/issues/` 변경이 `main`에 병합되면 해당 Issue의 제목·본문·상태를 GitHub에 되돌려 보낸다.
+- 양쪽 본문이 마지막 동기화 이후 모두 달라지면 자동 덮어쓰기를 금지하고 책임 원본을 기준으로 수동 해결한다.
+- Issue 댓글·첨부는 GitHub에만 보관한다.
+
 ## 4. 이전 버전 처리
 
 ### 기본 처리: Git 이력

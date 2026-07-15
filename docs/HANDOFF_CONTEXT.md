@@ -8,6 +8,13 @@
 - 다음 행동: 새 Codex 채팅에서 Work Order의 시작 프롬프트로 Plan Mode 조사·제안서 작성
 - 최신 통합 원본: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
 
+## GitHub·로컬 동기화
+
+- 표준 로컬 클론은 GitHub `main`과 같은 추적 파일 구조를 사용한다.
+- `docs/issues/`는 열린·닫힌 GitHub Issue의 Markdown 미러이며, 댓글·첨부는 GitHub에서만 확인한다.
+- 기획의 책임 원본은 `docs/design/`, Goal, Work Order다. Issue 미러에서 충돌을 해결하지 않고 해당 책임 문서를 먼저 갱신한다.
+- GitHub Issue 변경은 동기화 PR로 검토하며, 로컬 갱신은 깨끗한 `main`에서 `tools/sync_repo.ps1`로만 수행한다.
+
 이 문서는 새 ChatGPT, Codex, 기획자, 아티스트 또는 개발자가 이전 대화 없이도 오멘워드의 제품 방향, 데이터 소유, 현재 상태, 금지 범위와 다음 작업을 이해하기 위한 시작점이다. 세부 수치와 규칙은 링크된 책임 원본을 따른다.
 
 ---

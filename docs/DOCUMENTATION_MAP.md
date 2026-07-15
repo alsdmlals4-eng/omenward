@@ -55,6 +55,7 @@
 | Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
 | Phase 0 Godot 부트스트랩 검토 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Issue #1, Goal 0001 |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
+| GitHub Issue·로컬 미러 동기화 | `issues/README.md`, `DOCUMENT_LIFECYCLE.md`, `tools/sync_repo.ps1` |
 | 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
 | 공용 병종 데이터·아군/적군 이미지 분리·UnitProfile | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
 | 적 웨이브·Threat·W1~20·보스 | `design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`, `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` |
@@ -99,6 +100,7 @@
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
 | 현재 Codex 작업 요청 | 현재 `work_orders/*.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
+| GitHub Issue 미러 | `issues/README.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |
 | Phase 0 사전 기술 추천 | `design/proposals/0001-phase-0-godot-bootstrap.md` |
 | 전체 기획 | `OMENWARD_GAME_DESIGN.md` |
