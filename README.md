@@ -1,65 +1,72 @@
 # OMENWARD Prototype
 
-**오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 괴물 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
+**오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
 
-> 현재 상태: **프리프로덕션 디자인 프리즈 / Godot 엔진 확정 / Phase 0 부트스트랩 준비**  
-> 기본 구현 언어는 GDScript이며 정확한 Godot stable 버전과 목표 해상도는 Phase 0에서 확정합니다.
+> 현재 상태: **프리프로덕션 구조 승인 완료 / Phase 0 Codex Plan Mode 대기 / Godot 구현 전**  
+> 기본 언어는 GDScript이며 정확한 Godot stable 버전·해상도·데이터 구조는 Issue #1 제안서에서 결정합니다.
 
 ## 핵심 문장
 
 > **건물을 지어 룰렛 확률을 바꾸고, 당첨된 병력으로 예고된 위기를 뒤집는다.**
 
-## 세계관
+## 핵심 구조
 
-플레이어는 루메른 왕국 트리븐 전선의 **실베른 성채**에 부임한 지휘관입니다. 정체불명의 **베일의 법칙**에 따라 베일런 황야에서 넘어오는 베일종을 세 라인에서 막아냅니다.
+- 좌우 대칭의 독립된 상·중·하 3라인과 라인별 성문.
+- 중간거점 전방 2·후방 1 건설 노드와 점령에 따른 건설권·생산권 이전.
+- 중앙 접전지 점령 수입과 성문 공성.
+- 암살자를 안개 속 같은 라인 우회로로 보내 적 후열에 침투.
+- 전장 전체를 기본 전략 화면에서 조망하며 미니맵은 사용하지 않음.
+- 건물 개수가 룰렛 토큰과 확률을 바꾸고, Tier와 등급이 병종의 성장 방향을 결정.
+- 활성 전투 시간 기준 60초 공세와 W5·W10·W15·W20 이정표.
+- 벨루가 세계관, 튜토리얼, 공세 보고와 감정 반응을 담당.
 
-작은 감시 정령 **벨루**가 세계관 설명, 적 공세 보고, 튜토리얼과 전술 선택지 안내를 담당합니다.
+## 공용 10병종 데이터
 
-## 핵심 특징
+전투 규칙 기준 병종 데이터는 **공용 아키타입 10개만** 사용합니다.
 
-- 완공된 건물이 3×3 룰렛의 토큰 수와 확률을 결정
-- 룰렛 완성 줄로 일반·엘리트·영웅·전설 병력 획득
-- 획득한 유닛을 대기칸에 보관한 뒤 원하는 라인에 배치
-- 베일의 징조가 적 라인·병종·수량을 약 30초 전에 공개
-- 적이 접근해도 계속되는 건설과 간발의 차이로 완공되는 포탑
-- 병영 Tier에 따른 병종 분기·패시브 강화와 룰렛 등급별 스킬 성장
-- 좌우 대칭 독립 3라인과 라인별 성문 공방
-- 중간거점을 점령해 건설권과 기본 자원 생산권 탈취
-- 상·중·하 중앙 접전지를 점령해 지속 금화 획득
-- 암살자를 안개 속 우회로로 보내 같은 라인의 적 후열 침투
-- 전장 전체를 기본 화면에서 조망하며 별도 미니맵은 사용하지 않음
-- 시장·병영·포탑·용병 중심의 다양한 빌드
-- 바리케이드·화살비·역병·강화지대 전술 명령
-- 지상·비행 레이어와 대공 대응
-- 일시정지 중 룰렛·건설·배치·전술 명령을 모두 수행하는 계획 모드
+```text
+공용 UnitArchetypeProfile
++ TierProfile
++ RankProfile
++ owner_team_id
++ FactionVisualProfile
+```
+
+아군과 적군은 HP·공격·스킬·타기팅·애니메이션 상태와 판정 타이밍을 공유합니다. 차이는 소유 팀, 출격 방식, 스프라이트·초상화·아이콘·팔레트·표시명입니다.
+
+- 별도 `EnemyUnitProfile`을 만들지 않습니다.
+- 적 웨이브는 같은 `archetype_id`를 enemy 팀과 베일종 이미지로 출격시킵니다.
+- 적군 전용 스탯·스킬·모션 상태 머신을 복제하지 않습니다.
+- W15·W20 보스만 공용 아키타입 위에 보스 행동·페이즈 패키지를 추가합니다.
 
 ## 먼저 읽을 문서
 
-1. [`AGENTS.md`](AGENTS.md) — Codex와 공동 작업자의 작업 규칙
-2. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 현재 승인 상태와 다음 검증
-3. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 현재 공식 게임 기획서
-4. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 문서 라우터
-5. [`docs/DOCUMENT_LIFECYCLE.md`](docs/DOCUMENT_LIFECYCLE.md) — 최신본 유지·중복 제거·아카이브 규칙
-6. [`docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`](docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md) — 전장·성문·중간거점·암살자 우회로 기준
-7. [`docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`](docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md) — 공식명·세계관·명칭 계약
-8. [`docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`](docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md) — 벨루 캐릭터·UI·오디오 계약
-9. [`docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`](docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md) — 첫 10분 흐름
-10. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 단계별 개발 순서
-11. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전 확정할 항목
-12. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — Godot 구조와 상태 소유 원칙
+1. [`AGENTS.md`](AGENTS.md) — 작업 규칙과 승인 게이트
+2. [`docs/HANDOFF_CONTEXT.md`](docs/HANDOFF_CONTEXT.md) — 현재 방향, 불변 조건, 데이터 소유와 다음 작업
+3. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 원본 라우터
+4. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 공식 전체 기획서 v0.19
+5. [`docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`](docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md) — 승인 구조 통합 인덱스
+6. [`docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`](docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md) — 공용 병종·진영 이미지 데이터 계약
+7. [`docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`](docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md) — 전장·성문·거점·우회로
+8. [`docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`](docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md) — 이동·공격·피격·승리 연출
+9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 승인 게이트와 단계별 완료 기준
+10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전·PoC 후 결정 항목
+11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 예정 기술 구조와 상태 소유
+12. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 최신 작업 상태 캡슐
 
-## 이름 마이그레이션
+## 현재 실행 순서
 
 ```text
-Roulettebound → 오멘워드 / OMENWARD
-율비 → 벨루
-경계의 율 → 베일의 법칙
-은종성채·실버벨 배스천 → 실베른 성채
-삼문경계·쓰리게이트 프론트 → 트리븐 전선
-무명야·베일와일즈 → 베일런 황야
+Issue #1 Phase 0 Plan Mode
+→ 사용자 승인
+→ Godot 기술 기반 구현
+→ Issue #32 수직 슬라이스 Plan Mode
+→ 사용자 승인
+→ 3라인 핵심 수직 슬라이스
+→ 시뮬레이션·플레이테스트
 ```
 
-저장소명과 내부 코드명 `roulettebound-prototype`은 구현 마이그레이션 계획이 승인될 때까지 유지합니다.
+현재는 실제 Godot 코드, Scene, Resource와 테스트를 구현하지 않은 상태입니다.
 
 ## 예정 저장소 구조
 
@@ -73,15 +80,21 @@ Roulettebound → 오멘워드 / OMENWARD
 │  ├─ battle/
 │  ├─ buildings/
 │  ├─ units/
+│  ├─ roulette/
+│  ├─ waves/
 │  └─ ui/
 ├─ scripts/
 │  ├─ core/
 │  ├─ battle/
 │  ├─ buildings/
+│  ├─ units/
 │  ├─ roulette/
 │  ├─ waves/
 │  └─ ui/
 ├─ data/
 ├─ resources/
+├─ assets/
 └─ tests/
 ```
+
+정확한 경로와 파일은 Phase 0 Plan Mode 승인 후 확정합니다.
