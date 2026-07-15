@@ -7,7 +7,7 @@ Do not edit files immediately. First inspect the completed Godot project, curren
 
 ## Goal
 
-한 개의 Godot 테스트 맵에서 오멘워드의 핵심 루프를 검증한다.
+한 개의 Godot 테스트 맵에서 오멘워드의 핵심 루프와 최소 전투 연출을 검증한다.
 
 ```text
 베일의 징조 확인
@@ -18,6 +18,7 @@ Do not edit files immediately. First inspect the completed Godot project, curren
 → 중앙 접전지·중간거점 점령
 → 암살자 우회 침투
 → 라인별 성문 공성
+→ 스테이지 승리 연출
 ```
 
 ## 선행 조건
@@ -36,6 +37,8 @@ Do not edit files immediately. First inspect the completed Godot project, curren
 - `docs/OMENWARD_GAME_DESIGN.md`
 - `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
 - `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`
+- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`
 - `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`
 - `docs/design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md`
 - `docs/GODOT_PROJECT_STRUCTURE.md`
@@ -66,18 +69,43 @@ Do not edit files immediately. First inspect the completed Godot project, curren
 
 ### 병력·전투
 
-- 검사 또는 방패병 더미 전열.
-- 원거리 또는 지원형 더미 후열.
-- 공성 역할 더미와 라인별 성문 피해.
+- 방패병 또는 검사 더미 전열.
+- 궁병 또는 원거리 더미 후열.
+- 사제 또는 지원 더미.
+- 공성 역할의 거인 또는 대형 더미.
 - 암살자 더미의 선택·우회 이동·후열 출현.
 - 암살자 적 후방 직접 생성 금지.
+
+### 최소 애니메이션·연출
+
+대표 유닛은 다음 상태를 가진다.
+
+```text
+deploy
+idle
+move
+attack_basic
+skill_1 또는 역할 특수 행동
+hit_light
+death
+capture 또는 점령 대기
+victory
+```
+
+- 암살자: `bypass_enter`, `bypass_exit` 추가.
+- 거인·공성 더미: `structure_attack` 추가.
+- 공격은 준비→판정→회복으로 구분한다.
+- 무기 접촉·투사체 발사와 실제 판정 오차는 한 애니메이션 프레임 이내를 목표로 한다.
+- 이동은 코드가 위치를 소유하고 애니메이션 루트 모션을 사용하지 않는다.
+- 같은 병종 다수의 대기·이동 루프는 결정론적 프레임 오프셋을 사용한다.
+- 웨이브 정리는 짧은 무기 정리만 사용하고, 완전한 승리 모션은 스테이지 승리 때만 사용한다.
 
 ### 룰렛·공세
 
 - 건물 토큰이 반영되는 최소 3×3 룰렛.
 - 결과 보관과 라인 배치의 최소 흐름.
 - 베일의 징조 뒤 지정 라인으로 진입하는 적 더미 웨이브.
-- 디버그 표시: 라인 ID, 유닛 수, 포탑 사거리, 점령 상태, 성문 상태, 우회 상태.
+- 디버그 표시: 라인 ID, 유닛 수, 포탑 사거리, 점령 상태, 성문 상태, 우회 상태, 현재 애니메이션 상태, 공격 판정 프레임.
 
 ## 승인된 초기값
 
@@ -137,6 +165,21 @@ capture_power = 0
 - 우회 경로는 선택·배치 중에만 표시.
 - 탐지 전용 건물은 제외.
 
+### 일반 인간형 애니메이션 첫 가설
+
+```text
+idle = 4~6 frames
+move = 6~8 frames
+attack_basic = 6~10 frames
+skill_1 = 8~14 frames
+hit_light = 2~3 frames
+death = 6~10 frames
+victory = 8~14 frames
+stage_victory_sequence = 2.5~4.0초
+```
+
+정확한 재생 FPS, 프레임 수, 판정 프레임과 화면 흔들림은 Plan Mode와 실제 모션 테스트에서 확정한다.
+
 ## 프로젝트 불변 조건
 
 - 기본 포탑 한 기가 중간거점과 중앙 접전지 사이 전체를 단독으로 덮지 않는다.
@@ -147,7 +190,9 @@ capture_power = 0
 - 점령된 중간거점의 건설권과 생산권은 점령 진영으로 이전된다.
 - 암살자는 같은 라인의 우회로를 사용하며 적 후방 직접 생성은 금지한다.
 - 미니맵은 구현하지 않는다.
-- 모든 밸런스 값은 데이터 책임 원본에서 읽는다.
+- 모든 밸런스 값과 애니메이션 이벤트는 데이터 책임 원본에서 읽는다.
+- 공격 판정과 애니메이션 접촉·발사 프레임이 일치한다.
+- 다수 전투에서 매 타격마다 큰 히트 스톱과 화면 흔들림을 사용하지 않는다.
 
 ## 제외 범위
 
@@ -155,6 +200,7 @@ capture_power = 0
 - 플레이어 10병종 전체와 모든 등급 스킬.
 - 전체 1~20웨이브.
 - 모든 Tier 3 분기.
+- 20병종 전체 애니메이션 완성.
 - 암살자 탐지 건물과 추가 대응 체계.
 - 성문 수리·재건.
 - 최종 룰렛 확률표.
@@ -173,6 +219,11 @@ capture_power = 0
 - 암살자 선택 전에는 우회로가 보이지 않는다.
 - 암살자가 1초 진입 후 9초 이동을 거쳐 적 후열에 나타난다.
 - 수비 측에 도착 2.5초 전 경고가 표시된다.
+- 0.85배 전략 줌에서 대표 유닛의 이동·공격을 보고 전열·후열·공성·암살 역할을 구분한다.
+- 공격 판정과 무기 접촉·투사체 발사 오차가 한 프레임 이내다.
+- 가벼운 연속 피격으로 유닛 애니메이션이 계속 끊기지 않는다.
+- 같은 병종 다수가 완전히 같은 루프로 움직이지 않지만 동일 시드에서 재현된다.
+- 성문 붕괴와 스테이지 승리 연출이 각각 승인된 시간 안에 완료된다.
 - 동일 시드와 입력 로그로 핵심 결과를 재현한다.
 
 세부 파일 경로와 Scene 구조는 Goal 0001에서 실제 Godot 기반이 생성된 뒤 Issue #32의 Plan Mode 제안서에서 확정한다.
