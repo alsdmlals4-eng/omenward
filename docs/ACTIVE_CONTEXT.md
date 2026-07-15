@@ -48,6 +48,15 @@
 - Enemy warrior lineage: 공통 원형 `warrior_heavy_cleaver`를 사용한다. 5웨이브는 Tier 1 엘리트, 10웨이브는 Tier 2 영웅, 15웨이브는 Tier 3 전설 보스, 20웨이브는 Tier 3 신화 최종보스로 상승한다. 표시 이름은 가칭이다.
 - Enemy warrior abilities: Tier 패시브 축은 전투 숙련→파쇄→진군, 등급 스킬 축은 전방 횡베기→진형 붕괴→고정 지면 단층이다. 15웨이브는 직선 돌파·대단절 보스 패키지, 20웨이브는 `끝나지 않는 진군` 신화 특성과 2페이즈를 추가한다.
 - Enemy warrior threat hypothesis: 동일 Tier 일반 1기를 1.0으로 볼 때 엘리트 2.0~2.4, 영웅 4.5~5.5, 전설 비보스 8~10, 전설 보스 20~28, 신화 최종보스 45~60 Threat Cost를 초기 검증 범위로 사용한다.
+- Stage economy start: 정규 Normal은 시작 금화 160, 시작 식량 한도 12를 사용한다. 튜토리얼은 별도 강제 건설·무료 회전 계약을 사용할 수 있다.
+- Stage economy income: 활성 전투 시간 20초마다 기본 5금화를 지급한다. 각 라인의 중앙 접전지는 60초마다 아군 점령 한 곳당 4금화를 지급한다. 적 처치·웨이브 클리어는 기본 금화를 지급하지 않는다.
+- Stage economy buildings: 기본 병영 40·20초, 농장 35·20초·식량 +6, 시장 50·25초·20초마다 +4금화, 포탑 35·22초, 특수병단 Tier 1 40·25초를 첫 기준으로 사용한다.
+- Barracks Tier 2 economy: 방패병 45·25초, 대검전사 50·30초, 암살자 55·30초, 창병 45·25초, 궁병 50·25초, 기병 65·35초를 첫 기준으로 사용한다.
+- Market stacking: n번째 시장 비용은 `50 + 25 × 기존 시장 수`다. 첫 시장의 완공 후 비용 회수시간은 약 4분 10초이며 시장마다 수입 타이머를 독립적으로 가진다.
+- Roulette economy: 정규 기본 회전비는 20금화다. 금화 1/2/3줄 이상은 실제 회전비의 75%/200%/500%를 지급하며 장기 평균 지급 목표는 회전비의 30% 이하다.
+- Tactical command economy: 바리케이드 12, 화살비 25, 강화지대 25, 역병 30금화를 첫 기준으로 사용한다.
+- Refund economy: 건설 중 취소 70%, 업그레이드 취소 50%, 완공 건물 철거는 기본 건설비 40%, 적 파괴는 0%다. 환불은 실제 지불액 기준 내림 처리한다.
+- Economy projection: 시작 금화 포함 15분 총유입은 접전지 0·시장 없음 385, 평균 접전지 1.5·시장 없음 475, 세 접전지 통제 565, 평균 접전지 1.5·시장 1개 조기 건설 647을 기준으로 검증한다. 금화 룰렛 수입과 지출은 제외한 값이다.
 - Minor enemy boundary: 튜토리얼의 소형 근접 베일종은 `minor/swarm` 군집형으로, 아군 전사와 1:1 대칭 비교하는 정규 베일 전사 `standard_unit`과 분리한다.
 - Tutorial: 10~15분 수동 설계 스테이지 1개. 첫 병영 1분 10초, 첫 룰렛 1분 45초, 첫 배치 2분 15초, 첫 역전 5분 15초, 엘리트 5분 45초, Tier 2 선택 8분 10초 이내가 초기 목표다.
 - Tutorial wave clock: 첫 웨이브 전까지 온보딩 시간을 별도로 둘 수 있지만 튜토리얼 공세 시계가 시작된 뒤에는 +1:00/+2:00/+3:00/+4:00 간격으로 첫 네 공세가 충돌한다. 일시정지는 이 시계도 멈춘다.
@@ -67,15 +76,15 @@
 - Grade source: 플레이어는 룰렛만 상위 등급을 생성한다. 합성, 처치 경험치와 건물 Tier로 등급이 상승하지 않는다. 기본 병영과 특수병단 자동생산은 모두 일반 등급이다.
 - Economy: 금화 완성 줄 1/2/3개 이상은 실제 회전비의 75%/200%/500%. 시장+포탑+용병은 정식 전략이다.
 - Lucky chance: 12% 시작, 실패당 +8%p, 6회 실패 뒤 다음 회전 확정. 자연 이동과 여러 이동권을 같은 회전에 사용할 수 있다.
-- Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행, 준비 할인 축적, 자동생산과 웨이브 시계는 재개 전까지 멈춘다.
+- Pause: 전투 시간만 멈추는 계획 모드. 룰렛, 건설, 전술 명령, 생산, 배치, 이동, 상점은 정상 확정되며 시간 기반 진행, 기본·시장·통제 수입, 준비 할인 축적, 자동생산과 웨이브 시계는 재개 전까지 멈춘다.
 - Building: 적이 있어도 건설·업그레이드가 계속되며 완공 전에 파괴될 수 있다. 기본 병영과 특수병단은 서로 다른 생산·토큰·준비 할인 계약을 사용한다.
 - Tactical commands: 바리케이드·화살비·역병·강화지대. 발동마다 금화 지불, 전역 쿨다운 없음, 명령별 개별 쿨다운만 유지한다.
 - Combat keywords: 물리·마법·고정 피해, 치명타, 후방, 돌진, 급강하, 경직, 밀쳐내기와 상태이상 공통 규칙을 사용한다.
 - Flight: 지상·비행 레이어를 사용한다. 비행은 지상 유닛·바리케이드·지상 함정을 우회하지만 라인과 전장 경계를 유지하고 기본적으로 접전지 점령에 기여하지 않는다.
 - Boss counter: 길 뚫기 보스는 가로축 직선 돌파로 바리케이드와 전열을 공격하고 세로축 크게 베기로 밀집 병력을 공격한다. 두 패턴은 명확히 예고되고 범위가 계속 추적하지 않는다.
-- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 60초 시계, 5·10·15·20 등급 이정표, 진영 대칭 구조, 기본 병영 6종·특수병단 4종의 10병종 구조, 특수병단 최대 50% 준비 할인·절대 비용·장기 자동생산과 거인 핵심 역할이 승인됐다.
-- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md`, `docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md`, `docs/design/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md`.
+- Current state: 오멘워드 공식명, 베일의 법칙, 벨루, 전장 토폴로지, 60초 시계, 5·10·15·20 등급 이정표, 진영 대칭 구조, 기본 병영 6종·특수병단 4종의 10병종 구조, 특수병단 최대 50% 준비 할인·절대 비용·장기 자동생산, 거인 핵심 역할과 정규 스테이지 경제 기준이 승인됐다.
+- Canonical files: `docs/OMENWARD_GAME_DESIGN.md`, `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`, `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`, `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`, `docs/design/APPROVED_MIRRORED_FACTION_UNITS_BUILDINGS_AND_ENEMY_RANKS_V1.md`, `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md`, `docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md`, `docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md`, `docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md`, `docs/design/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md`.
 - Legacy documents: `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V1.md`, `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md`, `APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V3.md`, `APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V4.md`, `APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V1.md`, `APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V2.md`, `APPROVED_FLAG_BEARER_COMMAND_SUPPORT_CLASS_V2.md`는 기록용이며 신규 기획·구현 기준으로 사용하지 않는다. 사제 문서의 생산 위치는 V5 트리가 대체한다.
 - Legacy names: `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 문서 호환 외 신규 기획·UI·대사에 사용하지 않는다.
 - Excluded now: project.godot, Scene, 코드, Resource, 테스트 생성·수정, 구현 브랜치·PR. 사용자 승인 전 Codex 구현 금지.
-- Next verification: 스테이지 시작 금화·기본 수입·시장 수입과 특수병단 비용을 통합 검증하고, 마법사·비행병·사제·거인의 등급별 능력 계보와 1~15웨이브 편성을 확정한다.
+- Next verification: 기본 병영 자동생산 간격과 10병종 일반·엘리트·영웅·전설 능력 계보를 확정하고, 그 기준으로 1~15웨이브 편성과 룰렛 확률·금화 기대값을 검증한다.
