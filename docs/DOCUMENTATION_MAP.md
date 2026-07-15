@@ -17,7 +17,7 @@
 → ACTIVE_CONTEXT.md
 ```
 
-승인된 `docs/design/APPROVED_*.md`가 메인 기획서와 충돌하면 더 최근 승인 문서를 우선한다.
+승인된 `docs/design/APPROVED_*.md`가 메인 기획서와 충돌하면 더 최근 승인 문서를 우선하고 메인 기획서를 즉시 동기화한다.
 
 ## 항상 확인할 공식 문서
 
@@ -33,6 +33,8 @@
 |---|---|
 | Codex Plan Mode 또는 구현 전 제안 | `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal |
 | 프리프로덕션 기획 프리즈 | `design/DESIGN_FREEZE_CHECKLIST.md`, `DECISIONS_PENDING.md` |
+| 문서 추가·교체·정리·아카이브 | `DOCUMENT_LIFECYCLE.md`, `archive/README.md` |
+| 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
 | 벨루·튜토리얼·HUD·대사 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` |
 | Dopamine Driven Design·첫 10분 | `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` |
 | 룰렛·등급·토큰 | `design/APPROVED_ROULETTE_CORE_RULES.md`, `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` |
@@ -67,8 +69,10 @@
 ## 책임 원본
 
 - 작업 규칙·Plan Mode·완료 보고: `AGENTS.md`
+- 문서 생명주기·중복 제거·아카이브: `DOCUMENT_LIFECYCLE.md`
 - 제안 형식과 승인 기준: `PROPOSAL_WORKFLOW.md`
 - 전체 기획: `OMENWARD_GAME_DESIGN.md`
+- 전장 구조·성문·중간거점 점령·암살자 우회로: `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`
 - 명칭·세계관: `design/APPROVED_OMENWARD_WORLD_AND_NAMING.md`
 - 벨루 제작·안내: `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`
 - 첫 10분: `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`
@@ -77,4 +81,4 @@
 - 현재 상태: `ACTIVE_CONTEXT.md`
 - 구현 범위와 완료 기준: 최신 Issue/Goal과 승인 제안서
 
-다른 문서가 같은 내용을 반복하면 위 책임 원본을 링크하고 작업별 차이만 기록한다.
+다른 문서가 같은 내용을 반복하면 위 책임 원본을 링크하고 작업별 차이만 기록한다. 일반적인 이전 버전은 별도 활성 파일로 남기지 않고 Git 이력에서 확인한다.
