@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_archetype_profile.gd" id="1"]
+[resource]
+script = ExtResource("1")
+archetype_id = &"spear_guard"
+display_name = "Spear Guard"
+role = "frontline"
+attack_profile_id = &"spear_guard"
+animation_contract_id = &"spear_guard"
