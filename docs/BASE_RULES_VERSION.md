@@ -1,7 +1,7 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `e05e1610d03d426232008a418c0bfb2270b3485f`
+- 기준 커밋: `e05e198d9c003623f1a117fa1d4505e97117990e`
 - 동기화 기준일: `2026-07-16`
 - 적용 방식: 프로젝트 `AGENTS.md`와 책임 문서에 필요한 공용 원칙을 명시적으로 채택하고, Base methods·research·skills·cases는 참고 자료로 연결
 
