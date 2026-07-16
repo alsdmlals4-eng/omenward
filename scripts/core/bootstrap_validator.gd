@@ -2,6 +2,8 @@ class_name BootstrapValidator
 extends RefCounted
 
 const REQUIRED_ARCHETYPE_COUNT := 10
+const VALID_FACTION_IDS := [&"lumern", &"veil"]
+const VALID_LANE_IDS := [&"top", &"middle", &"bottom"]
 
 func validate_registry(registry: DataRegistry) -> PackedStringArray:
 	var errors := PackedStringArray()
@@ -24,4 +26,21 @@ func validate_registry(registry: DataRegistry) -> PackedStringArray:
 		errors.append("tutorial stage must contain four tutorial waves")
 	if regular == null or regular.tutorial_stage or regular.waves.size() != 20:
 		errors.append("regular stage must contain twenty waves")
+	if tutorial != null:
+		_validate_stage_spawns(tutorial, registry, errors)
+	if regular != null:
+		_validate_stage_spawns(regular, registry, errors)
 	return errors
+
+
+func _validate_stage_spawns(stage: StageDefinition, registry: DataRegistry, errors: PackedStringArray) -> void:
+	for wave in stage.waves:
+		for spawn in wave.spawns:
+			if not registry.archetypes.has(str(spawn.archetype_id)):
+				errors.append("unknown spawn archetype_id: %s" % spawn.archetype_id)
+			if not VALID_FACTION_IDS.has(spawn.visual_faction_id):
+				errors.append("invalid spawn visual_faction_id: %s" % spawn.visual_faction_id)
+			if not VALID_FACTION_IDS.has(spawn.owner_team_id):
+				errors.append("invalid spawn owner_team_id: %s" % spawn.owner_team_id)
+			if not VALID_LANE_IDS.has(spawn.lane_id):
+				errors.append("invalid spawn lane_id: %s" % spawn.lane_id)

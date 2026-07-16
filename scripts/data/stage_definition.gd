@@ -19,5 +19,6 @@ func build_manifest(seed: int) -> StageManifest:
 	manifest.starting_food_cap = starting_food_cap
 	manifest.tutorial_stage = tutorial_stage
 	manifest.wave_count = waves.size()
-	manifest.waves = waves.map(func(wave): return wave.to_dictionary())
+	for wave in waves:
+		manifest.waves.append(wave.to_dictionary())
 	return manifest
