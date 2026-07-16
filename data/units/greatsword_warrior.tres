@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/data/unit_archetype_profile.gd" id="1"]
+[resource]
+script = ExtResource("1")
+archetype_id = &"greatsword_warrior"
+display_name = "Greatsword Warrior"
+role = "frontline"
+attack_profile_id = &"greatsword_warrior"
+animation_contract_id = &"greatsword_warrior"

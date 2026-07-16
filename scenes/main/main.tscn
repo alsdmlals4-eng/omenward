@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/core/game_session.gd" id="1_session"]
+[ext_resource type="Script" path="res://scripts/ui/bootstrap_visual_probe.gd" id="2_probe"]
+
+[node name="Main" type="Node"]
+
+[node name="GameSession" type="Node" parent="."]
+script = ExtResource("1_session")
+
+[node name="WorldRoot" type="Node2D" parent="."]
+
+[node name="BootstrapVisualProbe" type="Node2D" parent="WorldRoot"]
+script = ExtResource("2_probe")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="StatusPanel" type="Label" parent="UI"]
+offset_left = 24.0
+offset_top = 20.0
+theme_override_colors/font_color = Color(0.86, 0.9, 0.95, 1)
+theme_override_font_sizes/font_size = 18
+text = "OMENWARD — Phase 0 bootstrap visual probe"

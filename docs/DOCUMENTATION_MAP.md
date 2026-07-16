@@ -30,7 +30,8 @@
 
 | 작업 | 시작 문서 | 상태 |
 |---|---|---|
-| Issue #1 Phase 0 Plan Mode | `work_orders/0001-phase-0-codex-plan-mode.md` | 새 Codex 채팅 실행 준비 완료 |
+| Issue #1 Phase 0 Bootstrap | `goals/0001-engine-selection-and-bootstrap.md` | 구현·검증 완료 |
+| Issue #32 Vertical Slice Plan Mode | Issue #32, `goals/0002-core-vertical-slice.md` | 다음 Plan Mode 작업 |
 
 현재 `design/proposals/0001-phase-0-godot-bootstrap.md`는 사전 기술 추천안이다. Codex는 이를 참고하되 실제 저장소와 공식 근거를 확인해 별도의 Plan Mode 제안서를 제출해야 한다.
 

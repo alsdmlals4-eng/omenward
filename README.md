@@ -2,8 +2,8 @@
 
 **오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
 
-> 현재 상태: **프리프로덕션 구조 승인 완료 / Phase 0 Codex Plan Mode 대기 / Godot 구현 전**  
-> 기본 언어는 GDScript이며 정확한 Godot stable 버전·해상도·데이터 구조는 Issue #1 제안서에서 결정합니다.
+> 현재 상태: **Phase 0 Godot·공용 병종 데이터 부트스트랩 구현 완료 / 수직 슬라이스 Plan Mode 전**
+> 기본 언어는 GDScript이며 Godot 4.7.1 Standard, Compatibility renderer, 1920×1080 출력과 960×540 논리 해상도를 사용합니다.
 
 ## 핵심 문장
 
@@ -66,7 +66,9 @@ Issue #1 Phase 0 Plan Mode
 → 시뮬레이션·플레이테스트
 ```
 
-현재는 실제 Godot 코드, Scene, Resource와 테스트를 구현하지 않은 상태입니다.
+Phase 0은 `project.godot`, 공용 10병종 Resource, 진영 Visual Profile, 결정론 Manifest, headless 계약 검사와 시각 프로브까지만 구현합니다. 전투·룰렛·건설·점령·성문·웨이브는 아직 구현하지 않았습니다.
+
+검증 명령과 수동 QA는 [`docs/PHASE_0_VALIDATION.md`](docs/PHASE_0_VALIDATION.md)를 따른다.
 
 ## 예정 저장소 구조
 

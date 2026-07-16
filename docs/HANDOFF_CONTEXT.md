@@ -1,11 +1,11 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
 - 갱신일: 2026-07-16
-- 현재 단계: **프리프로덕션 구조 승인 완료 / 새 Codex 채팅용 Phase 0 Work Order 준비 완료 / Codex Plan Mode 실행 대기 / 게임 구현 전**
+- 현재 단계: **Phase 0 Godot·공용 병종 데이터 부트스트랩 구현 완료 / Issue #32 수직 슬라이스 Plan Mode 준비**
 - 현재 Work Order: `docs/work_orders/0001-phase-0-codex-plan-mode.md`
 - 사전 기술 추천안: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
 - 현재 Issue·Goal: Issue #1 / `docs/goals/0001-engine-selection-and-bootstrap.md`
-- 다음 행동: 새 Codex 채팅에서 Work Order의 시작 프롬프트로 Plan Mode 조사·제안서 작성
+- 다음 행동: Issue #32의 실제 파일과 Phase 0 검증 결과를 읽고 수직 슬라이스 Plan Mode 제안서 작성
 - 최신 통합 원본: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
 
 ## GitHub·로컬 동기화
@@ -21,12 +21,12 @@
 
 ## 1. 지금 가장 먼저 알아야 할 것
 
-1. 오멘워드는 아직 Godot 게임 구현 전이다.
-2. 현재 Codex가 작성한 최종 Plan Mode 제안서는 아직 없다.
+1. Phase 0은 Godot 4.7.1 Standard·Compatibility와 GDScript로 구현됐다.
+2. `scenes/main/main.tscn`은 AutoLoad 없이 `GameSession`, WorldRoot 시각 프로브, StatusPanel을 조립한다.
 3. `docs/design/proposals/0001-phase-0-godot-bootstrap.md`는 기획 측 사전 기술 추천안이며 Codex 검증 대상이다.
 4. 새 Codex 채팅에는 `docs/work_orders/0001-phase-0-codex-plan-mode.md`의 시작 프롬프트를 전달한다.
-5. Codex는 실제 저장소와 참고 자료를 읽기 전용으로 조사하고 별도의 Plan Mode 제안서를 제출한다.
-6. 사용자 승인 전 구현 브랜치·커밋·PR과 게임 파일 생성을 시작하지 않는다.
+5. `DataRegistry`, `StageManifest`, `CombatClock`, `DeterminismService`와 공용 Resource 계약은 Goal 0002의 구현 경계다.
+6. Issue #32 사용자 승인 전 실제 전투·룰렛·건설·점령·성문·웨이브 구현을 시작하지 않는다.
 7. 적군 병종 데이터를 별도로 만들지 않는다.
 8. 공용 병종 10개에 아군 이미지 세트 또는 적군 이미지 세트를 연결한다.
 9. 다음 구현 단계는 전체 게임이 아니라 Godot 기술 기준선 Phase 0이다.

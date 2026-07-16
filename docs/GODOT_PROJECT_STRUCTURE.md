@@ -1,19 +1,19 @@
 # OMENWARD Godot 프로젝트 구조
 
-- 상태: **기술 구조 후보 / 실제 경로·노드·Resource는 Issue #1 Plan Mode에서 확정**
+- 상태: **Phase 0 구현 기준 / 수직 슬라이스 확장은 Issue #32 Plan Mode에서 확정**
 - 갱신일: 2026-07-16
 - 상위 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
 
-이 문서는 오멘워드의 Godot 구조, 상태 소유와 데이터 경계의 책임 원본이다. 현재는 구현 전이며 실제 코드가 생기면 검증된 경로와 명령으로 갱신한다.
+이 문서는 오멘워드의 Godot 구조, 상태 소유와 데이터 경계의 책임 원본이다. Phase 0의 실제 경로와 headless 명령은 `docs/PHASE_0_VALIDATION.md`에서 검증한다.
 
 ## 1. 기술 기준
 
-- 엔진: Godot.
+- 엔진: Godot 4.7.1 Standard x86_64.
 - 기본 언어: GDScript.
-- 정확한 stable 버전: Issue #1 Phase 0 Plan Mode에서 선택.
+- renderer: Compatibility.
 - 플랫폼: Windows PC, 마우스·키보드.
 - 기준 출력: 1920×1080.
-- 내부 논리 해상도 후보: 960×540 정수 확대.
+- 내부 논리 해상도: 960×540, viewport/keep/integer scaling.
 - 카메라: 2D 픽셀 Camera2D 후보.
 
 C#, GDExtension, 외부 ECS와 대형 애드온은 기본 선택이 아니다. Godot 기본 노드와 데이터 구조로 성능 목표를 달성하기 어렵다는 측정 근거가 있을 때 별도 승인으로 검토한다.

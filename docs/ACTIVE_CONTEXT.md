@@ -2,27 +2,25 @@
 
 - 갱신일: 2026-07-16
 - 공식명: **오멘워드 / OMENWARD**
-- 상태: **프리프로덕션 구조 승인 완료 / 새 Codex 채팅용 Phase 0 Plan Mode 작업 패키지 준비 완료 / 게임 구현 전**
+- 상태: **Phase 0 Godot·공용 병종 데이터 부트스트랩 구현 완료 / 수직 슬라이스 Plan Mode 준비**
 - 최초 인수인계: `docs/HANDOFF_CONTEXT.md`
 - 현재 Codex 작업 요청: `docs/work_orders/0001-phase-0-codex-plan-mode.md`
 - 사전 기술 추천안: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
 - 최신 통합 기준: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
-- 다음 작업: 새 Codex 채팅에서 Issue #1을 Plan Mode로 조사하고 Codex 제안서 제출
+- 다음 작업: Issue #32 수직 슬라이스를 Plan Mode로 조사하고 구현 제안서 제출
 
 ## 현재 상태 구분
 
 ```text
 기획 승인 완료
-→ Codex Work Order 준비 완료
-→ [현재] 새 Codex 채팅 Plan Mode 실행 대기
-→ Codex 제안서 제출
-→ 사용자 검토·승인
-→ Phase 0 구현
+→ Codex Plan Mode 제안 승인
+→ Phase 0 구현·검증 완료
+→ [현재] Issue #32 수직 슬라이스 Plan Mode
 ```
 
-- 현재 Codex가 작성한 최종 Plan Mode 제안서는 아직 없다.
-- `docs/design/proposals/0001-phase-0-godot-bootstrap.md`는 기획 측 사전 추천안이며 Codex가 검증할 입력이다.
-- 사용자 승인 전 `project.godot`, Scene, GDScript, Resource, 데이터, 테스트, 브랜치와 PR을 만들지 않는다.
+- Phase 0은 Godot 4.7.1 Standard·Compatibility, 1920×1080 출력·960×540 논리 해상도, AutoLoad 없는 Main/GameSession 조립으로 구현했다.
+- 공용 10 병종, Tier·Rank·Attack·AnimationContract·FactionVisual·Battlefield·Manifest의 최소 데이터 계약과 headless 검증이 존재한다.
+- 다음 실제 전투 구현은 Issue #32의 사용자 승인된 Plan Mode 제안서가 있어야 시작한다.
 
 ## 핵심 정체성
 

@@ -1,0 +1,262 @@
+[gd_resource type="Resource" load_steps=40 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/bootstrap_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://scripts/data/tier_profile.gd" id="2_tier"]
+[ext_resource type="Script" path="res://scripts/data/rank_profile.gd" id="3_rank"]
+[ext_resource type="Script" path="res://scripts/data/attack_profile.gd" id="4_attack"]
+[ext_resource type="Script" path="res://scripts/data/animation_contract.gd" id="5_animation"]
+[ext_resource type="Script" path="res://scripts/data/faction_visual_profile.gd" id="6_visual"]
+[ext_resource type="Script" path="res://scripts/data/battlefield_profile.gd" id="7_battlefield"]
+[ext_resource type="Script" path="res://scripts/data/boss_behavior_package.gd" id="8_boss_behavior"]
+[ext_resource type="Script" path="res://scripts/data/boss_phase_profile.gd" id="9_boss_phase"]
+[ext_resource type="Resource" path="res://data/units/shield_guard.tres" id="10_shield"]
+[ext_resource type="Resource" path="res://data/units/greatsword_warrior.tres" id="11_greatsword"]
+[ext_resource type="Resource" path="res://data/units/assassin.tres" id="12_assassin"]
+[ext_resource type="Resource" path="res://data/units/spear_guard.tres" id="13_spear"]
+[ext_resource type="Resource" path="res://data/units/archer.tres" id="14_archer"]
+[ext_resource type="Resource" path="res://data/units/cavalry.tres" id="15_cavalry"]
+[ext_resource type="Resource" path="res://data/units/priest.tres" id="16_priest"]
+[ext_resource type="Resource" path="res://data/units/mage.tres" id="17_mage"]
+[ext_resource type="Resource" path="res://data/units/flier.tres" id="18_flier"]
+[ext_resource type="Resource" path="res://data/units/giant.tres" id="19_giant"]
+
+[sub_resource type="Resource" id="Tier1"]
+script = ExtResource("2_tier")
+tier_id = &"tier_1"
+display_name = "Tier 1"
+[sub_resource type="Resource" id="Tier2"]
+script = ExtResource("2_tier")
+tier_id = &"tier_2"
+display_name = "Tier 2"
+stat_multiplier = 1.25
+[sub_resource type="Resource" id="Tier3"]
+script = ExtResource("2_tier")
+tier_id = &"tier_3"
+display_name = "Tier 3"
+stat_multiplier = 1.5
+
+[sub_resource type="Resource" id="RankCommon"]
+script = ExtResource("3_rank")
+rank_id = &"common"
+display_name = "Common"
+[sub_resource type="Resource" id="RankElite"]
+script = ExtResource("3_rank")
+rank_id = &"elite"
+display_name = "Elite"
+stat_multiplier = 1.2
+[sub_resource type="Resource" id="RankHero"]
+script = ExtResource("3_rank")
+rank_id = &"hero"
+display_name = "Hero"
+stat_multiplier = 1.45
+[sub_resource type="Resource" id="RankLegendary"]
+script = ExtResource("3_rank")
+rank_id = &"legendary"
+display_name = "Legendary"
+stat_multiplier = 1.8
+
+[sub_resource type="Resource" id="AttackShield"]
+script = ExtResource("4_attack")
+profile_id = &"shield_guard"
+[sub_resource type="Resource" id="AttackGreatsword"]
+script = ExtResource("4_attack")
+profile_id = &"greatsword_warrior"
+[sub_resource type="Resource" id="AttackAssassin"]
+script = ExtResource("4_attack")
+profile_id = &"assassin"
+[sub_resource type="Resource" id="AttackSpear"]
+script = ExtResource("4_attack")
+profile_id = &"spear_guard"
+[sub_resource type="Resource" id="AttackArcher"]
+script = ExtResource("4_attack")
+profile_id = &"archer"
+[sub_resource type="Resource" id="AttackCavalry"]
+script = ExtResource("4_attack")
+profile_id = &"cavalry"
+[sub_resource type="Resource" id="AttackPriest"]
+script = ExtResource("4_attack")
+profile_id = &"priest"
+[sub_resource type="Resource" id="AttackMage"]
+script = ExtResource("4_attack")
+profile_id = &"mage"
+[sub_resource type="Resource" id="AttackFlier"]
+script = ExtResource("4_attack")
+profile_id = &"flier"
+[sub_resource type="Resource" id="AttackGiant"]
+script = ExtResource("4_attack")
+profile_id = &"giant"
+
+[sub_resource type="Resource" id="AnimationShield"]
+script = ExtResource("5_animation")
+archetype_id = &"shield_guard"
+[sub_resource type="Resource" id="AnimationGreatsword"]
+script = ExtResource("5_animation")
+archetype_id = &"greatsword_warrior"
+[sub_resource type="Resource" id="AnimationAssassin"]
+script = ExtResource("5_animation")
+archetype_id = &"assassin"
+[sub_resource type="Resource" id="AnimationSpear"]
+script = ExtResource("5_animation")
+archetype_id = &"spear_guard"
+[sub_resource type="Resource" id="AnimationArcher"]
+script = ExtResource("5_animation")
+archetype_id = &"archer"
+[sub_resource type="Resource" id="AnimationCavalry"]
+script = ExtResource("5_animation")
+archetype_id = &"cavalry"
+[sub_resource type="Resource" id="AnimationPriest"]
+script = ExtResource("5_animation")
+archetype_id = &"priest"
+[sub_resource type="Resource" id="AnimationMage"]
+script = ExtResource("5_animation")
+archetype_id = &"mage"
+[sub_resource type="Resource" id="AnimationFlier"]
+script = ExtResource("5_animation")
+archetype_id = &"flier"
+[sub_resource type="Resource" id="AnimationGiant"]
+script = ExtResource("5_animation")
+archetype_id = &"giant"
+
+[sub_resource type="Resource" id="Battlefield"]
+script = ExtResource("7_battlefield")
+
+[sub_resource type="Resource" id="BossBehavior"]
+script = ExtResource("8_boss_behavior")
+package_id = &"phase_0_placeholder"
+base_archetype_id = &"giant"
+[sub_resource type="Resource" id="BossPhase"]
+script = ExtResource("9_boss_phase")
+phase_id = &"phase_1"
+
+[sub_resource type="Resource" id="VisualShieldLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"shield_guard"
+visual_faction_id = &"lumern"
+display_name = "Shield Guard"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualShieldVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"shield_guard"
+visual_faction_id = &"veil"
+display_name = "Veil Shield Guard"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualGreatswordLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"greatsword_warrior"
+visual_faction_id = &"lumern"
+display_name = "Greatsword Warrior"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualGreatswordVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"greatsword_warrior"
+visual_faction_id = &"veil"
+display_name = "Veil Greatsword Warrior"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualAssassinLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"assassin"
+visual_faction_id = &"lumern"
+display_name = "Assassin"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualAssassinVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"assassin"
+visual_faction_id = &"veil"
+display_name = "Veil Assassin"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualSpearLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"spear_guard"
+visual_faction_id = &"lumern"
+display_name = "Spear Guard"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualSpearVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"spear_guard"
+visual_faction_id = &"veil"
+display_name = "Veil Spear Guard"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualArcherLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"archer"
+visual_faction_id = &"lumern"
+display_name = "Archer"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualArcherVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"archer"
+visual_faction_id = &"veil"
+display_name = "Veil Archer"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualCavalryLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"cavalry"
+visual_faction_id = &"lumern"
+display_name = "Cavalry"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualCavalryVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"cavalry"
+visual_faction_id = &"veil"
+display_name = "Veil Cavalry"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualPriestLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"priest"
+visual_faction_id = &"lumern"
+display_name = "Priest"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualPriestVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"priest"
+visual_faction_id = &"veil"
+display_name = "Veil Priest"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualMageLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"mage"
+visual_faction_id = &"lumern"
+display_name = "Mage"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualMageVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"mage"
+visual_faction_id = &"veil"
+display_name = "Veil Mage"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualFlierLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"flier"
+visual_faction_id = &"lumern"
+display_name = "Flier"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualFlierVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"flier"
+visual_faction_id = &"veil"
+display_name = "Veil Flier"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+[sub_resource type="Resource" id="VisualGiantLumern"]
+script = ExtResource("6_visual")
+archetype_id = &"giant"
+visual_faction_id = &"lumern"
+display_name = "Giant"
+palette_color = Color(0.38, 0.66, 0.96, 1)
+[sub_resource type="Resource" id="VisualGiantVeil"]
+script = ExtResource("6_visual")
+archetype_id = &"giant"
+visual_faction_id = &"veil"
+display_name = "Veil Giant"
+palette_color = Color(0.76, 0.3, 0.54, 1)
+
+[resource]
+script = ExtResource("1_catalog")
+archetypes = [ExtResource("10_shield"), ExtResource("11_greatsword"), ExtResource("12_assassin"), ExtResource("13_spear"), ExtResource("14_archer"), ExtResource("15_cavalry"), ExtResource("16_priest"), ExtResource("17_mage"), ExtResource("18_flier"), ExtResource("19_giant")]
+tier_profiles = [SubResource("Tier1"), SubResource("Tier2"), SubResource("Tier3")]
+rank_profiles = [SubResource("RankCommon"), SubResource("RankElite"), SubResource("RankHero"), SubResource("RankLegendary")]
+attack_profiles = [SubResource("AttackShield"), SubResource("AttackGreatsword"), SubResource("AttackAssassin"), SubResource("AttackSpear"), SubResource("AttackArcher"), SubResource("AttackCavalry"), SubResource("AttackPriest"), SubResource("AttackMage"), SubResource("AttackFlier"), SubResource("AttackGiant")]
+animation_contracts = [SubResource("AnimationShield"), SubResource("AnimationGreatsword"), SubResource("AnimationAssassin"), SubResource("AnimationSpear"), SubResource("AnimationArcher"), SubResource("AnimationCavalry"), SubResource("AnimationPriest"), SubResource("AnimationMage"), SubResource("AnimationFlier"), SubResource("AnimationGiant")]
+faction_visual_profiles = [SubResource("VisualShieldLumern"), SubResource("VisualShieldVeil"), SubResource("VisualGreatswordLumern"), SubResource("VisualGreatswordVeil"), SubResource("VisualAssassinLumern"), SubResource("VisualAssassinVeil"), SubResource("VisualSpearLumern"), SubResource("VisualSpearVeil"), SubResource("VisualArcherLumern"), SubResource("VisualArcherVeil"), SubResource("VisualCavalryLumern"), SubResource("VisualCavalryVeil"), SubResource("VisualPriestLumern"), SubResource("VisualPriestVeil"), SubResource("VisualMageLumern"), SubResource("VisualMageVeil"), SubResource("VisualFlierLumern"), SubResource("VisualFlierVeil"), SubResource("VisualGiantLumern"), SubResource("VisualGiantVeil")]
+battlefield_profile = SubResource("Battlefield")
+boss_behavior_packages = [SubResource("BossBehavior")]
+boss_phase_profiles = [SubResource("BossPhase")]
