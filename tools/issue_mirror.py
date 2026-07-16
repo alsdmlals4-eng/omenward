@@ -43,6 +43,15 @@ def _issue_number(issue: dict[str, Any]) -> int:
     return int(value)
 
 
+def _append_yaml_list(lines: list[str], key: str, values: Iterable[str]) -> None:
+    normalized_values = list(values)
+    if not normalized_values:
+        lines.append(f"{key}: []")
+        return
+    lines.append(f"{key}:")
+    lines.extend(f"- {value}" for value in normalized_values)
+
+
 def render_issue_markdown(issue: dict[str, Any], canonical_documents: Iterable[str] | None = None) -> str:
     """Render one normalized, tracked issue snapshot."""
     issue_body = issue.get("body") or ""
@@ -58,13 +67,10 @@ def render_issue_markdown(issue: dict[str, Any], canonical_documents: Iterable[s
         f"github_url: {_quoted(str(issue.get('html_url') or issue.get('display_url') or issue.get('url') or ''))}",
         f"github_updated_at: {_quoted(str(issue.get('updated_at') or ''))}",
         f"last_synced_body_sha: {body_sha(issue_body)}",
-        "labels:",
     ]
-    lines.extend(f"- {label}" for label in labels) or lines.append("[]")
-    lines.append("assignees:")
-    lines.extend(f"- {assignee}" for assignee in assignees) or lines.append("[]")
-    lines.append("canonical_documents:")
-    lines.extend(f"- {path}" for path in documents) or lines.append("[]")
+    _append_yaml_list(lines, "labels", labels)
+    _append_yaml_list(lines, "assignees", assignees)
+    _append_yaml_list(lines, "canonical_documents", documents)
     lines.extend(["---", "", f"# Issue #{issue_number}: {issue['title']}", "", BODY_MARKER.rstrip(), issue_body.rstrip(), ""])
     return "\n".join(lines)
 
@@ -93,15 +99,32 @@ def has_bidirectional_conflict(local_content: str, last_synced_body_sha: str, re
     )
 
 
-def parse_front_matter(markdown: str) -> dict[str, str]:
+def parse_front_matter(markdown: str) -> dict[str, Any]:
     match = FRONT_MATTER_PATTERN.match(markdown)
     if not match:
         return {}
-    metadata: dict[str, str] = {}
+    metadata: dict[str, Any] = {}
+    list_key: str | None = None
     for line in match.group("metadata").splitlines():
+        if line.startswith("- ") and list_key is not None:
+            metadata[list_key].append(line[2:].strip())
+            continue
         if ":" in line and not line.startswith("-"):
             key, value = line.split(":", 1)
-            metadata[key.strip()] = value.strip().strip('"')
+            key = key.strip()
+            value = value.strip()
+            if not value:
+                metadata[key] = []
+                list_key = key
+            elif value == "[]":
+                metadata[key] = []
+                list_key = None
+            elif value.startswith('"'):
+                metadata[key] = json.loads(value)
+                list_key = None
+            else:
+                metadata[key] = value
+                list_key = None
     return metadata
 
 
