@@ -1,6 +1,6 @@
 # Goal 0002 — 핵심 수직 슬라이스
 
-> 상태: **수직 슬라이스 Plan Mode 준비 / Goal 0001 Phase 0 완료와 사용자 승인 전 구현 금지**
+> 상태: **구현 완료 / PR 검토·수동 QA 대기**
 
 @Superpowers Use this repository's spec-first workflow.
 Do not edit files immediately. First inspect the completed Phase 0 project, current Issue, actual paths and verification commands, then submit a Plan Mode proposal using `docs/PROPOSAL_WORKFLOW.md`.
