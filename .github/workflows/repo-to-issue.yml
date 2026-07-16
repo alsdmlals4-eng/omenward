@@ -1,0 +1,71 @@
+name: Mirror repository Issue Markdown to GitHub
+
+on:
+  push:
+    branches: [main]
+    paths: ["docs/issues/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Update matching GitHub Issues from tracked snapshots
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          from tools.issue_mirror import extract_issue_body, parse_front_matter
+
+          repository = os.environ["GITHUB_REPOSITORY"]
+          token = os.environ["GH_TOKEN"]
+          for snapshot in sorted(Path("docs/issues").glob("[0-9][0-9][0-9][0-9].md")):
+              markdown = snapshot.read_text(encoding="utf-8")
+              metadata = parse_front_matter(markdown)
+              issue_number = metadata.get("issue_number")
+              title = metadata.get("title")
+              if not issue_number or not title:
+                  raise RuntimeError(f"Invalid issue mirror: {snapshot}")
+              url = f"https://api.github.com/repos/{repository}/issues/{issue_number}"
+              headers = {"Accept": "application/vnd.github+json", "Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+              request = urllib.request.Request(
+                  url,
+                  method="GET",
+                  headers=headers,
+              )
+              with urllib.request.urlopen(request) as response:
+                  remote = json.load(response)
+              desired = {
+                  "title": title,
+                  "body": extract_issue_body(markdown),
+                  "state": metadata.get("state", "open"),
+                  "labels": metadata.get("labels", []),
+                  "assignees": metadata.get("assignees", []),
+              }
+              current = {
+                  "title": remote["title"],
+                  "body": remote.get("body") or "",
+                  "state": remote["state"],
+                  "labels": sorted(label["name"] for label in remote.get("labels", [])),
+                  "assignees": sorted(assignee["login"] for assignee in remote.get("assignees", [])),
+              }
+              desired["labels"].sort()
+              desired["assignees"].sort()
+              if current != desired:
+                  request = urllib.request.Request(url, data=json.dumps(desired).encode(), method="PATCH", headers=headers)
+                  with urllib.request.urlopen(request) as response:
+                      response.read()
+          PY

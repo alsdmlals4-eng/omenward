@@ -34,3 +34,9 @@ coverage/
 logs/
 .cache/
 tmp/
+# Python verification cache
+__pycache__/
+*.py[cod]
+
+# Godot editor cache and local build output
+.godot/
