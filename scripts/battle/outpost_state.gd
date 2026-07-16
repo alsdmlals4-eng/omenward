@@ -16,12 +16,17 @@ var owner_team_id: StringName
 var capturing_team_id: StringName
 var state := STABLE
 var capture_power := 0.0
+var capture_progress := 0.0
 var construction_locked := false
 var existing_buildings_enabled := true
 var prior_building_ruined := false
 
 var _hold_remaining := 0.0
 var _phase_remaining := 0.0
+var _is_reverting := false
+var _previous_owner_team_id: StringName
+var _previous_existing_buildings_enabled := true
+var _previous_prior_building_ruined := false
 
 
 func _init(initial_owner_team_id: StringName = &"", has_existing_building: bool = false) -> void:
@@ -34,53 +39,39 @@ func begin_capture(team_id: StringName, power: float) -> bool:
 		return false
 	capturing_team_id = team_id
 	capture_power = clampf(power, 0.0, MAX_CAPTURE_POWER)
+	capture_progress = 0.0
+	_previous_owner_team_id = owner_team_id
+	_previous_existing_buildings_enabled = existing_buildings_enabled
+	_previous_prior_building_ruined = prior_building_ruined
 	construction_locked = true
 	existing_buildings_enabled = false
 	state = NEUTRALIZING
-	_hold_remaining = HOLD_SECONDS
 	_phase_remaining = NEUTRALIZE_SECONDS
+	_hold_remaining = 0.0
+	_is_reverting = false
 	return true
 
 
 func lose_capture_power(delta: float) -> void:
 	if state != NEUTRALIZING and state != CAPTURING:
 		return
-	capture_power = maxf(0.0, capture_power - CAPTURE_POWER_REVERT_PER_SECOND * delta)
-	if capture_power <= 0.0:
-		capturing_team_id = &""
-		state = STABLE
-		construction_locked = false
-		existing_buildings_enabled = not prior_building_ruined
+	set_capture_power(capture_power - CAPTURE_POWER_REVERT_PER_SECOND * delta)
+
+
+func set_capture_power(power: float) -> void:
+	var previous_power := capture_power
+	capture_power = clampf(power, 0.0, MAX_CAPTURE_POWER)
+	if previous_power > 0.0 and capture_power <= 0.0:
+		_hold_remaining = HOLD_SECONDS
+		_is_reverting = false
+	elif capture_power > 0.0:
+		_hold_remaining = 0.0
+		_is_reverting = false
 
 
 func advance(delta: float) -> void:
-	var remaining := delta
+	var remaining := maxf(0.0, delta)
 	while remaining > 0.0:
-		if state == NEUTRALIZING:
-			if _hold_remaining > 0.0:
-				var held := minf(remaining, _hold_remaining)
-				_hold_remaining -= held
-				remaining -= held
-				continue
-			var neutralized := minf(remaining, _phase_remaining)
-			_phase_remaining -= neutralized
-			remaining -= neutralized
-			if _phase_remaining <= 0.0:
-				state = CAPTURING
-				_phase_remaining = CAPTURE_SECONDS
-			continue
-		if state == CAPTURING:
-			var captured := minf(remaining, _phase_remaining)
-			_phase_remaining -= captured
-			remaining -= captured
-			if _phase_remaining <= 0.0:
-				owner_team_id = capturing_team_id
-				capturing_team_id = &""
-				prior_building_ruined = true
-				existing_buildings_enabled = false
-				state = STABILIZING
-				_phase_remaining = STABILIZE_SECONDS
-			continue
 		if state == STABILIZING:
 			var stabilized := minf(remaining, _phase_remaining)
 			_phase_remaining -= stabilized
@@ -89,7 +80,71 @@ func advance(delta: float) -> void:
 				state = STABLE
 				construction_locked = false
 			continue
+		if capture_power > 0.0:
+			var capture_seconds := (2.0 - capture_progress) * NEUTRALIZE_SECONDS / capture_power
+			var captured := minf(remaining, capture_seconds)
+			capture_progress += captured * capture_power / NEUTRALIZE_SECONDS
+			remaining -= captured
+			if capture_progress >= 2.0 - 0.000001:
+				_complete_capture()
+				continue
+			_sync_capture_phase()
+			continue
+		if _hold_remaining > 0.0:
+			var held := minf(remaining, _hold_remaining)
+			_hold_remaining -= held
+			remaining -= held
+			if _hold_remaining <= 0.000001:
+				_hold_remaining = 0.0
+				_is_reverting = true
+			continue
+		if _is_reverting:
+			var reversion_seconds := capture_progress / CAPTURE_POWER_REVERT_PER_SECOND
+			var reverted := minf(remaining, reversion_seconds)
+			capture_progress -= reverted * CAPTURE_POWER_REVERT_PER_SECOND
+			remaining -= reverted
+			if capture_progress <= 0.000001:
+				_restore_previous_stable_state()
+				return
+			_sync_capture_phase()
+			continue
 		return
+
+
+func _complete_capture() -> void:
+	capture_progress = 2.0
+	owner_team_id = capturing_team_id
+	capturing_team_id = &""
+	capture_power = 0.0
+	prior_building_ruined = true
+	existing_buildings_enabled = false
+	state = STABILIZING
+	_phase_remaining = STABILIZE_SECONDS
+	_hold_remaining = 0.0
+	_is_reverting = false
+
+
+func _restore_previous_stable_state() -> void:
+	owner_team_id = _previous_owner_team_id
+	capturing_team_id = &""
+	capture_power = 0.0
+	capture_progress = 0.0
+	construction_locked = false
+	existing_buildings_enabled = _previous_existing_buildings_enabled
+	prior_building_ruined = _previous_prior_building_ruined
+	state = STABLE
+	_hold_remaining = 0.0
+	_phase_remaining = 0.0
+	_is_reverting = false
+
+
+func _sync_capture_phase() -> void:
+	if capture_progress < 1.0:
+		state = NEUTRALIZING
+		_phase_remaining = (1.0 - capture_progress) * NEUTRALIZE_SECONDS
+		return
+	state = CAPTURING
+	_phase_remaining = (2.0 - capture_progress) * CAPTURE_SECONDS
 
 
 func snapshot() -> Dictionary:
@@ -98,6 +153,7 @@ func snapshot() -> Dictionary:
 		"capturing_team_id": str(capturing_team_id),
 		"state": state,
 		"capture_power": capture_power,
+		"capture_progress": capture_progress,
 		"construction_locked": construction_locked,
 		"existing_buildings_enabled": existing_buildings_enabled,
 		"prior_building_ruined": prior_building_ruined,

@@ -24,14 +24,23 @@ func _init() -> void:
 		_test_gate_multipliers_and_collapse(gate_script, failures)
 	if outpost_script != null:
 		_test_outpost_capture_sequence(outpost_script, failures)
+		_test_outpost_capture_power_scaling(outpost_script, failures)
+		_test_outpost_exit_hold_and_reversion(outpost_script, failures)
 	_finish(failures)
 
 
 func _test_shared_stats_and_lane_isolation(simulator_script: GDScript, failures: PackedStringArray) -> void:
 	var simulator: Variant = simulator_script.new(_registry(), 91)
-	var lumern: Variant = simulator.spawn_unit(_spawn(&"lumern", &"top"))
-	var veil: Variant = simulator.spawn_unit(_spawn(&"veil", &"top"))
-	_expect(lumern.combat_stats() == veil.combat_stats(), "visual faction does not alter shared archetype combat stats", failures)
+	var registry: Variant = _registry()
+	for archetype in registry.catalog.archetypes:
+		var public_stats: Variant = archetype.get("base_stats")
+		_expect(public_stats is Dictionary and not public_stats.is_empty(), "%s exposes public base combat stats" % archetype.archetype_id, failures)
+		var lumern: Variant = simulator.spawn_unit(_spawn(&"lumern", &"top", archetype.archetype_id))
+		var veil: Variant = simulator.spawn_unit(_spawn(&"veil", &"top", archetype.archetype_id))
+		_expect(lumern.combat_stats() == veil.combat_stats(), "%s visual faction does not alter combat stats" % archetype.archetype_id, failures)
+		if public_stats is Dictionary:
+			_expect(lumern.combat_stats() == public_stats, "%s unit stats derive from public profile data" % archetype.archetype_id, failures)
+	var lumern: Variant = simulator.lanes[&"top"].units[0]
 	_expect(not simulator.request_lane_move(lumern, &"middle"), "ordinary top lane units cannot move to middle", failures)
 	_expect(lumern.lane_id == &"top", "rejected lane movement preserves the original lane", failures)
 	_expect(simulator.lanes[&"middle"].units.is_empty(), "middle lane does not own top lane units", failures)
@@ -55,14 +64,50 @@ func _test_outpost_capture_sequence(outpost_script: GDScript, failures: PackedSt
 	var outpost: Variant = outpost_script.new(&"veil", true)
 	outpost.begin_capture(&"lumern", 2.0)
 	_expect(outpost.construction_locked and not outpost.existing_buildings_enabled, "capture start locks construction and disables existing buildings", failures)
-	outpost.advance(13.0)
-	_expect(outpost.state == outpost.CAPTURING, "three-second hold plus ten-second neutralization reaches capture", failures)
-	outpost.advance(10.0)
+	outpost.advance(5.0)
+	_expect(outpost.state == outpost.CAPTURING, "power two neutralizes an outpost in five seconds", failures)
+	outpost.advance(5.0)
 	_expect(outpost.owner_team_id == &"lumern", "capture completion assigns the new owner", failures)
 	_expect(outpost.prior_building_ruined, "capture completion ruins the prior building", failures)
 	_expect(outpost.state == outpost.STABILIZING, "capture completion begins stabilization", failures)
 	outpost.advance(5.0)
 	_expect(outpost.state == outpost.STABLE and not outpost.construction_locked, "five-second stabilization unlocks new-owner construction", failures)
+
+
+func _test_outpost_capture_power_scaling(outpost_script: GDScript, failures: PackedStringArray) -> void:
+	var zero_power: Variant = outpost_script.new(&"veil")
+	zero_power.begin_capture(&"lumern", 0.0)
+	zero_power.advance(20.0)
+	_expect(zero_power.state == zero_power.NEUTRALIZING, "capture power zero does not progress neutralization", failures)
+	_expect(is_equal_approx(float(zero_power.snapshot().get("capture_progress", -1.0)), 0.0), "capture power zero keeps progress at zero", failures)
+	var one_power: Variant = outpost_script.new(&"veil")
+	one_power.begin_capture(&"lumern", 1.0)
+	one_power.advance(9.9)
+	_expect(one_power.state == one_power.NEUTRALIZING, "capture power one has not neutralized before ten seconds", failures)
+	one_power.advance(0.1)
+	_expect(one_power.state == one_power.CAPTURING, "capture power one neutralizes in ten seconds", failures)
+	var two_power: Variant = outpost_script.new(&"veil")
+	two_power.begin_capture(&"lumern", 2.0)
+	two_power.advance(4.9)
+	_expect(two_power.state == two_power.NEUTRALIZING, "capture power two has not neutralized before five seconds", failures)
+	two_power.advance(0.1)
+	_expect(two_power.state == two_power.CAPTURING, "capture power two neutralizes in five seconds", failures)
+
+
+func _test_outpost_exit_hold_and_reversion(outpost_script: GDScript, failures: PackedStringArray) -> void:
+	var outpost: Variant = outpost_script.new(&"veil", true)
+	outpost.begin_capture(&"lumern", 2.0)
+	outpost.advance(5.0)
+	outpost.lose_capture_power(20.0)
+	_expect(outpost.state == outpost.CAPTURING, "capturer exit does not immediately discard capture progress", failures)
+	_expect(is_equal_approx(float(outpost.snapshot().get("capture_progress", -1.0)), 1.0), "capturer exit preserves capture progress during the hold", failures)
+	outpost.advance(3.0)
+	_expect(is_equal_approx(float(outpost.snapshot().get("capture_progress", -1.0)), 1.0), "capture progress remains frozen for the three-second exit hold", failures)
+	outpost.advance(1.0)
+	_expect(is_equal_approx(float(outpost.snapshot().get("capture_progress", -1.0)), 0.9), "capture progress reverts at ten percent per second after the hold", failures)
+	outpost.advance(9.0)
+	_expect(outpost.state == outpost.STABLE and outpost.owner_team_id == &"veil", "fully reverted capture restores the previous stable owner", failures)
+	_expect(not outpost.construction_locked and outpost.existing_buildings_enabled, "fully reverted capture restores the previous stable building state", failures)
 
 
 func _test_fixed_seed_snapshot_repeatability(simulator_script: GDScript, failures: PackedStringArray) -> void:

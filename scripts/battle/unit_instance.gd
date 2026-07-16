@@ -1,19 +1,6 @@
 class_name UnitInstance
 extends RefCounted
 
-const BASE_STATS := {
-	"shield_guard": {"max_health": 180.0, "attack": 12.0, "armor": 24.0, "magic_resistance": 16.0, "move_speed": 1.0, "attack_range": 1.0},
-	"greatsword_warrior": {"max_health": 155.0, "attack": 20.0, "armor": 14.0, "magic_resistance": 10.0, "move_speed": 1.0, "attack_range": 1.0},
-	"assassin": {"max_health": 110.0, "attack": 24.0, "armor": 8.0, "magic_resistance": 12.0, "move_speed": 1.4, "attack_range": 1.0},
-	"spear_guard": {"max_health": 145.0, "attack": 16.0, "armor": 16.0, "magic_resistance": 12.0, "move_speed": 1.0, "attack_range": 1.5},
-	"archer": {"max_health": 95.0, "attack": 18.0, "armor": 6.0, "magic_resistance": 8.0, "move_speed": 1.0, "attack_range": 4.0},
-	"cavalry": {"max_health": 165.0, "attack": 19.0, "armor": 18.0, "magic_resistance": 10.0, "move_speed": 1.6, "attack_range": 1.0},
-	"priest": {"max_health": 105.0, "attack": 10.0, "armor": 7.0, "magic_resistance": 18.0, "move_speed": 1.0, "attack_range": 3.0},
-	"mage": {"max_health": 100.0, "attack": 22.0, "armor": 5.0, "magic_resistance": 20.0, "move_speed": 1.0, "attack_range": 3.0},
-	"flier": {"max_health": 120.0, "attack": 17.0, "armor": 10.0, "magic_resistance": 12.0, "move_speed": 1.3, "attack_range": 1.5},
-	"giant": {"max_health": 320.0, "attack": 34.0, "armor": 30.0, "magic_resistance": 20.0, "move_speed": 0.7, "attack_range": 1.5},
-}
-
 var unit_id := 0
 var archetype_id: StringName
 var tier_id: StringName
@@ -118,14 +105,14 @@ func to_snapshot() -> Dictionary:
 
 
 func _build_combat_stats(registry: DataRegistry) -> Dictionary:
-	var base: Dictionary = BASE_STATS.get(str(archetype_id), {})
-	if base.is_empty():
+	var profile: Variant = registry.archetypes.get(str(archetype_id))
+	if profile == null or profile.base_stats.is_empty():
 		push_error("unknown shared archetype: %s" % archetype_id)
 		return {}
 	var multiplier := _tier_multiplier(registry) * _rank_multiplier(registry)
 	var result := {}
-	for key in base:
-		result[key] = float(base[key]) * multiplier
+	for key in profile.base_stats:
+		result[key] = float(profile.base_stats[key]) * multiplier
 	return result
 
 
