@@ -1,0 +1,41 @@
+name: Decode planning image staging
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/images/.staging/READY"
+
+permissions:
+  contents: write
+
+jobs:
+  decode:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Decode planning references
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f docs/images/.staging/READY
+          mkdir -p docs/images/planning/ui docs/images/planning/art
+          cat docs/images/.staging/ui/part_* | base64 --decode > docs/images/planning/ui/omenward_battlefield_ui_concept_v1.webp
+          cat docs/images/.staging/roster/part_* | base64 --decode > docs/images/planning/art/omenward_unit_grade_roster_concept_v1.webp
+          file docs/images/planning/ui/omenward_battlefield_ui_concept_v1.webp
+          file docs/images/planning/art/omenward_unit_grade_roster_concept_v1.webp
+          rm -rf docs/images/.staging
+
+      - name: Commit decoded planning references
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/images
+          git commit -m "docs(images): add planning visual references"
+          git push
