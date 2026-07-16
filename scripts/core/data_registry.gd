@@ -1,10 +1,13 @@
 class_name DataRegistry
 extends RefCounted
 
+const StageDefinition = preload("res://scripts/data/stage_definition.gd")
+
 var catalog: BootstrapCatalog
 var archetypes: Dictionary = {}
 var faction_visuals: Array[FactionVisualProfile] = []
 var animation_contracts: Dictionary = {}
+var stages: Dictionary = {}
 
 func load_bootstrap_catalog(resource_path: String) -> PackedStringArray:
 	var errors := PackedStringArray()
@@ -20,6 +23,11 @@ func load_bootstrap_catalog(resource_path: String) -> PackedStringArray:
 		archetypes[key] = archetype
 	for contract in catalog.animation_contracts:
 		animation_contracts[str(contract.archetype_id)] = contract
+	for stage in catalog.stages:
+		var stage_key := str(stage.stage_id)
+		if stages.has(stage_key):
+			errors.append("duplicate stage: %s" % stage_key)
+		stages[stage_key] = stage
 	faction_visuals = catalog.faction_visual_profiles.duplicate()
 	return errors
 
@@ -32,3 +40,7 @@ func archetype_ids() -> Array[String]:
 
 func has_enemy_specific_profile() -> bool:
 	return false
+
+
+func stage_definition(stage_id: StringName) -> StageDefinition:
+	return stages.get(str(stage_id)) as StageDefinition

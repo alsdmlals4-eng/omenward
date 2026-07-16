@@ -1,11 +1,11 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
 - 갱신일: 2026-07-16
-- 현재 단계: **Phase 0 Godot·공용 병종 데이터 부트스트랩 구현 완료 / Issue #32 수직 슬라이스 Plan Mode 준비**
+- 현재 단계: **플레이 가능한 수직 슬라이스 구현 완료 / PR 검토·수동 QA 대기**
 - 현재 Work Order: `docs/work_orders/0001-phase-0-codex-plan-mode.md`
 - 사전 기술 추천안: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
 - 현재 Issue·Goal: Issue #1 / `docs/goals/0001-engine-selection-and-bootstrap.md`
-- 다음 행동: Issue #32의 실제 파일과 Phase 0 검증 결과를 읽고 수직 슬라이스 Plan Mode 제안서 작성
+- 다음 행동: PR #37 검토·병합 후 1920×1080·1280×720 수동 QA 수행
 - 최신 통합 원본: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
 
 ## GitHub·로컬 동기화

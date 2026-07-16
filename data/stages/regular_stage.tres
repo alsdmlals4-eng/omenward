@@ -1,0 +1,178 @@
+[gd_resource type="Resource" load_steps=46 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1_stage"]
+[ext_resource type="Script" path="res://scripts/data/wave_definition.gd" id="2_wave"]
+[ext_resource type="Script" path="res://scripts/data/unit_spawn_definition.gd" id="3_spawn"]
+
+[sub_resource type="Resource" id="SpawnShield"]
+script = ExtResource("3_spawn")
+archetype_id = &"shield_guard"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"top"
+
+[sub_resource type="Resource" id="SpawnArcher"]
+script = ExtResource("3_spawn")
+archetype_id = &"archer"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"middle"
+
+[sub_resource type="Resource" id="SpawnAssassin"]
+script = ExtResource("3_spawn")
+archetype_id = &"assassin"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"bottom"
+
+[sub_resource type="Resource" id="SpawnPriest"]
+script = ExtResource("3_spawn")
+archetype_id = &"priest"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"top"
+
+[sub_resource type="Resource" id="SpawnGiantLegendary"]
+script = ExtResource("3_spawn")
+archetype_id = &"giant"
+tier_id = &"tier_3"
+rank_id = &"legendary"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"middle"
+
+[sub_resource type="Resource" id="SpawnGiantMythic"]
+script = ExtResource("3_spawn")
+archetype_id = &"giant"
+tier_id = &"tier_3"
+rank_id = &"legendary"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"middle"
+
+[sub_resource type="Resource" id="SpawnShieldElite"]
+script = ExtResource("3_spawn")
+archetype_id = &"shield_guard"
+rank_id = &"elite"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"middle"
+
+[sub_resource type="Resource" id="SpawnArcherHero"]
+script = ExtResource("3_spawn")
+archetype_id = &"archer"
+rank_id = &"hero"
+owner_team_id = &"veil"
+visual_faction_id = &"veil"
+lane_id = &"middle"
+
+[sub_resource type="Resource" id="Wave1"]
+script = ExtResource("2_wave")
+wave_number = 1
+spawns = [SubResource("SpawnShield")]
+
+[sub_resource type="Resource" id="Wave2"]
+script = ExtResource("2_wave")
+wave_number = 2
+spawns = [SubResource("SpawnArcher")]
+
+[sub_resource type="Resource" id="Wave3"]
+script = ExtResource("2_wave")
+wave_number = 3
+spawns = [SubResource("SpawnAssassin")]
+
+[sub_resource type="Resource" id="Wave4"]
+script = ExtResource("2_wave")
+wave_number = 4
+spawns = [SubResource("SpawnPriest")]
+
+[sub_resource type="Resource" id="Wave5"]
+script = ExtResource("2_wave")
+wave_number = 5
+spawns = [SubResource("SpawnShieldElite")]
+
+[sub_resource type="Resource" id="Wave6"]
+script = ExtResource("2_wave")
+wave_number = 6
+spawns = [SubResource("SpawnArcher")]
+
+[sub_resource type="Resource" id="Wave7"]
+script = ExtResource("2_wave")
+wave_number = 7
+spawns = [SubResource("SpawnAssassin")]
+
+[sub_resource type="Resource" id="Wave8"]
+script = ExtResource("2_wave")
+wave_number = 8
+spawns = [SubResource("SpawnPriest")]
+
+[sub_resource type="Resource" id="Wave9"]
+script = ExtResource("2_wave")
+wave_number = 9
+spawns = [SubResource("SpawnShield")]
+
+[sub_resource type="Resource" id="Wave10"]
+script = ExtResource("2_wave")
+wave_number = 10
+spawns = [SubResource("SpawnArcherHero")]
+
+[sub_resource type="Resource" id="Wave11"]
+script = ExtResource("2_wave")
+wave_number = 11
+spawns = [SubResource("SpawnAssassin")]
+
+[sub_resource type="Resource" id="Wave12"]
+script = ExtResource("2_wave")
+wave_number = 12
+spawns = [SubResource("SpawnPriest")]
+
+[sub_resource type="Resource" id="Wave13"]
+script = ExtResource("2_wave")
+wave_number = 13
+spawns = [SubResource("SpawnShield")]
+
+[sub_resource type="Resource" id="Wave14"]
+script = ExtResource("2_wave")
+wave_number = 14
+spawns = [SubResource("SpawnArcher")]
+
+[sub_resource type="Resource" id="Wave15"]
+script = ExtResource("2_wave")
+wave_number = 15
+spawns = [SubResource("SpawnGiantLegendary")]
+boss_kind = &"legendary"
+
+[sub_resource type="Resource" id="Wave16"]
+script = ExtResource("2_wave")
+wave_number = 16
+spawns = [SubResource("SpawnAssassin")]
+is_overtime = true
+
+[sub_resource type="Resource" id="Wave17"]
+script = ExtResource("2_wave")
+wave_number = 17
+spawns = [SubResource("SpawnPriest")]
+is_overtime = true
+
+[sub_resource type="Resource" id="Wave18"]
+script = ExtResource("2_wave")
+wave_number = 18
+spawns = [SubResource("SpawnShieldElite")]
+is_overtime = true
+
+[sub_resource type="Resource" id="Wave19"]
+script = ExtResource("2_wave")
+wave_number = 19
+spawns = [SubResource("SpawnArcherHero")]
+is_overtime = true
+
+[sub_resource type="Resource" id="Wave20"]
+script = ExtResource("2_wave")
+wave_number = 20
+spawns = [SubResource("SpawnGiantMythic")]
+boss_kind = &"mythic"
+
+[resource]
+script = ExtResource("1_stage")
+stage_id = &"regular_stage"
+waves = [SubResource("Wave1"), SubResource("Wave2"), SubResource("Wave3"), SubResource("Wave4"), SubResource("Wave5"), SubResource("Wave6"), SubResource("Wave7"), SubResource("Wave8"), SubResource("Wave9"), SubResource("Wave10"), SubResource("Wave11"), SubResource("Wave12"), SubResource("Wave13"), SubResource("Wave14"), SubResource("Wave15"), SubResource("Wave16"), SubResource("Wave17"), SubResource("Wave18"), SubResource("Wave19"), SubResource("Wave20")]

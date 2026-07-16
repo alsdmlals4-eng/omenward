@@ -5,5 +5,6 @@ script = ExtResource("1")
 archetype_id = &"spear_guard"
 display_name = "Spear Guard"
 role = "frontline"
+base_stats = {"max_health": 145.0, "attack": 16.0, "armor": 16.0, "magic_resistance": 12.0, "move_speed": 1.0, "attack_range": 1.5}
 attack_profile_id = &"spear_guard"
 animation_contract_id = &"spear_guard"

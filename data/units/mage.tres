@@ -5,5 +5,6 @@ script = ExtResource("1")
 archetype_id = &"mage"
 display_name = "Mage"
 role = "ranged"
+base_stats = {"max_health": 100.0, "attack": 22.0, "armor": 5.0, "magic_resistance": 20.0, "move_speed": 1.0, "attack_range": 3.0}
 attack_profile_id = &"mage"
 animation_contract_id = &"mage"

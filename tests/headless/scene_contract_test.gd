@@ -1,0 +1,53 @@
+extends SceneTree
+
+const MAIN_SCENE_PATH := "res://scenes/main/main.tscn"
+const BATTLEFIELD_SCENE_PATH := "res://scenes/battle/battlefield.tscn"
+const STAGE_HUD_SCENE_PATH := "res://scenes/ui/stage_hud.tscn"
+const STAGE_SELECT_SCENE_PATH := "res://scenes/ui/stage_select.tscn"
+const UNIT_SCENE_PATH := "res://scenes/units/unit.tscn"
+
+
+func _init() -> void:
+	var failures := PackedStringArray()
+	var main_packed := load(MAIN_SCENE_PATH) as PackedScene
+	_expect(main_packed != null, "main scene loads", failures)
+	if main_packed != null:
+		var main := main_packed.instantiate()
+		_expect(main.get_node_or_null("Battlefield") != null, "main includes battlefield", failures)
+		_expect(main.get_node_or_null("UI/StageHud") != null, "main includes stage HUD", failures)
+		_expect(main.get_node_or_null("UI/StageSelect") != null, "main includes stage select", failures)
+		var session := main.get_node_or_null("GameSession")
+		_expect(session != null and session.has_method("start_stage"), "game session can start a selected stage", failures)
+		_expect(session != null and session.has_method("retry_stage"), "game session can retry the current stage", failures)
+		main.queue_free()
+	_assert_scene_contract(BATTLEFIELD_SCENE_PATH, "bind_run", "battlefield scene binds a stage run", failures)
+	_assert_scene_contract(STAGE_HUD_SCENE_PATH, "bind_run", "stage HUD binds a stage run", failures)
+	_assert_scene_contract(STAGE_SELECT_SCENE_PATH, "stage_requested", "stage select emits stage requests", failures)
+	_assert_scene_contract(UNIT_SCENE_PATH, "bind_unit", "shared unit scene binds a unit instance", failures)
+	_expect(not FileAccess.file_exists("res://scenes/units/enemy_unit.tscn"), "no enemy unit scene is created", failures)
+	_finish(failures)
+
+
+func _assert_scene_contract(scene_path: String, requirement: String, message: String, failures: PackedStringArray) -> void:
+	var packed := load(scene_path) as PackedScene
+	_expect(packed != null, "%s loads" % scene_path, failures)
+	if packed == null:
+		return
+	var instance := packed.instantiate()
+	var fulfilled := instance.has_method(requirement) if requirement.begins_with("bind_") else instance.has_signal(requirement)
+	_expect(fulfilled, message, failures)
+	instance.queue_free()
+
+
+func _expect(condition: bool, message: String, failures: PackedStringArray) -> void:
+	if not condition:
+		failures.append(message)
+
+
+func _finish(failures: PackedStringArray) -> void:
+	if failures.is_empty():
+		print("Playable scene contracts passed")
+		quit(0)
+	else:
+		printerr("Playable scene contract failures:\n%s" % "\n".join(failures))
+		quit(1)

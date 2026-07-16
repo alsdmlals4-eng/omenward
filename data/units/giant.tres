@@ -5,5 +5,6 @@ script = ExtResource("1")
 archetype_id = &"giant"
 display_name = "Giant"
 role = "siege"
+base_stats = {"max_health": 320.0, "attack": 34.0, "armor": 30.0, "magic_resistance": 20.0, "move_speed": 0.7, "attack_range": 1.5}
 attack_profile_id = &"giant"
 animation_contract_id = &"giant"
