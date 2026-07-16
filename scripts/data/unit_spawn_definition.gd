@@ -8,6 +8,7 @@ extends Resource
 @export var visual_faction_id: StringName
 @export var lane_id: StringName
 @export var spawn_delay_seconds: float = 0.0
+@export var food_cost: int = 1
 
 
 func to_dictionary() -> Dictionary:
@@ -19,4 +20,5 @@ func to_dictionary() -> Dictionary:
 		"visual_faction_id": str(visual_faction_id),
 		"lane_id": str(lane_id),
 		"spawn_delay_seconds": spawn_delay_seconds,
+		"food_cost": food_cost,
 	}

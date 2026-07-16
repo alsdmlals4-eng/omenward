@@ -5,6 +5,7 @@ const UnitInstanceScript = preload("res://scripts/battle/unit_instance.gd")
 const LaneStateScript = preload("res://scripts/battle/lane_state.gd")
 const GateStateScript = preload("res://scripts/battle/gate_state.gd")
 const ClashZoneStateScript = preload("res://scripts/battle/clash_zone_state.gd")
+const AssassinBypassStateScript = preload("res://scripts/battle/assassin_bypass_state.gd")
 
 const FIXED_STEP_SECONDS := 0.1
 const LANE_IDS := [&"top", &"middle", &"bottom"]
@@ -14,6 +15,7 @@ var seed := 0
 var lanes := {}
 var gates := {}
 var clash_zones := {}
+var bypasses: Array = []
 
 var _rng := RandomNumberGenerator.new()
 var _accumulator := 0.0
@@ -48,6 +50,19 @@ func request_lane_move(unit: Variant, requested_lane_id: StringName) -> bool:
 	return unit != null and unit.lane_id == requested_lane_id
 
 
+func request_assassin_bypass(unit: Variant, enemy_outpost_position: float) -> bool:
+	if unit == null or unit.archetype_id != &"assassin" or not lanes.has(unit.lane_id):
+		return false
+	var lane: Variant = lanes[unit.lane_id]
+	if not lane.remove_unit(unit):
+		return false
+	bypasses.append({
+		"unit": unit,
+		"state": AssassinBypassStateScript.new(unit.lane_id, enemy_outpost_position),
+	})
+	return true
+
+
 func advance(delta: float) -> void:
 	_accumulator += maxf(0.0, delta)
 	while _accumulator + 0.000001 >= FIXED_STEP_SECONDS:
@@ -79,11 +94,13 @@ func snapshot() -> Dictionary:
 		"units": unit_snapshots,
 		"gates": gate_snapshots,
 		"clash_zones": zone_snapshots,
+		"bypasses": bypasses.map(func(entry: Dictionary) -> Dictionary: return entry["state"].snapshot()),
 	}
 
 
 func _advance_fixed_step() -> void:
 	_tick += 1
+	_advance_bypasses(FIXED_STEP_SECONDS)
 	for lane_id in LANE_IDS:
 		var lane: Variant = lanes[lane_id]
 		for unit in lane.ordered_units():
@@ -105,3 +122,18 @@ func _advance_fixed_step() -> void:
 	for team_id in [&"lumern", &"veil"]:
 		for lane_id in LANE_IDS:
 			gates[str(team_id)][str(lane_id)].advance(FIXED_STEP_SECONDS)
+
+
+func _advance_bypasses(delta: float) -> void:
+	var active_bypasses: Array = []
+	for entry: Dictionary in bypasses:
+		var bypass: Variant = entry["state"]
+		bypass.advance(delta)
+		if not bypass.is_complete():
+			active_bypasses.append(entry)
+			continue
+		var unit: Variant = entry["unit"]
+		unit.lane_position = bypass.exit_position
+		unit.state = "bypass_exit"
+		lanes[unit.lane_id].add_unit(unit)
+	bypasses = active_bypasses

@@ -20,6 +20,7 @@ var capture_progress := 0.0
 var construction_locked := false
 var existing_buildings_enabled := true
 var prior_building_ruined := false
+var capture_revision := 0
 
 var _hold_remaining := 0.0
 var _phase_remaining := 0.0
@@ -117,6 +118,7 @@ func _complete_capture() -> void:
 	capturing_team_id = &""
 	capture_power = 0.0
 	prior_building_ruined = true
+	capture_revision += 1
 	existing_buildings_enabled = false
 	state = STABILIZING
 	_phase_remaining = STABILIZE_SECONDS
@@ -163,6 +165,7 @@ func snapshot() -> Dictionary:
 		"construction_locked": construction_locked,
 		"existing_buildings_enabled": existing_buildings_enabled,
 		"prior_building_ruined": prior_building_ruined,
+		"capture_revision": capture_revision,
 		"hold_remaining": _hold_remaining,
 		"phase_remaining": _phase_remaining,
 	}

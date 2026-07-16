@@ -16,6 +16,14 @@ func add_unit(unit: Variant) -> bool:
 	return true
 
 
+func remove_unit(unit: Variant) -> bool:
+	var index := units.find(unit)
+	if index < 0:
+		return false
+	units.remove_at(index)
+	return true
+
+
 func find_target(attacker: Variant) -> Variant:
 	var candidates: Array = []
 	for unit in units:
