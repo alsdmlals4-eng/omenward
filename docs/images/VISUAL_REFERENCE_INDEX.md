@@ -22,9 +22,10 @@
 
 ### VR-001 — 전장 UI·병종 월드 스프라이트 형식
 
-- 상태: **APPROVED_DIRECTION_REFERENCE**
+- 상태: **APPROVED_DIRECTION_REFERENCE / MIGRATION_PENDING**
 - 원본: 2026-07-16 대화에서 사용자가 다시 제공한 첫 번째 이미지
-- 저장 예정 경로: `docs/images/planning/canonical/omenward_battlefield_ui_and_unit_style_reference_v1.webp`
+- 목표 저장 경로: `docs/images/planning/canonical/omenward_battlefield_ui_and_unit_style_reference_v1.webp`
+- 현재 주의: 방향과 해석은 승인됐으나 위 최종 바이너리 경로의 존재가 아직 확인되지 않았다. 실제 이동 완료 전에는 이미지 저장 완료로 보고하지 않는다.
 - 연결 기획서:
   - `docs/design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`
   - `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`
@@ -47,9 +48,10 @@
 
 ### VR-002 — 10병종 × 등급 전개 도감표
 
-- 상태: **SUPERSEDED_FOR_SPRITE_FORMAT / PARTIAL_REFERENCE**
+- 상태: **SUPERSEDED_FOR_SPRITE_FORMAT / PARTIAL_REFERENCE / MIGRATION_PENDING**
 - 원본: 2026-07-16 대화에서 제공된 두 번째 이미지
 - 보존 목적: 병종 10종과 일반·엘리트·영웅·전설의 전개 관계를 한눈에 검토한 과거 시안
+- 현재 주의: 이미지 형식은 교체됐으며, 원본 바이너리의 공식 저장 경로도 아직 확정되지 않았다.
 
 계속 참고할 것:
 
