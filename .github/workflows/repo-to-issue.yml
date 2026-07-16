@@ -48,8 +48,22 @@ jobs:
               )
               with urllib.request.urlopen(request) as response:
                   remote = json.load(response)
-              desired = {"title": title, "body": extract_issue_body(markdown), "state": metadata.get("state", "open")}
-              current = {"title": remote["title"], "body": remote.get("body") or "", "state": remote["state"]}
+              desired = {
+                  "title": title,
+                  "body": extract_issue_body(markdown),
+                  "state": metadata.get("state", "open"),
+                  "labels": metadata.get("labels", []),
+                  "assignees": metadata.get("assignees", []),
+              }
+              current = {
+                  "title": remote["title"],
+                  "body": remote.get("body") or "",
+                  "state": remote["state"],
+                  "labels": sorted(label["name"] for label in remote.get("labels", [])),
+                  "assignees": sorted(assignee["login"] for assignee in remote.get("assignees", [])),
+              }
+              desired["labels"].sort()
+              desired["assignees"].sort()
               if current != desired:
                   request = urllib.request.Request(url, data=json.dumps(desired).encode(), method="PATCH", headers=headers)
                   with urllib.request.urlopen(request) as response:

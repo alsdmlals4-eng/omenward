@@ -39,6 +39,8 @@ class IssueMirrorTests(unittest.TestCase):
         self.assertIn("- owner", rendered)
         self.assertIn("- docs/goals/0001.md", rendered)
         self.assertIn("Canonical implementation context.", rendered)
+        self.assertNotIn("labels:\n- documentation\n[]", rendered)
+        self.assertNotIn("assignees:\n- owner\n[]", rendered)
 
     def test_render_issue_accepts_the_connector_issue_number_field(self):
         connector_issue = dict(self.issue)
@@ -100,6 +102,8 @@ class IssueMirrorTests(unittest.TestCase):
 
         self.assertIn('method="GET"', workflow)
         self.assertIn("if current != desired", workflow)
+        self.assertIn('"labels": metadata.get("labels", [])', workflow)
+        self.assertIn('"assignees": metadata.get("assignees", [])', workflow)
 
 
 if __name__ == "__main__":
