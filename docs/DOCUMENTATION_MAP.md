@@ -32,10 +32,11 @@
 
 | 작업 | 시작 문서 | 상태 |
 |---|---|---|
-| Issue #1 Phase 0 Bootstrap | `goals/0001-engine-selection-and-bootstrap.md` | 구현·검증 완료 |
-| Issue #32 Vertical Slice Plan Mode | Issue #32, `goals/0002-core-vertical-slice.md` | 다음 Plan Mode 작업 |
+| 현재 main 감사·다음 개선 Plan Mode | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | **활성 시작 문서** |
+| Phase 0 Bootstrap | `goals/0001-engine-selection-and-bootstrap.md`, `work_orders/0001-phase-0-codex-plan-mode.md` | 구현 이후의 과거 입력·변경 이력 |
+| 수직 슬라이스 | `goals/0002-core-vertical-slice.md`, 관련 Issue·validation | 실제 main과 테스트 재확인 대상 |
 
-현재 `design/proposals/0001-phase-0-godot-bootstrap.md`는 사전 기술 추천안이다. Codex는 이를 참고하되 실제 저장소와 공식 근거를 확인해 별도의 Plan Mode 제안서를 제출해야 한다.
+새 Codex 채팅은 `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`에서 시작한다. 과거 `0001` Work Order의 `구현 전` 문구를 현재 상태로 사용하지 않는다.
 
 ## 항상 확인할 공식 문서
 
@@ -48,16 +49,17 @@
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
 | `images/VISUAL_REFERENCE_INDEX.md` | 이미지 상태·우선순위·누락 감사 |
-| `work_orders/0001-phase-0-codex-plan-mode.md` | 새 Codex 채팅 작업 요청·복사 프롬프트 |
-| `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·검증 대상 |
+| `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | 현재 새 Codex 채팅 작업 요청·복사 프롬프트 |
+| `work_orders/0001-phase-0-codex-plan-mode.md` | Phase 0 이전에 사용한 과거 작업 요청 |
+| `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·변경 이력 |
 
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| 새 Codex 채팅·Plan Mode 작업 요청 | 현재 `work_orders/*.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue/Goal |
+| 새 Codex 채팅·현재 main 조사 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue·PR·Goal |
+| 과거 Phase 0 결정 추적 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Goal 0001 |
 | Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
-| Phase 0 Godot 부트스트랩 검토 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Issue #1, Goal 0001 |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
 | GitHub Issue·로컬 미러 동기화 | `issues/README.md`, `DOCUMENT_LIFECYCLE.md`, `tools/sync_repo.ps1` |
 | 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
@@ -104,11 +106,10 @@
 |---|---|
 | 작업 규칙·Plan Mode·완료 보고 | `AGENTS.md` |
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
-| 현재 Codex 작업 요청 | 현재 `work_orders/*.md` |
+| 현재 Codex 작업 요청 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | GitHub Issue 미러 | `issues/README.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |
-| Phase 0 사전 기술 추천 | `design/proposals/0001-phase-0-godot-bootstrap.md` |
 | 전체 기획 | `OMENWARD_GAME_DESIGN.md` |
 | 전장·성문·거점·우회로 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` |
 | 공용 10병종 데이터·진영 이미지 | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
@@ -134,6 +135,7 @@ Base는 프로젝트 특화 사양이 아니라 작업 방법과 사례를 제�
 |---|---|
 | 인수인계 컨텍스트 | `Base/docs/knowledge/methods/PROJECT_HANDOFF_CONTEXT_METHOD.md` |
 | Codex Plan Mode 작업 패키지 | `Base/docs/knowledge/methods/CODEX_PLAN_MODE_WORK_PACKAGE_METHOD.md` |
+| 시각자료 유입·교체 | `Base/docs/knowledge/methods/VISUAL_REFERENCE_INTAKE_AND_SUPERSESSION_METHOD.md` |
 | 아트 디렉션 | `Base/docs/knowledge/methods/ART_DIRECTION_METHOD.md` |
 | 애니메이션·전투 연출 | `Base/docs/knowledge/methods/ANIMATION_AND_PRESENTATION_METHOD.md` |
 | 조사·벤치마킹 | `Base/docs/knowledge/research/DESIGN_RESEARCH_AND_EVIDENCE_METHOD.md` |
