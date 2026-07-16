@@ -13,6 +13,7 @@
 → 현재 Codex 작업이면 work_orders 문서
 → OMENWARD_GAME_DESIGN.md
 → 관련 APPROVED 책임 문서
+→ 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
 → OMENWARD_ROADMAP.md
 → 현재 Issue / Goal / 승인 제안서
 → 실제 파일과 테스트
@@ -21,8 +22,9 @@
 
 - `HANDOFF_CONTEXT.md`는 현재 방향과 다음 행동을 압축한 최초 인수인계 문서다.
 - `docs/work_orders/`는 새 Codex 채팅에 전달하는 작업 요청·컨텍스트 패키지다.
-- `docs/design/proposals/`는 기획 측 사전 기술 추천안이며, Codex가 실제 저장소를 조사해 제출하는 Plan Mode 결과와 구분한다.
+- `docs/design/proposals/`는 기획 측 사전 기술 추천안이며 Codex가 실제 저장소를 조사해 제출하는 Plan Mode 결과와 구분한다.
 - `APPROVED_*.md`는 세부 승인 규칙의 책임 원본이다.
+- `docs/images/VISUAL_REFERENCE_INDEX.md`는 이미지의 승인·부분 참고·폐기 상태와 올바른 해석을 관리한다.
 - 프로젝트 문서와 Base 공용 자료가 충돌하면 최신 사용자 지시와 프로젝트 책임 문서가 우선한다.
 - 승인 구조, PoC 가설, 작업 요청, Plan Mode 제안서, 실제 구현, 검증 완료를 구분한다.
 
@@ -45,7 +47,8 @@
 | `OMENWARD_ROADMAP.md` | 단계별 개발 순서와 완료 기준 |
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
-| `work_orders/0001-phase-0-codex-plan-mode.md` | 현재 새 Codex 채팅 작업 요청·복사 프롬프트 |
+| `images/VISUAL_REFERENCE_INDEX.md` | 이미지 상태·우선순위·누락 감사 |
+| `work_orders/0001-phase-0-codex-plan-mode.md` | 새 Codex 채팅 작업 요청·복사 프롬프트 |
 | `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·검증 대상 |
 
 ## 조건부 라우팅
@@ -57,11 +60,13 @@
 | Phase 0 Godot 부트스트랩 검토 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Issue #1, Goal 0001 |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
 | GitHub Issue·로컬 미러 동기화 | `issues/README.md`, `DOCUMENT_LIFECYCLE.md`, `tools/sync_repo.ps1` |
-| 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
+| 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
 | 공용 병종 데이터·아군/적군 이미지 분리·UnitProfile | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
 | 적 웨이브·Threat·W1~20·보스 | `design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`, `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` |
-| 병종 이동·공격·피격·사망·승리·전투 연출 | `design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`, `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md` |
-| 아트 스타일·실루엣·팔레트·자산 제작 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
+| 병종 이동·공격·피격·사망·승리·전투 연출 | `design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`, `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`, `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md` |
+| 병종 월드 스프라이트 형식·등급별 외형 | `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
+| 아트 스타일·실루엣·팔레트·자산 제작 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`, `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
+| 새 이미지·도표·UI 시안 유입 | `images/README.md`, `images/VISUAL_REFERENCE_INDEX.md`, 관련 APPROVED 기획서 |
 | 벨루·튜토리얼·HUD·대사 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` |
 | Dopamine Driven Design·첫 10분 | `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` |
 | 룰렛·등급·토큰 | `design/APPROVED_ROULETTE_CORE_RULES.md`, `design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md`, `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` |
@@ -107,6 +112,8 @@
 | 전체 기획 | `OMENWARD_GAME_DESIGN.md` |
 | 전장·성문·거점·우회로 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` |
 | 공용 10병종 데이터·진영 이미지 | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
+| 병종 월드 스프라이트 형식 | `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md` |
+| 시각자료 상태·해석 | `images/VISUAL_REFERENCE_INDEX.md` |
 | W1~20 적 웨이브·보스 | `design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md` |
 | 병종 애니메이션·전투 연출 | `design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md` |
 | 아트 방향·제작 규격 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md` |
