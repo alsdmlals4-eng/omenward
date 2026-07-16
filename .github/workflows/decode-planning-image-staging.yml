@@ -18,24 +18,23 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Decode planning references
+      - name: Decode canonical visual reference
         shell: bash
         run: |
           set -euo pipefail
           test -f docs/images/.staging/READY
-          mkdir -p docs/images/planning/ui docs/images/planning/art
-          cat docs/images/.staging/ui/part_* | base64 --decode > docs/images/planning/ui/omenward_battlefield_ui_concept_v1.webp
-          cat docs/images/.staging/roster/part_* | base64 --decode > docs/images/planning/art/omenward_unit_grade_roster_concept_v1.webp
-          file docs/images/planning/ui/omenward_battlefield_ui_concept_v1.webp
-          file docs/images/planning/art/omenward_unit_grade_roster_concept_v1.webp
+          mkdir -p docs/images/planning/canonical
+          cat docs/images/.staging/ui/part_* | base64 --decode > docs/images/planning/canonical/omenward_battlefield_ui_and_unit_style_reference_v1.webp
+          file docs/images/planning/canonical/omenward_battlefield_ui_and_unit_style_reference_v1.webp | grep -q 'Web/P image'
+          identify docs/images/planning/canonical/omenward_battlefield_ui_and_unit_style_reference_v1.webp | grep -q '800x450'
           rm -rf docs/images/.staging
 
-      - name: Commit decoded planning references
+      - name: Commit decoded planning reference
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/images
-          git commit -m "docs(images): add planning visual references"
+          git commit -m "docs(images): add canonical battlefield and unit style reference"
           git push
