@@ -119,7 +119,7 @@ func apply_structure_damage(raw_damage: float, siege: bool) -> int:
     return maxi(1, floori(raw_damage * multiplier * 100.0 / (100.0 + armor)))
 ```
 
-Implement 10s neutralize + 10s capture at power 1, cap effective power at 2, 3s hold, 10%/sec reversion, 5s stabilization, building disable/ruin behavior, and independent gate collapse after two seconds.
+Implement 10s neutralize + 10s capture at power 1, permit only discrete capture powers 0, 1, and 2 (normalizing every other value to 0), 3s hold, 10%/sec reversion, 5s stabilization, building disable/ruin behavior, and independent gate collapse after two seconds.
 
 - [ ] **Step 5: Run simulation tests and commit**
 

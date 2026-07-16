@@ -25,6 +25,7 @@ func _init() -> void:
 	if outpost_script != null:
 		_test_outpost_capture_sequence(outpost_script, failures)
 		_test_outpost_capture_power_scaling(outpost_script, failures)
+		_test_outpost_capture_power_requires_discrete_values(outpost_script, failures)
 		_test_outpost_exit_hold_and_reversion(outpost_script, failures)
 	_finish(failures)
 
@@ -92,6 +93,15 @@ func _test_outpost_capture_power_scaling(outpost_script: GDScript, failures: Pac
 	_expect(two_power.state == two_power.NEUTRALIZING, "capture power two has not neutralized before five seconds", failures)
 	two_power.advance(0.1)
 	_expect(two_power.state == two_power.CAPTURING, "capture power two neutralizes in five seconds", failures)
+
+
+func _test_outpost_capture_power_requires_discrete_values(outpost_script: GDScript, failures: PackedStringArray) -> void:
+	for invalid_power in [0.5, 1.5]:
+		var outpost: Variant = outpost_script.new(&"veil")
+		outpost.begin_capture(&"lumern", invalid_power)
+		outpost.advance(20.0)
+		_expect(is_equal_approx(float(outpost.snapshot().get("capture_power", -1.0)), 0.0), "capture power %s normalizes to zero" % invalid_power, failures)
+		_expect(is_equal_approx(float(outpost.snapshot().get("capture_progress", -1.0)), 0.0), "capture power %s does not drive capture progress" % invalid_power, failures)
 
 
 func _test_outpost_exit_hold_and_reversion(outpost_script: GDScript, failures: PackedStringArray) -> void:

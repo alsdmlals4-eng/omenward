@@ -38,7 +38,7 @@ func begin_capture(team_id: StringName, power: float) -> bool:
 	if team_id == &"" or team_id == owner_team_id or state == STABILIZING:
 		return false
 	capturing_team_id = team_id
-	capture_power = clampf(power, 0.0, MAX_CAPTURE_POWER)
+	capture_power = _normalize_capture_power(power)
 	capture_progress = 0.0
 	_previous_owner_team_id = owner_team_id
 	_previous_existing_buildings_enabled = existing_buildings_enabled
@@ -60,7 +60,7 @@ func lose_capture_power(delta: float) -> void:
 
 func set_capture_power(power: float) -> void:
 	var previous_power := capture_power
-	capture_power = clampf(power, 0.0, MAX_CAPTURE_POWER)
+	capture_power = _normalize_capture_power(power)
 	if previous_power > 0.0 and capture_power <= 0.0:
 		_hold_remaining = HOLD_SECONDS
 		_is_reverting = false
@@ -145,6 +145,12 @@ func _sync_capture_phase() -> void:
 		return
 	state = CAPTURING
 	_phase_remaining = (2.0 - capture_progress) * CAPTURE_SECONDS
+
+
+func _normalize_capture_power(power: float) -> float:
+	if power == 0.0 or power == 1.0 or power == MAX_CAPTURE_POWER:
+		return power
+	return 0.0
 
 
 func snapshot() -> Dictionary:
