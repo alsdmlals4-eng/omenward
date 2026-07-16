@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=40 format=3]
+[gd_resource type="Resource" load_steps=42 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/bootstrap_catalog.gd" id="1_catalog"]
 [ext_resource type="Script" path="res://scripts/data/tier_profile.gd" id="2_tier"]
@@ -19,6 +19,8 @@
 [ext_resource type="Resource" path="res://data/units/mage.tres" id="17_mage"]
 [ext_resource type="Resource" path="res://data/units/flier.tres" id="18_flier"]
 [ext_resource type="Resource" path="res://data/units/giant.tres" id="19_giant"]
+[ext_resource type="Resource" path="res://data/stages/tutorial_stage.tres" id="20_tutorial_stage"]
+[ext_resource type="Resource" path="res://data/stages/regular_stage.tres" id="21_regular_stage"]
 
 [sub_resource type="Resource" id="Tier1"]
 script = ExtResource("2_tier")
@@ -260,3 +262,4 @@ faction_visual_profiles = [SubResource("VisualShieldLumern"), SubResource("Visua
 battlefield_profile = SubResource("Battlefield")
 boss_behavior_packages = [SubResource("BossBehavior")]
 boss_phase_profiles = [SubResource("BossPhase")]
+stages = [ExtResource("20_tutorial_stage"), ExtResource("21_regular_stage")]

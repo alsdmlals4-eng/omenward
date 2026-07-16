@@ -18,4 +18,10 @@ func validate_registry(registry: DataRegistry) -> PackedStringArray:
 				visual_count += 1
 		if visual_count != 2:
 			errors.append("expected two visual profiles: %s" % archetype_id)
+	var tutorial := registry.stage_definition(&"tutorial_stage")
+	var regular := registry.stage_definition(&"regular_stage")
+	if tutorial == null or not tutorial.tutorial_stage or tutorial.waves.size() != 4:
+		errors.append("tutorial stage must contain four tutorial waves")
+	if regular == null or regular.tutorial_stage or regular.waves.size() != 20:
+		errors.append("regular stage must contain twenty waves")
 	return errors
