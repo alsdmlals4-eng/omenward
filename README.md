@@ -41,36 +41,31 @@
 
 ## 먼저 읽을 문서
 
-1. [`AGENTS.md`](AGENTS.md) — 작업 규칙과 승인 게이트
-2. [`docs/HANDOFF_CONTEXT.md`](docs/HANDOFF_CONTEXT.md) — 현재 방향, 불변 조건, 데이터 소유와 다음 작업
-3. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 원본 라우터
-4. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 공식 전체 기획서 v0.19
-5. [`docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`](docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md) — 승인 구조 통합 인덱스
-6. [`docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`](docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md) — 공용 병종·진영 이미지 데이터 계약
-7. [`docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`](docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md) — 전장·성문·거점·우회로
-8. [`docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`](docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md) — 이동·공격·피격·승리 연출
-9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 승인 게이트와 단계별 완료 기준
-10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전·PoC 후 결정 항목
-11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 예정 기술 구조와 상태 소유
-12. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 최신 작업 상태 캡슐
+작업 규칙은 [`AGENTS.md`](AGENTS.md), 세부 라우팅은 [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md)에서 확인한다. 제품 방향과 현재 상태는 다음 다섯 활성 본책이 책임진다.
+
+1. [게임 기획 본책](docs/planning/01_GAME_DESIGN.md)
+2. [프로그래밍 기획·MVP 로드맵](docs/planning/02_PROGRAMMING_MVP_ROADMAP.md)
+3. [아트 기획 본책](docs/planning/03_ART_DIRECTION.md)
+4. [사운드 기획 본책](docs/planning/04_SOUND_DIRECTION.md)
+5. [QA·PM 기획 본책](docs/planning/05_QA_PM_PLAN.md)
+
+`docs/design/APPROVED_*.md`는 본책의 구체 수치·데이터 계약을 보존하는 상세 부록이다. 최신 공식 이미지는 [시각자료 인덱스](docs/images/VISUAL_REFERENCE_INDEX.md)와 `docs/images/current/`에서 확인한다.
 
 ## 현재 실행 순서
 
 ```text
-Issue #1 Phase 0 Plan Mode
-→ 사용자 승인
-→ Godot 기술 기반 구현
-→ Issue #32 수직 슬라이스 Plan Mode
-→ 사용자 승인
-→ 3라인 핵심 수직 슬라이스
+Phase 0·3라인 핵심 수직 슬라이스 구현
+→ headless 6종·editor import·runtime smoke 기준선 통과
+→ [현재] 1920×1080·1280×720 수동 QA와 시각 프로브
 → 시뮬레이션·플레이테스트
+→ 콘텐츠·아트·사운드 확장
 ```
 
 수직 슬라이스는 튜토리얼 4웨이브, 일반 스테이지 W1~W20, 공용 병종 전투·점령·성문·건설·룰렛·배치·암살자 우회와 회색상자 UI를 구현합니다. 자동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따릅니다.
 
 검증 명령과 수동 QA는 [`docs/PHASE_0_VALIDATION.md`](docs/PHASE_0_VALIDATION.md)를 따른다.
 
-## 예정 저장소 구조
+## 현재 저장소 구조
 
 ```text
 .
@@ -99,4 +94,4 @@ Issue #1 Phase 0 Plan Mode
 └─ tests/
 ```
 
-정확한 경로와 파일은 Phase 0 Plan Mode 승인 후 확정합니다.
+실제 구조와 다음 기술 게이트는 [프로그래밍 본책](docs/planning/02_PROGRAMMING_MVP_ROADMAP.md)을 기준으로 갱신합니다.

@@ -1,7 +1,7 @@
 # 오멘워드 문서 생명주기 규칙
 
 - 상태: **프로젝트 문서 운영 기준**
-- 작성일: 2026-07-16
+- 작성일: 2026-07-17
 - 적용 범위: `README.md`, `AGENTS.md`, `docs/`, Issue·Goal의 기획 정보
 
 이 규칙의 목적은 같은 내용을 여러 파일에서 반복 수정하는 일을 줄이고, 작업자가 항상 최신 승인본만 읽게 하는 것이다.
@@ -19,10 +19,11 @@
 
 ```text
 사용자의 최신 승인 지시
-→ 최신 APPROVED 책임 문서
-→ OMENWARD_GAME_DESIGN.md
-→ ACTIVE_CONTEXT.md
-→ ROADMAP·DECISIONS_PENDING
+→ docs/planning/ 5개 활성 본책
+→ 관련 APPROVED 상세 부록
+→ DOCUMENTATION_MAP.md
+→ HANDOFF_CONTEXT·ACTIVE_CONTEXT
+→ DECISIONS_PENDING
 → 작업 제안서·Issue·Goal
 → archive와 과거 Git 이력
 ```
@@ -33,12 +34,26 @@
 
 기획 결정이 확정되면 다음 순서로 처리한다.
 
-1. 해당 주제의 `docs/design/APPROVED_*.md` 책임 원본을 갱신한다.
-2. 전체 기획에 영향을 주면 `docs/OMENWARD_GAME_DESIGN.md`를 갱신한다.
-3. 현재 작업자가 즉시 알아야 하면 `docs/ACTIVE_CONTEXT.md`를 갱신한다.
-4. 문서 경로나 책임 관계가 바뀌면 `docs/DOCUMENTATION_MAP.md`를 갱신한다.
-5. 구현 순서나 미확정 항목이 바뀔 때만 ROADMAP 또는 DECISIONS_PENDING을 갱신한다.
-6. 변경 뒤 서로 모순되는 오래된 표현이 남았는지 확인한다.
+1. 작업 시작 시 게임·프로그래밍·아트·사운드·QA·PM 영향 분야를 선택한다.
+2. 영향 분야의 `docs/planning/` 본책과 관련 `docs/design/APPROVED_*.md` 부록을 확인한다.
+3. 구현·제작·검증 후 관련 본책의 상태, 최신 자료, 완료 기준을 갱신한다.
+4. 구체 수치·데이터 계약이 바뀌면 해당 APPROVED 부록도 갱신한다.
+5. 문서 경로나 책임 관계가 바뀌면 `DOCUMENTATION_MAP.md`를 갱신한다.
+6. Handoff와 Active Context에는 본책을 복제하지 않고 현재 상태와 읽기 순서만 연결한다.
+7. 변경 뒤 서로 모순되는 오래된 표현과 깨진 링크가 남았는지 검증한다.
+
+### 영향별 필수 갱신 매트릭스
+
+| 변경 | 필수 확인·갱신 |
+|---|---|
+| 게임 규칙·시나리오·UI/UX·밸런스 | `01_GAME_DESIGN.md`, 관련 승인 부록, QA 상태 |
+| 코드·Scene·데이터·AI·성능·로드맵 | `02_PROGRAMMING_MVP_ROADMAP.md`, 테스트·QA 상태 |
+| 캐릭터·전장·건물·UI·애니메이션·VFX | `03_ART_DIRECTION.md`, 시각자료 인덱스, 시각 QA |
+| BGM·SFX·음성·믹싱 | `04_SOUND_DIRECTION.md`, 오디오 QA |
+| 테스트·버그·일정·위험·예산·릴리스 | `05_QA_PM_PLAN.md` |
+| 공식 이미지 교체 | `docs/images/current/` 안정 경로, 이미지 인덱스, 아트 본책 |
+
+공식 이미지는 `_v2`, 날짜, `final` 접미사를 붙이지 않은 안정 경로 하나를 사용한다. 이전 버전은 별도 활성 파일이 아니라 Git 이력으로 보존한다.
 
 ### GitHub Issue 미러
 
@@ -79,7 +94,7 @@
 ## 6. 작업 완료 체크
 
 - [ ] 최신 사용자 결정이 책임 원본에 반영됐는가
-- [ ] `OMENWARD_GAME_DESIGN.md`와 충돌하지 않는가
+- [ ] 영향 받은 5개 본책과 충돌하지 않는가
 - [ ] `ACTIVE_CONTEXT.md`가 현재 상태를 설명하는가
 - [ ] DOCUMENTATION_MAP이 올바른 책임 원본을 가리키는가
 - [ ] 활성 폴더에 중복 버전 파일이 생기지 않았는가
@@ -90,4 +105,4 @@
 
 전장 관련 최신 책임 원본은 `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`다.
 
-새로운 전장 결정은 별도 `V2` 파일을 만들지 않고 이 파일을 갱신하며, 전체 요약은 `OMENWARD_GAME_DESIGN.md`와 `ACTIVE_CONTEXT.md`에만 동기화한다. 과거 전장 초안은 Git 이력에서 확인한다.
+새로운 전장 결정은 별도 `V2` 파일을 만들지 않고 이 파일을 갱신하며, 전체 요약은 `planning/01_GAME_DESIGN.md`, 시각 방향은 `planning/03_ART_DIRECTION.md`, 검증 상태는 `planning/05_QA_PM_PLAN.md`에 동기화한다. 과거 전장 초안은 Git 이력에서 확인한다.

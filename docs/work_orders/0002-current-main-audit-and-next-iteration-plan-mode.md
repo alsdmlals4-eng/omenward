@@ -20,7 +20,7 @@
 시각 작업에서는 반드시 다음을 읽으세요.
 - docs/images/VISUAL_REFERENCE_INDEX.md
 - docs/design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md
-- docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md
+- docs/planning/03_ART_DIRECTION.md
 - docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md
 
 병종 월드 이미지는 첫 번째 전장 UI 참고 이미지의 실제 전장 삽입형 소형 고해상도 픽셀 스프라이트 형식을 따릅니다. 과거 10병종×등급 도감표의 큰 전신 캐릭터 형식을 월드 스프라이트 기준으로 사용하지 마세요. 도감표는 병종 목록과 일반→엘리트→영웅→전설 위계 참고에만 사용합니다.
@@ -42,11 +42,11 @@
 5. docs/DOCUMENTATION_MAP.md
 6. docs/PROPOSAL_WORKFLOW.md
 7. docs/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md
-8. docs/OMENWARD_GAME_DESIGN.md
+8. docs/planning/01_GAME_DESIGN.md
 9. docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md
 10. 현재 작업과 관련된 APPROVED 책임 문서
 11. docs/images/VISUAL_REFERENCE_INDEX.md
-12. docs/OMENWARD_ROADMAP.md
+12. docs/planning/02_PROGRAMMING_MVP_ROADMAP.md
 13. docs/DECISIONS_PENDING.md
 14. 현재 Issue·Goal·PR
 15. project.godot, Scene, scripts, data, tests

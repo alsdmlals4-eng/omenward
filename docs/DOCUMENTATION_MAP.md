@@ -1,147 +1,125 @@
 # 오멘워드 Documentation Map
 
-이 문서는 새 작업자와 AI가 필요한 책임 원본만 읽도록 안내하는 라우터다. 모든 문서를 매번 읽지 않는다.
+- 갱신일: 2026-07-17
+- 상태: **활성 문서 라우터**
 
-## 기본 읽기 순서
+이 문서는 새 작업자와 AI가 필요한 책임 원본만 읽도록 안내한다. 본문을 복제하지 않고 책임과 읽기 순서만 고정한다.
+
+## 1. 최초 읽기 순서
 
 ```text
 최신 사용자 지시
 → AGENTS.md
 → BASE_RULES_VERSION.md
-→ HANDOFF_CONTEXT.md
 → DOCUMENTATION_MAP.md
-→ 현재 Codex 작업이면 work_orders 문서
-→ OMENWARD_GAME_DESIGN.md
-→ 관련 APPROVED 책임 문서
-→ 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
-→ OMENWARD_ROADMAP.md
-→ 현재 Issue / Goal / 승인 제안서
+→ 작업 영향 분야의 5개 본책
+→ 관련 APPROVED 상세 부록
+→ 현재 Issue·Goal·Work Order
 → 실제 파일과 테스트
-→ ACTIVE_CONTEXT.md
+→ HANDOFF_CONTEXT·ACTIVE_CONTEXT
 ```
 
-- `HANDOFF_CONTEXT.md`는 현재 방향과 다음 행동을 압축한 최초 인수인계 문서다.
-- `docs/work_orders/`는 새 Codex 채팅에 전달하는 작업 요청·컨텍스트 패키지다.
-- `docs/design/proposals/`는 기획 측 사전 기술 추천안이며 Codex가 실제 저장소를 조사해 제출하는 Plan Mode 결과와 구분한다.
-- `APPROVED_*.md`는 세부 승인 규칙의 책임 원본이다.
-- `docs/images/VISUAL_REFERENCE_INDEX.md`는 이미지의 승인·부분 참고·폐기 상태와 올바른 해석을 관리한다.
-- 프로젝트 문서와 Base 공용 자료가 충돌하면 최신 사용자 지시와 프로젝트 책임 문서가 우선한다.
-- 승인 구조, PoC 가설, 작업 요청, Plan Mode 제안서, 실제 구현, 검증 완료를 구분한다.
+새 작업자는 다음 다섯 본책만으로 10분 안에 핵심 경험, 현재 구현 상태, 최신 시각 방향, 다음 단계, 금지 범위와 검증 방법을 설명할 수 있어야 한다.
 
-## 현재 Codex 시작 문서
+## 2. 다섯 활성 본책
 
-| 작업 | 시작 문서 | 상태 |
+| 분야 | 활성 책임 원본 | 책임 범위 |
 |---|---|---|
-| 현재 main 감사·다음 개선 Plan Mode | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | **활성 시작 문서** |
-| Phase 0 Bootstrap | `goals/0001-engine-selection-and-bootstrap.md`, `work_orders/0001-phase-0-codex-plan-mode.md` | 구현 이후의 과거 입력·변경 이력 |
-| 수직 슬라이스 | `goals/0002-core-vertical-slice.md`, 관련 Issue·validation | 실제 main과 테스트 재확인 대상 |
+| 게임 기획 | [`planning/01_GAME_DESIGN.md`](planning/01_GAME_DESIGN.md) | 게임 약속, 규칙, 시나리오, UI/UX 행동, 밸런스 원칙 |
+| 프로그래밍 | [`planning/02_PROGRAMMING_MVP_ROADMAP.md`](planning/02_PROGRAMMING_MVP_ROADMAP.md) | Godot 구조, Scene·데이터 책임, AI·전투·결정론·성능, MVP 로드맵 |
+| 아트 | [`planning/03_ART_DIRECTION.md`](planning/03_ART_DIRECTION.md) | 캐릭터·전장·건물·UI 시각 언어, 애니메이션·VFX, 제작 규격, 최신 이미지 |
+| 사운드 | [`planning/04_SOUND_DIRECTION.md`](planning/04_SOUND_DIRECTION.md) | BGM·SFX·벨루 음성, 이벤트 연결, 믹싱·접근성·제작 상태 |
+| QA·PM | [`planning/05_QA_PM_PLAN.md`](planning/05_QA_PM_PLAN.md) | 자동·수동·시각·오디오·성능 QA, 버그, 일정·위험·예산, 릴리스 게이트 |
 
-새 Codex 채팅은 `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`에서 시작한다. 과거 `0001` Work Order의 `구현 전` 문구를 현재 상태로 사용하지 않는다.
+`HANDOFF_CONTEXT.md`와 `ACTIVE_CONTEXT.md`는 본책 내용을 복제하지 않고 현재 작업과 읽기 순서만 연결한다. `design/APPROVED_*.md`는 구체 수치와 데이터 계약을 보존하는 상세 부록이다.
 
-## 항상 확인할 공식 문서
+## 3. 현재 작업·검증 라우팅
 
-| 문서 | 역할 |
+| 목적 | 문서 |
 |---|---|
-| `HANDOFF_CONTEXT.md` | 현재 방향, 불변 조건, 데이터 소유, 다음 실행 순서 |
-| `OMENWARD_GAME_DESIGN.md` | 전체 게임 경험과 시스템 관계 |
-| `ACTIVE_CONTEXT.md` | 최신 작업 상태 캡슐 |
-| `OMENWARD_ROADMAP.md` | 단계별 개발 순서와 완료 기준 |
-| `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
-| `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
-| `images/VISUAL_REFERENCE_INDEX.md` | 이미지 상태·우선순위·누락 감사 |
-| `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | 현재 새 Codex 채팅 작업 요청·복사 프롬프트 |
-| `work_orders/0001-phase-0-codex-plan-mode.md` | Phase 0 이전에 사용한 과거 작업 요청 |
-| `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·변경 이력 |
+| 현재 main 감사·다음 개선 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` |
+| 현재 시각자료와 승인 상태 | [`images/VISUAL_REFERENCE_INDEX.md`](images/VISUAL_REFERENCE_INDEX.md) |
+| 미확정·PoC 조정 항목 | `DECISIONS_PENDING.md` |
+| 실제 Godot 구조 | `GODOT_PROJECT_STRUCTURE.md`, 프로그래밍 본책 |
+| 수직 슬라이스 검증 | `VERTICAL_SLICE_VALIDATION.md`, QA·PM 본책 |
+| 테스트 실행 | `../tests/README.md`, `tools/validate_documentation.ps1` |
+| 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
+| 제안·승인 형식 | `PROPOSAL_WORKFLOW.md` |
+| GitHub Issue 미러 | `issues/README.md` — 동기화 도구 외 직접 편집 금지 |
 
-## 조건부 라우팅
+## 4. 조건부 상세 부록
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| 새 Codex 채팅·현재 main 조사 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue·PR·Goal |
-| 과거 Phase 0 결정 추적 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Goal 0001 |
-| Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
-| 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
-| GitHub Issue·로컬 미러 동기화 | `issues/README.md`, `DOCUMENT_LIFECYCLE.md`, `tools/sync_repo.ps1` |
-| 전장·성문·중간거점·접전지·암살자 우회로·카메라 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
-| 공용 병종 데이터·아군/적군 이미지 분리·UnitProfile | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
-| 적 웨이브·Threat·W1~20·보스 | `design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`, `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` |
-| 병종 이동·공격·피격·사망·승리·전투 연출 | `design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`, `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`, `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md` |
-| 병종 월드 스프라이트 형식·등급별 외형 | `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
-| 아트 스타일·실루엣·팔레트·자산 제작 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`, `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`, `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`, `images/VISUAL_REFERENCE_INDEX.md` |
-| 새 이미지·도표·UI 시안 유입 | `images/README.md`, `images/VISUAL_REFERENCE_INDEX.md`, 관련 APPROVED 기획서 |
-| 벨루·튜토리얼·HUD·대사 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` |
-| Dopamine Driven Design·첫 10분 | `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` |
+| 전장·성문·거점·접전지·우회로 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` |
+| 공용 병종·진영 Visual Set | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`, `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md` |
+| W1~20·보스·공세 시간 | `design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`, `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` |
+| 이동·공격·피격·사망·연출 | `design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md` |
+| 벨루·튜토리얼·대사 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md`, `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` |
 | 룰렛·등급·토큰 | `design/APPROVED_ROULETTE_CORE_RULES.md`, `design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md`, `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` |
-| 기본 병영·특수병단·Tier 3 | `design/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md`, `design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md`, `design/APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md` |
-| 전투 계산·키워드·상태이상·비행 | `design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`, `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
-| 건설·경제·전문화·전술·용병 | `design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md`, `design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md` |
-| 튜토리얼·캠페인·절차 생성 | `design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md`, `design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md` |
-| Godot 프로젝트·Scene·Resource·상태 소유 | `GODOT_PROJECT_STRUCTURE.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
-| 외부 저장소·Base 공용 지식 | `REFERENCE_REPOSITORIES.md`, `BASE_RULES_VERSION.md` |
-| 외부 게임·시장·UX 벤치마킹 | `benchmarks/README.md`, 관련 제안서와 출처 스냅샷 |
-| 작업 종료·인수인계 | `HANDOFF_CONTEXT.md`, `ACTIVE_CONTEXT.md`, Issue/PR 완료 형식 |
+| 병종 계보·건물 | `design/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md`, `design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md`, `design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md` |
+| 전투 계산·상태·비행 | `design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`, `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
+| 경제·비용 | `design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md` |
+| 튜토리얼·캠페인 | `design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md`, `design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md` |
+| 성능·데이터·테스트 | `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
+| 이미지 유입·교체 | `images/README.md`, `images/VISUAL_REFERENCE_INDEX.md`, 아트·QA 본책 |
 
-## 공식명 사용 규칙
+## 5. 승인 문서 책임 분류
 
-신규 기획·UI·대사·데이터에는 다음 명칭만 사용한다.
+모든 활성 `APPROVED_*.md`는 주 책임 분야를 정확히 하나만 가진다. 영향 분야는 협업·검토 대상을 뜻한다.
 
-```text
-오멘워드 / OMENWARD
-루메른 왕국
-루미엔 영토
-트리븐 전선
-실베른 성채
-베일런 황야
-베일의 법칙
-베일의 징조
-벨루
-베일종
-```
+| 승인 부록 | 주 책임 | 영향 분야 |
+|---|---|---|
+| `APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` | 게임 | 프로그래밍, 사운드, QA·PM |
+| `APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md` | 게임 | 아트, 사운드, 프로그래밍, QA·PM |
+| `APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_BENCHMARK_DECISIONS.md` | 게임 | QA·PM |
+| `APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md` | 게임 | 프로그래밍, QA·PM |
+| `APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_OMENWARD_WORLD_AND_NAMING.md` | 게임 | 아트, 사운드, QA·PM |
+| `APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` | 프로그래밍 | QA·PM |
+| `APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | QA·PM | 게임, 프로그래밍, 아트, 사운드 |
+| `APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_ROULETTE_CORE_RULES.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md` | 게임 | 프로그래밍, QA·PM |
+| `APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` | 프로그래밍 | 게임, 아트, QA·PM |
+| `APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md` | 게임 | 프로그래밍, QA·PM |
+| `APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md` | 게임 | 프로그래밍, 아트, 사운드, QA·PM |
+| `APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md` | 게임 | 프로그래밍, QA·PM |
+| `APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md` | 아트 | 게임, 프로그래밍, 사운드, QA·PM |
+| `APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` | 게임 | 프로그래밍, 아트, QA·PM |
+| `APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md` | 아트 | 게임, 프로그래밍, QA·PM |
+| `APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md` | 게임 | 프로그래밍, 아트, QA·PM |
 
-레거시 명칭 `Roulettebound`, `율비`, `경계의 율`, `은종성채`, `무명야`는 과거 변경 이력 외에는 사용하지 않는다.
+`APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`의 고유 내용은 게임·아트·사운드·QA 본책으로 분리됐다. 해당 경로에는 활성 본문이 아니라 대체 경로 안내만 남긴다.
 
-## 핵심 책임 원본
+## 6. 공식명·금지 범위
 
-| 주제 | 책임 원본 |
-|---|---|
-| 작업 규칙·Plan Mode·완료 보고 | `AGENTS.md` |
-| 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
-| 현재 Codex 작업 요청 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` |
-| 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
-| GitHub Issue 미러 | `issues/README.md` |
-| 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |
-| 전체 기획 | `OMENWARD_GAME_DESIGN.md` |
-| 전장·성문·거점·우회로 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md` |
-| 공용 10병종 데이터·진영 이미지 | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
-| 병종 월드 스프라이트 형식 | `design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md` |
-| 시각자료 상태·해석 | `images/VISUAL_REFERENCE_INDEX.md` |
-| W1~20 적 웨이브·보스 | `design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md` |
-| 병종 애니메이션·전투 연출 | `design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md` |
-| 아트 방향·제작 규격 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md` |
-| 명칭·세계관 | `design/APPROVED_OMENWARD_WORLD_AND_NAMING.md` |
-| 벨루 제작·안내 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md` |
-| 첫 10분 | `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md` |
-| 개발 순서 | `OMENWARD_ROADMAP.md` |
-| 미확정 | `DECISIONS_PENDING.md` |
-| 기술·데이터·테스트 | `GODOT_PROJECT_STRUCTURE.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
-| 현재 상태 | `ACTIVE_CONTEXT.md` |
-| 구현 범위 | 최신 Issue/Goal, 작업 요청서와 사용자 승인된 Codex Plan Mode 제안서 |
+- 공식명은 **오멘워드/OMENWARD**, 안내 정령은 **벨루/Bellu**다.
+- `율비/Yulbi`는 캐릭터 외형 참고 이미지 안의 폐기 표기다.
+- 미니맵, 일반 유닛 라인 횡단, 적군 전용 전투 데이터 복제는 금지한다.
+- 이미지 안 임시 문구·수치·맵 연결은 시스템 계약이 아니다.
 
-## Base 공용 지식 라우팅
+## 7. Base 공용 지식
 
-Base는 프로젝트 특화 사양이 아니라 작업 방법과 사례를 제공한다.
+프로젝트는 `BASE_RULES_VERSION.md`가 고정한 Base 커밋을 따른다. Base는 작업 방법을 제공하며 오멘워드의 최신 승인 사양을 덮어쓰지 않는다.
 
 | 작업 | Base 참고 |
 |---|---|
-| 인수인계 컨텍스트 | `Base/docs/knowledge/methods/PROJECT_HANDOFF_CONTEXT_METHOD.md` |
-| Codex Plan Mode 작업 패키지 | `Base/docs/knowledge/methods/CODEX_PLAN_MODE_WORK_PACKAGE_METHOD.md` |
+| 인수인계 | `Base/docs/knowledge/methods/PROJECT_HANDOFF_CONTEXT_METHOD.md` |
+| Plan Mode 작업 패키지 | `Base/docs/knowledge/methods/CODEX_PLAN_MODE_WORK_PACKAGE_METHOD.md` |
 | 시각자료 유입·교체 | `Base/docs/knowledge/methods/VISUAL_REFERENCE_INTAKE_AND_SUPERSESSION_METHOD.md` |
-| 아트 디렉션 | `Base/docs/knowledge/methods/ART_DIRECTION_METHOD.md` |
-| 애니메이션·전투 연출 | `Base/docs/knowledge/methods/ANIMATION_AND_PRESENTATION_METHOD.md` |
-| 조사·벤치마킹 | `Base/docs/knowledge/research/DESIGN_RESEARCH_AND_EVIDENCE_METHOD.md` |
-| 실무 검수 | `Base/docs/knowledge/skills/` |
-| 유사 결정 사례 | `Base/docs/knowledge/cases/` |
+| 아트·연출 | `Base/docs/knowledge/methods/ART_DIRECTION_METHOD.md`, `ANIMATION_AND_PRESENTATION_METHOD.md` |
 
-Base 방법은 오멘워드의 최신 승인 문서를 덮어쓸 수 없다.
-
-다른 문서가 같은 내용을 반복하면 위 책임 원본을 링크하고 작업별 차이만 기록한다. 일반적인 이전 버전은 별도 활성 파일로 남기지 않고 Git 이력에서 확인한다.
+다른 문서가 같은 내용을 반복하면 이 라우터와 해당 본책을 링크하고 작업별 차이만 기록한다. 이전 버전은 Git 이력에서 확인한다.

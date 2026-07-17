@@ -7,7 +7,7 @@
 1. 사용자의 최신 지시.
 2. 사용자가 승인한 Codex Plan Mode 제안서와 현재 Issue/Goal.
 3. 이 프로젝트의 `AGENTS.md`.
-4. `docs/HANDOFF_CONTEXT.md`, `docs/DOCUMENTATION_MAP.md`, `docs/OMENWARD_GAME_DESIGN.md`와 관련 승인 문서.
+4. `docs/DOCUMENTATION_MAP.md`와 `docs/planning/`의 관련 5개 책임 본책.
 5. 실제 파일과 실행 결과.
 6. 프로젝트가 고정한 Base 기준과 로컬 공용 규칙.
 7. Base의 최신 공용 지식, 외부 스킬과 벤치마킹 자료.
@@ -18,21 +18,25 @@
 
 1. `AGENTS.md`
 2. `docs/BASE_RULES_VERSION.md`
-3. `docs/HANDOFF_CONTEXT.md`
-4. `docs/DOCUMENTATION_MAP.md`
-5. `docs/OMENWARD_GAME_DESIGN.md`
-6. 현재 작업과 관련된 `docs/design/APPROVED_*.md`
-7. `docs/OMENWARD_ROADMAP.md`
-8. 현재 Issue 또는 Goal
-9. `docs/PROPOSAL_WORKFLOW.md`
-10. 승인된 제안서가 있으면 해당 제안서
-11. 관련 코드·데이터·Scene·테스트 파일
-12. `docs/ACTIVE_CONTEXT.md`
+3. `docs/DOCUMENTATION_MAP.md`
+4. 현재 작업과 관련된 `docs/planning/01_GAME_DESIGN.md` ~ `05_QA_PM_PLAN.md`
+5. `docs/HANDOFF_CONTEXT.md`
+6. 관련 `docs/design/APPROVED_*.md` 부록
+7. 현재 Issue 또는 Goal과 Work Order
+8. `docs/PROPOSAL_WORKFLOW.md`
+9. 승인된 제안서가 있으면 해당 제안서
+10. 관련 코드·데이터·Scene·테스트 파일
+11. `docs/ACTIVE_CONTEXT.md`
 
 모든 문서를 무조건 읽지 않는다. `DOCUMENTATION_MAP.md`를 통해 작업별 책임 원본을 선택한다.
 
 ## 역할 분리
 
+- 게임 기획팀: 게임의 약속, 규칙, 시나리오, UI/UX 행동, 밸런스 원칙과 `01_GAME_DESIGN.md`를 책임진다.
+- 프로그래밍 팀: Godot 시스템·Scene·데이터·AI·전투·성능·MVP 로드맵과 `02_PROGRAMMING_MVP_ROADMAP.md`를 책임진다.
+- 아트 팀: 캐릭터·전장·건물·UI의 시각 언어, 애니메이션·VFX·제작 규격과 `03_ART_DIRECTION.md`를 책임진다.
+- 사운드 팀: BGM·SFX·벨루 음성·믹싱·접근성과 `04_SOUND_DIRECTION.md`를 책임진다.
+- QA·PM: 자동·수동·시각·오디오·성능 QA, 버그·일정·위험·예산·릴리스 게이트와 `05_QA_PM_PLAN.md`를 책임진다.
 - 기획/조정 AI: 플레이어 경험, 사양, 범위, 제외 범위, 책임 원본, 완료 기준과 검증 방법을 정리하고 확정 사항을 GitHub 문서에 반영한다.
 - Codex Plan Mode: 저장소와 참고 자료를 읽기 전용으로 조사하고 구현 전에 검토 가능한 제안서를 작성한다.
 - Codex 구현 모드: 사용자가 승인한 제안서와 Issue/Goal만 구현하고 제품 방향을 임의로 확장하지 않는다.
@@ -55,9 +59,11 @@
 - `_v2`, `_최종`, `_new`, `_copy` 같은 임의 중복 파일을 만들지 않는다.
 - 일반 이전 버전은 Git 커밋 이력을 백업으로 사용한다.
 - 외부 납품본이나 대규모 방향 전환 비교본만 `docs/archive/YYYY-MM/`에 둔다.
-- 전체 방향이나 데이터 소유가 바뀌면 최소한 `HANDOFF_CONTEXT`, GDD, Roadmap, Documentation Map, Active Context와 현재 Issue/Goal을 확인한다.
+- 작업 시작 시 영향 분야를 선택하고 관련 본책을 읽는다. 종료 시 구현·검증 상태와 최신 자료를 같은 본책에 갱신한다.
+- 전체 방향이나 데이터 소유가 바뀌면 최소한 관련 5개 본책, Documentation Map, Handoff/Active Context와 현재 Issue/Goal을 확인한다.
+- 최신 공식 이미지는 `docs/images/current/`의 버전 없는 안정 경로를 사용하고 이전 버전은 Git 이력으로 보존한다.
 - 사용자에게 폐기된 안은 활성 문서에서 제거하며 아카이브를 구현 근거로 사용하지 않는다.
-- 새 작업자가 `docs/HANDOFF_CONTEXT.md`만으로 현재 방향과 다음 행동을 설명할 수 있어야 한다.
+- 새 작업자가 다섯 본책만으로 10분 안에 핵심 경험, 구현 상태, 최신 시각 방향, 다음 단계, 금지 범위와 검증 방법을 설명할 수 있어야 한다.
 
 ## Codex Plan Mode 게이트
 

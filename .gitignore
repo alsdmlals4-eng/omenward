@@ -40,3 +40,6 @@ __pycache__/
 
 # Godot editor cache and local build output
 .godot/
+
+# Documentation reference images are not runtime assets; ignore Godot sidecars.
+docs/images/**/*.import

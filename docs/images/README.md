@@ -5,8 +5,16 @@
 가장 먼저 읽을 문서:
 
 - `VISUAL_REFERENCE_INDEX.md`
+- `../planning/03_ART_DIRECTION.md`
 - `../design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`
-- `../design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`
+
+## 공식 최신 안정 경로
+
+- `current/battlefield-ingame-reference.png` — 우리 전장 인게임 모습 방향 기준
+- `current/roulette-bellu-ui-reference.png` — 룰렛·벨루 UI 방향 기준
+- `current/bellu-character-reference.png` — 벨루 외형·표정 기준 (`율비/Yulbi` 표기는 폐기)
+
+공식 이미지는 버전·날짜 접미사 없이 같은 경로를 갱신하고 이전 버전은 Git 이력으로 보존한다.
 
 ## 상태 구분
 
@@ -40,7 +48,7 @@ MIGRATION_PENDING
 
 1. 저장소 원본 또는 변환본 배치.
 2. `VISUAL_REFERENCE_INDEX.md` 등록.
-3. 관련 APPROVED 기획서·Work Order 연결.
+3. 아트 본책과 관련 APPROVED 기획서·Work Order 연결.
 4. 이전 기준 이미지의 승인·부분 참고·폐기 상태 변경.
 
 바이너리 이동이 끝나지 않았으면 `MIGRATION_PENDING`으로 남기고 완료했다고 표현하지 않는다.

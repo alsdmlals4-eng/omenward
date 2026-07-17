@@ -1,8 +1,9 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `ca5e7e577ef5aa78e8105200bc8df9c786572fa0`
-- 동기화 기준일: `2026-07-16`
+- 기준 커밋: `2420f1c6a7c8d8631c8956e579b087909c9baa07`
+- 동기화 기준일: `2026-07-17`
+- 선행 변경: `alsdmlals4-eng/Base` Draft PR #5 (`codex/five-discipline-document-system`)
 - 적용 방식: 프로젝트 `AGENTS.md`와 책임 문서에 필요한 공용 원칙을 명시적으로 채택하고, Base methods·research·skills·cases·templates는 참고 자료로 연결
 
 ## 채택한 Base 영역
@@ -16,6 +17,8 @@
 - 조사·벤치마킹·근거 관리 방법.
 - 실무 스킬 매트릭스와 프로젝트 사례 기록 형식.
 - 범용 GDD·계획서·연출·Work Order 템플릿과 품질 기준.
+- 게임·프로그래밍·아트·사운드·QA·PM 5개 책임 본책 체계와 작업 영향 분야별 갱신 규칙.
+- 최신 이미지의 버전 없는 안정 경로와 Git 이력 보존 원칙.
 
 ## 프로젝트 우선순위
 
@@ -45,6 +48,7 @@ Base 원격 변경을 자동 적용하지 않는다. 동기화가 필요할 때 
 - `docs/knowledge/methods/ART_DIRECTION_METHOD.md`
 - `docs/knowledge/methods/ANIMATION_AND_PRESENTATION_METHOD.md`
 - `docs/knowledge/methods/PLANNING_DOCUMENTATION_METHOD.md`
+- `docs/knowledge/methods/VISUAL_REFERENCE_INTAKE_AND_SUPERSESSION_METHOD.md`
 - `docs/knowledge/research/DESIGN_RESEARCH_AND_EVIDENCE_METHOD.md`
 - `docs/knowledge/skills/`
 - `docs/knowledge/cases/`

@@ -23,6 +23,16 @@ labels: feature
 - UI/UX:
 - 저장/호환성:
 
+## 책임 분야 영향
+
+- [ ] 게임 기획
+- [ ] 프로그래밍
+- [ ] 아트
+- [ ] 사운드
+- [ ] QA·PM
+
+갱신할 본책 또는 문서 영향 없음 사유:
+
 ## 완료 기준
 
 - [ ]
@@ -35,4 +45,5 @@ labels: feature
 ## Codex가 먼저 읽을 문서
 
 - `AGENTS.md`
-- `docs/GAME_DESIGN.md`
+- `docs/DOCUMENTATION_MAP.md`
+- 관련 `docs/planning/01_GAME_DESIGN.md` ~ `05_QA_PM_PLAN.md`
