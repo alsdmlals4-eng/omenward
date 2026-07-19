@@ -29,6 +29,7 @@ func _on_regular_pressed() -> void:
 
 func _on_stage_started(_stage_id: StringName, _run: Variant) -> void:
 	_refresh()
+	visible = false
 
 
 func _refresh() -> void:

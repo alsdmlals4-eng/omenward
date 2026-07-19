@@ -12,11 +12,12 @@ C:\Users\user\.cache\omenward-tools\godot-4.7.1\Godot_v4.7.1-stable_win64_consol
 git diff --check
 ```
 
-The suite covers shared-unit data, three isolated lanes, gates, outposts, economy, building nodes, roulette, deployment, tutorial unlock, W1–W20 scheduling, and assassin bypass timing.
+The suite covers shared-unit data, three isolated lanes, gates, outposts, economy, building nodes, the 3×3 roulette dock, deployment, tutorial unlock, W1–W20 scheduling, and assassin bypass timing.
 
 ## Manual QA still required
 
 1. Complete the tutorial, then start the regular stage.
-2. Check roulette, build, deploy, and retry controls at 1920×1080.
-3. Repeat at 1280×720 and confirm HUD, gates, outposts, and lane state remain readable.
-4. Play through W1–W20 and inspect W15 legendary and W20 mythic milestones.
+2. Check that the fixed dock appears in the order: roulette, tactical skill, shop, and Bellu guide. Confirm a roulette spin fills nine cells, locks repeat spin while stored results remain, and one lane deploy consumes one result.
+3. Confirm the battlefield shows three isolated lanes with a Lumen gate, Lumen outpost and three visible node markers, center clash zone, Veil outpost, and Veil gate per lane. No cross-lane road may appear.
+4. Repeat at 1920×1080 and 1280×720 and confirm HUD, gates, outposts, and lane state remain readable. [미검증]
+5. Play through W1–W20 and inspect W15 legendary and W20 mythic milestones.

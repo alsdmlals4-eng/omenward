@@ -1,6 +1,85 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/stage_hud.gd" id="1_view"]
+
+[sub_resource type="StyleBoxFlat" id="DockStyle"]
+bg_color = Color(0.035, 0.06, 0.1, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.69, 0.54, 0.24, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="SectionStyle"]
+bg_color = Color(0.09, 0.13, 0.19, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42, 0.48, 0.58, 0.75)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="RouletteStyle"]
+bg_color = Color(0.11, 0.12, 0.16, 0.99)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.83, 0.67, 0.29, 0.9)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="CellStyle"]
+bg_color = Color(0.16, 0.2, 0.27, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.67, 0.55, 0.3, 0.75)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="SpinStyle"]
+bg_color = Color(0.68, 0.48, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.86, 0.48, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="LaneStyle"]
+bg_color = Color(0.15, 0.27, 0.42, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="BelluStyle"]
+bg_color = Color(0.12, 0.2, 0.25, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.58, 0.82, 0.9, 0.82)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [node name="StageHud" type="Control"]
 layout_mode = 3
@@ -16,9 +95,9 @@ script = ExtResource("1_view")
 layout_mode = 0
 offset_left = 20.0
 offset_top = 16.0
-offset_right = 250.0
+offset_right = 280.0
 offset_bottom = 38.0
-theme_override_colors/font_color = Color(0.9, 0.93, 0.97, 1)
+theme_override_colors/font_color = Color(0.93, 0.9, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 
 [node name="WaveLabel" type="Label" parent="."]
@@ -27,72 +106,390 @@ offset_left = 20.0
 offset_top = 40.0
 offset_right = 150.0
 offset_bottom = 62.0
-theme_override_colors/font_color = Color(0.76, 0.84, 0.94, 1)
+theme_override_colors/font_color = Color(0.7, 0.83, 0.98, 1)
 
 [node name="OmenLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 40.0
-offset_right = 320.0
-offset_bottom = 62.0
-theme_override_colors/font_color = Color(0.94, 0.8, 0.42, 1)
-
-[node name="SpinButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 450.0
-offset_right = 132.0
-offset_bottom = 486.0
-text = "Spin (20)"
-
-[node name="TowerButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 144.0
-offset_top = 450.0
-offset_right = 232.0
-offset_bottom = 486.0
-text = "Tower"
-
-[node name="FarmButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 242.0
-offset_top = 450.0
 offset_right = 330.0
-offset_bottom = 486.0
-text = "Farm"
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.96, 0.75, 0.32, 1)
 
-[node name="CardsLabel" type="Label" parent="."]
+[node name="BottomDock" type="Panel" parent="."]
 layout_mode = 0
-offset_left = 344.0
-offset_top = 450.0
-offset_right = 700.0
-offset_bottom = 486.0
+offset_left = 16.0
+offset_top = 430.0
+offset_right = 944.0
+offset_bottom = 532.0
+theme_override_styles/panel = SubResource("DockStyle")
+
+[node name="RoulettePanel" type="Panel" parent="BottomDock"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 370.0
+offset_bottom = 95.0
+theme_override_styles/panel = SubResource("RouletteStyle")
+
+[node name="Title" type="Label" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = 120.0
+offset_bottom = 22.0
+theme_override_colors/font_color = Color(0.96, 0.82, 0.42, 1)
+theme_override_font_sizes/font_size = 13
+text = "전력 룰렛"
+
+[node name="Board" type="Control" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 28.0
+offset_right = 100.0
+offset_bottom = 82.0
+
+[node name="Cell0" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_right = 28.0
+offset_bottom = 16.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell1" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_left = 30.0
+offset_right = 58.0
+offset_bottom = 16.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell2" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_left = 60.0
+offset_right = 88.0
+offset_bottom = 16.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell3" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_top = 18.0
+offset_right = 28.0
+offset_bottom = 34.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell4" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 18.0
+offset_right = 58.0
+offset_bottom = 34.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell5" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 18.0
+offset_right = 88.0
+offset_bottom = 34.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell6" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_top = 36.0
+offset_right = 28.0
+offset_bottom = 52.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell7" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 36.0
+offset_right = 58.0
+offset_bottom = 52.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="Cell8" type="Panel" parent="BottomDock/RoulettePanel/Board"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 36.0
+offset_right = 88.0
+offset_bottom = 52.0
+theme_override_styles/panel = SubResource("CellStyle")
+
+[node name="Token" type="Label" parent="BottomDock/RoulettePanel/Board/Cell8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.48, 0.55, 0.62, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "·"
+
+[node name="SpinButton" type="Button" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 28.0
+offset_right = 190.0
+offset_bottom = 53.0
+theme_override_colors/font_color = Color(0.12, 0.08, 0.03, 1)
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("SpinStyle")
+text = "회전 · 20G"
+
+[node name="ReserveLabel" type="Label" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 58.0
+offset_right = 210.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0.78, 0.86, 0.96, 1)
+theme_override_font_sizes/font_size = 11
+text = "결과 보관함  0 / 9"
+
+[node name="FeedbackLabel" type="Label" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 6.0
+offset_right = 350.0
+offset_bottom = 39.0
 theme_override_colors/font_color = Color(0.84, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 10
 autowrap_mode = 2
+text = "징조를 읽고 전력 표식을 회전하세요."
 
-[node name="DeployTop" type="Button" parent="."]
+[node name="DeploymentLabel" type="Label" parent="BottomDock/RoulettePanel"]
 layout_mode = 0
-offset_left = 710.0
-offset_top = 438.0
-offset_right = 786.0
-offset_bottom = 468.0
-text = "Top"
+offset_left = 198.0
+offset_top = 43.0
+offset_right = 350.0
+offset_bottom = 58.0
+theme_override_colors/font_color = Color(0.95, 0.81, 0.4, 1)
+theme_override_font_sizes/font_size = 10
+text = "배치: 대기 중"
 
-[node name="DeployMiddle" type="Button" parent="."]
+[node name="DeployTop" type="Button" parent="BottomDock/RoulettePanel"]
 layout_mode = 0
-offset_left = 794.0
-offset_top = 438.0
-offset_right = 870.0
-offset_bottom = 468.0
-text = "Middle"
+offset_left = 198.0
+offset_top = 61.0
+offset_right = 246.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("LaneStyle")
+text = "상단"
 
-[node name="DeployBottom" type="Button" parent="."]
+[node name="DeployMiddle" type="Button" parent="BottomDock/RoulettePanel"]
 layout_mode = 0
-offset_left = 878.0
-offset_top = 438.0
-offset_right = 952.0
-offset_bottom = 468.0
-text = "Bottom"
+offset_left = 250.0
+offset_top = 61.0
+offset_right = 298.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("LaneStyle")
+text = "중단"
+
+[node name="DeployBottom" type="Button" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 61.0
+offset_right = 350.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("LaneStyle")
+text = "하단"
+
+[node name="TacticalPanel" type="Panel" parent="BottomDock"]
+layout_mode = 0
+offset_left = 378.0
+offset_top = 7.0
+offset_right = 533.0
+offset_bottom = 95.0
+theme_override_styles/panel = SubResource("SectionStyle")
+
+[node name="Title" type="Label" parent="BottomDock/TacticalPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 145.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.77, 0.87, 0.99, 1)
+theme_override_font_sizes/font_size = 13
+text = "전술 스킬"
+
+[node name="Status" type="Label" parent="BottomDock/TacticalPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 33.0
+offset_right = 145.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.58, 0.66, 0.76, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+text = "전술 명령은 다음 전투 Slice에서 연결됩니다."
+
+[node name="ShopPanel" type="Panel" parent="BottomDock"]
+layout_mode = 0
+offset_left = 541.0
+offset_top = 7.0
+offset_right = 696.0
+offset_bottom = 95.0
+theme_override_styles/panel = SubResource("SectionStyle")
+
+[node name="Title" type="Label" parent="BottomDock/ShopPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 145.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.83, 0.9, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "상점"
+
+[node name="Status" type="Label" parent="BottomDock/ShopPanel"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 33.0
+offset_right = 145.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.58, 0.66, 0.76, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+text = "용병·아이템 목록은 다음 Slice에서 연결됩니다."
+
+[node name="BelluGuide" type="Panel" parent="BottomDock"]
+layout_mode = 0
+offset_left = 704.0
+offset_top = 7.0
+offset_right = 920.0
+offset_bottom = 95.0
+theme_override_styles/panel = SubResource("BelluStyle")
+
+[node name="Name" type="Label" parent="BottomDock/BelluGuide"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 8.0
+offset_right = 205.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(0.74, 0.94, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "벨루 · 경계의 안내"
+
+[node name="Guide" type="Label" parent="BottomDock/BelluGuide"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 31.0
+offset_right = 202.0
+offset_bottom = 73.0
+theme_override_colors/font_color = Color(0.9, 0.94, 0.98, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+text = "룰렛 결과는 보관함에 남습니다. 위험한 라인부터 배치하세요."
 
 [node name="ResultLabel" type="Label" parent="."]
 layout_mode = 0
@@ -112,10 +509,8 @@ offset_right = 546.0
 offset_bottom = 294.0
 text = "Retry Stage"
 
-[connection signal="pressed" from="SpinButton" to="." method="_on_spin_pressed"]
-[connection signal="pressed" from="TowerButton" to="." method="_on_tower_pressed"]
-[connection signal="pressed" from="FarmButton" to="." method="_on_farm_pressed"]
-[connection signal="pressed" from="DeployTop" to="." method="_on_deploy_pressed" binds= [&"top"]]
-[connection signal="pressed" from="DeployMiddle" to="." method="_on_deploy_pressed" binds= [&"middle"]]
-[connection signal="pressed" from="DeployBottom" to="." method="_on_deploy_pressed" binds= [&"bottom"]]
+[connection signal="pressed" from="BottomDock/RoulettePanel/SpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="BottomDock/RoulettePanel/DeployTop" to="." method="_on_deploy_pressed" binds= [&"top"]]
+[connection signal="pressed" from="BottomDock/RoulettePanel/DeployMiddle" to="." method="_on_deploy_pressed" binds= [&"middle"]]
+[connection signal="pressed" from="BottomDock/RoulettePanel/DeployBottom" to="." method="_on_deploy_pressed" binds= [&"bottom"]]
 [connection signal="pressed" from="RetryButton" to="." method="_on_retry_pressed"]
