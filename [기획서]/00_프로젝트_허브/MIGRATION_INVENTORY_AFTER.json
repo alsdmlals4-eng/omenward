@@ -1,0 +1,2243 @@
+{
+  "baseline_ref": "4cb0ae4b144f41597b0731a8cf26affff9713b13",
+  "baseline_files": 267,
+  "preserved": 267,
+  "missing": [],
+  "mismatched": [],
+  "worktree_files": [
+    ".editorconfig",
+    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/ISSUE_TEMPLATE/feature.md",
+    ".github/PULL_REQUEST_TEMPLATE.md",
+    ".github/workflows/validate-document-publications.yml",
+    ".gitignore",
+    ".godot/.gdignore",
+    ".godot/editor/filesystem_cache10",
+    ".godot/editor/main.tscn-folding-f39996a6d27a38698d16421ab974097b.cfg",
+    ".godot/editor/project_metadata.cfg",
+    ".godot/global_script_class_cache.cfg",
+    ".godot/imported/omenward-battlefield-3lane-concept-v1.png-b630c543b34383fbfe97da65c69d62cc.ctex",
+    ".godot/imported/omenward-battlefield-3lane-concept-v1.png-b630c543b34383fbfe97da65c69d62cc.md5",
+    ".godot/uid_cache.bin",
+    "AGENTS.md",
+    "README.md",
+    "[기획서]/00_프로젝트_허브/00_프로젝트_종합_책임_원본.md",
+    "[기획서]/00_프로젝트_허브/00_프로젝트_종합_책임_원본.pdf",
+    "[기획서]/00_프로젝트_허브/00_프로젝트_종합_책임_원본_PUBLICATION_MANIFEST.json",
+    "[기획서]/00_프로젝트_허브/ACTIVE_CONTEXT.md",
+    "[기획서]/00_프로젝트_허브/ASSET_REGISTRY.json",
+    "[기획서]/00_프로젝트_허브/BASE_RULES_VERSION.md",
+    "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json",
+    "[기획서]/00_프로젝트_허브/DEVELOPMENT_GATES.md",
+    "[기획서]/00_프로젝트_허브/DOCUMENTATION_MAP.md",
+    "[기획서]/00_프로젝트_허브/MIGRATION_INVENTORY_AFTER.json",
+    "[기획서]/00_프로젝트_허브/MIGRATION_INVENTORY_BEFORE.json",
+    "[기획서]/00_프로젝트_허브/MIGRATION_PRESERVATION_LEDGER.md",
+    "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets/discipline-routing.png",
+    "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets/skill-flow.png",
+    "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets/skill-matrix.png",
+    "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md",
+    "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf",
+    "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json",
+    "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json",
+    "[기획서]/00_프로젝트_허브/START_HERE.md",
+    "[기획서]/00_프로젝트_허브/UPDATE_MATRIX.md",
+    "[기획서]/01_설정_내러티브/01_설정_내러티브_본책.md",
+    "[기획서]/01_설정_내러티브/01_설정_내러티브_본책.pdf",
+    "[기획서]/01_설정_내러티브/01_설정_내러티브_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/02_게임_디자인/02_게임_디자인_본책.md",
+    "[기획서]/02_게임_디자인/02_게임_디자인_본책.pdf",
+    "[기획서]/02_게임_디자인/02_게임_디자인_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_BENCHMARK_DECISIONS.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_OMENWARD_WORLD_AND_NAMING.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_ROULETTE_CORE_RULES.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md",
+    "[기획서]/02_게임_디자인/등록_부록/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md",
+    "[기획서]/02_게임_디자인/등록_부록/DESIGN_FREEZE_CHECKLIST.md",
+    "[기획서]/02_게임_디자인/등록_부록/OMENWARD_GAME_DESIGN.md",
+    "[기획서]/03_UX_UI_접근성/03_UX_UI_접근성_본책.md",
+    "[기획서]/03_UX_UI_접근성/03_UX_UI_접근성_본책.pdf",
+    "[기획서]/03_UX_UI_접근성/03_UX_UI_접근성_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/03_UX_UI_접근성/등록_부록/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md",
+    "[기획서]/03_UX_UI_접근성/등록_부록/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md",
+    "[기획서]/03_UX_UI_접근성/등록_부록/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md",
+    "[기획서]/04_개발_엔지니어링/04_개발_엔지니어링_본책.md",
+    "[기획서]/04_개발_엔지니어링/04_개발_엔지니어링_본책.pdf",
+    "[기획서]/04_개발_엔지니어링/04_개발_엔지니어링_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/04_개발_엔지니어링/등록_부록/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md",
+    "[기획서]/04_개발_엔지니어링/등록_부록/GODOT_PROJECT_STRUCTURE.md",
+    "[기획서]/05_테크니컬아트_콘텐츠_파이프라인/05_테크니컬아트_콘텐츠_파이프라인_본책.md",
+    "[기획서]/05_테크니컬아트_콘텐츠_파이프라인/05_테크니컬아트_콘텐츠_파이프라인_본책.pdf",
+    "[기획서]/05_테크니컬아트_콘텐츠_파이프라인/05_테크니컬아트_콘텐츠_파이프라인_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/06_아트/06_아트_본책.md",
+    "[기획서]/06_아트/06_아트_본책.pdf",
+    "[기획서]/06_아트/06_아트_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/06_아트/등록_부록/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md",
+    "[기획서]/06_아트/등록_부록/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md",
+    "[기획서]/06_아트/승인_참고_자산/omenward-battlefield-3lane-concept-v1.png",
+    "[기획서]/06_아트/증거/.staging/READY",
+    "[기획서]/06_아트/증거/.staging/roster/part_00",
+    "[기획서]/06_아트/증거/.staging/roster/part_01",
+    "[기획서]/06_아트/증거/.staging/roster/part_02",
+    "[기획서]/06_아트/증거/.staging/roster/part_03",
+    "[기획서]/06_아트/증거/.staging/roster/part_04",
+    "[기획서]/06_아트/증거/.staging/roster/part_05",
+    "[기획서]/06_아트/증거/.staging/roster/part_06",
+    "[기획서]/06_아트/증거/.staging/roster/part_07",
+    "[기획서]/06_아트/증거/.staging/roster/part_08",
+    "[기획서]/06_아트/증거/.staging/roster/part_09",
+    "[기획서]/06_아트/증거/.staging/roster/part_10",
+    "[기획서]/06_아트/증거/.staging/roster/part_11",
+    "[기획서]/06_아트/증거/.staging/roster/part_12",
+    "[기획서]/06_아트/증거/.staging/roster_legacy.b64",
+    "[기획서]/06_아트/증거/.staging/ui/part_00",
+    "[기획서]/06_아트/증거/.staging/ui/part_01",
+    "[기획서]/06_아트/증거/.staging/ui/part_02",
+    "[기획서]/06_아트/증거/.staging/ui/part_03",
+    "[기획서]/06_아트/증거/.staging/ui/part_04",
+    "[기획서]/06_아트/증거/.staging/ui/part_05",
+    "[기획서]/06_아트/증거/.staging/ui/part_06",
+    "[기획서]/06_아트/증거/.staging/ui/part_07",
+    "[기획서]/06_아트/증거/README.md",
+    "[기획서]/06_아트/증거/VISUAL_REFERENCE_INDEX.md",
+    "[기획서]/07_사운드/07_사운드_본책.md",
+    "[기획서]/07_사운드/07_사운드_본책.pdf",
+    "[기획서]/07_사운드/07_사운드_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/08_QA/08_QA_본책.md",
+    "[기획서]/08_QA/08_QA_본책.pdf",
+    "[기획서]/08_QA/08_QA_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/08_QA/등록_부록/PHASE_0_VALIDATION.md",
+    "[기획서]/08_QA/등록_부록/VERTICAL_SLICE_VALIDATION.md",
+    "[기획서]/09_프로덕션_PM/09_프로덕션_PM_본책.md",
+    "[기획서]/09_프로덕션_PM/09_프로덕션_PM_본책.pdf",
+    "[기획서]/09_프로덕션_PM/09_프로덕션_PM_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/09_프로덕션_PM/등록_부록/HANDOFF_CONTEXT.md",
+    "[기획서]/09_프로덕션_PM/등록_부록/OMENWARD_ROADMAP.md",
+    "[기획서]/10_분석_유저리서치/10_분석_유저리서치_본책.md",
+    "[기획서]/10_분석_유저리서치/10_분석_유저리서치_본책.pdf",
+    "[기획서]/10_분석_유저리서치/10_분석_유저리서치_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/10_분석_유저리서치/등록_부록/.keep",
+    "[기획서]/10_분석_유저리서치/등록_부록/0001-core-game-benchmark-proposal.md",
+    "[기획서]/10_분석_유저리서치/등록_부록/APPLICATION_CANDIDATES.md",
+    "[기획서]/10_분석_유저리서치/등록_부록/DECISION_STATUS.md",
+    "[기획서]/10_분석_유저리서치/등록_부록/PLAYER_REACTION_THEMES.md",
+    "[기획서]/10_분석_유저리서치/등록_부록/README.md",
+    "[기획서]/10_분석_유저리서치/등록_부록/REVIEW_CHECKLIST.md",
+    "[기획서]/10_분석_유저리서치/등록_부록/SOURCE_SNAPSHOT_2026-07-14.md",
+    "[기획서]/11_통합검수/11_통합검수_본책.md",
+    "[기획서]/11_통합검수/11_통합검수_본책.pdf",
+    "[기획서]/11_통합검수/11_통합검수_본책_PUBLICATION_MANIFEST.json",
+    "[기획서]/[백업]/omenward/README.md",
+    "[기획서]/[백업]/omenward/goals/0001-engine-selection-and-bootstrap.md",
+    "[기획서]/[백업]/omenward/goals/0002-core-vertical-slice.md",
+    "[기획서]/[백업]/omenward/issues/0001.md",
+    "[기획서]/[백업]/omenward/issues/0002.md",
+    "[기획서]/[백업]/omenward/issues/0003.md",
+    "[기획서]/[백업]/omenward/issues/0004.md",
+    "[기획서]/[백업]/omenward/issues/0005.md",
+    "[기획서]/[백업]/omenward/issues/0006.md",
+    "[기획서]/[백업]/omenward/issues/0007.md",
+    "[기획서]/[백업]/omenward/issues/0008.md",
+    "[기획서]/[백업]/omenward/issues/0009.md",
+    "[기획서]/[백업]/omenward/issues/0010.md",
+    "[기획서]/[백업]/omenward/issues/0011.md",
+    "[기획서]/[백업]/omenward/issues/0012.md",
+    "[기획서]/[백업]/omenward/issues/0013.md",
+    "[기획서]/[백업]/omenward/issues/0014.md",
+    "[기획서]/[백업]/omenward/issues/0015.md",
+    "[기획서]/[백업]/omenward/issues/0016.md",
+    "[기획서]/[백업]/omenward/issues/0017.md",
+    "[기획서]/[백업]/omenward/issues/0018.md",
+    "[기획서]/[백업]/omenward/issues/0019.md",
+    "[기획서]/[백업]/omenward/issues/0020.md",
+    "[기획서]/[백업]/omenward/issues/0021.md",
+    "[기획서]/[백업]/omenward/issues/0022.md",
+    "[기획서]/[백업]/omenward/issues/0023.md",
+    "[기획서]/[백업]/omenward/issues/0024.md",
+    "[기획서]/[백업]/omenward/issues/0025.md",
+    "[기획서]/[백업]/omenward/issues/0026.md",
+    "[기획서]/[백업]/omenward/issues/0027.md",
+    "[기획서]/[백업]/omenward/issues/0028.md",
+    "[기획서]/[백업]/omenward/issues/0029.md",
+    "[기획서]/[백업]/omenward/issues/0030.md",
+    "[기획서]/[백업]/omenward/issues/0031.md",
+    "[기획서]/[백업]/omenward/issues/0032.md",
+    "[기획서]/[백업]/omenward/issues/0033.md",
+    "[기획서]/[백업]/omenward/issues/0034.md",
+    "[기획서]/[백업]/omenward/issues/README.md",
+    "[기획서]/[백업]/omenward/root-docs/ACTIVE_CONTEXT.md",
+    "[기획서]/[백업]/omenward/root-docs/BASE_RULES_VERSION.md",
+    "[기획서]/[백업]/omenward/root-docs/DECISIONS_PENDING.md",
+    "[기획서]/[백업]/omenward/root-docs/DOCUMENTATION_MAP.md",
+    "[기획서]/[백업]/omenward/root-docs/DOCUMENT_LIFECYCLE.md",
+    "[기획서]/[백업]/omenward/root-docs/PROPOSAL_WORKFLOW.md",
+    "[기획서]/[백업]/omenward/root-docs/REFERENCE_REPOSITORIES.md",
+    "[기획서]/[백업]/omenward/root/AGENTS.md",
+    "[기획서]/[백업]/omenward/root/README.md",
+    "[기획서]/[백업]/omenward/superpowers/plans/2026-07-16-vertical-slice-stage-progression.md",
+    "[기획서]/[백업]/omenward/superpowers/specs/2026-07-16-vertical-slice-stage-progression-design.md",
+    "[기획서]/[백업]/omenward/work_orders/0001-phase-0-codex-plan-mode.md",
+    "[기획서]/[백업]/omenward/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md",
+    "[기획서]/[보류]/omenward/design/notes/0005a-construction-durability-and-doctrine-recommendation.md",
+    "[기획서]/[보류]/omenward/design/notes/0006a-tactical-command-economy-and-cooldown-recommendation.md",
+    "[기획서]/[보류]/omenward/design/notes/building-proposal-review-questions.md",
+    "[기획서]/[보류]/omenward/design/notes/roulette-proposal-review-questions.md",
+    "[기획서]/[보류]/omenward/design/proposals/0001-match-structure-and-start-conditions.md",
+    "[기획서]/[보류]/omenward/design/proposals/0001-phase-0-godot-bootstrap.md",
+    "[기획서]/[보류]/omenward/design/proposals/0002-prototype-campaign-and-stage-generator.md",
+    "[기획서]/[보류]/omenward/design/proposals/0003-constraint-system.md",
+    "[기획서]/[보류]/omenward/design/proposals/0004-roulette-resolution-bench-and-lucky-chance.md",
+    "[기획서]/[보류]/omenward/design/proposals/0005-building-tiers-lifecycle-and-economy.md",
+    "[기획서]/[보류]/omenward/design/proposals/0006-tactical-commands.md",
+    "[기획서]/[보류]/omenward/design/proposals/0007-boss-cleave-and-barricade-counter.md",
+    "[기획서]/[보류]/omenward/design/proposals/0008-combat-keywords-status-effects-and-interrupts.md",
+    "[기획서]/[보류]/omenward/design/proposals/0009-world-naming-directions.md",
+    "[기획서]/[보류]/omenward/design/proposals/0010-english-world-names-and-game-title.md",
+    "[기획서]/[보류]/omenward/design/proposals/0011-korean-natural-fantasy-names-law-and-mascot.md",
+    "[기획서]/[보류]/omenward/proposals/0002-benchmarking-review-gate.md",
+    "[기획서]/[보류]/omenward/proposals/0002-issue-body.md",
+    "[기획서]/[보류]/omenward/proposals/README.md",
+    "data/bootstrap_catalog.tres",
+    "data/stages/regular_stage.tres",
+    "data/stages/tutorial_stage.tres",
+    "data/units/archer.tres",
+    "data/units/assassin.tres",
+    "data/units/cavalry.tres",
+    "data/units/flier.tres",
+    "data/units/giant.tres",
+    "data/units/greatsword_warrior.tres",
+    "data/units/mage.tres",
+    "data/units/priest.tres",
+    "data/units/shield_guard.tres",
+    "data/units/spear_guard.tres",
+    "project.godot",
+    "requirements-publication.txt",
+    "scenes/battle/battlefield.tscn",
+    "scenes/main/main.tscn",
+    "scenes/ui/stage_hud.tscn",
+    "scenes/ui/stage_select.tscn",
+    "scenes/units/unit.tscn",
+    "schemas/design-document-registry-v3.schema.json",
+    "schemas/publication-manifest-v3.schema.json",
+    "schemas/skill-registry-v3.schema.json",
+    "schemas/structured-design-document-v3.schema.json",
+    "scripts/battle/assassin_bypass_state.gd",
+    "scripts/battle/assassin_bypass_state.gd.uid",
+    "scripts/battle/battle_simulator.gd",
+    "scripts/battle/battle_simulator.gd.uid",
+    "scripts/battle/battlefield_view.gd",
+    "scripts/battle/battlefield_view.gd.uid",
+    "scripts/battle/clash_zone_state.gd",
+    "scripts/battle/clash_zone_state.gd.uid",
+    "scripts/battle/gate_state.gd",
+    "scripts/battle/gate_state.gd.uid",
+    "scripts/battle/lane_state.gd",
+    "scripts/battle/lane_state.gd.uid",
+    "scripts/battle/outpost_state.gd",
+    "scripts/battle/outpost_state.gd.uid",
+    "scripts/battle/unit_instance.gd",
+    "scripts/battle/unit_instance.gd.uid",
+    "scripts/buildings/building_service.gd",
+    "scripts/buildings/building_service.gd.uid",
+    "scripts/buildings/building_state.gd",
+    "scripts/buildings/building_state.gd.uid",
+    "scripts/core/bootstrap_validator.gd",
+    "scripts/core/bootstrap_validator.gd.uid",
+    "scripts/core/combat_clock.gd",
+    "scripts/core/combat_clock.gd.uid",
+    "scripts/core/data_registry.gd",
+    "scripts/core/data_registry.gd.uid",
+    "scripts/core/determinism_service.gd",
+    "scripts/core/determinism_service.gd.uid",
+    "scripts/core/game_session.gd",
+    "scripts/core/game_session.gd.uid",
+    "scripts/core/stage_economy.gd",
+    "scripts/core/stage_economy.gd.uid",
+    "scripts/core/stage_manifest.gd",
+    "scripts/core/stage_manifest.gd.uid",
+    "scripts/core/stage_progression.gd",
+    "scripts/core/stage_progression.gd.uid",
+    "scripts/core/stage_run.gd",
+    "scripts/core/stage_run.gd.uid",
+    "scripts/data/animation_contract.gd",
+    "scripts/data/animation_contract.gd.uid",
+    "scripts/data/attack_profile.gd",
+    "scripts/data/attack_profile.gd.uid",
+    "scripts/data/battlefield_profile.gd",
+    "scripts/data/battlefield_profile.gd.uid",
+    "scripts/data/bootstrap_catalog.gd",
+    "scripts/data/bootstrap_catalog.gd.uid",
+    "scripts/data/boss_behavior_package.gd",
+    "scripts/data/boss_behavior_package.gd.uid",
+    "scripts/data/boss_phase_profile.gd",
+    "scripts/data/boss_phase_profile.gd.uid",
+    "scripts/data/building_definition.gd",
+    "scripts/data/building_definition.gd.uid",
+    "scripts/data/faction_visual_profile.gd",
+    "scripts/data/faction_visual_profile.gd.uid",
+    "scripts/data/rank_profile.gd",
+    "scripts/data/rank_profile.gd.uid",
+    "scripts/data/stage_definition.gd",
+    "scripts/data/stage_definition.gd.uid",
+    "scripts/data/tier_profile.gd",
+    "scripts/data/tier_profile.gd.uid",
+    "scripts/data/unit_archetype_profile.gd",
+    "scripts/data/unit_archetype_profile.gd.uid",
+    "scripts/data/unit_spawn_definition.gd",
+    "scripts/data/unit_spawn_definition.gd.uid",
+    "scripts/data/wave_definition.gd",
+    "scripts/data/wave_definition.gd.uid",
+    "scripts/roulette/roulette_service.gd",
+    "scripts/roulette/roulette_service.gd.uid",
+    "scripts/ui/bootstrap_visual_probe.gd",
+    "scripts/ui/bootstrap_visual_probe.gd.uid",
+    "scripts/ui/stage_hud.gd",
+    "scripts/ui/stage_hud.gd.uid",
+    "scripts/ui/stage_select.gd",
+    "scripts/ui/stage_select.gd.uid",
+    "scripts/units/deployment_service.gd",
+    "scripts/units/deployment_service.gd.uid",
+    "scripts/units/unit_view.gd",
+    "scripts/units/unit_view.gd.uid",
+    "scripts/waves/wave_director.gd",
+    "scripts/waves/wave_director.gd.uid",
+    "skills/LEARNING_LOG.md",
+    "skills/disciplines/01-narrative/SKILL.md",
+    "skills/disciplines/02-game-design/SKILL.md",
+    "skills/disciplines/03-ux-ui-accessibility/SKILL.md",
+    "skills/disciplines/04-engineering/SKILL.md",
+    "skills/disciplines/05-technical-art-pipeline/SKILL.md",
+    "skills/disciplines/06-art/SKILL.md",
+    "skills/disciplines/07-audio/SKILL.md",
+    "skills/disciplines/08-qa/SKILL.md",
+    "skills/disciplines/09-production-pm/SKILL.md",
+    "skills/disciplines/10-analytics-user-research/SKILL.md",
+    "skills/disciplines/11-integration-review/SKILL.md",
+    "src/README.md",
+    "tests/README.md",
+    "tests/headless/battle_simulation_test.gd",
+    "tests/headless/battle_simulation_test.gd.uid",
+    "tests/headless/economy_roulette_test.gd",
+    "tests/headless/economy_roulette_test.gd.uid",
+    "tests/headless/phase_0_contract_test.gd",
+    "tests/headless/phase_0_contract_test.gd.uid",
+    "tests/headless/scene_contract_test.gd",
+    "tests/headless/scene_contract_test.gd.uid",
+    "tests/headless/stage_data_contract_test.gd",
+    "tests/headless/stage_data_contract_test.gd.uid",
+    "tests/headless/stage_run_test.gd",
+    "tests/headless/stage_run_test.gd.uid",
+    "tests/python/__pycache__/test_issue_mirror.cpython-312.pyc",
+    "tests/python/test_issue_mirror.py",
+    "tools/__pycache__/build_design_documents.cpython-312.pyc",
+    "tools/__pycache__/build_project_skill_map.cpython-312.pyc",
+    "tools/__pycache__/design_document_diagrams.cpython-312.pyc",
+    "tools/__pycache__/issue_mirror.cpython-312.pyc",
+    "tools/__pycache__/publication_v3.cpython-312.pyc",
+    "tools/__pycache__/skill_map_diagrams.cpython-312.pyc",
+    "tools/build_design_documents.py",
+    "tools/build_project_skill_map.py",
+    "tools/check_active_markdown_links.py",
+    "tools/design_document_diagrams.py",
+    "tools/issue_mirror.py",
+    "tools/migration_inventory.py",
+    "tools/publication_v3.py",
+    "tools/rewrite_migrated_links.py",
+    "tools/skill_map_diagrams.py",
+    "tools/sync_repo.ps1",
+    "tools/verify_migration_inventory.py"
+  ],
+  "rows": [
+    {
+      "source_path": ".editorconfig",
+      "disposition": "[증거]",
+      "target_path": ".editorconfig",
+      "sha256": "fbb87bedc2547f38f12c655e34a4b44f568aa0e5e40d77b14d75bb5a1079a347",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": ".github/ISSUE_TEMPLATE/config.yml",
+      "disposition": "[증거]",
+      "target_path": ".github/ISSUE_TEMPLATE/config.yml",
+      "sha256": "13064e7bea658e01e718b414fbb7b3b244f36411fe25ee2055c151f7b534547a",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": ".github/ISSUE_TEMPLATE/feature.md",
+      "disposition": "[증거]",
+      "target_path": ".github/ISSUE_TEMPLATE/feature.md",
+      "sha256": "d2344dc438cb07c52bd78041529ca6d5e43509fd2f5731bef18fe38935ae505a",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "disposition": "[증거]",
+      "target_path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "sha256": "01e5d77bfc01d11ab44fe4c1547457d396f90be931ecd4b287a72228169eb85c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": ".github/workflows/decode-planning-image-staging.yml",
+      "disposition": "[제거]",
+      "target_path": ".github/workflows/decode-planning-image-staging.yml",
+      "sha256": "f49fb3a042bc534678d1e44d0fe0193e0826075cdb1d9641af68852080576729",
+      "state": "REMOVED_ALLOWED"
+    },
+    {
+      "source_path": ".github/workflows/issue-to-repo.yml",
+      "disposition": "[제거]",
+      "target_path": ".github/workflows/issue-to-repo.yml",
+      "sha256": "2e7851d576b76d40ce146385a2ee3187ed6c427a04a20788c7125eb0a42c9349",
+      "state": "REMOVED_ALLOWED"
+    },
+    {
+      "source_path": ".github/workflows/repo-to-issue.yml",
+      "disposition": "[제거]",
+      "target_path": ".github/workflows/repo-to-issue.yml",
+      "sha256": "a7f84448ce4e75adcfa2ad6508d4fe7d211e944792deeedb8d983ebd36cc58b0",
+      "state": "REMOVED_ALLOWED"
+    },
+    {
+      "source_path": ".gitignore",
+      "disposition": "[증거]",
+      "target_path": ".gitignore",
+      "sha256": "1a2672bf0a0bb7afec5712acc40338a6bbcd2b2a1297759b5e561dfbb28cb0f0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "AGENTS.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root/AGENTS.md",
+      "sha256": "e57d567ec7d3daa00edfe234d1285d18855c6159197ff7193084f31744833326",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "README.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root/README.md",
+      "sha256": "47f23deee333886281ed7fc64408755bfb372c33ac88219deab81b0d04f0ad4c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/bootstrap_catalog.tres",
+      "disposition": "[증거]",
+      "target_path": "data/bootstrap_catalog.tres",
+      "sha256": "c3ed8a105e803e8ab49ff86a9b966949e441461951a61f2dfafa896640720a46",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/stages/regular_stage.tres",
+      "disposition": "[증거]",
+      "target_path": "data/stages/regular_stage.tres",
+      "sha256": "efa2c89c261b940f2487d29a7a3307bf6248acd44ee8d85c58249d1f07f09492",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/stages/tutorial_stage.tres",
+      "disposition": "[증거]",
+      "target_path": "data/stages/tutorial_stage.tres",
+      "sha256": "fcbe940d89e4d6d0e1a8105353639bf2d6241711998b0c52d69b06e42a874485",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/archer.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/archer.tres",
+      "sha256": "18875a9cb90434e04bd199096d52bdabf6f96ff9446323d2616431f7d9f54ad8",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/assassin.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/assassin.tres",
+      "sha256": "29be6987c1a4c2dd8a5afa81cf22757f5c25973c051efa32bdf02bfbe58a40fb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/cavalry.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/cavalry.tres",
+      "sha256": "e603c406ad814886c330e1ac0b2d1d2bbbdbeb969b54166f42470d04dbca4c95",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/flier.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/flier.tres",
+      "sha256": "3524d64833e42b047e3763a4335a1b3249bfb387642c62d53ea8c7d85702944e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/giant.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/giant.tres",
+      "sha256": "41578e9f9d3901c49a22021d464c188d483929b9136ae68a9a5d078f13e97028",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/greatsword_warrior.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/greatsword_warrior.tres",
+      "sha256": "667044d834b98cb3f26d1768e5499b7726d53f600498c50a4f24f5e66159ca95",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/mage.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/mage.tres",
+      "sha256": "982d0836620eb75281a9ade65b65067687104b95aa5697cc809f2857d218d41f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/priest.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/priest.tres",
+      "sha256": "4ee2961d71a4ddd10f9cfce808e4cd6b8c191d619de123847b315a23ae0119da",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/shield_guard.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/shield_guard.tres",
+      "sha256": "f67147a06270e8401298dbceeb13c9d338a1ab82eb13c0c5a9f70973289ac578",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "data/units/spear_guard.tres",
+      "disposition": "[증거]",
+      "target_path": "data/units/spear_guard.tres",
+      "sha256": "a46dcf18ebab04a3d18b54c446bf5c26800fc8076554b6ab4468e1f28b994eda",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/ACTIVE_CONTEXT.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/ACTIVE_CONTEXT.md",
+      "sha256": "608ff3dd4c1321d81b4c3c402079d89e2ca1d629279581b1d406ac02126452ef",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/BASE_RULES_VERSION.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/BASE_RULES_VERSION.md",
+      "sha256": "7dcc8f63fac6aa16ad7fc25d2cfaae024ba4aff6ccc950e418eaa87ed2f49b69",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/DECISIONS_PENDING.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/DECISIONS_PENDING.md",
+      "sha256": "c4d82fc0d3f5a94ad66b693920cd157c3ada969d255257d4911d423914345f49",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/DOCUMENTATION_MAP.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/DOCUMENTATION_MAP.md",
+      "sha256": "d43f3fb742b6c0cc52c3e8ee085319268664e8b89a120dbcf7f5b300742a34c7",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/DOCUMENT_LIFECYCLE.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/DOCUMENT_LIFECYCLE.md",
+      "sha256": "a2e6acdefc24cbf524629f49450a60d6e58286ef265f42a088eb312816d48cc7",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/GODOT_PROJECT_STRUCTURE.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/04_개발_엔지니어링/등록_부록/GODOT_PROJECT_STRUCTURE.md",
+      "sha256": "847106f96831e3d30aa343ee42677144f1f7c5a557bb8f54cdc617adbdb23221",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/HANDOFF_CONTEXT.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/09_프로덕션_PM/등록_부록/HANDOFF_CONTEXT.md",
+      "sha256": "48819e85d9a35bd232d84fe5b2906c316152e8419b5d4978fb7c095733d1adcd",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/OMENWARD_GAME_DESIGN.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/OMENWARD_GAME_DESIGN.md",
+      "sha256": "6869f238df6777ade9ef26568dbf633e60b2b9247c9afdbd3d495305a0564b76",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/OMENWARD_ROADMAP.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/09_프로덕션_PM/등록_부록/OMENWARD_ROADMAP.md",
+      "sha256": "5dce449d75d9211551637f9a889080e0086f0f48c0dc6d304eb0111c7a97cc32",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/PHASE_0_VALIDATION.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/08_QA/등록_부록/PHASE_0_VALIDATION.md",
+      "sha256": "acd52aeebba9a42f3d4d24ffef2ed452ddccceadad7ce4d588aa47b1476adcda",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/PROPOSAL_WORKFLOW.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/PROPOSAL_WORKFLOW.md",
+      "sha256": "798d6fd8e50efb8a75658aa8935d642b86ddbeb97f73cfa32ab38de8df3ab4a4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/REFERENCE_REPOSITORIES.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/root-docs/REFERENCE_REPOSITORIES.md",
+      "sha256": "7dc3816e3488bd40c13bc50c76132e01ef2531160a9e245bb322094d9c162020",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/VERTICAL_SLICE_VALIDATION.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/08_QA/등록_부록/VERTICAL_SLICE_VALIDATION.md",
+      "sha256": "7dda948a3c2e7a93ca8bad8c852c70a306eba5f349f3fb4a4f1f50fc5b3862b4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/archive/README.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/README.md",
+      "sha256": "994ff10a5cc988dcdb1a38d083b063fd0afa178ff249d282a6c63640d85c4bfe",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/.keep",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/.keep",
+      "sha256": "b62ab748714f1b2ecbbc3c42daaff70f1305fd880d3bd99cc4057e9e6601cb02",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/0001-core-game-benchmark-proposal.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/0001-core-game-benchmark-proposal.md",
+      "sha256": "33f72d3810a8bd13f1a9be0e0aae0a5e562f8bfeee62eec53046f7ab4cdf918f",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/benchmarks/APPLICATION_CANDIDATES.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/APPLICATION_CANDIDATES.md",
+      "sha256": "d865c3f24c6749f3586a7b0602a5a5d890670d9f8b845b45981ccac78cb9f0a6",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/DECISION_STATUS.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/DECISION_STATUS.md",
+      "sha256": "8baeaa9bd87e9ae7c60c77242e20177584a961c39f14e77584ce51a4923aaa54",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/PLAYER_REACTION_THEMES.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/PLAYER_REACTION_THEMES.md",
+      "sha256": "1ffd720980f26a245ea910f2783662edce1999144c11a5e1439ad7fd377d5c41",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/README.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/README.md",
+      "sha256": "91da8cec2e4d9dbaf20ab5aca55c273b40cbde9a0ea98952eb0601f26cfa0229",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/REVIEW_CHECKLIST.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/REVIEW_CHECKLIST.md",
+      "sha256": "6ce1a1df480123b0add003242d8080f58be23cd194ad042f8a632278ec676b53",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/benchmarks/SOURCE_SNAPSHOT_2026-07-14.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/10_분석_유저리서치/등록_부록/SOURCE_SNAPSHOT_2026-07-14.md",
+      "sha256": "5750fb81e1709a14a80fc8938dc6341904f4d54a8e00c672c23e04d60e19662d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md",
+      "sha256": "a4b55ef0e5917b2f63026bd394febc80ef097c5ff875cdfeb676cbff93f60158",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md",
+      "sha256": "a48df9b5a4f4055406582be5842e19b37e7fb0f16e7465bd5c2bfa5d908a205e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md",
+      "sha256": "316b7c55a13a9a3270d1b55da067880efe000ef2749dae8ad85dde8cdd31d292",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_BARRACKS_TIER2_TIER3_INTEGRATED_TREE_V2.md",
+      "sha256": "abe61556204523d046f42ba75c34df626b909d6ed0dc8f96d25be3376b4c8405",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_BARRACKS_TIER3_EVOLUTION_AND_GRADE_SKILLS.md",
+      "sha256": "b4a6149d83d5d2df6b994246e75085540a9c768aec66824deef1cf1a1215fadf",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md",
+      "sha256": "24f62877758fedc6856b4f38ecbc12a50eca47aa7d1e33eedd4e987f369fb9fc",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md",
+      "sha256": "ac38dc9c96611db059c901093e477e6b63bbc640be992d0b4c5d695c882187fe",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md",
+      "sha256": "07b658eb840cc7bc541040097e666881e095ea9e9c914539b03125dd48c6638d",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BENCHMARK_DECISIONS.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_BENCHMARK_DECISIONS.md",
+      "sha256": "7285b9e84473fe4bb2c72c6a3f1d854b6de228f072678bb52c0b7aa6ca9c72bb",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md",
+      "sha256": "d85d22ffb11096d0d7dc6923839555f5f8b5b60d9364f9e062e51e80e5311532",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md",
+      "sha256": "78b7a9d4f509d2dc6bb1fe755fff68f9f09a5d72692e542106b2ab819bf96e09",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md",
+      "sha256": "8b2cf1d841704bc6f28e2286d32bbd89ceac5bc34bc352842341652c5893ac8e",
+      "state": "PRESERVED_WITH_REFERENCE_UPDATE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md",
+      "sha256": "a8a7bf8d6a57e01c7de88b5f616750a9909a6e998fe0362c03cfafa65f68b458",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/03_UX_UI_접근성/등록_부록/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md",
+      "sha256": "dc1effcaf370b3b934a7ff8d4d3f4cd4306d5bfe832a6fb1d053d92e871368cf",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md",
+      "sha256": "cb4480ad6b114be91d0d225324702315324559bb26add3aafb1e16fdca990b83",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_OMENWARD_WORLD_AND_NAMING.md",
+      "sha256": "33f40e36641364ff72ed6c3de6076f367366784068a7380e2905fb3a47426fc7",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/04_개발_엔지니어링/등록_부록/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md",
+      "sha256": "882da856b42fbcc42159b46dbeb5e2626bad6623b169d79732e4796c9929157e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md",
+      "sha256": "293000cfa8a7e37b28c6e125eaa431ed684ba421ba09e831ae5e049911ee29ad",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md",
+      "sha256": "fe93f853db9d906903798e33e80e81bd0c516fff561f3ffffdb5e8c79afbc186",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md",
+      "sha256": "708d1c96117ded5d7ac44318a45252701f9f21f4a108d95251df879b8bb7b30b",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_ROULETTE_CORE_RULES.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_ROULETTE_CORE_RULES.md",
+      "sha256": "38e3e9cc59e9cef0b3117f91c23bcb77b35d4ccc1fdbf9f27033623cea69a848",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md",
+      "sha256": "be39e7c13bf5dfba68758ea2e9c3b96254682ab22c5969016e4612787ec7863d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md",
+      "sha256": "8161cc2005a4d88fa197b5f8b8a5e104a6c4cb0b2c93b641fe0f7b7c3bb396cd",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md",
+      "sha256": "c1424f5325a3df4efb3cc821dd8f192176dc78e407f4b9f640f5f6b8403a50c1",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md",
+      "sha256": "6aa28d15a37385515b3ad2ab3d4676eee9adf4b35cc9a583bbdf85ad4ae474d2",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md",
+      "sha256": "989b7884a0f687759661e1ffb860c2cb2517a44c0c1e18889c80e25a1327acfd",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/03_UX_UI_접근성/등록_부록/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md",
+      "sha256": "ec94fd70119c402e606a526bcd8d4b91c2c0f554c3fe0759786ce67e3db7f521",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/03_UX_UI_접근성/등록_부록/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md",
+      "sha256": "e265e3c46b14209d2227def6ea2d6ef11f9cafffd69ff034a526d988143022d6",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md",
+      "sha256": "2b007195a9ce88637f02b28b9b7d726d6560a2200e9aee6d0d0cd106e4512202",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md",
+      "sha256": "9d763ef229526e3cd2a43b6eb5dabdbb8cba9f2a44957d2ecc53d859bdd6167c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md",
+      "sha256": "8482458a1e7e6e7420b22c43f8221868560c17c0cafdced53614bf3422316361",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/06_아트/등록_부록/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md",
+      "sha256": "11538a6c46af6235f79495753205107b77b37d3105419f0b99e72448d054369c",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/design/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/APPROVED_WARRIOR_FAMILY_TIER2_ABILITIES.md",
+      "sha256": "062c964e1bb4539ddeebe030b3769e0477f40dda5153272f9f66687cc62b35b4",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/design/DESIGN_FREEZE_CHECKLIST.md",
+      "disposition": "[등록 부록]",
+      "target_path": "[기획서]/02_게임_디자인/등록_부록/DESIGN_FREEZE_CHECKLIST.md",
+      "sha256": "a15164bd8695d3d0a81f9a2f28e300ce49f8e9d4a7cc73b490e4ccd3daf17c3d",
+      "state": "PRESERVED_WITH_ROUTING_ANNOTATION"
+    },
+    {
+      "source_path": "docs/design/notes/0005a-construction-durability-and-doctrine-recommendation.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/notes/0005a-construction-durability-and-doctrine-recommendation.md",
+      "sha256": "49885bc798b066fe27a3f64432d6224245cf4331d6314eac984f920b5c44c049",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/notes/0006a-tactical-command-economy-and-cooldown-recommendation.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/notes/0006a-tactical-command-economy-and-cooldown-recommendation.md",
+      "sha256": "a6917e37124af111c5e01fa64599d44dc557f9dae6be9c77edf2d68de22e4ecb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/notes/building-proposal-review-questions.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/notes/building-proposal-review-questions.md",
+      "sha256": "705c5eed72c1c7ec04ca96a5b3231646b134d49eef7f75743fac2bcbc48d9872",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/notes/roulette-proposal-review-questions.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/notes/roulette-proposal-review-questions.md",
+      "sha256": "f06a2ec33f39cffcd3f39fb837e1c1add705130f2bce01a9bb678e87aad6edcf",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0001-match-structure-and-start-conditions.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0001-match-structure-and-start-conditions.md",
+      "sha256": "baca06b5d7e554ead8ce5a9468058fb448bd2e994a69b4b9a71676aa53900f0f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0001-phase-0-godot-bootstrap.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0001-phase-0-godot-bootstrap.md",
+      "sha256": "210e0f422fbe8a50e327af5e2e1d86d46766b27812dea6137fe3c8a41df688b4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0002-prototype-campaign-and-stage-generator.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0002-prototype-campaign-and-stage-generator.md",
+      "sha256": "e33fbff97704d7ab8c1aa8a37277d260d903e7679a2b0b296d451a4106b6796b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0003-constraint-system.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0003-constraint-system.md",
+      "sha256": "1d71887f38cb508d77292a4500057ae8c9d4970b1359a6bf72cb0b6d53dc2ae9",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0004-roulette-resolution-bench-and-lucky-chance.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0004-roulette-resolution-bench-and-lucky-chance.md",
+      "sha256": "3872a0c01dacf90af67425d988f89251b9529cc91286e6d4731a736b4a002366",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0005-building-tiers-lifecycle-and-economy.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0005-building-tiers-lifecycle-and-economy.md",
+      "sha256": "d004e31b89f281e1692f9705e02bf6790bc590ecb92f54c719cb0227cd5ae5c4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0006-tactical-commands.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0006-tactical-commands.md",
+      "sha256": "19286fbe993b4b14339ea4c22ba88def4a6bffd69ceedf7378d5dc4bee96cd5e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0007-boss-cleave-and-barricade-counter.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0007-boss-cleave-and-barricade-counter.md",
+      "sha256": "2c0bc3149c159501c59d913ac88cc4a3a3e9a27c5f30cbb4299a6079fa74a248",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0008-combat-keywords-status-effects-and-interrupts.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0008-combat-keywords-status-effects-and-interrupts.md",
+      "sha256": "c956a85a8635f2eeb1f6a5a21c5b6e11f064d3dee49b7d9c8a9b68aec2d3acfc",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0009-world-naming-directions.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0009-world-naming-directions.md",
+      "sha256": "1e159a74523967c837ed46de987163ed09476cd797988356d4171cba3b60780e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0010-english-world-names-and-game-title.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0010-english-world-names-and-game-title.md",
+      "sha256": "3e859e09818c462ec49d4db9988410a600b22fa7ea6a2253655d542c4f418335",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/design/proposals/0011-korean-natural-fantasy-names-law-and-mascot.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/design/proposals/0011-korean-natural-fantasy-names-law-and-mascot.md",
+      "sha256": "63fb6b58c549c743caf5a618a6610527078e9389253cad3024ead2ad5b017237",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/goals/0001-engine-selection-and-bootstrap.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/goals/0001-engine-selection-and-bootstrap.md",
+      "sha256": "0612a56cb83bc7f7c02fd3899f7ce7e5f1252dc354942c997a03755f872cbe0e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/goals/0002-core-vertical-slice.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/goals/0002-core-vertical-slice.md",
+      "sha256": "e3b19142f6385e467f88146f7350edb3267e022ac9680f84137f9b66e2b2078b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/READY",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/READY",
+      "sha256": "48bf5fe3132cead6fe9c8eee5d71ca36cd759f213dc21bd616c0f730aaea357c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_00",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_00",
+      "sha256": "202d83ca3cc481973a8fdd4d2275a4444c9aef3521b34ecc94f1776519a998ba",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_01",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_01",
+      "sha256": "edbc1bbe8f3fbd232a66650b843559749ffa8dfe2a794af0e0f987215966b1fa",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_02",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_02",
+      "sha256": "fddf722775fc68ef06821f1e4ded46fd29cf1d2fd65632c8803451295b8b49bb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_03",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_03",
+      "sha256": "ba9e3318b3ad5fa12603c19b28c45cc572ed6893ab0c1d6c27eb48232556b0a5",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_04",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_04",
+      "sha256": "9e1842563fef0237673118b5247325849e7b38b475e128be94855fa4c548a3d5",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_05",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_05",
+      "sha256": "dbabeddedcda9c8142704e43f208892be7c5f432746d8984ef1131e7e1cb6341",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_06",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_06",
+      "sha256": "97dfd5aa44c71e99c6c7a5c7ad4fbeb03511bafcd71371b847e020d7501e29c7",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_07",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_07",
+      "sha256": "13cbc524758c3810721a4d632db486c97789d5f97c2147b2f6ecffff9130a96f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_08",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_08",
+      "sha256": "7c6b579df02ae939258f0e373147de3203c1a14d5a8d8baba21886a8de9fcb4d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_09",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_09",
+      "sha256": "2428667d67307c3f23d5065844bc70c0bda77b655e71114df1334a03ddad845e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_10",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_10",
+      "sha256": "ca1c361131041a625f11b68833524f5f95c1cfbc40c0edce22d201a285dd700f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_11",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_11",
+      "sha256": "4de0e4505966499f0d860f642c01b137a2e7118df19f5e07e8eeecae315474ed",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster/part_12",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster/part_12",
+      "sha256": "007d70b713c93941b957fbc6683fd421459a7b1945a2081a711e323cdfed4f3b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/roster_legacy.b64",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/roster_legacy.b64",
+      "sha256": "2346dee0c2cb88b12250dc8a9b18ffd20dfb828c5a291b1022886dbcd9c951b7",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_00",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_00",
+      "sha256": "83ad4d29daa2185732aab88b91d63d956c82c858f848a799347687cbea3a447c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_01",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_01",
+      "sha256": "5deca940fba62d9b4e679a61ca236bc565a0b502de818c9fe25fc7ff79e101fa",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_02",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_02",
+      "sha256": "c0100d59dfe80e512b10ec10b6de0ef8e8b24a9f570077527ec6ef7fd054d898",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_03",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_03",
+      "sha256": "55e03825000085b9aced395eded3c02cbee4b074f126e78e2731f1835f15ac56",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_04",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_04",
+      "sha256": "e8a74673f6575e1f0baa9946fdf2e275fb6fd4eacd841f868184ac6a8ece4d0b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_05",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_05",
+      "sha256": "67c9946b87b219c7507a57c1ad96e61e0c2add61b6d5aaf2b0e43b01b2771f08",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_06",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_06",
+      "sha256": "2a8de94ddb263cc6c9a8edeab9cbc8c4806c36137ef9ea083528f42993def28d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/.staging/ui/part_07",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/.staging/ui/part_07",
+      "sha256": "a19edcc2d67c9f60e0e3f8343ca9f3a19fc751fc51f257d186f1ea7468d53c10",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/README.md",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/README.md",
+      "sha256": "d043651d497787f4794cc038d499d43d8d8d70833bb7ffe4cabf2eed63d415ad",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/images/VISUAL_REFERENCE_INDEX.md",
+      "disposition": "[증거]",
+      "target_path": "[기획서]/06_아트/증거/VISUAL_REFERENCE_INDEX.md",
+      "sha256": "ffbcfc0ce399eaf91f619014c6015339e522c4915d385e6a8df144e9374d2573",
+      "state": "PRESERVED_WITH_LINK_REWRITE"
+    },
+    {
+      "source_path": "docs/issues/0001.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0001.md",
+      "sha256": "dd5b3d9ecc4301bdbf43a29b3055a705a9086d67f188b83d2a07cb56bdee621a",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0002.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0002.md",
+      "sha256": "fcc66c3630eb09935d29a7294b79b8011e6ec6451bfbb4dcba9b3b288c852cb0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0003.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0003.md",
+      "sha256": "a7db774e4e280ec6def36cd8b1d1e2dd9183f29576579dd4f00e69136b438e52",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0004.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0004.md",
+      "sha256": "1cd22ea1209fc7a53b82e7d59ac9b5cfca0dce203dbc6fee909f61e1ed8f0c19",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0005.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0005.md",
+      "sha256": "c3389ecf605b21d0ab8f4663ea768f3b2588565513f71fab1b6010f6a0d7804e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0006.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0006.md",
+      "sha256": "646fe255f5524b6da360118c44773b09b54c92b8933ef9ee40d60a0724a30047",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0007.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0007.md",
+      "sha256": "6a24dd5515aa328935835c19289ec73fa637014d67e64c1183ea2ee4652b3852",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0008.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0008.md",
+      "sha256": "9cef203de313747e84dff1593d18c2fe3c4fab6eab50f67a2a27d3d8b26e9291",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0009.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0009.md",
+      "sha256": "50d5a351e3df3512a947e400979704884c27ccd19286cd0b6a3d84b046a4b5b0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0010.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0010.md",
+      "sha256": "762988ed824c6954fa8f50a35c4fd0c5f7fd136b9b5f7ef81d6ddbdf5e793217",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0011.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0011.md",
+      "sha256": "2d171ee9487235500f55bcc0d1f75c71e2903a0a49ca8dbf38d50650f5f4d53d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0012.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0012.md",
+      "sha256": "95af1d5401bb5b84f4e6eb6f7dab7bd0d3368df3d892228ba2dd11e975e7a5cf",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0013.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0013.md",
+      "sha256": "f06db10beedaae71c83b5da55051122798b8279da289345a75a2976c7f8dbec0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0014.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0014.md",
+      "sha256": "a23ae54bff225842bfdb2342b781d976b64c28f868742727b614026c71442315",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0015.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0015.md",
+      "sha256": "dcd796296cd120f92b9bdd1b50a5ff224ffe161525878819c6556062a764bf4e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0016.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0016.md",
+      "sha256": "e5c0d8d55bbcc4d296764a24af5aaf7138eeb7b96b0593c626807e0c40432feb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0017.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0017.md",
+      "sha256": "df08971603c9d863b17e8a08cfe644102b152c94a10e0e5e5bf90478d61d6917",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0018.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0018.md",
+      "sha256": "ccc8eb1f3ffe3d877e310df251aaa825e644f0e0accc6ec81c6644a7b99719ba",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0019.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0019.md",
+      "sha256": "29b5225a43f07853a354f6bf6bc3c416ba9dd6b0c84c25c164bb84df36689fc0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0020.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0020.md",
+      "sha256": "7cdbb34c61ffb117b4fe8a075755e212c4e17798ebc362a0556e4450d3082731",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0021.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0021.md",
+      "sha256": "0ab660c86ae2ffd66f130316e3f9523982b23362b3eaf7c522e7b15811ff0d64",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0022.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0022.md",
+      "sha256": "378537213aeddab04ea1937c87c141ec5ab24bd527a0ceaa1c1d107dc5b1d5d7",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0023.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0023.md",
+      "sha256": "89ee44393143d2e9bd7bc4ef56bb4a51742d98ab73338826820e4a92e0bea69b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0024.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0024.md",
+      "sha256": "7055bbe152a6a18dbb51fc2bc31f5c5f2aa0249904c02c1a9e93c94af714fdea",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0025.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0025.md",
+      "sha256": "19cdd4582dacc5ff42d5581b175da0854c01d97f718c3d9ffd0ba22a517d49b2",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0026.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0026.md",
+      "sha256": "bef64c4a0c06c9fbf37e750fedcfd0e72badc497876889315e28adf1edc30c50",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0027.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0027.md",
+      "sha256": "d0e7244b8137c77d1902bf09af613ac86a7bda9b219a6db347113889002032f8",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0028.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0028.md",
+      "sha256": "c775419198b7807a40e7f58886d27338153a63c7b0f46eda4db2c9c6e26fc2f8",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0029.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0029.md",
+      "sha256": "9c642d3ce4dd3c174e9d423ff9a586b93eead91dd6918cab31428e300772e262",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0030.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0030.md",
+      "sha256": "9be727a45237b8b79e53db06c06df48b16cba21279763288a188d9b33d7f4f27",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0031.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0031.md",
+      "sha256": "fda15d74a93913afa041ee7a06c44e9ec9134a73913ad4d5b086bef24971e0ee",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0032.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0032.md",
+      "sha256": "c3010e4f8bb8bbd057556579995ab1f7885eba8c71088c88a80b0d0dd989abeb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0033.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0033.md",
+      "sha256": "7ba6159e4133c759a2937ab4388745dedbbdf0bb58cf18cc743719244bdc92f9",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/0034.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/0034.md",
+      "sha256": "71c7cfb9aa18cda85c68a04fd0c8275c137b4a0a502ec96699e6f6a1fbdd49b6",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/issues/README.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/issues/README.md",
+      "sha256": "7b5cf69db2a9ef6d408af080c65abffcbdc57fb961a6f57b52f81df3cff8c297",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/proposals/0002-benchmarking-review-gate.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/proposals/0002-benchmarking-review-gate.md",
+      "sha256": "213fa1791997d2a9a6baa119fcb781302b307edfb0dd3032ff20289ae5d697f4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/proposals/0002-issue-body.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/proposals/0002-issue-body.md",
+      "sha256": "09e005c1d3d4a36c8f6f92cdca071d62a8aa958921025a307777f6f64e87fd85",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/proposals/README.md",
+      "disposition": "[보류]",
+      "target_path": "[기획서]/[보류]/omenward/proposals/README.md",
+      "sha256": "c198ceed0c7bd331de483bb85a0645b23e078b3aee078745aaf354ce7c662619",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/superpowers/plans/2026-07-16-vertical-slice-stage-progression.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/superpowers/plans/2026-07-16-vertical-slice-stage-progression.md",
+      "sha256": "b096056eca987a364e35d54281c0ca1ec811ec7f9eb2d7a07c44f756c2eafc59",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/superpowers/specs/2026-07-16-vertical-slice-stage-progression-design.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/superpowers/specs/2026-07-16-vertical-slice-stage-progression-design.md",
+      "sha256": "d0ebc56ae745d8258613103b067fb38a1a7c69e3eae314045801791bee930382",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/work_orders/0001-phase-0-codex-plan-mode.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/work_orders/0001-phase-0-codex-plan-mode.md",
+      "sha256": "787bc11b187002a8140a369f14038d92332b2dca1e2809575d1f5c3563c17c08",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "docs/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md",
+      "disposition": "[백업]",
+      "target_path": "[기획서]/[백업]/omenward/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md",
+      "sha256": "c9f9a49316fd4f439200684574b93d80f67fddf82ab9326d00d490346fbd53a2",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "project.godot",
+      "disposition": "[증거]",
+      "target_path": "project.godot",
+      "sha256": "3efbeddf56a7fb08fe05dc80559a0861685200571b8651e84bd7b7abf20510df",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scenes/battle/battlefield.tscn",
+      "disposition": "[증거]",
+      "target_path": "scenes/battle/battlefield.tscn",
+      "sha256": "7318579c83e44eb082a29194ce4ec8057760940a0737766c8d8c11c501d018b8",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scenes/main/main.tscn",
+      "disposition": "[증거]",
+      "target_path": "scenes/main/main.tscn",
+      "sha256": "0f0f11e90269073b939149b6b290aa7365dd3de938098f0dda6a954c6a2ef0a9",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scenes/ui/stage_hud.tscn",
+      "disposition": "[증거]",
+      "target_path": "scenes/ui/stage_hud.tscn",
+      "sha256": "e91b077c0a60d5aab8b6fe7fa3dc8dd42ee0b4ec6fc75f485063165ee2bc7413",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scenes/ui/stage_select.tscn",
+      "disposition": "[증거]",
+      "target_path": "scenes/ui/stage_select.tscn",
+      "sha256": "c23d6f2c0e4de97313daaf76a7a0d51174642501599b8fc94add6bc6d746d92b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scenes/units/unit.tscn",
+      "disposition": "[증거]",
+      "target_path": "scenes/units/unit.tscn",
+      "sha256": "c1c852fe8c4005bc9695a1d36b6668837f61ab46fc98e83083a00a04e4126697",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/assassin_bypass_state.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/assassin_bypass_state.gd",
+      "sha256": "5b339985eeaf65e94fe50b0f2bf9423d4812cc03b9d7304185bec77fc9ca9ce0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/assassin_bypass_state.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/assassin_bypass_state.gd.uid",
+      "sha256": "5841e8bd0f7893d59e7020e75a5ec62fe0151396eab8dec332a3ad28ca0a91f6",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/battle_simulator.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/battle_simulator.gd",
+      "sha256": "24816d2d6303a104890686b0276d0fd03e4ba8d751224b46c9e3b5480443982b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/battle_simulator.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/battle_simulator.gd.uid",
+      "sha256": "c21144f5ccde590d3b894cde3687999453fc3c1a02d6581efada98fd64715e9a",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/battlefield_view.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/battlefield_view.gd",
+      "sha256": "f36cbf4c745e84e499fff1d7cf8b46cb65db8e2b78cf4c07acb3e3cdcf937b8d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/battlefield_view.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/battlefield_view.gd.uid",
+      "sha256": "747d8d25a10f79b1a9be52da81e524837da60560a1ef7e0d04544ebf249bfcb2",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/clash_zone_state.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/clash_zone_state.gd",
+      "sha256": "2b4170b4ae014cb88286487d8d6f60f924e65e9151be0a502e763dd2519a79ca",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/clash_zone_state.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/clash_zone_state.gd.uid",
+      "sha256": "f45c6c1b12122c1ba28f855f6376d3e1e909e08756bb9027beddcd5e3d353617",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/gate_state.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/gate_state.gd",
+      "sha256": "d953b2f18938f6b106c229517d5b00fe4cfd47f7947f4d74b946d22606d93dd4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/gate_state.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/gate_state.gd.uid",
+      "sha256": "e30b445e835a178b427b5303d319f7d7b52714b90315fa928773bcf03a6b9d7c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/lane_state.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/lane_state.gd",
+      "sha256": "1f139a39cda5a62d9e194a89e7e24fc7bb545634f35557a73d51a05921e566e4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/lane_state.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/lane_state.gd.uid",
+      "sha256": "c19b1abcfda5d7431516082152b6773252ce6829f4f9e18e40bce58896d79c50",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/outpost_state.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/outpost_state.gd",
+      "sha256": "f35204f2b1667bee7782ea20994a20b06a43c881929dab9e9ced864b972ba4f4",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/outpost_state.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/outpost_state.gd.uid",
+      "sha256": "ca2711677c1cd626d21ba58f0bc0db2fcdde0aa983633b9c90504328344101e2",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/unit_instance.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/unit_instance.gd",
+      "sha256": "e712d87e726249d027c1a9c4b437ccefee14fca6c6159e3a2e62b2b34c521a9f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/battle/unit_instance.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/battle/unit_instance.gd.uid",
+      "sha256": "691014950310d309939d8059ad35d3d06274ca34f26f9282fcbb8215f1e0ff89",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/buildings/building_service.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/buildings/building_service.gd",
+      "sha256": "3293a26b63ebdba668c13d4570fec07d43d3e94a37f5715957d9a9b4adbc197b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/buildings/building_service.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/buildings/building_service.gd.uid",
+      "sha256": "b80267f7aa70560385ffea62d7bfafc19bfd3b33a5b146e18c78b61ab9f0ba55",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/buildings/building_state.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/buildings/building_state.gd",
+      "sha256": "b0ab07e347a9c52cee69bd31ad1d64eb9079b931a7332deff4022893f56fbafe",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/buildings/building_state.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/buildings/building_state.gd.uid",
+      "sha256": "65e46a48a03622534e84b6b91f48d0ebd0f1db62f4a0a90dc65227fac61b2f40",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/bootstrap_validator.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/bootstrap_validator.gd",
+      "sha256": "27e7201e18daa0cfffa926522ebc43576891ffe4ee1ed875ace735212d922832",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/bootstrap_validator.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/bootstrap_validator.gd.uid",
+      "sha256": "3a9ea0b05015837446e4d521ff8905e1096cc2ad34c5036cf94de975e96860e1",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/combat_clock.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/combat_clock.gd",
+      "sha256": "bc949a1a9d99a01a35c06cdf30a1b850f7197f325723376a9dca33128df42216",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/combat_clock.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/combat_clock.gd.uid",
+      "sha256": "d7f7574ff4fffbb0558894af10fe144341cea89d934199c223b3ebfc9eb0b4e2",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/data_registry.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/data_registry.gd",
+      "sha256": "551776a027f3254f45ddd65991676482984e999b4ba46c3373217eab83cd13f6",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/data_registry.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/data_registry.gd.uid",
+      "sha256": "6bcc90ceb4bb396cc1179782cffa6741897b10b9b3bca7755b68bbce8ea82b2e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/determinism_service.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/determinism_service.gd",
+      "sha256": "a7b58c977d30bf4afd7c162ee4828312f3ab3f808a23914a5c0d92813aa96c36",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/determinism_service.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/determinism_service.gd.uid",
+      "sha256": "b9cc63a636051e2839c529108a2b9caf12b39807110b9339151ca793b97d6d17",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/game_session.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/game_session.gd",
+      "sha256": "a3680726aecbc8fc0075ed1587570ab4890a69881cc27dd4815edaea53ffd499",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/game_session.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/game_session.gd.uid",
+      "sha256": "cce33f9c39a6867de2f7603b06b097e949439a9c7b349d476f7ae6f655a1d66d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_economy.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_economy.gd",
+      "sha256": "b50b58850ba5a0c5c08e843d478092f3287620b6da6dde6b62bb11ba4e9f07fc",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_economy.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_economy.gd.uid",
+      "sha256": "c80ea6d6e9203abde9d016bcdf750ee62e2cf32f623f855d8be284600660683e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_manifest.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_manifest.gd",
+      "sha256": "faa31c8cefb7bbd9a4499b2611f60760303b06569f667bd5dd439e370aa4261b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_manifest.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_manifest.gd.uid",
+      "sha256": "641f3ebd14136724582a438c05ec0e8fb30a2c11752165de5e16879bae86e718",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_progression.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_progression.gd",
+      "sha256": "0d64a887b3135ee0fe8fcf6f0a12a696ca03b911d16228e7e94701cce5694134",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_progression.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_progression.gd.uid",
+      "sha256": "e8e8d219218b63e2407726a8c3fe1744262f82c74f89656ed5bf16d18a97cfc7",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_run.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_run.gd",
+      "sha256": "2f2009749bbb1ae3c4fdcc3328da4c0728bc103b5cc90b03fe6419b7bb9d1c8a",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/core/stage_run.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/core/stage_run.gd.uid",
+      "sha256": "432d9200351a257616c7e0153e0c1da583a1c22cc009d7dacd6784521a503a06",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/animation_contract.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/animation_contract.gd",
+      "sha256": "5367fd47d99bdc25c3765f48c53a76d0228ddc6b3f5947372dc4076a340198d0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/animation_contract.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/animation_contract.gd.uid",
+      "sha256": "4c3ab60bdcb84750b552c720a30f74bb649ddcdc4fb4c835a7fccf541bb978ea",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/attack_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/attack_profile.gd",
+      "sha256": "fd549be26118cad06cff33f62bc19a9e66ffa5c5e784bcc34a4a284e45aa57d3",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/attack_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/attack_profile.gd.uid",
+      "sha256": "280b32598fec3794a8ecf15f477bf9bfe92dbb8aaab513030c5f139034af438e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/battlefield_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/battlefield_profile.gd",
+      "sha256": "7c2c26813cddb6301e8cf74d5d6a6fa8449092c1c85ebca1a87a681b163b8cdd",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/battlefield_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/battlefield_profile.gd.uid",
+      "sha256": "03e9d52c520c09133de92a35b3e1570e66d6b1b1742b068af9085a6adf9a62fb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/bootstrap_catalog.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/bootstrap_catalog.gd",
+      "sha256": "4c63941ceb15cc667ace206e5ebe83a6294b319629a9950056f3aa7ecb5434dd",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/bootstrap_catalog.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/bootstrap_catalog.gd.uid",
+      "sha256": "8547bd40dd775ea6d84d0e4ece65b40ecdb020bc05959992f34afa832e04dc8e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/boss_behavior_package.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/boss_behavior_package.gd",
+      "sha256": "923a893d572660414c159f5bcfe4a712f6a07f50ea4d51c8011a361a8b3e24df",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/boss_behavior_package.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/boss_behavior_package.gd.uid",
+      "sha256": "059eb161fa368cbce62c28a759731005d843ccee548d1d4cafc2d7e7583a7f51",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/boss_phase_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/boss_phase_profile.gd",
+      "sha256": "5ad2cbca8a0fd2f5ed944cd05a2029b9dae46dab5efe4b65b19f57013b07d52b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/boss_phase_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/boss_phase_profile.gd.uid",
+      "sha256": "2cbdbbe637e4dc999538fb30fd447813fd8ae330b2ad37ecef2acc909b978465",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/building_definition.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/building_definition.gd",
+      "sha256": "e00cd3e51f16e98a15eea0616ce4548e7c38d76978c5674037ffa3e115ea9e8b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/building_definition.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/building_definition.gd.uid",
+      "sha256": "807b70938739801adc5d5ae0a9dd30797bc7625326960d51c61e9d4f54622a4d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/faction_visual_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/faction_visual_profile.gd",
+      "sha256": "d317b6c06378ce73b41b866152af2ecd413a7b3c9ce48c3a9811bd9e2ebf869b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/faction_visual_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/faction_visual_profile.gd.uid",
+      "sha256": "571c37e93e5c1ed45050cea6b05cb47afca439c59b64f31fc162b549409b6b16",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/rank_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/rank_profile.gd",
+      "sha256": "02c0c91e1e7b0008cd3bd2a95ce0fc3f72e9d4029af3852e06d100db0659451c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/rank_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/rank_profile.gd.uid",
+      "sha256": "8a0d86405e031ec9c86872dacec846e34e9d332765c4fd45f0df42cb81ac1de7",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/stage_definition.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/stage_definition.gd",
+      "sha256": "1802e889e72bf69301fd8c89c3825be880f7cee1fc2c00880fab805f12469501",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/stage_definition.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/stage_definition.gd.uid",
+      "sha256": "e0856174a8c6ed81346e68e9da2fc684adca0c9ab85e374fd2007bb8c9e31ece",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/tier_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/tier_profile.gd",
+      "sha256": "3e5130e2f4310c39afe860dafbad41c9d8c47fd43e7a8ed9543bbff4bb174a1a",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/tier_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/tier_profile.gd.uid",
+      "sha256": "ff34c98a6267f693741b9962f239a615a7ca8d442e5aa60180f5e32825bc03cc",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/unit_archetype_profile.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/unit_archetype_profile.gd",
+      "sha256": "b9a2bf96db2a0e1db31ecf21b25dba50760e485ed2a8a96d40ad58b70afad0bc",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/unit_archetype_profile.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/unit_archetype_profile.gd.uid",
+      "sha256": "807b098d3604e7153b8c3793dab5d8b8bf6e4cd03fd3d2be16a85cb0ff9e2496",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/unit_spawn_definition.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/unit_spawn_definition.gd",
+      "sha256": "cf31981aa85906e42ce0a82e55662eda3e6dcd04640184d7ad7ab65437012b52",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/unit_spawn_definition.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/unit_spawn_definition.gd.uid",
+      "sha256": "05d0e027cefb44234f13b8592c3d6b40c516920b47dbb5f9c3a7bb3979deaebb",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/wave_definition.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/wave_definition.gd",
+      "sha256": "9d0055ae5ec1d140be0f86ed036012f3d647ee51a62f9c2d03a11e189a2056c1",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/data/wave_definition.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/data/wave_definition.gd.uid",
+      "sha256": "80b2268b468ae35ba162a0b73e492c617e94bfcaf56ea97ead091db428889b1c",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/roulette/roulette_service.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/roulette/roulette_service.gd",
+      "sha256": "aff2d7435e560888784d4bff3a1afff4bb7343e63badfea22c4fd36856649858",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/roulette/roulette_service.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/roulette/roulette_service.gd.uid",
+      "sha256": "ad13b5df2885fb73beccbc3d7f57a785aaf5c21fa8f18ebab63d2a581e138141",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/ui/bootstrap_visual_probe.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/ui/bootstrap_visual_probe.gd",
+      "sha256": "82963acec29c2b23a7f911db6e40626e16cb99f3febd19a252f468a7d49f5ca5",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/ui/bootstrap_visual_probe.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/ui/bootstrap_visual_probe.gd.uid",
+      "sha256": "ee7dfd1f35f4ecf6a4c5601e7bc93c4de1aeff9119bdb7d10ea8e31902263149",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/ui/stage_hud.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/ui/stage_hud.gd",
+      "sha256": "4fc3665bf40360790b1444ae8aac143bf0c13f36d7ca2a139812acdb9f398211",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/ui/stage_hud.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/ui/stage_hud.gd.uid",
+      "sha256": "243904a5962aa524b7b37c4c67855a4a7ce085a8c75057583af7ba950bf4b38f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/ui/stage_select.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/ui/stage_select.gd",
+      "sha256": "b7a791c33bd6e948d55e83255b480bf9a02f8210a25bd4162fcd18b82a404ab9",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/ui/stage_select.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/ui/stage_select.gd.uid",
+      "sha256": "b8bf6624f79cd9e606a5b856af501942e0e4f6f6a55363089852c537fdcd6d22",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/units/deployment_service.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/units/deployment_service.gd",
+      "sha256": "8276f4c033f207e6f88c3106578bc345ea45d57932afcf1521d427c238212693",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/units/deployment_service.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/units/deployment_service.gd.uid",
+      "sha256": "106bc4268b414d356d1c1d929475e5f3be4f55d12c6757531d32e2419703a0f9",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/units/unit_view.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/units/unit_view.gd",
+      "sha256": "66700deadd4747816529c81ad766dbf3c4e6ba10723644da1ea5603633a22e7e",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/units/unit_view.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/units/unit_view.gd.uid",
+      "sha256": "b396a3759fe7e74db1fed347a4eedaec4b5904e890b3cc453adfda0058b4e09f",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/waves/wave_director.gd",
+      "disposition": "[증거]",
+      "target_path": "scripts/waves/wave_director.gd",
+      "sha256": "db0d95bf68e02b7e23423722956813f429237ad23159f8fe82c1b5cc31572960",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "scripts/waves/wave_director.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "scripts/waves/wave_director.gd.uid",
+      "sha256": "bb7cbd9d3e67c11b3b10f7af557329c17f3ef4f3c06fcac54700faf80bd8f4ce",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "src/README.md",
+      "disposition": "[증거]",
+      "target_path": "src/README.md",
+      "sha256": "3725ed96a160e852cd471b9856a4f7c8e0234f8942760a1cbaf22fce03780668",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/README.md",
+      "disposition": "[증거]",
+      "target_path": "tests/README.md",
+      "sha256": "725453b24d05696318dc2ab6730a4d838b34295f4cec8ab0057af8e1e5d89a20",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/battle_simulation_test.gd",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/battle_simulation_test.gd",
+      "sha256": "45d477670e14c047b86054e8dea492447c0caef90d062169bdfea622e8ea6431",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/battle_simulation_test.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/battle_simulation_test.gd.uid",
+      "sha256": "a4ed6ac94e3699f9f11b82dc3789e386f17bb5a98d58687b720fbe1c752f8ad5",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/economy_roulette_test.gd",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/economy_roulette_test.gd",
+      "sha256": "2a06003b96e74e323b4f63f1f3fbc53728a2b669406652e80c5b875baf384eac",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/economy_roulette_test.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/economy_roulette_test.gd.uid",
+      "sha256": "29572247388bae6a8d39c333c4b0765c5b48126a52df90cefe760242dc22ce29",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/phase_0_contract_test.gd",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/phase_0_contract_test.gd",
+      "sha256": "27dc05ea7b0b84aa8a94e1aef2db96a6b38ba0f43457be4be366b0505cf96f2d",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/phase_0_contract_test.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/phase_0_contract_test.gd.uid",
+      "sha256": "2d12317328a345999f015dd4af3afdd242324d0d48abc10ced954f1afcb33a72",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/scene_contract_test.gd",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/scene_contract_test.gd",
+      "sha256": "8b1339612542b2254272922ad6206ab8f1a441924740e2634b4de887165fc419",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/scene_contract_test.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/scene_contract_test.gd.uid",
+      "sha256": "e0bd82a0dfcda2e144f8774037d0d08b6b46ad0f79648f8dac5aa3a08876301a",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/stage_data_contract_test.gd",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/stage_data_contract_test.gd",
+      "sha256": "e0d5e23a50385e5568e44509081e85fd8c150e1ad7c2737a7bce240a66f9d0d1",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/stage_data_contract_test.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/stage_data_contract_test.gd.uid",
+      "sha256": "03bb6f62c16792af3b1c20077fe41aeb6b654ea7f8b76e7ef4daecfa9a925a26",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/stage_run_test.gd",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/stage_run_test.gd",
+      "sha256": "2def30e66f5c09ba0d5c2e58bd68db97c7496460da6246e868fd322ed0722750",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/headless/stage_run_test.gd.uid",
+      "disposition": "[증거]",
+      "target_path": "tests/headless/stage_run_test.gd.uid",
+      "sha256": "1627a290e5e91d8cfe0d624b068c5aaa01905a8ce6e25d50e95bcb8f91c149b0",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tests/python/test_issue_mirror.py",
+      "disposition": "[증거]",
+      "target_path": "tests/python/test_issue_mirror.py",
+      "sha256": "3e62871e88c5e8e0aed002bb0461d27bf19e8e1d76591441dcd394c7e7ba0e53",
+      "state": "MIGRATION_CONTRACT_UPDATED"
+    },
+    {
+      "source_path": "tools/issue_mirror.py",
+      "disposition": "[증거]",
+      "target_path": "tools/issue_mirror.py",
+      "sha256": "a84e2055f8b04d1c67ec93710e7ea300d5aa5f9990d24037a2876a2c6af6d69b",
+      "state": "PRESERVED"
+    },
+    {
+      "source_path": "tools/sync_repo.ps1",
+      "disposition": "[증거]",
+      "target_path": "tools/sync_repo.ps1",
+      "sha256": "b32e70b2720496ee7543039c42d8a4d0e8523a8bd8b441d318ef37badd2287db",
+      "state": "PRESERVED"
+    }
+  ]
+}

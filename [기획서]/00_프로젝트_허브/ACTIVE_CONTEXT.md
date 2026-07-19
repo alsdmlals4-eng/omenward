@@ -19,3 +19,10 @@
 ## 다음 작업과 검증
 
 `START_HERE.md` → 관련 본책 → 실제 파일·테스트 → `11_통합검수` 순서로 확인한다. 문서 변경 뒤에는 링크·Registry·PDF·Manifest·콜드 스타트를 먼저 검증한다.
+
+## 이번 구조 이주 검증 기록 (2026-07-20)
+
+- 기준 `4cb0ae4`의 파일 267개: 보존표 대조 `preserved=267`, 누락·해시 불일치 0건.
+- 11개 본책 + 프로젝트 허브, PDF 13개와 Publication Manifest 13개, 11개 분야 스킬, 세 Registry를 확인했다.
+- Godot editor import → headless 6종 → runtime smoke, Python 회귀 6종, 활성 Markdown 링크, `git diff --check`를 통과했다.
+- 1920×1080 및 1280×720 사람 플레이 QA는 아직 `[미검증]`이다.

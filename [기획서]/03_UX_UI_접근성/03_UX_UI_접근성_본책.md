@@ -10,7 +10,7 @@
 
 ## 범위
 
-`APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md`, 벨루·첫 10분 승인 문서, `docs/images/VISUAL_REFERENCE_INDEX.md`를 등록 부록으로 승계한다.
+이 폴더의 UI·벨루·첫 10분 승인 부록과 `../06_아트/증거/VISUAL_REFERENCE_INDEX.md`를 승계한다.
 
 ## 규칙과 제약
 
