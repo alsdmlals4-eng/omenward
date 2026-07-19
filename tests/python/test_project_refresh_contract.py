@@ -32,6 +32,7 @@ class ProjectRefreshContractTests(unittest.TestCase):
         )
 
         self.assertIn('"project.godot"', verifier)
+        self.assertIn('".gitignore"', verifier)
         self.assertIn('"docs/VERTICAL_SLICE_VALIDATION.md"', verifier)
         self.assertIn('"tests/README.md"', verifier)
 

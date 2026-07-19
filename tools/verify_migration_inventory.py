@@ -22,6 +22,7 @@ REMOVED = {
     ".github/workflows/repo-to-issue.yml",
 }
 ALLOWED_CHANGED = {
+    ".gitignore",
     "docs/VERTICAL_SLICE_VALIDATION.md",
     "project.godot",
     "tests/README.md",
