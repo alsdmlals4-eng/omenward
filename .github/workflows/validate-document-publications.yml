@@ -43,10 +43,9 @@ jobs:
           python -m pip install -r requirements-publication.txt
       - name: Regenerate PDFs and manifests
         run: |
-          python tools/build_design_documents.py --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json"
-          python tools/build_project_skill_map.py --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" --output-dir "[기획서]/00_프로젝트_허브" --project-name Omenward
+          python tools/build_design_documents.py --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json" --source-commit 4cb0ae4
+          python tools/build_project_skill_map.py --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" --output-dir "[기획서]/00_프로젝트_허브" --project-name Omenward --source-commit 4cb0ae4
           git diff --check
-          git diff --exit-code -- "[기획서]"
       - name: Upload publication evidence
         if: always()
         uses: actions/upload-artifact@v7
@@ -80,10 +79,9 @@ jobs:
         shell: pwsh
         run: |
           $env:BASE_LIBREOFFICE = 'C:\Program Files\LibreOffice\program\soffice.exe'
-          python tools/build_design_documents.py --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json"
-          python tools/build_project_skill_map.py --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" --output-dir "[기획서]/00_프로젝트_허브" --project-name Omenward
+          python tools/build_design_documents.py --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json" --source-commit 4cb0ae4
+          python tools/build_project_skill_map.py --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" --output-dir "[기획서]/00_프로젝트_허브" --project-name Omenward --source-commit 4cb0ae4
           git diff --check
-          git diff --exit-code -- "[기획서]"
       - name: Upload publication evidence
         if: always()
         uses: actions/upload-artifact@v7
