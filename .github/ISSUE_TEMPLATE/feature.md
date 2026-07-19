@@ -35,4 +35,5 @@ labels: feature
 ## Codex가 먼저 읽을 문서
 
 - `AGENTS.md`
-- `docs/GAME_DESIGN.md`
+- `[기획서]/00_프로젝트_허브/START_HERE.md`
+- 영향 분야의 11개 본책과 1:1 스킬

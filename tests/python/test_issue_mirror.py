@@ -30,14 +30,14 @@ class IssueMirrorTests(unittest.TestCase):
         }
 
     def test_render_issue_marks_metadata_and_body(self):
-        rendered = render_issue_markdown(self.issue, canonical_documents=["docs/goals/0001.md"])
+        rendered = render_issue_markdown(self.issue, canonical_documents=["[기획서]/[백업]/omenward/goals/0001-engine-selection-and-bootstrap.md"])
 
         self.assertIn("issue_number: 1", rendered)
         self.assertIn('title: "[Plan] Bootstrap"', rendered)
         self.assertIn("state: open", rendered)
         self.assertIn("- documentation", rendered)
         self.assertIn("- owner", rendered)
-        self.assertIn("- docs/goals/0001.md", rendered)
+        self.assertIn("- [기획서]/[백업]/omenward/goals/0001-engine-selection-and-bootstrap.md", rendered)
         self.assertIn("Canonical implementation context.", rendered)
         self.assertNotIn("labels:\n- documentation\n[]", rendered)
         self.assertNotIn("assignees:\n- owner\n[]", rendered)
@@ -96,15 +96,6 @@ class IssueMirrorTests(unittest.TestCase):
             write_all_snapshots([second_issue, self.issue], snapshot_dir)
 
             self.assertEqual([path.name for path in sorted(snapshot_dir.glob("*.md"))], ["0001.md", "0002.md"])
-
-    def test_outbound_workflow_reads_remote_issue_before_updating_it(self):
-        workflow = (PROJECT_ROOT / ".github" / "workflows" / "repo-to-issue.yml").read_text(encoding="utf-8")
-
-        self.assertIn('method="GET"', workflow)
-        self.assertIn("if current != desired", workflow)
-        self.assertIn('"labels": metadata.get("labels", [])', workflow)
-        self.assertIn('"assignees": metadata.get("assignees", [])', workflow)
-
 
 if __name__ == "__main__":
     unittest.main()

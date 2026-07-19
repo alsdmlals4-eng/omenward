@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "registry_role": "project-asset-evidence-index",
+  "assets": [
+    {
+      "asset_id": "omenward-battlefield-3lane-concept-v1",
+      "status": "APPROVED_REFERENCE_NOT_FINAL_TEXTURE",
+      "path": "../06_아트/승인_참고_자산/omenward-battlefield-3lane-concept-v1.png",
+      "sha256": "8bd54c1660adaf073dc759d127e0d2e3da12d0fef71b04af6d08100591ab51b5",
+      "source": "사용자 제공 로컬 dirty worktree",
+      "adopted_at": "2026-07-17",
+      "usage": "기본 전략 줌의 전장 인게임 전체 모습 대표 기준 시안",
+      "constraints": ["최종 텍스처가 아님", "기능 배치와 이동 판정은 게임 디자인 전장 토폴로지 책임"]
+    }
+  ]
+}
