@@ -21,3 +21,7 @@
 | 릴리스 게이트·보존 대조 | 11 통합검수 | 이 허브의 Registry·보존표·검증 문서 |
 
 `[백업]/`, `[보류]/`의 제안서·과거 work order·과거 issue는 기본 읽기 대상이 아니다. 재개나 이력 추적이 필요할 때만 연다.
+
+## 전역 productivity 경계
+
+`SKILL_REGISTRY.json`의 `global_productivity`는 Base `d2457e75a856260d309203e20262f2a2142d2dd6`와 `Base:skills/PRODUCTIVITY_SOURCE_MANIFEST.json`을 가리킨다. productivity 스킬을 이 저장소에 복사하지 않는다. 프로젝트 상태는 `ACTIVE_CONTEXT.md`와 프로젝트 Handoff, 임시 대화 인수인계는 전역 `handoff`, 이전 세션 재개는 전역 `resume-work`를 사용한다.

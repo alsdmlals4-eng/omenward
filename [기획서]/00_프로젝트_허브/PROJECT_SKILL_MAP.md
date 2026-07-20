@@ -1,7 +1,7 @@
 # 프로젝트 스킬 지도
 
 > 자동 생성 파생본입니다. 수동 편집하지 마세요.
-> SKILL_REGISTRY.json SHA-256: `9eed94d07b8f33d39e92583adeca167dc64b42e572335b0381bf71958aff7ef0`
+> SKILL_REGISTRY.json SHA-256: `46965e497d4f2b09a840d08ede42853fa1220a609df7c271ff9c46571e267f79`
 
 ## 필수 분야
 
