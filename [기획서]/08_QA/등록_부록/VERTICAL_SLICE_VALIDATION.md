@@ -17,7 +17,8 @@ The suite covers shared-unit data, three isolated lanes, gates, outposts, econom
 ## Manual QA still required
 
 1. Complete the tutorial, then start the regular stage.
-2. Check that the fixed dock appears in the order: roulette, tactical skill, shop, and Bellu guide. Confirm a roulette spin fills nine cells, locks repeat spin while stored results remain, and one lane deploy consumes one result.
-3. Confirm the battlefield shows three isolated lanes with a Lumen gate, Lumen outpost and three visible node markers, center clash zone, Veil outpost, and Veil gate per lane. No cross-lane road may appear.
-4. Repeat at 1920×1080 and 1280×720 and confirm HUD, gates, outposts, and lane state remain readable. [미검증]
-5. Play through W1–W20 and inspect W15 legendary and W20 mythic milestones.
+2. Check that the fixed dock appears in the order: roulette, tactical skill, shop, and Bellu guide. Confirm the center row is the highlighted roulette evaluation row; a center-row miss stores no reward, while a hit reports completed-line count/rank and locks repeat spin while stored results remain.
+3. Select each friendly node marker. Confirm the contextual build panel reports available/occupied/locked state, offers only permitted buildings, installs the chosen building into that exact node, and does not expose a permanent bottom build menu.
+4. Confirm the battlefield shows three isolated lanes with a Lumen gate, Lumen outpost and three visible node markers, center clash zone, Veil outpost, and Veil gate per lane. No cross-lane road may appear.
+5. Repeat at 1920×1080 and 1280×720 and confirm HUD, gates, outposts, and lane state remain readable. [미검증]
+6. Play through W1–W20 and inspect W15 legendary and W20 mythic milestones.

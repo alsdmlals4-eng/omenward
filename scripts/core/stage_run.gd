@@ -26,11 +26,12 @@ var roulette: Variant
 var deployment: Variant
 var wave_director: Variant
 var battle: Variant
+var last_roulette_resolution: Dictionary = {}
 var current_wave := 0
 var result_state: StringName = &""
 
 var _registry: Variant
-var _home_outpost: Variant
+var _home_outposts := {}
 
 
 func _init(assigned_progression: Variant = null) -> void:
@@ -53,8 +54,12 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	clock.is_planning = false
 	economy = StageEconomyScript.new(manifest)
 	buildings = BuildingServiceScript.new(economy, manifest)
-	_home_outpost = OutpostStateScript.new(&"lumern")
-	buildings.register_outpost(&"home", _home_outpost, [&"front_a", &"front_b"])
+	_home_outposts.clear()
+	for lane_id in [&"top", &"middle", &"bottom"]:
+		var outpost_id := StringName("home_%s" % lane_id)
+		var outpost := OutpostStateScript.new(&"lumern")
+		_home_outposts[outpost_id] = outpost
+		buildings.register_outpost(outpost_id, outpost, [&"front_a", &"front_b", &"rear"])
 	roulette = RouletteServiceScript.new(economy, buildings, manifest, &"lumern")
 	deployment = DeploymentServiceScript.new(economy, manifest)
 	wave_director = WaveDirectorScript.new(stage)
@@ -63,14 +68,29 @@ func start(assigned_stage: Variant, seed: int) -> void:
 
 
 func spin_roulette(seed_input: Dictionary) -> Array:
-	return roulette.spin(seed_input) if roulette != null else []
+	if roulette == null:
+		last_roulette_resolution = {}
+		return []
+	var board: Array = roulette.spin(seed_input)
+	last_roulette_resolution = roulette.last_resolution.duplicate(true)
+	return board
 
 
 func construct_home(building_id: StringName) -> bool:
-	if buildings == null:
-		return false
 	var node_id := &"front_a" if building_id == &"tower" else &"front_b"
-	return buildings.try_construct(&"home", node_id, building_id)
+	return construct_at_node(&"home_top", node_id, building_id)
+
+
+func construction_status(outpost_id: StringName, node_id: StringName) -> StringName:
+	return buildings.node_status(outpost_id, node_id) if buildings != null else &"unknown"
+
+
+func available_buildings_for_node(outpost_id: StringName, node_id: StringName) -> Array[StringName]:
+	return buildings.available_building_ids(outpost_id, node_id) if buildings != null else []
+
+
+func construct_at_node(outpost_id: StringName, node_id: StringName, building_id: StringName) -> bool:
+	return buildings.try_construct(outpost_id, node_id, building_id) if buildings != null else false
 
 
 func deploy_card(card: UnitSpawnDefinition, lane_id: StringName) -> bool:

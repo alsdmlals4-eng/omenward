@@ -374,6 +374,16 @@ theme_override_colors/font_color = Color(0.95, 0.81, 0.4, 1)
 theme_override_font_sizes/font_size = 10
 text = "배치: 대기 중"
 
+[node name="RowStatusLabel" type="Label" parent="BottomDock/RoulettePanel"]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 76.0
+offset_right = 190.0
+offset_bottom = 87.0
+theme_override_colors/font_color = Color(0.92, 0.76, 0.38, 1)
+theme_override_font_sizes/font_size = 8
+text = "판정줄: 중앙 가로줄"
+
 [node name="DeployTop" type="Button" parent="BottomDock/RoulettePanel"]
 layout_mode = 0
 offset_left = 198.0
@@ -431,7 +441,7 @@ offset_bottom = 70.0
 theme_override_colors/font_color = Color(0.58, 0.66, 0.76, 1)
 theme_override_font_sizes/font_size = 11
 autowrap_mode = 2
-text = "전술 명령은 다음 전투 Slice에서 연결됩니다."
+text = "사용 가능한 전술 명령 없음\n명령을 해금하면 여기에 표시됩니다."
 
 [node name="ShopPanel" type="Panel" parent="BottomDock"]
 layout_mode = 0
@@ -460,7 +470,7 @@ offset_bottom = 70.0
 theme_override_colors/font_color = Color(0.58, 0.66, 0.76, 1)
 theme_override_font_sizes/font_size = 11
 autowrap_mode = 2
-text = "용병·아이템 목록은 다음 Slice에서 연결됩니다."
+text = "판매 가능한 물품 없음\n이동권·아이템 해금 후 표시됩니다."
 
 [node name="BelluGuide" type="Panel" parent="BottomDock"]
 layout_mode = 0
@@ -491,6 +501,65 @@ theme_override_font_sizes/font_size = 11
 autowrap_mode = 2
 text = "룰렛 결과는 보관함에 남습니다. 위험한 라인부터 배치하세요."
 
+[node name="NodeBuildPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 32.0
+offset_top = 245.0
+offset_right = 250.0
+offset_bottom = 412.0
+theme_override_styles/panel = SubResource("SectionStyle")
+
+[node name="Title" type="Label" parent="NodeBuildPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 160.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.94, 0.86, 0.58, 1)
+theme_override_font_sizes/font_size = 14
+text = "건설 노드"
+
+[node name="CloseButton" type="Button" parent="NodeBuildPanel"]
+layout_mode = 0
+offset_left = 178.0
+offset_top = 7.0
+offset_right = 208.0
+offset_bottom = 29.0
+theme_override_font_sizes/font_size = 10
+text = "닫기"
+
+[node name="StatusLabel" type="Label" parent="NodeBuildPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 38.0
+offset_right = 206.0
+offset_bottom = 74.0
+theme_override_colors/font_color = Color(0.78, 0.86, 0.94, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+text = "상태: 설치 가능"
+
+[node name="TowerButton" type="Button" parent="NodeBuildPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 87.0
+offset_right = 206.0
+offset_bottom = 116.0
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("LaneStyle")
+text = "포탑 설치 · 35G · 방패병 표식"
+
+[node name="FarmButton" type="Button" parent="NodeBuildPanel"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 123.0
+offset_right = 206.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("LaneStyle")
+text = "농장 설치 · 35G · 식량 +6 / 궁병 표식"
+
 [node name="ResultLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 340.0
@@ -513,4 +582,7 @@ text = "Retry Stage"
 [connection signal="pressed" from="BottomDock/RoulettePanel/DeployTop" to="." method="_on_deploy_pressed" binds= [&"top"]]
 [connection signal="pressed" from="BottomDock/RoulettePanel/DeployMiddle" to="." method="_on_deploy_pressed" binds= [&"middle"]]
 [connection signal="pressed" from="BottomDock/RoulettePanel/DeployBottom" to="." method="_on_deploy_pressed" binds= [&"bottom"]]
+[connection signal="pressed" from="NodeBuildPanel/CloseButton" to="." method="_on_node_build_close_pressed"]
+[connection signal="pressed" from="NodeBuildPanel/TowerButton" to="." method="_on_building_pressed" binds= [&"tower"]]
+[connection signal="pressed" from="NodeBuildPanel/FarmButton" to="." method="_on_building_pressed" binds= [&"farm"]]
 [connection signal="pressed" from="RetryButton" to="." method="_on_retry_pressed"]

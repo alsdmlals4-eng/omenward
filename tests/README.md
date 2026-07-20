@@ -1,6 +1,6 @@
 # Omenward 검증 실행
 
-활성 Issue worktree의 루트에서 다음 순서로 실행한다. Godot import가 전역 클래스 캐시를 준비하므로 headless보다 먼저 실행한다.
+활성 정본 `C:\Users\user\Documents\바이브코딩\omenward-base-full-11-migration\omenward`의 루트에서 다음 순서로 실행한다. Godot import가 전역 클래스 캐시를 준비하므로 headless보다 먼저 실행한다. 경로·원격 추적 정보는 루트의 `ACTIVE_WORKTREE.md`에서 확인한다.
 
 ```powershell
 $godot = 'C:\Users\user\.cache\omenward-tools\godot-4.7.1\Godot_v4.7.1-stable_win64_console.exe'

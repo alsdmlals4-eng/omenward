@@ -27,8 +27,37 @@ func register_outpost(outpost_id: StringName, outpost: Variant, node_ids: Array)
 	_nodes[outpost_id] = node_ids.duplicate()
 
 
+func node_status(outpost_id: StringName, node_id: StringName) -> StringName:
+	if not _nodes.has(outpost_id) or not (_nodes[outpost_id] as Array).has(node_id):
+		return &"unknown"
+	if not _outposts.has(outpost_id):
+		return &"unknown"
+	var outpost: Variant = _outposts[outpost_id]
+	if outpost.owner_team_id != PLAYER_TEAM_ID:
+		return &"enemy"
+	if outpost.state != outpost.STABLE or outpost.construction_locked:
+		return &"locked"
+	var key := _key(outpost_id, node_id)
+	if _buildings.has(key) and _building_matches_current_capture(_buildings[key]):
+		return &"occupied"
+	return &"available"
+
+
+func available_building_ids(outpost_id: StringName, node_id: StringName) -> Array[StringName]:
+	if node_status(outpost_id, node_id) != &"available":
+		return []
+	var ids: Array[StringName] = []
+	for building_id in definitions:
+		ids.append(building_id)
+	return ids
+
+
+func building_definition(building_id: StringName) -> Variant:
+	return definitions.get(building_id)
+
+
 func try_construct(outpost_id: StringName, node_id: StringName, building_id: StringName) -> bool:
-	if not definitions.has(building_id) or not _node_is_available(outpost_id, node_id):
+	if not definitions.has(building_id) or node_status(outpost_id, node_id) != &"available":
 		return false
 	var definition: Variant = definitions[building_id]
 	if not economy.try_spend_gold(definition.gold_cost):
@@ -59,15 +88,7 @@ func roulette_archetype_ids() -> Array[StringName]:
 
 
 func _node_is_available(outpost_id: StringName, node_id: StringName) -> bool:
-	if not _nodes.has(outpost_id) or not (_nodes[outpost_id] as Array).has(node_id):
-		return false
-	var key := _key(outpost_id, node_id)
-	if _buildings.has(key):
-		var state: Variant = _buildings[key]
-		if _building_matches_current_capture(state):
-			return false
-		_buildings.erase(key)
-	return _outpost_is_active_for_player(outpost_id)
+	return node_status(outpost_id, node_id) == &"available"
 
 
 func _outpost_is_active_for_player(outpost_id: StringName) -> bool:

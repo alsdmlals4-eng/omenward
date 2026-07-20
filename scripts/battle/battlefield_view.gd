@@ -11,9 +11,14 @@ const LUMEN := Color(0.31, 0.66, 0.96, 1.0)
 const VEIL := Color(0.76, 0.3, 0.54, 1.0)
 const PATH_LIGHT := Color(0.69, 0.76, 0.68, 0.82)
 const PATH_SHADOW := Color(0.25, 0.38, 0.34, 0.94)
+const FRIENDLY_NODE_IDS := [&"front_a", &"front_b", &"rear"]
+
+signal construction_node_selected(outpost_id: StringName, node_id: StringName)
 
 var run: Variant
 var _unit_views := {}
+var _selected_outpost_id: StringName = &""
+var _selected_node_id: StringName = &""
 
 
 func bind_run(assigned_run: Variant) -> void:
@@ -23,6 +28,28 @@ func bind_run(assigned_run: Variant) -> void:
 
 func _process(_delta: float) -> void:
 	_sync_unit_views()
+	queue_redraw()
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		for lane_id in LANE_IDS:
+			var outpost_id := StringName("home_%s" % lane_id)
+			for node_id in FRIENDLY_NODE_IDS:
+				if event.position.distance_to(_friendly_node_position(lane_id, node_id)) <= 14.0:
+					_selected_outpost_id = outpost_id
+					_selected_node_id = node_id
+					construction_node_selected.emit(outpost_id, node_id)
+					queue_redraw()
+					var viewport := get_viewport()
+					if viewport != null:
+						viewport.set_input_as_handled()
+					return
+
+
+func set_selected_construction_node(outpost_id: StringName, node_id: StringName) -> void:
+	_selected_outpost_id = outpost_id
+	_selected_node_id = node_id
 	queue_redraw()
 
 
@@ -36,7 +63,7 @@ func _draw() -> void:
 		_draw_lane_ground(lane_id, y)
 		_draw_gate(Vector2(76, y), LUMEN, false)
 		_draw_gate(Vector2(884, y), VEIL, true)
-		_draw_outpost(Vector2(FRIENDLY_OUTPOST_X, y), LUMEN, false)
+		_draw_outpost(Vector2(FRIENDLY_OUTPOST_X, y), LUMEN, false, StringName("home_%s" % lane_id))
 		_draw_outpost(Vector2(ENEMY_OUTPOST_X, y), VEIL, true)
 		_draw_clash_zone(Vector2(CENTER_CLASH_X, y))
 		if run != null and run.battle != null:
@@ -70,7 +97,7 @@ func _draw_gate(center: Vector2, color: Color, mirrored: bool) -> void:
 	draw_line(Vector2(center.x + 20 * direction, center.y - 30), Vector2(center.x + 20 * direction, center.y + 30), Color(color.r, color.g, color.b, 0.55), 2.0)
 
 
-func _draw_outpost(center: Vector2, color: Color, mirrored: bool) -> void:
+func _draw_outpost(center: Vector2, color: Color, mirrored: bool, outpost_id: StringName = &"") -> void:
 	var direction := -1.0 if mirrored else 1.0
 	draw_circle(center, 38.0, Color(0.03, 0.06, 0.08, 0.48))
 	draw_circle(center, 30.0, Color(color.r, color.g, color.b, 0.14))
@@ -81,15 +108,30 @@ func _draw_outpost(center: Vector2, color: Color, mirrored: bool) -> void:
 		Vector2(center.x + 20, center.y - 16),
 		Vector2(center.x, center.y - 34),
 	]), Color(color.r, color.g, color.b, 0.88))
-	_draw_outpost_nodes(center, color, direction)
+	_draw_outpost_nodes(center, color, direction, outpost_id)
 
 
-func _draw_outpost_nodes(center: Vector2, color: Color, direction: float) -> void:
-	for offset in [Vector2(-28, -23), Vector2(-28, 23), Vector2(29, 0)]:
+func _draw_outpost_nodes(center: Vector2, color: Color, direction: float, outpost_id: StringName = &"") -> void:
+	var offsets := [Vector2(-28, -23), Vector2(-28, 23), Vector2(29, 0)]
+	for index in offsets.size():
+		var offset: Vector2 = offsets[index]
 		var node_position := center + Vector2(offset.x * direction, offset.y)
+		var node_id: StringName = FRIENDLY_NODE_IDS[index] if not outpost_id.is_empty() else &""
+		var status: StringName = run.construction_status(outpost_id, node_id) if run != null and not outpost_id.is_empty() else &""
+		var node_color := Color(0.91, 0.76, 0.35, 1.0) if status == &"occupied" else color
+		if status == &"locked" or status == &"enemy":
+			node_color = Color(0.43, 0.45, 0.5, 1.0)
 		draw_circle(node_position, 8.0, Color(0.04, 0.07, 0.08, 0.9))
-		draw_arc(node_position, 8.0, 0.0, TAU, 12, Color(color.r, color.g, color.b, 0.9), 1.5)
-		draw_circle(node_position, 3.0, Color(color.r, color.g, color.b, 0.62))
+		draw_arc(node_position, 8.0, 0.0, TAU, 12, Color(node_color.r, node_color.g, node_color.b, 0.9), 1.5)
+		draw_circle(node_position, 3.0, Color(node_color.r, node_color.g, node_color.b, 0.62))
+		if outpost_id == _selected_outpost_id and node_id == _selected_node_id:
+			draw_arc(node_position, 12.0, 0.0, TAU, 16, Color(1.0, 0.92, 0.55, 1.0), 2.0)
+
+
+func _friendly_node_position(lane_id: StringName, node_id: StringName) -> Vector2:
+	var y: float = LANE_Y[lane_id]
+	var offsets := {&"front_a": Vector2(-28, -23), &"front_b": Vector2(-28, 23), &"rear": Vector2(29, 0)}
+	return Vector2(FRIENDLY_OUTPOST_X, y) + offsets.get(node_id, Vector2.ZERO)
 
 
 func _draw_clash_zone(center: Vector2) -> void:
