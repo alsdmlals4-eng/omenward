@@ -1,43 +1,47 @@
-# 기획 문서와 책임 원본 관리
+# Managing Design Documents
 
 - Skill ID: `foundation.design-documents`
-- Category: `foundation`
-- Registry: `docs/base/SKILL_REGISTRY.json`
-- Shared contract: `skills/SHARED_EXECUTION_CONTRACT.md`
+- 공통 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 사용 조건
-- 기획서·GDD·문서
-- 승인 문서·정본
-- Proposal·Spec
+
+등록된 책임 원본·발행본·사용자 학습 노트·정본 연결형 대시보드를 작성하거나 갱신할 때.
 
 ## 사용하지 않는 조건
-- 코드만 변경하는 작업
-- 일회성 메모
+
+문서 상태와 무관한 코드 수정 또는 단순 조회.
 
 ## 고유 책임
-- 문서 생명주기
-- 승인 상태
-- 책임 원본
-- 파생본 정합성
+
+한 질문에 하나의 Markdown/JSON 정본을 유지하고, 조건부 PDF 발행·학습 노트·시각 대시보드를 정본과 분리해 관리한다.
 
 ## 입력
-- `DOCUMENTATION_MAP`
-- 승인 문서
-- Handoff·Roadmap·Issue
+
+- 문서 Registry와 발행 정책
+- 승인된 결정·실제 상태·출처
+- 독자·용도·갱신 조건
+- 기존 파생본·Manifest
 
 ## 절차
-1. 주제별 활성 책임 원본을 지정한다.
-2. 중복·상충 문서를 분류한다.
-3. 승인·보류·백업 상태를 명시한다.
-4. 관련 문서의 동기화 범위를 계산한다.
-5. 링크와 파생본을 검증한다.
+
+- Modes: `author → update → restructure → publish → validate → learning-note → visual-dashboard`
+- 책임 질문과 단일 정본을 확인한다.
+- 서술은 Markdown, ID·상태·경로는 JSON으로 둔다.
+- 중복 전문 대신 경로와 현재 차이만 연결한다.
+- 학습 노트는 AI 지침이 아니라 개념·이유·예시·오해·연습으로 만든다.
+- 대시보드는 정본을 대체하지 않고 원본 경로·갱신 시점을 표시한다.
+- 정책이 요구할 때만 PDF·Manifest를 생성하고 최신성을 검증한다.
 
 ## 출력
-- 갱신된 책임 문서
-- 중복·충돌 처리표
-- 문서 검증 결과
+
+- 갱신된 정본
+- 선택적 PDF·Manifest
+- 사용자 학습 노트
+- 정본 연결형 대시보드
+- 발행·미검증 상태
 
 ## 고유 검수
-- 같은 주제 정본이 둘 이상인가.
-- 승인 상태를 파일명만으로 추정하는가.
-- 끊긴 링크나 오래된 파생본이 있는가.
+
+- v2·final·latest 활성 복제본을 만들지 않는다.
+- CURRENT와 사람 시각 검수를 혼동하지 않는다.
+- 대시보드·학습 노트가 정본이나 AI 실행 계약을 대체하지 않는다.

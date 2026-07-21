@@ -1,0 +1,297 @@
+{
+  "schema_version": 1,
+  "aliases": {
+    "managing-project-intake-and-work-contract": {
+      "target": "foundation.project-intake",
+      "modes": [
+        "route",
+        "clarify",
+        "contract",
+        "decompose-sequence",
+        "execution-report"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "managing-game-project-operating-system": {
+      "target": "foundation.project-operating-system",
+      "modes": [
+        "audit",
+        "reconcile-legacy",
+        "migrate",
+        "verify"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "evolving-project-discipline-skills": {
+      "target": "foundation.skill-evolution",
+      "modes": [
+        "inventory",
+        "decide-boundary",
+        "create-or-integrate",
+        "register",
+        "verify",
+        "learn"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "managing-design-documents": {
+      "target": "foundation.design-documents",
+      "modes": [
+        "author",
+        "update",
+        "restructure",
+        "publish",
+        "validate"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "maintaining-project-context-and-handoff": {
+      "target": "foundation.context-handoff",
+      "modes": [
+        "active-context",
+        "handoff"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "analyzing-and-refining-game-concepts": {
+      "target": "discipline.game-design",
+      "modes": [
+        "concept-frame",
+        "constrain",
+        "sharpen",
+        "structure",
+        "benchmark-decision",
+        "playtest-experiment",
+        "poc-contract",
+        "recalibrate"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "designing-vertical-slices": {
+      "target": "discipline.game-design",
+      "modes": [
+        "vertical-slice"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "orchestrating-deepseek-worktrees": {
+      "target": "foundation.project-operating-system",
+      "modes": [
+        "external-ai-worktree"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "reviewing-and-validating-project-changes": {
+      "target": "foundation.validation-review",
+      "modes": [
+        "contract-check",
+        "static-validation",
+        "runtime-validation",
+        "accessibility-review",
+        "performance-profile",
+        "regression",
+        "evidence-report"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "auditing-canonical-reference-freshness": {
+      "target": "foundation.validation-review",
+      "modes": [
+        "reference-freshness"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "designing-art-prompts-and-technique-cards": {
+      "target": "discipline.art",
+      "modes": [
+        "art-prompt",
+        "technique-card"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "auditing-and-refining-ui-art": {
+      "target": "discipline.ux-ui-accessibility",
+      "modes": [
+        "ui-art-audit"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "managing-base-change-proposals": {
+      "target": "foundation.base-change-proposals",
+      "modes": [
+        "extract",
+        "submit",
+        "review",
+        "implement-approved",
+        "verify",
+        "adopt-project"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "identifying-project-core": {
+      "target": "foundation.project-core",
+      "modes": [
+        "identify-existing"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "establishing-project-core": {
+      "target": "foundation.project-core",
+      "modes": [
+        "propose",
+        "stress-test",
+        "confirm",
+        "lock",
+        "reopen",
+        "record"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "running-adversarial-review-and-refinement": {
+      "target": "foundation.adversarial-review",
+      "modes": [
+        "attack",
+        "validate-critique",
+        "refine-approved-findings",
+        "regression-recheck",
+        "decision-report"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "refactoring-with-contract-preservation": {
+      "target": "foundation.contract-refactor",
+      "modes": [
+        "baseline-contract",
+        "smell-audit",
+        "refactor",
+        "regression-validate",
+        "report"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "simplifying-skill-bodies": {
+      "target": "foundation.skill-simplification",
+      "modes": [
+        "inventory",
+        "classify-always-vs-conditional",
+        "extract-references",
+        "rewrite-router",
+        "validate-disclosure"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "pruning-stale-and-nonfunctional-material": {
+      "target": "foundation.pruning",
+      "modes": [
+        "inventory",
+        "classify",
+        "preserve-unique",
+        "prune-approved",
+        "verify-no-loss"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "synchronizing-local-and-github-state": {
+      "target": "foundation.project-operating-system",
+      "modes": [
+        "sync-local-github"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "maintaining-long-running-task-continuity": {
+      "target": "foundation.context-handoff",
+      "modes": [
+        "initialize",
+        "checkpoint",
+        "resume",
+        "partial-delivery",
+        "close"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "governing-game-user-research-coverage": {
+      "target": "discipline.analytics-research",
+      "modes": [
+        "coverage-11",
+        "market-genre",
+        "benchmark",
+        "swot-positioning",
+        "user-research",
+        "playtest-analysis",
+        "tutorial-comprehension",
+        "ux-analysis",
+        "telemetry-funnel",
+        "balance-data",
+        "hypothesis-experiment",
+        "decision-evidence"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "creating-user-learning-notes": {
+      "target": "foundation.design-documents",
+      "modes": [
+        "learning-note"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "building-project-visual-dashboards": {
+      "target": "foundation.design-documents",
+      "modes": [
+        "visual-dashboard"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "diagnosing-game-engine-runtime-failures": {
+      "target": "discipline.engineering",
+      "modes": [
+        "runtime-diagnosis"
+      ],
+      "reason": "Base capability adapter"
+    },
+    "specialist.game-concept": {
+      "target": "discipline.game-design",
+      "modes": [
+        "concept-frame",
+        "sharpen",
+        "poc-contract"
+      ],
+      "reason": "absorbed into game-design discipline"
+    },
+    "specialist.ui-art-audit": {
+      "target": "discipline.ux-ui-accessibility",
+      "modes": [
+        "ui-art-audit"
+      ],
+      "reason": "absorbed into UX/UI discipline"
+    },
+    "specialist.canonical-freshness": {
+      "target": "foundation.validation-review",
+      "modes": [
+        "reference-freshness"
+      ],
+      "reason": "absorbed into validation mode"
+    },
+    "specialist.art-prompts": {
+      "target": "discipline.art",
+      "modes": [
+        "art-prompt",
+        "technique-card"
+      ],
+      "reason": "absorbed into art discipline"
+    },
+    "specialist.vertical-slice": {
+      "target": "discipline.game-design",
+      "modes": [
+        "vertical-slice"
+      ],
+      "reason": "absorbed into game-design discipline"
+    },
+    "specialist.deepseek-worktrees": {
+      "target": "foundation.project-operating-system",
+      "modes": [
+        "external-ai-worktree"
+      ],
+      "reason": "absorbed into operating-system mode"
+    }
+  }
+}

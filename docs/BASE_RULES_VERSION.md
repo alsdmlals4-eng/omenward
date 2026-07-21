@@ -1,65 +1,26 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `ee265576da7f67d3278f8099dd97d4e714ef0651`
-- 동기화 기준일: `2026-07-21`
-- 적용 방식: 프로젝트 정본을 우선하고, Base 공용 원칙은 `docs/base/SKILL_REGISTRY.json`과 로컬 Skill 어댑터로 명시적으로 채택
-- Skill 시작점: `docs/base/START_HERE_SKILLS.md`
+- 기준 커밋: `41a20584dd2ee51d917e5c9d7cab6838e1ceba7e`
+- 동기화 기준일: `2026-07-22`
+- 적용 정책: Omenward 정본 우선·명시적 채택·자동 덮어쓰기 금지
+- 기계 정본: `docs/base/SKILL_REGISTRY.json`
+- Base 기능 보존표: `docs/base/BASE_CAPABILITY_COVERAGE.json`
 - 공통 실행 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
-## 채택한 Base 영역
+## 채택 결과
 
-- spec-first 작업과 PLAN / BUILD / REVIEW 게이트.
-- 최소 변경·실제 파일 우선·검증 중심 보고.
-- 프로젝트 인수인계·컨텍스트 설계 방법.
-- 새 Codex 채팅용 Work Order와 제안서·구현 결과의 분리.
-- 아트 디렉션과 실제 화면 검수 방법.
-- 애니메이션·전투 연출·판정 동기화 방법.
-- 조사·벤치마킹·근거 관리 방법.
-- Foundation 7개·Specialist 6개의 공용 책임 구조.
-- 자동 Work Mode·Skill 라우팅과 패키지 무결성 검사.
-- Adversarial Review·Red Teaming·Critique–Refine 검증 루프.
-
-## 프로젝트 우선순위
-
-일상 작업은 다음 순서를 사용한다.
+Base 활성 Skill 25개의 입력·산출물·권한·검증 책임을 모두 Omenward에 매핑했다. Omenward의 기존 11개 분야 Skill을 활용해 전문 기능을 mode로 통합하고, 독립 경계가 필요한 프로젝트 코어·적대적 검토·가지치기·본문 간소화·계약 보존 리팩토링만 별도 Foundation으로 유지했다.
 
 ```text
-오멘워드 최신 사용자 지시
-→ AGENTS.md
-→ HANDOFF_CONTEXT.md
-→ DOCUMENTATION_MAP.md
-→ 현재 Work Order
-→ 프로젝트 승인 책임 문서
-→ 현재 Issue·Goal
-→ 실제 파일과 테스트
-→ docs/base/SKILL_REGISTRY.json과 선택된 로컬 Skill
-→ 이 문서가 고정한 Base 커밋
-→ Base 최신 공용 지식과 외부 참고
+Base 25개 책임
+→ Omenward Foundation 12개 + Discipline 11개
+→ 총 23개 패키지
 ```
 
-Base 원격 변경을 자동 적용하지 않는다. 동기화가 필요할 때 최신 Base `main`과 프로젝트 책임 문서를 비교하고 별도 PR로 갱신한다.
+## 보호 원칙
 
-## 로컬 Skill 구성
-
-- Foundation: 7
-- Omenward Discipline: 11
-- Specialist: 6
-- 총 패키지: 24
-- 기계 판독 정본: `docs/base/SKILL_REGISTRY.json`
-- 실행 Router: `tools/route_skills.py`
-- 무결성 검사: `tools/validate_skill_system.py`
-- CI: `.github/workflows/validate-skill-system.yml`
-
-공통 규칙은 `skills/SHARED_EXECUTION_CONTRACT.md` 한 곳에만 두고, 개별 Skill에는 고유 책임만 둔다. REVIEW는 `foundation.validation-review`와 `discipline.integration-review`를 강제로 포함한다.
-
-## 주요 공용 지식 경로
-
-- Base `docs/knowledge/README.md`
-- Base `docs/knowledge/methods/`
-- Base `docs/knowledge/research/`
-- Base `docs/knowledge/skills/`
-- Base `docs/knowledge/cases/`
-- Base `templates/`
-
-Base의 프로젝트 사례는 문제 해결 원리를 참고하기 위한 것이며 오멘워드의 최신 사양을 대체하지 않는다.
+- 게임 코드·Scene·Resource·데이터·승인 자산·세계관·수치는 Base 구조에 맞춰 임의 변경하지 않는다.
+- Base의 파일 구조·예시·프로젝트 사례를 통째로 복사하지 않는다.
+- 과거 Skill ID는 `skills/LEGACY_SKILL_ALIASES.json`으로 해석하며 새 계약에는 현행 ID만 사용한다.
+- 기능 축소 여부는 파일 수가 아니라 `BASE_CAPABILITY_COVERAGE.json`과 회귀 테스트로 판정한다.

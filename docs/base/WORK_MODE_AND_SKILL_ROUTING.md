@@ -1,35 +1,41 @@
-# Work Mode·Skill 라우팅
+# Omenward Work Mode·Skill·mode 라우팅
 
-## 기본 흐름
+## 단계
+
+- `PLAN`: 사실·정본·범위·코어·순서
+- `BUILD`: 승인된 반영·이주·가지치기·리팩토링
+- `REVIEW`: 적대적 공격·비판 검증·정적·런타임·회귀·PR 판정
+
+`tools/route_skills.py`는 요청을 단일 고정 mode가 아니라 필요한 단계 순서로 라우팅한다.
+
+## 최소 선택
+
+- 첫 단계: `foundation.project-intake`
+- 주 분야: 최대 1개
+- 지원 분야: 최대 2개
+- Foundation: 단계별 trigger 일치 항목만 선택
+- REVIEW 강제:
+  - `foundation.adversarial-review`
+  - `foundation.validation-review`
+  - `discipline.integration-review`
+
+## 통합 원칙
+
+별도 Specialist를 기본 구조로 유지하지 않는다. 전문 기능은 독립 입력·산출물·권한·검증이 보존되는 범위에서 분야 Skill의 mode로 통합한다.
+
+예:
 
 ```text
-사용자 요청
-→ project-intake
-→ PLAN / BUILD / REVIEW 판정
-→ 주 책임 Discipline 1개
-→ 지원 Discipline 최대 2개
-→ 명시적으로 필요한 Specialist
-→ 실행
-→ Adversarial Review
-→ Red Teaming
-→ Critique–Refine
-→ 독립 검증
+게임 컨셉·DDD·PoC → discipline.game-design
+11영역 연구 → discipline.analytics-research
+아트 프롬프트 → discipline.art + discipline.technical-art
+UI 아트 감사 → discipline.ux-ui-accessibility
+Vertical Slice → game-design + production-pm + engineering
+런타임 오류 → engineering + qa
+정본 최신성 → foundation.validation-review: reference-freshness
+DeepSeek worktree → foundation.project-operating-system: external-ai-worktree
 ```
 
-## REVIEW 강제 스택
+## 수동 지정
 
-REVIEW에서는 다음 두 Skill을 제거할 수 없다.
-
-- `foundation.validation-review`
-- `discipline.integration-review`
-
-## 충돌 해결
-
-- 게임 규칙: `discipline.game-design`
-- 코드·상태 소유: `discipline.engineering`
-- 정보 계층·조작: `discipline.ux-ui-accessibility`
-- 시각 언어: `discipline.art`
-- 테스트 판정: `discipline.qa`
-- 최종 병합 판정: `discipline.integration-review`
-
-지원 Skill은 주 책임자의 파일을 직접 소유하지 않는다. 충돌 시 책임 원본을 먼저 확인하고, 해결되지 않으면 `확인 필요`로 중단한다.
+현행 ID 또는 `skills/LEGACY_SKILL_ALIASES.json`의 과거 ID만 허용한다. Alias는 현행 ID와 mode로 변환되며 고아 패키지를 다시 활성화하지 않는다.

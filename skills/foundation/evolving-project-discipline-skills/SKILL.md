@@ -1,45 +1,47 @@
-# 프로젝트 Skill 진화와 최적화
+# Evolving Project Discipline Skills
 
 - Skill ID: `foundation.skill-evolution`
-- Category: `foundation`
-- Registry: `docs/base/SKILL_REGISTRY.json`
-- Shared contract: `skills/SHARED_EXECUTION_CONTRACT.md`
+- 공통 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 사용 조건
-- Skill 추가·통합·최적화
-- 라우팅 개선
-- 중복 Skill
+
+Skill을 생성·통합·가지치기하거나 Registry·라우팅·Learning Log를 개선할 때.
 
 ## 사용하지 않는 조건
-- 한 번만 쓰는 임시 절차
+
+Skill 구조에 영향 없는 일반 구현.
 
 ## 고유 책임
-- Skill 경계
-- 트리거
-- 중복 제거
-- 학습 반영
-- Registry 정합성
+
+consolidation-first로 기존 mode 확장을 우선하고 독립 입력·산출물·검증·승인 경계가 있을 때만 Skill을 분리한다.
 
 ## 입력
-- `SKILL_REGISTRY.json`
-- Skill 패키지
-- 실행 보고
-- 반복 실패 사례
+
+- Registry·entrypoint·실제 패키지
+- 기존 modes·references·scripts
+- 실패·교훈·작업 사례
+- alias·coverage·검증 경로
 
 ## 절차
-1. 기존 Skill로 해결 가능한지 먼저 확인한다.
-2. 책임·입력·출력이 겹치는 Skill을 통합한다.
-3. 공통 규칙은 Shared Contract로 이동한다.
-4. 개별 Skill에는 고유 판단만 남긴다.
-5. Registry·테스트·문서를 함께 갱신한다.
+
+- Modes: `inventory → decide-boundary → create-or-integrate → register → verify → learn`
+- Registry와 실제 패키지·entrypoint를 대조한다.
+- 중복·과분할·누락·죽은 자료를 판정한다.
+- 고유 기능·검증·호환성을 먼저 보존한다.
+- Skill·mode·reference 중 가장 작은 단위로 통합한다.
+- Alias·coverage·라우팅·테스트를 동기화한다.
+- 실제 증거가 있는 교훈만 학습한다.
 
 ## 출력
-- 최적화된 Skill 패키지
-- 변경 이유
-- 호환·별칭 처리
-- 무결성 검사
+
+- 통합 전후 구조
+- 책임 보존표
+- Registry·alias·coverage
+- 라우팅·콜드 스타트 결과
+- Learning Log 후보
 
 ## 고유 검수
-- 새 Skill이 기존 Skill과 중복되는가.
-- 트리거가 너무 넓어 항상 선택되는가.
-- 패키지와 Registry가 1대1인가.
+
+- 기존 mode 검토 없이 새 Skill을 만들지 않는다.
+- 이름만 합치며 기능·검증을 잃지 않는다.
+- 전체 skills 폴더를 기본 로드하지 않는다.

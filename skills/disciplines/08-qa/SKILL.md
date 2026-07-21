@@ -1,36 +1,46 @@
-# QA
+# Omenward QA
 
 - Skill ID: `discipline.qa`
-- Category: `disciplines`
-- Registry: `docs/base/SKILL_REGISTRY.json`
-- Shared contract: `skills/SHARED_EXECUTION_CONTRACT.md`
+- 공통 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 사용 조건
-- 테스트·재현·회귀
-- 품질·버그 분류
+
+테스트 전략·재현·회귀·버그 분류·런타임 진단 지원·출시 증거를 관리할 때.
 
 ## 사용하지 않는 조건
-- 제품 방향 결정
+
+검증 대상이 없는 아이디어 탐색.
 
 ## 고유 책임
-- 테스트 전략
-- 재현성
-- 회귀 게이트
+
+정상·실패·경계·저장·호환성·해상도·플랫폼 경로를 재현 가능한 계약과 실제 증거로 검증한다.
 
 ## 입력
-- 사양·diff·로그
-- 테스트 환경
-- 실행 증거
+
+- 승인 완료 기준
+- 재현 절차·로그·빌드
+- 변경 diff·baseline
+- 자동·수동·사람 QA 환경
 
 ## 절차
-1. 위험 기반 테스트를 설계한다.
-2. 정상·경계·실패를 분리한다.
-3. 재현 절차와 증거를 보존한다.
+
+- Modes: `test-plan → reproduction → regression → runtime-diagnosis-support → evidence-gate`
+- 원래 실패와 예상·실제 결과를 고정한다.
+- 정상·실패·경계·연쇄 효과를 테스트한다.
+- 엔진 오류는 engineering의 원인 격리를 재현·반증으로 지원한다.
+- 자동 테스트와 사람 플레이·시각 QA를 분리한다.
+- 미실행은 NOT_RUN으로 남긴다.
 
 ## 출력
-- 테스트 계획
-- 결함 보고
-- 통과 판정
+
+- 테스트 계획·케이스
+- 재현 증거
+- 회귀 결과
+- 버그 심각도·소유자
+- 출시 gate·미검증
 
 ## 고유 검수
-- 검증하지 않은 항목을 통과로 표시했는가.
+
+- 테스트 파일 존재를 실행 성공으로 보지 않는다.
+- 사람 시각 QA를 문자열 검사로 대체하지 않는다.
+- 원래 실패 미재현 상태에서 수정 완료를 주장하지 않는다.

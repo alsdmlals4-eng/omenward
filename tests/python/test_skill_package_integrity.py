@@ -1,53 +1,57 @@
 from __future__ import annotations
 
+import copy
+import importlib.util
 import json
 import pathlib
-import subprocess
-import sys
 import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-REGISTRY = ROOT / "docs" / "base" / "SKILL_REGISTRY.json"
+SPEC = importlib.util.spec_from_file_location("validator", ROOT / "tools" / "validate_skill_system.py")
+validator = importlib.util.module_from_spec(SPEC)
+assert SPEC.loader
+SPEC.loader.exec_module(validator)
 
 
 class SkillPackageIntegrityTests(unittest.TestCase):
-    def test_validator_passes(self) -> None:
-        result = subprocess.run(
-            [sys.executable, "tools/validate_skill_system.py"],
-            cwd=ROOT,
-            text=True,
-            capture_output=True,
-            check=False,
-        )
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+    def test_full_contract_passes(self) -> None:
+        self.assertEqual([], validator.validate(ROOT / "docs/base/SKILL_REGISTRY.json"))
 
-    def test_registry_ids_and_paths_are_unique(self) -> None:
-        data = json.loads(REGISTRY.read_text(encoding="utf-8"))
-        ids = [skill["id"] for skill in data["skills"]]
-        paths = [skill["path"] for skill in data["skills"]]
-        self.assertEqual(len(ids), len(set(ids)))
-        self.assertEqual(len(paths), len(set(paths)))
+    def test_optimized_package_count_and_disciplines(self) -> None:
+        registry = json.loads((ROOT / "docs/base/SKILL_REGISTRY.json").read_text(encoding="utf-8"))
+        self.assertEqual(23, len(registry["skills"]))
+        self.assertEqual(11, len(registry["selected_disciplines"]))
+        self.assertEqual({"foundation", "disciplines"}, {s["category"] for s in registry["skills"]})
 
-    def test_validator_rejects_duplicate_id_mutation(self) -> None:
-        data = json.loads(REGISTRY.read_text(encoding="utf-8"))
-        data["skills"][1]["id"] = data["skills"][0]["id"]
-        with tempfile.TemporaryDirectory() as directory:
-            path = pathlib.Path(directory) / "registry.json"
-            path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
-            result = subprocess.run(
-                [sys.executable, "tools/validate_skill_system.py", "--registry", str(path)],
-                cwd=ROOT, text=True, capture_output=True, check=False,
-            )
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("duplicate Skill IDs", result.stdout)
+    def test_no_specialist_packages_remain(self) -> None:
+        self.assertFalse((ROOT / "skills/specialists").exists())
 
-    def test_expected_category_counts(self) -> None:
-        data = json.loads(REGISTRY.read_text(encoding="utf-8"))
-        counts: dict[str, int] = {}
-        for skill in data["skills"]:
-            counts[skill["category"]] = counts.get(skill["category"], 0) + 1
-        self.assertEqual(counts, {"foundation": 7, "disciplines": 11, "specialists": 6})
+    def test_duplicate_id_is_rejected(self) -> None:
+        registry_path = ROOT / "docs/base/SKILL_REGISTRY.json"
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        registry["skills"][1]["id"] = registry["skills"][0]["id"]
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".json", delete=False) as handle:
+            json.dump(registry, handle, ensure_ascii=False)
+            path = pathlib.Path(handle.name)
+        try:
+            errors = validator.validate(path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("duplicate Skill IDs" in error for error in errors))
+
+    def test_review_stack_is_mandatory(self) -> None:
+        registry_path = ROOT / "docs/base/SKILL_REGISTRY.json"
+        registry = json.loads(registry_path.read_text(encoding="utf-8"))
+        registry["routing"]["review_stack"].remove("foundation.adversarial-review")
+        with tempfile.NamedTemporaryFile("w", encoding="utf-8", suffix=".json", delete=False) as handle:
+            json.dump(registry, handle, ensure_ascii=False)
+            path = pathlib.Path(handle.name)
+        try:
+            errors = validator.validate(path)
+        finally:
+            path.unlink(missing_ok=True)
+        self.assertTrue(any("mandatory adversarial review stack" in error for error in errors))
 
 
 if __name__ == "__main__":

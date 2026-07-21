@@ -1,37 +1,45 @@
-# UX·UI·접근성
+# Omenward UX UI Accessibility
 
 - Skill ID: `discipline.ux-ui-accessibility`
-- Category: `disciplines`
-- Registry: `docs/base/SKILL_REGISTRY.json`
-- Shared contract: `skills/SHARED_EXECUTION_CONTRACT.md`
+- 공통 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 사용 조건
-- UI·UX·HUD·조작
-- 가독성·접근성
+
+HUD·조작·가독성·접근성·구현 UI 아트·대시보드 상호작용을 설계·감사할 때.
 
 ## 사용하지 않는 조건
-- 최종 아트 제작
+
+UI 영향 없는 서버·데이터 작업.
 
 ## 고유 책임
-- 정보 계층
-- 상태 피드백
-- 조작 계약
+
+세 라인 위협·거점·성문·웨이브·룰렛 상태를 동시에 이해시키고 실제 입력·정보·시간·모션 장벽과 시각 품질을 검수한다.
 
 ## 입력
-- 화면 요구
-- 승인 UI 문서
-- 실제 해상도
+
+- 승인 UX 흐름·표시 계약
+- 실제 Scene·렌더·입력
+- 해상도·플랫폼·접근성 요구
+- 아트 방향·사용자 과제
 
 ## 절차
-1. 핵심 결정을 우선순위화한다.
-2. 상태와 조작을 매핑한다.
-3. 실패·빈 상태를 설계한다.
+
+- Modes: `ux-flow → hud-layout → accessibility-review → ui-art-audit → dashboard-interaction`
+- 핵심 과제와 정보 우선순위를 정한다.
+- 960×540 논리 화면과 1920×1080·1280×720에서 가독성을 확인한다.
+- 텍스트·대비·정보 채널·입력·시간·모션의 장벽과 대안을 검사한다.
+- UI 아트 finding을 A~E 영역으로 분류하고 승인된 항목만 수정한다.
+- 실제 전후 렌더와 조작 경로로 재검수한다.
 
 ## 출력
-- UI 계약
-- 와이어 구조
-- 접근성 체크
+
+- UX 흐름·HUD 계약
+- 접근성 장벽·대안
+- UI 아트 finding·전후 증거
+- 대시보드 상호작용 규칙
 
 ## 고유 검수
-- 실제 해상도에서 읽히는가.
-- 조작 대상과 결과가 즉시 구분되는가.
+
+- 정적 패턴을 자동 결함으로 판정하지 않는다.
+- 옵션 존재를 접근성 통과로 보지 않는다.
+- 실제 렌더 없이 시각 검수를 완료하지 않는다.

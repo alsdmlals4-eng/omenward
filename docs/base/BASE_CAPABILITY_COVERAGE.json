@@ -1,0 +1,461 @@
+{
+  "schema_version": 1,
+  "base_repository": "alsdmlals4-eng/Base",
+  "base_commit": "41a20584dd2ee51d917e5c9d7cab6838e1ceba7e",
+  "base_active_skill_count": 25,
+  "local_active_skill_count": 23,
+  "optimization_policy": "consolidate_by_mode_only_when_inputs_outputs_authority_and_validation_remain_explicit",
+  "mappings": [
+    {
+      "base_skill_id": "managing-project-intake-and-work-contract",
+      "local_targets": [
+        {
+          "id": "foundation.project-intake",
+          "modes": [
+            "route",
+            "clarify",
+            "contract",
+            "decompose-sequence",
+            "execution-report"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "managing-game-project-operating-system",
+      "local_targets": [
+        {
+          "id": "foundation.project-operating-system",
+          "modes": [
+            "audit",
+            "reconcile-legacy",
+            "migrate",
+            "verify"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "evolving-project-discipline-skills",
+      "local_targets": [
+        {
+          "id": "foundation.skill-evolution",
+          "modes": [
+            "inventory",
+            "decide-boundary",
+            "create-or-integrate",
+            "register",
+            "verify",
+            "learn"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "managing-design-documents",
+      "local_targets": [
+        {
+          "id": "foundation.design-documents",
+          "modes": [
+            "author",
+            "update",
+            "restructure",
+            "publish",
+            "validate"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "maintaining-project-context-and-handoff",
+      "local_targets": [
+        {
+          "id": "foundation.context-handoff",
+          "modes": [
+            "active-context",
+            "handoff"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "analyzing-and-refining-game-concepts",
+      "local_targets": [
+        {
+          "id": "discipline.game-design",
+          "modes": [
+            "concept-frame",
+            "constrain",
+            "sharpen",
+            "structure",
+            "benchmark-decision",
+            "playtest-experiment",
+            "poc-contract",
+            "recalibrate"
+          ]
+        },
+        {
+          "id": "discipline.analytics-research",
+          "modes": [
+            "benchmark",
+            "playtest-analysis",
+            "hypothesis-experiment",
+            "decision-evidence"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "absorbed into Omenward domain skills"
+    },
+    {
+      "base_skill_id": "designing-vertical-slices",
+      "local_targets": [
+        {
+          "id": "discipline.game-design",
+          "modes": [
+            "vertical-slice"
+          ]
+        },
+        {
+          "id": "discipline.production-pm",
+          "modes": [
+            "vertical-slice-gate"
+          ]
+        },
+        {
+          "id": "discipline.engineering",
+          "modes": [
+            "architecture",
+            "performance"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "cross-domain modes preserve quality and pipeline proof"
+    },
+    {
+      "base_skill_id": "orchestrating-deepseek-worktrees",
+      "local_targets": [
+        {
+          "id": "foundation.project-operating-system",
+          "modes": [
+            "external-ai-worktree"
+          ]
+        },
+        {
+          "id": "foundation.validation-review",
+          "modes": [
+            "external-source-review"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "workspace and result review separated"
+    },
+    {
+      "base_skill_id": "reviewing-and-validating-project-changes",
+      "local_targets": [
+        {
+          "id": "foundation.validation-review",
+          "modes": [
+            "contract-check",
+            "static-validation",
+            "runtime-validation",
+            "accessibility-review",
+            "performance-profile",
+            "regression",
+            "evidence-report"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "auditing-canonical-reference-freshness",
+      "local_targets": [
+        {
+          "id": "foundation.validation-review",
+          "modes": [
+            "reference-freshness"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "integrated validation mode"
+    },
+    {
+      "base_skill_id": "designing-art-prompts-and-technique-cards",
+      "local_targets": [
+        {
+          "id": "discipline.art",
+          "modes": [
+            "art-prompt",
+            "technique-card"
+          ]
+        },
+        {
+          "id": "discipline.technical-art",
+          "modes": [
+            "art-prompt-technical"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "absorbed into art domains"
+    },
+    {
+      "base_skill_id": "auditing-and-refining-ui-art",
+      "local_targets": [
+        {
+          "id": "discipline.ux-ui-accessibility",
+          "modes": [
+            "ui-art-audit"
+          ]
+        },
+        {
+          "id": "discipline.art",
+          "modes": [
+            "visual-consistency"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "absorbed into UX and art review"
+    },
+    {
+      "base_skill_id": "managing-base-change-proposals",
+      "local_targets": [
+        {
+          "id": "foundation.base-change-proposals",
+          "modes": [
+            "extract",
+            "submit",
+            "review",
+            "implement-approved",
+            "verify",
+            "adopt-project"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "identifying-project-core",
+      "local_targets": [
+        {
+          "id": "foundation.project-core",
+          "modes": [
+            "identify-existing"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "merged with authority-separated modes"
+    },
+    {
+      "base_skill_id": "establishing-project-core",
+      "local_targets": [
+        {
+          "id": "foundation.project-core",
+          "modes": [
+            "propose",
+            "stress-test",
+            "confirm",
+            "lock",
+            "reopen",
+            "record"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "merged with authority-separated modes"
+    },
+    {
+      "base_skill_id": "running-adversarial-review-and-refinement",
+      "local_targets": [
+        {
+          "id": "foundation.adversarial-review",
+          "modes": [
+            "attack",
+            "validate-critique",
+            "refine-approved-findings",
+            "regression-recheck",
+            "decision-report"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "refactoring-with-contract-preservation",
+      "local_targets": [
+        {
+          "id": "foundation.contract-refactor",
+          "modes": [
+            "baseline-contract",
+            "smell-audit",
+            "refactor",
+            "regression-validate",
+            "report"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "simplifying-skill-bodies",
+      "local_targets": [
+        {
+          "id": "foundation.skill-simplification",
+          "modes": [
+            "inventory",
+            "classify-always-vs-conditional",
+            "extract-references",
+            "rewrite-router",
+            "validate-disclosure"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "pruning-stale-and-nonfunctional-material",
+      "local_targets": [
+        {
+          "id": "foundation.pruning",
+          "modes": [
+            "inventory",
+            "classify",
+            "preserve-unique",
+            "prune-approved",
+            "verify-no-loss"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "same responsibility"
+    },
+    {
+      "base_skill_id": "synchronizing-local-and-github-state",
+      "local_targets": [
+        {
+          "id": "foundation.project-operating-system",
+          "modes": [
+            "sync-local-github"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "integrated operating-system mode"
+    },
+    {
+      "base_skill_id": "maintaining-long-running-task-continuity",
+      "local_targets": [
+        {
+          "id": "foundation.context-handoff",
+          "modes": [
+            "initialize",
+            "checkpoint",
+            "resume",
+            "partial-delivery",
+            "close"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "integrated continuity modes"
+    },
+    {
+      "base_skill_id": "governing-game-user-research-coverage",
+      "local_targets": [
+        {
+          "id": "discipline.analytics-research",
+          "modes": [
+            "coverage-11",
+            "market-genre",
+            "benchmark",
+            "swot-positioning",
+            "user-research",
+            "playtest-analysis",
+            "tutorial-comprehension",
+            "ux-analysis",
+            "telemetry-funnel",
+            "balance-data",
+            "hypothesis-experiment",
+            "decision-evidence"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "absorbed into analytics discipline"
+    },
+    {
+      "base_skill_id": "creating-user-learning-notes",
+      "local_targets": [
+        {
+          "id": "foundation.design-documents",
+          "modes": [
+            "learning-note"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "integrated document output mode"
+    },
+    {
+      "base_skill_id": "building-project-visual-dashboards",
+      "local_targets": [
+        {
+          "id": "foundation.design-documents",
+          "modes": [
+            "visual-dashboard"
+          ]
+        },
+        {
+          "id": "discipline.ux-ui-accessibility",
+          "modes": [
+            "dashboard-interaction"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "source ownership and interaction separated"
+    },
+    {
+      "base_skill_id": "diagnosing-game-engine-runtime-failures",
+      "local_targets": [
+        {
+          "id": "discipline.engineering",
+          "modes": [
+            "runtime-diagnosis"
+          ]
+        },
+        {
+          "id": "discipline.qa",
+          "modes": [
+            "runtime-diagnosis-support",
+            "reproduction",
+            "regression"
+          ]
+        }
+      ],
+      "status": "COVERED",
+      "rationale": "absorbed into engineering and QA"
+    }
+  ]
+}

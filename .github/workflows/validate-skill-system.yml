@@ -6,10 +6,11 @@ on:
       - "skills/**"
       - "docs/base/**"
       - "docs/BASE_RULES_VERSION.md"
-      - "schemas/skill-registry-v3.schema.json"
+      - "schemas/skill-registry-v4.schema.json"
       - "tools/route_skills.py"
       - "tools/validate_skill_system.py"
       - "tests/python/test_skill_*.py"
+      - "tests/python/test_base_capability_coverage.py"
       - "tests/python/test_adversarial_review_contract.py"
       - ".github/workflows/validate-skill-system.yml"
   workflow_dispatch:
@@ -19,21 +20,28 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.12", "3.13"]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: Validate packages and registry
+          python-version: ${{ matrix.python-version }}
+      - name: Compile Python contracts
+        run: python -m py_compile tools/route_skills.py tools/validate_skill_system.py tests/python/test_skill_package_integrity.py tests/python/test_skill_routing_contract.py tests/python/test_base_capability_coverage.py tests/python/test_adversarial_review_contract.py
+      - name: Validate packages, modes, coverage, aliases
         run: python tools/validate_skill_system.py
-      - name: Run Skill contract tests
-        run: python -m unittest discover -s tests/python -p "test_skill_*.py" -v
-      - name: Run adversarial review contract tests
-        run: python -m unittest tests.python.test_adversarial_review_contract -v
-      - name: Smoke automatic routing
+      - name: Run all Skill contract tests
+        run: python -m unittest discover -s tests/python -v
+      - name: Smoke full optimization route
+        run: python tools/route_skills.py --request "Base를 전부 읽고 반영한 뒤 스킬 가지치기 간소화 리팩토링 통합 최적화하고 적대적 검토 레드팀 PR 체크"
+      - name: Smoke runtime and legacy routes
         run: |
-          python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
-          python tools/route_skills.py --request "Godot GDScript 성능 버그 수정"
+          python tools/route_skills.py --request "Godot runtime crash와 signal node 오류를 재현하고 수정 후 회귀 검토"
+          python tools/route_skills.py --request "UI 검수" --skill specialist.ui-art-audit
       - name: Check whitespace
         run: git diff --check

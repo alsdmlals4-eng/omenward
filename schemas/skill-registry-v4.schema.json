@@ -1,0 +1,227 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Omenward Skill Registry v4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "project",
+    "base_source",
+    "shared_contract",
+    "capability_coverage",
+    "legacy_aliases",
+    "routing",
+    "selected_disciplines",
+    "skills"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 4
+    },
+    "project": {
+      "const": "Omenward"
+    },
+    "base_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository",
+        "commit",
+        "synced_on",
+        "policy"
+      ],
+      "properties": {
+        "repository": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "synced_on": {
+          "type": "string"
+        },
+        "policy": {
+          "type": "string"
+        }
+      }
+    },
+    "shared_contract": {
+      "type": "string"
+    },
+    "capability_coverage": {
+      "type": "string"
+    },
+    "legacy_aliases": {
+      "type": "string"
+    },
+    "routing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "work_modes",
+        "default_sequence",
+        "entry_stack",
+        "review_stack",
+        "max_primary_disciplines",
+        "max_support_disciplines",
+        "max_foundation_skills_per_stage",
+        "manual_override_requires_registered_or_alias_id"
+      ],
+      "properties": {
+        "strategy": {
+          "type": "string"
+        },
+        "work_modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "default_sequence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "entry_stack": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "review_stack": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_primary_disciplines": {
+          "type": "integer"
+        },
+        "max_support_disciplines": {
+          "type": "integer"
+        },
+        "max_foundation_skills_per_stage": {
+          "type": "integer"
+        },
+        "manual_override_requires_registered_or_alias_id": {
+          "type": "boolean"
+        }
+      }
+    },
+    "selected_disciplines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "category",
+          "path",
+          "work_modes",
+          "modes",
+          "mode_triggers",
+          "mode_work_modes",
+          "default_modes",
+          "required_modes",
+          "triggers",
+          "depends_on",
+          "priority"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "foundation",
+              "disciplines"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "work_modes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "PLAN",
+                "BUILD",
+                "REVIEW"
+              ]
+            }
+          },
+          "modes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mode_triggers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "default_modes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "triggers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "required_modes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "mode_work_modes": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "PLAN",
+                  "BUILD",
+                  "REVIEW"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

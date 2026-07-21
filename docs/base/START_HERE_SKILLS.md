@@ -1,15 +1,27 @@
-# Omenward Skill System 시작점
+# Omenward Skill 시작점
 
-1. `AGENTS.md`와 현재 책임 문서를 읽는다.
-2. 요청을 Router에 넣는다.
-
-```bash
-python tools/route_skills.py --request "<사용자 요청>"
+```text
+AGENTS.md
+→ docs/BASE_RULES_VERSION.md
+→ docs/base/SKILL_REGISTRY.json
+→ skills/SHARED_EXECUTION_CONTRACT.md
+→ tools/route_skills.py
+→ 선택된 최소 Skill·mode
+→ 프로젝트 책임 원본·실제 파일
+→ tools/validate_skill_system.py
 ```
 
-3. 출력된 Work Mode와 Skill 경로를 읽는다.
-4. `skills/SHARED_EXECUTION_CONTRACT.md`를 따른다.
-5. REVIEW에서는 Adversarial Review → Red Teaming → Critique–Refine → 독립 검증을 수행한다.
-6. 작업 후 `python tools/validate_skill_system.py`와 관련 테스트를 실행한다.
+## 구조
 
-기계 판독 정본은 `docs/base/SKILL_REGISTRY.json`이다.
+- Foundation 12개
+- Omenward Discipline 11개
+- 별도 Specialist 0개
+- Base 기능 coverage 25/25
+
+전문 기능은 삭제되지 않았다. 게임 컨셉·Vertical Slice·연구 11영역·아트 프롬프트·UI 아트 감사·런타임 진단 등은 해당 Omenward 분야 Skill의 mode로 통합됐다.
+
+## 구조 변경 순서
+
+`가지치기 → Skill 본문 간소화 → 계약 보존 리팩토링 → 적대적 검토 → 실제 증거 검증 → 통합 PR 체크`
+
+과거 ID는 `skills/LEGACY_SKILL_ALIASES.md`를 참고한다.

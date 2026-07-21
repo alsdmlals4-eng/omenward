@@ -1,32 +1,37 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "project": "Omenward",
   "base_source": {
     "repository": "alsdmlals4-eng/Base",
-    "commit": "ee265576da7f67d3278f8099dd97d4e714ef0651",
-    "synced_on": "2026-07-21",
+    "commit": "41a20584dd2ee51d917e5c9d7cab6838e1ceba7e",
+    "synced_on": "2026-07-22",
     "policy": "project_canon_first_explicit_adoption_no_auto_overwrite"
   },
   "shared_contract": "skills/SHARED_EXECUTION_CONTRACT.md",
+  "capability_coverage": "docs/base/BASE_CAPABILITY_COVERAGE.json",
+  "legacy_aliases": "skills/LEGACY_SKILL_ALIASES.json",
   "routing": {
-    "strategy": "automatic_trigger_routing",
+    "strategy": "stage_aware_automatic_trigger_routing",
     "work_modes": [
       "PLAN",
       "BUILD",
       "REVIEW"
     ],
-    "default_mode": "PLAN",
-    "always_on": [
+    "default_sequence": [
+      "PLAN"
+    ],
+    "entry_stack": [
       "foundation.project-intake"
     ],
     "review_stack": [
+      "foundation.adversarial-review",
       "foundation.validation-review",
       "discipline.integration-review"
     ],
     "max_primary_disciplines": 1,
     "max_support_disciplines": 2,
-    "specialists_require_trigger": true,
-    "manual_override_requires_registered_id": true
+    "max_foundation_skills_per_stage": 7,
+    "manual_override_requires_registered_or_alias_id": true
   },
   "selected_disciplines": [
     "discipline.narrative",
@@ -46,193 +51,2225 @@
       "id": "foundation.project-intake",
       "category": "foundation",
       "path": "skills/foundation/managing-project-intake-and-work-contract/SKILL.md",
-      "triggers": ["요청", "작업", "변경", "구현", "검토", "기획", "request", "task", "change"],
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "route",
+        "clarify",
+        "contract",
+        "decompose-sequence",
+        "execution-report"
+      ],
+      "mode_triggers": {
+        "route": [
+          "요청",
+          "작업",
+          "request",
+          "task"
+        ],
+        "clarify": [
+          "불명확",
+          "확인 필요",
+          "ambiguous"
+        ],
+        "contract": [
+          "범위",
+          "완료 기준",
+          "계약",
+          "acceptance"
+        ],
+        "decompose-sequence": [
+          "의존성",
+          "작업 분해",
+          "순서",
+          "병렬",
+          "dependency"
+        ],
+        "execution-report": [
+          "결과 보고",
+          "완료 보고",
+          "evidence report"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "route",
+          "contract"
+        ],
+        "BUILD": [
+          "contract"
+        ],
+        "REVIEW": [
+          "execution-report"
+        ]
+      },
+      "triggers": [
+        "요청",
+        "작업",
+        "변경",
+        "구현",
+        "검토",
+        "기획",
+        "request",
+        "task",
+        "change"
+      ],
       "depends_on": [],
-      "priority": 100
+      "priority": 100,
+      "required_modes": {},
+      "mode_work_modes": {
+        "route": [
+          "PLAN"
+        ],
+        "clarify": [
+          "PLAN"
+        ],
+        "contract": [
+          "PLAN",
+          "BUILD"
+        ],
+        "decompose-sequence": [
+          "PLAN"
+        ],
+        "execution-report": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "foundation.project-operating-system",
       "category": "foundation",
       "path": "skills/foundation/managing-game-project-operating-system/SKILL.md",
-      "triggers": ["운영체계", "폴더 구조", "워크플로", "registry", "schema", "automation", "governance", "운영 규칙"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 90
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "audit",
+        "reconcile-legacy",
+        "migrate",
+        "verify",
+        "sync-local-github",
+        "external-ai-worktree"
+      ],
+      "mode_triggers": {
+        "audit": [
+          "감사",
+          "audit",
+          "전부 읽",
+          "대조"
+        ],
+        "reconcile-legacy": [
+          "구형",
+          "중복",
+          "legacy",
+          "stale",
+          "v2",
+          "final"
+        ],
+        "migrate": [
+          "반영",
+          "이주",
+          "마이그레이션",
+          "sync base"
+        ],
+        "verify": [
+          "정상",
+          "검증",
+          "health",
+          "콜드 스타트"
+        ],
+        "sync-local-github": [
+          "GitHub",
+          "git sync",
+          "diverged",
+          "branch",
+          "원격",
+          "로컬"
+        ],
+        "external-ai-worktree": [
+          "DeepSeek",
+          "외부 AI",
+          "worktree",
+          "병렬 분석"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "audit"
+        ],
+        "BUILD": [
+          "migrate"
+        ],
+        "REVIEW": [
+          "verify"
+        ]
+      },
+      "triggers": [
+        "Base",
+        "운영체계",
+        "폴더 구조",
+        "registry",
+        "schema",
+        "automation",
+        "governance",
+        "마이그레이션",
+        "GitHub",
+        "git sync",
+        "diverged",
+        "worktree",
+        "DeepSeek",
+        "외부 AI"
+      ],
+      "depends_on": [
+        "foundation.project-intake"
+      ],
+      "priority": 95,
+      "required_modes": {
+        "REVIEW": [
+          "verify"
+        ]
+      },
+      "mode_work_modes": {
+        "audit": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "reconcile-legacy": [
+          "PLAN"
+        ],
+        "migrate": [
+          "BUILD"
+        ],
+        "verify": [
+          "REVIEW"
+        ],
+        "sync-local-github": [
+          "PLAN",
+          "BUILD",
+          "REVIEW"
+        ],
+        "external-ai-worktree": [
+          "PLAN",
+          "BUILD"
+        ]
+      }
     },
     {
       "id": "foundation.design-documents",
       "category": "foundation",
       "path": "skills/foundation/managing-design-documents/SKILL.md",
-      "triggers": ["기획서", "GDD", "문서", "승인 문서", "정본", "proposal", "spec", "documentation"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 90
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "author",
+        "update",
+        "restructure",
+        "publish",
+        "validate",
+        "learning-note",
+        "visual-dashboard"
+      ],
+      "mode_triggers": {
+        "author": [
+          "새 문서",
+          "작성",
+          "author"
+        ],
+        "update": [
+          "갱신",
+          "수정",
+          "update"
+        ],
+        "restructure": [
+          "재구조화",
+          "이동",
+          "통합",
+          "restructure"
+        ],
+        "publish": [
+          "PDF",
+          "발행",
+          "manifest",
+          "publish"
+        ],
+        "validate": [
+          "문서 검수",
+          "발행 검증"
+        ],
+        "learning-note": [
+          "학습 노트",
+          "공부 노트",
+          "설명 자료"
+        ],
+        "visual-dashboard": [
+          "대시보드",
+          "HTML dashboard",
+          "시각화"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "author"
+        ],
+        "BUILD": [
+          "update"
+        ],
+        "REVIEW": [
+          "validate"
+        ]
+      },
+      "triggers": [
+        "기획서",
+        "GDD",
+        "문서",
+        "승인 문서",
+        "정본",
+        "proposal",
+        "spec",
+        "documentation",
+        "PDF",
+        "manifest",
+        "학습 노트",
+        "공부 노트",
+        "대시보드",
+        "HTML dashboard"
+      ],
+      "depends_on": [
+        "foundation.project-intake"
+      ],
+      "priority": 90,
+      "required_modes": {},
+      "mode_work_modes": {
+        "author": [
+          "PLAN",
+          "BUILD"
+        ],
+        "update": [
+          "BUILD"
+        ],
+        "restructure": [
+          "PLAN",
+          "BUILD"
+        ],
+        "publish": [
+          "BUILD"
+        ],
+        "validate": [
+          "REVIEW"
+        ],
+        "learning-note": [
+          "BUILD"
+        ],
+        "visual-dashboard": [
+          "BUILD"
+        ]
+      }
     },
     {
       "id": "foundation.context-handoff",
       "category": "foundation",
       "path": "skills/foundation/maintaining-project-context-and-handoff/SKILL.md",
-      "triggers": ["handoff", "인수인계", "active context", "작업 재개", "요약", "상태 캡슐"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 90
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "active-context",
+        "handoff",
+        "initialize",
+        "checkpoint",
+        "resume",
+        "partial-delivery",
+        "close"
+      ],
+      "mode_triggers": {
+        "active-context": [
+          "active context",
+          "상태 캡슐"
+        ],
+        "handoff": [
+          "handoff",
+          "인수인계"
+        ],
+        "initialize": [
+          "긴 작업 시작",
+          "initialize"
+        ],
+        "checkpoint": [
+          "checkpoint",
+          "중간 상태"
+        ],
+        "resume": [
+          "resume",
+          "작업 재개"
+        ],
+        "partial-delivery": [
+          "부분 전달",
+          "미완료"
+        ],
+        "close": [
+          "close",
+          "완료 정리"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "initialize"
+        ],
+        "BUILD": [
+          "checkpoint"
+        ],
+        "REVIEW": [
+          "close"
+        ]
+      },
+      "triggers": [
+        "handoff",
+        "인수인계",
+        "active context",
+        "작업 재개",
+        "요약",
+        "상태 캡슐",
+        "긴 작업",
+        "checkpoint",
+        "resume",
+        "부분 전달",
+        "context limit"
+      ],
+      "depends_on": [],
+      "priority": 85,
+      "required_modes": {},
+      "mode_work_modes": {
+        "active-context": [
+          "BUILD",
+          "REVIEW"
+        ],
+        "handoff": [
+          "BUILD",
+          "REVIEW"
+        ],
+        "initialize": [
+          "PLAN"
+        ],
+        "checkpoint": [
+          "BUILD"
+        ],
+        "resume": [
+          "PLAN"
+        ],
+        "partial-delivery": [
+          "REVIEW"
+        ],
+        "close": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "foundation.validation-review",
       "category": "foundation",
       "path": "skills/foundation/reviewing-and-validating-project-changes/SKILL.md",
-      "triggers": ["검토", "검수", "PR", "리뷰", "감사", "adversarial", "red team", "critique", "validate", "review"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 90
+      "work_modes": [
+        "REVIEW"
+      ],
+      "modes": [
+        "contract-check",
+        "external-source-review",
+        "reference-freshness",
+        "static-validation",
+        "runtime-validation",
+        "accessibility-review",
+        "performance-profile",
+        "regression",
+        "evidence-report"
+      ],
+      "mode_triggers": {
+        "contract-check": [
+          "계약",
+          "범위",
+          "PR"
+        ],
+        "external-source-review": [
+          "외부 AI",
+          "external source"
+        ],
+        "reference-freshness": [
+          "최신 파일",
+          "정본",
+          "stale",
+          "manifest",
+          "schema",
+          "경로"
+        ],
+        "static-validation": [
+          "정적",
+          "lint",
+          "schema"
+        ],
+        "runtime-validation": [
+          "runtime",
+          "실행",
+          "Godot"
+        ],
+        "accessibility-review": [
+          "접근성",
+          "accessibility"
+        ],
+        "performance-profile": [
+          "성능",
+          "frame time",
+          "memory"
+        ],
+        "regression": [
+          "회귀",
+          "regression"
+        ],
+        "evidence-report": [
+          "증거",
+          "판정",
+          "report"
+        ]
+      },
+      "default_modes": {
+        "REVIEW": [
+          "contract-check",
+          "reference-freshness",
+          "regression",
+          "evidence-report"
+        ]
+      },
+      "triggers": [
+        "검토",
+        "검수",
+        "PR",
+        "리뷰",
+        "감사",
+        "validate",
+        "review",
+        "test",
+        "테스트",
+        "회귀",
+        "manifest",
+        "정본 최신성",
+        "runtime validation",
+        "접근성",
+        "성능"
+      ],
+      "depends_on": [],
+      "priority": 98,
+      "required_modes": {
+        "REVIEW": [
+          "contract-check",
+          "reference-freshness",
+          "regression",
+          "evidence-report"
+        ]
+      },
+      "mode_work_modes": {
+        "contract-check": [
+          "REVIEW"
+        ],
+        "external-source-review": [
+          "REVIEW"
+        ],
+        "reference-freshness": [
+          "REVIEW"
+        ],
+        "static-validation": [
+          "REVIEW"
+        ],
+        "runtime-validation": [
+          "REVIEW"
+        ],
+        "accessibility-review": [
+          "REVIEW"
+        ],
+        "performance-profile": [
+          "REVIEW"
+        ],
+        "regression": [
+          "REVIEW"
+        ],
+        "evidence-report": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "foundation.base-change-proposals",
       "category": "foundation",
       "path": "skills/foundation/managing-base-change-proposals/SKILL.md",
-      "triggers": ["Base", "공용 규칙", "상위 템플릿", "base sync", "공용 스킬", "승격"],
-      "depends_on": ["foundation.project-intake", "foundation.project-operating-system"],
-      "priority": 90
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "extract",
+        "submit",
+        "review",
+        "implement-approved",
+        "verify",
+        "adopt-project"
+      ],
+      "mode_triggers": {
+        "extract": [
+          "교훈",
+          "패턴"
+        ],
+        "submit": [
+          "제안",
+          "BCP"
+        ],
+        "review": [
+          "검토"
+        ],
+        "implement-approved": [
+          "승인 구현"
+        ],
+        "verify": [
+          "검증"
+        ],
+        "adopt-project": [
+          "반영",
+          "동기화",
+          "채택"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "adopt-project"
+        ],
+        "BUILD": [
+          "implement-approved"
+        ],
+        "REVIEW": [
+          "verify"
+        ]
+      },
+      "triggers": [
+        "Base",
+        "공용 규칙",
+        "상위 템플릿",
+        "base sync",
+        "공용 스킬",
+        "승격",
+        "BCP"
+      ],
+      "depends_on": [
+        "foundation.project-operating-system"
+      ],
+      "priority": 88,
+      "required_modes": {
+        "REVIEW": [
+          "verify"
+        ]
+      },
+      "mode_work_modes": {
+        "extract": [
+          "PLAN"
+        ],
+        "submit": [
+          "PLAN",
+          "BUILD"
+        ],
+        "review": [
+          "REVIEW"
+        ],
+        "implement-approved": [
+          "BUILD"
+        ],
+        "verify": [
+          "REVIEW"
+        ],
+        "adopt-project": [
+          "PLAN",
+          "BUILD"
+        ]
+      }
     },
     {
       "id": "foundation.skill-evolution",
       "category": "foundation",
       "path": "skills/foundation/evolving-project-discipline-skills/SKILL.md",
-      "triggers": ["스킬 추가", "스킬 통합", "스킬 최적화", "라우팅 개선", "skill evolution", "중복 스킬"],
-      "depends_on": ["foundation.project-operating-system", "foundation.validation-review"],
-      "priority": 90
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "inventory",
+        "decide-boundary",
+        "create-or-integrate",
+        "register",
+        "verify",
+        "learn"
+      ],
+      "mode_triggers": {
+        "inventory": [
+          "전수",
+          "인벤토리"
+        ],
+        "decide-boundary": [
+          "통합",
+          "분리",
+          "경계"
+        ],
+        "create-or-integrate": [
+          "추가",
+          "통합"
+        ],
+        "register": [
+          "registry"
+        ],
+        "verify": [
+          "검증"
+        ],
+        "learn": [
+          "교훈",
+          "learning"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "inventory",
+          "decide-boundary"
+        ],
+        "BUILD": [
+          "create-or-integrate",
+          "register"
+        ],
+        "REVIEW": [
+          "verify"
+        ]
+      },
+      "triggers": [
+        "스킬 추가",
+        "스킬 통합",
+        "스킬 최적화",
+        "라우팅 개선",
+        "skill evolution",
+        "중복 스킬",
+        "coverage",
+        "통합 최적화",
+        "구조 최적화"
+      ],
+      "depends_on": [
+        "foundation.project-operating-system"
+      ],
+      "priority": 94,
+      "required_modes": {
+        "REVIEW": [
+          "verify"
+        ]
+      },
+      "mode_work_modes": {
+        "inventory": [
+          "PLAN"
+        ],
+        "decide-boundary": [
+          "PLAN"
+        ],
+        "create-or-integrate": [
+          "BUILD"
+        ],
+        "register": [
+          "BUILD"
+        ],
+        "verify": [
+          "REVIEW"
+        ],
+        "learn": [
+          "REVIEW"
+        ]
+      }
+    },
+    {
+      "id": "foundation.project-core",
+      "category": "foundation",
+      "path": "skills/foundation/identifying-and-establishing-project-core/SKILL.md",
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "identify-existing",
+        "propose",
+        "stress-test",
+        "confirm",
+        "lock",
+        "reopen",
+        "record"
+      ],
+      "mode_triggers": {
+        "identify-existing": [
+          "판정",
+          "기존",
+          "identify",
+          "core vs MVP"
+        ],
+        "propose": [
+          "제안",
+          "새 프로젝트"
+        ],
+        "stress-test": [
+          "반례",
+          "stress",
+          "제거 테스트"
+        ],
+        "confirm": [
+          "확정",
+          "승인"
+        ],
+        "lock": [
+          "lock",
+          "보호"
+        ],
+        "reopen": [
+          "재개",
+          "reopen"
+        ],
+        "record": [
+          "기록",
+          "정본"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "identify-existing"
+        ],
+        "REVIEW": [
+          "stress-test"
+        ]
+      },
+      "triggers": [
+        "프로젝트 코어",
+        "핵심 코어",
+        "core identification",
+        "core vs MVP",
+        "불변 조건",
+        "코어 확정",
+        "core approval",
+        "removal test"
+      ],
+      "depends_on": [
+        "foundation.project-intake"
+      ],
+      "priority": 93,
+      "required_modes": {},
+      "mode_work_modes": {
+        "identify-existing": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "propose": [
+          "PLAN"
+        ],
+        "stress-test": [
+          "REVIEW"
+        ],
+        "confirm": [
+          "PLAN"
+        ],
+        "lock": [
+          "BUILD"
+        ],
+        "reopen": [
+          "PLAN"
+        ],
+        "record": [
+          "BUILD"
+        ]
+      }
+    },
+    {
+      "id": "foundation.adversarial-review",
+      "category": "foundation",
+      "path": "skills/foundation/running-adversarial-review-and-refinement/SKILL.md",
+      "work_modes": [
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "attack",
+        "validate-critique",
+        "refine-approved-findings",
+        "regression-recheck",
+        "decision-report"
+      ],
+      "mode_triggers": {
+        "attack": [
+          "적대적",
+          "레드팀",
+          "attack"
+        ],
+        "validate-critique": [
+          "비판 검증",
+          "validate critique"
+        ],
+        "refine-approved-findings": [
+          "개선",
+          "수정"
+        ],
+        "regression-recheck": [
+          "회귀",
+          "재검토"
+        ],
+        "decision-report": [
+          "판정",
+          "보고"
+        ]
+      },
+      "default_modes": {
+        "REVIEW": [
+          "attack",
+          "validate-critique",
+          "regression-recheck",
+          "decision-report"
+        ],
+        "BUILD": [
+          "refine-approved-findings"
+        ]
+      },
+      "triggers": [
+        "적대적 검토",
+        "레드팀",
+        "red team",
+        "adversarial",
+        "critique refine",
+        "비평 개선",
+        "실패 가정",
+        "negative review"
+      ],
+      "depends_on": [],
+      "priority": 99,
+      "required_modes": {
+        "REVIEW": [
+          "attack",
+          "validate-critique",
+          "regression-recheck",
+          "decision-report"
+        ]
+      },
+      "mode_work_modes": {
+        "attack": [
+          "REVIEW"
+        ],
+        "validate-critique": [
+          "REVIEW"
+        ],
+        "refine-approved-findings": [
+          "BUILD"
+        ],
+        "regression-recheck": [
+          "REVIEW"
+        ],
+        "decision-report": [
+          "REVIEW"
+        ]
+      }
+    },
+    {
+      "id": "foundation.pruning",
+      "category": "foundation",
+      "path": "skills/foundation/pruning-stale-and-nonfunctional-material/SKILL.md",
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "inventory",
+        "classify",
+        "preserve-unique",
+        "prune-approved",
+        "verify-no-loss"
+      ],
+      "mode_triggers": {
+        "inventory": [
+          "전수",
+          "인벤토리"
+        ],
+        "classify": [
+          "분류",
+          "판정"
+        ],
+        "preserve-unique": [
+          "보존",
+          "고유 기능"
+        ],
+        "prune-approved": [
+          "삭제",
+          "정리",
+          "가지치기"
+        ],
+        "verify-no-loss": [
+          "무손실",
+          "회귀"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "inventory",
+          "classify",
+          "preserve-unique"
+        ],
+        "BUILD": [
+          "prune-approved"
+        ],
+        "REVIEW": [
+          "verify-no-loss"
+        ]
+      },
+      "triggers": [
+        "가지치기",
+        "pruning",
+        "죽은 자료",
+        "stale content",
+        "중복 파일",
+        "orphan",
+        "obsolete",
+        "repository bloat"
+      ],
+      "depends_on": [
+        "foundation.project-operating-system"
+      ],
+      "priority": 96,
+      "required_modes": {
+        "REVIEW": [
+          "verify-no-loss"
+        ]
+      },
+      "mode_work_modes": {
+        "inventory": [
+          "PLAN"
+        ],
+        "classify": [
+          "PLAN"
+        ],
+        "preserve-unique": [
+          "PLAN"
+        ],
+        "prune-approved": [
+          "BUILD"
+        ],
+        "verify-no-loss": [
+          "REVIEW"
+        ]
+      }
+    },
+    {
+      "id": "foundation.skill-simplification",
+      "category": "foundation",
+      "path": "skills/foundation/simplifying-skill-bodies/SKILL.md",
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "inventory",
+        "classify-always-vs-conditional",
+        "extract-references",
+        "rewrite-router",
+        "validate-disclosure"
+      ],
+      "mode_triggers": {
+        "inventory": [
+          "인벤토리"
+        ],
+        "classify-always-vs-conditional": [
+          "항상",
+          "조건부",
+          "분류"
+        ],
+        "extract-references": [
+          "reference",
+          "분리"
+        ],
+        "rewrite-router": [
+          "라우터",
+          "본문"
+        ],
+        "validate-disclosure": [
+          "발견성",
+          "검증"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "inventory",
+          "classify-always-vs-conditional"
+        ],
+        "BUILD": [
+          "extract-references",
+          "rewrite-router"
+        ],
+        "REVIEW": [
+          "validate-disclosure"
+        ]
+      },
+      "triggers": [
+        "간소화",
+        "skill body",
+        "progressive disclosure",
+        "context reduction",
+        "reference extraction",
+        "compact skill",
+        "본문 축약"
+      ],
+      "depends_on": [
+        "foundation.pruning"
+      ],
+      "priority": 95,
+      "required_modes": {
+        "REVIEW": [
+          "validate-disclosure"
+        ]
+      },
+      "mode_work_modes": {
+        "inventory": [
+          "PLAN"
+        ],
+        "classify-always-vs-conditional": [
+          "PLAN"
+        ],
+        "extract-references": [
+          "BUILD"
+        ],
+        "rewrite-router": [
+          "BUILD"
+        ],
+        "validate-disclosure": [
+          "REVIEW"
+        ]
+      }
+    },
+    {
+      "id": "foundation.contract-refactor",
+      "category": "foundation",
+      "path": "skills/foundation/refactoring-with-contract-preservation/SKILL.md",
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "baseline-contract",
+        "smell-audit",
+        "refactor",
+        "regression-validate",
+        "report"
+      ],
+      "mode_triggers": {
+        "baseline-contract": [
+          "baseline",
+          "계약"
+        ],
+        "smell-audit": [
+          "smell",
+          "복잡성",
+          "중복"
+        ],
+        "refactor": [
+          "리팩터",
+          "구조 개선"
+        ],
+        "regression-validate": [
+          "회귀",
+          "보존 검증"
+        ],
+        "report": [
+          "보고"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "baseline-contract",
+          "smell-audit"
+        ],
+        "BUILD": [
+          "refactor"
+        ],
+        "REVIEW": [
+          "regression-validate",
+          "report"
+        ]
+      },
+      "triggers": [
+        "리팩토링",
+        "refactor",
+        "code smell",
+        "복잡성",
+        "중복 제거",
+        "behavior preservation",
+        "구조 개선"
+      ],
+      "depends_on": [
+        "foundation.skill-simplification"
+      ],
+      "priority": 94,
+      "required_modes": {
+        "REVIEW": [
+          "regression-validate",
+          "report"
+        ]
+      },
+      "mode_work_modes": {
+        "baseline-contract": [
+          "PLAN"
+        ],
+        "smell-audit": [
+          "PLAN"
+        ],
+        "refactor": [
+          "BUILD"
+        ],
+        "regression-validate": [
+          "REVIEW"
+        ],
+        "report": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.narrative",
       "category": "disciplines",
       "path": "skills/disciplines/01-narrative/SKILL.md",
-      "triggers": ["세계관", "서사", "캐릭터", "대사", "명명"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "world",
+        "character",
+        "dialogue",
+        "naming",
+        "consistency"
+      ],
+      "mode_triggers": {
+        "world": [
+          "세계관"
+        ],
+        "character": [
+          "캐릭터",
+          "벨루"
+        ],
+        "dialogue": [
+          "대사"
+        ],
+        "naming": [
+          "명명",
+          "이름"
+        ],
+        "consistency": [
+          "정합성",
+          "충돌"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "world"
+        ],
+        "BUILD": [
+          "dialogue"
+        ],
+        "REVIEW": [
+          "consistency"
+        ]
+      },
+      "triggers": [
+        "세계관",
+        "서사",
+        "캐릭터",
+        "대사",
+        "명명",
+        "벨루",
+        "베일종"
+      ],
+      "depends_on": [],
+      "priority": 70,
+      "required_modes": {},
+      "mode_work_modes": {
+        "world": [
+          "PLAN"
+        ],
+        "character": [
+          "PLAN"
+        ],
+        "dialogue": [
+          "BUILD"
+        ],
+        "naming": [
+          "PLAN",
+          "BUILD"
+        ],
+        "consistency": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.game-design",
       "category": "disciplines",
       "path": "skills/disciplines/02-game-design/SKILL.md",
-      "triggers": ["게임 규칙", "룰렛", "전투", "경제", "병종", "밸런스"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "concept-frame",
+        "constrain",
+        "sharpen",
+        "structure",
+        "benchmark-decision",
+        "playtest-experiment",
+        "poc-contract",
+        "recalibrate",
+        "vertical-slice",
+        "balance-design"
+      ],
+      "mode_triggers": {
+        "concept-frame": [
+          "아이디어",
+          "콘셉트",
+          "핵심 컨셉"
+        ],
+        "constrain": [
+          "제약"
+        ],
+        "sharpen": [
+          "뾰족",
+          "핵심 재미",
+          "DDD"
+        ],
+        "structure": [
+          "구조"
+        ],
+        "benchmark-decision": [
+          "벤치마크",
+          "비교 게임"
+        ],
+        "playtest-experiment": [
+          "플레이테스트",
+          "A/B",
+          "실험"
+        ],
+        "poc-contract": [
+          "PoC"
+        ],
+        "recalibrate": [
+          "재조정"
+        ],
+        "vertical-slice": [
+          "수직 슬라이스",
+          "vertical slice",
+          "MVP"
+        ],
+        "balance-design": [
+          "밸런스",
+          "경제",
+          "룰렛"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "concept-frame",
+          "sharpen"
+        ],
+        "BUILD": [
+          "balance-design"
+        ],
+        "REVIEW": [
+          "recalibrate"
+        ]
+      },
+      "triggers": [
+        "게임 규칙",
+        "룰렛",
+        "전투",
+        "경제",
+        "병종",
+        "밸런스",
+        "게임 아이디어",
+        "콘셉트",
+        "핵심 재미",
+        "DDD",
+        "PoC",
+        "수직 슬라이스",
+        "vertical slice",
+        "MVP"
+      ],
+      "depends_on": [],
+      "priority": 78,
+      "required_modes": {},
+      "mode_work_modes": {
+        "concept-frame": [
+          "PLAN"
+        ],
+        "constrain": [
+          "PLAN"
+        ],
+        "sharpen": [
+          "PLAN"
+        ],
+        "structure": [
+          "PLAN"
+        ],
+        "benchmark-decision": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "playtest-experiment": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "poc-contract": [
+          "PLAN"
+        ],
+        "recalibrate": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "vertical-slice": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "balance-design": [
+          "PLAN",
+          "BUILD"
+        ]
+      }
     },
     {
       "id": "discipline.ux-ui-accessibility",
       "category": "disciplines",
       "path": "skills/disciplines/03-ux-ui-accessibility/SKILL.md",
-      "triggers": ["UI", "UX", "HUD", "조작", "가독성", "접근성"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "ux-flow",
+        "hud-layout",
+        "accessibility-review",
+        "ui-art-audit",
+        "dashboard-interaction"
+      ],
+      "mode_triggers": {
+        "ux-flow": [
+          "UX",
+          "흐름"
+        ],
+        "hud-layout": [
+          "HUD",
+          "배치"
+        ],
+        "accessibility-review": [
+          "접근성"
+        ],
+        "ui-art-audit": [
+          "UI 아트",
+          "시각 감사",
+          "visual audit"
+        ],
+        "dashboard-interaction": [
+          "대시보드"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "ux-flow"
+        ],
+        "BUILD": [
+          "hud-layout"
+        ],
+        "REVIEW": [
+          "accessibility-review",
+          "ui-art-audit"
+        ]
+      },
+      "triggers": [
+        "UI",
+        "UX",
+        "HUD",
+        "조작",
+        "가독성",
+        "접근성",
+        "UI 아트 검수",
+        "시각 감사",
+        "visual audit",
+        "대시보드"
+      ],
+      "depends_on": [],
+      "priority": 76,
+      "required_modes": {},
+      "mode_work_modes": {
+        "ux-flow": [
+          "PLAN"
+        ],
+        "hud-layout": [
+          "PLAN",
+          "BUILD"
+        ],
+        "accessibility-review": [
+          "REVIEW"
+        ],
+        "ui-art-audit": [
+          "REVIEW"
+        ],
+        "dashboard-interaction": [
+          "PLAN",
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.engineering",
       "category": "disciplines",
       "path": "skills/disciplines/04-engineering/SKILL.md",
-      "triggers": ["Godot", "GDScript", "코드", "버그", "성능", "저장", "데이터 구조"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "architecture",
+        "implementation",
+        "data-schema",
+        "runtime-diagnosis",
+        "performance",
+        "save-compatibility"
+      ],
+      "mode_triggers": {
+        "architecture": [
+          "구조",
+          "architecture"
+        ],
+        "implementation": [
+          "구현",
+          "코드"
+        ],
+        "data-schema": [
+          "데이터",
+          "schema"
+        ],
+        "runtime-diagnosis": [
+          "오류",
+          "버그",
+          "crash",
+          "signal",
+          "node",
+          "runtime"
+        ],
+        "performance": [
+          "성능"
+        ],
+        "save-compatibility": [
+          "저장",
+          "호환"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "architecture"
+        ],
+        "BUILD": [
+          "implementation"
+        ],
+        "REVIEW": [
+          "runtime-diagnosis"
+        ]
+      },
+      "triggers": [
+        "Godot",
+        "GDScript",
+        "코드",
+        "버그",
+        "성능",
+        "저장",
+        "데이터 구조",
+        "runtime failure",
+        "crash",
+        "signal",
+        "node",
+        "scene 오류"
+      ],
+      "depends_on": [],
+      "priority": 80,
+      "required_modes": {},
+      "mode_work_modes": {
+        "architecture": [
+          "PLAN"
+        ],
+        "implementation": [
+          "BUILD"
+        ],
+        "data-schema": [
+          "PLAN",
+          "BUILD"
+        ],
+        "runtime-diagnosis": [
+          "PLAN",
+          "BUILD",
+          "REVIEW"
+        ],
+        "performance": [
+          "REVIEW"
+        ],
+        "save-compatibility": [
+          "BUILD",
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.technical-art",
       "category": "disciplines",
       "path": "skills/disciplines/05-technical-art-pipeline/SKILL.md",
-      "triggers": ["리소스 파이프라인", "임포트", "스프라이트 규격", "애니메이션 계약"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "asset-pipeline",
+        "import",
+        "animation-contract",
+        "art-prompt-technical",
+        "render-validation"
+      ],
+      "mode_triggers": {
+        "asset-pipeline": [
+          "파이프라인"
+        ],
+        "import": [
+          "임포트"
+        ],
+        "animation-contract": [
+          "애니메이션",
+          "프레임",
+          "피벗"
+        ],
+        "art-prompt-technical": [
+          "프롬프트",
+          "기법 카드"
+        ],
+        "render-validation": [
+          "렌더"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "asset-pipeline"
+        ],
+        "BUILD": [
+          "import"
+        ],
+        "REVIEW": [
+          "render-validation"
+        ]
+      },
+      "triggers": [
+        "리소스 파이프라인",
+        "임포트",
+        "스프라이트 규격",
+        "애니메이션 계약",
+        "피벗",
+        "프레임",
+        "기법 카드",
+        "render"
+      ],
+      "depends_on": [],
+      "priority": 72,
+      "required_modes": {},
+      "mode_work_modes": {
+        "asset-pipeline": [
+          "PLAN"
+        ],
+        "import": [
+          "BUILD"
+        ],
+        "animation-contract": [
+          "PLAN",
+          "BUILD"
+        ],
+        "art-prompt-technical": [
+          "PLAN"
+        ],
+        "render-validation": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.art",
       "category": "disciplines",
       "path": "skills/disciplines/06-art/SKILL.md",
-      "triggers": ["아트 방향", "캐릭터", "환경", "아이콘", "픽셀 아트", "시각 자료"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "art-direction",
+        "art-prompt",
+        "technique-card",
+        "asset-audit",
+        "visual-consistency"
+      ],
+      "mode_triggers": {
+        "art-direction": [
+          "아트 방향"
+        ],
+        "art-prompt": [
+          "프롬프트",
+          "이미지 생성"
+        ],
+        "technique-card": [
+          "기법 카드"
+        ],
+        "asset-audit": [
+          "자산 검수"
+        ],
+        "visual-consistency": [
+          "일관성"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "art-direction",
+          "art-prompt"
+        ],
+        "BUILD": [
+          "technique-card"
+        ],
+        "REVIEW": [
+          "asset-audit",
+          "visual-consistency"
+        ]
+      },
+      "triggers": [
+        "아트 방향",
+        "캐릭터",
+        "환경",
+        "아이콘",
+        "픽셀 아트",
+        "시각 자료",
+        "아트 프롬프트",
+        "이미지 생성 지시",
+        "기법 카드",
+        "art prompt"
+      ],
+      "depends_on": [],
+      "priority": 74,
+      "required_modes": {},
+      "mode_work_modes": {
+        "art-direction": [
+          "PLAN"
+        ],
+        "art-prompt": [
+          "PLAN"
+        ],
+        "technique-card": [
+          "PLAN",
+          "BUILD"
+        ],
+        "asset-audit": [
+          "REVIEW"
+        ],
+        "visual-consistency": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.audio",
       "category": "disciplines",
       "path": "skills/disciplines/07-audio/SKILL.md",
-      "triggers": ["사운드", "음악", "효과음", "음성", "믹싱"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "direction",
+        "event-map",
+        "asset-spec",
+        "mix",
+        "accessibility",
+        "review"
+      ],
+      "mode_triggers": {
+        "direction": [
+          "방향"
+        ],
+        "event-map": [
+          "이벤트"
+        ],
+        "asset-spec": [
+          "자산"
+        ],
+        "mix": [
+          "믹싱"
+        ],
+        "accessibility": [
+          "접근성"
+        ],
+        "review": [
+          "검수"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "direction"
+        ],
+        "BUILD": [
+          "asset-spec"
+        ],
+        "REVIEW": [
+          "review"
+        ]
+      },
+      "triggers": [
+        "사운드",
+        "음악",
+        "효과음",
+        "음성",
+        "믹싱",
+        "오디오"
+      ],
+      "depends_on": [],
+      "priority": 68,
+      "required_modes": {},
+      "mode_work_modes": {
+        "direction": [
+          "PLAN"
+        ],
+        "event-map": [
+          "PLAN"
+        ],
+        "asset-spec": [
+          "PLAN",
+          "BUILD"
+        ],
+        "mix": [
+          "BUILD",
+          "REVIEW"
+        ],
+        "accessibility": [
+          "REVIEW"
+        ],
+        "review": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.qa",
       "category": "disciplines",
       "path": "skills/disciplines/08-qa/SKILL.md",
-      "triggers": ["테스트", "재현", "회귀", "품질", "버그 분류"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "test-plan",
+        "reproduction",
+        "regression",
+        "runtime-diagnosis-support",
+        "evidence-gate"
+      ],
+      "mode_triggers": {
+        "test-plan": [
+          "계획"
+        ],
+        "reproduction": [
+          "재현",
+          "버그"
+        ],
+        "regression": [
+          "회귀"
+        ],
+        "runtime-diagnosis-support": [
+          "runtime",
+          "crash",
+          "Godot"
+        ],
+        "evidence-gate": [
+          "gate",
+          "출시",
+          "증거"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "test-plan"
+        ],
+        "BUILD": [
+          "reproduction"
+        ],
+        "REVIEW": [
+          "regression",
+          "evidence-gate"
+        ]
+      },
+      "triggers": [
+        "테스트",
+        "재현",
+        "회귀",
+        "품질",
+        "버그 분류",
+        "QA",
+        "runtime failure",
+        "headless",
+        "smoke"
+      ],
+      "depends_on": [],
+      "priority": 79,
+      "required_modes": {},
+      "mode_work_modes": {
+        "test-plan": [
+          "PLAN"
+        ],
+        "reproduction": [
+          "PLAN",
+          "BUILD",
+          "REVIEW"
+        ],
+        "regression": [
+          "REVIEW"
+        ],
+        "runtime-diagnosis-support": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "evidence-gate": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.production-pm",
       "category": "disciplines",
       "path": "skills/disciplines/09-production-pm/SKILL.md",
-      "triggers": ["일정", "우선순위", "마일스톤", "의존성", "위험", "작업 분해"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "BUILD",
+        "REVIEW"
+      ],
+      "modes": [
+        "scope",
+        "dependencies",
+        "sequence",
+        "vertical-slice-gate",
+        "risk",
+        "milestone"
+      ],
+      "mode_triggers": {
+        "scope": [
+          "범위"
+        ],
+        "dependencies": [
+          "의존성"
+        ],
+        "sequence": [
+          "순서",
+          "작업 분해"
+        ],
+        "vertical-slice-gate": [
+          "수직 슬라이스"
+        ],
+        "risk": [
+          "위험"
+        ],
+        "milestone": [
+          "마일스톤",
+          "일정"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "scope",
+          "dependencies",
+          "sequence"
+        ],
+        "BUILD": [
+          "milestone"
+        ],
+        "REVIEW": [
+          "risk",
+          "vertical-slice-gate"
+        ]
+      },
+      "triggers": [
+        "일정",
+        "우선순위",
+        "마일스톤",
+        "의존성",
+        "위험",
+        "작업 분해",
+        "순서",
+        "수직 슬라이스",
+        "vertical slice"
+      ],
+      "depends_on": [],
+      "priority": 73,
+      "required_modes": {},
+      "mode_work_modes": {
+        "scope": [
+          "PLAN"
+        ],
+        "dependencies": [
+          "PLAN"
+        ],
+        "sequence": [
+          "PLAN"
+        ],
+        "vertical-slice-gate": [
+          "REVIEW"
+        ],
+        "risk": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "milestone": [
+          "BUILD",
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.analytics-research",
       "category": "disciplines",
       "path": "skills/disciplines/10-analytics-user-research/SKILL.md",
-      "triggers": ["분석", "KPI", "플레이테스트", "사용자 조사", "벤치마킹"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
+      "work_modes": [
+        "PLAN",
+        "REVIEW"
+      ],
+      "modes": [
+        "coverage-11",
+        "market-genre",
+        "benchmark",
+        "swot-positioning",
+        "user-research",
+        "playtest-analysis",
+        "tutorial-comprehension",
+        "ux-analysis",
+        "telemetry-funnel",
+        "balance-data",
+        "hypothesis-experiment",
+        "decision-evidence"
+      ],
+      "mode_triggers": {
+        "coverage-11": [
+          "11영역",
+          "coverage"
+        ],
+        "market-genre": [
+          "시장",
+          "장르"
+        ],
+        "benchmark": [
+          "벤치마크",
+          "경쟁"
+        ],
+        "swot-positioning": [
+          "SWOT",
+          "포지셔닝"
+        ],
+        "user-research": [
+          "사용자 조사"
+        ],
+        "playtest-analysis": [
+          "플레이테스트"
+        ],
+        "tutorial-comprehension": [
+          "튜토리얼"
+        ],
+        "ux-analysis": [
+          "UX 문제"
+        ],
+        "telemetry-funnel": [
+          "텔레메트리",
+          "퍼널",
+          "KPI"
+        ],
+        "balance-data": [
+          "밸런스"
+        ],
+        "hypothesis-experiment": [
+          "가설",
+          "실험",
+          "A/B"
+        ],
+        "decision-evidence": [
+          "채택",
+          "근거"
+        ]
+      },
+      "default_modes": {
+        "PLAN": [
+          "coverage-11"
+        ],
+        "REVIEW": [
+          "decision-evidence"
+        ]
+      },
+      "triggers": [
+        "분석",
+        "KPI",
+        "플레이테스트",
+        "사용자 조사",
+        "벤치마킹",
+        "시장",
+        "SWOT",
+        "텔레메트리",
+        "퍼널",
+        "튜토리얼 이해도",
+        "밸런스 데이터",
+        "11영역",
+        "research coverage"
+      ],
+      "depends_on": [],
+      "priority": 75,
+      "required_modes": {},
+      "mode_work_modes": {
+        "coverage-11": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "market-genre": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "benchmark": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "swot-positioning": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "user-research": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "playtest-analysis": [
+          "REVIEW"
+        ],
+        "tutorial-comprehension": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "ux-analysis": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "telemetry-funnel": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "balance-data": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "hypothesis-experiment": [
+          "PLAN",
+          "REVIEW"
+        ],
+        "decision-evidence": [
+          "REVIEW"
+        ]
+      }
     },
     {
       "id": "discipline.integration-review",
       "category": "disciplines",
       "path": "skills/disciplines/11-integration-review/SKILL.md",
-      "triggers": ["통합", "전체 검수", "출시 게이트", "누락", "중복", "정합성"],
-      "depends_on": ["foundation.project-intake"],
-      "priority": 70
-    },
-    {
-      "id": "specialist.game-concept",
-      "category": "specialists",
-      "path": "skills/specialists/analyzing-and-refining-game-concepts/SKILL.md",
-      "triggers": ["게임 아이디어", "콘셉트", "핵심 재미", "차별점", "concept", "game idea"],
-      "depends_on": ["discipline.game-design"],
-      "priority": 60
-    },
-    {
-      "id": "specialist.ui-art-audit",
-      "category": "specialists",
-      "path": "skills/specialists/auditing-and-refining-ui-art/SKILL.md",
-      "triggers": ["UI 아트 검수", "시각 감사", "화면 가독성", "visual audit", "UI critique"],
-      "depends_on": ["discipline.ux-ui-accessibility", "discipline.art", "foundation.validation-review"],
-      "priority": 60
-    },
-    {
-      "id": "specialist.canonical-freshness",
-      "category": "specialists",
-      "path": "skills/specialists/auditing-canonical-reference-freshness/SKILL.md",
-      "triggers": ["최신 파일", "정본 최신성", "stale", "manifest", "source commit", "reference freshness"],
-      "depends_on": ["foundation.design-documents", "foundation.validation-review"],
-      "priority": 60
-    },
-    {
-      "id": "specialist.art-prompts",
-      "category": "specialists",
-      "path": "skills/specialists/designing-art-prompts-and-technique-cards/SKILL.md",
-      "triggers": ["아트 프롬프트", "이미지 생성 지시", "기법 카드", "art prompt", "technique card"],
-      "depends_on": ["discipline.art", "discipline.technical-art"],
-      "priority": 60
-    },
-    {
-      "id": "specialist.vertical-slice",
-      "category": "specialists",
-      "path": "skills/specialists/designing-vertical-slices/SKILL.md",
-      "triggers": ["수직 슬라이스", "vertical slice", "MVP", "PoC 범위"],
-      "depends_on": ["discipline.game-design", "discipline.engineering", "discipline.production-pm"],
-      "priority": 60
-    },
-    {
-      "id": "specialist.deepseek-worktrees",
-      "category": "specialists",
-      "path": "skills/specialists/orchestrating-deepseek-worktrees/SKILL.md",
-      "triggers": ["DeepSeek", "외부 에이전트", "worktree", "병렬 분석", "분석 위임"],
-      "depends_on": ["foundation.project-intake", "foundation.validation-review"],
-      "priority": 60
+      "work_modes": [
+        "REVIEW"
+      ],
+      "modes": [
+        "cross-discipline",
+        "no-loss",
+        "release-gate",
+        "pr-check"
+      ],
+      "mode_triggers": {
+        "cross-discipline": [
+          "통합",
+          "정합성"
+        ],
+        "no-loss": [
+          "누락",
+          "기능 보존",
+          "no loss"
+        ],
+        "release-gate": [
+          "출시",
+          "gate"
+        ],
+        "pr-check": [
+          "PR",
+          "체크"
+        ]
+      },
+      "default_modes": {
+        "REVIEW": [
+          "cross-discipline",
+          "no-loss",
+          "pr-check"
+        ]
+      },
+      "triggers": [
+        "통합",
+        "전체 검수",
+        "출시 게이트",
+        "누락",
+        "중복",
+        "정합성",
+        "PR 체크",
+        "no loss"
+      ],
+      "depends_on": [],
+      "priority": 97,
+      "required_modes": {
+        "REVIEW": [
+          "cross-discipline",
+          "no-loss",
+          "pr-check"
+        ]
+      },
+      "mode_work_modes": {
+        "cross-discipline": [
+          "REVIEW"
+        ],
+        "no-loss": [
+          "REVIEW"
+        ],
+        "release-gate": [
+          "REVIEW"
+        ],
+        "pr-check": [
+          "REVIEW"
+        ]
+      }
     }
   ]
 }
