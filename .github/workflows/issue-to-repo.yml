@@ -1,0 +1,50 @@
+name: Mirror GitHub Issue to repository
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, assigned, unassigned]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Existing issue number to mirror
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Read the source Issue
+        id: source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_ISSUE: ${{ github.event.issue.number }}
+          INPUT_ISSUE: ${{ inputs.issue_number }}
+        run: |
+          ISSUE_NUMBER="${EVENT_ISSUE:-$INPUT_ISSUE}"
+          curl --fail --silent --show-error \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}" \
+            --output issue.json
+          echo "number=$ISSUE_NUMBER" >> "$GITHUB_OUTPUT"
+      - name: Render changed Issue mirror
+        run: python tools/issue_mirror.py write --issue-json issue.json --output "docs/issues/$(printf '%04d' ${{ steps.source.outputs.number }}).md"
+      - name: Create synchronization pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/issue-mirror-${{ steps.source.outputs.number }}
+          delete-branch: true
+          title: "docs: mirror Issue #${{ steps.source.outputs.number }}"
+          commit-message: "docs: mirror Issue #${{ steps.source.outputs.number }}"
+          body: "Automated read-only mirror of GitHub Issue metadata and body. Review before merging."
+          labels: documentation
