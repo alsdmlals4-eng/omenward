@@ -1,24 +1,36 @@
-name: Apply staged Omenward Base sync
+name: Validate Omenward Base Sync and Publications
 
 on:
   pull_request:
     paths:
-      - ".base-sync/**"
-      - "tools/apply_base_sync_payload.py"
+      - "README.md"
+      - "AGENTS.md"
+      - "docs/base/**"
+      - '\[기획서\]/**'
+      - "skills/**"
+      - "schemas/**"
+      - "tests/python/**"
+      - "tools/build_design_documents.py"
+      - "tools/build_project_skill_map.py"
+      - "tools/check_active_markdown_links.py"
+      - "tools/design_document_diagrams.py"
+      - "tools/publication_v3.py"
+      - "tools/skill_map_diagrams.py"
+      - "requirements-publication.txt"
       - ".github/workflows/validate-document-publications.yml"
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  apply-base-sync:
-    if: github.event.pull_request.head.repo.full_name == github.repository
+  validate-linux:
+    name: base-sync-publications-linux
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the PR head branch
+      - name: Check out repository
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
           show-progress: false
 
@@ -27,22 +39,143 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Apply verified payload
-        run: python tools/apply_base_sync_payload.py
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
 
-      - name: Run source contract tests
+      - name: Install publication dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libreoffice-writer fonts-nanum poppler-utils
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-publication.txt
+
+      - name: Run Python contract tests
         run: python -m unittest discover -s tests/python -v
 
       - name: Check active Markdown links
         run: python tools/check_active_markdown_links.py
 
-      - name: Commit the atomic source synchronization
-        env:
-          HEAD_BRANCH: ${{ github.head_ref }}
+      - name: Read recorded Skill Map source commit
+        id: skill-source
+        shell: bash
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git diff --cached --check
-          git commit -m "sync Omenward with current Base operating model"
-          git push origin "HEAD:${HEAD_BRANCH}"
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path("[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json").read_text(encoding="utf-8"))
+          print(f"commit={manifest['source_commit']}")
+          PY
+
+      - name: Regenerate design-document publications
+        run: |
+          python tools/build_design_documents.py \
+            --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json" \
+            --source-commit "$GITHUB_SHA"
+
+      - name: Regenerate Skill Map from the recorded source
+        run: |
+          python tools/build_project_skill_map.py \
+            --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" \
+            --output-dir "[기획서]/00_프로젝트_허브" \
+            --project-name Omenward \
+            --source-commit "${{ steps.skill-source.outputs.commit }}"
+
+      - name: Upload generated publication snapshot
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: omenward-skill-map-linux
+          path: |
+            [기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md
+            [기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf
+            [기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets/**
+            [기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Check whitespace
+        run: git diff --check
+
+      - name: Require current Skill Map derivatives
+        run: |
+          git diff --exit-code -- \
+            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md" \
+            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf" \
+            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets" \
+            "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json"
+
+  validate-windows:
+    name: base-sync-publications-windows
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          show-progress: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      - name: Install publication dependencies
+        shell: pwsh
+        run: |
+          choco install libreoffice-fresh -y --no-progress
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-publication.txt
+
+      - name: Run Python contract tests
+        shell: pwsh
+        run: python -m unittest discover -s tests/python -v
+
+      - name: Check active Markdown links
+        shell: pwsh
+        run: python tools/check_active_markdown_links.py
+
+      - name: Read recorded Skill Map source commit
+        id: skill-source
+        shell: pwsh
+        run: |
+          $manifest = Get-Content "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json" -Raw | ConvertFrom-Json
+          "commit=$($manifest.source_commit)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Regenerate Skill Map from the recorded source
+        shell: pwsh
+        run: |
+          $env:BASE_LIBREOFFICE = 'C:\Program Files\LibreOffice\program\soffice.exe'
+          python tools/build_project_skill_map.py `
+            --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" `
+            --output-dir "[기획서]/00_프로젝트_허브" `
+            --project-name Omenward `
+            --source-commit "${{ steps.skill-source.outputs.commit }}"
+
+      - name: Upload generated publication snapshot
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: omenward-skill-map-windows
+          path: |
+            [기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md
+            [기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf
+            [기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets/**
+            [기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Require current Skill Map derivatives
+        shell: pwsh
+        run: |
+          git diff --exit-code -- `
+            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md" `
+            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf" `
+            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets" `
+            "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json"

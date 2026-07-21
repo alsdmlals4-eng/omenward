@@ -1,16 +1,39 @@
 # Omenward
 
-Omenward는 3레인 배치·룰렛·병종 획득·거점 공방을 연결한 PvE 전략 프로토타입입니다.
+Omenward는 3레인 배치·룰렛·병종 획득·거점 공방을 연결한 싱글플레이 PvE 전략 오토배틀 프로토타입이다.
 
-## 시작점과 현행 기준
+## Start and current state
 
 - 시작: [`START_HERE.md`]([기획서]/00_프로젝트_허브/START_HERE.md)
 - 현재 상태: [`ACTIVE_CONTEXT.md`]([기획서]/00_프로젝트_허브/ACTIVE_CONTEXT.md)
-- 책임 문서·스킬·검증 경로: [`DOCUMENTATION_MAP.md`]([기획서]/00_프로젝트_허브/DOCUMENTATION_MAP.md)
-- 공용 기준: Base `d2457e75a856260d309203e20262f2a2142d2dd6` (Base PR #18)
-- 현재 정본 갱신: [Issue #41](https://github.com/alsdmlals4-eng/omenward/issues/41)의 `codex/issue-41-base-pr18-refresh` worktree. 내부 `omenward/` 작업본은 변경 회수·보존용이다.
+- 책임 원본·Skill·검증: [`DOCUMENTATION_MAP.md`]([기획서]/00_프로젝트_허브/DOCUMENTATION_MAP.md)
+- Base 기준: `alsdmlals4-eng/Base@ee265576da7f67d3278f8099dd97d4e714ef0651`
+- Base 동기화 감사: [`BASE_SYNC_AUDIT_2026-07-21.md`](docs/base/BASE_SYNC_AUDIT_2026-07-21.md)
+- PR 작업 브랜치: `codex/omenward-active`
 
-프로젝트 종합 책임 원본은 허브에만 둔다. 분야별 방향·현재 상태·다음 작업·검증은 아래 11개 독립 본책과 1:1 스킬에서 확인한다.
+Base PR #18 `d2457e75a856260d309203e20262f2a2142d2dd6`의 Productivity 연결은 현재 Base main의 정본이 아니므로 비정본 legacy extension으로만 보존한다.
+
+## Operating model
+
+```text
+요청
+→ PLAN / BUILD / REVIEW
+→ trigger 기반 Foundation·Specialist·분야 Skill 자동 선택
+→ 승인 계약
+→ 최소 구현
+→ 정본·참조·정적·런타임·회귀·발행 검증
+→ Active Context·Learning·PR 증거
+```
+
+- 전체 Skill을 기본 로드하지 않는다.
+- Foundation Skill 최대 3개, 주 책임 분야 Skill 최대 1개.
+- 사용자가 Skill 이름을 지정하지 않아도 자동 라우팅한다.
+- 24개 활성 Skill 패키지와 Registry 경로는 1:1이어야 한다.
+- 실행하지 않은 검증은 `NOT_RUN` 또는 `[미검증]`.
+
+## Selected disciplines
+
+Omenward에서는 아래 11개 분야가 모두 실제 책임을 가지므로 전부 선택돼 있다.
 
 | 분야 | 본책 |
 |---|---|
@@ -26,10 +49,11 @@ Omenward는 3레인 배치·룰렛·병종 획득·거점 공방을 연결한 Pv
 | 분석·유저리서치 | [`10_분석_유저리서치_본책.md`]([기획서]/10_분석_유저리서치/10_분석_유저리서치_본책.md) |
 | 통합검수 | [`11_통합검수_본책.md`]([기획서]/11_통합검수/11_통합검수_본책.md) |
 
-## 이주 상태와 검증
+## Validation
 
-- 기준 `4cb0ae4`의 267개 파일은 `MIGRATION_INVENTORY_BEFORE.json`과 `MIGRATION_INVENTORY_AFTER.json`으로 대조한다.
-- 승인 전장 시안은 Asset Registry의 SHA-256과 일치해야 하며, 문서 참고 자산의 Godot 생성 `.import`는 저장하지 않는다.
-- 문서·자산 원문은 등록 부록 또는 증거로, 과거 자료는 `[백업]` 또는 `[보류]`로 분류한다. 이 폴더들은 기본 읽기·구현 기준이 아니다.
-- 검증 순서는 Godot editor import → headless 6종 → runtime smoke → 문서 PDF·Manifest·링크 검증이다. 1920×1080·1280×720 사람 플레이 QA는 별도 증거가 필요하다.
-- `project.godot`은 Godot 4.7 feature 메타데이터만 갱신하며 960×540/1920×1080, `viewport`, `aspect="keep"`, integer scaling, nearest filter 계약을 유지한다.
+- Python contract·Schema·Skill package integrity
+- active Markdown links
+- Skill Map and design-document publication regeneration
+- Godot editor import → headless 6종 → runtime smoke
+- 1920×1080·1280×720 사람 플레이/시각 QA는 별도 증거 필요
+- 승인 전장 시안·표시·저장 계약 보존

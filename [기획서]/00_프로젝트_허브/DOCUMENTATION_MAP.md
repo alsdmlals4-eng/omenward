@@ -1,27 +1,46 @@
 # OMENWARD Documentation Map
 
-## 기본 읽기 순서
+질문마다 아래의 현행 책임 원본 하나를 먼저 읽고, 필요한 최소 Skill과 실제 파일·테스트를 연결한다.
 
-`START_HERE.md` → `ACTIVE_CONTEXT.md` → 관련 1개 본책 → 해당 분야 스킬 → 실제 파일과 테스트 → `DEVELOPMENT_GATES.md` → `11_통합검수`.
+## Project operations
 
-## 질문별 책임 원본
-
-| 질문 | 먼저 읽을 본책 | 기존 등록 부록 |
+| 질문 | 책임 원본 | 자동 진입 Skill |
 |---|---|---|
-| 세계관·명칭·벨루 | 01 설정·내러티브 | `../02_게임_디자인/등록_부록/APPROVED_OMENWARD_WORLD_AND_NAMING.md`, `APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md` |
-| 룰렛·전장·병종·경제·튜토리얼 | 02 게임 디자인 | `../02_게임_디자인/02_게임_디자인_본책.md`와 같은 폴더의 등록 부록 |
-| HUD·첫 10분·접근성 | 03 UX·UI·접근성 | `APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
-| Godot 구조·데이터·성능 | 04 개발·엔지니어링 | `../04_개발_엔지니어링/등록_부록/GODOT_PROJECT_STRUCTURE.md`, 성능·데이터 PoC |
-| 임포트·애니메이션 계약·자산 연결 | 05 테크니컬 아트·콘텐츠 파이프라인 | 비주얼 형식·애니메이션 계약 |
-| 아트 방향·승인 이미지 | 06 아트 | 아트 제작 기획서·이미지 인덱스 |
-| BGM·SFX·음성 | 07 사운드 | UI·아트·오디오 PoC |
-| 자동·수동 테스트 | 08 QA | `../08_QA/등록_부록/PHASE_0_VALIDATION.md`, `../08_QA/등록_부록/VERTICAL_SLICE_VALIDATION.md`, `tests/README.md` |
-| 일정·Issue·위험·인수인계 | 09 프로덕션·PM | Roadmap, Handoff, Issue mirror |
-| 벤치마킹·플레이어 반응 | 10 분석·유저리서치 | `../10_분석_유저리서치/10_분석_유저리서치_본책.md`와 등록 부록 |
-| 릴리스 게이트·보존 대조 | 11 통합검수 | 이 허브의 Registry·보존표·검증 문서 |
+| 어디서 시작하고 현재 무엇을 해야 하는가 | `START_HERE.md`, `ACTIVE_CONTEXT.md` | `maintaining-project-context-and-handoff` |
+| 요청의 범위·승인·순서는 무엇인가 | 승인 Issue/직접 요청, `AI_WORKFLOW.md` | `managing-project-intake-and-work-contract` |
+| Base 기준과 차이는 무엇인가 | `BASE_RULES_VERSION.md`, `docs/base/BASE_SYNC_AUDIT_2026-07-21.md` | `managing-game-project-operating-system` |
+| 문서·Skill·발행 구조가 건강한가 | Registry·Development Gates·Manifest | `managing-game-project-operating-system: verify` |
+| 오래된 경로·ID·Schema·생성물이 남았는가 | `LEGACY_SKILL_ALIASES.md`, `LEGACY_ARTIFACT_RECONCILIATION.md` | `auditing-canonical-reference-freshness` |
+| 변경이 계약과 실행 증거를 만족하는가 | `SKILL_EXECUTION_REPORT.md`, 테스트·PR | `reviewing-and-validating-project-changes` |
+| 프로젝트 교훈을 Base에 올릴 것인가 | Learning Log·증거 | `managing-base-change-proposals` |
 
-`[백업]/`, `[보류]/`의 제안서·과거 work order·과거 issue는 기본 읽기 대상이 아니다. 재개나 이력 추적이 필요할 때만 연다.
+## Design and product
 
-## 전역 productivity 경계
+| 질문 | 책임 본책 | 주 분야 Skill | 필요 시 Specialist |
+|---|---|---|---|
+| 세계관·명칭·벨루 | 01 설정·내러티브 | `omenward-narrative` | `analyzing-and-refining-game-concepts` |
+| 룰렛·전장·병종·경제 | 02 게임 디자인 | `omenward-game-design` | `analyzing-and-refining-game-concepts`, `designing-vertical-slices` |
+| HUD·입력·튜토리얼·접근성 | 03 UX·UI·접근성 | `omenward-ux-ui-accessibility` | `auditing-and-refining-ui-art` |
+| 코드·Scene·Resource·저장·성능 | 04 개발·엔지니어링 | `omenward-engineering` | `reviewing-and-validating-project-changes` |
+| import·애니메이션·콘텐츠 파이프라인 | 05 테크니컬 아트 | `omenward-technical-art-pipeline` | `designing-vertical-slices` |
+| 아트 방향·시안·스프라이트 | 06 아트 | `omenward-art` | `designing-art-prompts-and-technique-cards`, `auditing-and-refining-ui-art` |
+| 음악·효과음·믹싱 | 07 사운드 | `omenward-audio` | `designing-vertical-slices` |
+| 재현·회귀·플레이 검증 | 08 QA | `omenward-qa` | `reviewing-and-validating-project-changes` |
+| Roadmap·Issue·위험·Handoff | 09 프로덕션·PM | `omenward-production-pm` | `managing-project-intake-and-work-contract` |
+| 벤치마크·반응·텔레메트리·실험 | 10 분석·유저리서치 | `omenward-analytics-user-research` | `analyzing-and-refining-game-concepts` |
+| 마이그레이션·릴리스·보존·콜드 스타트 | 11 통합검수 | `omenward-integration-review` | `auditing-canonical-reference-freshness` |
 
-`SKILL_REGISTRY.json`의 `global_productivity`는 Base `d2457e75a856260d309203e20262f2a2142d2dd6`와 `Base:skills/PRODUCTIVITY_SOURCE_MANIFEST.json`을 가리킨다. productivity 스킬을 이 저장소에 복사하지 않는다. 프로젝트 상태는 `ACTIVE_CONTEXT.md`와 프로젝트 Handoff, 임시 대화 인수인계는 전역 `handoff`, 이전 세션 재개는 전역 `resume-work`를 사용한다.
+## Registries and generated publications
+
+- `DESIGN_DOCUMENT_REGISTRY.json`: 질문·문서 ID·정본·발행 정책
+- `SKILL_REGISTRY.json`: 자동 routing·Work Mode·Skill·Learning
+- `ASSET_REGISTRY.json`: 승인 자산·경로·해시·상태
+- `PROJECT_SKILL_MAP.md/.pdf/.assets`와 Manifest: Registry의 읽기 전용 파생본
+- 각 본책 PDF와 Publication Manifest: Markdown 책임 원본의 읽기 전용 파생본
+
+## Lifecycle boundaries
+
+- `[백업]`: 복구·역사
+- `[보류]`: 미승인·재개 대기
+- `legacy_extensions`: 현재 정본이 아니지만 삭제하지 않은 호환 정보
+- 활성 구현은 등록된 정본·Registry·승인 계약만 사용
