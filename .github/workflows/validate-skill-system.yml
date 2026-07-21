@@ -1,0 +1,39 @@
+name: Validate Omenward Skill System
+
+on:
+  pull_request:
+    paths:
+      - "skills/**"
+      - "docs/base/**"
+      - "docs/BASE_RULES_VERSION.md"
+      - "schemas/skill-registry-v3.schema.json"
+      - "tools/route_skills.py"
+      - "tools/validate_skill_system.py"
+      - "tests/python/test_skill_*.py"
+      - "tests/python/test_adversarial_review_contract.py"
+      - ".github/workflows/validate-skill-system.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate packages and registry
+        run: python tools/validate_skill_system.py
+      - name: Run Skill contract tests
+        run: python -m unittest discover -s tests/python -p "test_skill_*.py" -v
+      - name: Run adversarial review contract tests
+        run: python -m unittest tests.python.test_adversarial_review_contract -v
+      - name: Smoke automatic routing
+        run: |
+          python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
+          python tools/route_skills.py --request "Godot GDScript 성능 버그 수정"
+      - name: Check whitespace
+        run: git diff --check
