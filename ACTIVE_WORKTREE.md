@@ -1,27 +1,26 @@
-# 활성 OMENWARD 작업 경로
+# OMENWARD 활성 Git 작업 기준
 
-이 폴더가 Godot에서 열고 실행할 활성 정본입니다.
+이 문서는 저장소의 활성 브랜치와 동기화 절차만 기록한다. 로컬 절대경로·개인 캐시·stash 번호는 환경별 정보이므로 프로젝트 정본이 아니다.
 
-- 로컬 경로: `C:\Users\user\Documents\바이브코딩\omenward-base-full-11-migration\omenward`
-- 로컬 브랜치: `codex/omenward-active`
-- 추적 원격: `origin/codex/issue-41-base-pr18-refresh`
-- GitHub 저장소: `https://github.com/alsdmlals4-eng/omenward`
+- GitHub 저장소: `alsdmlals4-eng/omenward`
+- 기본 브랜치: `main`
+- 현재 통합 PR 브랜치: `codex/omenward-active`
+- 현재 PR: `#45`
 
-## 동기화
-
-다른 환경에서 푸시된 변경을 받기 전에는 이 폴더에서 다음을 실행한다.
+## 안전한 동기화
 
 ```powershell
+git fetch origin
 git status
-git pull
+git switch codex/omenward-active
+git pull --ff-only origin codex/omenward-active
 ```
 
-`git status`가 깨끗해야 한다. 변경을 만들었다면 검증·커밋 후 작업자는 활성 원격 브랜치로 푸시한다.
+- `git status`가 깨끗하지 않으면 pull·rebase·merge 전에 사용자 변경을 커밋하거나 별도 stash/백업으로 보존한다.
+- 로컬 브랜치의 upstream이 `origin/codex/omenward-active`인지 `git branch -vv`로 확인한다.
+- 현재 PR은 `main`과 diverged 상태이므로 충돌 해결 전 강제 push·브랜치 초기화·파일 일괄 덮어쓰기를 금지한다.
+- 로컬 백업·stash는 해당 환경에서 실제 존재를 확인한 뒤에만 복구 근거로 사용한다.
 
-## 보존본
+## 검증
 
-이전 `main` 작업본과 사용자의 미커밋 아트·설정 변경은 다음 경로에 복구 가능하게 보관한다.
-
-`C:\Users\user\Documents\바이브코딩\omenward-base-full-11-migration\omenward-pre-cutover-20260720`
-
-원본 변경은 원래 Git 저장소의 `stash@{0}: pre-cutover-20260720-user-art-and-project-config`에도 보존되어 있다. 보존본은 활성 실행·구현 기준이 아니다.
+브랜치를 최신화한 뒤 Python 계약 검사, 활성 Markdown 링크, 문서 발행 재생성, Godot import·headless·runtime smoke를 실행한다. 실행하지 않은 검사는 `NOT_RUN`으로 기록한다.
