@@ -6,7 +6,7 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "docs/base/**"
-      - '\[기획서\]/**'
+      - '[기획서]/**'
       - "skills/**"
       - "schemas/**"
       - "tests/python/**"
@@ -57,30 +57,19 @@ jobs:
       - name: Check active Markdown links
         run: python tools/check_active_markdown_links.py
 
-      - name: Read recorded Skill Map source commit
-        id: skill-source
-        shell: bash
-        run: |
-          python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json
-          from pathlib import Path
-          manifest = json.loads(Path("[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json").read_text(encoding="utf-8"))
-          print(f"commit={manifest['source_commit']}")
-          PY
-
-      - name: Regenerate design-document publications
+      - name: Regenerate design-document publications from this commit
         run: |
           python tools/build_design_documents.py \
             --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json" \
             --source-commit "$GITHUB_SHA"
 
-      - name: Regenerate Skill Map from the recorded source
+      - name: Regenerate Skill Map from this commit
         run: |
           python tools/build_project_skill_map.py \
             --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" \
             --output-dir "[기획서]/00_프로젝트_허브" \
             --project-name Omenward \
-            --source-commit "${{ steps.skill-source.outputs.commit }}"
+            --source-commit "$GITHUB_SHA"
 
       - name: Upload generated publication snapshot
         if: always()
@@ -95,16 +84,10 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Check whitespace
-        run: git diff --check
-
-      - name: Require current Skill Map derivatives
+      - name: Require clean generated publications
         run: |
-          git diff --exit-code -- \
-            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md" \
-            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf" \
-            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets" \
-            "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json"
+          git diff --check
+          git diff --exit-code
 
   validate-windows:
     name: base-sync-publications-windows
@@ -141,14 +124,15 @@ jobs:
         shell: pwsh
         run: python tools/check_active_markdown_links.py
 
-      - name: Read recorded Skill Map source commit
-        id: skill-source
+      - name: Regenerate design-document publications from this commit
         shell: pwsh
         run: |
-          $manifest = Get-Content "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json" -Raw | ConvertFrom-Json
-          "commit=$($manifest.source_commit)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          $env:BASE_LIBREOFFICE = 'C:\Program Files\LibreOffice\program\soffice.exe'
+          python tools/build_design_documents.py `
+            --registry "[기획서]/00_프로젝트_허브/DESIGN_DOCUMENT_REGISTRY.json" `
+            --source-commit "$env:GITHUB_SHA"
 
-      - name: Regenerate Skill Map from the recorded source
+      - name: Regenerate Skill Map from this commit
         shell: pwsh
         run: |
           $env:BASE_LIBREOFFICE = 'C:\Program Files\LibreOffice\program\soffice.exe'
@@ -156,7 +140,7 @@ jobs:
             --registry "[기획서]/00_프로젝트_허브/SKILL_REGISTRY.json" `
             --output-dir "[기획서]/00_프로젝트_허브" `
             --project-name Omenward `
-            --source-commit "${{ steps.skill-source.outputs.commit }}"
+            --source-commit "$env:GITHUB_SHA"
 
       - name: Upload generated publication snapshot
         if: always()
@@ -171,11 +155,8 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Require current Skill Map derivatives
+      - name: Require clean generated publications
         shell: pwsh
         run: |
-          git diff --exit-code -- `
-            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.md" `
-            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.pdf" `
-            "[기획서]/00_프로젝트_허브/PROJECT_SKILL_MAP.assets" `
-            "[기획서]/00_프로젝트_허브/SKILL_MAP_PUBLICATION_MANIFEST.json"
+          git diff --check
+          git diff --exit-code
