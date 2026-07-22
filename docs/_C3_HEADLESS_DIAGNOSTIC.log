@@ -3,7 +3,7 @@ test_status=1
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-100 72.5M  100 72.5M    0     0   134M      0 --:--:-- --:--:-- --:--:--  134M
+ 85 72.5M   85 61.6M    0     0   138M      0 --:--:-- --:--:-- --:--:--  138M100 72.5M  100 72.5M    0     0   155M      0 --:--:-- --:--:-- --:--:--  493M
 Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
 
 [   0% ] [90m[1mfirst_scan_filesystem[22m | Started Project initialization (5 steps)[39m[0m
@@ -197,32 +197,94 @@ MCP | plugin disabled in headless mode
 [  16% ] [90m[1mloading_editor_layout[22m | Loading docks...[39m[0m
 [92m[ DONE ][39m [1mloading_editor_layout[22m
 [0m
-SCRIPT ERROR: Parse Error: Cannot infer the type of "before_probability" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://scripts/core/core_ux_service.gd:161)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "after_probability" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://scripts/core/core_ux_service.gd:162)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "role" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://scripts/core/core_ux_service.gd:224)
-SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
-          at: GDScript::reload (res://scripts/core/stage_run.gd:0)
-SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
-          at: GDScript::reload (res://scripts/core/game_session.gd:0)
-ERROR: Failed to load script "res://scripts/core/game_session.gd" with error "Parse error".
-   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
 Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
 
-SCRIPT ERROR: Parse Error: Cannot infer the type of "before_probability" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://scripts/core/core_ux_service.gd:161)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "after_probability" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://scripts/core/core_ux_service.gd:162)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "role" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://scripts/core/core_ux_service.gd:224)
-SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
-          at: GDScript::reload (res://scripts/core/stage_run.gd:0)
-SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
-          at: GDScript::reload (res://tests/headless/c3_core_ux_test.gd:0)
-ERROR: Failed to load script "res://tests/headless/c3_core_ux_test.gd" with error "Compilation failed".
-   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_token_ledger_and_construction_preview (res://tests/headless/c3_core_ux_test.gd:53)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:19)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_token_ledger_and_construction_preview (res://tests/headless/c3_core_ux_test.gd:61)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:19)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:70)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:20)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:73)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:20)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:78)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:20)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:82)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:20)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_tactical_range_target_and_counter_overlay (res://tests/headless/c3_core_ux_test.gd:93)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:21)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_wave_cause_report (res://tests/headless/c3_core_ux_test.gd:113)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:22)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_snapshot_determinism (res://tests/headless/c3_core_ux_test.gd:123)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:23)
+SCRIPT ERROR: Invalid type in function 'probability_for_symbol' in base 'RefCounted (RouletteService)'. The array of argument 2 (Array) does not have the same element type as the expected typed array argument.
+          at: CoreUxService._construction_comparison (res://scripts/core/core_ux_service.gd:162)
+          GDScript backtrace (most recent call first):
+              [0] _construction_comparison (res://scripts/core/core_ux_service.gd:162)
+              [1] snapshot (res://scripts/core/core_ux_service.gd:124)
+              [2] core_ux_snapshot (res://scripts/core/stage_run.gd:156)
+              [3] _test_snapshot_determinism (res://tests/headless/c3_core_ux_test.gd:123)
+              [4] _init (res://tests/headless/c3_core_ux_test.gd:23)
 C3 core UX failures:
-C3 dependency script cannot instantiate: CoreUxService
+barracks comparison is available on the stable home node
+barracks preview increases the warrior probability before construction
+building comparison exposes the occupied node reason
 [godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+WARNING: 371 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 132 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)
