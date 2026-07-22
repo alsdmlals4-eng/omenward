@@ -31,6 +31,18 @@ jobs:
         if: ${{ hashFiles('tools/_apply_project_core_recovery.py') != '' }}
         shell: bash
         run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("tools/_apply_project_core_recovery.py")
+          text = path.read_text(encoding="utf-8")
+          marker = '''replace_once(
+              "docs/OMENWARD_ROADMAP.md",
+              "## 4. G1 — Phase 0 Work Order",'''
+          start = text.index(marker)
+          end_marker = ')\nreplace_regex("docs/OMENWARD_ROADMAP.md", r"## 15\\. 지금 실행할 단 하나의 작업'
+          end = text.index(end_marker, start) + 2
+          path.write_text(text[:start] + text[end:], encoding="utf-8", newline="\n")
+          PY
           set +e
           python tools/_apply_project_core_recovery.py > project-core-recovery.log 2>&1
           status=$?
