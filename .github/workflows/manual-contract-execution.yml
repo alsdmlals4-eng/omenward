@@ -27,10 +27,10 @@ jobs:
         shell: bash
         run: |
           set +e
-          python tools/_apply_c1_roulette_contract.py > contract-execution.log 2>&1
+          python tools/_apply_c1_roulette_contract.py > /tmp/contract-execution.log 2>&1
           status=$?
           if [ "$status" -ne 0 ]; then
-            tail -n 320 contract-execution.log > /tmp/execution-failure.log
+            tail -n 360 /tmp/contract-execution.log > /tmp/execution-failure.log
             git fetch origin agent/c1-approved-roulette-contract-recovery
             git reset --hard origin/agent/c1-approved-roulette-contract-recovery
             cp /tmp/execution-failure.log docs/_EXECUTION_FAILURE.log
