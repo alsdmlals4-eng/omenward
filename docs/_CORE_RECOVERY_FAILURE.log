@@ -4,12 +4,12 @@ Traceback (most recent call last):
     ~~~~~~~~~~~~^
         "docs/OMENWARD_ROADMAP.md",
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        "---\n\n## 4. G1 — Phase 0 Work Order",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "## 4. G1 — Phase 0 Work Order",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
         "위 표가 현재 상태의 권위 원본이다. 아래 기존 Phase 정의는 목적·완료 기준의 변경 이력으로 유지하며, 각 절의 과거 상태 문구가 현재 위치를 덮지 않는다.\n\n---\n\n## 4. G1 — Phase 0 Work Order",
         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     )
     ^
   File "/home/runner/work/omenward/omenward/tools/_apply_project_core_recovery.py", line 30, in replace_once
     raise RuntimeError(f"{relative} expected one literal match, found {count}: {old[:80]!r}")
-RuntimeError: docs/OMENWARD_ROADMAP.md expected one literal match, found 0: '---\n\n## 4. G1 — Phase 0 Work Order'
+RuntimeError: docs/OMENWARD_ROADMAP.md expected one literal match, found 0: '## 4. G1 — Phase 0 Work Order'
