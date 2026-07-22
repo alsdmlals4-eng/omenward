@@ -26,6 +26,24 @@ jobs:
       - name: Apply C1 contract and run static validation
         shell: bash
         run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("tools/_apply_c1_roulette_contract.py")
+          text = path.read_text(encoding="utf-8")
+          text = text.replace(
+              '+ "\\n# return cards\\n", encoding="utf-8")',
+              '+ "\\\\n# return cards\\\\n", encoding="utf-8")',
+          )
+          text = text.replace(
+              '+ "\\n`docs/work_orders/0001-phase-0-codex-plan-mode.md`\\n", encoding="utf-8")',
+              '+ "\\\\n`docs/work_orders/0001-phase-0-codex-plan-mode.md`\\\\n", encoding="utf-8")',
+          )
+          marker = '    "docs/_C1_SHORTLIST_FAILURE.log",\n'
+          if marker not in text:
+              raise RuntimeError("C1 cleanup marker missing")
+          text = text.replace(marker, marker + '    "docs/_C1_APPLY_FAILURE.log",\n', 1)
+          path.write_text(text, encoding="utf-8", newline="\n")
+          PY
           set +e
           python tools/_apply_c1_roulette_contract.py > c1-apply.log 2>&1
           status=$?
