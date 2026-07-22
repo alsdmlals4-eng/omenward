@@ -17,6 +17,7 @@ func _init() -> void:
 		_finish(failures)
 		return
 	_test_token_ledger_and_construction_preview(failures)
+	_test_boundary_snapshots(failures)
 	_test_staged_omen_reveal(failures)
 	_test_tactical_range_target_and_counter_overlay(failures)
 	_test_wave_cause_report(failures)
@@ -54,6 +55,7 @@ func _test_token_ledger_and_construction_preview(failures: PackedStringArray) ->
 	var ledger: Array = snapshot.get("token_ledger", [])
 	_expect(_ledger_entry(ledger, "x").get("weight", 0) == 6, "token ledger exposes the authoritative X weight", failures)
 	_expect(_ledger_entry(ledger, "gold").get("weight", 0) == 2, "token ledger exposes the authoritative gold weight", failures)
+	_expect(_ledger_entry(ledger, "warrior").is_empty(), "initial token ledger does not invent an inactive building source", failures)
 	var barracks: Dictionary = _building_entry(snapshot.get("construction_comparison", []), "barracks")
 	_expect(bool(barracks.get("can_construct", false)), "barracks comparison is available on the stable home node", failures)
 	_expect(float(barracks.get("probability_after", 0.0)) > float(barracks.get("probability_before", 0.0)), "barracks preview increases the warrior probability before construction", failures)
@@ -61,8 +63,33 @@ func _test_token_ledger_and_construction_preview(failures: PackedStringArray) ->
 	var after: Dictionary = run.core_ux_snapshot()
 	var warrior: Dictionary = _ledger_entry(after.get("token_ledger", []), "warrior")
 	_expect(int(warrior.get("source_count", 0)) == 1 and int(warrior.get("weight", 0)) == 3, "constructed barracks appears once in the token ledger", failures)
+	_expect((warrior.get("source_building_ids", []) as Array).has("lumern_middle:rear"), "token ledger exposes the authoritative source building ID", failures)
 	var occupied: Dictionary = _building_entry(after.get("construction_comparison", []), "barracks")
 	_expect(not bool(occupied.get("can_construct", true)) and str(occupied.get("block_reason", "")) == "occupied", "building comparison exposes the occupied node reason", failures)
+
+
+func _test_boundary_snapshots(failures: PackedStringArray) -> void:
+	var poor: Variant = _new_run(706)
+	poor.economy.gold = 0
+	var poor_barracks: Dictionary = _building_entry(poor.core_ux_snapshot().get("construction_comparison", []), "barracks")
+	_expect(not bool(poor_barracks.get("can_construct", true)) and str(poor_barracks.get("block_reason", "")) == "insufficient_gold", "construction comparison exposes insufficient gold without mutating state", failures)
+
+	var contested: Variant = _new_run(707)
+	var home: Variant = contested.battle.outposts[&"lumern"][&"middle"]
+	_expect(home.begin_capture(&"veil", 1.0), "boundary setup begins an enemy capture", failures)
+	home.set_contested()
+	var contested_barracks: Dictionary = _building_entry(contested.core_ux_snapshot().get("construction_comparison", []), "barracks")
+	_expect(not bool(contested_barracks.get("can_construct", true)) and str(contested_barracks.get("block_reason", "")).begins_with("outpost_"), "construction comparison safely blocks a contested capture state", failures)
+
+	var no_target: Variant = _new_run(708)
+	var lone_archer: Variant = no_target.battle.spawn_unit(_spawn(&"lumern", &"top", &"archer"))
+	no_target.advance(0.1)
+	var lone_entry: Dictionary = _unit_entry(no_target.core_ux_snapshot().get("tactical_overlay", []), int(lone_archer.unit_id))
+	_expect(int(lone_entry.get("target_unit_id", 0)) == -1, "tactical overlay safely exposes a unit with no current target", failures)
+
+	var unresolved: Variant = _new_run(709)
+	unresolved.advance(60.0)
+	_expect((unresolved.core_ux_snapshot().get("latest_wave_report", {}) as Dictionary).is_empty(), "wave report remains empty while a registered wave is unresolved", failures)
 
 
 func _test_staged_omen_reveal(failures: PackedStringArray) -> void:
@@ -94,6 +121,7 @@ func _test_tactical_range_target_and_counter_overlay(failures: PackedStringArray
 	var archer_entry: Dictionary = _unit_entry(overlay, int(archer.unit_id))
 	_expect(is_equal_approx(float(archer_entry.get("attack_range", 0.0)), 4.0), "tactical overlay uses the unit's actual attack range", failures)
 	_expect((archer_entry.get("counter_tags", []) as Array).has("anti_air"), "tactical overlay exposes the approved anti-air hint", failures)
+	_expect((archer_entry.get("target_priority_tags", []) as Array).has("flying"), "tactical overlay exposes the approved target-priority hint", failures)
 	_expect(int(archer_entry.get("target_unit_id", -1)) == int(flier.unit_id), "tactical overlay exposes the current target identity", failures)
 
 
