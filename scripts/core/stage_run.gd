@@ -84,7 +84,7 @@ func spin_roulette(seed_input: Dictionary) -> RouletteSpinResult:
 
 
 func store_roulette_result(result: RouletteSpinResult) -> bool:
-	if result == null or not result.accepted:
+	if result == null or not result.accepted or result.rewards.is_empty():
 		return false
 	for reward in result.rewards:
 		pending_roulette_rewards.append(reward.duplicate() as UnitSpawnDefinition)
