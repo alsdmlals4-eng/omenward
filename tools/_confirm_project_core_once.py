@@ -35,13 +35,8 @@ def run(*args: str) -> None:
     subprocess.run(args, cwd=ROOT, check=True)
 
 
-# Project core canonical lock.
 replace_once("docs/PROJECT_CORE.md", "- 상태: `EXISTING_CORE_IDENTIFIED`", "- 상태: `CORE_CONFIRMED`")
-replace_once(
-    "docs/PROJECT_CORE.md",
-    "- 잠금 상태: `CORE_LOCK_PENDING_USER_CONFIRMATION`",
-    "- 잠금 상태: `CORE_LOCKED`",
-)
+replace_once("docs/PROJECT_CORE.md", "- 잠금 상태: `CORE_LOCK_PENDING_USER_CONFIRMATION`", "- 잠금 상태: `CORE_LOCKED`")
 replace_once(
     "docs/PROJECT_CORE.md",
     "`CORE_LOCK_PENDING_USER_CONFIRMATION`은 코어를 새로 발명했다는 뜻이 아니다. 기존 코어를 식별해 기록했으며, 문구를 변경 불가 상태로 잠그는 행위만 사용자의 명시적 확인을 기다린다는 뜻이다.",
@@ -53,7 +48,6 @@ replace_once(
     "- `CORE_CONFIRMED`·`CORE_LOCKED`는 2026-07-22 사용자의 `코어확정` 지시로 적용됐다.\n- 잠금된 코어의 변경은 사용자 명시적 승인, 제거 테스트, 대안과 영향 범위 기록을 모두 요구한다.\n- 후속 구현은 이 문서의 우선순위와 C1~C5 검증 게이트를 따른다.",
 )
 
-# Resolve the pending decision and advance current phase.
 replace_regex(
     "docs/DECISIONS_PENDING.md",
     r"### A\. 프로젝트 코어 문구 잠금\n.*?(?=### B\.)",
@@ -72,7 +66,6 @@ replace_once(
     "1. 프로젝트 코어 확정·잠금과 정본 복구 PR 병합\n2. 승인 룰렛 계약 복구 Plan\n3. 룰렛 계약 구현·자동 검증\n4. 전투 목적 루프 연결\n5. 승인 코어 UX 6종\n6. 10~15분 사람 플레이와 1080p·720p QA\n7. 밸런스 안정화\n8. 콘텐츠·아트 확장",
 )
 
-# Roadmap C0 -> complete, C1 -> current.
 replace_once(
     "docs/OMENWARD_ROADMAP.md",
     "- 현재 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / C0 정본·프로젝트 코어 복구 진행**",
@@ -105,95 +98,55 @@ replace_regex(
 """,
 )
 
-# State capsules and GDD.
-replace_once(
-    "docs/ACTIVE_CONTEXT.md",
-    "- 프로젝트 코어: `docs/PROJECT_CORE.md`",
-    "- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)",
-)
-replace_once(
-    "docs/HANDOFF_CONTEXT.md",
-    "- 프로젝트 코어: `docs/PROJECT_CORE.md`",
-    "- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)",
-)
-replace_once(
-    "docs/OMENWARD_GAME_DESIGN.md",
-    "- 엔진: Godot + GDScript",
-    "- 엔진: Godot + GDScript\n- 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED** (2026-07-22 사용자 확인)",
-)
-replace_once(
-    "README.md",
-    "> 현재 상태: **기술·데이터 그레이박스 수직 슬라이스 존재 / 코어 루프 미완결 / 사람 플레이 검증 대기**",
-    "> 현재 상태: **기술·데이터 그레이박스 수직 슬라이스 존재 / 코어 루프 미완결 / 사람 플레이 검증 대기**\n> 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED**",
-)
+replace_once("docs/ACTIVE_CONTEXT.md", "- 프로젝트 코어: `docs/PROJECT_CORE.md`", "- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)")
+replace_once("docs/HANDOFF_CONTEXT.md", "- 프로젝트 코어: `docs/PROJECT_CORE.md`", "- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)")
+replace_once("docs/OMENWARD_GAME_DESIGN.md", "- 엔진: Godot + GDScript", "- 엔진: Godot + GDScript\n- 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED** (2026-07-22 사용자 확인)")
+replace_once("README.md", "> 현재 상태: **기술·데이터 그레이박스 수직 슬라이스 존재 / 코어 루프 미완결 / 사람 플레이 검증 대기**", "> 현재 상태: **기술·데이터 그레이박스 수직 슬라이스 존재 / 코어 루프 미완결 / 사람 플레이 검증 대기**\n> 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED**")
 
-# Current implementation status: C0 complete, C1 current.
-replace_once(
-    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    "- 판정:\n  - `TECHNICAL_BASELINE_IMPLEMENTED`",
-    "- 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`\n- 판정:\n  - `TECHNICAL_BASELINE_IMPLEMENTED`",
-)
+replace_once("docs/CURRENT_IMPLEMENTATION_STATUS.md", "- 판정:\n  - `TECHNICAL_BASELINE_IMPLEMENTED`", "- 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`\n- 판정:\n  - `TECHNICAL_BASELINE_IMPLEMENTED`")
 replace_once(
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     "1. 정본·프로젝트 코어 복구\n2. 승인 룰렛 계약 복구\n3. 전투 → 거점·성문·승패 목적 루프 연결\n4. 승인 코어 UX 6종 최소 구현\n5. 10~15분 코어 플레이테스트\n6. 밸런스 안정화와 콘텐츠·아트 확장",
     "1. 승인 룰렛 계약 복구\n2. 전투 → 거점·성문·승패 목적 루프 연결\n3. 승인 코어 UX 6종 최소 구현\n4. 10~15분 코어 플레이테스트\n5. 밸런스 안정화와 콘텐츠·아트 확장",
 )
-replace_once(
-    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    "정본 복구 완료 조건:",
-    "C0 정본·프로젝트 코어 복구 완료 판정:",
-)
-replace_once(
-    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    "- 다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구로 한정한다.",
-    "- 프로젝트 코어는 2026-07-22 사용자 확인으로 `CORE_CONFIRMED`·`CORE_LOCKED`다.\n- 다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구로 한정한다.",
-)
+replace_once("docs/CURRENT_IMPLEMENTATION_STATUS.md", "정본 복구 완료 조건:", "C0 정본·프로젝트 코어 복구 완료 판정:")
+replace_once("docs/CURRENT_IMPLEMENTATION_STATUS.md", "- 다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구로 한정한다.", "- 프로젝트 코어는 2026-07-22 사용자 확인으로 `CORE_CONFIRMED`·`CORE_LOCKED`다.\n- 다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구로 한정한다.")
 
-# Audit records the explicit confirmation.
 replace_once(
     "docs/CORE_RECOVERY_AUDIT_2026-07-22.md",
     "- 코어 상태는 `EXISTING_CORE_IDENTIFIED`로 기록하고 잠금은 사용자 확인을 기다린다.",
-    "- 코어 상태는 최초 `EXISTING_CORE_IDENTIFIED`로 기록했고, 2026-07-22 사용자의 `코어확정` 지시 뒤 `CORE_CONFIRMED`·`CORE_LOCKED`로 전환했다.",
+    "- 코어 상태는 최초 식별 상태로 기록했고, 2026-07-22 사용자의 `코어확정` 지시 뒤 `CORE_CONFIRMED`·`CORE_LOCKED`로 전환했다.",
 )
 replace_once(
     "docs/CORE_RECOVERY_AUDIT_2026-07-22.md",
     "1. 이 문서 전용 Draft PR 검토.\n2. 사용자가 프로젝트 코어 문구 잠금 여부를 확인.\n3. 승인 룰렛 계약 복구를 별도 Plan·Build·Review PR로 수행.\n4. 전투 목적 루프, 코어 UX, 사람 플레이 순으로 분리 진행.",
     "1. 사용자가 프로젝트 코어를 `코어확정`으로 확인.\n2. 정본 PR에서 `CORE_CONFIRMED`·`CORE_LOCKED` 전환과 검증.\n3. 승인 룰렛 계약 복구를 별도 Plan·Build·Review PR로 수행.\n4. 전투 목적 루프, 코어 UX, 사람 플레이 순으로 분리 진행.",
 )
-replace_once(
-    "docs/CORE_RECOVERY_AUDIT_2026-07-22.md",
-    "- 코어 잠금: `PENDING_USER_CONFIRMATION`",
-    "- 코어 잠금: `CORE_CONFIRMED_AND_LOCKED`",
-)
+replace_once("docs/CORE_RECOVERY_AUDIT_2026-07-22.md", "- 코어 잠금: `PENDING_USER_CONFIRMATION`", "- 코어 잠금: `CORE_CONFIRMED_AND_LOCKED`")
 
-# Validator now requires and protects the confirmed lock.
-replace_once(
-    "tools/validate_project_core_docs.py",
-    '    "EXISTING_CORE_IDENTIFIED",\n    "CORE_LOCK_PENDING_USER_CONFIRMATION",',
-    '    "CORE_CONFIRMED",\n    "CORE_LOCKED",',
-)
+replace_once("tools/validate_project_core_docs.py", '    "EXISTING_CORE_IDENTIFIED",\n    "CORE_LOCK_PENDING_USER_CONFIRMATION",', '    "CORE_CONFIRMED",\n    "CORE_LOCKED",')
 replace_once(
     "tools/validate_project_core_docs.py",
     '    if re.search(r"(?m)^- (?:상태|잠금 상태): `(?:CORE_CONFIRMED|CORE_LOCKED)`$", core):\n        errors.append("project core may not claim confirmed/locked without explicit user approval")',
     '''    required_lock_lines = (\n        "- 상태: `CORE_CONFIRMED`",\n        "- 잠금 상태: `CORE_LOCKED`",\n        "2026-07-22 대화에서 `코어확정`",\n    )\n    for missing in _contains_all(core, required_lock_lines):\n        errors.append(f"PROJECT_CORE missing confirmed lock evidence: {missing}")\n\n    pending_core_terms = (\n        "EXISTING_CORE_IDENTIFIED",\n        "CORE_LOCK_PENDING_USER_CONFIRMATION",\n        "PENDING_USER_CONFIRMATION",\n    )\n    for relative in (\n        "docs/PROJECT_CORE.md",\n        "docs/CORE_RECOVERY_AUDIT_2026-07-22.md",\n        "docs/DECISIONS_PENDING.md",\n        "docs/OMENWARD_ROADMAP.md",\n    ):\n        text = _read(root, relative)\n        for term in pending_core_terms:\n            if term in text:\n                errors.append(f"{relative} retains stale project-core lock state: {term}")''',
 )
+replace_once("tools/validate_project_core_docs.py", '        "정본·프로젝트 코어 복구",', '        "정본·프로젝트 코어 확정·잠금 완료",')
 replace_once(
     "tools/validate_project_core_docs.py",
     '    if "승인 룰렛 계약 복구" not in decisions:\n        errors.append("DECISIONS_PENDING does not point to the next decision gate")',
     '    if "승인 룰렛 계약 복구" not in decisions:\n        errors.append("DECISIONS_PENDING does not point to the next decision gate")\n    if "프로젝트 코어 확정·잠금 — 완료" not in decisions:\n        errors.append("DECISIONS_PENDING does not record the resolved project-core lock")',
 )
 
-# Mutation regression for stale pending state.
 replace_once(
     "tests/python/test_project_core_docs.py",
     "    def test_roadmap_phase_history_loss_is_rejected(self) -> None:",
     '''    def test_pending_core_lock_state_is_rejected(self) -> None:\n        with tempfile.TemporaryDirectory() as directory:\n            temp_root = pathlib.Path(directory)\n            self._copy_contract_files(temp_root)\n            core = temp_root / "docs" / "PROJECT_CORE.md"\n            core.write_text(\n                core.read_text(encoding="utf-8")\n                .replace("- 상태: `CORE_CONFIRMED`", "- 상태: `EXISTING_CORE_IDENTIFIED`")\n                .replace("- 잠금 상태: `CORE_LOCKED`", "- 잠금 상태: `CORE_LOCK_PENDING_USER_CONFIRMATION`"),\n                encoding="utf-8",\n            )\n            errors = validate(temp_root)\n            self.assertTrue(any("stale project-core lock state" in error for error in errors))\n\n    def test_roadmap_phase_history_loss_is_rejected(self) -> None:''',
 )
 
-# Remove bootstrap files before permanent validation and commit.
 for relative in (
     "tools/_confirm_project_core_once.py",
     ".github/workflows/confirm-project-core-once.yml",
+    "docs/_CORE_CONFIRM_FAILURE.log",
 ):
     path = ROOT / relative
     if path.exists():
