@@ -3,7 +3,7 @@
 - 공식명: **오멘워드 / OMENWARD**
 - 문서 버전: **v0.21**
 - 갱신일: 2026-07-22
-- 상태: **프리프로덕션 계약 승인 / Godot 기술·데이터 기준선 구현 / 핵심 수직 슬라이스 부분 구현·코어 루프 미검증**
+- 상태: **프리프로덕션 계약 승인 / C1 룰렛 핵심 계약 REMOTE_PROVEN / 전투 목적 루프·사람 플레이 미검증**
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE
 - 엔진: Godot + GDScript
@@ -58,6 +58,7 @@
 
 ```text
 TECHNICAL_BASELINE_IMPLEMENTED
++ C1_ROULETTE_CORE_REMOTE_PROVEN
 + CORE_VERTICAL_SLICE_PARTIAL
 + CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
@@ -741,8 +742,8 @@ Validator는 다음을 검사한다.
 
 ```text
 C0 프로젝트 코어·정본 복구 완료
-→ [현재] C1 중앙 판정·완성선·등급·보상·보관 계약
-→ C1 유틸리티 규칙 통합과 100,000시드 검증
+→ C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN
+→ [다음] C1 유틸리티 규칙 통합과 100,000시드 검증
 → C2 전투 목적 루프
 → C3 코어 UX
 → C4 사람 플레이

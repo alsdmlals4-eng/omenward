@@ -1,7 +1,7 @@
 # C1 승인 룰렛 계약 복구 보고서
 
 - 기준 main: `ef9e66e3bc5be7711c36123e6c6d7fe8ec8dc9a2`
-- 작업 상태: `IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING`
+- 작업 상태: `C1_ROULETTE_CORE_REMOTE_PROVEN`
 - 프로젝트 코어: `CORE_CONFIRMED / CORE_LOCKED`
 
 ## 1. 적용 Skill
@@ -64,14 +64,28 @@
 - 공식 명칭 교체표와 금지 예시는 구형 명칭을 설명하는 정본이므로 유지한다.
 - mutation fixture의 구형 문자열은 Validator 공격 입력이므로 유지한다.
 
-## 6. 검증 경계
+## 6. 원격 검증 결과
 
-영구 CI가 다음을 실행한다.
+- 검증 head: `237d07cd59a9553a28725b0e173231bd0e660492`
+- GitHub Actions run: `29919925777`
+- Godot: `4.7.1-stable`
 
-- Ubuntu/Windows × Python 3.12/3.13 정적 계약.
-- Godot 4.7.1 editor import.
+통과:
+
+- Ubuntu/Windows × Python 3.12/3.13 계약 검증 `4/4 SUCCESS`.
+- C1 Validator·구형 활성 참조·깨진 링크 검사.
+- 전체 Python 저장소 테스트 `31/31 PASSED`.
+- 프로젝트 코어·Skill Validator·compile·whitespace.
+- Godot editor import.
 - 모든 `tests/headless/*_test.gd`.
 - runtime smoke.
-- 프로젝트 코어·Skill Validator와 whitespace.
 
-사람 플레이·시각 QA·100,000시드 분포는 이번 자동 C1 계약과 별도다.
+판정:
+
+```text
+C1_ROULETTE_CORE_REMOTE_PROVEN
++ C1U_PENDING_DECISIONS
++ HUMAN_QA_NOT_RUN
+```
+
+사람 플레이·1920×1080/1280×720 시각 QA·100,000시드 분포는 이번 자동 C1 핵심 계약과 별도다.

@@ -1,11 +1,13 @@
 # 오멘워드 현재 구현 상태
 
 - 조사일: 2026-07-22
-- 기준 브랜치: `main`
-- 기준 커밋: `69c571c5a49502f9da57e1c8d8eba04455380c0f`
+- 기준 main: `ef9e66e3bc5be7711c36123e6c6d7fe8ec8dc9a2`
+- 원격 검증 head: `237d07cd59a9553a28725b0e173231bd0e660492`
+- 원격 검증 run: `29919925777`
 - 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`
 - 판정:
   - `TECHNICAL_BASELINE_IMPLEMENTED`
+  - `C1_ROULETTE_CORE_REMOTE_PROVEN`
   - `CORE_VERTICAL_SLICE_PARTIAL`
   - `CORE_LOOP_NOT_PROVEN`
   - `HUMAN_QA_NOT_RUN`
@@ -34,13 +36,13 @@
 | 건설 | 소유·안정화·점령 revision을 검사하는 건설 서비스 | `IMPLEMENTED_COMPONENT` |
 | 전투 | 독립 3라인, 공용 유닛, 기본 이동·타기팅·공격, 암살자 우회 상태 | `IMPLEMENTED_COMPONENT` |
 | 웨이브 | 튜토리얼 W1~4, 정규 W1~20 데이터와 60초 출격 시계 | `IMPLEMENTED_COMPONENT` |
-| 테스트 | bootstrap·데이터·경제·룰렛 placeholder·전투·웨이브·우회 관련 headless 테스트 파일 | `IMPLEMENTED` |
+| 테스트 | bootstrap·데이터·경제·C1 룰렛·전투·웨이브·우회 headless 회귀와 Python 계약 | `REMOTE_PROVEN` |
 
 ## 3. 부분 구현 또는 승인 계약과 다른 영역
 
-### 3.1 룰렛 — `C1_IMPLEMENTED_CANDIDATE`
+### 3.1 룰렛 — `C1_ROULETTE_CORE_REMOTE_PROVEN`
 
-구현 후보:
+검증된 구현:
 
 ```text
 3×3 결정론적 보드
@@ -58,7 +60,7 @@
 - 고정 상위 등급 템플릿은 미확정이므로 `source_archetype_rank_fallback`을 명시한다.
 - 이동권 지급량과 상충하는 럭키 규칙은 런타임 생성 풀에서 가역적으로 보류한다.
 
-판정: `IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING`.
+판정: `C1_ROULETTE_CORE_REMOTE_PROVEN` — Godot 4.7.1 import·전체 headless·runtime smoke와 4환경 계약 검증 통과 (`29919925777`).
 
 ### 3.2 전투 목적 루프 — `PARTIAL`
 
@@ -99,43 +101,47 @@
 
 ## 4. 검증 증거 경계
 
-### 확인한 것
+### 이번 C1에서 원격 실행한 것
 
-- 저장소 정적 파일.
-- 현재 코드·데이터·headless 테스트의 계약.
-- 승인 책임 문서와 구현 간 차이.
-- 최근 `main`과 열린 PR·Issue 상태.
-
-### 이번 문서 복구에서 실행하지 않은 것
-
-- Godot editor import.
-- headless 테스트 재실행.
+- Godot 4.7.1 editor import.
+- 전체 `tests/headless/*_test.gd`.
 - runtime smoke.
+- Ubuntu/Windows × Python 3.12/3.13 계약·문서·Skill 검증.
+- C1 결정론·중앙 판정·등급·금화·전설 제한·보관·배치 회귀.
+- 활성 문서의 구형 Work Order·Goal·Proposal 직접 참조와 깨진 링크 검사.
+
+증거: GitHub Actions run `29919925777` / head `237d07cd59a9553a28725b0e173231bd0e660492`.
+
+### 실행하지 않은 것
+
 - 1920×1080 사람 플레이.
 - 1280×720 가독성 QA.
 - W1~W20 연속 플레이.
+- 100,000시드 확률·경제 분포.
 - 재미·밸런스·성능 계측.
 
-따라서 “프로젝트가 실행된다”는 과거 증거와 “현재 기준점에서 재검증했다”는 주장을 혼동하지 않는다.
+따라서 C1 룰렛 핵심 계약은 `REMOTE_PROVEN`이지만 전체 코어 루프와 사람 플레이는 아직 완료가 아니다.
 
 ## 5. 현재 우선순위
 
 ```text
-1. C1 룰렛 핵심 계약 원격 검증
-2. C1 이동권·럭키 규칙 통합과 100,000시드 시뮬레이션
+1. PR #49 사용자 검토와 병합 결정
+2. C1U 이동권·럭키 규칙 통합과 100,000시드 시뮬레이션
 3. 전투 → 거점·성문·승패 목적 루프 연결
-3. 승인 코어 UX 6종 최소 구현
-4. 10~15분 코어 플레이테스트
-5. 밸런스 안정화와 콘텐츠·아트 확장
+4. 승인 코어 UX 6종 최소 구현
+5. 10~15분 코어 플레이테스트
+6. 밸런스 안정화와 콘텐츠·아트 확장
 ```
 
-## 6. 다음 완료 게이트
+## 6. C1 완료 판정과 다음 게이트
 
-C0 정본·프로젝트 코어 복구 완료 판정:
+C1 룰렛 핵심 계약 완료 조건:
 
-- `PROJECT_CORE.md`가 제품 코어와 변경 가능한 외피를 분리한다.
-- README·GDD·로드맵·상태·인수인계·미확정 목록이 같은 단계 용어를 사용한다.
-- 현재 구현과 미구현을 파일 증거로 분리한다.
-- 과거 `구현 전`과 과도한 `수직 슬라이스 완료` 주장을 현재 상태로 사용하지 않는다.
-- 프로젝트 코어는 2026-07-22 사용자 확인으로 `CORE_CONFIRMED`·`CORE_LOCKED`다.
-- 다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구로 한정한다.
+- 중앙 판정·8개 완성선·등급·금화·전설 제한이 승인 정본과 일치한다.
+- 9개 직접 카드 placeholder와 관련 회귀 계약이 제거됐다.
+- 기본 병영 토큰, StageRun 보관과 라인 배치가 연결된다.
+- 같은 시드·건물 스냅샷이 같은 결과를 만든다.
+- Godot 4.7.1 editor import·전체 headless·runtime smoke가 통과한다.
+- 활성 문서의 구형 실행 입력 직접 참조가 0건이다.
+
+위 조건은 run `29919925777`에서 통과했다. 다음 제품 결정은 C1U 이동권·럭키·고정 상위 등급 템플릿·100,000시드 분포다.

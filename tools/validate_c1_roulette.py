@@ -122,6 +122,30 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for stale in ("### 구현 전 미확정", "Issue #1 Phase 0 Codex Plan Mode", "현재 실제 Godot 코드, Scene, Resource, 테스트는 생성·수정하지 않는다"):
         if stale in gdd:
             errors.append(f"GDD retains stale implementation state: {stale}")
+    completion_requirements = {
+        "docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md": ("C1_ROULETTE_CORE_REMOTE_PROVEN", "GitHub Actions run: `29919925777`"),
+        "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C1_ROULETTE_CORE_REMOTE_PROVEN", "원격 검증 run: `29919925777`"),
+        "docs/OMENWARD_ROADMAP.md": ("승인 룰렛 핵심 계약 원격 검증 완료", "**REMOTE_PROVEN**"),
+        "docs/design/APPROVED_ROULETTE_CORE_RULES.md": ("C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",),
+    }
+    for relative, phrases in completion_requirements.items():
+        text = (root / relative).read_text(encoding="utf-8")
+        for phrase in phrases:
+            if phrase not in text:
+                errors.append(f"{relative} missing proven C1 evidence: {phrase}")
+    stale_proven_state = (
+        "IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING",
+        "C1_IMPLEMENTED_CANDIDATE",
+        "C1 승인 룰렛 핵심 계약 구현·원격 검증 진행",
+        "C1 기본 릴 가중치 구현 후보",
+    )
+    for path in active_markdown_files(root):
+        text = path.read_text(encoding="utf-8")
+        relative = path.relative_to(root).as_posix()
+        for stale in stale_proven_state:
+            if stale in text:
+                errors.append(f"active document retains pre-validation C1 state: {relative} -> {stale}")
+
     baseline = (root / "docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md").read_text(encoding="utf-8")
     if "Phase 0 Plan Mode 대기 / 구현 전" in baseline:
         errors.append("active preproduction baseline still claims implementation has not started")

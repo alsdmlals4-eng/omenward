@@ -66,7 +66,7 @@ REQUIRED_STATUS_TERMS = (
     "CORE_VERTICAL_SLICE_PARTIAL",
     "CORE_LOOP_NOT_PROVEN",
     "HUMAN_QA_NOT_RUN",
-    "C1_IMPLEMENTED_CANDIDATE",
+    "C1_ROULETTE_CORE_REMOTE_PROVEN",
 )
 
 ROADMAP_REQUIRED_SECTIONS = (
@@ -166,13 +166,13 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"{relative} retains stale current-state claim: {phrase}")
 
     readme = _read(root, "README.md")
-    if "기술·데이터 그레이박스" not in readme or "코어 루프 미완결" not in readme:
-        errors.append("README does not expose the partial vertical-slice boundary")
+    if "C1 룰렛 핵심 계약 원격 검증 완료" not in readme or "전투 목적 루프·사람 플레이 미완결" not in readme:
+        errors.append("README does not expose the proven C1 and partial core-loop boundary")
 
     roadmap = _read(root, "docs/OMENWARD_ROADMAP.md")
     required_sequence = (
         "정본·프로젝트 코어 확정·잠금 완료",
-        "승인 룰렛 핵심 계약 복구",
+        "승인 룰렛 핵심 계약 원격 검증 완료",
         "전투 목적 루프 연결",
         "승인 코어 UX 6종",
         "코어 플레이테스트",
@@ -195,8 +195,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors.append(f"DECISIONS_PENDING missing preserved alternative: {missing}")
     if "Godot 4.7.1·Compatibility·960×540" not in decisions:
         errors.append("DECISIONS_PENDING does not distinguish implemented technical baseline")
-    if "승인 룰렛 계약 복구" not in decisions:
-        errors.append("DECISIONS_PENDING does not point to the next decision gate")
+    if "C1U 이동권·럭키" not in decisions:
+        errors.append("DECISIONS_PENDING does not point to the C1U decision gate")
     if "프로젝트 코어 확정·잠금 — 완료" not in decisions:
         errors.append("DECISIONS_PENDING does not record the resolved project-core lock")
 

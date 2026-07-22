@@ -418,7 +418,11 @@ Reserve
 4. 실제 Scene·Script·Resource·Test 경로.
 5. headless 테스트와 CI.
 
-## 10. 현재 C1 검증 조건
+## 10. C1 원격 검증 결과
+
+GitHub Actions run `29919925777`에서 Godot 4.7.1 editor import·전체 headless·runtime smoke와 4환경 계약 검증을 통과했다.
+
+검증 조건:
 
 1. 중앙 판정 줄이 실패하면 다른 완성선을 무시한다.
 2. 1/2/3~7/8줄 등급이 정확하다.
