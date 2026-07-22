@@ -1,9 +1,9 @@
 # 오멘워드 개발 로드맵
 
-- 갱신일: 2026-07-16
-- 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
-- 현재 상태: **프리프로덕션 구조 승인 완료 / 새 Codex 채팅용 Phase 0 Work Order 준비 완료 / Codex Plan Mode 실행 대기 / 구현 전**
-- 현재 Work Order: `docs/work_orders/0001-phase-0-codex-plan-mode.md`
+- 갱신일: 2026-07-22
+- 기준: `docs/PROJECT_CORE.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`, `docs/HANDOFF_CONTEXT.md`
+- 현재 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / C0 정본·프로젝트 코어 복구 진행**
+- 현재 조사 입력: `docs/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`
 - 사전 기술 추천안: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
 - 모든 코드·Scene·Resource·데이터 구조 변경은 Codex Plan Mode 제안서와 사용자 승인 후 시작한다.
 
@@ -11,29 +11,32 @@
 
 ## 1. 현재 위치
 
+책임 원본:
+
+- 프로젝트 코어: `docs/PROJECT_CORE.md`
+- 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+
 ```text
 프리프로덕션 구조 승인
-→ 공용 10병종 데이터·진영 이미지 분리 승인
-→ 전장·애니메이션 수직 슬라이스 초기값 승인
-→ 새 Codex 채팅 Work Order 작성
-→ [현재] Codex Plan Mode 조사·제안서 제출 대기
-→ 사용자 검토·승인
-→ Phase 0 Godot 기술 기준선 구현
-→ 수직 슬라이스 Plan Mode
-→ 사용자 승인
-→ 10~15분 핵심 수직 슬라이스
-→ 시뮬레이션·플레이테스트
+→ Phase 0 기술·데이터 기준선 구현
+→ 수직 슬라이스 구성요소 부분 구현
+→ [현재] 정본·프로젝트 코어 복구
+→ 승인 룰렛 계약 복구
+→ 전투 목적 루프 연결
+→ 승인 코어 UX 6종
+→ 10~15분 코어 플레이테스트
+→ 시스템 안정화
 → 콘텐츠·아트 확장
 → 캠페인·데모 통합
 ```
 
-현재 `진행`은 구현 시작을 뜻하지 않는다.
+현재 `구현됨`은 파일과 실행 경로가 있다는 뜻이며 `검증됨`과 같지 않다.
 
 ```text
-Work Order 준비 완료
-≠ Codex 제안서 제출
-≠ 사용자 승인
-≠ Phase 0 구현 완료
+TECHNICAL_BASELINE_IMPLEMENTED
+≠ CORE_VERTICAL_SLICE_COMPLETE
+≠ CORE_LOOP_PROVEN
+≠ HUMAN_QA_COMPLETE
 ```
 
 ---
@@ -59,16 +62,19 @@ Work Order 준비 완료
 
 | 단계 | 목표 | 현재 상태 | 다음 게이트 |
 |---|---|---|---|
-| P0 프리프로덕션 | 제품·전장·공용 데이터·아트·연출 계약 | 완료 | Codex Plan Mode |
-| G1 Phase 0 Work Order | 새 Codex 채팅 입력과 컨텍스트 준비 | **완료** | Codex 제안서 제출 |
-| G2 Phase 0 Plan Mode | 실제 저장소 기반 기술 계획 | 실행 대기 | 사용자 승인 |
-| P1 Phase 0 구현 | 실행·데이터·결정론·검증 골격 | 미시작 | headless·계약 테스트 PASS |
-| G3 수직 슬라이스 Plan Mode | 실제 파일 기준 핵심 루프 계획 | Phase 0 뒤 | 사용자 승인 |
-| P2 핵심 수직 슬라이스 | 10~15분 핵심 재미와 위험 검증 | 미시작 | 플레이테스트 기준 충족 |
+| P0 프리프로덕션 | 제품·전장·공용 데이터·아트·연출 계약 | 완료 | 정본 유지 |
+| P1 기술 기준선 | 실행·데이터·결정론·검증 골격 | **구현됨 / 최신 runtime 재검증 필요** | C0 정본 일치 |
+| C0 정본·코어 복구 | 프로젝트 코어·상태·로드맵 일치 | **진행 중** | 사용자 코어 문구 확인·문서 PR |
+| C1 룰렛 계약 복구 | 중앙 판정 줄·완성선·등급·단일 보상 | 미시작 | 승인 계약 테스트 PASS |
+| C2 전투 목적 루프 | 접전지·거점·성문·승패·경제 연결 | 부분 구현 | End-to-End 전투 PASS |
+| C3 코어 UX | 승인 UX 6종을 실제 데이터와 연결 | 미시작 | 이해도·가독성 기준 |
+| C4 코어 플레이테스트 | 10~15분 핵심 재미와 학습 검증 | 미실행 | 사람 플레이 기준 충족 |
 | P3 시스템 안정화 | 확률·경제·전투·성능 조정 | 미시작 | 반복 가능한 기준선 |
 | P4 콘텐츠·아트 확장 | 10병종·건물·보스·UI·자산 확대 | 미시작 | 제작 QA 통과 |
 | P5 캠페인·데모 | 튜토리얼+정규 스테이지 통합 | 미시작 | 외부 플레이테스트 |
 | P6 출시 준비 | 저장·옵션·패키징·최적화 | 장기 | 릴리스 후보 |
+
+이 표와 1절이 현재 상태의 권위 원본이다. 아래 G1~P6 상세 절은 완료 기준·불변 조건·검증 계약의 보존 기록이며, 과거 상태 문구가 현재 위치를 덮지 않는다.
 
 ---
 
@@ -352,11 +358,10 @@ Work Order, Codex 제안서, 승인된 구현 결과의 상태를 명확히 구�
 ## 15. 지금 실행할 단 하나의 작업
 
 ```text
-새 Codex 채팅 열기
-→ docs/work_orders/0001-phase-0-codex-plan-mode.md의 시작 프롬프트 전달
-→ Codex Plan Mode 읽기 전용 조사
-→ Phase 0 제안서 제출
-→ 사용자 검토
+정본·프로젝트 코어 복구 Draft PR 검토
+→ 프로젝트 코어 문구의 사용자 확인
+→ 문서 PR 병합
+→ 승인 룰렛 계약 복구를 별도 Plan·Build·Review 작업으로 시작
 ```
 
-현재는 Phase 0 구현이나 수직 슬라이스 구현을 시작하지 않는다.
+현재 작업에서는 게임 코드·Scene·Resource·게임 데이터와 승인 수치를 변경하지 않는다. 다음 기능 PR도 룰렛 계약 복구만 포함하며 전투 목적 루프·UX·콘텐츠 확대를 섞지 않는다.

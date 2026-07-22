@@ -1,14 +1,14 @@
 # 오멘워드 게임 기획서
 
 - 공식명: **오멘워드 / OMENWARD**
-- 문서 버전: **v0.19**
-- 갱신일: 2026-07-16
-- 상태: **프리프로덕션 구조 승인 완료 / 공용 병종 데이터·진영 비주얼 분리 승인 / Phase 0 Plan Mode 대기 / 구현 전**
+- 문서 버전: **v0.20**
+- 갱신일: 2026-07-22
+- 상태: **프리프로덕션 계약 승인 / Godot 기술·데이터 기준선 구현 / 핵심 수직 슬라이스 부분 구현·코어 루프 미검증**
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE
 - 엔진: Godot + GDScript
 
-최초 인수인계 문서는 `docs/HANDOFF_CONTEXT.md`다. 세부 승인 규칙은 `docs/design/APPROVED_*.md`가 우선하며, 통합 인덱스는 `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`다.
+프로젝트 코어는 `docs/PROJECT_CORE.md`, 실제 구현 증거는 `docs/CURRENT_IMPLEMENTATION_STATUS.md`, 최초 인수인계는 `docs/HANDOFF_CONTEXT.md`가 소유한다. 세부 승인 규칙은 `docs/design/APPROVED_*.md`가 우선하며, 통합 인덱스는 `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`다.
 
 ---
 
@@ -45,6 +45,24 @@
 - 첫 10분 안에 건설→룰렛→배치→역전 루프를 두 번 체험한다.
 - 새 시스템은 한 문장 설명, 한 번의 행동, 즉시 결과로 10~30초 안에 기본 사용법을 익힌다.
 - 정보는 설명 메뉴보다 실제 전장, 벨루, 베일의 징조와 조작 미리보기로 전달한다.
+
+## 3.1 현재 구현 경계
+
+프로젝트 코어와 실제 구현 상태는 다음 문서를 따른다.
+
+- `docs/PROJECT_CORE.md`
+- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+
+현재 판정:
+
+```text
+TECHNICAL_BASELINE_IMPLEMENTED
++ CORE_VERTICAL_SLICE_PARTIAL
++ CORE_LOOP_NOT_PROVEN
++ HUMAN_QA_NOT_RUN
+```
+
+이 기획서의 전체 설계와 승인된 초기값이 모두 현재 실행 코드로 완결됐다는 뜻이 아니다. 실제 구현 여부는 상태 문서와 코드·데이터·테스트를 대조한다.
 
 ---
 
