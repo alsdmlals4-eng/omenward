@@ -1,16 +1,19 @@
 # 오멘워드 현재 구현 상태
 
 - 조사일: 2026-07-23
-- 기준 main: `227f6678839d32b8ec3d0f109664bcb63356fe08`
+- 기준 main: `2670a9a0040d0618a8dfb98683076f6b4ded5c54`
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
-- C2 구현 검증 head: `496157d0b87ab71ea2c9f25780f21df9f68b67f3`
-- C2 최종 검증 run: `29936497790` (`Validate Core Contracts`)
+- C2 병합 commit: `2670a9a0040d0618a8dfb98683076f6b4ded5c54`
+- C2 최종 검증 run: `29938742864` (`Validate Core Contracts`)
+- C3 작업 브랜치: `agent/c3-core-ux-minimum`
+- C3 상태: `C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING`
 - 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`
 - 판정:
   - `TECHNICAL_BASELINE_IMPLEMENTED`
   - `C1_ROULETTE_CORE_REMOTE_PROVEN`
   - `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
+  - `C3_IMPLEMENTED`
   - `CORE_VERTICAL_SLICE_PARTIAL`
   - `CORE_LOOP_NOT_PROVEN`
   - `HUMAN_QA_NOT_RUN`
@@ -33,11 +36,11 @@
 | 영역 | 현재 증거 | 판정 |
 |---|---|---|
 | Godot 프로젝트 | Godot 4.7.1 Standard, Compatibility, 960×540 논리 화면, 1920×1080 출력 | `REMOTE_PROVEN` |
-| 상태 소유 | `GameSession`, `StageRun`, `BattleSimulator`, `CombatClock`, `DataRegistry`, `DeterminismService` | `IMPLEMENTED` |
-| 공용 병종 | 공용 10 archetype, Tier·Rank·FactionVisual, 공용 점령력·구조물 피해 태그 | `REMOTE_PROVEN` |
+| 상태 소유 | `GameSession`, `StageRun`, `BattleSimulator`, `CombatClock`, `DataRegistry`, `DeterminismService`, `CoreUxService` | `IMPLEMENTED` |
+| 공용 병종 | 공용 10 archetype, Tier·Rank·FactionVisual, 공용 점령력·구조물 피해·전술 표시 태그 | `REMOTE_PROVEN + C3_EXTENSION_IMPLEMENTED` |
 | 경제·건설 | 기본·접전지·거점 수입, 식량, 거점 revision 기반 건물 활성·비활성·폐허 | `REMOTE_PROVEN` |
-| 웨이브 | 튜토리얼 W1~4, 정규 W1~20, 60초 출격 시계 | `IMPLEMENTED_COMPONENT` |
-| 테스트 | C1·C2·전투·경제·건설·웨이브·우회 headless 및 Python mutation 계약 | `REMOTE_PROVEN` |
+| 웨이브 | 튜토리얼 W1~4, 정규 W1~20, 60초 출격 시계, T-30/T-15/T-5 공개 단계 | `IMPLEMENTED` |
+| 테스트 | C1·C2 원격 검증, C3 정상·경계·결정론 headless 및 Python mutation 계약 | `C3_REMOTE_VALIDATION_PENDING` |
 
 ## 3. 검증된 C1 룰렛 핵심
 
@@ -81,9 +84,43 @@
 - 적 본진 파괴와 W15 전설 보스 처치는 승리, 아군 본진 파괴는 패배로 `StageRun`을 닫는다.
 - 디버그 `stage_victory`·`stage_defeat` 명령은 테스트·개발 fallback으로 남지만 정상 승패의 유일 경로가 아니다.
 
-판정: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN` — 통합 `Validate Core Contracts`에서 Godot 4.7.1 editor import·전체 headless·runtime smoke와 Ubuntu/Windows × Python 3.12/3.13 계약·문서·Skill 검증을 통과했다 (head `496157d0b87ab71ea2c9f25780f21df9f68b67f3`, run `29936497790`).
+판정: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN` — PR #50으로 main에 병합됐고 최종 통합 `Validate Core Contracts`에서 Godot 4.7.1 editor import·전체 headless·runtime smoke와 Ubuntu/Windows × Python 3.12/3.13 계약·문서·Skill 검증을 통과했다 (head `bf92195ee31b5d69b92c33f3b5321ed525c8b5c9`, run `29938742864`).
 
-## 5. 가역 기술 fallback
+## 5. C3 코어 UX 6종 — 구현 완료, 최신 원격 검증 대기
+
+구현된 정보 인과:
+
+```text
+건설 후보·현재 경제·거점 상태
+→ 룰렛 확률 변화와 토큰 출처 확인
+→ T-30/T-15/T-5 공세 정보 공개
+→ 실제 사거리·현재 대상·상성 확인
+→ 배치·전투
+→ 라인별 실제 사건 기반 원인 보고
+→ 다음 건설·룰렛·배치 결정
+```
+
+구현된 책임:
+
+1. 건설 전 룰렛 확률 미리보기.
+2. X·금화·활성 건물 심벌의 가중치·확률·출처 건물·보상 병종 장부.
+3. T-30 라인·역할, T-15 정확 병종·상성, T-5 최다 위협 라인 징조.
+4. 공용 병종의 실제 사거리·현재 대상·상성·타기팅 우선 태그 오버레이.
+5. 적 처치·아군 손실·거점 변화·성문/본진 피해를 집계한 라인별 웨이브 원인 보고.
+6. 비용·식량·룰렛 기여·현재 건설 가능 여부·차단 사유 비교.
+
+구현 경계:
+
+- `RouletteService`, `WaveDirector`, `BattleSimulator`, `CoreUxService`, `StageRun`이 계산·snapshot을 소유한다.
+- `StageHud`는 `StageRun.core_ux_snapshot()`을 표시하고 입력만 전달한다.
+- 금화 부족·점령/교착·빈 토큰·대상 없음·미완료 웨이브·같은 상태 결정론을 회귀로 보호한다.
+- 직접 headless 실행에서 의존 스크립트가 인스턴스화되지 않으면 즉시 실패한다.
+- 각 Godot headless 파일은 영구 CI에서 60초 상한을 가진다.
+- C1U 이동권·럭키·결과 보관함 3칸·고정 상위 템플릿은 사용자 결정 전 구현하지 않았다.
+
+현재 판정: `C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING`.
+
+## 6. 가역 기술 fallback
 
 다음은 새 밸런스 확정이 아니다.
 
@@ -93,38 +130,28 @@
 
 위 항목은 `DECISIONS_PENDING.md`에서 플레이테스트·밸런스 결정으로 관리한다.
 
-## 6. 아직 완결되지 않은 영역
+## 7. 아직 완결되지 않은 영역
 
-### 6.1 베일의 징조 — `PARTIAL`
+### 7.1 사람 플레이·가독성 검증 — `NOT_RUN`
 
-- 다음 공세 초 표시는 존재한다.
-- 승인된 T-30 라인·병종·수량, T-15 집결·경로, T-5 위험 라인 강조가 없다.
-
-### 6.2 코어 UX — `NOT_IMPLEMENTED`
-
-1. 건설 전 룰렛 확률 미리보기.
-2. 룰렛 토큰 장부.
-3. T-30/T-15/T-5 공세 전조.
-4. 상성·사거리·타기팅 오버레이.
-5. 웨이브 종료 후 라인별 원인 보고.
-6. 건설 선택 비교 UI.
-
-### 6.3 사람 플레이·콘텐츠 검증 — `NOT_RUN`
-
-- 1920×1080·1280×720 실제 플레이와 가독성 QA.
+- 1920×1080·1280×720 실제 플레이와 HUD 정보 밀도·가독성 QA.
 - 10~15분 코어 재미·학습 검증.
+- 최종 HUD 배치·폰트·팔레트·정보 계층.
+
+### 7.2 확률·콘텐츠·성능 검증 — `NOT_RUN`
+
 - W1~W20 연속 플레이.
-- 100,000시드 룰렛·경제 분포.
+- C1U 결정 뒤 100,000시드 룰렛·경제 분포.
 - 전투 성능·밸런스 계측.
 
-## 7. 현재 우선순위
+## 8. 현재 우선순위
 
 ```text
-1. C3 승인 코어 UX 6종 최소 구현
-2. C1U 이동권·럭키·상위 템플릿 사용자 결정 게이트
-3. 10~15분 사람 플레이·1080p·720p QA
+1. C3 최신 영구 Core Contracts 원격 검증과 PR #51 병합
+2. 10~15분 사람 플레이·1080p·720p 가독성 QA
+3. C1U 이동권·럭키·상위 템플릿 사용자 결정 게이트
 4. 밸런스 안정화
 5. 콘텐츠·아트 확장
 ```
 
-C3와 사람 플레이 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
+C3 자동 검증과 사람 플레이 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
