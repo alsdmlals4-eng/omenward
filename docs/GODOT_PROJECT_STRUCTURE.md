@@ -1,7 +1,7 @@
 # OMENWARD Godot 프로젝트 구조
 
-- 상태: **Phase 0 구현 기준 / 수직 슬라이스 확장은 Issue #32 Plan Mode에서 확정**
-- 갱신일: 2026-07-16
+- 상태: **기술 기준선·C1 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN**
+- 갱신일: 2026-07-23
 - 상위 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
 
 이 문서는 오멘워드의 Godot 구조, 상태 소유와 데이터 경계의 책임 원본이다. Phase 0의 실제 경로와 headless 명령은 `docs/PHASE_0_VALIDATION.md`에서 검증한다.
@@ -18,7 +18,7 @@
 
 C#, GDExtension, 외부 ECS와 대형 애드온은 기본 선택이 아니다. Godot 기본 노드와 데이터 구조로 성능 목표를 달성하기 어렵다는 측정 근거가 있을 때 별도 승인으로 검토한다.
 
-## 2. 예정 폴더 구조
+## 2. 현재 폴더 구조
 
 ```text
 project.godot
@@ -454,3 +454,16 @@ godot --headless --path . --editor --quit
 - 화면·모션·성능 수동 검수.
 
 실행하지 않은 명령을 통과했다고 보고하지 않는다.
+
+---
+
+## C2 전투 목적 런타임
+
+- `BattleSimulator`: 고정 0.1초 틱, 3라인, 접전지 3·중간거점 6·성문 6·본진 2와 목적 순서·이벤트 로그.
+- `OutpostState`: 중립화·점령·교착·이탈 유지·복귀·안정화·capture revision.
+- `GateState` / `BaseState`: 구조물 피해·붕괴·종료 상태.
+- `BuildingService`: 거점 revision과 건물 ACTIVE/DISABLED/RUINED·식량 효과 동기화.
+- `StageRun`: 실제 소유 수 경제, 적 본진·W15 보스 승리, 아군 본진 패배.
+- `UnitArchetypeProfile`: 공용 점령력과 구조물 피해 태그.
+
+본진 방어 프로필·중앙 접전지 점령 시간·0~100 목적 좌표는 승인값 부재를 드러낸 가역 fallback이며 최종 시각·밸런스 계약이 아니다.

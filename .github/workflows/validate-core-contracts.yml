@@ -1,15 +1,16 @@
-name: Validate C1 Roulette Contract
+name: Validate Core Contracts
 
 on:
   pull_request:
     paths:
       - "scripts/**"
       - "scenes/**"
+      - "data/**"
       - "tests/**"
       - "docs/**"
       - "README.md"
-      - "tools/validate_c1_roulette.py"
-      - ".github/workflows/validate-c1-roulette.yml"
+      - "tools/validate_*.py"
+      - ".github/workflows/validate-core-contracts.yml"
   workflow_dispatch:
 
 permissions:
@@ -29,9 +30,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Compile Python contracts
-        run: python -m py_compile tools/validate_c1_roulette.py tests/python/test_c1_roulette_contract.py tools/validate_project_core_docs.py
-      - name: Validate C1 roulette and active references
+        run: python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
+      - name: Validate C1 roulette contract
         run: python tools/validate_c1_roulette.py
+      - name: Validate C2 battle objective contract
+        run: python tools/validate_c2_battle_objective.py
       - name: Run all Python repository tests
         run: python -m unittest discover -s tests/python -v
       - name: Validate project core documents

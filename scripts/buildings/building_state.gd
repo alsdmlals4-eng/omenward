@@ -1,10 +1,16 @@
 class_name BuildingState
 extends RefCounted
 
+const ACTIVE := &"active"
+const DISABLED := &"disabled"
+const RUINED := &"ruined"
+
 var outpost_id: StringName
 var node_id: StringName
 var definition: BuildingDefinition
 var capture_revision: int
+var state: StringName = ACTIVE
+var effect_active := false
 
 
 func _init(assigned_outpost_id: StringName, assigned_node_id: StringName, assigned_definition: BuildingDefinition, assigned_capture_revision: int) -> void:

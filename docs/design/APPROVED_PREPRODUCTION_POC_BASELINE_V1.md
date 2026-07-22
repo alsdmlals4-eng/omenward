@@ -1,6 +1,6 @@
 # 승인된 오멘워드 프리프로덕션 PoC 통합 기준 V1
 
-- 상태: **프리프로덕션 구조 승인 / 기술 기준선·C1 룰렛 핵심 계약 REMOTE_PROVEN / C1U·전투 목적 루프 대기**
+- 상태: **프리프로덕션 구조 승인 / C1 REMOTE_PROVEN / C2 검증 구현·원격 검증 진행 / C1U 사용자 결정 대기**
 - 작성일: 2026-07-16
 - 최신 갱신일: 2026-07-22
 
@@ -31,6 +31,7 @@
 - 룰렛 핵심: `docs/design/APPROVED_ROULETTE_CORE_RULES.md`
 - 룰렛 확률: `docs/design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md`
 - C1 구현 증거: `docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`
+- C2 구현·감사: `docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`
 - W1~20 웨이브·보스: `docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`
 - 건물·전술·용병: `docs/design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md`
 - 튜토리얼·캠페인·절차 생성: `docs/design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md`

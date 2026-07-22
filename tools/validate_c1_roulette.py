@@ -134,7 +134,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"temporary C1 bootstrap remains: {path.relative_to(root).as_posix()}")
 
     gdd = (root / "docs/OMENWARD_GAME_DESIGN.md").read_text(encoding="utf-8")
-    if "문서 버전: **v0.21**" not in gdd:
+    if "문서 버전: **v0.22**" not in gdd:
         errors.append("GDD was not advanced to v0.21")
     for stale in (
         "### 구현 전 미확정",
@@ -165,7 +165,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"{relative} missing proven C1 evidence: {phrase}")
 
     stale_proven_state = (
-        "IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING",
         "C1_IMPLEMENTED_CANDIDATE",
         "C1 승인 룰렛 핵심 계약 구현·원격 검증 진행",
         "C1 기본 릴 가중치 구현 후보",

@@ -6,5 +6,7 @@ archetype_id = &"archer"
 display_name = "Archer"
 role = "ranged"
 base_stats = {"max_health": 95.0, "attack": 18.0, "armor": 6.0, "magic_resistance": 8.0, "move_speed": 1.0, "attack_range": 4.0}
+capture_power = 0.50
+structure_damage_tags = PackedStringArray("normal")
 attack_profile_id = &"archer"
 animation_contract_id = &"archer"

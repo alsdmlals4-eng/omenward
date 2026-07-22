@@ -11,7 +11,6 @@ const DeploymentServiceScript = preload("res://scripts/units/deployment_service.
 const WaveDirectorScript = preload("res://scripts/waves/wave_director.gd")
 const BattleSimulatorScript = preload("res://scripts/battle/battle_simulator.gd")
 const StageProgressionScript = preload("res://scripts/core/stage_progression.gd")
-const OutpostStateScript = preload("res://scripts/battle/outpost_state.gd")
 
 const RUNNING := &"running"
 const VICTORY := &"victory"
@@ -31,9 +30,9 @@ var current_wave := 0
 var result_state: StringName = &""
 var pending_roulette_rewards: Array[UnitSpawnDefinition] = []
 var last_roulette_result: RouletteSpinResult
+var legendary_boss_unit_id := -1
 
 var _registry: Variant
-var _home_outpost: Variant
 
 
 func _init(assigned_progression: Variant = null) -> void:
@@ -44,6 +43,7 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	stage = assigned_stage
 	current_wave = 0
 	result_state = &""
+	legendary_boss_unit_id = -1
 	pending_roulette_rewards.clear()
 	last_roulette_result = null
 	if stage == null or not progression.can_start(stage):
@@ -58,12 +58,11 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	clock.is_planning = false
 	economy = StageEconomyScript.new(manifest)
 	buildings = BuildingServiceScript.new(economy, manifest)
-	_home_outpost = OutpostStateScript.new(&"lumern")
-	buildings.register_outpost(&"home", _home_outpost, [&"front_a", &"front_b", &"rear"])
 	roulette = RouletteServiceScript.new(economy, buildings, manifest, &"lumern")
 	deployment = DeploymentServiceScript.new(economy, manifest)
 	wave_director = WaveDirectorScript.new(stage)
-	battle = BattleSimulatorScript.new(_registry, seed)
+	battle = BattleSimulatorScript.new(_registry, seed, manifest.base_max_health)
+	_register_battle_outposts()
 	result_state = RUNNING
 
 
@@ -92,8 +91,6 @@ func store_roulette_result(result: RouletteSpinResult) -> bool:
 
 
 func construct_home(building_id: StringName) -> bool:
-	if buildings == null:
-		return false
 	var node_by_building := {
 		&"tower": &"front_a",
 		&"farm": &"front_b",
@@ -101,7 +98,11 @@ func construct_home(building_id: StringName) -> bool:
 	}
 	if not node_by_building.has(building_id):
 		return false
-	return buildings.try_construct(&"home", node_by_building[building_id], building_id)
+	return construct_at_outpost(&"lumern_middle", node_by_building[building_id], building_id)
+
+
+func construct_at_outpost(outpost_id: StringName, node_id: StringName, building_id: StringName) -> bool:
+	return buildings != null and buildings.try_construct(outpost_id, node_id, building_id)
 
 
 func deploy_next_roulette_reward(lane_id: StringName) -> bool:
@@ -127,10 +128,9 @@ func submit_command(command: Dictionary) -> bool:
 		return false
 	match command.get("action", ""):
 		"stage_victory":
-			result_state = VICTORY
-			progression.record_victory(stage)
+			_finish_victory(&"debug_command")
 		"stage_defeat":
-			result_state = DEFEAT
+			_finish_defeat(&"debug_command")
 		_:
 			return false
 	manifest.input_log.append(command.duplicate(true))
@@ -141,21 +141,50 @@ func advance(delta: float) -> void:
 	if result_state != RUNNING:
 		return
 	clock.advance(delta)
-	economy.advance(delta, 0, _stable_owned_outpost_count())
 	for wave in wave_director.advance(delta):
 		current_wave = wave.wave_number
 		for spawn in wave.spawns:
-			battle.spawn_unit(spawn.duplicate() as UnitSpawnDefinition)
+			var unit: Variant = battle.spawn_unit(spawn.duplicate() as UnitSpawnDefinition)
+			if wave.wave_number == 15 and wave.boss_kind == &"legendary" and unit != null and spawn.rank_id == &"legendary":
+				legendary_boss_unit_id = int(unit.unit_id)
 		manifest.input_log.append({"action": "wave", "wave_number": current_wave})
 	battle.advance(delta)
+	buildings.sync_outpost_states()
+	for event in battle.drain_events():
+		manifest.input_log.append(event)
+	_resolve_natural_result()
+	if result_state == RUNNING:
+		economy.advance(delta, battle.controlled_clash_count(&"lumern"), battle.stable_owned_outpost_count(&"lumern"))
 
 
-func _stable_owned_outpost_count() -> int:
-	if battle == null:
-		return 0
-	var count := 0
-	for lane_id in battle.LANE_IDS:
-		var outpost: Variant = battle.clash_zones[lane_id].outpost
-		if outpost.owner_team_id == &"lumern" and outpost.state == outpost.STABLE:
-			count += 1
-	return count
+func _register_battle_outposts() -> void:
+	for team_id in battle.TEAM_IDS:
+		for lane_id in battle.LANE_IDS:
+			var outpost_id := StringName("%s_%s" % [team_id, lane_id])
+			buildings.register_outpost(outpost_id, battle.outposts[team_id][lane_id], [&"front_a", &"front_b", &"rear"])
+
+
+func _resolve_natural_result() -> void:
+	if battle.result_state == battle.LUMERN_VICTORY:
+		_finish_victory(&"enemy_base_destroyed")
+		return
+	if battle.result_state == battle.VEIL_VICTORY or battle.result_state == battle.MUTUAL_DESTRUCTION:
+		_finish_defeat(&"player_base_destroyed")
+		return
+	if current_wave >= 15 and legendary_boss_unit_id > 0 and not battle.is_unit_alive(legendary_boss_unit_id):
+		_finish_victory(&"wave_15_legendary_boss_defeated")
+
+
+func _finish_victory(reason: StringName) -> void:
+	if result_state != RUNNING:
+		return
+	result_state = VICTORY
+	progression.record_victory(stage)
+	manifest.input_log.append({"action": "stage_result", "result": "victory", "reason": str(reason)})
+
+
+func _finish_defeat(reason: StringName) -> void:
+	if result_state != RUNNING:
+		return
+	result_state = DEFEAT
+	manifest.input_log.append({"action": "stage_result", "result": "defeat", "reason": str(reason)})
