@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from validate_c2_battle_objective import REQUIRED_FILES, validate  # noqa: E402
+from validate_c2_battle_objective import C2_VALIDATION_RUN, REQUIRED_FILES, validate  # noqa: E402
 
 
 class C2BattleObjectiveContractTests(unittest.TestCase):
@@ -94,6 +94,32 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
             status.write_text(status.read_text(encoding="utf-8") + "\nC2_REMOTE_VALIDATION_PENDING\n", encoding="utf-8")
             self.assertTrue(any("stale C1/C2 state" in error for error in validate(root)))
+
+    def test_final_validation_evidence_cannot_regress(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+            status.write_text(status.read_text(encoding="utf-8").replace(C2_VALIDATION_RUN, "29934172758"), encoding="utf-8")
+            self.assertTrue(any("missing C2 proof" in error for error in validate(root)))
+
+    def test_legacy_c1_workflow_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            legacy = root / ".github/workflows/validate-c1-roulette.yml"
+            legacy.parent.mkdir(parents=True, exist_ok=True)
+            legacy.write_text("name: legacy C1 workflow\n", encoding="utf-8")
+            self.assertTrue(any("legacy C1-only workflow" in error for error in validate(root)))
+
+    def test_temporary_finalizer_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            temporary = root / "tools/_finalize_c2_once.py"
+            temporary.parent.mkdir(parents=True, exist_ok=True)
+            temporary.write_text("# temporary\n", encoding="utf-8")
+            self.assertTrue(any("temporary C2 artifact" in error for error in validate(root)))
 
 
 if __name__ == "__main__":
