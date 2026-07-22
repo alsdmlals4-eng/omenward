@@ -1,15 +1,13 @@
+Project core documentation validation FAILED
+- project core may not claim confirmed/locked without explicit user approval
 Traceback (most recent call last):
-  File "/home/runner/work/omenward/omenward/tools/_apply_project_core_recovery.py", line 193, in <module>
-    replace_once(
-    ~~~~~~~~~~~~^
-        "docs/OMENWARD_ROADMAP.md",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        "## 4. G1 — Phase 0 Work Order",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        "위 표가 현재 상태의 권위 원본이다. 아래 기존 Phase 정의는 목적·완료 기준의 변경 이력으로 유지하며, 각 절의 과거 상태 문구가 현재 위치를 덮지 않는다.\n\n---\n\n## 4. G1 — Phase 0 Work Order",
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "/home/runner/work/omenward/omenward/tools/_apply_project_core_recovery.py", line 30, in replace_once
-    raise RuntimeError(f"{relative} expected one literal match, found {count}: {old[:80]!r}")
-RuntimeError: docs/OMENWARD_ROADMAP.md expected one literal match, found 0: '## 4. G1 — Phase 0 Work Order'
+  File "/home/runner/work/omenward/omenward/tools/_apply_project_core_recovery.py", line 254, in <module>
+    run("python", "tools/validate_project_core_docs.py")
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/omenward/omenward/tools/_apply_project_core_recovery.py", line 13, in run
+    subprocess.run(args, cwd=ROOT, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '('python', 'tools/validate_project_core_docs.py')' returned non-zero exit status 1.
