@@ -29,16 +29,16 @@ func register_outpost(outpost_id: StringName, outpost: Variant, node_ids: Array)
 
 
 func try_construct(outpost_id: StringName, node_id: StringName, building_id: StringName) -> bool:
+	sync_outpost_states()
 	if not definitions.has(building_id) or not _node_is_available(outpost_id, node_id):
 		return false
-	var definition: Variant = definitions[building_id]
+	var definition: BuildingDefinition = definitions[building_id]
 	if not economy.try_spend_gold(definition.gold_cost):
 		return false
 	var outpost: Variant = _outposts[outpost_id]
-	var state: Variant = BuildingStateScript.new(outpost_id, node_id, definition, outpost.capture_revision)
+	var state: BuildingState = BuildingStateScript.new(outpost_id, node_id, definition, outpost.capture_revision)
 	_buildings[_key(outpost_id, node_id)] = state
-	if definition.food_cap_bonus > 0:
-		economy.add_food_cap(definition.food_cap_bonus)
+	_set_effect_active(state, true)
 	manifest.input_log.append({
 		"action": "build",
 		"outpost_id": str(outpost_id),
@@ -48,14 +48,32 @@ func try_construct(outpost_id: StringName, node_id: StringName, building_id: Str
 	return true
 
 
+func sync_outpost_states() -> void:
+	var keys: Array = _buildings.keys()
+	keys.sort()
+	for key in keys:
+		var state: BuildingState = _buildings[key]
+		if not _outposts.has(state.outpost_id):
+			_ruin(state)
+			continue
+		var outpost: Variant = _outposts[state.outpost_id]
+		if state.capture_revision != outpost.capture_revision:
+			_ruin(state)
+			continue
+		var should_be_active: bool = outpost.owner_team_id == PLAYER_TEAM_ID
+		state.state = state.ACTIVE if should_be_active else state.DISABLED
+		_set_effect_active(state, should_be_active)
+
+
 func roulette_token_sources() -> Array[Dictionary]:
+	sync_outpost_states()
 	var sources: Array[Dictionary] = []
 	var keys: Array = _buildings.keys()
 	keys.sort()
 	for key in keys:
-		var state: Variant = _buildings[key]
+		var state: BuildingState = _buildings[key]
 		var definition: BuildingDefinition = state.definition
-		if not _outpost_is_active_for_player(state.outpost_id) or not _building_matches_current_capture(state):
+		if state.state != state.ACTIVE or not state.effect_active:
 			continue
 		if definition.roulette_symbol_id == &"" or definition.roulette_board_weight <= 0:
 			continue
@@ -70,30 +88,54 @@ func roulette_token_sources() -> Array[Dictionary]:
 	return sources
 
 
+func building_state(outpost_id: StringName, node_id: StringName) -> Variant:
+	sync_outpost_states()
+	return _buildings.get(_key(outpost_id, node_id))
+
+
+func active_building_count() -> int:
+	sync_outpost_states()
+	var count := 0
+	for state: BuildingState in _buildings.values():
+		if state.state == state.ACTIVE:
+			count += 1
+	return count
+
+
 func _node_is_available(outpost_id: StringName, node_id: StringName) -> bool:
 	if not _nodes.has(outpost_id) or not (_nodes[outpost_id] as Array).has(node_id):
 		return false
 	var key := _key(outpost_id, node_id)
 	if _buildings.has(key):
-		var state: Variant = _buildings[key]
-		if _building_matches_current_capture(state):
+		var state: BuildingState = _buildings[key]
+		if state.state != state.RUINED:
 			return false
 		_buildings.erase(key)
-	return _outpost_is_active_for_player(outpost_id)
+	return _outpost_is_buildable_for_player(outpost_id)
 
 
-func _outpost_is_active_for_player(outpost_id: StringName) -> bool:
+func _outpost_is_buildable_for_player(outpost_id: StringName) -> bool:
 	if not _outposts.has(outpost_id):
 		return false
 	var outpost: Variant = _outposts[outpost_id]
 	return outpost.owner_team_id == PLAYER_TEAM_ID and outpost.state == outpost.STABLE and not outpost.construction_locked
 
 
-func _building_matches_current_capture(state: Variant) -> bool:
-	if not _outposts.has(state.outpost_id):
-		return false
-	var outpost: Variant = _outposts[state.outpost_id]
-	return state.capture_revision == outpost.capture_revision
+func _set_effect_active(state: BuildingState, active: bool) -> void:
+	if state.effect_active == active:
+		return
+	state.effect_active = active
+	if state.definition.food_cap_bonus <= 0:
+		return
+	if active:
+		economy.add_food_cap(state.definition.food_cap_bonus)
+	else:
+		economy.remove_food_cap(state.definition.food_cap_bonus)
+
+
+func _ruin(state: BuildingState) -> void:
+	_set_effect_active(state, false)
+	state.state = state.RUINED
 
 
 func _definition(

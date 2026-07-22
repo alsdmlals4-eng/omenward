@@ -53,6 +53,10 @@ func add_food_cap(amount: int) -> void:
 	food_cap += maxi(0, amount)
 
 
+func remove_food_cap(amount: int) -> void:
+	food_cap = maxi(0, food_cap - maxi(0, amount))
+
+
 func try_reserve_food(amount: int) -> bool:
 	if amount <= 0 or food_used + amount > food_cap:
 		return false
