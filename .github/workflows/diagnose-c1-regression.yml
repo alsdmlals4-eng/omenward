@@ -1,0 +1,38 @@
+name: Diagnose C1 Regression
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tests/headless/roulette_contract_test.gd"
+      - "tests/headless/stage_run_test.gd"
+      - ".github/workflows/diagnose-c1-regression.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.7.1 Standard
+        shell: bash
+        run: |
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.7.1-stable_linux.x86_64
+      - name: Import project
+        run: ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+      - name: Run roulette contract regression
+        id: roulette
+        continue-on-error: true
+        run: ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/roulette_contract_test.gd
+      - name: Run stage run regression
+        id: stage
+        continue-on-error: true
+        run: ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/stage_run_test.gd
+      - name: Fail on regression
+        if: steps.roulette.outcome == 'failure' || steps.stage.outcome == 'failure'
+        run: exit 1
