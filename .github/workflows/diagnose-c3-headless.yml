@@ -1,4 +1,4 @@
-name: Diagnose Repaired C3 Headless
+name: Repair C3 Headless Contract
 
 on:
   pull_request:
@@ -9,12 +9,13 @@ on:
       - "tools/_repair_c3_stage_run_types.py"
       - "tests/headless/c3_core_ux_test.gd"
       - "scripts/core/stage_run.gd"
+      - "scripts/core/core_ux_service.gd"
 
 permissions:
   contents: write
 
 jobs:
-  diagnose:
+  repair:
     if: github.head_ref == 'agent/c3-core-ux-minimum'
     runs-on: ubuntu-latest
     steps:
@@ -25,29 +26,36 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Apply repair and capture isolated output
+      - name: Apply explicit type and false-pass repairs
+        run: python tools/_repair_c3_stage_run_types.py
+      - name: Install Godot 4.7.1 Standard
         shell: bash
         run: |
-          set +e
-          python tools/_repair_c3_stage_run_types.py > /tmp/c3-repair.log 2>&1
-          repair_status=$?
-          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip >> /tmp/c3-repair.log 2>&1
-          unzip -q godot.zip >> /tmp/c3-repair.log 2>&1
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+          unzip -q godot.zip
           chmod +x Godot_v4.7.1-stable_linux.x86_64
-          ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit >> /tmp/c3-repair.log 2>&1
-          timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd >> /tmp/c3-repair.log 2>&1
-          test_status=$?
-          {
-            echo "repair_status=${repair_status}"
-            echo "test_status=${test_status}"
-            cat /tmp/c3-repair.log
-          } > /tmp/c3-diagnostic.log
-          git fetch origin agent/c3-core-ux-minimum
-          git reset --hard origin/agent/c3-core-ux-minimum
-          cp /tmp/c3-diagnostic.log docs/_C3_HEADLESS_DIAGNOSTIC.log
+      - name: Import and run isolated C3 regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+          timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd
+      - name: Validate C3 contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/validate_c3_core_ux.py tests/python/test_c3_core_ux_contract.py
+          python tools/validate_c3_core_ux.py
+          python -m unittest tests.python.test_c3_core_ux_contract -v
+          git diff --check
+          test ! -e docs/_C3_HEADLESS_DIAGNOSTIC.log
+          test ! -e tools/_repair_c3_stage_run_types.py
+      - name: Commit repaired C3 contracts
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/_C3_HEADLESS_DIAGNOSTIC.log
-          git commit -m "record repaired C3 headless diagnostic"
+          git add -A
+          git commit -m "repair C3 headless contract validation"
           git push origin HEAD:agent/c3-core-ux-minimum
-          exit 1
