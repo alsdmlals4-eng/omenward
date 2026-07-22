@@ -1,7 +1,106 @@
-exit_status=1
+exit_status=0
 Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
 
-SCRIPT ERROR: Parse Error: Expected closing ")" after grouping expression.
-          at: GDScript::reload (res://tests/headless/c3_core_ux_test.gd:108)
-ERROR: Failed to load script "res://tests/headless/c3_core_ux_test.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:33)
+SCRIPT ERROR: Parse Error: Could not find type "RouletteSpinResult" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:34)
+SCRIPT ERROR: Parse Error: Could not find type "RouletteSpinResult" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:73)
+SCRIPT ERROR: Parse Error: Could not find type "RouletteSpinResult" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:89)
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:122)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "_init".
+          at: GDScript::reload (res://scripts/core/stage_run.gd:62)
+SCRIPT ERROR: Parse Error: Could not resolve external class member "_init".
+          at: GDScript::reload (res://scripts/core/stage_run.gd:67)
+SCRIPT ERROR: Parse Error: Could not find type "RouletteSpinResult" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:75)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "unavailable" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:75)
+SCRIPT ERROR: Parse Error: Could not find type "RouletteSpinResult" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:79)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "blocked" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:79)
+SCRIPT ERROR: Parse Error: Could not find type "RouletteSpinResult" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:83)
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:93)
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:115)
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:115)
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:125)
+SCRIPT ERROR: Parse Error: Cannot infer the type of "deployed" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:125)
+SCRIPT ERROR: Parse Error: Could not find type "UnitSpawnDefinition" in the current scope.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:165)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/headless/c3_core_ux_test.gd:0)
+ERROR: Failed to load script "res://tests/headless/c3_core_ux_test.gd" with error "Compilation failed".
    at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+          GDScript backtrace (most recent call first):
+              [0] _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+              [1] _test_token_ledger_and_construction_preview (res://tests/headless/c3_core_ux_test.gd:30)
+              [2] _init (res://tests/headless/c3_core_ux_test.gd:13)
+SCRIPT ERROR: Invalid call. Nonexistent function 'core_ux_snapshot' in base 'Nil'.
+          at: _test_token_ledger_and_construction_preview (res://tests/headless/c3_core_ux_test.gd:31)
+          GDScript backtrace (most recent call first):
+              [0] _test_token_ledger_and_construction_preview (res://tests/headless/c3_core_ux_test.gd:31)
+              [1] _init (res://tests/headless/c3_core_ux_test.gd:13)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+          GDScript backtrace (most recent call first):
+              [0] _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+              [1] _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:47)
+              [2] _init (res://tests/headless/c3_core_ux_test.gd:14)
+SCRIPT ERROR: Invalid call. Nonexistent function 'core_ux_snapshot' in base 'Nil'.
+          at: _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:48)
+          GDScript backtrace (most recent call first):
+              [0] _test_staged_omen_reveal (res://tests/headless/c3_core_ux_test.gd:48)
+              [1] _init (res://tests/headless/c3_core_ux_test.gd:14)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+          GDScript backtrace (most recent call first):
+              [0] _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+              [1] _test_tactical_range_target_and_counter_overlay (res://tests/headless/c3_core_ux_test.gd:65)
+              [2] _init (res://tests/headless/c3_core_ux_test.gd:15)
+SCRIPT ERROR: Invalid access to property or key 'battle' on a base object of type 'Nil'.
+          at: _test_tactical_range_target_and_counter_overlay (res://tests/headless/c3_core_ux_test.gd:66)
+          GDScript backtrace (most recent call first):
+              [0] _test_tactical_range_target_and_counter_overlay (res://tests/headless/c3_core_ux_test.gd:66)
+              [1] _init (res://tests/headless/c3_core_ux_test.gd:15)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+          GDScript backtrace (most recent call first):
+              [0] _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+              [1] _test_wave_cause_report (res://tests/headless/c3_core_ux_test.gd:79)
+              [2] _init (res://tests/headless/c3_core_ux_test.gd:16)
+SCRIPT ERROR: Invalid access to property or key 'battle' on a base object of type 'Nil'.
+          at: _test_wave_cause_report (res://tests/headless/c3_core_ux_test.gd:80)
+          GDScript backtrace (most recent call first):
+              [0] _test_wave_cause_report (res://tests/headless/c3_core_ux_test.gd:80)
+              [1] _init (res://tests/headless/c3_core_ux_test.gd:16)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+          GDScript backtrace (most recent call first):
+              [0] _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+              [1] _test_snapshot_determinism (res://tests/headless/c3_core_ux_test.gd:99)
+              [2] _init (res://tests/headless/c3_core_ux_test.gd:17)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+          GDScript backtrace (most recent call first):
+              [0] _new_run (res://tests/headless/c3_core_ux_test.gd:24)
+              [1] _test_snapshot_determinism (res://tests/headless/c3_core_ux_test.gd:100)
+              [2] _init (res://tests/headless/c3_core_ux_test.gd:17)
+SCRIPT ERROR: Invalid call. Nonexistent function 'core_ux_snapshot' in base 'Nil'.
+          at: _test_snapshot_determinism (res://tests/headless/c3_core_ux_test.gd:101)
+          GDScript backtrace (most recent call first):
+              [0] _test_snapshot_determinism (res://tests/headless/c3_core_ux_test.gd:101)
+              [1] _init (res://tests/headless/c3_core_ux_test.gd:17)
+C3 core UX checks passed
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
