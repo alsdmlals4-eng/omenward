@@ -116,3 +116,18 @@ TECHNICAL_BASELINE_IMPLEMENTED
 - 게임 기능 변경: `NONE`
 - Godot 실행 검증: `NOT_RUN`
 - 사람 플레이 검증: `NOT_RUN`
+
+
+## 10. PR diff 적대적 재검토에서 발견한 P0
+
+초기 자동 변환의 Roadmap 단계 표 정규식이 `re.S`와 결합돼 과거 G1~P6 상세 절 약 300줄을 함께 제거했다. 자동 Validator는 필수 현재 상태 문구만 검사해 이 손실을 잡지 못했다.
+
+조치:
+
+- 최신 `main`의 Roadmap과 Decisions를 Git에서 직접 복원.
+- 현재 상태가 소유하는 1절·3절·15절만 경계 기반으로 교체.
+- G1~P6의 목적·불변·종료 기준을 그대로 보존.
+- Phase 0의 renderer·해상도·AutoLoad·데이터 경계·fallback 대안을 현재 Decisions에 재분류해 보존.
+- Roadmap 상세 절·고유 문구·최소 길이와 Decisions 고유 대안·중복 제목을 검사하는 회귀 계약 추가.
+
+판정: `P0_FOUND_AND_REPAIRED_BEFORE_MERGE`.

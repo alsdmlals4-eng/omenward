@@ -13,19 +13,19 @@
 
 ### A. 프로젝트 코어 문구 잠금
 
-`docs/PROJECT_CORE.md`는 기존 기획과 실제 구현에서 코어를 식별해 `EXISTING_CORE_IDENTIFIED`로 기록한다.
+`docs/PROJECT_CORE.md`는 기존 승인 기획과 실제 구현에서 코어를 식별해 `EXISTING_CORE_IDENTIFIED`로 기록한다.
 
 - [ ] 정체성 한 문장과 세 기둥을 사용자 확인 후 `CORE_CONFIRMED`로 전환.
 - [ ] 제거 테스트와 불변 조건을 사용자 확인 후 `CORE_LOCKED`로 전환.
-- 잠금 전에도 수직 슬라이스의 우선순위와 검증 게이트는 해당 문서를 따른다.
+- 잠금 전에도 수직 슬라이스 우선순위와 검증 게이트는 해당 문서를 따른다.
 
 ### B. 다음 기능 작업 — 승인 룰렛 계약 복구
 
 현재 구현은 9개의 카드를 직접 반환하지만 승인 계약은 중앙 가로줄 판정, 동일 심벌 완성선, 등급과 단일 보상 생성이다.
 
-- [ ] 현재 placeholder 테스트를 승인 계약 테스트로 교체하는 Plan 승인.
-- [ ] X·금화·럭키 찬스·이동권을 한 번에 구현할지 핵심 판정 뒤 순차 구현할지 선택.
-- [ ] 결과 보관함 기본 용량과 UI는 기존 미확정 상태를 유지.
+- [ ] placeholder 테스트를 승인 계약 테스트로 교체하는 Plan 승인.
+- [ ] 중앙 판정·완성선·등급·단일 보상을 먼저 복구하고 X·금화·럭키 찬스·이동권은 같은 계약 안에서 단계적으로 연결.
+- [ ] 결과 보관함 기본 용량과 UI는 기존 미확정 상태 유지.
 - [ ] 전투 목적 루프와 코어 UX를 같은 PR에 섞지 않음.
 
 ### C. 검증 증거
@@ -37,15 +37,34 @@
 
 ### D. 이미 구현된 기술 기준선
 
+상태 요약: `Godot 4.7.1·Compatibility·960×540` 기술 기준선은 실제 저장소에 존재하며, 최신 runtime 재검증은 별도 증거로 남긴다.
+
 | 항목 | 현재 상태 |
 |---|---|
-| Godot 4.7.1·Compatibility·960×540 논리 화면·1920×1080 출력 | 실제 `project.godot`에 존재 |
+| Godot 4.7.1 standard·GDScript·Compatibility renderer | 실제 `project.godot`에 존재 |
+| 960×540 viewport·1920×1080 출력·viewport stretch·keep aspect·integer scale | 실제 `project.godot`에 존재 |
 | Main·GameSession·CombatClock·DeterminismService·DataRegistry | 실제 코드에 존재 |
-| typed Resource·StageManifest·input log | 실제 코드·데이터에 존재 |
+| typed `.tres`와 StageManifest·input log | 실제 코드·데이터에 존재 |
 | 공용 10병종과 진영 Visual 분리 골격 | 실제 Resource·validator에 존재 |
-| headless 테스트 파일 | 존재하지만 이번 문서 PR에서 재실행하지 않음 |
+| headless 테스트 파일 | 존재하지만 이번 문서 PR에서 Godot로 재실행하지 않음 |
 
-과거 Phase 0 추천 항목은 최초 승인 대기 목록으로 사용하지 않는다. 현재 결정은 구현의 존재 여부가 아니라 최신 재검증, 승인 계약과의 차이, 다음 최소 변경 범위다.
+### E. 과거 Phase 0 추천에서 남은 확인·대안
+
+다음 항목은 삭제된 결정이 아니라 구현 기준선의 재검증 또는 조건부 대안이다.
+
+- [ ] Godot 4.7.1에서 치명적 회귀가 확인될 경우에만 4.6.3 대안 검토.
+- [ ] 고급 렌더링 기능의 실제 필요가 확인될 경우에만 Mobile·Forward+ 재검토.
+- [ ] 1280×720 정수 확대 레터박스 허용 여부를 사람 QA로 확인.
+- [ ] 레터박스가 허용되지 않을 경우에만 640×360 논리 화면 대안 검토.
+- [x] Phase 0 AutoLoad 미사용 구조가 실제 코드에 존재.
+- [ ] 다중 Scene 공유 필요가 확인된 뒤에만 AutoLoad 승격 재검토.
+- [x] typed `.tres`: UnitArchetype·Tier·Rank·FactionVisual·AnimationContract·Battlefield 계열.
+- [x] JSON 성격 데이터: StageManifest·input/replay log.
+- [x] CSV를 Phase 0 런타임 원본으로 사용하지 않음.
+- [ ] JSON Schema 파일과 GDScript validator의 최종 책임 분리.
+- [x] UnitArchetype 10개, Tier 3개, player Rank 4개 골격.
+- [x] AnimationContract 10개, allied/veil Visual Profile 20개 골격.
+- [ ] 실제 최종 이미지는 placeholder 공유가 아니라 아트·가독성 검증 뒤 교체.
 
 ---
 
@@ -338,7 +357,7 @@ UnitArchetypeProfile × 10
 
 현재 전투 고정 스텝은 `BattleSimulator.FIXED_STEP_SECONDS = 0.1`이다. 과거 60Hz 제안과 같다고 간주하지 않으며, 성능·판정 요구를 근거로 별도 결정한다.
 
-### 성능 첫 가설### 성능 첫 가설
+### 성능 첫 가설
 
 - [ ] 지상 120 / 하드 180.
 - [ ] 비행 24 / 하드 40.

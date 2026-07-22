@@ -51,7 +51,7 @@
 8. [`docs/design/APPROVED_ROULETTE_CORE_RULES.md`](docs/design/APPROVED_ROULETTE_CORE_RULES.md) — 승인 룰렛 판정·등급·보상 계약
 9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 현재 복구 순서와 단계별 완료 기준
 10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 현재 결정 게이트와 PoC 조정 항목
-11. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md)에서 작업별 추가 책임 원본을 확인
+11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 현재 Godot Scene·상태 소유·데이터 구조
 12. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 최신 작업 상태 캡슐
 
 ## 현재 개선 순서

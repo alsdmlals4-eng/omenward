@@ -40,6 +40,33 @@ class ProjectCoreDocumentationTests(unittest.TestCase):
             errors = validate(temp_root)
             self.assertTrue(any("does not reference PROJECT_CORE.md" in error for error in errors))
 
+    def test_roadmap_phase_history_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_contract_files(temp_root)
+            roadmap = temp_root / "docs" / "OMENWARD_ROADMAP.md"
+            roadmap.write_text(
+                roadmap.read_text(encoding="utf-8").replace(
+                    "## 7. P1 — Phase 0 Godot 기술 기준선 구현",
+                    "## 7. P1 REMOVED",
+                ),
+                encoding="utf-8",
+            )
+            errors = validate(temp_root)
+            self.assertTrue(any("missing preserved section" in error for error in errors))
+
+    def test_unique_decision_alternative_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_contract_files(temp_root)
+            decisions = temp_root / "docs" / "DECISIONS_PENDING.md"
+            decisions.write_text(
+                decisions.read_text(encoding="utf-8").replace("4.6.3 대안 검토", "fallback removed"),
+                encoding="utf-8",
+            )
+            errors = validate(temp_root)
+            self.assertTrue(any("missing preserved alternative" in error for error in errors))
+
     def _copy_contract_files(self, destination: pathlib.Path) -> None:
         for relative in MODULE["REQUIRED_FILES"]:
             source = ROOT / relative

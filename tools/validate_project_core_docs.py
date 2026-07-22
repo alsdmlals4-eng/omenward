@@ -69,6 +69,37 @@ REQUIRED_STATUS_TERMS = (
     "CORE_CONTRACT_DIVERGENT",
 )
 
+ROADMAP_REQUIRED_SECTIONS = (
+    "## 4. G1 — Phase 0 Work Order",
+    "## 5. G2 — Phase 0 Codex Plan Mode",
+    "## 6. Gate — 사용자 승인",
+    "## 7. P1 — Phase 0 Godot 기술 기준선 구현",
+    "## 8. G3 — 핵심 수직 슬라이스 Plan Mode",
+    "## 9. P2 — 10~15분 핵심 수직 슬라이스",
+    "## 10. P3 — 시스템 안정화",
+    "## 11. P4 — 콘텐츠·아트 확장",
+    "## 12. P5 — 캠페인·데모",
+    "## 13. P6 — 출시 준비",
+    "## 14. 단계 변경 시 문서 동기화",
+    "## 15. 지금 실행할 단 하나의 작업",
+)
+
+ROADMAP_PRESERVED_PHRASES = (
+    "별도 `EnemyUnitProfile` 없음",
+    "룰렛 최소 100,000시드 시뮬레이션",
+    "지상 120·비행 24·투사체 160·VFX 80 정상 목표",
+    "모든 Gate와 Phase 종료 시 다음을 갱신한다",
+)
+
+DECISIONS_PRESERVED_PHRASES = (
+    "4.6.3 대안 검토",
+    "Mobile·Forward+ 재검토",
+    "640×360 논리 화면 대안 검토",
+    "AutoLoad 승격 재검토",
+    "JSON Schema 파일과 GDScript validator의 최종 책임 분리",
+    "AnimationContract 10개, allied/veil Visual Profile 20개",
+)
+
 
 def _read(root: pathlib.Path, relative: str) -> str:
     return (root / relative).read_text(encoding="utf-8")
@@ -127,8 +158,20 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     )
     for missing in _contains_all(roadmap, required_sequence):
         errors.append(f"roadmap missing recovery sequence item: {missing}")
+    if len(roadmap.splitlines()) < 330:
+        errors.append("roadmap appears truncated; expected preserved Phase detail sections")
+    for missing in _contains_all(roadmap, ROADMAP_REQUIRED_SECTIONS):
+        errors.append(f"roadmap missing preserved section: {missing}")
+    for missing in _contains_all(roadmap, ROADMAP_PRESERVED_PHRASES):
+        errors.append(f"roadmap missing preserved contract phrase: {missing}")
 
     decisions = _read(root, "docs/DECISIONS_PENDING.md")
+    if len(decisions.splitlines()) < 400:
+        errors.append("DECISIONS_PENDING appears truncated; expected preserved decision detail")
+    if "### 성능 첫 가설###" in decisions:
+        errors.append("DECISIONS_PENDING contains a duplicated performance heading")
+    for missing in _contains_all(decisions, DECISIONS_PRESERVED_PHRASES):
+        errors.append(f"DECISIONS_PENDING missing preserved alternative: {missing}")
     if "Godot 4.7.1·Compatibility·960×540" not in decisions:
         errors.append("DECISIONS_PENDING does not distinguish implemented technical baseline")
     if "승인 룰렛 계약 복구" not in decisions:
