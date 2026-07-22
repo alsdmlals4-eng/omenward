@@ -5,8 +5,11 @@ import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+C2_VALIDATION_HEAD = "496157d0b87ab71ea2c9f25780f21df9f68b67f3"
+C2_VALIDATION_RUN = "29936497790"
 
 REQUIRED_FILES = (
+    ".github/workflows/validate-core-contracts.yml",
     "scripts/battle/base_state.gd",
     "scripts/battle/battle_simulator.gd",
     "scripts/battle/outpost_state.gd",
@@ -24,12 +27,15 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"missing C2 file: {relative}")
     if errors:
         return errors
+
     simulator = (root / "scripts/battle/battle_simulator.gd").read_text(encoding="utf-8")
     stage_run = (root / "scripts/core/stage_run.gd").read_text(encoding="utf-8")
     outpost = (root / "scripts/battle/outpost_state.gd").read_text(encoding="utf-8")
     building = (root / "scripts/buildings/building_service.gd").read_text(encoding="utf-8")
     unit_profile = (root / "scripts/data/unit_archetype_profile.gd").read_text(encoding="utf-8")
     contract_test = (root / "tests/headless/c2_battle_objective_test.gd").read_text(encoding="utf-8")
+    workflow = (root / ".github/workflows/validate-core-contracts.yml").read_text(encoding="utf-8")
+
     for term in (
         "controlled_clash_count",
         "stable_owned_outpost_count",
@@ -53,6 +59,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for term in ("capture_power", "structure_damage_tags"):
         if term not in unit_profile:
             errors.append(f"shared archetype schema missing objective field: {term}")
+
     for phrase in (
         "an uncontested giant squad captures the top clash",
         "the top enemy gate collapses from same-lane siege unit attacks",
@@ -67,6 +74,19 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     ):
         if phrase not in contract_test:
             errors.append(f"C2 regression test missing: {phrase}")
+
+    for term in (
+        "name: Validate Core Contracts",
+        "tools/validate_c1_roulette.py",
+        "tools/validate_c2_battle_objective.py",
+        'os: [ubuntu-latest, windows-latest]',
+        'python-version: ["3.12", "3.13"]',
+        "Run all headless contract tests",
+        "Runtime smoke",
+    ):
+        if term not in workflow:
+            errors.append(f"unified core workflow missing contract term: {term}")
+
     required_doc_states = {
         "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
         "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
@@ -117,20 +137,41 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"broken active Markdown link: {relative} -> {clean}")
 
     status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
-    for evidence in ("C2 구현 검증 head: `85e2930a839fd210548c7aa2a53125d18c4de875`", "C2 최종 검증 run: `29934172758`"):
+    for evidence in (
+        f"C2 구현 검증 head: `{C2_VALIDATION_HEAD}`",
+        f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`",
+        "`Validate Core Contracts`",
+    ):
         if evidence not in status:
             errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing C2 proof: {evidence}")
     audit = (root / "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md").read_text(encoding="utf-8")
-    for evidence in ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "`85e2930a839fd210548c7aa2a53125d18c4de875`", "`29934172758`"):
+    for evidence in (
+        "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
+        f"`{C2_VALIDATION_HEAD}`",
+        f"`{C2_VALIDATION_RUN}`",
+        "`Validate Core Contracts`",
+    ):
         if evidence not in audit:
             errors.append(f"C2 audit missing final proof: {evidence}")
+
+    if (root / ".github/workflows/validate-c1-roulette.yml").exists():
+        errors.append("legacy C1-only workflow remains")
 
     for path in root.rglob("*"):
         if not path.is_file():
             continue
         name = path.name.lower()
         relative = path.relative_to(root).as_posix()
-        if path.name.startswith("_C2_") or "_apply_c2_" in name or "_sync_c2_" in name or "apply-c2" in name or "sync-c2" in name:
+        if (
+            path.name.startswith("_C2_")
+            or "_apply_c2_" in name
+            or "_sync_c2_" in name
+            or "_finalize_c2_" in name
+            or "_repair_c2_" in name
+            or "apply-c2" in name
+            or "sync-c2" in name
+            or "finalize-c2" in name
+        ):
             errors.append(f"temporary C2 artifact remains: {relative}")
     return errors
 
