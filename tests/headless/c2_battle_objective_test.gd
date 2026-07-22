@@ -61,16 +61,15 @@ func _test_objective_sequence_and_lane_gate_isolation(failures: PackedStringArra
 	_expect(battle.outposts[&"veil"][&"top"].is_stable_for(&"lumern"), "the same lane force captures the enemy top outpost", failures)
 	for giant in giants:
 		giant.lane_position = float(battle.GATE_POSITIONS[&"veil"])
-	var giant: Variant = giants[0]
-	battle.gates[&"veil"][&"top"].apply_damage(100000.0, true)
-	battle.advance(2.0)
-	_expect(battle.gates[&"veil"][&"top"].is_collapsed(), "the top enemy gate collapses independently", failures)
+	battle.gates[&"veil"][&"top"].health = 1.0
+	battle.advance(4.0)
+	_expect(battle.gates[&"veil"][&"top"].is_collapsed(), "the top enemy gate collapses from same-lane siege unit attacks", failures)
 	_expect(not battle.gates[&"veil"][&"middle"].is_collapsed() and not battle.gates[&"veil"][&"bottom"].is_collapsed(), "other lane gates remain standing", failures)
 	for attacker in giants:
 		attacker.lane_position = float(battle.BASE_POSITIONS[&"veil"])
-	battle.bases[&"veil"].apply_damage(100000.0, true)
-	battle.advance(0.1)
-	_expect(battle.result_state == battle.LUMERN_VICTORY, "enemy base destruction produces a natural battle victory", failures)
+	battle.bases[&"veil"].health = 1.0
+	battle.advance(2.0)
+	_expect(battle.result_state == battle.LUMERN_VICTORY, "enemy base destruction from unit attacks produces a natural battle victory", failures)
 
 
 func _test_contested_clash_and_economy(failures: PackedStringArray) -> void:
