@@ -1,0 +1,43 @@
+name: Diagnose C2 Contract
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/diagnose-c2-contract.yml"
+      - "tools/validate_c2_battle_objective.py"
+      - "docs/**"
+      - "README.md"
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    if: github.head_ref == 'agent/c2-battle-objective-loop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c2-battle-objective-loop
+          fetch-depth: 0
+      - name: Capture C2 validator output
+        shell: bash
+        run: |
+          set +e
+          python tools/validate_c2_battle_objective.py > /tmp/c2-contract.log 2>&1
+          status=$?
+          if [ "$status" -eq 0 ]; then
+            echo "C2 validator unexpectedly passed; no diagnostic needed."
+            exit 0
+          fi
+          git fetch origin agent/c2-battle-objective-loop
+          git reset --hard origin/agent/c2-battle-objective-loop
+          cp /tmp/c2-contract.log docs/_C2_CONTRACT_DIAGNOSTIC.log
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/_C2_CONTRACT_DIAGNOSTIC.log
+          git commit -m "record isolated C2 contract diagnostic"
+          git push origin HEAD:agent/c2-battle-objective-loop
+          exit 1
