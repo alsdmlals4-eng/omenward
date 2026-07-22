@@ -81,7 +81,12 @@ func _test_contested_clash_and_economy(failures: PackedStringArray) -> void:
 	battle.advance(5.0)
 	_expect(battle.clash_zones[&"middle"].outpost.contested, "both teams on one clash freeze it as contested", failures)
 	_expect(is_equal_approx(float(battle.clash_zones[&"middle"].outpost.capture_progress), 0.0), "contested clash does not progress", failures)
+	lumern.health = 0.0
 	veil.health = 0.0
+	battle.advance(0.1)
+	_expect(not battle.clash_zones[&"middle"].outpost.contested, "an empty stable clash clears its contested marker", failures)
+	var replacement: Variant = battle.spawn_unit(_spawn(&"lumern", &"middle", &"shield_guard"))
+	replacement.lane_position = battle.CLASH_POSITION
 	battle.advance(8.0)
 	_expect(battle.clash_zones[&"middle"].outpost.state != battle.clash_zones[&"middle"].outpost.STABLE, "capture begins after one team remains", failures)
 	battle.clash_zones[&"middle"].outpost.owner_team_id = &"lumern"
