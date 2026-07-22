@@ -1,4 +1,5 @@
 name: Apply C1 Roulette Contract Once
+# Guarded rerun after stale-reference cleanup.
 
 on:
   pull_request:
