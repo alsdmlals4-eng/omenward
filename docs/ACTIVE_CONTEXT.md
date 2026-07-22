@@ -2,7 +2,7 @@
 
 - 갱신일: 2026-07-22
 - 공식명: **오멘워드 / OMENWARD**
-- 저장소 상태: **C1 룰렛 핵심 계약 REMOTE_PROVEN / 전투 목적 루프·사람 플레이 미검증**
+- 저장소 상태: **C1 룰렛 REMOTE_PROVEN / C2 전투 목적 구현 후보·원격 검증 진행 / 사람 플레이 미검증**
 - 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 최초 인수인계: `docs/HANDOFF_CONTEXT.md`
@@ -39,14 +39,17 @@ project.godot
 ```text
 TECHNICAL_BASELINE_IMPLEMENTED
 + C1_ROULETTE_CORE_REMOTE_PROVEN
++ C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE
++ C2_REMOTE_VALIDATION_PENDING
 + CORE_VERTICAL_SLICE_PARTIAL
 + CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
 ```
 
 - Phase 0 기술·데이터 기반과 다수 수직 슬라이스 구성요소는 실제 파일로 존재한다.
-- 승인 룰렛 중앙 판정·완성선·등급·보상·보관은 run `29919925777`에서 원격 검증됐다.
-- 전투→거점·성문·승패 연결과 코어 UX 6종은 완결되지 않았다.
+- 승인 룰렛 중앙 판정·완성선·등급·보상·보관은 run `29926598807`에서 원격 검증됐다.
+- C2 구현 후보는 같은 라인 교전→접전지→중간거점→성문→본진·W15 보스→승패와 실제 소유 수 경제를 연결한다.
+- 최종 공통 원격 검증·코어 UX 6종·사람 플레이는 아직 완료되지 않았다.
 - 자동 테스트 통과를 사람 플레이·시각 QA 증거로 간주하지 않는다.
 
 ## 핵심 정체성
@@ -232,8 +235,8 @@ HP 5000
 ```text
 정본·프로젝트 코어 확정·잠금 완료
 → 승인 룰렛 핵심 계약 원격 검증 완료
-→ [다음] C1U 이동권·럭키·100,000시드
-→ 전투 목적 루프 연결
+→ C2 전투 목적 루프 구현 후보·원격 검증
+→ [결정 게이트] C1U 이동권·럭키·100,000시드
 → 승인 코어 UX 6종
 → 사람 플레이 검증
 → 밸런스·콘텐츠 확장
@@ -241,7 +244,8 @@ HP 5000
 
 - 새 Codex 채팅은 `docs/PROJECT_CORE.md`와 `docs/CURRENT_IMPLEMENTATION_STATUS.md`를 먼저 읽는다.
 - 현재 저장소를 `구현 전` 또는 `수직 슬라이스 완료` 중 하나로 단순화하지 않는다.
-- PR #49는 C1 룰렛 핵심 계약과 구형 활성 참조 정리를 원격 검증했다. 이동권·럭키·고정 상위 템플릿은 C1U 결정 전 확정하지 않는다.
+- PR #49는 main에 병합됐다. PR #50은 C2 전투 목적 루프 구현 후보와 문서·검증 동기화를 다룬다.
+- 이동권·럭키·고정 상위 템플릿은 C1U 사용자 결정 전 확정하지 않는다.
 - 시각·병종·UI 작업은 새 병종 비주얼 책임 문서와 시각자료 인덱스를 반드시 읽는다.
 - 실제 아트 제작 전 대표 병종 5종을 1080p·720p 전장에 삽입해 축소 가독성을 검증한다.
 - Base 공용 지식은 방법과 사례 참고용이며 오멘워드 책임 문서를 덮어쓰지 않는다.

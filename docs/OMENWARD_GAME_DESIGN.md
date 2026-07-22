@@ -1,9 +1,9 @@
 # 오멘워드 게임 기획서
 
 - 공식명: **오멘워드 / OMENWARD**
-- 문서 버전: **v0.21**
+- 문서 버전: **v0.22**
 - 갱신일: 2026-07-22
-- 상태: **프리프로덕션 계약 승인 / C1 룰렛 핵심 계약 REMOTE_PROVEN / 전투 목적 루프·사람 플레이 미검증**
+- 상태: **프리프로덕션 계약 승인 / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 구현 후보·원격 검증 진행 / 사람 플레이 미검증**
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE
 - 엔진: Godot + GDScript
@@ -59,12 +59,14 @@
 ```text
 TECHNICAL_BASELINE_IMPLEMENTED
 + C1_ROULETTE_CORE_REMOTE_PROVEN
++ C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE
++ C2_REMOTE_VALIDATION_PENDING
 + CORE_VERTICAL_SLICE_PARTIAL
 + CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
 ```
 
-이 기획서의 전체 설계와 승인된 초기값이 모두 현재 실행 코드로 완결됐다는 뜻이 아니다. 실제 구현 여부는 상태 문서와 코드·데이터·테스트를 대조한다.
+C2 구현 후보는 `같은 라인 교전 → 접전지 → 중간거점 → 성문 → 본진·W15 보스 → 자연 승패`와 점령 기반 건물·경제를 연결한다. 본진 독립 방어 수치와 접전지 별도 점령 시간은 미승인이므로 기존 승인 계약을 가역 fallback으로 재사용한다. 전체 설계와 사람 경험이 완결됐다는 뜻은 아니며 실제 구현 여부는 상태 문서와 코드·데이터·테스트를 대조한다.
 
 ---
 

@@ -2,7 +2,7 @@
 
 **오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
 
-> 현재 상태: **C1 룰렛 핵심 계약 원격 검증 완료 / 전투 목적 루프·사람 플레이 미완결**
+> 현재 상태: **C1 룰렛 REMOTE_PROVEN / C2 전투 목적 루프 구현 후보·원격 검증 진행 / 사람 플레이 미완결**
 > 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED**
 > 기본 언어는 GDScript이며 Godot 4.7.1 Standard, Compatibility renderer, 1920×1080 출력과 960×540 논리 해상도를 사용합니다.
 
@@ -60,17 +60,17 @@
 ```text
 정본·프로젝트 코어 확정·잠금 완료
 → 승인 룰렛 핵심 계약 원격 검증 완료
-→ [다음] C1U 이동권·럭키·100,000시드 결정
-→ 전투를 접전지·거점·성문·승패에 연결
+→ C2 전투 목적 루프 구현 후보·원격 검증
+→ [결정 게이트] C1U 이동권·럭키·100,000시드
 → 승인 코어 UX 6종 최소 구현
 → 10~15분 사람 플레이와 1080p·720p 가독성 검증
 → 밸런스 안정화
 → 콘텐츠·아트 확장
 ```
 
-현재 저장소에는 Godot 기술 기준선과 원격 검증된 C1 룰렛 핵심 계약이 존재하지만, 룰렛 유틸리티·전투 목적 루프·핵심 UX는 완결되지 않았다. 현재 판정은 `TECHNICAL_BASELINE_IMPLEMENTED`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
+현재 저장소에는 C1 룰렛 핵심 계약과 C2 전투 목적 루프 구현 후보가 존재한다. C2는 접전지·거점·성문·본진·자연 승패·경제를 연결했지만 최종 공통 원격 검증과 사람 플레이는 남아 있다. 현재 판정은 `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE`, `C2_REMOTE_VALIDATION_PENDING`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
 
-세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 변경과 증거 경계는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
+세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 증거는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), C2 구현·감사는 [`docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`](docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
 
 ## 현재 저장소 구조
 

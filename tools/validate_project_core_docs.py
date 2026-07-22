@@ -67,6 +67,8 @@ REQUIRED_STATUS_TERMS = (
     "CORE_LOOP_NOT_PROVEN",
     "HUMAN_QA_NOT_RUN",
     "C1_ROULETTE_CORE_REMOTE_PROVEN",
+    "C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE",
+    "C2_REMOTE_VALIDATION_PENDING",
 )
 
 ROADMAP_REQUIRED_SECTIONS = (
@@ -166,14 +168,14 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"{relative} retains stale current-state claim: {phrase}")
 
     readme = _read(root, "README.md")
-    if "C1 룰렛 핵심 계약 원격 검증 완료" not in readme or "전투 목적 루프·사람 플레이 미완결" not in readme:
-        errors.append("README does not expose the proven C1 and partial core-loop boundary")
+    if "C1 룰렛 REMOTE_PROVEN" not in readme or "C2 전투 목적 루프 구현 후보" not in readme or "사람 플레이 미완결" not in readme:
+        errors.append("README does not expose the proven C1, candidate C2, and human-QA boundary")
 
     roadmap = _read(root, "docs/OMENWARD_ROADMAP.md")
     required_sequence = (
         "정본·프로젝트 코어 확정·잠금 완료",
         "승인 룰렛 핵심 계약 원격 검증 완료",
-        "전투 목적 루프 연결",
+        "C2 전투 목적 구현 후보",
         "승인 코어 UX 6종",
         "코어 플레이테스트",
     )

@@ -23,6 +23,21 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             "scripts/data/unit_archetype_profile.gd",
             "scripts/core/stage_economy.gd",
             "scripts/buildings/building_state.gd",
+            "README.md",
+            "AGENTS.md",
+            "docs/ACTIVE_CONTEXT.md",
+            "docs/HANDOFF_CONTEXT.md",
+            "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+            "docs/OMENWARD_GAME_DESIGN.md",
+            "docs/OMENWARD_ROADMAP.md",
+            "docs/DECISIONS_PENDING.md",
+            "docs/DOCUMENTATION_MAP.md",
+            "docs/VERTICAL_SLICE_VALIDATION.md",
+            "docs/GODOT_PROJECT_STRUCTURE.md",
+            "docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md",
+            "docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md",
+            "docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md",
+            "docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md",
         ):
             source = ROOT / relative
             target = destination / relative
@@ -55,6 +70,22 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             test_file = root / "tests/headless/c2_battle_objective_test.gd"
             test_file.write_text(test_file.read_text(encoding="utf-8").replace("other lane gates remain standing", "gate isolation omitted"), encoding="utf-8")
             self.assertTrue(any("other lane gates remain standing" in error for error in validate(root)))
+
+    def test_stale_pr49_current_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            roadmap = root / "docs/OMENWARD_ROADMAP.md"
+            roadmap.write_text(roadmap.read_text(encoding="utf-8") + "\nPR #49 사용자 검토 대기\n", encoding="utf-8")
+            self.assertTrue(any("stale C1/C2 state" in error for error in validate(root)))
+
+    def test_missing_c2_candidate_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+            status.write_text(status.read_text(encoding="utf-8").replace("C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE", "C2_STATE_REMOVED"), encoding="utf-8")
+            self.assertTrue(any("missing C2 candidate state" in error for error in validate(root)))
 
 
 if __name__ == "__main__":

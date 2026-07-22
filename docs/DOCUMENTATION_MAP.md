@@ -44,7 +44,7 @@ PROJECT_CORE.md
 → 최신 PR·Issue와 실제 코드·테스트
 ```
 
-현재 C1 시작 문서는 `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`와 룰렛 APPROVED 정본이다. 과거 Work Order·Goal·Proposal은 Git 이력에서만 추적한다.
+현재 C2 시작 문서는 `C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`와 전장·공용 병종·경제 APPROVED 정본이다. C1 증거는 보존 책임 문서이며, 과거 Work Order·Goal·Proposal은 Git 이력에서만 추적한다.
 
 ## 항상 확인할 공식 문서
 
@@ -116,7 +116,8 @@ PROJECT_CORE.md
 | 프로젝트 코어 | `PROJECT_CORE.md` |
 | 현재 구현 증거 | `CURRENT_IMPLEMENTATION_STATUS.md` |
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
-| 현재 C1 구현·증거 | `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md` |
+| C1 구현·증거 | `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md` |
+| 현재 C2 구현·감사 | `C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | GitHub Issue 미러 | `issues/README.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |
