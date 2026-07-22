@@ -1,0 +1,71 @@
+C1 roulette validation PASSED
+C2 battle objective validation FAILED
+- docs/DECISIONS_PENDING.md missing proven C2 state: C2 전투 목적 루프 원격 검증 완료
+- CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 구현 검증 head: `85e2930a839fd210548c7aa2a53125d18c4de875`
+- CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 최종 검증 run: `29934172758`
+Project core documentation validation PASSED
+Skill system validation PASSED: 24 packages, 11 disciplines
+test_review_skill_contains_all_three_methods (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_skill_contains_all_three_methods) ... ok
+test_review_stack_cannot_omit_integration (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_stack_cannot_omit_integration) ... ok
+test_shared_contract_blocks_false_completion (test_adversarial_review_contract.AdversarialReviewContractTests.test_shared_contract_blocks_false_completion) ... ok
+test_current_tree_passes (test_c1_roulette_contract.C1RouletteValidationTests.test_current_tree_passes) ... ok
+test_direct_nine_card_placeholder_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_direct_nine_card_placeholder_is_rejected) ... ok
+test_final_validation_evidence_cannot_regress (test_c1_roulette_contract.C1RouletteValidationTests.test_final_validation_evidence_cannot_regress) ... ok
+test_missing_judgment_line_regression_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_missing_judgment_line_regression_is_rejected) ... ok
+test_pending_remote_validation_state_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_pending_remote_validation_state_is_rejected) ... ok
+test_retired_work_order_reference_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_retired_work_order_reference_is_rejected) ... ok
+test_current_tree_passes (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_current_tree_passes) ... FAIL
+test_external_only_result_regression_is_rejected (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_external_only_result_regression_is_rejected) ... ok
+test_fractional_capture_regression_is_rejected (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_fractional_capture_regression_is_rejected) ... ok
+test_line_gate_isolation_regression_is_rejected (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_line_gate_isolation_regression_is_rejected) ... ok
+test_missing_c2_proven_state_is_rejected (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_missing_c2_proven_state_is_rejected) ... ok
+test_stale_c2_candidate_state_is_rejected (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_stale_c2_candidate_state_is_rejected) ... ok
+test_stale_pr49_current_state_is_rejected (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_stale_pr49_current_state_is_rejected) ... ok
+test_conflict_blocks_when_local_and_remote_changed_after_last_sync (test_issue_mirror.IssueMirrorTests.test_conflict_blocks_when_local_and_remote_changed_after_last_sync) ... ok
+test_local_sync_command_refuses_dirty_worktrees_and_non_fast_forward_merges (test_issue_mirror.IssueMirrorTests.test_local_sync_command_refuses_dirty_worktrees_and_non_fast_forward_merges) ... ok
+test_outbound_workflow_reads_remote_issue_before_updating_it (test_issue_mirror.IssueMirrorTests.test_outbound_workflow_reads_remote_issue_before_updating_it) ... ok
+test_render_issue_accepts_the_connector_issue_number_field (test_issue_mirror.IssueMirrorTests.test_render_issue_accepts_the_connector_issue_number_field) ... ok
+test_render_issue_marks_metadata_and_body (test_issue_mirror.IssueMirrorTests.test_render_issue_marks_metadata_and_body) ... ok
+test_snapshot_validation_requires_every_remote_issue_once (test_issue_mirror.IssueMirrorTests.test_snapshot_validation_requires_every_remote_issue_once) ... ok
+test_write_all_snapshots_uses_stable_issue_number_filenames (test_issue_mirror.IssueMirrorTests.test_write_all_snapshots_uses_stable_issue_number_filenames) ... ok
+test_current_repository_passes (test_project_core_docs.ProjectCoreDocumentationTests.test_current_repository_passes) ... ok
+test_missing_core_reference_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_missing_core_reference_is_rejected) ... ok
+test_pending_core_lock_state_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_pending_core_lock_state_is_rejected) ... ok
+test_roadmap_phase_history_loss_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_roadmap_phase_history_loss_is_rejected) ... ok
+test_stale_completion_claim_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_stale_completion_claim_is_rejected) ... ok
+test_unique_decision_alternative_loss_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_unique_decision_alternative_loss_is_rejected) ... ok
+test_expected_category_counts (test_skill_package_integrity.SkillPackageIntegrityTests.test_expected_category_counts) ... ok
+test_registry_ids_and_paths_are_unique (test_skill_package_integrity.SkillPackageIntegrityTests.test_registry_ids_and_paths_are_unique) ... ok
+test_validator_passes (test_skill_package_integrity.SkillPackageIntegrityTests.test_validator_passes) ... ok
+test_validator_rejects_duplicate_id_mutation (test_skill_package_integrity.SkillPackageIntegrityTests.test_validator_rejects_duplicate_id_mutation) ... ok
+test_dependencies_precede_dependents (test_skill_routing_contract.SkillRoutingTests.test_dependencies_precede_dependents) ... ok
+test_engineering_build (test_skill_routing_contract.SkillRoutingTests.test_engineering_build) ... ok
+test_game_design_plan (test_skill_routing_contract.SkillRoutingTests.test_game_design_plan) ... ok
+test_generic_request_does_not_enable_specialists (test_skill_routing_contract.SkillRoutingTests.test_generic_request_does_not_enable_specialists) ... ok
+test_review_forces_adversarial_stack (test_skill_routing_contract.SkillRoutingTests.test_review_forces_adversarial_stack) ... ok
+test_ui_art_audit_selects_specialist (test_skill_routing_contract.SkillRoutingTests.test_ui_art_audit_selects_specialist) ... ok
+test_unknown_manual_override_is_rejected (test_skill_routing_contract.SkillRoutingTests.test_unknown_manual_override_is_rejected) ... ok
+
+======================================================================
+FAIL: test_current_tree_passes (test_c2_battle_objective_contract.C2BattleObjectiveContractTests.test_current_tree_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/omenward/omenward/tests/python/test_c2_battle_objective_contract.py", line 48, in test_current_tree_passes
+    self.assertEqual([], validate(ROOT))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['docs/DECISIONS_PENDING.md missing proven[216 chars]58`']
+
+Second list contains 3 additional elements.
+First extra element 0:
+'docs/DECISIONS_PENDING.md missing proven C2 state: C2 전투 목적 루프 원격 검증 완료'
+
+- []
++ ['docs/DECISIONS_PENDING.md missing proven C2 state: C2 전투 목적 루프 원격 검증 완료',
++  'CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 구현 검증 head: '
++  '`85e2930a839fd210548c7aa2a53125d18c4de875`',
++  'CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 최종 검증 run: `29934172758`']
+
+----------------------------------------------------------------------
+Ran 40 tests in 0.464s
+
+FAILED (failures=1)
