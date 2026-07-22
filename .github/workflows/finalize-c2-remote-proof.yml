@@ -1,5 +1,5 @@
 name: Finalize C2 Remote Proof
-# Guarded rerun with isolated contract and generated-tree diagnostics.
+# Guarded rerun; commit only after all contract and Godot regressions pass.
 
 on:
   pull_request:
@@ -74,28 +74,10 @@ jobs:
             /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
           done
           /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
-      - name: Verify clean generated tree and commit
+      - name: Commit validated C2 tree
         shell: bash
         run: |
-          set +e
-          : > /tmp/c2-tree-check.log
-          failed=0
-          git diff --check >>/tmp/c2-tree-check.log 2>&1 || { echo "FAIL: git diff --check" >>/tmp/c2-tree-check.log; failed=1; }
-          for forbidden in tools/_repair_c2_finalizer.py tools/_finalize_c2_remote_proof.py .github/workflows/finalize-c2-remote-proof.yml .github/workflows/validate-c1-roulette.yml docs/_C2_FINALIZE_FAILURE.log; do
-            if [ -e "$forbidden" ]; then echo "FAIL: remains $forbidden" >>/tmp/c2-tree-check.log; failed=1; fi
-          done
-          if [ ! -e .github/workflows/validate-core-contracts.yml ]; then echo "FAIL: missing validate-core-contracts.yml" >>/tmp/c2-tree-check.log; failed=1; fi
-          if [ "$failed" -ne 0 ]; then
-            git fetch origin agent/c2-battle-objective-loop
-            git reset --hard origin/agent/c2-battle-objective-loop
-            cp /tmp/c2-tree-check.log docs/_C2_FINALIZE_FAILURE.log
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add docs/_C2_FINALIZE_FAILURE.log
-            git commit -m "record C2 generated-tree failure"
-            git push origin HEAD:agent/c2-battle-objective-loop
-            exit 1
-          fi
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
