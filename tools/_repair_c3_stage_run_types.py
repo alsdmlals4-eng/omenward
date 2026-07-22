@@ -24,7 +24,7 @@ replacements = (
     ),
     (
         'var after_probability := run.roulette.probability_for_symbol(symbol_id, [source]) if not source.is_empty() else before_probability',
-        'var after_probability: float = float(run.roulette.probability_for_symbol(symbol_id, [source])) if not source.is_empty() else before_probability',
+        'var preview_sources: Array[Dictionary] = []\n\t\tif not source.is_empty():\n\t\t\tpreview_sources.append(source)\n\t\tvar after_probability: float = float(run.roulette.probability_for_symbol(symbol_id, preview_sources)) if not preview_sources.is_empty() else before_probability',
     ),
     (
         'var role := profile.role if profile != null else "unknown"',
