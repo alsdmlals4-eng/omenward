@@ -1,0 +1,27 @@
+name: Manual Contract Execution
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_apply_c1_roulette_contract.py"
+      - ".github/workflows/manual-contract-execution.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'agent/c1-approved-roulette-contract-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c1-approved-roulette-contract-recovery
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Execute current guarded contract application
+        run: python tools/_apply_c1_roulette_contract.py
