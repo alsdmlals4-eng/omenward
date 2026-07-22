@@ -1,0 +1,40 @@
+name: Apply C1 Roulette Contract Final Once
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_apply_c1_roulette_contract.py"
+      - ".github/workflows/apply-c1-roulette-contract-final-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'agent/c1-approved-roulette-contract-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c1-approved-roulette-contract-recovery
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Apply latest guarded C1 contract
+        shell: bash
+        run: |
+          set +e
+          python tools/_apply_c1_roulette_contract.py > c1-final-apply.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            tail -n 260 c1-final-apply.log > docs/_C1_FINAL_APPLY_FAILURE.log
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/_C1_FINAL_APPLY_FAILURE.log
+            git commit -m "record final C1 apply failure" || true
+            git push origin HEAD:agent/c1-approved-roulette-contract-recovery
+          fi
+          exit $status
