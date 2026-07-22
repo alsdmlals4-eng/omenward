@@ -11,6 +11,7 @@ const DeploymentServiceScript = preload("res://scripts/units/deployment_service.
 const WaveDirectorScript = preload("res://scripts/waves/wave_director.gd")
 const BattleSimulatorScript = preload("res://scripts/battle/battle_simulator.gd")
 const StageProgressionScript = preload("res://scripts/core/stage_progression.gd")
+const CoreUxServiceScript = preload("res://scripts/core/core_ux_service.gd")
 
 const RUNNING := &"running"
 const VICTORY := &"victory"
@@ -26,6 +27,7 @@ var roulette: Variant
 var deployment: Variant
 var wave_director: Variant
 var battle: Variant
+var core_ux: Variant
 var current_wave := 0
 var result_state: StringName = &""
 var pending_roulette_rewards: Array[UnitSpawnDefinition] = []
@@ -46,6 +48,7 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	legendary_boss_unit_id = -1
 	pending_roulette_rewards.clear()
 	last_roulette_result = null
+	core_ux = null
 	if stage == null or not progression.can_start(stage):
 		return
 	_registry = DataRegistryScript.new()
@@ -63,6 +66,7 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	wave_director = WaveDirectorScript.new(stage)
 	battle = BattleSimulatorScript.new(_registry, seed, manifest.base_max_health)
 	_register_battle_outposts()
+	core_ux = CoreUxServiceScript.new(self, _registry)
 	result_state = RUNNING
 
 
@@ -137,21 +141,50 @@ func submit_command(command: Dictionary) -> bool:
 	return true
 
 
+func core_ux_snapshot() -> Dictionary:
+	if core_ux == null:
+		return {
+			"token_ledger": [],
+			"construction_comparison": [],
+			"omen": {"phase": "complete", "seconds_remaining": 0.0},
+			"tactical_overlay": [],
+			"latest_wave_report": {},
+			"wave_reports": [],
+		}
+	return core_ux.snapshot()
+
+
 func advance(delta: float) -> void:
 	if result_state != RUNNING:
 		return
 	clock.advance(delta)
 	for wave in wave_director.advance(delta):
 		current_wave = wave.wave_number
+		var spawned_units: Array[Dictionary] = []
 		for spawn in wave.spawns:
 			var unit: Variant = battle.spawn_unit(spawn.duplicate() as UnitSpawnDefinition)
+			if unit != null:
+				spawned_units.append({
+					"unit_id": int(unit.unit_id),
+					"lane_id": unit.lane_id,
+					"team_id": unit.owner_team_id,
+				})
 			if wave.wave_number == 15 and wave.boss_kind == &"legendary" and unit != null and spawn.rank_id == &"legendary":
 				legendary_boss_unit_id = int(unit.unit_id)
+		if core_ux != null:
+			core_ux.register_wave(wave, spawned_units)
 		manifest.input_log.append({"action": "wave", "wave_number": current_wave})
+	var before_units: Array = (battle.snapshot().get("units", []) as Array).duplicate(true)
 	battle.advance(delta)
+	var after_units: Array = (battle.snapshot().get("units", []) as Array).duplicate(true)
 	buildings.sync_outpost_states()
-	for event in battle.drain_events():
+	var battle_events: Array[Dictionary] = battle.drain_events()
+	for event in battle_events:
 		manifest.input_log.append(event)
+	if core_ux != null:
+		core_ux.observe_unit_delta(before_units, after_units)
+		core_ux.consume_battle_events(battle_events)
+		core_ux.update_wave_reports()
 	_resolve_natural_result()
 	if result_state == RUNNING:
 		economy.advance(delta, battle.controlled_clash_count(&"lumern"), battle.stable_owned_outpost_count(&"lumern"))
