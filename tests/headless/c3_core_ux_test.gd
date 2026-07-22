@@ -3,6 +3,9 @@ extends SceneTree
 const StageRun = preload("res://scripts/core/stage_run.gd")
 const StageProgression = preload("res://scripts/core/stage_progression.gd")
 const UnitSpawnDefinition = preload("res://scripts/data/unit_spawn_definition.gd")
+const CoreUxService = preload("res://scripts/core/core_ux_service.gd")
+const RouletteService = preload("res://scripts/roulette/roulette_service.gd")
+const WaveDirector = preload("res://scripts/waves/wave_director.gd")
 
 const TUTORIAL_STAGE_PATH := "res://data/stages/tutorial_stage.tres"
 const HUD_SCENE_PATH := "res://scenes/ui/stage_hud.tscn"
@@ -10,6 +13,9 @@ const HUD_SCENE_PATH := "res://scenes/ui/stage_hud.tscn"
 
 func _init() -> void:
 	var failures := PackedStringArray()
+	if not _test_script_instantiation(failures):
+		_finish(failures)
+		return
 	_test_token_ledger_and_construction_preview(failures)
 	_test_staged_omen_reveal(failures)
 	_test_tactical_range_target_and_counter_overlay(failures)
@@ -17,6 +23,22 @@ func _init() -> void:
 	_test_snapshot_determinism(failures)
 	_test_hud_contains_all_six_surfaces(failures)
 	_finish(failures)
+
+
+func _test_script_instantiation(failures: PackedStringArray) -> bool:
+	var scripts := {
+		"StageRun": StageRun,
+		"CoreUxService": CoreUxService,
+		"RouletteService": RouletteService,
+		"WaveDirector": WaveDirector,
+	}
+	var valid := true
+	for script_name in scripts:
+		var script: Script = scripts[script_name]
+		if not script.can_instantiate():
+			failures.append("C3 dependency script cannot instantiate: %s" % script_name)
+			valid = false
+	return valid
 
 
 func _new_run(seed: int) -> Variant:
