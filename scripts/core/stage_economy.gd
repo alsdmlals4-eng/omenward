@@ -45,6 +45,10 @@ func try_spend_gold(amount: int) -> bool:
 	return true
 
 
+func add_gold(amount: int) -> void:
+	gold += maxi(0, amount)
+
+
 func add_food_cap(amount: int) -> void:
 	food_cap += maxi(0, amount)
 

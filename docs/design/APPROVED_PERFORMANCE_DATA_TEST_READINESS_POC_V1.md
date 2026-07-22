@@ -408,35 +408,29 @@ Reserve
 - 보스 전투시간.
 - 패배 직전 60초 결정 로그.
 
-## 9. Phase 0 Plan Mode 진입 조건
+## 9. 현재 기술 기준선
 
-현재 충족된 구조:
+확인된 구조:
 
-1. 최신 Handoff, GDD, Roadmap과 Documentation Map 존재.
-2. 공용 10병종과 진영별 Visual Set 책임 문서 존재.
-3. 전장·거점·성문·우회로 초기값 존재.
-4. 공통 전투·등급·룰렛·경제·웨이브·UI 필드 정의.
-5. 애니메이션 상태·판정 이벤트 계약 존재.
-6. 구현을 수직 슬라이스로 제한.
+1. Godot 4.7.1 프로젝트와 main Scene.
+2. 공용 10병종·양 진영 Visual·AnimationContract.
+3. 결정론·StageManifest·input log·DataRegistry.
+4. 실제 Scene·Script·Resource·Test 경로.
+5. headless 테스트와 CI.
 
-Issue #1 Plan Mode에서 결정할 것:
+## 10. C1 원격 검증 결과
 
-- Godot stable 버전.
-- 폴더·Scene·Resource 구조.
-- Resource·JSON·CSV 경계.
-- AnimatedSprite2D·AnimationPlayer 조합.
-- 테스트 러너와 실제 명령.
+GitHub Actions run `29919925777`에서 Godot 4.7.1 editor import·전체 headless·runtime smoke와 4환경 계약 검증을 통과했다.
 
-## 10. 수직 슬라이스 Plan Mode 진입 조건
+검증 조건:
 
-Issue #32 제안서는 Phase 0 구현 뒤 다음이 준비되어야 한다.
-
-1. 실제 `project.godot`과 실행 명령.
-2. 공용 UnitArchetype·FactionVisual·AnimationContract 골격.
-3. BattlefieldProfile과 시간·시드 골격.
-4. 데이터 참조 검증기.
-5. 실제 Scene·Script·Resource 경로.
-6. 사용자 승인된 수직 슬라이스 범위.
+1. 중앙 판정 줄이 실패하면 다른 완성선을 무시한다.
+2. 1/2/3~7/8줄 등급이 정확하다.
+3. X는 보상하지 않고 금화는 75%/200%/500%를 지급한다.
+4. 기본 병영만 유닛 토큰을 제공한다.
+5. 같은 시드·건물 스냅샷·최종 보드가 같은 결과를 만든다.
+6. 결과 보관 중 다음 회전만 차단하고 라인 배치가 가능하다.
+7. 모든 기존 headless 테스트와 editor import가 통과한다.
 
 ## 11. 첫 수직 슬라이스 권장 범위
 

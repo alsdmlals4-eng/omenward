@@ -1,8 +1,8 @@
 # 승인된 오멘워드 프리프로덕션 PoC 통합 기준 V1
 
-- 상태: **프리프로덕션 구조 승인 완료 / 공용 10병종 데이터·진영 비주얼 분리 승인 / 전장·연출 초기값 승인 / Phase 0 Plan Mode 대기 / 구현 전**
+- 상태: **프리프로덕션 구조 승인 / 기술 기준선·C1 룰렛 핵심 계약 REMOTE_PROVEN / C1U·전투 목적 루프 대기**
 - 작성일: 2026-07-16
-- 최신 갱신일: 2026-07-16
+- 최신 갱신일: 2026-07-22
 
 이 문서는 구현이 뒤집히지 않도록 오멘워드의 승인 구조, 첫 PoC 가설, 책임 문서와 다음 실행 게이트를 통합한다. 최초 인수인계는 `docs/HANDOFF_CONTEXT.md`를 사용한다.
 
@@ -28,7 +28,9 @@
 - 공통 전투: `docs/design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`
 - 공용 병종 데이터·진영 이미지: `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
 - 병종 능력 계보: `docs/design/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md`
-- 룰렛: `docs/design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md`
+- 룰렛 핵심: `docs/design/APPROVED_ROULETTE_CORE_RULES.md`
+- 룰렛 확률: `docs/design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md`
+- C1 구현 증거: `docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`
 - W1~20 웨이브·보스: `docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`
 - 건물·전술·용병: `docs/design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md`
 - 튜토리얼·캠페인·절차 생성: `docs/design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md`
@@ -176,42 +178,33 @@ victory 8~14 frames
 
 이 값은 플레이테스트와 측정 근거로 같은 승인 구조 안에서 변경할 수 있다.
 
-## 9. 구현 전 남은 결정
+## 9. 현재 기술·구현 경계
 
-- 정확한 Godot stable 버전.
-- 내부 논리 해상도와 stretch.
-- Scene·Script·Resource·Test 경로.
-- Resource·JSON·CSV 경계.
-- AnimatedSprite2D·AnimationPlayer 조합.
-- 애니메이션 이벤트와 전투 판정 연결 방식.
-- 공용 Visual Set의 프레임·피벗 검증 방식.
-- 정확한 headless 실행·테스트 명령.
+확인됨:
+
+- Godot 4.7.1 Standard, Compatibility renderer.
+- 960×540 논리 화면, 1920×1080 출력, viewport/keep/integer scale.
+- 실제 Scene·Script·Resource·Test 경로.
+- typed Resource·StageManifest·input log 경계.
+- headless 테스트 명령과 GitHub Actions.
+
+남은 결정·증거:
+
+- C1 이동권·럭키 규칙 통합과 100,000시드 검증.
+- 전투 목적 루프·코어 UX·사람 플레이.
+- 최종 자산·VFX·오디오·성능 계측.
 
 ## 10. 현재 실행 게이트
 
 ```text
-Issue #1 Phase 0 Plan Mode
-→ 사용자 승인
-→ Phase 0 구현
-→ Goal 0002·Issue #32 경로 갱신
-→ Issue #32 수직 슬라이스 Plan Mode
-→ 사용자 승인
-→ 3라인 핵심 수직 슬라이스
-→ 시뮬레이션·플레이테스트
+C0 프로젝트 코어·정본 복구 완료
+→ [현재] C1 승인 룰렛 핵심 계약
+→ C1U 이동권·럭키·분포
+→ C2 전투 목적 루프
+→ C3 코어 UX
+→ C4 사람 플레이
 ```
 
-- Issue #1과 #32 모두 승인 전 구현 금지.
-- 실제 스프라이트 대량 제작보다 대표 아키타입의 공용 데이터·양 진영 이미지 호환 테스트가 우선.
-- 새로운 대형 시스템보다 승인된 구조의 구현·계측이 우선.
-
-## 11. 남은 프리프로덕션·PoC 작업
-
-- 룰렛 최소 100,000시드 확률 시뮬레이션.
-- 기본·시장·접전지·중간거점 경제 시간축 검증.
-- 전투·생산·웨이브 표 계산.
-- 대표 아키타입의 아군·적군 이미지 프레임 호환 테스트.
-- 대기·이동·공격 키포즈와 40px 축소 검증.
-- 정확한 Godot 기술 구조와 Plan Mode 승인.
-- 최종 팔레트·아이콘·오디오·고유명.
-
-이후 작업은 승인된 구조를 구현하고 계측하면서 수치와 표현을 다듬는 단계다.
+- 현재 구현 근거는 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 문서와 실제 코드·테스트다.
+- 과거 Work Order·Goal·Proposal은 활성 실행 입력으로 참조하지 않는다.
+- 새로운 대형 시스템보다 잠긴 코어 인과의 구현·계측·검증을 우선한다.
