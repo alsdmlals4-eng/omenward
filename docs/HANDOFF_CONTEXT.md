@@ -1,7 +1,7 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
 - 갱신일: 2026-07-23
-- 현재 상태: **CORE_LOCKED / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C1U·사람 플레이 미검증**
+- 현재 상태: **CORE_LOCKED / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX IMPLEMENTED·원격 검증 대기 / C1U·사람 플레이 미검증**
 - 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 전체 기획: `docs/OMENWARD_GAME_DESIGN.md`
@@ -15,7 +15,7 @@
 ## 1. 가장 먼저 알아야 할 것
 
 1. 오멘워드는 건물로 룰렛의 토큰·확률과 증원 체계를 설계하고 세 전선을 지휘하는 판타지 전략 오토배틀 게임이다.
-2. 저장소에는 원격 검증된 C1 룰렛 핵심과 C2 전투 목적 루프가 있다. C1U 유틸리티 결정, C3 코어 UX와 사람 플레이는 남아 있다.
+2. 저장소에는 원격 검증된 C1 룰렛 핵심과 C2 전투 목적 루프, 실제 데이터에 연결된 C3 코어 UX 6종이 있다. C3 최신 원격 통합 검증, C1U 유틸리티 결정과 사람 플레이가 남아 있다.
 3. 과거 Phase 0 Work Order의 `구현 전`과 README의 과도한 `수직 슬라이스 완료`를 현재 상태로 재사용하지 않는다.
 4. 새 Codex 채팅은 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 실제 main, validation 문서와 Issue·PR을 대조한 뒤 다음 최소 변경을 제안한다.
 5. 아군과 적군은 별도 병종 전투 데이터를 만들지 않고 공용 10병종에 서로 다른 FactionVisualProfile을 연결한다.
@@ -75,6 +75,7 @@ project.godot
 → 3라인 교전
 → 접전지·중간거점 공방
 → 암살자 우회 또는 성문 공성
+→ 원인 확인
 → 다음 공세 준비
 ```
 
@@ -90,19 +91,31 @@ project.godot
 
 - 프로젝트 코어 책임 원본: `docs/PROJECT_CORE.md`
 - 구현 증거 책임 원본: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- C3 구현 계약: `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
 
 ```text
 TECHNICAL_BASELINE_IMPLEMENTED
 + C1_ROULETTE_CORE_REMOTE_PROVEN
 + C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
++ C3_IMPLEMENTED
 + CORE_VERTICAL_SLICE_PARTIAL
 + CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
 ```
 
-현재 Godot 프로젝트는 C1 run `29926598807`과 통합 Core Contracts run `29936497790`에서 검증된 C1 룰렛 핵심·C2 전투 목적 루프를 포함한다. C3 승인 UX 6종과 사람 플레이는 남아 있으므로 ‘핵심 수직 슬라이스 완료’로 부르지 않는다.
+현재 Godot 프로젝트는 C1 run `29926598807`과 통합 Core Contracts run `29938742864`에서 검증된 C1 룰렛 핵심·C2 전투 목적 루프를 포함한다. C3 승인 UX 6종은 실제 도메인 snapshot과 HUD에 구현됐고 최신 영구 CI 검증을 기다린다. 사람 플레이가 남아 있으므로 ‘핵심 수직 슬라이스 완료’로 부르지 않는다.
 
-다음 순서는 PR #50 병합, C3 승인 코어 UX 6종, C1U 사용자 결정 게이트, 사람 플레이 검증이다.
+다음 순서는 C3 원격 통합 검증과 PR #51 병합, 10~15분 사람 플레이·1080p·720p 가독성 검증, C1U 사용자 결정 게이트다.
+
+## 3.2 C3 코어 UX 데이터 경계
+
+- 룰렛 확률과 토큰 장부는 `RouletteService`가 계산한다.
+- T-30/T-15/T-5 공개 단계는 `WaveDirector`가 소유한다.
+- 실제 사거리·현재 대상·공용 상성 태그는 전투 데이터와 런타임 유닛이 제공한다.
+- `CoreUxService`가 실제 사망·거점·성문·본진 사건을 라인별 웨이브 보고로 구성한다.
+- `StageRun.core_ux_snapshot()`이 여섯 UX의 단일 읽기 진입점이다.
+- `StageHud`는 계산하지 않고 snapshot을 표시하며 기존 입력만 전달한다.
+- C1U 이동권·럭키·보관함 3칸·고정 상위 템플릿은 사용자 결정 전 구현하지 않는다.
 
 ## 4. 전장 불변 구조
 
@@ -219,93 +232,9 @@ UnitArchetypeProfile × 10
 참고하지 않을 것:
 
 - 임시 세력명·건물명·대사와 한글 문구.
-- 금화·식량·체력·비용·웨이브 수치.
-- 이미지 안의 맵 연결, 요새·거점 배치와 건설 노드 수.
-- 좌하단 전장 요약 UI와 미니맵처럼 보이는 구성.
+- 이미지 안의 임시 비용·체력·웨이브·타이머.
+- 현재 승인 전장과 다른 길·거점·요새 연결.
+- 미니맵 형태와 임시 하단 요약 지도.
+- 큰 캐릭터 일러스트를 그대로 전장 스프라이트로 쓰는 방식.
 
-현재 전장·경제·룰렛 책임 문서가 이미지보다 우선한다.
-
-## 9. 애니메이션·연출 계약
-
-공통 필수 상태:
-
-```text
-deploy / idle / move / attack_basic / skill_1 / hit_light / death / victory
-```
-
-- 공격은 준비→판정→회복으로 구분한다.
-- 무기 접촉·투사체 발사와 실제 판정 오차는 한 프레임 이내다.
-- 이동 위치는 코드가 소유하며 루트 모션을 사용하지 않는다.
-- 같은 병종의 아군·적군 이미지 시트는 동일 AnimationContract에 맞춘다.
-- 스테이지 승리 연출은 2.5~4초 뒤 결과 UI로 연결한다.
-
-책임 원본: `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`
-
-## 10. 승인된 전장 초기값
-
-### 중간거점
-
-```text
-중립화 10초 + 점령 10초 at 점령력 1.0
-최대 유효 점령력 2.0
-진행 유지 3초
-복귀 속도 초당 10%
-안정화 5초
-소유 수입 금화 +2 / 30초
-```
-
-### 성문
-
-```text
-HP 5000
-방어·마법저항 80
-일반 구조물 피해 40%
-공성 태그 피해 200%
-고정 피해 50%
-붕괴 2초
-```
-
-### 암살자 우회
-
-```text
-진입 준비 1초
-우회 이동 9초
-도착 경고 2.5초 전
-출현 준비 0.6초
-적 중간거점 뒤 120 units
-도착 영역 160 × 120
-점령력 0
-```
-
-## 11. 시각자료 감사와 누락 방지
-
-`docs/images/VISUAL_REFERENCE_INDEX.md`에는 다음 자료가 기록돼 있다.
-
-- 최신 전장 UI·병종 스프라이트 방향 이미지.
-- 과거 10병종×등급 도감표.
-- 스타일 후보 6안 비교표.
-- 환경 콘셉트 이미지 묶음.
-- 전술 지도·전장·하단 UI 탐색 시안.
-- 전장 맵 툴과 사용법.
-- 레거시 GDD와 제작 방법 메모.
-
-바이너리 파일 이동이 끝나지 않은 자료는 `MIGRATION_PENDING`이다. 인덱스 등록과 실제 파일 이동을 혼동하지 않는다.
-
-새 시각자료 처리 절차:
-
-```text
-원본·변환본 저장
-→ Visual Reference Index 등록
-→ 참고 / 비참고 / 변경점 기록
-→ APPROVED 문서와 Work Order 연결
-→ 기존 기준을 SUPERSEDED로 표시
-```
-
-## 12. 새 Codex 채팅의 행동 규칙
-
-- 과거 대화와 Work Order의 상태 문구보다 실제 저장소를 우선한다.
-- 현재 구현을 읽기 전에 새 프레임워크·병종 데이터·Scene 구조를 제안하지 않는다.
-- 시각 작업에서는 `APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`와 `VISUAL_REFERENCE_INDEX.md`를 반드시 읽는다.
-- 이미지에 없는 내용을 승인된 것으로 추정하지 않는다.
-- Base는 범용 방법·검수·사례를 제공하며 오멘워드의 책임 원본을 덮어쓰지 않는다.
-- 변경 범위와 완료 기준을 제안한 뒤 사용자 승인 전에는 구현하지 않는다.
+새 이미지가 유입되면 저장·인덱스·해석·문서 연결을 한 작업으로 완료한다. 기존 기준을 바꾸는 이미지는 조용히 덮어쓰지 않고 `SUPERSEDED` 상태와 변경 이유를 기록한다.
