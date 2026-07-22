@@ -121,9 +121,12 @@ func update_wave_reports() -> void:
 
 
 func snapshot() -> Dictionary:
+	var token_sources: Array[Dictionary] = []
+	if run != null and run.buildings != null:
+		token_sources = run.buildings.roulette_token_sources_snapshot()
 	return {
-		"token_ledger": run.roulette.token_ledger() if run != null and run.roulette != null else [],
-		"construction_comparison": _construction_comparison(),
+		"token_ledger": run.roulette.token_ledger_from_sources(token_sources) if run != null and run.roulette != null else [],
+		"construction_comparison": _construction_comparison(token_sources),
 		"omen": _omen_snapshot(),
 		"tactical_overlay": _tactical_overlay_snapshot(),
 		"latest_wave_report": _wave_reports.back().duplicate(true) if not _wave_reports.is_empty() else {},
@@ -131,7 +134,7 @@ func snapshot() -> Dictionary:
 	}
 
 
-func _construction_comparison() -> Array[Dictionary]:
+func _construction_comparison(token_sources: Array[Dictionary]) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	if run == null or run.buildings == null or run.battle == null or run.economy == null or run.roulette == null:
 		return result
@@ -144,7 +147,7 @@ func _construction_comparison() -> Array[Dictionary]:
 		var definition: Variant = run.buildings.definitions.get(building_id)
 		if definition == null:
 			continue
-		var existing: Variant = run.buildings.building_state(HOME_OUTPOST_ID, node_id)
+		var existing: Variant = run.buildings.building_state_snapshot(HOME_OUTPOST_ID, node_id)
 		var block_reason := &""
 		if outpost.owner_team_id != PLAYER_TEAM_ID:
 			block_reason = &"not_owned"
@@ -158,11 +161,11 @@ func _construction_comparison() -> Array[Dictionary]:
 			block_reason = &"insufficient_gold"
 		var source := _preview_source(HOME_OUTPOST_ID, node_id, definition)
 		var symbol_id := StringName(definition.roulette_symbol_id)
-		var before_probability: float = float(run.roulette.probability_for_symbol(symbol_id)) if symbol_id != &"" else 0.0
+		var before_probability: float = float(run.roulette.probability_for_symbol_from_sources(symbol_id, token_sources)) if symbol_id != &"" else 0.0
 		var preview_sources: Array[Dictionary] = []
 		if not source.is_empty():
 			preview_sources.append(source)
-		var after_probability: float = float(run.roulette.probability_for_symbol(symbol_id, preview_sources)) if not preview_sources.is_empty() else before_probability
+		var after_probability: float = float(run.roulette.probability_for_symbol_from_sources(symbol_id, token_sources, preview_sources)) if not preview_sources.is_empty() else before_probability
 		result.append({
 			"building_id": str(building_id),
 			"outpost_id": str(HOME_OUTPOST_ID),
