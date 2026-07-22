@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - "tools/_sync_c2_docs.py"
+      - "tools/_run_sync_c2_docs.py"
       - ".github/workflows/sync-c2-docs.yml"
 
 permissions:
@@ -28,7 +29,7 @@ jobs:
         shell: bash
         run: |
           set +e
-          python tools/_sync_c2_docs.py >/tmp/c2-doc-sync.log 2>&1
+          python tools/_run_sync_c2_docs.py >/tmp/c2-doc-sync.log 2>&1
           status=$?
           if [ "$status" -eq 0 ]; then
             {
@@ -73,6 +74,9 @@ jobs:
         run: |
           git diff --check
           test ! -e tools/_sync_c2_docs.py
+          test ! -e tools/_run_sync_c2_docs.py
+          test ! -e tools/_sync_c2_docs_runtime.py
+          test ! -e .github/workflows/sync-c2-docs.yml
           test ! -e docs/_C2_DOC_SYNC_FAILURE.log
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
