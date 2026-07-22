@@ -1,4 +1,4 @@
-name: Diagnose C2 Contract
+name: Repair C2 Approved Documentation
 
 on:
   pull_request:
@@ -6,15 +6,15 @@ on:
       - main
     paths:
       - ".github/workflows/diagnose-c2-contract.yml"
-      - "tools/validate_c2_battle_objective.py"
-      - "docs/**"
-      - "README.md"
+      - "tools/_repair_c2_approved_docs.py"
+      - "docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md"
+      - "docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md"
 
 permissions:
   contents: write
 
 jobs:
-  diagnose:
+  repair:
     if: github.head_ref == 'agent/c2-battle-objective-loop'
     runs-on: ubuntu-latest
     steps:
@@ -22,22 +22,30 @@ jobs:
         with:
           ref: agent/c2-battle-objective-loop
           fetch-depth: 0
-      - name: Capture C2 validator output
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Repair approved C2 documents
+        run: python tools/_repair_c2_approved_docs.py
+      - name: Validate repaired repository
         shell: bash
         run: |
-          set +e
-          python tools/validate_c2_battle_objective.py > /tmp/c2-contract.log 2>&1
-          status=$?
-          if [ "$status" -eq 0 ]; then
-            echo "C2 validator unexpectedly passed; no diagnostic needed."
-            exit 0
-          fi
-          git fetch origin agent/c2-battle-objective-loop
-          git reset --hard origin/agent/c2-battle-objective-loop
-          cp /tmp/c2-contract.log docs/_C2_CONTRACT_DIAGNOSTIC.log
+          set -euo pipefail
+          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
+          python tools/validate_c1_roulette.py
+          python tools/validate_c2_battle_objective.py
+          python tools/validate_project_core_docs.py
+          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+          python -m unittest discover -s tests/python -v
+          git diff --check
+          test ! -e docs/_C2_CONTRACT_DIAGNOSTIC.log
+          test ! -e tools/_repair_c2_approved_docs.py
+      - name: Commit repaired approved documents
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/_C2_CONTRACT_DIAGNOSTIC.log
-          git commit -m "record isolated C2 contract diagnostic"
+          git add -A
+          git commit -m "repair C2 approved documentation"
           git push origin HEAD:agent/c2-battle-objective-loop
-          exit 1
