@@ -1,0 +1,66 @@
+=== tests/headless/c2_battle_objective_test.gd status=1 ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "should_be_active" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://scripts/buildings/building_service.gd:63)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://tests/headless/c2_battle_objective_test.gd:0)
+ERROR: Failed to load script "res://tests/headless/c2_battle_objective_test.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _test_outpost_building_effect_lifecycle (res://tests/headless/c2_battle_objective_test.gd:104)
+          GDScript backtrace (most recent call first):
+              [0] _test_outpost_building_effect_lifecycle (res://tests/headless/c2_battle_objective_test.gd:104)
+              [1] _init (res://tests/headless/c2_battle_objective_test.gd:22)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: StageRun.start (res://scripts/core/stage_run.gd:60)
+          GDScript backtrace (most recent call first):
+              [0] start (res://scripts/core/stage_run.gd:60)
+              [1] _test_stage_natural_results (res://tests/headless/c2_battle_objective_test.gd:142)
+              [2] _init (res://tests/headless/c2_battle_objective_test.gd:24)
+SCRIPT ERROR: Invalid access to property or key 'bases' on a base object of type 'Nil'.
+          at: _test_stage_natural_results (res://tests/headless/c2_battle_objective_test.gd:143)
+          GDScript backtrace (most recent call first):
+              [0] _test_stage_natural_results (res://tests/headless/c2_battle_objective_test.gd:143)
+              [1] _init (res://tests/headless/c2_battle_objective_test.gd:24)
+C2 battle objective failures:
+both teams on one clash freeze it as contested
+=== tests/headless/stage_run_test.gd status=1 ===
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Cannot infer the type of "should_be_active" variable because the value doesn't have a set type.
+          at: GDScript::reload (res://scripts/buildings/building_service.gd:63)
+          GDScript backtrace (most recent call first):
+              [0] _init (res://tests/headless/stage_run_test.gd:13)
+SCRIPT ERROR: Compile Error: Failed to compile depended scripts.
+          at: GDScript::reload (res://scripts/core/stage_run.gd:0)
+          GDScript backtrace (most recent call first):
+              [0] _init (res://tests/headless/stage_run_test.gd:13)
+ERROR: Failed to load script "res://scripts/core/stage_run.gd" with error "Compilation failed".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/headless/stage_run_test.gd:13)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: StageRun.start (res://scripts/core/stage_run.gd:60)
+          GDScript backtrace (most recent call first):
+              [0] start (res://scripts/core/stage_run.gd:60)
+              [1] _test_tutorial_unlock_and_regular_wave_progression (res://tests/headless/stage_run_test.gd:43)
+              [2] _init (res://tests/headless/stage_run_test.gd:29)
+SCRIPT ERROR: Invalid assignment of property or key 'objectives_enabled' with value of type 'bool' on a base object of type 'Nil'.
+          at: _test_tutorial_unlock_and_regular_wave_progression (res://tests/headless/stage_run_test.gd:44)
+          GDScript backtrace (most recent call first):
+              [0] _test_tutorial_unlock_and_regular_wave_progression (res://tests/headless/stage_run_test.gd:44)
+              [1] _init (res://tests/headless/stage_run_test.gd:29)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: StageRun.start (res://scripts/core/stage_run.gd:60)
+          GDScript backtrace (most recent call first):
+              [0] start (res://scripts/core/stage_run.gd:60)
+              [1] _test_roulette_storage_and_deployment (res://tests/headless/stage_run_test.gd:66)
+              [2] _init (res://tests/headless/stage_run_test.gd:30)
+SCRIPT ERROR: Invalid call. Nonexistent function 'roulette_token_sources' in base 'Nil'.
+          at: _test_roulette_storage_and_deployment (res://tests/headless/stage_run_test.gd:68)
+          GDScript backtrace (most recent call first):
+              [0] _test_roulette_storage_and_deployment (res://tests/headless/stage_run_test.gd:68)
+              [1] _init (res://tests/headless/stage_run_test.gd:30)
+Stage run, wave, progression, roulette storage, and assassin bypass failures:
+the stage can build the approved basic barracks
