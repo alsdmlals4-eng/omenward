@@ -3,6 +3,7 @@ C2 battle objective validation FAILED
 - docs/DECISIONS_PENDING.md missing proven C2 state: C2 전투 목적 루프 원격 검증 완료
 - CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 구현 검증 head: `85e2930a839fd210548c7aa2a53125d18c4de875`
 - CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 최종 검증 run: `29934172758`
+- temporary C2 artifact remains: docs/_C2_FINALIZE_FAILURE.log
 Project core documentation validation PASSED
 Skill system validation PASSED: 24 packages, 11 disciplines
 test_review_skill_contains_all_three_methods (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_skill_contains_all_three_methods) ... ok
@@ -53,9 +54,9 @@ Traceback (most recent call last):
   File "/home/runner/work/omenward/omenward/tests/python/test_c2_battle_objective_contract.py", line 48, in test_current_tree_passes
     self.assertEqual([], validate(ROOT))
     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
-AssertionError: Lists differ: [] != ['docs/DECISIONS_PENDING.md missing proven[216 chars]58`']
+AssertionError: Lists differ: [] != ['docs/DECISIONS_PENDING.md missing proven[280 chars]log']
 
-Second list contains 3 additional elements.
+Second list contains 4 additional elements.
 First extra element 0:
 'docs/DECISIONS_PENDING.md missing proven C2 state: C2 전투 목적 루프 원격 검증 완료'
 
@@ -63,9 +64,10 @@ First extra element 0:
 + ['docs/DECISIONS_PENDING.md missing proven C2 state: C2 전투 목적 루프 원격 검증 완료',
 +  'CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 구현 검증 head: '
 +  '`85e2930a839fd210548c7aa2a53125d18c4de875`',
-+  'CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 최종 검증 run: `29934172758`']
++  'CURRENT_IMPLEMENTATION_STATUS missing C2 proof: C2 최종 검증 run: `29934172758`',
++  'temporary C2 artifact remains: docs/_C2_FINALIZE_FAILURE.log']
 
 ----------------------------------------------------------------------
-Ran 40 tests in 0.464s
+Ran 40 tests in 0.298s
 
 FAILED (failures=1)
