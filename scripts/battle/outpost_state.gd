@@ -83,6 +83,9 @@ func set_contested() -> void:
 
 
 func clear_capture_presence() -> void:
+	if state == STABLE:
+		contested = false
+		return
 	if state != NEUTRALIZING and state != CAPTURING:
 		return
 	var had_presence := capture_power > 0.0 or contested
