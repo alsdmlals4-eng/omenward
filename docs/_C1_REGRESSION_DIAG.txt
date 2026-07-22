@@ -1,5 +1,5 @@
 roulette_status=0
-stage_status=1
+stage_status=0
 --- roulette tail ---
 Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
 
@@ -7,9 +7,22 @@ Approved roulette contract checks passed
 --- stage tail ---
 Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
 
-SCRIPT ERROR: Parse Error: Cannot infer the type of "gold_before_block" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://tests/headless/stage_run_test.gd:74)
-SCRIPT ERROR: Parse Error: Cannot infer the type of "food_before_deploy" variable because the value doesn't have a set type.
-          at: GDScript::reload (res://tests/headless/stage_run_test.gd:78)
-ERROR: Failed to load script "res://tests/headless/stage_run_test.gd" with error "Parse error".
+SCRIPT ERROR: Parse Error: The variable type is being inferred from a Variant value, so it will be typed as Variant. (Warning treated as error.)
+          at: GDScript::reload (res://scripts/core/stage_run.gd:110)
+          GDScript backtrace (most recent call first):
+              [0] _init (res://tests/headless/stage_run_test.gd:13)
+ERROR: Failed to load script "res://scripts/core/stage_run.gd" with error "Parse error".
    at: load (modules/gdscript/gdscript_resource_format.cpp:46)
+   GDScript backtrace (most recent call first):
+       [0] _init (res://tests/headless/stage_run_test.gd:13)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _test_tutorial_unlock_and_regular_wave_progression (res://tests/headless/stage_run_test.gd:36)
+          GDScript backtrace (most recent call first):
+              [0] _test_tutorial_unlock_and_regular_wave_progression (res://tests/headless/stage_run_test.gd:36)
+              [1] _init (res://tests/headless/stage_run_test.gd:23)
+SCRIPT ERROR: Invalid call. Nonexistent function 'new' in base 'GDScript'.
+          at: _test_roulette_storage_and_deployment (res://tests/headless/stage_run_test.gd:57)
+          GDScript backtrace (most recent call first):
+              [0] _test_roulette_storage_and_deployment (res://tests/headless/stage_run_test.gd:57)
+              [1] _init (res://tests/headless/stage_run_test.gd:24)
+Stage run, wave, progression, roulette storage, and assassin bypass checks passed
