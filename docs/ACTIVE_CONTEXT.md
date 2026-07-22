@@ -3,7 +3,7 @@
 - 갱신일: 2026-07-22
 - 공식명: **오멘워드 / OMENWARD**
 - 저장소 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / 코어 루프·사람 플레이 미검증**
-- 프로젝트 코어: `docs/PROJECT_CORE.md`
+- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 최초 인수인계: `docs/HANDOFF_CONTEXT.md`
 - 최신 통합 기준: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`

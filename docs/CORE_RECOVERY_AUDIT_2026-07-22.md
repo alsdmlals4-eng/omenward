@@ -78,7 +78,7 @@ TECHNICAL_BASELINE_IMPLEMENTED
 - `CURRENT_IMPLEMENTATION_STATUS.md`는 실제 증거와 미검증 경계만 소유한다.
 - 기존 GDD는 전체 설계, APPROVED 문서는 세부 규칙을 계속 소유한다.
 - 문서 Validator가 stale 상태 문구와 필수 참조 누락을 차단한다.
-- 코어 상태는 `EXISTING_CORE_IDENTIFIED`로 기록하고 잠금은 사용자 확인을 기다린다.
+- 코어 상태는 최초 식별 상태로 기록했고, 2026-07-22 사용자의 `코어확정` 지시 뒤 `CORE_CONFIRMED`·`CORE_LOCKED`로 전환했다.
 
 ## 7. 변경 범위
 
@@ -103,8 +103,8 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 ## 8. 후속 순서
 
-1. 이 문서 전용 Draft PR 검토.
-2. 사용자가 프로젝트 코어 문구 잠금 여부를 확인.
+1. 사용자가 프로젝트 코어를 `코어확정`으로 확인.
+2. 정본 PR에서 `CORE_CONFIRMED`·`CORE_LOCKED` 전환과 검증.
 3. 승인 룰렛 계약 복구를 별도 Plan·Build·Review PR로 수행.
 4. 전투 목적 루프, 코어 UX, 사람 플레이 순으로 분리 진행.
 
@@ -112,7 +112,7 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 - 정본 충돌: `FOUND`
 - 코어 식별: `COMPLETE`
-- 코어 잠금: `PENDING_USER_CONFIRMATION`
+- 코어 잠금: `CORE_CONFIRMED_AND_LOCKED`
 - 게임 기능 변경: `NONE`
 - Godot 실행 검증: `NOT_RUN`
 - 사람 플레이 검증: `NOT_RUN`

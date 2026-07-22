@@ -52,8 +52,8 @@ STALE_CURRENT_CLAIMS = {
 }
 
 REQUIRED_CORE_TERMS = (
-    "EXISTING_CORE_IDENTIFIED",
-    "CORE_LOCK_PENDING_USER_CONFIRMATION",
+    "CORE_CONFIRMED",
+    "CORE_LOCKED",
     "## 3. 핵심 루프",
     "## 5. 분류",
     "## 6. 불변 조건",
@@ -128,8 +128,29 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for missing in _contains_all(status, REQUIRED_STATUS_TERMS):
         errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing state term: {missing}")
 
-    if re.search(r"(?m)^- (?:상태|잠금 상태): `(?:CORE_CONFIRMED|CORE_LOCKED)`$", core):
-        errors.append("project core may not claim confirmed/locked without explicit user approval")
+    required_lock_lines = (
+        "- 상태: `CORE_CONFIRMED`",
+        "- 잠금 상태: `CORE_LOCKED`",
+        "2026-07-22 대화에서 `코어확정`",
+    )
+    for missing in _contains_all(core, required_lock_lines):
+        errors.append(f"PROJECT_CORE missing confirmed lock evidence: {missing}")
+
+    pending_core_terms = (
+        "EXISTING_CORE_IDENTIFIED",
+        "CORE_LOCK_PENDING_USER_CONFIRMATION",
+        "PENDING_USER_CONFIRMATION",
+    )
+    for relative in (
+        "docs/PROJECT_CORE.md",
+        "docs/CORE_RECOVERY_AUDIT_2026-07-22.md",
+        "docs/DECISIONS_PENDING.md",
+        "docs/OMENWARD_ROADMAP.md",
+    ):
+        text = _read(root, relative)
+        for term in pending_core_terms:
+            if term in text:
+                errors.append(f"{relative} retains stale project-core lock state: {term}")
 
     for relative in REFERENCE_FILES:
         text = _read(root, relative)
@@ -150,7 +171,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
 
     roadmap = _read(root, "docs/OMENWARD_ROADMAP.md")
     required_sequence = (
-        "정본·프로젝트 코어 복구",
+        "정본·프로젝트 코어 확정·잠금 완료",
         "승인 룰렛 계약 복구",
         "전투 목적 루프 연결",
         "승인 코어 UX 6종",
@@ -176,6 +197,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors.append("DECISIONS_PENDING does not distinguish implemented technical baseline")
     if "승인 룰렛 계약 복구" not in decisions:
         errors.append("DECISIONS_PENDING does not point to the next decision gate")
+    if "프로젝트 코어 확정·잠금 — 완료" not in decisions:
+        errors.append("DECISIONS_PENDING does not record the resolved project-core lock")
 
     map_text = _read(root, "docs/DOCUMENTATION_MAP.md")
     if re.search(r"\|\s*프로젝트 코어\s*\|\s*`PROJECT_CORE\.md`", map_text) is None:

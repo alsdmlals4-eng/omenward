@@ -2,7 +2,7 @@
 
 - 갱신일: 2026-07-22
 - 현재 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / 코어 루프·사람 플레이 미검증**
-- 프로젝트 코어: `docs/PROJECT_CORE.md`
+- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 전체 기획: `docs/OMENWARD_GAME_DESIGN.md`
 - 개발 순서: `docs/OMENWARD_ROADMAP.md`

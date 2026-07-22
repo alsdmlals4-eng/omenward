@@ -1,9 +1,0 @@
-Project core documentation validation FAILED
-- roadmap missing recovery sequence item: 정본·프로젝트 코어 복구
-Traceback (most recent call last):
-  File "/home/runner/work/omenward/omenward/tools/_confirm_project_core_once.py", line 204, in <module>
-  File "/home/runner/work/omenward/omenward/tools/_confirm_project_core_once.py", line 35, in run
-  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/subprocess.py", line 577, in run
-    raise CalledProcessError(retcode, process.args,
-                             output=stdout, stderr=stderr)
-subprocess.CalledProcessError: Command '('python', 'tools/validate_project_core_docs.py')' returned non-zero exit status 1.

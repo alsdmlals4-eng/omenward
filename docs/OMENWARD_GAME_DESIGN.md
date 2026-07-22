@@ -7,6 +7,7 @@
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE
 - 엔진: Godot + GDScript
+- 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED** (2026-07-22 사용자 확인)
 
 프로젝트 코어는 `docs/PROJECT_CORE.md`, 실제 구현 증거는 `docs/CURRENT_IMPLEMENTATION_STATUS.md`, 최초 인수인계는 `docs/HANDOFF_CONTEXT.md`가 소유한다. 세부 승인 규칙은 `docs/design/APPROVED_*.md`가 우선하며, 통합 인덱스는 `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`다.
 

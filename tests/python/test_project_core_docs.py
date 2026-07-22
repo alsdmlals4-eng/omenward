@@ -40,6 +40,20 @@ class ProjectCoreDocumentationTests(unittest.TestCase):
             errors = validate(temp_root)
             self.assertTrue(any("does not reference PROJECT_CORE.md" in error for error in errors))
 
+    def test_pending_core_lock_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_contract_files(temp_root)
+            core = temp_root / "docs" / "PROJECT_CORE.md"
+            core.write_text(
+                core.read_text(encoding="utf-8")
+                .replace("- 상태: `CORE_CONFIRMED`", "- 상태: `EXISTING_CORE_IDENTIFIED`")
+                .replace("- 잠금 상태: `CORE_LOCKED`", "- 잠금 상태: `CORE_LOCK_PENDING_USER_CONFIRMATION`"),
+                encoding="utf-8",
+            )
+            errors = validate(temp_root)
+            self.assertTrue(any("stale project-core lock state" in error for error in errors))
+
     def test_roadmap_phase_history_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             temp_root = pathlib.Path(directory)
