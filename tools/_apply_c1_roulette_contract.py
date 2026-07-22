@@ -49,5 +49,21 @@ if old_plan.exists():
 if insertion_marker not in body:
     raise RuntimeError("C1 documentation insertion marker missing")
 body = body.replace(insertion_marker, insertion + insertion_marker, 1)
+validator_marker = "# Delete temporary audit payloads and bootstrap files."
+validator_sync = '''replace_once(
+    "tools/validate_project_core_docs.py",
+    '    "CORE_CONTRACT_DIVERGENT",',
+    '    "C1_IMPLEMENTED_CANDIDATE",',
+)
+replace_once(
+    "tools/validate_project_core_docs.py",
+    '        "승인 룰렛 계약 복구",',
+    '        "승인 룰렛 핵심 계약 복구",',
+)
+
+'''
+if validator_marker not in body:
+    raise RuntimeError("project core validator sync marker missing")
+body = body.replace(validator_marker, validator_sync + validator_marker, 1)
 RUNTIME_PATH.write_text(body, encoding="utf-8", newline="\n")
 subprocess.run(["python", str(RUNTIME_PATH)], cwd=ROOT, check=True)
