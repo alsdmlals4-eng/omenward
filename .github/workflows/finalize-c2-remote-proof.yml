@@ -7,6 +7,7 @@ on:
       - main
     paths:
       - "tools/_finalize_c2_remote_proof.py"
+      - "tools/_repair_c2_finalizer.py"
       - ".github/workflows/finalize-c2-remote-proof.yml"
 
 permissions:
@@ -29,8 +30,13 @@ jobs:
         run: |
           set +e
           : > /tmp/c2-finalize.log
-          python tools/_finalize_c2_remote_proof.py >>/tmp/c2-finalize.log 2>&1
+          rm -f docs/_C2_FINALIZE_FAILURE.log
+          python tools/_repair_c2_finalizer.py >>/tmp/c2-finalize.log 2>&1
           status=$?
+          if [ "$status" -eq 0 ]; then
+            python tools/_finalize_c2_remote_proof.py >>/tmp/c2-finalize.log 2>&1
+            status=$?
+          fi
           if [ "$status" -eq 0 ]; then
             {
               python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
@@ -73,6 +79,7 @@ jobs:
         run: |
           set -euo pipefail
           git diff --check
+          test ! -e tools/_repair_c2_finalizer.py
           test ! -e tools/_finalize_c2_remote_proof.py
           test ! -e .github/workflows/finalize-c2-remote-proof.yml
           test ! -e .github/workflows/validate-c1-roulette.yml
