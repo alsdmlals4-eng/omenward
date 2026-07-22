@@ -29,4 +29,18 @@ jobs:
           python-version: "3.13"
       - name: Apply, validate, commit, and push core canon recovery
         if: ${{ hashFiles('tools/_apply_project_core_recovery.py') != '' }}
-        run: python tools/_apply_project_core_recovery.py
+        shell: bash
+        run: |
+          set +e
+          python tools/_apply_project_core_recovery.py > project-core-recovery.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            mkdir -p docs
+            tail -n 160 project-core-recovery.log > docs/_CORE_RECOVERY_FAILURE.log
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/_CORE_RECOVERY_FAILURE.log
+            git commit -m "record project core recovery failure" || true
+            git push origin HEAD:agent/project-core-canon-recovery
+          fi
+          exit $status
