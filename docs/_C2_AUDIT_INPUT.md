@@ -1,8 +1,8 @@
 # C2 repository audit input
 
-- text files scanned: 247
-- battle/objective relevant files: 87
-- stale current-state occurrences: 11
+- text files scanned: 248
+- battle/objective relevant files: 88
+- stale current-state occurrences: 22
 - broken internal Markdown links: 0
 
 ## Battle/objective relevant files
@@ -22,6 +22,7 @@
 - `docs/PROJECT_CORE.md` — 성문, 접전지, 중간거점
 - `docs/REFERENCE_REPOSITORIES.md` — gate, 성문, 중간거점
 - `docs/VERTICAL_SLICE_VALIDATION.md` — 성문
+- `docs/_C2_AUDIT_INPUT.md` — ClashZoneState, GateState, OutpostState, base_health, begin_capture, capture_power, clash_zones, control_income, gate, headquarters, outpost, stage_defeat, stage_victory, 본진, 성문, 접전지, 중간거점
 - `docs/benchmarks/0001-core-game-benchmark-proposal.md` — 본진, 접전지
 - `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` — 본진, 접전지
 - `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md` — 본진, 중간거점
@@ -122,6 +123,17 @@
 - `docs/CURRENT_IMPLEMENTATION_STATUS.md:133` — `PR #49 병합`
 - `docs/DECISIONS_PENDING.md:420` — `PR #49 병합`
 - `docs/DOCUMENTATION_MAP.md:47` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:125` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:131` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:126` — `PR #49 사용자 검토와 병합 결정`
+- `docs/_C2_AUDIT_INPUT.md:121` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:122` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:123` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:127` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:128` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:124` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:129` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:130` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
 - `tools/_audit_c2_repository.py:29` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
 - `tools/_audit_c2_repository.py:30` — `PR #49 사용자 검토와 병합 결정`
 - `tools/_audit_c2_repository.py:31` — `PR #49 병합`
