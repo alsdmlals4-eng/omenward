@@ -141,6 +141,14 @@ func _registry() -> Variant:
 
 replace_once(
     "tools/validate_c2_battle_objective.py",
+    '''        "an uncontested giant captures the top clash",
+''',
+    '''        "an uncontested giant squad captures the top clash",
+''',
+)
+
+replace_once(
+    "tools/validate_c2_battle_objective.py",
     '''        "enemy base destruction produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
 ''',
