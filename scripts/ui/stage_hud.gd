@@ -100,12 +100,16 @@ func _update_core_ux(snapshot: Dictionary) -> void:
 func _render_token_ledger(entries: Array) -> void:
 	var lines := PackedStringArray(["TOKEN LEDGER"])
 	for entry in entries:
+		var source_ids := _string_list(entry.get("source_building_ids", []))
+		var reward_ids := _string_list(entry.get("reward_archetype_ids", []))
 		lines.append("%s w=%d p=%s src=%d" % [
 			str(entry.get("symbol_id", "")),
 			int(entry.get("weight", 0)),
 			_format_percent(float(entry.get("probability", 0.0))),
 			int(entry.get("source_count", 0)),
 		])
+		if source_ids != "" or reward_ids != "":
+			lines.append("  ids=%s reward=%s" % [source_ids if source_ids != "" else "-", reward_ids if reward_ids != "" else "-"])
 	_token_ledger_label.text = "\n".join(lines)
 
 
@@ -174,7 +178,7 @@ func _render_tactical_overlay(entries: Array) -> void:
 			break
 		var team := "L" if str(entry.get("owner_team_id", "")) == "lumern" else "V"
 		var target_id := int(entry.get("target_unit_id", -1))
-		lines.append("%s %s #%d %s R%.1f -> %s [%s]" % [
+		lines.append("%s %s #%d %s R%.1f -> %s [%s] prio=%s" % [
 			str(entry.get("lane_id", "")),
 			team,
 			int(entry.get("unit_id", -1)),
@@ -182,6 +186,7 @@ func _render_tactical_overlay(entries: Array) -> void:
 			float(entry.get("attack_range", 0.0)),
 			str(target_id) if target_id > 0 else "none",
 			_string_list(entry.get("counter_tags", [])),
+			_string_list(entry.get("target_priority_tags", [])),
 		])
 		shown += 1
 	if entries.is_empty():
@@ -199,13 +204,16 @@ func _render_wave_report(report: Dictionary) -> void:
 		return
 	lines.append("Wave %d" % int(report.get("wave_number", 0)))
 	for lane in report.get("lanes", []):
-		lines.append("%s %s E%d/L%d obj%d gate-%.0f" % [
+		lines.append("%s %s E%d/L%d obj%d gate +%.0f/-%.0f base +%.0f/-%.0f" % [
 			str(lane.get("lane_id", "")),
 			str(lane.get("cause_code", "")),
 			int(lane.get("enemy_defeated", 0)),
 			int(lane.get("allied_lost", 0)),
 			int(lane.get("objective_changes", 0)),
+			float(lane.get("gate_damage_dealt", 0.0)),
 			float(lane.get("gate_damage_taken", 0.0)),
+			float(lane.get("base_damage_dealt", 0.0)),
+			float(lane.get("base_damage_taken", 0.0)),
 		])
 	_wave_report_label.text = "\n".join(lines)
 
