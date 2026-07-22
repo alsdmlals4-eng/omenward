@@ -29,7 +29,7 @@
 
 | 영역 | 현재 증거 | 판정 |
 |---|---|---|
-| Godot 프로젝트 | `project.godot`, main Scene, 960×540 논리 화면, 1920×1080 출력, Compatibility renderer | `IMPLEMENTED` |
+| Godot 프로젝트 | `project.godot`, main Scene, 960×540 논리 화면, 1920×1080 출력, Compatibility renderer | `REMOTE_PROVEN` |
 | 상태 소유 | `GameSession`, `StageRun`, `CombatClock`, `DataRegistry`, `DeterminismService` | `IMPLEMENTED` |
 | 공용 데이터 | 공용 archetype·Tier·Rank·FactionVisual·Animation 계약과 bootstrap catalog | `IMPLEMENTED` |
 | 경제 | 기본·접전지·거점 수입 계산 서비스, 금화·식량 | `IMPLEMENTED_COMPONENT` |
@@ -82,7 +82,7 @@
 
 ### 3.4 코어 UX — `NOT_IMPLEMENTED`
 
-현재 HUD는 금화·식량·웨이브·전조 초·Spin·Tower·Farm·문자열 카드·라인 버튼을 제공한다.
+현재 HUD는 금화·식량·웨이브·전조 초·Spin·Barracks·Tower·Farm·룰렛 보드·결과·라인 배치 버튼을 제공한다.
 
 다음 승인 UX는 아직 실제 데이터와 연결되지 않았다.
 
