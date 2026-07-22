@@ -17,6 +17,7 @@ func _init() -> void:
 		_finish(failures)
 		return
 	_test_token_ledger_and_construction_preview(failures)
+	_test_snapshot_is_read_only(failures)
 	_test_boundary_snapshots(failures)
 	_test_staged_omen_reveal(failures)
 	_test_tactical_range_target_and_counter_overlay(failures)
@@ -66,6 +67,26 @@ func _test_token_ledger_and_construction_preview(failures: PackedStringArray) ->
 	_expect((warrior.get("source_building_ids", []) as Array).has("lumern_middle:rear"), "token ledger exposes the authoritative source building ID", failures)
 	var occupied: Dictionary = _building_entry(after.get("construction_comparison", []), "barracks")
 	_expect(not bool(occupied.get("can_construct", true)) and str(occupied.get("block_reason", "")) == "occupied", "building comparison exposes the occupied node reason", failures)
+
+
+func _test_snapshot_is_read_only(failures: PackedStringArray) -> void:
+	var run: Variant = _new_run(710)
+	_expect(run.construct_home(&"farm"), "read-only snapshot setup constructs a farm", failures)
+	var farm: Variant = run.buildings.building_state_snapshot(&"lumern_middle", &"front_b")
+	var home: Variant = run.battle.outposts[&"lumern"][&"middle"]
+	home.capture_revision += 1
+	var gold_before := int(run.economy.gold)
+	var food_cap_before := int(run.economy.food_cap)
+	var state_before := StringName(farm.state)
+	var effect_before := bool(farm.effect_active)
+	var log_before := JSON.stringify(run.manifest.input_log)
+	var first_snapshot := JSON.stringify(run.core_ux_snapshot())
+	var second_snapshot := JSON.stringify(run.core_ux_snapshot())
+	_expect(first_snapshot == second_snapshot, "repeated C3 reads return the same snapshot without a gameplay tick", failures)
+	_expect(int(run.economy.gold) == gold_before, "C3 snapshot does not spend or grant gold", failures)
+	_expect(int(run.economy.food_cap) == food_cap_before, "C3 snapshot does not change food capacity", failures)
+	_expect(StringName(farm.state) == state_before and bool(farm.effect_active) == effect_before, "C3 snapshot does not synchronize or ruin a stale building", failures)
+	_expect(JSON.stringify(run.manifest.input_log) == log_before, "C3 snapshot does not append gameplay input-log events", failures)
 
 
 func _test_boundary_snapshots(failures: PackedStringArray) -> void:
