@@ -1,8 +1,8 @@
 # C2 repository audit input
 
 - text files scanned: 248
-- battle/objective relevant files: 88
-- stale current-state occurrences: 33
+- battle/objective relevant files: 89
+- stale current-state occurrences: 44
 - broken internal Markdown links: 0
 - base/victory context matches: 109
 
@@ -90,6 +90,7 @@
 - `scripts/core/stage_economy.gd` — control_income, outpost
 - `scripts/core/stage_run.gd` — OutpostState, clash_zones, outpost, stage_defeat, stage_victory
 - `scripts/data/battlefield_profile.gd` — gate
+- `scripts/data/unit_archetype_profile.gd` — capture_power
 - `tests/headless/battle_simulation_test.gd` — begin_capture, capture_power, gate, outpost
 - `tests/headless/economy_roulette_test.gd` — OutpostState, begin_capture, outpost
 - `tests/headless/roulette_contract_test.gd` — gate
@@ -236,28 +237,39 @@
 - `docs/CURRENT_IMPLEMENTATION_STATUS.md:133` — `PR #49 병합`
 - `docs/DECISIONS_PENDING.md:420` — `PR #49 병합`
 - `docs/DOCUMENTATION_MAP.md:47` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:126` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `docs/_C2_AUDIT_INPUT.md:127` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `docs/_C2_AUDIT_INPUT.md:137` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `docs/_C2_AUDIT_INPUT.md:143` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `docs/_C2_AUDIT_INPUT.md:128` — `PR #49 사용자 검토와 병합 결정`
-- `docs/_C2_AUDIT_INPUT.md:138` — `PR #49 사용자 검토와 병합 결정`
-- `docs/_C2_AUDIT_INPUT.md:122` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:123` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:124` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:129` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:130` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:131` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:132` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:139` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:133` — `[현재] 승인 룰렛 핵심 계약 복구`
-- `docs/_C2_AUDIT_INPUT.md:140` — `[현재] 승인 룰렛 핵심 계약 복구`
-- `docs/_C2_AUDIT_INPUT.md:125` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:134` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:135` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:141` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:136` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
-- `docs/_C2_AUDIT_INPUT.md:142` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:239` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:240` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:241` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:242` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:261` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:267` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:243` — `PR #49 사용자 검토와 병합 결정`
+- `docs/_C2_AUDIT_INPUT.md:244` — `PR #49 사용자 검토와 병합 결정`
+- `docs/_C2_AUDIT_INPUT.md:262` — `PR #49 사용자 검토와 병합 결정`
+- `docs/_C2_AUDIT_INPUT.md:235` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:236` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:237` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:245` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:246` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:247` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:248` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:249` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:250` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:251` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:252` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:263` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:253` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:254` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:264` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:238` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:255` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:256` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:257` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:258` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:265` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:259` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:260` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:266` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
 - `tools/_audit_c2_repository.py:30` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
 - `tools/_audit_c2_repository.py:31` — `PR #49 사용자 검토와 병합 결정`
 - `tools/_audit_c2_repository.py:32` — `PR #49 병합`
