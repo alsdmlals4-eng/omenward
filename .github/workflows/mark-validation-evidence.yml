@@ -1,0 +1,43 @@
+name: Mark Validation Evidence
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_mark_validation_evidence.py"
+      - ".github/workflows/mark-validation-evidence.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  mark:
+    if: github.head_ref == 'agent/c1-approved-roulette-contract-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c1-approved-roulette-contract-recovery
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Synchronize proven C1 evidence
+        shell: bash
+        run: |
+          set +e
+          python tools/_mark_validation_evidence.py > /tmp/evidence-sync.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            tail -n 320 /tmp/evidence-sync.log > /tmp/evidence-failure.log
+            git fetch origin agent/c1-approved-roulette-contract-recovery
+            git reset --hard origin/agent/c1-approved-roulette-contract-recovery
+            cp /tmp/evidence-failure.log docs/_EVIDENCE_SYNC_FAILURE.log
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/_EVIDENCE_SYNC_FAILURE.log
+            git commit -m "record C1 evidence sync failure"
+            git push origin HEAD:agent/c1-approved-roulette-contract-recovery
+          fi
+          exit $status
