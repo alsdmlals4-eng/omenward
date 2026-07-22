@@ -1,0 +1,27 @@
+name: Collect C1 Roulette Audit Once
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_collect_c1_roulette_audit.py"
+      - ".github/workflows/collect-c1-roulette-audit-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    if: github.head_ref == 'agent/c1-approved-roulette-contract-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Collect repository audit input
+        run: python tools/_collect_c1_roulette_audit.py
