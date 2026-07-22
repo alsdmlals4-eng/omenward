@@ -30,11 +30,13 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Compile Python contracts
-        run: python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
+        run: python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_c3_core_ux.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py tests/python/test_c3_core_ux_contract.py
       - name: Validate C1 roulette contract
         run: python tools/validate_c1_roulette.py
       - name: Validate C2 battle objective contract
         run: python tools/validate_c2_battle_objective.py
+      - name: Validate C3 core UX contract
+        run: python tools/validate_c3_core_ux.py
       - name: Run all Python repository tests
         run: python -m unittest discover -s tests/python -v
       - name: Validate project core documents
