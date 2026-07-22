@@ -1,4 +1,4 @@
-name: Diagnose Repaired C3 Runtime
+name: Apply C3 Runtime Repair
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 jobs:
-  diagnose:
+  repair:
     if: github.head_ref == 'agent/c3-core-ux-minimum'
     runs-on: ubuntu-latest
     steps:
@@ -26,30 +26,48 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Apply repairs and capture isolated output
+      - name: Apply C3 runtime repairs
+        run: python tools/_repair_c3_stage_run_types.py
+      - name: Install Godot 4.7.1 Standard
         shell: bash
         run: |
-          set +e
-          rm -f docs/_C3_HEADLESS_DIAGNOSTIC.log
-          python tools/_repair_c3_stage_run_types.py > /tmp/c3-runtime.log 2>&1
-          repair_status=$?
-          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip >> /tmp/c3-runtime.log 2>&1
-          unzip -q godot.zip >> /tmp/c3-runtime.log 2>&1
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+          unzip -q godot.zip
           chmod +x Godot_v4.7.1-stable_linux.x86_64
-          ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit >> /tmp/c3-runtime.log 2>&1
-          timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd >> /tmp/c3-runtime.log 2>&1
-          test_status=$?
-          {
-            echo "repair_status=${repair_status}"
-            echo "test_status=${test_status}"
-            tail -n 180 /tmp/c3-runtime.log
-          } > /tmp/c3-diagnostic.log
-          git fetch origin agent/c3-core-ux-minimum
-          git reset --hard origin/agent/c3-core-ux-minimum
-          cp /tmp/c3-diagnostic.log docs/_C3_HEADLESS_DIAGNOSTIC.log
+      - name: Import project
+        run: ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+      - name: Run isolated C3 regression
+        run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd
+      - name: Run all headless regressions with timeout
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test_file in tests/headless/*_test.gd; do
+            echo "Running ${test_file}"
+            timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
+          done
+      - name: Runtime smoke
+        run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
+      - name: Validate repository contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_c3_core_ux.py tools/validate_project_core_docs.py
+          python tools/validate_c1_roulette.py
+          python tools/validate_c2_battle_objective.py
+          python tools/validate_c3_core_ux.py
+          python -m unittest discover -s tests/python -v
+          python tools/validate_project_core_docs.py
+          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+          git diff --check
+          test ! -e docs/_C3_HEADLESS_DIAGNOSTIC.log
+          test ! -e tools/_repair_c3_stage_run_types.py
+      - name: Commit validated repairs
+        shell: bash
+        run: |
+          set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/_C3_HEADLESS_DIAGNOSTIC.log
-          git commit -m "record C3 runtime assertion diagnostic"
+          git add -A
+          git commit -m "repair C3 runtime contracts"
           git push origin HEAD:agent/c3-core-ux-minimum
-          exit 1
