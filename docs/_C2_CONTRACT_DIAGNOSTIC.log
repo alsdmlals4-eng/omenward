@@ -1,3 +1,5 @@
 C2 battle objective validation FAILED
 - active document retains stale C1/C2 state: docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md -> C2 검증 구현는
 - active document retains stale C1/C2 state: docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md -> C2 검증 구현는
+- temporary C2 artifact remains: tools/_repair_c2_approved_docs.py
+- temporary C2 artifact remains: docs/_C2_CONTRACT_DIAGNOSTIC.log
