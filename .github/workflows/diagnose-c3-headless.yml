@@ -1,0 +1,39 @@
+name: Diagnose C3 Headless
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/diagnose-c3-headless.yml"
+      - "tests/headless/**"
+      - "scripts/**"
+      - "data/**"
+      - "scenes/**"
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    if: github.head_ref == 'agent/c3-core-ux-minimum'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.7.1 Standard
+        shell: bash
+        run: |
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.7.1-stable_linux.x86_64
+      - name: Run each headless test with timeout
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test_file in tests/headless/*_test.gd; do
+            echo "=== START ${test_file} ==="
+            start=$(date +%s)
+            timeout 30s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
+            end=$(date +%s)
+            echo "=== PASS ${test_file} $((end-start))s ==="
+          done
