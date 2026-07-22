@@ -31,16 +31,16 @@ replace_once(
     '        "IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING",\\n',
     '',
 )
+replace_once(
+    "tools/validate_project_core_docs.py",
+    '        "전투 목적 루프 연결",',
+    '        "C2 전투 목적 구현 후보",',
+)
 
 '''
 if validator_marker not in body:
     raise RuntimeError("project core validator marker missing")
 body = body.replace(validator_marker, validator_sync + validator_marker, 1)
-body = body.replace(
-    '        "전투 목적 루프 연결",',
-    '        "C2 전투 목적 구현 후보",',
-    1,
-)
 
 cleanup_marker = '# Remove the synchronizer before validation; durable docs preserve its result.\n'
 cleanup = '''for relative in (
