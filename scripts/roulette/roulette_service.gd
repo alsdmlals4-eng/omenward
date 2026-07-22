@@ -115,6 +115,16 @@ func token_ledger(extra_sources: Array[Dictionary] = []) -> Array[Dictionary]:
 	if buildings != null:
 		for source in buildings.roulette_token_sources():
 			sources.append((source as Dictionary).duplicate(true))
+	return token_ledger_from_sources(sources, extra_sources)
+
+
+func token_ledger_from_sources(
+	base_sources: Array[Dictionary],
+	extra_sources: Array[Dictionary] = [],
+) -> Array[Dictionary]:
+	var sources: Array[Dictionary] = []
+	for source in base_sources:
+		sources.append(source.duplicate(true))
 	for source in extra_sources:
 		sources.append(source.duplicate(true))
 	var weights := _weight_snapshot(sources)
@@ -159,6 +169,17 @@ func token_ledger(extra_sources: Array[Dictionary] = []) -> Array[Dictionary]:
 
 func probability_for_symbol(symbol_id: StringName, extra_sources: Array[Dictionary] = []) -> float:
 	for entry in token_ledger(extra_sources):
+		if StringName(entry.get("symbol_id", &"")) == symbol_id:
+			return float(entry.get("probability", 0.0))
+	return 0.0
+
+
+func probability_for_symbol_from_sources(
+	symbol_id: StringName,
+	base_sources: Array[Dictionary],
+	extra_sources: Array[Dictionary] = [],
+) -> float:
+	for entry in token_ledger_from_sources(base_sources, extra_sources):
 		if StringName(entry.get("symbol_id", &"")) == symbol_id:
 			return float(entry.get("probability", 0.0))
 	return 0.0
