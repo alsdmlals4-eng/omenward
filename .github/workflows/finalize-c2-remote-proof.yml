@@ -1,5 +1,5 @@
 name: Finalize C2 Remote Proof
-# Guarded rerun; commit only after all contract and Godot regressions pass.
+# Guarded rerun; commit docs and contracts only after all regressions pass.
 
 on:
   pull_request:
@@ -8,6 +8,7 @@ on:
     paths:
       - "tools/_finalize_c2_remote_proof.py"
       - "tools/_repair_c2_finalizer.py"
+      - "tools/_repair_c2_workflow_permissions.py"
       - ".github/workflows/finalize-c2-remote-proof.yml"
 
 permissions:
@@ -31,8 +32,12 @@ jobs:
           set +e
           : > /tmp/c2-finalize.log
           rm -f docs/_C2_FINALIZE_FAILURE.log
-          python tools/_repair_c2_finalizer.py >>/tmp/c2-finalize.log 2>&1
+          python tools/_repair_c2_workflow_permissions.py >>/tmp/c2-finalize.log 2>&1
           status=$?
+          if [ "$status" -eq 0 ]; then
+            python tools/_repair_c2_finalizer.py >>/tmp/c2-finalize.log 2>&1
+            status=$?
+          fi
           if [ "$status" -eq 0 ]; then
             python tools/_finalize_c2_remote_proof.py >>/tmp/c2-finalize.log 2>&1
             status=$?
@@ -74,7 +79,7 @@ jobs:
             /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
           done
           /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
-      - name: Commit validated C2 tree
+      - name: Commit validated C2 docs and contracts
         shell: bash
         run: |
           set -euo pipefail
