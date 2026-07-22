@@ -31,6 +31,16 @@ jobs:
         if: ${{ hashFiles('tools/_repair_project_core_recovery.py') != '' }}
         shell: bash
         run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("tools/_repair_project_core_recovery.py")
+          text = path.read_text(encoding="utf-8")
+          old = "### D. 이미 구현된 기술 기준선\n\n| 항목 | 현재 상태 |"
+          new = "### D. 이미 구현된 기술 기준선\n\n상태 요약: `Godot 4.7.1·Compatibility·960×540` 기술 기준선은 실제 저장소에 존재하며, 최신 runtime 재검증은 별도 증거로 남긴다.\n\n| 항목 | 현재 상태 |"
+          if text.count(old) != 1:
+              raise RuntimeError(f"expected one implemented-baseline marker, found {text.count(old)}")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8", newline="\n")
+          PY
           set +e
           python tools/_repair_project_core_recovery.py > project-core-repair.log 2>&1
           status=$?
