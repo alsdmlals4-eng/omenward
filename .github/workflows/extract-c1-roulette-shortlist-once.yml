@@ -1,0 +1,27 @@
+name: Extract C1 Roulette Shortlist Once
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_extract_c1_roulette_shortlist.py"
+      - ".github/workflows/extract-c1-roulette-shortlist-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  extract:
+    if: github.head_ref == 'agent/c1-approved-roulette-contract-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Extract C1 shortlist
+        run: python tools/_extract_c1_roulette_shortlist.py
