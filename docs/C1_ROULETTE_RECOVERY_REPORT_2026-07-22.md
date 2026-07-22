@@ -12,7 +12,7 @@
 - `discipline.game-design` — 중앙 판정·완성선·등급·보상 C1 경계.
 - `discipline.engineering` — Godot 상태 소유·결정론·최소 데이터 변경.
 - `discipline.qa` — 정상·실패·경계·결정론·저장·배치 테스트.
-- `foundation.adversarial-review` — 9카드 placeholder·구형 참조·문서 상충 공격.
+- `foundation.adversarial-review` — 9카드 placeholder·구형 참조·문서 상충·테스트 허위 성공 공격.
 - `foundation.validation-review`, `discipline.integration-review` — 실제 diff·CI·정본 동기화.
 
 ## 2. 감사
@@ -45,8 +45,10 @@
 - 전설 스테이지 1회와 이후 영웅 2기 변환.
 - 농장·포탑의 유닛 토큰 제거.
 - 병영 40금화·전사 토큰 추가.
-- 결과 보관 중 다음 회전만 차단.
-- 같은 시드·건물 스냅샷 재현 로그.
+- 결과 보관 중 다음 회전만 차단하고 금화를 소비하지 않음.
+- 보상 없는 결과는 저장 성공으로 기록하지 않음.
+- 보관 유닛 배치 시 식량 비용을 정확히 예약.
+- 같은 시드·건물 스냅샷·복수 출처가 같은 결과를 재현.
 
 ## 4. 의도적으로 보류
 
@@ -63,28 +65,46 @@
 - 고유 역사와 승인 근거는 Git 이력에 보존한다.
 - 공식 명칭 교체표와 금지 예시는 구형 명칭을 설명하는 정본이므로 유지한다.
 - mutation fixture의 구형 문자열은 Validator 공격 입력이므로 유지한다.
+- 임시 감사 payload·실행 스크립트·진단 Workflow·진단 로그는 최종 트리에서 제거한다.
 
-## 6. 원격 검증 결과
+## 6. 회귀 실패 원인과 수정
 
-- 검증 head: `237d07cd59a9553a28725b0e173231bd0e660492`
-- GitHub Actions run: `29919925777`
+적대적 보강 뒤 `stage_run_test.gd`에서 두 단계 문제가 드러났다.
+
+1. `Variant` 경유 경제 값을 `:=`로 추론해 Godot 4.7.1 정적 타입 파싱이 실패했다.
+2. `pending_roulette_rewards.front()`의 반환값을 암시적으로 추론해 경고-오류 정책에서 `StageRun` 파싱이 실패했다.
+3. 기존 분리 테스트는 스크립트 로드 오류가 발생해도 `load()` 결과 객체만 보고 진행해 허위 성공 가능성이 있었다.
+
+수정:
+
+- 경제 스냅샷을 명시적 `int`로 변환.
+- 대기 보상을 명시적 `UnitSpawnDefinition`으로 캐스팅하고 null을 방어.
+- 테스트가 `Script.can_instantiate()`까지 검사한 뒤에만 인스턴스 테스트를 실행.
+- 임시 분리 진단 Workflow와 로그는 원인 확인 후 삭제.
+
+## 7. 최종 원격 검증 결과
+
+- 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+- GitHub Actions run: `29926598807`
 - Godot: `4.7.1-stable`
 
 통과:
 
 - Ubuntu/Windows × Python 3.12/3.13 계약 검증 `4/4 SUCCESS`.
 - C1 Validator·구형 활성 참조·깨진 링크 검사.
-- 전체 Python 저장소 테스트 `31/31 PASSED`.
+- 전체 Python 저장소 테스트.
 - 프로젝트 코어·Skill Validator·compile·whitespace.
 - Godot editor import.
 - 모든 `tests/headless/*_test.gd`.
 - runtime smoke.
+- 강화된 보관 차단·금화 불변·식량 예약·복수 출처 결정론 회귀.
 
 판정:
 
 ```text
 C1_ROULETTE_CORE_REMOTE_PROVEN
 + C1U_PENDING_DECISIONS
++ CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
 ```
 
