@@ -8,5 +8,7 @@ role = "frontline"
 base_stats = {"max_health": 155.0, "attack": 20.0, "armor": 14.0, "magic_resistance": 10.0, "move_speed": 1.0, "attack_range": 1.0}
 capture_power = 1.00
 structure_damage_tags = PackedStringArray("normal")
+counter_tags = PackedStringArray("frontline_cluster")
+target_priority_tags = PackedStringArray("nearest")
 attack_profile_id = &"greatsword_warrior"
 animation_contract_id = &"greatsword_warrior"
