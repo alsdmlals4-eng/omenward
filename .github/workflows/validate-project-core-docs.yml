@@ -15,50 +15,14 @@ on:
       - "docs/DECISIONS_PENDING.md"
       - "tools/validate_project_core_docs.py"
       - "tests/python/test_project_core_docs.py"
-      - "tools/_confirm_project_core_once.py"
       - ".github/workflows/validate-project-core-docs.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  confirm:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Apply confirmed core lock once
-        if: ${{ hashFiles('tools/_confirm_project_core_once.py') != '' }}
-        shell: bash
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          path = Path("tools/_confirm_project_core_once.py")
-          text = path.read_text(encoding="utf-8")
-          marker = "for relative in (\n    \"tools/_confirm_project_core_once.py\","
-          insertion = '''workflow_text = subprocess.check_output(
-              ["git", "show", "d18d976f528e041597b91fea6f6900018c004a95:.github/workflows/validate-project-core-docs.yml"],
-              cwd=ROOT,
-              text=True,
-          )
-          write(".github/workflows/validate-project-core-docs.yml", workflow_text)
-
-'''
-          if marker not in text:
-              raise RuntimeError("cleanup insertion marker missing")
-          text = text.replace(marker, insertion + marker, 1)
-          path.write_text(text, encoding="utf-8", newline="\n")
-          PY
-          python tools/_confirm_project_core_once.py
-
   validate:
-    needs: confirm
     strategy:
       fail-fast: false
       matrix:
@@ -67,8 +31,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
