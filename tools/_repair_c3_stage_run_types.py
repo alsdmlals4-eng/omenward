@@ -15,6 +15,28 @@ if stage.count(old) != 1:
     raise RuntimeError("StageRun explicit type preload insertion point missing")
 stage_path.write_text(stage.replace(old, new, 1), encoding="utf-8", newline="\n")
 
+service_path = ROOT / "scripts/core/core_ux_service.gd"
+service = service_path.read_text(encoding="utf-8")
+replacements = (
+    (
+        'var before_probability := run.roulette.probability_for_symbol(symbol_id) if symbol_id != &"" else 0.0',
+        'var before_probability: float = float(run.roulette.probability_for_symbol(symbol_id)) if symbol_id != &"" else 0.0',
+    ),
+    (
+        'var after_probability := run.roulette.probability_for_symbol(symbol_id, [source]) if not source.is_empty() else before_probability',
+        'var after_probability: float = float(run.roulette.probability_for_symbol(symbol_id, [source])) if not source.is_empty() else before_probability',
+    ),
+    (
+        'var role := profile.role if profile != null else "unknown"',
+        'var role: String = str(profile.role) if profile != null else "unknown"',
+    ),
+)
+for old_value, new_value in replacements:
+    if service.count(old_value) != 1:
+        raise RuntimeError(f"CoreUxService type repair source missing: {old_value}")
+    service = service.replace(old_value, new_value, 1)
+service_path.write_text(service, encoding="utf-8", newline="\n")
+
 test_path = ROOT / "tests/headless/c3_core_ux_test.gd"
 test = test_path.read_text(encoding="utf-8")
 old = '''const StageRun = preload("res://scripts/core/stage_run.gd")
