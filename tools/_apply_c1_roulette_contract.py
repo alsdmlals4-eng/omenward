@@ -27,7 +27,9 @@ body = body.replace(
     cleanup_marker,
     cleanup_marker
     + '    "docs/_C1_APPLY_FAILURE.log",\n'
-    + '    "tools/_apply_c1_roulette_contract_runtime.py",\n',
+    + '    "docs/_C1_FINAL_APPLY_FAILURE.log",\n'
+    + '    "tools/_apply_c1_roulette_contract_runtime.py",\n'
+    + '    ".github/workflows/apply-c1-roulette-contract-final-once.yml",\n',
     1,
 )
 insertion_marker = "# Documentation map: remove task-specific legacy files from active routing."
