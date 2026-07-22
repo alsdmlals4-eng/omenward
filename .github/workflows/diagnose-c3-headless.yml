@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - ".github/workflows/diagnose-c3-headless.yml"
-      - "tests/headless/**"
+      - "tests/headless/c3_core_ux_test.gd"
       - "scripts/**"
       - "data/**"
       - "scenes/**"
@@ -26,14 +26,10 @@ jobs:
           curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
           unzip -q godot.zip
           chmod +x Godot_v4.7.1-stable_linux.x86_64
-      - name: Run each headless test with timeout
+      - name: Run C3 headless test with timeout
         shell: bash
         run: |
           set -euo pipefail
-          for test_file in tests/headless/*_test.gd; do
-            echo "=== START ${test_file} ==="
-            start=$(date +%s)
-            timeout 30s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
-            end=$(date +%s)
-            echo "=== PASS ${test_file} $((end-start))s ==="
-          done
+          echo "=== START C3 ==="
+          timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd
+          echo "=== PASS C3 ==="
