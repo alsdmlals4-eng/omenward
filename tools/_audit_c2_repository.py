@@ -25,6 +25,7 @@ KEY_TERMS = (
     "접전지",
     "중간거점",
 )
+CONTEXT_TERMS = ("본진", "승리 조건", "패배 조건", "승리", "패배", "base_hp", "base_health", "headquarters")
 STALE_TERMS = (
     "C1 승인 룰렛 핵심 계약 구현·원격 검증 진행",
     "PR #49 사용자 검토와 병합 결정",
@@ -34,6 +35,7 @@ STALE_TERMS = (
     "다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구",
 )
 EXCLUDE_DIRS = {".git", ".godot"}
+CONTEXT_PREFIXES = ("docs/OMENWARD_GAME_DESIGN.md", "docs/HANDOFF_CONTEXT.md", "docs/design/APPROVED_", "scripts/", "tests/")
 
 
 def is_text(path: pathlib.Path) -> bool:
@@ -50,19 +52,29 @@ def main() -> None:
     relevant: list[tuple[str, list[str]]] = []
     stale: list[tuple[str, str, int]] = []
     broken_links: list[tuple[str, str]] = []
+    contexts: list[tuple[str, int, str]] = []
 
     for path in files:
         try:
             text = path.read_text(encoding="utf-8")
         except UnicodeDecodeError:
             continue
+        rel = relative(path)
         matched = [term for term in KEY_TERMS if term in text]
         if matched:
-            relevant.append((relative(path), matched))
+            relevant.append((rel, matched))
+        text_lines = text.splitlines()
         for term in STALE_TERMS:
-            for line_number, line in enumerate(text.splitlines(), start=1):
+            for line_number, line in enumerate(text_lines, start=1):
                 if term in line:
-                    stale.append((relative(path), term, line_number))
+                    stale.append((rel, term, line_number))
+        if rel.startswith(CONTEXT_PREFIXES):
+            for line_number, line in enumerate(text_lines, start=1):
+                if any(term in line for term in CONTEXT_TERMS):
+                    start = max(0, line_number - 2)
+                    end = min(len(text_lines), line_number + 1)
+                    snippet = " / ".join(part.strip() for part in text_lines[start:end] if part.strip())
+                    contexts.append((rel, line_number, snippet))
         if path.suffix.lower() == ".md":
             for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
                 clean = target.split("#", 1)[0].strip()
@@ -74,7 +86,7 @@ def main() -> None:
                 except ValueError:
                     continue
                 if not resolved.exists():
-                    broken_links.append((relative(path), clean))
+                    broken_links.append((rel, clean))
 
     lines = [
         "# C2 repository audit input",
@@ -83,6 +95,7 @@ def main() -> None:
         f"- battle/objective relevant files: {len(relevant)}",
         f"- stale current-state occurrences: {len(stale)}",
         f"- broken internal Markdown links: {len(broken_links)}",
+        f"- base/victory context matches: {len(contexts)}",
         "",
         "## Battle/objective relevant files",
         "",
@@ -99,6 +112,9 @@ def main() -> None:
         rel = relative(path)
         if rel.startswith("scripts/battle/"):
             lines.append(f"- `{rel}`")
+    lines.extend(["", "## Base, victory, and defeat context", ""])
+    for path, line_number, snippet in contexts:
+        lines.append(f"- `{path}:{line_number}` — {snippet}")
     lines.extend(["", "## Stale current-state occurrences", ""])
     if stale:
         for path, term, line_number in stale:
