@@ -1,8 +1,8 @@
 # 오멘워드 미확정 결정 목록
 
-- 갱신일: 2026-07-22
+- 갱신일: 2026-07-23
 - 기준: `docs/PROJECT_CORE.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`, `docs/HANDOFF_CONTEXT.md`
-- 현재 작업: PR #50 C2 공통 원격 검증 / 다음 사용자 결정: C1U 이동권·럭키·분포
+- 현재 작업: PR #50 C2 병합 및 C3 코어 UX 착수 / 다음 사용자 결정: C1U 이동권·럭키·분포
 - 원칙: `승인 구조`, `제안서 승인 대기`, `PoC 조정`, `장기 확장`을 구분한다.
 
 체크되지 않은 항목은 아직 구현 사양으로 확정하지 않는다. 표시명이나 이미지가 달라도 새 적군 UnitProfile을 만들지 않는다.
@@ -41,7 +41,8 @@
 - [x] 교착·점령·안정화·건설 revision·시간 경제 연결.
 - [x] 같은 라인 유닛의 실제 성문·본진 공격.
 - [x] 적 본진·W15 전설 보스 승리와 아군 본진 패배.
-- [ ] 최종 공통 `Core Contracts` 원격 검증과 PR #50 병합.
+- [x] 통합 `Validate Core Contracts` 원격 검증 — head `496157d0b87ab71ea2c9f25780f21df9f68b67f3`, run `29936497790`.
+- [ ] PR #50 병합.
 
 가역 fallback·추가 결정:
 
@@ -52,7 +53,8 @@
 
 ### C. 검증 증거
 
-- [x] Godot 4.7.1 editor import·전체 headless·runtime smoke — run `29926598807`.
+- [x] C1 Godot 4.7.1 editor import·전체 headless·runtime smoke — run `29926598807`.
+- [x] C1·C2 통합 Godot·4환경 계약·문서·Skill 검증 — run `29936497790`.
 - [x] 같은 시드·건물 스냅샷·보드·결과 결정론 검증.
 - [ ] 코어 UX 뒤 1920×1080·1280×720 사람 플레이.
 - [ ] W1~W20 전체 플레이는 코어 루프 완결 뒤 실행.
@@ -68,7 +70,7 @@
 | Main·GameSession·CombatClock·DeterminismService·DataRegistry | 실제 코드에 존재 |
 | typed `.tres`와 StageManifest·input log | 실제 코드·데이터에 존재 |
 | 공용 10병종과 진영 Visual 분리 골격 | 실제 Resource·validator에 존재 |
-| headless 테스트 | Godot 4.7.1 전체 suite 원격 통과 (`29926598807`) |
+| headless 테스트 | Godot 4.7.1 전체 suite 원격 통과 (C1 `29926598807`, 통합 C1·C2 `29936497790`) |
 
 ### E. 과거 Phase 0 추천에서 남은 확인·대안
 
@@ -424,12 +426,12 @@ UnitArchetypeProfile × 10
 ## 12. 현재 실행 순서
 
 ```text
-1. PR #50 C2 공통 원격 검증·병합 결정
-2. C1U 이동권·럭키 정본 통합과 100,000시드 사용자 결정
-3. 승인 코어 UX 6종
-5. 10~15분 사람 플레이와 1080p·720p QA
-6. 밸런스 안정화
-7. 콘텐츠·아트 확장
+1. PR #50 C2 병합
+2. C3 승인 코어 UX 6종 최소 구현
+3. C1U 이동권·럭키 정본 통합과 100,000시드 사용자 결정
+4. 10~15분 사람 플레이와 1080p·720p QA
+5. 밸런스 안정화
+6. 콘텐츠·아트 확장
 ```
 
-현재는 새로운 병종·Tier·보스·캠페인 콘텐츠를 추가하는 단계가 아니다. C2는 승인 인과만 복구하며, C1U는 사용자 결정 전 구현하지 않는다.
+현재는 새로운 병종·Tier·보스·캠페인 콘텐츠를 추가하는 단계가 아니다. C2는 원격 검증을 완료했고 다음 구현은 C3 코어 UX이며, C1U는 사용자 결정 전 구현하지 않는다.

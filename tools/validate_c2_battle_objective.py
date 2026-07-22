@@ -104,6 +104,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"{relative} missing proven C2 state: {phrase}")
 
     stale_active = (
+        "C2 검증 구현는",
+        "C2 전투 목적 구현 후보",
+        "최종 공통 원격 검증·코어 UX 6종·사람 플레이는 아직 완료되지 않았다",
         "PR #49 사용자 검토 대기",
         "PR #49 C1 원격 검증 결과 검토",
         "PR #49 병합",
@@ -135,6 +138,16 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 continue
             if not resolved.exists():
                 errors.append(f"broken active Markdown link: {relative} -> {clean}")
+
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    if readme.count("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN") != 1:
+        errors.append("README must list the C2 proven state exactly once")
+    active_context = (root / "docs/ACTIVE_CONTEXT.md").read_text(encoding="utf-8")
+    if "C1·C2 통합 원격 검증은 완료" not in active_context or "[다음 구현] C3 승인 코어 UX 6종" not in active_context:
+        errors.append("ACTIVE_CONTEXT does not expose the final C2 proof and C3 next step")
+    handoff = (root / "docs/HANDOFF_CONTEXT.md").read_text(encoding="utf-8")
+    if "C2 전투 목적 구현 후보" in handoff or "PR #50 C2 공통 원격 검증" in handoff:
+        errors.append("HANDOFF_CONTEXT retains the C2 candidate-era next step")
 
     status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
     for evidence in (

@@ -68,7 +68,7 @@
 → 콘텐츠·아트 확장
 ```
 
-현재 저장소에는 원격 검증된 C1 룰렛 핵심 계약과 C2 전투 목적 루프가 존재한다. C2는 접전지·거점·성문·본진·자연 승패·경제를 연결했지만 공통 원격 검증은 완료됐고 사람 플레이는 남아 있다. 현재 판정은 `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
+현재 저장소에는 원격 검증된 C1 룰렛 핵심 계약과 C2 전투 목적 루프가 존재한다. C2는 접전지·거점·성문·본진·자연 승패·경제를 연결했고 통합 자동 검증을 마쳤다. 현재 판정은 `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이며 사람 플레이는 아직 실행하지 않았다.
 
 세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 증거는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), C2 구현·감사는 [`docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`](docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
 
