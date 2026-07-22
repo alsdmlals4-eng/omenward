@@ -11,6 +11,7 @@ REQUIRED_FILES = (
     "scripts/roulette/roulette_service.gd",
     "scripts/buildings/building_service.gd",
     "tests/headless/roulette_contract_test.gd",
+    "tests/headless/stage_run_test.gd",
     "docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md",
 )
 FORBIDDEN_ACTIVE_REFERENCES = (
