@@ -8,5 +8,7 @@ role = "mobile"
 base_stats = {"max_health": 165.0, "attack": 19.0, "armor": 18.0, "magic_resistance": 10.0, "move_speed": 1.6, "attack_range": 1.0}
 capture_power = 1.00
 structure_damage_tags = PackedStringArray("normal")
+counter_tags = PackedStringArray("backline")
+target_priority_tags = PackedStringArray("backline", "nearest")
 attack_profile_id = &"cavalry"
 animation_contract_id = &"cavalry"
