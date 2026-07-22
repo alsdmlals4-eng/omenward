@@ -2,7 +2,7 @@
 
 **오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
 
-> 현재 상태: **플레이 가능한 수직 슬라이스 구현 완료 / PR 검토·수동 QA 대기**
+> 현재 상태: **기술·데이터 그레이박스 수직 슬라이스 존재 / 코어 루프 미완결 / 사람 플레이 검증 대기**
 > 기본 언어는 GDScript이며 Godot 4.7.1 Standard, Compatibility renderer, 1920×1080 출력과 960×540 논리 해상도를 사용합니다.
 
 ## 핵심 문장
@@ -42,35 +42,35 @@
 ## 먼저 읽을 문서
 
 1. [`AGENTS.md`](AGENTS.md) — 작업 규칙과 승인 게이트
-2. [`docs/HANDOFF_CONTEXT.md`](docs/HANDOFF_CONTEXT.md) — 현재 방향, 불변 조건, 데이터 소유와 다음 작업
-3. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 원본 라우터
-4. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 공식 전체 기획서 v0.19
-5. [`docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`](docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md) — 승인 구조 통합 인덱스
-6. [`docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`](docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md) — 공용 병종·진영 이미지 데이터 계약
-7. [`docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`](docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md) — 전장·성문·거점·우회로
-8. [`docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`](docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md) — 이동·공격·피격·승리 연출
-9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 승인 게이트와 단계별 완료 기준
-10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전·PoC 후 결정 항목
-11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 예정 기술 구조와 상태 소유
+2. [`docs/PROJECT_CORE.md`](docs/PROJECT_CORE.md) — 제품 정체성, 핵심 선택, 불변 조건과 코어 검증 게이트
+3. [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md) — 실제 구현·부분 구현·미검증 증거 경계
+4. [`docs/HANDOFF_CONTEXT.md`](docs/HANDOFF_CONTEXT.md) — 현재 방향, 불변 조건, 데이터 소유와 다음 작업
+5. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 원본 라우터
+6. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 공식 전체 기획서
+7. [`docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`](docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md) — 승인 구조 통합 인덱스
+8. [`docs/design/APPROVED_ROULETTE_CORE_RULES.md`](docs/design/APPROVED_ROULETTE_CORE_RULES.md) — 승인 룰렛 판정·등급·보상 계약
+9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 현재 복구 순서와 단계별 완료 기준
+10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 현재 결정 게이트와 PoC 조정 항목
+11. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md)에서 작업별 추가 책임 원본을 확인
 12. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 최신 작업 상태 캡슐
 
-## 현재 실행 순서
+## 현재 개선 순서
 
 ```text
-Issue #1 Phase 0 Plan Mode
-→ 사용자 승인
-→ Godot 기술 기반 구현
-→ Issue #32 수직 슬라이스 Plan Mode
-→ 사용자 승인
-→ 3라인 핵심 수직 슬라이스
-→ 시뮬레이션·플레이테스트
+[현재] 정본·프로젝트 코어 복구
+→ 승인 룰렛 계약 복구
+→ 전투를 접전지·거점·성문·승패에 연결
+→ 승인 코어 UX 6종 최소 구현
+→ 10~15분 사람 플레이와 1080p·720p 가독성 검증
+→ 밸런스 안정화
+→ 콘텐츠·아트 확장
 ```
 
-수직 슬라이스는 튜토리얼 4웨이브, 일반 스테이지 W1~W20, 공용 병종 전투·점령·성문·건설·룰렛·배치·암살자 우회와 회색상자 UI를 구현합니다. 자동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따릅니다.
+현재 저장소에는 Godot 기술 기준선과 수직 슬라이스 구성요소가 존재하지만, 승인 룰렛 판정·전투 목적 루프·핵심 UX가 완결되지 않았다. 현재 판정은 `TECHNICAL_BASELINE_IMPLEMENTED`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
 
-검증 명령과 수동 QA는 [`docs/PHASE_0_VALIDATION.md`](docs/PHASE_0_VALIDATION.md)를 따른다.
+세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. 자동 검증 명령과 수동 QA 항목은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)와 [`docs/PHASE_0_VALIDATION.md`](docs/PHASE_0_VALIDATION.md)에 남아 있으며, 실제 재실행 전에는 완료로 보고하지 않는다.
 
-## 예정 저장소 구조
+## 현재 저장소 구조
 
 ```text
 .
@@ -99,4 +99,4 @@ Issue #1 Phase 0 Plan Mode
 └─ tests/
 ```
 
-정확한 경로와 파일은 Phase 0 Plan Mode 승인 후 확정합니다.
+현재 경로와 파일은 실제 저장소가 권위 원본이며, 구조 변경은 별도 승인·검증 PR에서 수행합니다.

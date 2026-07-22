@@ -1,7 +1,9 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
-- 갱신일: 2026-07-16
-- 현재 상태: **Godot 프로젝트·수직 슬라이스 코드와 데이터 존재 / 다음 작업 전 실제 main·검증 문서·Issue 재조사 필수**
+- 갱신일: 2026-07-22
+- 현재 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / 코어 루프·사람 플레이 미검증**
+- 프로젝트 코어: `docs/PROJECT_CORE.md`
+- 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 전체 기획: `docs/OMENWARD_GAME_DESIGN.md`
 - 개발 순서: `docs/OMENWARD_ROADMAP.md`
 - 최신 상태: `docs/ACTIVE_CONTEXT.md`
@@ -13,9 +15,9 @@
 ## 1. 가장 먼저 알아야 할 것
 
 1. 오멘워드는 건물로 룰렛의 토큰·확률과 증원 체계를 설계하고 세 전선을 지휘하는 판타지 전략 오토배틀 게임이다.
-2. 저장소에는 `project.godot`, Scene, GDScript, Resource, 테스트와 수직 슬라이스 관련 파일이 존재한다.
-3. 과거 Phase 0 Work Order의 `구현 전` 문구를 현재 상태로 재사용하지 않는다.
-4. 새 Codex 채팅은 실제 main, validation 문서, Issue·PR·최근 커밋을 먼저 조사한 뒤 다음 Plan Mode 제안서를 작성한다.
+2. 저장소에는 Phase 0 기술 기준선과 수직 슬라이스 구성요소가 존재하지만 승인 룰렛·전투 목적·코어 UX는 미완결이다.
+3. 과거 Phase 0 Work Order의 `구현 전`과 README의 과도한 `수직 슬라이스 완료`를 현재 상태로 재사용하지 않는다.
+4. 새 Codex 채팅은 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 실제 main, validation 문서와 Issue·PR을 대조한 뒤 다음 최소 변경을 제안한다.
 5. 아군과 적군은 별도 병종 전투 데이터를 만들지 않고 공용 10병종에 서로 다른 FactionVisualProfile을 연결한다.
 6. 병종 이미지는 첫 번째 전장 UI 이미지의 **실제 전장 삽입형 소형 고해상도 픽셀 스프라이트 형식**을 따른다.
 7. 두 번째 10병종×등급 도감표는 병종 목록과 등급 위계 참고만 유지하며 실제 스프라이트 형식으로 사용하지 않는다.
@@ -29,17 +31,19 @@
 1. 최신 사용자 지시
 2. AGENTS.md
 3. docs/BASE_RULES_VERSION.md
-4. docs/HANDOFF_CONTEXT.md
-5. docs/DOCUMENTATION_MAP.md
-6. 현재 작업의 work_orders 문서
-7. docs/OMENWARD_GAME_DESIGN.md
-8. 관련 APPROVED 책임 문서
-9. 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
-10. docs/OMENWARD_ROADMAP.md
-11. 현재 Issue / Goal / 승인 제안서
-12. project.godot, Scene, scripts, data, tests
-13. validation 문서와 실제 실행 결과
-14. docs/ACTIVE_CONTEXT.md
+4. docs/PROJECT_CORE.md
+5. docs/CURRENT_IMPLEMENTATION_STATUS.md
+6. docs/HANDOFF_CONTEXT.md
+7. docs/DOCUMENTATION_MAP.md
+8. 현재 작업의 work_orders 문서
+9. docs/OMENWARD_GAME_DESIGN.md
+10. 관련 APPROVED 책임 문서
+11. 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
+12. docs/OMENWARD_ROADMAP.md
+13. 현재 Issue / Goal / 승인 제안서
+14. project.godot, Scene, scripts, data, tests
+15. validation 문서와 실제 실행 결과
+16. docs/ACTIVE_CONTEXT.md
 ```
 
 저장소 조사 순서:
@@ -59,7 +63,7 @@ project.godot
 
 ### 한 문장
 
-> 건물을 지어 룰렛 확률과 증원 체계를 설계하고, 베일의 징조로 예고된 공세를 세 전선에서 뒤집는 판타지 전략 오토배틀 게임.
+> 예고된 세 전선의 위협을 읽고, 제한된 건물 노드로 룰렛 확률을 설계한 뒤, 당첨된 증원을 어느 전선에 투입할지 결정해 전황을 뒤집는 실시간 전략 오토배틀 게임.
 
 ### 핵심 루프
 
@@ -81,6 +85,22 @@ project.godot
 - 이동권과 상위 등급의 강함을 체감한다.
 - 방패병·대검전사·암살자 중 첫 전문화를 선택한다.
 - 설명보다 행동과 즉시 반응으로 시스템을 학습한다.
+
+## 3.1 현재 구현 판정
+
+- 프로젝트 코어 책임 원본: `docs/PROJECT_CORE.md`
+- 구현 증거 책임 원본: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+
+```text
+TECHNICAL_BASELINE_IMPLEMENTED
++ CORE_VERTICAL_SLICE_PARTIAL
++ CORE_LOOP_NOT_PROVEN
++ HUMAN_QA_NOT_RUN
+```
+
+현재 Godot 프로젝트는 기술·데이터 그레이박스와 여러 수직 슬라이스 구성요소를 포함한다. 그러나 승인 룰렛 판정, 전투 상태 기반 승패, 접전지·거점·성문 연결과 승인 UX 6종이 닫히지 않았으므로 “핵심 수직 슬라이스 완료”로 부르지 않는다.
+
+다음 순서는 정본 복구 뒤 승인 룰렛 계약, 전투 목적 루프, 코어 UX, 사람 플레이 검증이다.
 
 ## 4. 전장 불변 구조
 
