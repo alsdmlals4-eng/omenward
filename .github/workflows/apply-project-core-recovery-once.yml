@@ -33,15 +33,32 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+
           path = Path("tools/_apply_project_core_recovery.py")
           text = path.read_text(encoding="utf-8")
+
           marker = '''replace_once(
               "docs/OMENWARD_ROADMAP.md",
               "## 4. G1 — Phase 0 Work Order",'''
           start = text.index(marker)
           end_marker = ')\nreplace_regex("docs/OMENWARD_ROADMAP.md", r"## 15\\. 지금 실행할 단 하나의 작업'
           end = text.index(end_marker, start) + 2
-          path.write_text(text[:start] + text[end:], encoding="utf-8", newline="\n")
+          text = text[:start] + text[end:]
+
+          candidates = (
+              'if "CORE_CONFIRMED" in core or "CORE_LOCKED" in core:',
+              'if \\"CORE_CONFIRMED\\" in core or \\"CORE_LOCKED\\" in core:',
+          )
+          matches = [candidate for candidate in candidates if candidate in text]
+          if len(matches) != 1:
+              raise RuntimeError(f"expected one core-lock validator condition, found {matches}")
+          old = matches[0]
+          new = 'if re.search(r"(?m)^- (?:상태|잠금 상태): `(?:CORE_CONFIRMED|CORE_LOCKED)`$", core):'
+          if '\\"' in old:
+              new = new.replace('"', '\\"')
+          text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding="utf-8", newline="\n")
           PY
           set +e
           python tools/_apply_project_core_recovery.py > project-core-recovery.log 2>&1
