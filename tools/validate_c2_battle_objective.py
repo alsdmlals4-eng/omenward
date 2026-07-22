@@ -57,6 +57,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "the top enemy gate collapses from same-lane siege unit attacks",
         "other lane gates remain standing",
         "both teams on one clash freeze it as contested",
+        "an empty stable clash clears its contested marker",
         "farm food cap is removed when the outpost becomes neutral",
         "enemy base destruction from unit attacks produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
