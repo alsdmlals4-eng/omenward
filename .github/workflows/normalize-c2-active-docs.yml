@@ -1,4 +1,5 @@
 name: Normalize C2 Active Documentation
+# Guarded rerun with isolated validation diagnostics.
 
 on:
   pull_request:
@@ -23,20 +24,37 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-      - name: Normalize active documents
-        run: python tools/_normalize_c2_active_docs.py
-      - name: Validate normalized repository contracts
+      - name: Normalize and validate active documents
         shell: bash
         run: |
-          set -euo pipefail
-          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
-          python tools/validate_c1_roulette.py
-          python tools/validate_c2_battle_objective.py
-          python tools/validate_project_core_docs.py
-          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
-          python -m unittest discover -s tests/python -v
-          git diff --check
-          test ! -e tools/_normalize_c2_active_docs.py
+          set +e
+          : > /tmp/c2-doc-normalize.log
+          python tools/_normalize_c2_active_docs.py >>/tmp/c2-doc-normalize.log 2>&1
+          status=$?
+          if [ "$status" -eq 0 ]; then
+            {
+              python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
+              python tools/validate_c1_roulette.py
+              python tools/validate_c2_battle_objective.py
+              python tools/validate_project_core_docs.py
+              if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+              python -m unittest discover -s tests/python -v
+              git diff --check
+              test ! -e tools/_normalize_c2_active_docs.py
+            } >>/tmp/c2-doc-normalize.log 2>&1
+            status=$?
+          fi
+          if [ "$status" -ne 0 ]; then
+            git fetch origin agent/c2-battle-objective-loop
+            git reset --hard origin/agent/c2-battle-objective-loop
+            tail -n 500 /tmp/c2-doc-normalize.log > docs/_C2_DOC_NORMALIZE_FAILURE.log
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/_C2_DOC_NORMALIZE_FAILURE.log
+            git commit -m "record C2 active-document normalization failure"
+            git push origin HEAD:agent/c2-battle-objective-loop
+            exit 1
+          fi
       - name: Commit normalized active documents
         shell: bash
         run: |
