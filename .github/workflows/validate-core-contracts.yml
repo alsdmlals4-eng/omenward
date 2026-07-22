@@ -18,6 +18,7 @@ permissions:
 
 jobs:
   contracts:
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -45,10 +46,17 @@ jobs:
         shell: bash
         run: |
           if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+      - name: Reject temporary C3 repair artifacts
+        shell: bash
+        run: |
+          test ! -e docs/_C3_HEADLESS_DIAGNOSTIC.log
+          test ! -e tools/_repair_c3_stage_run_types.py
+          test ! -e .github/workflows/diagnose-c3-headless.yml
       - name: Check whitespace
         run: git diff --check
 
   godot:
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -60,14 +68,14 @@ jobs:
           chmod +x Godot_v4.7.1-stable_linux.x86_64
           ./Godot_v4.7.1-stable_linux.x86_64 --version
       - name: Import project
-        run: ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+        run: timeout 120s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
       - name: Run all headless contract tests
         shell: bash
         run: |
           set -euo pipefail
           for test_file in tests/headless/*_test.gd; do
             echo "Running ${test_file}"
-            ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
+            timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
           done
       - name: Runtime smoke
-        run: ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
+        run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
