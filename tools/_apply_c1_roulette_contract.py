@@ -53,6 +53,9 @@ if old_plan.exists():
 if insertion_marker not in body:
     raise RuntimeError("C1 documentation insertion marker missing")
 body = body.replace(insertion_marker, insertion + insertion_marker, 1)
+workflow_start = body.index('write(\n    ".github/workflows/validate-c1-roulette.yml",')
+workflow_end = body.index("# Delete temporary audit payloads and bootstrap files.", workflow_start)
+body = body[:workflow_start] + body[workflow_end:]
 validator_marker = "# Delete temporary audit payloads and bootstrap files."
 validator_sync = '''replace_once(
     "tools/validate_project_core_docs.py",
@@ -69,8 +72,5 @@ replace_once(
 if validator_marker not in body:
     raise RuntimeError("project core validator sync marker missing")
 body = body.replace(validator_marker, validator_sync + validator_marker, 1)
-workflow_start = body.index('write(\n    ".github/workflows/validate-c1-roulette.yml",')
-workflow_end = body.index("# Delete temporary audit payloads and bootstrap files.", workflow_start)
-body = body[:workflow_start] + body[workflow_end:]
 RUNTIME_PATH.write_text(body, encoding="utf-8", newline="\n")
 subprocess.run(["python", str(RUNTIME_PATH)], cwd=ROOT, check=True)
