@@ -6,6 +6,7 @@ const CombatClockScript = preload("res://scripts/core/combat_clock.gd")
 const StageEconomyScript = preload("res://scripts/core/stage_economy.gd")
 const BuildingServiceScript = preload("res://scripts/buildings/building_service.gd")
 const RouletteServiceScript = preload("res://scripts/roulette/roulette_service.gd")
+const RouletteSpinResultScript = preload("res://scripts/data/roulette_spin_result.gd")
 const DeploymentServiceScript = preload("res://scripts/units/deployment_service.gd")
 const WaveDirectorScript = preload("res://scripts/waves/wave_director.gd")
 const BattleSimulatorScript = preload("res://scripts/battle/battle_simulator.gd")
@@ -28,6 +29,8 @@ var wave_director: Variant
 var battle: Variant
 var current_wave := 0
 var result_state: StringName = &""
+var pending_roulette_rewards: Array[UnitSpawnDefinition] = []
+var last_roulette_result: RouletteSpinResult
 
 var _registry: Variant
 var _home_outpost: Variant
@@ -41,6 +44,8 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	stage = assigned_stage
 	current_wave = 0
 	result_state = &""
+	pending_roulette_rewards.clear()
+	last_roulette_result = null
 	if stage == null or not progression.can_start(stage):
 		return
 	_registry = DataRegistryScript.new()
@@ -54,7 +59,7 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	economy = StageEconomyScript.new(manifest)
 	buildings = BuildingServiceScript.new(economy, manifest)
 	_home_outpost = OutpostStateScript.new(&"lumern")
-	buildings.register_outpost(&"home", _home_outpost, [&"front_a", &"front_b"])
+	buildings.register_outpost(&"home", _home_outpost, [&"front_a", &"front_b", &"rear"])
 	roulette = RouletteServiceScript.new(economy, buildings, manifest, &"lumern")
 	deployment = DeploymentServiceScript.new(economy, manifest)
 	wave_director = WaveDirectorScript.new(stage)
@@ -62,15 +67,51 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	result_state = RUNNING
 
 
-func spin_roulette(seed_input: Dictionary) -> Array:
-	return roulette.spin(seed_input) if roulette != null else []
+func spin_roulette(seed_input: Dictionary) -> RouletteSpinResult:
+	if roulette == null:
+		var unavailable := RouletteSpinResultScript.new() as RouletteSpinResult
+		unavailable.failure_reason = &"service_not_ready"
+		return unavailable
+	if not pending_roulette_rewards.is_empty():
+		var blocked := RouletteSpinResultScript.new() as RouletteSpinResult
+		blocked.failure_reason = &"pending_reward"
+		last_roulette_result = blocked
+		return blocked
+	var result: RouletteSpinResult = roulette.spin(seed_input)
+	last_roulette_result = result
+	store_roulette_result(result)
+	return result
+
+
+func store_roulette_result(result: RouletteSpinResult) -> bool:
+	if result == null or not result.accepted:
+		return false
+	for reward in result.rewards:
+		pending_roulette_rewards.append(reward.duplicate() as UnitSpawnDefinition)
+	return true
 
 
 func construct_home(building_id: StringName) -> bool:
 	if buildings == null:
 		return false
-	var node_id := &"front_a" if building_id == &"tower" else &"front_b"
-	return buildings.try_construct(&"home", node_id, building_id)
+	var node_by_building := {
+		&"tower": &"front_a",
+		&"farm": &"front_b",
+		&"barracks": &"rear",
+	}
+	if not node_by_building.has(building_id):
+		return false
+	return buildings.try_construct(&"home", node_by_building[building_id], building_id)
+
+
+func deploy_next_roulette_reward(lane_id: StringName) -> bool:
+	if pending_roulette_rewards.is_empty():
+		return false
+	var reward := pending_roulette_rewards.front()
+	if not deploy_card(reward, lane_id):
+		return false
+	pending_roulette_rewards.pop_front()
+	return true
 
 
 func deploy_card(card: UnitSpawnDefinition, lane_id: StringName) -> bool:

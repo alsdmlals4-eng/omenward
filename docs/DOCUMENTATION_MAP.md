@@ -12,7 +12,7 @@
 → CURRENT_IMPLEMENTATION_STATUS.md
 → HANDOFF_CONTEXT.md
 → DOCUMENTATION_MAP.md
-→ 현재 Codex 작업이면 work_orders 문서
+→ 현재 PR·Issue와 관련 승인 보고서
 → OMENWARD_GAME_DESIGN.md
 → 관련 APPROVED 책임 문서
 → 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
@@ -32,15 +32,19 @@
 - 프로젝트 문서와 Base 공용 자료가 충돌하면 최신 사용자 지시와 프로젝트 책임 문서가 우선한다.
 - 승인 구조, PoC 가설, 작업 요청, Plan Mode 제안서, 실제 구현, 검증 완료를 구분한다.
 
-## 현재 Codex 시작 문서
+## 현재 작업 시작점
 
-| 작업 | 시작 문서 | 상태 |
-|---|---|---|
-| 현재 main 감사·다음 개선 Plan Mode | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | **활성 시작 문서** |
-| Phase 0 Bootstrap | `goals/0001-engine-selection-and-bootstrap.md`, `work_orders/0001-phase-0-codex-plan-mode.md` | 구현 이후의 과거 입력·변경 이력 |
-| 수직 슬라이스 | `goals/0002-core-vertical-slice.md`, 관련 Issue·validation | 실제 main과 테스트 재확인 대상 |
+새 작업은 고정된 과거 Work Order가 아니라 다음 정본에서 시작한다.
 
-새 Codex 채팅은 `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`에서 시작한다. 과거 `0001` Work Order의 `구현 전` 문구를 현재 상태로 사용하지 않는다.
+```text
+PROJECT_CORE.md
+→ CURRENT_IMPLEMENTATION_STATUS.md
+→ 관련 APPROVED 책임 문서
+→ OMENWARD_ROADMAP.md
+→ 최신 PR·Issue와 실제 코드·테스트
+```
+
+현재 C1 시작 문서는 `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`와 룰렛 APPROVED 정본이다. 과거 Work Order·Goal·Proposal은 Git 이력에서만 추적한다.
 
 ## 항상 확인할 공식 문서
 
@@ -55,17 +59,14 @@
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
 | `images/VISUAL_REFERENCE_INDEX.md` | 이미지 상태·우선순위·누락 감사 |
-| `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | 현재 새 Codex 채팅 작업 요청·복사 프롬프트 |
-| `work_orders/0001-phase-0-codex-plan-mode.md` | Phase 0 이전에 사용한 과거 작업 요청 |
-| `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·변경 이력 |
 
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
 | 프로젝트 코어·우선순위·기능 제거 판단 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 문서 |
-| 새 Codex 채팅·현재 main 조사 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue·PR·Goal |
-| 과거 Phase 0 결정 추적 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Goal 0001 |
+| 새 작업·현재 main 조사 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 문서, 최신 PR·Issue, 실제 파일·테스트 |
+| 과거 단계 결정 추적 | Git 커밋·병합 PR 이력 |
 | Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
 | GitHub Issue·로컬 미러 동기화 | `issues/README.md`, `DOCUMENT_LIFECYCLE.md`, `tools/sync_repo.ps1` |
@@ -115,7 +116,7 @@
 | 프로젝트 코어 | `PROJECT_CORE.md` |
 | 현재 구현 증거 | `CURRENT_IMPLEMENTATION_STATUS.md` |
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
-| 현재 Codex 작업 요청 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` |
+| 현재 C1 구현·증거 | `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | GitHub Issue 미러 | `issues/README.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |

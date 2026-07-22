@@ -66,7 +66,7 @@ REQUIRED_STATUS_TERMS = (
     "CORE_VERTICAL_SLICE_PARTIAL",
     "CORE_LOOP_NOT_PROVEN",
     "HUMAN_QA_NOT_RUN",
-    "CORE_CONTRACT_DIVERGENT",
+    "C1_IMPLEMENTED_CANDIDATE",
 )
 
 ROADMAP_REQUIRED_SECTIONS = (
@@ -172,7 +172,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     roadmap = _read(root, "docs/OMENWARD_ROADMAP.md")
     required_sequence = (
         "정본·프로젝트 코어 확정·잠금 완료",
-        "승인 룰렛 계약 복구",
+        "승인 룰렛 핵심 계약 복구",
         "전투 목적 루프 연결",
         "승인 코어 UX 6종",
         "코어 플레이테스트",

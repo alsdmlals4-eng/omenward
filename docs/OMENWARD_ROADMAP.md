@@ -2,9 +2,9 @@
 
 - 갱신일: 2026-07-22
 - 기준: `docs/PROJECT_CORE.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`, `docs/HANDOFF_CONTEXT.md`
-- 현재 상태: **C0 정본·프로젝트 코어 확정·잠금 완료 / C1 승인 룰렛 계약 복구 착수**
-- 현재 조사 입력: `docs/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`
-- 사전 기술 추천안: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
+- 현재 상태: **C0 완료 / C1 승인 룰렛 핵심 계약 구현·원격 검증 진행**
+- 현재 구현·감사 입력: `docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`
+- 기술 기준선: 실제 `project.godot`, 코드·데이터·테스트와 `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 모든 코드·Scene·Resource·데이터 구조 변경은 Codex Plan Mode 제안서와 사용자 승인 후 시작한다.
 
 ---
@@ -21,7 +21,8 @@
 → Phase 0 기술·데이터 기준선 구현
 → 수직 슬라이스 구성요소 부분 구현
 → 정본·프로젝트 코어 확정·잠금 완료
-→ [현재] 승인 룰렛 계약 복구
+→ [현재] 승인 룰렛 핵심 계약 복구
+→ C1 이동권·럭키 규칙 통합·100,000시드 검증
 → 전투 목적 루프 연결
 → 승인 코어 UX 6종
 → 10~15분 코어 플레이테스트
@@ -65,7 +66,8 @@ TECHNICAL_BASELINE_IMPLEMENTED
 | P0 프리프로덕션 | 제품·전장·공용 데이터·아트·연출 계약 | 완료 | 정본 유지 |
 | P1 기술 기준선 | 실행·데이터·결정론·검증 골격 | **구현됨 / 최신 runtime 재검증 필요** | C0 정본 일치 |
 | C0 정본·코어 복구 | 프로젝트 코어·상태·로드맵 일치 | **완료 / CORE_LOCKED** | 정본 PR 병합 |
-| C1 룰렛 계약 복구 | 중앙 판정 줄·완성선·등급·단일 보상 | **현재** | 승인 계약 테스트 PASS |
+| C1 룰렛 핵심 계약 | 중앙 판정 줄·완성선·등급·보상·보관 | **구현·원격 검증 진행** | Godot 계약 테스트 PASS |
+| C1U 룰렛 유틸리티 | 이동권·럭키 정본 통합·100,000시드 | 미시작 | 사용자 결정·분포 기준 |
 | C2 전투 목적 루프 | 접전지·거점·성문·승패·경제 연결 | 부분 구현 | End-to-End 전투 PASS |
 | C3 코어 UX | 승인 UX 6종을 실제 데이터와 연결 | 미시작 | 이해도·가독성 기준 |
 | C4 코어 플레이테스트 | 10~15분 핵심 재미와 학습 검증 | 미실행 | 사람 플레이 기준 충족 |
@@ -86,7 +88,7 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 ### 완료 산출물
 
-- `docs/work_orders/0001-phase-0-codex-plan-mode.md`.
+- Git 이력의 Phase 0 작업 입력.
 - 복사 가능한 시작 프롬프트.
 - 제품 컨텍스트와 불변 조건.
 - 실제 상태 조사 목록.
@@ -105,9 +107,9 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 ### 책임
 
-- Issue #1.
-- Goal 0001.
-- `docs/work_orders/0001-phase-0-codex-plan-mode.md`.
+- 과거 Phase 0 계획 게이트.
+- 과거 Phase 0 목표.
+- Git 이력의 Phase 0 작업 입력.
 
 ### Codex가 조사할 것
 
@@ -215,8 +217,8 @@ Codex Plan Mode 제안서 제출
 
 ### 책임
 
-- Issue #32.
-- Goal 0002.
+- 과거 수직 슬라이스 계획 게이트.
+- 과거 수직 슬라이스 목표.
 
 ### 계획 범위
 
@@ -358,11 +360,11 @@ Work Order, Codex 제안서, 승인된 구현 결과의 상태를 명확히 구�
 ## 15. 지금 실행할 단 하나의 작업
 
 ```text
-프로젝트 코어 확정·잠금 반영과 정본 PR 병합
-→ 최신 main에서 승인 룰렛 책임 원본·구현·테스트 전수 감사
-→ 룰렛 계약 복구 Plan
-→ Build
+C1 승인 룰렛 핵심 계약 구현
+→ Godot 4.7.1 전체 headless 회귀
+→ 구형 활성 참조 0건 검증
 → Adversarial Review·Validation Review·Integration Review
+→ 사용자 검토
 ```
 
-다음 기능 변경은 승인 룰렛 계약 복구로 제한한다. 전투 목적 루프·코어 UX·신규 콘텐츠는 같은 PR에 섞지 않는다.
+전투 목적 루프·코어 UX·신규 콘텐츠는 같은 PR에 섞지 않는다. 이동권·럭키 상충은 C1U 결정으로 분리한다.

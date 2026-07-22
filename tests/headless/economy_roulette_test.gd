@@ -21,7 +21,7 @@ func _init() -> void:
 		_test_building_ownership_and_capture_lock(economy_script, building_service_script, failures)
 		_test_stabilized_capture_allows_rebuilding(economy_script, building_service_script, failures)
 	if economy_script != null and building_service_script != null and roulette_script != null:
-		_test_deterministic_nine_cell_roulette(economy_script, building_service_script, roulette_script, failures)
+		_test_deterministic_approved_roulette(economy_script, building_service_script, roulette_script, failures)
 	if economy_script != null and deployment_script != null:
 		_test_deployment_food_limit(economy_script, deployment_script, failures)
 	_finish(failures)
@@ -59,31 +59,33 @@ func _test_stabilized_capture_allows_rebuilding(economy_script: GDScript, buildi
 	_expect(buildings.try_construct(&"captured_top", &"front_a", &"farm"), "a captured outpost accepts new construction after stabilization", failures)
 
 
-func _test_deterministic_nine_cell_roulette(economy_script: GDScript, building_service_script: GDScript, roulette_script: GDScript, failures: PackedStringArray) -> void:
+func _test_deterministic_approved_roulette(economy_script: GDScript, building_service_script: GDScript, roulette_script: GDScript, failures: PackedStringArray) -> void:
 	var first_manifest := _manifest()
 	var first_economy: Variant = economy_script.new(first_manifest)
 	var first_buildings: Variant = building_service_script.new(first_economy, first_manifest)
 	var outpost := OutpostState.new(&"lumern")
-	first_buildings.register_outpost(&"player_top", outpost, [&"front_a"])
-	first_buildings.try_construct(&"player_top", &"front_a", &"tower")
+	first_buildings.register_outpost(&"player_top", outpost, [&"front_a", &"front_b", &"rear"])
+	_expect(first_buildings.try_construct(&"player_top", &"front_a", &"tower"), "tower construction succeeds", failures)
+	_expect(first_buildings.try_construct(&"player_top", &"front_b", &"farm"), "farm construction succeeds", failures)
+	_expect(first_buildings.roulette_token_sources().is_empty(), "tower and farm do not create unit roulette tokens", failures)
+	_expect(first_buildings.try_construct(&"player_top", &"rear", &"barracks"), "barracks construction succeeds", failures)
+	_expect(first_buildings.roulette_token_sources().size() == 1, "one completed barracks contributes one source token entry", failures)
 	var first_roulette: Variant = roulette_script.new(first_economy, first_buildings, first_manifest, &"lumern")
-	var first_result: Array = first_roulette.spin({"seed": 12})
-	_expect(first_result.size() == 9, "a paid roulette spin resolves a deterministic 3x3 board", failures)
-	_expect(first_economy.gold == 105, "tower construction and one roulette spin charge their approved costs", failures)
-	for card in first_result:
-		_expect(card is UnitSpawnDefinition, "roulette produces only shared unit spawn definitions", failures)
-		if card is UnitSpawnDefinition:
-			_expect(card.owner_team_id == &"lumern" and card.visual_faction_id == &"lumern", "roulette cards use the player shared-unit faction contract", failures)
+	var first_result: Variant = first_roulette.spin({"seed": 12})
+	_expect(first_result.accepted and first_result.board.size() == 9, "a paid spin resolves one deterministic 3x3 board result", failures)
+	_expect(first_economy.gold >= 30, "construction and roulette charge approved costs before any possible gold payout", failures)
 	var second_manifest := _manifest()
 	var second_economy: Variant = economy_script.new(second_manifest)
 	var second_buildings: Variant = building_service_script.new(second_economy, second_manifest)
 	var second_outpost := OutpostState.new(&"lumern")
-	second_buildings.register_outpost(&"player_top", second_outpost, [&"front_a"])
+	second_buildings.register_outpost(&"player_top", second_outpost, [&"front_a", &"front_b", &"rear"])
 	second_buildings.try_construct(&"player_top", &"front_a", &"tower")
+	second_buildings.try_construct(&"player_top", &"front_b", &"farm")
+	second_buildings.try_construct(&"player_top", &"rear", &"barracks")
 	var second_roulette: Variant = roulette_script.new(second_economy, second_buildings, second_manifest, &"lumern")
-	var second_result: Array = second_roulette.spin({"seed": 12})
-	_expect(_cards_json(first_result) == _cards_json(second_result), "identical roulette seed and build inputs reproduce identical cards", failures)
-	_expect(first_manifest.input_log.size() == 2, "construction and roulette commands are recorded in the manifest", failures)
+	var second_result: Variant = second_roulette.spin({"seed": 12})
+	_expect(JSON.stringify(first_result.to_dictionary()) == JSON.stringify(second_result.to_dictionary()), "identical seed and building snapshot reproduce the same roulette result", failures)
+	_expect(first_manifest.input_log.size() == 4, "three constructions and the roulette result are recorded", failures)
 
 
 func _test_deployment_food_limit(economy_script: GDScript, deployment_script: GDScript, failures: PackedStringArray) -> void:
@@ -110,10 +112,6 @@ func _manifest() -> StageManifest:
 	return manifest
 
 
-func _cards_json(cards: Array) -> String:
-	return JSON.stringify(cards.map(func(card: UnitSpawnDefinition) -> Dictionary: return card.to_dictionary()))
-
-
 func _expect(condition: bool, message: String, failures: PackedStringArray) -> void:
 	if not condition:
 		failures.append(message)
@@ -121,8 +119,10 @@ func _expect(condition: bool, message: String, failures: PackedStringArray) -> v
 
 func _finish(failures: PackedStringArray) -> void:
 	if failures.is_empty():
-		print("Economy, construction, roulette, and deployment checks passed")
+		print("Economy, construction, approved roulette, and deployment checks passed")
 		quit(0)
 	else:
-		printerr("Economy, construction, roulette, and deployment failures:\n%s" % "\n".join(failures))
+		printerr("Economy, construction, roulette, and deployment failures:
+%s" % "
+".join(failures))
 		quit(1)

@@ -1,7 +1,7 @@
 # 오멘워드 게임 기획서
 
 - 공식명: **오멘워드 / OMENWARD**
-- 문서 버전: **v0.20**
+- 문서 버전: **v0.21**
 - 갱신일: 2026-07-22
 - 상태: **프리프로덕션 계약 승인 / Godot 기술·데이터 기준선 구현 / 핵심 수직 슬라이스 부분 구현·코어 루프 미검증**
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드
@@ -475,9 +475,10 @@ Tier 2
 
 ## 14. 룰렛
 
-- 3×3 보드.
-- 중앙 가로줄 기본 판정.
-- 같은 비-X 심벌 3개가 완성된 줄만 보상.
+- 3×3 결정론적 보드.
+- 중앙 가로줄의 동일 비-X 심벌 3개가 보상 판정의 선행 조건.
+- 선행 조건이 성립한 심벌만 전체 가로·세로·대각선 8개 완성선을 계산.
+- 결과는 보드 9칸이 아니라 최종 보상 1개를 기본으로 생성.
 
 | 완성 줄 | 등급 |
 |---:|---|
@@ -492,6 +493,9 @@ Tier 2
 - 결과 보관함 기본 3칸.
 - 금화 1/2/3줄 이상은 15/40/100 지급.
 - 금화 장기 평균 지급 목표는 회전비의 30% 이하.
+- 기본 병영은 전사 토큰을 제공하고 농장·포탑은 유닛 토큰을 제공하지 않는다.
+- 생성 유닛은 StageRun 보관함에 들어가며 보관 중에는 다음 룰렛 회전만 차단한다.
+- 이동권 보상량·럭키 최종 해석·고정 상위 등급 템플릿은 미확정 경계를 유지한다.
 
 ---
 
@@ -715,33 +719,37 @@ Validator는 다음을 검사한다.
 - 카메라 흔들림·히트 스톱.
 - 최종 이미지·팔레트·아이콘·오디오.
 
-### 구현 전 미확정
+### 현재 구현·검증 경계
 
-- 정확한 Godot stable 버전.
-- 내부 해상도와 stretch.
-- Resource·JSON·CSV 경계.
-- AnimatedSprite2D·AnimationPlayer 조합.
-- 실제 폴더와 파일 경로.
-- headless 실행·테스트 명령.
+구현됨:
+
+- Godot 4.7.1 Standard·Compatibility renderer.
+- 960×540 논리 화면·1920×1080 출력·viewport stretch·keep aspect·integer scale.
+- 실제 Scene·Script·Resource·Test 경로와 headless 테스트 러너.
+- typed Resource·StageManifest·input log 데이터 경계.
+
+미검증·미확정:
+
+- C1 룰렛 영구 CI와 runtime smoke.
+- 이동권 완성선 보상량과 럭키 규칙 통합.
+- 100,000시드 확률·경제 시뮬레이션.
+- 사람 플레이·1080p·720p 가독성.
 
 ---
 
 ## 23. 구현 순서와 승인 게이트
 
 ```text
-Issue #1 Phase 0 Codex Plan Mode
-→ 사용자 승인
-→ Phase 0 구현 PR
-→ Issue #32 수직 슬라이스 Codex Plan Mode
-→ 사용자 승인
-→ 3라인 핵심 수직 슬라이스 구현
-→ 확률·경제·전투 시뮬레이션
-→ 플레이테스트
-→ 수치·연출 조정
-→ 콘텐츠·아트 확장
+C0 프로젝트 코어·정본 복구 완료
+→ [현재] C1 중앙 판정·완성선·등급·보상·보관 계약
+→ C1 유틸리티 규칙 통합과 100,000시드 검증
+→ C2 전투 목적 루프
+→ C3 코어 UX
+→ C4 사람 플레이
+→ 밸런스·콘텐츠·아트 확장
 ```
 
-현재 실제 Godot 코드, Scene, Resource, 테스트는 생성·수정하지 않는다.
+각 단계는 최신 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 정본과 별도 PR 검증을 따른다. 과거 Phase 0 Work Order·Goal·Proposal은 구현 근거로 참조하지 않는다.
 
 ---
 
@@ -762,17 +770,17 @@ Issue #1 Phase 0 Codex Plan Mode
 
 ## 25. 주요 책임 문서
 
+- 프로젝트 코어: `docs/PROJECT_CORE.md`
+- 현재 구현 증거: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 인수인계: `docs/HANDOFF_CONTEXT.md`
 - 문서 라우팅: `docs/DOCUMENTATION_MAP.md`
 - 통합 기준: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
+- 룰렛 핵심: `docs/design/APPROVED_ROULETTE_CORE_RULES.md`
+- 룰렛 확률: `docs/design/APPROVED_ROULETTE_PROBABILITY_TARGETS_POC_V1.md`
+- C1 복구 보고: `docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`
 - 전장: `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`
 - 공용 병종 데이터·진영 이미지: `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
-- 병종 능력: `docs/design/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md`
 - W1~20 웨이브: `docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`
-- 애니메이션·연출: `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`
-- 아트: `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`
 - 성능·데이터·테스트: `docs/design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md`
 - 개발 순서: `docs/OMENWARD_ROADMAP.md`
 - 미확정: `docs/DECISIONS_PENDING.md`
-- Phase 0: `docs/goals/0001-engine-selection-and-bootstrap.md`, Issue #1
-- 수직 슬라이스: `docs/goals/0002-core-vertical-slice.md`, Issue #32

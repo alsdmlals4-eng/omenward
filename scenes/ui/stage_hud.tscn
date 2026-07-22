@@ -45,27 +45,35 @@ offset_right = 132.0
 offset_bottom = 486.0
 text = "Spin (20)"
 
-[node name="TowerButton" type="Button" parent="."]
+[node name="BarracksButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 144.0
 offset_top = 450.0
-offset_right = 232.0
+offset_right = 242.0
+offset_bottom = 486.0
+text = "Barracks"
+
+[node name="TowerButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 252.0
+offset_top = 450.0
+offset_right = 330.0
 offset_bottom = 486.0
 text = "Tower"
 
 [node name="FarmButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 242.0
+offset_left = 340.0
 offset_top = 450.0
-offset_right = 330.0
+offset_right = 418.0
 offset_bottom = 486.0
 text = "Farm"
 
 [node name="CardsLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 344.0
+offset_left = 428.0
 offset_top = 450.0
-offset_right = 700.0
+offset_right = 704.0
 offset_bottom = 486.0
 theme_override_colors/font_color = Color(0.84, 0.89, 0.94, 1)
 autowrap_mode = 2
@@ -113,6 +121,7 @@ offset_bottom = 294.0
 text = "Retry Stage"
 
 [connection signal="pressed" from="SpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="BarracksButton" to="." method="_on_barracks_pressed"]
 [connection signal="pressed" from="TowerButton" to="." method="_on_tower_pressed"]
 [connection signal="pressed" from="FarmButton" to="." method="_on_farm_pressed"]
 [connection signal="pressed" from="DeployTop" to="." method="_on_deploy_pressed" binds= [&"top"]]

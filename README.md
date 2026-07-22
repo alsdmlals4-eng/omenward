@@ -58,8 +58,8 @@
 ## 현재 개선 순서
 
 ```text
-[현재] 정본·프로젝트 코어 복구
-→ 승인 룰렛 계약 복구
+정본·프로젝트 코어 확정·잠금 완료
+→ [현재] 승인 룰렛 핵심 계약 복구
 → 전투를 접전지·거점·성문·승패에 연결
 → 승인 코어 UX 6종 최소 구현
 → 10~15분 사람 플레이와 1080p·720p 가독성 검증
@@ -69,7 +69,7 @@
 
 현재 저장소에는 Godot 기술 기준선과 수직 슬라이스 구성요소가 존재하지만, 승인 룰렛 판정·전투 목적 루프·핵심 UX가 완결되지 않았다. 현재 판정은 `TECHNICAL_BASELINE_IMPLEMENTED`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
 
-세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. 자동 검증 명령과 수동 QA 항목은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)와 [`docs/PHASE_0_VALIDATION.md`](docs/PHASE_0_VALIDATION.md)에 남아 있으며, 실제 재실행 전에는 완료로 보고하지 않는다.
+세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 변경과 증거 경계는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
 
 ## 현재 저장소 구조
 

@@ -1,7 +1,7 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
 - 갱신일: 2026-07-22
-- 현재 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / 코어 루프·사람 플레이 미검증**
+- 현재 상태: **CORE_LOCKED / C1 승인 룰렛 핵심 계약 구현·원격 검증 진행 / 전투 목적 루프·사람 플레이 미검증**
 - 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 전체 기획: `docs/OMENWARD_GAME_DESIGN.md`
@@ -15,7 +15,7 @@
 ## 1. 가장 먼저 알아야 할 것
 
 1. 오멘워드는 건물로 룰렛의 토큰·확률과 증원 체계를 설계하고 세 전선을 지휘하는 판타지 전략 오토배틀 게임이다.
-2. 저장소에는 Phase 0 기술 기준선과 수직 슬라이스 구성요소가 존재하지만 승인 룰렛·전투 목적·코어 UX는 미완결이다.
+2. 저장소에는 기술 기준선과 수직 슬라이스 구성요소가 있으며, C1 룰렛 핵심 계약을 복구 중이다. 전투 목적·코어 UX는 아직 미완결이다.
 3. 과거 Phase 0 Work Order의 `구현 전`과 README의 과도한 `수직 슬라이스 완료`를 현재 상태로 재사용하지 않는다.
 4. 새 Codex 채팅은 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 실제 main, validation 문서와 Issue·PR을 대조한 뒤 다음 최소 변경을 제안한다.
 5. 아군과 적군은 별도 병종 전투 데이터를 만들지 않고 공용 10병종에 서로 다른 FactionVisualProfile을 연결한다.

@@ -17,8 +17,9 @@ func _init(assigned_economy: Variant, assigned_manifest: Variant) -> void:
 	economy = assigned_economy
 	manifest = assigned_manifest
 	definitions = {
-		&"tower": _definition(&"tower", 35, 0, &"shield_guard"),
-		&"farm": _definition(&"farm", 35, 6, &"archer"),
+		&"barracks": _definition(&"barracks", 40, 0, &"warrior", &"shield_guard", 3, &"tier_1", 1),
+		&"tower": _definition(&"tower", 35, 0, &"", &"", 0, &"tier_1", 0),
+		&"farm": _definition(&"farm", 35, 6, &"", &"", 0, &"tier_1", 0),
 	}
 
 
@@ -47,15 +48,26 @@ func try_construct(outpost_id: StringName, node_id: StringName, building_id: Str
 	return true
 
 
-func roulette_archetype_ids() -> Array[StringName]:
-	var tokens: Array[StringName] = []
-	for key in _buildings:
+func roulette_token_sources() -> Array[Dictionary]:
+	var sources: Array[Dictionary] = []
+	var keys: Array = _buildings.keys()
+	keys.sort()
+	for key in keys:
 		var state: Variant = _buildings[key]
-		if _outpost_is_active_for_player(state.outpost_id) and _building_matches_current_capture(state):
-			tokens.append(state.definition.roulette_archetype_id)
-	if tokens.is_empty():
-		tokens.append(&"shield_guard")
-	return tokens
+		var definition: BuildingDefinition = state.definition
+		if not _outpost_is_active_for_player(state.outpost_id) or not _building_matches_current_capture(state):
+			continue
+		if definition.roulette_symbol_id == &"" or definition.roulette_board_weight <= 0:
+			continue
+		sources.append({
+			"symbol_id": definition.roulette_symbol_id,
+			"reward_archetype_id": definition.roulette_reward_archetype_id,
+			"board_weight": definition.roulette_board_weight,
+			"source_tier_id": definition.roulette_source_tier_id,
+			"source_weight": definition.roulette_source_weight,
+			"source_building_id": StringName(str(key)),
+		})
+	return sources
 
 
 func _node_is_available(outpost_id: StringName, node_id: StringName) -> bool:
@@ -84,12 +96,25 @@ func _building_matches_current_capture(state: Variant) -> bool:
 	return state.capture_revision == outpost.capture_revision
 
 
-func _definition(building_id: StringName, gold_cost: int, food_cap_bonus: int, token_id: StringName) -> Variant:
-	var definition: Variant = BuildingDefinitionScript.new()
+func _definition(
+	building_id: StringName,
+	gold_cost: int,
+	food_cap_bonus: int,
+	symbol_id: StringName,
+	reward_archetype_id: StringName,
+	board_weight: int,
+	source_tier_id: StringName,
+	source_weight: int,
+) -> BuildingDefinition:
+	var definition := BuildingDefinitionScript.new() as BuildingDefinition
 	definition.building_id = building_id
 	definition.gold_cost = gold_cost
 	definition.food_cap_bonus = food_cap_bonus
-	definition.roulette_archetype_id = token_id
+	definition.roulette_symbol_id = symbol_id
+	definition.roulette_reward_archetype_id = reward_archetype_id
+	definition.roulette_board_weight = board_weight
+	definition.roulette_source_tier_id = source_tier_id
+	definition.roulette_source_weight = source_weight
 	return definition
 
 
