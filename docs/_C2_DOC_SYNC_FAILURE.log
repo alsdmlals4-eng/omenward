@@ -8,6 +8,8 @@ C1 roulette validation FAILED
 - docs/CURRENT_IMPLEMENTATION_STATUS.md missing proven C1 evidence: C1 최종 검증 run: `29926598807`
 - active document retains pre-validation C1 state: docs/OMENWARD_ROADMAP.md -> IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING
 C2 battle objective validation FAILED
+- temporary C2 artifact remains: tools/_run_sync_c2_docs.py
+- temporary C2 artifact remains: docs/_C2_DOC_SYNC_FAILURE.log
 - temporary C2 artifact remains: .github/workflows/sync-c2-docs.yml
 Project core documentation validation FAILED
 - roadmap missing recovery sequence item: 전투 목적 루프 연결
@@ -102,6 +104,6 @@ First extra element 0:
 + ['roadmap missing recovery sequence item: 전투 목적 루프 연결']
 
 ----------------------------------------------------------------------
-Ran 34 tests in 0.214s
+Ran 34 tests in 0.356s
 
 FAILED (failures=2, errors=1)
