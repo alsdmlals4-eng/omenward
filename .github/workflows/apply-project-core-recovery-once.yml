@@ -1,0 +1,32 @@
+name: Apply Project Core Recovery Once
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_apply_project_core_recovery.py"
+      - ".github/workflows/apply-project-core-recovery-once.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: omenward-project-core-recovery-once
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: github.head_ref == 'agent/project-core-canon-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Apply, validate, commit, and push core canon recovery
+        if: ${{ hashFiles('tools/_apply_project_core_recovery.py') != '' }}
+        run: python tools/_apply_project_core_recovery.py
