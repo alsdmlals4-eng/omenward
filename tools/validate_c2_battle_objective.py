@@ -54,10 +54,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"shared archetype schema missing objective field: {term}")
     for phrase in (
         "an uncontested giant squad captures the top clash",
+        "the top enemy gate collapses from same-lane siege unit attacks",
         "other lane gates remain standing",
         "both teams on one clash freeze it as contested",
         "farm food cap is removed when the outpost becomes neutral",
-        "enemy base destruction produces a natural battle victory",
+        "enemy base destruction from unit attacks produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
         "enemy base destruction closes StageRun as victory",
         "W15 legendary boss defeat produces standard victory",
