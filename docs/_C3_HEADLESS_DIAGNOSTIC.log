@@ -1,0 +1,7 @@
+exit_status=1
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+SCRIPT ERROR: Parse Error: Expected closing ")" after grouping expression.
+          at: GDScript::reload (res://tests/headless/c3_core_ux_test.gd:108)
+ERROR: Failed to load script "res://tests/headless/c3_core_ux_test.gd" with error "Parse error".
+   at: load (modules/gdscript/gdscript_resource_format.cpp:46)
