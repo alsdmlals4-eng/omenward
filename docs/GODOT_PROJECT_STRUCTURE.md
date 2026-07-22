@@ -1,6 +1,6 @@
 # OMENWARD Godot 프로젝트 구조
 
-- 상태: **기술 기준선·C1 REMOTE_PROVEN / C2 전투 목적 구현 후보·원격 검증 진행**
+- 상태: **기술 기준선·C1 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN**
 - 갱신일: 2026-07-22
 - 상위 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
 

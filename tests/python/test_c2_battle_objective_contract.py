@@ -79,13 +79,21 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             roadmap.write_text(roadmap.read_text(encoding="utf-8") + "\nPR #49 사용자 검토 대기\n", encoding="utf-8")
             self.assertTrue(any("stale C1/C2 state" in error for error in validate(root)))
 
-    def test_missing_c2_candidate_state_is_rejected(self) -> None:
+    def test_missing_c2_proven_state_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
-            status.write_text(status.read_text(encoding="utf-8").replace("C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE", "C2_STATE_REMOVED"), encoding="utf-8")
-            self.assertTrue(any("missing C2 candidate state" in error for error in validate(root)))
+            status.write_text(status.read_text(encoding="utf-8").replace("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C2_STATE_REMOVED"), encoding="utf-8")
+            self.assertTrue(any("missing proven C2 state" in error for error in validate(root)))
+
+    def test_stale_c2_candidate_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+            status.write_text(status.read_text(encoding="utf-8") + "\nC2_REMOTE_VALIDATION_PENDING\n", encoding="utf-8")
+            self.assertTrue(any("stale C1/C2 state" in error for error in validate(root)))
 
 
 if __name__ == "__main__":

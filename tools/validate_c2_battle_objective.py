@@ -68,20 +68,20 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if phrase not in contract_test:
             errors.append(f"C2 regression test missing: {phrase}")
     required_doc_states = {
-        "README.md": ("C2 전투 목적 루프 구현 후보", "사람 플레이 미완결"),
-        "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE", "C2_REMOTE_VALIDATION_PENDING"),
-        "docs/HANDOFF_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE", "C2_REMOTE_VALIDATION_PENDING"),
-        "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE", "C2_REMOTE_VALIDATION_PENDING"),
-        "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.22**", "C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE"),
-        "docs/OMENWARD_ROADMAP.md": ("C2 전투 목적 구현 후보·공통 원격 검증",),
-        "docs/DECISIONS_PENDING.md": ("C2 전투 목적 루프 구현 후보", "본진 독립 HP"),
+        "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
+        "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
+        "docs/HANDOFF_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
+        "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
+        "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.22**", "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN"),
+        "docs/OMENWARD_ROADMAP.md": ("C2 전투 목적 루프 원격 검증 완료",),
+        "docs/DECISIONS_PENDING.md": ("C2 전투 목적 루프 원격 검증 완료", "본진 독립 HP"),
         "docs/DOCUMENTATION_MAP.md": ("C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",),
     }
     for relative, phrases in required_doc_states.items():
         body = (root / relative).read_text(encoding="utf-8")
         for phrase in phrases:
             if phrase not in body:
-                errors.append(f"{relative} missing C2 candidate state: {phrase}")
+                errors.append(f"{relative} missing proven C2 state: {phrase}")
 
     stale_active = (
         "PR #49 사용자 검토 대기",
@@ -90,6 +90,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "[현재] 승인 룰렛 핵심 계약 복구",
         "현재 C1 시작 문서",
         "전투 상태 기반 승패, 접전지·거점·성문 연결과 승인 UX 6종은 닫히지 않았다",
+        "C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE",
+        "C2_REMOTE_VALIDATION_PENDING",
     )
     excluded_parts = {"archive", "issues", "goals", "work_orders", "proposals"}
     active_docs = [root / "README.md", root / "AGENTS.md"]
@@ -113,6 +115,15 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 continue
             if not resolved.exists():
                 errors.append(f"broken active Markdown link: {relative} -> {clean}")
+
+    status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
+    for evidence in ("C2 구현 검증 head: `85e2930a839fd210548c7aa2a53125d18c4de875`", "C2 최종 검증 run: `29934172758`"):
+        if evidence not in status:
+            errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing C2 proof: {evidence}")
+    audit = (root / "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md").read_text(encoding="utf-8")
+    for evidence in ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "`85e2930a839fd210548c7aa2a53125d18c4de875`", "`29934172758`"):
+        if evidence not in audit:
+            errors.append(f"C2 audit missing final proof: {evidence}")
 
     for path in root.rglob("*"):
         if not path.is_file():

@@ -4,13 +4,13 @@
 - 기준 main: `227f6678839d32b8ec3d0f109664bcb63356fe08`
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
-- C2 구현 후보 head: `a97eb0a68f418c2f0a94f1f1fbfca243c82731bd`
+- C2 구현 검증 head: `85e2930a839fd210548c7aa2a53125d18c4de875`
+- C2 최종 검증 run: `29934172758`
 - 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`
 - 판정:
   - `TECHNICAL_BASELINE_IMPLEMENTED`
   - `C1_ROULETTE_CORE_REMOTE_PROVEN`
-  - `C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE`
-  - `C2_REMOTE_VALIDATION_PENDING`
+  - `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
   - `CORE_VERTICAL_SLICE_PARTIAL`
   - `CORE_LOOP_NOT_PROVEN`
   - `HUMAN_QA_NOT_RUN`
@@ -22,7 +22,6 @@
 | 용어 | 의미 |
 |---|---|
 | `IMPLEMENTED` | 실제 파일과 실행 경로가 존재함 |
-| `IMPLEMENTED_CANDIDATE` | 구현과 로컬·부분 원격 회귀가 존재하지만 최종 공통 CI 증거가 아직 고정되지 않음 |
 | `PARTIAL` | 구성요소 일부가 존재하지만 제품 End-to-End 계약 전체가 닫히지 않음 |
 | `PROVEN` | 요구 계약과 최신 원격 실행 증거가 함께 존재함 |
 | `NOT_PROVEN` | 파일 또는 테스트가 있어도 제품 계약 전체 증거가 없음 |
@@ -35,10 +34,10 @@
 |---|---|---|
 | Godot 프로젝트 | Godot 4.7.1 Standard, Compatibility, 960×540 논리 화면, 1920×1080 출력 | `REMOTE_PROVEN` |
 | 상태 소유 | `GameSession`, `StageRun`, `BattleSimulator`, `CombatClock`, `DataRegistry`, `DeterminismService` | `IMPLEMENTED` |
-| 공용 병종 | 공용 10 archetype, Tier·Rank·FactionVisual, 공용 점령력·구조물 피해 태그 | `IMPLEMENTED_CANDIDATE` |
-| 경제·건설 | 기본·접전지·거점 수입, 식량, 거점 revision 기반 건물 활성·비활성·폐허 | `IMPLEMENTED_CANDIDATE` |
+| 공용 병종 | 공용 10 archetype, Tier·Rank·FactionVisual, 공용 점령력·구조물 피해 태그 | `REMOTE_PROVEN` |
+| 경제·건설 | 기본·접전지·거점 수입, 식량, 거점 revision 기반 건물 활성·비활성·폐허 | `REMOTE_PROVEN` |
 | 웨이브 | 튜토리얼 W1~4, 정규 W1~20, 60초 공세 시계 | `IMPLEMENTED_COMPONENT` |
-| 테스트 | C1·C2·전투·경제·건설·웨이브·우회 headless 및 Python mutation 계약 | `C2_REMOTE_VALIDATION_PENDING` |
+| 테스트 | C1·C2·전투·경제·건설·웨이브·우회 headless 및 Python mutation 계약 | `REMOTE_PROVEN` |
 
 ## 3. 검증된 C1 룰렛 핵심
 
@@ -82,7 +81,7 @@
 - 적 본진 파괴와 W15 전설 보스 처치는 승리, 아군 본진 파괴는 패배로 `StageRun`을 닫는다.
 - 디버그 `stage_victory`·`stage_defeat` 명령은 테스트·개발 fallback으로 남지만 정상 승패의 유일 경로가 아니다.
 
-판정: `C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE / C2_REMOTE_VALIDATION_PENDING`.
+판정: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN` — Godot 4.7.1 전체 회귀와 4환경 계약 검증 통과 (head `85e2930a839fd210548c7aa2a53125d18c4de875`, run `29934172758`).
 
 ## 5. 가역 기술 fallback
 
@@ -121,11 +120,11 @@
 ## 7. 현재 우선순위
 
 ```text
-1. C2 공통 코어 계약 원격 검증과 PR #50 검토
-2. C1U 이동권·럭키·상위 템플릿 사용자 결정
+1. C3 승인 코어 UX 6종 최소 구현
+2. C1U 이동권·럭키·상위 템플릿 사용자 결정 게이트
 3. 승인 코어 UX 6종 최소 구현
 4. 10~15분 사람 플레이·1080p·720p QA
 5. 밸런스 안정화와 콘텐츠·아트 확장
 ```
 
-C2 원격 검증 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
+C3와 사람 플레이 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.

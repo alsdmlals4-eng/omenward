@@ -1,7 +1,7 @@
 # C2 전투 목적 루프 감사·복구 기록
 
 - 기준 main: `227f6678839d32b8ec3d0f109664bcb63356fe08`
-- 작업 상태: `C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE / C2_REMOTE_VALIDATION_PENDING`
+- 작업 상태: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
 - 프로젝트 코어: `CORE_CONFIRMED / CORE_LOCKED`
 - 선행 완료: `C1_ROULETTE_CORE_REMOTE_PROVEN`
 - 별도 결정 게이트: `C1U_PENDING_USER_DECISION`
@@ -81,7 +81,7 @@
 - C1·C2 Python 계약과 mutation tests.
 - 프로젝트 코어·Skill Validator·whitespace.
 
-최종 공통 `Core Contracts` Workflow의 head·run을 고정하기 전이므로 현재 판정은 `C2_REMOTE_VALIDATION_PENDING`이다.
+최종 공통 검증은 구현 head `85e2930a839fd210548c7aa2a53125d18c4de875`, GitHub Actions run `29934172758`에서 통과했다. 판정은 `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`이다.
 
 ## 8. 미실행
 

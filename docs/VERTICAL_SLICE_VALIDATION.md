@@ -11,6 +11,7 @@ Godot_v4.7.1-stable_win64_console.exe --headless --path . --quit-after 1
 python tools/validate_project_core_docs.py
 python tools/validate_c1_roulette.py
 python tools/validate_c2_battle_objective.py
+python tools/validate_c2_battle_objective.py
 python -m unittest discover -s tests/python -v
 git diff --check
 ```
