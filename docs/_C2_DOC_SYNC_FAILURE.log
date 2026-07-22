@@ -1,0 +1,107 @@
+  File "tests/python/test_c2_battle_objective_contract.py", line 79
+    roadmap.write_text(roadmap.read_text(encoding="utf-8") + "
+                                                             ^
+SyntaxError: unterminated string literal (detected at line 79)
+C1 roulette validation FAILED
+- GDD was not advanced to v0.21
+- docs/CURRENT_IMPLEMENTATION_STATUS.md missing proven C1 evidence: C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+- docs/CURRENT_IMPLEMENTATION_STATUS.md missing proven C1 evidence: C1 최종 검증 run: `29926598807`
+- active document retains pre-validation C1 state: docs/OMENWARD_ROADMAP.md -> IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING
+C2 battle objective validation FAILED
+- temporary C2 artifact remains: .github/workflows/sync-c2-docs.yml
+Project core documentation validation FAILED
+- roadmap missing recovery sequence item: 전투 목적 루프 연결
+Skill system validation PASSED: 24 packages, 11 disciplines
+test_review_skill_contains_all_three_methods (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_skill_contains_all_three_methods) ... ok
+test_review_stack_cannot_omit_integration (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_stack_cannot_omit_integration) ... ok
+test_shared_contract_blocks_false_completion (test_adversarial_review_contract.AdversarialReviewContractTests.test_shared_contract_blocks_false_completion) ... ok
+test_current_tree_passes (test_c1_roulette_contract.C1RouletteValidationTests.test_current_tree_passes) ... FAIL
+test_direct_nine_card_placeholder_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_direct_nine_card_placeholder_is_rejected) ... ok
+test_final_validation_evidence_cannot_regress (test_c1_roulette_contract.C1RouletteValidationTests.test_final_validation_evidence_cannot_regress) ... ok
+test_missing_judgment_line_regression_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_missing_judgment_line_regression_is_rejected) ... ok
+test_pending_remote_validation_state_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_pending_remote_validation_state_is_rejected) ... ok
+test_retired_work_order_reference_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_retired_work_order_reference_is_rejected) ... ok
+test_c2_battle_objective_contract (unittest.loader._FailedTest.test_c2_battle_objective_contract) ... ERROR
+test_conflict_blocks_when_local_and_remote_changed_after_last_sync (test_issue_mirror.IssueMirrorTests.test_conflict_blocks_when_local_and_remote_changed_after_last_sync) ... ok
+test_local_sync_command_refuses_dirty_worktrees_and_non_fast_forward_merges (test_issue_mirror.IssueMirrorTests.test_local_sync_command_refuses_dirty_worktrees_and_non_fast_forward_merges) ... ok
+test_outbound_workflow_reads_remote_issue_before_updating_it (test_issue_mirror.IssueMirrorTests.test_outbound_workflow_reads_remote_issue_before_updating_it) ... ok
+test_render_issue_accepts_the_connector_issue_number_field (test_issue_mirror.IssueMirrorTests.test_render_issue_accepts_the_connector_issue_number_field) ... ok
+test_render_issue_marks_metadata_and_body (test_issue_mirror.IssueMirrorTests.test_render_issue_marks_metadata_and_body) ... ok
+test_snapshot_validation_requires_every_remote_issue_once (test_issue_mirror.IssueMirrorTests.test_snapshot_validation_requires_every_remote_issue_once) ... ok
+test_write_all_snapshots_uses_stable_issue_number_filenames (test_issue_mirror.IssueMirrorTests.test_write_all_snapshots_uses_stable_issue_number_filenames) ... ok
+test_current_repository_passes (test_project_core_docs.ProjectCoreDocumentationTests.test_current_repository_passes) ... FAIL
+test_missing_core_reference_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_missing_core_reference_is_rejected) ... ok
+test_pending_core_lock_state_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_pending_core_lock_state_is_rejected) ... ok
+test_roadmap_phase_history_loss_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_roadmap_phase_history_loss_is_rejected) ... ok
+test_stale_completion_claim_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_stale_completion_claim_is_rejected) ... ok
+test_unique_decision_alternative_loss_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_unique_decision_alternative_loss_is_rejected) ... ok
+test_expected_category_counts (test_skill_package_integrity.SkillPackageIntegrityTests.test_expected_category_counts) ... ok
+test_registry_ids_and_paths_are_unique (test_skill_package_integrity.SkillPackageIntegrityTests.test_registry_ids_and_paths_are_unique) ... ok
+test_validator_passes (test_skill_package_integrity.SkillPackageIntegrityTests.test_validator_passes) ... ok
+test_validator_rejects_duplicate_id_mutation (test_skill_package_integrity.SkillPackageIntegrityTests.test_validator_rejects_duplicate_id_mutation) ... ok
+test_dependencies_precede_dependents (test_skill_routing_contract.SkillRoutingTests.test_dependencies_precede_dependents) ... ok
+test_engineering_build (test_skill_routing_contract.SkillRoutingTests.test_engineering_build) ... ok
+test_game_design_plan (test_skill_routing_contract.SkillRoutingTests.test_game_design_plan) ... ok
+test_generic_request_does_not_enable_specialists (test_skill_routing_contract.SkillRoutingTests.test_generic_request_does_not_enable_specialists) ... ok
+test_review_forces_adversarial_stack (test_skill_routing_contract.SkillRoutingTests.test_review_forces_adversarial_stack) ... ok
+test_ui_art_audit_selects_specialist (test_skill_routing_contract.SkillRoutingTests.test_ui_art_audit_selects_specialist) ... ok
+test_unknown_manual_override_is_rejected (test_skill_routing_contract.SkillRoutingTests.test_unknown_manual_override_is_rejected) ... ok
+
+======================================================================
+ERROR: test_c2_battle_objective_contract (unittest.loader._FailedTest.test_c2_battle_objective_contract)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_c2_battle_objective_contract
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/unittest/loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/unittest/loader.py", line 339, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/home/runner/work/omenward/omenward/tests/python/test_c2_battle_objective_contract.py", line 79
+    roadmap.write_text(roadmap.read_text(encoding="utf-8") + "
+                                                             ^
+SyntaxError: unterminated string literal (detected at line 79)
+
+
+======================================================================
+FAIL: test_current_tree_passes (test_c1_roulette_contract.C1RouletteValidationTests.test_current_tree_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/omenward/omenward/tests/python/test_c1_roulette_contract.py", line 39, in test_current_tree_passes
+    self.assertEqual(validate(ROOT), [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['GDD was not advanced to v0.21', 'docs/CU[340 chars]ING'] != []
+
+First list contains 4 additional elements.
+First extra element 0:
+'GDD was not advanced to v0.21'
+
++ []
+- ['GDD was not advanced to v0.21',
+-  'docs/CURRENT_IMPLEMENTATION_STATUS.md missing proven C1 evidence: C1 구현 검증 '
+-  'head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`',
+-  'docs/CURRENT_IMPLEMENTATION_STATUS.md missing proven C1 evidence: C1 최종 검증 '
+-  'run: `29926598807`',
+-  'active document retains pre-validation C1 state: docs/OMENWARD_ROADMAP.md -> '
+-  'IMPLEMENTED_CANDIDATE / REMOTE_VALIDATION_PENDING']
+
+======================================================================
+FAIL: test_current_repository_passes (test_project_core_docs.ProjectCoreDocumentationTests.test_current_repository_passes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/runner/work/omenward/omenward/tests/python/test_project_core_docs.py", line 16, in test_current_repository_passes
+    self.assertEqual([], validate(ROOT))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['roadmap missing recovery sequence item: 전투 목적 루프 연결']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'roadmap missing recovery sequence item: 전투 목적 루프 연결'
+
+- []
++ ['roadmap missing recovery sequence item: 전투 목적 루프 연결']
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.214s
+
+FAILED (failures=2, errors=1)
