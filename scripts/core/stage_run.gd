@@ -107,8 +107,8 @@ func construct_home(building_id: StringName) -> bool:
 func deploy_next_roulette_reward(lane_id: StringName) -> bool:
 	if pending_roulette_rewards.is_empty():
 		return false
-	var reward := pending_roulette_rewards.front()
-	if not deploy_card(reward, lane_id):
+	var reward: UnitSpawnDefinition = pending_roulette_rewards.front() as UnitSpawnDefinition
+	if reward == null or not deploy_card(reward, lane_id):
 		return false
 	pending_roulette_rewards.pop_front()
 	return true
