@@ -1,0 +1,135 @@
+name: Finalize C3 Proof
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/finalize-c3-proof.yml"
+      - "tools/finalize_c3_proof.py"
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.head_ref == 'agent/c3-core-ux-minimum'
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c3-core-ux-minimum
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Apply guarded proof transition
+        run: python tools/finalize_c3_proof.py
+      - name: Materialize final workflow for contract validation
+        shell: bash
+        run: |
+          cat > .github/workflows/validate-omenward-core.yml <<'YAML'
+          name: Validate Core Contracts
+          on:
+            pull_request:
+              paths:
+                - "scripts/**"
+                - "scenes/**"
+                - "data/**"
+                - "tests/**"
+                - "docs/**"
+                - "README.md"
+                - "tools/validate_*.py"
+                - ".github/workflows/validate-omenward-core.yml"
+            workflow_dispatch:
+          permissions:
+            contents: read
+          jobs:
+            contracts:
+              timeout-minutes: 15
+              strategy:
+                fail-fast: false
+                matrix:
+                  os: [ubuntu-latest, windows-latest]
+                  python-version: ["3.12", "3.13"]
+              runs-on: ${{ matrix.os }}
+              steps:
+                - uses: actions/checkout@v4
+                - uses: actions/setup-python@v5
+                  with:
+                    python-version: ${{ matrix.python-version }}
+                - name: Compile Python contracts
+                  run: python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_c3_core_ux.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py tests/python/test_c3_core_ux_contract.py
+                - name: Validate C1 roulette contract
+                  run: python tools/validate_c1_roulette.py
+                - name: Validate C2 battle objective contract
+                  run: python tools/validate_c2_battle_objective.py
+                - name: Validate C3 core UX contract
+                  run: python tools/validate_c3_core_ux.py
+                - name: Run all Python repository tests
+                  run: python -m unittest discover -s tests/python -v
+                - name: Validate project core documents
+                  run: python tools/validate_project_core_docs.py
+                - name: Validate Skill system when present
+                  shell: bash
+                  run: |
+                    if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+                - name: Check whitespace
+                  run: git diff --check
+            godot:
+              timeout-minutes: 20
+              runs-on: ubuntu-latest
+              steps:
+                - uses: actions/checkout@v4
+                - name: Reject temporary C3 repair artifacts
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    test ! -e docs/_C3_HEADLESS_DIAGNOSTIC.log
+                    test ! -e tools/_repair_c3_stage_run_types.py
+                    test ! -e .github/workflows/diagnose-c3-headless.yml
+                - name: Install Godot 4.7.1 Standard
+                  shell: bash
+                  run: |
+                    curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+                    unzip -q godot.zip
+                    chmod +x Godot_v4.7.1-stable_linux.x86_64
+                    ./Godot_v4.7.1-stable_linux.x86_64 --version
+                - name: Import project
+                  shell: bash
+                  run: timeout 120s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+                - name: Run all headless contract tests
+                  shell: bash
+                  run: |
+                    set -euo pipefail
+                    for test_file in tests/headless/*_test.gd; do
+                      echo "Running ${test_file}"
+                      timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
+                    done
+                - name: Runtime smoke
+                  shell: bash
+                  run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
+          YAML
+      - name: Validate transitioned repository contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_c3_core_ux.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py tests/python/test_c3_core_ux_contract.py
+          python tools/validate_c1_roulette.py
+          python tools/validate_c2_battle_objective.py
+          python tools/validate_c3_core_ux.py
+          python tools/validate_project_core_docs.py
+          python -m unittest discover -s tests/python -v
+          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+          git diff --check
+      - name: Commit proof transition without workflow files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/validate-omenward-core.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs tests/python/test_c3_core_ux_contract.py
+          git commit -m "promote C3 automated contract proof"
+          git push origin HEAD:agent/c3-core-ux-minimum
