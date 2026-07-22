@@ -2,8 +2,9 @@
 
 - text files scanned: 248
 - battle/objective relevant files: 88
-- stale current-state occurrences: 22
+- stale current-state occurrences: 33
 - broken internal Markdown links: 0
+- base/victory context matches: 109
 
 ## Battle/objective relevant files
 
@@ -117,29 +118,152 @@
 - `scripts/battle/outpost_state.gd`
 - `scripts/battle/unit_instance.gd`
 
+## Base, victory, and defeat context
+
+- `docs/HANDOFF_CONTEXT.md:109` — ```text / 아군 본진 / → 라인별 아군 성문
+- `docs/HANDOFF_CONTEXT.md:115` — → 라인별 적 성문 / → 적 본진 / ```
+- `docs/HANDOFF_CONTEXT.md:239` — - 같은 병종의 아군·적군 이미지 시트는 동일 AnimationContract에 맞춘다. / - 스테이지 승리 연출은 2.5~4초 뒤 결과 UI로 연결한다.
+- `docs/OMENWARD_GAME_DESIGN.md:103` — ```text / 아군 본진 / → 라인별 아군 성문
+- `docs/OMENWARD_GAME_DESIGN.md:109` — → 라인별 적 성문 / → 적 본진 / ```
+- `docs/OMENWARD_GAME_DESIGN.md:117` — - 기본 유닛은 배치된 라인을 변경하지 않는다. / - 각 본진 진입부에는 라인별 성문 3개가 있다. / - 각 중간거점에는 전방 건설 노드 2개와 후방 건설 노드 1개가 있다.
+- `docs/OMENWARD_GAME_DESIGN.md:169` — 출현 준비 0.6초 / 적 중간거점에서 본진 방향 120 units / 도착 영역 160 × 120 units
+- `docs/OMENWARD_GAME_DESIGN.md:338` — ### 승리 단계
+- `docs/OMENWARD_GAME_DESIGN.md:340` — - 개별 처치: 승리 모션 없음. / - 웨이브 정리: 0.4~0.8초 무기 정리·호흡.
+- `docs/OMENWARD_GAME_DESIGN.md:344` — - 성문 파괴: 0.5초 이내 짧은 반응. / - 스테이지 승리: 2.5~4.0초 병종별 승리→벨루→결과 UI.
+- `docs/OMENWARD_GAME_DESIGN.md:363` — | 10 | 영웅 핵심 유닛 | / | 15 | 전설 보스, 표준 승리 | / | 16~19 | 초과 공세 |
+- `docs/OMENWARD_GAME_DESIGN.md:367` — - 적 본진을 W15 이전에 파괴하면 조기 승리. / - W20 진입은 즉시 패배가 아니라 사실상 절멸 공세.
+- `docs/OMENWARD_GAME_DESIGN.md:368` — - 적 본진을 W15 이전에 파괴하면 조기 승리. / - W20 진입은 즉시 패배가 아니라 사실상 절멸 공세.
+- `docs/OMENWARD_GAME_DESIGN.md:627` — - 내부 960×540 정수 확대 후보. / - 기본 전략 줌에서 양측 본진과 세 라인 전체 확인. / - 별도 미니맵 없음.
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:11` — V2는 V1의 60초 시계·15웨이브 표준 승리·20웨이브 소프트 패배 구조를 유지하면서 적군 등급 이정표를 명확히 고정한다.
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:113` — - 목표 전투시간 초기값은 30~60초다. / - 전설 보스를 처치하면 표준 승리한다. / - 16웨이브 시간이 되었는데 살아 있으면 초과전으로 이어진다.
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:118` — ## 7. 승리와 패배
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:120` — ### 표준 승리
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:124` — 15웨이브 전설 보스 처치 / → 스테이지 승리 / ```
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:127` — ### 공격적 조기 승리
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:130` — ```text / 15웨이브 이전 적 본진 파괴 / → 즉시 승리
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:131` — 15웨이브 이전 적 본진 파괴 / → 즉시 승리 / ```
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:134` — ### 일반 패배
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:136` — - 아군 본진 체력 0 / - 핵심 보호 목표 파괴
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:138` — - 핵심 보호 목표 파괴 / - 스테이지별 공개 패배 조건 달성
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:167` — 20웨이브는 즉시 패배가 아니라 사실상의 소프트 패배 시한이다.
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:184` — 기적적인 역전은 허용하지만 일반적인 빌드의 기대 결과는 빠른 패배다.
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:238` — 3. 10웨이브의 대표 위협은 영웅이며 2스킬을 사용한다. / 4. 15웨이브의 표준 승리 목표는 전설 보스다. / 5. 20웨이브의 최종 압박은 적군 전용 신화 최종보스다.
+- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md:254` — - 난이도별 등급 비중 / - 조기 승리 보상과 초과전 감점
+- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md:100` — - 내부 픽셀 해상도 후보: 960×540, 정수 2배 확대. / - 기본 전략 줌에서 양측 본진과 세 라인을 함께 본다. / - 미니맵은 사용하지 않는다.
+- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md:116` — | 중간거점 핵심 구조 | 100~130px | / | 본진 | 150~180px |
+- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md:257` — | 영웅 | 실루엣 부속 2개, 자세 변화 | 고유 형태와 기능성 장식 | 짧은 비전투 문양 | / | 전설 | 고유 부속·초상 실루엣 | 계열을 대표하는 상징 구조 | 출격·스킬·승리 순간 연출 | / | 신화 보스 | 페이즈별 실루엣·코어 변화 | 비대칭 증식·공성 구조 | 전용 보스 전조와 화면 반응 |
+- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md:328` — | 사망 | 6~10 | 8~14 | 12~20 | / | 승리 | 8~14 | 10~16 | 12~20 |
+- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md:369` — 8. 점령·우회·공성 상태 / 9. 승리 모션 / 10. VFX·오디오
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:21` — → 암살자 우회 침투로 후열 교란 / → 라인별 성문 돌파와 본진 공성 / ```
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:36` — ```text / 아군 본진 / → 아군 라인 성문
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:42` — → 적 라인 성문 / → 적 본진 / ```
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:61` — ## 3. 본진과 라인별 성문
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:65` — - 각 본진 입구에 상·중·하 라인별 성문을 하나씩 둔다. / - 한 라인의 성문이 무너져도 다른 라인의 성문은 유지된다.
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:119` — 본진 방향 / ```
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:217` — arrival_recovery = 0.6초 / exit_offset_from_enemy_outpost = 본진 방향 120 units / exit_zone_size = 160 × 120 units
+- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md:278` — - 기본 전략 줌에서 양측 본진과 세 라인 전체가 보인다. / - 별도 미니맵은 사용하지 않는다.
+- `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md:36` — 6. 베일의 법칙과 과거 사건 암시 / 7. 룰렛 등급·방어 성공·패배 반응
+- `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md:54` — - 정답을 대신 고르지 않고 위험과 선택지를 알려준다. / - 평소에는 명랑하지만 본진과 민간 후방이 위험하면 즉시 진지해진다.
+- `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md:65` — | 암시 | 베일의 법칙과 과거 표현 | `징조는 틀리지 않아요. 선택이 달라질 뿐이에요.` | / | 반응 | 당첨·역전·패배 감정 | `좋아요! 지휘관의 선택이 통했어요.` |
+- `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md:116` — ```text / 본진 치명 위험 / > 보스·결전
+- `docs/design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md:144` — - 보스·결전 감지 / - 승리 후 안도
+- `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md:50` — - 상단의 베일 문양만 주황색으로 점등한다. / - 본진 체력, 금화, 식량, 속도, 웨이브 카드와 벨루 도크를 표시한다.
+- `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md:70` — - 상·중·하 세 라인 / - 플레이어 본진 체력 / - 금화와 식량
+- `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md:236` — - 첫 교전 전 무료 라인 재배치 / - 첫 공세 실패 시 본진 피해 상한과 비상 검사 제공 / - 두 번째 공세 대응 실패 시 비상 바리케이드 제공
+- `docs/design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md:146` — - 시장 2동 이상이 모든 정상 빌드의 필수 선택이 되지 않는다. / - 포탑 중심 빌드도 병력·전술 없이 적 본진을 파괴할 수 없다. / - 특수병단 T3는 기본 병영 T3보다 강하지만 투자·생산·식량 부담이 더 크다.
+- `docs/design/APPROVED_BUILDING_SPECIALIZATION_AND_TACTICAL_COMMANDS.md:141` — - 식량·건설 노드·룰렛 토큰을 사용하지 않는다. / - 적 본진·생산시설을 직접 파괴하는 주력 수단으로 만들지 않는다. / - 효과 범위·지속시간·예상 효과·비용을 실행 전에 표시한다.
+- `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md:58` — - `[경제시설]` / - `[본진]` / - `[임시구조물]`
+- `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md:103` — 따라서 비행은 바리케이드와 전열을 우회하는 장점이 있지만, 라인을 무시해 본진으로 즉시 이동하는 기능은 아니다.
+- `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md:231` — 그러나 모든 비행 유닛이 자동으로 본진을 우선 공격하지 않는다. 유닛 역할에 따라 타기팅 규칙을 명시한다.
+- `docs/design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md:127` — - 일반 대 일반 1대1: 8~16초. / - 명확한 상성전: 우세 병종이 6~12초 안에 승리. / - 역상성전: 불리한 병종도 최소 4초 이상 버텨 반응 시간을 제공.
+- `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md:80` — | 15 | 3 | 전설·보스 | 경계파쇄자 | 세 라인 결전의 주 보스 | / | 20 | 3 | 신화·보스 | 절멸체 경계파쇄자 | 다중 페이즈와 소프트 패배 시한 |
+- `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md:434` — - 군중제어 지속시간이 추가 감소한다. / - 아군 본진 방향 우선도가 증가해 장기 교착을 허용하지 않는다.
+- `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md:453` — - 20웨이브가 사실상의 소프트 패배 시한으로 기능한다. / - 승률은 매우 낮지만 시스템상 강제 0%는 아니다.
+- `docs/design/APPROVED_ENEMY_WARRIOR_LINEAGE_MILESTONES_V1.md:608` — 9. 15웨이브 전설 보스 목표 전투 시간은 30~60초다. / 10. 20웨이브는 강제 즉사 없이 일반 빌드가 빠르게 붕괴하는 소프트 패배 시한으로 작동한다.
+- `docs/design/APPROVED_OMENWARD_WORLD_AND_NAMING.md:126` — - 괴물이 루미엔 영토로 넘어가지 못하게 한다. / - 방어에 성공한 뒤 베일런 측 적 시설과 본진을 공격한다.
+- `docs/design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md:63` — - 시드, StageManifest와 입력 로그로 주요 전투를 재현한다. / - 같은 시드에서 대기·이동·승리 모션의 결정론적 프레임 오프셋도 재현한다. / - 히트 스톱이 도입되면 시뮬레이션 시간과 시각 표현 시간을 분리하는 방식을 Plan Mode에서 명시한다.
+- `docs/design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md:77` — food_cost / base_hp / armor
+- `docs/design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md:409` — - 보스 전투시간. / - 패배 직전 60초 결정 로그.
+- `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md:135` — - 가벼운 연속 피격은 플래시·미세 반동. / - 스테이지 승리는 2.5~4초 병종별 승리 시퀀스 뒤 결과 UI.
+- `docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md:125` — - 체력 60%에서 패턴 간격 감소. / - 보스 사망 시 표준 승리.
+- `docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md:141` — - W15 보스가 살아 있으면 그대로 중첩된다. / - W20은 즉시 패배 판정이 아니라 사실상 절멸 공세다.
+- `docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md:133` — - 적 진형을 밀어내고 아군 진입 공간 생성. / - 중간요새와 본진 접전에서 강한 존재감 제공.
+- `docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md:88` — - 이전 공세가 남아 있어도 지급은 계속된다. / - 본진이 파괴되거나 패배가 확정된 뒤에는 지급하지 않는다. / - 기본 수입은 시장 수와 무관하게 유지된다.
+- `docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md:108` — - 점령 직전·직후의 경계는 해당 시뮬레이션 틱의 확정 점령 상태를 사용한다. / - 적 본진 접전지와 아군 본진 접전지는 이 수입을 제공하지 않는다.
+- `docs/design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md:144` — ### 선언 / - `적 본진 조기 파괴`: 조기 승리 보너스, W13 이후 적 건물 강화. / - `시장 없는 승리`: 시장 건설 금지, 시작 금화 +30.
+- `docs/design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md:145` — - `적 본진 조기 파괴`: 조기 승리 보너스, W13 이후 적 건물 강화. / - `시장 없는 승리`: 시장 건설 금지, 시작 금화 +30. / - `전설 없는 승리`: 전설 결과를 영웅 2기로 변환, 캠페인 보상 증가.
+- `docs/design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md:146` — - `시장 없는 승리`: 시장 건설 금지, 시작 금화 +30. / - `전설 없는 승리`: 전설 결과를 영웅 2기로 변환, 캠페인 보상 증가.
+- `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md:30` — ```text / 간신히 승리 / → 병력만으로는 부족함
+- `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md:152` — 세 프로필의 최종 수치는 별도 병종 밸런스에서 조정한다. 네 번째 공세에서는 세 선택 모두 승리할 수 있어야 하되 승리 방식이 달라야 한다.
+- `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md:310` — - 검사 잔여 체력 30~60%. / - 본진·중간요새 피해 없음.
+- `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md:453` — - 세 선택 모두 중단을 12~20초 안에 방어할 수 있다. / - 본진 피해 없음. / - 상·하단 중 한 곳을 완전히 방치하면 적이 중간요새를 위협한다.
+- `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md:582` — - 첫 네 공세 중 본진 피해를 입은 플레이어 15% 이하. / - 한 번의 실수는 실패 복구로 계속 진행 가능.
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:17` — - 축소 검증: 1280×720. / - 기본 전략 줌에서 양측 본진과 세 라인 전체를 확인한다. / - 전장이 한눈에 보이므로 미니맵을 사용하지 않는다.
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:34` — - 중앙 전장 가시영역을 최대한 보존한다. / - 룰렛·건설 조작 중에도 웨이브 경고와 본진 위험을 가리지 않는다. / - 전설 룰렛 결과 연출은 1.2초 이내에 전투 화면으로 복귀한다.
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:46` — - 각 중간거점 소유권과 점령 진행. / - 라인별 성문과 본진 HP. / - 선택 건물의 건설·생산·업그레이드 진행.
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:160` — | 영웅 | 실루엣 부속 2개, 짧은 잔광 | 초상 배지·스킬 2칸 | / | 전설 | 고유 부속·출격·승리 키포즈 | 움직이는 프레임·스킬 3칸 | / | 신화 보스 | 페이즈별 코어·실루엣 변화 | 전용 보스 프레임 |
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:181` — - 아군·적군 이미지 시트는 같은 상태, 프레임 수, 배열, 피벗과 이벤트 프레임을 사용한다. / - 일반 인간형 첫 가설: 대기 4~6, 이동 6~8, 공격 6~10, 스킬 8~14, 사망 6~10, 승리 8~14프레임. / - 공격은 준비→판정→회복을 구분한다.
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:185` — - 가벼운 피격은 플래시·미세 반동으로 처리한다. / - 스테이지 승리는 2.5~4초 뒤 결과 UI로 연결한다.
+- `docs/design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md:254` — - 암살자 선택 전 우회로가 보이지 않고 선택 중 도착 구역을 이해한다. / - 성문 붕괴, 점령과 승리 연출이 승인된 시간 안에 완료된다. / - 1280×720에서도 모션·VFX·HUD가 핵심 목표를 가리지 않는다.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:3` — - 상태: **공용 10병종 이동·공격·피격·사망·승리 연출 승인 / 아군·적군은 같은 상태·타이밍 계약과 다른 이미지 세트 사용 / 정확한 FPS·프레임은 PoC 조정 대상** / - 작성일: 2026-07-16
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:5` — - 작성일: 2026-07-16 / - 적용 범위: 공용 10병종, 아군·적군 Visual Set, 배치, 이동, 기본 공격, 스킬, 피격, 사망, 점령, 암살자 우회, 성문 공성, 웨이브 종료, 승리·패배 / - 책임 원본: 병종 애니메이션 상태, 동작 정체성, 전투 판정 표현, 승리·패배 연출
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:6` — - 적용 범위: 공용 10병종, 아군·적군 Visual Set, 배치, 이동, 기본 공격, 스킬, 피격, 사망, 점령, 암살자 우회, 성문 공성, 웨이브 종료, 승리·패배 / - 책임 원본: 병종 애니메이션 상태, 동작 정체성, 전투 판정 표현, 승리·패배 연출 / - 연결 문서:
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:45` — 5. 전열·후열·지원·공성의 무게와 역할이 무엇인가. / 6. 거점 점령, 성문 붕괴, 승리 같은 사건이 발생했는가.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:84` — | `capture` | 점령 가능 병종 | 중간거점·접전지 점령 참여 | / | `victory` | 아군 표시 필수 | 스테이지 승리 보상 | / | `defeat` | 조건부 | 본진 붕괴·패배 |
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:85` — | `victory` | 아군 표시 필수 | 스테이지 승리 보상 | / | `defeat` | 조건부 | 본진 붕괴·패배 |
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:114` — | 점령 | 4~6 반복 | 4~8 반복 | 6~10 반복 | / | 승리 | 8~14 | 10~16 | 12~20 |
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:239` — | 병종 | 이동 | 기본 공격 | 특수 모션 | 승리 모션 | / |---|---|---|---|---|
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:342` — ## 12. 승리·패배 연출 단계
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:344` — 승리 모션은 필요하지만 사건 규모에 따라 나눈다.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:348` — - 별도 승리 모션 없음. / - 공격 회복 뒤 다음 목표 탐색.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:367` — ### 스테이지 승리
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:369` — - 승패 확정 뒤 2.5~4.0초 승리 시퀀스. / - 생존 아군 이미지가 아키타입별 승리 모션 재생.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:370` — - 승패 확정 뒤 2.5~4.0초 승리 시퀀스. / - 생존 아군 이미지가 아키타입별 승리 모션 재생. / - 같은 병종 다수의 시작 시점은 0~0.35초 결정론적 오프셋.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:373` — - 카메라는 주력 라인을 부드럽게 중심에 둘 수 있으나 빠른 컷·장시간 잠금 금지. / - 벨루 반응→승리음→결과 UI 순서.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:375` — 적군이 승리하는 별도 병종별 축하 모션은 수직 슬라이스 필수가 아니다. 패배는 본진 붕괴와 전선 정지 중심으로 표현한다.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:377` — ### 스테이지 패배
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:392` — | 영웅 | 핵심 스킬 전용 시작·종료 자세, 짧은 문양·잔상 | / | 전설 | 고유 출격·승리 키포즈, 긴 전조 스킬, 전용 짧은 VFX |
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:420` — - 자동 카메라가 3라인 시야를 빼앗지 않는다. / - 보스 등장·성문 붕괴·승리는 짧은 중심 이동을 우선한다. / - 룰렛·건설·배치 중 포인터 대상이 자동 연출로 움직이지 않게 한다.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:431` — - 같은 시드와 입력에서 오프셋도 재현된다. / - 승리 모션 시작은 0~0.35초 결정론적 오프셋 권장.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:482` — 8. 점령·우회·공성 / 9. 승리 모션 / 10. VFX·오디오 동기화
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:488` — 승리 모션보다 이동·공격 판독과 양 진영 프레임 호환을 먼저 검증한다.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:504` — 10. 웨이브 정리 모션이 다음 공세를 막지 않는다. / 11. 스테이지 승리가 4초 이내 결과 UI로 연결된다. / 12. 아군·적군 Visual Set의 상태 수, 프레임 수, 피벗, 이벤트 프레임이 일치한다.
+- `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md:539` — 미확정 값과 무관하게 **공용 10병종 모션 계약 + 진영별 이미지 세트**, 판정 동기화, 피격 제한, 승리 연출 단계는 유지한다.
+
 ## Stale current-state occurrences
 
 - `docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md:70` — `PR #49 병합`
 - `docs/CURRENT_IMPLEMENTATION_STATUS.md:133` — `PR #49 병합`
 - `docs/DECISIONS_PENDING.md:420` — `PR #49 병합`
 - `docs/DOCUMENTATION_MAP.md:47` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:125` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `docs/_C2_AUDIT_INPUT.md:131` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `docs/_C2_AUDIT_INPUT.md:126` — `PR #49 사용자 검토와 병합 결정`
-- `docs/_C2_AUDIT_INPUT.md:121` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:126` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:127` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:137` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:143` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `docs/_C2_AUDIT_INPUT.md:128` — `PR #49 사용자 검토와 병합 결정`
+- `docs/_C2_AUDIT_INPUT.md:138` — `PR #49 사용자 검토와 병합 결정`
 - `docs/_C2_AUDIT_INPUT.md:122` — `PR #49 병합`
 - `docs/_C2_AUDIT_INPUT.md:123` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:127` — `PR #49 병합`
-- `docs/_C2_AUDIT_INPUT.md:128` — `[현재] 승인 룰렛 핵심 계약 복구`
-- `docs/_C2_AUDIT_INPUT.md:124` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:129` — `현재 C1 시작 문서`
-- `docs/_C2_AUDIT_INPUT.md:130` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
-- `tools/_audit_c2_repository.py:29` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
-- `tools/_audit_c2_repository.py:30` — `PR #49 사용자 검토와 병합 결정`
-- `tools/_audit_c2_repository.py:31` — `PR #49 병합`
-- `tools/_audit_c2_repository.py:32` — `[현재] 승인 룰렛 핵심 계약 복구`
-- `tools/_audit_c2_repository.py:33` — `현재 C1 시작 문서`
-- `tools/_audit_c2_repository.py:34` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:124` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:129` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:130` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:131` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:132` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:139` — `PR #49 병합`
+- `docs/_C2_AUDIT_INPUT.md:133` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:140` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:125` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:134` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:135` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:141` — `현재 C1 시작 문서`
+- `docs/_C2_AUDIT_INPUT.md:136` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
+- `docs/_C2_AUDIT_INPUT.md:142` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
+- `tools/_audit_c2_repository.py:30` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
+- `tools/_audit_c2_repository.py:31` — `PR #49 사용자 검토와 병합 결정`
+- `tools/_audit_c2_repository.py:32` — `PR #49 병합`
+- `tools/_audit_c2_repository.py:33` — `[현재] 승인 룰렛 핵심 계약 복구`
+- `tools/_audit_c2_repository.py:34` — `현재 C1 시작 문서`
+- `tools/_audit_c2_repository.py:35` — `다음 변경은 게임 코드 전체가 아니라 승인 룰렛 계약 복구`
 - `tools/validate_c1_roulette.py:170` — `C1 승인 룰렛 핵심 계약 구현·원격 검증 진행`
 
 ## Broken internal Markdown links
