@@ -12,7 +12,7 @@ on:
       - "scenes/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   diagnose:
@@ -20,16 +20,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: agent/c3-core-ux-minimum
+          fetch-depth: 0
       - name: Install Godot 4.7.1 Standard
         shell: bash
         run: |
           curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
           unzip -q godot.zip
           chmod +x Godot_v4.7.1-stable_linux.x86_64
-      - name: Run C3 headless test with timeout
+      - name: Capture C3 headless output
         shell: bash
         run: |
-          set -euo pipefail
-          echo "=== START C3 ==="
-          timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd
-          echo "=== PASS C3 ==="
+          set +e
+          timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/c3_core_ux_test.gd > /tmp/c3-headless.log 2>&1
+          status=$?
+          {
+            echo "exit_status=${status}"
+            cat /tmp/c3-headless.log
+          } > /tmp/c3-diagnostic.log
+          git fetch origin agent/c3-core-ux-minimum
+          git reset --hard origin/agent/c3-core-ux-minimum
+          cp /tmp/c3-diagnostic.log docs/_C3_HEADLESS_DIAGNOSTIC.log
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/_C3_HEADLESS_DIAGNOSTIC.log
+          git commit -m "record isolated C3 headless diagnostic"
+          git push origin HEAD:agent/c3-core-ux-minimum
+          exit 1
