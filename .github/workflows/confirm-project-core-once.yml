@@ -34,10 +34,17 @@ jobs:
               "최초 `EXISTING_CORE_IDENTIFIED`로 기록했고, 2026-07-22 사용자의 `코어확정` 지시 뒤",
               "최초 식별 상태로 기록했고, 2026-07-22 사용자의 `코어확정` 지시 뒤",
           )
-          text = text.replace(
+          marker = "# Mutation regression for stale pending state."
+          insertion = '''replace_once(
+              "tools/validate_project_core_docs.py",
               '        "정본·프로젝트 코어 복구",',
               '        "정본·프로젝트 코어 확정·잠금 완료",',
           )
+
+'''
+          if marker not in text:
+              raise RuntimeError("confirmation updater insertion marker missing")
+          text = text.replace(marker, insertion + marker, 1)
           text = text.replace(
               '    ".github/workflows/confirm-project-core-once.yml",\n):',
               '    ".github/workflows/confirm-project-core-once.yml",\n    "docs/_CORE_CONFIRM_FAILURE.log",\n):',
