@@ -1,0 +1,27 @@
+name: Confirm Project Core Once
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_confirm_project_core_once.py"
+      - ".github/workflows/confirm-project-core-once.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  confirm:
+    if: github.head_ref == 'agent/project-core-canon-recovery'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Confirm and lock project core
+        run: python tools/_confirm_project_core_once.py
