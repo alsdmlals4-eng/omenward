@@ -28,7 +28,7 @@ inbound = payload["inbound_references"]
 
 selected_paths = sorted(
     path for path in roulette
-    if path in CANONICAL or path.startswith(CODE_PREFIXES)
+    if (path in CANONICAL or path.startswith(CODE_PREFIXES)) and (ROOT / path).is_file()
 )
 
 lines: list[str] = [
@@ -58,7 +58,7 @@ for path in selected_paths:
     ])
 
 lines.extend(["", "## 활성 파일의 구형 상태·명칭 후보"])
-active_stale = [entry for entry in stale if entry["category"] == "ACTIVE"]
+active_stale = [entry for entry in stale if entry["category"] == "ACTIVE" and (ROOT / entry["path"]).is_file()]
 for entry in active_stale:
     lines.extend([
         "",
@@ -90,7 +90,11 @@ if count == 0:
 
 OUTPUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
-for relative in ("tools/_extract_c1_roulette_shortlist.py", ".github/workflows/extract-c1-roulette-shortlist-once.yml"):
+for relative in (
+    "tools/_extract_c1_roulette_shortlist.py",
+    ".github/workflows/extract-c1-roulette-shortlist-once.yml",
+    "docs/_C1_SHORTLIST_FAILURE.log",
+):
     path = ROOT / relative
     if path.exists():
         path.unlink()
