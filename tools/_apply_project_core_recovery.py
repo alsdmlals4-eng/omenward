@@ -192,7 +192,7 @@ replace_regex(
 )
 replace_once(
     "docs/OMENWARD_ROADMAP.md",
-    "---\n\n## 4. G1 — Phase 0 Work Order",
+    "## 4. G1 — Phase 0 Work Order",
     "위 표가 현재 상태의 권위 원본이다. 아래 기존 Phase 정의는 목적·완료 기준의 변경 이력으로 유지하며, 각 절의 과거 상태 문구가 현재 위치를 덮지 않는다.\n\n---\n\n## 4. G1 — Phase 0 Work Order",
 )
 replace_regex("docs/OMENWARD_ROADMAP.md", r"## 15\. 지금 실행할 단 하나의 작업\n.*\Z", '## 15. 지금 실행할 단 하나의 작업\n\n```text\n정본·프로젝트 코어 복구 Draft PR 검토\n→ 프로젝트 코어 문구의 사용자 확인\n→ 문서 PR 병합\n→ 승인 룰렛 계약 복구를 별도 Plan·Build·Review 작업으로 시작\n```\n\n현재 작업에서는 게임 코드·Scene·Resource·게임 데이터와 승인 수치를 변경하지 않는다. 다음 기능 PR도 룰렛 계약 복구만 포함하며 전투 목적 루프·UX·콘텐츠 확대를 섞지 않는다.\n')
@@ -261,9 +261,14 @@ run("python", "-m", "unittest", "discover", "-s", "tests/python", "-v")
 run("python", "-m", "py_compile", "tools/validate_project_core_docs.py", "tests/python/test_project_core_docs.py")
 run("python", "tools/validate_skill_system.py")
 
-script_path = ROOT / "tools" / "_apply_project_core_recovery.py"
-if script_path.exists():
-    script_path.unlink()
+for relative in (
+    "tools/_apply_project_core_recovery.py",
+    "docs/_CORE_RECOVERY_FAILURE.log",
+    "project-core-recovery.log",
+):
+    path = ROOT / relative
+    if path.exists():
+        path.unlink()
 
 for cache in ROOT.rglob("__pycache__"):
     for child in cache.iterdir():
