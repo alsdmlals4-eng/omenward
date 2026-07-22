@@ -158,8 +158,11 @@ func _construction_comparison() -> Array[Dictionary]:
 			block_reason = &"insufficient_gold"
 		var source := _preview_source(HOME_OUTPOST_ID, node_id, definition)
 		var symbol_id := StringName(definition.roulette_symbol_id)
-		var before_probability := run.roulette.probability_for_symbol(symbol_id) if symbol_id != &"" else 0.0
-		var after_probability := run.roulette.probability_for_symbol(symbol_id, [source]) if not source.is_empty() else before_probability
+		var before_probability: float = float(run.roulette.probability_for_symbol(symbol_id)) if symbol_id != &"" else 0.0
+		var preview_sources: Array[Dictionary] = []
+		if not source.is_empty():
+			preview_sources.append(source)
+		var after_probability: float = float(run.roulette.probability_for_symbol(symbol_id, preview_sources)) if not preview_sources.is_empty() else before_probability
 		result.append({
 			"building_id": str(building_id),
 			"outpost_id": str(HOME_OUTPOST_ID),
@@ -221,7 +224,7 @@ func _omen_snapshot() -> Dictionary:
 		var entry: Dictionary = lane_data[lane_id]
 		entry["count"] = int(entry["count"]) + 1
 		var roles: Array = entry["roles"]
-		var role := profile.role if profile != null else "unknown"
+		var role: String = str(profile.role) if profile != null else "unknown"
 		if not roles.has(role):
 			roles.append(role)
 		if phase == &"t15" or phase == &"t5" or phase == &"now":
