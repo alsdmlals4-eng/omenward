@@ -1,0 +1,71 @@
+/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract_runtime.py:1110: SyntaxWarning: invalid escape sequence '\['
+  for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
+C1 roulette validation PASSED
+test_review_skill_contains_all_three_methods (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_skill_contains_all_three_methods) ... ok
+test_review_stack_cannot_omit_integration (test_adversarial_review_contract.AdversarialReviewContractTests.test_review_stack_cannot_omit_integration) ... ok
+test_shared_contract_blocks_false_completion (test_adversarial_review_contract.AdversarialReviewContractTests.test_shared_contract_blocks_false_completion) ... ok
+test_current_tree_passes (test_c1_roulette_contract.C1RouletteValidationTests.test_current_tree_passes) ... ok
+test_direct_nine_card_placeholder_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_direct_nine_card_placeholder_is_rejected) ... ok
+test_missing_judgment_line_regression_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_missing_judgment_line_regression_is_rejected) ... ok
+test_retired_work_order_reference_is_rejected (test_c1_roulette_contract.C1RouletteValidationTests.test_retired_work_order_reference_is_rejected) ... ok
+test_conflict_blocks_when_local_and_remote_changed_after_last_sync (test_issue_mirror.IssueMirrorTests.test_conflict_blocks_when_local_and_remote_changed_after_last_sync) ... ok
+test_local_sync_command_refuses_dirty_worktrees_and_non_fast_forward_merges (test_issue_mirror.IssueMirrorTests.test_local_sync_command_refuses_dirty_worktrees_and_non_fast_forward_merges) ... ok
+test_outbound_workflow_reads_remote_issue_before_updating_it (test_issue_mirror.IssueMirrorTests.test_outbound_workflow_reads_remote_issue_before_updating_it) ... ok
+test_render_issue_accepts_the_connector_issue_number_field (test_issue_mirror.IssueMirrorTests.test_render_issue_accepts_the_connector_issue_number_field) ... ok
+test_render_issue_marks_metadata_and_body (test_issue_mirror.IssueMirrorTests.test_render_issue_marks_metadata_and_body) ... ok
+test_snapshot_validation_requires_every_remote_issue_once (test_issue_mirror.IssueMirrorTests.test_snapshot_validation_requires_every_remote_issue_once) ... ok
+test_write_all_snapshots_uses_stable_issue_number_filenames (test_issue_mirror.IssueMirrorTests.test_write_all_snapshots_uses_stable_issue_number_filenames) ... ok
+test_current_repository_passes (test_project_core_docs.ProjectCoreDocumentationTests.test_current_repository_passes) ... ok
+test_missing_core_reference_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_missing_core_reference_is_rejected) ... ok
+test_pending_core_lock_state_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_pending_core_lock_state_is_rejected) ... ok
+test_roadmap_phase_history_loss_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_roadmap_phase_history_loss_is_rejected) ... ok
+test_stale_completion_claim_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_stale_completion_claim_is_rejected) ... ok
+test_unique_decision_alternative_loss_is_rejected (test_project_core_docs.ProjectCoreDocumentationTests.test_unique_decision_alternative_loss_is_rejected) ... ok
+test_expected_category_counts (test_skill_package_integrity.SkillPackageIntegrityTests.test_expected_category_counts) ... ok
+test_registry_ids_and_paths_are_unique (test_skill_package_integrity.SkillPackageIntegrityTests.test_registry_ids_and_paths_are_unique) ... ok
+test_validator_passes (test_skill_package_integrity.SkillPackageIntegrityTests.test_validator_passes) ... ok
+test_validator_rejects_duplicate_id_mutation (test_skill_package_integrity.SkillPackageIntegrityTests.test_validator_rejects_duplicate_id_mutation) ... ok
+test_dependencies_precede_dependents (test_skill_routing_contract.SkillRoutingTests.test_dependencies_precede_dependents) ... ok
+test_engineering_build (test_skill_routing_contract.SkillRoutingTests.test_engineering_build) ... ok
+test_game_design_plan (test_skill_routing_contract.SkillRoutingTests.test_game_design_plan) ... ok
+test_generic_request_does_not_enable_specialists (test_skill_routing_contract.SkillRoutingTests.test_generic_request_does_not_enable_specialists) ... ok
+test_review_forces_adversarial_stack (test_skill_routing_contract.SkillRoutingTests.test_review_forces_adversarial_stack) ... ok
+test_ui_art_audit_selects_specialist (test_skill_routing_contract.SkillRoutingTests.test_ui_art_audit_selects_specialist) ... ok
+test_unknown_manual_override_is_rejected (test_skill_routing_contract.SkillRoutingTests.test_unknown_manual_override_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.159s
+
+OK
+Project core documentation validation PASSED
+Skill system validation PASSED: 24 packages, 11 disciplines
+[agent/c1-approved-roulette-contract-recovery 1fa6f91] implement C1 approved roulette core contract
+ 35 files changed, 1126 insertions(+), 33222 deletions(-)
+ create mode 100644 .github/workflows/validate-c1-roulette.yml
+ create mode 100644 contract-execution.log
+ create mode 100644 docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md
+ delete mode 100644 docs/_C1_ROULETTE_AUDIT_INPUT.json
+ delete mode 100644 docs/_C1_ROULETTE_AUDIT_INPUT.md
+ delete mode 100644 docs/_C1_ROULETTE_SHORTLIST.md
+ delete mode 100644 docs/superpowers/plans/2026-07-16-vertical-slice-stage-progression.md
+ create mode 100644 scripts/data/roulette_spin_result.gd
+ create mode 100644 tests/headless/roulette_contract_test.gd
+ create mode 100644 tests/python/test_c1_roulette_contract.py
+ delete mode 100644 tools/_apply_c1_roulette_contract.py
+ create mode 100644 tools/validate_c1_roulette.py
+To https://github.com/alsdmlals4-eng/omenward
+ ! [remote rejected] HEAD -> agent/c1-approved-roulette-contract-recovery (refusing to allow a GitHub App to create or update workflow `.github/workflows/validate-c1-roulette.yml` without `workflows` permission)
+error: failed to push some refs to 'https://github.com/alsdmlals4-eng/omenward'
+Traceback (most recent call last):
+  File "/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract_runtime.py", line 1796, in <module>
+  File "/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract_runtime.py", line 37, in run
+  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '('git', 'push', 'origin', 'HEAD:agent/c1-approved-roulette-contract-recovery')' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract.py", line 71, in <module>
+  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python', '/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract_runtime.py']' returned non-zero exit status 1.
