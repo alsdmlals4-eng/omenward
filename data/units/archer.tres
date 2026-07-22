@@ -9,6 +9,6 @@ base_stats = {"max_health": 95.0, "attack": 18.0, "armor": 6.0, "magic_resistanc
 capture_power = 0.50
 structure_damage_tags = PackedStringArray("normal")
 counter_tags = PackedStringArray("anti_air")
-target_priority_tags = PackedStringArray("air", "nearest")
+target_priority_tags = PackedStringArray("flying", "nearest")
 attack_profile_id = &"archer"
 animation_contract_id = &"archer"
