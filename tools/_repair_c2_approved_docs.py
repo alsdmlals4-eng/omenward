@@ -16,7 +16,7 @@ def replace_once(relative: str, old: str, new: str) -> None:
 
 replace_once(
     "docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md",
-    "- 최신 갱신일: 2026-07-16",
+    "- 최신 갱신일: 2026-07-22",
     "- 최신 갱신일: 2026-07-23",
 )
 replace_once(
