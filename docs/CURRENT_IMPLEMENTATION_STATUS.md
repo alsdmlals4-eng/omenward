@@ -1,11 +1,11 @@
 # 오멘워드 현재 구현 상태
 
-- 조사일: 2026-07-22
+- 조사일: 2026-07-23
 - 기준 main: `227f6678839d32b8ec3d0f109664bcb63356fe08`
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
-- C2 구현 검증 head: `85e2930a839fd210548c7aa2a53125d18c4de875`
-- C2 최종 검증 run: `29934172758`
+- C2 구현 검증 head: `496157d0b87ab71ea2c9f25780f21df9f68b67f3`
+- C2 최종 검증 run: `29936497790` (`Validate Core Contracts`)
 - 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`
 - 판정:
   - `TECHNICAL_BASELINE_IMPLEMENTED`
@@ -36,7 +36,7 @@
 | 상태 소유 | `GameSession`, `StageRun`, `BattleSimulator`, `CombatClock`, `DataRegistry`, `DeterminismService` | `IMPLEMENTED` |
 | 공용 병종 | 공용 10 archetype, Tier·Rank·FactionVisual, 공용 점령력·구조물 피해 태그 | `REMOTE_PROVEN` |
 | 경제·건설 | 기본·접전지·거점 수입, 식량, 거점 revision 기반 건물 활성·비활성·폐허 | `REMOTE_PROVEN` |
-| 웨이브 | 튜토리얼 W1~4, 정규 W1~20, 60초 공세 시계 | `IMPLEMENTED_COMPONENT` |
+| 웨이브 | 튜토리얼 W1~4, 정규 W1~20, 60초 출격 시계 | `IMPLEMENTED_COMPONENT` |
 | 테스트 | C1·C2·전투·경제·건설·웨이브·우회 headless 및 Python mutation 계약 | `REMOTE_PROVEN` |
 
 ## 3. 검증된 C1 룰렛 핵심
@@ -54,9 +54,9 @@
 - 최종 C1 증거는 run `29926598807`이다.
 - 이동권·럭키·고정 상위 템플릿·100,000시드 분포는 `C1U_PENDING_USER_DECISION`이다.
 
-## 4. C2 전투 목적 루프 — 구현 후보
+## 4. C2 전투 목적 루프 — 검증 완료
 
-구현 후보:
+검증된 구현:
 
 ```text
 같은 라인 유닛 교전
@@ -81,7 +81,7 @@
 - 적 본진 파괴와 W15 전설 보스 처치는 승리, 아군 본진 파괴는 패배로 `StageRun`을 닫는다.
 - 디버그 `stage_victory`·`stage_defeat` 명령은 테스트·개발 fallback으로 남지만 정상 승패의 유일 경로가 아니다.
 
-판정: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN` — Godot 4.7.1 전체 회귀와 4환경 계약 검증 통과 (head `85e2930a839fd210548c7aa2a53125d18c4de875`, run `29934172758`).
+판정: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN` — 통합 `Validate Core Contracts`에서 Godot 4.7.1 editor import·전체 headless·runtime smoke와 Ubuntu/Windows × Python 3.12/3.13 계약·문서·Skill 검증을 통과했다 (head `496157d0b87ab71ea2c9f25780f21df9f68b67f3`, run `29936497790`).
 
 ## 5. 가역 기술 fallback
 
@@ -122,9 +122,9 @@
 ```text
 1. C3 승인 코어 UX 6종 최소 구현
 2. C1U 이동권·럭키·상위 템플릿 사용자 결정 게이트
-3. 승인 코어 UX 6종 최소 구현
-4. 10~15분 사람 플레이·1080p·720p QA
-5. 밸런스 안정화와 콘텐츠·아트 확장
+3. 10~15분 사람 플레이·1080p·720p QA
+4. 밸런스 안정화
+5. 콘텐츠·아트 확장
 ```
 
 C3와 사람 플레이 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
