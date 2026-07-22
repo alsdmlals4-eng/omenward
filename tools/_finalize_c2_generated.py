@@ -33,6 +33,45 @@ replace_once(
 )
 
 replace_once(
+    "scripts/buildings/building_service.gd",
+    '''\t\tvar should_be_active := outpost.owner_team_id == PLAYER_TEAM_ID
+''',
+    '''\t\tvar should_be_active: bool = outpost.owner_team_id == PLAYER_TEAM_ID
+''',
+)
+
+replace_once(
+    "scripts/battle/outpost_state.gd",
+    '''func set_contested() -> void:
+\tif state != NEUTRALIZING and state != CAPTURING:
+\t\treturn
+\tcapture_power = 0.0
+\tcontested = true
+\t_hold_remaining = 0.0
+\t_is_reverting = false
+''',
+    '''func set_contested() -> void:
+\tif state == STABILIZING:
+\t\treturn
+\tcapture_power = 0.0
+\tcontested = true
+\t_hold_remaining = 0.0
+\t_is_reverting = false
+''',
+)
+
+replace_once(
+    "scripts/battle/battle_simulator.gd",
+    '''\tif state.is_stable_for(team_id):
+\t\treturn
+''',
+    '''\tif state.is_stable_for(team_id):
+\t\tstate.contested = false
+\t\treturn
+''',
+)
+
+replace_once(
     "tests/headless/c2_battle_objective_test.gd",
     '''func _test_objective_sequence_and_lane_gate_isolation(failures: PackedStringArray) -> void:
 \tvar battle := BattleSimulator.new(_registry(), 101)
@@ -159,6 +198,9 @@ replace_once(
 ''',
 )
 
+failure_log = ROOT / "docs/_C2_RUNTIME_FAILURE.log"
+if failure_log.exists():
+    failure_log.unlink()
 self_path = ROOT / "tools/_finalize_c2_generated.py"
 if self_path.exists():
     self_path.unlink()
