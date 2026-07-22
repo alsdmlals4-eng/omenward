@@ -1,0 +1,49 @@
+name: Sync C3 Canonical Docs
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/sync-c3-canonical-docs.yml"
+      - "tools/sync_c3_canonical_docs.py"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    if: github.head_ref == 'agent/c3-core-ux-minimum'
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c3-core-ux-minimum
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Apply guarded canonical transitions
+        run: python tools/sync_c3_canonical_docs.py
+      - name: Validate synchronized contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_c3_core_ux.py tools/validate_project_core_docs.py
+          python tools/validate_c1_roulette.py
+          python tools/validate_c2_battle_objective.py
+          python tools/validate_c3_core_ux.py
+          python tools/validate_project_core_docs.py
+          python -m unittest discover -s tests/python -v
+          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+          git diff --check
+      - name: Commit synchronized canonical docs
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md docs/
+          git commit -m "synchronize C3 canonical documentation"
+          git push origin HEAD:agent/c3-core-ux-minimum
