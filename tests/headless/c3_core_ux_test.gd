@@ -104,13 +104,14 @@ func _test_snapshot_determinism(failures: PackedStringArray) -> void:
 func _test_hud_contains_all_six_surfaces(failures: PackedStringArray) -> void:
 	var packed: PackedScene = ResourceLoader.load(HUD_SCENE_PATH)
 	var hud: Node = packed.instantiate()
-	for path in (
+	var required_paths := [
 		"OmenDetailLabel",
 		"TokenLedgerLabel",
 		"ConstructionComparisonLabel",
 		"TacticalOverlayLabel",
 		"WaveReportLabel",
-	):
+	]
+	for path in required_paths:
 		_expect(hud.get_node_or_null(path) != null, "HUD contains C3 surface %s" % path, failures)
 	hud.free()
 
