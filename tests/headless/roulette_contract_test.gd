@@ -97,7 +97,7 @@ func _test_source_selection_determinism(roulette_script: GDScript, failures: Pac
 	var first: Variant = service.resolve_board_snapshot(board, sources, 12345, 20, false)
 	var second: Variant = service.resolve_board_snapshot(board, sources, 12345, 20, false)
 	_expect(first.source_building_id != &"", "a matching token resolves to an explicit building source", failures)
-	_expect(first.source_building_id == second.source_building_id, "the same resolution seed selects the same source building", failures)
+	_expect(first.source_building_id == second.source_building_id, "multiple matching sources remain deterministic for the same seed", failures)
 	_expect(first.rewards[0].archetype_id == second.rewards[0].archetype_id, "the same source selection produces the same reward archetype", failures)
 
 
