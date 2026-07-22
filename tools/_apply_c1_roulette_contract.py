@@ -28,6 +28,8 @@ body = body.replace(
     cleanup_marker
     + '    "docs/_C1_APPLY_FAILURE.log",\n'
     + '    "docs/_C1_FINAL_APPLY_FAILURE.log",\n'
+    + '    "docs/_EXECUTION_FAILURE.log",\n'
+    + '    "contract-execution.log",\n'
     + '    "tools/_apply_c1_roulette_contract_runtime.py",\n'
     + '    ".github/workflows/apply-c1-roulette-contract-final-once.yml",\n',
     1,
@@ -67,5 +69,8 @@ replace_once(
 if validator_marker not in body:
     raise RuntimeError("project core validator sync marker missing")
 body = body.replace(validator_marker, validator_sync + validator_marker, 1)
+workflow_start = body.index('write(\n    ".github/workflows/validate-c1-roulette.yml",')
+workflow_end = body.index("# Delete temporary audit payloads and bootstrap files.", workflow_start)
+body = body[:workflow_start] + body[workflow_end:]
 RUNTIME_PATH.write_text(body, encoding="utf-8", newline="\n")
 subprocess.run(["python", str(RUNTIME_PATH)], cwd=ROOT, check=True)
