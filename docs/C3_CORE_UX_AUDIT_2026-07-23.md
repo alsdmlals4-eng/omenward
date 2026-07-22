@@ -41,6 +41,7 @@
 
 - `RouletteService`가 현재 X·금화·활성 건물 심벌의 가중치, 확률, 출처 건물 ID와 보상 병종을 계산한다.
 - 건설 전 미리보기는 실제 `BuildingDefinition`을 가상 `Array[Dictionary]` 출처로 추가해 건설 전후 확률과 변화량을 계산한다.
+- 구현 변수 계약은 `var preview_sources: Array[Dictionary]`이며 일반 `Array`로 완화하지 않는다.
 - `WaveDirector`가 다음 공세까지 시간과 `countdown / t30 / t15 / t5 / now / complete` 공개 단계를 소유한다.
 - 공용 `UnitArchetypeProfile`과 `UnitInstance`가 역할, 실제 공격 사거리, 현재 대상 ID, 승인 상성·타기팅 힌트를 양 진영에 동일하게 제공한다.
 - `CoreUxService`가 웨이브 출격 유닛과 실제 사망·거점·성문·본진 이벤트를 추적해 라인별 원인 보고를 만든다.
