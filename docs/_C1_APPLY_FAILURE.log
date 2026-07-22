@@ -1,13 +1,16 @@
 /home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract.py:1110: SyntaxWarning: invalid escape sequence '\['
   for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", text):
-  File "tests/python/test_c1_roulette_contract.py", line 43
-    roulette.write_text(roulette.read_text(encoding="utf-8") + "
-                                                               ^
-SyntaxError: unterminated string literal (detected at line 43)
+C1 roulette validation FAILED
+- active document references retired execution input: docs/OMENWARD_ROADMAP.md -> docs/work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md
+- active document references retired execution input: docs/OMENWARD_ROADMAP.md -> work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md
+- active document references retired execution input: docs/OMENWARD_ROADMAP.md -> docs/design/proposals/0001-phase-0-godot-bootstrap.md
+- active document references retired execution input: docs/OMENWARD_ROADMAP.md -> design/proposals/0001-phase-0-godot-bootstrap.md
+- active document references retired execution input: docs/superpowers/plans/2026-07-16-vertical-slice-stage-progression.md -> docs/goals/0002-core-vertical-slice.md
+- active document references retired execution input: docs/superpowers/plans/2026-07-16-vertical-slice-stage-progression.md -> goals/0002-core-vertical-slice.md
 Traceback (most recent call last):
-  File "/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract.py", line 1756, in <module>
+  File "/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract.py", line 1758, in <module>
   File "/home/runner/work/omenward/omenward/tools/_apply_c1_roulette_contract.py", line 37, in run
   File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/subprocess.py", line 577, in run
     raise CalledProcessError(retcode, process.args,
                              output=stdout, stderr=stderr)
-subprocess.CalledProcessError: Command '('python', '-m', 'py_compile', 'tools/validate_c1_roulette.py', 'tests/python/test_c1_roulette_contract.py', 'tools/validate_project_core_docs.py')' returned non-zero exit status 1.
+subprocess.CalledProcessError: Command '('python', 'tools/validate_c1_roulette.py')' returned non-zero exit status 1.
