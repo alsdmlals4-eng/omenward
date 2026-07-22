@@ -11,6 +11,7 @@ func _init() -> void:
 		_test_judgment_line_gate(roulette_script, failures)
 		_test_grade_mapping(roulette_script, failures)
 		_test_gold_payout(roulette_script, failures)
+		_test_source_selection_determinism(roulette_script, failures)
 		_test_legendary_limit(roulette_script, failures)
 	_finish(failures)
 
@@ -77,6 +78,29 @@ func _test_gold_payout(roulette_script: GDScript, failures: PackedStringArray) -
 	_expect(three_lines.gold_reward == 100, "three or more gold lines pay 500 percent", failures)
 
 
+func _test_source_selection_determinism(roulette_script: GDScript, failures: PackedStringArray) -> void:
+	var service: Variant = roulette_script.new(null, null, _manifest(), &"lumern")
+	var sources := _sources()
+	sources.append({
+		"symbol_id": &"warrior",
+		"reward_archetype_id": &"archer",
+		"board_weight": 3,
+		"source_tier_id": &"tier_1",
+		"source_weight": 3,
+		"source_building_id": &"captured_top:rear",
+	})
+	var board := [
+		&"x", &"gold", &"x",
+		&"warrior", &"warrior", &"warrior",
+		&"gold", &"x", &"gold",
+	]
+	var first: Variant = service.resolve_board_snapshot(board, sources, 12345, 20, false)
+	var second: Variant = service.resolve_board_snapshot(board, sources, 12345, 20, false)
+	_expect(first.source_building_id != &"", "a matching token resolves to an explicit building source", failures)
+	_expect(first.source_building_id == second.source_building_id, "the same resolution seed selects the same source building", failures)
+	_expect(first.rewards[0].archetype_id == second.rewards[0].archetype_id, "the same source selection produces the same reward archetype", failures)
+
+
 func _test_legendary_limit(roulette_script: GDScript, failures: PackedStringArray) -> void:
 	var service: Variant = roulette_script.new(null, null, _manifest(), &"lumern")
 	var board := [
@@ -120,7 +144,5 @@ func _finish(failures: PackedStringArray) -> void:
 		print("Approved roulette contract checks passed")
 		quit(0)
 	else:
-		printerr("Approved roulette contract failures:
-%s" % "
-".join(failures))
+		printerr("Approved roulette contract failures:\n%s" % "\n".join(failures))
 		quit(1)
