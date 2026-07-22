@@ -1,0 +1,13 @@
+Project core documentation validation FAILED
+- DECISIONS_PENDING does not distinguish implemented technical baseline
+Traceback (most recent call last):
+  File "/home/runner/work/omenward/omenward/tools/_repair_project_core_recovery.py", line 349, in <module>
+    run("python", "tools/validate_project_core_docs.py")
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/omenward/omenward/tools/_repair_project_core_recovery.py", line 12, in run
+    subprocess.run(args, cwd=ROOT, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/hostedtoolcache/Python/3.13.14/x64/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '('python', 'tools/validate_project_core_docs.py')' returned non-zero exit status 1.
