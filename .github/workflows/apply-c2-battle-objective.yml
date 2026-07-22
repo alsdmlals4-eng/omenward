@@ -1,0 +1,84 @@
+name: Apply C2 Battle Objective
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_apply_c2_runtime.py"
+      - "tools/_apply_c2_runtime_body.py"
+      - "tools/_apply_c2_tests.py"
+      - "tools/_finalize_c2_generated.py"
+      - ".github/workflows/apply-c2-battle-objective.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    if: github.head_ref == 'agent/c2-battle-objective-loop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c2-battle-objective-loop
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Apply guarded C2 runtime and contracts
+        run: |
+          python tools/_apply_c2_runtime.py
+          python tools/_apply_c2_runtime_body.py
+          python tools/_apply_c2_tests.py
+          python tools/_finalize_c2_generated.py
+      - name: Compile Python contracts
+        run: |
+          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
+      - name: Validate C1 and C2 contracts
+        run: |
+          python tools/validate_c1_roulette.py
+          python tools/validate_c2_battle_objective.py
+      - name: Run all Python repository tests
+        run: python -m unittest discover -s tests/python -v
+      - name: Validate project core and Skill system
+        shell: bash
+        run: |
+          python tools/validate_project_core_docs.py
+          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+      - name: Install Godot 4.7.1 Standard
+        shell: bash
+        run: |
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          chmod +x /tmp/godot/Godot_v4.7.1-stable_linux.x86_64
+          /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --version
+      - name: Import project
+        run: /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+      - name: Run all headless contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          for test_file in tests/headless/*_test.gd; do
+            echo "Running ${test_file}"
+            /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
+          done
+      - name: Runtime smoke
+        run: /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
+      - name: Check generated tree
+        shell: bash
+        run: |
+          git diff --check
+          test ! -e tools/_apply_c2_runtime.py
+          test ! -e tools/_apply_c2_runtime_body.py
+          test ! -e tools/_apply_c2_tests.py
+          test ! -e tools/_finalize_c2_generated.py
+          test ! -e docs/_C2_AUDIT_INPUT.md
+      - name: Commit validated C2 implementation
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "implement C2 battle objective loop"
+          git push origin HEAD:agent/c2-battle-objective-loop
