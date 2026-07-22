@@ -2,6 +2,8 @@
 
 - 기준 main: `227f6678839d32b8ec3d0f109664bcb63356fe08`
 - 작업 상태: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
+- 최종 검증 head: `496157d0b87ab71ea2c9f25780f21df9f68b67f3`
+- 최종 검증 run: `29936497790` (`Validate Core Contracts`)
 - 프로젝트 코어: `CORE_CONFIRMED / CORE_LOCKED`
 - 선행 완료: `C1_ROULETTE_CORE_REMOTE_PROVEN`
 - 별도 결정 게이트: `C1U_PENDING_USER_DECISION`
@@ -26,7 +28,7 @@
 - 깨진 내부 Markdown 링크: 0개.
 - 본진·승리·패배 문맥: 177개.
 
-실제 활성 문제는 C1 진행 중·PR #49 대기·C2 미구현 표현이었으며, Validator·mutation fixture의 구형 문자열은 공격 입력으로 분리했다. 임시 감사 입력과 수집 Workflow는 제거했다.
+실제 활성 문제는 C1 진행 중·PR #49 대기·C2 미구현 표현이었으며, Validator·mutation fixture의 구형 문자열은 공격 입력으로 분리했다. 임시 감사 입력과 수집·적용·동기화 Workflow는 최종 트리에서 제거했다.
 
 ## 3. 복구한 인과
 
@@ -71,17 +73,18 @@
 
 이 값은 최종 밸런스 확정이 아니며 사용자 결정·플레이테스트 전 교체 가능하다.
 
-## 7. 검증 현황
+## 7. 최종 검증
 
-구현·적대적 보강 단계에서 다음이 통과했다.
+통합 `Validate Core Contracts` run `29936497790`, head `496157d0b87ab71ea2c9f25780f21df9f68b67f3`에서 다음이 모두 통과했다.
 
 - Godot 4.7.1 editor import.
 - 모든 `tests/headless/*_test.gd`.
 - runtime smoke.
-- C1·C2 Python 계약과 mutation tests.
+- Ubuntu/Windows × Python 3.12/3.13의 C1·C2 계약과 mutation tests.
 - 프로젝트 코어·Skill Validator·whitespace.
+- 활성 문서의 구형 상태·폐기 실행 입력 직접 참조와 깨진 내부 링크 검사.
 
-최종 공통 검증은 구현 head `85e2930a839fd210548c7aa2a53125d18c4de875`, GitHub Actions run `29934172758`에서 통과했다. 판정은 `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`이다.
+판정은 `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`이다.
 
 ## 8. 미실행
 
