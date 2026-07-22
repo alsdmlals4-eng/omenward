@@ -1,0 +1,48 @@
+name: Normalize C2 Active Documentation
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tools/_normalize_c2_active_docs.py"
+      - ".github/workflows/normalize-c2-active-docs.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.head_ref == 'agent/c2-battle-objective-loop'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c2-battle-objective-loop
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Normalize active documents
+        run: python tools/_normalize_c2_active_docs.py
+      - name: Validate normalized repository contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_project_core_docs.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py
+          python tools/validate_c1_roulette.py
+          python tools/validate_c2_battle_objective.py
+          python tools/validate_project_core_docs.py
+          if [ -f tools/validate_skill_system.py ]; then python tools/validate_skill_system.py; fi
+          python -m unittest discover -s tests/python -v
+          git diff --check
+          test ! -e tools/_normalize_c2_active_docs.py
+      - name: Commit normalized active documents
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "normalize C2 active documentation"
+          git push origin HEAD:agent/c2-battle-objective-loop
