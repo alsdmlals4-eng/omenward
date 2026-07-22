@@ -2,7 +2,7 @@
 
 - 기준 main: `2670a9a0040d0618a8dfb98683076f6b4ded5c54`
 - 작업 브랜치: `agent/c3-core-ux-minimum`
-- 현재 상태: `C3_AUDIT_COMPLETE / IMPLEMENTATION_PENDING`
+- 현재 상태: `C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING`
 - 선행 완료: `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
 - 별도 사용자 결정: `C1U_PENDING_USER_DECISION`
 
@@ -35,42 +35,42 @@
 - `docs/design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`
 - `docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md`
 
-## 3. 현재 구현 감사
+## 3. 구현 결과
 
-현재 `StageHud`는 다음만 표시한다.
+### 도메인 snapshot
 
-- 금화·식량.
-- 현재 웨이브.
-- 단일 `Next omen Ns` 문자열.
-- 룰렛 보드·결과·보관 개수의 디버그 문자열.
-- 병영·포탑·농장 건설 버튼.
-- 상·중·하 배치 버튼.
-- 스테이지 결과·재시도.
+- `RouletteService`가 현재 X·금화·활성 건물 심벌의 가중치, 확률, 출처 건물 ID와 보상 병종을 계산한다.
+- 건설 전 미리보기는 실제 `BuildingDefinition`을 가상 `Array[Dictionary]` 출처로 추가해 건설 전후 확률과 변화량을 계산한다.
+- `WaveDirector`가 다음 공세까지 시간과 `countdown / t30 / t15 / t5 / now / complete` 공개 단계를 소유한다.
+- 공용 `UnitArchetypeProfile`과 `UnitInstance`가 역할, 실제 공격 사거리, 현재 대상 ID, 승인 상성·타기팅 힌트를 양 진영에 동일하게 제공한다.
+- `CoreUxService`가 웨이브 출격 유닛과 실제 사망·거점·성문·본진 이벤트를 추적해 라인별 원인 보고를 만든다.
+- `StageRun.core_ux_snapshot()`이 여섯 UX를 읽기 전용 snapshot 하나로 조합한다.
 
-현재 누락:
+### HUD
 
-- 건설 전후 확률 차이와 비용·효과 비교가 없다.
-- 토큰의 출처·가중치·전체 확률 장부가 없다.
-- 다음 공세 라인·병종·수량·단계별 공개가 없다.
-- 유닛의 사거리·현재 대상·상성 힌트가 없다.
-- 웨이브 성공·실패 원인을 라인별로 기록하지 않는다.
-- 건물 버튼이 현재 거점 상태, 비용, 식량, 토큰 기여를 비교하지 않는다.
+- `StageHud`는 snapshot을 표시하고 기존 입력만 전달한다.
+- 토큰 장부는 심벌·가중치·확률·출처 수·출처 건물 ID·보상 병종을 표시한다.
+- 건설 비교는 비용·식량·룰렛 기여·건설 가능 여부·차단 사유를 표시하고 버튼 상태에 반영한다.
+- 징조는 T-30 역할, T-15 병종·상성 힌트, T-5 위험 라인을 단계적으로 표시한다.
+- 전술 오버레이는 라인·팀·병종·사거리·현재 대상·상성·타기팅 우선 태그를 표시한다.
+- 웨이브 보고는 적 처치·아군 손실·거점 변화·성문/본진 피해의 가한 값과 받은 값을 구분한다.
+- 현재 960×540 논리 화면의 텍스트 중심 PoC이며 최종 시각 배치가 아니다.
 
 ## 4. 구현 책임 경계
 
 ### 도메인 서비스
 
 - `RouletteService`: 현재 토큰 장부, 심벌 확률, 가상 토큰 추가 후 확률을 계산한다.
-- `BuildingService`: 비파괴 건설 가능성, 비용·식량·토큰 효과와 비교 snapshot을 제공한다.
+- `BuildingService`: 실제 건물 정의, 현재 경제와 거점 상태를 제공한다.
 - `WaveDirector`: 다음 공세까지 시간과 T-30/T-15/T-5 공개 단계를 제공한다.
-- `BattleSimulator`: 라인별 유닛의 사거리·현재 대상·전술 태그와 사망·목표 이벤트를 제공한다.
-- `StageRun`: 여섯 UX를 하나의 읽기 전용 `core_ux_snapshot()`으로 조합하고 웨이브 보고를 소유한다.
+- `BattleSimulator`: 라인별 유닛의 실제 사거리·현재 대상과 사망·목표 이벤트 원본을 제공한다.
+- `CoreUxService`: 여섯 UX snapshot과 웨이브 원인 보고를 구성한다.
+- `StageRun`: 서비스 수명주기와 읽기 전용 `core_ux_snapshot()` 진입점을 소유한다.
 
 ### UI
 
 - `StageHud`는 snapshot을 표시하고 기존 입력을 전달한다.
 - UI에서 확률·경제·전투 결과·추천 원인을 새로 계산하지 않는다.
-- 현재 960×540 논리 화면에서 전장 가시 영역을 보존하는 텍스트 중심 PoC를 먼저 사용한다.
 - 최종 아트·애니메이션·색상은 별도 사람 QA 전 확정하지 않는다.
 
 ## 5. 데이터 원칙
@@ -87,7 +87,7 @@
 
 - X·금화·각 활성 건물 심벌의 가중치와 확률.
 - 선택 건물 건설 전/후 해당 심벌 확률 변화.
-- 토큰 출처 건물 ID와 개수.
+- 토큰 출처 건물 ID와 개수, 보상 병종.
 
 ### 징조
 
@@ -99,25 +99,32 @@
 ### 전투 오버레이
 
 - 라인, 팀, 병종, 역할, 공격 사거리, 현재 대상 ID.
-- 승인된 `anti_air`, `anti_large`, `backline`, `siege`, `ranged_defense` 전술 힌트.
+- 승인된 `anti_air`, `anti_large`, `backline`, `siege`, `ranged_defense` 전술 힌트와 타기팅 우선 태그.
 
 ### 웨이브 보고
 
 - 라인별 적 처치·아군 손실.
 - 거점 상태 변화 수.
-- 성문 피해량.
+- 성문·본진 피해의 가한 값과 받은 값.
 - 실제 지표에서 선택한 짧은 원인 코드와 수치 근거.
 
 ### 건설 비교
 
 - 비용, 식량 보너스, 룰렛 심벌·가중치, 현재 건설 가능 여부와 차단 사유.
 
-## 7. 완료 조건
+## 7. 자동 회귀 계약
 
-- 여섯 UX가 모두 실제 도메인 snapshot에서 생성된다.
-- 빈 토큰·금화 부족·점령 중·교착·적 없는 라인·대상 없음이 안전하게 표시된다.
-- 같은 상태는 같은 snapshot과 보고를 만든다.
-- C1·C2 계약과 C1U 보류 상태가 유지된다.
-- Godot 4.7.1 editor import, 모든 headless, runtime smoke가 통과한다.
-- Ubuntu/Windows × Python 3.12/3.13 계약·문서·Skill 검증이 통과한다.
-- 1920×1080·1280×720 사람 QA 전에는 `C3_REMOTE_PROVEN` 또는 `CORE_LOOP_PROVEN`으로 부르지 않는다.
+- 핵심 스크립트가 직접 headless 실행에서도 인스턴스화되는지 먼저 검사한다.
+- 초기 빈 토큰, 건설 후 출처, 금화 부족, 점령·교착 중 건설 차단을 검사한다.
+- T-30/T-15/T-5 공개 단계와 같은 상태의 snapshot 결정론을 검사한다.
+- 실제 사거리·현재 대상·상성·타기팅 우선 힌트와 대상 없음 상태를 검사한다.
+- 미완료 웨이브는 보고를 만들지 않고, 완료 웨이브는 실제 처치 라인과 원인 코드를 기록하는지 검사한다.
+- 영구 CI는 각 Godot headless 파일에 60초 상한을 두고 임시 C3 수리·진단 파일의 재유입을 거부한다.
+
+## 8. 남은 검증과 상태 승격 조건
+
+- 최신 영구 `Validate Core Contracts`에서 Godot 4.7.1 editor import, 모든 headless, runtime smoke를 통과해야 한다.
+- Ubuntu/Windows × Python 3.12/3.13에서 C1·C2·C3 계약, mutation tests, 프로젝트 코어·Skill·whitespace를 통과해야 한다.
+- 원격 자동 검증 완료 뒤 상태는 `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING`으로 승격한다.
+- 1920×1080·1280×720 사람 가독성 QA 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
+- 사람 QA 전에는 최종 HUD 배치·폰트·팔레트·정보 밀도를 확정하지 않는다.
