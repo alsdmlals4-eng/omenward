@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from validate_c1_roulette import REQUIRED_FILES, validate  # noqa: E402
+from validate_c1_roulette import FINAL_VALIDATION_RUN, REQUIRED_FILES, validate  # noqa: E402
 
 
 class C1RouletteValidationTests(unittest.TestCase):
@@ -67,6 +67,17 @@ class C1RouletteValidationTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertTrue(any("pre-validation C1 state" in error or "missing proven C1 evidence" in error for error in validate(root)))
+
+    def test_final_validation_evidence_cannot_regress(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            status = root / "docs" / "CURRENT_IMPLEMENTATION_STATUS.md"
+            status.write_text(
+                status.read_text(encoding="utf-8").replace(FINAL_VALIDATION_RUN, "29919925777"),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("missing proven C1 evidence" in error for error in validate(root)))
 
     def test_missing_judgment_line_regression_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
