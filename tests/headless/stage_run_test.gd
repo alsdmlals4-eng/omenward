@@ -71,14 +71,14 @@ func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progressi
 	], run.buildings.roulette_token_sources(), 17, 20, false)
 	_expect(run.store_roulette_result(result), "a unit roulette result enters stage-owned storage", failures)
 	_expect(run.pending_roulette_rewards.size() == 1, "one unit reward remains pending without consuming food", failures)
-	var gold_before_block := run.economy.gold
+	var gold_before_block: int = int(run.economy.gold)
 	var blocked: Variant = run.spin_roulette({"seed": 1})
 	_expect(not blocked.accepted and blocked.failure_reason == &"pending_reward", "pending storage blocks only the next roulette spin", failures)
-	_expect(run.economy.gold == gold_before_block, "a storage-blocked spin does not charge gold", failures)
-	var food_before_deploy := run.economy.food_used
+	_expect(int(run.economy.gold) == gold_before_block, "a storage-blocked spin does not charge gold", failures)
+	var food_before_deploy: int = int(run.economy.food_used)
 	_expect(run.deploy_next_roulette_reward(&"top"), "the stored reward can be committed to one lane", failures)
 	_expect(run.pending_roulette_rewards.is_empty(), "successful deployment clears the stored reward", failures)
-	_expect(run.economy.food_used == food_before_deploy + 1, "successful roulette deployment reserves the reward's food cost", failures)
+	_expect(int(run.economy.food_used) == food_before_deploy + 1, "successful roulette deployment reserves the reward's food cost", failures)
 
 
 func _test_assassin_bypass_timing(bypass_script: GDScript, failures: PackedStringArray) -> void:
