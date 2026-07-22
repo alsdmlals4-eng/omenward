@@ -8,6 +8,8 @@
 최신 사용자 지시
 → AGENTS.md
 → BASE_RULES_VERSION.md
+→ PROJECT_CORE.md
+→ CURRENT_IMPLEMENTATION_STATUS.md
 → HANDOFF_CONTEXT.md
 → DOCUMENTATION_MAP.md
 → 현재 Codex 작업이면 work_orders 문서
@@ -20,6 +22,8 @@
 → ACTIVE_CONTEXT.md
 ```
 
+- `PROJECT_CORE.md`는 제품 정체성·핵심 선택·불변 조건·코어 검증 게이트의 최상위 책임 원본이다.
+- `CURRENT_IMPLEMENTATION_STATUS.md`는 구현·부분 구현·미검증 증거 경계의 책임 원본이다.
 - `HANDOFF_CONTEXT.md`는 현재 방향과 다음 행동을 압축한 최초 인수인계 문서다.
 - `docs/work_orders/`는 새 Codex 채팅에 전달하는 작업 요청·컨텍스트 패키지다.
 - `docs/design/proposals/`는 기획 측 사전 기술 추천안이며 Codex가 실제 저장소를 조사해 제출하는 Plan Mode 결과와 구분한다.
@@ -42,6 +46,8 @@
 
 | 문서 | 역할 |
 |---|---|
+| `PROJECT_CORE.md` | 제품 정체성, 핵심 선택, 불변 조건, 제거 테스트, 코어 검증 게이트 |
+| `CURRENT_IMPLEMENTATION_STATUS.md` | 실제 구현·부분 구현·승인 계약 차이·미검증 증거 |
 | `HANDOFF_CONTEXT.md` | 현재 방향, 불변 조건, 데이터 소유, 다음 실행 순서 |
 | `OMENWARD_GAME_DESIGN.md` | 전체 게임 경험과 시스템 관계 |
 | `ACTIVE_CONTEXT.md` | 최신 작업 상태 캡슐 |
@@ -57,7 +63,8 @@
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| 새 Codex 채팅·현재 main 조사 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue·PR·Goal |
+| 프로젝트 코어·우선순위·기능 제거 판단 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 문서 |
+| 새 Codex 채팅·현재 main 조사 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue·PR·Goal |
 | 과거 Phase 0 결정 추적 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Goal 0001 |
 | Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
@@ -105,6 +112,8 @@
 | 주제 | 책임 원본 |
 |---|---|
 | 작업 규칙·Plan Mode·완료 보고 | `AGENTS.md` |
+| 프로젝트 코어 | `PROJECT_CORE.md` |
+| 현재 구현 증거 | `CURRENT_IMPLEMENTATION_STATUS.md` |
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
 | 현재 Codex 작업 요청 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |

@@ -1,8 +1,10 @@
 # Active Context
 
-- 갱신일: 2026-07-16
+- 갱신일: 2026-07-22
 - 공식명: **오멘워드 / OMENWARD**
-- 저장소 상태: **Godot 프로젝트와 플레이 가능한 수직 슬라이스 코드·데이터가 존재함 / 다음 작업 전 실제 main과 검증 문서 재확인 필수**
+- 저장소 상태: **기술 기준선 구현 / 핵심 수직 슬라이스 부분 구현 / 코어 루프·사람 플레이 미검증**
+- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
+- 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 최초 인수인계: `docs/HANDOFF_CONTEXT.md`
 - 최신 통합 기준: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
 - 시각자료 인덱스: `docs/images/VISUAL_REFERENCE_INDEX.md`
@@ -25,10 +27,31 @@ project.godot
 
 현재 `project.godot`에는 960×540 논리 화면, 1920×1080 출력, Compatibility renderer와 main Scene이 정의돼 있다. 새 Codex 채팅은 문서 요약만 하지 말고 실제 파일·테스트·실행 결과를 기준으로 다음 제안 범위를 정한다.
 
+## 현재 구현 판정
+
+책임 원본:
+
+- `docs/PROJECT_CORE.md`
+- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+
+현재 상태는 다음 네 문구를 함께 사용한다.
+
+```text
+TECHNICAL_BASELINE_IMPLEMENTED
++ CORE_VERTICAL_SLICE_PARTIAL
++ CORE_LOOP_NOT_PROVEN
++ HUMAN_QA_NOT_RUN
+```
+
+- Phase 0 기술·데이터 기반과 다수 수직 슬라이스 구성요소는 실제 파일로 존재한다.
+- 승인 룰렛 판정, 전투→거점·성문·승패 연결, 코어 UX 6종은 완결되지 않았다.
+- 자동 테스트 파일의 존재를 최신 runtime·사람 플레이 증거로 간주하지 않는다.
+- 다음 게임 기능 변경은 승인 룰렛 계약 복구로 한정한다.
+
 ## 핵심 정체성
 
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드.
-- 핵심 루프: `베일의 징조 → 건물·토큰 선택 → 룰렛 → 라인 배치 → 거점·성문·우회 공방`.
+- 핵심 루프: `베일의 징조 → 건물·확률 설계 → 룰렛 판정 → 라인 배치 → 거점·성문·우회 공방 → 원인 확인 → 다음 설계`.
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE.
 - 엔진: Godot + GDScript.
 - 첫 10분 안에 건설→룰렛→배치→역전 루프를 두 번 체험한다.
@@ -205,7 +228,18 @@ HP 5000
 
 ## 다음 작업 원칙
 
-- 새 Codex 채팅은 현재 저장소가 구현 전이라는 과거 문구를 믿지 말고 실제 main을 먼저 조사한다.
+```text
+정본·프로젝트 코어 복구
+→ 승인 룰렛 계약 복구
+→ 전투 목적 루프 연결
+→ 승인 코어 UX 6종
+→ 사람 플레이 검증
+→ 밸런스·콘텐츠 확장
+```
+
+- 새 Codex 채팅은 `docs/PROJECT_CORE.md`와 `docs/CURRENT_IMPLEMENTATION_STATUS.md`를 먼저 읽는다.
+- 현재 저장소를 `구현 전` 또는 `수직 슬라이스 완료` 중 하나로 단순화하지 않는다.
+- 다음 게임 기능 PR은 승인 룰렛 계약 복구만 포함한다.
 - 시각·병종·UI 작업은 새 병종 비주얼 책임 문서와 시각자료 인덱스를 반드시 읽는다.
 - 실제 아트 제작 전 대표 병종 5종을 1080p·720p 전장에 삽입해 축소 가독성을 검증한다.
 - Base 공용 지식은 방법과 사례 참고용이며 오멘워드 책임 문서를 덮어쓰지 않는다.

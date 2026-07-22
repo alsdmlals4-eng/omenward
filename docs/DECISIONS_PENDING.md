@@ -1,8 +1,8 @@
 # 오멘워드 미확정 결정 목록
 
-- 갱신일: 2026-07-16
-- 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
-- 현재 제안서: `docs/design/proposals/0001-phase-0-godot-bootstrap.md`
+- 갱신일: 2026-07-22
+- 기준: `docs/PROJECT_CORE.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`, `docs/HANDOFF_CONTEXT.md`
+- 현재 작업: 정본·프로젝트 코어 복구 / 다음 기능 게이트: 승인 룰렛 계약 복구
 - 원칙: `승인 구조`, `제안서 승인 대기`, `PoC 조정`, `장기 확장`을 구분한다.
 
 체크되지 않은 항목은 아직 구현 사양으로 확정하지 않는다. 표시명이나 이미지가 달라도 새 적군 UnitProfile을 만들지 않는다.
@@ -11,87 +11,59 @@
 
 ## 1. 현재 가장 먼저 결정할 항목
 
-Phase 0 기술 제안서의 다음 추천안을 승인하거나 수정한다.
+### A. 프로젝트 코어 확정·잠금 — 완료
 
-### A. 엔진·renderer
+- [x] 정체성 한 문장과 `예측 → 확률 설계 → 전선 커밋` 세 기둥을 `CORE_CONFIRMED`로 확정.
+- [x] 제거 테스트와 불변 조건을 `CORE_LOCKED`로 확정.
+- 확인 근거: 2026-07-22 사용자의 `코어확정` 지시.
+- 후속 변경은 사용자 명시적 승인, 제거 테스트, 대안과 영향 범위 기록을 요구한다.
 
-추천:
+### B. 다음 기능 작업 — 승인 룰렛 계약 복구
 
-```text
-Godot 4.7.1 standard x86_64
-GDScript
-Compatibility renderer
-```
+현재 구현은 9개의 카드를 직접 반환하지만 승인 계약은 중앙 가로줄 판정, 동일 심벌 완성선, 등급과 단일 보상 생성이다.
 
-- [ ] 추천안 승인.
+- [ ] placeholder 테스트를 승인 계약 테스트로 교체하는 Plan 승인.
+- [ ] 중앙 판정·완성선·등급·단일 보상을 먼저 복구하고 X·금화·럭키 찬스·이동권은 같은 계약 안에서 단계적으로 연결.
+- [ ] 결과 보관함 기본 용량과 UI는 기존 미확정 상태 유지.
+- [ ] 전투 목적 루프와 코어 UX를 같은 PR에 섞지 않음.
+
+### C. 검증 증거
+
+- [ ] 문서 PR 뒤 Godot editor import와 기존 headless suite 재실행.
+- [ ] 룰렛 복구 PR에서 같은 시드·보드·결과 결정론 검증.
+- [ ] 코어 UX 뒤 1920×1080·1280×720 사람 플레이.
+- [ ] W1~W20 전체 플레이는 코어 루프 완결 뒤 실행.
+
+### D. 이미 구현된 기술 기준선
+
+상태 요약: `Godot 4.7.1·Compatibility·960×540` 기술 기준선은 실제 저장소에 존재하며, 최신 runtime 재검증은 별도 증거로 남긴다.
+
+| 항목 | 현재 상태 |
+|---|---|
+| Godot 4.7.1 standard·GDScript·Compatibility renderer | 실제 `project.godot`에 존재 |
+| 960×540 viewport·1920×1080 출력·viewport stretch·keep aspect·integer scale | 실제 `project.godot`에 존재 |
+| Main·GameSession·CombatClock·DeterminismService·DataRegistry | 실제 코드에 존재 |
+| typed `.tres`와 StageManifest·input log | 실제 코드·데이터에 존재 |
+| 공용 10병종과 진영 Visual 분리 골격 | 실제 Resource·validator에 존재 |
+| headless 테스트 파일 | 존재하지만 이번 문서 PR에서 Godot로 재실행하지 않음 |
+
+### E. 과거 Phase 0 추천에서 남은 확인·대안
+
+다음 항목은 삭제된 결정이 아니라 구현 기준선의 재검증 또는 조건부 대안이다.
+
 - [ ] Godot 4.7.1에서 치명적 회귀가 확인될 경우에만 4.6.3 대안 검토.
 - [ ] 고급 렌더링 기능의 실제 필요가 확인될 경우에만 Mobile·Forward+ 재검토.
-
-### B. 화면
-
-추천:
-
-```text
-1920×1080 기준 출력
-960×540 내부 viewport
-viewport stretch
-keep aspect
-integer scale
-1280×720은 레터박스 허용 상태로 QA
-```
-
-- [ ] 960×540 추천안 승인.
-- [ ] 1280×720 정수 확대 레터박스 허용 여부.
-- [ ] 레터박스 불가 시 640×360 대안 검토.
-
-### C. 상태 소유
-
-추천:
-
-```text
-Main
-└─ GameSession
-   ├─ CombatClock
-   ├─ DeterminismService
-   └─ DataRegistry
-```
-
-- [ ] Phase 0 AutoLoad 미사용 승인.
-- [ ] 실제 다중 Scene 공유 필요가 확인된 뒤 AutoLoad 승격을 검토하는 원칙 승인.
-
-### D. 데이터 경계
-
-추천:
-
-- typed `.tres`: UnitArchetype·Tier·Rank·FactionVisual·AnimationContract·Battlefield.
-- JSON: StageManifest·input/replay log.
-- CSV: Phase 0 런타임 원본으로 사용하지 않음.
-
-- [ ] 추천 경계 승인.
+- [ ] 1280×720 정수 확대 레터박스 허용 여부를 사람 QA로 확인.
+- [ ] 레터박스가 허용되지 않을 경우에만 640×360 논리 화면 대안 검토.
+- [x] Phase 0 AutoLoad 미사용 구조가 실제 코드에 존재.
+- [ ] 다중 Scene 공유 필요가 확인된 뒤에만 AutoLoad 승격 재검토.
+- [x] typed `.tres`: UnitArchetype·Tier·Rank·FactionVisual·AnimationContract·Battlefield 계열.
+- [x] JSON 성격 데이터: StageManifest·input/replay log.
+- [x] CSV를 Phase 0 런타임 원본으로 사용하지 않음.
 - [ ] JSON Schema 파일과 GDScript validator의 최종 책임 분리.
-
-### E. Phase 0 데이터량
-
-추천:
-
-```text
-UnitArchetype 10개
-Tier 3개
-player Rank 4개
-AnimationContract 10개
-allied Visual Profile 10개
-veil Visual Profile 10개
-```
-
-- [ ] 공용 10개 archetype 골격 전체 생성 승인.
-- [ ] archetype별 양 진영 Visual Profile 20개 생성 승인.
-- [ ] 실제 이미지는 진영별 placeholder 두 장 공유 승인.
-
-전체 추천안을 승인할 때의 표현:
-
-```text
-제안서 승인
-```
+- [x] UnitArchetype 10개, Tier 3개, player Rank 4개 골격.
+- [x] AnimationContract 10개, allied/veil Visual Profile 20개 골격.
+- [ ] 실제 최종 이미지는 placeholder 공유가 아니라 아트·가독성 검증 뒤 교체.
 
 ---
 
@@ -372,16 +344,17 @@ UnitArchetypeProfile × 10
 
 ## 10. 기술·성능·테스트
 
-### 제안서 승인 대기
+### 현재 구현됨 / 최신 재검증 필요
 
-- [ ] Godot 4.7.1 standard.
-- [ ] Compatibility renderer.
-- [ ] 960×540 viewport·integer scale.
-- [ ] Phase 0 AutoLoad 없음.
-- [ ] Resource·JSON·CSV 경계.
-- [ ] 60Hz active combat tick.
-- [ ] 이름 기반 RNG stream과 input log.
-- [ ] GDScript headless test runner.
+- [x] Godot 4.7.1 standard 기준 프로젝트 파일.
+- [x] Compatibility renderer.
+- [x] 960×540 viewport·integer scale·1920×1080 출력.
+- [x] 현재 Phase 0 AutoLoad 없음.
+- [x] typed Resource와 StageManifest·input log 경계.
+- [x] 이름 기반 RNG stream과 input log 구조.
+- [x] GDScript headless test 파일.
+
+현재 전투 고정 스텝은 `BattleSimulator.FIXED_STEP_SECONDS = 0.1`이다. 과거 60Hz 제안과 같다고 간주하지 않으며, 성능·판정 요구를 근거로 별도 결정한다.
 
 ### 성능 첫 가설
 
@@ -428,16 +401,14 @@ UnitArchetypeProfile × 10
 ## 12. 현재 실행 순서
 
 ```text
-1. Phase 0 기술 제안서 사용자 검토
-2. 수정 요청이 있으면 제안서 갱신
-3. 사용자 명시적 승인
-4. Goal 0001 구현 실행 지시서 전환
-5. Phase 0 Godot 기술 기준선 구현·검증 PR
-6. 실제 경로·명령을 Goal 0002와 Issue #32에 반영
-7. 수직 슬라이스 Plan Mode
-8. 사용자 승인
-9. 공용 아키타입·양 진영 이미지·3라인 핵심 수직 슬라이스
-10. 시뮬레이션·플레이테스트
+1. 프로젝트 코어 확정·잠금과 정본 복구 PR 병합
+2. 승인 룰렛 계약 복구 Plan
+3. 룰렛 계약 구현·자동 검증
+4. 전투 목적 루프 연결
+5. 승인 코어 UX 6종
+6. 10~15분 사람 플레이와 1080p·720p QA
+7. 밸런스 안정화
+8. 콘텐츠·아트 확장
 ```
 
-현재는 새로운 병종, 적군 전용 데이터 또는 게임 구현을 추가하는 단계가 아니다.
+현재는 새로운 병종·Tier·보스·캠페인 콘텐츠를 추가하는 단계가 아니다. 다음 기능 변경은 승인 룰렛 계약 복구로 제한한다.
