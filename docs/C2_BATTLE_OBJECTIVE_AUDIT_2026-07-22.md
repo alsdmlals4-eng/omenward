@@ -5,6 +5,7 @@
 - 최종 검증 head: `496157d0b87ab71ea2c9f25780f21df9f68b67f3`
 - 최종 검증 run: `29936497790` (`Validate Core Contracts`)
 - 활성 문서 정규화 commit: `dbba1a45465ffd01a202958e008162a2bce5530f`
+- APPROVED 정본 문법·라우팅 수리 commit: `7b4bab4d27c2f5d94f73a5dd3bb280fa3030584e`
 - 프로젝트 코어: `CORE_CONFIRMED / CORE_LOCKED`
 - 선행 완료: `C1_ROULETTE_CORE_REMOTE_PROVEN`
 - 별도 결정 게이트: `C1U_PENDING_USER_DECISION`
@@ -29,7 +30,7 @@
 - 깨진 내부 Markdown 링크: 0개.
 - 본진·승리·패배 문맥: 177개.
 
-실제 활성 문제는 C1 진행 중·PR #49 대기·C2 미구현 표현이었으며, Validator·mutation fixture의 구형 문자열은 공격 입력으로 분리했다. 임시 감사 입력과 수집·적용·동기화 Workflow는 최종 트리에서 제거했다. 마지막 수동 재감사에서 발견한 README 중복 상태, 후보 시절 인수인계 문장, C3/C1U 순서와 날짜도 정규화 commit에 반영했다.
+실제 활성 문제는 C1 진행 중·PR #49 대기·C2 미구현 표현이었으며, Validator·mutation fixture의 구형 문자열은 공격 입력으로 분리했다. 임시 감사 입력과 수집·적용·동기화 Workflow는 최종 트리에서 제거했다. 마지막 수동 재감사에서 발견한 README 중복 상태, 후보 시절 인수인계 문장, C3/C1U 순서와 날짜도 정규화 commit에 반영했다. 전장·경제 APPROVED 정본의 `C2 검증 구현는` 문법 오류도 수정해 C2 보고서로 증거 라우팅을 통일했다.
 
 ## 3. 복구한 인과
 
@@ -66,6 +67,7 @@
 5. 목적 좌표를 넘나드는 고정 틱 overshoot를 clamp했다.
 6. 거점 중립화 시 농장 식량 효과를 해제하고 소유권 변경 시 이전 건물을 폐허화했다.
 7. 활성 문서의 C2 후보 표현·중복 상태·구형 실행 순서를 제거하고 이를 Validator·mutation 계약으로 고정했다.
+8. APPROVED 전장·경제 정본의 문법 오류와 증거 라우팅을 수정했다.
 
 ## 6. 가역 기술 fallback
 
@@ -86,7 +88,7 @@
 - 프로젝트 코어·Skill Validator·whitespace.
 - 활성 문서의 구형 상태·폐기 실행 입력 직접 참조와 깨진 내부 링크 검사.
 
-정규화 이후 최신 사용자 권한 head에서 동일 통합 Workflow를 다시 실행해 최종 트리를 검증한다. 판정은 `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`이다.
+정규화·APPROVED 정본 수리 이후 최신 사용자 권한 head에서 동일 통합 Workflow를 다시 실행해 최종 트리를 검증한다. 판정은 `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`이다.
 
 ## 8. 미실행
 
