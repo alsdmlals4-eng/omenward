@@ -10,21 +10,27 @@ const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
 
 func _init() -> void:
 	var failures := PackedStringArray()
-	var stage_run_script := load("res://scripts/core/stage_run.gd")
-	var progression_script := load("res://scripts/core/stage_progression.gd")
-	var wave_director_script := load("res://scripts/waves/wave_director.gd")
-	var bypass_script := load("res://scripts/battle/assassin_bypass_state.gd")
-	var battle_script := load("res://scripts/battle/battle_simulator.gd")
-	_expect(stage_run_script != null, "stage run service exists", failures)
-	_expect(progression_script != null, "stage progression service exists", failures)
-	_expect(wave_director_script != null, "wave director service exists", failures)
-	_expect(bypass_script != null, "assassin bypass state exists", failures)
-	if stage_run_script != null and progression_script != null:
+	var stage_run_script: GDScript = load("res://scripts/core/stage_run.gd") as GDScript
+	var progression_script: GDScript = load("res://scripts/core/stage_progression.gd") as GDScript
+	var wave_director_script: GDScript = load("res://scripts/waves/wave_director.gd") as GDScript
+	var bypass_script: GDScript = load("res://scripts/battle/assassin_bypass_state.gd") as GDScript
+	var battle_script: GDScript = load("res://scripts/battle/battle_simulator.gd") as GDScript
+	var stage_run_ready: bool = stage_run_script != null and stage_run_script.can_instantiate()
+	var progression_ready: bool = progression_script != null and progression_script.can_instantiate()
+	var wave_director_ready: bool = wave_director_script != null and wave_director_script.can_instantiate()
+	var bypass_ready: bool = bypass_script != null and bypass_script.can_instantiate()
+	var battle_ready: bool = battle_script != null and battle_script.can_instantiate()
+	_expect(stage_run_ready, "stage run service loads and can instantiate", failures)
+	_expect(progression_ready, "stage progression service loads and can instantiate", failures)
+	_expect(wave_director_ready, "wave director service loads and can instantiate", failures)
+	_expect(bypass_ready, "assassin bypass state loads and can instantiate", failures)
+	_expect(battle_ready, "battle simulator loads and can instantiate", failures)
+	if stage_run_ready and progression_ready:
 		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, failures)
 		_test_roulette_storage_and_deployment(stage_run_script, progression_script, failures)
-	if bypass_script != null:
+	if bypass_ready:
 		_test_assassin_bypass_timing(bypass_script, failures)
-	if bypass_script != null and battle_script != null:
+	if bypass_ready and battle_ready:
 		_test_assassin_bypass_leaves_and_returns_to_same_lane(battle_script, failures)
 	_finish(failures)
 
