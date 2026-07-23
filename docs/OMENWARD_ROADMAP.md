@@ -2,7 +2,7 @@
 
 - 갱신일: 2026-07-23
 - 기준: `docs/PROJECT_CORE.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`, `docs/HANDOFF_CONTEXT.md`
-- 현재 상태: **C0·C1·C2 REMOTE_PROVEN / C3 IMPLEMENTED·원격 검증 대기 / C1U 사용자 결정 대기 / 사람 QA 다음**
+- 현재 상태: **C0·C1·C2 REMOTE_PROVEN / C3 AUTOMATED_CONTRACTS_PROVEN / C1U 사용자 결정 대기 / 사람 QA 현재**
 - 현재 구현·감사 입력: `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
 - 기술 기준선: 실제 `project.godot`, 코드·데이터·테스트와 `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 모든 코드·Scene·Resource·데이터 구조 변경은 Codex Plan Mode 제안서와 사용자 승인 후 시작한다.
@@ -17,7 +17,7 @@
 → 정본·프로젝트 코어 확정·잠금 완료
 → C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
 → C2 전투 목적 루프 원격 검증·병합 완료
-→ C3 승인 코어 UX 6종 구현 완료·원격 통합 검증 대기
+→ C3 승인 코어 UX 6종 자동 계약 검증 완료
 → [다음 실행] 10~15분 코어 플레이테스트·1080p·720p 가독성 QA
 → [결정 게이트] C1U 이동권·럭키 규칙 통합·100,000시드 검증
 → 시스템 안정화
@@ -71,7 +71,7 @@ TECHNICAL_BASELINE_IMPLEMENTED
 | C1 룰렛 핵심 계약 | 중앙 판정 줄·완성선·등급·보상·보관 | **REMOTE_PROVEN / main 병합** | 정본 유지 |
 | C1U 룰렛 유틸리티 | 이동권·럭키 정본 통합·100,000시드 | 사용자 결정 대기 | 결정·분포 기준 |
 | C2 전투 목적 루프 | 접전지·거점·성문·승패·경제 연결 | **REMOTE_PROVEN / main 병합** | 정본 유지 |
-| C3 코어 UX | 승인 UX 6종을 실제 데이터와 연결 | **IMPLEMENTED / REMOTE_VALIDATION_PENDING** | 영구 CI·사람 가독성 기준 |
+| C3 코어 UX | 승인 UX 6종을 실제 데이터와 연결 | **AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING** | 사람 가독성 기준 |
 | C4 코어 플레이테스트 | 10~15분 핵심 재미와 학습 검증 | 미실행 | 사람 플레이 기준 충족 |
 | P3 시스템 안정화 | 확률·경제·전투·성능 조정 | 미시작 | 반복 가능한 기준선 |
 | P4 콘텐츠·아트 확장 | 10병종·건물·보스·UI·자산 확대 | 미시작 | 제작 QA 통과 |
@@ -346,9 +346,8 @@ Work Order, Codex 제안서, 승인된 구현 결과, 자동 검증, 사람 검�
 ## 15. 지금 실행할 단 하나의 작업
 
 ```text
-C3 승인 코어 UX 6종 최신 영구 CI 검증과 PR #51 병합
-→ 10~15분 사람 플레이·1080p·720p 가독성 QA
+10~15분 사람 플레이·1080p·720p 가독성 QA
 → C1U는 사용자 결정 전 보류
 ```
 
-C1 핵심 계약은 run `29926598807`에서 검증되고 main에 병합됐다. C2는 최종 run `29938742864`에서 검증되고 PR #50으로 main에 병합됐다. C3는 PR #51에서 실제 snapshot·HUD·정상/경계/결정론 회귀를 구현했으며 최신 영구 CI 검증을 기다린다. C1U와 신규 콘텐츠는 같은 PR에 섞지 않는다.
+C1 핵심 계약은 run `29926598807`에서 검증되고 main에 병합됐다. C2는 최종 run `29938742864`에서 검증되고 PR #50으로 main에 병합됐다. C3는 실제 snapshot·HUD·정상/경계/결정론·비변경 회귀를 구현했고 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 자동 계약 검증을 완료했다. PR #51 병합 결과는 GitHub PR 상태가 원본이다. C1U와 신규 콘텐츠는 같은 PR에 섞지 않는다.
