@@ -16,6 +16,9 @@ var cooldown_remaining := 0.0
 var deterministic_animation_offset := 0
 var capture_power := 0.0
 var structure_damage_tags: PackedStringArray = PackedStringArray()
+var role := ""
+var counter_tags: PackedStringArray = PackedStringArray()
+var target_priority_tags: PackedStringArray = PackedStringArray()
 
 var _stats := {}
 var _preparation_seconds := 0.1
@@ -37,6 +40,9 @@ func _init(spawn: UnitSpawnDefinition, registry: DataRegistry, assigned_unit_id:
 	_stats = _build_combat_stats(profile, registry)
 	capture_power = clampf(float(profile.capture_power), 0.0, 2.0) if profile != null else 0.0
 	structure_damage_tags = PackedStringArray(profile.structure_damage_tags) if profile != null else PackedStringArray(["normal"])
+	role = profile.role if profile != null else "unknown"
+	counter_tags = PackedStringArray(profile.counter_tags) if profile != null else PackedStringArray()
+	target_priority_tags = PackedStringArray(profile.target_priority_tags) if profile != null else PackedStringArray(["nearest"])
 	health = float(_stats.get("max_health", 0.0))
 	_load_attack_timing(registry)
 
@@ -109,6 +115,22 @@ func is_siege_damage() -> bool:
 	return structure_damage_tags.has("siege")
 
 
+func tactical_snapshot() -> Dictionary:
+	return {
+		"unit_id": unit_id,
+		"archetype_id": str(archetype_id),
+		"owner_team_id": str(owner_team_id),
+		"lane_id": str(lane_id),
+		"role": role,
+		"attack_range": float(_stats.get("attack_range", 0.0)),
+		"target_unit_id": target_unit_id,
+		"counter_tags": Array(counter_tags),
+		"target_priority_tags": Array(target_priority_tags),
+		"state": state,
+		"health": health,
+	}
+
+
 func to_snapshot() -> Dictionary:
 	return {
 		"unit_id": unit_id,
@@ -126,6 +148,10 @@ func to_snapshot() -> Dictionary:
 		"deterministic_animation_offset": deterministic_animation_offset,
 		"capture_power": capture_power,
 		"structure_damage_tags": Array(structure_damage_tags),
+		"role": role,
+		"counter_tags": Array(counter_tags),
+		"target_priority_tags": Array(target_priority_tags),
+		"attack_range": float(_stats.get("attack_range", 0.0)),
 	}
 
 

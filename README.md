@@ -2,7 +2,7 @@
 
 **오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
 
-> 현재 상태: **C1 룰렛 REMOTE_PROVEN / C2 전투 목적 루프 REMOTE_PROVEN / 사람 플레이 미완결**
+> 현재 상태: **C1 룰렛 REMOTE_PROVEN / C2 전투 목적 루프 REMOTE_PROVEN / C3 코어 UX AUTOMATED_CONTRACTS_PROVEN / 사람 플레이 미완결**
 > 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED**
 > 기본 언어는 GDScript이며 Godot 4.7.1 Standard, Compatibility renderer, 1920×1080 출력과 960×540 논리 해상도를 사용합니다.
 
@@ -54,6 +54,7 @@
 10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 현재 결정 게이트와 PoC 조정 항목
 11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 현재 Godot Scene·상태 소유·데이터 구조
 12. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 최신 작업 상태 캡슐
+13. [`docs/C3_CORE_UX_AUDIT_2026-07-23.md`](docs/C3_CORE_UX_AUDIT_2026-07-23.md) — C3 코어 UX 6종 구현·경계·검증 계약
 
 ## 현재 개선 순서
 
@@ -61,16 +62,16 @@
 정본·프로젝트 코어 확정·잠금 완료
 → 승인 룰렛 핵심 계약 원격 검증 완료
 → C2 전투 목적 루프 원격 검증 완료
-→ [다음 구현] C3 승인 코어 UX 6종
+→ C3 승인 코어 UX 6종 자동 계약 검증 완료
+→ [다음 실행] 10~15분 사람 플레이와 1080p·720p 가독성 검증
 → [결정 게이트] C1U 이동권·럭키·100,000시드
-→ 10~15분 사람 플레이와 1080p·720p 가독성 검증
 → 밸런스 안정화
 → 콘텐츠·아트 확장
 ```
 
-현재 저장소에는 원격 검증된 C1 룰렛 핵심 계약과 C2 전투 목적 루프가 존재한다. C2는 접전지·거점·성문·본진·자연 승패·경제를 연결했고 통합 자동 검증을 마쳤다. 현재 판정은 `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이며 사람 플레이는 아직 실행하지 않았다.
+현재 저장소에는 원격 검증된 C1 룰렛 핵심 계약과 C2 전투 목적 루프가 존재한다. C3는 확률 미리보기·토큰 장부·단계형 징조·전술 오버레이·웨이브 원인 보고·건설 비교를 실제 도메인 snapshot과 HUD에 연결했고 자동 계약 원격 검증을 완료했다 (head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`). 현재 판정은 `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`, `C3_AUTOMATED_CONTRACTS_PROVEN`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
 
-세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 증거는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), C2 구현·감사는 [`docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`](docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
+세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 증거는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), C2 구현·감사는 [`docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`](docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md), C3 구현 계약은 [`docs/C3_CORE_UX_AUDIT_2026-07-23.md`](docs/C3_CORE_UX_AUDIT_2026-07-23.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
 
 ## 현재 저장소 구조
 

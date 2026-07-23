@@ -67,6 +67,10 @@ func sync_outpost_states() -> void:
 
 func roulette_token_sources() -> Array[Dictionary]:
 	sync_outpost_states()
+	return roulette_token_sources_snapshot()
+
+
+func roulette_token_sources_snapshot() -> Array[Dictionary]:
 	var sources: Array[Dictionary] = []
 	var keys: Array = _buildings.keys()
 	keys.sort()
@@ -90,6 +94,10 @@ func roulette_token_sources() -> Array[Dictionary]:
 
 func building_state(outpost_id: StringName, node_id: StringName) -> Variant:
 	sync_outpost_states()
+	return building_state_snapshot(outpost_id, node_id)
+
+
+func building_state_snapshot(outpost_id: StringName, node_id: StringName) -> Variant:
 	return _buildings.get(_key(outpost_id, node_id))
 
 

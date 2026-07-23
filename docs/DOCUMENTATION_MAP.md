@@ -44,7 +44,7 @@ PROJECT_CORE.md
 → 최신 PR·Issue와 실제 코드·테스트
 ```
 
-현재 C3 시작점은 `CURRENT_IMPLEMENTATION_STATUS.md`, `OMENWARD_ROADMAP.md`, 승인 UI·징조·룰렛·전투 표시 책임 문서와 실제 `scripts/ui/`, `scenes/ui/`, 테스트다. C1·C2 보고서는 검증 증거로 보존하며, 과거 Work Order·Goal·Proposal은 Git 이력에서만 추적한다.
+현재 사람 QA 시작점은 `CURRENT_IMPLEMENTATION_STATUS.md`, `C3_CORE_UX_AUDIT_2026-07-23.md`, `OMENWARD_ROADMAP.md`, 실제 `scripts/core/core_ux_service.gd`, `scripts/ui/`, `scenes/ui/`, 테스트다. C1·C2 보고서는 검증 증거로 보존하며, 과거 Work Order·Goal·Proposal은 Git 이력에서만 추적한다.
 
 ## 항상 확인할 공식 문서
 
@@ -57,6 +57,7 @@ PROJECT_CORE.md
 | `ACTIVE_CONTEXT.md` | 최신 작업 상태 캡슐 |
 | `OMENWARD_ROADMAP.md` | 단계별 개발 순서와 완료 기준 |
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
+| `C3_CORE_UX_AUDIT_2026-07-23.md` | C3 코어 UX 6종 구현·경계·검증 계약 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
 | `images/VISUAL_REFERENCE_INDEX.md` | 이미지 상태·우선순위·누락 감사 |
 
@@ -84,6 +85,7 @@ PROJECT_CORE.md
 | 전투 계산·키워드·상태이상·비행 | `design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`, `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
 | 건설·경제·전문화·전술·용병 | `design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md`, `design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md` |
 | 튜토리얼·캠페인·절차 생성 | `design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md`, `design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md` |
+| C3 확률 미리보기·토큰 장부·징조·전술 오버레이·원인 보고·건설 비교 | `C3_CORE_UX_AUDIT_2026-07-23.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED UI·룰렛·전투 문서 |
 | Godot 프로젝트·Scene·Resource·상태 소유 | `GODOT_PROJECT_STRUCTURE.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
 | 외부 저장소·Base 공용 지식 | `REFERENCE_REPOSITORIES.md`, `BASE_RULES_VERSION.md` |
 | 외부 게임·시장·UX 벤치마킹 | `benchmarks/README.md`, 관련 제안서와 출처 스냅샷 |
@@ -118,6 +120,7 @@ PROJECT_CORE.md
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
 | C1 구현·증거 | `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md` |
 | C2 구현·검증 증거 | `C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md` |
+| C3 코어 UX 구현·검증 계약 | `C3_CORE_UX_AUDIT_2026-07-23.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | GitHub Issue 미러 | `issues/README.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |

@@ -110,7 +110,82 @@ func resolve_board_snapshot(
 	return result
 
 
-func _generate_board(rng: RandomNumberGenerator, sources: Array[Dictionary]) -> Array[StringName]:
+func token_ledger(extra_sources: Array[Dictionary] = []) -> Array[Dictionary]:
+	var sources: Array[Dictionary] = []
+	if buildings != null:
+		for source in buildings.roulette_token_sources():
+			sources.append((source as Dictionary).duplicate(true))
+	return token_ledger_from_sources(sources, extra_sources)
+
+
+func token_ledger_from_sources(
+	base_sources: Array[Dictionary],
+	extra_sources: Array[Dictionary] = [],
+) -> Array[Dictionary]:
+	var sources: Array[Dictionary] = []
+	for source in base_sources:
+		sources.append(source.duplicate(true))
+	for source in extra_sources:
+		sources.append(source.duplicate(true))
+	var weights := _weight_snapshot(sources)
+	var total_weight := 0
+	for weight in weights.values():
+		total_weight += int(weight)
+	var source_groups := {}
+	for source in sources:
+		var symbol := StringName(source.get("symbol_id", &""))
+		if symbol == &"":
+			continue
+		if not source_groups.has(symbol):
+			source_groups[symbol] = []
+		(source_groups[symbol] as Array).append(source)
+	var symbol_names: Array[String] = []
+	for symbol in weights:
+		symbol_names.append(str(symbol))
+	symbol_names.sort()
+	var ledger: Array[Dictionary] = []
+	for symbol_name in symbol_names:
+		var symbol := StringName(symbol_name)
+		var grouped_sources: Array = source_groups.get(symbol, [])
+		var source_ids: Array[String] = []
+		var reward_ids: Array[String] = []
+		for source in grouped_sources:
+			source_ids.append(str(source.get("source_building_id", "")))
+			reward_ids.append(str(source.get("reward_archetype_id", "")))
+		source_ids.sort()
+		reward_ids.sort()
+		var weight := int(weights[symbol])
+		ledger.append({
+			"symbol_id": symbol_name,
+			"weight": weight,
+			"probability": float(weight) / float(total_weight) if total_weight > 0 else 0.0,
+			"source_count": grouped_sources.size(),
+			"source_building_ids": source_ids,
+			"reward_archetype_ids": reward_ids,
+			"total_weight": total_weight,
+		})
+	return ledger
+
+
+func probability_for_symbol(symbol_id: StringName, extra_sources: Array[Dictionary] = []) -> float:
+	for entry in token_ledger(extra_sources):
+		if StringName(entry.get("symbol_id", &"")) == symbol_id:
+			return float(entry.get("probability", 0.0))
+	return 0.0
+
+
+func probability_for_symbol_from_sources(
+	symbol_id: StringName,
+	base_sources: Array[Dictionary],
+	extra_sources: Array[Dictionary] = [],
+) -> float:
+	for entry in token_ledger_from_sources(base_sources, extra_sources):
+		if StringName(entry.get("symbol_id", &"")) == symbol_id:
+			return float(entry.get("probability", 0.0))
+	return 0.0
+
+
+func _weight_snapshot(sources: Array[Dictionary]) -> Dictionary:
 	var weights := {
 		X_SYMBOL: X_WEIGHT,
 		GOLD_SYMBOL: GOLD_WEIGHT,
@@ -120,6 +195,11 @@ func _generate_board(rng: RandomNumberGenerator, sources: Array[Dictionary]) -> 
 		var weight := maxi(0, int(source.get("board_weight", 0)))
 		if symbol != &"" and weight > 0:
 			weights[symbol] = int(weights.get(symbol, 0)) + weight
+	return weights
+
+
+func _generate_board(rng: RandomNumberGenerator, sources: Array[Dictionary]) -> Array[StringName]:
+	var weights := _weight_snapshot(sources)
 	var board: Array[StringName] = []
 	for _index in BOARD_SIZE:
 		board.append(_weighted_symbol(rng, weights))
