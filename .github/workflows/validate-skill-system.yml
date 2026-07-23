@@ -30,6 +30,7 @@ jobs:
           set +e
           status=0
           log="skill-validation.log"
+          status_file="skill-validation.status"
           : > "$log"
 
           run_check() {
@@ -58,12 +59,25 @@ jobs:
           run_check "route core design review request" python tools/route_skills.py --request "핵심 코어 룰렛 3개 레인 기획 검토"
           run_check "whitespace" git diff --check
 
-          exit "$status"
+          printf '%s\n' "$status" > "$status_file"
+          exit 0
       - name: Upload Skill validation evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: skill-system-validation-${{ github.sha }}
-          path: skill-validation.log
+          path: |
+            skill-validation.log
+            skill-validation.status
           if-no-files-found: error
           retention-days: 14
+      - name: Enforce Skill validation result
+        if: always()
+        shell: bash
+        run: |
+          test -f skill-validation.status
+          status="$(cat skill-validation.status)"
+          if [ "$status" -ne 0 ]; then
+            echo "Skill validation suite failed with exit code ${status}. See uploaded evidence artifact."
+            exit "$status"
+          fi
