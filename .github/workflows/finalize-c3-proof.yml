@@ -1,9 +1,9 @@
 name: Finalize C3 Proof
 
 on:
-  pull_request:
+  push:
     branches:
-      - main
+      - agent/c3-core-ux-minimum
     paths:
       - ".github/workflows/finalize-c3-proof.yml"
       - "tools/finalize_c3_proof.py"
@@ -14,7 +14,6 @@ permissions:
 
 jobs:
   finalize:
-    if: github.head_ref == 'agent/c3-core-ux-minimum'
     timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
