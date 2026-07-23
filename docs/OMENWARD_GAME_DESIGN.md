@@ -3,7 +3,7 @@
 - 공식명: **오멘워드 / OMENWARD**
 - 문서 버전: **v0.23**
 - 갱신일: 2026-07-23
-- 상태: **프리프로덕션 계약 승인 / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX IMPLEMENTED·원격 검증 대기 / 사람 플레이 미검증**
+- 상태: **프리프로덕션 계약 승인 / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3_AUTOMATED_CONTRACTS_PROVEN / 사람 플레이 미검증**
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE
 - 엔진: Godot + GDScript
@@ -52,7 +52,7 @@
 TECHNICAL_BASELINE_IMPLEMENTED
 + C1_ROULETTE_CORE_REMOTE_PROVEN
 + C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-+ C3_IMPLEMENTED
++ C3_AUTOMATED_CONTRACTS_PROVEN
 + CORE_VERTICAL_SLICE_PARTIAL
 + CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
@@ -60,9 +60,9 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 - C1은 중앙 판정·완성선·등급·보상·보관·배치를 원격 검증했다.
 - C2는 `같은 라인 교전 → 접전지 → 중간거점 → 성문 → 본진·W15 보스 → 자연 승패`와 점령 기반 건물·경제를 연결했다.
-- C3는 건설 전 확률 미리보기, 토큰 장부, T-30/T-15/T-5 징조, 상성·사거리·현재 타기팅, 라인별 원인 보고, 건설 비교를 실제 도메인 snapshot과 HUD에 연결했다.
+- C3는 건설 전 확률 미리보기, 토큰 장부, T-30/T-15/T-5 징조, 상성·사거리·현재 타기팅, 라인별 원인 보고, 건설 비교를 실제 도메인 snapshot과 HUD에 연결했고 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 자동 계약 검증을 완료했다.
 - 본진 독립 방어 수치와 접전지 별도 점령 시간은 미승인이므로 기존 승인 계약을 가역 fallback으로 재사용한다.
-- C3 최신 원격 통합 검증과 사람 플레이 전에는 전체 코어가 완결됐다고 부르지 않는다.
+- 사람 플레이 전에는 전체 코어가 완결됐다고 부르지 않는다.
 
 책임 원본:
 
@@ -678,11 +678,10 @@ Validator는 해금 이전 병종·위협, 과도한 라인 집중, 성능 상�
 - 실제 Scene·Script·Resource·Test 경로와 headless 테스트 러너.
 - typed Resource·StageManifest·input log 데이터 경계.
 - C1 룰렛 핵심과 C2 전투 목적 루프.
-- C3 코어 UX 6종과 정상·경계·결정론 계약.
+- C3 코어 UX 6종과 정상·경계·결정론 계약, 자동 원격 검증.
 
 미검증·미확정:
 
-- C3 최신 영구 CI 증거와 PR #51 병합.
 - 이동권 완성선 보상량과 럭키 규칙 통합.
 - 결과 보관함 3칸과 고정 상위 템플릿 우선순위.
 - 100,000시드 확률·경제 시뮬레이션.
@@ -697,7 +696,7 @@ Validator는 해금 이전 병종·위협, 과도한 라인 집중, 성능 상�
 C0 프로젝트 코어·정본 복구 완료
 → C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN
 → C2 전투 목적 루프 REMOTE_PROVEN
-→ C3 코어 UX 6종 IMPLEMENTED·원격 검증 대기
+→ C3 코어 UX 6종 AUTOMATED_CONTRACTS_PROVEN
 → C4 10~15분 사람 플레이·1080p·720p 가독성 QA
 → C1U 이동권·럭키·상위 템플릿 사용자 결정과 100,000시드 검증
 → 밸런스·콘텐츠·아트 확장
