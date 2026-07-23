@@ -6,14 +6,16 @@
 - C1 최종 검증 run: `29926598807`
 - C2 병합 commit: `2670a9a0040d0618a8dfb98683076f6b4ded5c54`
 - C2 최종 검증 run: `29938742864` (`Validate Core Contracts`)
-- C3 작업 브랜치: `agent/c3-core-ux-minimum`
-- C3 상태: `C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING`
+- C3 자동 계약 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`
+- C3 자동 계약 검증 run: `29965348284` (`Validate Core Contracts`)
+- C3 통합 PR: `#51` — 병합 결과는 GitHub PR 상태가 원본
+- C3 상태: `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING`
 - 프로젝트 코어: `CORE_CONFIRMED` / `CORE_LOCKED`
 - 판정:
   - `TECHNICAL_BASELINE_IMPLEMENTED`
   - `C1_ROULETTE_CORE_REMOTE_PROVEN`
   - `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
-  - `C3_IMPLEMENTED`
+  - `C3_AUTOMATED_CONTRACTS_PROVEN`
   - `CORE_VERTICAL_SLICE_PARTIAL`
   - `CORE_LOOP_NOT_PROVEN`
   - `HUMAN_QA_NOT_RUN`
@@ -40,7 +42,7 @@
 | 공용 병종 | 공용 10 archetype, Tier·Rank·FactionVisual, 공용 점령력·구조물 피해·전술 표시 태그 | `REMOTE_PROVEN + C3_EXTENSION_IMPLEMENTED` |
 | 경제·건설 | 기본·접전지·거점 수입, 식량, 거점 revision 기반 건물 활성·비활성·폐허 | `REMOTE_PROVEN` |
 | 웨이브 | 튜토리얼 W1~4, 정규 W1~20, 60초 출격 시계, T-30/T-15/T-5 공개 단계 | `IMPLEMENTED` |
-| 테스트 | C1·C2 원격 검증, C3 정상·경계·결정론 headless 및 Python mutation 계약 | `C3_REMOTE_VALIDATION_PENDING` |
+| 테스트 | C1·C2·C3 Godot 4.7.1, 4환경 Python·문서·Skill·mutation 계약 | `REMOTE_PROVEN` |
 
 ## 3. 검증된 C1 룰렛 핵심
 
@@ -86,7 +88,7 @@
 
 판정: `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN` — PR #50으로 main에 병합됐고 최종 통합 `Validate Core Contracts`에서 Godot 4.7.1 editor import·전체 headless·runtime smoke와 Ubuntu/Windows × Python 3.12/3.13 계약·문서·Skill 검증을 통과했다 (head `bf92195ee31b5d69b92c33f3b5321ed525c8b5c9`, run `29938742864`).
 
-## 5. C3 코어 UX 6종 — 구현 완료, 최신 원격 검증 대기
+## 5. C3 코어 UX 6종 — 자동 계약 검증 완료, 사람 QA 대기
 
 구현된 정보 인과:
 
@@ -118,7 +120,7 @@
 - 각 Godot headless 파일은 영구 CI에서 60초 상한을 가진다.
 - C1U 이동권·럭키·결과 보관함 3칸·고정 상위 템플릿은 사용자 결정 전 구현하지 않았다.
 
-현재 판정: `C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING`.
+현재 판정: `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING` — head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 4환경 계약과 Godot 전체 회귀가 통과했다.
 
 ## 6. 가역 기술 fallback
 
@@ -147,11 +149,11 @@
 ## 8. 현재 우선순위
 
 ```text
-1. C3 최신 영구 Core Contracts 원격 검증과 PR #51 병합
-2. 10~15분 사람 플레이·1080p·720p 가독성 QA
-3. C1U 이동권·럭키·상위 템플릿 사용자 결정 게이트
-4. 밸런스 안정화
-5. 콘텐츠·아트 확장
+1. 10~15분 사람 플레이·1080p·720p 가독성 QA
+2. C1U 이동권·럭키·상위 템플릿 사용자 결정 게이트
+3. 밸런스 안정화
+4. 콘텐츠·아트 확장
+5. 캠페인·데모 통합
 ```
 
-C3 자동 검증과 사람 플레이 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
+사람 플레이 완료 전에는 전체 코어 루프를 `PROVEN`으로 부르지 않는다. 사람 플레이 완료 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
