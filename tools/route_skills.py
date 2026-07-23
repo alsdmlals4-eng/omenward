@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import Iterable
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY=ROOT/'docs'/'base'/'SKILL_REGISTRY.json'
-WORDS={'REVIEW':('검토','검수','리뷰','감사','누락','중복','review','validate','audit','pr'),'BUILD':('구현','수정','고쳐','추가','삭제','리팩터','build','implement','fix','add','remove','refactor'),'PLAN':('기획','계획','제안','설계','분석','plan','proposal','design','analyze')}
+WORDS={'REVIEW':('검토','검수','리뷰','감사','누락','중복','review','validate','audit','pull request'),'BUILD':('구현','수정','고쳐','추가','삭제','리팩터','build','implement','fix','add','remove','refactor'),'PLAN':('기획','계획','제안','설계','분석','plan','proposal','design','analyze')}
 @dataclass(frozen=True)
 class Match: skill_id:str; score:int; category:str; priority:int
 def normalize(text:str)->str:return re.sub(r'\s+',' ',text.casefold()).strip()
