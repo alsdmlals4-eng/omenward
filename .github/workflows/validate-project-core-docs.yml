@@ -5,26 +5,26 @@ on:
     paths:
       - "README.md"
       - "docs/**"
+      - "!docs/base/**"
+      - "!docs/BASE_RULES_VERSION.md"
       - "tools/validate_project_core_docs.py"
       - "tools/validate_ci_usage_contract.py"
       - "tests/python/test_project_core_docs.py"
       - "tests/python/test_ci_usage_contract.py"
       - ".github/workflows/validate-project-core-docs.yml"
-      - ".github/workflows/validate-omenward-core.yml"
-      - ".github/workflows/validate-skill-system.yml"
   push:
     branches:
       - main
     paths:
       - "README.md"
       - "docs/**"
+      - "!docs/base/**"
+      - "!docs/BASE_RULES_VERSION.md"
       - "tools/validate_project_core_docs.py"
       - "tools/validate_ci_usage_contract.py"
       - "tests/python/test_project_core_docs.py"
       - "tests/python/test_ci_usage_contract.py"
       - ".github/workflows/validate-project-core-docs.yml"
-      - ".github/workflows/validate-omenward-core.yml"
-      - ".github/workflows/validate-skill-system.yml"
   workflow_dispatch:
 
 concurrency:
