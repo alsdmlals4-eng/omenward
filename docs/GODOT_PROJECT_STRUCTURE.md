@@ -1,6 +1,6 @@
 # OMENWARD Godot 프로젝트 구조
 
-- 상태: **기술 기준선·C1 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX IMPLEMENTED·원격 검증 대기**
+- 상태: **기술 기준선·C1 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX AUTOMATED_CONTRACTS_PROVEN**
 - 갱신일: 2026-07-23
 - 상위 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
 
@@ -451,7 +451,7 @@ signal unit_spawn_requested(archetype_id: StringName, owner_team_id: int, visual
 - T-30/T-15/T-5 정보 공개 단계.
 - 실제 사거리·현재 대상·공용 상성·타기팅 태그.
 - 실제 사건 기반 웨이브 원인 보고.
-- 금화 부족·점령/교착·빈 토큰·대상 없음·미완료 웨이브·결정론 경계.
+- 금화 부족·점령/교착·빈 토큰·대상 없음·미완료 웨이브·결정론·비변경 경계.
 - 각 headless 파일과 runtime smoke 60초 상한.
 
 ## 16. 기본 검증 명령
@@ -500,4 +500,4 @@ godot --headless --path . --editor --quit
 - `StageRun`: `core_ux_snapshot()`의 수명주기와 단일 읽기 진입점을 소유한다.
 - `StageHud`: snapshot을 표시하고 기존 입력만 전달하며 확률·경제·원인 코드를 계산하지 않는다.
 
-현재 UI는 자동 계약을 위한 텍스트 중심 PoC다. 1920×1080·1280×720 사람 QA 전에는 최종 배치·폰트·팔레트·정보 밀도 또는 `CORE_LOOP_PROVEN`을 확정하지 않는다.
+현재 UI는 자동 계약을 위한 텍스트 중심 PoC이며 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 전체 계약을 통과했다. 1920×1080·1280×720 사람 QA 전에는 최종 배치·폰트·팔레트·정보 밀도 또는 `CORE_LOOP_PROVEN`을 확정하지 않는다.
