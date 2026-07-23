@@ -1,7 +1,7 @@
 # OMENWARD Godot 프로젝트 구조
 
-- 상태: **Phase 0 구현 기준 / 수직 슬라이스 확장은 Issue #32 Plan Mode에서 확정**
-- 갱신일: 2026-07-16
+- 상태: **기술 기준선·C1 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX AUTOMATED_CONTRACTS_PROVEN**
+- 갱신일: 2026-07-23
 - 상위 기준: `docs/HANDOFF_CONTEXT.md`, `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
 
 이 문서는 오멘워드의 Godot 구조, 상태 소유와 데이터 경계의 책임 원본이다. Phase 0의 실제 경로와 headless 명령은 `docs/PHASE_0_VALIDATION.md`에서 검증한다.
@@ -18,7 +18,7 @@
 
 C#, GDExtension, 외부 ECS와 대형 애드온은 기본 선택이 아니다. Godot 기본 노드와 데이터 구조로 성능 목표를 달성하기 어렵다는 측정 근거가 있을 때 별도 승인으로 검토한다.
 
-## 2. 예정 폴더 구조
+## 2. 현재 폴더 구조
 
 ```text
 project.godot
@@ -96,8 +96,9 @@ Unit Scene은 아군용과 적군용으로 복제하지 않는다.
 
 ### UI
 
-- 받은 상태를 표시하고 사용자 의도를 Signal로 반환한다.
-- 금화 차감, 건설 확정, 유닛 생성, 점령 판정을 직접 실행하지 않는다.
+- `StageRun.core_ux_snapshot()`으로 받은 상태를 표시하고 사용자 의도를 Signal로 반환한다.
+- 확률, 경제, 원인 코드, 금화 차감, 건설 확정, 유닛 생성, 점령 판정을 직접 계산·실행하지 않는다.
+- C3 HUD는 토큰·확률·징조·사거리/대상·웨이브 원인·건설 비교를 표시한다.
 - 성문·거점·접전지 정보는 실제 월드 위치에 연결한다.
 - 미니맵은 만들지 않는다.
 
@@ -117,6 +118,8 @@ attack_profile_id
 passive_ids
 skill_ids
 targeting_profile_id
+counter_tags
+target_priority_tags
 capture_power
 structure_damage_tags
 animation_contract_id
@@ -125,6 +128,7 @@ threat_cost
 
 - `faction` 필드를 넣어 별도 아군·적군 데이터를 만들지 않는다.
 - 같은 archetype·Tier·Rank는 진영과 무관하게 같은 전투 결과를 낸다.
+- `counter_tags`와 `target_priority_tags`는 C3 표시용 공용 전술 메타데이터이며 진영별로 복제하지 않는다.
 
 ### TierProfile
 
@@ -199,7 +203,7 @@ current_target_id
 status_effects
 ```
 
-런타임 상태만 소유하며 공용 프로필을 복사해 변경하지 않는다.
+런타임 상태만 소유하며 공용 프로필을 복사해 변경하지 않는다. C3 snapshot에는 실제 공격 사거리, 현재 대상 ID와 공용 전술 표시 태그를 추가한다.
 
 ### StageManifest
 
@@ -262,6 +266,7 @@ GameSession
  ├─ DeploymentService
  ├─ CaptureService
  ├─ WaveService
+ ├─ CoreUxService
  └─ VictoryService
 
 Data access
@@ -283,9 +288,13 @@ BattleScene
 HUD
  ├─ Resource display
  ├─ Roulette panel
+ ├─ Token/probability preview
+ ├─ Construction comparison
  ├─ Bench/deployment panel
+ ├─ Tactical range/target overlay
  ├─ World objective status
- ├─ Wave telegraph
+ ├─ Staged wave telegraph
+ ├─ Wave cause report
  └─ Bellu guide
 ```
 
@@ -393,6 +402,7 @@ signal unit_spawn_requested(archetype_id: StringName, owner_team_id: int, visual
 - 미니맵은 만들지 않는다.
 - 한국어 확장, 1920×1080과 1280×720을 검증한다.
 - 아군·적군 이미지는 팀 마커와 실루엣으로 구분하고 색만 의존하지 않는다.
+- C3 텍스트 중심 PoC는 최종 HUD 배치가 아니며 사람 가독성 QA 뒤 정리한다.
 
 ## 14. 보호 경로 후보
 
@@ -404,6 +414,7 @@ signal unit_spawn_requested(archetype_id: StringName, owner_team_id: int, visual
 - FactionVisualProfile·AnimationContract 스키마.
 - BattlefieldProfile.
 - 룰렛 확률·경제·웨이브 책임 원본.
+- C3 snapshot 소유와 HUD 표시 경계.
 - 저장 스키마가 생긴 이후 저장 코드.
 
 변경 시 호출 위치, 데이터 호환, headless 결과와 실제 플레이를 함께 검증한다.
@@ -433,6 +444,16 @@ signal unit_spawn_requested(archetype_id: StringName, owner_team_id: int, visual
 - 공격 판정과 애니메이션 이벤트 오차 한 프레임 이내.
 - 성능 하드 상한과 갱신 주기.
 
+### C3 코어 UX
+
+- 핵심 의존 스크립트 직접 인스턴스화와 허위 성공 방지.
+- typed 건설 preview와 실제 토큰 출처.
+- T-30/T-15/T-5 정보 공개 단계.
+- 실제 사거리·현재 대상·공용 상성·타기팅 태그.
+- 실제 사건 기반 웨이브 원인 보고.
+- 금화 부족·점령/교착·빈 토큰·대상 없음·미완료 웨이브·결정론·비변경 경계.
+- 각 headless 파일과 runtime smoke 60초 상한.
+
 ## 16. 기본 검증 명령
 
 Phase 0에서 실제 Godot 경로와 정확한 명령을 README에 확정한다.
@@ -454,3 +475,29 @@ godot --headless --path . --editor --quit
 - 화면·모션·성능 수동 검수.
 
 실행하지 않은 명령을 통과했다고 보고하지 않는다.
+
+---
+
+## C2 전투 목적 런타임
+
+- `BattleSimulator`: 고정 0.1초 틱, 3라인, 접전지 3·중간거점 6·성문 6·본진 2와 목적 순서·이벤트 로그.
+- `OutpostState`: 중립화·점령·교착·이탈 유지·복귀·안정화·capture revision.
+- `GateState` / `BaseState`: 구조물 피해·붕괴·종료 상태.
+- `BuildingService`: 거점 revision과 건물 ACTIVE/DISABLED/RUINED·식량 효과 동기화.
+- `StageRun`: 실제 소유 수 경제, 적 본진·W15 보스 승리, 아군 본진 패배.
+- `UnitArchetypeProfile`: 공용 점령력과 구조물 피해 태그.
+
+본진 방어 프로필·중앙 접전지 점령 시간·0~100 목적 좌표는 승인값 부재를 드러낸 가역 fallback이며 최종 시각·밸런스 계약이 아니다.
+
+---
+
+## C3 코어 UX 런타임
+
+- `RouletteService`: 현재 심벌 가중치·확률·출처 건물·보상 병종과 typed 가상 건설 출처를 계산한다.
+- `WaveDirector`: 다음 공세까지 시간과 `countdown / t30 / t15 / t5 / now / complete` 공개 단계를 소유한다.
+- `UnitArchetypeProfile` / `UnitInstance`: 공용 전술 태그, 실제 사거리와 현재 대상 ID를 제공한다.
+- `CoreUxService`: 확률·토큰·징조·전술 overlay·실제 사건 기반 웨이브 보고·건설 비교 snapshot을 구성한다.
+- `StageRun`: `core_ux_snapshot()`의 수명주기와 단일 읽기 진입점을 소유한다.
+- `StageHud`: snapshot을 표시하고 기존 입력만 전달하며 확률·경제·원인 코드를 계산하지 않는다.
+
+현재 UI는 자동 계약을 위한 텍스트 중심 PoC이며 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 전체 계약을 통과했다. 1920×1080·1280×720 사람 QA 전에는 최종 배치·폰트·팔레트·정보 밀도 또는 `CORE_LOOP_PROVEN`을 확정하지 않는다.

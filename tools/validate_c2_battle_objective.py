@@ -1,0 +1,204 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import pathlib
+import re
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+C2_VALIDATION_HEAD = "496157d0b87ab71ea2c9f25780f21df9f68b67f3"
+C2_VALIDATION_RUN = "29936497790"
+
+REQUIRED_FILES = (
+    ".github/workflows/validate-core-contracts.yml",
+    "scripts/battle/base_state.gd",
+    "scripts/battle/battle_simulator.gd",
+    "scripts/battle/outpost_state.gd",
+    "scripts/core/stage_run.gd",
+    "scripts/buildings/building_service.gd",
+    "tests/headless/c2_battle_objective_test.gd",
+    "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",
+)
+
+
+def validate(root: pathlib.Path = ROOT) -> list[str]:
+    errors: list[str] = []
+    for relative in REQUIRED_FILES:
+        if not (root / relative).is_file():
+            errors.append(f"missing C2 file: {relative}")
+    if errors:
+        return errors
+
+    simulator = (root / "scripts/battle/battle_simulator.gd").read_text(encoding="utf-8")
+    stage_run = (root / "scripts/core/stage_run.gd").read_text(encoding="utf-8")
+    outpost = (root / "scripts/battle/outpost_state.gd").read_text(encoding="utf-8")
+    building = (root / "scripts/buildings/building_service.gd").read_text(encoding="utf-8")
+    unit_profile = (root / "scripts/data/unit_archetype_profile.gd").read_text(encoding="utf-8")
+    contract_test = (root / "tests/headless/c2_battle_objective_test.gd").read_text(encoding="utf-8")
+    workflow = (root / ".github/workflows/validate-core-contracts.yml").read_text(encoding="utf-8")
+
+    for term in (
+        "controlled_clash_count",
+        "stable_owned_outpost_count",
+        "_advance_capture_objectives",
+        "_next_objective",
+        "LUMERN_VICTORY",
+        "VEIL_VICTORY",
+        "BaseStateScript",
+    ):
+        if term not in simulator:
+            errors.append(f"battle simulator missing C2 contract term: {term}")
+    for term in ("legendary_boss_unit_id", "_resolve_natural_result", "enemy_base_destroyed", "wave_15_legendary_boss_defeated"):
+        if term not in stage_run:
+            errors.append(f"stage run missing natural result contract: {term}")
+    for term in ("set_contested", "clear_capture_presence", "clampf(power, 0.0, MAX_CAPTURE_POWER)"):
+        if term not in outpost:
+            errors.append(f"outpost state missing approved capture contract: {term}")
+    for term in ("sync_outpost_states", "remove_food_cap", "RUINED"):
+        if term not in building and term not in (root / "scripts/core/stage_economy.gd").read_text(encoding="utf-8"):
+            errors.append(f"building lifecycle missing contract term: {term}")
+    for term in ("capture_power", "structure_damage_tags"):
+        if term not in unit_profile:
+            errors.append(f"shared archetype schema missing objective field: {term}")
+
+    for phrase in (
+        "an uncontested giant squad captures the top clash",
+        "the top enemy gate collapses from same-lane siege unit attacks",
+        "other lane gates remain standing",
+        "both teams on one clash freeze it as contested",
+        "an empty stable clash clears its contested marker",
+        "farm food cap is removed when the outpost becomes neutral",
+        "enemy base destruction from unit attacks produces a natural battle victory",
+        "player base destruction produces a natural battle defeat",
+        "enemy base destruction closes StageRun as victory",
+        "W15 legendary boss defeat produces standard victory",
+    ):
+        if phrase not in contract_test:
+            errors.append(f"C2 regression test missing: {phrase}")
+
+    for term in (
+        "name: Validate Core Contracts",
+        "tools/validate_c1_roulette.py",
+        "tools/validate_c2_battle_objective.py",
+        'os: [ubuntu-latest, windows-latest]',
+        'python-version: ["3.12", "3.13"]',
+        "Run all headless contract tests",
+        "Runtime smoke",
+    ):
+        if term not in workflow:
+            errors.append(f"unified core workflow missing contract term: {term}")
+
+    required_doc_states = {
+        "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
+        "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
+        "docs/HANDOFF_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
+        "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",),
+        "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.22**", "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN"),
+        "docs/OMENWARD_ROADMAP.md": ("C2 전투 목적 루프 원격 검증 완료",),
+        "docs/DECISIONS_PENDING.md": ("C2 전투 목적 루프 원격 검증 완료", "본진 독립 HP"),
+        "docs/DOCUMENTATION_MAP.md": ("C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",),
+    }
+    for relative, phrases in required_doc_states.items():
+        body = (root / relative).read_text(encoding="utf-8")
+        for phrase in phrases:
+            if phrase not in body:
+                errors.append(f"{relative} missing proven C2 state: {phrase}")
+
+    stale_active = (
+        "C2 검증 구현는",
+        "C2 전투 목적 구현 후보",
+        "최종 공통 원격 검증·코어 UX 6종·사람 플레이는 아직 완료되지 않았다",
+        "PR #49 사용자 검토 대기",
+        "PR #49 C1 원격 검증 결과 검토",
+        "PR #49 병합",
+        "[현재] 승인 룰렛 핵심 계약 복구",
+        "현재 C1 시작 문서",
+        "전투 상태 기반 승패, 접전지·거점·성문 연결과 승인 UX 6종은 닫히지 않았다",
+        "C2_BATTLE_OBJECTIVE_IMPLEMENTED_CANDIDATE",
+        "C2_REMOTE_VALIDATION_PENDING",
+    )
+    excluded_parts = {"archive", "issues", "goals", "work_orders", "proposals"}
+    active_docs = [root / "README.md", root / "AGENTS.md"]
+    for path in (root / "docs").rglob("*.md"):
+        if not any(part in excluded_parts for part in path.relative_to(root / "docs").parts):
+            active_docs.append(path)
+    for path in active_docs:
+        body = path.read_text(encoding="utf-8")
+        relative = path.relative_to(root).as_posix()
+        for stale in stale_active:
+            if stale in body:
+                errors.append(f"active document retains stale C1/C2 state: {relative} -> {stale}")
+        for target in re.findall(r"\[[^\]]*\]\(([^)]+)\)", body):
+            clean = target.split("#", 1)[0].strip()
+            if not clean or "://" in clean or clean.startswith(("#", "mailto:")):
+                continue
+            resolved = (path.parent / clean).resolve()
+            try:
+                resolved.relative_to(root.resolve())
+            except ValueError:
+                continue
+            if not resolved.exists():
+                errors.append(f"broken active Markdown link: {relative} -> {clean}")
+
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    if readme.count("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN") != 1:
+        errors.append("README must list the C2 proven state exactly once")
+    active_context = (root / "docs/ACTIVE_CONTEXT.md").read_text(encoding="utf-8")
+    if "C1·C2 통합 원격 검증은 완료" not in active_context or "[다음 구현] C3 승인 코어 UX 6종" not in active_context:
+        errors.append("ACTIVE_CONTEXT does not expose the final C2 proof and C3 next step")
+    handoff = (root / "docs/HANDOFF_CONTEXT.md").read_text(encoding="utf-8")
+    if "C2 전투 목적 구현 후보" in handoff or "PR #50 C2 공통 원격 검증" in handoff:
+        errors.append("HANDOFF_CONTEXT retains the C2 candidate-era next step")
+
+    status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
+    for evidence in (
+        f"C2 구현 검증 head: `{C2_VALIDATION_HEAD}`",
+        f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`",
+        "`Validate Core Contracts`",
+    ):
+        if evidence not in status:
+            errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing C2 proof: {evidence}")
+    audit = (root / "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md").read_text(encoding="utf-8")
+    for evidence in (
+        "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
+        f"`{C2_VALIDATION_HEAD}`",
+        f"`{C2_VALIDATION_RUN}`",
+        "`Validate Core Contracts`",
+    ):
+        if evidence not in audit:
+            errors.append(f"C2 audit missing final proof: {evidence}")
+
+    if (root / ".github/workflows/validate-c1-roulette.yml").exists():
+        errors.append("legacy C1-only workflow remains")
+
+    for path in root.rglob("*"):
+        if not path.is_file():
+            continue
+        name = path.name.lower()
+        relative = path.relative_to(root).as_posix()
+        if (
+            path.name.startswith("_C2_")
+            or "_apply_c2_" in name
+            or "_sync_c2_" in name
+            or "_finalize_c2_" in name
+            or "_repair_c2_" in name
+            or "apply-c2" in name
+            or "sync-c2" in name
+            or "finalize-c2" in name
+        ):
+            errors.append(f"temporary C2 artifact remains: {relative}")
+    return errors
+
+
+def main() -> int:
+    errors = validate()
+    if errors:
+        print("C2 battle objective validation FAILED")
+        for error in errors:
+            print(f"- {error}")
+        return 1
+    print("C2 battle objective validation PASSED")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

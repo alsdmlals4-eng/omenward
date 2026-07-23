@@ -1,19 +1,19 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://cenr83v3jj55j"]
 
-[ext_resource type="Script" path="res://scripts/core/game_session.gd" id="1_session"]
+[ext_resource type="Script" uid="uid://pxcknk84fcxk" path="res://scripts/core/game_session.gd" id="1_session"]
 [ext_resource type="PackedScene" path="res://scenes/battle/battlefield.tscn" id="2_battlefield"]
 [ext_resource type="PackedScene" path="res://scenes/ui/stage_hud.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/stage_select.tscn" id="4_select"]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" unique_id=1992217540]
 
-[node name="GameSession" type="Node" parent="."]
+[node name="GameSession" type="Node" parent="." unique_id=1098599142]
 script = ExtResource("1_session")
 
-[node name="Battlefield" parent="." instance=ExtResource("2_battlefield")]
+[node name="Battlefield" parent="." unique_id=617805723 instance=ExtResource("2_battlefield")]
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1304523516]
 
-[node name="StageHud" parent="UI" instance=ExtResource("3_hud")]
+[node name="StageHud" parent="UI" unique_id=1743076562 instance=ExtResource("3_hud")]
 
-[node name="StageSelect" parent="UI" instance=ExtResource("4_select")]
+[node name="StageSelect" parent="UI" unique_id=1239247843 instance=ExtResource("4_select")]

@@ -2,6 +2,9 @@ class_name WaveDirector
 extends RefCounted
 
 const WAVE_INTERVAL_SECONDS := 60.0
+const OMEN_T30_SECONDS := 30.0
+const OMEN_T15_SECONDS := 15.0
+const OMEN_T5_SECONDS := 5.0
 
 var stage: Variant
 var active_combat_seconds := 0.0
@@ -30,6 +33,12 @@ func current_wave() -> Variant:
 	return wave_at(current_wave_number)
 
 
+func next_wave() -> Variant:
+	if stage == null or _next_wave_index >= stage.waves.size():
+		return null
+	return stage.waves[_next_wave_index]
+
+
 func wave_at(wave_number: int) -> Variant:
 	for wave in stage.waves:
 		if wave.wave_number == wave_number:
@@ -37,8 +46,30 @@ func wave_at(wave_number: int) -> Variant:
 	return null
 
 
-func omen_seconds_remaining() -> float:
-	if _next_wave_index >= stage.waves.size():
+func seconds_until_next_wave() -> float:
+	var wave: Variant = next_wave()
+	if wave == null:
 		return 0.0
-	var next_wave: Variant = stage.waves[_next_wave_index]
-	return maxf(0.0, float(next_wave.wave_number) * WAVE_INTERVAL_SECONDS - float(next_wave.omen_lead_seconds) - active_combat_seconds)
+	return maxf(0.0, float(wave.wave_number) * WAVE_INTERVAL_SECONDS - active_combat_seconds)
+
+
+func omen_phase() -> StringName:
+	if next_wave() == null:
+		return &"complete"
+	var remaining := seconds_until_next_wave()
+	if remaining <= 0.000001:
+		return &"now"
+	if remaining <= OMEN_T5_SECONDS:
+		return &"t5"
+	if remaining <= OMEN_T15_SECONDS:
+		return &"t15"
+	if remaining <= OMEN_T30_SECONDS:
+		return &"t30"
+	return &"countdown"
+
+
+func omen_seconds_remaining() -> float:
+	var wave: Variant = next_wave()
+	if wave == null:
+		return 0.0
+	return maxf(0.0, seconds_until_next_wave() - float(wave.omen_lead_seconds))

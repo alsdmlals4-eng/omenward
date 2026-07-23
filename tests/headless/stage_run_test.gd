@@ -10,20 +10,27 @@ const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
 
 func _init() -> void:
 	var failures := PackedStringArray()
-	var stage_run_script := load("res://scripts/core/stage_run.gd")
-	var progression_script := load("res://scripts/core/stage_progression.gd")
-	var wave_director_script := load("res://scripts/waves/wave_director.gd")
-	var bypass_script := load("res://scripts/battle/assassin_bypass_state.gd")
-	var battle_script := load("res://scripts/battle/battle_simulator.gd")
-	_expect(stage_run_script != null, "stage run service exists", failures)
-	_expect(progression_script != null, "stage progression service exists", failures)
-	_expect(wave_director_script != null, "wave director service exists", failures)
-	_expect(bypass_script != null, "assassin bypass state exists", failures)
-	if stage_run_script != null and progression_script != null:
+	var stage_run_script: GDScript = load("res://scripts/core/stage_run.gd") as GDScript
+	var progression_script: GDScript = load("res://scripts/core/stage_progression.gd") as GDScript
+	var wave_director_script: GDScript = load("res://scripts/waves/wave_director.gd") as GDScript
+	var bypass_script: GDScript = load("res://scripts/battle/assassin_bypass_state.gd") as GDScript
+	var battle_script: GDScript = load("res://scripts/battle/battle_simulator.gd") as GDScript
+	var stage_run_ready: bool = stage_run_script != null and stage_run_script.can_instantiate()
+	var progression_ready: bool = progression_script != null and progression_script.can_instantiate()
+	var wave_director_ready: bool = wave_director_script != null and wave_director_script.can_instantiate()
+	var bypass_ready: bool = bypass_script != null and bypass_script.can_instantiate()
+	var battle_ready: bool = battle_script != null and battle_script.can_instantiate()
+	_expect(stage_run_ready, "stage run service loads and can instantiate", failures)
+	_expect(progression_ready, "stage progression service loads and can instantiate", failures)
+	_expect(wave_director_ready, "wave director service loads and can instantiate", failures)
+	_expect(bypass_ready, "assassin bypass state loads and can instantiate", failures)
+	_expect(battle_ready, "battle simulator loads and can instantiate", failures)
+	if stage_run_ready and progression_ready:
 		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, failures)
-	if bypass_script != null:
+		_test_roulette_storage_and_deployment(stage_run_script, progression_script, failures)
+	if bypass_ready:
 		_test_assassin_bypass_timing(bypass_script, failures)
-	if bypass_script != null and battle_script != null:
+	if bypass_ready and battle_ready:
 		_test_assassin_bypass_leaves_and_returns_to_same_lane(battle_script, failures)
 	_finish(failures)
 
@@ -34,12 +41,14 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 	var progression: Variant = progression_script.new()
 	var run: Variant = stage_run_script.new(progression)
 	run.start(tutorial, 1001)
+	run.battle.objectives_enabled = false
 	_expect(run.result_state == &"running", "stage run begins with the tutorial", failures)
 	_advance_waves(run, 4)
 	_expect(run.current_wave == 4, "tutorial reaches W4 from its declared data", failures)
 	run.submit_command({"action": "stage_victory"})
 	_expect(progression.regular_unlocked, "tutorial victory unlocks the regular stage for this session", failures)
 	run.start(regular, 1001)
+	run.battle.objectives_enabled = false
 	_advance_waves(run, 15)
 	_expect(run.current_wave == 15, "regular progression reaches W15", failures)
 	_expect(run.wave_director.current_wave().boss_kind == &"legendary", "W15 uses the existing legendary wave definition", failures)
@@ -49,6 +58,35 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 	_advance_waves(run, 20)
 	_expect(run.current_wave == 20, "regular progression reaches W20", failures)
 	_expect(run.wave_director.current_wave().boss_kind == &"mythic", "W20 uses the existing mythic wave definition", failures)
+
+
+func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
+	var tutorial: Resource = ResourceLoader.load(TUTORIAL_STAGE_PATH)
+	var run: Variant = stage_run_script.new(progression_script.new())
+	run.start(tutorial, 2002)
+	_expect(run.construct_home(&"barracks"), "the stage can build the approved basic barracks", failures)
+	var no_reward: Variant = run.roulette.resolve_board_snapshot([
+		&"warrior", &"warrior", &"warrior",
+		&"warrior", &"warrior", &"x",
+		&"x", &"gold", &"x",
+	], run.buildings.roulette_token_sources(), 16, 20, false)
+	_expect(not run.store_roulette_result(no_reward), "a paid spin without a unit reward is not reported as stored", failures)
+	_expect(run.pending_roulette_rewards.is_empty(), "a no-reward result leaves stage storage empty", failures)
+	var result: Variant = run.roulette.resolve_board_snapshot([
+		&"x", &"gold", &"x",
+		&"warrior", &"warrior", &"warrior",
+		&"gold", &"x", &"gold",
+	], run.buildings.roulette_token_sources(), 17, 20, false)
+	_expect(run.store_roulette_result(result), "a unit roulette result enters stage-owned storage", failures)
+	_expect(run.pending_roulette_rewards.size() == 1, "one unit reward remains pending without consuming food", failures)
+	var gold_before_block: int = int(run.economy.gold)
+	var blocked: Variant = run.spin_roulette({"seed": 1})
+	_expect(not blocked.accepted and blocked.failure_reason == &"pending_reward", "pending storage blocks only the next roulette spin", failures)
+	_expect(int(run.economy.gold) == gold_before_block, "a storage-blocked spin does not charge gold", failures)
+	var food_before_deploy: int = int(run.economy.food_used)
+	_expect(run.deploy_next_roulette_reward(&"top"), "the stored reward can be committed to one lane", failures)
+	_expect(run.pending_roulette_rewards.is_empty(), "successful deployment clears the stored reward", failures)
+	_expect(int(run.economy.food_used) == food_before_deploy + 1, "successful roulette deployment reserves the reward's food cost", failures)
 
 
 func _test_assassin_bypass_timing(bypass_script: GDScript, failures: PackedStringArray) -> void:
@@ -102,8 +140,8 @@ func _expect(condition: bool, message: String, failures: PackedStringArray) -> v
 
 func _finish(failures: PackedStringArray) -> void:
 	if failures.is_empty():
-		print("Stage run, wave, progression, and assassin bypass checks passed")
+		print("Stage run, wave, progression, roulette storage, and assassin bypass checks passed")
 		quit(0)
 	else:
-		printerr("Stage run, wave, progression, and assassin bypass failures:\n%s" % "\n".join(failures))
+		printerr("Stage run, wave, progression, roulette storage, and assassin bypass failures:\n%s" % "\n".join(failures))
 		quit(1)

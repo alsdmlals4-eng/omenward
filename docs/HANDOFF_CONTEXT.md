@@ -1,7 +1,9 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
-- 갱신일: 2026-07-16
-- 현재 상태: **Godot 프로젝트·수직 슬라이스 코드와 데이터 존재 / 다음 작업 전 실제 main·검증 문서·Issue 재조사 필수**
+- 갱신일: 2026-07-23
+- 현재 상태: **CORE_LOCKED / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3_AUTOMATED_CONTRACTS_PROVEN / C1U·사람 플레이 미검증**
+- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
+- 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 전체 기획: `docs/OMENWARD_GAME_DESIGN.md`
 - 개발 순서: `docs/OMENWARD_ROADMAP.md`
 - 최신 상태: `docs/ACTIVE_CONTEXT.md`
@@ -13,9 +15,9 @@
 ## 1. 가장 먼저 알아야 할 것
 
 1. 오멘워드는 건물로 룰렛의 토큰·확률과 증원 체계를 설계하고 세 전선을 지휘하는 판타지 전략 오토배틀 게임이다.
-2. 저장소에는 `project.godot`, Scene, GDScript, Resource, 테스트와 수직 슬라이스 관련 파일이 존재한다.
-3. 과거 Phase 0 Work Order의 `구현 전` 문구를 현재 상태로 재사용하지 않는다.
-4. 새 Codex 채팅은 실제 main, validation 문서, Issue·PR·최근 커밋을 먼저 조사한 뒤 다음 Plan Mode 제안서를 작성한다.
+2. 저장소에는 원격 검증된 C1 룰렛 핵심과 C2 전투 목적 루프, 자동 계약 검증된 C3 코어 UX 6종이 있다. C1U 유틸리티 결정과 사람 플레이가 남아 있다.
+3. 과거 Phase 0 Work Order의 `구현 전`과 README의 과도한 `수직 슬라이스 완료`를 현재 상태로 재사용하지 않는다.
+4. 새 Codex 채팅은 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 실제 main, validation 문서와 Issue·PR을 대조한 뒤 다음 최소 변경을 제안한다.
 5. 아군과 적군은 별도 병종 전투 데이터를 만들지 않고 공용 10병종에 서로 다른 FactionVisualProfile을 연결한다.
 6. 병종 이미지는 첫 번째 전장 UI 이미지의 **실제 전장 삽입형 소형 고해상도 픽셀 스프라이트 형식**을 따른다.
 7. 두 번째 10병종×등급 도감표는 병종 목록과 등급 위계 참고만 유지하며 실제 스프라이트 형식으로 사용하지 않는다.
@@ -29,17 +31,19 @@
 1. 최신 사용자 지시
 2. AGENTS.md
 3. docs/BASE_RULES_VERSION.md
-4. docs/HANDOFF_CONTEXT.md
-5. docs/DOCUMENTATION_MAP.md
-6. 현재 작업의 work_orders 문서
-7. docs/OMENWARD_GAME_DESIGN.md
-8. 관련 APPROVED 책임 문서
-9. 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
-10. docs/OMENWARD_ROADMAP.md
-11. 현재 Issue / Goal / 승인 제안서
-12. project.godot, Scene, scripts, data, tests
-13. validation 문서와 실제 실행 결과
-14. docs/ACTIVE_CONTEXT.md
+4. docs/PROJECT_CORE.md
+5. docs/CURRENT_IMPLEMENTATION_STATUS.md
+6. docs/HANDOFF_CONTEXT.md
+7. docs/DOCUMENTATION_MAP.md
+8. 현재 PR·Issue와 승인 보고서
+9. docs/OMENWARD_GAME_DESIGN.md
+10. 관련 APPROVED 책임 문서
+11. 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
+12. docs/OMENWARD_ROADMAP.md
+13. 현재 PR·Issue와 검증 증거
+14. project.godot, Scene, scripts, data, tests
+15. validation 문서와 실제 실행 결과
+16. docs/ACTIVE_CONTEXT.md
 ```
 
 저장소 조사 순서:
@@ -59,7 +63,7 @@ project.godot
 
 ### 한 문장
 
-> 건물을 지어 룰렛 확률과 증원 체계를 설계하고, 베일의 징조로 예고된 공세를 세 전선에서 뒤집는 판타지 전략 오토배틀 게임.
+> 예고된 세 전선의 위협을 읽고, 제한된 건물 노드로 룰렛 확률을 설계한 뒤, 당첨된 증원을 어느 전선에 투입할지 결정해 전황을 뒤집는 실시간 전략 오토배틀 게임.
 
 ### 핵심 루프
 
@@ -71,6 +75,7 @@ project.godot
 → 3라인 교전
 → 접전지·중간거점 공방
 → 암살자 우회 또는 성문 공성
+→ 원인 확인
 → 다음 공세 준비
 ```
 
@@ -81,6 +86,36 @@ project.godot
 - 이동권과 상위 등급의 강함을 체감한다.
 - 방패병·대검전사·암살자 중 첫 전문화를 선택한다.
 - 설명보다 행동과 즉시 반응으로 시스템을 학습한다.
+
+## 3.1 현재 구현 판정
+
+- 프로젝트 코어 책임 원본: `docs/PROJECT_CORE.md`
+- 구현 증거 책임 원본: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- C3 구현 계약: `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
+
+```text
+TECHNICAL_BASELINE_IMPLEMENTED
++ C1_ROULETTE_CORE_REMOTE_PROVEN
++ C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
++ C3_AUTOMATED_CONTRACTS_PROVEN
++ CORE_VERTICAL_SLICE_PARTIAL
++ CORE_LOOP_NOT_PROVEN
++ HUMAN_QA_NOT_RUN
+```
+
+현재 Godot 프로젝트는 C1 run `29926598807`과 통합 Core Contracts run `29938742864`에서 검증된 C1 룰렛 핵심·C2 전투 목적 루프를 포함한다. C3 승인 UX 6종은 실제 도메인 snapshot과 HUD에 구현됐고 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 자동 계약 검증을 완료했다. 사람 플레이가 남아 있으므로 ‘핵심 수직 슬라이스 완료’로 부르지 않는다.
+
+다음 순서는 10~15분 사람 플레이·1080p·720p 가독성 검증, C1U 사용자 결정 게이트다. PR #51 병합 결과는 GitHub PR 상태가 원본이다.
+
+## 3.2 C3 코어 UX 데이터 경계
+
+- 룰렛 확률과 토큰 장부는 `RouletteService`가 계산한다.
+- T-30/T-15/T-5 공개 단계는 `WaveDirector`가 소유한다.
+- 실제 사거리·현재 대상·공용 상성 태그는 전투 데이터와 런타임 유닛이 제공한다.
+- `CoreUxService`가 실제 사망·거점·성문·본진 사건을 라인별 웨이브 보고로 구성한다.
+- `StageRun.core_ux_snapshot()`이 여섯 UX의 단일 읽기 진입점이다.
+- `StageHud`는 계산하지 않고 snapshot을 표시하며 기존 입력만 전달한다.
+- C1U 이동권·럭키·보관함 3칸·고정 상위 템플릿은 사용자 결정 전 구현하지 않는다.
 
 ## 4. 전장 불변 구조
 
@@ -197,11 +232,12 @@ UnitArchetypeProfile × 10
 참고하지 않을 것:
 
 - 임시 세력명·건물명·대사와 한글 문구.
-- 금화·식량·체력·비용·웨이브 수치.
-- 이미지 안의 맵 연결, 요새·거점 배치와 건설 노드 수.
-- 좌하단 전장 요약 UI와 미니맵처럼 보이는 구성.
+- 이미지 안의 임시 비용·체력·웨이브·타이머.
+- 현재 승인 전장과 다른 길·거점·요새 연결.
+- 미니맵 형태와 임시 하단 요약 지도.
+- 큰 캐릭터 일러스트를 그대로 전장 스프라이트로 쓰는 방식.
 
-현재 전장·경제·룰렛 책임 문서가 이미지보다 우선한다.
+새 이미지가 유입되면 저장·인덱스·해석·문서 연결을 한 작업으로 완료한다. 기존 기준을 바꾸는 이미지는 조용히 덮어쓰지 않고 `SUPERSEDED` 상태와 변경 이유를 기록한다.
 
 ## 9. 애니메이션·연출 계약
 

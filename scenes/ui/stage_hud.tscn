@@ -37,6 +37,56 @@ offset_right = 320.0
 offset_bottom = 62.0
 theme_override_colors/font_color = Color(0.94, 0.8, 0.42, 1)
 
+[node name="OmenDetailLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 12.0
+offset_right = 940.0
+offset_bottom = 74.0
+theme_override_colors/font_color = Color(0.94, 0.8, 0.42, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="TokenLedgerLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 300.0
+offset_right = 310.0
+offset_bottom = 438.0
+theme_override_colors/font_color = Color(0.78, 0.88, 0.96, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 2
+
+[node name="ConstructionComparisonLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 300.0
+offset_right = 640.0
+offset_bottom = 438.0
+theme_override_colors/font_color = Color(0.8, 0.94, 0.78, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 2
+
+[node name="TacticalOverlayLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 80.0
+offset_right = 950.0
+offset_bottom = 300.0
+theme_override_colors/font_color = Color(0.86, 0.88, 0.96, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+
+[node name="WaveReportLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 650.0
+offset_top = 305.0
+offset_right = 950.0
+offset_bottom = 430.0
+theme_override_colors/font_color = Color(0.94, 0.86, 0.7, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 2
+
 [node name="SpinButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 20.0
@@ -45,29 +95,38 @@ offset_right = 132.0
 offset_bottom = 486.0
 text = "Spin (20)"
 
-[node name="TowerButton" type="Button" parent="."]
+[node name="BarracksButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 144.0
 offset_top = 450.0
-offset_right = 232.0
+offset_right = 242.0
+offset_bottom = 486.0
+text = "Barracks"
+
+[node name="TowerButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 252.0
+offset_top = 450.0
+offset_right = 330.0
 offset_bottom = 486.0
 text = "Tower"
 
 [node name="FarmButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 242.0
+offset_left = 340.0
 offset_top = 450.0
-offset_right = 330.0
+offset_right = 418.0
 offset_bottom = 486.0
 text = "Farm"
 
 [node name="CardsLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 344.0
+offset_left = 428.0
 offset_top = 450.0
-offset_right = 700.0
-offset_bottom = 486.0
+offset_right = 704.0
+offset_bottom = 510.0
 theme_override_colors/font_color = Color(0.84, 0.89, 0.94, 1)
+theme_override_font_sizes/font_size = 11
 autowrap_mode = 2
 
 [node name="DeployTop" type="Button" parent="."]
@@ -113,6 +172,7 @@ offset_bottom = 294.0
 text = "Retry Stage"
 
 [connection signal="pressed" from="SpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="BarracksButton" to="." method="_on_barracks_pressed"]
 [connection signal="pressed" from="TowerButton" to="." method="_on_tower_pressed"]
 [connection signal="pressed" from="FarmButton" to="." method="_on_farm_pressed"]
 [connection signal="pressed" from="DeployTop" to="." method="_on_deploy_pressed" binds= [&"top"]]

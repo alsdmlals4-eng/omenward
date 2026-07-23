@@ -8,9 +8,11 @@
 최신 사용자 지시
 → AGENTS.md
 → BASE_RULES_VERSION.md
+→ PROJECT_CORE.md
+→ CURRENT_IMPLEMENTATION_STATUS.md
 → HANDOFF_CONTEXT.md
 → DOCUMENTATION_MAP.md
-→ 현재 Codex 작업이면 work_orders 문서
+→ 현재 PR·Issue와 관련 승인 보고서
 → OMENWARD_GAME_DESIGN.md
 → 관련 APPROVED 책임 문서
 → 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md
@@ -20,6 +22,8 @@
 → ACTIVE_CONTEXT.md
 ```
 
+- `PROJECT_CORE.md`는 제품 정체성·핵심 선택·불변 조건·코어 검증 게이트의 최상위 책임 원본이다.
+- `CURRENT_IMPLEMENTATION_STATUS.md`는 구현·부분 구현·미검증 증거 경계의 책임 원본이다.
 - `HANDOFF_CONTEXT.md`는 현재 방향과 다음 행동을 압축한 최초 인수인계 문서다.
 - `docs/work_orders/`는 새 Codex 채팅에 전달하는 작업 요청·컨텍스트 패키지다.
 - `docs/design/proposals/`는 기획 측 사전 기술 추천안이며 Codex가 실제 저장소를 조사해 제출하는 Plan Mode 결과와 구분한다.
@@ -28,37 +32,42 @@
 - 프로젝트 문서와 Base 공용 자료가 충돌하면 최신 사용자 지시와 프로젝트 책임 문서가 우선한다.
 - 승인 구조, PoC 가설, 작업 요청, Plan Mode 제안서, 실제 구현, 검증 완료를 구분한다.
 
-## 현재 Codex 시작 문서
+## 현재 작업 시작점
 
-| 작업 | 시작 문서 | 상태 |
-|---|---|---|
-| 현재 main 감사·다음 개선 Plan Mode | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | **활성 시작 문서** |
-| Phase 0 Bootstrap | `goals/0001-engine-selection-and-bootstrap.md`, `work_orders/0001-phase-0-codex-plan-mode.md` | 구현 이후의 과거 입력·변경 이력 |
-| 수직 슬라이스 | `goals/0002-core-vertical-slice.md`, 관련 Issue·validation | 실제 main과 테스트 재확인 대상 |
+새 작업은 고정된 과거 Work Order가 아니라 다음 정본에서 시작한다.
 
-새 Codex 채팅은 `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`에서 시작한다. 과거 `0001` Work Order의 `구현 전` 문구를 현재 상태로 사용하지 않는다.
+```text
+PROJECT_CORE.md
+→ CURRENT_IMPLEMENTATION_STATUS.md
+→ 관련 APPROVED 책임 문서
+→ OMENWARD_ROADMAP.md
+→ 최신 PR·Issue와 실제 코드·테스트
+```
+
+현재 사람 QA 시작점은 `CURRENT_IMPLEMENTATION_STATUS.md`, `C3_CORE_UX_AUDIT_2026-07-23.md`, `OMENWARD_ROADMAP.md`, 실제 `scripts/core/core_ux_service.gd`, `scripts/ui/`, `scenes/ui/`, 테스트다. C1·C2 보고서는 검증 증거로 보존하며, 과거 Work Order·Goal·Proposal은 Git 이력에서만 추적한다.
 
 ## 항상 확인할 공식 문서
 
 | 문서 | 역할 |
 |---|---|
+| `PROJECT_CORE.md` | 제품 정체성, 핵심 선택, 불변 조건, 제거 테스트, 코어 검증 게이트 |
+| `CURRENT_IMPLEMENTATION_STATUS.md` | 실제 구현·부분 구현·승인 계약 차이·미검증 증거 |
 | `HANDOFF_CONTEXT.md` | 현재 방향, 불변 조건, 데이터 소유, 다음 실행 순서 |
 | `OMENWARD_GAME_DESIGN.md` | 전체 게임 경험과 시스템 관계 |
 | `ACTIVE_CONTEXT.md` | 최신 작업 상태 캡슐 |
 | `OMENWARD_ROADMAP.md` | 단계별 개발 순서와 완료 기준 |
 | `DECISIONS_PENDING.md` | 미확정·PoC 조정 항목 |
+| `C3_CORE_UX_AUDIT_2026-07-23.md` | C3 코어 UX 6종 구현·경계·검증 계약 |
 | `design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md` | 승인된 프리프로덕션 통합 인덱스 |
 | `images/VISUAL_REFERENCE_INDEX.md` | 이미지 상태·우선순위·누락 감사 |
-| `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` | 현재 새 Codex 채팅 작업 요청·복사 프롬프트 |
-| `work_orders/0001-phase-0-codex-plan-mode.md` | Phase 0 이전에 사용한 과거 작업 요청 |
-| `design/proposals/0001-phase-0-godot-bootstrap.md` | Phase 0 사전 기술 추천안·변경 이력 |
 
 ## 조건부 라우팅
 
 | 작업 조건 | 추가로 읽을 문서 |
 |---|---|
-| 새 Codex 채팅·현재 main 조사 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md`, `PROPOSAL_WORKFLOW.md`, 현재 Issue·PR·Goal |
-| 과거 Phase 0 결정 추적 | `work_orders/0001-phase-0-codex-plan-mode.md`, `design/proposals/0001-phase-0-godot-bootstrap.md`, Goal 0001 |
+| 프로젝트 코어·우선순위·기능 제거 판단 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 문서 |
+| 새 작업·현재 main 조사 | `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED 문서, 최신 PR·Issue, 실제 파일·테스트 |
+| 과거 단계 결정 추적 | Git 커밋·병합 PR 이력 |
 | Codex가 작성한 구현 전 제안 검토 | Codex 제출 제안서, 관련 작업 요청서, 현재 Issue/Goal |
 | 문서 추가·교체·정리·인수인계 | `DOCUMENT_LIFECYCLE.md`, `HANDOFF_CONTEXT.md`, `archive/README.md` |
 | GitHub Issue·로컬 미러 동기화 | `issues/README.md`, `DOCUMENT_LIFECYCLE.md`, `tools/sync_repo.ps1` |
@@ -76,6 +85,7 @@
 | 전투 계산·키워드·상태이상·비행 | `design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`, `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
 | 건설·경제·전문화·전술·용병 | `design/APPROVED_BUILDINGS_TACTICAL_MERCENARY_POC_V1.md`, `design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md` |
 | 튜토리얼·캠페인·절차 생성 | `design/APPROVED_TUTORIAL_CAMPAIGN_PROCEDURAL_POC_V1.md`, `design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md` |
+| C3 확률 미리보기·토큰 장부·징조·전술 오버레이·원인 보고·건설 비교 | `C3_CORE_UX_AUDIT_2026-07-23.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 관련 APPROVED UI·룰렛·전투 문서 |
 | Godot 프로젝트·Scene·Resource·상태 소유 | `GODOT_PROJECT_STRUCTURE.md`, `design/APPROVED_PERFORMANCE_DATA_TEST_READINESS_POC_V1.md` |
 | 외부 저장소·Base 공용 지식 | `REFERENCE_REPOSITORIES.md`, `BASE_RULES_VERSION.md` |
 | 외부 게임·시장·UX 벤치마킹 | `benchmarks/README.md`, 관련 제안서와 출처 스냅샷 |
@@ -105,8 +115,12 @@
 | 주제 | 책임 원본 |
 |---|---|
 | 작업 규칙·Plan Mode·완료 보고 | `AGENTS.md` |
+| 프로젝트 코어 | `PROJECT_CORE.md` |
+| 현재 구현 증거 | `CURRENT_IMPLEMENTATION_STATUS.md` |
 | 프로젝트 인수인계 | `HANDOFF_CONTEXT.md` |
-| 현재 Codex 작업 요청 | `work_orders/0002-current-main-audit-and-next-iteration-plan-mode.md` |
+| C1 구현·증거 | `C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md` |
+| C2 구현·검증 증거 | `C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md` |
+| C3 코어 UX 구현·검증 계약 | `C3_CORE_UX_AUDIT_2026-07-23.md` |
 | 문서 생명주기 | `DOCUMENT_LIFECYCLE.md` |
 | GitHub Issue 미러 | `issues/README.md` |
 | 제안 형식·승인 기준 | `PROPOSAL_WORKFLOW.md` |

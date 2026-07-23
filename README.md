@@ -2,7 +2,8 @@
 
 **오멘워드**는 건물로 3×3 룰렛의 토큰과 확률을 설계하고, 베일의 징조로 예고된 공세에 맞서 상·중·하 세 전선을 지휘하는 판타지 전략 오토배틀 게임입니다.
 
-> 현재 상태: **플레이 가능한 수직 슬라이스 구현 완료 / PR 검토·수동 QA 대기**
+> 현재 상태: **C1 룰렛 REMOTE_PROVEN / C2 전투 목적 루프 REMOTE_PROVEN / C3 코어 UX AUTOMATED_CONTRACTS_PROVEN / 사람 플레이 미완결**
+> 프로젝트 코어: **CORE_CONFIRMED / CORE_LOCKED**
 > 기본 언어는 GDScript이며 Godot 4.7.1 Standard, Compatibility renderer, 1920×1080 출력과 960×540 논리 해상도를 사용합니다.
 
 ## 핵심 문장
@@ -42,35 +43,37 @@
 ## 먼저 읽을 문서
 
 1. [`AGENTS.md`](AGENTS.md) — 작업 규칙과 승인 게이트
-2. [`docs/HANDOFF_CONTEXT.md`](docs/HANDOFF_CONTEXT.md) — 현재 방향, 불변 조건, 데이터 소유와 다음 작업
-3. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 원본 라우터
-4. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 공식 전체 기획서 v0.19
-5. [`docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`](docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md) — 승인 구조 통합 인덱스
-6. [`docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`](docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md) — 공용 병종·진영 이미지 데이터 계약
-7. [`docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`](docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md) — 전장·성문·거점·우회로
-8. [`docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`](docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md) — 이동·공격·피격·승리 연출
-9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 승인 게이트와 단계별 완료 기준
-10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 구현 전·PoC 후 결정 항목
-11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 예정 기술 구조와 상태 소유
+2. [`docs/PROJECT_CORE.md`](docs/PROJECT_CORE.md) — 제품 정체성, 핵심 선택, 불변 조건과 코어 검증 게이트
+3. [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md) — 실제 구현·부분 구현·미검증 증거 경계
+4. [`docs/HANDOFF_CONTEXT.md`](docs/HANDOFF_CONTEXT.md) — 현재 방향, 불변 조건, 데이터 소유와 다음 작업
+5. [`docs/DOCUMENTATION_MAP.md`](docs/DOCUMENTATION_MAP.md) — 작업별 책임 원본 라우터
+6. [`docs/OMENWARD_GAME_DESIGN.md`](docs/OMENWARD_GAME_DESIGN.md) — 공식 전체 기획서
+7. [`docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`](docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md) — 승인 구조 통합 인덱스
+8. [`docs/design/APPROVED_ROULETTE_CORE_RULES.md`](docs/design/APPROVED_ROULETTE_CORE_RULES.md) — 승인 룰렛 판정·등급·보상 계약
+9. [`docs/OMENWARD_ROADMAP.md`](docs/OMENWARD_ROADMAP.md) — 현재 복구 순서와 단계별 완료 기준
+10. [`docs/DECISIONS_PENDING.md`](docs/DECISIONS_PENDING.md) — 현재 결정 게이트와 PoC 조정 항목
+11. [`docs/GODOT_PROJECT_STRUCTURE.md`](docs/GODOT_PROJECT_STRUCTURE.md) — 현재 Godot Scene·상태 소유·데이터 구조
 12. [`docs/ACTIVE_CONTEXT.md`](docs/ACTIVE_CONTEXT.md) — 최신 작업 상태 캡슐
+13. [`docs/C3_CORE_UX_AUDIT_2026-07-23.md`](docs/C3_CORE_UX_AUDIT_2026-07-23.md) — C3 코어 UX 6종 구현·경계·검증 계약
 
-## 현재 실행 순서
+## 현재 개선 순서
 
 ```text
-Issue #1 Phase 0 Plan Mode
-→ 사용자 승인
-→ Godot 기술 기반 구현
-→ Issue #32 수직 슬라이스 Plan Mode
-→ 사용자 승인
-→ 3라인 핵심 수직 슬라이스
-→ 시뮬레이션·플레이테스트
+정본·프로젝트 코어 확정·잠금 완료
+→ 승인 룰렛 핵심 계약 원격 검증 완료
+→ C2 전투 목적 루프 원격 검증 완료
+→ C3 승인 코어 UX 6종 자동 계약 검증 완료
+→ [다음 실행] 10~15분 사람 플레이와 1080p·720p 가독성 검증
+→ [결정 게이트] C1U 이동권·럭키·100,000시드
+→ 밸런스 안정화
+→ 콘텐츠·아트 확장
 ```
 
-수직 슬라이스는 튜토리얼 4웨이브, 일반 스테이지 W1~W20, 공용 병종 전투·점령·성문·건설·룰렛·배치·암살자 우회와 회색상자 UI를 구현합니다. 자동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따릅니다.
+현재 저장소에는 원격 검증된 C1 룰렛 핵심 계약과 C2 전투 목적 루프가 존재한다. C3는 확률 미리보기·토큰 장부·단계형 징조·전술 오버레이·웨이브 원인 보고·건설 비교를 실제 도메인 snapshot과 HUD에 연결했고 자동 계약 원격 검증을 완료했다 (head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`). 현재 판정은 `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`, `C3_AUTOMATED_CONTRACTS_PROVEN`, `CORE_VERTICAL_SLICE_PARTIAL`, `CORE_LOOP_NOT_PROVEN`, `HUMAN_QA_NOT_RUN`이다.
 
-검증 명령과 수동 QA는 [`docs/PHASE_0_VALIDATION.md`](docs/PHASE_0_VALIDATION.md)를 따른다.
+세부 근거와 다음 게이트는 [`docs/CURRENT_IMPLEMENTATION_STATUS.md`](docs/CURRENT_IMPLEMENTATION_STATUS.md)를 따른다. C1 증거는 [`docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`](docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md), C2 구현·감사는 [`docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`](docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md), C3 구현 계약은 [`docs/C3_CORE_UX_AUDIT_2026-07-23.md`](docs/C3_CORE_UX_AUDIT_2026-07-23.md), 자동·수동 검증은 [`docs/VERTICAL_SLICE_VALIDATION.md`](docs/VERTICAL_SLICE_VALIDATION.md)를 따른다.
 
-## 예정 저장소 구조
+## 현재 저장소 구조
 
 ```text
 .
@@ -99,4 +102,4 @@ Issue #1 Phase 0 Plan Mode
 └─ tests/
 ```
 
-정확한 경로와 파일은 Phase 0 Plan Mode 승인 후 확정합니다.
+현재 경로와 파일은 실제 저장소가 권위 원본이며, 구조 변경은 별도 승인·검증 PR에서 수행합니다.
