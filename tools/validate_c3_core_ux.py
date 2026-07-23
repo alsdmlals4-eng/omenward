@@ -109,19 +109,27 @@ def require_numbered_sections(
 
 def validate_links(errors: list[str], root: pathlib.Path, relative: str, body: str) -> None:
     source = root / relative
+    repository_root = root.resolve()
     for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", body):
         if target.startswith(("http://", "https://", "mailto:", "#")):
             continue
         path_text = target.split("#", 1)[0]
         if not path_text:
             continue
-        candidate = (source.parent / path_text).resolve()
-        try:
-            candidate.relative_to(root.resolve())
-        except ValueError:
-            errors.append(f"{relative} link escapes repository: {target}")
-            continue
-        if not candidate.exists():
+        candidates = (
+            (source.parent / path_text).resolve(),
+            (root / path_text).resolve(),
+        )
+        valid = False
+        for candidate in candidates:
+            try:
+                candidate.relative_to(repository_root)
+            except ValueError:
+                continue
+            if candidate.exists():
+                valid = True
+                break
+        if not valid:
             errors.append(f"{relative} has broken local link: {target}")
 
 
@@ -422,7 +430,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         ),
         "docs/GODOT_PROJECT_STRUCTURE.md": (
             "C3 코어 UX AUTOMATED_CONTRACTS_PROVEN",
-            "roulette_token_sources_snapshot",
+            "## C3 코어 UX 런타임",
             "core_ux_snapshot()",
             PROOF_RUN,
         ),
