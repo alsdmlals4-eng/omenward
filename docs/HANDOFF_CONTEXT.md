@@ -1,7 +1,7 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
 - 갱신일: 2026-07-23
-- 현재 상태: **CORE_LOCKED / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX IMPLEMENTED·원격 검증 대기 / C1U·사람 플레이 미검증**
+- 현재 상태: **CORE_LOCKED / C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3_AUTOMATED_CONTRACTS_PROVEN / C1U·사람 플레이 미검증**
 - 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 전체 기획: `docs/OMENWARD_GAME_DESIGN.md`
@@ -15,7 +15,7 @@
 ## 1. 가장 먼저 알아야 할 것
 
 1. 오멘워드는 건물로 룰렛의 토큰·확률과 증원 체계를 설계하고 세 전선을 지휘하는 판타지 전략 오토배틀 게임이다.
-2. 저장소에는 원격 검증된 C1 룰렛 핵심과 C2 전투 목적 루프, 실제 데이터에 연결된 C3 코어 UX 6종이 있다. C3 최신 원격 통합 검증, C1U 유틸리티 결정과 사람 플레이가 남아 있다.
+2. 저장소에는 원격 검증된 C1 룰렛 핵심과 C2 전투 목적 루프, 자동 계약 검증된 C3 코어 UX 6종이 있다. C1U 유틸리티 결정과 사람 플레이가 남아 있다.
 3. 과거 Phase 0 Work Order의 `구현 전`과 README의 과도한 `수직 슬라이스 완료`를 현재 상태로 재사용하지 않는다.
 4. 새 Codex 채팅은 `PROJECT_CORE.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, 실제 main, validation 문서와 Issue·PR을 대조한 뒤 다음 최소 변경을 제안한다.
 5. 아군과 적군은 별도 병종 전투 데이터를 만들지 않고 공용 10병종에 서로 다른 FactionVisualProfile을 연결한다.
@@ -97,15 +97,15 @@ project.godot
 TECHNICAL_BASELINE_IMPLEMENTED
 + C1_ROULETTE_CORE_REMOTE_PROVEN
 + C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-+ C3_IMPLEMENTED
++ C3_AUTOMATED_CONTRACTS_PROVEN
 + CORE_VERTICAL_SLICE_PARTIAL
 + CORE_LOOP_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
 ```
 
-현재 Godot 프로젝트는 C1 run `29926598807`과 통합 Core Contracts run `29938742864`에서 검증된 C1 룰렛 핵심·C2 전투 목적 루프를 포함한다. C3 승인 UX 6종은 실제 도메인 snapshot과 HUD에 구현됐고 최신 영구 CI 검증을 기다린다. 사람 플레이가 남아 있으므로 ‘핵심 수직 슬라이스 완료’로 부르지 않는다.
+현재 Godot 프로젝트는 C1 run `29926598807`과 통합 Core Contracts run `29938742864`에서 검증된 C1 룰렛 핵심·C2 전투 목적 루프를 포함한다. C3 승인 UX 6종은 실제 도메인 snapshot과 HUD에 구현됐고 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 자동 계약 검증을 완료했다. 사람 플레이가 남아 있으므로 ‘핵심 수직 슬라이스 완료’로 부르지 않는다.
 
-다음 순서는 C3 원격 통합 검증과 PR #51 병합, 10~15분 사람 플레이·1080p·720p 가독성 검증, C1U 사용자 결정 게이트다.
+다음 순서는 10~15분 사람 플레이·1080p·720p 가독성 검증, C1U 사용자 결정 게이트다. PR #51 병합 결과는 GitHub PR 상태가 원본이다.
 
 ## 3.2 C3 코어 UX 데이터 경계
 
