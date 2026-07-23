@@ -1,5 +1,13 @@
 # Vertical Slice Validation
 
+## C3 automated evidence
+
+- 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`
+- `Validate Core Contracts` run: `29965348284`
+- 결과: Ubuntu/Windows × Python 3.12/3.13 네 계약 작업과 Godot 4.7.1 작업, 총 5 jobs success.
+- 범위: C1·C2·C3·프로젝트 코어·Skill·전체 mutation·whitespace, editor import·모든 headless·runtime smoke.
+- 사람 플레이·1080p·720p 가독성은 아직 실행하지 않았다.
+
 ## Automated
 
 Godot 4.7.1 Standard editor binary로 저장소 루트에서 실행한다.
@@ -16,7 +24,7 @@ python -m unittest discover -s tests/python -v
 git diff --check
 ```
 
-영구 `Validate Core Contracts` Workflow가 다음을 실행한다.
+영구 `Validate Omenward Core` Workflow가 다음을 실행한다.
 
 - Ubuntu/Windows × Python 3.12/3.13.
 - C1·C2·C3·프로젝트 코어·Skill Validator.
@@ -24,7 +32,7 @@ git diff --check
 - Godot 4.7.1 editor import를 120초 상한으로 실행.
 - 모든 `tests/headless/*_test.gd`를 파일별 60초 상한으로 실행.
 - runtime smoke를 60초 상한으로 실행.
-- 임시 C3 수리·진단 파일의 재유입 거부.
+- 임시 C3 수리·진단·전이 파일의 재유입 거부.
 - whitespace와 구형 활성 참조·깨진 링크 검사.
 
 ## Current automated scope
@@ -34,7 +42,7 @@ git diff --check
 - C2 같은 라인 목적 이동, 접전지·거점 점령·교착, 건물 효과·경제 전환.
 - 라인별 성문·본진 공격, 자연 승리·패배, W15 전설 보스 승리.
 - C3 건설 전 확률, 토큰 출처, 단계형 징조, 사거리·대상·상성, 웨이브 원인, 건설 비교.
-- C3 금화 부족·점령/교착·빈 토큰·대상 없음·미완료 웨이브 경계와 snapshot 결정론.
+- C3 금화 부족·점령/교착·빈 토큰·대상 없음·미완료 웨이브 경계와 snapshot 결정론·비변경 조회.
 - C3 핵심 의존 스크립트의 직접 headless 인스턴스화와 허위 성공 방지.
 - 암살자 같은 라인 우회와 점령력 0.
 - 결정론적 snapshot·input log.
