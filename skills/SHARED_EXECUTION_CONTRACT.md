@@ -23,12 +23,14 @@ Skill은 프로젝트 정본을 덮어쓰는 권한이 없다.
 
 ## 자동 라우팅
 
-1. `foundation.project-intake`는 모든 프로젝트 작업에 항상 선택한다.
-2. 주 책임 Discipline은 최대 1개, 지원 Discipline은 최대 2개다.
-3. Specialist는 명시적 트리거가 있을 때만 선택한다.
-4. `REVIEW`에는 `foundation.validation-review`와 `discipline.integration-review`를 항상 추가한다.
-5. 같은 산출물을 둘 이상의 Skill이 동시에 소유하지 않는다. 주 책임 Skill이 편집하고 지원 Skill은 검토만 한다.
-6. 사용자가 Skill을 직접 지정하면 Registry에 존재하는 ID만 허용한다.
+1. `routing.always_on`은 비워 두고 요청의 trigger와 실행 stage로만 Skill을 선택한다.
+2. `foundation.project-intake`는 요청이 직접 일치하거나 선택된 Skill의 dependency일 때만 포함한다.
+3. 주 책임 Omenward Discipline은 최대 1개, 지원 Discipline은 최대 1개다.
+4. Specialist는 명시적 trigger 또는 REVIEW stage 계약이 있을 때만 선택한다.
+5. `REVIEW`에는 `foundation.validation-review`와 `specialist.canonical-freshness`를 추가한다.
+6. 같은 산출물을 둘 이상의 Skill이 동시에 소유하지 않는다. 주 책임 Skill이 편집하고 지원 Skill은 검토만 한다.
+7. 사용자가 Skill을 직접 지정하면 Registry의 활성 ID 또는 `aliases`에 등록된 레거시 ID만 허용한다.
+8. `inactive` 패키지는 과거 기록으로만 유지하며 Router가 직접 선택하지 않는다.
 
 ## 공통 실행 순서
 
@@ -41,6 +43,8 @@ Skill은 프로젝트 정본을 덮어쓰는 권한이 없다.
 7. `Critique–Refine`을 최대 3회 반복한다. P0·P1이 남으면 완료하지 않는다.
 8. 독립된 검증으로 결과를 확인한다.
 9. 실행·미실행·잔여 위험을 분리해 보고한다.
+
+사용자가 더 많은 검토 회차나 더 엄격한 게이트를 명시하면 최신 사용자 지시를 따른다.
 
 ## 심각도
 
