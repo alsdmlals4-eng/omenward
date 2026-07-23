@@ -4,45 +4,52 @@ on:
   pull_request:
     paths:
       - "README.md"
-      - "docs/PROJECT_CORE.md"
-      - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
-      - "docs/CORE_RECOVERY_AUDIT_2026-07-22.md"
-      - "docs/ACTIVE_CONTEXT.md"
-      - "docs/HANDOFF_CONTEXT.md"
-      - "docs/DOCUMENTATION_MAP.md"
-      - "docs/OMENWARD_GAME_DESIGN.md"
-      - "docs/OMENWARD_ROADMAP.md"
-      - "docs/DECISIONS_PENDING.md"
+      - "docs/**"
       - "tools/validate_project_core_docs.py"
+      - "tools/validate_ci_usage_contract.py"
       - "tests/python/test_project_core_docs.py"
+      - "tests/python/test_ci_usage_contract.py"
       - ".github/workflows/validate-project-core-docs.yml"
+      - ".github/workflows/validate-omenward-core.yml"
+      - ".github/workflows/validate-skill-system.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "README.md"
+      - "docs/**"
+      - "tools/validate_project_core_docs.py"
+      - "tools/validate_ci_usage_contract.py"
+      - "tests/python/test_project_core_docs.py"
+      - "tests/python/test_ci_usage_contract.py"
+      - ".github/workflows/validate-project-core-docs.yml"
+      - ".github/workflows/validate-omenward-core.yml"
+      - ".github/workflows/validate-skill-system.yml"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
   validate:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        python-version: ["3.12", "3.13"]
-    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.12"
       - name: Compile documentation contracts
-        run: python -m py_compile tools/validate_project_core_docs.py tests/python/test_project_core_docs.py
+        run: python -m py_compile tools/validate_project_core_docs.py tools/validate_ci_usage_contract.py tests/python/test_project_core_docs.py tests/python/test_ci_usage_contract.py
       - name: Validate project core and current-state documents
         run: python tools/validate_project_core_docs.py
-      - name: Run project core mutation tests
-        run: python -m unittest tests.python.test_project_core_docs -v
-      - name: Run all Python repository tests
-        run: python -m unittest discover -s tests/python -v
-      - name: Validate existing Skill system
-        run: python tools/validate_skill_system.py
+      - name: Validate CI usage contract
+        run: python tools/validate_ci_usage_contract.py
+      - name: Run documentation and CI mutation tests
+        run: python -m unittest tests.python.test_project_core_docs tests.python.test_ci_usage_contract -v
       - name: Check whitespace
         run: git diff --check
