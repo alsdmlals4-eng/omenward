@@ -1,0 +1,30 @@
+name: Diagnose Actions Runner Provisioning
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/diagnose-actions-runner.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shell-only:
+    name: shell-only (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Confirm runner started
+        run: echo "RUNNER_STARTED"
+      - name: Print runner context
+        run: |
+          echo "RUNNER_OS=${{ runner.os }}"
+          echo "GITHUB_SHA=${{ github.sha }}"
