@@ -33,12 +33,7 @@ class C3CoreUxContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
-            self._mutate(
-                root,
-                "scripts/core/core_ux_service.gd",
-                '"token_ledger"',
-                '"ledger_removed"',
-            )
+            self._mutate(root, "scripts/core/core_ux_service.gd", '"token_ledger"', '"ledger_removed"')
             self.assertTrue(any("token_ledger" in error for error in validate(root)))
 
     def test_untyped_preview_sources_are_rejected(self) -> None:
@@ -76,6 +71,50 @@ class C3CoreUxContractTests(unittest.TestCase):
                 "func _removed_script_instantiation",
             )
             self.assertTrue(any("script_instantiation" in error for error in validate(root)))
+
+    def test_building_snapshot_api_removal_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            self._mutate(
+                root,
+                "scripts/buildings/building_service.gd",
+                "func roulette_token_sources_snapshot()",
+                "func removed_token_sources_snapshot()",
+            )
+            self.assertTrue(any("roulette_token_sources_snapshot" in error for error in validate(root)))
+
+    def test_mutating_building_query_in_core_ux_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            self._mutate(
+                root,
+                "scripts/core/core_ux_service.gd",
+                "run.buildings.roulette_token_sources_snapshot()",
+                "run.buildings.roulette_token_sources()",
+            )
+            self.assertTrue(any("mutating query path" in error for error in validate(root)))
+
+    def test_source_based_probability_api_removal_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            self._mutate(
+                root,
+                "scripts/roulette/roulette_service.gd",
+                "func probability_for_symbol_from_sources(",
+                "func removed_probability_from_sources(",
+            )
+            self.assertTrue(any("probability_for_symbol_from_sources" in error for error in validate(root)))
+
+    def test_read_only_headless_regression_removal_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            phrase = "C3 snapshot does not synchronize or ruin a stale building"
+            self._mutate(root, "tests/headless/c3_core_ux_test.gd", phrase, "removed read-only check")
+            self.assertTrue(any("stale building" in error for error in validate(root)))
 
     def test_boundary_regression_removal_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -140,56 +179,56 @@ class C3CoreUxContractTests(unittest.TestCase):
             )
             self.assertTrue(any("OMEN_T5_SECONDS" in error for error in validate(root)))
 
-    def test_godot_timeout_removal_is_rejected(self) -> None:
+    def test_final_workflow_timeout_removal_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             self._mutate(
                 root,
-                ".github/workflows/validate-core-contracts.yml",
+                ".github/workflows/validate-omenward-core.yml",
                 "timeout 60s",
                 "godot-without-bound",
             )
             self.assertTrue(any("timeout 60s" in error for error in validate(root)))
 
-    def test_temporary_hyphenated_workflow_is_rejected(self) -> None:
+    def test_temporary_finalizer_workflow_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
-            temporary = root / ".github/workflows/diagnose-c3-headless.yml"
+            temporary = root / ".github/workflows/finalize-c3-proof.yml"
             temporary.parent.mkdir(parents=True, exist_ok=True)
             temporary.write_text("name: temporary\n", encoding="utf-8")
             self.assertTrue(any("temporary C3 artifact" in error for error in validate(root)))
 
-    def test_temporary_doc_sync_script_is_rejected(self) -> None:
+    def test_superseded_core_workflow_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
-            temporary = root / "tools/sync_c3_canonical_docs.py"
+            temporary = root / ".github/workflows/core-contracts.yml"
             temporary.parent.mkdir(parents=True, exist_ok=True)
-            temporary.write_text("# temporary\n", encoding="utf-8")
+            temporary.write_text("name: duplicate\n", encoding="utf-8")
             self.assertTrue(any("temporary C3 artifact" in error for error in validate(root)))
 
-    def test_audit_preimplementation_state_is_rejected(self) -> None:
+    def test_audit_proven_state_regression_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             self._mutate(
                 root,
                 "docs/C3_CORE_UX_AUDIT_2026-07-23.md",
-                "C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING",
+                "C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING",
                 "C3_AUDIT_COMPLETE / IMPLEMENTATION_PENDING",
             )
-            self.assertTrue(any("stale or forbidden" in error for error in validate(root)))
+            self.assertTrue(any("C3_AUTOMATED_CONTRACTS_PROVEN" in error or "stale" in error for error in validate(root)))
 
-    def test_readme_stale_next_implementation_is_rejected(self) -> None:
+    def test_readme_stale_pending_state_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             readme = root / "README.md"
             readme.write_text(
                 readme.read_text(encoding="utf-8")
-                + "\n→ [다음 구현] C3 승인 코어 UX 6종\n",
+                + "\nC3 코어 UX IMPLEMENTED·원격 검증 대기\n",
                 encoding="utf-8",
             )
             self.assertTrue(any("stale or forbidden" in error for error in validate(root)))
@@ -216,8 +255,7 @@ class C3CoreUxContractTests(unittest.TestCase):
                 "문서 버전: **v0.23**",
                 "문서 버전: **v0.22**",
             )
-            errors = validate(root)
-            self.assertTrue(any("v0.23" in error or "stale or forbidden" in error for error in errors))
+            self.assertTrue(any("v0.23" in error or "stale" in error for error in validate(root)))
 
     def test_gdd_approved_battle_value_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -251,10 +289,7 @@ class C3CoreUxContractTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             roadmap = root / "docs/OMENWARD_ROADMAP.md"
-            roadmap.write_text(
-                roadmap.read_text(encoding="utf-8") + "\nC3 코어 UX 다음 구현\n",
-                encoding="utf-8",
-            )
+            roadmap.write_text(roadmap.read_text(encoding="utf-8") + "\nREMOTE_VALIDATION_PENDING\n", encoding="utf-8")
             self.assertTrue(any("stale or forbidden" in error for error in validate(root)))
 
     def test_decision_fallback_loss_is_rejected(self) -> None:
@@ -281,17 +316,41 @@ class C3CoreUxContractTests(unittest.TestCase):
             )
             self.assertTrue(any("이동권 심벌 완성선" in error for error in validate(root)))
 
+    def test_handoff_section_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            self._mutate(root, "docs/HANDOFF_CONTEXT.md", "## 10. 승인된 전장 초기값", "## removed section")
+            self.assertTrue(any("handoff lost required section 10" in error for error in validate(root)))
+
+    def test_godot_structure_section_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            self._mutate(root, "docs/GODOT_PROJECT_STRUCTURE.md", "## 16. 기본 검증 명령", "## removed section")
+            self.assertTrue(any("Godot structure lost required section 16" in error for error in validate(root)))
+
     def test_duplicate_c2_validation_command_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             validation = root / "docs/VERTICAL_SLICE_VALIDATION.md"
             validation.write_text(
-                validation.read_text(encoding="utf-8")
-                + "\npython tools/validate_c2_battle_objective.py\n",
+                validation.read_text(encoding="utf-8") + "\npython tools/validate_c2_battle_objective.py\n",
                 encoding="utf-8",
             )
             self.assertTrue(any("C2 validator exactly once" in error for error in validate(root)))
+
+    def test_duplicate_c3_validation_command_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            validation = root / "docs/VERTICAL_SLICE_VALIDATION.md"
+            validation.write_text(
+                validation.read_text(encoding="utf-8") + "\npython tools/validate_c3_core_ux.py\n",
+                encoding="utf-8",
+            )
+            self.assertTrue(any("C3 validator exactly once" in error for error in validate(root)))
 
 
 if __name__ == "__main__":
