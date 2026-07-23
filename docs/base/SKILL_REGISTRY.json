@@ -46,17 +46,7 @@
       "id": "foundation.project-intake",
       "category": "foundation",
       "path": "skills/foundation/managing-project-intake-and-work-contract/SKILL.md",
-      "triggers": [
-        "요청",
-        "작업",
-        "변경",
-        "구현",
-        "검토",
-        "기획",
-        "request",
-        "task",
-        "change"
-      ],
+      "triggers": ["요청", "작업", "변경", "구현", "검토", "기획", "request", "task", "change"],
       "depends_on": [],
       "priority": 100
     },
@@ -64,418 +54,192 @@
       "id": "foundation.project-operating-system",
       "category": "foundation",
       "path": "skills/foundation/managing-game-project-operating-system/SKILL.md",
-      "triggers": [
-        "운영체계",
-        "폴더 구조",
-        "워크플로",
-        "registry",
-        "schema",
-        "automation",
-        "governance",
-        "운영 규칙"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["운영체계", "폴더 구조", "워크플로", "registry", "schema", "automation", "governance", "운영 규칙"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 90
     },
     {
       "id": "foundation.design-documents",
       "category": "foundation",
       "path": "skills/foundation/managing-design-documents/SKILL.md",
-      "triggers": [
-        "기획서",
-        "GDD",
-        "문서",
-        "승인 문서",
-        "정본",
-        "proposal",
-        "spec",
-        "documentation"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["기획서", "GDD", "문서", "승인 문서", "정본", "proposal", "spec", "documentation"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 90
     },
     {
       "id": "foundation.context-handoff",
       "category": "foundation",
       "path": "skills/foundation/maintaining-project-context-and-handoff/SKILL.md",
-      "triggers": [
-        "handoff",
-        "인수인계",
-        "active context",
-        "작업 재개",
-        "요약",
-        "상태 캡슐"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["handoff", "인수인계", "active context", "작업 재개", "요약", "상태 캡슐"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 90
     },
     {
       "id": "foundation.validation-review",
       "category": "foundation",
       "path": "skills/foundation/reviewing-and-validating-project-changes/SKILL.md",
-      "triggers": [
-        "검토",
-        "검수",
-        "PR",
-        "리뷰",
-        "감사",
-        "adversarial",
-        "red team",
-        "critique",
-        "validate",
-        "review"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["검토", "검수", "PR", "리뷰", "감사", "adversarial", "red team", "critique", "validate", "review"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 90
     },
     {
       "id": "foundation.base-change-proposals",
       "category": "foundation",
       "path": "skills/foundation/managing-base-change-proposals/SKILL.md",
-      "triggers": [
-        "Base",
-        "공용 규칙",
-        "상위 템플릿",
-        "base sync",
-        "공용 스킬",
-        "승격"
-      ],
-      "depends_on": [
-        "foundation.project-intake",
-        "foundation.project-operating-system"
-      ],
+      "triggers": ["Base", "공용 규칙", "상위 템플릿", "base sync", "공용 스킬", "승격"],
+      "depends_on": ["foundation.project-intake", "foundation.project-operating-system"],
       "priority": 90
     },
     {
       "id": "foundation.skill-evolution",
       "category": "foundation",
       "path": "skills/foundation/evolving-project-discipline-skills/SKILL.md",
-      "triggers": [
-        "스킬 추가",
-        "스킬 통합",
-        "스킬 최적화",
-        "라우팅 개선",
-        "skill evolution",
-        "중복 스킬"
-      ],
-      "depends_on": [
-        "foundation.project-operating-system",
-        "foundation.validation-review"
-      ],
+      "triggers": ["스킬 추가", "스킬 통합", "스킬 최적화", "라우팅 개선", "skill evolution", "중복 스킬"],
+      "depends_on": ["foundation.project-operating-system", "foundation.validation-review"],
       "priority": 90
     },
     {
       "id": "discipline.narrative",
       "category": "disciplines",
       "path": "skills/disciplines/01-narrative/SKILL.md",
-      "triggers": [
-        "세계관",
-        "서사",
-        "캐릭터",
-        "대사",
-        "명명"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["세계관", "서사", "캐릭터", "대사", "명명"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.game-design",
       "category": "disciplines",
       "path": "skills/disciplines/02-game-design/SKILL.md",
-      "triggers": [
-        "게임 규칙",
-        "룰렛",
-        "전투",
-        "경제",
-        "병종",
-        "밸런스"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["게임 규칙", "룰렛", "전투", "경제", "병종", "밸런스"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.ux-ui-accessibility",
       "category": "disciplines",
       "path": "skills/disciplines/03-ux-ui-accessibility/SKILL.md",
-      "triggers": [
-        "UI",
-        "UX",
-        "HUD",
-        "조작",
-        "가독성",
-        "접근성"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["UI", "UX", "HUD", "조작", "가독성", "접근성"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.engineering",
       "category": "disciplines",
       "path": "skills/disciplines/04-engineering/SKILL.md",
-      "triggers": [
-        "Godot",
-        "GDScript",
-        "코드",
-        "버그",
-        "성능",
-        "저장",
-        "데이터 구조"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["Godot", "GDScript", "코드", "버그", "성능", "저장", "데이터 구조"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.technical-art",
       "category": "disciplines",
       "path": "skills/disciplines/05-technical-art-pipeline/SKILL.md",
-      "triggers": [
-        "리소스 파이프라인",
-        "임포트",
-        "스프라이트 규격",
-        "애니메이션 계약"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["리소스 파이프라인", "임포트", "스프라이트 규격", "애니메이션 계약"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.art",
       "category": "disciplines",
       "path": "skills/disciplines/06-art/SKILL.md",
-      "triggers": [
-        "아트 방향",
-        "캐릭터",
-        "환경",
-        "아이콘",
-        "픽셀 아트",
-        "시각 자료"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["아트 방향", "캐릭터", "환경", "아이콘", "픽셀 아트", "시각 자료"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.audio",
       "category": "disciplines",
       "path": "skills/disciplines/07-audio/SKILL.md",
-      "triggers": [
-        "사운드",
-        "음악",
-        "효과음",
-        "음성",
-        "믹싱"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["사운드", "음악", "효과음", "음성", "믹싱"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.qa",
       "category": "disciplines",
       "path": "skills/disciplines/08-qa/SKILL.md",
-      "triggers": [
-        "테스트",
-        "재현",
-        "회귀",
-        "품질",
-        "버그 분류"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["테스트", "재현", "회귀", "품질", "버그 분류"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.production-pm",
       "category": "disciplines",
       "path": "skills/disciplines/09-production-pm/SKILL.md",
-      "triggers": [
-        "일정",
-        "우선순위",
-        "마일스톤",
-        "의존성",
-        "위험",
-        "작업 분해"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["일정", "우선순위", "마일스톤", "의존성", "위험", "작업 분해"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.analytics-research",
       "category": "disciplines",
       "path": "skills/disciplines/10-analytics-user-research/SKILL.md",
-      "triggers": [
-        "분석",
-        "KPI",
-        "플레이테스트",
-        "사용자 조사",
-        "벤치마킹"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["분석", "KPI", "플레이테스트", "사용자 조사", "벤치마킹"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "discipline.integration-review",
       "category": "disciplines",
       "path": "skills/disciplines/11-integration-review/SKILL.md",
-      "triggers": [
-        "통합",
-        "전체 검수",
-        "출시 게이트",
-        "누락",
-        "중복",
-        "정합성"
-      ],
-      "depends_on": [
-        "foundation.project-intake"
-      ],
+      "triggers": ["통합", "전체 검수", "출시 게이트", "누락", "중복", "정합성"],
+      "depends_on": ["foundation.project-intake"],
       "priority": 70
     },
     {
       "id": "specialist.game-concept",
       "category": "specialists",
       "path": "skills/specialists/analyzing-and-refining-game-concepts/SKILL.md",
-      "triggers": [
-        "게임 아이디어",
-        "콘셉트",
-        "핵심 재미",
-        "차별점",
-        "concept",
-        "game idea"
-      ],
-      "depends_on": [
-        "discipline.game-design"
-      ],
+      "triggers": ["게임 아이디어", "콘셉트", "핵심 재미", "차별점", "concept", "game idea"],
+      "depends_on": ["discipline.game-design"],
       "priority": 60
     },
     {
       "id": "specialist.ui-art-audit",
       "category": "specialists",
       "path": "skills/specialists/auditing-and-refining-ui-art/SKILL.md",
-      "triggers": [
-        "UI 아트 검수",
-        "시각 감사",
-        "화면 가독성",
-        "visual audit",
-        "UI critique"
-      ],
-      "depends_on": [
-        "discipline.ux-ui-accessibility",
-        "discipline.art",
-        "foundation.validation-review"
-      ],
+      "triggers": ["UI 아트 검수", "시각 감사", "화면 가독성", "visual audit", "UI critique"],
+      "depends_on": ["discipline.ux-ui-accessibility", "discipline.art", "foundation.validation-review"],
       "priority": 60
     },
     {
       "id": "specialist.canonical-freshness",
       "category": "specialists",
       "path": "skills/specialists/auditing-canonical-reference-freshness/SKILL.md",
-      "triggers": [
-        "최신 파일",
-        "정본 최신성",
-        "stale",
-        "manifest",
-        "source commit",
-        "reference freshness"
-      ],
-      "depends_on": [
-        "foundation.design-documents",
-        "foundation.validation-review"
-      ],
+      "triggers": ["최신 파일", "정본 최신성", "stale", "manifest", "source commit", "reference freshness"],
+      "depends_on": ["foundation.design-documents", "foundation.validation-review"],
       "priority": 60
     },
     {
       "id": "specialist.art-prompts",
       "category": "specialists",
       "path": "skills/specialists/designing-art-prompts-and-technique-cards/SKILL.md",
-      "triggers": [
-        "아트 프롬프트",
-        "이미지 생성 지시",
-        "기법 카드",
-        "art prompt",
-        "technique card"
-      ],
-      "depends_on": [
-        "discipline.art",
-        "discipline.technical-art"
-      ],
+      "triggers": ["아트 프롬프트", "이미지 생성 지시", "기법 카드", "art prompt", "technique card"],
+      "depends_on": ["discipline.art", "discipline.technical-art"],
       "priority": 60
     },
     {
       "id": "specialist.vertical-slice",
       "category": "specialists",
       "path": "skills/specialists/designing-vertical-slices/SKILL.md",
-      "triggers": [
-        "수직 슬라이스",
-        "vertical slice",
-        "MVP",
-        "PoC 범위"
-      ],
-      "depends_on": [
-        "discipline.game-design",
-        "discipline.engineering",
-        "discipline.production-pm"
-      ],
+      "triggers": ["수직 슬라이스", "vertical slice", "MVP", "PoC 범위"],
+      "depends_on": ["discipline.game-design", "discipline.engineering", "discipline.production-pm"],
       "priority": 60
     },
     {
       "id": "specialist.deepseek-worktrees",
       "category": "specialists",
       "path": "skills/specialists/orchestrating-deepseek-worktrees/SKILL.md",
-      "triggers": [
-        "DeepSeek",
-        "외부 에이전트",
-        "worktree",
-        "병렬 분석",
-        "분석 위임"
-      ],
-      "depends_on": [
-        "foundation.project-intake",
-        "foundation.validation-review"
-      ],
+      "triggers": ["DeepSeek", "외부 에이전트", "worktree", "병렬 분석", "분석 위임"],
+      "depends_on": ["foundation.project-intake", "foundation.validation-review"],
       "priority": 60
     },
     {
       "id": "specialist.omenward-core-loop-human-playtest",
       "category": "specialists",
       "path": "skills/specialists/omenward-core-loop-human-playtest/SKILL.md",
-      "triggers": [
-        "first-10-minutes",
-        "human-playtest",
-        "core-loop-proof",
-        "C1U",
-        "C3",
-        "player-observation",
-        "human-qa"
-      ],
-      "depends_on": [
-        "discipline.game-design",
-        "discipline.ux-ui-accessibility",
-        "discipline.analytics-research"
-      ],
+      "triggers": ["first-10-minutes", "human-playtest", "core-loop-proof", "C1U", "C3", "player-observation", "human-qa"],
+      "depends_on": ["discipline.game-design", "discipline.ux-ui-accessibility", "discipline.analytics-research"],
       "priority": 60
     }
   ]
