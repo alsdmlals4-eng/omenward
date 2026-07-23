@@ -12,7 +12,24 @@ on:
       - "tests/python/test_skill_*.py"
       - "tests/python/test_adversarial_review_contract.py"
       - ".github/workflows/validate-skill-system.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "skills/**"
+      - "docs/base/**"
+      - "docs/BASE_RULES_VERSION.md"
+      - "schemas/skill-registry-v3.schema.json"
+      - "tools/route_skills.py"
+      - "tools/validate_skill_system.py"
+      - "tests/python/test_skill_*.py"
+      - "tests/python/test_adversarial_review_contract.py"
+      - ".github/workflows/validate-skill-system.yml"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
