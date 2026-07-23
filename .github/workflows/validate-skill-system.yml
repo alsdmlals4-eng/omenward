@@ -24,16 +24,46 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Validate packages and registry
-        run: python tools/validate_skill_system.py
-      - name: Run Skill contract tests
-        run: python -m unittest discover -s tests/python -p "test_skill_*.py" -v
-      - name: Run adversarial review contract tests
-        run: python -m unittest tests.python.test_adversarial_review_contract -v
-      - name: Smoke automatic routing
+      - name: Run captured Skill validation suite
+        shell: bash
         run: |
-          python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
-          python tools/route_skills.py --request "Godot GDScript 성능 버그 수정"
-          python tools/route_skills.py --request "핵심 코어 룰렛 3개 레인 기획 검토"
-      - name: Check whitespace
-        run: git diff --check
+          set +e
+          status=0
+          log="skill-validation.log"
+          : > "$log"
+
+          run_check() {
+            name="$1"
+            shift
+            {
+              echo "===== ${name} ====="
+              printf 'COMMAND:'
+              printf ' %q' "$@"
+              echo
+            } | tee -a "$log"
+            "$@" 2>&1 | tee -a "$log"
+            code=${PIPESTATUS[0]}
+            echo "EXIT_CODE: ${code}" | tee -a "$log"
+            echo | tee -a "$log"
+            if [ "$code" -ne 0 ]; then
+              status="$code"
+            fi
+          }
+
+          run_check "validate packages and registry" python tools/validate_skill_system.py
+          run_check "skill contract tests" python -m unittest discover -s tests/python -p "test_skill_*.py" -v
+          run_check "adversarial review contract tests" python -m unittest tests.python.test_adversarial_review_contract -v
+          run_check "route review request" python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
+          run_check "route Godot build request" python tools/route_skills.py --request "Godot GDScript 성능 버그 수정"
+          run_check "route core design review request" python tools/route_skills.py --request "핵심 코어 룰렛 3개 레인 기획 검토"
+          run_check "whitespace" git diff --check
+
+          exit "$status"
+      - name: Upload Skill validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-system-validation-${{ github.sha }}
+          path: skill-validation.log
+          if-no-files-found: error
+          retention-days: 14
