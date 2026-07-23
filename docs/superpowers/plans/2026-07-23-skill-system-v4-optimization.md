@@ -67,7 +67,22 @@
 - [x] Define project-specific inputs, procedures, outputs, and failure criteria.
 - [x] Keep rules/data, implementation, human UX evidence, and asset contracts separate.
 
-### Task 5: CI and final verification
+### Task 5: Retire active v3 consumer contracts
+
+**Files:**
+- Modify: `skills/SHARED_EXECUTION_CONTRACT.md`
+- Modify: `skills/README.md`
+- Modify: `tests/python/test_skill_package_integrity.py`
+- Modify: `tests/python/test_skill_routing_contract.py`
+- Modify: `tests/python/test_adversarial_review_contract.py`
+
+- [x] Remove active prose that forces `foundation.project-intake` as always-on.
+- [x] Replace the two-support-discipline rule with the v4 one-support limit.
+- [x] Replace `discipline.integration-review` with active validation and canonical-freshness review contracts.
+- [x] Replace fixed 7/11/6 package assertions with active 7/4/1 and explicit inactive compatibility assertions.
+- [x] Verify legacy manual IDs resolve through aliases without routing inactive packages.
+
+### Task 6: CI evidence and final verification
 
 **Files:**
 - Modify: `.github/workflows/validate-skill-system.yml`
@@ -75,5 +90,17 @@
 - [x] Remove the v3 schema path from active workflow references.
 - [x] Add v4 tests to the actual test discovery directory.
 - [x] Add Omenward core routing smoke coverage.
+- [x] Capture command output and exit codes in a validation evidence artifact before the final failure gate.
 - [ ] Confirm GitHub Actions passes on the pull request head.
+- [ ] Confirm the evidence artifact is retained and readable for a failing diagnostic run.
 - [ ] Review the final diff for stale active Skill IDs and stale Base commit references.
+- [ ] Confirm `Validate Omenward Core` passes on the same head.
+
+## Current Gate
+
+- PR: `#55`
+- Latest audited head: `1a003cf14e7ed9d2f0652afa3ec5295b9935edf9`
+- `Validate Omenward Skill System`: `FAILED`
+- `Validate Omenward Core`: `FAILED`
+- Workflow jobs expose no step output and no downloadable artifact through the available GitHub API.
+- Status: `BLOCKED / NOT READY FOR REVIEW` until both workflows produce inspectable passing evidence.
