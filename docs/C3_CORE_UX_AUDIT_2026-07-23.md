@@ -2,7 +2,9 @@
 
 - 기준 main: `2670a9a0040d0618a8dfb98683076f6b4ded5c54`
 - 작업 브랜치: `agent/c3-core-ux-minimum`
-- 현재 상태: `C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING`
+- 현재 상태: `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING`
+- 자동 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`
+- 자동 검증 run: `29965348284` (`Validate Core Contracts`, 5 jobs success)
 - 선행 완료: `C1_ROULETTE_CORE_REMOTE_PROVEN`, `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
 - 별도 사용자 결정: `C1U_PENDING_USER_DECISION`
 
@@ -124,8 +126,8 @@
 
 ## 8. 남은 검증과 상태 승격 조건
 
-- 최신 영구 `Validate Core Contracts`에서 Godot 4.7.1 editor import, 모든 headless, runtime smoke를 통과해야 한다.
-- Ubuntu/Windows × Python 3.12/3.13에서 C1·C2·C3 계약, mutation tests, 프로젝트 코어·Skill·whitespace를 통과해야 한다.
-- 원격 자동 검증 완료 뒤 상태는 `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING`으로 승격한다.
+- head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 Godot 4.7.1 editor import, 모든 headless, runtime smoke가 통과했다.
+- 같은 run에서 Ubuntu/Windows × Python 3.12/3.13의 C1·C2·C3 계약, mutation tests, 프로젝트 코어·Skill·whitespace가 모두 통과했다.
+- 따라서 상태를 `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING`으로 승격한다.
 - 1920×1080·1280×720 사람 가독성 QA 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
 - 사람 QA 전에는 최종 HUD 배치·폰트·팔레트·정보 밀도를 확정하지 않는다.
