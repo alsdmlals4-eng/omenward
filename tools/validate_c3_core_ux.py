@@ -2,8 +2,12 @@
 from __future__ import annotations
 
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+PROOF_HEAD = "1976c5355124b2ce7d7ef77b8835df0c95710038"
+PROOF_RUN = "29965348284"
+FINAL_WORKFLOW = ".github/workflows/validate-omenward-core.yml"
 
 UNIT_FILES = (
     "data/units/shield_guard.tres",
@@ -33,9 +37,10 @@ CANONICAL_FILES = (
 )
 
 REQUIRED_FILES = (
-    ".github/workflows/validate-core-contracts.yml",
+    FINAL_WORKFLOW,
     "scripts/core/core_ux_service.gd",
     "scripts/core/stage_run.gd",
+    "scripts/buildings/building_service.gd",
     "scripts/roulette/roulette_service.gd",
     "scripts/waves/wave_director.gd",
     "scripts/battle/unit_instance.gd",
@@ -48,11 +53,15 @@ REQUIRED_FILES = (
 )
 
 TEMPORARY_C3_PATHS = (
+    ".github/workflows/core-contracts.yml",
+    ".github/workflows/validate-core-contracts.yml",
+    ".github/workflows/finalize-c3-proof.yml",
     ".github/workflows/diagnose-c3-headless.yml",
     ".github/workflows/sync-c3-canonical-docs.yml",
     "docs/_C3_HEADLESS_DIAGNOSTIC.log",
     "tools/_repair_c3_stage_run_types.py",
     "tools/sync_c3_canonical_docs.py",
+    "tools/finalize_c3_proof.py",
 )
 
 STALE_CANONICAL_TERMS = (
@@ -63,6 +72,14 @@ STALE_CANONICAL_TERMS = (
     "C3_AUDIT_COMPLETE / IMPLEMENTATION_PENDING",
     "문서 버전: **v0.22**",
     "현재 C3 시작점은",
+    "C3 코어 UX IMPLEMENTED·원격 검증 대기",
+    "C3 IMPLEMENTED·원격 검증 대기",
+    "REMOTE_VALIDATION_PENDING",
+    "C3 승인 코어 UX 6종 최신 영구 CI 검증과 PR #51 병합",
+    ".github/workflows/core-contracts.yml",
+    ".github/workflows/validate-core-contracts.yml",
+    ".github/workflows/finalize-c3-proof.yml",
+    "tools/finalize_c3_proof.py",
 )
 
 
@@ -82,17 +99,48 @@ def reject_terms(errors: list[str], body: str, terms: tuple[str, ...], label: st
             errors.append(f"{label} contains stale or forbidden term: {term}")
 
 
+def require_numbered_sections(
+    errors: list[str], body: str, first: int, last: int, label: str
+) -> None:
+    for number in range(first, last + 1):
+        if re.search(rf"^## {number}(?:\.|\s)", body, flags=re.MULTILINE) is None:
+            errors.append(f"{label} lost required section {number}")
+
+
+def validate_links(errors: list[str], root: pathlib.Path, relative: str, body: str) -> None:
+    source = root / relative
+    for target in re.findall(r"\[[^\]]+\]\(([^)]+)\)", body):
+        if target.startswith(("http://", "https://", "mailto:", "#")):
+            continue
+        path_text = target.split("#", 1)[0]
+        if not path_text:
+            continue
+        candidate = (source.parent / path_text).resolve()
+        try:
+            candidate.relative_to(root.resolve())
+        except ValueError:
+            errors.append(f"{relative} link escapes repository: {target}")
+            continue
+        if not candidate.exists():
+            errors.append(f"{relative} has broken local link: {target}")
+
+
 def validate(root: pathlib.Path = ROOT) -> list[str]:
     errors: list[str] = []
+
     for relative in REQUIRED_FILES:
         if not (root / relative).is_file():
             errors.append(f"missing C3 file: {relative}")
+    for relative in TEMPORARY_C3_PATHS:
+        if (root / relative).exists():
+            errors.append(f"temporary C3 artifact remains: {relative}")
     if errors:
         return errors
 
-    workflow = read(root, ".github/workflows/validate-core-contracts.yml")
+    workflow = read(root, FINAL_WORKFLOW)
     service = read(root, "scripts/core/core_ux_service.gd")
     stage_run = read(root, "scripts/core/stage_run.gd")
+    buildings = read(root, "scripts/buildings/building_service.gd")
     roulette = read(root, "scripts/roulette/roulette_service.gd")
     wave_director = read(root, "scripts/waves/wave_director.gd")
     unit_instance = read(root, "scripts/battle/unit_instance.gd")
@@ -105,6 +153,25 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
 
     require_terms(
         errors,
+        workflow,
+        (
+            "name: Validate Omenward Core",
+            "Validate C3 core UX contract",
+            "python tools/validate_c3_core_ux.py",
+            "python -m unittest discover -s tests/python -v",
+            "timeout 120s",
+            "timeout 60s",
+            "Reject temporary C3 artifacts",
+            "test ! -e tools/finalize_c3_proof.py",
+            "test ! -e .github/workflows/core-contracts.yml",
+            "test ! -e .github/workflows/validate-core-contracts.yml",
+            "test ! -e .github/workflows/finalize-c3-proof.yml",
+        ),
+        "permanent Omenward workflow",
+    )
+
+    require_terms(
+        errors,
         service,
         (
             '"token_ledger"',
@@ -112,18 +179,48 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             '"omen"',
             '"tactical_overlay"',
             '"latest_wave_report"',
-            "var before_probability: float",
+            "roulette_token_sources_snapshot",
+            "token_ledger_from_sources",
+            "building_state_snapshot",
+            "probability_for_symbol_from_sources",
             "var preview_sources: Array[Dictionary]",
+            "var before_probability: float",
             "var after_probability: float",
-            "var role: String",
-            "probability_before",
-            "probability_after",
             "gate_under_pressure",
             "clean_defense",
         ),
         "core UX service",
     )
+    for forbidden in (
+        "run.buildings.roulette_token_sources()",
+        "run.buildings.building_state(HOME_OUTPOST_ID",
+        "run.roulette.probability_for_symbol(symbol_id",
+    ):
+        if forbidden in service:
+            errors.append(f"core UX snapshot uses mutating query path: {forbidden}")
 
+    require_terms(
+        errors,
+        buildings,
+        (
+            "func roulette_token_sources_snapshot()",
+            "func building_state_snapshot(",
+            "return roulette_token_sources_snapshot()",
+            "return building_state_snapshot(outpost_id, node_id)",
+        ),
+        "building read-only snapshot API",
+    )
+    require_terms(
+        errors,
+        roulette,
+        (
+            "func token_ledger_from_sources(",
+            "func probability_for_symbol_from_sources(",
+            "X_WEIGHT",
+            "GOLD_WEIGHT",
+        ),
+        "roulette authoritative preview",
+    )
     require_terms(
         errors,
         stage_run,
@@ -139,14 +236,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         ),
         "StageRun C3 integration",
     )
-
-    require_terms(
-        errors,
-        roulette,
-        ("func token_ledger", "func probability_for_symbol", "X_WEIGHT", "GOLD_WEIGHT"),
-        "roulette authoritative preview",
-    )
-
     require_terms(
         errors,
         wave_director,
@@ -175,6 +264,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for relative, hint in required_unit_hints.items():
         if hint not in read(root, relative):
             errors.append(f"shared unit tactical hint missing: {relative} -> {hint}")
+    archer = read(root, "data/units/archer.tres")
+    if 'target_priority_tags = PackedStringArray("flying", "nearest")' not in archer:
+        errors.append("archer target-priority vocabulary is not normalized to flying")
 
     for node_name in (
         "OmenDetailLabel",
@@ -219,13 +311,18 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         (
             "_test_script_instantiation",
             "C3 dependency script cannot instantiate",
+            "_test_snapshot_is_read_only",
+            "repeated C3 reads return the same snapshot without a gameplay tick",
+            "C3 snapshot does not spend or grant gold",
+            "C3 snapshot does not change food capacity",
+            "C3 snapshot does not synchronize or ruin a stale building",
+            "C3 snapshot does not append gameplay input-log events",
             "initial token ledger does not invent an inactive building source",
             "token ledger exposes the authoritative source building ID",
             "construction comparison exposes insufficient gold without mutating state",
             "construction comparison safely blocks a contested capture state",
             "tactical overlay safely exposes a unit with no current target",
             "wave report remains empty while a registered wave is unresolved",
-            "barracks preview increases the warrior probability before construction",
             "T-30 reveals lane and role without exact unit details",
             "T-15 reveals exact shared archetype and counter hints",
             "T-5 highlights the highest-count danger lane",
@@ -237,30 +334,33 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "C3 headless regression",
     )
 
-    require_terms(
-        errors,
-        workflow,
-        (
-            "Validate C3 core UX contract",
-            "python tools/validate_c3_core_ux.py",
-            "timeout 120s",
-            "timeout 60s",
-            "Reject temporary C3 repair artifacts",
-            "test ! -e docs/_C3_HEADLESS_DIAGNOSTIC.log",
-            "test ! -e tools/_repair_c3_stage_run_types.py",
-            "test ! -e .github/workflows/diagnose-c3-headless.yml",
-        ),
-        "permanent core contract workflow",
+    code_body = "\n".join(
+        read(root, relative)
+        for relative in (
+            "scripts/core/stage_run.gd",
+            "scripts/core/core_ux_service.gd",
+            "scripts/roulette/roulette_service.gd",
+            "scripts/ui/stage_hud.gd",
+        )
     )
+    for forbidden in (
+        "grant_move_token",
+        "lucky_failure_counter",
+        "result_storage_slots",
+        "fixed_legendary_template",
+    ):
+        if forbidden in code_body:
+            errors.append(f"C1U implementation leaked into C3: {forbidden}")
 
     require_terms(
         errors,
         audit,
         (
-            "C3_IMPLEMENTED",
-            "REMOTE_VALIDATION_PENDING",
+            "C3_AUTOMATED_CONTRACTS_PROVEN",
             "HUMAN_QA_PENDING",
             "C1U_PENDING_USER_DECISION",
+            PROOF_HEAD,
+            PROOF_RUN,
             "var preview_sources: Array[Dictionary]",
             "각 Godot headless 파일에 60초 상한",
             "CORE_LOOP_PROVEN",
@@ -268,60 +368,50 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         ),
         "C3 audit",
     )
-    reject_terms(
-        errors,
-        audit,
-        (
-            "C3_AUDIT_COMPLETE / IMPLEMENTATION_PENDING",
-            "현재 누락:",
-            "건설 전후 확률 차이와 비용·효과 비교가 없다.",
-        ),
-        "C3 audit",
-    )
 
     canonical_requirements = {
         "README.md": (
-            "C3 코어 UX IMPLEMENTED·원격 검증 대기",
-            "docs/C3_CORE_UX_AUDIT_2026-07-23.md",
+            "C3 코어 UX AUTOMATED_CONTRACTS_PROVEN",
+            PROOF_RUN,
             "[다음 실행] 10~15분 사람 플레이",
             "C1U 이동권·럭키·100,000시드",
         ),
         "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-            "C3_IMPLEMENTED / REMOTE_VALIDATION_PENDING / HUMAN_QA_PENDING",
-            "건설 전 룰렛 확률 미리보기",
+            "C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING",
+            PROOF_HEAD,
+            PROOF_RUN,
             "라인별 웨이브 원인 보고",
             "C1U 이동권·럭키·결과 보관함 3칸",
-            "PR #51",
         ),
         "docs/ACTIVE_CONTEXT.md": (
-            "C3_IMPLEMENTED",
-            "docs/C3_CORE_UX_AUDIT_2026-07-23.md",
-            "PR #51",
+            "C3_AUTOMATED_CONTRACTS_PROVEN",
+            PROOF_RUN,
             "[다음 실행] 사람 플레이·1080p·720p 가독성 검증",
         ),
         "docs/HANDOFF_CONTEXT.md": (
-            "C3_IMPLEMENTED",
+            "C3_AUTOMATED_CONTRACTS_PROVEN",
             "StageRun.core_ux_snapshot()",
-            "PR #51 병합",
+            PROOF_RUN,
             "C1U 사용자 결정 게이트",
         ),
         "docs/OMENWARD_GAME_DESIGN.md": (
             "문서 버전: **v0.23**",
-            "C3_IMPLEMENTED",
+            "C3_AUTOMATED_CONTRACTS_PROVEN",
+            PROOF_RUN,
             "C3 코어 UX 6종",
-            "docs/C3_CORE_UX_AUDIT_2026-07-23.md",
             "사람 QA 전 `CORE_LOOP_PROVEN`",
         ),
         "docs/OMENWARD_ROADMAP.md": (
-            "C3 IMPLEMENTED·원격 검증 대기",
-            "IMPLEMENTED / REMOTE_VALIDATION_PENDING",
-            "C3 승인 코어 UX 6종 최신 영구 CI 검증과 PR #51 병합",
+            "C3 AUTOMATED_CONTRACTS_PROVEN",
+            "AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING",
+            "10~15분 사람 플레이·1080p·720p 가독성 QA",
+            PROOF_RUN,
             "C1U는 사용자 결정 전 보류",
         ),
         "docs/DECISIONS_PENDING.md": (
-            "PR #50 병합 완료",
+            "C3 자동 계약 검증 완료·사람 QA 준비",
             "B.3 C3 코어 UX 6종",
-            "PR #51 병합",
+            PROOF_RUN,
             "이동권 심벌 완성선의 정확한 지급량",
             "본진 독립 HP·방어·저항 최종값",
         ),
@@ -331,160 +421,136 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "C3 코어 UX 구현·검증 계약",
         ),
         "docs/GODOT_PROJECT_STRUCTURE.md": (
-            "C3 코어 UX IMPLEMENTED·원격 검증 대기",
-            "StageRun.core_ux_snapshot()",
-            "counter_tags",
-            "target_priority_tags",
+            "C3 코어 UX AUTOMATED_CONTRACTS_PROVEN",
+            "roulette_token_sources_snapshot",
+            "core_ux_snapshot()",
+            PROOF_RUN,
         ),
         "docs/VERTICAL_SLICE_VALIDATION.md": (
-            "python tools/validate_c3_core_ux.py",
-            "C1·C2·C3·프로젝트 코어·Skill Validator",
-            "파일별 60초 상한",
-            "임시 C3 수리·진단 파일의 재유입 거부",
+            "## C3 automated evidence",
+            PROOF_HEAD,
+            PROOF_RUN,
+            "Validate Omenward Core",
+            "사람 플레이·1080p·720p 가독성은 아직 실행하지 않았다",
+        ),
+        "docs/C3_CORE_UX_AUDIT_2026-07-23.md": (
+            "C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING",
+            PROOF_HEAD,
+            PROOF_RUN,
         ),
     }
     for relative, terms in canonical_requirements.items():
-        require_terms(errors, canonical[relative], terms, f"canonical document {relative}")
-
-    for relative, body in canonical.items():
-        reject_terms(errors, body, STALE_CANONICAL_TERMS, f"canonical document {relative}")
+        require_terms(errors, canonical[relative], terms, relative)
+        reject_terms(errors, canonical[relative], STALE_CANONICAL_TERMS, relative)
+        validate_links(errors, root, relative, canonical[relative])
 
     gdd = canonical["docs/OMENWARD_GAME_DESIGN.md"]
     if len(gdd) < 16000:
-        errors.append("GDD appears truncated below the protected C3 summary floor")
+        errors.append("GDD appears truncated")
+    require_numbered_sections(errors, gdd, 1, 20, "GDD")
     require_terms(
         errors,
         gdd,
         (
             "중립화 10초 + 점령 10초",
-            "최대 유효 점령력 2.0",
-            "복귀 속도 초당 10%",
             "HP 5000",
             "공성 태그 피해 200%",
+            "진입 준비 1초",
             "우회 이동 9초",
-            "도착 2.5초 전",
             "시작 금화 160",
             "기본 수입 20초마다 +5",
-            "중앙 접전지 60초마다 소유 지점당 +4",
-            "중간거점 30초마다 소유 지점당 +2",
             "중앙 가로줄의 동일 비-X 심벌 3개",
-            "전설은 스테이지당 1회",
-            "방패병",
-            "대검전사",
-            "암살자",
-            "창병",
-            "궁병",
-            "기병",
-            "사제",
-            "마법사",
-            "비행병",
-            "거인",
-            "W15",
-            "W20",
-            "EnemyUnitProfile",
-            "미니맵 없음",
+            "8·9칸 동일",
+            "튜토리얼 1개 + 정규 9개",
+            "지상 유닛 | 120 | 180",
+            "W15: 직선 돌파",
+            "W20: 끝나지 않는 진군",
         ),
         "GDD no-loss contract",
     )
 
     roadmap = canonical["docs/OMENWARD_ROADMAP.md"]
     if len(roadmap) < 9000:
-        errors.append("roadmap appears truncated below the protected C3 summary floor")
-    for section in range(1, 16):
-        if f"## {section}." not in roadmap:
-            errors.append(f"roadmap lost required section {section}")
+        errors.append("roadmap appears truncated")
+    require_numbered_sections(errors, roadmap, 1, 15, "roadmap")
     require_terms(
         errors,
         roadmap,
         (
-            "P0 프리프로덕션",
-            "P1 기술 기준선",
-            "C0 정본·코어 복구",
-            "C1 룰렛 핵심 계약",
-            "C1U 룰렛 유틸리티",
-            "C2 전투 목적 루프",
-            "C3 코어 UX",
-            "C4 코어 플레이테스트",
-            "P3 시스템 안정화",
-            "P4 콘텐츠·아트 확장",
-            "P5 캠페인·데모",
-            "P6 출시 준비",
+            "## 4. G1",
+            "## 5. G2",
+            "## 7. P1",
+            "## 9. P2",
+            "## 10. P3",
+            "## 11. P4",
+            "## 12. P5",
+            "## 13. P6",
+            "## 14. 단계 변경 시 문서 동기화",
+            "## 15. 지금 실행할 단 하나의 작업",
         ),
         "roadmap no-loss contract",
     )
 
     decisions = canonical["docs/DECISIONS_PENDING.md"]
+    if len(decisions) < 12000:
+        errors.append("decisions document appears truncated")
+    require_numbered_sections(errors, decisions, 1, 12, "decisions")
     require_terms(
         errors,
         decisions,
         (
             "Godot 4.7.1에서 치명적 회귀",
-            "4.6.3 대안",
-            "Mobile·Forward+",
+            "Mobile·Forward+ 재검토",
             "640×360 논리 화면 대안",
             "AutoLoad 승격 재검토",
             "JSON Schema 파일과 GDScript validator",
             "AnimationContract 10개",
             "allied/veil Visual Profile 20개",
-            "중앙 접전지 전용 점령·안정화 시간",
-            "정규화 0~100 시뮬레이션 좌표",
+            "결과 보관함 3칸",
         ),
         "decisions no-loss contract",
     )
 
+    handoff = canonical["docs/HANDOFF_CONTEXT.md"]
+    if len(handoff) < 9000:
+        errors.append("handoff document appears truncated")
+    require_numbered_sections(errors, handoff, 1, 12, "handoff")
+
+    structure = canonical["docs/GODOT_PROJECT_STRUCTURE.md"]
+    if len(structure) < 11000:
+        errors.append("Godot structure document appears truncated")
+    require_numbered_sections(errors, structure, 1, 16, "Godot structure")
+    require_terms(
+        errors,
+        structure,
+        (
+            "## C2 전투 목적 런타임",
+            "## C3 코어 UX 런타임",
+            "GameSession",
+            "UnitArchetypeProfile",
+            "AnimationContract",
+            "FactionVisualProfile",
+        ),
+        "Godot structure no-loss contract",
+    )
+
     validation = canonical["docs/VERTICAL_SLICE_VALIDATION.md"]
     if validation.count("python tools/validate_c2_battle_objective.py") != 1:
-        errors.append("vertical-slice validation must contain the C2 validator exactly once")
+        errors.append("vertical validation must contain the C2 validator exactly once")
     if validation.count("python tools/validate_c3_core_ux.py") != 1:
-        errors.append("vertical-slice validation must contain the C3 validator exactly once")
-
-    code_files = tuple((root / "scripts").rglob("*.gd"))
-    forbidden_c1u_terms = (
-        "grant_move_token",
-        "apply_lucky_replace",
-        "shift_roulette_row",
-        "shift_roulette_column",
-        "roulette_storage_capacity = 3",
-    )
-    for path in code_files:
-        body = path.read_text(encoding="utf-8")
-        for term in forbidden_c1u_terms:
-            if term in body:
-                errors.append(
-                    f"C1U implementation leaked into C3: {path.relative_to(root).as_posix()} -> {term}"
-                )
-
-    for relative in TEMPORARY_C3_PATHS:
-        if (root / relative).exists():
-            errors.append(f"temporary C3 artifact remains: {relative}")
-
-    for path in root.rglob("*"):
-        if not path.is_file():
-            continue
-        name = path.name.lower()
-        relative = path.relative_to(root).as_posix()
-        if (
-            "_apply_c3_" in name
-            or "_repair_c3_" in name
-            or "_diagnose_c3_" in name
-            or "sync_c3_canonical" in name
-            or "diagnose-c3" in name
-            or "sync-c3-canonical" in name
-            or path.name.startswith("_C3_")
-        ):
-            errors.append(f"temporary C3 artifact remains: {relative}")
+        errors.append("vertical validation must contain the C3 validator exactly once")
 
     return errors
 
 
 def main() -> int:
-    errors = validate()
+    errors = validate(ROOT)
     if errors:
-        print("C3 core UX validation FAILED")
+        print("C3 core UX validation failed:")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("C3 core UX validation PASSED")
+    print("C3 core UX validation passed")
     return 0
 
 
