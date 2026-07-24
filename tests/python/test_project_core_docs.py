@@ -11,77 +11,129 @@ MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 
 
-class ProjectCoreDocumentationTests(unittest.TestCase):
+class ProjectCoreV2DocumentationTests(unittest.TestCase):
     def test_current_repository_passes(self) -> None:
         self.assertEqual([], validate(ROOT))
 
-    def test_stale_completion_claim_is_rejected(self) -> None:
+    def test_missing_v2_status_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            temp_root = pathlib.Path(directory)
-            self._copy_contract_files(temp_root)
-            readme = temp_root / "README.md"
-            readme.write_text(
-                readme.read_text(encoding="utf-8")
-                + "\n플레이 가능한 수직 슬라이스 구현 완료\n",
-                encoding="utf-8",
-            )
-            errors = validate(temp_root)
-            self.assertTrue(any("stale current-state claim" in error for error in errors))
+            root = pathlib.Path(directory)
+            self.copy(root)
+            for relative in (
+                "docs/PROJECT_CORE.md",
+                "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+                "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md",
+            ):
+                path = root / relative
+                path.write_text(
+                    path.read_text(encoding="utf-8").replace(
+                        "V2_CANON_CANDIDATE",
+                        "V2_CANON_REMOVED",
+                    ),
+                    encoding="utf-8",
+                )
+            self.assertTrue(any("missing V2 contract" in error for error in validate(root)))
 
-    def test_missing_core_reference_is_rejected(self) -> None:
+    def test_horizontal_cursor_contract_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            temp_root = pathlib.Path(directory)
-            self._copy_contract_files(temp_root)
-            active = temp_root / "docs" / "ACTIVE_CONTEXT.md"
-            active.write_text(
-                active.read_text(encoding="utf-8").replace("PROJECT_CORE.md", "PROJECT_CORE_REMOVED.md"),
-                encoding="utf-8",
-            )
-            errors = validate(temp_root)
-            self.assertTrue(any("does not reference PROJECT_CORE.md" in error for error in errors))
-
-    def test_pending_core_lock_state_is_rejected(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            temp_root = pathlib.Path(directory)
-            self._copy_contract_files(temp_root)
-            core = temp_root / "docs" / "PROJECT_CORE.md"
-            core.write_text(
-                core.read_text(encoding="utf-8")
-                .replace("- 상태: `CORE_CONFIRMED`", "- 상태: `EXISTING_CORE_IDENTIFIED`")
-                .replace("- 잠금 상태: `CORE_LOCKED`", "- 잠금 상태: `CORE_LOCK_PENDING_USER_CONFIRMATION`"),
-                encoding="utf-8",
-            )
-            errors = validate(temp_root)
-            self.assertTrue(any("stale project-core lock state" in error for error in errors))
-
-    def test_roadmap_phase_history_loss_is_rejected(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            temp_root = pathlib.Path(directory)
-            self._copy_contract_files(temp_root)
-            roadmap = temp_root / "docs" / "OMENWARD_ROADMAP.md"
-            roadmap.write_text(
-                roadmap.read_text(encoding="utf-8").replace(
-                    "## 7. P1 — Phase 0 Godot 기술 기준선 구현",
-                    "## 7. P1 REMOVED",
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/design/APPROVED_ROULETTE_CORE_RULES.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "노출 인덱스",
+                    "삭제된 인덱스",
                 ),
                 encoding="utf-8",
             )
-            errors = validate(temp_root)
-            self.assertTrue(any("missing preserved section" in error for error in errors))
+            self.assertTrue(any("horizontal movement" in error for error in validate(root)))
 
-    def test_unique_decision_alternative_loss_is_rejected(self) -> None:
+    def test_legacy_and_v2_status_must_be_separated(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
-            temp_root = pathlib.Path(directory)
-            self._copy_contract_files(temp_root)
-            decisions = temp_root / "docs" / "DECISIONS_PENDING.md"
-            decisions.write_text(
-                decisions.read_text(encoding="utf-8").replace("4.6.3 대안 검토", "fallback removed"),
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "V2_IMPLEMENTATION_NOT_STARTED",
+                    "V2_IMPLEMENTATION_UNKNOWN",
+                ),
                 encoding="utf-8",
             )
-            errors = validate(temp_root)
-            self.assertTrue(any("missing preserved alternative" in error for error in errors))
+            self.assertTrue(
+                any(
+                    "separate V2" in error or "missing V2 contract" in error
+                    for error in validate(root)
+                )
+            )
 
-    def _copy_contract_files(self, destination: pathlib.Path) -> None:
+    def test_documentation_map_owner_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/DOCUMENTATION_MAP.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "APPROVED_ROULETTE_CORE_RULES.md",
+                    "ROULETTE_OWNER_REMOVED.md",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("documentation map missing" in error for error in validate(root)))
+
+    def test_exact_premature_completion_claim_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "README.md"
+            path.write_text(
+                path.read_text(encoding="utf-8") + "\nCORE_LOCK_V2\n",
+                encoding="utf-8",
+            )
+            self.assertTrue(any("claims premature completion" in error for error in validate(root)))
+
+    def test_pending_completion_state_is_not_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            self.assertFalse(
+                any("claims premature completion" in error for error in validate(root))
+            )
+
+    def test_baseline_main_mismatch_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "95e5ae225262f2427f21d5b7e4a03fb24e7eed6c",
+                    "0000000000000000000000000000000000000000",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("baseline main mismatch" in error for error in validate(root)))
+
+    def test_missing_required_file_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md").unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_broken_local_link_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/PROJECT_CORE.md"
+            path.write_text(
+                path.read_text(encoding="utf-8") + "\n[broken](missing/path.md)\n",
+                encoding="utf-8",
+            )
+            self.assertTrue(any("broken local link" in error for error in validate(root)))
+
+    def copy(self, destination: pathlib.Path) -> None:
         for relative in MODULE["REQUIRED_FILES"]:
             source = ROOT / relative
             target = destination / relative
