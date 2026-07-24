@@ -43,13 +43,58 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Compile documentation contracts
-        run: python -m py_compile tools/validate_project_core_docs.py tools/validate_ci_usage_contract.py tests/python/test_project_core_docs.py tests/python/test_ci_usage_contract.py
-      - name: Validate project core and current-state documents
-        run: python tools/validate_project_core_docs.py
-      - name: Validate CI usage contract
-        run: python tools/validate_ci_usage_contract.py
-      - name: Run documentation and CI mutation tests
-        run: python -m unittest tests.python.test_project_core_docs tests.python.test_ci_usage_contract -v
-      - name: Check whitespace
-        run: git diff --check
+      - name: Run captured documentation validation suite
+        shell: bash
+        run: |
+          set +e
+          status=0
+          log="project-doc-validation.log"
+          status_file="project-doc-validation.status"
+          : > "$log"
+
+          run_check() {
+            name="$1"
+            shift
+            {
+              echo "===== ${name} ====="
+              printf 'COMMAND:'
+              printf ' %q' "$@"
+              echo
+            } | tee -a "$log"
+            "$@" 2>&1 | tee -a "$log"
+            code=${PIPESTATUS[0]}
+            echo "EXIT_CODE: ${code}" | tee -a "$log"
+            echo | tee -a "$log"
+            if [ "$code" -ne 0 ]; then
+              status="$code"
+            fi
+          }
+
+          run_check "compile documentation contracts" python -m py_compile tools/validate_project_core_docs.py tools/validate_ci_usage_contract.py tests/python/test_project_core_docs.py tests/python/test_ci_usage_contract.py
+          run_check "validate project core documents" python tools/validate_project_core_docs.py
+          run_check "validate CI usage contract" python tools/validate_ci_usage_contract.py
+          run_check "documentation and CI mutation tests" python -m unittest tests.python.test_project_core_docs tests.python.test_ci_usage_contract -v
+          run_check "whitespace" git diff --check
+
+          printf '%s\n' "$status" > "$status_file"
+          exit 0
+      - name: Upload project document validation diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-doc-validation-${{ github.sha }}
+          path: |
+            project-doc-validation.log
+            project-doc-validation.status
+          if-no-files-found: error
+          retention-days: 1
+      - name: Enforce project document validation result
+        if: always()
+        shell: bash
+        run: |
+          test -f project-doc-validation.status
+          status="$(cat project-doc-validation.status)"
+          if [ "$status" -ne 0 ]; then
+            echo "Project document validation failed with exit code ${status}. See diagnostic artifact."
+            exit "$status"
+          fi
