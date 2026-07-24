@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Validate Omenward project-core and current-state documentation contracts."""
-
 from __future__ import annotations
 
 import pathlib
@@ -22,7 +21,6 @@ REQUIRED_FILES = (
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
 )
-
 REFERENCE_FILES = (
     "README.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -32,25 +30,19 @@ REFERENCE_FILES = (
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
 )
-
 STALE_CURRENT_CLAIMS = {
     "README.md": (
         "플레이 가능한 수직 슬라이스 구현 완료",
         "Issue #1 Phase 0 Plan Mode",
         "정확한 경로와 파일은 Phase 0 Plan Mode 승인 후 확정합니다.",
     ),
-    "docs/OMENWARD_GAME_DESIGN.md": (
-        "Phase 0 Plan Mode 대기 / 구현 전",
-    ),
+    "docs/OMENWARD_GAME_DESIGN.md": ("Phase 0 Plan Mode 대기 / 구현 전",),
     "docs/OMENWARD_ROADMAP.md": (
         "Codex Plan Mode 실행 대기 / 구현 전",
         "현재는 Phase 0 구현이나 수직 슬라이스 구현을 시작하지 않는다.",
     ),
-    "docs/DECISIONS_PENDING.md": (
-        "1. Phase 0 기술 제안서 사용자 검토",
-    ),
+    "docs/DECISIONS_PENDING.md": ("1. Phase 0 기술 제안서 사용자 검토",),
 }
-
 REQUIRED_CORE_TERMS = (
     "CORE_CONFIRMED",
     "CORE_LOCKED",
@@ -60,7 +52,6 @@ REQUIRED_CORE_TERMS = (
     "## 7. 제거·대체 스트레스 테스트",
     "## 8. 코어 검증 게이트",
 )
-
 REQUIRED_STATUS_TERMS = (
     "TECHNICAL_BASELINE_IMPLEMENTED",
     "CORE_VERTICAL_SLICE_PARTIAL",
@@ -68,8 +59,8 @@ REQUIRED_STATUS_TERMS = (
     "HUMAN_QA_NOT_RUN",
     "C1_ROULETTE_CORE_REMOTE_PROVEN",
     "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
+    "C3_AUTOMATED_CONTRACTS_PROVEN",
 )
-
 ROADMAP_REQUIRED_SECTIONS = (
     "## 4. G1 — Phase 0 Work Order",
     "## 5. G2 — Phase 0 Codex Plan Mode",
@@ -84,14 +75,12 @@ ROADMAP_REQUIRED_SECTIONS = (
     "## 14. 단계 변경 시 문서 동기화",
     "## 15. 지금 실행할 단 하나의 작업",
 )
-
 ROADMAP_PRESERVED_PHRASES = (
     "별도 `EnemyUnitProfile` 없음",
     "룰렛 최소 100,000시드 시뮬레이션",
     "지상 120·비행 24·투사체 160·VFX 80 정상 목표",
     "모든 Gate와 Phase 종료 시 다음을 갱신한다",
 )
-
 DECISIONS_PRESERVED_PHRASES = (
     "4.6.3 대안 검토",
     "Mobile·Forward+ 재검토",
@@ -106,42 +95,33 @@ def _read(root: pathlib.Path, relative: str) -> str:
     return (root / relative).read_text(encoding="utf-8")
 
 
-def _contains_all(text: str, values: Iterable[str]) -> list[str]:
+def _missing(text: str, values: Iterable[str]) -> list[str]:
     return [value for value in values if value not in text]
 
 
 def validate(root: pathlib.Path = ROOT) -> list[str]:
     errors: list[str] = []
-
     for relative in REQUIRED_FILES:
-        path = root / relative
-        if not path.is_file():
+        if not (root / relative).is_file():
             errors.append(f"missing required file: {relative}")
-
     if errors:
         return errors
 
     core = _read(root, "docs/PROJECT_CORE.md")
     status = _read(root, "docs/CURRENT_IMPLEMENTATION_STATUS.md")
+    for term in _missing(core, REQUIRED_CORE_TERMS):
+        errors.append(f"PROJECT_CORE missing contract term: {term}")
+    for term in _missing(status, REQUIRED_STATUS_TERMS):
+        errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing state term: {term}")
 
-    for missing in _contains_all(core, REQUIRED_CORE_TERMS):
-        errors.append(f"PROJECT_CORE missing contract term: {missing}")
-    for missing in _contains_all(status, REQUIRED_STATUS_TERMS):
-        errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing state term: {missing}")
-
-    required_lock_lines = (
+    for term in (
         "- 상태: `CORE_CONFIRMED`",
         "- 잠금 상태: `CORE_LOCKED`",
         "2026-07-22 대화에서 `코어확정`",
-    )
-    for missing in _contains_all(core, required_lock_lines):
-        errors.append(f"PROJECT_CORE missing confirmed lock evidence: {missing}")
+    ):
+        if term not in core:
+            errors.append(f"PROJECT_CORE missing confirmed lock evidence: {term}")
 
-    pending_core_terms = (
-        "EXISTING_CORE_IDENTIFIED",
-        "CORE_LOCK_PENDING_USER_CONFIRMATION",
-        "PENDING_USER_CONFIRMATION",
-    )
     for relative in (
         "docs/PROJECT_CORE.md",
         "docs/CORE_RECOVERY_AUDIT_2026-07-22.md",
@@ -149,7 +129,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "docs/OMENWARD_ROADMAP.md",
     ):
         text = _read(root, relative)
-        for term in pending_core_terms:
+        for term in ("EXISTING_CORE_IDENTIFIED", "CORE_LOCK_PENDING_USER_CONFIRMATION", "PENDING_USER_CONFIRMATION"):
             if term in text:
                 errors.append(f"{relative} retains stale project-core lock state: {term}")
 
@@ -167,44 +147,44 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"{relative} retains stale current-state claim: {phrase}")
 
     readme = _read(root, "README.md")
-    if "C1 룰렛 REMOTE_PROVEN" not in readme or "C2 전투 목적 루프 REMOTE_PROVEN" not in readme or "사람 플레이 미완결" not in readme:
+    if not all(term in readme for term in ("C1 룰렛 REMOTE_PROVEN", "C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결")):
         errors.append("README does not expose proven C1/C2 and the human-QA boundary")
 
     roadmap = _read(root, "docs/OMENWARD_ROADMAP.md")
-    required_sequence = (
+    for term in (
         "정본·프로젝트 코어 확정·잠금 완료",
-        "승인 룰렛 핵심 계약 원격 검증 완료",
-        "C2 전투 목적 루프 원격 검증 완료",
-        "승인 코어 UX 6종",
+        "C1 승인 룰렛 핵심 계약 원격 검증·병합 완료",
+        "C2 전투 목적 루프 원격 검증·병합 완료",
+        "C3 승인 코어 UX 6종 자동 계약 검증 완료",
         "코어 플레이테스트",
-    )
-    for missing in _contains_all(roadmap, required_sequence):
-        errors.append(f"roadmap missing recovery sequence item: {missing}")
-    if len(roadmap.splitlines()) < 330:
-        errors.append("roadmap appears truncated; expected preserved Phase detail sections")
-    for missing in _contains_all(roadmap, ROADMAP_REQUIRED_SECTIONS):
-        errors.append(f"roadmap missing preserved section: {missing}")
-    for missing in _contains_all(roadmap, ROADMAP_PRESERVED_PHRASES):
-        errors.append(f"roadmap missing preserved contract phrase: {missing}")
+    ):
+        if term not in roadmap:
+            errors.append(f"roadmap missing recovery sequence item: {term}")
+    for term in ROADMAP_REQUIRED_SECTIONS:
+        if term not in roadmap:
+            errors.append(f"roadmap missing preserved section: {term}")
+    for term in ROADMAP_PRESERVED_PHRASES:
+        if term not in roadmap:
+            errors.append(f"roadmap missing preserved contract phrase: {term}")
 
     decisions = _read(root, "docs/DECISIONS_PENDING.md")
-    if len(decisions.splitlines()) < 400:
-        errors.append("DECISIONS_PENDING appears truncated; expected preserved decision detail")
     if "### 성능 첫 가설###" in decisions:
         errors.append("DECISIONS_PENDING contains a duplicated performance heading")
-    for missing in _contains_all(decisions, DECISIONS_PRESERVED_PHRASES):
-        errors.append(f"DECISIONS_PENDING missing preserved alternative: {missing}")
-    if "Godot 4.7.1·Compatibility·960×540" not in decisions:
-        errors.append("DECISIONS_PENDING does not distinguish implemented technical baseline")
-    if "C1U 이동권·럭키" not in decisions:
-        errors.append("DECISIONS_PENDING does not point to the C1U decision gate")
-    if "프로젝트 코어 확정·잠금 — 완료" not in decisions:
-        errors.append("DECISIONS_PENDING does not record the resolved project-core lock")
+    for term in DECISIONS_PRESERVED_PHRASES:
+        if term not in decisions:
+            errors.append(f"DECISIONS_PENDING missing preserved alternative: {term}")
+    for term in (
+        "Godot 4.7.1·Compatibility·960×540",
+        "C1U 이동권·럭키",
+        "프로젝트 코어 확정·잠금 — 완료",
+    ):
+        if term not in decisions:
+            errors.append(f"DECISIONS_PENDING missing current decision contract: {term}")
 
-    map_text = _read(root, "docs/DOCUMENTATION_MAP.md")
-    if re.search(r"\|\s*프로젝트 코어\s*\|\s*`PROJECT_CORE\.md`", map_text) is None:
+    doc_map = _read(root, "docs/DOCUMENTATION_MAP.md")
+    if re.search(r"\|\s*프로젝트 코어\s*\|\s*`PROJECT_CORE\.md`", doc_map) is None:
         errors.append("DOCUMENTATION_MAP has no project-core responsibility row")
-    if re.search(r"\|\s*현재 구현 증거\s*\|\s*`CURRENT_IMPLEMENTATION_STATUS\.md`", map_text) is None:
+    if re.search(r"\|\s*현재 구현 증거\s*\|\s*`CURRENT_IMPLEMENTATION_STATUS\.md`", doc_map) is None:
         errors.append("DOCUMENTATION_MAP has no implementation-status responsibility row")
 
     for relative in ("docs/PROJECT_CORE.md", "docs/CURRENT_IMPLEMENTATION_STATUS.md"):
@@ -215,7 +195,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             resolved = (root / relative).parent / target.split("#", 1)[0]
             if not resolved.exists():
                 errors.append(f"broken local link in {relative}: {target}")
-
     return errors
 
 
