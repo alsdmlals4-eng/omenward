@@ -1,7 +1,7 @@
 # 오멘워드 개발 로드맵
 
 - 갱신일: 2026-07-26
-- 기준: `docs/PROJECT_CORE.md`, `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- 기준: `docs/PROJECT_CORE.md`, `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`, `docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 현재 단계: `D0_COMPLETE / FIRST_V2_IMPLEMENTATION_PACKAGE_PLANNING_PENDING`
 - 제품 구현: `NOT_STARTED`
 - 사람 검증: `NOT_RUN`
@@ -9,7 +9,7 @@
 
 이 로드맵은 승인된 V2 범위를 구현 패키지 순서로 보여준다. 각 제품 패키지는 별도 Plan Mode 제안과 사용자 승인 전에는 구현 권한이 없다.
 
-`docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`는 Issue #56과 구형 main 기준 초안이다. 순서 참고는 가능하지만 GM-01~GM-106 통합 결정에 맞춘 재검증 없이 실행하지 않는다.
+`docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`는 Issue #56과 구형 main 기준 초안이다. 순서 참고는 가능하지만 GM-01~GM-106 통합 결정과 승인된 거래 기반 순서에 맞춘 재검증 없이 실행하지 않는다.
 
 ## 1. 현재 위치
 
@@ -21,6 +21,12 @@
 → [현재] 첫 V2 구현 패키지 기획·Plan Mode 준비
 → resolver 보존 seam
 → 물리 릴·SpinSnapshot·SpinSession
+→ R3
+→ U1-F
+→ S1-F
+→ R4
+→ U1-C
+→ S1-C
 → 후속 승인 패키지
 → V2 UX·100,000시드·사람 검증
 → CORE_LOCK_V2 검토
@@ -50,9 +56,11 @@
 | R1 | 순수 resolver 보존 seam | 미시작 | legacy 결과 불변 |
 | R2 | 물리 릴·SpinSnapshot·SpinSession 순수 도메인 | 미시작 | 릴 invariant·결정론·immutable snapshot |
 | R3 | TokenSource·NORMAL_X·SOURCE_BOUND_X 동기화 | 미시작 | 출처·파괴·blocked 거래 |
+| U1-F | immutable UnitRewardPayload 기반 | 미시작 | snapshot-only 조합·deterministic serialization |
+| S1-F | PendingReward ID·put-once 저장 기반 | 미시작 | 중복 0·receipt 복구 |
 | R4 | 이동 경제·럭키·전설·원자 확정 | 미시작 | truth table·idempotency·자원 장부 |
-| U1 | 세부 병종·Tier 패시브·등급 액티브·AI | 미시작 | 생성 순서·우선순위·회귀 |
-| S1 | PendingReward·보관·판매·식량 | 미시작 | 무손실·중복 0·softlock 0 |
+| U1-C | 세부 병종·Tier 패시브·등급 액티브·AI 완성 | 미시작 | 생성 순서·우선순위·회귀 |
+| S1-C | PendingReward 보관·판매·배치·식량 완성 | 미시작 | 무손실·중복 0·softlock 0·배치 rollback |
 | M1 | MapRun·StageFlow·지속 상태 | 미시작 | 상태 소유·시간 행렬 |
 | W1 | 묶음 웨이브·정확 예고 | 미시작 | deterministic timeline |
 | L1 | 배치 즉시 출격·대기 앵커·공격 명령·접전지 | 미시작 | 명령 상속·HoldRadius·고정 8초 |
@@ -102,7 +110,7 @@ D0 완료는 제품 구현 완료가 아니다.
 
 완료 기준: legacy generator가 순수 resolver를 통해 동일 결과를 만들고 resolver가 릴 상태·경제·UI·전설 주기를 소유하지 않는다.
 
-## 7. R2~R4 — 룰렛 V2
+## 7. R2~R4와 거래 기반
 
 R2:
 
@@ -115,15 +123,30 @@ R3:
 - `NORMAL_X` 교체·append.
 - blocked TokenSource와 `SOURCE_BOUND_X` 위치 보존·복원·영구 제거.
 
+U1-F:
+
+- snapshot과 최종 보드만 소비하는 immutable `UnitRewardPayload`.
+- 출처 건물·완성 Tier·세부 병종·등급·패시브·액티브 payload 동결.
+- live 건물 재조회 금지.
+- 실제 spawn·AI 실행 제외.
+
+S1-F:
+
+- `spin_session_id`, `confirm_transaction_id`, `pending_reward_id`, `reward_index`.
+- `PendingRewardEnvelope`와 put-once 저장소.
+- transaction별 reward와 `ConfirmReceipt` 재조회.
+- 보관·판매·배치·식량 제외.
+
 R4:
 
 - 세로·가로 이동과 미래 배열 영구 편집.
 - 럭키 무료 이동·보관형 이동 상한·무보상 누적·pending.
 - 위험 주기 전설.
 - `[확정]` 원자 거래와 idempotency.
+- 두 번째 동일 확정 요청은 기존 receipt 반환.
 - 0.001 금화 고정소수점 장부.
 
-## 8. U1 — 병종·능력 성장
+## 8. U1-C — 병종·능력 성장 완성
 
 - 모든 등급에서 선택 세부 병종 유지.
 - 완성 출처 Tier 가중치.
@@ -131,15 +154,17 @@ R4:
 - 일반~전설 액티브 기술 생성·강화.
 - 병종별 작성 우선순위와 AI 자동 발동.
 - 구형 `fixed_grade_unit_template_id` 제거 또는 마이그레이션.
+- R4에서 확정한 payload를 변경하지 않고 실제 유닛 생성 데이터로 조합.
 
-## 9. S1 — 결과 처리·보관·식량
+## 9. S1-C — 결과 처리·보관·식량 완성
 
 - 유닛 `PendingReward`, 금화 즉시 지급.
 - 보관함 4칸과 초과 결과 전체 대기.
 - 개별 배치·판매·조건부 일괄 보관.
 - 배치 비가역성과 사망 식량 반환.
+- spawn 실패 시 식량·pending 상태·로그 원자 rollback.
 
-통과: 결과 손실·중복·softlock 0.
+통과: 결과 손실·중복·softlock·부분 배치 0.
 
 ## 10. M1·W1·L1 — 런과 전선
 
