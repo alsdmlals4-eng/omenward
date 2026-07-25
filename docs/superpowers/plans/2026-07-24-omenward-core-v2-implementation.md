@@ -1,12 +1,29 @@
 # 오멘워드 코어 V2 구현 계획
 
-- 작성일: 2026-07-24
-- 상태: `APPROVED_DESIGN / IMPLEMENTATION_PLAN_DRAFT / PRODUCT_CODE_NOT_AUTHORIZED`
-- 기준 Issue: `#56`
-- 기준 main: `95e5ae225262f2427f21d5b7e4a03fb24e7eed6c`
-- 선행 정본: `docs/PROJECT_CORE.md`, `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`
+- 최초 작성일: 2026-07-24
+- 상태 갱신일: 2026-07-26
+- 상태: `HISTORICAL_IMPLEMENTATION_PLAN_DRAFT / REVALIDATION_REQUIRED / PRODUCT_CODE_NOT_AUTHORIZED`
+- 과거 기준 Issue: `#56` — 완료됨
+- 과거 기준 main: `95e5ae225262f2427f21d5b7e4a03fb24e7eed6c`
+- 현재 상위 정본: `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`
+- 현재 실행 순서: `docs/OMENWARD_ROADMAP.md`
 
-이 계획은 구현 순서와 검증 경계를 정의한다. 제품 코드 변경은 각 단계별 Codex Plan Mode 제안과 사용자 승인 뒤 시작한다.
+> **실행 금지:** 이 문서는 PR #57의 GM-01~GM-106 통합 결정 전 작성된 역사적 구현 초안이다. D0 문서 마이그레이션은 완료됐지만 R1 이후 제품 단계는 최신 통합 결정 원장에 맞춘 별도 설계·Plan Mode 제안·사용자 승인 전 실행하지 않는다.
+
+이 계획은 당시 승인된 구현 순서와 검증 경계를 보존한다. 현재 제품 코드 변경은 각 단계별 최신 Codex Plan Mode 제안과 사용자 승인 뒤 시작한다.
+
+## 2026-07-26 재검증 필요 범위
+
+다음 통합 결정은 이 초안의 기존 단계에 완전히 반영되지 않았다.
+
+- 세부 병종 유지, Tier 패시브, 룰렛 등급 액티브와 AI 자동 발동.
+- `NORMAL_X`와 `SOURCE_BOUND_X`, blocked 건물과 적 교체 거래.
+- 보관형 이동 아이템 상한·pending·무보상 누적·SpinSession 점증 구매가.
+- 배치 즉시 출격, 라인별 대기 앵커·공격 명령과 `HoldRadius`.
+- 글로벌 수리 예산·0.001 금화 장부·방어탑 소유권 이전·성문 재건.
+- Map→Stage→Wave 연속성, 맵 단위 런과 메타 진행.
+
+따라서 아래 단계와 파일 후보는 역사적 참고이며 현재 구현 계약이 아니다.
 
 ## 공통 제약
 
@@ -19,6 +36,8 @@
 - 전술 아이템 심벌·mid-run save·미션 전체·영구 성장·무한 방어는 범위 밖.
 
 ## Phase D0 — 문서 정본 마이그레이션
+
+현재 판정: `COMPLETE_BY_PR_57_AND_STATUS_SYNC`.
 
 목표:
 
@@ -40,6 +59,8 @@
 롤백: 문서 전용 커밋 revert.
 
 ## Phase R1 — 순수 resolver 분리
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 목표:
 
@@ -66,6 +87,8 @@ Green:
 
 ## Phase R2 — 물리 릴 도메인
 
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
+
 타입:
 
 - `RouletteTokenInstance`
@@ -88,6 +111,8 @@ Green:
 
 ## Phase R3 — 건물 출처 동기화
 
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
+
 계약:
 
 - TokenSource 완공 → 각 릴에 출처 토큰 1개.
@@ -102,7 +127,11 @@ Green:
 - 정지 뒤 건물 파괴 후 동일 보상.
 - 비TokenSource 건물의 토큰 미생성.
 
+최신 재검증에서 `NORMAL_X`, `SOURCE_BOUND_X`, blocked 건물과 적 교체 거래를 추가해야 한다.
+
 ## Phase R4 — 이동·럭키·전설·확정 거래
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 계약:
 
@@ -122,7 +151,11 @@ Green:
 - 반복 confirm 무보상.
 - 금화는 전설 한도 무관.
 
+최신 재검증에서 보관형 이동 상한 3, pending 보상, 무보상 누적, `nP` 구매가와 고정소수점 금화 장부를 추가해야 한다.
+
 ## Phase S1 — 보관함·결과 대기·판매·식량
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 계약:
 
@@ -142,7 +175,11 @@ Green:
 - 배치 실패 시 자원 미소비.
 - 사망 식량 반환.
 
+최신 재검증에서 유닛 `PendingReward`와 금화 즉시 지급 경계를 분리해야 한다.
+
 ## Phase M1 — MapRun·StageFlow
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 상태:
 
@@ -164,7 +201,11 @@ Green:
 - 위험 중 전투·웨이브 지속.
 - mid-run save 명시적 미지원.
 
+최신 재검증에서 Map→Stage→Wave 연속성, 다른 맵 NEW GAME과 메타 진행 경계를 추가해야 한다.
+
 ## Phase W1 — 묶음 웨이브와 정확 예고
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 계약:
 
@@ -178,6 +219,8 @@ Green:
 
 ## Phase B1 — 접전지 V2
 
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
+
 계약:
 
 - 라인당 중간 접전지 1개.
@@ -188,7 +231,11 @@ Green:
 - 반경 밖 추격 금지.
 - 후방 상실 시 선발대 후퇴·약화 없음, 신규 증원만 재점령.
 
+최신 재검증에서 배치 즉시 출격, 라인별 대기 앵커·공격 명령, `HoldRadius`, 건설·수리·성문 재건을 별도 패키지로 분리해야 한다.
+
 ## Phase U1 — Core UX
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 필수 표시:
 
@@ -204,7 +251,11 @@ Green:
 
 위험 스테이지에서 핵심 행동은 속도 시험이 되지 않도록 단축키·포커스·핀 패널·명확한 차단 이유를 제공한다. 자동 전술정지는 추가하지 않는다.
 
+최신 재검증에서 출처 Tier 가중치, 패시브·액티브, 라인 명령, blocked·수리·재건 상태 표시를 추가해야 한다.
+
 ## Phase Q1 — 시뮬레이션·사람 검증
+
+현재 판정: `REVALIDATION_REQUIRED / NOT_AUTHORIZED`.
 
 자동:
 
@@ -228,7 +279,9 @@ CORE_LOCK_V2
 
 을 검토한다.
 
-## 독립 커밋 권장 순서
+## 과거 독립 커밋 권장 순서
+
+다음은 역사적 순서이며 현재 실행 순서는 `docs/OMENWARD_ROADMAP.md`와 새 승인 계획이 소유한다.
 
 1. `docs: migrate omenward canon to approved core v2`
 2. `refactor: isolate deterministic roulette resolver`
