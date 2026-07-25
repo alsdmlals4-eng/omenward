@@ -10,6 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 LEDGER = MODULE["LEDGER"]
+HISTORICAL_PLAN = MODULE["HISTORICAL_PLAN"]
 
 
 class ProjectCoreV2DocumentationTests(unittest.TestCase):
@@ -28,7 +29,7 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
                 path = root / relative
                 path.write_text(
                     path.read_text(encoding="utf-8").replace(
-                        "V2_CANON_CANDIDATE",
+                        "V2_CANON_CURRENT_BY_PR_57_MERGE",
                         "V2_CANON_REMOVED",
                     ),
                     encoding="utf-8",
@@ -117,6 +118,20 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
             )
             self.assertTrue(any("precedence" in error for error in validate(root)))
 
+    def test_historical_plan_authority_marker_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / HISTORICAL_PLAN
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "REVALIDATION_REQUIRED",
+                    "REVALIDATION_MARKER_REMOVED",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("authority marker" in error for error in validate(root)))
+
     def test_exact_premature_completion_claim_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
@@ -143,7 +158,7 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
             path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
             path.write_text(
                 path.read_text(encoding="utf-8").replace(
-                    "95e5ae225262f2427f21d5b7e4a03fb24e7eed6c",
+                    "5a9c02b0ed4757c379fd8dfcb89fcc362b8cf185",
                     "0000000000000000000000000000000000000000",
                     1,
                 ),
