@@ -33,6 +33,8 @@ Skill ID: `discipline.omenward-core-ux`
 
 ## 입력
 
+**Session contract**
+
 | Field | Define |
 |---|---|
 | Build and seed | 정확한 branch, commit, build, map/stage/wave, seed와 known issue |
