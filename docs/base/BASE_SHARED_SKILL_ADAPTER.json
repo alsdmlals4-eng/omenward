@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "adapter_role": "base-shared-skill-project-adapter",
+  "base": {
+    "repository": "alsdmlals4-eng/Base",
+    "commit": "c7c1103e4a69f8fdc9ee27aa382a21288605a7fb",
+    "adapter_contract": "docs/BASE_SHARED_SKILL_ADAPTER_CONTRACT.md"
+  },
+  "project": {
+    "repository": "alsdmlals4-eng/omenward",
+    "layout_policy": "preserve-existing-canonical-paths",
+    "legacy_local_shared_registry": "docs/base/SKILL_REGISTRY.json"
+  },
+  "role_bindings": {
+    "project_agents": "AGENTS.md",
+    "documentation_map": "docs/DOCUMENTATION_MAP.md",
+    "active_context": "docs/ACTIVE_CONTEXT.md",
+    "project_core": "docs/PROJECT_CORE.md",
+    "implementation_status": "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "handoff": "docs/HANDOFF_CONTEXT.md",
+    "skill_registry": "docs/base/SKILL_REGISTRY.json",
+    "base_rules_version": "docs/BASE_RULES_VERSION.md",
+    "archive_root": "docs/archive/",
+    "third_party_inventory": "docs/base/THIRD_PARTY_ASSET_AND_PLUGIN_INVENTORY.json",
+    "license_record": "docs/base/THIRD_PARTY_ASSET_AND_PLUGIN_INVENTORY.json"
+  },
+  "canonical_sources": [
+    "docs/PROJECT_CORE.md",
+    "docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md",
+    "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md",
+    "docs/design/APPROVED_ROULETTE_CORE_RULES.md",
+    "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GAME_DESIGN.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/ACTIVE_CONTEXT.md"
+  ],
+  "legacy_search_roots": [
+    "docs/",
+    "skills/",
+    "docs/base/"
+  ],
+  "protected_paths": [
+    ".godot/**",
+    "scenes/**",
+    "scripts/**",
+    "data/**",
+    "resources/**",
+    "project.godot"
+  ],
+  "engine": {
+    "name": "Godot",
+    "version": "4.7.1 Standard",
+    "language": "GDScript",
+    "renderer": "gl_compatibility",
+    "platforms": ["Windows PC"],
+    "viewport": "960x540 internal, 1920x1080 override",
+    "stretch": "viewport integer",
+    "project_root": ".",
+    "addon_root": "addons/",
+    "asset_roots": ["assets/", "scenes/", "data/", "resources/"]
+  },
+  "existing_third_party": [
+    {
+      "path": "addons/godot_ai/",
+      "status": "EXISTING_REVIEW_REQUIRED",
+      "evidence": "project.godot editor_plugins and autoload"
+    }
+  ],
+  "validators": [
+    {
+      "id": "route-json",
+      "type": "static",
+      "command": "python -m json.tool docs/base/BASE_SHARED_SKILL_ROUTES.json",
+      "status": "AVAILABLE"
+    },
+    {
+      "id": "adapter-json",
+      "type": "static",
+      "command": "python -m json.tool docs/base/BASE_SHARED_SKILL_ADAPTER.json",
+      "status": "AVAILABLE"
+    },
+    {
+      "id": "godot-import",
+      "type": "runtime",
+      "command": null,
+      "status": "USE_EXISTING_PROJECT_WORKFLOW"
+    },
+    {
+      "id": "related-headless-tests",
+      "type": "test",
+      "command": null,
+      "status": "USE_WORK_ORDER_SPECIFIC_TESTS"
+    },
+    {
+      "id": "full-regression",
+      "type": "test",
+      "command": null,
+      "status": "USE_EXISTING_PROJECT_WORKFLOW"
+    },
+    {
+      "id": "actual-play",
+      "type": "manual",
+      "command": null,
+      "status": "MANUAL_REQUIRED"
+    }
+  ],
+  "rollback_reference": "Git commit before adapter adoption",
+  "shared_skill_overrides": {
+    "governing-legacy-retention-and-archives": {
+      "archive_root": "docs/archive/",
+      "delete_requires_user_approval": true,
+      "legacy_proven_and_v2_proven_must_remain_distinct": true,
+      "existing_local_shared_skill_copies": "KEEP_UNRESOLVED_UNTIL_SEPARATE_RECONCILIATION"
+    },
+    "evaluating-godot-assets-and-plugins-before-creation": {
+      "search_before_creation": true,
+      "purchase_requires_user_approval": true,
+      "installation_requires_separate_scope": true,
+      "priority_categories": [
+        "roulette and reel tooling",
+        "deterministic simulation tests",
+        "three-lane combat visualization",
+        "state machines",
+        "debug visualization",
+        "data validation"
+      ],
+      "core_system_lock_in": "avoid"
+    }
+  }
+}
