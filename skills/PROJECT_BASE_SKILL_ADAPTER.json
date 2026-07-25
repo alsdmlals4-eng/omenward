@@ -3,7 +3,7 @@
   "adapter_role": "base-shared-skill-project-adapter",
   "base": {
     "repository": "alsdmlals4-eng/Base",
-    "commit": "039465c4f135f6de1e524bd147a8005d8a1da28f"
+    "commit": "6a224e450f9420223c00921f3c56e051612f92ad"
   },
   "project": {
     "repository": "alsdmlals4-eng/omenward",
@@ -19,12 +19,7 @@
     "archive_manifest": "docs/archive/MANIFEST.json",
     "archive_retention_adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json"
   },
-  "canonical_sources": [
-    "docs/BASE_RULES_VERSION.md",
-    "docs/ACTIVE_CONTEXT.md",
-    "docs/DOCUMENTATION_MAP.md",
-    "project.godot"
-  ],
+  "canonical_sources": ["docs/BASE_RULES_VERSION.md", "docs/ACTIVE_CONTEXT.md", "docs/DOCUMENTATION_MAP.md", "project.godot"],
   "protected_paths": ["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"],
   "legacy_search_roots": ["docs/", "skills/"],
   "generated_derivative_roots": ["docs/published/"],
@@ -48,27 +43,12 @@
   "shared_skill_overrides": {
     "governing-legacy-retention-and-archives": {
       "adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json",
-      "current_canon_priority": [
-        "docs/DOCUMENTATION_MAP.md",
-        "docs/ACTIVE_CONTEXT.md",
-        "docs/design/APPROVED_*.md"
-      ],
+      "current_canon_priority": ["docs/DOCUMENTATION_MAP.md", "docs/ACTIVE_CONTEXT.md", "docs/design/APPROVED_*.md"],
       "existing_legacy_migration": "NOT_IN_THIS_ADOPTION"
     },
     "evaluating-godot-assets-and-plugins-before-creation": {
-      "search_focus": [
-        "roulette",
-        "deterministic testing",
-        "three-line combat",
-        "state machine",
-        "debug visualization",
-        "data validation"
-      ],
-      "core_systems_not_to_outsource": [
-        "core combat judgment",
-        "deterministic outcome rules",
-        "canonical game data"
-      ]
+      "search_focus": ["roulette", "deterministic testing", "three-line combat", "state machine", "debug visualization", "data validation"],
+      "core_systems_not_to_outsource": ["core combat judgment", "deterministic outcome rules", "canonical game data"]
     }
   }
 }
