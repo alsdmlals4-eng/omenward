@@ -11,7 +11,7 @@
 
 이 문서는 승인된 V2 설계, 현재 main의 실제 구현과 실행 증거를 분리한다. 문서 승인이나 파일 존재만으로 구현·검증 완료를 주장하지 않는다.
 
-최신 사용자 승인 원본은 `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`다. 기존 세부 문서와 충돌하는 경우 해당 원장을 따른다.
+최신 사용자 승인 원본은 `design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md`, `design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`, `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` 순으로 적용한다. 전설 획득·배치 제한은 후속 승인 문서가 기존 전설 위험 주기 규칙을 대체한다.
 
 ## 1. 상태 용어
 
@@ -92,6 +92,7 @@
 - PR #65: Skill System v4 재구성 및 사람 플레이 검증 Skill 흡수.
 - PR #66: Base 레거시·아카이브 거버넌스 adapter-only 채택.
 - PR #67: Base 공용 Skill route와 Godot 에셋 우선 탐색 연결.
+- PR #72: R3→U1-F→S1-F→R4→U1-C→S1-C 거래 기반 순서 승인.
 
 이 작업들은 문서·Skill·운영 계약이며 V2 Godot 실행 경로를 만들지 않았다.
 
@@ -111,7 +112,7 @@
 - 보관형 이동 아이템 상한 3, pending 보상, 무보상 누적 카운터.
 - 세션 내 이동 아이템 점증 가격 `nP`.
 - 유닛 `PendingReward`와 금화 즉시 지급.
-- 위험 주기 전설 제한.
+- 전설 결과를 횟수·stage 주기 제한 없이 항상 전설 PendingReward로 생성.
 
 ### 병종·능력 성장
 
@@ -121,6 +122,7 @@
 - Tier별 패시브 생성·강화.
 - 등급별 액티브 기술 생성·강화.
 - 액티브 AI 자동 발동과 병종별 작성 우선순위.
+- 전설 배치 충돌 시 동일 출처·Tier·세부 병종의 영웅 등급 payload 2개 조합.
 - 과거 `fixed_grade_unit_template_id` 제거 또는 마이그레이션.
 
 ### 전장·건설·구조물
@@ -128,6 +130,10 @@
 - 배치 즉시 출격.
 - 라인별 대기 앵커·공격 명령·`HoldRadius`.
 - 같은 맵의 wave·stage 상태 연속성.
+- 플레이어 전장 생존 전설 최대 1기.
+- 두 번째 전설 배치 경고·명시적 동의·커밋 순간 재검증.
+- 충돌이 계속될 때 동일 세부 병종 영웅 2기 원자 배치와 rollback.
+- 경고 확인 뒤 기존 전설이 사망하면 원래 전설 그대로 배치.
 - 고정 8초 비교전 점령과 소유권 지속.
 - 전방 건설 권리.
 - blocked 일반 건물과 적 교체 거래.
@@ -167,11 +173,11 @@ TECHNICAL_BASELINE_IMPLEMENTED
 ## 7. 다음 게이트
 
 1. 활성 상태·인계 문서가 같은 V2 current 상태를 말하도록 동기화한다.
-2. `docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`를 GM-01~GM-106 기준으로 재검증한다.
+2. `docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`를 GM-01~GM-106과 후속 승인 수정 기준으로 재검증한다.
 3. 첫 구현 패키지의 목표·플레이어 가치·포함·제외·상태 소유·Red 테스트·회귀·롤백을 설계한다.
 4. 검증된 중앙 판정을 보존하는 순수 `RouletteBoardResolver` seam과 물리 릴·SpinSnapshot·SpinSession 경계를 우선 검토한다.
 5. 사용자 Plan Mode 승인 뒤에만 Codex 제품 구현을 시작한다.
-6. 후속 패키지에서 병종 능력, 결과 처리, MapRun, 라인 명령, 건설·수리·재건을 연결한다.
+6. 후속 패키지에서 병종 능력, 결과 처리, 전설 배치 제한, MapRun, 라인 명령, 건설·수리·재건을 연결한다.
 7. V2 UX·100,000시드·사람 플레이를 실행한다.
 
 문서 정본 병합만으로 제품 구현을 시작하거나 `CORE_LOCK_V2`를 선언하지 않는다.

@@ -9,6 +9,7 @@ from typing import Iterable
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 LEDGER = "docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md"
+LEGENDARY_DEPLOYMENT_POLICY = "docs/design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md"
 CURRENT_R1_R2_PLAN = "docs/superpowers/plans/2026-07-26-omenward-v2-r1-r2-roulette-foundation.md"
 PLANNING_REVIEW = "docs/reviews/2026-07-26-v2-r1-r2-planning-review.md"
 BENCHMARK_REFRESH = "docs/benchmarks/OMENWARD_V2_BENCHMARK_REFRESH_2026-07-26.md"
@@ -19,8 +20,10 @@ REQUIRED_FILES = (
     "docs/PROJECT_CORE.md",
     "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md",
     LEDGER,
+    LEGENDARY_DEPLOYMENT_POLICY,
     "docs/design/APPROVED_ROULETTE_CORE_RULES.md",
     "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md",
+    "docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/HANDOFF_CONTEXT.md",
@@ -106,6 +109,16 @@ SUPERSEDED_CONTRACTS = (
     "적 존재 시 성문 재건을 정지",
 )
 
+LEGENDARY_POLICY_MARKERS = (
+    "LEGENDARY_ACQUISITION_CAP: REMOVED",
+    "LEGENDARY_PENDING_REWARD: ALWAYS_LEGENDARY",
+    "PLAYER_ALIVE_LEGENDARY_BATTLEFIELD_CAP: 1",
+    "COMMIT_TIME_REVALIDATION: REQUIRED",
+    "AUTO_DOWNGRADE_WITHOUT_CONSENT: FORBIDDEN",
+    "경고 없이 시작했지만 커밋 순간 생존 전설이 새로 존재하는 경우",
+    "경고를 확인했지만 커밋 전에 기존 전설이 사망한 경우",
+)
+
 PREMATURE_EXACT_STATES = (
     "V2_IMPLEMENTED",
     "V2_VERTICAL_SLICE_PROVEN",
@@ -121,6 +134,7 @@ ACTIVE_COMPLETION_FILES = (
     "docs/HANDOFF_CONTEXT.md",
     "docs/OMENWARD_GAME_DESIGN.md",
     LEDGER,
+    LEGENDARY_DEPLOYMENT_POLICY,
     PLANNING_REVIEW,
     BENCHMARK_REFRESH,
 )
@@ -210,9 +224,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     core = read(root, "docs/PROJECT_CORE.md")
     integrated = read(root, "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md")
     ledger = read(root, LEDGER)
+    legendary_policy = read(root, LEGENDARY_DEPLOYMENT_POLICY)
     roulette = read(root, "docs/design/APPROVED_ROULETTE_CORE_RULES.md")
     maprun = read(root, "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md")
+    transaction_sequence = read(root, "docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md")
     status = read(root, "docs/CURRENT_IMPLEMENTATION_STATUS.md")
+    roadmap = read(root, "docs/OMENWARD_ROADMAP.md")
 
     for value in CORE_STATUS:
         if value not in core:
@@ -224,7 +241,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if value not in status:
             errors.append(f"implementation status missing V2 contract: {value}")
 
-    decision_text = "\n".join((integrated, ledger, roulette, maprun))
+    decision_text = "\n".join((integrated, ledger, legendary_policy, roulette, maprun))
     for value in REQUIRED_DECISIONS:
         if value not in decision_text:
             errors.append(f"missing approved V2 decision: {value}")
@@ -236,6 +253,20 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for value in SUPERSEDED_CONTRACTS:
         if value not in ledger:
             errors.append(f"integrated decision ledger missing supersession marker: {value}")
+
+    for value in LEGENDARY_POLICY_MARKERS:
+        if value not in legendary_policy:
+            errors.append(f"legendary deployment policy missing contract: {value}")
+
+    policy_name = pathlib.PurePosixPath(LEGENDARY_DEPLOYMENT_POLICY).name
+    for relative, text in (
+        ("docs/PROJECT_CORE.md", core),
+        ("docs/CURRENT_IMPLEMENTATION_STATUS.md", status),
+        ("docs/OMENWARD_ROADMAP.md", roadmap),
+        ("docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md", transaction_sequence),
+    ):
+        if policy_name not in text:
+            errors.append(f"{relative} does not route legendary deployment policy")
 
     if "노출 인덱스" not in roulette or "cursor" not in roulette:
         errors.append("roulette horizontal movement contract incomplete")

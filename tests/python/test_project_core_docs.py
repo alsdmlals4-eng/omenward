@@ -10,6 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 LEDGER = MODULE["LEDGER"]
+LEGENDARY_DEPLOYMENT_POLICY = MODULE["LEGENDARY_DEPLOYMENT_POLICY"]
 HISTORICAL_PLAN = MODULE["HISTORICAL_PLAN"]
 CURRENT_R1_R2_PLAN = MODULE["CURRENT_R1_R2_PLAN"]
 PLANNING_REVIEW = MODULE["PLANNING_REVIEW"]
@@ -136,6 +137,29 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertTrue(any("precedence" in error for error in validate(root)))
+
+    def test_legendary_deployment_policy_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / LEGENDARY_DEPLOYMENT_POLICY).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_legendary_deployment_policy_contract_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / LEGENDARY_DEPLOYMENT_POLICY
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "COMMIT_TIME_REVALIDATION: REQUIRED",
+                    "COMMIT_REVALIDATION_REMOVED",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(
+                any("legendary deployment policy missing contract" in error for error in validate(root))
+            )
 
     def test_historical_plan_authority_marker_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

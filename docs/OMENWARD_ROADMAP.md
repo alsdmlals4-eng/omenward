@@ -1,7 +1,7 @@
 # 오멘워드 개발 로드맵
 
 - 갱신일: 2026-07-26
-- 기준: `docs/PROJECT_CORE.md`, `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`, `docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- 기준: `docs/PROJECT_CORE.md`, `docs/design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md`, `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`, `docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - 현재 단계: `D0_COMPLETE / FIRST_V2_IMPLEMENTATION_PACKAGE_PLANNING_PENDING`
 - 제품 구현: `NOT_STARTED`
 - 사람 검증: `NOT_RUN`
@@ -9,7 +9,7 @@
 
 이 로드맵은 승인된 V2 범위를 구현 패키지 순서로 보여준다. 각 제품 패키지는 별도 Plan Mode 제안과 사용자 승인 전에는 구현 권한이 없다.
 
-`docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`는 Issue #56과 구형 main 기준 초안이다. 순서 참고는 가능하지만 GM-01~GM-106 통합 결정과 승인된 거래 기반 순서에 맞춘 재검증 없이 실행하지 않는다.
+`docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`는 Issue #56과 구형 main 기준 초안이다. 순서 참고는 가능하지만 GM-01~GM-106 통합 결정, 승인된 거래 기반 순서와 후속 전설 획득·배치 제한 계약에 맞춘 재검증 없이 실행하지 않는다.
 
 ## 1. 현재 위치
 
@@ -58,9 +58,9 @@
 | R3 | TokenSource·NORMAL_X·SOURCE_BOUND_X 동기화 | 미시작 | 출처·파괴·blocked 거래 |
 | U1-F | immutable UnitRewardPayload 기반 | 미시작 | snapshot-only 조합·deterministic serialization |
 | S1-F | PendingReward ID·put-once 저장 기반 | 미시작 | 중복 0·receipt 복구 |
-| R4 | 이동 경제·럭키·전설·원자 확정 | 미시작 | truth table·idempotency·자원 장부 |
-| U1-C | 세부 병종·Tier 패시브·등급 액티브·AI 완성 | 미시작 | 생성 순서·우선순위·회귀 |
-| S1-C | PendingReward 보관·판매·배치·식량 완성 | 미시작 | 무손실·중복 0·softlock 0·배치 rollback |
+| R4 | 이동 경제·럭키·전설 보상 보존·원자 확정 | 미시작 | truth table·항상-전설 pending·idempotency·자원 장부 |
+| U1-C | 세부 병종·Tier 패시브·등급 액티브·AI 완성 | 미시작 | 생성 순서·영웅 변환 조합·우선순위·회귀 |
+| S1-C | PendingReward 보관·판매·배치·식량·전설 배치 제한 완성 | 미시작 | 무손실·중복 0·softlock 0·경고 동의·commit 재검증·배치 rollback |
 | M1 | MapRun·StageFlow·지속 상태 | 미시작 | 상태 소유·시간 행렬 |
 | W1 | 묶음 웨이브·정확 예고 | 미시작 | deterministic timeline |
 | L1 | 배치 즉시 출격·대기 앵커·공격 명령·접전지 | 미시작 | 명령 상속·HoldRadius·고정 8초 |
@@ -108,7 +108,7 @@ D0 완료는 제품 구현 완료가 아니다.
 - 금화 75/200/500%.
 - 결정론적 출처 snapshot 경계.
 
-완료 기준: legacy generator가 순수 resolver를 통해 동일 결과를 만들고 resolver가 릴 상태·경제·UI·전설 주기를 소유하지 않는다.
+완료 기준: legacy generator가 순수 resolver를 통해 동일 결과를 만들고 resolver가 릴 상태·경제·UI·전설 배치 정책을 소유하지 않는다.
 
 ## 7. R2~R4와 거래 기반
 
@@ -128,6 +128,7 @@ U1-F:
 - snapshot과 최종 보드만 소비하는 immutable `UnitRewardPayload`.
 - 출처 건물·완성 Tier·세부 병종·등급·패시브·액티브 payload 동결.
 - live 건물 재조회 금지.
+- 전설 결과는 횟수·stage 주기와 무관하게 `reward_grade = legendary`로 동결.
 - 실제 spawn·AI 실행 제외.
 
 S1-F:
@@ -135,13 +136,15 @@ S1-F:
 - `spin_session_id`, `confirm_transaction_id`, `pending_reward_id`, `reward_index`.
 - `PendingRewardEnvelope`와 put-once 저장소.
 - transaction별 reward와 `ConfirmReceipt` 재조회.
+- 전설 PendingReward를 원래 등급 그대로 여러 개 보존.
 - 보관·판매·배치·식량 제외.
 
 R4:
 
 - 세로·가로 이동과 미래 배열 영구 편집.
 - 럭키 무료 이동·보관형 이동 상한·무보상 누적·pending.
-- 위험 주기 전설.
+- 전설 결과를 항상 전설 PendingReward로 원자 확정.
+- 전설 획득 주기·확정 시 영웅 변환 없음.
 - `[확정]` 원자 거래와 idempotency.
 - 두 번째 동일 확정 요청은 기존 receipt 반환.
 - 0.001 금화 고정소수점 장부.
@@ -155,16 +158,23 @@ R4:
 - 병종별 작성 우선순위와 AI 자동 발동.
 - 구형 `fixed_grade_unit_template_id` 제거 또는 마이그레이션.
 - R4에서 확정한 payload를 변경하지 않고 실제 유닛 생성 데이터로 조합.
+- 전설 배치 충돌이 승인된 경우 같은 출처·Tier·세부 병종의 영웅 등급 payload 2개를 결정론적으로 조합.
 
-## 9. S1-C — 결과 처리·보관·식량 완성
+## 9. S1-C — 결과 처리·보관·식량·전설 배치 제한 완성
 
 - 유닛 `PendingReward`, 금화 즉시 지급.
 - 보관함 4칸과 초과 결과 전체 대기.
 - 개별 배치·판매·조건부 일괄 보관.
 - 배치 비가역성과 사망 식량 반환.
+- 플레이어 전장의 실제 `is_alive` 전설 최대 1기.
+- 생존 전설 충돌 시 변환 경고와 명시적 동의.
+- 배치 커밋 순간 생존 전설 재검증.
+- 경고 확인 뒤 기존 전설 사망 시 새 보상을 전설 그대로 배치.
+- 경고 없이 시작했지만 커밋 순간 충돌이 생기면 무변경 중단 후 새 경고 요구.
+- 충돌이 계속되면 동일 세부 병종 영웅 2기를 같은 라인에 원자 배치.
 - spawn 실패 시 식량·pending 상태·로그 원자 rollback.
 
-통과: 결과 손실·중복·softlock·부분 배치 0.
+통과: 결과 손실·중복·softlock·부분 배치·무동의 자동 강등 0.
 
 ## 10. M1·W1·L1 — 런과 전선
 
@@ -172,6 +182,7 @@ M1:
 
 - Map→Stage→Wave 계층.
 - 같은 맵의 건물·병력·체력·자원·릴·보관함·접전지 지속.
+- 전설 PendingReward 등급과 보관 상태를 stage 전환에서 변경하지 않음.
 - 다른 맵은 NEW GAME.
 
 W1:
@@ -186,6 +197,7 @@ L1:
 - 라인별 최신 대기 앵커 또는 공격 명령.
 - 현재·이동 중·향후 유닛의 명령 상속.
 - `HoldRadius`와 고정 8초 비교전 접전지.
+- 실제 spawn 결과와 `is_alive`를 생존 전설 판정의 유일한 전장 근거로 제공.
 
 ## 11. B1 — 건설·구조물·수리·재건
 
@@ -201,7 +213,7 @@ L1:
 - 가로 이동 고스트와 장기 변화.
 - 중앙 판정·보상·PendingReward.
 - Tier 패시브·등급 액티브 구분.
-- 전설 주기·보관함·식량.
+- 전설 PendingReward, 생존 전설 1기 제한, 변환 경고·재검증 결과, 보관함·식량.
 - 정확 공세·웨이브 타임라인.
 - 라인 명령·접전지·건설·수리·재건 상태와 차단 이유.
 - 라인별 원인 보고.
@@ -216,12 +228,14 @@ L1:
 - 금화 EV·판매·비축·순환 차익.
 - 3·5·20스테이지 시간.
 - 상태·거래·결정론·회귀.
+- 전설 반복 획득, 생존 상한, 경고 동의, commit 재검증, 영웅 2기 원자 배치와 rollback.
 
 사람:
 
 - 10~15분 3스테이지.
 - 1920×1080·1280×720.
 - 건설·가로 이동·능력 성장·명령·배치·실패 이유 설명.
+- 전설 보관과 두 번째 전설 배치 경고·결과 변경 이유 설명.
 
 ## 14. CORE_LOCK_V2 조건
 
