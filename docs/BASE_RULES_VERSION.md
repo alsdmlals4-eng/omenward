@@ -1,10 +1,12 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `41a20584dd2ee51d917e5c9d7cab6838e1ceba7e`
-- 동기화 기준일: `2026-07-23`
+- 기준 커밋: `6a224e450f9420223c00921f3c56e051612f92ad`
+- 동기화 기준일: `2026-07-25`
 - 적용 방식: 프로젝트 정본 우선, Base 공용 원칙의 명시적 채택, 자동 덮어쓰기 금지
-- Skill 정본: `docs/base/SKILL_REGISTRY.json`
+- 로컬 Skill 정본: `docs/base/SKILL_REGISTRY.json`
+- Base 공용 Skill route: `skills/BASE_SHARED_SKILL_ROUTES.json`
+- 프로젝트 공용 Skill 어댑터: `skills/PROJECT_BASE_SKILL_ADAPTER.json`
 - 공통 실행 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 채택한 Base 영역
@@ -14,6 +16,7 @@
 - 적대적 검토와 검증 증거 분리
 - Skill 본문 단순화와 책임 중복 제거
 - 구형·비기능 자료의 명시적 정리
+- 원문 보존과 현재 권한 격리를 분리하는 archive governance
 - 계약 보존 리팩터링
 - 프로젝트 컨텍스트와 인수인계 압축
 - 정본 최신성·참조 무결성 검사
@@ -30,6 +33,7 @@
 → 현재 Issue·Goal
 → 실제 파일과 테스트
 → docs/base/SKILL_REGISTRY.json과 선택된 활성 Skill
+→ skills/BASE_SHARED_SKILL_ROUTES.json과 프로젝트 어댑터
 → 이 문서가 고정한 Base 커밋
 → Base 최신 공용 지식과 외부 참고
 ```
@@ -38,10 +42,11 @@ Base 원격 변경은 자동 적용하지 않는다. 새 Base 커밋을 채택�
 
 ## Skill System v4
 
-- 활성 Foundation: 7
+- 로컬 활성 Foundation: 7
 - 활성 Omenward Discipline: 4
 - 활성 Specialist: 1
-- 활성 합계: 12
+- 로컬 활성 합계: 12
+- Base 공용 Skill: adapter-only route이며 로컬 활성 개수에 포함하지 않음
 - 레거시 패키지: 16개를 `inactive`와 `replaced_by`로 등록
 - 과거 Skill ID와 PR 표기는 `aliases`로 활성 Skill에 해석
 - `always_on` Skill 없음
@@ -56,6 +61,14 @@ Base 원격 변경은 자동 적용하지 않는다. 새 Base 커밋을 채택�
 - `discipline.omenward-godot`: Godot·GDScript·결정론·공유 데이터 검증
 - `discipline.omenward-core-ux`: 10~15분 플레이테스트·HUD·해상도 가독성
 - `discipline.omenward-art-assets`: 아트·애니메이션·판정 연출·에셋 파이프라인
+
+## Archive governance 채택
+
+- Base Skill: `governing-legacy-retention-and-archives`
+- 프로젝트 어댑터: `docs/archive/ARCHIVE_RETENTION_ADAPTER.json`
+- Manifest: `docs/archive/MANIFEST.json`
+- 기존 구형 자료 일괄 이동·삭제·본문 비우기: `NOT_IN_THIS_ADOPTION`
+- branch/tag 삭제: `NOT_RUN`
 
 ## Base 승격 후보
 
