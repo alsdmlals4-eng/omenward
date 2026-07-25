@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "adapter_role": "legacy-retention-archive-project-adapter",
+  "base": {
+    "repository": "alsdmlals4-eng/Base",
+    "commit": "6a224e450f9420223c00921f3c56e051612f92ad",
+    "skill_id": "governing-legacy-retention-and-archives",
+    "skill_path": "skills/governing-legacy-retention-and-archives/SKILL.md",
+    "route_registry": "skills/BASE_SHARED_SKILL_ROUTES.json"
+  },
+  "project": {
+    "repository": "alsdmlals4-eng/omenward",
+    "layout_policy": "preserve-existing-canonical-paths"
+  },
+  "paths": {
+    "project_agents": "AGENTS.md",
+    "documentation_map": "docs/DOCUMENTATION_MAP.md",
+    "active_context": "docs/ACTIVE_CONTEXT.md",
+    "skill_registry": "docs/base/SKILL_REGISTRY.json",
+    "canonical_sources": [
+      "docs/DOCUMENTATION_MAP.md",
+      "docs/ACTIVE_CONTEXT.md",
+      "docs/design"
+    ],
+    "archive_root": "docs/archive",
+    "archive_readme": "docs/archive/README.md",
+    "archive_manifest": "docs/archive/MANIFEST.json",
+    "protected_paths": [
+      "data",
+      "scripts",
+      "scenes",
+      "assets",
+      "addons",
+      "project.godot"
+    ],
+    "legacy_search_roots": [
+      "docs",
+      "skills"
+    ],
+    "generated_derivative_roots": [
+      "docs/published"
+    ],
+    "protected_evidence_roots": [
+      "tests",
+      "docs/evidence"
+    ]
+  },
+  "policies": {
+    "preserve_original_content": true,
+    "blank_placeholders_allowed": false,
+    "secrets_may_be_archived": false,
+    "default_active_authority": false,
+    "default_implementation_authority": "NONE",
+    "branch_retention": "CLOSED_PR_AND_TAG_UNTIL_DELETE_AVAILABLE"
+  },
+  "validation": {
+    "commands": [
+      "python tools/check_archive_governance.py",
+      "python tools/validate_skill_system.py",
+      "python -m unittest tests.python.test_skill_archive_retention -v"
+    ],
+    "manual_checks": [
+      "archive가 V2 current canon·기본 cold start·직접 Skill route에 포함되지 않는지 확인",
+      "기존 구형 자료 이동·삭제·본문 비우기가 없는지 diff 검토"
+    ],
+    "status_vocabulary": [
+      "PASS",
+      "PARTIAL",
+      "FAIL",
+      "NOT_RUN"
+    ]
+  }
+}
