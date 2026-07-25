@@ -1,8 +1,9 @@
 # 오멘워드 Documentation Map
 
 - 갱신일: 2026-07-26
-- 현재 정본 세대: `V2_CANON_CANDIDATE`
-- 현재 Issue: `#56`
+- 현재 정본 세대: `V2_CANON_CURRENT_BY_PR_57_MERGE`
+- 현재 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
+- 현재 단계: `V2_FIRST_IMPLEMENTATION_PACKAGE_PLANNING_PENDING`
 
 이 문서는 작업별 책임 원본을 선택하는 라우터다. 모든 문서를 매번 읽지 않는다.
 
@@ -49,7 +50,7 @@
 | 물리 릴·토큰·럭키·전설·금화 | `design/APPROVED_ROULETTE_CORE_RULES.md`와 최신 통합 결정 원장 |
 | 준비·위험·웨이브·보관·식량·접전지·건설·수리·재건 | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`와 최신 통합 결정 원장 |
 | 병종 출처·Tier 패시브·등급 액티브·AI 우선순위 | 최신 통합 결정 원장 |
-| V2 구현 단계 | `superpowers/plans/2026-07-24-omenward-core-v2-implementation.md` |
+| V2 구현 패키지 초안 참고 | `superpowers/plans/2026-07-24-omenward-core-v2-implementation.md` — Issue #56·구형 main 기준 초안이므로 최신 통합 결정 원장에 맞춘 재검증 전 구현 권한 없음 |
 | 공용 병종·진영 Visual | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
 | 전투 계산·상태·비행 | `design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`, `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
 | 아트·애니메이션 | 관련 `APPROVED_ART_*`, `APPROVED_UNIT_ANIMATION_*`, `images/VISUAL_REFERENCE_INDEX.md` |
