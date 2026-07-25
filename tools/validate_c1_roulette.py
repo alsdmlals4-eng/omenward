@@ -117,12 +117,17 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             f"GitHub Actions run: `{FINAL_VALIDATION_RUN}`",
         ),
         "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-            "C1_ROULETTE_CORE_REMOTE_PROVEN",
-            f"C1 구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
-            f"C1 최종 검증 run: `{FINAL_VALIDATION_RUN}`",
+            "LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN",
+            f"`{FINAL_VALIDATION_RUN}`",
+            "V2_MIGRATION_REQUIRED",
         ),
-        "docs/OMENWARD_ROADMAP.md": ("C1 승인 룰렛 핵심 계약 원격 검증·병합 완료", "**REMOTE_PROVEN**"),
-        "docs/design/APPROVED_ROULETTE_CORE_RULES.md": ("C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",),
+        "docs/OMENWARD_ROADMAP.md": (
+            "legacy C1의 검증된 중앙 판정",
+            "legacy 결과 불변",
+        ),
+        "docs/design/APPROVED_ROULETTE_CORE_RULES.md": (
+            "C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",
+        ),
     }
     for relative, phrases in requirements.items():
         text = (root / relative).read_text(encoding="utf-8")
