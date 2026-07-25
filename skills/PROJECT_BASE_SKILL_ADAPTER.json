@@ -3,7 +3,7 @@
   "adapter_role": "base-shared-skill-project-adapter",
   "base": {
     "repository": "alsdmlals4-eng/Base",
-    "commit": "6a224e450f9420223c00921f3c56e051612f92ad"
+    "commit": "039465c4f135f6de1e524bd147a8005d8a1da28f"
   },
   "project": {
     "repository": "alsdmlals4-eng/omenward",
@@ -25,14 +25,11 @@
     "docs/DOCUMENTATION_MAP.md",
     "project.godot"
   ],
-  "protected_paths": [
-    "data/",
-    "scripts/",
-    "scenes/",
-    "assets/",
-    "addons/",
-    "project.godot"
-  ],
+  "protected_paths": ["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"],
+  "legacy_search_roots": ["docs/", "skills/"],
+  "generated_derivative_roots": ["docs/published/"],
+  "protected_evidence_roots": ["tests/", "docs/evidence/"],
+  "rollback_reference": "git-history-and-approved-v2-baseline",
   "engine": {
     "project_file": "project.godot",
     "addon_root": "addons/",
@@ -40,6 +37,7 @@
     "platforms": ["Windows PC"]
   },
   "validators": [
+    "python tests/test_base_shared_skill_adapter.py",
     "python tools/check_archive_governance.py",
     "python tools/validate_skill_system.py",
     "python tools/route_skills.py --help",
