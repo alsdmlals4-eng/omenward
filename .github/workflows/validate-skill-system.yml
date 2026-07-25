@@ -6,12 +6,32 @@ on:
       - "skills/**"
       - "docs/base/**"
       - "docs/BASE_RULES_VERSION.md"
+      - "schemas/skill-registry-v3.schema.json"
+      - "schemas/skill-registry-v4.schema.json"
+      - "tools/route_skills.py"
+      - "tools/validate_skill_system.py"
+      - "tests/python/test_skill_*.py"
+      - "tests/python/test_adversarial_review_contract.py"
+      - ".github/workflows/validate-skill-system.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "skills/**"
+      - "docs/base/**"
+      - "docs/BASE_RULES_VERSION.md"
+      - "schemas/skill-registry-v3.schema.json"
+      - "schemas/skill-registry-v4.schema.json"
       - "tools/route_skills.py"
       - "tools/validate_skill_system.py"
       - "tests/python/test_skill_*.py"
       - "tests/python/test_adversarial_review_contract.py"
       - ".github/workflows/validate-skill-system.yml"
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -24,6 +44,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Compile CI usage contract
+        run: python -m py_compile tools/validate_ci_usage_contract.py tests/python/test_ci_usage_contract.py
+      - name: Validate CI usage contract
+        run: python tools/validate_ci_usage_contract.py
+      - name: Run CI usage mutation tests
+        run: python -m unittest tests.python.test_ci_usage_contract -v
       - name: Run captured Skill validation suite
         shell: bash
         run: |
