@@ -39,17 +39,16 @@ REFERENCE_FILES = (
     "docs/DECISIONS_PENDING.md",
 )
 
-# These documents track the product-code baseline that predates workflow-only PR #61.
-# The integrated spec records the current Git integration baseline separately.
+# Only active current-state owners must agree on the current integration baseline.
+# Historical plans retain their original baseline and are validated by authority markers instead.
 PRODUCT_BASELINE_FILES = (
     "docs/PROJECT_CORE.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    "docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md",
 )
 
 CORE_STATUS = (
     "V2_SPEC_APPROVED",
-    "V2_CANON_CANDIDATE",
+    "V2_CANON_CURRENT_BY_PR_57_MERGE",
     "V2_IMPLEMENTATION_NOT_STARTED",
     "LEGACY_C1_C2_C3_PROVEN",
     "CORE_LOCK_V2_PENDING",
@@ -57,7 +56,7 @@ CORE_STATUS = (
 
 STATUS_BOUNDARY = (
     "V2_SPEC_APPROVED",
-    "V2_CANON_CANDIDATE",
+    "V2_CANON_CURRENT_BY_PR_57_MERGE",
     "V2_IMPLEMENTATION_NOT_STARTED",
     "LEGACY_C1_C2_C3_PROVEN",
     "HUMAN_QA_NOT_RUN",
@@ -116,6 +115,14 @@ ACTIVE_COMPLETION_FILES = (
     LEDGER,
 )
 
+HISTORICAL_PLAN = "docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md"
+HISTORICAL_PLAN_MARKERS = (
+    "HISTORICAL_IMPLEMENTATION_PLAN_DRAFT",
+    "REVALIDATION_REQUIRED",
+    "PRODUCT_CODE_NOT_AUTHORIZED",
+    "APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md",
+)
+
 
 def read(root: pathlib.Path, relative: str) -> str:
     return (root / relative).read_text(encoding="utf-8")
@@ -126,7 +133,10 @@ def missing(text: str, values: Iterable[str]) -> list[str]:
 
 
 def baseline_main(text: str) -> str | None:
-    match = re.search(r"(?m)^- 기준 main: `([0-9a-f]{40})`$", text)
+    match = re.search(
+        r"(?m)^- (?:기준 main|현재 main|현재 main 기준): `([0-9a-f]{40})`$",
+        text,
+    )
     return match.group(1) if match else None
 
 
@@ -203,6 +213,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     if len(set(baselines.values())) > 1:
         detail = ", ".join(f"{relative}={value}" for relative, value in sorted(baselines.items()))
         errors.append(f"baseline main mismatch: {detail}")
+
+    historical_plan = read(root, HISTORICAL_PLAN)
+    for marker in HISTORICAL_PLAN_MARKERS:
+        if marker not in historical_plan:
+            errors.append(f"historical implementation plan missing authority marker: {marker}")
 
     for relative in REFERENCE_FILES:
         text = read(root, relative)

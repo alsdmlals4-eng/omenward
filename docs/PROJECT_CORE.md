@@ -1,18 +1,19 @@
 # 오멘워드 프로젝트 코어
 
-- 갱신일: 2026-07-24
+- 갱신일: 2026-07-26
 - 기준 저장소: `alsdmlals4-eng/omenward`
-- 기준 main: `95e5ae225262f2427f21d5b7e4a03fb24e7eed6c`
+- 현재 main: `5a9c02b0ed4757c379fd8dfcb89fcc362b8cf185`
+- V2 정본 병합: PR `#57` / `943ff22177e42ba13db12f736b360fd072be3e49`
 - 설계 상태: `V2_SPEC_APPROVED`
-- 정본 상태: `V2_CANON_CANDIDATE`
+- 정본 상태: `V2_CANON_CURRENT_BY_PR_57_MERGE`
 - 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
 - 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
 - 잠금 상태: `CORE_LOCK_V2_PENDING`
-- 승인 근거: 2026-07-24 사용자 확정
+- 승인 근거: 2026-07-24~25 사용자 확정
 
-이 문서는 오멘워드의 제품 정체성, 핵심 선택, 불변 조건, 범위 분류와 검증 게이트를 소유한다. 세부 룰렛 규칙은 `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, 맵런·스테이지·웨이브·접전지 규칙은 `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`, 전체 관계는 `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`가 소유한다.
+이 문서는 오멘워드의 제품 정체성, 핵심 선택, 불변 조건, 범위 분류와 검증 게이트를 소유한다. 세부 룰렛 규칙은 `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, 맵런·스테이지·웨이브·접전지 규칙은 `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`, 전체 관계는 `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`가 소유한다. 충돌 시 `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`가 우선한다.
 
-`V2_CANON_CANDIDATE`는 사용자 승인이 완료됐지만 이 문서 변경이 아직 `main`에 병합되지 않았다는 뜻이다. 이 PR이 병합되고 정본 검증이 통과하면 `V2_CANON_CURRENT`로 전환한다. `CORE_LOCK_V2`는 문서 정본, 구형 계약 강등, 자동 계약 정렬과 실행 증거가 모두 확인되기 전에는 사용하지 않는다.
+`V2_CANON_CURRENT_BY_PR_57_MERGE`는 승인된 V2 책임 문서와 통합 결정 원장이 main에 병합됐다는 뜻이다. 이는 Godot 제품 실행 경로가 구현되거나 검증됐다는 뜻이 아니다. `CORE_LOCK_V2`는 V2 제품 구현, 자동 계약, 분포 검증과 사람 플레이가 모두 확인되기 전에는 사용하지 않는다.
 
 ## 1. 정체성 한 문장
 
@@ -110,7 +111,7 @@
 3. `TokenSource` 건물 선택은 릴 토큰·출처·인접 순서 중 하나 이상에 관찰 가능한 영향을 준다.
 4. 중앙 가로줄이 동일한 비-X 심벌 세 개가 아니면 다른 완성선을 무시한다.
 5. 등급은 판정 심벌의 동일 완성선 수로 계산한다.
-6. 가로 이동은 토큰 인스턴스와 출처를 이돜키며 실행 즉시 확정되고 되돌릴 수 없다.
+6. 가로 이동은 토큰 인스턴스와 출처를 이동시키며 실행 즉시 확정되고 되돌릴 수 없다.
 7. 멈춘 보드의 보상은 immutable snapshot에서만 계산한다.
 8. 보상은 명시적 확정 한 번에만 생성·지급한다.
 9. 보관 중인 병력은 식량을 사용하지 않고, 배치 후에는 라인 변경·회수·판매가 불가능하다.
@@ -157,6 +158,8 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 - 60초 단일 공세와 T-30/T-15/T-5 단계 공개.
 - 유닛별 점령력 합산과 중간거점 상태기 재사용.
 - 단일 `StageRun` 중심의 런 수명주기.
+- 계열 고정 상위 등급 템플릿.
+- 아군 주기적 3기 출격 묶음.
 
 보존 대상은 중앙 판정, 완성선·등급, 금화 75/200/500%, 결정론, 공용 병종, 3라인, 전투 원인 보고와 UI snapshot 경계다.
 
@@ -204,14 +207,13 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 ## 10. 현재 다음 작업
 
 ```text
-문서 정본 마이그레이션·검증
-→ 순수 RouletteBoardResolver 분리 계획 승인
-→ 물리 릴 도메인 구현
-→ snapshot·조작·럭키·전설 주기
-→ 보관·배치·식량
-→ MapRun·웨이브·접전지
-→ Core UX
-→ 3스테이지 사람 플레이
+활성 상태·인계 문서 V2 current 동기화
+→ 2026-07-24 구현 계획의 GM-01~GM-106 재검증
+→ 첫 구현 패키지 Plan Mode 승인
+→ 순수 RouletteBoardResolver 보존 seam
+→ 물리 릴·SpinSnapshot·SpinSession 순수 도메인
+→ 후속 승인 패키지
+→ Core UX·100,000시드·3스테이지 사람 플레이
 ```
 
 제품 코드 구현은 별도의 Codex Plan Mode 제안과 사용자 승인 뒤 시작한다.

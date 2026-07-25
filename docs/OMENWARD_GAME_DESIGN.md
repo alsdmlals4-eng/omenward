@@ -1,14 +1,14 @@
 # 오멘워드 게임 기획서
 
 - 공식명: **오멘워드 / OMENWARD**
-- 문서 버전: **v0.24 V2 Canon Candidate**
-- 갱신일: 2026-07-24
-- 상태: `V2_SPEC_APPROVED / V2_IMPLEMENTATION_NOT_STARTED / LEGACY_C1_C2_C3_PROVEN`
+- 문서 버전: **v0.25 V2 Canon Current**
+- 갱신일: 2026-07-26
+- 상태: `V2_SPEC_APPROVED / V2_CANON_CURRENT_BY_PR_57_MERGE / V2_IMPLEMENTATION_NOT_STARTED / LEGACY_C1_C2_C3_PROVEN`
 - 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 물리 룰렛 빌드
 - 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE
 - 엔진: Godot + GDScript
 
-세부 우선순위는 `PROJECT_CORE.md`, 룰렛은 `APPROVED_ROULETTE_CORE_RULES.md`, 맵런과 전투 흐름은 `APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`, 실제 구현 증거는 `CURRENT_IMPLEMENTATION_STATUS.md`가 소유한다.
+세부 우선순위는 `PROJECT_CORE.md`, 최신 통합 결정은 `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`, 전체 관계는 `design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`, 실제 구현 증거는 `CURRENT_IMPLEMENTATION_STATUS.md`가 소유한다.
 
 ## 1. 한 문장 소개
 
@@ -192,13 +192,15 @@ V2 첫 슬라이스는 2~4종만 사용해 코어를 검증한다.
 
 ## 15. 구현 상태
 
-현재 main의 C1·C2·C3는 legacy 설계 기준으로 원격 검증됐다. V2의 물리 릴, MapRun, 묶음 웨이브와 고정 8초 접전지는 구현되지 않았다.
+현재 main의 C1·C2·C3는 legacy 설계 기준으로 원격 검증됐다. V2의 물리 릴, SpinSession, MapRun, Tier·등급 능력 성장, 라인 명령, 건설·수리·재건은 구현되지 않았다.
 
 ```text
 V2_SPEC_APPROVED
++ V2_CANON_CURRENT_BY_PR_57_MERGE
 + V2_IMPLEMENTATION_NOT_STARTED
 + LEGACY_C1_C2_C3_PROVEN
 + HUMAN_QA_NOT_RUN
++ CORE_LOCK_V2_PENDING
 ```
 
 ## 16. 첫 V2 슬라이스
