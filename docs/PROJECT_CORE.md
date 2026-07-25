@@ -9,9 +9,9 @@
 - 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
 - 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
 - 잠금 상태: `CORE_LOCK_V2_PENDING`
-- 승인 근거: 2026-07-24~25 사용자 확정
+- 승인 근거: 2026-07-24~26 사용자 확정
 
-이 문서는 오멘워드의 제품 정체성, 핵심 선택, 불변 조건, 범위 분류와 검증 게이트를 소유한다. 세부 룰렛 규칙은 `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, 맵런·스테이지·웨이브·접전지 규칙은 `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`, 전체 관계는 `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`가 소유한다. 충돌 시 `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`가 우선한다.
+이 문서는 오멘워드의 제품 정체성, 핵심 선택, 불변 조건, 범위 분류와 검증 게이트를 소유한다. 세부 룰렛 규칙은 `docs/design/APPROVED_ROULETTE_CORE_RULES.md`, 맵런·스테이지·웨이브·접전지 규칙은 `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`, 전체 관계는 `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`가 소유한다. 전설 획득·배치 제한은 후속 승인 문서 `docs/design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md`가 소유한다. 충돌 시 최신 사용자 지시, 이 문서, 해당 후속 승인 문서, `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` 순으로 적용한다.
 
 `V2_CANON_CURRENT_BY_PR_57_MERGE`는 승인된 V2 책임 문서와 통합 결정 원장이 main에 병합됐다는 뜻이다. 이는 Godot 제품 실행 경로가 구현되거나 검증됐다는 뜻이 아니다. `CORE_LOCK_V2`는 V2 제품 구현, 자동 계약, 분포 검증과 사람 플레이가 모두 확인되기 전에는 사용하지 않는다.
 
@@ -79,8 +79,9 @@
 - 멈춤 시 immutable `SpinSnapshot`을 생성한다.
 - 건물 파괴는 live 릴에는 반영하되 이미 멈춘 snapshot을 변경하지 않는다.
 - 럭키는 자연 중앙줄 꽝에만 판정하며 숨김 실패 보정 `15/25/35/45/55/100%`를 사용한다.
-- 전설은 5스테이지 위험 주기마다 병종 공용 1회다.
-- 맵런 상태는 건물, 병력, 체력, 자원, 릴 배열, 보관함, 럭키, 전설 주기와 접전지 상태를 유지한다.
+- 전설 결과는 횟수·스테이지 주기 제한 없이 항상 전설 `PendingReward`로 생성한다.
+- 플레이어 전장에는 생존 중인 전설 유닛을 최대 1기만 허용하며, 충돌 배치는 경고 동의와 커밋 순간 재검증 뒤 같은 세부 병종 영웅 2기로 원자 변환·배치한다.
+- 맵런 상태는 건물, 병력, 체력, 자원, 릴 배열, 보관함, 럭키, 전설 PendingReward와 생존 전설 배치 상태, 접전지 상태를 유지한다.
 - 코어 PoC와 첫 수직 슬라이스는 mid-run save를 지원하지 않는다.
 
 ### 4.3 기술 코어
@@ -122,6 +123,7 @@
 14. 전술 아이템 룰렛 심벌은 별도 승인 전 코어 심벌로 추가하지 않는다.
 15. 코어 PoC와 첫 수직 슬라이스는 mid-run save를 지원하지 않는다.
 16. 새 콘텐츠가 위 인과를 우회해 단독 정답이 되지 않도록 한다.
+17. 전설 결과는 항상 전설 PendingReward로 보존하며, 생존 전설 충돌 배치는 사용자의 경고 동의 없이 자동 강등하지 않고 실제 커밋 순간 재검증한다.
 
 ## 7. 제거·대체 스트레스 테스트
 
@@ -177,7 +179,7 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 - 가로·세로 이동과 preview가 결정론적이다.
 - snapshot은 건물 파괴 뒤에도 동일 보상을 생성한다.
 - 중앙 판정·완성선·등급·금화 resolver가 보존된다.
-- 럭키 truth table과 전설 위험 주기가 정확하다.
+- 럭키 truth table과 전설 결과의 항상-전설 PendingReward 생성이 정확하다.
 
 ### C2V2 — 보관·배치·전장 목적
 
@@ -185,6 +187,7 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 - 병력 사망 시 식량이 반환된다.
 - 배치가 접전지·본진·승패를 실제로 바꾼다.
 - 고정 8초 접전지와 전투 반경 규칙이 재현된다.
+- 플레이어 생존 전설 최대 1기, 경고 동의, 커밋 순간 재검증, 충돌 시 동일 병종 영웅 2기 원자 배치가 정확하다.
 
 ### C3V2 — 맵런·시간·웨이브
 
