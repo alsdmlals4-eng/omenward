@@ -5,13 +5,14 @@
 - 대상 Issue: `#69`
 - 대상 계획: `docs/superpowers/plans/2026-07-26-omenward-v2-r1-r2-roulette-foundation.md`
 - 벤치마크 갱신: `docs/benchmarks/OMENWARD_V2_BENCHMARK_REFRESH_2026-07-26.md`
+- 후속 거래 결정: `docs/design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`
 - 제품 구현: `V2_IMPLEMENTATION_NOT_STARTED`
 - 제품 코드 승인: `NO`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
 - 프로젝트 코어: `docs/PROJECT_CORE.md`
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 
-이 문서는 사용자의 정확한 단계 명령 `기획 완료` 이후 수행한 적대적 검수 결과다. 제품 코드 구현이나 최종 Codex 인계가 아니다.
+이 문서는 사용자의 정확한 단계 명령 `기획 완료` 이후 수행한 적대적 검수 결과다. 제품 코드 구현이나 최종 Codex 인계가 아니다. R1+R2 검수 PR 병합 뒤 사용자의 요청으로 live V2 통합 범위까지 적대적 검토를 확장했다.
 
 ## 1. 검수 대상
 
@@ -22,6 +23,7 @@
 5. 2026-07-26 유사 장르 벤치마크의 근거와 적용 범위.
 6. Codex Plan Mode가 다시 결정해야 할 항목과 검증만 해야 할 항목.
 7. 제품 구현 승인·완료 표현의 조기 사용 여부.
+8. live V2 spin, StageRun/MapRun, 건물·경제·UI, 이동·럭키·확정·보상 거래의 후속 통합 위험.
 
 ## 2. 검수 요약
 
@@ -30,13 +32,15 @@ R1_PLUS_R2_SCOPE: SOUND
 LEGACY_C1_PRESERVATION: SOUND
 PURE_DOMAIN_ISOLATION: SOUND
 BENCHMARK_DIRECTION: SOUND
-DOCUMENT_AUTHORITY: CORRECTION_REQUIRED
-BASELINE_REFERENCE: CORRECTION_REQUIRED
-UX_SCOPE_BOUNDARY: CORRECTION_REQUIRED
+DOCUMENT_AUTHORITY: CORRECTED
+BASELINE_REFERENCE: CORRECTED
+UX_SCOPE_BOUNDARY: CORRECTED
+FULL_INTEGRATION_REVIEW: IN_PROGRESS
+TRANSACTION_FOUNDATION_SEQUENCE: APPROVED
 PRODUCT_CODE: NOT_AUTHORIZED
 ```
 
-R1+R2의 기술적 방향은 유지한다. 검수에서 발견한 문제는 구현 범위 자체보다 문서 권한과 후속 UX 범위의 모호성에 집중됐다.
+R1+R2의 기술적 방향과 범위는 유지한다. 후속 적대적 검토는 R1+R2를 확장하지 않고 R3 이후 패키지의 의존성·원자성·수명주기 충돌을 하나씩 사용자에게 제시한다.
 
 ## 3. 발견 사항과 조치
 
@@ -49,7 +53,7 @@ R1+R2의 기술적 방향은 유지한다. 검수에서 발견한 문제는 구�
 - 조치:
   - `docs/benchmarks/OMENWARD_V2_BENCHMARK_REFRESH_2026-07-26.md`를 추가했다.
   - 채택·UX 한정 채택·후속·제외를 구분했다.
-- 판정: `RESOLVED_BY_REVIEW_PR`
+- 판정: `RESOLVED_BY_REVIEW_PR_71`
 
 ### F-02 — 기존 벤치마크는 Pre-V2 규칙을 포함함
 
@@ -83,10 +87,10 @@ R1+R2의 기술적 방향은 유지한다. 검수에서 발견한 문제는 구�
 - 심각도: `MEDIUM`
 - 발견:
   - Issue와 계획은 Plan Mode 기준으로 `46f6952d...`를 기록한다.
-  - 계획 문서가 PR #70으로 병합된 현재 main은 `28f0ff21...`이다.
+  - 계획 문서가 PR #70으로 병합된 뒤 main이 계속 갱신됐다.
 - 검수 결정:
   - Codex의 기준선은 실행 시작 시점의 최신 `origin/main`이다.
-  - 최소 조건은 PR #70과 이 검수 문서 PR이 포함돼 있어야 한다.
+  - 최소 조건은 PR #70과 후속 검수 문서 PR이 포함돼 있어야 한다.
   - 오래된 SHA는 계획 생성 당시 조사 기준 이력으로만 해석한다.
 - 판정: `RESOLVED_BY_DYNAMIC_BASELINE_RULE`
 
@@ -135,7 +139,23 @@ R1+R2의 기술적 방향은 유지한다. 검수에서 발견한 문제는 구�
   - 가격, 평가 비율, 판매량을 제품 규칙 근거로 사용하지 않는다.
 - 판정: `RESOLVED`
 
-## 4. 검수 후 확정된 패키지 경계
+### F-09 — R4가 U1·S1 기반보다 먼저 배치됨
+
+- 심각도: `BLOCKING_ARCHITECTURE_SEQUENCE`
+- 발견:
+  - 기존 로드맵은 R4 원자 확정 뒤에 U1 보상 구성과 S1 PendingReward 저장을 배치했다.
+  - 이 순서는 임시 reward payload, 확정 후 live 건물 재조회, 보상 없는 확정 중간 상태, 중복 지급을 유발할 수 있다.
+  - Legacy 결과 DTO와 pending 배열에는 `spin_session_id`, `confirm_transaction_id`, `pending_reward_id`, `reward_index`가 없다.
+- 사용자 결정:
+  - 권장안 `R3 → U1-F → S1-F → R4 → U1-C → S1-C` 승인.
+- 조치:
+  - `APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`가 U1-F·S1-F·R4 원자성 경계를 소유한다.
+  - U1-F는 snapshot-only immutable `UnitRewardPayload`만 소유한다.
+  - S1-F는 ID·put-once pending 저장소·ConfirmReceipt 복구만 소유한다.
+  - 실제 spawn·AI는 U1-C, 보관·판매·배치·식량은 S1-C가 소유한다.
+- 판정: `RESOLVED_BY_USER_APPROVED_SEQUENCE`
+
+## 4. 검수 후 확정된 R1+R2 패키지 경계
 
 ### R1
 
@@ -178,7 +198,7 @@ R1+R2의 기술적 방향은 유지한다. 검수에서 발견한 문제는 구�
 
 ## 5. Codex Plan Mode에서 고정된 것과 검증할 것
 
-### 다시 선택하지 않는 기획 결정
+### 다시 선택하지 않는 R1+R2 기획 결정
 
 - R1+R2 패키지 범위.
 - Legacy live spin 유지.
@@ -210,7 +230,8 @@ Codex가 고정 결정을 구현 불가능하거나 안전하지 않다고 판�
 최신 사용자 지시
 → docs/PROJECT_CORE.md
 → 통합 결정 원장
-→ V2 통합 명세와 룰렛 책임 원본
+→ APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md
+→ V2 통합 명세와 세부 책임 원본
 → Issue #69
 → 이 검수 보고서
 → V2 벤치마크 갱신
@@ -218,7 +239,7 @@ Codex가 고정 결정을 구현 불가능하거나 안전하지 않다고 판�
 → 기존 Pre-V2 벤치마크와 역사적 계획
 ```
 
-이 검수 보고서는 구현 계획의 세부 task를 대체하지 않는다. baseline·권한·벤치마크·고정 결정 해석이 충돌할 때만 보정한다.
+이 검수 보고서는 R1+R2 구현 계획의 세부 task를 대체하지 않는다. 후속 거래 기반 결정은 R3 이후 패키지 순서와 원자성만 보정한다.
 
 ## 7. 최종 인계 전 게이트
 
@@ -230,16 +251,18 @@ Codex가 고정 결정을 구현 불가능하거나 안전하지 않다고 판�
 - [x] 채택·후속·제외 분류.
 - [x] Issue·계획 권한 충돌 해소.
 - [x] stale baseline 해석 교정.
-- [ ] 이 검수 문서 변경의 문서 CI 성공과 main 병합.
+- [x] 최초 검수 문서 PR #71의 문서 CI 성공과 main 병합.
+- [ ] 전체 V2 통합 적대적 검토 종료.
 - [ ] 사용자의 정확한 `검수 완료` 선언.
 
 ## 8. 현재 판정
 
 ```text
 PLANNING_PHASE: COMPLETE
-REVIEW_FINDINGS: REMEDIATED_IN_DOCS_PR
+REVIEW_LOOP: IN_PROGRESS
 R1_R2_SCOPE: APPROVED_AND_UNCHANGED
-CODEX_PLAN_MODE_INPUT: READY_AFTER_REVIEW_MERGE
+TRANSACTION_FOUNDATION_SEQUENCE: APPROVED
+ORDER: R3_TO_U1F_TO_S1F_TO_R4_TO_U1C_TO_S1C
 PRODUCT_CODE_AUTHORIZED: NO
 FINAL_CODEX_HANDOFF: BLOCKED_UNTIL_EXACT_REVIEW_COMPLETE_COMMAND
 V2_IMPLEMENTATION: NOT_STARTED
