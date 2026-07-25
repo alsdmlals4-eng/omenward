@@ -24,6 +24,16 @@
 → ACTIVE_CONTEXT.md
 ```
 
+Base 공용 Skill이 필요한 작업에서는 다음을 조건부로 추가한다.
+
+```text
+docs/BASE_RULES_VERSION.md
+→ docs/base/BASE_SHARED_SKILL_ROUTES.json
+→ docs/base/BASE_SHARED_SKILL_ADAPTER.json
+→ 선택된 Base SKILL.md
+→ 프로젝트 정본·실제 파일·검증기
+```
+
 ## 2. 항상 확인할 책임 원본
 
 | 문서 | 역할 |
@@ -54,7 +64,10 @@
 | 아트·애니메이션 | 관련 `APPROVED_ART_*`, `APPROVED_UNIT_ANIMATION_*`, `images/VISUAL_REFERENCE_INDEX.md` |
 | 기존 C1·C2·C3 증거 | `CURRENT_IMPLEMENTATION_STATUS.md`, C1/C2/C3 감사 보고서와 run |
 | 문서 운영 | `DOCUMENT_LIFECYCLE.md` |
-| Base·Skill | `BASE_RULES_VERSION.md`, `base/SKILL_REGISTRY.json` |
+| Base 공용 Skill route | `BASE_RULES_VERSION.md`, `base/BASE_SHARED_SKILL_ROUTES.json`, `base/BASE_SHARED_SKILL_ADAPTER.json` |
+| 기존 로컬 Skill 호환 입력 | `base/SKILL_REGISTRY.json` |
+| 제3자 에셋·플러그인 | `base/THIRD_PARTY_ASSET_AND_PLUGIN_INVENTORY.json`, Base `evaluating-godot-assets-and-plugins-before-creation` |
+| 레거시 보존·아카이브 | Base `governing-legacy-retention-and-archives`와 프로젝트 어댑터 |
 
 ## 4. 대체된 문서 해석
 
