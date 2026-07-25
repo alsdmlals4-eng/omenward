@@ -1,13 +1,13 @@
 # 오멘워드 현재 구현 상태
 
-- 갱신일: 2026-07-25
-- 기준 main: `95e5ae225262f2427f21d5b7e4a03fb24e7eed6c`
-- 현재 Git 통합 기준: `b0837b43f14b7a62a9aff5dd94a5c7fdd9416cd0`
+- 갱신일: 2026-07-26
+- 현재 main 기준: `5a9c02b0ed4757c379fd8dfcb89fcc362b8cf185`
 - V2 설계: `V2_SPEC_APPROVED`
-- V2 정본: `V2_CANON_CANDIDATE`
+- V2 정본: `V2_CANON_CURRENT_BY_PR_57_MERGE`
 - V2 구현: `V2_IMPLEMENTATION_NOT_STARTED`
 - 기존 구현: `LEGACY_C1_C2_C3_PROVEN`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
+- 잠금: `CORE_LOCK_V2_PENDING`
 
 이 문서는 승인된 V2 설계, 현재 main의 실제 구현과 실행 증거를 분리한다. 문서 승인이나 파일 존재만으로 구현·검증 완료를 주장하지 않는다.
 
@@ -17,8 +17,8 @@
 
 | 용어 | 의미 |
 |---|---|
-| `V2_SPEC_APPROVED` | V2 제품 규칙과 현재까지 질문한 계약이 사용자 승인됨 |
-| `V2_CANON_CANDIDATE` | 승인 문서가 PR 브랜치에 있으나 main 병합 전 |
+| `V2_SPEC_APPROVED` | V2 제품 규칙과 통합 결정이 사용자 승인됨 |
+| `V2_CANON_CURRENT_BY_PR_57_MERGE` | 승인된 V2 책임 문서와 결정 원장이 PR #57로 main에 병합됨 |
 | `IMPLEMENTED` | 실제 파일과 실행 경로가 존재함 |
 | `LEGACY_IMPLEMENTED` | 기존 설계 기준 구현은 존재하나 V2와 충돌해 교체 필요 |
 | `PROVEN` | 요구 계약과 최신 실행 증거가 함께 존재함 |
@@ -86,7 +86,16 @@
 
 판정: `LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_NOT_RUN / V2_MIGRATION_REQUIRED`.
 
-## 4. V2 미구현 영역
+## 4. 병합됐지만 제품 구현이 아닌 작업
+
+- PR #57: V2 통합 정본과 GM-01~GM-106 결정 원장.
+- PR #65: Skill System v4 재구성 및 사람 플레이 검증 Skill 흡수.
+- PR #66: Base 레거시·아카이브 거버넌스 adapter-only 채택.
+- PR #67: Base 공용 Skill route와 Godot 에셋 우선 탐색 연결.
+
+이 작업들은 문서·Skill·운영 계약이며 V2 Godot 실행 경로를 만들지 않았다.
+
+## 5. V2 미구현 영역
 
 다음은 승인됐지만 아직 실제 제품 구현과 실행 증거가 없다.
 
@@ -140,7 +149,7 @@
 - 100,000시드·경제·판매·비축 시뮬레이션.
 - 10~15분 사람 플레이와 1080p·720p 가독성.
 
-## 5. 현재 판정
+## 6. 현재 판정
 
 ```text
 TECHNICAL_BASELINE_IMPLEMENTED
@@ -148,20 +157,21 @@ TECHNICAL_BASELINE_IMPLEMENTED
 + LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
 + LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 + V2_SPEC_APPROVED
-+ V2_CANON_CANDIDATE
++ V2_CANON_CURRENT_BY_PR_57_MERGE
 + V2_IMPLEMENTATION_NOT_STARTED
 + CORE_LOOP_V2_NOT_PROVEN
 + HUMAN_QA_NOT_RUN
++ CORE_LOCK_V2_PENDING
 ```
 
-## 6. 다음 게이트
+## 7. 다음 게이트
 
-1. V2 문서 PR 병합과 정본 검증.
-2. 통합 결정 원장 기준 구현 계획 재정렬.
-3. 순수 RouletteBoardResolver·SpinSession 거래 Plan Mode 승인.
-4. 물리 릴·snapshot·이동 경제·결과 거래.
-5. 병종 출처·Tier 패시브·등급 액티브·AI 우선순위.
-6. MapRun·라인 명령·점령·건설·구조물·수리·재건.
-7. V2 UX·시뮬레이션·사람 플레이.
+1. 활성 상태·인계 문서가 같은 V2 current 상태를 말하도록 동기화한다.
+2. `docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`를 GM-01~GM-106 기준으로 재검증한다.
+3. 첫 구현 패키지의 목표·플레이어 가치·포함·제외·상태 소유·Red 테스트·회귀·롤백을 설계한다.
+4. 검증된 중앙 판정을 보존하는 순수 `RouletteBoardResolver` seam과 물리 릴·SpinSnapshot·SpinSession 경계를 우선 검토한다.
+5. 사용자 Plan Mode 승인 뒤에만 Codex 제품 구현을 시작한다.
+6. 후속 패키지에서 병종 능력, 결과 처리, MapRun, 라인 명령, 건설·수리·재건을 연결한다.
+7. V2 UX·100,000시드·사람 플레이를 실행한다.
 
-문서 PR만으로 제품 구현을 시작하거나 `CORE_LOCK_V2`를 선언하지 않는다.
+문서 정본 병합만으로 제품 구현을 시작하거나 `CORE_LOCK_V2`를 선언하지 않는다.
