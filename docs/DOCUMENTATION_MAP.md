@@ -1,6 +1,6 @@
 # 오멘워드 Documentation Map
 
-- 갱신일: 2026-07-25
+- 갱신일: 2026-07-26
 - 현재 정본 세대: `V2_CANON_CANDIDATE`
 - 현재 Issue: `#56`
 
@@ -39,10 +39,11 @@
 | `OMENWARD_ROADMAP.md` | 단계별 구현·검증 순서 |
 | `DECISIONS_PENDING.md` | 아직 수치·콘텐츠로 남은 결정 |
 | `ACTIVE_CONTEXT.md` | 최신 작업 상태 캡슐 |
+| `BASE_SHARED_SKILL_INTEGRATION.md` | Base 공용 Skill route·어댑터와 공용/전용 Skill 경계 |
 
 ## 3. 조건부 라우팅
 
-| 작업 | 추가 문서 |
+| 작업 | 추가 문서·Skill |
 |---|---|
 | 최신 통합 계약·충돌 해소 | `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` |
 | 물리 릴·토큰·럭키·전설·금화 | `design/APPROVED_ROULETTE_CORE_RULES.md`와 최신 통합 결정 원장 |
@@ -54,9 +55,27 @@
 | 아트·애니메이션 | 관련 `APPROVED_ART_*`, `APPROVED_UNIT_ANIMATION_*`, `images/VISUAL_REFERENCE_INDEX.md` |
 | 기존 C1·C2·C3 증거 | `CURRENT_IMPLEMENTATION_STATUS.md`, C1/C2/C3 감사 보고서와 run |
 | 문서 운영 | `DOCUMENT_LIFECYCLE.md` |
-| Base·Skill | `BASE_RULES_VERSION.md`, `base/SKILL_REGISTRY.json` |
+| Base 전체 운영 기준 | `BASE_RULES_VERSION.md`, `base/SKILL_REGISTRY.json` |
+| Base 공용 Skill 자동 라우팅 | `../skills/BASE_SHARED_SKILL_ROUTES.json` → `../skills/PROJECT_BASE_SKILL_ADAPTER.json` |
+| 레거시·아카이브·삭제 후보 | `governing-legacy-retention-and-archives` → `archive/ARCHIVE_RETENTION_ADAPTER.json`, `archive/MANIFEST.json` |
+| Godot 기능·에셋·플러그인 직접 생성 전 조사 | `evaluating-godot-assets-and-plugins-before-creation` → `technical/ADOPTED_ASSETS.md`, `technical/THIRD_PARTY_LICENSES.md` |
 
-## 4. 대체된 문서 해석
+## 4. Base 공용 Skill과 프로젝트 Skill 경계
+
+```text
+작업 요청
+→ ../skills/BASE_SHARED_SKILL_ROUTES.json
+→ Base 메인 SKILL_REGISTRY 자동 trigger 선택
+→ ../skills/PROJECT_BASE_SKILL_ADAPTER.json으로 오멘워드 경로·정본·검증기 주입
+→ 오멘워드 고유 전투·룰렛·성장 판단이 필요할 때만 프로젝트 Skill 선택
+```
+
+- Base 공용 Skill 본문을 프로젝트에 복사하지 않는다.
+- 프로젝트 전용 Skill은 오멘워드의 전투 판정, 결정론적 결과, 룰렛, 성장과 데이터 계약처럼 다른 프로젝트에 직접 적용할 수 없는 책임만 소유한다.
+- 제3자 자산 채택·라이선스는 `technical/ADOPTED_ASSETS.md`, `technical/THIRD_PARTY_LICENSES.md`에 기록한다.
+- 아카이브는 `archive/README.md`, `archive/MANIFEST.json`이 비정본·복구 경계를 소유한다.
+
+## 5. 대체된 문서 해석
 
 다음 규칙을 설명하는 과거 문서는 기존 구현 증거, 과거 의사결정 추적 또는 마이그레이션 회귀 대상으로만 사용한다.
 
@@ -72,7 +91,7 @@
 
 V2 제품 구현 근거로 사용하지 않는다. 충돌 시 최신 사용자 승인과 통합 결정 원장이 우선한다.
 
-## 5. 상태 판정 규칙
+## 6. 상태 판정 규칙
 
 ```text
 V2_SPEC_APPROVED
