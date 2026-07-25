@@ -15,11 +15,11 @@
   "paths": {
     "project_agents": "AGENTS.md",
     "documentation_map": "docs/DOCUMENTATION_MAP.md",
-    "active_context": "docs/PROJECT_CONTEXT.md",
+    "active_context": "docs/ACTIVE_CONTEXT.md",
     "skill_registry": "docs/base/SKILL_REGISTRY.json",
     "canonical_sources": [
       "docs/DOCUMENTATION_MAP.md",
-      "docs/PROJECT_CONTEXT.md",
+      "docs/ACTIVE_CONTEXT.md",
       "docs/design"
     ],
     "archive_root": "docs/archive",
