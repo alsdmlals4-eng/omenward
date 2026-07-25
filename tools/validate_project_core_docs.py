@@ -9,6 +9,9 @@ from typing import Iterable
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 LEDGER = "docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md"
+CURRENT_R1_R2_PLAN = "docs/superpowers/plans/2026-07-26-omenward-v2-r1-r2-roulette-foundation.md"
+PLANNING_REVIEW = "docs/reviews/2026-07-26-v2-r1-r2-planning-review.md"
+BENCHMARK_REFRESH = "docs/benchmarks/OMENWARD_V2_BENCHMARK_REFRESH_2026-07-26.md"
 
 REQUIRED_FILES = (
     "README.md",
@@ -26,6 +29,9 @@ REQUIRED_FILES = (
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
     "docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md",
+    CURRENT_R1_R2_PLAN,
+    PLANNING_REVIEW,
+    BENCHMARK_REFRESH,
 )
 
 REFERENCE_FILES = (
@@ -37,6 +43,8 @@ REFERENCE_FILES = (
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
+    PLANNING_REVIEW,
+    BENCHMARK_REFRESH,
 )
 
 # Only active current-state owners must agree on the current integration baseline.
@@ -113,6 +121,8 @@ ACTIVE_COMPLETION_FILES = (
     "docs/HANDOFF_CONTEXT.md",
     "docs/OMENWARD_GAME_DESIGN.md",
     LEDGER,
+    PLANNING_REVIEW,
+    BENCHMARK_REFRESH,
 )
 
 HISTORICAL_PLAN = "docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md"
@@ -121,6 +131,37 @@ HISTORICAL_PLAN_MARKERS = (
     "REVALIDATION_REQUIRED",
     "PRODUCT_CODE_NOT_AUTHORIZED",
     "APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md",
+)
+
+CURRENT_PLAN_MARKERS = (
+    "Governing Issue: `#69`",
+    "Keep `RouletteService.spin()` on the Legacy independent nine-cell generator",
+    "Token instance IDs are injected by the caller",
+    "New runtime state classes use `RefCounted`",
+    "Build remains blocked by the project Plan Mode gate",
+)
+
+PLANNING_REVIEW_MARKERS = (
+    "PLANNING_PHASE: COMPLETE",
+    "R1_R2_SCOPE: APPROVED_AND_UNCHANGED",
+    "PRODUCT_CODE_AUTHORIZED: NO",
+    "FINAL_CODEX_HANDOFF: BLOCKED_UNTIL_EXACT_REVIEW_COMPLETE_COMMAND",
+    "Codex의 기준선은 실행 시작 시점의 최신 `origin/main`",
+)
+
+BENCHMARK_REFRESH_MARKERS = (
+    "CURRENT_V2_STRUCTURE: RETAIN",
+    "R1_R2_SCOPE: UNCHANGED",
+    "설계 청사진",
+    "전선 대응 브리핑",
+    "전투 인과 사슬",
+    "지형·경로 편집",
+)
+
+CURRENT_ROUTING_FILES = (
+    PLANNING_REVIEW,
+    BENCHMARK_REFRESH,
+    CURRENT_R1_R2_PLAN,
 )
 
 
@@ -219,6 +260,21 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if marker not in historical_plan:
             errors.append(f"historical implementation plan missing authority marker: {marker}")
 
+    current_plan = read(root, CURRENT_R1_R2_PLAN)
+    for marker in CURRENT_PLAN_MARKERS:
+        if marker not in current_plan:
+            errors.append(f"current R1+R2 plan missing authority marker: {marker}")
+
+    planning_review = read(root, PLANNING_REVIEW)
+    for marker in PLANNING_REVIEW_MARKERS:
+        if marker not in planning_review:
+            errors.append(f"planning review missing authority marker: {marker}")
+
+    benchmark_refresh = read(root, BENCHMARK_REFRESH)
+    for marker in BENCHMARK_REFRESH_MARKERS:
+        if marker not in benchmark_refresh:
+            errors.append(f"V2 benchmark refresh missing scope marker: {marker}")
+
     for relative in REFERENCE_FILES:
         text = read(root, relative)
         if "PROJECT_CORE.md" not in text:
@@ -240,6 +296,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     ):
         if owner not in docmap:
             errors.append(f"documentation map missing V2 owner: {owner}")
+    for relative in CURRENT_ROUTING_FILES:
+        if pathlib.PurePosixPath(relative).name not in docmap:
+            errors.append(f"documentation map missing current planning input: {relative}")
 
     if "APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md" not in integrated:
         errors.append("integrated spec does not route the latest decision ledger")
