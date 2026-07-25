@@ -7,6 +7,7 @@ on:
       - "docs/base/**"
       - "docs/BASE_RULES_VERSION.md"
       - "schemas/skill-registry-v3.schema.json"
+      - "schemas/skill-registry-v4.schema.json"
       - "tools/route_skills.py"
       - "tools/validate_skill_system.py"
       - "tests/python/test_skill_*.py"
@@ -20,6 +21,7 @@ on:
       - "docs/base/**"
       - "docs/BASE_RULES_VERSION.md"
       - "schemas/skill-registry-v3.schema.json"
+      - "schemas/skill-registry-v4.schema.json"
       - "tools/route_skills.py"
       - "tools/validate_skill_system.py"
       - "tests/python/test_skill_*.py"
@@ -48,15 +50,60 @@ jobs:
         run: python tools/validate_ci_usage_contract.py
       - name: Run CI usage mutation tests
         run: python -m unittest tests.python.test_ci_usage_contract -v
-      - name: Validate packages and registry
-        run: python tools/validate_skill_system.py
-      - name: Run Skill contract tests
-        run: python -m unittest discover -s tests/python -p "test_skill_*.py" -v
-      - name: Run adversarial review contract tests
-        run: python -m unittest tests.python.test_adversarial_review_contract -v
-      - name: Smoke automatic routing
+      - name: Run captured Skill validation suite
+        shell: bash
         run: |
-          python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
-          python tools/route_skills.py --request "Godot GDScript 성능 버그 수정"
-      - name: Check whitespace
-        run: git diff --check
+          set +e
+          status=0
+          log="skill-validation.log"
+          status_file="skill-validation.status"
+          : > "$log"
+
+          run_check() {
+            name="$1"
+            shift
+            {
+              echo "===== ${name} ====="
+              printf 'COMMAND:'
+              printf ' %q' "$@"
+              echo
+            } | tee -a "$log"
+            "$@" 2>&1 | tee -a "$log"
+            code=${PIPESTATUS[0]}
+            echo "EXIT_CODE: ${code}" | tee -a "$log"
+            echo | tee -a "$log"
+            if [ "$code" -ne 0 ]; then
+              status="$code"
+            fi
+          }
+
+          run_check "validate packages and registry" python tools/validate_skill_system.py
+          run_check "skill contract tests" python -m unittest discover -s tests/python -p "test_skill_*.py" -v
+          run_check "adversarial review contract tests" python -m unittest tests.python.test_adversarial_review_contract -v
+          run_check "route review request" python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
+          run_check "route Godot build request" python tools/route_skills.py --request "Godot GDScript 성능 버그 수정"
+          run_check "route core design review request" python tools/route_skills.py --request "핵심 코어 룰렛 3개 레인 기획 검토"
+          run_check "whitespace" git diff --check
+
+          printf '%s\n' "$status" > "$status_file"
+          exit 0
+      - name: Upload Skill validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-system-validation-${{ github.sha }}
+          path: |
+            skill-validation.log
+            skill-validation.status
+          if-no-files-found: error
+          retention-days: 14
+      - name: Enforce Skill validation result
+        if: always()
+        shell: bash
+        run: |
+          test -f skill-validation.status
+          status="$(cat skill-validation.status)"
+          if [ "$status" -ne 0 ]; then
+            echo "Skill validation suite failed with exit code ${status}. See uploaded evidence artifact."
+            exit "$status"
+          fi

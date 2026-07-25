@@ -1,65 +1,68 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `ee265576da7f67d3278f8099dd97d4e714ef0651`
-- 동기화 기준일: `2026-07-21`
-- 적용 방식: 프로젝트 정본을 우선하고, Base 공용 원칙은 `docs/base/SKILL_REGISTRY.json`과 로컬 Skill 어댑터로 명시적으로 채택
-- Skill 시작점: `docs/base/START_HERE_SKILLS.md`
+- 기준 커밋: `41a20584dd2ee51d917e5c9d7cab6838e1ceba7e`
+- 동기화 기준일: `2026-07-23`
+- 적용 방식: 프로젝트 정본 우선, Base 공용 원칙의 명시적 채택, 자동 덮어쓰기 금지
+- Skill 정본: `docs/base/SKILL_REGISTRY.json`
 - 공통 실행 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 채택한 Base 영역
 
-- spec-first 작업과 PLAN / BUILD / REVIEW 게이트.
-- 최소 변경·실제 파일 우선·검증 중심 보고.
-- 프로젝트 인수인계·컨텍스트 설계 방법.
-- 새 Codex 채팅용 Work Order와 제안서·구현 결과의 분리.
-- 아트 디렉션과 실제 화면 검수 방법.
-- 애니메이션·전투 연출·판정 동기화 방법.
-- 조사·벤치마킹·근거 관리 방법.
-- Foundation 7개·Specialist 6개의 공용 책임 구조.
-- 자동 Work Mode·Skill 라우팅과 패키지 무결성 검사.
-- Adversarial Review·Red Teaming·Critique–Refine 검증 루프.
+- spec-first PLAN / BUILD / REVIEW 게이트
+- 프로젝트 코어 식별·보호
+- 적대적 검토와 검증 증거 분리
+- Skill 본문 단순화와 책임 중복 제거
+- 구형·비기능 자료의 명시적 정리
+- 계약 보존 리팩터링
+- 프로젝트 컨텍스트와 인수인계 압축
+- 정본 최신성·참조 무결성 검사
 
 ## 프로젝트 우선순위
 
-일상 작업은 다음 순서를 사용한다.
-
 ```text
-오멘워드 최신 사용자 지시
+최신 사용자 지시
 → AGENTS.md
-→ HANDOFF_CONTEXT.md
-→ DOCUMENTATION_MAP.md
+→ docs/BASE_RULES_VERSION.md
+→ docs/DOCUMENTATION_MAP.md
 → 현재 Work Order
 → 프로젝트 승인 책임 문서
 → 현재 Issue·Goal
 → 실제 파일과 테스트
-→ docs/base/SKILL_REGISTRY.json과 선택된 로컬 Skill
+→ docs/base/SKILL_REGISTRY.json과 선택된 활성 Skill
 → 이 문서가 고정한 Base 커밋
 → Base 최신 공용 지식과 외부 참고
 ```
 
-Base 원격 변경을 자동 적용하지 않는다. 동기화가 필요할 때 최신 Base `main`과 프로젝트 책임 문서를 비교하고 별도 PR로 갱신한다.
+Base 원격 변경은 자동 적용하지 않는다. 새 Base 커밋을 채택할 때는 프로젝트 정본·Registry·Router·Validator·문서 참조를 같은 변경 묶음으로 검증한다.
 
-## 로컬 Skill 구성
+## Skill System v4
 
-- Foundation: 7
-- Omenward Discipline: 11
-- Specialist: 6
-- 총 패키지: 24
-- 기계 판독 정본: `docs/base/SKILL_REGISTRY.json`
-- 실행 Router: `tools/route_skills.py`
-- 무결성 검사: `tools/validate_skill_system.py`
-- CI: `.github/workflows/validate-skill-system.yml`
+- 활성 Foundation: 7
+- 활성 Omenward Discipline: 4
+- 활성 Specialist: 1
+- 활성 합계: 12
+- 레거시 패키지: 16개를 `inactive`와 `replaced_by`로 등록
+- 과거 Skill ID와 PR 표기는 `aliases`로 활성 Skill에 해석
+- `always_on` Skill 없음
+- REVIEW 단계에서만 `foundation.validation-review`와 `specialist.canonical-freshness`를 추가
+- 주 Discipline 최대 1개, 지원 Discipline 최대 1개
 
-공통 규칙은 `skills/SHARED_EXECUTION_CONTRACT.md` 한 곳에만 두고, 개별 Skill에는 고유 책임만 둔다. REVIEW는 `foundation.validation-review`와 `discipline.integration-review`를 강제로 포함한다.
+구형 Skill 파일은 과거 기록 보존용으로만 존재하며 Router가 선택하지 않는다. 새 기획서·Issue·PR·Work Order는 활성 ID만 사용한다.
 
-## 주요 공용 지식 경로
+## Omenward 전용 활성 Discipline
 
-- Base `docs/knowledge/README.md`
-- Base `docs/knowledge/methods/`
-- Base `docs/knowledge/research/`
-- Base `docs/knowledge/skills/`
-- Base `docs/knowledge/cases/`
-- Base `templates/`
+- `discipline.omenward-core-design`: 핵심 루프·규칙·데이터 계약
+- `discipline.omenward-godot`: Godot·GDScript·결정론·공유 데이터 검증
+- `discipline.omenward-core-ux`: 10~15분 플레이테스트·HUD·해상도 가독성
+- `discipline.omenward-art-assets`: 아트·애니메이션·판정 연출·에셋 파이프라인
 
-Base의 프로젝트 사례는 문제 해결 원리를 참고하기 위한 것이며 오멘워드의 최신 사양을 대체하지 않는다.
+## Base 승격 후보
+
+- Registry의 고정 Skill 개수 검사를 제거하고 활성·비활성 상태를 검증하는 방식
+- 특정 Base 커밋 문자열을 Validator에 하드코딩하지 않는 방식
+- 레거시 Skill ID 별칭과 대체 대상 검증
+- `always_on` 대신 trigger·stage 기반 최소 라우팅
+- Registry와 실제 패키지 간 orphan·missing·dependency cycle 검사
+
+Omenward 고유 코어 규칙, Godot 경로, C1~C4 게이트, 세 레인·룰렛·건설 노드 계약은 Base로 승격하지 않는다.
