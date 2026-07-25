@@ -5,7 +5,10 @@
 - 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
 - 사람 플레이: `HUMAN_QA_NOT_RUN`
 - 잠금 상태: `CORE_LOCK_V2_PENDING`
-- 현재 제품 작업: 첫 V2 구현 패키지 Plan Mode 준비
+- 현재 제품 Issue: `#69`
+- 현재 패키지: `R1_PLUS_R2_SCOPE_APPROVED / CODEX_PLAN_MODE_INPUT_READY`
+- 제품 코드 승인: `NO`
+- 현재 계획: `docs/superpowers/plans/2026-07-26-omenward-v2-r1-r2-roulette-foundation.md`
 - 별도 운영 Issue: `#62`
 - 프로젝트 코어: `docs/PROJECT_CORE.md`
 - 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
@@ -18,10 +21,11 @@
 2. PR #57에서 GM-01~GM-106 통합 결정 원장과 V2 제품 정본이 `main`에 병합됐다.
 3. 현재 main의 C1·C2·C3는 기존 설계 기준 실행 증거이며 V2 구현 완료 증거가 아니다.
 4. V2 Godot 제품 코드와 게임 데이터 구현은 아직 시작하지 않았다.
-5. PR #65·#66·#67은 Skill·아카이브·공용 어댑터 운영 변경이며 제품 구현이 아니다.
-6. 제품 코드 변경은 최신 통합 결정 원장에 맞춘 단계별 Plan Mode 제안과 사용자 승인이 필요하다.
-7. 공용 10병종과 진영 Visual 분리, Godot 4.7.1·GDScript 기술 기준선은 유지한다.
-8. 전술 아이템 룰렛 심벌과 코어 PoC mid-run save는 현재 코어 범위가 아니다.
+5. PR #65·#66·#67·#68은 Skill·아카이브·공용 어댑터·상태 동기화 작업이며 제품 구현이 아니다.
+6. 사용자는 첫 패키지로 R1+R2 범위를 선택했다.
+7. 이번 승인은 Codex Plan Mode 입력 범위 승인이다. Codex 제안서의 사용자 승인 전에는 Build를 시작하지 않는다.
+8. 공용 10병종과 진영 Visual 분리, Godot 4.7.1 Standard·GDScript·Compatibility 기준선은 유지한다.
+9. 전술 아이템 룰렛 심벌과 코어 PoC mid-run save는 현재 코어 범위가 아니다.
 
 ## 2. 읽기 순서
 
@@ -33,16 +37,15 @@
 → docs/PROJECT_CORE.md
 → docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md
 → docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md
+→ docs/design/APPROVED_ROULETTE_CORE_RULES.md
 → docs/CURRENT_IMPLEMENTATION_STATUS.md
-→ 작업별 세부 APPROVED 문서
-→ docs/OMENWARD_GAME_DESIGN.md
-→ docs/OMENWARD_ROADMAP.md
-→ 현재 Issue·PR·승인 제안서
+→ Issue #69
+→ docs/superpowers/plans/2026-07-26-omenward-v2-r1-r2-roulette-foundation.md
 → 실제 code/data/Scene/tests
 → docs/ACTIVE_CONTEXT.md
 ```
 
-`docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`는 구형 main과 Issue #56 기준 `IMPLEMENTATION_PLAN_DRAFT`다. 최신 통합 결정 원장에 맞춰 다시 설계·승인하기 전에는 구현 근거로 사용하지 않는다.
+`docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`는 구형 main과 Issue #56 기준 역사적 초안이다. 현재 구현 근거로 사용하지 않는다.
 
 ## 3. 제품 약속
 
@@ -57,64 +60,93 @@
 학습했다 → 실패 원인을 다음 건설·조작·배치에 반영했다
 ```
 
-## 4. 핵심 구조
+## 4. 현재 실제 구조
 
-- 독립 상·중·하 3라인.
-- TokenSource 건물이 각 릴에 같은 출처 토큰 1개씩 제공.
-- 길이 3 이상의 세 원형 릴.
-- 세로 이동은 릴 cursor 회전.
-- 가로 이동은 노출 인덱스 토큰 순환 교환과 미래 배열 영구 편집.
-- 중앙줄 선행 판정과 1/2/3~7/8 완성선 등급.
-- immutable SpinSnapshot과 명시적 한 번 확정.
-- 세부 병종 유지, Tier 패시브, 등급 액티브, AI 자동 발동.
-- 보관함 4칸, 무손실 결과 대기, 판매와 라인 영구 배치.
-- 배치 즉시 출격, 라인별 대기 앵커·공격 명령.
-- blocked 건물·source-bound X·방어탑 소유권 이전.
-- 글로벌 수리 예산·고정소수점 금화·성문 재건.
-- Map→Stage→Wave 연속성과 맵 단위 런·메타 진행.
+`RouletteService`는 현재 다음을 한 객체에 함께 소유한다.
 
-## 5. 기존 구현 증거
+- 독립 9칸 가중 생성.
+- 중앙 가로줄 판정과 8개 완성선.
+- 등급·금화 보상.
+- 출처 선택과 UnitSpawnDefinition 생성.
+- 스테이지 전설 생성 상태.
+- 경제 차감·금화 지급·입력 로그.
 
-보존 가능한 legacy 증거:
+`StageRun`은 `RouletteService`를 만들고 결과를 pending reward에 보관한다. 기존 회귀는 `roulette_contract_test.gd`와 `stage_run_test.gd`가 보호한다.
 
-- 중앙 판정·완성선·등급·금화.
-- 결정론과 출처 ID.
-- 3라인과 공용 병종.
-- 구조물·본진 승패 경로.
-- 도메인 snapshot→HUD와 원인 보고.
+## 5. R1+R2 권장 구조
 
-교체할 legacy 계약:
+```text
+Legacy RouletteService orchestration
+├─ paid spin economy
+├─ legacy independent 9-cell generation
+├─ legendary conversion and reward creation
+└─ pure RouletteBoardResolver delegation
 
-- 독립 9칸 가중 추첨.
-- 구형 럭키·이동·전설 제한.
-- 60초/T-30·15·5.
-- 점령력 합산.
-- StageRun 중심 런 상태.
-- 계열 고정 상위 등급 템플릿.
-- 아군 주기적 배치 묶음.
+Isolated V2 pure domain
+RouletteTokenInstance
+→ RouletteReelState × 3
+→ RouletteRunState
+→ RouletteSpinSnapshot
+→ stopped-only RouletteSpinSession
+```
 
-## 6. 구현 전 확인
+### R1 포함
 
-제품 코드 변경 전 반드시 확인한다.
+- 중앙 가로줄 선행 판정.
+- 8개 완성선·1/2/3~7/8 등급.
+- 금화 75/200/500%.
+- 동일 입력·시드 출처 결정론.
+- `RouletteService`의 resolver 위임.
+- 기존 C1 관찰 결과 불변.
 
-- 최신 통합 결정 원장과 충돌 없는 단계별 Plan Mode 제안서.
-- 목표와 플레이어 가치.
-- 포함·제외 범위.
-- 상태 소유와 데이터 마이그레이션.
-- Red 테스트와 회귀 테스트.
-- 롤백 기준.
-- 실행할 Godot 명령.
-- 제품 코드·문서 정본 변경 PR 분리.
+### R2 포함
+
+- caller-injected token instance ID.
+- `NORMAL_X`, `SOURCE_BOUND_X`, 일반 심벌 타입 경계.
+- 길이 3 이상 원형 릴과 wrap.
+- 최저 안정 배열 index `NORMAL_X` 교체, 없으면 append.
+- 정확히 세 릴, 전역 token ID 유일성.
+- 동일 상태·시드의 동일 정지 index.
+- 깊은 복사 불변 snapshot.
+- row-major 3×3 board projection.
+- 이동·확정이 없는 stopped session seam.
+
+### 제외
+
+- live `spin()`의 V2 릴 전환.
+- TokenSource 완공·파괴·blocked 이벤트.
+- 건물·경제·StageRun·UI·보관·배치 연결.
+- 세로·가로 이동.
+- 럭키·이동 아이템·전설 위험 주기.
+- `[확정]`·PendingReward V2 거래.
+- MapRun·Scene·아트·사람 플레이·분포 시뮬레이션.
+
+## 6. 구현 전 Codex 제안서가 반드시 답할 것
+
+- 실제 파일·preload·typed Array 패턴.
+- resolver 추출 뒤 C1 validator와 mutation test의 최소 변경.
+- 새 도메인 타입을 `RefCounted`로 두는 근거와 대안.
+- token ID를 caller가 주입하는 인터페이스.
+- GDScript에서 snapshot copy-out 불변성을 보장하는 방법.
+- `SpinSession`이 R4 이동·확정 거래를 선행하지 않는 최소 API.
+- workflow·정적 validator·headless·전체 회귀 명령.
+- 구현 PR과 post-merge 상태 문서 PR의 분리.
+- rollback 시 Legacy C1 실행 경로 복구 방법.
 
 ## 7. 다음 순서
 
-1. 활성 상태·인계 문서를 `V2_CANON_CURRENT` 상태로 동기화한다.
-2. 2026-07-24 구현 계획을 GM-01~GM-106 기준으로 재검증한다.
-3. 첫 패키지에서 legacy C1 중앙 판정을 보존할 resolver seam을 설계한다.
-4. 물리 릴·SpinSnapshot·SpinSession 순수 도메인의 포함·제외와 Red 테스트를 확정한다.
-5. 사용자가 Plan Mode 제안서를 승인한 뒤 Codex 구현으로 전환한다.
-6. 후속 패키지에서 건물 출처·이동 경제·결과 거래·병종 능력·MapRun·전장을 순차 연결한다.
-7. V2 UX, 100,000시드와 10~15분 사람 검증을 실행한다.
+```text
+Issue #69와 현재 계획을 Codex Plan Mode 입력으로 전달
+→ Codex 읽기 전용 저장소 조사
+→ 제안서 제출
+→ GPT 적대적 검수
+→ 사용자 제안서 승인
+→ 격리 worktree에서 R1+R2 Red→Green 구현
+→ Core contracts + Godot CI
+→ squash merge
+→ 별도 문서 PR로 R1/R2 증거 동기화
+→ R3 TokenSource 연동을 새 Plan Mode로 검토
+```
 
 ## 8. 금지된 완료 표현
 
@@ -124,3 +156,5 @@
 - V2 자동 계약 통과.
 - 10~15분 사람 플레이.
 - 1080p·720p 가독성 검증.
+
+R1+R2가 구현·원격 검증되더라도 live V2 룰렛은 연결되지 않으므로 `V2_IMPLEMENTATION_PARTIAL_FOUNDATION_ONLY`보다 강한 완료 표현을 사용하지 않는다.
