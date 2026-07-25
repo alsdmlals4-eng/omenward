@@ -12,7 +12,7 @@
   "role_bindings": {
     "project_agents": "AGENTS.md",
     "documentation_map": "docs/DOCUMENTATION_MAP.md",
-    "active_context": "docs/PROJECT_CONTEXT.md",
+    "active_context": "docs/ACTIVE_CONTEXT.md",
     "skill_registry": "docs/base/SKILL_REGISTRY.json",
     "archive_root": "docs/archive",
     "archive_readme": "docs/archive/README.md",
@@ -21,7 +21,7 @@
   },
   "canonical_sources": [
     "docs/BASE_RULES_VERSION.md",
-    "docs/PROJECT_CONTEXT.md",
+    "docs/ACTIVE_CONTEXT.md",
     "docs/DOCUMENTATION_MAP.md",
     "project.godot"
   ],
@@ -52,7 +52,7 @@
       "adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json",
       "current_canon_priority": [
         "docs/DOCUMENTATION_MAP.md",
-        "docs/PROJECT_CONTEXT.md",
+        "docs/ACTIVE_CONTEXT.md",
         "docs/design/APPROVED_*.md"
       ],
       "existing_legacy_migration": "NOT_IN_THIS_ADOPTION"
