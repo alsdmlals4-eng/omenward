@@ -126,7 +126,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "legacy 결과 불변",
         ),
         "docs/design/APPROVED_ROULETTE_CORE_RULES.md": (
-            "C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",
+            "LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN",
+            "중앙 가로줄",
+            "완성선",
+            "등급",
         ),
     }
     for relative, phrases in requirements.items():
