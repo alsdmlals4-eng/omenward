@@ -11,6 +11,9 @@ MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 LEDGER = MODULE["LEDGER"]
 HISTORICAL_PLAN = MODULE["HISTORICAL_PLAN"]
+CURRENT_R1_R2_PLAN = MODULE["CURRENT_R1_R2_PLAN"]
+PLANNING_REVIEW = MODULE["PLANNING_REVIEW"]
+BENCHMARK_REFRESH = MODULE["BENCHMARK_REFRESH"]
 
 
 class ProjectCoreV2DocumentationTests(unittest.TestCase):
@@ -83,6 +86,22 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
             )
             self.assertTrue(any("documentation map missing" in error for error in validate(root)))
 
+    def test_documentation_map_current_review_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/DOCUMENTATION_MAP.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "2026-07-26-v2-r1-r2-planning-review.md",
+                    "CURRENT_REVIEW_REMOVED.md",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(
+                any("missing current planning input" in error for error in validate(root))
+            )
+
     def test_decision_ledger_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
@@ -132,6 +151,54 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
             )
             self.assertTrue(any("authority marker" in error for error in validate(root)))
 
+    def test_current_plan_authority_marker_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / CURRENT_R1_R2_PLAN
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "New runtime state classes use `RefCounted`",
+                    "Runtime ownership decision removed",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(
+                any("current R1+R2 plan missing authority marker" in error for error in validate(root))
+            )
+
+    def test_planning_review_authority_marker_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / PLANNING_REVIEW
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "FINAL_CODEX_HANDOFF: BLOCKED_UNTIL_EXACT_REVIEW_COMPLETE_COMMAND",
+                    "FINAL_HANDOFF_MARKER_REMOVED",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(
+                any("planning review missing authority marker" in error for error in validate(root))
+            )
+
+    def test_benchmark_refresh_scope_marker_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / BENCHMARK_REFRESH
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "R1_R2_SCOPE: UNCHANGED",
+                    "R1_R2_SCOPE_MARKER_REMOVED",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(
+                any("benchmark refresh missing scope marker" in error for error in validate(root))
+            )
+
     def test_exact_premature_completion_claim_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
@@ -170,7 +237,7 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
-            (root / "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md").unlink()
+            (root / BENCHMARK_REFRESH).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_broken_local_link_is_rejected(self) -> None:
