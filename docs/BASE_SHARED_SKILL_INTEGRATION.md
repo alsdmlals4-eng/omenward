@@ -5,13 +5,13 @@
 ## 고정 기준
 
 - Base 저장소: `alsdmlals4-eng/Base`
-- 공용 Skill route 기준 커밋: `039465c4f135f6de1e524bd147a8005d8a1da28f`
+- 공용 Skill route 기준 커밋: `6a224e450f9420223c00921f3c56e051612f92ad`
 - 프로젝트 route Registry: `skills/BASE_SHARED_SKILL_ROUTES.json`
 - 프로젝트 공용 어댑터: `skills/PROJECT_BASE_SKILL_ADAPTER.json`
 - 레거시 보존 어댑터: `docs/archive/ARCHIVE_RETENTION_ADAPTER.json`
 - 프로젝트 고유 Skill Registry: `docs/base/SKILL_REGISTRY.json`
 
-`docs/BASE_RULES_VERSION.md`는 프로젝트 전체 운영체계가 채택한 기존 Base 기준을 계속 설명한다. 이 문서는 그 기준을 덮어쓰지 않고, 현재 Base의 공용 Skill 본문을 선택적으로 읽는 route pin을 별도로 소유한다.
+`docs/BASE_RULES_VERSION.md`는 프로젝트 전체 운영체계가 채택한 기존 Base 기준을 계속 설명한다. 이 문서는 그 기준을 덮어쓰지 않고, 검증된 공용 Skill 본문을 선택적으로 읽는 route pin을 별도로 소유한다.
 
 ## 라우팅 원칙
 
