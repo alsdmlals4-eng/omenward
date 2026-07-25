@@ -1,261 +1,83 @@
 # Active Context
 
-- 갱신일: 2026-07-23
+- 갱신일: 2026-07-24
 - 공식명: **오멘워드 / OMENWARD**
-- 저장소 상태: **C1 룰렛 REMOTE_PROVEN / C2 전투 목적 REMOTE_PROVEN / C3 코어 UX AUTOMATED_CONTRACTS_PROVEN / 사람 플레이 미검증**
-- 프로젝트 코어: `docs/PROJECT_CORE.md` (`CORE_CONFIRMED` / `CORE_LOCKED`)
-- 실제 구현 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- 최초 인수인계: `docs/HANDOFF_CONTEXT.md`
-- 최신 통합 기준: `docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md`
-- 시각자료 인덱스: `docs/images/VISUAL_REFERENCE_INDEX.md`
-- 병종 비주얼 형식: `docs/design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`
+- 현재 작업: Issue `#56` V2 정본 마이그레이션
+- 설계 상태: `V2_SPEC_APPROVED`
+- 정본 상태: `V2_CANON_CANDIDATE`
+- 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
+- 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
+- 사람 검증: `HUMAN_QA_NOT_RUN`
+- 잠금: `CORE_LOCK_V2_PENDING`
 
-## 현재 상태를 판단하는 방법
+## 1. 지금 읽을 문서
 
-과거 Work Order의 상태 문구를 현재 구현 상태로 사용하지 않는다. 새 작업자는 다음을 직접 확인한다.
+1. `docs/PROJECT_CORE.md`
+2. `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`
+3. `docs/design/APPROVED_ROULETTE_CORE_RULES.md`
+4. `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`
+5. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+6. `docs/HANDOFF_CONTEXT.md`
+7. `docs/DOCUMENTATION_MAP.md`
+8. `docs/OMENWARD_ROADMAP.md`
+9. Issue `#56`과 현재 PR
 
-```text
-project.godot
-→ scenes/main/main.tscn
-→ scripts/
-→ data/
-→ tests/
-→ docs/PHASE_0_VALIDATION.md
-→ docs/VERTICAL_SLICE_VALIDATION.md
-→ 최신 Issue·PR·커밋
-```
+## 2. 핵심 문장
 
-현재 `project.godot`에는 960×540 논리 화면, 1920×1080 출력, Compatibility renderer와 main Scene이 정의돼 있다. 새 Codex 채팅은 문서 요약만 하지 말고 실제 파일·테스트·실행 결과를 기준으로 다음 제안 범위를 정한다.
+> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-## 현재 구현 판정
+오멘워드는 예고된 세 전선의 공세를 읽고, TokenSource 건물과 영구 가로 이동으로 세 원형 릴을 설계한 뒤, 당첨 병력을 한 라인에 커밋해 자동전투를 뒤집는 게임이다.
 
-책임 원본:
+## 3. 2026-07-24 확정 계약
 
-- `docs/PROJECT_CORE.md`
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- 가로 이동: 노출 인덱스 `TokenInstance` 순환 교환, 길이·cursor 불변.
+- X 교체: 가장 낮은 안정 배열 인덱스.
+- 멈춤 보드: immutable SpinSnapshot.
+- 출처 후보: snapshot 전체 릴의 동일 심벌 풀.
+- 럭키: 숨김 15/25/35/45/55/100%와 최신 truth table.
+- 심벌: 병종·금화·X, 전술 아이템 심벌 보류.
+- 토큰 공급: TokenSource 건물만.
+- 저장: 코어 PoC·첫 수직 슬라이스 mid-run save 미지원.
 
-현재 상태는 다음 일곱 문구를 함께 사용한다.
+## 4. 보존과 교체
 
-```text
-TECHNICAL_BASELINE_IMPLEMENTED
-+ C1_ROULETTE_CORE_REMOTE_PROVEN
-+ C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-+ C3_AUTOMATED_CONTRACTS_PROVEN
-+ CORE_VERTICAL_SLICE_PARTIAL
-+ CORE_LOOP_NOT_PROVEN
-+ HUMAN_QA_NOT_RUN
-```
+보존:
 
-- Phase 0 기술·데이터 기반과 다수 수직 슬라이스 구성요소는 실제 파일로 존재한다.
-- 승인 룰렛 중앙 판정·완성선·등급·보상·보관은 run `29926598807`에서 원격 검증됐다.
-- C2 전투 목적 루프는 같은 라인 교전→접전지→중간거점→성문→본진·W15 보스→승패와 실제 소유 수 경제를 연결한다.
-- C3 코어 UX 6종은 실제 snapshot과 HUD에 구현됐고 head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 자동 계약 원격 검증을 완료했으며, 사람 플레이는 아직 완료되지 않았다.
-- 자동 테스트 통과를 사람 플레이·시각 QA 증거로 간주하지 않는다.
+- 고정 3라인.
+- 중앙 판정·완성선·등급·금화 resolver.
+- 결정론과 출처 원장.
+- 공용 병종 데이터.
+- 전장 상태 기반 승패와 원인 보고.
 
-## 핵심 정체성
+교체:
 
-- 장르: 실시간 3라인 전략 오토배틀 + 건물 기반 3×3 룰렛 빌드.
-- 핵심 루프: `베일의 징조 → 건물·확률 설계 → 룰렛 판정 → 라인 배치 → 거점·성문·우회 공방 → 원인 확인 → 다음 설계`.
-- 플랫폼: Windows PC / 마우스·키보드 / 싱글플레이 PvE.
-- 엔진: Godot + GDScript.
-- 첫 10분 안에 건설→룰렛→배치→역전 루프를 두 번 체험한다.
+- 독립 9칸 추첨.
+- 공개 12% 럭키·+8%p.
+- 이동 되돌리기·확정 시 소비.
+- 스테이지당 전설 1회.
+- 60초 공세와 T-30/T-15/T-5.
+- 점령력 합산.
+- 단일 StageRun 영속 상태.
 
-## 전장 불변 구조
+## 5. 현재 실행 경계
 
-```text
-아군 본진
-→ 아군 성문
-→ 아군 중간거점
-→ 중앙 접전지
-→ 적 중간거점
-→ 적 성문
-→ 적 본진
-```
-
-- 좌우 대칭, 상·중·하 독립 3라인.
-- 라인 간 일반 횡단과 기본 라인 변경 없음.
-- 진영당 라인별 성문 3개.
-- 중간거점 전방 2·후방 1 건설 노드.
-- 점령 시 건설권·기본 생산권 이전.
-- 암살자는 적 후방 직접 생성이 아니라 같은 라인의 안개 우회로 사용.
-- 전장 전체를 기본 전략 화면에서 보며 미니맵 없음.
-
-책임 원본: `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_SCALE_V1.md`
-
-## 공용 병종 데이터
+기존 C1·C2·C3는 legacy 설계 기준으로 원격 검증됐다. V2 물리 릴, MapRun, 묶음 웨이브, 고정 8초 접전지와 V2 UX는 구현되지 않았다.
 
 ```text
-UnitArchetypeProfile 10개
-+ TierProfile
-+ RankProfile
-+ owner_team_id
-+ FactionVisualProfile
+LEGACY_IMPLEMENTED != V2_IMPLEMENTED
+DOCUMENT_APPROVED != EXECUTION_PROVEN
 ```
 
-- 아군과 적군의 전투 병종 데이터를 따로 만들지 않는다.
-- HP·공격·스킬·타기팅·점령력·구조물 피해·AnimationContract를 공유한다.
-- 차이는 팀, 출격 방식, 이미지·초상화·아이콘·팔레트와 표시명이다.
-- 일반 적군용 `EnemyUnitProfile`, 별도 Unit Scene, 전용 스탯·스킬·모션 계약 금지.
-- W15·W20 보스는 공용 아키타입에 행동·페이즈 패키지와 전용 Visual Set을 추가한다.
-
-책임 원본:
-
-- `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
-- `docs/design/APPROVED_SHARED_ARCHETYPE_WAVE_1_20_POC_V1.md`
-
-## 공용 10병종
-
-- 기본 병영: 방패병, 대검전사, 암살자, 창병, 궁병, 기병.
-- 특수병단: 사제, 마법사, 비행병, 거인.
-- 플레이어 등급: 일반·엘리트·영웅·전설.
-- 적 신화는 W20 보스 패키지 전용.
-
-## C3 코어 UX 구현 경계
-
-- `RouletteService`가 현재 토큰 장부와 건설 전후 심벌 확률을 계산한다.
-- `WaveDirector`가 T-30/T-15/T-5 공개 단계를 소유한다.
-- 공용 병종과 런타임 유닛이 상성·타기팅 힌트, 실제 사거리와 현재 대상을 제공한다.
-- `CoreUxService`가 실제 전투 사건을 라인별 웨이브 원인 보고로 구성한다.
-- `StageRun.core_ux_snapshot()`이 여섯 UX를 읽기 전용으로 묶고 HUD는 표시만 담당한다.
-- 사람 QA 전 최종 HUD 배치·폰트·팔레트·정보 밀도를 확정하지 않는다.
-- 책임 원본: `docs/C3_CORE_UX_AUDIT_2026-07-23.md`.
-
-## 최신 병종 이미지 형식 결정
-
-### 승인 기준
-
-병종 이미지는 **첫 번째 전장 UI 이미지에 보이는 실제 전장 삽입형 소형 고해상도 픽셀 스프라이트 형식**으로 제작한다.
+## 6. 다음 작업
 
 ```text
-전장 속 월드 스프라이트
-+ 약 2.5~3등신 전술 미니어처 비율
-+ 무기·자세·몸통 덩어리 중심 판독
-+ 34~40px 인간형 첫 표시 높이 가설
-+ 제한된 재질 디테일과 선명한 외곽선
+문서 PR 검증·병합
+→ resolver 분리 제안서
+→ 물리 릴 순수 도메인
+→ snapshot·이동·럭키·전설
+→ 보관·배치·식량
+→ MapRun·웨이브·접전지
+→ UX·분포·사람 플레이
 ```
 
-- 전략 화면에서 얼굴보다 무기 길이, 자세, 실루엣과 공격 방향이 먼저 읽혀야 한다.
-- 아군과 적군은 같은 공용 프레임·피벗·공격 이벤트 계약을 사용한다.
-- 진영 차이는 색상만이 아니라 장비·소재·외곽 형태 또는 생물 기관으로 표현한다.
-- 일반→엘리트→영웅→전설은 단순 확대가 아니라 기능적인 무기·실루엣·자세·제한적 VFX로 위계를 만든다.
-
-### 과거 도감표의 위치
-
-두 번째 `10병종 × 일반·엘리트·영웅·전설` 도감표는 다음만 참고한다.
-
-- 공용 10병종 목록.
-- 같은 병종의 등급 상승 관계.
-- 상위 등급에서 역할 실루엣과 무기가 강화되는 방향.
-
-도감표의 큰 전신 캐릭터 비율과 렌더링 밀도는 실제 월드 스프라이트 형식으로 사용하지 않는다.
-
-책임 원본:
-
-- `docs/design/APPROVED_UNIT_VISUAL_FORMAT_AND_REFERENCE_USE_V1.md`
-- `docs/images/VISUAL_REFERENCE_INDEX.md`
-- `docs/design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md`
-
-## 참고 이미지 해석 금지 사항
-
-첫 번째 이미지도 전체 게임 사양을 그대로 복사하는 화면이 아니다.
-
-- 이미지 안의 임시 수치, 비용, 체력, 웨이브와 문구를 확정값으로 사용하지 않는다.
-- 이미지 안의 거점·요새·길 연결을 현재 전장 토폴로지로 복사하지 않는다.
-- 좌하단 전장 요약 UI는 현재 기획의 `미니맵 없음` 규칙을 바꾸지 않는다.
-- 화면은 유닛 크기·픽셀 밀도·전장과 HUD의 정보 계층을 참고하는 방향 이미지다.
-
-## 애니메이션·연출
-
-공통 필수 상태:
-
-```text
-deploy / idle / move / attack_basic / skill_1 / hit_light / death / victory
-```
-
-- 공격은 준비→판정→회복으로 구분.
-- 접촉·투사체 발사와 실제 판정 오차는 한 프레임 이내.
-- 이동 위치는 코드가 소유하며 루트 모션을 사용하지 않는다.
-- 아군·적군 이미지는 같은 AnimationContract에 맞춘다.
-- 스테이지 승리 연출은 2.5~4초 뒤 결과 UI로 연결한다.
-
-책임 원본: `docs/design/APPROVED_UNIT_ANIMATION_AND_BATTLE_PRESENTATION_GUIDE_V1.md`
-
-## 승인된 전장 초기값 요약
-
-### 중간거점
-
-```text
-중립화 10초 + 점령 10초 at 점령력 1.0
-최대 점령력 2.0
-진행 유지 3초
-복귀 초당 10%
-안정화 5초
-금화 +2 / 30초
-```
-
-### 성문
-
-```text
-HP 5000
-방어·마법저항 80
-일반 구조물 피해 40%
-공성 200%
-고정 피해 50%
-붕괴 2초
-```
-
-### 암살자 우회
-
-```text
-진입 1초
-이동 9초
-도착 경고 2.5초 전
-출현 준비 0.6초
-적 중간거점 뒤 120 units
-도착 영역 160 × 120
-점령력 0
-```
-
-## 시각자료 누락 감사
-
-`docs/images/VISUAL_REFERENCE_INDEX.md`에 다음 자료의 존재와 처리 상태를 기록했다.
-
-- 스타일 후보 6안 비교표.
-- 환경 콘셉트 `image-gen-1/3/4/5`.
-- 전술 지도·전장·하단 UI 탐색 이미지 3종.
-- 과거 유닛 도감.
-- 전장 맵 툴과 사용법.
-- 레거시 GDD와 제작 방법 메모.
-
-저장소 바이너리 이동이 끝나지 않은 자료는 `MIGRATION_PENDING`이며, 이동이 확인되기 전 완료로 보고하지 않는다.
-
-## 새 이미지 유입 규칙
-
-사용자가 이미지를 제공한 작업은 다음 네 항목을 모두 처리한다.
-
-1. 저장 가능한 원본 또는 변환본을 프로젝트 경로에 배치.
-2. `docs/images/VISUAL_REFERENCE_INDEX.md`에 상태와 경로 등록.
-3. 참고할 것·참고하지 않을 것·현재 기획과 달라진 것을 기록.
-4. 관련 APPROVED 문서·Work Order·Documentation Map에 연결.
-
-기존 기준이 바뀌면 이미지를 조용히 교체하지 않고 `SUPERSEDED` 상태와 변경 이유를 남긴다.
-
-## 다음 작업 원칙
-
-```text
-정본·프로젝트 코어 확정·잠금 완료
-→ 승인 룰렛 핵심 계약 원격 검증 완료
-→ C2 전투 목적 루프 원격 검증 완료
-→ C3 승인 코어 UX 6종 자동 계약 검증 완료
-→ [다음 실행] 사람 플레이·1080p·720p 가독성 검증
-→ [결정 게이트] C1U 이동권·럭키·100,000시드
-→ 밸런스·콘텐츠 확장
-```
-
-- 새 Codex 채팅은 `docs/PROJECT_CORE.md`와 `docs/CURRENT_IMPLEMENTATION_STATUS.md`를 먼저 읽는다.
-- 현재 저장소를 `구현 전` 또는 `수직 슬라이스 완료` 중 하나로 단순화하지 않는다.
-- PR #49와 PR #50은 main에 병합됐다. PR #51은 C3 코어 UX 6종의 구현·문서·자동 계약 증거를 통합한 변경 집합이며 병합 결과는 GitHub PR 상태를 따른다.
-- 이동권·럭키·고정 상위 템플릿은 C1U 사용자 결정 전 확정하지 않는다.
-- 시각·병종·UI 작업은 새 병종 비주얼 책임 문서와 시각자료 인덱스를 반드시 읽는다.
-- 실제 아트 제작 전 대표 병종 5종을 1080p·720p 전장에 삽입해 축소 가독성을 검증한다.
-- Base 공용 지식은 방법과 사례 참고용이며 오멘워드 책임 문서를 덮어쓰지 않는다.
+제품 코드 작업은 별도 Plan Mode 승인 전 금지한다.
