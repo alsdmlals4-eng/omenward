@@ -9,6 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
+LEDGER = MODULE["LEDGER"]
 
 
 class ProjectCoreV2DocumentationTests(unittest.TestCase):
@@ -80,6 +81,41 @@ class ProjectCoreV2DocumentationTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertTrue(any("documentation map missing" in error for error in validate(root)))
+
+    def test_decision_ledger_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / LEDGER).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_decision_ledger_contract_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / LEDGER
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "AUTHORED_PRIORITY_LIST",
+                    "REMOVED_PRIORITY_CONTRACT",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("decision ledger missing contract" in error for error in validate(root)))
+
+    def test_decision_ledger_precedence_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace(
+                    "충돌할 경우 해당 결정 원장이 우선",
+                    "충돌 우선순위 제거",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("precedence" in error for error in validate(root)))
 
     def test_exact_premature_completion_claim_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
