@@ -57,5 +57,31 @@ class ValidatorTests(unittest.TestCase):
             self.assertEqual(validator.validate(path, root), [])
 
 
+class CoreUxPlaytestContractTests(unittest.TestCase):
+    def test_human_core_loop_protocol_is_preserved(self):
+        skill = (
+            ROOT
+            / "skills"
+            / "disciplines"
+            / "evaluating-omenward-core-ux-and-playtests"
+            / "SKILL.md"
+        ).read_text(encoding="utf-8")
+        required = (
+            "첫 10분",
+            "Session contract",
+            "Build and seed",
+            "LOOP_PROVEN",
+            "UX_GAP",
+            "RULE_GAP",
+            "CONTENT_GAP",
+            "TECHNICAL_BLOCKED",
+            "NOT_RUN",
+            "자동화 통과를 인간 이해 증거로 대체",
+        )
+        for value in required:
+            with self.subTest(value=value):
+                self.assertIn(value, skill)
+
+
 if __name__ == "__main__":
     unittest.main()
