@@ -8,11 +8,14 @@ from typing import Iterable
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
+LEDGER = "docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md"
+
 REQUIRED_FILES = (
     "README.md",
     "AGENTS.md",
     "docs/PROJECT_CORE.md",
     "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md",
+    LEDGER,
     "docs/design/APPROVED_ROULETTE_CORE_RULES.md",
     "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
@@ -36,10 +39,11 @@ REFERENCE_FILES = (
     "docs/DECISIONS_PENDING.md",
 )
 
-BASELINE_FILES = (
+# These documents track the product-code baseline that predates workflow-only PR #61.
+# The integrated spec records the current Git integration baseline separately.
+PRODUCT_BASELINE_FILES = (
     "docs/PROJECT_CORE.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md",
     "docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md",
 )
 
@@ -69,6 +73,32 @@ REQUIRED_DECISIONS = (
     "mid-run save",
 )
 
+LEDGER_REQUIRED_CONTRACTS = (
+    "GM-01",
+    "GM-16",
+    "GM-32",
+    "SOURCE_BOUND_X",
+    "GM-42",
+    "GM-59",
+    "GM-68",
+    "GM-77",
+    "GM-89R",
+    "GM-99",
+    "GM-100D",
+    "GM-104R",
+    "영웅 철벽병",
+    "GM-105R",
+    "GM-106",
+    "AUTHORED_PRIORITY_LIST",
+    "V2_IMPLEMENTATION_NOT_STARTED",
+)
+
+SUPERSEDED_CONTRACTS = (
+    "계열별 고정 상위 등급 템플릿",
+    "주기적 3기 묶음",
+    "적 존재 시 성문 재건을 정지",
+)
+
 PREMATURE_EXACT_STATES = (
     "V2_IMPLEMENTED",
     "V2_VERTICAL_SLICE_PROVEN",
@@ -83,6 +113,7 @@ ACTIVE_COMPLETION_FILES = (
     "docs/ACTIVE_CONTEXT.md",
     "docs/HANDOFF_CONTEXT.md",
     "docs/OMENWARD_GAME_DESIGN.md",
+    LEDGER,
 )
 
 
@@ -127,6 +158,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
 
     core = read(root, "docs/PROJECT_CORE.md")
     integrated = read(root, "docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md")
+    ledger = read(root, LEDGER)
     roulette = read(root, "docs/design/APPROVED_ROULETTE_CORE_RULES.md")
     maprun = read(root, "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md")
     status = read(root, "docs/CURRENT_IMPLEMENTATION_STATUS.md")
@@ -141,10 +173,18 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if value not in status:
             errors.append(f"implementation status missing V2 contract: {value}")
 
-    decision_text = "\n".join((integrated, roulette, maprun))
+    decision_text = "\n".join((integrated, ledger, roulette, maprun))
     for value in REQUIRED_DECISIONS:
         if value not in decision_text:
             errors.append(f"missing approved V2 decision: {value}")
+
+    for value in LEDGER_REQUIRED_CONTRACTS:
+        if value not in ledger:
+            errors.append(f"integrated decision ledger missing contract: {value}")
+
+    for value in SUPERSEDED_CONTRACTS:
+        if value not in ledger:
+            errors.append(f"integrated decision ledger missing supersession marker: {value}")
 
     if "노출 인덱스" not in roulette or "cursor" not in roulette:
         errors.append("roulette horizontal movement contract incomplete")
@@ -154,7 +194,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors.append("implementation status does not separate V2 from legacy evidence")
 
     baselines: dict[str, str] = {}
-    for relative in BASELINE_FILES:
+    for relative in PRODUCT_BASELINE_FILES:
         value = baseline_main(read(root, relative))
         if value is None:
             errors.append(f"{relative} missing baseline main commit")
@@ -186,6 +226,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if owner not in docmap:
             errors.append(f"documentation map missing V2 owner: {owner}")
 
+    if "APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md" not in integrated:
+        errors.append("integrated spec does not route the latest decision ledger")
+    if "충돌할 경우 해당 결정 원장이 우선" not in integrated:
+        errors.append("integrated spec does not establish decision-ledger precedence")
     if "APPROVED_ROULETTE_CORE_RULES.md" not in integrated:
         errors.append("integrated spec does not route detailed roulette ownership")
     if "APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md" not in integrated:
