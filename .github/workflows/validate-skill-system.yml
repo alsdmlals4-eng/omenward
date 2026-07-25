@@ -5,11 +5,13 @@ on:
     paths:
       - "skills/**"
       - "docs/base/**"
+      - "docs/archive/**"
       - "docs/BASE_RULES_VERSION.md"
       - "schemas/skill-registry-v3.schema.json"
       - "schemas/skill-registry-v4.schema.json"
       - "tools/route_skills.py"
       - "tools/validate_skill_system.py"
+      - "tools/check_archive_governance.py"
       - "tests/python/test_skill_*.py"
       - "tests/python/test_adversarial_review_contract.py"
       - ".github/workflows/validate-skill-system.yml"
@@ -19,11 +21,13 @@ on:
     paths:
       - "skills/**"
       - "docs/base/**"
+      - "docs/archive/**"
       - "docs/BASE_RULES_VERSION.md"
       - "schemas/skill-registry-v3.schema.json"
       - "schemas/skill-registry-v4.schema.json"
       - "tools/route_skills.py"
       - "tools/validate_skill_system.py"
+      - "tools/check_archive_governance.py"
       - "tests/python/test_skill_*.py"
       - "tests/python/test_adversarial_review_contract.py"
       - ".github/workflows/validate-skill-system.yml"
@@ -45,7 +49,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile CI usage contract
-        run: python -m py_compile tools/validate_ci_usage_contract.py tests/python/test_ci_usage_contract.py
+        run: python -m py_compile tools/validate_ci_usage_contract.py tests/python/test_ci_usage_contract.py tools/check_archive_governance.py tests/python/test_skill_archive_retention.py
       - name: Validate CI usage contract
         run: python tools/validate_ci_usage_contract.py
       - name: Run CI usage mutation tests
@@ -78,6 +82,7 @@ jobs:
           }
 
           run_check "validate packages and registry" python tools/validate_skill_system.py
+          run_check "validate archive governance" python tools/check_archive_governance.py
           run_check "skill contract tests" python -m unittest discover -s tests/python -p "test_skill_*.py" -v
           run_check "adversarial review contract tests" python -m unittest tests.python.test_adversarial_review_contract -v
           run_check "route review request" python tools/route_skills.py --request "PR 누락 중복 적대적 검토와 레드팀 검증"
