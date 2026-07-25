@@ -1,6 +1,6 @@
 # 오멘워드 Documentation Map
 
-- 갱신일: 2026-07-24
+- 갱신일: 2026-07-25
 - 현재 정본 세대: `V2_CANON_CANDIDATE`
 - 현재 Issue: `#56`
 
@@ -12,6 +12,7 @@
 최신 사용자 지시
 → AGENTS.md
 → PROJECT_CORE.md
+→ design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md
 → design/APPROVED_CORE_V2_INTEGRATED_SPEC.md
 → CURRENT_IMPLEMENTATION_STATUS.md
 → HANDOFF_CONTEXT.md
@@ -28,9 +29,10 @@
 | 문서 | 역할 |
 |---|---|
 | `PROJECT_CORE.md` | 제품 정체성, 프로젝트 코어, 불변 조건, V2 검증 게이트 |
+| `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` | 2026-07-25까지 사용자가 확정한 GM-01~GM-106 통합 결정, 충돌 문서 대체 순위 |
 | `design/APPROVED_CORE_V2_INTEGRATED_SPEC.md` | V2 시스템 관계와 승인 상태 통합 |
-| `design/APPROVED_ROULETTE_CORE_RULES.md` | 물리 릴, 토큰, 이동, snapshot, 판정, 럭키, 전설 |
-| `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` | MapRun, 시간, 웨이브, 보관·배치·식량, 접전지 |
+| `design/APPROVED_ROULETTE_CORE_RULES.md` | 물리 릴, 토큰, 이동, snapshot, 판정, 럭키, 전설. 통합 결정 원장이 대체한 조항 제외 |
+| `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` | MapRun, 시간, 웨이브, 보관·배치·식량, 접전지. 통합 결정 원장이 대체한 조항 제외 |
 | `CURRENT_IMPLEMENTATION_STATUS.md` | legacy 구현 증거와 V2 미구현 경계 |
 | `HANDOFF_CONTEXT.md` | 새 작업자용 현재 방향과 다음 행동 |
 | `OMENWARD_GAME_DESIGN.md` | 세계관·경험·시스템 전체 설명 |
@@ -42,8 +44,10 @@
 
 | 작업 | 추가 문서 |
 |---|---|
-| 물리 릴·토큰·럭키·전설·금화 | `design/APPROVED_ROULETTE_CORE_RULES.md` |
-| 준비·위험·웨이브·보관·식량·접전지 | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` |
+| 최신 통합 계약·충돌 해소 | `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` |
+| 물리 릴·토큰·럭키·전설·금화 | `design/APPROVED_ROULETTE_CORE_RULES.md`와 최신 통합 결정 원장 |
+| 준비·위험·웨이브·보관·식량·접전지·건설·수리·재건 | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`와 최신 통합 결정 원장 |
+| 병종 출처·Tier 패시브·등급 액티브·AI 우선순위 | 최신 통합 결정 원장 |
 | V2 구현 단계 | `superpowers/plans/2026-07-24-omenward-core-v2-implementation.md` |
 | 공용 병종·진영 Visual | `design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md` |
 | 전투 계산·상태·비행 | `design/APPROVED_COMMON_COMBAT_AND_RANK_BUDGET_POC_V1.md`, `design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md` |
@@ -52,15 +56,21 @@
 | 문서 운영 | `DOCUMENT_LIFECYCLE.md` |
 | Base·Skill | `BASE_RULES_VERSION.md`, `base/SKILL_REGISTRY.json` |
 
-## 4. 구형 문서 해석
+## 4. 대체된 문서 해석
 
-기존 60초 공세, T-30/T-15/T-5, 공개 12% 럭키, 이동 되돌리기, 스테이지 전설 1회, 점령력 합산을 설명하는 문서는 다음 중 하나로만 사용한다.
+다음 규칙을 설명하는 과거 문서는 기존 구현 증거, 과거 의사결정 추적 또는 마이그레이션 회귀 대상으로만 사용한다.
 
-- 기존 구현 증거.
-- 과거 의사결정 추적.
-- 마이그레이션 회귀 대상.
+- 60초 공세와 T-30/T-15/T-5.
+- 공개 12% 럭키.
+- 이동 되돌리기와 확정 시 소비.
+- 스테이지 전설 1회.
+- 점령력 합산.
+- 아군 주기적 3기 배치 묶음.
+- 엘리트·영웅·전설의 계열 고정 템플릿.
+- 적 존재 시 성문 재건 정지.
+- 재건 완료 HP 50% 설정.
 
-V2 제품 구현 근거로 사용하지 않는다. 충돌 시 최신 사용자 승인과 위 V2 책임 원본이 우선한다.
+V2 제품 구현 근거로 사용하지 않는다. 충돌 시 최신 사용자 승인과 통합 결정 원장이 우선한다.
 
 ## 5. 상태 판정 규칙
 
