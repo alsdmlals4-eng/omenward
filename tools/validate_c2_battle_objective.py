@@ -85,18 +85,14 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"unified core workflow missing contract term: {term}")
 
     required_doc_states = {
-        "README.md": ("V2_IMPLEMENTATION_NOT_STARTED", "LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
-        "docs/ACTIVE_CONTEXT.md": ("V2_IMPLEMENTATION_NOT_STARTED", "LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
-        "docs/HANDOFF_CONTEXT.md": ("V2_IMPLEMENTATION_NOT_STARTED", "LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
-        "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-            "LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
-            f"`{C2_VALIDATION_RUN}`",
-            "V2_MIGRATION_REQUIRED",
-        ),
-        "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.25 V2 Canon Current**", "LEGACY_C1_C2_C3_PROVEN"),
-        "docs/OMENWARD_ROADMAP.md": ("기존 기술 기준선·C1·C2·C3 자동 증거 확보", "- 제품 구현: `NOT_STARTED`"),
-        "docs/DECISIONS_PENDING.md": ("PROJECT_CORE.md", "CURRENT_IMPLEMENTATION_STATUS.md"),
-        "docs/DOCUMENTATION_MAP.md": ("기존 C1·C2·C3 증거", "CURRENT_IMPLEMENTATION_STATUS.md"),
+        "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
+        "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C3_AUTOMATED_CONTRACTS_PROVEN"),
+        "docs/HANDOFF_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C3_AUTOMATED_CONTRACTS_PROVEN"),
+        "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`"),
+        "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.23**", "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN"),
+        "docs/OMENWARD_ROADMAP.md": ("C2 전투 목적 루프 원격 검증·병합 완료",),
+        "docs/DECISIONS_PENDING.md": ("C2 전투 목적 루프 원격 검증 완료", "본진 독립 HP"),
+        "docs/DOCUMENTATION_MAP.md": ("C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",),
     }
     for relative, phrases in required_doc_states.items():
         body = (root / relative).read_text(encoding="utf-8")
@@ -136,7 +132,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"broken active Markdown link: {relative} -> {clean}")
 
     status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
-    if f"`{C2_VALIDATION_RUN}`" not in status:
+    if f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`" not in status:
         errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing C2 proof: {C2_VALIDATION_RUN}")
     audit = (root / "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md").read_text(encoding="utf-8")
     for evidence in ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", C2_AUDIT_HEAD, C2_AUDIT_RUN, "`Validate Core Contracts`"):
