@@ -53,7 +53,7 @@ class ProducerCancelCascadeContractTests(unittest.TestCase):
         self.assertIn("상태 변경 0", text)
         self.assertIn("과거 동의로 새 dependent를 조용히 삭제해서는 안 된다", text)
         self.assertIn("부분 삭제는 금지", text)
-        self.assertIn("`queue_revision`을 정확히 한 번 증가", text)
+        self.assertIn("queue_revision 정확히 1 증가", text)
 
     def test_parent_pending_is_superseded_without_scope_expansion(self) -> None:
         policy = POLICY.read_text(encoding="utf-8")
