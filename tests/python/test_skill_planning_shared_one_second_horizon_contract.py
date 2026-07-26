@@ -64,7 +64,7 @@ class PlanningSharedOneSecondHorizonContractTests(unittest.TestCase):
         self.assertIn("R2 = IN_PROGRESS, elapsed 0.5초 / 총 0.8초", text)
         self.assertIn("R3 = NOT_STARTED, elapsed 0초", text)
         self.assertIn("R3 elapsed = 0초", text)
-        self.assertIn("R4 elapsed 0.1, in progress", text)
+        self.assertIn("R4 0.1초 진행", text)
         self.assertIn("R1 완료 후 R2 horizon을 새로 시작", text)
 
     def test_multi_producer_and_fixed_point_scheduling_are_explicit(self) -> None:
@@ -92,7 +92,7 @@ class PlanningSharedOneSecondHorizonContractTests(unittest.TestCase):
         review = REVIEW.read_text(encoding="utf-8")
         self.assertIn("F-24_RESULT: APPROVED", review)
         self.assertIn("MULTI_STAGE_SHORT_WORK_CHAIN_POLICY: RESOLVED_SHARED_HORIZON", review)
-        self.assertIn("기존 live 진행 작업이 planning 진입만으로 1초 headstart를 얻는지 여부", policy)
+        self.assertIn("기존 live 작업이 planning 진입만으로 headstart를 받는지 여부", policy)
         self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", policy)
         self.assertIn("V2_IMPLEMENTATION: NOT_STARTED", policy)
 
