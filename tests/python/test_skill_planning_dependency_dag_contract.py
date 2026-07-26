@@ -57,7 +57,7 @@ class PlanningDependencyDagContractTests(unittest.TestCase):
         revalidation = REVALIDATION_POLICY.read_text(encoding="utf-8")
         self.assertIn("PLANNING_BATCH_COMMIT: ATOMIC_ALL_OR_NOTHING", revalidation)
         self.assertIn("전체 예약 성공 + PlanningCommitReceipt", revalidation)
-        self.assertIn("producer 객체 생성 뒤 consumer mutation이 실패해도 producer 객체를 남기지 않는다", dependency)
+        self.assertIn("producer 생성 뒤 consumer mutation이 실패해도 producer 객체를 남기지 않는다", dependency)
         self.assertIn("provisional ID → actual ID", dependency)
         self.assertIn("동일 `planning_commit_transaction_id` 재요청", dependency)
         self.assertIn("dependent 예약을 자동으로 삭제하거나 다른 producer에 자동 연결하는 것은 금지", dependency)
