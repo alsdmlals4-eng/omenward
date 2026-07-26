@@ -74,7 +74,7 @@ class ProducerOutputFingerprintCascadeContractTests(unittest.TestCase):
         self.assertIn("상태 변경 0", text)
         self.assertIn("producer 수정 + 영향 예약 제거를 하나의 원자 mutation", text)
         self.assertIn("queue_revision 정확히 1 증가", text)
-        self.assertIn("남은 전체 큐를 새 `queue_revision`에서 전체 DAG", text)
+        self.assertIn("남은 예약은 새 `queue_revision`에서 전체 DAG", text)
         self.assertIn("동일 `queue_mutation_transaction_id` 재요청", text)
         self.assertIn("PLANNING_BATCH_COMMIT: ATOMIC_ALL_OR_NOTHING", revalidation)
 
