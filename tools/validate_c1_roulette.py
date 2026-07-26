@@ -104,8 +104,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"active document retains pre-validation C1 state: {relative} -> {stale}")
 
     gdd = (root / "docs/OMENWARD_GAME_DESIGN.md").read_text(encoding="utf-8")
-    if "문서 버전: **v0.23**" not in gdd:
-        errors.append("GDD was not advanced to v0.23")
+    if "문서 버전: **v0.25 V2 Canon Current**" not in gdd:
+        errors.append("GDD is not at the current v0.25 V2 canon version")
     for stale in ("### 구현 전 미확정", "Issue #1 Phase 0 Codex Plan Mode", "현재 실제 Godot 코드, Scene, Resource, 테스트는 생성·수정하지 않는다"):
         if stale in gdd:
             errors.append(f"GDD retains stale implementation state: {stale}")
