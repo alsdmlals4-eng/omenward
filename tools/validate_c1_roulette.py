@@ -104,8 +104,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
                 errors.append(f"active document retains pre-validation C1 state: {relative} -> {stale}")
 
     gdd = (root / "docs/OMENWARD_GAME_DESIGN.md").read_text(encoding="utf-8")
-    if "문서 버전: **v0.25 V2 Canon Current**" not in gdd:
-        errors.append("GDD is not at the current v0.25 V2 canon version")
+    if "문서 버전: **v0.23**" not in gdd:
+        errors.append("GDD was not advanced to v0.23")
     for stale in ("### 구현 전 미확정", "Issue #1 Phase 0 Codex Plan Mode", "현재 실제 Godot 코드, Scene, Resource, 테스트는 생성·수정하지 않는다"):
         if stale in gdd:
             errors.append(f"GDD retains stale implementation state: {stale}")
@@ -117,20 +117,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             f"GitHub Actions run: `{FINAL_VALIDATION_RUN}`",
         ),
         "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-            "LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN",
-            f"`{FINAL_VALIDATION_RUN}`",
-            "V2_MIGRATION_REQUIRED",
+            "C1_ROULETTE_CORE_REMOTE_PROVEN",
+            f"C1 구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
+            f"C1 최종 검증 run: `{FINAL_VALIDATION_RUN}`",
         ),
-        "docs/OMENWARD_ROADMAP.md": (
-            "legacy C1의 검증된 중앙 판정",
-            "legacy 결과 불변",
-        ),
-        "docs/design/APPROVED_ROULETTE_CORE_RULES.md": (
-            "LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN",
-            "중앙 가로줄",
-            "완성선",
-            "등급",
-        ),
+        "docs/OMENWARD_ROADMAP.md": ("C1 승인 룰렛 핵심 계약 원격 검증·병합 완료", "**REMOTE_PROVEN**"),
+        "docs/design/APPROVED_ROULETTE_CORE_RULES.md": ("C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",),
     }
     for relative, phrases in requirements.items():
         text = (root / relative).read_text(encoding="utf-8")
