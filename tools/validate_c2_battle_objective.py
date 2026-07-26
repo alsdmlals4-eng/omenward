@@ -94,7 +94,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "V2_MIGRATION_REQUIRED",
         ),
         "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.25 V2 Canon Current**", "LEGACY_C1_C2_C3_PROVEN"),
-        "docs/OMENWARD_ROADMAP.md": ("기존 기술 기준선·C1·C2·C3 자동 증거 확보", "V2_IMPLEMENTATION_NOT_STARTED"),
+        "docs/OMENWARD_ROADMAP.md": ("기존 기술 기준선·C1·C2·C3 자동 증거 확보", "- 제품 구현: `NOT_STARTED`"),
         "docs/DECISIONS_PENDING.md": ("PROJECT_CORE.md", "CURRENT_IMPLEMENTATION_STATUS.md"),
         "docs/DOCUMENTATION_MAP.md": ("기존 C1·C2·C3 증거", "CURRENT_IMPLEMENTATION_STATUS.md"),
     }
