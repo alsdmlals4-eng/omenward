@@ -74,7 +74,7 @@ class ExistingWorkCancelRefundContractTests(unittest.TestCase):
             "PLANNED_SAME_SESSION_WORK_REMOVAL: RELEASE_PLANNED_DEBIT_NOT_REFUND",
             text,
         )
-        self.assertIn("planned debit을 삭제할 뿐이며 환불 gold를 새로 만들지 않는다", text)
+        self.assertIn("`planned debit`을 삭제할 뿐이며 환불 gold를 새로 만들지 않는다", text)
         self.assertIn("planned debit 해제와 existing live payment 환불", text)
         self.assertIn("live gold는 증가하지 않는다", text)
 
