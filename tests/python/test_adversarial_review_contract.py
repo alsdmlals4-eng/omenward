@@ -8,6 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 REGISTRY = json.loads((ROOT / "docs" / "base" / "SKILL_REGISTRY.json").read_text(encoding="utf-8"))
 TACTICAL_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TACTICAL_LEGENDARY_RESERVATION_ORDER_2026-07-26.md"
 DANGER_TICK_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_TICK_LEGENDARY_DEPLOYMENT_ORDER_2026-07-26.md"
+DANGER_MULTI_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_MULTI_LEGENDARY_COMMAND_ORDER_2026-07-26.md"
 LEGENDARY_PARENT_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md"
 MAPRUN_POLICY = ROOT / "docs" / "design" / "APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
 
@@ -107,6 +108,42 @@ class AdversarialReviewContractTests(unittest.TestCase):
         self.assertIn("룰렛 회전·판독·이동·확정·보관·판매·배치 중에도 전투가 진행", maprun)
         self.assertIn("MULTIPLE_NEW_LEGENDARY_COMMANDS_SAME_COMMIT_PHASE: REVIEW_PENDING", danger)
         self.assertIn("제품 코드 승인: `NO`", danger)
+
+    def test_danger_multi_legendary_contract_is_routed(self) -> None:
+        self.assertTrue(DANGER_MULTI_LEGENDARY_POLICY.is_file())
+        text = DANGER_MULTI_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        self.assertIn(LEGENDARY_PARENT_POLICY.name, text)
+        self.assertIn(DANGER_TICK_LEGENDARY_POLICY.name, text)
+        self.assertIn(MAPRUN_POLICY.name, text)
+
+    def test_danger_multi_legendary_contract_markers(self) -> None:
+        text = DANGER_MULTI_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        for marker in (
+            "DANGER_MULTI_LEGENDARY_COMMAND_ORDER: COMMAND_SEQUENCE_SERIAL_COMMIT",
+            "COMMAND_ATOMICITY: PER_COMMAND",
+            "ALIVE_LEGENDARY_INDEX_REFRESH_AFTER_SUCCESS: REQUIRED",
+            "EARLIER_SUCCESS_ROLLBACK_ON_LATER_FAILURE: FORBIDDEN",
+            "FAILED_COMMAND_RESERVES_LEGENDARY_SLOT: NO",
+            "STALE_CONSENT_AUTO_DOWNGRADE: FORBIDDEN",
+            "DUPLICATE_COMMAND_SEQUENCE: INVARIANT_VIOLATION",
+            "NEW_SPAWN_COMBAT_ACTIVATION: NEXT_SIMULATION_TICK",
+            "command_sequence",
+            "command_cutoff_sequence",
+            "AliveLegendaryIndexRevision",
+            "conflict_basis_hash",
+            "CONSENT_REQUIRED",
+        ):
+            self.assertIn(marker, text)
+
+    def test_danger_multi_legendary_preserves_parent_safety(self) -> None:
+        multi = DANGER_MULTI_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        parent = LEGENDARY_PARENT_POLICY.read_text(encoding="utf-8")
+        danger = DANGER_TICK_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        self.assertIn("PLAYER_ALIVE_LEGENDARY_BATTLEFIELD_CAP: 1", parent)
+        self.assertIn("AUTO_DOWNGRADE_WITHOUT_CONSENT: FORBIDDEN", parent)
+        self.assertIn("COMBAT_SETTLEMENT_BEFORE_DEPLOYMENT_COMMIT", danger)
+        self.assertIn("후속 명령의 `CONSENT_REQUIRED`, 자원 부족 또는 spawn 실패는 앞선 명령의 이미 완료된 receipt를 취소하지 않는다", multi)
+        self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", multi)
 
 
 if __name__ == "__main__":
