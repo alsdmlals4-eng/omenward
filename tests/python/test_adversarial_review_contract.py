@@ -10,6 +10,7 @@ TACTICAL_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TACTICAL_LEG
 DANGER_TICK_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_TICK_LEGENDARY_DEPLOYMENT_ORDER_2026-07-26.md"
 DANGER_MULTI_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_MULTI_LEGENDARY_COMMAND_ORDER_2026-07-26.md"
 SPIN_SESSION_RESUME_GATE_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_SPIN_SESSION_TACTICAL_RESUME_GATE_2026-07-26.md"
+PLANNING_REVALIDATION_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_PLANNING_REVALIDATION_ALL_OR_NOTHING_2026-07-26.md"
 LEGENDARY_PARENT_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md"
 MAPRUN_POLICY = ROOT / "docs" / "design" / "APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
 TRANSACTION_FOUNDATION_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md"
@@ -188,6 +189,50 @@ class AdversarialReviewContractTests(unittest.TestCase):
         self.assertIn("재검증 완료 전 전투 simulation이 재개되지 않음", gate)
         self.assertIn("재검증 실패 예약을 유지·취소할지, 전체 batch를 차단할지는 별도 검수 결정", gate)
         self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", gate)
+
+    def test_planning_revalidation_all_or_nothing_contract_is_routed(self) -> None:
+        self.assertTrue(PLANNING_REVALIDATION_POLICY.is_file())
+        text = PLANNING_REVALIDATION_POLICY.read_text(encoding="utf-8")
+        for parent in (
+            SPIN_SESSION_RESUME_GATE_POLICY.name,
+            MAPRUN_POLICY.name,
+            TACTICAL_LEGENDARY_POLICY.name,
+            TRANSACTION_FOUNDATION_POLICY.name,
+        ):
+            self.assertIn(parent, text)
+
+    def test_planning_revalidation_all_or_nothing_markers(self) -> None:
+        text = PLANNING_REVALIDATION_POLICY.read_text(encoding="utf-8")
+        for marker in (
+            "POST_CLOSE_REVALIDATION_FAILURE_POLICY: BLOCK_ENTIRE_PLANNING_COMMIT",
+            "ANY_INVALID_RESERVATION_BLOCKS_RESUME: YES",
+            "UNRESOLVED_MANDATORY_CONSENT_BLOCKS_RESUME: YES",
+            "VALID_RESERVATION_PARTIAL_APPLY: FORBIDDEN",
+            "FAILED_RESERVATION_AUTO_CANCEL: FORBIDDEN",
+            "PLANNING_QUEUE_WHILE_BLOCKED: PRESERVED_UNAPPLIED",
+            "QUEUE_MUTATION_REVALIDATION: FULL_QUEUE_REQUIRED",
+            "PLANNING_BATCH_COMMIT: ATOMIC_ALL_OR_NOTHING",
+            "PLANNING_COMMIT_FAILURE_ROLLBACK: REQUIRED",
+            "PlanningRevalidationReport",
+            "PlanningCommitPlan",
+            "PlanningCommitReceipt",
+            "planning_commit_transaction_id",
+            "queue_revision",
+            "basis_revision_hash",
+        ):
+            self.assertIn(marker, text)
+
+    def test_planning_revalidation_supersedes_pending_without_scope_expansion(self) -> None:
+        policy = PLANNING_REVALIDATION_POLICY.read_text(encoding="utf-8")
+        gate = SPIN_SESSION_RESUME_GATE_POLICY.read_text(encoding="utf-8")
+        maprun = MAPRUN_POLICY.read_text(encoding="utf-8")
+        self.assertIn("POST_CLOSE_REVALIDATION_FAILURE_POLICY: REVIEW_PENDING", gate)
+        self.assertIn("명시적으로 대체", policy)
+        self.assertIn("비용을 일괄 차감한 뒤 동시에 적용", maprun)
+        self.assertIn("실패 예약 자동 삭제", policy)
+        self.assertIn("전체 예약 성공 + PlanningCommitReceipt", policy)
+        self.assertIn("전체 상태 변경 0", policy)
+        self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", policy)
 
 
 if __name__ == "__main__":
