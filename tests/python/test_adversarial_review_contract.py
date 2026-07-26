@@ -7,6 +7,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 REGISTRY = json.loads((ROOT / "docs" / "base" / "SKILL_REGISTRY.json").read_text(encoding="utf-8"))
 TACTICAL_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TACTICAL_LEGENDARY_RESERVATION_ORDER_2026-07-26.md"
+DANGER_TICK_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_TICK_LEGENDARY_DEPLOYMENT_ORDER_2026-07-26.md"
 LEGENDARY_PARENT_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md"
 MAPRUN_POLICY = ROOT / "docs" / "design" / "APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
 
@@ -72,6 +73,40 @@ class AdversarialReviewContractTests(unittest.TestCase):
         self.assertIn("TACTICAL_PLANNING", maprun)
         self.assertIn("[전투 재개]", maprun)
         self.assertIn("비용을 일괄 차감한 뒤 동시에 적용", maprun)
+
+    def test_danger_tick_legendary_contract_is_routed(self) -> None:
+        self.assertTrue(DANGER_TICK_LEGENDARY_POLICY.is_file())
+        text = DANGER_TICK_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        self.assertIn(LEGENDARY_PARENT_POLICY.name, text)
+        self.assertIn(MAPRUN_POLICY.name, text)
+        self.assertIn(TACTICAL_LEGENDARY_POLICY.name, text)
+
+    def test_danger_tick_legendary_contract_markers(self) -> None:
+        text = DANGER_TICK_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        for marker in (
+            "DANGER_TICK_LEGENDARY_ORDER: COMBAT_SETTLEMENT_BEFORE_DEPLOYMENT_COMMIT",
+            "ALIVE_LEGENDARY_INDEX: POST_SETTLEMENT_REVISION",
+            "DANGER_DEPLOYMENT_INPUT: QUEUED_NOT_DIRECT_SPAWN",
+            "WALL_CLOCK_ORDERING: FORBIDDEN",
+            "RENDER_CALLBACK_ORDERING: FORBIDDEN",
+            "NEW_SPAWN_COMBAT_ACTIVATION: NEXT_SIMULATION_TICK",
+            "command_sequence",
+            "command_cutoff_sequence",
+            "CombatSettlementReceipt",
+            "AliveLegendaryIndexRevision",
+            "CONSENT_REQUIRED",
+        ):
+            self.assertIn(marker, text)
+
+    def test_danger_tick_contract_preserves_revalidation_and_atomicity(self) -> None:
+        danger = DANGER_TICK_LEGENDARY_POLICY.read_text(encoding="utf-8")
+        parent = LEGENDARY_PARENT_POLICY.read_text(encoding="utf-8")
+        maprun = MAPRUN_POLICY.read_text(encoding="utf-8")
+        self.assertIn("실제 배치 transaction을 커밋하는 순간 생존 전설 수를 다시 검사", parent)
+        self.assertIn("동일 `deployment_transaction_id` 재요청", parent)
+        self.assertIn("룰렛 회전·판독·이동·확정·보관·판매·배치 중에도 전투가 진행", maprun)
+        self.assertIn("MULTIPLE_NEW_LEGENDARY_COMMANDS_SAME_COMMIT_PHASE: REVIEW_PENDING", danger)
+        self.assertIn("제품 코드 승인: `NO`", danger)
 
 
 if __name__ == "__main__":
