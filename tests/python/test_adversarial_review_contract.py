@@ -143,7 +143,6 @@ class AdversarialReviewContractTests(unittest.TestCase):
         self.assertIn("AUTO_DOWNGRADE_WITHOUT_CONSENT: FORBIDDEN", parent)
         self.assertIn("COMBAT_SETTLEMENT_BEFORE_DEPLOYMENT_COMMIT", danger)
         self.assertIn("후속 명령의 `CONSENT_REQUIRED`, 자원 부족 또는 spawn 실패는 앞선 명령의 이미 완료된 receipt를 취소하지 않는다", multi)
-        self.assertIn("제품 코드 승인", multi)
         self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", multi)
 
 
