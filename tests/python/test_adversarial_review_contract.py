@@ -9,8 +9,11 @@ REGISTRY = json.loads((ROOT / "docs" / "base" / "SKILL_REGISTRY.json").read_text
 TACTICAL_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TACTICAL_LEGENDARY_RESERVATION_ORDER_2026-07-26.md"
 DANGER_TICK_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_TICK_LEGENDARY_DEPLOYMENT_ORDER_2026-07-26.md"
 DANGER_MULTI_LEGENDARY_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_DANGER_MULTI_LEGENDARY_COMMAND_ORDER_2026-07-26.md"
+SPIN_SESSION_RESUME_GATE_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_SPIN_SESSION_TACTICAL_RESUME_GATE_2026-07-26.md"
 LEGENDARY_PARENT_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md"
 MAPRUN_POLICY = ROOT / "docs" / "design" / "APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
+TRANSACTION_FOUNDATION_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md"
+INTEGRATED_LEDGER = ROOT / "docs" / "design" / "APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md"
 
 
 class AdversarialReviewContractTests(unittest.TestCase):
@@ -144,6 +147,47 @@ class AdversarialReviewContractTests(unittest.TestCase):
         self.assertIn("COMBAT_SETTLEMENT_BEFORE_DEPLOYMENT_COMMIT", danger)
         self.assertIn("후속 명령의 `CONSENT_REQUIRED`, 자원 부족 또는 spawn 실패는 앞선 명령의 이미 완료된 receipt를 취소하지 않는다", multi)
         self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", multi)
+
+    def test_spin_session_resume_gate_contract_is_routed(self) -> None:
+        self.assertTrue(SPIN_SESSION_RESUME_GATE_POLICY.is_file())
+        text = SPIN_SESSION_RESUME_GATE_POLICY.read_text(encoding="utf-8")
+        for parent in (
+            INTEGRATED_LEDGER.name,
+            "APPROVED_ROULETTE_CORE_RULES.md",
+            MAPRUN_POLICY.name,
+            TRANSACTION_FOUNDATION_POLICY.name,
+        ):
+            self.assertIn(parent, text)
+
+    def test_spin_session_resume_gate_contract_markers(self) -> None:
+        text = SPIN_SESSION_RESUME_GATE_POLICY.read_text(encoding="utf-8")
+        for marker in (
+            "TACTICAL_RESUME_WITH_OPEN_SPIN_SESSION: BLOCKED",
+            "RESUME_COMMAND_REQUIRES_CLOSED_SPIN_SESSION: YES",
+            "SPIN_SESSION_AUTO_CONFIRM_ON_RESUME: FORBIDDEN",
+            "SPIN_SESSION_AUTO_CANCEL_ON_RESUME: FORBIDDEN",
+            "PLANNING_RESERVATIONS_WHILE_BLOCKED: PRESERVED_UNAPPLIED",
+            "RESUME_ATTEMPT_STATE_MUTATION: ZERO",
+            "POST_SPIN_CLOSE_REVALIDATION: REQUIRED",
+            "POST_CLOSE_REVALIDATION_FAILURE_POLICY: REVIEW_PENDING",
+            "PlanningRevalidationReport",
+            "SPIN_SESSION_OPEN",
+            "ConfirmReceipt",
+        ):
+            self.assertIn(marker, text)
+
+    def test_spin_session_resume_gate_preserves_transaction_boundaries(self) -> None:
+        gate = SPIN_SESSION_RESUME_GATE_POLICY.read_text(encoding="utf-8")
+        transaction = TRANSACTION_FOUNDATION_POLICY.read_text(encoding="utf-8")
+        ledger = INTEGRATED_LEDGER.read_text(encoding="utf-8")
+        maprun = MAPRUN_POLICY.read_text(encoding="utf-8")
+        self.assertIn("미확정 `SpinSession`은 닫고 재개할 수 있다", ledger)
+        self.assertIn("건설·업그레이드·철거·새 회전은 금지", ledger)
+        self.assertIn("SpinSession close", transaction)
+        self.assertIn("[전투 재개]", maprun)
+        self.assertIn("재검증 완료 전 전투 simulation이 재개되지 않음", gate)
+        self.assertIn("재검증 실패 예약을 유지·취소할지, 전체 batch를 차단할지는 별도 검수 결정", gate)
+        self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", gate)
 
 
 if __name__ == "__main__":
