@@ -50,7 +50,7 @@ class PlanningDependencyDagContractTests(unittest.TestCase):
         self.assertIn("requires lifecycle = COMPLETED", text)
         self.assertIn("건설 시작 예약은 같은 batch에서 다음을 생산하지 않는다", text)
         self.assertIn("업그레이드 시작도 같은 batch 후속 예약에 완료 Tier를 제공하지 않는다", text)
-        self.assertIn("전투 시간이나 건설 시간을 진행시키지 않는다", text)
+        self.assertIn("전투 시간, 건설 시간, 업그레이드 시간, cooldown 시간이 흐른 것으로 간주하지 않는다", text)
 
     def test_parent_all_or_nothing_contract_is_preserved(self) -> None:
         dependency = POLICY.read_text(encoding="utf-8")
