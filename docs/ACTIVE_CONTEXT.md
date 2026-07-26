@@ -24,7 +24,8 @@ target_platform: PC
 current_stage: PROTOTYPE_AND_VERTICAL_SLICE
 current_work_mode: PLAN
 execution_profile: PLANNING_ONLY_PROFILE
-current_branch_and_commit: main / c4c02dc553dbf6e79fe26fc751bd268bd396c627
+current_branch: main
+context_baseline_commit: c4c02dc553dbf6e79fe26fc751bd268bd396c627  # PR #94 v6 전환 병합 기준
 player_promise: 예고된 세 전선의 공세를 읽고 건물과 영구 가로 이동으로 미래 릴을 설계한 뒤 당첨 병력을 한 전선에 비가역 커밋한다.
 project_core: 정확 공세 예고 + TokenSource + 세 원형 릴 + immutable snapshot + 명시적 확정 + 3라인 자동전투
 pointed_fun: 무작위 결과 소비가 아니라 미래 룰렛 구조를 설계하고 그 결과를 전선에 커밋하는 판단
@@ -36,6 +37,8 @@ open_conflicts: 없음. 다음 PLAN에서 새 충돌이 발견되면 한 문항�
 blocked_unverified: V2 실행 경로, 사람 플레이, 1080p·720p, 성능, 저장·복귀, 마스코트 실제 적용
 next_evidence_needed: CORE_POC 가설·관찰 기준·실패 기준과 3스테이지 Slice 후보
 ```
+
+`context_baseline_commit`은 이 Context Pack이 확정된 전환 병합 기준이다. 현재 `main` HEAD를 자기참조 방식으로 고정하는 필드가 아니다.
 
 ## 2. 우선 읽기
 
