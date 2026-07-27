@@ -1,183 +1,253 @@
 # 오멘워드 현재 구현 상태
 
-- 갱신일: 2026-07-26
-- 현재 main 기준: `5a9c02b0ed4757c379fd8dfcb89fcc362b8cf185`
-- V2 설계: `V2_SPEC_APPROVED`
-- V2 정본: `V2_CANON_CURRENT_BY_PR_57_MERGE`
-- V2 구현: `V2_IMPLEMENTATION_NOT_STARTED`
+- 갱신일: 2026-07-27
+- 최신 설계 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- 적대적 검토: `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
+- 작업 모드: `PLAN / PLANNING_ONLY_PROFILE`
+- 제품 코드 승인: `NOT_AUTHORIZED`
+- 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 - 기존 구현: `LEGACY_C1_C2_C3_PROVEN`
+- 자동 검증: `LATEST_CONTRACTS_NOT_RUN`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
-- 잠금: `CORE_LOCK_V2_PENDING`
+- 잠금: `CORE_LOCK_NOT_ALLOWED`
 
-이 문서는 승인된 V2 설계, 현재 main의 실제 구현과 실행 증거를 분리한다. 문서 승인이나 파일 존재만으로 구현·검증 완료를 주장하지 않는다.
+이 문서는 최신 사용자 승인 설계, 현재 제품 구현, 기존 실행 증거를 분리한다. 문서나 PR이 존재하는 것만으로 구현·검증 완료를 주장하지 않는다.
 
-최신 사용자 승인 원본은 `design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md`, `design/APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md`, `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` 순으로 적용한다. 전설 획득·배치 제한은 후속 승인 문서가 기존 전설 위험 주기 규칙을 대체한다.
+---
 
 ## 1. 상태 용어
 
 | 용어 | 의미 |
 |---|---|
-| `V2_SPEC_APPROVED` | V2 제품 규칙과 통합 결정이 사용자 승인됨 |
-| `V2_CANON_CURRENT_BY_PR_57_MERGE` | 승인된 V2 책임 문서와 결정 원장이 PR #57로 main에 병합됨 |
-| `IMPLEMENTED` | 실제 파일과 실행 경로가 존재함 |
-| `LEGACY_IMPLEMENTED` | 기존 설계 기준 구현은 존재하나 V2와 충돌해 교체 필요 |
-| `PROVEN` | 요구 계약과 최신 실행 증거가 함께 존재함 |
-| `MIGRATION_REQUIRED` | 보존·교체 경계가 정의됐고 V2 구현이 필요함 |
-| `NOT_STARTED` | 해당 제품 구현을 시작하지 않음 |
-| `NOT_RUN` | 자동 또는 사람 검증을 실행하지 않음 |
+| `LATEST_USER_DESIGN_INTEGRATED` | 2026-07-27까지의 사용자 결정을 최신 통합 설계 문서에 기록 |
+| `DESIGN_DOCUMENTS_UPDATED` | 기획·코어·pending·상태 문서를 동기화 |
+| `LEGACY_IMPLEMENTED` | 과거 설계 기준 제품 코드가 존재 |
+| `LEGACY_PROVEN` | 과거 요구 계약과 실행 증거가 존재 |
+| `MIGRATION_REQUIRED` | 최신 설계와 충돌해 보존 seam 또는 교체가 필요 |
+| `NOT_STARTED` | 최신 제품 구현을 시작하지 않음 |
+| `NOT_RUN` | 해당 자동·사람 검증을 실행하지 않음 |
+| `PROVEN` | 최신 요구 계약과 fresh 실행 증거가 함께 존재 |
+
+---
 
 ## 2. 기술 기준선
+
+유지 대상:
 
 - Godot 4.7.1 Standard.
 - Compatibility renderer.
 - 960×540 논리 화면, 1920×1080 출력.
 - GDScript.
-- `GameSession`, `StageRun`, `BattleSimulator`, `WaveDirector`, `RouletteService`, `CoreUxService` 등 기존 상태·서비스 존재.
-- 공용 10 `UnitArchetypeProfile`, Tier·Rank·FactionVisual 분리.
+- typed Resource와 명시적 도메인 상태 객체.
+- 이름 기반 RNG stream과 재현 가능한 입력 로그.
+- 공용 `UnitArchetypeProfile`과 진영 Visual 데이터 분리.
+- 기존 상태·서비스·테스트 자산 중 최신 계약과 양립하는 부분.
 
-기술 기준선 자체는 유지 대상이다.
+기술 기준선의 존재는 최신 버티컬 슬라이스 구현을 의미하지 않는다.
 
-## 3. 보존하는 기존 실행 증거
+---
 
-### Legacy C1
+## 3. 보존 가능한 legacy 실행 증거
+
+### Legacy C1 — 룰렛
+
+보존 후보:
+
+- 중앙 가로줄 선행 판정.
+- 완성선 수와 등급 계산.
+- 금화 75/200/500% resolver.
+- 출처 결정론 개념.
+
+교체 또는 migration 필요:
+
+- 독립 9칸 생성.
+- 구형 TokenSource 장부.
+- 구형 럭키와 이동 거래.
+- 스테이지당 전설 제한.
+- 구형 보관 계약.
+
+판정:
 
 ```text
-독립 3×3 결정론적 보드
-→ 중앙 가로줄 선행 판정
-→ 8개 완성선·등급
-→ 출처 병영·유닛 또는 금화
-→ StageRun 보관·라인 배치
+LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
++ LATEST_ROULETTE_MIGRATION_REQUIRED
 ```
 
-- 검증 run: `29926598807`.
-- 보존: 중앙 판정, 완성선, 등급, 금화 75/200/500%, 출처 결정론.
-- 교체: 독립 9칸 생성, 스테이지 전설 제한, 구형 럭키·이동 거래, 기존 보관 계약, 상위 등급 계열 고정 템플릿.
+### Legacy C2 — 전장
 
-판정: `LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN / V2_MIGRATION_REQUIRED`.
+보존 후보:
 
-### Legacy C2
+- 3라인 전투 기반.
+- 공용 병종 데이터.
+- 구조물 피해.
+- 전장 상태 기반 승패.
+
+교체 또는 migration 필요:
+
+- `capture_power` 합산.
+- 중앙 접전지에 구형 중간거점 상태기 재사용.
+- 구형 라인 수명주기.
+- 아군 주기적 출격 묶음.
+
+판정:
 
 ```text
-같은 라인 교전
-→ 접전지·중간거점
-→ 성문·본진
-→ 전장 상태 기반 승패
+LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
++ LATEST_BATTLEFIELD_MIGRATION_REQUIRED
 ```
 
-- 검증 run: `29938742864`.
-- 보존: 3라인, 공용 병종, 구조물 피해, 전장 상태 기반 승패.
-- 교체: 점령력 합산, 중앙 접전지에 구형 중간거점 상태기 재사용, 기존 런 수명주기, 아군 주기적 배치 묶음.
+### Legacy C3 — UX·원인 보고
 
-판정: `LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN / V2_MIGRATION_REQUIRED`.
+보존 후보:
 
-### Legacy C3
+- 도메인 snapshot→HUD 경계.
+- 전투 원인 보고.
+- 표시와 규칙 계산 분리.
 
-- 건설 전 확률 미리보기.
-- 토큰·출처 장부.
-- T-30/T-15/T-5 징조.
-- 상성·사거리·현재 대상.
-- 라인별 원인 보고.
-- 건설 비교.
+교체 또는 migration 필요:
 
-- 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`.
-- 검증 run: `29965348284`.
-- 보존: 도메인 snapshot→HUD 경계, 원인 보고, 표시와 규칙 계산 분리.
-- 교체: T-30/T-15/T-5 의미, 독립 9칸 확률 미리보기, 구형 토큰 장부.
+- 독립 9칸 확률 미리보기.
+- T-30/T-15/T-5 의미.
+- 구형 토큰 장부.
 
-판정: `LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_NOT_RUN / V2_MIGRATION_REQUIRED`.
+판정:
 
-## 4. 병합됐지만 제품 구현이 아닌 작업
+```text
+LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
++ LATEST_UX_MIGRATION_REQUIRED
++ HUMAN_QA_NOT_RUN
+```
 
-- PR #57: V2 통합 정본과 GM-01~GM-106 결정 원장.
-- PR #65: Skill System v4 재구성 및 사람 플레이 검증 Skill 흡수.
-- PR #66: Base 레거시·아카이브 거버넌스 adapter-only 채택.
-- PR #67: Base 공용 Skill route와 Godot 에셋 우선 탐색 연결.
-- PR #72: R3→U1-F→S1-F→R4→U1-C→S1-C 거래 기반 순서 승인.
+---
 
-이 작업들은 문서·Skill·운영 계약이며 V2 Godot 실행 경로를 만들지 않았다.
+## 4. 2026-07-27 문서 작업
 
-## 5. V2 미구현 영역
+문서 브랜치에서 수행한 작업:
 
-다음은 승인됐지만 아직 실제 제품 구현과 실행 증거가 없다.
+- 최신 사용자 승인 계약 통합.
+- 적대적 검토 기록.
+- PROJECT_CORE 갱신.
+- GDD 갱신.
+- pending 목록 갱신.
+- 구현 상태 문서 갱신.
 
-### 룰렛·결과 거래
+수행하지 않은 작업:
+
+- Godot Scene·Resource·GDScript 변경.
+- 제품 테스트 작성 또는 실행.
+- 경제 100,000시드 시뮬레이션.
+- checkpoint 저장 구현.
+- 사람 플레이.
+
+---
+
+## 5. 최신 버티컬 슬라이스 미구현 영역
+
+### 5.1 룰렛·토큰
 
 - 세 가변 원형 릴.
-- `NORMAL_X`와 `SOURCE_BOUND_X`.
-- 안정 index X 교체와 append.
+- 금고 GOLD TokenSource와 병영 UNIT TokenSource.
+- 물리 노드 결속 슬롯과 `SOURCE_BOUND_X`.
+- source lifecycle 멱등 거래.
 - 영구 가로 이동과 세로 이동.
-- immutable `SpinSnapshot`과 재개 가능한 `SpinSession`.
-- `[확정]` 원자 거래와 idempotency.
-- 숨은 럭키 truth table.
-- 보관형 이동 아이템 상한 3, pending 보상, 무보상 누적 카운터.
-- 세션 내 이동 아이템 점증 가격 `nP`.
-- 유닛 `PendingReward`와 금화 즉시 지급.
-- 전설 결과를 횟수·stage 주기 제한 없이 항상 전설 PendingReward로 생성.
+- immutable SpinSnapshot과 SpinSession.
+- live source 변경과 기존 보상 불변 경계.
 
-### 병종·능력 성장
+### 5.2 경제·결과 처리
 
-- Tier 1부터 계열 토큰 공급.
-- 출처 건물 단위 중복 제거와 완성 Tier 가중치.
-- 모든 등급에서 선택 세부 병종 유지.
-- Tier별 패시브 생성·강화.
-- 등급별 액티브 기술 생성·강화.
-- 액티브 AI 자동 발동과 병종별 작성 우선순위.
-- 전설 배치 충돌 시 동일 출처·Tier·세부 병종의 영웅 등급 payload 2개 조합.
-- 과거 `fixed_grade_unit_template_id` 제거 또는 마이그레이션.
+- 금고 지속 수입과 금화 토큰.
+- 보관·판매·식량.
+- PendingReward.
+- 금화 기대수익을 포함한 비용표.
+- 다중 건물 수리 실시간 과금.
+- 에스크로 기반 건설·업그레이드·취소·파괴 반환.
 
-### 전장·건설·구조물
+### 5.3 전장·점령
 
-- 배치 즉시 출격.
-- 라인별 대기 앵커·공격 명령·`HoldRadius`.
-- 같은 맵의 wave·stage 상태 연속성.
-- 플레이어 전장 생존 전설 최대 1기.
-- 두 번째 전설 배치 경고·명시적 동의·커밋 순간 재검증.
-- 충돌이 계속될 때 동일 세부 병종 영웅 2기 원자 배치와 rollback.
-- 경고 확인 뒤 기존 전설이 사망하면 원래 전설 그대로 배치.
-- 고정 8초 비교전 점령과 소유권 지속.
-- 전방 건설 권리.
-- blocked 일반 건물과 적 교체 거래.
-- source-bound X 복원·영구 제거 거래.
-- 시간 기반 건설·업그레이드·철거와 50% 환불 경계.
-- 직접 공격 가능한 방어탑 예외와 점령 시 소유권 이전.
-- 글로벌 수리 예산, 작업자 임금 곡선, 1초 정산 경계.
-- 0.001 금화 글로벌 고정소수점 장부.
-- 성문 `BREACHED`, 30초 재건, 진행 치유, footprint 활성화.
+- 5구간 라인 구조.
+- 전체 30개 건설 노드.
+- 중앙 경합 지역 3개와 양측 중간 거점 6개.
+- 고정시간 점령과 회복.
+- 소유권·수입·건설 권리 원자 이전.
+- 후방 거점 상실과 전진 병력 예외.
 
-### 맵런·메타·검증
+### 5.4 건물
 
-- Map→Stage→Wave 계층.
-- 맵 하나당 독립 game/run.
-- 맵·난이도·기록·도감 영구 진행.
-- 단일 메타 재화, 전략 해금, 상한형 시작 강화와 respec.
-- 반복 clear 보상 100/50/25% 점감.
-- V2 전술 UX.
-- 100,000시드·경제·판매·비축 시뮬레이션.
-- 10~15분 사람 플레이와 1080p·720p 가독성.
+- 금고, 농장, 타워, 병영, 지휘소.
+- 금고·농장 선형 Tier.
+- 타워 연사/포격 분기와 Tier 3 강화.
+- 지휘소 돌격/수비 분기와 Tier 3 강화.
+- 병영 T2 10병종과 T3 20전문화.
+- 호환 이전과 병영 BLOCKED.
+- HP 0 제거, 노드 EMPTY, 잔해·재건 없음.
 
-## 6. 현재 판정
+### 5.5 전투·AI
+
+- 방패병 기본 표적 우선도.
+- 전문 프로필과 점수 보정.
+- 20% 표적 전환 히스테리시스.
+- 호위병 25% 직접·광역 HP 손실 분담.
+- 철벽수호병 정지 단계와 추적 제한.
+- 나머지 Tier 3 능력.
+
+### 5.6 벨루·UX
+
+- 자동 벨루 조언.
+- 비모달 벨루 팁.
+- RecommendationSnapshot과 stale 처리.
+- 우선 큐, 최근 조언, 선택 음성.
+- 건물 유형·오라·보호 범위·점령 상태 UI.
+
+### 5.7 MapRun·저장·메타
+
+- 20스테이지 MapRun.
+- 일반·위험 시간 행렬.
+- 준비·정산 versioned checkpoint.
+- 저장 원자 교체와 migration.
+- 미션·등급·메타 재화·영구 성장.
+
+---
+
+## 6. 기존 승인 문서와 최신 정본 관계
+
+기존 V2 문서는 설계 이력과 세부 근거로 보존한다. 다음 항목은 최신 계약에 의해 대체되었다.
+
+- 3스테이지 최소 슬라이스.
+- 첫 슬라이스 mid-run save 미지원.
+- 라인당 중앙 접전지 하나만 사용하는 토폴로지.
+- 작업자 임금·글로벌 수리 예산.
+- 파괴 건물 재건.
+- 병영만 TokenSource로 해석하는 구조.
+
+최신 구현은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`를 먼저 따른다.
+
+---
+
+## 7. 현재 판정
 
 ```text
 TECHNICAL_BASELINE_IMPLEMENTED
 + LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 + LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
 + LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
-+ V2_SPEC_APPROVED
-+ V2_CANON_CURRENT_BY_PR_57_MERGE
-+ V2_IMPLEMENTATION_NOT_STARTED
-+ CORE_LOOP_V2_NOT_PROVEN
++ LATEST_USER_DESIGN_INTEGRATED
++ ADVERSARIAL_REVIEW_RECORDED
++ PRODUCT_CODE_NOT_CHANGED
++ VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
++ LATEST_AUTOMATED_CONTRACTS_NOT_RUN
 + HUMAN_QA_NOT_RUN
-+ CORE_LOCK_V2_PENDING
++ CORE_LOCK_NOT_ALLOWED
 ```
 
-## 7. 다음 게이트
+---
 
-1. 활성 상태·인계 문서가 같은 V2 current 상태를 말하도록 동기화한다.
-2. `docs/superpowers/plans/2026-07-24-omenward-core-v2-implementation.md`를 GM-01~GM-106과 후속 승인 수정 기준으로 재검증한다.
-3. 첫 구현 패키지의 목표·플레이어 가치·포함·제외·상태 소유·Red 테스트·회귀·롤백을 설계한다.
-4. 검증된 중앙 판정을 보존하는 순수 `RouletteBoardResolver` seam과 물리 릴·SpinSnapshot·SpinSession 경계를 우선 검토한다.
-5. 사용자 Plan Mode 승인 뒤에만 Codex 제품 구현을 시작한다.
-6. 후속 패키지에서 병종 능력, 결과 처리, 전설 배치 제한, MapRun, 라인 명령, 건설·수리·재건을 연결한다.
-7. V2 UX·100,000시드·사람 플레이를 실행한다.
+## 8. 다음 게이트
 
-문서 정본 병합만으로 제품 구현을 시작하거나 `CORE_LOCK_V2`를 선언하지 않는다.
+1. 문서 브랜치 diff와 정본 참조를 재검증한다.
+2. 미확정 수치·콘텐츠를 `DECISIONS_PENDING.md` 순서로 결정한다.
+3. 100,000시드 룰렛·경제·판매·비축·수리 시뮬레이션 계약을 설계한다.
+4. 20스테이지 checkpoint schema와 원자 저장 계약을 설계한다.
+5. 첫 제품 구현 패키지의 목표, 포함·제외, 상태 소유, Red 테스트, 회귀, 롤백 계획을 작성한다.
+6. 사용자의 별도 Plan Mode 승인 뒤에만 제품 구현을 시작한다.
+
+문서 병합만으로 제품 구현을 시작하거나 완료 상태를 선언하지 않는다.
