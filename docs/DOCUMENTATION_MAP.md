@@ -25,7 +25,7 @@
 → CURRENT_IMPLEMENTATION_STATUS.md
 → ACTIVE_CONTEXT.md
 → HANDOFF_CONTEXT.md
-→ 현재 작업과 연결된 세부 승인 문서·Evidence Pilot
+→ 현재 작업과 연결된 세부 승인 문서·Evidence Pilot·검증 Artifact
 → 실제 코드·데이터·테스트
 ```
 
@@ -43,8 +43,9 @@
 | 후속 수치·콘텐츠 결정 | `DECISIONS_PENDING.md` | `PENDING_ONLY` |
 | 구현·검증 순서 | `OMENWARD_ROADMAP.md` | `PLANNING_SEQUENCE` |
 | 룰렛 통제감·인과 Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
+| 룰렛 통제감 사람 검증 Artifact | `superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md` | `HUMAN_VALIDATION_INPUT / NOT_CANON` |
 
-## 3. 룰렛 Evidence Pilot 경계
+## 3. 룰렛 Evidence Pilot·검증 Artifact 경계
 
 `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 다음만 소유한다.
 
@@ -53,11 +54,18 @@
 - 승인된 Vertical Slice 내부 3개 대표 상황 마이크로 테스트 계약.
 - 행동·자기보고·접근성·정보 과밀 검수 항목.
 
-다음을 소유하지 않는다.
+`superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md`는 다음만 소유한다.
+
+- 저충실도 릴·TokenSource·전선 브리핑 카드의 연구용 구성.
+- 대표 상황 3개의 진행 순서·진행자 스크립트·관찰 기록지.
+- 구조·잔여 RNG·출처·커밋·전투 인과 계산식과 Pilot 판정 기준.
+- 실제 사람 세션 뒤 작성할 검증 보고서 계약.
+
+두 문서는 다음을 소유하지 않는다.
 
 - 별도 CORE_POC.
 - 제품 코드·Godot Scene·Resource·GDScript.
-- 밸런스 수치·정확 확률.
+- 밸런스 수치·정확 확률·최종 병종.
 - Vertical Slice 구현 완료 또는 사람 검증 통과.
 - `CORE_LOCK`, `VERTICAL_SLICE_PROVEN`, `MVP_COMPLETE` 판정.
 
@@ -97,6 +105,8 @@ USER_APPROVED_PLAN
 != CORE_LOCK
 
 PILOT_RECOMMENDATION
+!= HUMAN_VALIDATION_INPUT
+!= 사람 검증 완료
 != NOT_CANON 해제
 != 별도 CORE_POC 승인
 != CODEX_BUILD 승인
@@ -109,10 +119,11 @@ LEGACY_C1_C2_C3_PROVEN
 
 | 작업 | 먼저 읽을 책임 원본 |
 |---|---|
-| 룰렛 통제감·실패 귀인·전투 인과 | Evidence Pilot, 현재 Vertical Slice 계약, `discipline.omenward-core-ux` |
+| 룰렛 통제감·실패 귀인·전투 인과 | Evidence Pilot, 사람 검증 Artifact, 현재 Vertical Slice 계약, `discipline.omenward-core-ux` |
+| 저충실도 사람 세션 준비·관찰·판정 | 사람 검증 Artifact, Evidence Pilot, 현재 Vertical Slice 계약 |
 | 전체 Vertical Slice 범위·시스템 연결 | 현재 Vertical Slice 계약, Project Core, Current Implementation Status |
 | 밸런스·100,000 seed 시뮬레이션 | 세부 룰렛·경제 정본, 결정론 계약, 별도 검증 계획 |
-| UI·접근성·정보 위계 | Evidence Pilot, 현재 Review, `discipline.omenward-core-ux` |
+| UI·접근성·정보 위계 | Evidence Pilot, 사람 검증 Artifact, 현재 Review, `discipline.omenward-core-ux` |
 | 아트·애니메이션 | 관련 `APPROVED_ART_*`, `APPROVED_UNIT_ANIMATION_*`, `images/VISUAL_REFERENCE_INDEX.md` |
 | Codex 구현 인계 | 사용자 별도 Build 승인 후 최신 Plan과 실제 main 기준선 |
 | REVIEW | 영향 범위 지도 → 공격 → Finding 판정 → 수정 → 회귀 재검사 |
