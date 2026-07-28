@@ -1,6 +1,6 @@
 # 오멘워드 Documentation Map
 
-- 갱신일: 2026-07-27
+- 갱신일: 2026-07-29
 - 현재 정본 세대: `V2_CANON_CURRENT_BY_PR_57_MERGE`
 - 현재 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
 - 제품 단계: `PROTOTYPE_AND_VERTICAL_SLICE`
@@ -46,7 +46,7 @@
 | `OMENWARD_ROADMAP.md` | 구현·검증 순서 |
 | `DECISIONS_PENDING.md` | 아직 수치·콘텐츠로 남은 결정 |
 
-## 3. 현재 R1+R2 책임 원본
+## 3. 현재 R1+R2·v6 기획 입력
 
 | 입력 | 역할 | 권한 |
 |---|---|---|
@@ -55,6 +55,7 @@
 | `reviews/2026-07-27-v2-construction-repair-same-timestamp-order-review.md` | F-30 기술 검수 | `MERGED_REVIEW_EVIDENCE` |
 | `design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md` | F-30 최신 승인 순서 | `CURRENT_CANON_FOR_F30` |
 | `benchmarks/OMENWARD_V2_BENCHMARK_REFRESH_2026-07-26.md` | V2 UX 채택·후속·제외 판정 | `PLANNING_INPUT` |
+| `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | 룰렛 구조 설계·잔여 RNG·전선 커밋 인과의 CORE_POC 위험 가설 | `PILOT_RECOMMENDATION / NOT_CANON` |
 | `superpowers/plans/2026-07-26-omenward-v2-r1-r2-roulette-foundation.md` | 구현 계획 초안 | `IMPLEMENTATION_READY_DRAFT / BUILD_NOT_AUTHORIZED` |
 | `superpowers/plans/2026-07-24-omenward-core-v2-implementation.md` | 구형 전체 계획 | `HISTORICAL / REVALIDATION_REQUIRED` |
 
@@ -93,9 +94,9 @@ R1+R2 기획 완료
 
 | 작업 | 우선 책임 원본·모듈 |
 |---|---|
-| CORE_POC 위험 가설 | `PROJECT_CORE.md`, 통합 명세, `analyzing-and-refining-game-concepts`, `identifying-project-core` |
+| CORE_POC 위험 가설 | `PROJECT_CORE.md`, 통합 명세, 룰렛 통제감 Evidence Pilot, `analyzing-and-refining-game-concepts`, `identifying-project-core` |
 | Vertical Slice 계약 | v6 `VERTICAL_SLICE_MODULE`, `designing-vertical-slices` |
-| 플레이어 연구·벤치마크 | V2 benchmark refresh, `governing-game-user-research-coverage` |
+| 플레이어 연구·벤치마크 | V2 benchmark refresh, 룰렛 통제감 Evidence Pilot, `governing-game-user-research-coverage` |
 | UX 청사진·브리핑·인과 | `discipline.omenward-core-ux`, 실제 화면 역할 정의 |
 | 마스코트·상징 동반자 | v6 `ASSET_AND_MASCOT_MODULE`, 세계관·UI·세일즈 역할 |
 | 에셋·플러그인 | `evaluating-godot-assets-and-plugins-before-creation`, 라이선스 원장 |
