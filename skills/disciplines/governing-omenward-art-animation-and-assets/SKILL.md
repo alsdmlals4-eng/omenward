@@ -4,6 +4,13 @@ Skill ID: `discipline.omenward-art-assets`
 
 `skills/SHARED_EXECUTION_CONTRACT.md`를 따른다.
 
+## Skill Modes
+
+- `asset-contract`: 에셋 규격·임포트·판정·연출 계약.
+- `planning-visualization`: 릴·전선·토큰·HUD 기획 목업.
+- `final-visual-candidate`: Demo·상점·키아트·UI·유닛 후보.
+- `visual-qa-and-approval`: 실제 화면·구현·권리·오류·승인 검수.
+
 ## 사용 조건
 아트 방향, 스프라이트·아이콘·환경, 애니메이션, 임포트 규격, 전장 연출, 에셋 교체와 검수에 사용한다.
 
@@ -27,3 +34,5 @@ Skill ID: `discipline.omenward-art-assets`
 
 ## 고유 검수
 에셋이 레인·위협·보상·유닛 상태를 가리거나, 애니메이션과 판정이 불일치하거나, 원본·임포트·런타임 파일 책임이 중복되면 실패다.
+
+생성 이미지·목업은 자동 최종 자산이 아니다. `APPROVED_CANDIDATE`와 `PROJECT_ASSET_APPROVED`를 분리하고 실제 전장 가독성과 Godot 적용을 검수한다.

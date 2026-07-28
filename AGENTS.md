@@ -129,3 +129,12 @@ V2_SPEC_APPROVED != V2_IMPLEMENTED
 - 사용자 확인 항목.
 
 테스트하지 않은 항목을 완료했다고 보고하지 않는다.
+
+## BCA Sheet·GPT 이미지 생성·검수
+
+- Base 기준은 `alsdmlals4-eng/Base@7072b9e2742a60d7548fd39df3328ad76a8dbad1`와 v8 통합 실행문이다.
+- Sheet는 `NOT_CONFIGURED`; URL 확인 전 신규 Sheet를 추정 생성하지 않는다.
+- GPT는 기획 중 릴·전선·토큰·HUD 목업과 기획 종료 Demo·상점 후보를 생성할 수 있다.
+- 생성 결과는 자동 최종 자산이 아니며 실제 Godot 화면·구현·권리·오류·승인 원장 검수 뒤 사용한다.
+- 과거 Core PoC 표현은 역사·호환 근거이며 현행 제품 Gate는 `DEMO_FIRST_VERTICAL_SLICE`다.
+- 각 단계 뒤 `repository-wide-audit`를 실행한다.

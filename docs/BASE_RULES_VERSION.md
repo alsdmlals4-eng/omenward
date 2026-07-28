@@ -79,3 +79,9 @@ Base 원격 변경은 자동 적용하지 않는다. 새 Base 커밋을 채택�
 - Registry와 실제 패키지 간 orphan·missing·dependency cycle 검사
 
 Omenward 고유 코어 규칙, Godot 경로, C1~C4 게이트, 세 레인·룰렛·건설 노드 계약은 Base로 승격하지 않는다.
+
+## BCA v8
+
+- 활성 Prompt: `templates/prompts/VERTICAL_SLICE_INTEGRATED_EXECUTION_PROMPT_v8.md`.
+- Sheet: `NOT_CONFIGURED`.
+- 이미지 workflow: `docs/GPT_IMAGE_GENERATION_AND_REVIEW_WORKFLOW.md`.

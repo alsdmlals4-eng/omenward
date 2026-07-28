@@ -70,3 +70,11 @@ V2 정본·Skill·아카이브 연결 완료
 ```
 
 제품 코드 변경은 최신 통합 결정 원장에 맞춘 별도 Plan Mode 제안과 사용자 승인 뒤 시작합니다.
+
+## BCA v8 기획·이미지·Sheet 운영
+
+- Base: `alsdmlals4-eng/Base@7072b9e2742a60d7548fd39df3328ad76a8dbad1`
+- 통합 실행문: `VERTICAL_SLICE_INTEGRATED_EXECUTION_PROMPT_v8.md`
+- Sheet: `NOT_CONFIGURED`; `docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
+- 이미지 workflow: `docs/GPT_IMAGE_GENERATION_AND_REVIEW_WORKFLOW.md`
+- 적대적 검토: `docs/BCA_VISUAL_SHEET_ADOPTION_AUDIT.md`
