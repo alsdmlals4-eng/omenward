@@ -22,14 +22,27 @@ jobs:
           status=$?
           cat bca-patch-results.txt
           exit "$status"
-      - run: |
-          python -m py_compile tools/_tmp_apply_bca_visual_sheet_v8.py tests/python/test_bca_visual_sheet_adoption.py
-          python tests/python/test_bca_visual_sheet_adoption.py
-          git diff --check
+      - name: Validate generated patch
+        shell: bash
+        run: |
+          set +e
+          {
+            python -m py_compile tools/_tmp_apply_bca_visual_sheet_v8.py tests/python/test_bca_visual_sheet_adoption.py
+            python tests/python/test_bca_visual_sheet_adoption.py
+            git diff --check
+          } > bca-validation-results.txt 2>&1
+          status=$?
+          cat bca-validation-results.txt
+          exit "$status"
       - name: Upload diagnostics
         if: always()
         uses: actions/upload-artifact@v4
-        with: {name: omenward-bca-patch-results, path: bca-patch-results.txt, if-no-files-found: warn}
+        with:
+          name: omenward-bca-patch-results
+          path: |
+            bca-patch-results.txt
+            bca-validation-results.txt
+          if-no-files-found: warn
       - name: Commit and push
         shell: bash
         run: |
