@@ -5,7 +5,7 @@ session_packet_id: OMENWARD-HV-001
 project: OMENWARD
 baseline_branch: main
 baseline_commit: 495bb3628f4cccb971c8875adc01cf947133f8b6
-base_governance: BASE_PR_56_PENDING_MERGE
+base_governance_commit: dd6ae48225da58088045733e8fdc3de5784bdeff
 base_governance_path: docs/knowledge/game-development/HUMAN_VALIDATION_ARTIFACT_GOVERNANCE.md
 base_template_path: templates/research/HUMAN_VALIDATION_SESSION_PACKET.md
 artifact_status: READY_FOR_LOW_FIDELITY_HUMAN_SESSION
@@ -57,20 +57,16 @@ claim_ceiling:
 - 정확 정지 index는 사전에 공개하지 않는다.
 - `DEFENDER / CONTROL / BREAKER`는 `RESEARCH_ONLY_ROLE_TOKEN`이다.
 
-## 4. 세션 패킷
+## 4. 세션 패킷과 결과 교차 배정
 
-1. 공세 브리핑 카드.
-2. 세 릴과 TokenSource 출처 카드.
-3. 구조 변경 또는 한 번의 영구 가로 이동 카드.
-4. 회전 전 요약: 통제한 것·확정된 것·남은 RNG·비가역 결정.
-5. 동일 구조의 결과 Variant A/B.
-6. 전선 커밋 카드.
-7. 전투 인과와 포기 비용 카드.
-8. 관찰·진행자 개입 기록지.
-
-## 5. 결과 교차 배정
-
-각 시나리오는 동일한 플레이어 구조에 두 결과를 가진다.
+1. 공세 브리핑.
+2. 세 릴과 TokenSource 출처.
+3. 구조 변경 또는 영구 가로 이동.
+4. 회전 전 요약: 통제·확정·잔여 RNG·비가역 결정.
+5. 동일 구조의 결과 A/B.
+6. 전선 커밋.
+7. 장점과 포기 비용이 있는 전투 인과.
+8. 관찰·진행자 개입 기록.
 
 ```yaml
 variant_A: FAVORABLE
@@ -80,27 +76,18 @@ assignment:
   participant_4_6: [B, A, B]
 ```
 
-좋은 결과에서만 설계 덕분이라고 하고 나쁜 결과를 순수 운으로 처리하는지 관찰한다.
+좋은 결과에서만 설계 덕분이라고 하고 나쁜 결과를 순수 운으로 처리하는지 본다.
 
-## 6. 시나리오
+## 5. 시나리오
 
 ### 1 — 단일 위협과 TokenSource 변화
 
 ```yaml
 scenario_id: OW-AGENCY-1
 threat: "상단 강한 단일 돌파 — DEFENDER 필요"
-player_change: "BARRACKS-A가 각 릴의 지정 공급 위치에 DEFENDER를 공급"
-controlled:
-  - TokenSource 추가
-  - DEFENDER가 들어간 위치
-residual_rng:
-  - 정확 정지 index
-variant_A:
-  result: [DEFENDER@BARRACKS-A, DEFENDER@BARRACKS-A, DEFENDER@BARRACKS-A]
-  consequence: "상단 돌파 지연, 다른 전선 진전 포기"
-variant_B:
-  result: [GOLD@VAULT-A, DEFENDER@BARRACKS-A, BREAKER@BASELINE]
-  consequence: "상단 방어는 일부만 성립하고 금화·돌파 역할의 커밋 비용이 남음"
+player_change: "BARRACKS-A가 각 릴 지정 위치에 DEFENDER 공급"
+variant_A: [DEFENDER@BARRACKS-A, DEFENDER@BARRACKS-A, DEFENDER@BARRACKS-A]
+variant_B: [GOLD@VAULT-A, DEFENDER@BARRACKS-A, BREAKER@BASELINE]
 ```
 
 ### 2 — 두 전선과 영구 가로 이동
@@ -110,55 +97,42 @@ scenario_id: OW-AGENCY-2
 threats:
   top: "다수 진격 — CONTROL"
   middle: "중장갑 핵심 — BREAKER"
-move: "한 가로줄의 CONTROL과 BREAKER를 한 번 교환, undo 없음"
-variant_A:
-  result: [CONTROL@BARRACKS-A, BREAKER@BARRACKS-B, CONTROL@BARRACKS-A]
-variant_B:
-  result: [GOLD@VAULT-A, CONTROL@BARRACKS-A, BREAKER@BARRACKS-B]
+move: "CONTROL과 BREAKER를 한 번 교환, undo 없음"
+variant_A: [CONTROL@BARRACKS-A, BREAKER@BARRACKS-B, CONTROL@BARRACKS-A]
+variant_B: [GOLD@VAULT-A, CONTROL@BARRACKS-A, BREAKER@BARRACKS-B]
 commit_options: [top, middle]
 ```
-
-모든 커밋 결과에는 지킨 것과 포기한 것을 함께 제시한다.
 
 ### 3 — 세 전선과 이전 구조 회수
 
 ```yaml
 scenario_id: OW-AGENCY-3
-prior_history:
-  - "BREAKER 비중 유지"
-  - "상단 CONTROL 부족 기록"
-threats:
-  top: CONTROL
-  middle: DEFENDER
-  bottom: BREAKER
-variant_A:
-  result: [CONTROL@BARRACKS-A, DEFENDER@BARRACKS-A, BREAKER@BARRACKS-B]
-variant_B:
-  result: [GOLD@VAULT-A, DEFENDER@BARRACKS-A, BREAKER@BARRACKS-B]
+prior_history: ["BREAKER 비중 유지", "상단 CONTROL 부족 기록"]
+threats: {top: CONTROL, middle: DEFENDER, bottom: BREAKER}
+variant_A: [CONTROL@BARRACKS-A, DEFENDER@BARRACKS-A, BREAKER@BARRACKS-B]
+variant_B: [GOLD@VAULT-A, DEFENDER@BARRACKS-A, BREAKER@BARRACKS-B]
 commit_rule: "한 전선에만 비가역 커밋"
 ```
 
-## 7. 진행자 스크립트
+모든 결과에는 지킨 것과 포기한 것을 함께 표시한다.
 
-시작 문구:
+## 6. 진행자 스크립트
 
 > 슬롯 운이 좋았는지를 평가하는 테스트가 아닙니다. 어떤 구조를 바꿨고 무엇이 아직 무작위인지, 나온 결과를 어느 전선에 왜 배치했는지 설명해 주세요.
 
-순서:
-
 1. 공세·릴·출처 공개.
 2. 참가자가 구조 변경 수행.
-3. **first attempt**로 통제한 것·확정된 것·잔여 RNG·비가역 결정을 작성.
-4. 배정된 A/B 결과 카드 공개.
-5. 공개 시점과 문구를 `facilitator_intervention`에 기록.
+3. `first_attempt`로 통제·확정·잔여 RNG·비가역 결정을 작성.
+4. 배정된 A/B 결과 공개.
+5. 공개 시점·문구를 `facilitator_intervention`에 기록.
 6. 출처 추적 후 전선 커밋.
-7. 장점·포기 비용이 있는 전투 인과 카드 공개.
-8. **post-feedback attempt**로 결과 귀인과 다음 구조 수정안 기록.
-9. 실제 행동 뒤 자기보고를 질문.
+7. 장점·포기 비용 카드 공개.
+8. `post_feedback_attempt`로 결과 귀인과 다음 구조 수정 기록.
+9. 행동 기록 뒤 자기보고.
 
 진행자는 가장 좋은 전선이나 구조를 추천하지 않는다.
 
-## 8. 참가자 구성
+## 7. 참가자와 기록
 
 ```yaml
 pilot_purpose: DIRECTIONAL_FINDING_AND_ATTRIBUTION_DEFECT_DISCOVERY
@@ -173,37 +147,20 @@ result_variant: COUNTERBALANCED_A_B
 session_minutes: 30-40
 ```
 
-작은 표본으로 실제 RNG 체감 분포나 모집단 일반화를 주장하지 않는다.
+기록 필드:
 
-## 9. 관찰 기록
+- 참가자·경험군·시나리오·결과 Variant.
+- 최초 구조 변화·통제/RNG 설명·출처 예상.
+- 결과 카드 공개에 대한 진행자 개입.
+- 결과 뒤 귀인·출처 추적·커밋 이유·포기 대안.
+- 다음 구조 수정안.
+- undo/reroll 요청·시간·정보 누락 행동.
+- 통제감·불공정감·과밀 자기보고.
+- 좋은 결과만 자기 공로로 보는 critical incident.
 
-| 필드 | 정의 |
-|---|---|
-| `participant_id` | 개인정보 없는 코드 |
-| `segment` | LOW / EXPERIENCED |
-| `scenario_id` | 1/2/3 |
-| `result_variant` | A/B |
-| `first_structure_change` | 피드백 전 구조 변화 설명 |
-| `first_controlled_vs_random` | 통제·RNG 분리 설명 |
-| `first_source_prediction` | 예상 출처 설명 |
-| `facilitator_intervention` | 결과·인과 카드 공개 기록 |
-| `post_result_attribution` | OWN_STRUCTURE / RESIDUAL_RNG / BOTH / PURE_LUCK / CONFUSED |
-| `source_trace` | 실제 출처 추적 원문 |
-| `commit_reason` | 위협과 연결한 이유 |
-| `foregone_alternative` | 포기한 전선·결과 |
-| `next_structure_adjustment` | 구체 수정안 |
-| `behavior_observation` | 검토 시간·undo/reroll 요청·정보 미확인 |
-| `player_self_report` | 통제감·불공정감·정보 과밀 |
-| `critical_incident` | 좋은 결과만 자기 공로, 나쁜 결과는 순수 운 등 |
+## 8. 판정
 
-## 10. 판정
-
-1. 최신 Vertical Slice 계약과 충돌하면 `STOP`.
-2. 같은 구조의 A/B 결과에서 귀인이 일관되는지 본다.
-3. 심각도 높은 순수 운·정답 전선 강의·출처 오해 사례를 본다.
-4. 서로 다른 참가자 2명 이상에게 반복된 결함을 본다.
-5. 경험군 차이와 결과 Variant 차이를 본다.
-6. 비율은 `n/N` 참고값으로만 기록한다.
+비율은 `n/N` 참고값으로만 기록한다.
 
 ```yaml
 PROMISING_DIRECTION:
@@ -211,20 +168,20 @@ PROMISING_DIRECTION:
     - "서로 다른 참가자 2명 이상이 A/B 결과 모두에서 통제 요소와 잔여 RNG를 구분"
     - "출처와 전선 커밋의 장점·포기 비용을 설명"
     - "결과가 달라도 다음 구조 수정안이 릴·TokenSource·역할 비중과 연결"
-  claim: "Vertical Slice UX 청사진에서 구조·RNG·출처·커밋 인과를 계속 검증할 방향을 지지"
+  claim: "Vertical Slice UX에서 구조·RNG·출처·커밋 인과를 계속 검증할 방향을 지지"
 ADAPT:
   condition: "구조 인과는 읽히지만 출처·비가역성·전선 비교 중 한 층에서 반복 혼란"
 REWORK:
   condition: "결과 Variant와 무관하게 릴을 계산표 또는 순수 운으로만 읽음"
 REJECT:
-  condition: "좋은 결과에서만 통제감을 느끼고 나쁜 결과에서 구조 영향을 전혀 설명하지 못함"
+  condition: "좋은 결과에서만 통제감을 느끼고 나쁜 결과에서 구조 영향을 설명하지 못함"
 STOP:
   condition: "정본 충돌, 별도 Core PoC 오인, 진행자 정답 전선 추천"
 ```
 
 이 fidelity에서는 제품 UX `ADOPT`, 실제 RNG 검증, `CORE_LOCK`을 선언하지 않는다.
 
-## 11. 현재 상태
+## 9. 현재 상태
 
 ```yaml
 product_code_changed: false
