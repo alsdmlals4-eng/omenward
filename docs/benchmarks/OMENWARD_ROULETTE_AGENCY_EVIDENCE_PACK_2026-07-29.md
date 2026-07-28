@@ -13,7 +13,7 @@ human_validation: NOT_RUN
 method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 ```
 
-> V2 승인 정본과 Legacy 실행 증거를 변경하지 않는다. CORE_POC에서 검증할 가장 위험한 플레이 가설을 좁히는 계획 입력이며 제품 코드 승인이 아니다.
+> 최신 권한은 `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다. 이 Pilot은 **별도 CORE_POC를 재도입하지 않으며**, 승인된 전체 Vertical Slice 안에서 룰렛 통제감과 전투 인과를 검증할 대표 상황을 좁히는 계획 입력이다. 제품 코드·데이터·Scene 변경을 승인하지 않는다.
 
 ## 1. 현재 코어와 보호 경계
 
@@ -21,10 +21,12 @@ method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 - 핵심 문장: **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 - 기본 난이도의 치명적 공세 정보는 숨기지 않는다.
 - 가로 이동은 TokenInstance만 교환하며 길이·cursor를 바꾸지 않는다.
-- stopped 보상은 immutable snapshot을 사용한다.
+- stopped 보상은 immutable SpinSnapshot을 사용한다.
 - 이동 실행 즉시 소비되고 undo하지 않는다.
 - 배치 후 회수·라인 변경·판매하지 않는다.
-- V2 구현은 아직 시작하지 않았고 Legacy C1~C3 증거를 V2 증거로 간주하지 않는다.
+- 최신 목표는 `FULL_SYSTEM_VERTICAL_SLICE / MINIMUM_CONTENT_BREADTH`다.
+- 코어 PoC는 `SKIPPED_BY_USER_DECISION`이며 별도 실행 트랙을 만들지 않는다.
+- 최신 Vertical Slice 구현은 시작되지 않았고 Legacy C1~C3 증거를 최신 증거로 간주하지 않는다.
 
 ## 2. 결정 질문
 
@@ -40,7 +42,8 @@ method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 - 정지 뒤 결과가 어느 TokenSource와 이동에서 왔는지 찾는다.
 - 나쁜 결과 뒤 `무작위라서 졌다`보다 다음 구조 수정안을 말한다.
 - 세 전선 중 한 곳에 커밋한 이유와 포기한 대안을 설명한다.
-- 룰렛 UI와 전투 결과 사이 인과가 끊기지 않는다.
+- 룰렛 UI와 자동전투 결과 사이 인과가 끊기지 않는다.
+- 대표 상황 검증이 전체 Vertical Slice 범위와 별도 제품 트랙을 만들지 않는다.
 
 ### 실패 조건
 
@@ -48,6 +51,7 @@ method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 - 확률 수치를 많이 보여주지만 어떤 행동을 해야 하는지 모른다.
 - reroll·undo·확률 보정이 늘어나 코어의 비가역 판단을 약화한다.
 - 전투가 자동으로 흘러가 결과 원인을 룰렛과 연결하지 못한다.
+- 대표 상황 Prototype가 별도 Core PoC나 축소 제품 범위로 승격된다.
 
 ## 3. 선택 Coverage
 
@@ -57,7 +61,7 @@ method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 | 플레이어 경험·난이도 | EVIDENCED | 통제감·실패 귀인·다음 계획을 검증한다. |
 | UX·UI·접근성 | EVIDENCED | 구조 변화·잔여 RNG·인과 설명의 정보 위계가 필요하다. |
 | 벤치마킹·GUR | EVIDENCED | 행동과 자기보고를 분리한다. |
-| Godot 구현 | NOT_APPLICABLE | 이번 Pilot은 V2 코드를 승인하지 않는다. |
+| Godot 구현 | NOT_APPLICABLE | 최신 제품 코드와 Vertical Slice 구현을 승인하지 않는다. |
 
 ## 4. Evidence
 
@@ -93,7 +97,7 @@ method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 
 ## 6. Pilot 권장안
 
-최종 판정: **`ADAPT` — B안을 3스테이지 CORE_POC 가설로 사용한다.**
+최종 판정: **`ADAPT` — B안을 전체 Vertical Slice 내부의 3개 대표 상황 마이크로 테스트로 검증한다.**
 
 ### 화면 인과 사슬
 
@@ -113,33 +117,35 @@ method_reference: Base dc9603595155989e13fb92edff347df5c725217e
 - `통제 가능`, `이미 확정`, `잔여 무작위`, `비가역 결정`을 서로 다른 라벨로 표시한다.
 - 자동전투 중 핵심 인과 이벤트를 일시정지 없이 다시 볼 수 있는 요약 후보를 둔다.
 - reroll과 undo는 이번 Pilot에 추가하지 않는다.
+- 마이크로 테스트 결과가 전체 Vertical Slice의 구현·검증 완료를 의미하지 않는다.
 
-## 7. 3스테이지 검증 계약
+## 7. Vertical Slice 내부 3개 대표 상황 검증 계약
 
 ```yaml
-build_or_artifact: paper_or_clickable_three_stage_core_poc
+build_or_artifact: paper_or_clickable_vertical_slice_embedded_three_scenario_microtest
 tester_segment:
   - 전략 게임 경험이 낮은 참가자 3명 이상
   - 덱빌딩·오토배틀 경험자 3명 이상
-stage_1: 단일 명확 위협 + 한 TokenSource 변화 + 한 커밋
-stage_2: 두 전선 경쟁 + 세로 조사 + 한 가로 이동
-stage_3: 세 전선 압박 + 이전 구조 결과 회수 + 비가역 커밋
+scenario_1: 단일 명확 위협 + 한 TokenSource 변화 + 한 커밋
+scenario_2: 두 전선 경쟁 + 세로 조사 + 한 가로 이동
+scenario_3: 세 전선 압박 + 이전 구조 결과 회수 + 비가역 커밋
 primary_metrics:
   - 회전 전 구조 변화 설명률
   - 정지 결과 출처 추적률
   - 실패 후 다음 구조 수정안 제시율
   - 라인 커밋 이유 설명률
-  - 단계별 의사결정 시간
+  - 상황별 의사결정 시간
 guardrails:
   - 확률 표를 읽지 못해도 핵심 인과를 이해하는가
   - UI 확인 시간이 플레이 시간 대부분을 차지하지 않는가
   - 자동전투 결과를 룰렛과 연결하지 못하는가
+  - 대표 상황이 별도 Core PoC·축소 Slice로 오인되는가
 success:
   - 다수 참가자가 결과를 자기 구조 설계와 연결하고 다음 수정안을 제시한다
 failure:
   - 결과를 운으로만 귀인하거나 조작 전후 차이를 찾지 못한다
 stop:
-  - 승인 V2 규칙과 Prototype 표현이 충돌하면 테스트 중단
+  - APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md와 표현이 충돌하면 테스트 중단
 ```
 
 ## 8. 적대적 검토
@@ -150,15 +156,19 @@ stop:
 | ADV-OW-02 | 확률 숫자가 통제감으로 오인된다. | MUST_FIX | 조작 전후 구조와 결과 출처 설명을 우선한다. |
 | ADV-OW-03 | 나쁜 결과를 보정하려 reroll·undo를 추가한다. | REJECT | 코어의 영구 이동·비가역 커밋을 보호한다. |
 | ADV-OW-04 | 3라인 정보가 한 화면에 과밀해진다. | SHOULD_FIX | 공세→구조→정지→커밋의 단계별 정보 위계를 검증한다. |
-| ADV-OW-05 | Legacy C1~C3 성공을 V2 통과로 간주한다. | MUST_FIX | V2 사람 증거는 별도 `NOT_RUN` 상태로 유지한다. |
+| ADV-OW-05 | Legacy C1~C3 성공을 최신 Vertical Slice 통과로 간주한다. | MUST_FIX | 최신 사람 증거는 별도 `NOT_RUN` 상태로 유지한다. |
+| ADV-OW-06 | 대표 상황 검증을 별도 CORE_POC로 재도입한다. | REJECT | 승인된 Vertical Slice 내부의 마이크로 테스트로만 유지한다. |
+| ADV-OW-07 | Pilot 문서와 validator 통과를 제품 구현 증거로 주장한다. | MUST_FIX | 제품 코드·런타임·사람 검증 상태를 `NOT_AUTHORIZED / NOT_RUN`으로 유지한다. |
 
 ## 9. 현재 결정에 미치는 영향
 
-- V2 승인 규칙·F-30·Legacy seam: `NO_CHANGE`.
-- CORE_POC 위험 가설: `PILOT_RECOMMENDATION`.
-- 3스테이지 Slice 후보: `TEST`.
+- 최신 `FULL_SYSTEM_VERTICAL_SLICE / MINIMUM_CONTENT_BREADTH` 계약: `NO_CHANGE`.
+- V2 상세 규칙·F-30·Legacy seam: `NO_CHANGE`.
+- 별도 Core PoC: `NOT_REINTRODUCED`.
+- Vertical Slice 내부 룰렛 UX·인과 대표 상황: `PILOT_RECOMMENDATION / TEST`.
 - 제품 코드·Codex Build: `NOT_AUTHORIZED`.
-- 사람 검증 뒤 `CORE_LOCK_V2`를 별도 판정한다.
+- 자동·사람·접근성·성능 검증: `NOT_RUN`.
+- 사람 검증 뒤에도 전체 Vertical Slice와 제품 게이트는 별도 판정한다.
 
 ## 10. 원출처
 
@@ -167,6 +177,8 @@ stop:
 - https://www.gdcvault.com/play/1013427/Designing-to-Promote-Intentional
 - https://www.gdcvault.com/play/1025772/-Into-the-Breach-Design
 
+게시일·영상 접근 범위·세부 발언은 실제 적용 직전에 다시 확인한다.
+
 ## 11. 실행 보고
 
 ```yaml
@@ -174,6 +186,7 @@ selected_skills:
   - managing-project-intake-and-work-contract
   - analyzing-and-refining-game-concepts
   - governing-game-user-research-coverage
+  - designing-vertical-slices
   - running-adversarial-review-and-refinement
 work_modes_used: PLAN -> REVIEW
 product_paths_changed: false
