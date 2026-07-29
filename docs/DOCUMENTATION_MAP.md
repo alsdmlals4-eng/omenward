@@ -9,6 +9,7 @@
 - 제품 코드 승인: `NO`
 - 최신 Vertical Slice 구현: `NOT_STARTED`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
+- 합성 위험 검토: `SYNTHETIC_RISK_REVIEW / T6_AI_INFERENCE`
 - 별도 Core PoC: `SKIPPED_BY_USER_DECISION`
 
 이 문서는 질문별 책임 원본을 선택하는 라우터다. 최신 사용자 지시와 현재 책임 원본을 우선하며, 모든 과거 V2 문서를 한꺼번에 활성 정본으로 취급하지 않는다.
@@ -44,30 +45,20 @@
 | 구현·검증 순서 | `OMENWARD_ROADMAP.md` | `PLANNING_SEQUENCE` |
 | 룰렛 통제감·인과 Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 | 룰렛 통제감 사람 검증 Artifact | `superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md` | `HUMAN_VALIDATION_INPUT / NOT_CANON` |
+| 합성 테스터 적용 Skill·작업 구조 | `research/OMENWARD_SYNTHETIC_TESTER_STRUCTURE_ANALYSIS_2026-07-29.md` | `T6_AI_INFERENCE / NOT_CANON` |
+| 룰렛 통제감 합성 위험 판정 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_TESTER_REPORT_2026-07-29.md` | `SYNTHETIC_RISK_REVIEW / HUMAN_NOT_RUN` |
 
-## 3. 룰렛 Evidence Pilot·검증 Artifact 경계
+## 3. 룰렛 Evidence·사람·합성 경계
 
-`benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 다음만 소유한다.
+Evidence Pack은 구조 설계와 잔여 무작위성의 검증 가설을 소유한다. 사람 검증 Artifact는 실제 세션 카드·진행자 스크립트·관찰 기록을 소유한다. 합성 분석서는 현행 Skill·정본·보호 경로를 소유하고 합성 보고서는 T6 위험 가정·반례·수정 후보만 소유한다.
 
-- 구조 설계와 잔여 무작위성의 정보 구분 가설.
-- TokenSource→릴 변경→정지 결과→라인 커밋→자동전투 인과의 검증 질문.
-- 승인된 Vertical Slice 내부 3개 대표 상황 마이크로 테스트 계약.
-- 행동·자기보고·접근성·정보 과밀 검수 항목.
-
-`superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md`는 다음만 소유한다.
-
-- 저충실도 릴·TokenSource·전선 브리핑 카드의 연구용 구성.
-- 대표 상황 3개의 진행 순서·진행자 스크립트·관찰 기록지.
-- 구조·잔여 RNG·출처·커밋·전투 인과 계산식과 Pilot 판정 기준.
-- 실제 사람 세션 뒤 작성할 검증 보고서 계약.
-
-두 문서는 다음을 소유하지 않는다.
+다음은 어느 Pilot 문서도 소유하지 않는다.
 
 - 별도 CORE_POC.
 - 제품 코드·Godot Scene·Resource·GDScript.
 - 밸런스 수치·정확 확률·최종 병종.
 - Vertical Slice 구현 완료 또는 사람 검증 통과.
-- `CORE_LOCK`, `VERTICAL_SLICE_PROVEN`, `MVP_COMPLETE` 판정.
+- `CORE_LOCK`, `VERTICAL_SLICE_PROVEN`, `MVP_COMPLETE`, `LOOP_PROVEN` 판정.
 
 ## 4. 세부 규칙과 역사 계보
 
@@ -106,25 +97,28 @@ USER_APPROVED_PLAN
 
 PILOT_RECOMMENDATION
 != HUMAN_VALIDATION_INPUT
+!= SYNTHETIC_RISK_REVIEW
 != 사람 검증 완료
 != NOT_CANON 해제
-!= 별도 CORE_POC 승인
 != CODEX_BUILD 승인
 
-LEGACY_C1_C2_C3_PROVEN
-!= 최신 Vertical Slice 증거
+SYNTHETIC_RISK_REVIEW
+= T6_AI_INFERENCE
+!= LOOP_PROVEN
+!= 실제 RNG 체감
+!= 실제 플레이어 이해
 ```
 
 ## 6. 다음 작업 라우팅
 
 | 작업 | 먼저 읽을 책임 원본 |
 |---|---|
-| 룰렛 통제감·실패 귀인·전투 인과 | Evidence Pilot, 사람 검증 Artifact, 현재 Vertical Slice 계약, `discipline.omenward-core-ux` |
+| 룰렛 통제감·실패 귀인·전투 인과 | Evidence Pilot, 사람 검증 Artifact, 합성 보고서, 현재 Vertical Slice 계약 |
+| 합성 위험 재검토 | 구조 분석서, 합성 보고서, `discipline.analytics-research`, 적대적 검토 |
 | 저충실도 사람 세션 준비·관찰·판정 | 사람 검증 Artifact, Evidence Pilot, 현재 Vertical Slice 계약 |
 | 전체 Vertical Slice 범위·시스템 연결 | 현재 Vertical Slice 계약, Project Core, Current Implementation Status |
 | 밸런스·100,000 seed 시뮬레이션 | 세부 룰렛·경제 정본, 결정론 계약, 별도 검증 계획 |
-| UI·접근성·정보 위계 | Evidence Pilot, 사람 검증 Artifact, 현재 Review, `discipline.omenward-core-ux` |
-| 아트·애니메이션 | 관련 `APPROVED_ART_*`, `APPROVED_UNIT_ANIMATION_*`, `images/VISUAL_REFERENCE_INDEX.md` |
+| UI·접근성·정보 위계 | Evidence Pilot, 사람 검증 Artifact, 합성 보고서, `discipline.omenward-core-ux` |
 | Codex 구현 인계 | 사용자 별도 Build 승인 후 최신 Plan과 실제 main 기준선 |
 | REVIEW | 영향 범위 지도 → 공격 → Finding 판정 → 수정 → 회귀 재검사 |
 
