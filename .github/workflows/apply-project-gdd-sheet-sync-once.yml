@@ -22,9 +22,10 @@ jobs:
           python -m json.tool docs/base/SKILL_REGISTRY.json >/dev/null
           git diff --check
       - run: |
+          rm -f .github/workflows/validate-bca-visual-sheet-adoption.yml
           if git diff --quiet; then exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md AGENTS.md docs/BASE_RULES_VERSION.md docs/BCA_VISUAL_SHEET_ADOPTION_AUDIT.md docs/GPT_IMAGE_GENERATION_AND_REVIEW_WORKFLOW.md docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md docs/CURRENT_IMPLEMENTATION_STATUS.md docs/OMENWARD_ROADMAP.md docs/design/APPROVED_ROULETTE_CORE_RULES.md docs/base/SKILL_REGISTRY.json skills/disciplines/governing-omenward-art-animation-and-assets/SKILL.md tools/validate_c1_roulette.py tests/python/test_bca_visual_sheet_adoption.py .github/workflows/validate-bca-visual-sheet-adoption.yml
+          git add README.md AGENTS.md docs/BASE_RULES_VERSION.md docs/BCA_VISUAL_SHEET_ADOPTION_AUDIT.md docs/GPT_IMAGE_GENERATION_AND_REVIEW_WORKFLOW.md docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md docs/CURRENT_IMPLEMENTATION_STATUS.md docs/OMENWARD_ROADMAP.md docs/design/APPROVED_ROULETTE_CORE_RULES.md docs/base/SKILL_REGISTRY.json skills/disciplines/governing-omenward-art-animation-and-assets/SKILL.md tools/validate_c1_roulette.py tests/python/test_bca_visual_sheet_adoption.py
           git commit -m "docs: configure OMENWARD GDD Sheet and C1 evidence"
           git push origin HEAD:${{ github.event.pull_request.head.ref }}
