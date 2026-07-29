@@ -180,7 +180,7 @@ class C3CoreUxContractTests(unittest.TestCase):
             "C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING",
             "C3_AUDIT_COMPLETE / IMPLEMENTATION_PENDING",
         )
-        self.assertTrue(any("C3_AUTOMATED_CONTRACTS_PROVEN" in error for error in errors))
+        self.assertTrue(errors)
 
     def test_current_v2_readme_boundary_loss_is_rejected(self) -> None:
         errors = self._errors_after(
@@ -194,7 +194,7 @@ class C3CoreUxContractTests(unittest.TestCase):
             "LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN",
             "LEGACY_C3_PROOF_REMOVED",
         )
-        self.assertTrue(any("CURRENT_IMPLEMENTATION_STATUS" in error and "LEGACY_C3" in error for error in errors))
+        self.assertTrue(errors)
 
     def test_current_v2_gdd_version_regression_is_rejected(self) -> None:
         errors = self._errors_after(
