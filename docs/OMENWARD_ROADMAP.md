@@ -259,3 +259,9 @@ L1:
 - 무한 방어.
 - 캠페인·아트 대량 제작.
 - 전투 중 mid-run save.
+
+## Legacy C1 증거 기준선
+
+- C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
+- 판정: **REMOTE_PROVEN**
+- V2 물리 릴·SpinSnapshot·SpinSession 구현은 별도 승인 패키지로 남는다.

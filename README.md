@@ -70,3 +70,12 @@ V2 정본·Skill·아카이브 연결 완료
 ```
 
 제품 코드 변경은 최신 통합 결정 원장에 맞춘 별도 Plan Mode 제안과 사용자 승인 뒤 시작합니다.
+
+## GDD Google Sheets 운영
+
+- Base·GDD 기준: `c987647d01ad2baa028a16e03d85ddfc1572a727`
+- Sheet: `PROJECT_SHEET_CONFIGURED`
+- Workbook: `docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
+- 역할: `USER_FACING_GDD_WORKSPACE`
+- 사용자 편집: `PROPOSED_SHEET_CHANGE`
+- UX/UI 전용 Base content commit은 `docs/UX_UI_SYSTEM.md`가 별도로 소유한다.

@@ -321,3 +321,8 @@ SpinSnapshot은 다음 데이터를 깊은 복사로 보존한다.
 - 위험 주기 전설 1회와 영웅 2기 변환.
 - 반복 확정 무보상.
 - 같은 상태·입력·시드의 동일 결과.
+
+## Legacy C1 보존 증거
+
+- C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN
+- 검증된 legacy resolver는 V2 migration에서 보존 seam으로만 사용한다.
