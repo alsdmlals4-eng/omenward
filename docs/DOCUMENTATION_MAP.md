@@ -50,9 +50,32 @@
 
 ## 3. 룰렛 Evidence·사람·합성 경계
 
-Evidence Pack은 구조 설계와 잔여 무작위성의 검증 가설을 소유한다. 사람 검증 Artifact는 실제 세션 카드·진행자 스크립트·관찰 기록을 소유한다. 합성 분석서는 현행 Skill·정본·보호 경로를 소유하고 합성 보고서는 T6 위험 가정·반례·수정 후보만 소유한다.
+`benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 다음만 소유한다.
 
-다음은 어느 Pilot 문서도 소유하지 않는다.
+- 구조 설계와 잔여 무작위성의 정보 구분 가설.
+- TokenSource→릴 변경→정지 결과→라인 커밋→자동전투 인과의 검증 질문.
+- 승인된 Vertical Slice 내부 3개 대표 상황 마이크로 테스트 계약.
+- 행동·자기보고·접근성·정보 과밀 검수 항목.
+
+`superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md`는 다음만 소유한다.
+
+- 저충실도 릴·TokenSource·전선 브리핑 카드의 연구용 구성.
+- 대표 상황 3개의 진행 순서·진행자 스크립트·관찰 기록지.
+- 구조·잔여 RNG·출처·커밋·전투 인과 계산식과 사람 Pilot 판정 기준.
+- 실제 사람 세션 뒤 작성할 검증 보고서 계약.
+
+`research/OMENWARD_SYNTHETIC_TESTER_STRUCTURE_ANALYSIS_2026-07-29.md`는 다음만 소유한다.
+
+- 현재 Skill Registry·분야별 Skill 책임·정본·보호 경로·검증 경로 분석.
+- `discipline.analytics-research`와 실제 사람 전용 `discipline.omenward-core-ux`의 권한 분리.
+
+`research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_TESTER_REPORT_2026-07-29.md`는 다음만 소유한다.
+
+- 가상 페르소나 기반 T6 위험 가정·반례·적대적 질문.
+- matched-utility 결과 쌍, 결과 전 예상 기록, 비가역 결정 단계화 수정 후보.
+- 실제 Vertical Slice에서 확인할 `TEST_REQUIRED` 항목.
+
+네 문서는 다음을 소유하지 않는다.
 
 - 별도 CORE_POC.
 - 제품 코드·Godot Scene·Resource·GDScript.
@@ -119,6 +142,7 @@ SYNTHETIC_RISK_REVIEW
 | 전체 Vertical Slice 범위·시스템 연결 | 현재 Vertical Slice 계약, Project Core, Current Implementation Status |
 | 밸런스·100,000 seed 시뮬레이션 | 세부 룰렛·경제 정본, 결정론 계약, 별도 검증 계획 |
 | UI·접근성·정보 위계 | Evidence Pilot, 사람 검증 Artifact, 합성 보고서, `discipline.omenward-core-ux` |
+| 아트·애니메이션 | 관련 `APPROVED_ART_*`, `APPROVED_UNIT_ANIMATION_*`, `images/VISUAL_REFERENCE_INDEX.md` |
 | Codex 구현 인계 | 사용자 별도 Build 승인 후 최신 Plan과 실제 main 기준선 |
 | REVIEW | 영향 범위 지도 → 공격 → Finding 판정 → 수정 → 회귀 재검사 |
 
