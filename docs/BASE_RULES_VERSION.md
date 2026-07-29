@@ -1,7 +1,7 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `6a224e450f9420223c00921f3c56e051612f92ad`
+- 기준 커밋: `c987647d01ad2baa028a16e03d85ddfc1572a727`
 - 동기화 기준일: `2026-07-25`
 - 적용 방식: 프로젝트 정본 우선, Base 공용 원칙의 명시적 채택, 자동 덮어쓰기 금지
 - 로컬 Skill 정본: `docs/base/SKILL_REGISTRY.json`
@@ -83,5 +83,5 @@ Omenward 고유 코어 규칙, Godot 경로, C1~C4 게이트, 세 레인·룰렛
 ## BCA v8
 
 - 활성 Prompt: `templates/prompts/VERTICAL_SLICE_INTEGRATED_EXECUTION_PROMPT_v8.md`.
-- Sheet: `NOT_CONFIGURED`.
+- Sheet: `PROJECT_SHEET_CONFIGURED`.
 - 이미지 workflow: `docs/GPT_IMAGE_GENERATION_AND_REVIEW_WORKFLOW.md`.

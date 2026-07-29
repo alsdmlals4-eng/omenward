@@ -1,7 +1,7 @@
 # Omenward GPT 이미지 생성·검수 워크플로
 
-- Base: `alsdmlals4-eng/Base@7072b9e2742a60d7548fd39df3328ad76a8dbad1`
-- Sheet: `NOT_CONFIGURED`
+- Base: `alsdmlals4-eng/Base@c987647d01ad2baa028a16e03d85ddfc1572a727`
+- Sheet: `PROJECT_SHEET_CONFIGURED`
 - Mode: `planning-visualization`, `final-visual-candidate`, `visual-qa-and-approval`
 
 ## 기획 중
