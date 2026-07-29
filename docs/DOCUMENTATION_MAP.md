@@ -10,6 +10,7 @@
 - 최신 Vertical Slice 구현: `NOT_STARTED`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
 - 합성 위험 검토: `SYNTHETIC_RISK_REVIEW / T6_AI_INFERENCE`
+- 룰렛 합성 세션 판정: `PROMISING_DIRECTION / RESEARCH_ONLY`
 - 별도 Core PoC: `SKIPPED_BY_USER_DECISION`
 
 이 문서는 질문별 책임 원본을 선택하는 라우터다. 최신 사용자 지시와 현재 책임 원본을 우선하며, 모든 과거 V2 문서를 한꺼번에 활성 정본으로 취급하지 않는다.
@@ -26,7 +27,7 @@
 → CURRENT_IMPLEMENTATION_STATUS.md
 → ACTIVE_CONTEXT.md
 → HANDOFF_CONTEXT.md
-→ 현재 작업과 연결된 세부 승인 문서·Evidence Pilot·검증 Artifact
+→ 현재 작업과 연결된 세부 승인 문서·Evidence Pilot·검증 Artifact·합성 종료 기록
 → 실제 코드·데이터·테스트
 ```
 
@@ -47,6 +48,8 @@
 | 룰렛 통제감 사람 검증 Artifact | `superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md` | `HUMAN_VALIDATION_INPUT / NOT_CANON` |
 | 합성 테스터 적용 Skill·작업 구조 | `research/OMENWARD_SYNTHETIC_TESTER_STRUCTURE_ANALYSIS_2026-07-29.md` | `T6_AI_INFERENCE / NOT_CANON` |
 | 룰렛 통제감 합성 위험 판정 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_TESTER_REPORT_2026-07-29.md` | `SYNTHETIC_RISK_REVIEW / HUMAN_NOT_RUN` |
+| 교정 Artifact 합성 세션 결과 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_SESSION_EXECUTION_2026-07-29.md` | `PROMISING_DIRECTION / T6_AI_INFERENCE` |
+| 합성 검증 종료·다음 진입점 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_VALIDATION_CLOSURE_2026-07-29.md` | `RESEARCH_HANDOFF / NO_IMPLEMENTATION_AUTHORITY` |
 
 ## 3. 룰렛 Evidence·사람·합성 경계
 
@@ -75,7 +78,11 @@
 - matched-utility 결과 쌍, 결과 전 예상 기록, 비가역 결정 단계화 수정 후보.
 - 실제 Vertical Slice에서 확인할 `TEST_REQUIRED` 항목.
 
-네 문서는 다음을 소유하지 않는다.
+`research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_SESSION_EXECUTION_2026-07-29.md`는 교정된 Artifact를 다섯 합성 관점으로 실행한 잠정 판정과 잔여 위험을 소유한다.
+
+`research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_VALIDATION_CLOSURE_2026-07-29.md`는 전체 계보, 최종 연구 판정, 다음 진입점, 검증·금지 경계를 소유한다.
+
+여섯 문서는 다음을 소유하지 않는다.
 
 - 별도 CORE_POC.
 - 제품 코드·Godot Scene·Resource·GDScript.
@@ -130,12 +137,18 @@ SYNTHETIC_RISK_REVIEW
 != LOOP_PROVEN
 != 실제 RNG 체감
 != 실제 플레이어 이해
+
+PROMISING_DIRECTION
+= 다음 연구·표현 계약을 유지할 잠정 근거
+!= 제품 채택
+!= 구현 승인
 ```
 
 ## 6. 다음 작업 라우팅
 
 | 작업 | 먼저 읽을 책임 원본 |
 |---|---|
+| 룰렛 합성 검증 종료 이후 재개 | 합성 종료 기록, 합성 세션 실행, 현재 Vertical Slice 계약 |
 | 룰렛 통제감·실패 귀인·전투 인과 | Evidence Pilot, 사람 검증 Artifact, 합성 보고서, 현재 Vertical Slice 계약 |
 | 합성 위험 재검토 | 구조 분석서, 합성 보고서, `discipline.analytics-research`, 적대적 검토 |
 | 저충실도 사람 세션 준비·관찰·판정 | 사람 검증 Artifact, Evidence Pilot, 현재 Vertical Slice 계약 |
