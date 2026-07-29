@@ -258,3 +258,9 @@ TECHNICAL_BASELINE_IMPLEMENTED
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
 - 이 증거는 legacy C1 보존 seam의 원격 검증이며 V2 구현 완료를 뜻하지 않는다.
+
+## Legacy C2 원격 검증 증거
+
+- `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
+- C2 최종 검증 run: `29938742864`
+- 이 증거는 legacy C2 전투 목적 루프의 원격 검증이며 V2 전장 구현 완료를 뜻하지 않는다.

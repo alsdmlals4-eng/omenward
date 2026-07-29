@@ -313,6 +313,39 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "C3 audit",
     )
 
+    # V2_CURRENT_CANON_COMPATIBILITY_C3
+    gdd_body = canonical["docs/OMENWARD_GAME_DESIGN.md"]
+    version_match = re.search(r"문서 버전:\s*\*\*v(\d+)\.(\d+)", gdd_body)
+    current_v2 = version_match is not None and tuple(map(int, version_match.groups())) >= (0, 26)
+    if current_v2:
+        current_requirements = {
+            "README.md": ("V2_SPEC_APPROVED", "LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
+            "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
+                "LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN",
+                "VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED",
+                "HUMAN_QA_NOT_RUN",
+            ),
+            "docs/OMENWARD_GAME_DESIGN.md": (
+                "문서 버전: **v0.26",
+                "LATEST_USER_DESIGN_INTEGRATED",
+                "PRODUCT_CODE_NOT_AUTHORIZED",
+            ),
+            "docs/OMENWARD_ROADMAP.md": (
+                "기존 기술 기준선·C1·C2·C3 자동 증거 확보",
+                "제품 구현: `NOT_STARTED`",
+            ),
+            "docs/C3_CORE_UX_AUDIT_2026-07-23.md": (
+                "C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING",
+                PROOF_HEAD,
+                PROOF_RUN,
+            ),
+        }
+        for relative, terms in current_requirements.items():
+            body = canonical[relative]
+            require_terms(errors, body, terms, relative)
+            validate_links(errors, root, relative, body)
+        return errors
+
     canonical_requirements = {
         "README.md": ("C3 코어 UX AUTOMATED_CONTRACTS_PROVEN", PROOF_RUN, "[다음 실행] 10~15분 사람 플레이", "C1U 이동권·럭키·100,000시드"),
         "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING", PROOF_HEAD, PROOF_RUN, "라인별 웨이브 원인 보고", "C1U 이동권·럭키·결과 보관함 3칸"),
