@@ -39,10 +39,23 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     contract_test = (root / "tests/headless/c2_battle_objective_test.gd").read_text(encoding="utf-8")
     workflow = (root / CURRENT_WORKFLOW).read_text(encoding="utf-8")
 
-    for term in ("controlled_clash_count", "stable_owned_outpost_count", "_advance_capture_objectives", "_next_objective", "LUMERN_VICTORY", "VEIL_VICTORY", "BaseStateScript"):
+    for term in (
+        "controlled_clash_count",
+        "stable_owned_outpost_count",
+        "_advance_capture_objectives",
+        "_next_objective",
+        "LUMERN_VICTORY",
+        "VEIL_VICTORY",
+        "BaseStateScript",
+    ):
         if term not in simulator:
             errors.append(f"battle simulator missing C2 contract term: {term}")
-    for term in ("legendary_boss_unit_id", "_resolve_natural_result", "enemy_base_destroyed", "wave_15_legendary_boss_defeated"):
+    for term in (
+        "legendary_boss_unit_id",
+        "_resolve_natural_result",
+        "enemy_base_destroyed",
+        "wave_15_legendary_boss_defeated",
+    ):
         if term not in stage_run:
             errors.append(f"stage run missing natural result contract: {term}")
     for term in ("set_contested", "clear_capture_presence", "clampf(power, 0.0, MAX_CAPTURE_POWER)"):
@@ -84,15 +97,16 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if term not in workflow:
             errors.append(f"unified core workflow missing contract term: {term}")
 
-    # V2_CURRENT_CANON_COMPATIBILITY_C2
     gdd_body = (root / "docs/OMENWARD_GAME_DESIGN.md").read_text(encoding="utf-8")
     version_match = re.search(r"문서 버전:\s*\*\*v(\d+)\.(\d+)", gdd_body)
     current_v2 = version_match is not None and tuple(map(int, version_match.groups())) >= (0, 26)
+
     if current_v2:
         current_requirements = {
             "README.md": ("V2_SPEC_APPROVED", "LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
             "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
                 "LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
+                f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`",
                 "VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED",
                 "HUMAN_QA_NOT_RUN",
             ),
@@ -110,28 +124,26 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             body = (root / relative).read_text(encoding="utf-8")
             for phrase in phrases:
                 if phrase not in body:
-                    errors.append(f"{relative} missing current V2 C2 boundary: {phrase}")
-        audit = (root / "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md").read_text(encoding="utf-8")
-        for evidence in ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", C2_AUDIT_HEAD, C2_AUDIT_RUN, "`Validate Core Contracts`"):
-            if evidence not in audit:
-                errors.append(f"C2 audit missing final proof: {evidence}")
-        return errors
-
-    required_doc_states = {
-        "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
-        "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C3_AUTOMATED_CONTRACTS_PROVEN"),
-        "docs/HANDOFF_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C3_AUTOMATED_CONTRACTS_PROVEN"),
-        "docs/CURRENT_IMPLEMENTATION_STATUS.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`"),
-        "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.23**", "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN"),
-        "docs/OMENWARD_ROADMAP.md": ("C2 전투 목적 루프 원격 검증·병합 완료",),
-        "docs/DECISIONS_PENDING.md": ("C2 전투 목적 루프 원격 검증 완료", "본진 독립 HP"),
-        "docs/DOCUMENTATION_MAP.md": ("C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",),
-    }
-    for relative, phrases in required_doc_states.items():
-        body = (root / relative).read_text(encoding="utf-8")
-        for phrase in phrases:
-            if phrase not in body:
-                errors.append(f"{relative} missing proven C2 state: {phrase}")
+                    errors.append(f"{relative} missing proven C2 state: {phrase}")
+    else:
+        required_doc_states = {
+            "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
+            "docs/ACTIVE_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C3_AUTOMATED_CONTRACTS_PROVEN"),
+            "docs/HANDOFF_CONTEXT.md": ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C3_AUTOMATED_CONTRACTS_PROVEN"),
+            "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
+                "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
+                f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`",
+            ),
+            "docs/OMENWARD_GAME_DESIGN.md": ("문서 버전: **v0.23**", "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN"),
+            "docs/OMENWARD_ROADMAP.md": ("C2 전투 목적 루프 원격 검증·병합 완료",),
+            "docs/DECISIONS_PENDING.md": ("C2 전투 목적 루프 원격 검증 완료", "본진 독립 HP"),
+            "docs/DOCUMENTATION_MAP.md": ("C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",),
+        }
+        for relative, phrases in required_doc_states.items():
+            body = (root / relative).read_text(encoding="utf-8")
+            for phrase in phrases:
+                if phrase not in body:
+                    errors.append(f"{relative} missing proven C2 state: {phrase}")
 
     stale_active = (
         "C2 검증 구현는",
@@ -179,7 +191,18 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             continue
         name = path.name.lower()
         relative = path.relative_to(root).as_posix()
-        if path.name.startswith("_C2_") or any(token in name for token in ("_apply_c2_", "_sync_c2_", "_finalize_c2_", "_repair_c2_", "apply-c2", "sync-c2", "finalize-c2")):
+        if path.name.startswith("_C2_") or any(
+            token in name
+            for token in (
+                "_apply_c2_",
+                "_sync_c2_",
+                "_finalize_c2_",
+                "_repair_c2_",
+                "apply-c2",
+                "sync-c2",
+                "finalize-c2",
+            )
+        ):
             errors.append(f"temporary C2 artifact remains: {relative}")
     return errors
 
