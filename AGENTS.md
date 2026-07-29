@@ -129,3 +129,11 @@ V2_SPEC_APPROVED != V2_IMPLEMENTED
 - 사용자 확인 항목.
 
 테스트하지 않은 항목을 완료했다고 보고하지 않는다.
+
+## GDD Google Sheets 계약
+
+- `docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`와 실제 Sheet를 GitHub 정본과 함께 읽는다.
+- Sheet는 `USER_FACING_GDD_WORKSPACE`이며 독립 정본이 아니다.
+- GitHub에 없는 편집은 `PROPOSED_SHEET_CHANGE`로 보존한다.
+- 승인 후 GitHub와 Sheet를 모두 재조회한 경우에만 `SYNCED`로 판정한다.
+- 생성 이미지와 실제 적용·런타임 승인 상태를 구분한다.

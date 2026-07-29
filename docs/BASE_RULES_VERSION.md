@@ -1,8 +1,8 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `6a224e450f9420223c00921f3c56e051612f92ad`
-- 동기화 기준일: `2026-07-25`
+- 기준 커밋: `c987647d01ad2baa028a16e03d85ddfc1572a727`
+- 동기화 기준일: `2026-07-29`
 - 적용 방식: 프로젝트 정본 우선, Base 공용 원칙의 명시적 채택, 자동 덮어쓰기 금지
 - 로컬 Skill 정본: `docs/base/SKILL_REGISTRY.json`
 - Base 공용 Skill route: `skills/BASE_SHARED_SKILL_ROUTES.json`
@@ -79,3 +79,9 @@ Base 원격 변경은 자동 적용하지 않는다. 새 Base 커밋을 채택�
 - Registry와 실제 패키지 간 orphan·missing·dependency cycle 검사
 
 Omenward 고유 코어 규칙, Godot 경로, C1~C4 게이트, 세 레인·룰렛·건설 노드 계약은 Base로 승격하지 않는다.
+
+## GDD Sheet 기준
+
+- GDD Sheet 의미 구조 기준: `c987647d01ad2baa028a16e03d85ddfc1572a727`
+- Workbook: `docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
+- UX/UI 전용 content commit은 `docs/UX_UI_SYSTEM.md`가 별도로 소유한다.

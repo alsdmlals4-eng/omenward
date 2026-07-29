@@ -27,3 +27,9 @@ Skill ID: `discipline.omenward-art-assets`
 
 ## 고유 검수
 에셋이 레인·위협·보상·유닛 상태를 가리거나, 애니메이션과 판정이 불일치하거나, 원본·임포트·런타임 파일 책임이 중복되면 실패다.
+
+## BCA image modes
+
+- `planning-visualization`: 3릴·3전선·건물·HUD의 기획 모순을 비교한다.
+- `final-visual-candidate`: Demo·스토어·인게임 후보를 만든다.
+- `visual-qa-and-approval`: 실제 화면 가독성·권리·오류·일관성·승인 상태를 판정한다.
