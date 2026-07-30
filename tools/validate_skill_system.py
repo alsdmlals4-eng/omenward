@@ -46,5 +46,5 @@ def main():
  except Exception as x:e=[f'validator could not read contract: {x}']
  if e:
   print('Skill system validation FAILED');[print(f'- {x}') for x in e];return 1
- r=json.loads(a.registry.read_text());active=sum(s.get('status','active')=='active' for s in r['skills']);print(f'Skill system validation PASSED: {active} active / {len(r["skills"])} registered');return 0
+ r=json.loads(a.registry.read_text(encoding='utf-8'));active=sum(s.get('status','active')=='active' for s in r['skills']);print(f'Skill system validation PASSED: {active} active / {len(r["skills"])} registered');return 0
 if __name__=='__main__':raise SystemExit(main())

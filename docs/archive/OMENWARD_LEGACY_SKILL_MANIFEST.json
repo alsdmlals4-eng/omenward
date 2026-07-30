@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "artifact_role": "OMENWARD_LEGACY_SKILL_CLASSIFICATION",
+  "scope": "Base v9.1 migration; records are retained without deletion",
+  "canonical_registry": "skills/SKILL_REGISTRY.json",
+  "records": [
+    {"legacy_id": "discipline.narrative", "path": "skills/disciplines/01-narrative/SKILL.md", "classification": "REPLACED", "successor": "omenward-core-design"},
+    {"legacy_id": "discipline.game-design", "path": "skills/disciplines/02-game-design/SKILL.md", "classification": "REPLACED", "successor": "omenward-core-design"},
+    {"legacy_id": "discipline.ux-ui-accessibility", "path": "skills/disciplines/03-ux-ui-accessibility/SKILL.md", "classification": "REPLACED", "successor": "omenward-core-ux"},
+    {"legacy_id": "discipline.engineering", "path": "skills/disciplines/04-engineering/SKILL.md", "classification": "REPLACED", "successor": "omenward-godot"},
+    {"legacy_id": "discipline.technical-art", "path": "skills/disciplines/05-technical-art-pipeline/SKILL.md", "classification": "REPLACED", "successor": "omenward-art-assets"},
+    {"legacy_id": "discipline.art", "path": "skills/disciplines/06-art/SKILL.md", "classification": "REPLACED", "successor": "omenward-art-assets"},
+    {"legacy_id": "discipline.audio", "path": "skills/disciplines/07-audio/SKILL.md", "classification": "ARCHIVE", "successor": "omenward-art-assets"},
+    {"legacy_id": "discipline.qa", "path": "skills/disciplines/08-qa/SKILL.md", "classification": "REPLACED", "successor": "reviewing-and-validating-project-changes"},
+    {"legacy_id": "discipline.production-pm", "path": "skills/disciplines/09-production-pm/SKILL.md", "classification": "REPLACED", "successor": "managing-project-intake-and-work-contract"},
+    {"legacy_id": "discipline.analytics-research", "path": "skills/disciplines/10-analytics-user-research/SKILL.md", "classification": "KEEP", "successor": "omenward-core-ux"},
+    {"legacy_id": "discipline.integration-review", "path": "skills/disciplines/11-integration-review/SKILL.md", "classification": "REPLACED", "successor": "reviewing-and-validating-project-changes"},
+    {"legacy_id": "specialist.game-concept", "path": "skills/specialists/analyzing-and-refining-game-concepts/SKILL.md", "classification": "KEEP", "successor": "BASE_SHARED"},
+    {"legacy_id": "specialist.ui-art-audit", "path": "skills/specialists/auditing-and-refining-ui-art/SKILL.md", "classification": "REPLACED", "successor": "omenward-core-ux"},
+    {"legacy_id": "specialist.art-prompts", "path": "skills/specialists/designing-art-prompts-and-technique-cards/SKILL.md", "classification": "ARCHIVE", "successor": "omenward-art-assets"},
+    {"legacy_id": "specialist.vertical-slice", "path": "skills/specialists/designing-vertical-slices/SKILL.md", "classification": "KEEP", "successor": "BASE_SHARED"},
+    {"legacy_id": "specialist.deepseek-worktrees", "path": "skills/specialists/orchestrating-deepseek-worktrees/SKILL.md", "classification": "DELETE_CANDIDATE", "successor": "BASE_SHARED", "deletion_authority": "USER_OR_FUTURE_APPROVED_ISSUE"},
+    {"legacy_id": "foundation.project-intake", "path": "skills/foundation/managing-project-intake-and-work-contract/SKILL.md", "classification": "REPLACED", "successor": "managing-project-intake-and-work-contract"},
+    {"legacy_id": "foundation.project-operating-system", "path": "skills/foundation/managing-game-project-operating-system/SKILL.md", "classification": "REPLACED", "successor": "managing-game-project-operating-system"},
+    {"legacy_id": "foundation.design-documents", "path": "skills/foundation/managing-design-documents/SKILL.md", "classification": "REPLACED", "successor": "managing-design-documents"},
+    {"legacy_id": "foundation.context-handoff", "path": "skills/foundation/maintaining-project-context-and-handoff/SKILL.md", "classification": "REPLACED", "successor": "maintaining-project-context-and-handoff"},
+    {"legacy_id": "foundation.validation-review", "path": "skills/foundation/reviewing-and-validating-project-changes/SKILL.md", "classification": "REPLACED", "successor": "reviewing-and-validating-project-changes"},
+    {"legacy_id": "foundation.base-change-proposals", "path": "skills/foundation/managing-base-change-proposals/SKILL.md", "classification": "REPLACED", "successor": "managing-base-change-proposals"},
+    {"legacy_id": "foundation.skill-evolution", "path": "skills/foundation/evolving-project-discipline-skills/SKILL.md", "classification": "REPLACED", "successor": "evolving-project-discipline-skills"},
+    {"legacy_id": "specialist.canonical-freshness", "path": "skills/specialists/auditing-canonical-reference-freshness/SKILL.md", "classification": "REPLACED", "successor": "auditing-canonical-reference-freshness"}
+  ]
+}

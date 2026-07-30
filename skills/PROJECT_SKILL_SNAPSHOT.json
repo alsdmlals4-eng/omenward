@@ -1,0 +1,197 @@
+{
+  "alias_resolutions": {},
+  "aliases": [],
+  "artifact_role": "PROJECT_SKILL_SNAPSHOT",
+  "base_registry": {
+    "hash_definition": "RAW_FILE_BYTES_SHA256",
+    "path": "skills/SKILL_REGISTRY.json",
+    "sha256": "e06003cb986e979aa46c06839de178c3fb9ff10bdf440e750712d90d6c5ae7bb"
+  },
+  "base_routes": [
+    {
+      "route_id": "auditing-canonical-reference-freshness",
+      "skill_id": "auditing-canonical-reference-freshness",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "evaluating-godot-assets-and-plugins-before-creation",
+      "skill_id": "evaluating-godot-assets-and-plugins-before-creation",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "evolving-project-discipline-skills",
+      "skill_id": "evolving-project-discipline-skills",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "governing-legacy-retention-and-archives",
+      "skill_id": "governing-legacy-retention-and-archives",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "maintaining-project-context-and-handoff",
+      "skill_id": "maintaining-project-context-and-handoff",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "managing-base-change-proposals",
+      "skill_id": "managing-base-change-proposals",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "managing-design-documents",
+      "skill_id": "managing-design-documents",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "managing-game-project-operating-system",
+      "skill_id": "managing-game-project-operating-system",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "managing-project-intake-and-work-contract",
+      "skill_id": "managing-project-intake-and-work-contract",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "reviewing-and-validating-project-changes",
+      "skill_id": "reviewing-and-validating-project-changes",
+      "status": "ACTIVE"
+    }
+  ],
+  "effective_routes": {
+    "auditing-canonical-reference-freshness": {
+      "route_id": "auditing-canonical-reference-freshness",
+      "skill_id": "auditing-canonical-reference-freshness",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "auditing-canonical-reference-freshness"
+    },
+    "evaluating-godot-assets-and-plugins-before-creation": {
+      "route_id": "evaluating-godot-assets-and-plugins-before-creation",
+      "skill_id": "evaluating-godot-assets-and-plugins-before-creation",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "evaluating-godot-assets-and-plugins-before-creation"
+    },
+    "evolving-project-discipline-skills": {
+      "route_id": "evolving-project-discipline-skills",
+      "skill_id": "evolving-project-discipline-skills",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "evolving-project-discipline-skills"
+    },
+    "governing-legacy-retention-and-archives": {
+      "route_id": "governing-legacy-retention-and-archives",
+      "skill_id": "governing-legacy-retention-and-archives",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "governing-legacy-retention-and-archives"
+    },
+    "maintaining-project-context-and-handoff": {
+      "route_id": "maintaining-project-context-and-handoff",
+      "skill_id": "maintaining-project-context-and-handoff",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "maintaining-project-context-and-handoff"
+    },
+    "managing-base-change-proposals": {
+      "route_id": "managing-base-change-proposals",
+      "skill_id": "managing-base-change-proposals",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "managing-base-change-proposals"
+    },
+    "managing-design-documents": {
+      "route_id": "managing-design-documents",
+      "skill_id": "managing-design-documents",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "managing-design-documents"
+    },
+    "managing-game-project-operating-system": {
+      "route_id": "managing-game-project-operating-system",
+      "skill_id": "managing-game-project-operating-system",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "managing-game-project-operating-system"
+    },
+    "managing-project-intake-and-work-contract": {
+      "route_id": "managing-project-intake-and-work-contract",
+      "skill_id": "managing-project-intake-and-work-contract",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "managing-project-intake-and-work-contract"
+    },
+    "omenward-art-assets": {
+      "route_id": "omenward-art-assets",
+      "skill_id": "omenward-art-assets",
+      "source": "PROJECT_LOCAL",
+      "status": "ACTIVE",
+      "target_route_id": "omenward-art-assets"
+    },
+    "omenward-core-design": {
+      "route_id": "omenward-core-design",
+      "skill_id": "omenward-core-design",
+      "source": "PROJECT_LOCAL",
+      "status": "ACTIVE",
+      "target_route_id": "omenward-core-design"
+    },
+    "omenward-core-ux": {
+      "route_id": "omenward-core-ux",
+      "skill_id": "omenward-core-ux",
+      "source": "PROJECT_LOCAL",
+      "status": "ACTIVE",
+      "target_route_id": "omenward-core-ux"
+    },
+    "omenward-godot": {
+      "route_id": "omenward-godot",
+      "skill_id": "omenward-godot",
+      "source": "PROJECT_LOCAL",
+      "status": "ACTIVE",
+      "target_route_id": "omenward-godot"
+    },
+    "reviewing-and-validating-project-changes": {
+      "route_id": "reviewing-and-validating-project-changes",
+      "skill_id": "reviewing-and-validating-project-changes",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "reviewing-and-validating-project-changes"
+    }
+  },
+  "generated": true,
+  "inactive_routes": [],
+  "project_registry": {
+    "hash_definition": "RAW_FILE_BYTES_SHA256",
+    "path": "skills/SKILL_REGISTRY.json",
+    "sha256": "be0cb612909059426139ca9b1973ee416c1ba3505a29d69549254b19bbaf0050"
+  },
+  "project_routes": [
+    {
+      "route_id": "omenward-art-assets",
+      "skill_id": "omenward-art-assets",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "omenward-core-design",
+      "skill_id": "omenward-core-design",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "omenward-core-ux",
+      "skill_id": "omenward-core-ux",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "omenward-godot",
+      "skill_id": "omenward-godot",
+      "status": "ACTIVE"
+    }
+  ],
+  "schema_version": 1,
+  "source_registry": {
+    "hash_definition": "RAW_FILE_BYTES_SHA256",
+    "path": "skills/PROJECT_BASE_ADAPTER.json",
+    "sha256": "aba0b88f877cf916247f14f23f99db6f16d695b3689f0a2e9cc4cbca57903c49"
+  }
+}

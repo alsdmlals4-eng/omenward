@@ -5,17 +5,21 @@
 ## 시작
 
 ```bash
-python tools/route_skills.py --request "PR의 누락과 중복을 적대적으로 검토해줘"
+python <Base checkout>/tools/check_project_operating_contract.py --project-root . --base-repository <Base checkout> --check
 python -m unittest discover -s tests/python -v
 ```
+
+현재 자동 라우팅 정본은 `.agents/skills/omenward-workflow-router/SKILL.md`이며, 이 Router는
+`skills/PROJECT_BASE_ADAPTER.json`과 생성된 `skills/PROJECT_SKILL_SNAPSHOT.json`만 읽는다.
+`docs/base/SKILL_REGISTRY.json`과 이 디렉터리의 과거 패키지는 명시적으로 열어 보는 호환·이력 자료이며 자동 선택 대상이 아니다.
 
 ## 활성 구조
 
 - `SHARED_EXECUTION_CONTRACT.md`: 모든 Skill이 공유하는 우선순위·Work Mode·검증 계약
-- `foundation/`: 활성 Foundation 7개
-- `disciplines/`: 활성 Omenward 전용 Discipline 4개
-- `specialists/`: 활성 canonical-freshness Specialist 1개
-- `docs/base/SKILL_REGISTRY.json`: 유일한 기계 판독 라우팅 정본
+- `SKILL_REGISTRY.json`: Omenward 고유 활성 Skill 4개의 기계 판독 정본
+- `PROJECT_BASE_ADAPTER.json`: Base pin, 공용·로컬 route, 보호 경로의 계약 정본
+- `PROJECT_SKILL_SNAPSHOT.json`: 위 계약에서 생성된 효과 route view
+- `foundation/`, 과거 `disciplines/`, `specialists/`: 레거시·호환 자료; 자동 발견 금지
 
 활성 Discipline:
 

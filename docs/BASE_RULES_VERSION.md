@@ -1,12 +1,13 @@
 # Base 규칙·공용 지식 버전
 
 - 원본 저장소: `alsdmlals4-eng/Base`
-- 기준 커밋: `c987647d01ad2baa028a16e03d85ddfc1572a727`
-- 동기화 기준일: `2026-07-29`
+- Base v9.1 release pin: `3c158f52cfdad889970aef4d6ce6650a6fea0645`
+- Base v9.1 evidence pin: `dd20ad3852e264d7e337e34d2cb963f71053a6cb`
 - 적용 방식: 프로젝트 정본 우선, Base 공용 원칙의 명시적 채택, 자동 덮어쓰기 금지
-- 로컬 Skill 정본: `docs/base/SKILL_REGISTRY.json`
-- Base 공용 Skill route: `skills/BASE_SHARED_SKILL_ROUTES.json`
-- 프로젝트 공용 Skill 어댑터: `skills/PROJECT_BASE_SKILL_ADAPTER.json`
+- 프로젝트 고유 Skill 정본: `skills/SKILL_REGISTRY.json`
+- Base·프로젝트 route 계약: `skills/PROJECT_BASE_ADAPTER.json`
+- 생성 route view: `skills/PROJECT_SKILL_SNAPSHOT.json`
+- Router: `.agents/skills/omenward-workflow-router/SKILL.md`
 - 공통 실행 계약: `skills/SHARED_EXECUTION_CONTRACT.md`
 
 ## 채택한 Base 영역
@@ -32,15 +33,15 @@
 → 프로젝트 승인 책임 문서
 → 현재 Issue·Goal
 → 실제 파일과 테스트
-→ docs/base/SKILL_REGISTRY.json과 선택된 활성 Skill
-→ skills/BASE_SHARED_SKILL_ROUTES.json과 프로젝트 어댑터
+→ skills/PROJECT_BASE_ADAPTER.json과 PROJECT_SKILL_SNAPSHOT.json
+→ 선택된 Base shared 또는 Omenward local Skill
 → 이 문서가 고정한 Base 커밋
 → Base 최신 공용 지식과 외부 참고
 ```
 
 Base 원격 변경은 자동 적용하지 않는다. 새 Base 커밋을 채택할 때는 프로젝트 정본·Registry·Router·Validator·문서 참조를 같은 변경 묶음으로 검증한다.
 
-## Skill System v4
+## Legacy Skill System v4 (compatibility only)
 
 - 로컬 활성 Foundation: 7
 - 활성 Omenward Discipline: 4

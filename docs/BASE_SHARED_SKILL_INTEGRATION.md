@@ -1,25 +1,25 @@
 # Base 공용 Skill 연결 기준
 
-이 문서는 `omenward`가 Base 공용 Skill을 프로젝트에 복제하지 않고 route Registry와 프로젝트 어댑터로 사용하는 현재 연결의 사람용 원본이다.
+이 문서는 `omenward`가 Base 공용 Skill을 프로젝트에 복제하지 않고 v9.1 계약과 생성 route view로 사용하는 현재 연결의 사람용 안내다.
 
 ## 고정 기준
 
 - Base 저장소: `alsdmlals4-eng/Base`
-- 공용 Skill route 기준 커밋: `6a224e450f9420223c00921f3c56e051612f92ad`
-- 프로젝트 route Registry: `skills/BASE_SHARED_SKILL_ROUTES.json`
-- 프로젝트 공용 어댑터: `skills/PROJECT_BASE_SKILL_ADAPTER.json`
+- Base v9.1 release/evidence pin: `3c158f52cfdad889970aef4d6ce6650a6fea0645` / `dd20ad3852e264d7e337e34d2cb963f71053a6cb`
+- 프로젝트 계약 정본: `skills/PROJECT_BASE_ADAPTER.json`
+- 생성 route view: `skills/PROJECT_SKILL_SNAPSHOT.json`
 - 레거시 보존 어댑터: `docs/archive/ARCHIVE_RETENTION_ADAPTER.json`
-- 프로젝트 고유 Skill Registry: `docs/base/SKILL_REGISTRY.json`
+- 프로젝트 고유 Skill Registry: `skills/SKILL_REGISTRY.json`
 
-`docs/BASE_RULES_VERSION.md`는 프로젝트 전체 운영체계가 채택한 기존 Base 기준을 계속 설명한다. 이 문서는 그 기준을 덮어쓰지 않고, 검증된 공용 Skill 본문을 선택적으로 읽는 route pin을 별도로 소유한다.
+`docs/base/SKILL_REGISTRY.json`과 `skills/BASE_SHARED_SKILL_ROUTES.json`은 한 전환 주기 동안 보존하는 호환 자료이며 자동 라우팅에 사용하지 않는다.
 
 ## 라우팅 원칙
 
 ```text
 작업 요청
-→ skills/BASE_SHARED_SKILL_ROUTES.json
-→ Base 메인 SKILL_REGISTRY 자동 trigger 선택
-→ skills/PROJECT_BASE_SKILL_ADAPTER.json으로 프로젝트 경로·정본·검증기 주입
+→ skills/PROJECT_BASE_ADAPTER.json
+→ skills/PROJECT_SKILL_SNAPSHOT.json의 effective_routes
+→ Base pin과 프로젝트 경로·정본·검증기 확인
 → omenward 고유 전투·룰렛·성장 판단이 필요할 때만 프로젝트 Skill 선택
 ```
 

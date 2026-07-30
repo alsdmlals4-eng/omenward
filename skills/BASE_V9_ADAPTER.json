@@ -1,1 +1,53 @@
-{"schema_version":1,"adapter_role":"project-base-v9-operating-system-adapter","base":{"repository":"alsdmlals4-eng/Base","release_line":"v9.0.0","release_commit":"585a53a25be1b04c543196f5901551deb49c7691","release_state":"BASE_RELEASED","registry_sha256":"c136d9bb3fde9fc1473fbbe518cc975313023fc9c104efd9692f6834cbf8d8ae","snapshot_sha256":"e30fca95d201a31937c7bddcbc341c79764d4940c318933a8902cb5bf901ba57","copy_common_skill_bodies":false},"project":{"repository":"alsdmlals4-eng/omenward","local_registry":"docs/base/SKILL_REGISTRY.json","project_skills_remain_local":true},"sheet":{"id":"1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw","role":"USER_FACING_GDD_WORKSPACE","sync_status":"SHEET_GITHUB_CONFLICT","sheet_only_change_policy":"PROPOSED_SHEET_CHANGE","write_policy":"NO_AUTOMATIC_OVERWRITE","last_read_at":"2026-07-30"},"maturity":{"level":3,"status":"PROVISIONAL_PENDING_IMPLEMENTATION_BOUNDARY_REVIEW","next_gate":"APPROVED_VERTICAL_SLICE_BUILD_CONTRACT"},"scope":"PLAN_CONTRACT_ONLY","validation":{"ci_gate":"REQUIRED_ON_PULL_REQUEST","adversarial_gate":"REQUIRED_ON_PULL_REQUEST","runtime":"NOT_RUN"}}
+{
+  "adapter_role": "project-base-v9-operating-system-adapter",
+  "artifact_role": "GENERATED_COMPATIBILITY_VIEW",
+  "base": {
+    "copy_common_skill_bodies": false,
+    "registry_sha256": "c136d9bb3fde9fc1473fbbe518cc975313023fc9c104efd9692f6834cbf8d8ae",
+    "release_commit": "585a53a25be1b04c543196f5901551deb49c7691",
+    "release_line": "v9.0.0",
+    "release_state": "BASE_RELEASED",
+    "repository": "alsdmlals4-eng/Base",
+    "snapshot_sha256": "e30fca95d201a31937c7bddcbc341c79764d4940c318933a8902cb5bf901ba57"
+  },
+  "base_release": {
+    "release_commit": "3c158f52cfdad889970aef4d6ce6650a6fea0645",
+    "release_evidence_commit": "dd20ad3852e264d7e337e34d2cb963f71053a6cb",
+    "repository": "alsdmlals4-eng/Base",
+    "version": "9.1.0"
+  },
+  "canonical_source": "skills/PROJECT_BASE_ADAPTER.json",
+  "canonical_source_sha256": "aba0b88f877cf916247f14f23f99db6f16d695b3689f0a2e9cc4cbca57903c49",
+  "generated": true,
+  "hash_definition": "RAW_FILE_BYTES_SHA256",
+  "legacy_source": "docs/archive/base-v9-legacy-inputs/BASE_V9_ADAPTER.json",
+  "legacy_source_sha256": "e0c5e616dc4828444f59f6129b0d075cb26cfbf6d4d6cd3245ea0ca1f1eabda1",
+  "lifecycle": "ONE_CYCLE",
+  "maturity": {
+    "level": 3,
+    "next_gate": "APPROVED_VERTICAL_SLICE_BUILD_CONTRACT",
+    "status": "PROVISIONAL_PENDING_IMPLEMENTATION_BOUNDARY_REVIEW"
+  },
+  "project": {
+    "engine": "Godot 4.7",
+    "repository": "alsdmlals4-eng/omenward",
+    "root": "."
+  },
+  "routing_precedence": "PROJECT_LOCAL_THEN_BASE_SHARED",
+  "schema_version": 1,
+  "scope": "PLAN_CONTRACT_ONLY",
+  "sheet": {
+    "id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
+    "last_read_at": "2026-07-30",
+    "role": "USER_FACING_GDD_WORKSPACE",
+    "sheet_only_change_policy": "PROPOSED_SHEET_CHANGE",
+    "sync_status": "SHEET_GITHUB_CONFLICT",
+    "write_policy": "NO_AUTOMATIC_OVERWRITE"
+  },
+  "validation": {
+    "adversarial_gate": "REQUIRED_ON_PULL_REQUEST",
+    "ci_gate": "REQUIRED_ON_PULL_REQUEST",
+    "runtime": "NOT_RUN"
+  },
+  "view_name": "BASE_V9_ADAPTER.json"
+}
