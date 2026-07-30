@@ -79,6 +79,37 @@ verification_result: PASS
 - Draft PR head 동기화와 main 동기화를 구분.
 - 정본 충돌 시 Codex·구현 인계 중단.
 
+### OMW-DEC-20260731-DEFEAT-RETRY-V1
+
+```yaml
+decision_id: OMW-DEC-20260731-DEFEAT-RETRY-V1
+approved_at: 2026-07-31T08:32:00+09:00
+status: USER_APPROVED_PRINCIPLE / DETAIL_VALUES_PENDING
+github_authority_paths:
+  - docs/DOCUMENTATION_MAP.md
+  - docs/design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md
+  - docs/benchmarks/OMENWARD_DEFEAT_RETRY_CHECKPOINT_META_BENCHMARK_2026-07-31.md
+github_authority_commit: 93ed42993ddbc0ced49e0b0c62d682b662c45d37
+github_pr: 116
+github_merge_state: NOT_MERGED
+sheet_ranges:
+  - 02_현재_확정결정!A8:L8
+  - 41_성장_경제!A5:I5
+  - 80_데모_버티컬슬라이스_플레이테스트!A4:L4
+  - 99_변경이력!A7:H7
+sheet_sync_status: SYNCED_TO_PR_HEAD
+verified_at: 2026-07-31T08:32:00+09:00
+verification_result: PASS
+```
+
+승인 요약:
+
+- 본진 HP 0은 기본적으로 MapRun 패배·종료로 이어진다.
+- 영구재화를 소모하면 재시도를 선택할 수 있다.
+- 유료 재시도는 무료 기본권이 아니라 패배 종료의 선택형 예외다.
+- 개발·플레이테스트 무료 동일 seed 재시도는 제품 규칙·보상·기록에서 분리한다.
+- 영구재화 공식 명칭, 정확 비용, 횟수 제한, 막별 가중과 checkpoint 필드는 후속 승인 항목이다.
+
 ---
 
 ## 2. 검증 증적
@@ -87,22 +118,22 @@ verification_result: PASS
 
 다음 범위를 값·서식과 함께 재조회했다.
 
-- `02_현재_확정결정!A6:L7`
+- `02_현재_확정결정!A6:L8`
 - `30_데모범위_품질기준_제작기반!A4:H4`
 - `40_핵심시스템_메인콘텐츠!A6:K6`
+- `41_성장_경제!A5:I5`
 - `50_메인콘텐츠!A6:J7`
-- `99_변경이력!A5:H6`
+- `80_데모_버티컬슬라이스_플레이테스트!A4:L4`
+- `99_변경이력!A5:H7`
 - `00_프로젝트_허브!E2:K2`
 
 검증 결과:
 
-- 두 결정 ID가 GitHub와 Sheet에서 동일하다.
-- authority commit `292a00d4aad3c836d5f3907e38c6496cc03d6c73`이 결정 원장과 변경 이력에 기록됐다.
+- 세 결정 ID가 GitHub와 Sheet에서 동일하다.
+- 각 authority commit이 결정 원장과 변경 이력에 기록됐다.
 - Draft PR 상태는 `NOT_MERGED`, 동기화 상태는 `SYNCED_TO_PR_HEAD`로 구분됐다.
 - 새 행은 기존 행의 줄바꿈·상단 정렬·글꼴 크기 서식을 유지한다.
-- 승인되지 않은 Threat·보상량·경제 수치는 기록하지 않았다.
-
-초기 일괄 쓰기 요청은 Google Sheets API에서 원자적으로 거부되어 부분 데이터가 생성되지 않았다. 이후 범위별 값 쓰기로 전환하고 전체 범위를 재조회해 최종 상태를 검증했다.
+- 승인되지 않은 재시도 비용·횟수·막별 가중·메타 획득량은 기록하지 않았다.
 
 ---
 
