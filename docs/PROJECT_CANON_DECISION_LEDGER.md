@@ -1,7 +1,7 @@
 # 오멘워드 기획 정본 결정 원장
 
 - 갱신일: `2026-07-31`
-- 상태: `CURRENT_DECISION_LEDGER / PLANNING_ONLY`
+- 상태: `CURRENT_DECISION_LEDGER / PLANNING_ONLY / SYNC_VERIFIED`
 - 동기화 프로토콜: `docs/operations/CANON_SYNC_PROTOCOL_2026-07-31.md`
 - 연결 Sheet ID: `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
 - 제품 코드 권한: `NONE`
@@ -26,13 +26,15 @@ github_authority_paths:
 github_authority_commit: 292a00d4aad3c836d5f3907e38c6496cc03d6c73
 github_pr: 116
 github_merge_state: NOT_MERGED
-sheet_targets:
+sheet_ranges:
   - 02_현재_확정결정!A6:L6
   - 30_데모범위_품질기준_제작기반!A4:H4
   - 40_핵심시스템_메인콘텐츠!A6:K6
   - 50_메인콘텐츠!A6:J7
   - 99_변경이력!A5:H5
-sheet_sync_status: PENDING_WRITE
+sheet_sync_status: SYNCED_TO_PR_HEAD
+verified_at: 2026-07-31T08:02:00+09:00
+verification_result: PASS
 ```
 
 승인 요약:
@@ -60,11 +62,13 @@ github_authority_paths:
 github_authority_commit: 292a00d4aad3c836d5f3907e38c6496cc03d6c73
 github_pr: 116
 github_merge_state: NOT_MERGED
-sheet_targets:
+sheet_ranges:
   - 00_프로젝트_허브!E2:K2
   - 02_현재_확정결정!A7:L7
   - 99_변경이력!A6:H6
-sheet_sync_status: PENDING_WRITE
+sheet_sync_status: SYNCED_TO_PR_HEAD
+verified_at: 2026-07-31T08:02:00+09:00
+verification_result: PASS
 ```
 
 승인 요약:
@@ -77,14 +81,41 @@ sheet_sync_status: PENDING_WRITE
 
 ---
 
-## 2. 현재 동기화 상태
+## 2. 검증 증적
+
+### Google Sheet 재조회
+
+다음 범위를 값·서식과 함께 재조회했다.
+
+- `02_현재_확정결정!A6:L7`
+- `30_데모범위_품질기준_제작기반!A4:H4`
+- `40_핵심시스템_메인콘텐츠!A6:K6`
+- `50_메인콘텐츠!A6:J7`
+- `99_변경이력!A5:H6`
+- `00_프로젝트_허브!E2:K2`
+
+검증 결과:
+
+- 두 결정 ID가 GitHub와 Sheet에서 동일하다.
+- authority commit `292a00d4aad3c836d5f3907e38c6496cc03d6c73`이 결정 원장과 변경 이력에 기록됐다.
+- Draft PR 상태는 `NOT_MERGED`, 동기화 상태는 `SYNCED_TO_PR_HEAD`로 구분됐다.
+- 새 행은 기존 행의 줄바꿈·상단 정렬·글꼴 크기 서식을 유지한다.
+- 승인되지 않은 Threat·보상량·경제 수치는 기록하지 않았다.
+
+초기 일괄 쓰기 요청은 Google Sheets API에서 원자적으로 거부되어 부분 데이터가 생성되지 않았다. 이후 범위별 값 쓰기로 전환하고 전체 범위를 재조회해 최종 상태를 검증했다.
+
+---
+
+## 3. 현재 동기화 상태
 
 ```text
 GITHUB_AUTHORITY: WRITTEN
-GOOGLE_SHEET: PENDING_WRITE
-SYNC_VERIFICATION: NOT_RUN
+GOOGLE_SHEET: WRITTEN
+SYNC_VERIFICATION: PASS
+SYNC_STATE: SYNCED_TO_PR_HEAD
 PR_MERGE: NOT_AUTHORIZED
 PRODUCT_CODE: NOT_AUTHORIZED
+CODEX_EXECUTION: BLOCKED
 ```
 
-Sheet 쓰기와 재조회 후 본 원장을 갱신한다.
+PR #116이 사용자 최종 승인 뒤 병합되면 Sheet의 GitHub SHA와 상태를 main commit 기준 `SYNCED_TO_MAIN`으로 다시 동기화해야 한다.
