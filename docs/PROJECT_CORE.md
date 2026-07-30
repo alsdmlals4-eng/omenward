@@ -16,14 +16,16 @@
 2. 런 시간·피로도: `docs/design/APPROVED_VERTICAL_SLICE_RUN_DURATION_AND_FATIGUE_CONTRACT_2026-07-31.md`
 3. 20 Stage·첫 10분: `docs/design/APPROVED_VERTICAL_SLICE_20_STAGE_FOUR_ACT_AND_FIRST_10_MINUTES_CONTRACT_2026-07-31.md`
 4. 콘텐츠 Manifest·미션 풀: `docs/design/APPROVED_VERTICAL_SLICE_CONTENT_MANIFEST_AND_MISSION_CARD_POOL_2026-07-31.md`
-5. Benchmark-First 원칙: `docs/operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md`
-6. 즉시 정본 동기화: `docs/operations/CANON_SYNC_PROTOCOL_2026-07-31.md`
-7. 적대적 검토: `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
+5. 패배·영구재화 재시도: `docs/design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md`
+6. Benchmark-First 원칙: `docs/operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md`
+7. 즉시 정본 동기화: `docs/operations/CANON_SYNC_PROTOCOL_2026-07-31.md`
+8. 적대적 검토: `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
 
 현재 추가 승인 결정:
 
 - `OMW-DEC-20260731-CONTENT-MANIFEST-V1`
 - `OMW-DEC-20260731-CANON-SYNC-V1`
+- `OMW-DEC-20260731-DEFEAT-RETRY-V1`
 
 이 문서는 제품 정체성, 핵심 인과, 불변 조건, 현재 범위와 구현 게이트를 소유한다. 세부 규칙은 위 분야별 승인 계약이 소유한다. 충돌 시 **최신 사용자 지시 → 이 문서 → 최신 분야별 승인 계약 → 기존 승인 문서 → legacy evidence** 순으로 적용한다.
 
@@ -55,6 +57,7 @@
 6. **영토 운영** — 경합 지역과 중간 거점을 점령하고 건물·수리·업그레이드를 관리한다.
 7. **장기 런 관리** — 20 Stage 동안 자원, HP, 영토, 릴과 checkpoint를 유지한다.
 8. **선택 목표 관리** — 공개된 미션 보상과 기회비용을 비교해 수락하거나 거절한다.
+9. **패배 비용 판단** — Stage 5 이후 패배 시 런 종료와 MapRun당 1회의 영구재화 재시도 사이에서 선택한다.
 
 ---
 
@@ -75,6 +78,8 @@ Stage 준비
 
 첫 1막에는 미션 선택을 추가하지 않는다. 미션은 Stage 6·11·16 준비 단계에서만 제시하며 핵심 루프를 대체하는 별도 미니게임이 아니다.
 
+본진 HP가 0이면 패배 화면으로 전환한다. Stage 5 이후이며 해당 MapRun에서 재시도를 사용하지 않았고 사용 가능한 영구재화가 충분할 때만 실패 Stage 준비 checkpoint 재시도를 선택할 수 있다. 그 외에는 MapRun을 종료한다.
+
 ---
 
 ## 4. 제품 코어
@@ -92,6 +97,8 @@ Stage 준비
 - 일반 Stage의 전술계획 정지와 위험 Stage의 실시간 실행이 대비된다.
 - 자동전투는 영토, 건물, 본진 HP, Stage 승패와 다음 준비에 실제 영향을 준다.
 - MapRun은 20 Stage이며 안전 경계 checkpoint 저장을 지원한다.
+- 본진 HP 0은 기본적으로 MapRun 종료이며, Stage 5 이후 MapRun당 1회 영구재화 유료 재시도를 허용한다.
+- 유료 재시도는 실패 Stage 준비 checkpoint와 동일 RNG 계보를 복원한다.
 - 벨루는 자동 결정자가 아니라 상황 설명과 선택 근거를 제공한다.
 - 미션은 공세 정보를 변경하지 않고 공개된 전술적 기회비용을 추가한다.
 
@@ -122,6 +129,7 @@ scope:
     missions: included
     meta_progression: included
     checkpoint_save: included
+    paid_retry: included
     belu_ux: included
     art_audio_ui: included
 ```
@@ -164,6 +172,23 @@ missions:
 - 보상 종류는 골드, 사용 가능한 식량, 추가 무료 회전만 사용.
 - 시간제 미션, 숨은 보상, 실패 직접 페널티, 전용 화폐·상점·성장 트리를 사용하지 않는다.
 
+### 5.3 패배·재시도 코어
+
+```yaml
+paid_retry:
+  available_from_stage: 5
+  maximum_per_maprun: 1
+  restore_point: failed_stage_preparation_checkpoint
+  same_rng_lineage: true
+  current_run_pending_currency_usable: false
+  exact_costs: pending_simulation
+```
+
+- Stage 1~4에서는 유료 재시도를 제공하지 않는다.
+- 비용은 Stage 5~10 / 11~15 / 16~20의 세 등급이며 후반일수록 높다.
+- 현재 런의 미정산 영구재화, 골드, 식량, 무료 회전은 비용으로 사용할 수 없다.
+- 개발 무료 재시도는 제품 메타 보상·업적·공식 기록과 분리한다.
+
 ---
 
 ## 6. 주요 불변 조건
@@ -192,6 +217,11 @@ missions:
 22. 제품 구현은 별도 계획 승인 전 시작하지 않는다.
 23. 문서·Sheet 반영만으로 구현·검증·잠금을 주장하지 않는다.
 24. 주요 승인 결정은 같은 결정 ID로 GitHub 권위 문서와 연결 Sheet에 동기화한다.
+25. 유료 재시도는 Stage 5 이후 MapRun당 최대 1회다.
+26. 유료 재시도는 실패 Stage 준비 checkpoint와 동일 RNG·공세·미션 계보를 복원한다.
+27. 현재 런 미정산 영구재화는 재시도 비용으로 사용할 수 없다.
+28. 영구재화 차감과 checkpoint 복원은 멱등성을 가진 원자 거래다.
+29. 개발 무료 재시도 결과는 정상 제품 보상·업적·공식 기록에 반영하지 않는다.
 
 ---
 
@@ -248,6 +278,9 @@ missions:
 - Stage 준비와 정산 완료는 versioned checkpoint 안전 경계다.
 - 활성 전투 임의 프레임 저장은 버티컬 슬라이스 범위가 아니다.
 - checkpoint 실패는 이전 정상본을 파괴하지 않는다.
+- 유료 재시도는 실패 Stage 준비 checkpoint를 복원한다.
+- 같은 seed·공세·룰렛·미션 계보를 유지하고 준비 선택만 다시 수행한다.
+- 재시도 transaction 실패는 영구재화를 손실시키지 않는다.
 
 ---
 
@@ -322,13 +355,17 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 - 8개 일반 공세 템플릿과 4개 위험 패키지 참조 무결성.
 - 준비·일반·위험 시간 행렬.
 - checkpoint 원자 저장과 schema 오류 처리.
+- MapRun당 1회 유료 재시도 상한과 Stage 1~4 차단.
+- 동일 RNG 계보 복원, 영구재화 원자 차감, 복원 실패 롤백.
+- 개발 재시도의 메타·업적·공식 기록 차단.
 
 ### C6 — 분포·사람 플레이
 
-- 100,000 seed 경제·룰렛·판매·비축·수리·미션 보상 시뮬레이션.
+- 100,000 seed 경제·룰렛·판매·비축·수리·미션 보상·재시도 비용 시뮬레이션.
 - 1080p·720p 정보 가독성.
 - 첫 플레이에서 건설→릴 변화→결과→배치→전선 변화 인과 설명.
 - 미션 목표·실패·보상을 선택 전에 이해하고 거절 가능성을 인지.
+- 재시도 비용·복원 범위·동일 seed를 선택 전에 이해.
 - 벨루 조언이 자동 결정이나 입력 방해를 만들지 않음.
 
 ---
@@ -339,6 +376,7 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 LATEST_USER_DESIGN_INTEGRATED
 + CONTENT_MANIFEST_APPROVED
 + MISSION_POOL_STRUCTURE_APPROVED
++ DEFEAT_AND_PAID_RETRY_DETAIL_APPROVED
 + BENCHMARK_FIRST_RULE_APPROVED
 + CANON_SYNC_PROTOCOL_APPROVED
 + DOCUMENT_AND_SHEET_SYNC_REQUIRED
@@ -349,4 +387,4 @@ LATEST_USER_DESIGN_INTEGRATED
 + CORE_LOCK_NOT_ALLOWED
 ```
 
-다음 기획 게이트는 위험 Stage·보스 상세 편성, 패배·checkpoint·메타 유지 계약, 경제·룰렛·미션 보상 시뮬레이션 목표, UX 정보 예산과 대표 에셋 Manifest다. 제품 구현은 별도 계획 승인 전 시작하지 않는다.
+다음 기획 게이트는 위험 Stage·보스 상세 편성, 영구재화 명칭·획득량·재시도 비용 시뮬레이션 목표, 저장 schema, UX 정보 예산과 대표 에셋 Manifest다. 제품 구현은 별도 계획 승인 전 시작하지 않는다.
