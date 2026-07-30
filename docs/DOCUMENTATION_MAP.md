@@ -42,7 +42,7 @@
 | 런 시간·피로도 | `design/APPROVED_VERTICAL_SLICE_RUN_DURATION_AND_FATIGUE_CONTRACT_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
 | 20 Stage·4막·첫 10분 | `design/APPROVED_VERTICAL_SLICE_20_STAGE_FOUR_ACT_AND_FIRST_10_MINUTES_CONTRACT_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
 | 콘텐츠 Manifest·미션 카드 풀 | `design/APPROVED_VERTICAL_SLICE_CONTENT_MANIFEST_AND_MISSION_CARD_POOL_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
-| 패배·영구재화 재시도 상위 원칙 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` | `CURRENT_USER_APPROVED_PRINCIPLE / DETAIL_VALUES_PENDING` |
+| 패배·영구재화 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` | `CURRENT_USER_APPROVED_DETAIL / EXACT_COST_VALUES_PENDING` |
 | 주요 결정 ID·GitHub/Sheet 위치 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_LEDGER` |
 | Benchmark-First 기획 게이트 | `operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
 | 즉시 기획 정본 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
@@ -62,7 +62,7 @@
 |---|---|---|
 | `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | 시스템 조합형 콘텐츠 Manifest와 12장 미션 풀 | `design/APPROVED_VERTICAL_SLICE_CONTENT_MANIFEST_AND_MISSION_CARD_POOL_2026-07-31.md` |
 | `OMW-DEC-20260731-CANON-SYNC-V1` | 주요 승인 내용을 GitHub·Sheet에 같은 ID로 즉시 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` |
-| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | 기본 패배는 런 종료이며 영구재화 소모로 재시도 가능 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` |
+| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | 기본 패배 종료와 Stage 5 이후 MapRun당 1회 영구재화 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` |
 
 이전 PR 번호형·Finding형 ID는 역사 계보로 보존한다. 2026-07-31 이후 새 주요 결정은 `OMW-DEC-YYYYMMDD-<SEMANTIC-SLUG>-V<REVISION>` 형식을 기본으로 사용한다.
 
@@ -123,10 +123,10 @@ USER_APPROVED_PLAN
 != VERTICAL_SLICE_PROVEN
 != CORE_LOCK
 
-USER_APPROVED_PRINCIPLE
-!= EXACT_COST_APPROVED
-!= RETRY_LIMIT_APPROVED
-!= SAVE_SCHEMA_APPROVED
+USER_APPROVED_DETAIL
+!= EXACT_COST_VALUES_APPROVED
+!= META_CURRENCY_NAME_APPROVED
+!= SAVE_SCHEMA_IMPLEMENTED
 
 BENCHMARK_COMPLETE
 != DESIGN_APPROVED
@@ -152,7 +152,7 @@ Google Sheet에 Draft PR head를 기록할 때는 `NOT_MERGED`를 함께 표시�
 | 승인 결정 동기화 | Canon Sync Protocol → Project Core → 분야별 APPROVED 계약 → 결정 원장·Sheet |
 | 콘텐츠 Manifest·미션 | 콘텐츠 Manifest 계약 → 20 Stage 계약 → 전체 시스템 계약 |
 | 위험 Stage·보스 편성 | 20 Stage 계약 → 콘텐츠 Manifest 계약 → 공용 적 아키타입 문서 |
-| 패배·checkpoint·메타 | 패배·유료 재시도 원칙 → 전체 시스템 계약 → 저장 계약 계보 → Pending |
+| 패배·checkpoint·메타 | 패배·유료 재시도 계약 → 전체 시스템 계약 → 저장 계약 계보 → Pending |
 | 경제·100,000 seed 시뮬레이션 | 콘텐츠 Manifest 계약 → 룰렛·경제 세부 정본 → 별도 검증 계획 |
 | UI·접근성·정보 위계 | 20 Stage 계약 → UX Evidence → `discipline.omenward-core-ux` |
 | 아트·애니메이션 | 콘텐츠 Manifest 계약 → 관련 `APPROVED_ART_*` → `images/VISUAL_REFERENCE_INDEX.md` |
