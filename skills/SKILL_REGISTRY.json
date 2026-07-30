@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "registry_role": "omenward-project-local-skill-registry",
+  "project": {
+    "repository": "alsdmlals4-eng/omenward"
+  },
+  "skills": [
+    {
+      "skill_id": "omenward-art-assets",
+      "path": "disciplines/governing-omenward-art-animation-and-assets/SKILL.md",
+      "status": "ACTIVE"
+    },
+    {
+      "skill_id": "omenward-core-design",
+      "path": "disciplines/governing-omenward-core-design-and-data/SKILL.md",
+      "status": "ACTIVE"
+    },
+    {
+      "skill_id": "omenward-core-ux",
+      "path": "disciplines/evaluating-omenward-core-ux-and-playtests/SKILL.md",
+      "status": "ACTIVE"
+    },
+    {
+      "skill_id": "omenward-godot",
+      "path": "disciplines/planning-and-validating-omenward-godot-implementation/SKILL.md",
+      "status": "ACTIVE"
+    }
+  ],
+  "legacy_registry": {
+    "path": "docs/base/SKILL_REGISTRY.json",
+    "role": "EXPLICIT_COMPATIBILITY_REFERENCE_ONLY",
+    "automatic_discovery": false
+  }
+}

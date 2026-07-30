@@ -1,0 +1,183 @@
+{
+  "artifact_role": "PROJECT_BASE_ADAPTER",
+  "base_release": {
+    "release_commit": "3c158f52cfdad889970aef4d6ce6650a6fea0645",
+    "release_evidence_commit": "dd20ad3852e264d7e337e34d2cb963f71053a6cb",
+    "repository": "alsdmlals4-eng/Base",
+    "version": "9.1.0"
+  },
+  "compatibility": {
+    "cycle": "ONE_CYCLE",
+    "legacy_inputs": {
+      "skills/BASE_V9_ADAPTER.json": "docs/archive/base-v9-legacy-inputs/BASE_V9_ADAPTER.json",
+      "skills/PROJECT_BASE_SKILL_ADAPTER.json": "docs/archive/base-v9-legacy-inputs/PROJECT_BASE_SKILL_ADAPTER.json"
+    },
+    "views": [
+      "skills/BASE_V9_ADAPTER.json",
+      "skills/PROJECT_BASE_SKILL_ADAPTER.json"
+    ]
+  },
+  "gdd_sheet": {
+    "declared_sync_status": "SHEET_GITHUB_CONFLICT",
+    "id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
+    "role": "USER_FACING_GDD_WORKSPACE",
+    "sheet_only_change_policy": "PROPOSED_SHEET_CHANGE",
+    "sync_status": "BLOCKED",
+    "write_policy": "NO_AUTOMATIC_OVERWRITE"
+  },
+  "project": {
+    "engine": "Godot 4.7",
+    "repository": "alsdmlals4-eng/omenward",
+    "root": "."
+  },
+  "protected_baseline": {
+    "authority_kind": "REMOTE_TRACKING_REF",
+    "authority_ref": "refs/remotes/origin/main",
+    "commit": "5fac7230a4f47955f42b01e347a8bb509f2b880c",
+    "policy_sha256": "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52",
+    "policy_source_path": "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+    "policy_source_type": "FIRST_MIGRATION_LEGACY_SOURCE",
+    "protected_paths_pointer": "/protected_paths"
+  },
+  "protected_paths": [
+    "data/",
+    "scripts/",
+    "scenes/",
+    "assets/",
+    "addons/",
+    "project.godot"
+  ],
+  "routing": {
+    "aliases": [],
+    "base_routes": [
+      {
+        "route_id": "auditing-canonical-reference-freshness",
+        "skill_id": "auditing-canonical-reference-freshness",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "evaluating-godot-assets-and-plugins-before-creation",
+        "skill_id": "evaluating-godot-assets-and-plugins-before-creation",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "evolving-project-discipline-skills",
+        "skill_id": "evolving-project-discipline-skills",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "governing-legacy-retention-and-archives",
+        "skill_id": "governing-legacy-retention-and-archives",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "maintaining-project-context-and-handoff",
+        "skill_id": "maintaining-project-context-and-handoff",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "managing-base-change-proposals",
+        "skill_id": "managing-base-change-proposals",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "managing-design-documents",
+        "skill_id": "managing-design-documents",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "managing-game-project-operating-system",
+        "skill_id": "managing-game-project-operating-system",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "managing-project-intake-and-work-contract",
+        "skill_id": "managing-project-intake-and-work-contract",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "reviewing-and-validating-project-changes",
+        "skill_id": "reviewing-and-validating-project-changes",
+        "status": "ACTIVE"
+      }
+    ],
+    "inactive_routes": [],
+    "precedence": "PROJECT_LOCAL_THEN_BASE_SHARED",
+    "project_routes": [
+      {
+        "route_id": "omenward-art-assets",
+        "skill_id": "omenward-art-assets",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "omenward-core-design",
+        "skill_id": "omenward-core-design",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "omenward-core-ux",
+        "skill_id": "omenward-core-ux",
+        "status": "ACTIVE"
+      },
+      {
+        "route_id": "omenward-godot",
+        "skill_id": "omenward-godot",
+        "status": "ACTIVE"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "shared_overrides": {
+    "auditing-canonical-reference-freshness": {},
+    "evaluating-godot-assets-and-plugins-before-creation": {
+      "core_systems_not_to_outsource": [
+        "core combat judgment",
+        "deterministic outcome rules",
+        "canonical game data"
+      ],
+      "search_focus": [
+        "roulette",
+        "deterministic testing",
+        "three-line combat",
+        "state machine",
+        "debug visualization",
+        "data validation"
+      ]
+    },
+    "evolving-project-discipline-skills": {},
+    "governing-legacy-retention-and-archives": {
+      "adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json",
+      "current_canon_priority": [
+        "docs/DOCUMENTATION_MAP.md",
+        "docs/ACTIVE_CONTEXT.md",
+        "docs/design/APPROVED_*.md"
+      ],
+      "existing_legacy_migration": "NOT_IN_THIS_ADOPTION"
+    },
+    "maintaining-project-context-and-handoff": {},
+    "managing-base-change-proposals": {},
+    "managing-design-documents": {},
+    "managing-game-project-operating-system": {},
+    "managing-project-intake-and-work-contract": {},
+    "reviewing-and-validating-project-changes": {}
+  },
+  "skill_registry": {
+    "base": {
+      "hash_definition": "RAW_FILE_BYTES_SHA256",
+      "path": "skills/SKILL_REGISTRY.json",
+      "sha256": "e06003cb986e979aa46c06839de178c3fb9ff10bdf440e750712d90d6c5ae7bb"
+    },
+    "project": {
+      "hash_definition": "RAW_FILE_BYTES_SHA256",
+      "path": "skills/SKILL_REGISTRY.json",
+      "sha256": "be0cb612909059426139ca9b1973ee416c1ba3505a29d69549254b19bbaf0050"
+    }
+  },
+  "validators": [
+    "python tests/test_base_shared_skill_adapter.py",
+    "python tools/check_archive_governance.py",
+    "python tools/validate_skill_system.py",
+    "python tools/route_skills.py --help",
+    "manual: Godot project parse/runtime check"
+  ]
+}

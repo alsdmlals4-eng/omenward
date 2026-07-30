@@ -1,36 +1,112 @@
 {
-  "schema_version": 1,
   "adapter_role": "base-shared-skill-project-adapter",
+  "artifact_role": "GENERATED_COMPATIBILITY_VIEW",
   "base": {
+    "commit": "6a224e450f9420223c00921f3c56e051612f92ad",
+    "repository": "alsdmlals4-eng/Base"
+  },
+  "base_release": {
+    "release_commit": "3c158f52cfdad889970aef4d6ce6650a6fea0645",
+    "release_evidence_commit": "dd20ad3852e264d7e337e34d2cb963f71053a6cb",
     "repository": "alsdmlals4-eng/Base",
-    "commit": "6a224e450f9420223c00921f3c56e051612f92ad"
+    "version": "9.1.0"
   },
-  "project": {
-    "repository": "alsdmlals4-eng/omenward",
-    "layout_policy": "preserve-existing-canonical-paths"
-  },
-  "role_bindings": {
-    "project_agents": "AGENTS.md",
-    "documentation_map": "docs/DOCUMENTATION_MAP.md",
-    "active_context": "docs/ACTIVE_CONTEXT.md",
-    "skill_registry": "docs/base/SKILL_REGISTRY.json",
-    "archive_root": "docs/archive",
-    "archive_readme": "docs/archive/README.md",
-    "archive_manifest": "docs/archive/MANIFEST.json",
-    "archive_retention_adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json"
-  },
-  "canonical_sources": ["docs/BASE_RULES_VERSION.md", "docs/ACTIVE_CONTEXT.md", "docs/DOCUMENTATION_MAP.md", "project.godot"],
-  "protected_paths": ["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"],
-  "legacy_search_roots": ["docs/", "skills/"],
-  "generated_derivative_roots": ["docs/published/"],
-  "protected_evidence_roots": ["tests/", "docs/evidence/"],
-  "rollback_reference": "git-history-and-approved-v2-baseline",
+  "canonical_source": "skills/PROJECT_BASE_ADAPTER.json",
+  "canonical_source_sha256": "aba0b88f877cf916247f14f23f99db6f16d695b3689f0a2e9cc4cbca57903c49",
+  "canonical_sources": [
+    "docs/BASE_RULES_VERSION.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "project.godot"
+  ],
   "engine": {
-    "project_file": "project.godot",
     "addon_root": "addons/",
-    "asset_roots": ["assets/"],
-    "platforms": ["Windows PC"]
+    "asset_roots": [
+      "assets/"
+    ],
+    "platforms": [
+      "Windows PC"
+    ],
+    "project_file": "project.godot"
   },
+  "generated": true,
+  "generated_derivative_roots": [
+    "docs/published/"
+  ],
+  "hash_definition": "RAW_FILE_BYTES_SHA256",
+  "legacy_search_roots": [
+    "docs/",
+    "skills/"
+  ],
+  "legacy_source": "docs/archive/base-v9-legacy-inputs/PROJECT_BASE_SKILL_ADAPTER.json",
+  "legacy_source_sha256": "b9dd9f66e24db9adbc44fc1ec0fbe660dd79ee820dbf055f0283421197431857",
+  "license_record": "docs/technical/THIRD_PARTY_LICENSES.md",
+  "lifecycle": "ONE_CYCLE",
+  "project": {
+    "engine": "Godot 4.7",
+    "repository": "alsdmlals4-eng/omenward",
+    "root": "."
+  },
+  "protected_evidence_roots": [
+    "tests/",
+    "docs/evidence/"
+  ],
+  "protected_paths": [
+    "data/",
+    "scripts/",
+    "scenes/",
+    "assets/",
+    "addons/",
+    "project.godot"
+  ],
+  "role_bindings": {
+    "active_context": "docs/ACTIVE_CONTEXT.md",
+    "archive_manifest": "docs/archive/MANIFEST.json",
+    "archive_readme": "docs/archive/README.md",
+    "archive_retention_adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json",
+    "archive_root": "docs/archive",
+    "documentation_map": "docs/DOCUMENTATION_MAP.md",
+    "project_agents": "AGENTS.md",
+    "skill_registry": "skills/SKILL_REGISTRY.json"
+  },
+  "rollback_reference": "git-history-and-approved-v2-baseline",
+  "routing_precedence": "PROJECT_LOCAL_THEN_BASE_SHARED",
+  "schema_version": 1,
+  "shared_skill_overrides": {
+    "auditing-canonical-reference-freshness": {},
+    "evaluating-godot-assets-and-plugins-before-creation": {
+      "core_systems_not_to_outsource": [
+        "core combat judgment",
+        "deterministic outcome rules",
+        "canonical game data"
+      ],
+      "search_focus": [
+        "roulette",
+        "deterministic testing",
+        "three-line combat",
+        "state machine",
+        "debug visualization",
+        "data validation"
+      ]
+    },
+    "evolving-project-discipline-skills": {},
+    "governing-legacy-retention-and-archives": {
+      "adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json",
+      "current_canon_priority": [
+        "docs/DOCUMENTATION_MAP.md",
+        "docs/ACTIVE_CONTEXT.md",
+        "docs/design/APPROVED_*.md"
+      ],
+      "existing_legacy_migration": "NOT_IN_THIS_ADOPTION"
+    },
+    "maintaining-project-context-and-handoff": {},
+    "managing-base-change-proposals": {},
+    "managing-design-documents": {},
+    "managing-game-project-operating-system": {},
+    "managing-project-intake-and-work-contract": {},
+    "reviewing-and-validating-project-changes": {}
+  },
+  "third_party_inventory": "docs/technical/ADOPTED_ASSETS.md",
   "validators": [
     "python tests/test_base_shared_skill_adapter.py",
     "python tools/check_archive_governance.py",
@@ -38,17 +114,5 @@
     "python tools/route_skills.py --help",
     "manual: Godot project parse/runtime check"
   ],
-  "third_party_inventory": "docs/technical/ADOPTED_ASSETS.md",
-  "license_record": "docs/technical/THIRD_PARTY_LICENSES.md",
-  "shared_skill_overrides": {
-    "governing-legacy-retention-and-archives": {
-      "adapter": "docs/archive/ARCHIVE_RETENTION_ADAPTER.json",
-      "current_canon_priority": ["docs/DOCUMENTATION_MAP.md", "docs/ACTIVE_CONTEXT.md", "docs/design/APPROVED_*.md"],
-      "existing_legacy_migration": "NOT_IN_THIS_ADOPTION"
-    },
-    "evaluating-godot-assets-and-plugins-before-creation": {
-      "search_focus": ["roulette", "deterministic testing", "three-line combat", "state machine", "debug visualization", "data validation"],
-      "core_systems_not_to_outsource": ["core combat judgment", "deterministic outcome rules", "canonical game data"]
-    }
-  }
+  "view_name": "PROJECT_BASE_SKILL_ADAPTER.json"
 }
