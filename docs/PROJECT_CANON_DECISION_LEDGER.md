@@ -5,251 +5,135 @@
 - 동기화 프로토콜: `docs/operations/CANON_SYNC_PROTOCOL_2026-07-31.md`
 - 누락 방지 게이트: `docs/operations/PROJECT_UNDERSTANDING_AND_OMISSION_PREVENTION_GATE_2026-08-01.md`
 - 연결 Sheet ID: `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
-- 제품 코드 권한: `NONE`
-- Codex 실행: `BLOCKED`
-- PR 병합: `NOT_AUTHORIZED`
+- 제품 코드·Codex·병합: `NONE / BLOCKED / NOT_AUTHORIZED`
 
-이 원장은 주요 승인 결정, 폐기·대체 상태, GitHub 권위 경로와 Google Sheet 위치를 같은 Decision ID로 연결한다. Sheet에는 Git commit이 없으므로 GitHub authority commit과 `99_변경이력`을 상호 참조한다.
+이 원장은 주요 승인 결정, 폐기·대체 상태, GitHub 권위 경로와 Google Sheet 위치를 같은 Decision ID로 연결한다.
 
----
+## 1. 현재 결정 요약
 
-## 1. 결정 요약
-
-| Decision ID | 현재 상태 | 요약 |
+| Decision ID | 상태 | 요약 |
 |---|---|---|
-| `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | `USER_APPROVED_PLAN` | 시스템 조합형 콘텐츠 Manifest와 12장 미션 풀 |
-| `OMW-DEC-20260731-CANON-SYNC-V1` | `CURRENT_PROJECT_WORK_RULE` | GitHub·Sheet 즉시 정본 동기화 |
-| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | `USER_APPROVED_DETAIL / EXACT_COSTS_PENDING` | Stage 5 이후 MapRun당 1회 영구재화 재시도 |
-| `OMW-DEC-20260731-DANGER-BOSS-V1` | `USER_APPROVED_PLAN / EXACT_VALUES_PENDING` | Stage 5·10·15·20 위험 공세·보스 패키지 |
-| `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1` | `WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED / RESET_REQUIRED` | 중간 이미지 검수 절차 유지, 기존 배치 폐기 |
-| `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1` | `REJECTED_EVIDENCE / SUPERSEDED_PENDING_REBUILD` | 잘못된 화면 보드 V1 재사용 금지 |
-| `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1` | `CURRENT_PROJECT_WORK_RULE / CURRENT_USER_CONFIRMED_CANON` | 사실표·충돌 원장·누락 방지와 전장 6/3/0 불변 계약 |
+| `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | `USER_APPROVED_PLAN` | 전장 1개·4막, Stage 20, 공세 8, 위험 4, 보스 3, 미션 12 |
+| `OMW-DEC-20260731-CANON-SYNC-V1` | `CURRENT_PROJECT_WORK_RULE` | GitHub·Sheet 동일 Decision ID 동기화 |
+| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | `USER_APPROVED_DETAIL / EXACT_COSTS_PENDING` | Stage 5 이후 MapRun당 1회 유료 재시도 |
+| `OMW-DEC-20260731-DANGER-BOSS-V1` | `USER_APPROVED_PLAN / EXACT_VALUES_PENDING` | Stage 5·10·15·20 위험 공세·보스 |
+| `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1` | `WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED` | 화면별 이미지 검수 절차 유지 |
+| `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1` | `REJECTED_EVIDENCE / SUPERSEDED` | 잘못된 화면 보드 V1 재사용 금지 |
+| `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1` | `CURRENT_PROJECT_WORK_RULE / CURRENT_USER_CONFIRMED_CANON` | 사실표·충돌 원장·전장 `6/3/0=30` |
+| `OMW-DEC-20260801-BELU-IDENTITY-V1` | `CURRENT_USER_CONFIRMED_CANON` | 벨루·율비 동일 인물, 정본명 벨루 |
 
-기존 콘텐츠·동기화·패배 재시도·위험 Stage 결정은 각 승인 문서와 기존 Sheet 행에서 계속 유효하다. 이번 결정은 그 의미를 변경하지 않고, 작업 진입·상태 판정·전장 토폴로지·실패 증거 처리 규칙을 강화한다.
+## 2. OMW-DEC-20260801-BELU-IDENTITY-V1
 
----
+```yaml
+decision_id: OMW-DEC-20260801-BELU-IDENTITY-V1
+approved_at: 2026-08-01T05:15:00+09:00
+status: CURRENT_USER_CONFIRMED_CANON
+canonical_name_ko: 벨루
+canonical_name_en: Belu
+historical_alias_ko: 율비
+identity_relation: SAME_CHARACTER
+github_authority_paths:
+  - docs/PROJECT_CORE.md
+  - docs/DOCUMENTATION_MAP.md
+  - docs/DECISIONS_PENDING.md
+  - docs/design/APPROVED_BELU_GUIDE_IDENTITY_AND_NAMING_CONTRACT_2026-08-01.md
+  - docs/images/VISUAL_REFERENCE_INDEX.md
+  - docs/reviews/OMENWARD_COMPREHENSIVE_PROJECT_INTEGRITY_REVIEW_2026-08-01.md
+github_authority_commit: 214cedf259ee9ad848117a33dd70d62c4293bf27
+github_pr: 116
+github_merge_state: NOT_MERGED
+sheet_ranges:
+  - 00_프로젝트_허브!G2:K2
+  - 02_현재_확정결정!E2:E5
+  - 02_현재_확정결정!L2:L5
+  - 02_현재_확정결정!A13:L13
+  - 04_누락_충돌_감사!D6:H13
+  - 13_주요인물!A4:J4
+  - 60_UX_UI_접근성!A9:J9
+  - 70_아트_오디오_에셋!A5:J5
+  - 99_변경이력!A13:H13
+sheet_sync_status: SYNCED_TO_PR_HEAD
+verified_at: 2026-08-01T05:15:00+09:00
+verification_result: PASS
+```
 
-## 2. 비주얼 결정 정정
+결정 내용:
 
-### OMW-DEC-20260731-MID-IMAGE-REVIEW-V1
+- 기존 문서의 벨루와 사용자 첨부 `요정 율비 시안.png`의 캐릭터는 동일 인물이다.
+- 제품 정본명은 `벨루 / Belu`다.
+- `율비 / Yulbi`는 과거 시안 파일명·변경 이력의 역사 별칭으로만 보존한다.
+- 신규 UI·대사·에셋·데이터·파일명은 `벨루 / Belu / belu`를 사용한다.
+- 벨루는 설명·경고·결과 반응을 제공하되 건설·릴 조작·배치·전술 결정을 대신하지 않는다.
+- 최종 픽셀 크기·애니메이션·음성·표정 조건·화면 배치는 후속 화면·에셋 명세 항목이다.
+
+## 3. 프로젝트 무결성 정정 상태
+
+```text
+OPEN_P0: 0
+BELU_IDENTITY_CONFLICT: VERIFIED_FIXED
+PROJECT_CORE_REFRESH: VERIFIED
+HISTORICAL_CURRENT_SHEET_CLASSIFICATION: VERIFIED
+VISUAL_SCREEN_BOARD_V1: REJECTED_EVIDENCE
+GENERATED_IMAGES: REJECTED_EVIDENCE
+VISUAL_BINARY_MIGRATION: PENDING
+LATEST_CONTRACT_RED_TEST_SPEC: NOT_WRITTEN
+PRODUCT_CODE: NOT_AUTHORIZED
+CODEX_EXECUTION: BLOCKED
+RUNTIME_AND_HUMAN_QA: NOT_RUN
+```
+
+과거 Sheet 행 `PR97-VS`, `PR92-BUILDING`, `F-30`, `OMENWARD-EVP-001`은 삭제하지 않고 각각 `HISTORICAL_APPROVED_SOURCE`, `LEGACY_PROVEN`, `HISTORICAL_EVIDENCE`로 분류했다. 현재 정본 권한으로 사용하지 않는다.
+
+## 4. 비주얼 결정 상태
+
+### 중간 이미지 점검
 
 ```yaml
 decision_id: OMW-DEC-20260731-MID-IMAGE-REVIEW-V1
-corrected_at: 2026-08-01T04:36:00+09:00
 status: WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED / RESET_REQUIRED
-github_authority_paths:
-  - docs/DOCUMENTATION_MAP.md
-  - docs/reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md
-  - docs/operations/PROJECT_UNDERSTANDING_AND_OMISSION_PREVENTION_GATE_2026-08-01.md
-github_authority_commit: 3c9aa092e77fd3e6ba45b7bf22f0647b62b0ac3e
-github_pr: 116
-github_merge_state: NOT_MERGED
-sheet_ranges:
-  - 00_프로젝트_허브!E2:K2
-  - 02_현재_확정결정!A10:L10
-  - 60_UX_UI_접근성!A6:J6
-  - 71_이미지기획_생성목록!E6:F11
-  - 71_이미지기획_생성목록!J6:J11
-  - 71_이미지기획_생성목록!L6:L11
-  - 72_이미지검수_승인로그!C3:L8
-  - 80_데모_버티컬슬라이스_플레이테스트!A6:L6
-  - 99_변경이력!A12:H12
-sheet_sync_status: SYNCED_TO_PR_HEAD
-verification_result: PASS
 ```
 
-- 실제 이미지는 생성되지 않은 것이 아니라 생성 후 사용자 검토에서 폐기됐다.
-- `OM-IMG-005~010`은 모두 `REJECTED_* / RESET_REQUIRED`다.
-- 새 이미지 생성은 사실표·토폴로지·세 물리 릴 검산·독립 브리프 사용자 확인 전 차단한다.
+- 실패 이미지가 생성되지 않았던 것으로 되돌리지 않는다.
+- `OM-IMG-005~010`은 `REJECTED_* / RESET_REQUIRED`다.
+- 새 이미지는 화면별 독립 브리프 사용자 승인 전 생성하지 않는다.
 
-### OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1
+### 화면 보드 V1
 
 ```yaml
 decision_id: OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1
-rejected_at: 2026-08-01T04:36:00+09:00
-status: REJECTED_EVIDENCE / SUPERSEDED_PENDING_REBUILD
-github_authority_paths:
-  - docs/DOCUMENTATION_MAP.md
-  - docs/design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md
-  - docs/reviews/OMENWARD_COMPREHENSIVE_PROJECT_INTEGRITY_REVIEW_2026-08-01.md
-github_authority_commit: 3c9aa092e77fd3e6ba45b7bf22f0647b62b0ac3e
-github_pr: 116
-github_merge_state: NOT_MERGED
-sheet_ranges:
-  - 02_현재_확정결정!A11:L11
-  - 60_UX_UI_접근성!A7:J7
-  - 71_이미지기획_생성목록!E6:F11
-  - 71_이미지기획_생성목록!J6:J11
-  - 71_이미지기획_생성목록!L6:L11
-  - 72_이미지검수_승인로그!C3:L8
-  - 80_데모_버티컬슬라이스_플레이테스트!A7:L7
-  - 99_변경이력!A12:H12
-sheet_sync_status: SYNCED_TO_PR_HEAD
-verification_result: PASS
+status: REJECTED_EVIDENCE / SUPERSEDED / DO_NOT_REUSE
 ```
 
-폐기 사유:
+폐기 원인:
 
-- 잘못된 어두운 비주얼 추론을 목표 방향처럼 고정했다.
-- 세 물리 릴·3×3 정지 보드와 하나의 전장·세 라인을 정확히 고정하지 못했다.
-- 건설 노드 한 종류, 본진 6/진영, 중간 거점 3/거점, 접전지 0을 검산하지 않았다.
-- 승인 정본·현재 구현·Legacy·제안·폐기 증거를 충분히 분리하지 않았다.
+- 세 물리 릴과 하나의 전장·세 라인 구조를 정확히 고정하지 못함.
+- 건설 노드 `6/3/0=30` 검산 누락.
+- 프로젝트의 밝은 진영 대비보다 generic dark fantasy를 우선함.
+- 정본·구현·Legacy·제안·폐기 상태를 혼합함.
 
----
-
-## 3. OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1
-
-```yaml
-decision_id: OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1
-approved_at: 2026-08-01T04:36:00+09:00
-status: CURRENT_PROJECT_WORK_RULE / CURRENT_USER_CONFIRMED_CANON
-github_authority_paths:
-  - AGENTS.md
-  - docs/DOCUMENTATION_MAP.md
-  - docs/CURRENT_IMPLEMENTATION_STATUS.md
-  - docs/operations/PROJECT_UNDERSTANDING_AND_OMISSION_PREVENTION_GATE_2026-08-01.md
-  - docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_CONSTRUCTION_NODE_INVARIANTS_2026-08-01.md
-  - docs/reviews/OMENWARD_COMPREHENSIVE_PROJECT_INTEGRITY_REVIEW_2026-08-01.md
-  - docs/images/VISUAL_REFERENCE_INDEX.md
-github_authority_commit: 3c9aa092e77fd3e6ba45b7bf22f0647b62b0ac3e
-github_pr: 116
-github_merge_state: NOT_MERGED
-sheet_ranges:
-  - 00_프로젝트_허브!E2:K2
-  - 02_현재_확정결정!A10:L12
-  - 04_누락_충돌_감사!A6:H13
-  - 15_조작_게임규칙!A4:J5
-  - 60_UX_UI_접근성!A6:J8
-  - 71_이미지기획_생성목록!E6:F11
-  - 71_이미지기획_생성목록!J6:J11
-  - 71_이미지기획_생성목록!L6:L11
-  - 72_이미지검수_승인로그!C3:L8
-  - 80_데모_버티컬슬라이스_플레이테스트!A6:L8
-  - 99_변경이력!A12:H12
-sheet_sync_status: SYNCED_TO_PR_HEAD
-verified_at: 2026-08-01T04:36:00+09:00
-verification_result: PASS
-```
-
-### 3.1 프로젝트 이해 게이트
-
-모든 중형 이상 기획·화면·이미지·구현 작업 전에 다음을 분리한다.
-
-```text
-CURRENT_CANON
-CURRENT_IMPLEMENTATION
-LEGACY_PROVEN
-PROPOSED
-REJECTED_EVIDENCE
-UNRESOLVED
-```
-
-작업 질문, 최신 사용자 결정, 문서↔구현↔Sheet↔시각자료 충돌과 열린 P0/P1 Finding을 기록한다. 열린 P0가 있으면 이미지 생성·제품 구현·최종 기획 승격을 차단한다.
-
-### 3.2 전장·노드 불변 계약
-
-```text
-node_kind = CONSTRUCTION_NODE_ONLY
-battlefield_count = 1
-lane_count = 3
-base_count = 2
-nodes_per_base = 6
-midpoint_outposts = 3_lanes × 2_factions = 6
-nodes_per_midpoint_outpost = 3
-clash_zones = 3
-nodes_per_clash_zone = 0
-total_nodes = 2×6 + 6×3 = 30
-```
-
-- 중앙 접전지는 점령 목적지이며 건설 장소가 아니다.
-- 본진·중간 거점은 노드 종류가 아니라 건설 노드가 속한 위치다.
-- 방어·전진·특수·접전지 노드를 임의로 추가하지 않는다.
-
-### 3.3 Legacy와 최신 구현 경계
-
-실제 저장소에는 다음 Legacy seam이 있다.
-
-- 독립 9칸 가중 룰렛.
-- 중간 거점당 `front_a / front_b / rear` 세 node ID.
-- 본진 노드 데이터 부재와 `construct_home()`의 중단 거점 별칭.
-- `capture_power` 합산 점령.
-- barracks/tower/farm 세 건물.
-- 영구재화 없는 무료 Stage retry.
-- 코드 드로잉 graybox·Label 중심 HUD.
-
-이는 최신 세 물리 릴·30노드·5건물·고정 점령·유료 Retry·제품 UI의 구현 증거가 아니다.
-
----
-
-## 4. Finding 최종 상태
-
-| Finding | Severity | 상태 |
-|---|---|---|
-| 생성·폐기 이미지가 미생성으로 남음 | P0 | `VERIFIED_FIXED` |
-| 잘못된 화면 보드가 활성 정본 | P0 | `VERIFIED_FIXED` |
-| 프로젝트 이해 선행 게이트 부재 | P0 | `VERIFIED_FIXED` |
-| 노드 관계식·접전지 0 의미 누락 | P1 | `VERIFIED_FIXED` |
-| 시각자료 인덱스 경로 오류 | P1 | `VERIFIED_FIXED` |
-| 최신 사용자 시각자료 바이너리 미이동 | P1 | `MITIGATED_MIGRATION_PENDING` |
-| 활성 Base v9.1과 v9.3 계획 혼동 | P1 | `DECLARED_NOT_ADOPTED` |
-| 상태 문서 최신성 부족 | P1 | `PARTIAL_PROJECT_CORE_REFRESH_PENDING` |
-| Legacy와 최신 제품 계약 혼재 | P1 | `DECLARED_MIGRATION_REQUIRED` |
-| 최신 구조 자동 계약 없음 | P1 | `OPEN_BLOCKS_CODEX_BUILD` |
-| 벨루·율비 관계 미정 | P1 | `OPEN_BLOCKS_GUIDE_CANON` |
-| 구형 Sheet 역사 행 혼재 | P2 | `OPEN_CLEANUP_PENDING` |
-
-열린 P0는 0개다. 열린 P1은 관련 영역의 작업을 차단한다.
-
----
-
-## 5. Google Sheet 재검증
-
-재조회 범위:
-
-- `00_프로젝트_허브!E2:K2`
-- `02_현재_확정결정!A10:L12`
-- `04_누락_충돌_감사!A6:H13`
-- `15_조작_게임규칙!A4:J5`
-- `60_UX_UI_접근성!A6:J8`
-- `71_이미지기획_생성목록!E6:F11`
-- `71_이미지기획_생성목록!J6:J11`
-- `71_이미지기획_생성목록!L6:L11`
-- `72_이미지검수_승인로그!C3:L8`
-- `80_데모_버티컬슬라이스_플레이테스트!A6:L8`
-- `99_변경이력!A12:H12`
-
-검증 결과:
+## 5. Sheet 재검증 결과
 
 ```text
 DECISION_ID_MATCH: PASS
+CANONICAL_NAME_BELU: PASS
+HISTORICAL_ALIAS_YULBI: PASS
+AUDIT_FINDING_CLOSED: PASS
+HISTORICAL_CURRENT_CLASSIFICATION: PASS
 AUTHORITY_COMMIT_MATCH: PASS
-REJECTED_EVIDENCE_STATUS: PASS
-TOPOLOGY_6_3_0_30: PASS
-EXISTING_CELL_FORMATS: PRESERVED
+EXISTING_FORMATS_PRESERVED: PASS
 SYNC_STATE: SYNCED_TO_PR_HEAD
 ```
 
----
-
-## 6. 현재 동기화 상태
+## 6. 다음 작업 게이트
 
 ```text
-GITHUB_AUTHORITY: WRITTEN
-GOOGLE_SHEET: WRITTEN
-SYNC_VERIFICATION: PASS
-SYNC_STATE: SYNCED_TO_PR_HEAD
-PROJECT_FACT_MATRIX: REQUIRED
-CONTRADICTION_REGISTER: REQUIRED
-OPEN_P0: ZERO
-VISUAL_SCREEN_BOARD_V1: REJECTED
-PREVIOUS_GENERATED_IMAGES: REJECTED_EVIDENCE
-NEW_IMAGE_GENERATION: BLOCKED_BY_RELATED_P1
-LATEST_VERTICAL_SLICE_IMPLEMENTATION: NOT_STARTED
-LATEST_CONTRACT_TESTS: NOT_RUN
-HUMAN_QA: NOT_RUN
-PRODUCT_CODE: NOT_AUTHORIZED
-CODEX_EXECUTION: BLOCKED
-PR_MERGE: NOT_AUTHORIZED
+최신 계약 Red 테스트 명세
+→ Legacy 테스트 보존·교체·폐기 판정
+→ 화면 명세 보드 V2
+→ 대표 화면 중간 검수
+→ 경제·Retry 비용·save schema
+→ 독립 적대적 검토
+→ 사용자 승인 구현 Plan
 ```
 
-PR #116이 사용자 최종 승인 뒤 병합되면 GitHub SHA와 Sheet 상태를 main commit 기준 `SYNCED_TO_MAIN`으로 다시 동기화해야 한다.
+최신 계약 Red 테스트 명세 없이 Codex 제품 구현을 시작하지 않는다.
