@@ -7,7 +7,7 @@
 - 연결 Sheet ID: `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
 - 제품 코드·Codex·병합: `NONE / BLOCKED / NOT_AUTHORIZED`
 
-이 원장은 주요 승인 결정, 폐기·대체 상태, GitHub 권위 경로와 Google Sheet 위치를 같은 Decision ID로 연결한다. 현재 브랜치 head는 PR metadata가 소유하며 원장 안에 자기 자신의 최종 commit을 요구하지 않는다.
+이 원장은 주요 승인 결정, 폐기·대체 상태, GitHub 권위 경로와 Google Sheet 위치를 같은 Decision ID로 연결한다. 현재 브랜치 head는 PR metadata가 소유한다.
 
 ## 1. 현재 결정 요약
 
