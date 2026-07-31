@@ -1,15 +1,17 @@
 # 오멘워드 Documentation Map
 
-- 갱신일: `2026-07-31`
+- 갱신일: `2026-08-01`
 - 현재 제품 단계: `PROTOTYPE_AND_VERTICAL_SLICE`
 - 현재 Work Mode: `PLAN`
 - 실행 프로필: `PLANNING_ONLY_PROFILE`
 - 제품 코드 승인: `NO`
-- Vertical Slice 구현: `NOT_STARTED`
+- 최신 Vertical Slice 구현: `NOT_STARTED`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
-- 별도 Core PoC: `SKIPPED_BY_USER_DECISION`
+- 이미지 생성: `PREVIOUS_BATCH_REJECTED / NEW_GENERATION_BLOCKED`
+- 활성 Base: `V9_1`
+- Base v9.3: `MIGRATION_PLANNING_IN_PR_116 / NOT_ADOPTED`
 
-이 문서는 질문별 책임 원본을 선택하는 권위 라우터다. 최신 사용자 지시와 현재 책임 원본을 우선하며 과거 V2 문서를 동시에 활성 정본으로 취급하지 않는다.
+이 문서는 질문별 책임 원본을 선택하는 권위 라우터다. 최신 사용자 지시와 현재 책임 원본을 우선하며, Legacy 구현·폐기 화면 보드·생성 실패 이미지를 활성 정본으로 사용하지 않는다.
 
 ---
 
@@ -21,167 +23,141 @@
 → BASE_RULES_VERSION.md
 → DOCUMENTATION_MAP.md
 → PROJECT_CORE.md
+→ PROJECT_UNDERSTANDING_AND_OMISSION_PREVENTION_GATE
 → 현재 질문의 분야별 APPROVED 계약
 → PROJECT_CANON_DECISION_LEDGER.md
 → DECISIONS_PENDING.md
 → CURRENT_IMPLEMENTATION_STATUS.md
-→ ACTIVE_CONTEXT.md / HANDOFF_CONTEXT.md
-→ 실제 코드·데이터·테스트
+→ 실제 Scene·Script·Resource·data·tests
+→ 연결 Google Sheet
+→ 시각 작업이면 docs/images/VISUAL_REFERENCE_INDEX.md와 실제 이미지
+→ 사실표·충돌 원장·적대적 검토
 ```
 
-주요 승인 결정은 GitHub와 연결 Google Sheet에서 같은 결정 ID를 사용해야 한다.
+주요 승인 결정은 GitHub와 연결 Google Sheet에서 같은 Decision ID를 사용한다.
 
 ---
 
-## 2. 현재 활성 책임 원본
+## 2. 필수 작업 게이트
 
 | 질문 | 책임 원본 | 권한 |
 |---|---|---|
-| 제품 정체성·현재 범위·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
+| 프로젝트 이해·누락 방지 | `operations/PROJECT_UNDERSTANDING_AND_OMISSION_PREVENTION_GATE_2026-08-01.md` | `CURRENT_MANDATORY_PREFLIGHT` |
+| 종합 무결성·적대적 검토 | `reviews/OMENWARD_COMPREHENSIVE_PROJECT_INTEGRITY_REVIEW_2026-08-01.md` | `CURRENT_REVIEW_EVIDENCE` |
+| 사용자 승인 결정 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
+| 새 시스템·핵심 규칙·UX 구조 | `operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
+
+P0 Finding이 열려 있으면 이미지 생성, 제품 구현, 최종 기획 승격과 Codex 인계를 중단한다.
+
+---
+
+## 3. 현재 활성 책임 원본
+
+| 질문 | 책임 원본 | 권한 |
+|---|---|---|
+| 제품 정체성·범위·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
 | 전체 시스템 Vertical Slice 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_USER_APPROVED_PLAN` |
+| 전장 토폴로지·건설 노드 | `design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_CONSTRUCTION_NODE_INVARIANTS_2026-08-01.md` | `CURRENT_USER_CONFIRMED_CANON` |
+| 룰렛 물리 구조·판정·이동 | `design/APPROVED_ROULETTE_CORE_RULES.md` | `CURRENT_APPROVED_DETAIL` |
+| MapRun·Stage·Wave·접전지 | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` | `APPROVED_DETAIL / LATEST_OVERRIDES_APPLY` |
 | 런 시간·피로도 | `design/APPROVED_VERTICAL_SLICE_RUN_DURATION_AND_FATIGUE_CONTRACT_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
 | 20 Stage·4막·첫 10분 | `design/APPROVED_VERTICAL_SLICE_20_STAGE_FOUR_ACT_AND_FIRST_10_MINUTES_CONTRACT_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
 | 콘텐츠 Manifest·미션 카드 풀 | `design/APPROVED_VERTICAL_SLICE_CONTENT_MANIFEST_AND_MISSION_CARD_POOL_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
-| 위험 Stage·보스 행동 패키지 | `design/APPROVED_VERTICAL_SLICE_DANGER_STAGE_AND_BOSS_PACKAGE_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN / EXACT_VALUES_PENDING` |
-| 패배·영구재화 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` | `CURRENT_USER_APPROVED_DETAIL / EXACT_COST_VALUES_PENDING` |
-| 상황별 인게임 화면·텍스트 와이어프레임 | `design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md` | `CURRENT_USER_APPROVED_SPEC / ACTUAL_IMAGES_PENDING` |
-| 중간 이미지 점검 절차 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` | `CURRENT_USER_APPROVED_WORKFLOW / TEXT_WIREFRAME_READY / IMAGE_REVIEW_NOT_RUN` |
-| 주요 결정 ID·GitHub/Sheet 위치 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_LEDGER` |
-| Benchmark-First 기획 게이트 | `operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
-| 즉시 기획 정본 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
-| 최신 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_REVIEW_EVIDENCE` |
-| 구현·Legacy·미검증 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
-| 후속 수치·콘텐츠 결정 | `DECISIONS_PENDING.md` | `PENDING_ONLY` |
-| 구현·검증 순서 | `OMENWARD_ROADMAP.md` | `PLANNING_SEQUENCE / NEEDS_REFRESH` |
-| 현재 작업 Context | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK / NEEDS_REFRESH` |
-| 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF / NEEDS_REFRESH` |
-| 통합 게임 설명 | `OMENWARD_GAME_DESIGN.md` | `CURRENT_DESIGN_SUMMARY / NEEDS_REFRESH` |
+| 위험 Stage·보스 행동 | `design/APPROVED_VERTICAL_SLICE_DANGER_STAGE_AND_BOSS_PACKAGE_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN / EXACT_VALUES_PENDING` |
+| 패배·유료 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` | `CURRENT_USER_APPROVED_DETAIL / EXACT_COSTS_PENDING` |
+| 주요 Decision ID·GitHub/Sheet 위치 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_LEDGER` |
+| 미확정 수치·콘텐츠 | `DECISIONS_PENDING.md` | `PENDING_ONLY` |
+| 구현·Legacy·미검증 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY / NEEDS_REFRESH` |
+| 연결 Google Sheet 계약 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `USER_FACING_GDD_WORKSPACE_CONTRACT` |
 
 ---
 
-## 3. 현재 승인 결정 ID
+## 4. 비주얼·화면 작업 라우팅
+
+| 질문 | 책임 원본 | 현재 상태 |
+|---|---|---|
+| 시각자료 상태·참고/금지 요소 | `docs/images/VISUAL_REFERENCE_INDEX.md` | `CURRENT_VISUAL_REFERENCE_ROUTER` |
+| 중간 이미지 점검 절차 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` | `WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED / RESET_REQUIRED` |
+| 2026-07-31 화면 명세 보드 | `design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md` | `REJECTED_EVIDENCE / DO_NOT_REUSE` |
+| 새 화면 보드 | 미작성 | `BLOCKED_PENDING_FACT_MATRIX_AND_BRIEF_APPROVAL` |
+
+정확한 시각자료 인덱스 경로는 `docs/images/VISUAL_REFERENCE_INDEX.md`다. 과거의 `images/VISUAL_REFERENCE_INDEX.md` 표기는 잘못된 경로다.
+
+이미지 생성 전 읽기 순서:
+
+```text
+Project Understanding Gate
+→ Battlefield Topology Contract
+→ Roulette Core Rules
+→ Current Implementation Status
+→ docs/images/VISUAL_REFERENCE_INDEX.md
+→ 사용자 제공 실제 이미지
+→ 화면별 독립 브리프
+→ 사용자 확인
+→ 생성
+→ Sheet 검수 로그
+```
+
+---
+
+## 5. 현재 결정 ID
 
 | Decision ID | 결정 | 책임 원본 |
 |---|---|---|
-| `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | 시스템 조합형 콘텐츠 Manifest와 12장 미션 풀 | `design/APPROVED_VERTICAL_SLICE_CONTENT_MANIFEST_AND_MISSION_CARD_POOL_2026-07-31.md` |
-| `OMW-DEC-20260731-CANON-SYNC-V1` | 주요 승인 내용을 GitHub·Sheet에 같은 ID로 즉시 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` |
-| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | 기본 패배 종료와 Stage 5 이후 MapRun당 1회 영구재화 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` |
-| `OMW-DEC-20260731-DANGER-BOSS-V1` | Stage 5·10·15·20 위험 공세와 3개 보스 행동 패키지 | `design/APPROVED_VERTICAL_SLICE_DANGER_STAGE_AND_BOSS_PACKAGE_2026-07-31.md` |
-| `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1` | 4개 필수 기준 화면과 6개 대표 이미지의 중간 점검 게이트 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` |
-| `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1` | 비주얼 기준·필수 화면 4종·상황 시퀀스 5종 텍스트 와이어프레임 | `design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md` |
-
-이전 PR 번호형·Finding형 ID는 역사 계보로 보존한다. 2026-07-31 이후 새 주요 결정은 `OMW-DEC-YYYYMMDD-<SEMANTIC-SLUG>-V<REVISION>` 형식을 기본으로 사용한다.
-
----
-
-## 4. 연구·벤치마킹 경계
-
-| 주제 | 원본 | 권한 |
-|---|---|---|
-| 위험 Stage·보스 패키지 벤치마킹 | `benchmarks/OMENWARD_DANGER_STAGE_AND_BOSS_PACKAGE_BENCHMARK_2026-07-31.md` | `BENCHMARK_EVIDENCE / NOT_CANON_ALONE` |
-| 패배·재시도·checkpoint·메타 경량 벤치마킹 | `benchmarks/OMENWARD_DEFEAT_RETRY_CHECKPOINT_META_BENCHMARK_2026-07-31.md` | `BENCHMARK_EVIDENCE / NOT_CANON_ALONE` |
-| 콘텐츠 Manifest·미션 경량 벤치마킹 | `benchmarks/OMENWARD_CONTENT_MANIFEST_AND_MISSION_CARD_BENCHMARK_2026-07-31.md` | `BENCHMARK_EVIDENCE / NOT_CANON_ALONE` |
-| 룰렛 통제감·인과 Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
-| 룰렛 사람 검증 Artifact | `superpowers/plans/2026-07-29-roulette-agency-validation-artifact.md` | `HUMAN_VALIDATION_INPUT / NOT_CANON` |
-| 합성 테스터 구조 | `research/OMENWARD_SYNTHETIC_TESTER_STRUCTURE_ANALYSIS_2026-07-29.md` | `T6_AI_INFERENCE / NOT_CANON` |
-| 합성 위험 판정 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_TESTER_REPORT_2026-07-29.md` | `SYNTHETIC_RISK_REVIEW / HUMAN_NOT_RUN` |
-| 합성 세션 결과 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_SESSION_EXECUTION_2026-07-29.md` | `PROMISING_DIRECTION / T6_AI_INFERENCE` |
-| 합성 검증 종료 | `research/OMENWARD_ROULETTE_AGENCY_SYNTHETIC_VALIDATION_CLOSURE_2026-07-29.md` | `RESEARCH_HANDOFF / NO_IMPLEMENTATION_AUTHORITY` |
-
-벤치마킹·Pilot·합성 검토는 승인 계약의 근거가 될 수 있지만 그 자체로 제품 정본이나 구현 권한이 아니다.
-
----
-
-## 5. 세부 규칙과 역사 계보
-
-현재 분야별 APPROVED 계약과 충돌하지 않는 범위에서 다음을 세부 규칙·결정 계보·Legacy 회귀 근거로 읽는다.
-
-| 영역 | 세부 원본·계보 |
-|---|---|
-| 비주얼·이미지 상태 인덱스 | `images/VISUAL_REFERENCE_INDEX.md` |
-| UI·아트·오디오 기준 | `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
-| 아트 제작 기준 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md` |
-| UX 정보 위계 | `UX_UI_SYSTEM.md` |
-| V2 통합 결정 계보 | `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` |
-| 과거 V2 통합 명세 | `design/APPROVED_CORE_V2_INTEGRATED_SPEC.md` |
-| 룰렛·이동·snapshot | `design/APPROVED_ROULETTE_CORE_RULES.md` |
-| MapRun·Stage·Wave·거점 계보 | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` |
-| 전설 배치 제한 계보 | `design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md` |
-| 전술계획 건물 작업 | `design/APPROVED_V2_TACTICAL_PLANNING_BUILDING_WORK_CONSOLIDATED_2026-07-26.md` |
-| F-30 동일시각 처리 | `design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md` |
-| Legacy C1·C2·C3 증거 | `CURRENT_IMPLEMENTATION_STATUS.md`와 실제 run·test 증거 |
-
-충돌 우선순위:
-
-```text
-최신 사용자 지시
-→ PROJECT_CORE.md
-→ 현재 질문의 최신 분야별 APPROVED 계약
-→ PROJECT_CANON_DECISION_LEDGER.md
-→ 기존 승인 문서
-→ 과거 V2 계획·검토
-→ Legacy 구현 증거
-```
+| `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | 시스템 조합형 콘텐츠 Manifest와 12장 미션 풀 | 콘텐츠 Manifest 계약 |
+| `OMW-DEC-20260731-CANON-SYNC-V1` | GitHub·Sheet 즉시 정본 동기화 | Canon Sync Protocol |
+| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | Stage 5 이후 MapRun당 1회 영구재화 재시도 | 패배·재시도 계약 |
+| `OMW-DEC-20260731-DANGER-BOSS-V1` | Stage 5·10·15·20 위험 공세·보스 패키지 | 위험 Stage 계약 |
+| `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1` | 중간 이미지 검수 절차 | 현재 배치 폐기·게이트 재설정 |
+| `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1` | 과거 화면 보드 | `REJECTED_EVIDENCE` |
+| `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1` | 사실표·충돌 원장·누락 방지·전장 노드 불변 계약 | 2026-08-01 게이트·검토·토폴로지 문서 |
 
 ---
 
 ## 6. 상태 판정 규칙
 
 ```text
-USER_APPROVED_PLAN
-!= PRODUCT_CODE_AUTHORIZED
-!= VERTICAL_SLICE_IMPLEMENTED
-!= VERTICAL_SLICE_PROVEN
-!= CORE_LOCK
-
-USER_APPROVED_DETAIL
-!= EXACT_COST_VALUES_APPROVED
-!= META_CURRENCY_NAME_APPROVED
-!= SAVE_SCHEMA_IMPLEMENTED
-
-TEXT_WIREFRAME_READY
-!= ACTUAL_IMAGE_CREATED
-!= IMAGE_REVIEW_RUN
-!= PRODUCT_ASSET_APPROVED
-!= UI_IMPLEMENTED
-
-BENCHMARK_COMPLETE
-!= DESIGN_APPROVED
-!= IMPLEMENTATION_AUTHORIZED
-
-MIDPOINT_IMAGE_REVIEW_GATE_APPROVED
-!= ACTUAL_IMAGE_PROVIDED
-!= IMAGE_REVIEW_RUN
-!= PRODUCT_ASSET_APPROVED
-
-CANON_SYNC_AUTHORIZED
-!= PRODUCT_CODE_AUTHORIZED
-!= PR_MERGE_AUTHORIZED
-
-SYNCED_TO_PR_HEAD
-!= SYNCED_TO_MAIN
+CURRENT_CANON != CURRENT_IMPLEMENTATION
+LEGACY_PROVEN != LATEST_PROVEN
+USER_APPROVED_PLAN != PRODUCT_CODE_AUTHORIZED
+TEXT_WIREFRAME != VALID_VISUAL_SPEC
+GENERATED_IMAGE != APPROVED_ASSET
+REJECTED_EVIDENCE != NOT_CREATED
+MIGRATION_PLANNED != MIGRATION_ADOPTED
+SYNCED_TO_PR_HEAD != SYNCED_TO_MAIN
 ```
 
-Google Sheet에 Draft PR head를 기록할 때는 `NOT_MERGED`를 함께 표시한다. PR 병합 뒤 main SHA로 재동기화하기 전에는 `SYNCED_TO_MAIN`을 사용하지 않는다.
+- 활성 Base는 `BASE_RULES_VERSION.md`가 소유한다.
+- PR #116의 Base v9.3 문서는 마이그레이션 계획이며 활성 Adapter 전환이나 채택 완료가 아니다.
+- 최신 구현 상태는 실제 Scene·Script·Resource·tests와 fresh 실행 증거가 소유한다.
 
 ---
 
-## 7. 다음 작업 라우팅
+## 7. Legacy 해석
+
+현재 실행되는 C1·C2·C3는 보존 가능한 seam을 가진 Legacy 증거다.
+
+| Legacy | 보존 후보 | 최신 교체 필요 |
+|---|---|---|
+| C1 룰렛 | 중앙 판정·완성선·금화 resolver | 독립 9칸 → 세 물리 릴·SpinSnapshot·이동 |
+| C2 전장 | 3라인·구조물 피해·승패 | capture_power·구형 outpost lifecycle·본진 노드 부재 |
+| C3 UX | snapshot→HUD·원인 보고 | 기술 Label HUD·구형 확률/시간 의미 |
+| Retry | 개발용 Stage restart seam | 제품 영구재화 1회 Retry와 분리 |
+
+Legacy 기능이 실행된다는 사실을 최신 Vertical Slice 구현 완료로 표시하지 않는다.
+
+---
+
+## 8. 다음 작업 라우팅
 
 | 작업 | 먼저 읽을 책임 원본 |
 |---|---|
-| 새 시스템·핵심 규칙·콘텐츠 구조·UX 흐름 | Benchmark-First 원칙 → 관련 기존 정본 → 벤치마킹 근거 |
-| 승인 결정 동기화 | Canon Sync Protocol → Project Core → 분야별 APPROVED 계약 → 결정 원장·Sheet |
-| 콘텐츠 Manifest·미션 | 콘텐츠 Manifest 계약 → 20 Stage 계약 → 전체 시스템 계약 |
-| 위험 Stage·보스 편성 | 위험 Stage·보스 계약 → 20 Stage 계약 → 콘텐츠 Manifest 계약 → 공용 적 아키타입 문서 |
-| 상황별 인게임 화면 보드 | 화면 명세 보드 → CURRENT_IMPLEMENTATION_STATUS → UX/UI·아트 정본 → 실제 Scene·Script |
-| 실제 대표 이미지 제작 | 화면 명세 보드 → 중간 이미지 점검 게이트 → 시각자료 인덱스 → `OM-IMG-005~010` 브리프 |
-| 이미지 검수 | 중간 이미지 점검 게이트 → `71_이미지기획_생성목록` → `72_이미지검수_승인로그` → 유지/수정/재설계/보류 |
-| 패배·checkpoint·메타 | 패배·유료 재시도 계약 → 전체 시스템 계약 → 저장 계약 계보 → Pending |
-| 경제·100,000 seed 시뮬레이션 | 콘텐츠 Manifest 계약 → 룰렛·경제 세부 정본 → 별도 검증 계획 |
-| UI·접근성·정보 위계 | 화면 명세 보드 → 중간 이미지 점검 게이트 → 20 Stage 계약 → `discipline.omenward-core-ux` |
-| 아트·애니메이션 | 화면 명세 보드 → 중간 이미지 점검 게이트 → 관련 `APPROVED_ART_*` → `images/VISUAL_REFERENCE_INDEX.md` |
-| Codex 구현 인계 | 전체 기획·적대적 검토·사용자 최종 승인 후 별도 실행 Issue·Plan |
-| REVIEW | 영향 범위 지도 → 공격 → Finding 판정 → 수정 → 회귀 재검사 |
+| 전장·노드 기획 | Project Understanding Gate → Battlefield Topology Contract → 전체 시스템 계약 → 실제 BattleSimulator/BuildingService |
+| 룰렛 기획 | Project Understanding Gate → Roulette Core Rules → 실제 RouletteService/tests |
+| UI·화면·이미지 | Project Understanding Gate → Topology → Roulette → Visual Reference Index → 사용자 이미지 → 독립 브리프 |
+| 패배·checkpoint·메타 | Project Understanding Gate → 패배·재시도 계약 → 저장 계보 → Pending |
+| 콘텐츠·위험 Stage | Benchmark-First → 20 Stage 계약 → 콘텐츠 Manifest → 위험 Stage 계약 |
+| Codex 구현 인계 | 사실표·충돌 원장 PASS → 사용자 승인 Plan → Red tests → 별도 실행 Issue |
+| REVIEW | 영향 범위 지도 → 공격 → Finding → 수정 → GitHub·Sheet·실제 파일 재조회 |
 
-최종 구현·검증 상태는 항상 `CURRENT_IMPLEMENTATION_STATUS.md`와 실제 실행 증거가 소유한다.
+현재 새 이미지 생성, 제품 코드 변경, Codex 실행과 PR 병합은 승인되지 않았다.
