@@ -2,14 +2,18 @@
 
 - 결정 ID: `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1`
 - 승인일: `2026-07-31`
-- 상태: `USER_APPROVED_WORKFLOW / IMAGE_INPUT_PENDING`
+- 상태: `USER_APPROVED_WORKFLOW / TEXT_WIREFRAME_READY / IMAGE_INPUT_PENDING`
 - Work Mode: `PLAN / PLANNING_ONLY_PROFILE`
 - 제품 구현 권한: `NONE`
 - 실제 이미지 생성·승인 상태: `NOT_RUN`
+- 화면 명세 보드: `docs/design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md`
+- 화면 보드 결정 ID: `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1`
 
 이 게이트는 주요 시스템·콘텐츠 구조가 확정된 뒤, 세부 수치·제품 구현·최종 에셋 제작 전에 대표 인게임 화면을 이미지로 점검해 그림체·UI·UX·와이어프레임·정보 우선순위가 같은 제품을 가리키는지 확인하기 위한 절차다.
 
-이미지 점검은 텍스트 와이어프레임, 현재 프로젝트 문서, 실제 Scene·Script·Resource 상태를 먼저 대조한 뒤 수행한다. 생성 이미지나 콘셉트 이미지만으로 구현 완료·제품 정본·사람 검증 통과를 주장하지 않는다.
+이미지 점검은 승인된 화면 명세 보드의 대형 텍스트 와이어프레임, 현재 프로젝트 문서, 실제 Scene·Script·Resource 상태를 먼저 대조한 뒤 수행한다. 생성 이미지나 콘셉트 이미지만으로 구현 완료·제품 정본·사람 검증 통과를 주장하지 않는다.
+
+와이어프레임 안의 화면 배치 확인용 숫자·문구·아이콘은 별도 정본 근거가 없는 한 `PLACEHOLDER`다. 미확정 영구재화 명칭·비용·Threat·보스 수치는 임의 값으로 채우지 않는다.
 
 ---
 
@@ -49,12 +53,12 @@
 
 | Image ID | 화면·상황 | 목적 | 상태 |
 |---|---|---|---|
-| `OM-IMG-005` | 메인·런 진입 | 첫인상·제품 정체성·이어하기 정보 위계 | `AWAITING_IMAGE` |
-| `OM-IMG-006` | Stage 준비·자원 관리 | 룰렛·TokenSource·보관·건물·자원 비교 | `AWAITING_IMAGE` |
-| `OM-IMG-007` | 일반 3전선 전투 | 현재 위협·다음 공세·전선 상태 기본 HUD | `AWAITING_IMAGE` |
-| `OM-IMG-008` | Stage 15 위험 보스 | 보스 전조·현재/다음 위협·두 축 제한 | `AWAITING_IMAGE` |
-| `OM-IMG-009` | Stage 정산·복기 | 원인 사슬·보상·다음 Stage 연결 | `AWAITING_IMAGE` |
-| `OM-IMG-010` | 패배·유료 재시도 | 종료/재시도 선택·비용·복원 범위 | `AWAITING_IMAGE` |
+| `OM-IMG-005` | 메인·런 진입 | 첫인상·제품 정체성·이어하기 정보 위계 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
+| `OM-IMG-006` | Stage 준비·자원 관리 | 룰렛·TokenSource·보관·건물·자원 비교 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
+| `OM-IMG-007` | 일반 3전선 전투 | 현재 위협·다음 공세·전선 상태 기본 HUD | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
+| `OM-IMG-008` | Stage 15 위험 보스 | 보스 전조·현재/다음 위협·두 축 제한 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
+| `OM-IMG-009` | Stage 정산·복기 | 원인 사슬·보상·다음 Stage 연결 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
+| `OM-IMG-010` | 패배·유료 재시도 | 종료/재시도 선택·비용·복원 범위 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
 
 6개 이미지는 한 번에 최종 승인하지 않는다. 화면별로 `유지 / 수정 / 재설계 / 보류` 판정을 남긴다.
 
@@ -65,12 +69,14 @@
 각 이미지 브리프는 다음을 분리해야 한다.
 
 ```text
-CONFIRMED_CANON
-CURRENT_IMPLEMENTATION
-INTERPRETATION
-NEW_PROPOSAL
+CURRENT
+INFERRED
+PROPOSED
+PLACEHOLDER
 UNRESOLVED
 ```
+
+`CURRENT` 내부에서도 실제 구현과 승인 문서 근거를 혼동하지 않도록 구현 상태를 별도 기록한다.
 
 필수 확인 항목:
 
@@ -207,6 +213,7 @@ GitHub·자산 경로
 허용 승인 상태:
 
 ```text
+TEXT_WIREFRAME_READY
 AWAITING_IMAGE
 IN_REVIEW
 REVISION_REQUIRED
@@ -215,7 +222,7 @@ REJECTED
 SUPERSEDED
 ```
 
-`APPROVED_AS_PLANNING_REFERENCE`는 제품 에셋 승인이나 구현 완료를 의미하지 않는다.
+`TEXT_WIREFRAME_READY`는 이미지 제작 입력이 준비됐다는 뜻이며 실제 이미지 검수 통과가 아니다. `APPROVED_AS_PLANNING_REFERENCE`는 제품 에셋 승인이나 구현 완료를 의미하지 않는다.
 
 ---
 
@@ -237,7 +244,8 @@ SUPERSEDED
 
 ```text
 MIDPOINT_IMAGE_REVIEW_GATE: APPROVED
-IMAGE_BRIEFS: PLANNED
+TEXT_WIREFRAME_BOARD: READY
+IMAGE_BRIEFS: NEXT_GATE
 IMAGE_TARGETS: 6
 ACTUAL_IMAGES: NOT_PROVIDED
 IMAGE_REVIEW: NOT_RUN
