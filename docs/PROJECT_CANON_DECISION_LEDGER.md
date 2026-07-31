@@ -55,6 +55,7 @@ sheet_ranges:
 sheet_sync_status: SYNCED_TO_PR_HEAD
 verified_at: 2026-08-01T05:15:00+09:00
 verification_result: PASS
+verification_ledger_commit: 5ba10618339f71336a63dee1435a53ead7014080
 ```
 
 결정 내용:
