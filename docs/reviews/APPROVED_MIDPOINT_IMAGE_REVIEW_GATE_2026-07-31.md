@@ -1,254 +1,144 @@
-# 오멘워드 중간 이미지 점검 게이트
+# 오멘워드 중간 이미지 점검 게이트 — 재설정
 
-- 결정 ID: `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1`
-- 승인일: `2026-07-31`
-- 상태: `USER_APPROVED_WORKFLOW / TEXT_WIREFRAME_READY / IMAGE_INPUT_PENDING`
-- Work Mode: `PLAN / PLANNING_ONLY_PROFILE`
+- 기존 결정 ID: `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1`
+- 최초 승인일: `2026-07-31`
+- 재검토일: `2026-08-01`
+- 현재 상태: `WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED / RESET_REQUIRED`
 - 제품 구현 권한: `NONE`
-- 실제 이미지 생성·승인 상태: `NOT_RUN`
-- 화면 명세 보드: `docs/design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md`
-- 화면 보드 결정 ID: `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1`
+- 실제 이미지 생성 상태: `GENERATED_BUT_REJECTED`
+- 제품 에셋 승인: `NO`
+- 대체 선행 게이트: `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1`
 
-이 게이트는 주요 시스템·콘텐츠 구조가 확정된 뒤, 세부 수치·제품 구현·최종 에셋 제작 전에 대표 인게임 화면을 이미지로 점검해 그림체·UI·UX·와이어프레임·정보 우선순위가 같은 제품을 가리키는지 확인하기 위한 절차다.
-
-이미지 점검은 승인된 화면 명세 보드의 대형 텍스트 와이어프레임, 현재 프로젝트 문서, 실제 Scene·Script·Resource 상태를 먼저 대조한 뒤 수행한다. 생성 이미지나 콘셉트 이미지만으로 구현 완료·제품 정본·사람 검증 통과를 주장하지 않는다.
-
-와이어프레임 안의 화면 배치 확인용 숫자·문구·아이콘은 별도 정본 근거가 없는 한 `PLACEHOLDER`다. 미확정 영구재화 명칭·비용·Threat·보스 수치는 임의 값으로 채우지 않는다.
+중간 이미지 점검이라는 절차 자체는 유지한다. 다만 기존 텍스트 화면 보드와 이를 입력으로 만든 이미지들은 프로젝트 불일치로 폐기됐다. 기존 배치를 `AWAITING_IMAGE`나 `NOT_RUN`으로 되돌리지 않고 실패 증거로 보존한다.
 
 ---
 
-## 1. 필수 기준 화면
+## 1. 실패 판정
 
-### SCREEN-01 — 메인·런 진입 화면
+사용자 검토에서 다음 오류가 확인됐다.
 
-- 첫인상과 현재 프로필·이어하기 가능 여부를 전달한다.
-- 현재 프로젝트에서 실제 정의·구현이 확인되지 않은 기능은 신규 제안으로 구분한다.
-- 이미지 점검에서는 오멘워드의 세 전선·징조·원형 릴 정체성이 첫 화면에서 과도한 설명 없이 인지되는지 확인한다.
+- 일반 다크 판타지 RPG·수집형 영웅·장비 인벤토리 화면으로 변질.
+- 3개의 독립 원형 룰렛처럼 표현.
+- 실제 세 물리 릴이 노출하는 3×3 정지 보드 구조 누락.
+- 하나의 전장과 상·중·하 세 라인을 일반 3레인 디펜스 또는 분리 전투장처럼 표현.
+- 건설 노드의 단일 종류·정확한 수량·위치 누락.
+- 중앙 접전지에 노드를 추가하거나 별도 노드 유형을 발명.
+- 최신 사용자 시각자료보다 잘못된 텍스트 추론을 우선.
 
-### SCREEN-02 — 핵심 전투 화면
-
-- 세 라인 전장, 현재 위협, 다음 공세, 거점·건물·보스 전조를 확인한다.
-- 일반 전투와 위험 Stage 변형을 분리한다.
-- 중간 이미지 점검의 대표 위험 화면은 Stage 15 `경계파쇄자` 전투를 사용한다.
-
-### SCREEN-03 — 보유 자원 관리 화면
-
-오멘워드에는 전통적인 아이템 인벤토리보다 Stage 준비·룰렛·보관 병력·골드·식량·건물 작업이 자원 관리 역할을 담당한다.
-
-- 대응 화면명: `Stage 준비·룰렛·보관 자원 관리 화면`.
-- 전통적인 장비 인벤토리를 임의로 추가하지 않는다.
-- 릴 구조, TokenSource, 보관 병력, 골드·식량, 건설·수리와 확정 행동의 정보 위계를 점검한다.
-
-### SCREEN-04 — 결과 화면
-
-- Stage 정산, 원인 사슬, 전선 변화와 다음 준비를 연결한다.
-- 승리 정산과 패배·유료 재시도 변형을 분리한다.
-- 결과가 `구조 설계 → 잔여 RNG → 결과 확정 → 전선 커밋 → 전투 결과`의 인과로 설명되는지 확인한다.
-
----
-
-## 2. 첫 중간 이미지 점검 배치
-
-첫 배치는 다음 6개 화면으로 구성한다.
-
-| Image ID | 화면·상황 | 목적 | 상태 |
-|---|---|---|---|
-| `OM-IMG-005` | 메인·런 진입 | 첫인상·제품 정체성·이어하기 정보 위계 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
-| `OM-IMG-006` | Stage 준비·자원 관리 | 룰렛·TokenSource·보관·건물·자원 비교 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
-| `OM-IMG-007` | 일반 3전선 전투 | 현재 위협·다음 공세·전선 상태 기본 HUD | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
-| `OM-IMG-008` | Stage 15 위험 보스 | 보스 전조·현재/다음 위협·두 축 제한 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
-| `OM-IMG-009` | Stage 정산·복기 | 원인 사슬·보상·다음 Stage 연결 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
-| `OM-IMG-010` | 패배·유료 재시도 | 종료/재시도 선택·비용·복원 범위 | `TEXT_WIREFRAME_READY / AWAITING_IMAGE` |
-
-6개 이미지는 한 번에 최종 승인하지 않는다. 화면별로 `유지 / 수정 / 재설계 / 보류` 판정을 남긴다.
-
----
-
-## 3. 이미지 제작 전 필수 근거
-
-각 이미지 브리프는 다음을 분리해야 한다.
+판정:
 
 ```text
-CURRENT
+PROJECT_MATCH: FAIL
+ROULETTE_STRUCTURE: FAIL
+BATTLEFIELD_STRUCTURE: FAIL
+NODE_TOPOLOGY: FAIL
+CURRENT_PROPOSED_BOUNDARY: FAIL
+VISUAL_DIRECTION: FAIL
+```
+
+---
+
+## 2. 기존 Image ID 상태
+
+| Image ID | 기존 목적 | 현재 상태 |
+|---|---|---|
+| `OM-IMG-005` | 메인·런 진입 | `REJECTED_PROJECT_MISMATCH / RESET_REQUIRED` |
+| `OM-IMG-006` | Stage 준비·자원 관리 | `REJECTED_ROULETTE_AND_NODE_MISMATCH / RESET_REQUIRED` |
+| `OM-IMG-007` | 일반 3전선 전투 | `REJECTED_BATTLEFIELD_TOPOLOGY_MISMATCH / RESET_REQUIRED` |
+| `OM-IMG-008` | Stage 15 위험 보스 | `REJECTED_FOUNDATION_MISMATCH / RESET_REQUIRED` |
+| `OM-IMG-009` | Stage 정산·복기 | `REJECTED_CAUSAL_UI_MISMATCH / RESET_REQUIRED` |
+| `OM-IMG-010` | 패배·유료 재시도 | `REJECTED_FOUNDATION_MISMATCH / RESET_REQUIRED` |
+
+여러 생성 이미지가 하나의 보드에 섞여 Image ID별 파일 경계가 불명확했다. 따라서 제품 자산 버전으로 등록하지 않고 `REJECTED_CONVERSATION_EVIDENCE` 묶음으로 기록한다.
+
+---
+
+## 3. 재시작 전 강제 조건
+
+새 이미지를 만들기 전에 다음이 모두 충족돼야 한다.
+
+1. 프로젝트 사실표와 충돌 원장이 작성되고 열린 P0가 없다.
+2. 전장 토폴로지 검산이 통과한다.
+3. 룰렛 물리 구조 검산이 통과한다.
+4. 최신 사용자 제공 시각자료가 `docs/images/VISUAL_REFERENCE_INDEX.md`에 등록된다.
+5. 잘못된 화면 보드 V1을 입력으로 사용하지 않는다.
+6. 각 Image ID를 한 장씩 독립 브리프로 작성한다.
+7. 브리프에는 화면에 있어야 하는 구조뿐 아니라 **절대 넣지 않을 구조**를 명시한다.
+8. 사용자가 브리프를 확인하기 전 전체 보드 이미지를 생성하지 않는다.
+
+---
+
+## 4. 필수 구조 검산
+
+### 룰렛 이미지
+
+```text
+세로로 보이는 3개 릴 열
+각 열에서 연속 3개 토큰 노출
+전체 화면 결과는 3×3
+독립 원판 3개 금지
+독립 9칸 확률 추첨 표현 금지
+TokenSource 1동 → 세 릴에 같은 출처 토큰 1개씩
+```
+
+### 전장 이미지
+
+```text
+전장 1개
+상·중·하 3라인
+라인마다 양측 중간 거점
+라인마다 중앙 접전지 1개
+본진 노드 6개/진영
+중간 거점 노드 3개/거점
+중앙 접전지 노드 0개
+노드 종류는 건설 노드 1종
+```
+
+---
+
+## 5. 근거 상태
+
+새 브리프는 다음 상태를 사용한다.
+
+```text
+CURRENT_CANON
+CURRENT_IMPLEMENTATION
+LEGACY_PROVEN
 INFERRED
 PROPOSED
 PLACEHOLDER
+REJECTED_EVIDENCE
 UNRESOLVED
 ```
 
-`CURRENT` 내부에서도 실제 구현과 승인 문서 근거를 혼동하지 않도록 구현 상태를 별도 기록한다.
-
-필수 확인 항목:
-
-- 문서에서 확인된 화면 설명.
-- 실제 Scene 또는 UI 파일.
-- 연결 Script.
-- 연결 Resource·데이터.
-- 현재 구현 여부.
-- 임시 UI 여부.
-- 문서와 실제 구현 불일치.
-- 아직 확인되지 않은 요소.
-
-현재 구현이 없으면 `UNIMPLEMENTED_CONCEPT`로 표시하며 이미지가 구현 증거가 되지 않는다.
+`CURRENT` 단일 표기는 사용하지 않는다.
 
 ---
 
-## 4. 공통 화면 규격
+## 6. 검수 기록 계약
 
-- 기준 화면비: `16:9`.
-- 기준 검토 해상도: `1920×1080`.
-- 축소 가독성 검토: `1280×720`.
-- Godot 논리 기준 후보: `960×540`.
-- PC 마우스·키보드 기준.
-- 모바일 터치 UI는 현재 범위에서 제외.
+Google Sheet의 `71_이미지기획_생성목록`과 `72_이미지검수_승인로그`에 다음을 기록한다.
 
-각 이미지에는 다음 영역을 식별할 수 있어야 한다.
+- 실제 생성 여부.
+- 사용자 판정.
+- 오류 종류.
+- 폐기 또는 재설계 이유.
+- 사용한 정본·시각자료.
+- 다음 생성 차단 조건.
 
-- 플레이 공간.
-- HUD.
-- 정보 표시.
-- 입력·행동 영역.
-- 팝업 또는 상세 정보.
-- 위험 알림.
-- 결과 피드백.
-- 첫 3초 안에 인지해야 할 핵심 정보.
+사용자에게 폐기된 이미지를 `이미지 미제공`, `AWAITING_IMAGE`, `NOT_RUN`으로 되돌리지 않는다.
 
 ---
 
-## 5. 검수 축
-
-### 5.1 기획 일치
-
-- 현재 승인 정본의 시스템만 표현하는가.
-- 확정되지 않은 기능을 이미 구현된 것처럼 보이지 않는가.
-- 공용 10병종·세 라인·건물·룰렛·보스 계약과 충돌하지 않는가.
-
-### 5.2 정보 위계
-
-우선순위는 다음을 따른다.
-
-1. 즉시 위험.
-2. 현재 선택.
-3. 분석·상세 정보.
-
-- 전투 중 현재 위협과 다음 위협이 동시에 읽히는가.
-- 준비 화면에서 자원·룰렛·전선 선택이 경쟁하지 않는가.
-- 결과 화면에서 원인과 보상이 섞이지 않는가.
-
-### 5.3 UX 흐름
-
-- 주요 행동이 명확한가.
-- 비가역 확정 전에 대상·비용·결과가 보이는가.
-- 취소·복귀·조건 부족 상태가 구분되는가.
-- 신규 플레이어 안내가 화면을 가리지 않는가.
-- 숙련 플레이어에게 불필요한 반복 확인을 강요하지 않는가.
-
-### 5.4 시각 일관성
-
-- 전장·룰렛·패널·아이콘이 하나의 제품 언어를 사용하는가.
-- 플레이어 진영과 베일 진영이 색상만이 아니라 실루엣·표식으로 구분되는가.
-- 보스가 공용 아키타입 기반임을 유지하면서도 Rank와 행동 패키지가 읽히는가.
-- 장식이 전투 판정과 전조를 가리지 않는가.
-
-### 5.5 구현 가능성
-
-- Godot Control·CanvasLayer·WorldLayer 구조로 분리 가능한가.
-- 화면 구성요소가 실제 데이터와 Signal에 연결 가능한가.
-- 1280×720에서 핵심 패널이 겹치거나 잘리지 않는가.
-- 이미지에만 존재하고 데이터 책임이 없는 장식성 기능이 없는가.
-
-### 5.6 권리·유사성
-
-- 레퍼런스의 구조 원칙만 참고하고 특정 게임의 화면·캐릭터·아이콘을 복제하지 않는가.
-- 원출처와 사용 목적이 기록되어 있는가.
-
----
-
-## 6. 상태 변형 점검
-
-각 기준 화면은 최소 다음 변형을 검토한다.
-
-- 최초 진입.
-- 일반 상태.
-- 선택 중.
-- 빈 상태.
-- 조건 잠김.
-- 자원 부족 또는 오류.
-- 신규 정보 알림.
-- 전환 중.
-- 튜토리얼 또는 첫 노출.
-
-추가 필수 변형:
-
-- 핵심 전투: 일반 전투 / 위험 행동 전조 / 보스 Phase / 전투 종료 직전.
-- 자원 관리: 무료 회전 가능 / 자원 부족 / 보관 한계 / 건설·수리 진행.
-- 결과: 승리 / 미션 완료·실패 / 패배 / 유료 재시도 가능·불가.
-
----
-
-## 7. 검수 기록 계약
-
-Google Sheet:
-
-- 생성 계획: `71_이미지기획_생성목록`.
-- 검수 결과: `72_이미지검수_승인로그`.
-
-각 검수 행은 다음을 기록한다.
+## 7. 현재 상태
 
 ```text
-Review ID
-Image ID
-version
-기획 일치
-실제 화면 가독성
-구현 가능성
-일관성
-권리·유사성
-오류
-수정 요청
-승인 상태
-GitHub·자산 경로
-```
-
-허용 승인 상태:
-
-```text
-TEXT_WIREFRAME_READY
-AWAITING_IMAGE
-IN_REVIEW
-REVISION_REQUIRED
-APPROVED_AS_PLANNING_REFERENCE
-REJECTED
-SUPERSEDED
-```
-
-`TEXT_WIREFRAME_READY`는 이미지 제작 입력이 준비됐다는 뜻이며 실제 이미지 검수 통과가 아니다. `APPROVED_AS_PLANNING_REFERENCE`는 제품 에셋 승인이나 구현 완료를 의미하지 않는다.
-
----
-
-## 8. 점검 완료 기준
-
-첫 중간 이미지 점검은 다음 조건을 충족해야 완료다.
-
-1. 6개 Image ID에 실제 이미지 또는 명시적 결손 상태가 존재한다.
-2. 각 이미지에 현재 정본·구현·해석·제안 구분이 기록된다.
-3. 1920×1080과 1280×720 가독성 판정이 있다.
-4. 화면마다 가장 중요한 행동과 정보가 설명된다.
-5. 수정 요청과 승인 상태가 Sheet에 기록된다.
-6. 승인 이미지의 경로·버전·Decision ID가 연결된다.
-7. 미해결 P0 이미지 Finding이 있으면 후속 UX·에셋 정본 확정을 중단한다.
-
----
-
-## 9. 현재 상태
-
-```text
-MIDPOINT_IMAGE_REVIEW_GATE: APPROVED
-TEXT_WIREFRAME_BOARD: READY
-IMAGE_BRIEFS: NEXT_GATE
-IMAGE_TARGETS: 6
-ACTUAL_IMAGES: NOT_PROVIDED
-IMAGE_REVIEW: NOT_RUN
+MIDPOINT_IMAGE_REVIEW_WORKFLOW: RETAINED
+PREVIOUS_TEXT_WIREFRAME: REJECTED
+PREVIOUS_GENERATED_IMAGES: REJECTED_EVIDENCE
+OM_IMG_005_TO_010: RESET_REQUIRED
+NEW_IMAGE_BRIEFS: NOT_APPROVED
+NEW_IMAGE_GENERATION: BLOCKED
 PRODUCT_ASSET_APPROVAL: NO
 PRODUCT_CODE_AUTHORIZATION: NO
 ```
