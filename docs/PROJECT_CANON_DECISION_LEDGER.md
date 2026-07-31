@@ -7,7 +7,7 @@
 - 연결 Sheet ID: `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
 - 제품 코드·Codex·병합: `NONE / BLOCKED / NOT_AUTHORIZED`
 
-이 원장은 주요 승인 결정, 폐기·대체 상태, GitHub 권위 경로와 Google Sheet 위치를 같은 Decision ID로 연결한다.
+이 원장은 주요 승인 결정, 폐기·대체 상태, GitHub 권위 경로와 Google Sheet 위치를 같은 Decision ID로 연결한다. 현재 브랜치 head는 PR metadata가 소유하며 원장 안에 자기 자신의 최종 commit을 요구하지 않는다.
 
 ## 1. 현재 결정 요약
 
@@ -55,8 +55,7 @@ sheet_ranges:
 sheet_sync_status: SYNCED_TO_PR_HEAD
 verified_at: 2026-08-01T05:15:00+09:00
 verification_result: PASS
-verification_ledger_commit: 5ba10618339f71336a63dee1435a53ead7014080
-tracking_head_after_router_update: 66de55f1a98d2c4eaf38f6ed46f50d3e8b761b70
+verification_evidence_commit: 5ba10618339f71336a63dee1435a53ead7014080
 ```
 
 결정 내용:
