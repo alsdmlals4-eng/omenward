@@ -157,11 +157,13 @@ verification_result: PASS
 ```yaml
 decision_id: OMW-DEC-20260731-MID-IMAGE-REVIEW-V1
 approved_at: 2026-07-31T21:09:00+09:00
-status: USER_APPROVED_WORKFLOW / IMAGE_INPUT_PENDING
+text_wireframe_ready_at: 2026-07-31T21:30:00+09:00
+status: USER_APPROVED_WORKFLOW / TEXT_WIREFRAME_READY / IMAGE_INPUT_PENDING
 github_authority_paths:
   - docs/DOCUMENTATION_MAP.md
+  - docs/design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md
   - docs/reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md
-github_authority_commit: b97b435e938f5fa4b4f537e0133de25c49e1e956
+github_authority_commit: a39a49286a75199201ab593a58e8f3cfd89a85ec
 github_pr: 116
 github_merge_state: NOT_MERGED
 sheet_ranges:
@@ -173,7 +175,7 @@ sheet_ranges:
   - 80_데모_버티컬슬라이스_플레이테스트!A6:L6
   - 99_변경이력!A10:H10
 sheet_sync_status: SYNCED_TO_PR_HEAD
-verified_at: 2026-07-31T21:09:00+09:00
+verified_at: 2026-07-31T21:30:00+09:00
 verification_result: PASS
 ```
 
@@ -182,10 +184,50 @@ verification_result: PASS
 - 메인·핵심 전투·보유 자원 관리·결과 화면을 필수 기준 화면으로 점검한다.
 - 오멘워드의 자원 관리 화면은 전통 인벤토리가 아니라 Stage 준비·룰렛·보관 병력·건물·자원 화면이다.
 - 첫 점검 대상은 `OM-IMG-005`부터 `OM-IMG-010`까지 6개다.
-- 정본·현재 구현·해석·신규 제안·미확정을 분리한다.
+- `CURRENT / INFERRED / PROPOSED / PLACEHOLDER / UNRESOLVED`를 분리한다.
 - 1920×1080과 1280×720에서 정보 위계·가독성·구현 가능성을 검토한다.
-- 실제 이미지가 제공되지 않았으므로 모든 검수는 `AWAITING_IMAGE / NOT_RUN`이다.
+- 텍스트 와이어프레임은 준비됐지만 실제 이미지는 아직 생성되지 않았다.
 - 기획 이미지 승인은 제품 에셋 승인이나 구현 완료를 의미하지 않는다.
+
+### OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1
+
+```yaml
+decision_id: OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1
+approved_at: 2026-07-31T21:30:00+09:00
+status: USER_APPROVED_SPEC / TEXT_WIREFRAME_COMPLETE / ACTUAL_IMAGES_PENDING
+github_authority_paths:
+  - docs/DOCUMENTATION_MAP.md
+  - docs/design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md
+  - docs/reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md
+github_authority_commit: a39a49286a75199201ab593a58e8f3cfd89a85ec
+github_pr: 116
+github_merge_state: NOT_MERGED
+sheet_ranges:
+  - 00_프로젝트_허브!E2:K2
+  - 02_현재_확정결정!A11:L11
+  - 60_UX_UI_접근성!A7:J7
+  - 71_이미지기획_생성목록!E6:E11
+  - 71_이미지기획_생성목록!J6:J11
+  - 71_이미지기획_생성목록!L6:L11
+  - 72_이미지검수_승인로그!J3:K8
+  - 80_데모_버티컬슬라이스_플레이테스트!A7:L7
+  - 99_변경이력!A11:H11
+sheet_sync_status: SYNCED_TO_PR_HEAD
+verified_at: 2026-07-31T21:30:00+09:00
+verification_result: PASS
+```
+
+승인 요약:
+
+- 기술 감사가 아니라 실제 플레이 화면을 중심으로 정리한다.
+- 프로젝트 비주얼 기준, 필수 화면 4종, 핵심 상황 시퀀스 5종과 전체 전환도를 포함한다.
+- 목표 화면이 보드의 70~80%를 차지하고 CURRENT legacy 비교는 20~30%로 제한한다.
+- 화면마다 목적·행동·중요 정보 3개·이전/다음 화면·근거 수준·구현 상태를 기록한다.
+- 메인·전투·자원 관리·결과 상태 변형을 프로젝트 구조에 맞게 검토한다.
+- 실제 Scene·Script·Resource 근거와 최신 목표 화면을 혼합하지 않는다.
+- 기술 구현 정보는 화면 뒤의 부록으로 분리한다.
+- 6단계 적대적 자체 검토는 수정 후 모두 통과했다.
+- 실제 대표 이미지와 1280×720 이미지 검수는 아직 실행하지 않았다.
 
 ---
 
@@ -196,25 +238,27 @@ verification_result: PASS
 다음 범위를 값·서식과 함께 재조회했다.
 
 - `00_프로젝트_허브!E2:K2`
-- `02_현재_확정결정!A9:L10`
-- `40_핵심시스템_메인콘텐츠!A7:K7`
-- `50_메인콘텐츠!A8:J11`
-- `60_UX_UI_접근성!A6:J6`
-- `71_이미지기획_생성목록!A6:L11`
-- `72_이미지검수_승인로그!A3:L8`
-- `80_데모_버티컬슬라이스_플레이테스트!A5:L6`
-- `99_변경이력!A9:H10`
+- `02_현재_확정결정!A10:L11`
+- `60_UX_UI_접근성!A6:J7`
+- `71_이미지기획_생성목록!E6:E11`
+- `71_이미지기획_생성목록!J6:J11`
+- `71_이미지기획_생성목록!L6:L11`
+- `72_이미지검수_승인로그!J3:K8`
+- `80_데모_버티컬슬라이스_플레이테스트!A6:L7`
+- `99_변경이력!A11:H11`
 
 검증 결과:
 
-- 다섯 결정 ID가 GitHub와 Sheet에서 동일하다.
-- 위험 Stage·보스 결정은 `CURRENT_PLAN / APPROVED_VALUES_PENDING`으로 기록됐다.
-- 이미지 점검 결정은 `CURRENT_WORKFLOW / APPROVED_GATE`로 기록됐다.
-- 6개 Image ID는 모두 `AWAITING_IMAGE`, 6개 Review ID의 실제 판정은 모두 `NOT_RUN`이다.
-- authority commit `b97b435e938f5fa4b4f537e0133de25c49e1e956`이 결정 원장·프로젝트 허브·변경 이력에 기록됐다.
+- 여섯 결정 ID가 GitHub와 Sheet에서 동일하다.
+- 화면 보드 결정은 `CURRENT_SPEC / APPROVED_SPEC`으로 기록됐다.
+- 중간 이미지 점검 결정은 `CURRENT_WORKFLOW / TEXT_WIREFRAME_READY / IMAGE_INPUT_PENDING`으로 승격됐다.
+- `OM-IMG-005~010`은 모두 `TEXT_WIREFRAME_READY / AWAITING_IMAGE`다.
+- 6개 검수 행은 실제 이미지 부재로 계속 `AWAITING_IMAGE`이며 이미지 판정은 실행하지 않았다.
+- authority commit `a39a49286a75199201ab593a58e8f3cfd89a85ec`가 결정 원장·프로젝트 허브·결정 행·변경 이력에 기록됐다.
 - Draft PR 상태는 `NOT_MERGED`, 동기화 상태는 `SYNCED_TO_PR_HEAD`로 구분됐다.
 - 새 행은 기존 줄바꿈·상단 정렬·글꼴 크기 서식을 유지한다.
-- 승인되지 않은 Stage 수치·보스 수치·실제 이미지 판정·제품 에셋 승인은 기록하지 않았다.
+- 화면 와이어프레임의 예시 수치·문구는 제품 수치가 아니라 `PLACEHOLDER`다.
+- 승인되지 않은 실제 이미지 판정·제품 에셋 승인·UI 구현 완료는 기록하지 않았다.
 
 ---
 
@@ -225,9 +269,10 @@ GITHUB_AUTHORITY: WRITTEN
 GOOGLE_SHEET: WRITTEN
 SYNC_VERIFICATION: PASS
 SYNC_STATE: SYNCED_TO_PR_HEAD
-DANGER_BOSS_EXACT_VALUES: PENDING
-MIDPOINT_IMAGE_INPUT: PENDING
+TEXT_WIREFRAME_BOARD: COMPLETE
+ACTUAL_IMAGES: PENDING
 MIDPOINT_IMAGE_REVIEW: NOT_RUN
+PRODUCT_ASSET_APPROVAL: NOT_RUN
 PR_MERGE: NOT_AUTHORIZED
 PRODUCT_CODE: NOT_AUTHORIZED
 CODEX_EXECUTION: BLOCKED
