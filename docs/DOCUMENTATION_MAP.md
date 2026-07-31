@@ -44,7 +44,8 @@
 | 콘텐츠 Manifest·미션 카드 풀 | `design/APPROVED_VERTICAL_SLICE_CONTENT_MANIFEST_AND_MISSION_CARD_POOL_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN` |
 | 위험 Stage·보스 행동 패키지 | `design/APPROVED_VERTICAL_SLICE_DANGER_STAGE_AND_BOSS_PACKAGE_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN / EXACT_VALUES_PENDING` |
 | 패배·영구재화 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` | `CURRENT_USER_APPROVED_DETAIL / EXACT_COST_VALUES_PENDING` |
-| 중간 이미지 점검 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` | `CURRENT_USER_APPROVED_WORKFLOW / IMAGE_INPUT_PENDING` |
+| 상황별 인게임 화면·텍스트 와이어프레임 | `design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md` | `CURRENT_USER_APPROVED_SPEC / ACTUAL_IMAGES_PENDING` |
+| 중간 이미지 점검 절차 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` | `CURRENT_USER_APPROVED_WORKFLOW / TEXT_WIREFRAME_READY / IMAGE_REVIEW_NOT_RUN` |
 | 주요 결정 ID·GitHub/Sheet 위치 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_LEDGER` |
 | Benchmark-First 기획 게이트 | `operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
 | 즉시 기획 정본 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
@@ -67,6 +68,7 @@
 | `OMW-DEC-20260731-DEFEAT-RETRY-V1` | 기본 패배 종료와 Stage 5 이후 MapRun당 1회 영구재화 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` |
 | `OMW-DEC-20260731-DANGER-BOSS-V1` | Stage 5·10·15·20 위험 공세와 3개 보스 행동 패키지 | `design/APPROVED_VERTICAL_SLICE_DANGER_STAGE_AND_BOSS_PACKAGE_2026-07-31.md` |
 | `OMW-DEC-20260731-MID-IMAGE-REVIEW-V1` | 4개 필수 기준 화면과 6개 대표 이미지의 중간 점검 게이트 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` |
+| `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1` | 비주얼 기준·필수 화면 4종·상황 시퀀스 5종 텍스트 와이어프레임 | `design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md` |
 
 이전 PR 번호형·Finding형 ID는 역사 계보로 보존한다. 2026-07-31 이후 새 주요 결정은 `OMW-DEC-YYYYMMDD-<SEMANTIC-SLUG>-V<REVISION>` 형식을 기본으로 사용한다.
 
@@ -96,6 +98,10 @@
 
 | 영역 | 세부 원본·계보 |
 |---|---|
+| 비주얼·이미지 상태 인덱스 | `images/VISUAL_REFERENCE_INDEX.md` |
+| UI·아트·오디오 기준 | `design/APPROVED_UI_ART_AUDIO_POC_BIBLE_V1.md` |
+| 아트 제작 기준 | `design/APPROVED_ART_DIRECTION_AND_PRODUCTION_GUIDE_V1.md` |
+| UX 정보 위계 | `UX_UI_SYSTEM.md` |
 | V2 통합 결정 계보 | `design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md` |
 | 과거 V2 통합 명세 | `design/APPROVED_CORE_V2_INTEGRATED_SPEC.md` |
 | 룰렛·이동·snapshot | `design/APPROVED_ROULETTE_CORE_RULES.md` |
@@ -133,6 +139,12 @@ USER_APPROVED_DETAIL
 != META_CURRENCY_NAME_APPROVED
 != SAVE_SCHEMA_IMPLEMENTED
 
+TEXT_WIREFRAME_READY
+!= ACTUAL_IMAGE_CREATED
+!= IMAGE_REVIEW_RUN
+!= PRODUCT_ASSET_APPROVED
+!= UI_IMPLEMENTED
+
 BENCHMARK_COMPLETE
 != DESIGN_APPROVED
 != IMPLEMENTATION_AUTHORIZED
@@ -162,11 +174,13 @@ Google Sheet에 Draft PR head를 기록할 때는 `NOT_MERGED`를 함께 표시�
 | 승인 결정 동기화 | Canon Sync Protocol → Project Core → 분야별 APPROVED 계약 → 결정 원장·Sheet |
 | 콘텐츠 Manifest·미션 | 콘텐츠 Manifest 계약 → 20 Stage 계약 → 전체 시스템 계약 |
 | 위험 Stage·보스 편성 | 위험 Stage·보스 계약 → 20 Stage 계약 → 콘텐츠 Manifest 계약 → 공용 적 아키타입 문서 |
-| 중간 이미지 점검 | 중간 이미지 점검 게이트 → `71_이미지기획_생성목록` → `72_이미지검수_승인로그` → 실제 이미지·화면 근거 |
+| 상황별 인게임 화면 보드 | 화면 명세 보드 → CURRENT_IMPLEMENTATION_STATUS → UX/UI·아트 정본 → 실제 Scene·Script |
+| 실제 대표 이미지 제작 | 화면 명세 보드 → 중간 이미지 점검 게이트 → 시각자료 인덱스 → `OM-IMG-005~010` 브리프 |
+| 이미지 검수 | 중간 이미지 점검 게이트 → `71_이미지기획_생성목록` → `72_이미지검수_승인로그` → 유지/수정/재설계/보류 |
 | 패배·checkpoint·메타 | 패배·유료 재시도 계약 → 전체 시스템 계약 → 저장 계약 계보 → Pending |
 | 경제·100,000 seed 시뮬레이션 | 콘텐츠 Manifest 계약 → 룰렛·경제 세부 정본 → 별도 검증 계획 |
-| UI·접근성·정보 위계 | 중간 이미지 점검 게이트 → 20 Stage 계약 → UX Evidence → `discipline.omenward-core-ux` |
-| 아트·애니메이션 | 중간 이미지 점검 게이트 → 콘텐츠 Manifest 계약 → 관련 `APPROVED_ART_*` → `images/VISUAL_REFERENCE_INDEX.md` |
+| UI·접근성·정보 위계 | 화면 명세 보드 → 중간 이미지 점검 게이트 → 20 Stage 계약 → `discipline.omenward-core-ux` |
+| 아트·애니메이션 | 화면 명세 보드 → 중간 이미지 점검 게이트 → 관련 `APPROVED_ART_*` → `images/VISUAL_REFERENCE_INDEX.md` |
 | Codex 구현 인계 | 전체 기획·적대적 검토·사용자 최종 승인 후 별도 실행 Issue·Plan |
 | REVIEW | 영향 범위 지도 → 공격 → Finding 판정 → 수정 → 회귀 재검사 |
 
