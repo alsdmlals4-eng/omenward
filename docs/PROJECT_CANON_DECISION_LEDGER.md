@@ -56,6 +56,7 @@ sheet_sync_status: SYNCED_TO_PR_HEAD
 verified_at: 2026-08-01T05:15:00+09:00
 verification_result: PASS
 verification_ledger_commit: 5ba10618339f71336a63dee1435a53ead7014080
+tracking_head_after_router_update: 66de55f1a98d2c4eaf38f6ed46f50d3e8b761b70
 ```
 
 결정 내용:
@@ -87,30 +88,12 @@ RUNTIME_AND_HUMAN_QA: NOT_RUN
 
 ## 4. 비주얼 결정 상태
 
-### 중간 이미지 점검
-
-```yaml
-decision_id: OMW-DEC-20260731-MID-IMAGE-REVIEW-V1
-status: WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED / RESET_REQUIRED
+```text
+MID_IMAGE_REVIEW: WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED
+VISUAL_SCREEN_BOARD_V1: REJECTED_EVIDENCE / DO_NOT_REUSE
+OM-IMG-005_TO_010: REJECTED / RESET_REQUIRED
+NEW_IMAGE_GENERATION: BLOCKED_PENDING_SCREEN_BRIEF_APPROVAL
 ```
-
-- 실패 이미지가 생성되지 않았던 것으로 되돌리지 않는다.
-- `OM-IMG-005~010`은 `REJECTED_* / RESET_REQUIRED`다.
-- 새 이미지는 화면별 독립 브리프 사용자 승인 전 생성하지 않는다.
-
-### 화면 보드 V1
-
-```yaml
-decision_id: OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1
-status: REJECTED_EVIDENCE / SUPERSEDED / DO_NOT_REUSE
-```
-
-폐기 원인:
-
-- 세 물리 릴과 하나의 전장·세 라인 구조를 정확히 고정하지 못함.
-- 건설 노드 `6/3/0=30` 검산 누락.
-- 프로젝트의 밝은 진영 대비보다 generic dark fantasy를 우선함.
-- 정본·구현·Legacy·제안·폐기 상태를 혼합함.
 
 ## 5. Sheet 재검증 결과
 
