@@ -54,17 +54,17 @@ Decision: `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2`
 - [x] 8개 독립 브리프 작성.
 - [x] 공통 전장·릴·벨루·UI·금지 요소 계약.
 - [x] 독립 이미지 생성 순서 `013 → 015 → 012 → 014 → 016 → 017 → 018 → 011`.
-- [ ] GitHub·Sheet 동기화 read-back.
+- [x] GitHub·Sheet 동기화 read-back.
 - [ ] 사용자 제공 시각자료 바이너리 저장소 이관.
 - [ ] Visual Reference Index 이관 후 재검증.
 - [ ] OM-IMG-013 독립 이미지 생성·중간 검수.
 - [ ] OM-IMG-015 독립 이미지 생성·중간 검수.
 - [ ] 파생 화면과 최종 8패널 통합 보드.
 
-화면 정본:
+검증 원본:
 
-- `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`
-- `docs/design/screen-briefs/OMENWARD_SCREEN_BRIEF_OM_IMG_011...018_2026-08-01.md`
+- `docs/design/OMENWARD_VISUAL_SCREEN_BOARD_V2_SYNC_VERIFICATION_2026-08-01.md`
+- 검증 commit: `46744f3ff3a3ce0bdb9552759d3ed6000fbdb238`
 
 ## 2. 현재 P1 차단 항목
 
@@ -107,6 +107,7 @@ Validate Omenward GDD Sheet Adoption: FAIL
 - [x] 세 물리 릴·3×3·30노드·비가역 배치 표현 계약.
 - [x] 벨루 비모달·비자동결정 규칙.
 - [x] 공통 팔레트·Shape Language·금지 RPG 표현.
+- [x] GitHub·Sheet 정본 동기화 검증.
 
 남음:
 
@@ -175,8 +176,7 @@ CI_PARTIAL_FAILURE != VALIDATED
 ## 6. 다음 순서
 
 ```text
-Screen Board V2 Sheet 동기화·read-back
-→ 경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
+경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
 → 시각자료 바이너리 이관·Visual Index 재검증
 → OM-IMG-013 독립 이미지 중간 검수
 → 최신 Red test Work Order·expected-failure package
