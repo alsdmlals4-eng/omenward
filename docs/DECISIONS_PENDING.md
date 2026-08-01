@@ -57,13 +57,14 @@ Decision: `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1`
 - [x] 과거 PR #92/#97 exact 값은 역사 승인 계보로 보존.
 - [x] Screen Board V2 텍스트 명세를 다음 시각 산출물로 결정.
 - [x] Sheet 의미 drift 정정·read-back.
-- [ ] PR body 최신화·read-back.
+- [x] PR body 최신화·read-back.
 - [ ] 실패 workflow를 교체할 validator package.
 
 검증 원본:
 
 - `docs/audits/OMENWARD_BASE_PROJECT_SHEET_AUDIT_SYNC_VERIFICATION_2026-08-01.md`
 - 검증 commit: `e46ed794bcb5e90924362464bc3abff92deb86d1`
+- PR 동기화 댓글: `#issuecomment-5148766579`
 
 ## 2. 현재 P1 차단 항목
 
