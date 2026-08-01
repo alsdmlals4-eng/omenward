@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "omenward://schemas/economy-simulation-candidate-config-v1",
+  "title": "Omenward Economy Simulation Candidate Config V1",
+  "description": "Candidate-only schema for H0/H1/H2 economy, paid-retry, and save/checkpoint simulation. It is not a product data schema and cannot authorize exact values.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "candidate_id",
+    "candidate_role",
+    "status",
+    "parameter_registry_path",
+    "parameter_registry_hash",
+    "hypothesis",
+    "changed_parameter_ids",
+    "values",
+    "provenance",
+    "validation"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "decision_id": {"const": "OMW-DEC-20260801-ECONOMY-RETRY-SAVE-PLANNING-V1"},
+    "work_order_id": {"const": "OMW-DEC-20260801-ECONOMY-SIMULATOR-WORK-ORDER-V1"},
+    "candidate_id": {"enum": ["H0", "H1", "H2"]},
+    "candidate_role": {
+      "enum": [
+        "HISTORICAL_COMPARISON_ONLY",
+        "BALANCED_STRUCTURE_INVESTMENT",
+        "FREQUENT_REEL_AND_REWARD_AGENCY"
+      ]
+    },
+    "status": {"enum": ["DRAFT_NOT_APPROVED", "SIMULATION_INPUT_ONLY", "REJECTED", "SHORTLISTED_FOR_HUMAN_REVIEW"]},
+    "parameter_registry_path": {"const": "docs/design/OMENWARD_ECONOMY_RETRY_SAVE_PARAMETER_REGISTRY_V1.json"},
+    "parameter_registry_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "hypothesis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "expected_tradeoff", "rejection_condition"],
+      "properties": {
+        "question": {"type": "string", "minLength": 1},
+        "expected_tradeoff": {"type": "string", "minLength": 1},
+        "rejection_condition": {"type": "string", "minLength": 1}
+      }
+    },
+    "changed_parameter_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "values": {
+      "type": "object",
+      "description": "Simulation-only exact candidate values keyed by canonical Parameter Registry ID.",
+      "propertyNames": {"pattern": "^[A-Z][A-Z0-9_]*$"},
+      "additionalProperties": {
+        "oneOf": [
+          {"type": "number"},
+          {"type": "integer"},
+          {"type": "string"},
+          {"type": "boolean"},
+          {"type": "array"},
+          {"type": "object"}
+        ]
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_kind", "source_paths", "authority_boundary"],
+      "properties": {
+        "source_kind": {"enum": ["LEGACY_H0", "DESIGN_HYPOTHESIS", "DERIVED_FROM_PRIOR_SIMULATION"]},
+        "source_paths": {"type": "array", "items": {"type": "string"}},
+        "authority_boundary": {"const": "SIMULATION_INPUT_NOT_PRODUCT_CANON"}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_validated", "registry_ids_validated", "constraints_validated", "config_hash"],
+      "properties": {
+        "schema_validated": {"type": "boolean"},
+        "registry_ids_validated": {"type": "boolean"},
+        "constraints_validated": {"type": "boolean"},
+        "config_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"candidate_id": {"const": "H0"}}},
+      "then": {"properties": {"candidate_role": {"const": "HISTORICAL_COMPARISON_ONLY"}}}
+    },
+    {
+      "if": {"properties": {"candidate_id": {"const": "H1"}}},
+      "then": {"properties": {"candidate_role": {"const": "BALANCED_STRUCTURE_INVESTMENT"}}}
+    },
+    {
+      "if": {"properties": {"candidate_id": {"const": "H2"}}},
+      "then": {"properties": {"candidate_role": {"const": "FREQUENT_REEL_AND_REWARD_AGENCY"}}}
+    }
+  ]
+}
