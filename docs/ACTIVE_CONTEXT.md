@@ -5,7 +5,7 @@
 - Work Mode: `PLAN`
 - 제품: `LEGACY_PROTOTYPE`
 - 최신 Vertical Slice: `APPROVED_CANON / NOT_IMPLEMENTED`
-- Screen Board V2: `TEXT_SPEC_CURRENT / IMAGE_NOT_GENERATED`
+- Screen Board V2: `TEXT_SPEC_CURRENT / SYNC_VERIFIED / IMAGE_NOT_GENERATED`
 - 제품 코드·Codex: `NOT_AUTHORIZED / BLOCKED`
 - PR: `#116 DRAFT / OPEN / NOT_MERGED`
 - 마지막 관찰 CI: `BASE_ADOPTION_PASS / PROJECT_CORE_FAIL / GDD_SHEET_FAIL`
@@ -74,11 +74,10 @@ OM-IMG-017 Stage 정산·인과 복기
 OM-IMG-018 패배·제품 유료 재시도
 ```
 
+- GitHub·Sheet text canon read-back: `PASS`.
 - 통합 보드 권장 구도: `3-3-2`.
 - 기초 이미지 순서: `013 → 015`.
-- 정확 미확정 수치·재화명은 마스킹.
-- 상태 범례·기술 보고·RPG 인벤토리·영웅 파티 표현 금지.
-- 현재 이미지 생성은 시각자료 바이너리 이관 전까지 차단.
+- 시각자료 바이너리 이관 전 이미지 생성 차단.
 
 ## 5. 실제 구현 경계
 
@@ -112,19 +111,17 @@ LATEST_NOT_IMPLEMENTED
 1. `AGENTS.md`
 2. `docs/DOCUMENTATION_MAP.md`
 3. `docs/PROJECT_CORE.md`
-4. `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`
-5. `docs/design/screen-briefs/`
-6. `docs/images/VISUAL_REFERENCE_INDEX.md`
-7. `docs/PROJECT_CANON_DECISION_LEDGER.md`
-8. `docs/DECISIONS_PENDING.md`
-9. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-10. 실제 code/data/Scene/tests와 Sheet
+4. `docs/PROJECT_CANON_DECISION_LEDGER.md`
+5. `docs/DECISIONS_PENDING.md`
+6. `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`
+7. `docs/testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md`
+8. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+9. 실제 code/data/Scene/tests와 Sheet
 
 ## 8. 다음 작업
 
 ```text
-Screen Board V2 Sheet 동기화·read-back
-→ 경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
+경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
 → 시각자료 바이너리 이관·Visual Index 재검증
 → OM-IMG-013 독립 이미지 중간 검수
 → 최신 Red test Work Order·expected-failure package
