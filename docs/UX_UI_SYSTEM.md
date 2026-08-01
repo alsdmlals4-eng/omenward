@@ -1,7 +1,7 @@
 # OMENWARD UX/UI 시스템
 
 > Base 공용 기준: `alsdmlals4-eng/Base`의 `auditing-and-refining-ui-art`  
-> Base content commit: `a728712cb776ec98f4875914a580fcf7d0156593`  
+> Base content commit: `a728712cb776ec98f4875914a580fcf7d0156593`
 > 프로젝트 상태: `DESIGN_CONTRACT_ADOPTED`  
 > 런타임·사람 검증: `NOT_RUN`
 
