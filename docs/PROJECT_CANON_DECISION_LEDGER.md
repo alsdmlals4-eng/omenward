@@ -1,7 +1,7 @@
 # 오멘워드 기획 정본 결정 원장
 
 - 갱신일: `2026-08-01`
-- 상태: `CURRENT_DECISION_LEDGER / PLANNING_ONLY`
+- 상태: `CURRENT_DECISION_LEDGER / PLANNING_ONLY / SYNC_VERIFIED`
 - 동기화 프로토콜: `docs/operations/CANON_SYNC_PROTOCOL_2026-07-31.md`
 - 연결 Sheet ID: `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
 - 제품 코드·Codex·병합: `NONE / BLOCKED / NOT_AUTHORIZED`
@@ -21,7 +21,7 @@
 | `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1` | `CURRENT_WORK_RULE / CURRENT_CANON` | 사실표·충돌 원장·전장 `6/3/0=30` |
 | `OMW-DEC-20260801-BELU-IDENTITY-V1` | `CURRENT_CANON` | 정본명 벨루, 율비는 역사 별칭 |
 | `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | `SPEC_WRITTEN_NOT_EXECUTED` | 최신 Red 명세·Legacy 테스트 판정 |
-| `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1` | `CURRENT_REPOSITORY_WIDE_AUDIT` | Base·GitHub·25개 Sheet·실제 코드·CI 전수 감사와 다음 순서 |
+| `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1` | `CURRENT_REPOSITORY_WIDE_AUDIT / SYNC_VERIFIED` | Base·GitHub·25개 Sheet·실제 코드·CI 전수 감사와 다음 순서 |
 
 ## 2. 최신 Red 테스트 결정
 
@@ -42,9 +42,11 @@ sheet_sync_status: SYNCED_TO_PR_HEAD
 
 ```yaml
 decision_id: OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1
-status: CURRENT_REPOSITORY_WIDE_AUDIT / RECOMMENDED_DECISIONS_APPROVED
+status: CURRENT_REPOSITORY_WIDE_AUDIT / RECOMMENDED_DECISIONS_APPROVED / SYNC_VERIFIED
 authority_commit: 6882777ac42d30a8d25e621b98f9731fbe8537be
 authority_path: docs/audits/OMENWARD_BASE_PROJECT_SHEET_REPOSITORY_WIDE_AUDIT_2026-08-01.md
+verification_commit: e46ed794bcb5e90924362464bc3abff92deb86d1
+verification_path: docs/audits/OMENWARD_BASE_PROJECT_SHEET_AUDIT_SYNC_VERIFICATION_2026-08-01.md
 github_pr: 116
 github_merge_state: NOT_MERGED
 active_project_base: 9.1.0
@@ -54,24 +56,24 @@ product_code: UNCHANGED
 codex: BLOCKED
 runtime: NOT_RUN
 human_qa: NOT_RUN
-ci:
+last_observed_ci:
   base_v9_adoption: PASS
   project_core_documentation: FAIL
   gdd_sheet_adoption: FAIL
 sheet_ranges:
   - 00_프로젝트_허브!E1:L2
-  - 01_작업순서!A6:J6
-  - 02_현재_확정결정!A15:L15
-  - 04_누락_충돌_감사!A15:H18
-  - 05_GDD_요약!A1:L8
-  - 10_제품방향!A1:J4
+  - 01_작업순서!A2:J6
+  - 02_현재_확정결정!A14:L15
+  - 04_누락_충돌_감사!A14:H18
+  - 05_GDD_요약!A1:J8
+  - 10_제품방향!A1:F4
   - 12_핵심루프!A1:J5
-  - 15_조작_게임규칙!A1:J5
-  - 40_핵심시스템_메인콘텐츠!A1:K7
-  - 41_성장_경제!A1:I5
-  - 50_메인콘텐츠!A1:J11
-  - 99_변경이력!A15:H15
-sheet_sync_status: PROPAGATION_PENDING_READBACK
+  - 15_조작_게임규칙!A1:J3
+  - 40_핵심시스템_메인콘텐츠!A1:K5
+  - 41_성장_경제!A1:I4
+  - 50_메인콘텐츠!A1:J5
+  - 99_변경이력!A14:H15
+sheet_sync_status: CANON_AND_SHEET_READBACK_PASS
 ```
 
 ### 승인된 권장안
@@ -89,12 +91,13 @@ PRODUCT_CODE = NOT_AUTHORIZED
 
 ### 감사로 확인된 P1
 
-- Active Context·Handoff stale 상태는 갱신함.
-- Project Core Documentation workflow 실패.
-- GDD Sheet Adoption workflow 실패.
-- Sheet의 Base SHA·authority commit 의미 혼합.
-- 역사 PR #92/#97의 current exact 권위 오인.
-- 과거 Base v9.3 실행 계획의 단독 실행 오독 위험.
+- Active Context·Handoff stale 상태: `VERIFIED_FIXED`.
+- Sheet Base SHA·authority commit·PR head 의미 혼합: `VERIFIED_FIXED`.
+- 역사 PR #92/#97의 current exact 권위 오인: `VERIFIED_FIXED_FOR_AUDITED_RANGES`.
+- Project Core Documentation workflow 실패: `OPEN_P1`.
+- GDD Sheet Adoption workflow 실패: `OPEN_P1`.
+- Base v9.3 실제 Adapter migration 미실행: `OPEN_P1`.
+- 과거 Base v9.3 실행 계획은 `HISTORICAL_EXECUTION_CANDIDATE / DO_NOT_EXECUTE_CURRENTLY`.
 
 ## 4. 벨루 결정
 
@@ -112,7 +115,7 @@ product_asset_approval: PENDING
 
 ```text
 OPEN_P0: 0
-OPEN_P1: CI_FAILURES / SHEET_SEMANTIC_DRIFT / V9_3_MIGRATION_NOT_EXECUTED
+OPEN_P1: CI_FAILURES / V9_3_MIGRATION_NOT_EXECUTED / IMPLEMENTATION_PLANNING_PENDING
 CURRENT_PRODUCT: LEGACY_PROTOTYPE
 LATEST_VERTICAL_SLICE: APPROVED_NOT_IMPLEMENTED
 VISUAL_SCREEN_BOARD_V1: REJECTED_EVIDENCE
@@ -123,6 +126,7 @@ CODEX: BLOCKED
 RUNTIME_AND_HUMAN_QA: NOT_RUN
 PR_READY: NO
 PR_MERGE: BLOCKED
+CANON_AND_SHEET_SYNC: PASS
 ```
 
 과거 `PR97-VS`, `PR92-BUILDING`, `F-30`, `OMENWARD-EVP-001`, C1/C2/C3 proof는 삭제하지 않고 `HISTORICAL_APPROVED_SOURCE`, `LEGACY_PROVEN`, `HISTORICAL_EVIDENCE`로 분류한다.
@@ -130,11 +134,11 @@ PR_MERGE: BLOCKED
 ## 6. 다음 작업 게이트
 
 ```text
-정본·Sheet propagation read-back
-→ Screen Board V2 화면별 독립 브리프·텍스트 명세
+Screen Board V2 화면별 독립 브리프·텍스트 명세
 → 경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
 → 실제 최신 Red test Work Order·expected-failure package
 → 별도 Base v9.3 Adapter 원자 migration package
+→ CI validator Green
 → 사용자 승인 Codex 제품 구현 Plan
 ```
 
