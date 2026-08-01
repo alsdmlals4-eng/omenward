@@ -56,15 +56,20 @@ Decision: `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1`
 - [x] v9.3 Adapter 이관은 별도 원자 package로 결정.
 - [x] 과거 PR #92/#97 exact 값은 역사 승인 계보로 보존.
 - [x] Screen Board V2 텍스트 명세를 다음 시각 산출물로 결정.
-- [ ] Sheet 의미 drift 정정·read-back.
+- [x] Sheet 의미 drift 정정·read-back.
 - [ ] PR body 최신화·read-back.
 - [ ] 실패 workflow를 교체할 validator package.
+
+검증 원본:
+
+- `docs/audits/OMENWARD_BASE_PROJECT_SHEET_AUDIT_SYNC_VERIFICATION_2026-08-01.md`
+- 검증 commit: `e46ed794bcb5e90924362464bc3abff92deb86d1`
 
 ## 2. 현재 P1 차단 항목
 
 ### 2.1 CI·validator 최신화
 
-현재 PR head 판정:
+마지막 확인 workflow 판정:
 
 ```text
 Validate Base v9 adoption: PASS
@@ -205,8 +210,7 @@ CI_PARTIAL_FAILURE != VALIDATED
 ## 6. 다음 순서
 
 ```text
-정본·Sheet propagation read-back
-→ Screen Board V2 화면별 독립 브리프·텍스트 명세
+Screen Board V2 화면별 독립 브리프·텍스트 명세
 → 경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
 → 최신 Red test Work Order·expected-failure package
 → Base v9.3 원자 migration package
