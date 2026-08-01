@@ -1,7 +1,7 @@
 # OMENWARD UX/UI 시스템
 
 > Base 공용 기준: `alsdmlals4-eng/Base`의 `auditing-and-refining-ui-art`  
-> Base content commit: `0fd95f4513343e77fd664af2763a01b02f52545b`  
+> Base content commit: `a728712cb776ec98f4875914a580fcf7d0156593`  
 > 프로젝트 상태: `DESIGN_CONTRACT_ADOPTED`  
 > 런타임·사람 검증: `NOT_RUN`
 
@@ -97,6 +97,18 @@ UI는 권위 상태를 표시하고 선택·배치·확인 의도만 Signal/Comm
 - 게임패드·키보드·포인터 중 선언된 입력 경로로 준비→배치→실행→복기를 완주한다.
 - modal 종료 후 이전 릴/배치 항목으로 포커스가 돌아간다.
 - 긴 한국어와 최대 수치에서 라인·카드·툴팁이 겹치지 않는다.
+
+## 7A. UI 모션·중단·반복 계약
+
+```text
+입력 접수 → 처리 중 → 도메인 결과 확정 → 결과 표현
+```
+
+- 릴 회전·세로 이동·가로 교환·배치·전투 복기 모션은 중단과 즉시 완료 경로를 가진다.
+- 빠른 반복·재진입에서 토큰 교환·자원 소비·배치·전투 결과가 중복되지 않아야 한다.
+- `AnimationPlayer`·`Tween` 완료 signal은 RNG 결과·TokenInstance 교환·자원 소비·전투·저장의 권위 시점이 아니다.
+- `Reduced Motion`, `mute`, `haptic-off`에서도 위협·비용·결과 원인·다음 행동을 보존한다.
+- 실제 HUD·입력·성능·사람 이해는 `NOT_RUN` / `HUMAN_NOT_RUN`으로 유지한다.
 
 ## 8. 검증 매트릭스
 

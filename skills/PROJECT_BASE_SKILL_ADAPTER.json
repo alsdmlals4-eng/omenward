@@ -6,13 +6,13 @@
     "repository": "alsdmlals4-eng/Base"
   },
   "base_release": {
-    "release_commit": "3c158f52cfdad889970aef4d6ce6650a6fea0645",
-    "release_evidence_commit": "dd20ad3852e264d7e337e34d2cb963f71053a6cb",
+    "release_commit": "a728712cb776ec98f4875914a580fcf7d0156593",
+    "release_evidence_commit": "ef1fba11167e4da0b298123b0c85ebd268191a42",
     "repository": "alsdmlals4-eng/Base",
-    "version": "9.1.0"
+    "version": "9.4.0"
   },
   "canonical_source": "skills/PROJECT_BASE_ADAPTER.json",
-  "canonical_source_sha256": "aba0b88f877cf916247f14f23f99db6f16d695b3689f0a2e9cc4cbca57903c49",
+  "canonical_source_sha256": "d78d44857378e18c07104786a505870fd2e8d08b67cf85a3c51036ce855bae62",
   "canonical_sources": [
     "docs/BASE_RULES_VERSION.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -104,7 +104,8 @@
     "managing-design-documents": {},
     "managing-game-project-operating-system": {},
     "managing-project-intake-and-work-contract": {},
-    "reviewing-and-validating-project-changes": {}
+    "reviewing-and-validating-project-changes": {},
+    "optimizing-ai-model-and-prompt-costs": {}
   },
   "third_party_inventory": "docs/technical/ADOPTED_ASSETS.md",
   "validators": [
