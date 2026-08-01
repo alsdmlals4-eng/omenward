@@ -1,124 +1,156 @@
 # Active Context
 
-- 갱신일: 2026-07-27
+- 갱신일: `2026-08-01`
 - 공식명: **오멘워드 / OMENWARD**
-- 제품 단계: `PROTOTYPE_AND_VERTICAL_SLICE`
 - 현재 Work Mode: `PLAN`
 - 실행 프로필: `PLANNING_ONLY_PROFILE`
-- 직전 단계: `REVIEW_COMPLETE`
-- 다음 작업: `V6_PLANNING_INTAKE`
-- 현재 제품 Issue: `#69`
-- 제품 코드 승인: `NO`
-- 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
-- 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
-- 사람 검증: `HUMAN_QA_NOT_RUN`
-- 잠금: `CORE_LOCK_V2_PENDING`
-- 최종 Codex 인계: `DEFERRED_BY_USER_FOR_V6_PLANNING`
-- 별도 운영 작업: Issue `#62`
+- 현재 제품: `LEGACY_PROTOTYPE`
+- 최신 Vertical Slice: `APPROVED_CANON / NOT_IMPLEMENTED`
+- 제품 코드·Codex: `NOT_AUTHORIZED / BLOCKED`
+- PR: `#116 DRAFT / OPEN / NOT_MERGED`
+- CI: `BASE_ADOPTION_PASS / PROJECT_CORE_FAIL / GDD_SHEET_FAIL`
+- Runtime·사람 검증: `NOT_RUN / NOT_RUN`
+- 활성 Base: `v9.1`
+- 다음 권장 Base: `v9.3 / SEPARATE_ATOMIC_MIGRATION_REQUIRED`
+- 현재 감사 Decision: `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1`
 
-## 1. Context Pack
+## 1. 현재 기준선
 
 ```yaml
 project: OMENWARD / 오멘워드
-target_platform: PC
-current_stage: PROTOTYPE_AND_VERTICAL_SLICE
-current_work_mode: PLAN
-execution_profile: PLANNING_ONLY_PROFILE
-current_branch: main
-context_baseline_commit: c4c02dc553dbf6e79fe26fc751bd268bd396c627  # PR #94 v6 전환 병합 기준
-player_promise: 예고된 세 전선의 공세를 읽고 건물과 영구 가로 이동으로 미래 릴을 설계한 뒤 당첨 병력을 한 전선에 비가역 커밋한다.
-project_core: 정확 공세 예고 + TokenSource + 세 원형 릴 + immutable snapshot + 명시적 확정 + 3라인 자동전투
-pointed_fun: 무작위 결과 소비가 아니라 미래 룰렛 구조를 설계하고 그 결과를 전선에 커밋하는 판단
-current_slice_or_goal: v6 기준 CORE_POC와 Vertical Slice 사이의 가장 위험한 플레이 가설 재정의
-protected_decisions_and_assets: Legacy C1 판정, 3라인, 공용 병종, 진영 Visual 분리, immutable SpinSnapshot, 비가역 배치
-canonical_sources: PROJECT_CORE, 통합 결정 원장, R1+R2 검수, F-30 승인 정본, Documentation Map
-actual_build_state: V2 제품 구현 미시작, Legacy C1~C3만 실행 증거 보유
-open_conflicts: 없음. 다음 PLAN에서 새 충돌이 발견되면 한 문항씩 처리
-blocked_unverified: V2 실행 경로, 사람 플레이, 1080p·720p, 성능, 저장·복귀, 마스코트 실제 적용
-next_evidence_needed: CORE_POC 가설·관찰 기준·실패 기준과 3스테이지 Slice 후보
+platform: PC_PRIMARY
+engine: Godot 4.7 / GDScript / Compatibility
+viewport: 960x540
+window_override: 1920x1080
+scaling: integer
+work_mode: PLAN
+product_state: LEGACY_PROTOTYPE
+latest_vertical_slice: APPROVED_NOT_IMPLEMENTED
+active_base_version: 9.1.0
+active_base_release: 3c158f52cfdad889970aef4d6ce6650a6fea0645
+active_base_evidence: dd20ad3852e264d7e337e34d2cb963f71053a6cb
+recommended_base_version: 9.3.0
+product_code_authority: NONE
+codex_execution: BLOCKED
+merge_authority: NOT_GRANTED
 ```
 
-`context_baseline_commit`은 이 Context Pack이 확정된 전환 병합 기준이다. 현재 `main` HEAD를 자기참조 방식으로 고정하는 필드가 아니다.
+## 2. 프로젝트 약속
 
-## 2. 우선 읽기
+> **세 개의 물리 릴 구조를 건물과 TokenSource로 설계하고, 남은 무작위성을 감수해 얻은 병력을 세 전선 중 하나에 비가역적으로 커밋하며, 전투 결과의 원인을 다음 설계에 반영한다.**
+
+```text
+공세 예고
+→ 건설·TokenSource·세 물리 릴 설계
+→ 회전·세로 이동·영구 가로 이동
+→ SpinSnapshot·확정
+→ PendingReward 보관/판매/한 라인 배치
+→ 세 라인 자동전투·고정시간 점령
+→ 정산·원인 복기·다음 Stage
+```
+
+## 3. 현재 승인 불변 조건
+
+- 표준 MapRun 약 35분, 20 Stage, 4막.
+- 위험 Stage 5·10·15·20.
+- 하나의 전장, `top/middle/bottom` 3라인.
+- 건설 노드 종류 1개.
+- 본진 6노드/진영.
+- 중간 거점 `3라인 × 2진영 = 6곳`, 거점당 3노드.
+- 중앙 접전지 3곳, 건설 노드 0개.
+- 전체 건설 노드 `2×6 + 6×3 = 30`.
+- 세 물리 릴과 3×3 노출 보드.
+- 가로 이동은 TokenInstance 전체를 교환하며 영구 유지.
+- 이동권 소비 뒤 undo/reset 없음.
+- immutable `SpinSnapshot`.
+- 배치 후 라인 변경·회수·판매 없음.
+- 유닛 수·Tier·병종과 무관한 고정시간 점령.
+- 금고·농장·타워·병영·지휘소 5건물.
+- Stage 5 이후 MapRun당 최대 1회 제품 유료 재시도.
+- 안내자 정본명 `벨루 / Belu`; `율비`는 역사 별칭.
+
+## 4. 실제 구현 경계
+
+현재 Godot 구현은 Legacy 기술 프로토타입이다.
+
+```text
+CURRENT_IMPLEMENTATION
+- Main = Battlefield + Label HUD + StageSelect
+- 독립 가중치 9칸 Roulette
+- 중앙 판정·8개 완성선·금화·등급 resolver
+- 병영·타워·농장 3건물
+- outpost당 front_a/front_b/rear 3노드
+- capture_power 합산 점령
+- pending reward·한 라인 배치 seam
+- 패배 후 무료 same-stage restart
+
+NOT_IMPLEMENTED
+- 본진 포함 30노드 topology
+- 세 물리 릴·cursor·TokenInstance lifecycle
+- 영구 가로 이동·immutable full SpinSnapshot transaction
+- 고정시간 점령
+- 5건물 최신 lifecycle·BLOCKED 거래
+- 20 Stage MapRun·checkpoint·제품 유료 Retry
+- 제품 화면·벨루 Runtime
+```
+
+```text
+LEGACY_PROVEN != LATEST_IMPLEMENTED != LATEST_PROVEN
+```
+
+## 5. 테스트·검증 상태
+
+- 최신 Red 테스트 명세: `WRITTEN`.
+- Legacy 보존·교체·폐기 판정: `WRITTEN`.
+- 실제 최신 test files: `NOT_CREATED`.
+- expected Red 실행: `NOT_RUN`.
+- 제품 Runtime·접근성·성능·사람 QA: `NOT_RUN`.
+- PR #116 workflow:
+  - Base v9 adoption: `PASS`.
+  - Project Core Documentation: `FAIL`.
+  - GDD Sheet Adoption: `FAIL`.
+
+PR을 ready 또는 merge 상태로 승격하지 않는다.
+
+## 6. 현재 P1
+
+1. 프로젝트 정본 validator와 GDD Sheet test가 구형 문자열·Base SHA에 고정되어 현재 문서와 충돌.
+2. Sheet 일부 분야 탭이 역사 PR #92/#97을 현재 exact 권위처럼 표시.
+3. Base v9.3 Adapter 이관은 아직 실제 수행·검증되지 않음.
+4. Screen Board V2·경제/Retry/save exact 계약·실제 Red package가 미작성 또는 미실행.
+
+## 7. 우선 읽기
 
 1. `AGENTS.md`
 2. `docs/BASE_RULES_VERSION.md`
 3. `docs/DOCUMENTATION_MAP.md`
 4. `docs/PROJECT_CORE.md`
-5. `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`
-6. `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`
-7. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-8. `docs/reviews/2026-07-27-v6-review-complete-planning-transition.md`
-9. `docs/design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md`
-10. Issue `#69`
-11. 현재 작업에 필요한 세부 정본과 실제 파일
+5. `docs/audits/OMENWARD_BASE_PROJECT_SHEET_REPOSITORY_WIDE_AUDIT_2026-08-01.md`
+6. `docs/PROJECT_CANON_DECISION_LEDGER.md`
+7. `docs/DECISIONS_PENDING.md`
+8. `docs/testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md`
+9. `docs/testing/LEGACY_TEST_PRESERVE_REPLACE_RETIRE_MATRIX_2026-08-01.md`
+10. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+11. 실제 code/data/Scene/tests
+12. 연결 Google Sheet
 
-## 3. 핵심 문장
-
-> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
-
-오멘워드는 좋은 슬롯 결과를 기다리는 게임이 아니다. 플레이어가 공개된 전선 위험을 읽고 건물과 영구 이동으로 미래 릴 배열을 설계하며, 결과를 한 라인에 되돌릴 수 없이 커밋하는 게임이다.
-
-## 4. 보호 대상
-
-- 일반 유닛의 자유로운 라인 횡단 금지.
-- 기본·일반 난이도에서 치명적 공세 정보 공개.
-- 중앙 가로줄 선행 판정과 기존 C1 결과.
-- 가로 이동은 token instance와 출처를 이동시키며 길이·cursor를 유지.
-- immutable `SpinSnapshot`.
-- 배치 후 회수·라인 변경·판매 금지.
-- 공용 `UnitArchetypeProfile`과 진영 Visual 분리.
-- UI는 규칙을 계산하지 않고 표시와 사용자 의도 반환만 담당.
-- Godot 4.7.1 Standard / GDScript / Compatibility renderer.
-
-## 5. 직전 REVIEW 결과
+## 8. 다음 작업 순서
 
 ```text
-R1_PLUS_R2_SCOPE: APPROVED_AND_UNCHANGED
-LEGACY_C1_PRESERVATION: SOUND
-PURE_DOMAIN_ISOLATION: SOUND
-F-30: RESOLVED
-F-30_ORDER: CONSTRUCTION_PROGRESS_THEN_REPAIR_SETTLEMENT
-REVIEW_PHASE: COMPLETE
-PRODUCT_CODE_AUTHORIZED: NO
+현재 Context·Sheet 의미 drift 동기화 완료
+→ Screen Board V2 화면별 독립 브리프·텍스트 명세
+→ 경제·Retry 비용·save/checkpoint Approval Bundle·시뮬레이션 계약
+→ 실제 최신 Red test Work Order·expected-failure package
+→ 별도 Base v9.3 Adapter 원자 마이그레이션 package
+→ 사용자 승인 Codex 제품 구현 Plan
 ```
 
-PR #93은 F-30 기술 검수 문서만 병합했다. Godot 코드·Scene·Resource·게임 데이터·workflow를 구현하지 않았다.
-
-## 6. 현재 포함·제외
-
-### R1+R2 포함
-
-- 순수 `RouletteBoardResolver`와 Legacy adapter.
-- caller-injected token ID.
-- transient `RefCounted` 세 원형 릴 도메인.
-- 결정론적 정지 index와 deep immutable snapshot.
-- 이동·확정 없는 stopped-only `RouletteSpinSession`.
-
-### 계속 제외
-
-- live `RouletteService.spin()`의 V2 전환.
-- TokenSource lifecycle과 건물·경제·StageRun·MapRun 연결.
-- 세로·가로 이동 실행.
-- 럭키·이동 아이템·전설·원자 확정 거래.
-- UI·Scene·아트·사운드·사람 플레이·100,000시드.
-
-## 7. 다음 v6 PLAN
-
-우선순위는 다음과 같다.
-
-1. CORE_POC의 가장 위험한 플레이 가설 하나 선택.
-2. 플레이어 행동·감정·실패 후 변화·관찰 지표 정의.
-3. 대표 3스테이지 Vertical Slice 흐름과 종료점 설계.
-4. 설계 청사진·전선 브리핑·전투 인과 사슬 UX 역할 설계.
-5. 마스코트·상징 동반자 역할 설계.
-6. 에셋·UI·사운드 조달과 검증 계획.
-7. Codex Goal은 기획 승인 뒤에만 작성.
+현재 다음 단계는 **화면 이미지를 생성하는 작업이 아니라 Screen Board V2의 화면 구조·상태·정보 위계를 텍스트 명세로 확정하는 작업**이다.
 
 ```text
 NEXT_WORK_MODE: PLAN
-NEXT_EXECUTION_PROFILE: PLANNING_ONLY_PROFILE
-FINAL_CODEX_HANDOFF: DEFERRED
-CODEX_BUILD: NOT_AUTHORIZED
+PRODUCT_CODE: NOT_AUTHORIZED
+CODEX: BLOCKED
+PR_READY: NO
+PR_MERGE: BLOCKED
 ```
