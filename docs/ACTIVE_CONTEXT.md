@@ -26,6 +26,8 @@ scaling: integer
 work_mode: PLAN
 product_state: LEGACY_PROTOTYPE
 latest_vertical_slice: APPROVED_NOT_IMPLEMENTED
+current_branch: main
+context_baseline_commit: 774087dccc903bc9a8e2aec72eec2a2d13b216ce
 active_base_version: 9.1.0
 active_base_release: 3c158f52cfdad889970aef4d6ce6650a6fea0645
 active_base_evidence: dd20ad3852e264d7e337e34d2cb963f71053a6cb
@@ -34,6 +36,8 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 merge_authority: NOT_GRANTED
 ```
+
+`current_branch: main`과 `context_baseline_commit`은 Context가 비교하는 통합 기준선이다. 현재 Draft PR head를 자기참조로 고정하는 필드가 아니다.
 
 ## 2. 프로젝트 약속
 
