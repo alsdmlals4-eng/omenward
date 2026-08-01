@@ -1,34 +1,78 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
-- 갱신일: 2026-07-27
+- 갱신일: `2026-08-01`
 - 공식명: **오멘워드 / OMENWARD**
-- 제품 단계: `PROTOTYPE_AND_VERTICAL_SLICE`
 - 현재 Work Mode: `PLAN`
-- 실행 프로필: `PLANNING_ONLY_PROFILE`
-- 직전 REVIEW: `COMPLETE`
-- 다음 작업: `V6_PLANNING_INTAKE`
-- 현재 제품 Issue: `#69`
-- 제품 코드 승인: `NO`
-- 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
-- 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
-- 사람 플레이: `HUMAN_QA_NOT_RUN`
-- 잠금 상태: `CORE_LOCK_V2_PENDING`
-- Codex 최종 인계: `DEFERRED_BY_USER_FOR_V6_PLANNING`
+- 제품 상태: `LEGACY_PROTOTYPE`
+- 최신 기획 상태: `APPROVED_VERTICAL_SLICE / NOT_IMPLEMENTED`
+- PR: `#116 DRAFT / OPEN / NOT_MERGED`
+- 제품 코드·Codex: `NOT_AUTHORIZED / BLOCKED`
+- Runtime·사람 검증: `NOT_RUN / NOT_RUN`
+- 활성 Base: `v9.1`
+- 권장 다음 Base: `v9.3 / SEPARATE_ATOMIC_MIGRATION`
+- 현재 감사: `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1`
 
-이 문서는 새 작업자가 이전 대화 없이 현재 승인 상태, 보호 경계, 실제 구현 상태와 다음 기획 시작점을 이해하기 위한 압축 인계다.
+이 문서는 새 작업자가 과거 대화 없이 현재 정본, 실제 Legacy 구현, 열린 P1과 다음 작업을 복원하기 위한 압축 Handoff다. 상세 규칙은 책임 원본을 읽는다.
 
 ## 1. 가장 먼저 알아야 할 것
 
-1. 오멘워드는 건물과 영구 가로 이동으로 세 원형 릴의 미래 배열을 설계하고 당첨 병력을 세 라인 중 하나에 비가역 배치하는 실시간 전략 오토배틀이다.
-2. V2 제품 정본과 GM-01~GM-106 통합 결정은 승인됐지만 V2 Godot 제품 구현은 시작하지 않았다.
-3. 현재 C1·C2·C3 실행 증거는 Legacy 설계 기준이며 V2 구현 완료 증거가 아니다.
-4. R1+R2 범위와 기술 경계는 검수 완료 상태다.
-5. F-30은 `construction progress → repair settlement` 순서로 해결되고 PR #93으로 검수 문서가 병합됐다.
-6. 사용자는 다음 작업을 v6 기준 기획으로 계속하도록 지시했다.
-7. 따라서 최종 Codex 인계와 Build는 자동 진행하지 않는다.
-8. 공용 10병종·진영 Visual 분리, Godot 4.7.1 Standard·GDScript·Compatibility 기준선은 유지한다.
+1. 오멘워드는 **세 물리 릴을 설계하고 결과를 세 전선 중 하나에 비가역 커밋하는 PC 실시간 전략 오토배틀**이다.
+2. 현재 제품 코드는 최신 Vertical Slice가 아니라 Legacy 기술 프로토타입이다.
+3. 최신 전장 불변식은 본진 6/진영, 중간 거점 6곳×3, 접전지 0, 총 30건설 노드다.
+4. 최신 룰렛은 독립 9칸 가중 추첨이 아니라 세 원형 `TokenInstance` 배열·cursor·3×3 노출 보드다.
+5. 최신 점령은 `capture_power` 합산이 아니라 병력 수·Tier·병종과 무관한 고정시간 규칙이다.
+6. 최신 건물 가족은 금고·농장·타워·병영·지휘소 5종이다.
+7. 패배 후 제품 재시도는 Stage 5 이후 MapRun당 최대 1회 영구재화 거래다. 현재 무료 restart는 개발 seam이다.
+8. 안내자 정본명은 `벨루 / Belu`다. `율비`는 역사 별칭이다.
+9. 최신 Red 테스트 명세는 작성됐지만 실제 test files와 expected-failure 증거는 없다.
+10. PR #116은 Base adoption check만 통과하고 Project Core·GDD Sheet 검증은 실패했다. ready/merge 금지다.
 
-## 2. 읽기 순서
+## 2. 현재 플레이어 약속
+
+> **공개된 공세를 읽고 건물과 TokenSource로 세 릴의 미래 구조를 만든 뒤, 잔여 RNG를 감수해 얻은 병력을 한 전선에 되돌릴 수 없이 배치하고 그 결과를 다음 설계에 반영한다.**
+
+```text
+공세 예고
+→ 건설·릴 설계
+→ 회전·이동
+→ snapshot·확정
+→ 보관/판매/배치
+→ 세 라인 자동전투·점령
+→ 정산·원인 복기
+```
+
+## 3. 현재 실제 구현
+
+```text
+Main Scene
+├─ GameSession
+├─ Battlefield
+└─ UI
+   ├─ StageHud
+   └─ StageSelect
+
+Legacy Roulette
+├─ fixed spin cost 20
+├─ X/GOLD/source weight
+├─ independent 9-cell generation
+├─ central-row judgement
+└─ reward generation
+
+Legacy Battle
+├─ top/middle/bottom
+├─ bases/gates/outposts/clash zones
+├─ capture_power aggregation
+└─ deterministic fixed-step seam
+
+Legacy Buildings
+├─ barracks
+├─ tower
+└─ farm
+```
+
+`StageHud`는 Label 중심 기술 HUD이고 제품 메인·준비·정산·패배 화면은 없다.
+
+## 4. 현재 권위 읽기 순서
 
 ```text
 최신 사용자 지시
@@ -36,133 +80,63 @@
 → docs/BASE_RULES_VERSION.md
 → docs/DOCUMENTATION_MAP.md
 → docs/PROJECT_CORE.md
-→ docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md
-→ docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md
+→ docs/audits/OMENWARD_BASE_PROJECT_SHEET_REPOSITORY_WIDE_AUDIT_2026-08-01.md
+→ docs/PROJECT_CANON_DECISION_LEDGER.md
+→ docs/DECISIONS_PENDING.md
+→ 분야 APPROVED 계약
+→ docs/testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md
+→ docs/testing/LEGACY_TEST_PRESERVE_REPLACE_RETIRE_MATRIX_2026-08-01.md
 → docs/CURRENT_IMPLEMENTATION_STATUS.md
-→ docs/reviews/2026-07-27-v6-review-complete-planning-transition.md
-→ docs/design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md
-→ Issue #69
-→ 현재 작업별 세부 정본
 → 실제 code/data/Scene/tests
+→ 연결 Google Sheet
 → docs/ACTIVE_CONTEXT.md
 ```
 
-역사적 계획과 Pre-V2 벤치마크는 현재 제품 구현 근거로 사용하지 않는다.
+과거 `CORE_POC`, 3스테이지 Slice, V6 intake, PR #92/#97 exact 수치는 최신 권위가 아니다. 삭제하지 않고 역사·Legacy 계보로만 사용한다.
 
-## 3. 제품 약속
+## 5. 현재 열린 P1
 
-> **예고된 세 전선의 공세를 읽고, 제한된 건물로 세 원형 릴의 토큰 구조를 설계·영구 편집한 뒤, 당첨 병력을 어느 전선에 커밋할지 결정해 전황을 뒤집는다.**
+- Project Core validator가 오래된 marker·routing에 고정돼 workflow 실패.
+- GDD Sheet adoption test가 오래된 Base SHA·C1 증거 문자열에 고정돼 workflow 실패.
+- Sheet 일부 분야 탭의 역사/current 상태 혼합.
+- Base v9.3 Adapter·Snapshot·Router·validator 실제 마이그레이션 미실행.
+- Screen Board V2 미작성.
+- 경제·Retry 비용·save/checkpoint exact 계약 미확정.
+- 최신 Red test files·expected failure 증거 미작성·미실행.
 
-핵심 감정:
-
-```text
-설계했다 → 릴 토큰·출처·인접 순서를 만들었다
-읽어냈다 → 보드·공세·보관·식량을 비교했다
-적중했다 → 비가역 배치가 전선을 뒤집었다
-학습했다 → 실패 원인을 다음 건설·조작·배치에 반영했다
-```
-
-## 4. 현재 실제 구조
-
-현재 `RouletteService`는 Legacy 독립 9칸 생성, 중앙 판정, 등급·금화, 출처 선택, 보상 생성, 경제와 입력 로그를 함께 소유한다. `StageRun`은 Legacy 결과를 pending reward에 보관한다.
+## 6. 다음 순서
 
 ```text
-LEGACY_C1_C2_C3_PROVEN
-!= V2_IMPLEMENTED
-!= V2_PROVEN
+1. 현재 정본·Sheet 의미 drift 재조회 완료
+2. Screen Board V2 화면별 독립 브리프·텍스트 명세
+3. 경제·Retry 비용·save/checkpoint Approval Bundle·시뮬레이션 계약
+4. 실제 최신 Red test Work Order·expected-failure package
+5. 별도 Base v9.3 Adapter 원자 마이그레이션 package
+6. 사용자 승인 Codex 제품 구현 Plan
+7. Codex Build·자동/Runtime/사람 검증
 ```
 
-## 5. 검수 완료된 R1+R2 경계
+현재 시각 작업의 다음 산출물은 생성 이미지가 아니라 화면 구조·상태·정보 위계가 있는 텍스트 명세다.
+
+## 7. 금지된 완료 표현
+
+다음 증거 전에는 사용하지 않는다.
 
 ```text
-Legacy RouletteService orchestration
-├─ paid spin economy
-├─ legacy independent 9-cell generation
-├─ legendary conversion and reward creation
-└─ pure RouletteBoardResolver delegation
-
-Isolated V2 transient RefCounted domain
-caller-injected RouletteTokenInstance
-→ RouletteReelState × 3
-→ RouletteRunState
-→ RouletteSpinSnapshot
-→ stopped-only RouletteSpinSession
+LATEST_VERTICAL_SLICE_IMPLEMENTED
+LATEST_VERTICAL_SLICE_PROVEN
+CORE_LOOP_PROVEN
+MVP_COMPLETE
+BASE_V9_3_ADOPTED
+CI_PASS
+RUNTIME_VALIDATED
+HUMAN_VALIDATED
 ```
-
-### 포함
-
-- 중앙 가로줄 선행 판정·8개 완성선·등급·금화·출처 결정론 보존.
-- Legacy service adapter.
-- caller-injected token instance ID.
-- transient `RefCounted` 원형 릴 도메인.
-- `NORMAL_X` 최저 안정 index 교체, 없으면 append.
-- `SOURCE_BOUND_X` 일반 교체 제외.
-- 전역 token ID 유일성.
-- 동일 상태·시드의 동일 정지 index.
-- copy-out deep immutable snapshot.
-- 이동·확정 없는 stopped session seam.
-
-### 제외
-
-- live `spin()`의 V2 물리 릴 전환.
-- TokenSource lifecycle.
-- StageRun·MapRun·건물·경제·UI·보관·배치 연결.
-- 세로·가로 이동 실행.
-- 럭키·이동 아이템·전설·원자 확정 거래.
-- Scene·아트·사운드·사람 플레이·분포 시뮬레이션.
-
-## 6. F-30 승인 순서
-
-```text
-construction progress
-→ lifecycle·allowed max HP 갱신
-→ target 유효성
-→ repair request 적용
-→ 글로벌 affordability
-→ debit
-→ heal
-```
-
-책임 원본:
-
-- `docs/design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md`
-- `docs/reviews/2026-07-27-v2-construction-repair-same-timestamp-order-review.md`
-
-## 7. 다음 v6 기획 목표
-
-다음 세션은 구현 계획 재개가 아니라 Stage 2 통합 데모 기획을 진행한다.
-
-1. `CORE_POC`에서 가장 위험한 플레이 가설 하나를 선택한다.
-2. 플레이어 행동·고민·감정·실패 후 행동 변화·관찰 지표를 정의한다.
-3. 대표 3스테이지 Vertical Slice의 첫인상부터 데모 종료까지 설계한다.
-4. 설계 청사진·전선 대응 브리핑·전투 인과 사슬의 UX 역할을 정한다.
-5. 마스코트 또는 상징 동반자의 세계관·UI·세일즈 역할을 정한다.
-6. UI·사운드·에셋은 역할 정의 후 기존 승인·보유·스토어 조사 순서로 접근한다.
-7. Codex Goal과 Plan Mode 인계는 기획 승인 뒤 별도 작업으로 작성한다.
-
-## 8. 현재 미검증
-
-- V2 Godot 실행 경로.
-- R1+R2 자동 계약과 원격 실행 증거.
-- live physical reel.
-- CORE_POC 사람 플레이.
-- 10~15분 Vertical Slice 흐름.
-- 1080p·720p 가독성.
-- 저장·복귀·성능.
-- 마스코트 실제 적용·기억도.
-
-## 9. 금지된 완료 표현
-
-다음 조건 전에는 `CORE_LOCK_V2`, `V2_IMPLEMENTED`, `CORE_LOOP_PROVEN`, `MVP_COMPLETE`를 사용하지 않는다.
-
-- 해당 V2 실행 경로 구현.
-- 자동 계약과 원격 실행 증거.
-- 10~15분 사람 플레이.
-- 1080p·720p 가독성 검증.
 
 ```text
 NEXT_WORK_MODE: PLAN
-NEXT_EXECUTION_PROFILE: PLANNING_ONLY_PROFILE
-FINAL_CODEX_HANDOFF: DEFERRED
-PRODUCT_CODE_AUTHORIZED: NO
+PRODUCT_CODE: NOT_AUTHORIZED
+CODEX: BLOCKED
+PR_READY: NO
+PR_MERGE: BLOCKED
 ```
