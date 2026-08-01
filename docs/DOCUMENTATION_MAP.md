@@ -71,7 +71,20 @@
 | 실제 구현·Legacy 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
 | 연결 Google Sheet | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `USER_FACING_GDD_WORKSPACE_CONTRACT` |
 
-## 4. Base 라우팅
+## 4. 역사·근거 라우팅
+
+다음 문서는 현재 제품 정본이 아니지만, 과거 결정·검토·실패 원인을 보존하는 필수 lineage다.
+
+| 자료 | 상태 | 현재 사용 |
+|---|---|---|
+| `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `HISTORICAL_REVIEW_EVIDENCE` | 과거 blocker·제품 코드 경계 확인 |
+| `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` | 통제감 가설·플레이테스트 입력 |
+| V2 integrated ledger/spec | `HISTORICAL_APPROVED_SOURCE / LATEST_OVERRIDES_APPLY` | 세부 계보와 보존 계약 |
+| PR #92/#97·F-30 | `HISTORICAL_APPROVED_SOURCE / LEGACY_PROVEN` | 과거 기술·수치 근거, 최신 exact 권위 아님 |
+
+이 자료를 삭제하거나 현재 제품 완료 증거로 승격하지 않는다.
+
+## 5. Base 라우팅
 
 ```text
 CURRENT_PROJECT_BASE = v9.1
@@ -83,7 +96,7 @@ BASE_V9_3_RELEASED_IN_BASE != BASE_V9_3_ADOPTED_BY_OMENWARD
 - Base v9.3은 별도 원자 migration package에서만 적용한다.
 - 과거 `docs/superpowers/plans/2026-07-31-base-v9-3-vertical-slice-v9-migration.md`는 `HISTORICAL_EXECUTION_CANDIDATE / DO_NOT_EXECUTE_CURRENTLY`다.
 
-## 5. 벨루 명칭
+## 6. 벨루 명칭
 
 ```text
 CANONICAL_NAME_KO = 벨루
@@ -93,7 +106,7 @@ HISTORICAL_ALIAS = 율비
 
 신규 UI·대사·에셋·데이터·파일명은 `벨루 / Belu / belu`를 사용한다.
 
-## 6. 비주얼·화면 작업
+## 7. 비주얼·화면 작업
 
 | 질문 | 책임 원본 | 상태 |
 |---|---|---|
@@ -114,7 +127,7 @@ HISTORICAL_ALIAS = 율비
 → 이미지 생성
 ```
 
-## 7. 현재 Decision
+## 8. 현재 Decision
 
 | Decision ID | 결정 | 상태 |
 |---|---|---|
@@ -129,7 +142,7 @@ HISTORICAL_ALIAS = 율비
 | `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | Red 명세·Legacy 판정 | `SPEC_WRITTEN_NOT_EXECUTED` |
 | `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1` | Base·GitHub·25개 Sheet·CI 전수 감사 | `CURRENT_REPOSITORY_WIDE_AUDIT` |
 
-## 8. 상태 판정
+## 9. 상태 판정
 
 ```text
 CURRENT_CANON != CURRENT_IMPLEMENTATION
@@ -143,7 +156,7 @@ CI_PARTIAL_FAILURE != VALIDATED
 GENERATED_IMAGE != APPROVED_ASSET
 ```
 
-## 9. Legacy 해석
+## 10. Legacy 해석
 
 | Legacy | 보존 | 최신 교체 |
 |---|---|---|
@@ -153,7 +166,7 @@ GENERATED_IMAGE != APPROVED_ASSET
 | Retry | 개발용 same-stage restart | 제품 영구재화 1회 Retry |
 | PR #92/#97 | 역사 승인·기술 계보 | 최신 exact building/economy 권위 아님 |
 
-## 10. 다음 작업
+## 11. 다음 작업
 
 ```text
 1. 현재 정본·Sheet read-back과 PR body 동기화
