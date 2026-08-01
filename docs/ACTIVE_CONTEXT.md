@@ -2,19 +2,18 @@
 
 - 갱신일: `2026-08-01`
 - 공식명: **오멘워드 / OMENWARD**
-- 현재 Work Mode: `PLAN`
-- 실행 프로필: `PLANNING_ONLY_PROFILE`
-- 현재 제품: `LEGACY_PROTOTYPE`
+- Work Mode: `PLAN`
+- 제품: `LEGACY_PROTOTYPE`
 - 최신 Vertical Slice: `APPROVED_CANON / NOT_IMPLEMENTED`
+- Screen Board V2: `TEXT_SPEC_CURRENT / IMAGE_NOT_GENERATED`
 - 제품 코드·Codex: `NOT_AUTHORIZED / BLOCKED`
 - PR: `#116 DRAFT / OPEN / NOT_MERGED`
-- CI: `BASE_ADOPTION_PASS / PROJECT_CORE_FAIL / GDD_SHEET_FAIL`
+- 마지막 관찰 CI: `BASE_ADOPTION_PASS / PROJECT_CORE_FAIL / GDD_SHEET_FAIL`
 - Runtime·사람 검증: `NOT_RUN / NOT_RUN`
 - 활성 Base: `v9.1`
-- 다음 권장 Base: `v9.3 / SEPARATE_ATOMIC_MIGRATION_REQUIRED`
-- 현재 감사 Decision: `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1`
+- 권장 다음 Base: `v9.3 / SEPARATE_ATOMIC_MIGRATION`
 
-## 1. 현재 기준선
+## 1. 기준선
 
 ```yaml
 project: OMENWARD / 오멘워드
@@ -23,9 +22,6 @@ engine: Godot 4.7 / GDScript / Compatibility
 viewport: 960x540
 window_override: 1920x1080
 scaling: integer
-work_mode: PLAN
-product_state: LEGACY_PROTOTYPE
-latest_vertical_slice: APPROVED_NOT_IMPLEMENTED
 current_branch: main
 context_baseline_commit: 774087dccc903bc9a8e2aec72eec2a2d13b216ce
 active_base_version: 9.1.0
@@ -34,126 +30,112 @@ active_base_evidence: dd20ad3852e264d7e337e34d2cb963f71053a6cb
 recommended_base_version: 9.3.0
 product_code_authority: NONE
 codex_execution: BLOCKED
-merge_authority: NOT_GRANTED
 ```
-
-`current_branch: main`과 `context_baseline_commit`은 Context가 비교하는 통합 기준선이다. 현재 Draft PR head를 자기참조로 고정하는 필드가 아니다.
 
 ## 2. 프로젝트 약속
 
-> **세 개의 물리 릴 구조를 건물과 TokenSource로 설계하고, 남은 무작위성을 감수해 얻은 병력을 세 전선 중 하나에 비가역적으로 커밋하며, 전투 결과의 원인을 다음 설계에 반영한다.**
+> 세 물리 릴을 건물과 TokenSource로 설계하고, 남은 무작위성을 감수해 얻은 병력을 한 전선에 비가역 커밋하며, 전투 결과의 원인을 다음 설계에 반영한다.
 
 ```text
 공세 예고
-→ 건설·TokenSource·세 물리 릴 설계
-→ 회전·세로 이동·영구 가로 이동
-→ SpinSnapshot·확정
-→ PendingReward 보관/판매/한 라인 배치
+→ 건설·세 물리 릴 설계
+→ 회전·이동·SpinSnapshot·확정
+→ PendingReward 보관/판매/배치
 → 세 라인 자동전투·고정시간 점령
-→ 정산·원인 복기·다음 Stage
+→ 정산·인과 복기
 ```
 
-## 3. 현재 승인 불변 조건
+## 3. 승인 불변 조건
 
-- 표준 MapRun 약 35분, 20 Stage, 4막.
-- 위험 Stage 5·10·15·20.
-- 하나의 전장, `top/middle/bottom` 3라인.
-- 건설 노드 종류 1개.
-- 본진 6노드/진영.
-- 중간 거점 `3라인 × 2진영 = 6곳`, 거점당 3노드.
-- 중앙 접전지 3곳, 건설 노드 0개.
-- 전체 건설 노드 `2×6 + 6×3 = 30`.
-- 세 물리 릴과 3×3 노출 보드.
-- 가로 이동은 TokenInstance 전체를 교환하며 영구 유지.
-- 이동권 소비 뒤 undo/reset 없음.
-- immutable `SpinSnapshot`.
-- 배치 후 라인 변경·회수·판매 없음.
-- 유닛 수·Tier·병종과 무관한 고정시간 점령.
+- 35분·20 Stage·4막·위험 Stage 5/10/15/20.
+- 하나의 전장·상/중/하 세 라인.
+- 본진 6노드/진영·중간 거점 6곳×3·접전지 0·전체 30노드.
+- 세 물리 릴·TokenInstance·cursor·3×3 노출 보드.
+- 가로 이동은 TokenInstance 전체를 영구 교환; 실행 뒤 undo/reset 없음.
+- immutable SpinSnapshot.
+- PendingReward 보관·판매·한 라인 배치; 배치 뒤 변경·회수·판매 없음.
+- 고정시간 점령.
 - 금고·농장·타워·병영·지휘소 5건물.
-- Stage 5 이후 MapRun당 최대 1회 제품 유료 재시도.
-- 안내자 정본명 `벨루 / Belu`; `율비`는 역사 별칭.
+- Stage 5 이후 MapRun당 최대 1회 제품 유료 Retry.
+- 정본 안내자 `벨루 / Belu`.
 
-## 4. 실제 구현 경계
+## 4. Screen Board V2
 
-현재 Godot 구현은 Legacy 기술 프로토타입이다.
+Decision: `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2`
 
 ```text
-CURRENT_IMPLEMENTATION
-- Main = Battlefield + Label HUD + StageSelect
+OM-IMG-011 메인·런 진입
+OM-IMG-012 Stage 준비·공세·건설
+OM-IMG-013 세 물리 릴 설계
+OM-IMG-014 PendingReward·보관·판매·배치
+OM-IMG-015 일반 세 라인 전투
+OM-IMG-016 Stage 15 경계파쇄자
+OM-IMG-017 Stage 정산·인과 복기
+OM-IMG-018 패배·제품 유료 재시도
+```
+
+- 통합 보드 권장 구도: `3-3-2`.
+- 기초 이미지 순서: `013 → 015`.
+- 정확 미확정 수치·재화명은 마스킹.
+- 상태 범례·기술 보고·RPG 인벤토리·영웅 파티 표현 금지.
+- 현재 이미지 생성은 시각자료 바이너리 이관 전까지 차단.
+
+## 5. 실제 구현 경계
+
+```text
+CURRENT_LEGACY
+- Battlefield + Label HUD + StageSelect
 - 독립 가중치 9칸 Roulette
-- 중앙 판정·8개 완성선·금화·등급 resolver
-- 병영·타워·농장 3건물
-- outpost당 front_a/front_b/rear 3노드
-- capture_power 합산 점령
-- pending reward·한 라인 배치 seam
-- 패배 후 무료 same-stage restart
+- 병영·타워·농장
+- front_a/front_b/rear
+- capture_power 점령
+- 무료 same-stage restart
 
-NOT_IMPLEMENTED
-- 본진 포함 30노드 topology
-- 세 물리 릴·cursor·TokenInstance lifecycle
-- 영구 가로 이동·immutable full SpinSnapshot transaction
-- 고정시간 점령
-- 5건물 최신 lifecycle·BLOCKED 거래
-- 20 Stage MapRun·checkpoint·제품 유료 Retry
-- 제품 화면·벨루 Runtime
+LATEST_NOT_IMPLEMENTED
+- 30노드 제품 topology
+- 세 물리 릴 lifecycle·영구 이동·full snapshot transaction
+- 고정시간 점령·5건물 거래
+- 20 Stage checkpoint·제품 paid Retry
+- Screen Board V2 제품 UI·벨루 Runtime
 ```
-
-```text
-LEGACY_PROVEN != LATEST_IMPLEMENTED != LATEST_PROVEN
-```
-
-## 5. 테스트·검증 상태
-
-- 최신 Red 테스트 명세: `WRITTEN`.
-- Legacy 보존·교체·폐기 판정: `WRITTEN`.
-- 실제 최신 test files: `NOT_CREATED`.
-- expected Red 실행: `NOT_RUN`.
-- 제품 Runtime·접근성·성능·사람 QA: `NOT_RUN`.
-- PR #116 workflow:
-  - Base v9 adoption: `PASS`.
-  - Project Core Documentation: `FAIL`.
-  - GDD Sheet Adoption: `FAIL`.
-
-PR을 ready 또는 merge 상태로 승격하지 않는다.
 
 ## 6. 현재 P1
 
-1. 프로젝트 정본 validator와 GDD Sheet test가 구형 문자열·Base SHA에 고정되어 현재 문서와 충돌.
-2. Sheet 일부 분야 탭이 역사 PR #92/#97을 현재 exact 권위처럼 표시.
-3. Base v9.3 Adapter 이관은 아직 실제 수행·검증되지 않음.
-4. Screen Board V2·경제/Retry/save exact 계약·실제 Red package가 미작성 또는 미실행.
+1. Project Core·GDD Sheet CI validator 실패.
+2. 최신 Red test files·expected failure 미실행.
+3. 경제·Retry·save/checkpoint exact 계약 미확정.
+4. 시각자료 바이너리 이관·Visual Index 재검증 미완료.
+5. Base v9.3 Adapter 원자 migration 미실행.
 
 ## 7. 우선 읽기
 
 1. `AGENTS.md`
-2. `docs/BASE_RULES_VERSION.md`
-3. `docs/DOCUMENTATION_MAP.md`
-4. `docs/PROJECT_CORE.md`
-5. `docs/audits/OMENWARD_BASE_PROJECT_SHEET_REPOSITORY_WIDE_AUDIT_2026-08-01.md`
-6. `docs/PROJECT_CANON_DECISION_LEDGER.md`
-7. `docs/DECISIONS_PENDING.md`
-8. `docs/testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md`
-9. `docs/testing/LEGACY_TEST_PRESERVE_REPLACE_RETIRE_MATRIX_2026-08-01.md`
-10. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-11. 실제 code/data/Scene/tests
-12. 연결 Google Sheet
+2. `docs/DOCUMENTATION_MAP.md`
+3. `docs/PROJECT_CORE.md`
+4. `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`
+5. `docs/design/screen-briefs/`
+6. `docs/images/VISUAL_REFERENCE_INDEX.md`
+7. `docs/PROJECT_CANON_DECISION_LEDGER.md`
+8. `docs/DECISIONS_PENDING.md`
+9. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+10. 실제 code/data/Scene/tests와 Sheet
 
-## 8. 다음 작업 순서
+## 8. 다음 작업
 
 ```text
-현재 Context·Sheet 의미 drift 동기화 완료
-→ Screen Board V2 화면별 독립 브리프·텍스트 명세
-→ 경제·Retry 비용·save/checkpoint Approval Bundle·시뮬레이션 계약
-→ 실제 최신 Red test Work Order·expected-failure package
-→ 별도 Base v9.3 Adapter 원자 마이그레이션 package
+Screen Board V2 Sheet 동기화·read-back
+→ 경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
+→ 시각자료 바이너리 이관·Visual Index 재검증
+→ OM-IMG-013 독립 이미지 중간 검수
+→ 최신 Red test Work Order·expected-failure package
+→ Base v9.3 원자 migration package
+→ validator Green
 → 사용자 승인 Codex 제품 구현 Plan
 ```
 
-현재 다음 단계는 **화면 이미지를 생성하는 작업이 아니라 Screen Board V2의 화면 구조·상태·정보 위계를 텍스트 명세로 확정하는 작업**이다.
-
 ```text
-NEXT_WORK_MODE: PLAN
 PRODUCT_CODE: NOT_AUTHORIZED
+IMAGE_GENERATION: BLOCKED
 CODEX: BLOCKED
 PR_READY: NO
 PR_MERGE: BLOCKED
