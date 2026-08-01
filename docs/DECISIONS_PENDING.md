@@ -22,11 +22,6 @@
 - [x] 전체 건설 노드 30개.
 - [x] 폐기 이미지·문서를 `REJECTED_EVIDENCE`로 보존.
 
-책임 원본:
-
-- `docs/operations/PROJECT_UNDERSTANDING_AND_OMISSION_PREVENTION_GATE_2026-08-01.md`
-- `docs/design/APPROVED_BATTLEFIELD_TOPOLOGY_AND_CONSTRUCTION_NODE_INVARIANTS_2026-08-01.md`
-
 ### 안내자 벨루
 
 결정 ID: `OMW-DEC-20260801-BELU-IDENTITY-V1`
@@ -37,9 +32,22 @@
 - [x] 신규 UI·대사·에셋·데이터·파일명은 `벨루 / Belu / belu` 사용.
 - [x] 벨루는 설명·경고·결과 반응을 제공하며 플레이어 결정을 대신하지 않음.
 
+### 최신 계약 테스트 게이트
+
+결정 ID: `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1`
+
+- [x] 최신 Vertical Slice Red 테스트 명세 작성.
+- [x] Legacy 테스트를 `PRESERVE / PRESERVE_SEAM / SPLIT_REPLACE / RETIRE_AS_CURRENT_GATE`로 판정.
+- [x] 30노드·세 물리 릴·고정시간 점령·5건물·제품 유료 Retry 테스트 책임 분리.
+- [x] 정확한 미확정 수치를 Red assertion에 임의 고정하지 않는 규칙 명시.
+- [ ] 실제 최신 Red 테스트 파일 작성.
+- [ ] 현재 Legacy에서 의도한 미구현 이유로 실패하는지 실행·증거 저장.
+- [ ] 테스트 파일별 구현 소유권과 Codex Work Order 확정.
+
 책임 원본:
 
-- `docs/design/APPROVED_BELU_GUIDE_IDENTITY_AND_NAMING_CONTRACT_2026-08-01.md`
+- `docs/testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md`
+- `docs/testing/LEGACY_TEST_PRESERVE_REPLACE_RETIRE_MATRIX_2026-08-01.md`
 
 ### 기존 승인 구조
 
@@ -53,21 +61,17 @@
 
 ## 2. 구현 전 P1 미확정
 
-### 2.1 최신 계약 Red 테스트 명세
+### 2.1 최신 계약 Red 실행 패키지
 
-- [ ] 건설 노드 종류 1개 테스트.
-- [ ] 본진 6노드/진영 테스트.
-- [ ] 중간 거점 6곳·거점당 3노드 테스트.
-- [ ] 중앙 접전지 노드 0개 테스트.
-- [ ] 전체 건설 노드 30개 테스트.
-- [ ] 세 물리 릴·3×3 노출 보드 테스트.
-- [ ] TokenSource가 세 릴에 토큰을 하나씩 공급하는 테스트.
-- [ ] 영구 가로 이동과 immutable snapshot 테스트.
-- [ ] 고정시간 점령 테스트.
-- [ ] 제품 유료 Retry와 개발 무료 Retry 분리 테스트.
-- [ ] Legacy 테스트 보존·교체·폐기 판정.
+- [ ] `tests/headless/latest/**` 실제 테스트 파일.
+- [ ] `tests/python/latest/**` repository boundary 테스트.
+- [ ] `tools/validate_latest_vertical_slice_contracts.py`.
+- [ ] 현재 Legacy에서 expected Red 실패 증거.
+- [ ] compile/import/timeout이 아닌 계약 미구현 실패임을 확인.
+- [ ] 기존 C1·C2·C3 validator의 archive 전환 시점.
+- [ ] CI expected-failure 단계와 Green 전환 절차.
 
-이 항목이 승인되기 전 Codex 제품 구현을 시작하지 않는다.
+이 항목이 승인·실행되기 전 Codex 제품 구현을 시작하지 않는다.
 
 ### 2.2 화면·UX·시각
 
@@ -154,17 +158,19 @@ DEFERRED = 이번 Vertical Slice 범위 밖의 명시적 보류
 HISTORICAL_RECORD = 과거 결정·PR·실험 기록
 REJECTED_EVIDENCE = 폐기됐지만 실패 원인 보존
 LEGACY_PROVEN = 과거 계약 실행 증거, 최신 구현 증거 아님
+RED_SPEC_WRITTEN != RED_TESTS_CREATED
+RED_TESTS_CREATED != EXPECTED_FAILURE_VERIFIED
+EXPECTED_FAILURE_VERIFIED != PRODUCT_IMPLEMENTED
 ```
-
-과거 승인 구조를 `PENDING`으로 되돌리지 않는다. 정확한 수치·스키마·콘텐츠만 미확정으로 관리한다.
 
 ## 5. 다음 순서
 
 ```text
-최신 계약 Red 테스트 명세
+Base 전체 현행 스킬·작업 구조 분석
+→ 프로젝트 GitHub·Google Sheet 전수 진행도 감사
+→ 적대적 검토와 남은 기획 보완
+→ 같은 Decision ID로 정본·Sheet 동기화
 → 화면 명세 보드 V2
-→ 대표 화면 중간 검수
-→ 경제·Retry 비용·save schema
-→ 독립 적대적 검토
-→ 사용자 승인 구현 Plan
+→ 실제 최신 Red 테스트 작성·실행 계획
+→ 사용자 승인 Codex 구현 Plan
 ```
