@@ -38,6 +38,8 @@
 | 종합 무결성·적대적 검토 | `reviews/OMENWARD_COMPREHENSIVE_PROJECT_INTEGRITY_REVIEW_2026-08-01.md` | `CURRENT_REVIEW_EVIDENCE` |
 | 승인 결정 동기화 | `operations/CANON_SYNC_PROTOCOL_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
 | 새 시스템·핵심 규칙·UX | `operations/BENCHMARK_FIRST_PLANNING_RULE_2026-07-31.md` | `CURRENT_PROJECT_WORK_RULE` |
+| 최신 구현 전 Red 계약 | `testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md` | `CURRENT_IMPLEMENTATION_GATE / SPEC_WRITTEN_NOT_EXECUTED` |
+| Legacy 테스트 마이그레이션 | `testing/LEGACY_TEST_PRESERVE_REPLACE_RETIRE_MATRIX_2026-08-01.md` | `CURRENT_MIGRATION_TEST_AUTHORITY` |
 
 열린 P0는 이미지 생성·제품 구현·최종 기획 승격·Codex 인계를 차단한다. 열린 P1은 관련 영역 작업을 차단한다.
 
@@ -56,6 +58,8 @@
 | 위험 Stage·보스 | `design/APPROVED_VERTICAL_SLICE_DANGER_STAGE_AND_BOSS_PACKAGE_2026-07-31.md` | `CURRENT_USER_APPROVED_PLAN / EXACT_VALUES_PENDING` |
 | 패배·유료 재시도 | `design/APPROVED_VERTICAL_SLICE_DEFEAT_AND_PAID_RETRY_PRINCIPLE_2026-07-31.md` | `CURRENT_USER_APPROVED_DETAIL / EXACT_COSTS_PENDING` |
 | 안내자 정체성·명칭 | `design/APPROVED_BELU_GUIDE_IDENTITY_AND_NAMING_CONTRACT_2026-08-01.md` | `CURRENT_USER_CONFIRMED_CANON` |
+| 최신 Red 테스트 명세 | `testing/LATEST_VERTICAL_SLICE_RED_TEST_SPEC_2026-08-01.md` | `SPEC_WRITTEN / TEST_FILES_NOT_CREATED` |
+| Legacy 테스트 판정 | `testing/LEGACY_TEST_PRESERVE_REPLACE_RETIRE_MATRIX_2026-08-01.md` | `CURRENT_MIGRATION_TEST_AUTHORITY` |
 | Decision·GitHub/Sheet 위치 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_LEDGER / SYNC_VERIFIED` |
 | 미확정 수치·콘텐츠 | `DECISIONS_PENDING.md` | `PENDING_ONLY` |
 | 실제 구현·Legacy 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
@@ -70,30 +74,29 @@ HISTORICAL_ALIAS = 율비
 IDENTITY_RELATION = SAME_CHARACTER
 ```
 
-- 신규 기획·UI·대사·에셋·데이터·파일명은 `벨루 / Belu / belu`를 사용한다.
-- `율비`는 과거 `요정 율비 시안.png` 파일명과 변경 이력에서만 역사 별칭으로 보존한다.
-- 안내자 역할·시각 승인 범위는 벨루 계약과 Visual Reference Index를 함께 읽는다.
+신규 기획·UI·대사·에셋·데이터·파일명은 `벨루 / Belu / belu`를 사용한다. `율비`는 과거 파일명과 변경 이력에서만 역사 별칭으로 보존한다.
 
 ## 5. 비주얼·화면 작업 라우팅
 
 | 질문 | 책임 원본 | 현재 상태 |
 |---|---|---|
-| 시각자료 상태·참고/금지 요소 | `docs/images/VISUAL_REFERENCE_INDEX.md` | `CURRENT_VISUAL_REFERENCE_ROUTER` |
+| 시각자료 상태·참고/금지 요소 | `images/VISUAL_REFERENCE_INDEX.md` | `CURRENT_VISUAL_REFERENCE_ROUTER` |
 | 벨루 정체성·명칭 | `design/APPROVED_BELU_GUIDE_IDENTITY_AND_NAMING_CONTRACT_2026-08-01.md` | `RESOLVED / BELU_CANON` |
 | 중간 이미지 점검 절차 | `reviews/APPROVED_MIDPOINT_IMAGE_REVIEW_GATE_2026-07-31.md` | `WORKFLOW_RETAINED / CURRENT_BATCH_REJECTED` |
 | 과거 화면 보드 V1 | `design/OMENWARD_VISUAL_SITUATIONAL_INGAME_SCREEN_SPEC_BOARD_2026-07-31.md` | `REJECTED_EVIDENCE / DO_NOT_REUSE` |
-| 새 화면 보드 V2 | 미작성 | `BLOCKED_PENDING_RED_TEST_SPEC_AND_BRIEF_APPROVAL` |
+| 새 화면 보드 V2 | 미작성 | `BLOCKED_PENDING_DEEP_AUDIT_AND_BRIEF_APPROVAL` |
 
 이미지 생성 전 순서:
 
 ```text
 Project Understanding Gate
+→ Base·프로젝트·Sheet 전수 감사
 → Battlefield Topology Contract
 → Roulette Core Rules
 → Belu Identity Contract
+→ Latest Red Test Spec
 → Current Implementation Status
 → Visual Reference Index
-→ 사용자 제공 실제 이미지
 → 화면별 독립 브리프
 → 사용자 확인
 → 생성
@@ -112,13 +115,15 @@ Project Understanding Gate
 | `OMW-DEC-20260731-VISUAL-SCREEN-BOARD-V1` | 과거 화면 보드 | `REJECTED_EVIDENCE` |
 | `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1` | 사실표·충돌 원장·6/3/0=30 | `CURRENT_WORK_RULE` |
 | `OMW-DEC-20260801-BELU-IDENTITY-V1` | 벨루·율비 동일 인물, 벨루 통일 | `CURRENT_USER_CONFIRMED_CANON` |
+| `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | 최신 Red 명세·Legacy 테스트 판정 | `SPEC_WRITTEN_NOT_EXECUTED` |
 
 ## 7. 동기화 증적
 
 ```text
-BELU_AUTHORITY_COMMIT: 214cedf259ee9ad848117a33dd70d62c4293bf27
-BELU_VERIFICATION_EVIDENCE_COMMIT: 5ba10618339f71336a63dee1435a53ead7014080
-SHEET_SYNC: PASS
+RED_TEST_AUTHORITY_COMMIT: 1aba7e9f5e3fbc4e93d0291a4a06f204d196ab7e
+RED_TEST_SHEET_SYNC: PASS
+RED_TEST_FILES: NOT_CREATED
+RED_TEST_EXECUTION: NOT_RUN
 PR_HEAD: PR_METADATA_OWNS_CURRENT_VALUE
 PR_MERGE: NOT_AUTHORIZED
 ```
@@ -128,31 +133,36 @@ PR_MERGE: NOT_AUTHORIZED
 ```text
 CURRENT_CANON != CURRENT_IMPLEMENTATION
 LEGACY_PROVEN != LATEST_PROVEN
+RED_SPEC_WRITTEN != RED_TESTS_CREATED
+RED_TESTS_CREATED != EXPECTED_FAILURE_VERIFIED
+EXPECTED_FAILURE_VERIFIED != PRODUCT_IMPLEMENTED
 USER_APPROVED_PLAN != PRODUCT_CODE_AUTHORIZED
 GENERATED_IMAGE != APPROVED_ASSET
 REJECTED_EVIDENCE != NOT_CREATED
 MIGRATION_PLANNED != MIGRATION_ADOPTED
 SYNCED_TO_PR_HEAD != SYNCED_TO_MAIN
-HISTORICAL_ALIAS != CURRENT_CANONICAL_NAME
 ```
 
 ## 9. Legacy 해석
 
 | Legacy | 보존 후보 | 최신 교체 필요 |
 |---|---|---|
-| C1 룰렛 | 중앙 판정·완성선·금화 resolver | 독립 9칸 → 세 물리 릴·snapshot·이동 |
+| C1 룰렛 | 중앙 판정·완성선·금화 resolver | 독립 가중 추첨 → 세 물리 릴·snapshot·이동 |
 | C2 전장 | 3라인·구조물 피해·승패 | capture_power·본진 노드 부재·30노드 미구현 |
-| C3 UX | snapshot→HUD·원인 보고 | 기술 Label HUD·제품 화면 부재 |
+| C3 UX | read-only snapshot·원인 보고 | 기술 Label HUD·legacy weight ledger |
 | Retry | 개발용 Stage restart seam | 제품 유료 1회 Retry와 분리 |
+
+상세 파일별 판정은 Legacy 테스트 판정표가 소유한다.
 
 ## 10. 다음 작업 라우팅
 
 | 순서 | 작업 | 선행 책임 원본 |
 |---:|---|---|
-| 1 | 최신 계약 Red 테스트 명세 | Project Core → Integrity Gate → 실제 Legacy tests |
-| 2 | 화면 명세 보드 V2 | 승인 Red 테스트 명세 → Topology → Roulette → Belu → Visual Index |
-| 3 | 대표 화면 중간 검수 | 화면별 독립 브리프 → 사용자 확인 |
-| 4 | 경제·Retry 비용·저장 schema | Benchmark-First → Pending → 시뮬레이션 계획 |
-| 5 | Codex 구현 Plan | 열린 관련 P1 해소 → 사용자 최종 승인 → Red tests |
+| 1 | Base 전체 현행 스킬·작업 구조 분석 | Base AGENTS·버전·라우터·skills·tests·CI |
+| 2 | Omenward GitHub·Sheet 전수 진행도 감사 | Project Core·PR #116·실제 파일·25개 Sheet 탭 |
+| 3 | 적대적 검토·남은 기획 보완 | 사실표·충돌 원장·Red 명세·Pending |
+| 4 | 동일 Decision ID 정본 동기화 | Canon Sync Protocol |
+| 5 | 화면 명세 보드 V2 | 감사 결과·Topology·Roulette·Belu·Visual Index |
+| 6 | 실제 Red 테스트 Work Order | Red 명세·Legacy 판정·사용자 승인 |
 
-현재 제품 코드 변경, Codex 실행, 새 이미지 생성과 PR 병합은 승인되지 않았다.
+현재 제품 코드 변경, 실제 테스트 생성·실행, Codex 실행, 새 이미지 생성과 PR 병합은 승인되지 않았다.
