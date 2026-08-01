@@ -1,7 +1,7 @@
 # 오멘워드 기획 정본 결정 원장
 
 - 갱신일: `2026-08-01`
-- 상태: `CURRENT_DECISION_LEDGER / PLANNING_ONLY`
+- 상태: `CURRENT_DECISION_LEDGER / PLANNING_ONLY / SYNC_VERIFIED`
 - 동기화 프로토콜: `docs/operations/CANON_SYNC_PROTOCOL_2026-07-31.md`
 - 연결 Sheet ID: `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
 - 제품 코드·Codex·병합: `NONE / BLOCKED / NOT_AUTHORIZED`
@@ -19,15 +19,17 @@
 | `OMW-DEC-20260801-BELU-IDENTITY-V1` | `CURRENT_CANON` | 정본명 벨루, 율비는 역사 별칭 |
 | `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | `SPEC_WRITTEN_NOT_EXECUTED` | 최신 Red 명세·Legacy 테스트 판정 |
 | `OMW-DEC-20260801-BASE-PROJECT-SHEET-AUDIT-V1` | `SYNC_VERIFIED` | Base·GitHub·25개 Sheet·CI 전수 감사 |
-| `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2` | `TEXT_SPEC_CURRENT / IMAGE_NOT_GENERATED` | 8개 독립 화면·공통 시각·정보 위계·생성 순서 |
+| `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2` | `TEXT_SPEC_CURRENT / SYNC_VERIFIED / IMAGE_NOT_GENERATED` | 8개 독립 화면·공통 시각·정보 위계·생성 순서 |
 
 ## 2. Screen Board V2 결정
 
 ```yaml
 decision_id: OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2
-status: RECOMMENDED_DEFAULT_APPROVED / TEXT_SPEC_CURRENT / IMAGE_NOT_GENERATED
+status: RECOMMENDED_DEFAULT_APPROVED / TEXT_SPEC_CURRENT / SYNC_VERIFIED / IMAGE_NOT_GENERATED
 authority_commit: 116f24bb3cbaf00b7de88ba71e77c2223d166928
 authority_path: docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md
+verification_commit: 46744f3ff3a3ce0bdb9552759d3ed6000fbdb238
+verification_path: docs/design/OMENWARD_VISUAL_SCREEN_BOARD_V2_SYNC_VERIFICATION_2026-08-01.md
 brief_paths:
   - docs/design/screen-briefs/OMENWARD_SCREEN_BRIEF_OM_IMG_011_RUN_ENTRY_2026-08-01.md
   - docs/design/screen-briefs/OMENWARD_SCREEN_BRIEF_OM_IMG_012_STAGE_PREPARATION_2026-08-01.md
@@ -37,24 +39,14 @@ brief_paths:
   - docs/design/screen-briefs/OMENWARD_SCREEN_BRIEF_OM_IMG_016_BOUNDARY_BREAKER_2026-08-01.md
   - docs/design/screen-briefs/OMENWARD_SCREEN_BRIEF_OM_IMG_017_SETTLEMENT_CAUSAL_RECAP_2026-08-01.md
   - docs/design/screen-briefs/OMENWARD_SCREEN_BRIEF_OM_IMG_018_DEFEAT_PAID_RETRY_2026-08-01.md
-image_ids:
-  - OM-IMG-011
-  - OM-IMG-012
-  - OM-IMG-013
-  - OM-IMG-014
-  - OM-IMG-015
-  - OM-IMG-016
-  - OM-IMG-017
-  - OM-IMG-018
-foundation_order:
-  - OM-IMG-013
-  - OM-IMG-015
+image_ids: [OM-IMG-011, OM-IMG-012, OM-IMG-013, OM-IMG-014, OM-IMG-015, OM-IMG-016, OM-IMG-017, OM-IMG-018]
+foundation_order: [OM-IMG-013, OM-IMG-015]
 visual_reference_binary_migration: PENDING
 image_generation: BLOCKED
 product_code: UNCHANGED
 runtime: NOT_RUN
 human_visual_review: NOT_RUN
-sheet_sync_status: PENDING
+sheet_sync_status: CANON_AND_SHEET_READBACK_PASS
 ```
 
 화면 구성:
@@ -102,7 +94,7 @@ last_observed_ci:
 ```text
 CURRENT_PRODUCT: LEGACY_PROTOTYPE
 LATEST_VERTICAL_SLICE: APPROVED_NOT_IMPLEMENTED
-SCREEN_BOARD_V2_TEXT: CURRENT
+SCREEN_BOARD_V2_TEXT: CURRENT_AND_SYNC_VERIFIED
 SCREEN_IMAGES_011_TO_018: NOT_GENERATED
 VISUAL_BINARY_MIGRATION: PENDING
 LATEST_RED_TEST_FILES: NOT_CREATED
@@ -116,8 +108,7 @@ PR_MERGE: BLOCKED
 ## 6. 다음 작업
 
 ```text
-Screen Board V2 Sheet 동기화·read-back
-→ 경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
+경제·Retry·save/checkpoint Approval Bundle·시뮬레이션 계약
 → 시각자료 바이너리 이관·Visual Index 재검증
 → OM-IMG-013 독립 이미지 중간 검수
 → 최신 Red test Work Order·expected-failure package
