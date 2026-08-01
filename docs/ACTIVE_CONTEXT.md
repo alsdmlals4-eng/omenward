@@ -122,3 +122,9 @@ NEXT_EXECUTION_PROFILE: PLANNING_ONLY_PROFILE
 FINAL_CODEX_HANDOFF: DEFERRED
 CODEX_BUILD: NOT_AUTHORIZED
 ```
+
+## Base v9.4 운영 계약
+
+- adapter에 Base `9.4.0` payload/evidence를 적용했다.
+- 제품 코드·데이터·Scene·Resource·자산·Sheet는 변경하지 않는다.
+- 런타임·입력·사람·provider 검증은 `NOT_RUN` 또는 `HUMAN_NOT_RUN`이다.

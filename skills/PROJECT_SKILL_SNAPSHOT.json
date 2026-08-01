@@ -5,7 +5,7 @@
   "base_registry": {
     "hash_definition": "RAW_FILE_BYTES_SHA256",
     "path": "skills/SKILL_REGISTRY.json",
-    "sha256": "e06003cb986e979aa46c06839de178c3fb9ff10bdf440e750712d90d6c5ae7bb"
+    "sha256": "693a0dff3f054ecdd653079909e044211473838e73dd9aff07734d1ce5694c59"
   },
   "base_routes": [
     {
@@ -51,6 +51,11 @@
     {
       "route_id": "managing-project-intake-and-work-contract",
       "skill_id": "managing-project-intake-and-work-contract",
+      "status": "ACTIVE"
+    },
+    {
+      "route_id": "optimizing-ai-model-and-prompt-costs",
+      "skill_id": "optimizing-ai-model-and-prompt-costs",
       "status": "ACTIVE"
     },
     {
@@ -157,6 +162,13 @@
       "source": "BASE_SHARED",
       "status": "ACTIVE",
       "target_route_id": "reviewing-and-validating-project-changes"
+    },
+    "optimizing-ai-model-and-prompt-costs": {
+      "route_id": "optimizing-ai-model-and-prompt-costs",
+      "skill_id": "optimizing-ai-model-and-prompt-costs",
+      "source": "BASE_SHARED",
+      "status": "ACTIVE",
+      "target_route_id": "optimizing-ai-model-and-prompt-costs"
     }
   },
   "generated": true,
@@ -192,6 +204,6 @@
   "source_registry": {
     "hash_definition": "RAW_FILE_BYTES_SHA256",
     "path": "skills/PROJECT_BASE_ADAPTER.json",
-    "sha256": "aba0b88f877cf916247f14f23f99db6f16d695b3689f0a2e9cc4cbca57903c49"
+    "sha256": "d78d44857378e18c07104786a505870fd2e8d08b67cf85a3c51036ce855bae62"
   }
 }
