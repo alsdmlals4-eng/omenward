@@ -5,6 +5,12 @@
   "status": "STRUCTURE_CURRENT_EXACT_VALUES_PENDING",
   "authority": "docs/design/APPROVED_OMENWARD_ECONOMY_RETRY_SAVE_CHECKPOINT_PLANNING_CONTRACT_2026-08-01.md",
   "simulation_contract": "docs/testing/OMENWARD_ECONOMY_META_RETRY_100K_SIMULATION_CONTRACT_2026-08-01.md",
+  "aliases": {
+    "STARTING_FOOD_CAP": {
+      "canonical_id": "RUN_START_FOOD_CAP",
+      "status": "COMPATIBILITY_ALIAS_DO_NOT_USE_IN_NEW_DATA"
+    }
+  },
   "value_policy": {
     "null_means": "NOT_APPROVED",
     "legacy_values_are_product_values": false,
@@ -27,91 +33,105 @@
       "domain": "maprun_economy",
       "type": "integer",
       "approved_value": null,
-      "constraints": [">= 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 160, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0"],
+      "legacy_h0": {"value": 160, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "RUN_START_FOOD_CAP",
       "domain": "food",
       "type": "integer",
       "approved_value": null,
-      "constraints": [">= 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 12, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0"],
+      "legacy_h0": {"value": 12, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "FREE_SPIN_START_COUNT",
       "domain": "roulette_economy",
       "type": "integer",
       "approved_value": null,
-      "constraints": [">= 0"]
+      "constraints": [">=0"]
     },
     {
       "id": "BASE_INCOME_AMOUNT",
       "domain": "maprun_economy",
       "type": "integer_gold",
       "approved_value": null,
-      "constraints": [">= 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 5, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0"],
+      "legacy_h0": {"value": 5, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "BASE_INCOME_INTERVAL_SECONDS",
       "domain": "maprun_economy",
       "type": "number_seconds",
       "approved_value": null,
-      "constraints": ["> 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 20, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">0"],
+      "legacy_h0": {"value": 20, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "CLASH_CONTROL_INCOME_AMOUNT",
       "domain": "maprun_economy",
       "type": "integer_gold_per_owned_clash",
       "approved_value": null,
-      "constraints": [">= 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 4, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0"],
+      "legacy_h0": {"value": 4, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "CLASH_CONTROL_INCOME_INTERVAL_SECONDS",
       "domain": "maprun_economy",
       "type": "number_seconds",
       "approved_value": null,
-      "constraints": ["> 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 60, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">0"],
+      "legacy_h0": {"value": 60, "source": "APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1", "authority": "HISTORICAL_ONLY"}
+    },
+    {
+      "id": "VAULT_INCOME_BY_TIER",
+      "domain": "building_economy",
+      "type": "integer_gold_per_interval_array",
+      "approved_value": null,
+      "constraints": ["NON_DECREASING", "MUST_NOT_MULTIPLY_ROULETTE_GOLD_REWARD"]
+    },
+    {
+      "id": "VAULT_INCOME_INTERVAL_SECONDS",
+      "domain": "building_economy",
+      "type": "number_seconds",
+      "approved_value": null,
+      "constraints": [">0"]
     },
     {
       "id": "PAID_SPIN_BASE_COST",
       "domain": "roulette_economy",
       "type": "integer_gold",
       "approved_value": null,
-      "constraints": ["> 0"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 20, "source": "LEGACY_ROULETTE_SERVICE", "authority": "LEGACY_PROVEN_ONLY"}]
+      "constraints": [">0"],
+      "legacy_h0": {"value": 20, "source": "LEGACY_ROULETTE_SERVICE", "authority": "LEGACY_PROVEN_ONLY"}
     },
     {
       "id": "PAID_SPIN_ACT_MULTIPLIER_A1",
       "domain": "roulette_economy",
       "type": "number_multiplier",
       "approved_value": null,
-      "constraints": ["> 0", "<= A2"]
+      "constraints": [">0", "<=A2"]
     },
     {
       "id": "PAID_SPIN_ACT_MULTIPLIER_A2",
       "domain": "roulette_economy",
       "type": "number_multiplier",
       "approved_value": null,
-      "constraints": [">= A1", "<= A3"]
+      "constraints": [">=A1", "<=A3"]
     },
     {
       "id": "PAID_SPIN_ACT_MULTIPLIER_A3",
       "domain": "roulette_economy",
       "type": "number_multiplier",
       "approved_value": null,
-      "constraints": [">= A2", "<= A4"]
+      "constraints": [">=A2", "<=A4"]
     },
     {
       "id": "PAID_SPIN_ACT_MULTIPLIER_A4",
       "domain": "roulette_economy",
       "type": "number_multiplier",
       "approved_value": null,
-      "constraints": [">= A3"]
+      "constraints": [">=A3"]
     },
     {
       "id": "FREE_SPIN_GOLD_REFERENCE_COST_POLICY",
@@ -149,13 +169,13 @@
       "domain": "roulette_economy",
       "type": "integer_or_item_unit",
       "approved_value": null,
-      "constraints": ["> 0"]
+      "constraints": [">0"]
     },
     {
       "id": "REEL_MOVE_COST_FORMULA",
       "domain": "roulette_economy",
       "type": "formula",
-      "approved_value": "NTH_EXECUTION_COST = N * REEL_MOVE_BASE_COST_P",
+      "approved_value": "NTH_EXECUTION_COST=N*REEL_MOVE_BASE_COST_P",
       "constraints": ["VERTICAL_AND_HORIZONTAL_SHARE_SESSION_COUNTER", "PREVIEW_COST_ZERO", "EXECUTION_IRREVERSIBLE"]
     },
     {
@@ -163,21 +183,21 @@
       "domain": "roulette_economy",
       "type": "nullable_integer_or_item_unit",
       "approved_value": null,
-      "constraints": ["NULL_MEANS_NO_CAP_CANDIDATE_NOT_APPROVED"]
+      "constraints": ["NULL_IS_UNDECIDED_NOT_NO_CAP"]
     },
     {
       "id": "STORAGE_BASE_CAPACITY",
       "domain": "reward_storage",
       "type": "integer_slots",
       "approved_value": null,
-      "constraints": [">= 1"]
+      "constraints": [">=1"]
     },
     {
       "id": "STORAGE_PROFILE_UNLOCK_TIER_COUNT",
       "domain": "profile_meta",
       "type": "integer",
       "approved_value": null,
-      "constraints": [">= 0", "HARD_CAP_REQUIRED"]
+      "constraints": [">=0", "HARD_CAP_REQUIRED"]
     },
     {
       "id": "STORAGE_PROFILE_UNLOCK_COSTS",
@@ -194,6 +214,13 @@
       "constraints": ["NON_NEGATIVE", "NON_DECREASING_BY_TIER_AND_GRADE", "NO_STABLE_ARBITRAGE"]
     },
     {
+      "id": "UNIT_SELL_SOURCE_MODIFIER_POLICY",
+      "domain": "reward_sale",
+      "type": "enum",
+      "approved_value": "NONE_BY_DEFAULT",
+      "constraints": ["SOURCE_KIND_DOES_NOT_CREATE_ARBITRAGE"]
+    },
+    {
       "id": "FARM_FOOD_CAP_BY_TIER",
       "domain": "food",
       "type": "integer_array",
@@ -205,66 +232,87 @@
       "domain": "food",
       "type": "integer_matrix",
       "approved_value": null,
-      "constraints": [">= 0", "STORED_REWARDS_COST_ZERO", "DEPLOYMENT_RESERVES_FOOD"]
+      "constraints": [">=0", "STORED_REWARDS_COST_ZERO", "DEPLOYMENT_RESERVES_FOOD"]
     },
     {
       "id": "BUILDING_BUILD_COST_BY_FAMILY_TIER",
       "domain": "building_economy",
       "type": "integer_gold_matrix",
       "approved_value": null,
-      "constraints": [">= 0"]
+      "constraints": [">=0"]
     },
     {
-      "id": "BUILDING_TIME_BY_FAMILY_TIER",
+      "id": "BUILDING_CONSTRUCTION_TIME_BY_FAMILY_TIER",
       "domain": "building_economy",
       "type": "number_seconds_matrix",
       "approved_value": null,
-      "constraints": ["> 0"]
+      "constraints": [">0"]
+    },
+    {
+      "id": "BUILDING_UPGRADE_COST_BY_FAMILY_TARGET_TIER",
+      "domain": "building_economy",
+      "type": "integer_gold_matrix",
+      "approved_value": null,
+      "constraints": [">=0"]
+    },
+    {
+      "id": "BUILDING_UPGRADE_TIME_BY_FAMILY_TARGET_TIER",
+      "domain": "building_economy",
+      "type": "number_seconds_matrix",
+      "approved_value": null,
+      "constraints": [">0"]
     },
     {
       "id": "BUILDING_HP_BY_FAMILY_TIER",
       "domain": "building_economy",
       "type": "number_matrix",
       "approved_value": null,
-      "constraints": ["> 0"]
+      "constraints": [">0"]
     },
     {
       "id": "REPAIR_HP_PER_SECOND_BY_FAMILY_TIER",
       "domain": "building_economy",
       "type": "number_matrix",
       "approved_value": null,
-      "constraints": ["> 0"]
+      "constraints": [">0"]
     },
     {
       "id": "REPAIR_GOLD_PER_HP_BY_FAMILY_TIER",
       "domain": "building_economy",
       "type": "number_matrix",
       "approved_value": null,
-      "constraints": [">= 0", "CHARGE_ONLY_FOR_HP_ACTUALLY_RESTORED"]
+      "constraints": [">=0", "CHARGE_ONLY_FOR_HP_ACTUALLY_RESTORED"]
+    },
+    {
+      "id": "DEMOLITION_TIME_BY_FAMILY_TIER",
+      "domain": "building_economy",
+      "type": "number_seconds_matrix",
+      "approved_value": null,
+      "constraints": [">0"]
     },
     {
       "id": "CANCEL_CONSTRUCTION_REFUND_RATE",
       "domain": "building_economy",
       "type": "ratio",
       "approved_value": null,
-      "constraints": [">= 0", "<= 1", "BASIS_ACTUAL_PAID", "FLOOR"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 0.7, "source": "APPROVED_V2_EXISTING_WORK_CANCEL_REFUND", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0", "<=1", "BASIS_ACTUAL_PAID", "FLOOR"],
+      "legacy_h0": {"value": 0.7, "source": "APPROVED_V2_EXISTING_WORK_CANCEL_REFUND", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "CANCEL_UPGRADE_REFUND_RATE",
       "domain": "building_economy",
       "type": "ratio",
       "approved_value": null,
-      "constraints": [">= 0", "<= 1", "BASIS_ACTUAL_PAID", "FLOOR"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 0.5, "source": "APPROVED_V2_EXISTING_WORK_CANCEL_REFUND", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0", "<=1", "BASIS_ACTUAL_PAID", "FLOOR"],
+      "legacy_h0": {"value": 0.5, "source": "APPROVED_V2_EXISTING_WORK_CANCEL_REFUND", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "COMPLETED_BUILDING_DEMOLITION_REFUND_RATE",
       "domain": "building_economy",
       "type": "ratio",
       "approved_value": null,
-      "constraints": [">= 0", "<= 1", "BASIS_APPROVED_DEMOLITION_PAYMENT_POLICY", "FLOOR"],
-      "legacy_candidates": [{"candidate_id": "H0", "value": 0.4, "source": "PR92_LINEAGE", "authority": "HISTORICAL_ONLY"}]
+      "constraints": [">=0", "<=1", "BASIS_APPROVED_DEMOLITION_PAYMENT_POLICY", "FLOOR"],
+      "legacy_h0": {"value": 0.4, "source": "PR92_LINEAGE", "authority": "HISTORICAL_ONLY"}
     },
     {
       "id": "PERMANENT_CURRENCY_CANONICAL_NAME",
@@ -285,21 +333,21 @@
       "domain": "paid_retry",
       "type": "integer_permanent_currency",
       "approved_value": null,
-      "constraints": ["> 0", "< RETRY_COST_TIER_2", "STAGE_RANGE_5_TO_10"]
+      "constraints": [">0", "<RETRY_COST_TIER_2", "STAGE_RANGE_5_TO_10"]
     },
     {
       "id": "RETRY_COST_TIER_2",
       "domain": "paid_retry",
       "type": "integer_permanent_currency",
       "approved_value": null,
-      "constraints": ["> RETRY_COST_TIER_1", "< RETRY_COST_TIER_3", "STAGE_RANGE_11_TO_15"]
+      "constraints": [">RETRY_COST_TIER_1", "<RETRY_COST_TIER_3", "STAGE_RANGE_11_TO_15"]
     },
     {
       "id": "RETRY_COST_TIER_3",
       "domain": "paid_retry",
       "type": "integer_permanent_currency",
       "approved_value": null,
-      "constraints": ["> RETRY_COST_TIER_2", "STAGE_RANGE_16_TO_20"]
+      "constraints": [">RETRY_COST_TIER_2", "STAGE_RANGE_16_TO_20"]
     },
     {
       "id": "PAID_RETRY_MAX_PER_MAPRUN",
@@ -322,7 +370,7 @@
       "domain": "save_schema",
       "type": "positive_integer",
       "approved_value": null,
-      "constraints": [">= 1", "VERSION_REQUIRED"]
+      "constraints": [">=1", "VERSION_REQUIRED"]
     },
     {
       "id": "CONTENT_MANIFEST_VERSION",
@@ -343,7 +391,7 @@
       "domain": "save_schema",
       "type": "positive_integer",
       "approved_value": null,
-      "constraints": [">= 1", "LAST_KNOWN_GOOD_REQUIRED"]
+      "constraints": [">=1", "LAST_KNOWN_GOOD_REQUIRED"]
     },
     {
       "id": "SUPPORTED_MIGRATION_RANGE",
@@ -354,7 +402,7 @@
     }
   ],
   "transaction_contracts": {
-    "paid_retry_idempotency_key": "profile_id + run_id + checkpoint_id + retry_index",
+    "paid_retry_idempotency_key": "profile_id+run_id+checkpoint_id+retry_index",
     "journal_states": ["PREPARED", "APPLIED", "COMMITTED", "ROLLED_BACK"],
     "checkpoint_stable_boundaries": [
       "MAPRUN_INITIAL_PREPARATION",
