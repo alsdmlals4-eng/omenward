@@ -13,7 +13,7 @@ pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
 current_planning_pr: NONE
 last_merged_planning_pr: 121
-base: 9.4.2_RELEASED
+base: 9.4.3_RELEASED
 current_product: LEGACY_PROTOTYPE
 latest_planning: MERGED_TO_MAIN_NOT_IMPLEMENTED
 product_code_authority: NONE
