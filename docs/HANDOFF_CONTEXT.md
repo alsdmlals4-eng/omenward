@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: META_PROGRESSION_SYNC_AND_NEXT_GRILL_ME
+phase: WORLD_RUN_MOTIVATION_GRILL_ME_READY
 recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -16,8 +16,8 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-sheet_sync: PENDING_META_DECISION_SYNC
-ci_validation: PREVIOUS_HEAD_3_GREEN / CURRENT_HEAD_PENDING
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
+ci_validation: META_DECISION_CONTENT_HEAD_2DA4E1BE_3_GREEN / FINAL_PR_HEAD_GATED
 ```
 
 ## 1. 가장 먼저 알아야 할 것
@@ -28,10 +28,10 @@ ci_validation: PREVIOUS_HEAD_3_GREEN / CURRENT_HEAD_PENDING
 4. PR #116은 역사적 승인 근거로만 보존되고 닫혔으며 병합되지 않았다.
 5. PR #119가 현재 정본 복구·총기획 Draft PR이다.
 6. 최신 기획은 제품에 구현되지 않았다. 실제 제품은 Legacy 9칸 룰렛·3건물·capture_power·무료 Stage retry다.
-7. 첫 Grill Me에서 Profile 영구 성장 역할이 사용자 승인됐다.
+7. 첫 Grill Me에서 Profile 영구 성장 역할이 사용자 승인됐고 GitHub·Sheet 내용 read-back이 통과했다.
 8. 상세 수치는 `RECOMMENDED_DEFAULT/TEST_VALUE`로 제시하고 simulation·playtest·사용자 승인 뒤 제품값으로 승격한다.
 9. 중요한 기획 충돌만 Grill Me로 한 번에 하나씩 결정한다.
-10. 한 Decision이 승인되면 GitHub와 Sheet를 같은 ID·commit으로 동기화한 뒤 다음 질문으로 간다.
+10. 한 Decision이 승인되면 GitHub와 Sheet를 같은 ID로 동기화하고 exact PR HEAD를 Sheet·PR에서 추적한 뒤 다음 질문으로 간다.
 
 ## 2. 보호할 프로젝트 코어
 
@@ -139,8 +139,7 @@ SHEET_SYNCED != RUNTIME_VALIDATED
 ## 9. 바로 다음 작업
 
 ```text
-Meta Decision GitHub·Sheet 동일 ID 동기화·재조회
-→ Grill Me #2: 세계·플레이어 동기와 20 Stage 반복
+Grill Me #2: 세계·세력·플레이어 동기와 20 Stage 반복
 ```
 
-동기화 완료 전 다음 Grill Me를 확정 Decision으로 진행하지 않는다.
+Meta Decision의 exact PR HEAD·CI·Sheet 상태는 PR #119와 Sheet `00`, `02`, `99`에서 확인한다.
