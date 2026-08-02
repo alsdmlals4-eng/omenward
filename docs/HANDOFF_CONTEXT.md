@@ -4,9 +4,9 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: GAMEPLAY_HERO_POWER_BUDGET_GRILL_ME_READY
+phase: GAMEPLAY_HERO_ABILITY_ACTIVATION_GRILL_ME_READY
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
@@ -17,7 +17,7 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 8
+current_grill_me_count: 9
 future_merge_cadence: 10
 ```
 
@@ -44,6 +44,8 @@ future_merge_cadence: 10
 - 이름 지정 영웅의 사망 후 재출전에는 **사망 이후 룰렛에서 새로 확정된 동병종 `[영웅]` 등급 토큰**이 필요하다.
 - 사망 전에 보관한 `[영웅]` 등급 토큰은 원본 영웅 등급 병종으로 사용할 수 있지만 이름 지정 영웅 재출전에는 사용할 수 없다.
 - 사망 이후 적격 토큰으로 만든 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 새 인스턴스로 시작하고 이전 사망 상태를 승계하지 않는다.
+- 이름 지정 영웅은 원본 `[영웅]` 등급 병종의 순수 상위호환이 아니라 유사한 평균 총 전투 예산을 가진 조건부 고점형 전문화 sidegrade다.
+- 모든 영웅은 전술 정체성·고점 조건·고점 보상·명시적 약점·원본 병종 선택 사유를 가져야 한다.
 
 ## 2. MapRun·Stage·Wave·정비시간 계약
 
@@ -103,6 +105,11 @@ future_merge_cadence: 10
 - 적격 토큰은 `created_sequence > previous_hero.ended_sequence`를 만족해야 한다.
 - 새 인스턴스는 최대 HP, 쿨다운 0, 능력 기본 충전, 능력 초기 고유 자원으로 시작한다.
 - 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태를 승계하지 않는다.
+- 이름 지정 영웅과 원본 영웅 등급 병종은 대표 상황 전체에서 유사한 평균 총 전투 예산을 목표로 한다.
+- 이름 지정 영웅은 명확한 조건에서 더 높은 고점을 제공하지만 조건이 맞지 않을 때는 안정성·범용성·지속력·대응 폭 중 하나 이상이 낮아야 한다.
+- 피해·생존·사거리·제어·지원이 동시에 우세하고 실질적 약점이 없는 영웅은 금지한다.
+- 같은 병종에 여러 영웅이 있으면 서로 다른 선택 조건·약점·대응 압력을 가져야 한다.
+- 원본 영웅 등급 병종은 낮은 조건 의존도·높은 일관성·넓은 범용성을 고유 장점으로 유지한다.
 
 ## 4. 보호할 코어
 
@@ -132,6 +139,7 @@ future_merge_cadence: 10
 - 영웅은 수동 퇴각·교대할 수 없으며 사망·MapRun 종료로만 active 상태를 종료한다.
 - 영웅 사망은 회수 보상이나 무료 재출전권을 제공하지 않는다.
 - 사망 후 재출전은 사망 이후 룰렛에서 새로 확정된 적격 영웅 등급 토큰을 요구한다.
+- 영웅 해금은 순수 상위호환을 구매하는 것이 아니라 조건부 전문화 선택지를 명부에 추가한다.
 - 허브 병영: 병사·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 금지: 랜덤 유료 영입, 중복 합성, 무한 레벨, 전 구간 배율, 숨은 릴 확률, 자동 플레이.
@@ -148,6 +156,7 @@ future_merge_cadence: 10
 - `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -181,19 +190,20 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - post-death matching Hero-grade Roulette result required for named-Hero redeployment
 - pre-death stored Hero-grade token cannot qualify for named-Hero redeployment
 - eligible post-death token creates a fresh full-state Hero instance
+- named Heroes are conditional-peak specialized sidegrades with comparable average total combat budget and explicit weaknesses
 ```
 
 ## 8. Grill Me 운영
 
-- 현재 승인 카운터는 `8/10`이다.
+- 현재 승인 카운터는 `9/10`이다.
 - 10번째 승인 시 병합 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 9. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
-= 이름 지정 영웅은 원본 [영웅] 등급 병종과 비교해 순수 상위호환인가, 같은 총 전투 예산을 다른 능력 구조로 교환하는 전문화 sidegrade인가
+OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+= 이름 지정 영웅의 고유 능력은 오토배틀 규칙에 따라 자동 발동하는가, 플레이어가 직접 수동 발동하는가, 또는 혼합 구조인가
 ```
 
 ```text
