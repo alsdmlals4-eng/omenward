@@ -12,8 +12,8 @@ recovery_pr: 119
 superseded_planning_pr: 116
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-sheet_sync: WORLD_RUN_SYNC_IN_PROGRESS
-ci_validation: PENDING_CURRENT_HEAD
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
+ci_validation: CURRENT_HEAD_PENDING
 ```
 
 이 문서는 **현재 승인 Decision과 상태**만 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 라우팅은 `DOCUMENTATION_MAP.md`가 소유한다.
@@ -37,7 +37,7 @@ RECOMMENDED_DEFAULT
 
 | Decision ID | 상태 | 현재 결정 | 권위·계보 | 구현·검증 |
 |---|---|---|---|---|
-| `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | `USER_APPROVED / CURRENT / SYNC_IN_PROGRESS` | 각 MapRun은 징조로 감지된 별개의 실제 경계 공세이며, 징조는 제한된 예측 정보다. 승리는 한 균열·침공로 봉쇄, 패배는 전진 방어선 붕괴이며 시간 반복·가상 시뮬레이션이 아니다 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | 세계 상세·서사 콘텐츠·runtime·human 검증 미실행 |
+| `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | `USER_APPROVED / CURRENT / CONTENT_SYNCED` | 각 MapRun은 징조로 감지된 별개의 실제 경계 공세이며, 징조는 제한된 예측 정보다. 승리는 한 균열·침공로 봉쇄, 패배는 전진 방어선 붕괴이며 시간 반복·가상 시뮬레이션이 아니다 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | 세계 상세·서사 콘텐츠·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | `USER_APPROVED / CURRENT / CONTENT_SYNCED` | 수평 해금·제한 편의를 주축으로 하고 한 런 1개·유한 랭크·초반 한정의 선택형 준비 보정으로 소규모 영구 전투력을 포함 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | exact values·simulation·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / SYNCED` | Base v9.4와 현재 main에서 깨끗한 정본 복구 PR을 만들고 PR #116은 역사 증거로 대체 | recovery audit, PR #119, connected Sheet | 문서·Sheet sync·CI Green, 제품 변경 없음 |
 | `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | `INHERITED_USER_APPROVED_PLAN` | 전장 1개·4막·Stage 20·일반 공세 8·위험 패키지 4·보스 패키지 3·미션 카드 12 | PR #116 승인 계보 | 미구현·미검증 |
@@ -174,9 +174,10 @@ BASE_V9_4_CURRENT: PASS
 PR_116_CLOSED_NOT_MERGED: PASS
 PR_119_CURRENT_DRAFT: PASS
 PRODUCT_PATH_CHANGES: 0
-WORLD_RUN_GITHUB_SYNC: IN_PROGRESS
-WORLD_RUN_SHEET_READBACK: PENDING
-EXACT_PR_HEAD: TRACK_IN_PR_AND_SHEET_AFTER_SYNC
+WORLD_RUN_GITHUB_CONTENT_SYNC: PASS
+WORLD_RUN_SHEET_READBACK: PASS
+EXACT_PR_HEAD: TRACKED_IN_PR_AND_SHEET
+CURRENT_HEAD_CI: PENDING
 RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```
 
