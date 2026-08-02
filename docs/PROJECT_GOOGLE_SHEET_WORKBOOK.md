@@ -26,7 +26,7 @@ PROPOSED_SHEET_CHANGE
 
 GitHub 기획 정본과 연결 Google Sheet는 같은 Decision ID와 같은 PR HEAD를 사용한다. `PROPOSED_SHEET_CHANGE`는 승인된 기획 변경을 같은 Decision ID로 기록하고 bounded read-back으로 검증하는 운영 계약이다.
 
-Workbook 파일 자체에 현재 커밋 SHA를 고정하면 그 기록 커밋이 다시 HEAD를 이동시키므로, **최종 exact HEAD와 CI run은 Workbook 본문에 자기참조 방식으로 고정하지 않는다.** 실행 시점의 PR #129 메타데이터와 연결 Sheet `00_프로젝트_허브`, `02_현재_확정결정`, `05_GDD_요약`, `99_변경이력`에서 해석한다.
+Workbook 파일 자체에 현재 커밋 SHA를 고정하면 그 기록 커밋이 다시 HEAD를 이동시키므로, 최종 exact HEAD와 CI run은 Workbook 본문에 자기참조 방식으로 고정하지 않는다. 실행 시점의 PR #129 메타데이터와 연결 Sheet `00_프로젝트_허브`, `02_현재_확정결정`, `05_GDD_요약`, `99_변경이력`에서 해석한다.
 
 ```text
 USER_APPROVED_PLAN
