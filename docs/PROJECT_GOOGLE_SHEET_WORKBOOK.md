@@ -13,7 +13,7 @@ working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / ACTIVE_DECISION_SYNC
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
 current_grill_me_count: 3
 next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 last_full_audit: 2026-08-02
@@ -72,14 +72,40 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
 - 배치 확정 전 취소 가능, 확정 뒤 undo·회수·판매·라인 변경 불가다.
 - 동일 영웅 중복 배치와 동병종 활성 상한은 pending이다.
 
-## 4. 기존 승인 연결
+## 4. 동기화 증거
+
+```text
+PR #121 verified head before workbook closure commit:
+398aee3106df166c5909d808c78531a213a64c6b
+
+SHEET_BOUNDED_READBACK: PASS
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 534: PASS
+- GDD Sheet Adoption run 243: PASS
+- Base v9 adoption run 218: PASS
+```
+
+동기화 범위:
+
+- `00_프로젝트_허브!E2:L2`
+- `01_작업순서!A17:N18`
+- `02_현재_확정결정!A26:M27`
+- `04_누락_충돌_감사!A59:H67`
+- `05_GDD_요약!A8:J9`
+- `15_조작_게임규칙!A6:J7`
+- `41_성장_경제!A18:I19`
+- `50_메인콘텐츠!A13:J13`
+- `60_UX_UI_접근성!A13:J14`
+- `99_변경이력!A27:H28`
+
+## 5. 기존 승인 연결
 
 - 주점·허브 병영·연구는 유한 공개 영구 노드다.
 - 영웅 해금은 랜덤 뽑기·유료 재굴림·중복 합성이 아니다.
 - 세계관은 균열에서 넘어온 이계 생물종 수준으로 최소 노출한다.
 - 게임 코어는 세 물리 릴 설계와 한 전선 비가역 커밋이다.
 
-## 5. 동기화 절차
+## 6. 동기화 절차
 
 ```text
 사용자 승인
@@ -94,7 +120,7 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
 
 `PARTIAL_SYNC_BLOCKED`, `SYNC_CONFLICT`, `OPEN_P0_OR_P1`이면 다음 중요 Decision 또는 병합으로 진행하지 않는다.
 
-## 6. 권위 매핑
+## 7. 권위 매핑
 
 | 의미 | GitHub 책임 원본 |
 |---|---|
@@ -111,7 +137,7 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
 | 현재 작업 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 
-## 7. 금지
+## 8. 금지
 
 - Sheet-only 변경을 승인 Decision으로 처리.
 - 영웅 해금을 모든 런의 자동 효과로 처리.
@@ -121,10 +147,10 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
 - 영웅 미해금을 이유로 원본 영웅 등급 병종을 불완전하게 설계.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
 
-## 8. 현재 상태
+## 9. 현재 상태
 
 ```text
-SHEET_STATUS = ACTIVE_DECISION_SYNC
+SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 GRILL_ME_COUNTER = 3_OF_10
 NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
