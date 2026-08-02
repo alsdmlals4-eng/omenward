@@ -2,116 +2,88 @@
 
 ```yaml
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1
-approved_at: 2026-08-02 21:45 KST
-refined_at: 2026-08-02 22:29 KST
-status: USER_APPROVED / REFINED_TO_FIVE_UNIQUE_SKILL_HEROES / NOT_IMPLEMENTED
-current_roster_authority: OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-ARCHETYPE-SELECTION-V1
-current_kit_authority: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1
+approved_at: 2026-08-02 21:59 KST
+refined_at: 2026-08-02 23:07 KST
+status: USER_APPROVED / REFINED_TO_FIVE_UNIQUE_SKILL_2 / NOT_IMPLEMENTED
+current_authority: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-REPLACEMENT-V1
 product_code_authority: NONE
-assets: NOT_CREATED
-simulation: NOT_RUN
-runtime_validation: NOT_RUN
-human_validation: NOT_RUN
 ```
 
-## 1. 현행 초기 검증 로스터
+## 1. 범위
 
-```text
-서로 다른 기존 UnitArchetype 5종
-→ 병종마다 이름 지정 영웅 1명
-→ 모든 영웅이 고유 자동 사용스킬 1개 보유
-→ 초기 검증 로스터 총 5명
-```
+초기 제작·검증 로스터는 서로 다른 기존 병종 5종에 이름 지정 `[영웅]` 1명씩, 총 5명이다.
 
 ```text
 INITIAL_NAMED_HERO_COUNT = 5
 INITIAL_SOURCE_ARCHETYPE_COUNT = 5
-HEROES_PER_SOURCE_ARCHETYPE = 1
-INITIAL_PASSIVE_VARIANT_COUNT = 0
-INITIAL_AUTOMATIC_ACTIVE_SKILL_COUNT = 5
+HEROES_PER_ARCHETYPE = 1
 INITIAL_ROSTER_IS_FINAL_RELEASE_CAP = FALSE
 ```
 
-이전 4명·2:2 및 5명·패시브 3/자동 스킬 2 분배는 최신 사용자 결정으로 대체됐다.
+초기 로스터는 방패병·궁병·사제·마법사·암살자다.
 
-## 2. 목적
+## 2. 키트 범위
+
+```text
+각 초기 영웅
+= 원본 [영웅] 등급의 강화 1스킬
++ 표준 2스킬을 교체한 고유 2스킬
++ 이름·초상·스킨·식별 VFX/SFX
+```
+
+- 추가 3번째 스킬 슬롯 없음.
+- 영웅 전용 패시브 없음.
+- 의무 능력치 하향 없음.
+- 원본 리그·기본 애니메이션·AI·기본 공격 재사용.
+
+## 3. 검증 목적
 
 초기 5명은 다음을 검증한다.
 
-- 원본 병종 자산 재사용.
-- 이름 지정 영웅의 고유 스킬 해금 보상.
-- 공개 trigger·대상 우선순위·tie-break·cooldown 또는 charge.
-- 다섯 병종의 서로 다른 자동 타기팅 문법.
-- 전역 활성 이름 지정 영웅 최대 1명 제한에서의 영웅 선택.
-- 스킬 발동 임팩트와 VFX/SFX 가독성.
+- 전열 유지.
+- 대공·고가치 표적 제거.
+- 아군 위기 복구.
+- 적 군집 붕괴.
+- 후열 핵심 제거.
+- 공통 cooldown·준비 대기 상태.
+- 전역 영웅 이상 슬롯과 세 전선 배치 기회비용.
+- 표준 영웅 < 해금 영웅 < 표준 전설 파워 계층.
+- 자산 재사용률과 고유 스킬 VFX/SFX 제작량.
 
-5명은 최종 출시 전체 로스터 수나 이후 확장 상한이 아니다.
-
-## 3. 공통 제작 계약
-
-각 초기 영웅은 다음 구조를 사용한다.
+## 4. 전역 제한
 
 ```text
-원본 [영웅] 등급 병종 성능·역할·기본 AI·리그·공통 애니메이션 재사용
-+ 영웅 이름·초상·스킨·식별 연출
-+ 고유 자동 사용스킬 1개
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
 ```
 
-- 영웅 전용 패시브는 사용하지 않는다.
-- 고유 스킬 대가로 의무 능력치 하향을 적용하지 않는다.
-- 고유 스킬 두 개 이상을 만들지 않는다.
-- 완전 신규 유닛 5종으로 제작하지 않는다.
+초기 해금 영웅 5명뿐 아니라 모든 표준 영웅·전설도 같은 슬롯을 사용한다.
 
-## 4. 검증 매트릭스
+## 5. 향후 해금 전설 제외
 
-| 검증 축 | 요구 |
-|---|---|
-| 병종 다양성 | 서로 다른 UnitArchetype 5종 |
-| 능력 유형 | 자동 고유 사용스킬형 5명 |
-| 전술 역할 | 기능·타기팅 중복 최소화 |
-| 전투력 | 원본 기본 성능 + 제한된 스킬 가치 |
-| 활성 제한 | 세 전선 전체 이름 지정 영웅 최대 1명 |
-| 자산 | 원본 리그·기본 애니메이션·AI 재사용 |
-| UX | 스킬·trigger·cooldown·자동 발동·1/1 슬롯 표시 |
-| 콘텐츠 | 각 타기팅 조건과 counter pressure 노출 |
+```text
+FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
+FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
+```
 
-측정 항목:
+향후 해금 전설의 슬롯 방향은 예약하지만 현재 초기 제작 수량·자산·스킬 설계·구현 범위에 포함하지 않는다.
 
-- 원본 대비 평균·고점 전투 기여.
-- 고유 스킬 발동 빈도·유효 적중률.
-- 영웅 간 선택률.
-- 자동 타기팅 결정론 오류.
-- 신규 자산량·자산 재사용률·제작 시간.
-- 특정 영웅의 전 맵 지배 여부.
+## 6. 성공 기준
 
-## 5. 적대적 검토
-
-- 다섯 영웅 모두 고유 스킬이므로 제작량이 증가한다. 공통 자동 스킬 데이터·UI·VFX 틀을 재사용한다.
-- 강제 상쇄가 없어 파워 크리프 위험이 있다. 전역 활성 1명·스킬 예산·콘텐츠 매트릭스로 통제한다.
-- 패시브를 숨은 기본 공격 효과로 되살리지 않는다.
-- 5명이 전체 출시 로스터로 오해되지 않도록 `INITIAL_VALIDATION_ROSTER`를 유지한다.
-
-## 6. 금지
-
-- 패시브형 영웅 배정.
-- 고유 스킬 없는 이름 지정 영웅.
-- 한 영웅에 독립 고유 스킬 두 개 이상.
-- 5명 전부 신규 리그·AI·전체 애니메이션 제작.
-- 초기 5명을 최종 출시 상한으로 해석.
-- 제품 구현·자산·simulation 완료를 문서 승인과 혼동.
+- 다섯 고유 2스킬의 발동 순간과 전선 결과가 즉시 식별된다.
+- 어떤 영웅도 모든 Stage·전선의 유일한 정답이 아니다.
+- 표준 전설은 모든 초기 해금 영웅보다 높은 전체 전투 고점을 유지한다.
+- 고등급 슬롯이 차 있을 때 새 영웅·전설 결과의 보관·판매가 의미 있는 선택이다.
+- 기본·일반 난이도는 해금 영웅 없이도 완료 가능하다.
+- 다섯 스킬이 다섯 완전 신규 유닛 제작으로 확대되지 않는다.
 
 ## 7. 구현 경계
 
 ```text
-USER_APPROVED = TRUE
-INITIAL_NAMED_HERO_COUNT = 5
-INITIAL_SOURCE_ARCHETYPE_COUNT = 5
-INITIAL_PASSIVE_COUNT = 0
-INITIAL_AUTOMATIC_ACTIVE_SKILL_COUNT = 5
-EXACT_ARCHETYPES = [shield_guard, archer, priest, mage, assassin]
+CURRENT_PRODUCT = LEGACY_PROTOTYPE
+PRODUCT_CODE = UNCHANGED
 EXACT_HERO_IDENTITIES = PENDING
-EXACT_SKILLS = PENDING
-PRODUCT_IMPLEMENTED = FALSE
+EXACT_UNIQUE_SKILL_2 = PENDING
+FUTURE_NAMED_LEGENDARY = NOT_NOW
 ASSETS = NOT_CREATED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
