@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 approved_at: 2026-08-02 16:11 KST
 approval: USER_DIRECT_APPROVAL
-status: USER_APPROVED_STRUCTURE / SINGLE_ACTIVE_EXIT_STAGE_AND_REDEPLOYMENT_RULES_APPROVED / NOT_IMPLEMENTED
+status: USER_APPROVED_STRUCTURE / SINGLE_ACTIVE_EXIT_STAGE_REDEPLOYMENT_AND_POWER_BUDGET_RULES_APPROVED / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -54,7 +54,7 @@ AND (
 
 1. 원본 `[영웅] 등급 병종 토큰`을 그대로 유지한다.
 2. 모든 변환 조건을 만족하면 같은 병종의 해금 영웅 목록을 열어 한 명을 선택한다.
-3. 변환 결과와 전선 배치 영향을 미리 확인한다.
+3. 원본 병종과 영웅의 안정적 강점·고점 조건·명시적 약점·전선 배치 영향을 비교한다.
 4. 상·중·하 중 한 전선을 선택하고 확정한다.
 
 확정 전에는 취소하거나 다른 동병종 영웅을 선택할 수 있다. 확정 뒤에는 토큰 변환과 전선 배치를 되돌리지 않는다.
@@ -83,11 +83,14 @@ ONE_ELIGIBLE_HERO_GRADE_TOKEN
 - 사망 후 재출전 변환은 토큰의 생성 sequence가 최신 영웅 사망 sequence보다 커야 한다.
 - 전선 배치는 기존 PendingReward의 한 전선 비가역 커밋 규칙을 따른다.
 
-## 5. 복수 동병종 영웅·단일 활성·퇴각 금지
+## 5. 복수 동병종 영웅·단일 활성·퇴각 금지·전투 예산
 
 - 한 병종에 여러 영웅을 해금할 수 있다.
 - 보관함의 영웅 선택 목록에는 해당 토큰과 병종이 일치하고 현재 provenance 조건을 만족하는 모든 해금 영웅을 표시한다.
-- 각 영웅은 단순 수치 상위호환이 아니라 다른 역할·조건·약점을 제공해야 한다.
+- 각 영웅은 원본 `[영웅]` 등급 병종과 유사한 평균 총 전투 예산을 가진 조건부 고점형 전문화 sidegrade다.
+- 각 영웅은 전술 정체성·고점 조건·고점 보상·명시적 약점·원본 병종을 선택할 합리적 상황을 가져야 한다.
+- 조건 불충족 시 안정성·범용성·지속력·대응 폭 중 하나 이상이 원본보다 낮아야 한다.
+- 피해·생존·사거리·제어·지원이 동시에 우세하고 실질적 약점이 없는 순수 상위호환은 금지한다.
 - 전장 전체에는 이름이 지정된 해금 영웅 유닛이 동시에 최대 1명만 존재할 수 있다.
 - 동일한 `hero_id`도 이전 인스턴스가 사망·완전 제거된 뒤 사망 이후 새 룰렛 결과에서 획득한 동병종 영웅 등급 토큰을 소비해 다시 배치할 수 있다.
 - 서로 다른 영웅도 기존 active hero가 남아 있는 동안에는 추가 배치할 수 없다.
@@ -100,6 +103,7 @@ ONE_ELIGIBLE_HERO_GRADE_TOKEN
 - 단일 활성·반복 출전: `APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
 - 퇴각·교대·종료 사건: `APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 - 사망 무회수·post-death 결과·새 인스턴스: `APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
+- 영웅 전투 예산·전문화·약점: `APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 
 ## 6. UX·데이터 책임
 
@@ -124,6 +128,11 @@ HeroConversionPreview:
   target_lane_id
   redeployment_provenance_eligible
   ineligible_reason
+  original_unit_stable_strengths
+  hero_tactical_identity
+  hero_peak_condition
+  hero_peak_payoff
+  hero_explicit_weakness
 
 HeroBattlefieldState:
   active_hero_unit_instance_id
@@ -133,6 +142,7 @@ HeroBattlefieldState:
 ```
 
 - 후보에는 이름·초상·연결 병종·핵심 역할·변환 후 변화·현재 사용 가능 여부를 표시한다.
+- 원본 병종의 안정적 강점과 영웅의 고점 조건·약점을 같은 비교 화면에서 보여 준다.
 - active hero가 있으면 후보를 `전장 영웅 1명 제한` 사유로 비활성화한다.
 - 사망 전 보관 토큰은 `사망 이후 새 영웅 등급 결과 필요` 사유로 이름 지정 영웅 후보를 비활성화한다.
 - 사망 전 토큰의 원본 영웅 등급 병종 사용은 차단하지 않는다.
@@ -149,8 +159,10 @@ HeroBattlefieldState:
 | 영웅 해금이 릴 확률을 직접 높인다 | 유효 | 룰렛은 익명 영웅 등급 병종 토큰만 생성, 해금은 보관함 변환 후보만 추가 |
 | 영웅 변경으로 병력이 하나 더 생긴다 | 유효 | 1토큰→1유닛 치환 불변식 |
 | 같은 병종 영웅이 여러 명이면 자유 직업 변경처럼 변한다 | 유효 | 모든 후보는 동일 UnitArchetype 고정 바인딩 |
-| 강한 영웅 하나가 모든 선택을 지배한다 | 유효 | 역할·조건·약점 기반 sidegrade, 반복 선택률 simulation 필요 |
-| 보관함 선택이 복잡해진다 | 유효 | 영웅 등급 토큰에서만 목록 노출, 동병종 후보만 필터링 |
+| 강한 영웅 하나가 모든 선택을 지배한다 | 유효 | 유사 평균 예산·조건부 고점·명시적 약점·반복 선택률 simulation 필요 |
+| DPS만 맞추고 제어·지원이 무료로 붙는다 | 유효 | 피해·생존·제어·지원·운용 조건을 포함한 다축 총 전투 예산으로 비교 |
+| 원본 병종은 영웅 해금 뒤 하위 버전이 된다 | 유효 | 원본은 높은 일관성·범용성·낮은 조건 의존도를 고유 장점으로 유지 |
+| 보관함 선택이 복잡해진다 | 유효 | 영웅 등급 토큰에서만 목록 노출, 동병종 후보만 필터링하고 고점 조건·약점 요약 제공 |
 | 영웅 미해금 플레이가 손해만 보는 미완성판이 된다 | 유효 | 원본 영웅 등급 토큰 사용 가능·기본 Profile 완주 유지 |
 | 사망 전 토큰을 쌓아 즉시 영웅 교대한다 | 유효 | 사망 후 재출전 변환은 post-death created_sequence 토큰만 허용 |
 | 같은 영웅을 여러 번 배치해 복제된다 | 사용자 승인 | 동시 활성은 1명, 사망 후 새 적격 토큰으로만 반복 출전 허용 |
@@ -160,8 +172,9 @@ HeroBattlefieldState:
 
 ## 8. 미확정 항목
 
-- 원본 `[영웅] 등급 병종 토큰`과 이름 지정 영웅의 정확한 power budget.
-- 영웅별 능력·등급·명단·수치.
+- 영웅 고유 능력의 자동·수동·혼합 발동 방식.
+- 영웅별 능력·등급·명단·정확 수치.
+- 전투 예산 산정식·시나리오 가중치·허용 편차.
 - 변환 UI의 정확한 화면 배치·키 입력.
 - 영웅 사망 연출·결과 로그.
 - post-death provenance 저장·Retry fault test.
@@ -169,8 +182,8 @@ HeroBattlefieldState:
 ## 9. 후속 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
-= 이름 지정 영웅과 원본 영웅 등급 병종의 총 전투 예산·전문화·약점 관계
+OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+= 이름 지정 영웅의 고유 능력은 자동 발동·수동 발동·혼합 구조 중 어느 방식인가
 ```
 
 ## 10. 상태 경계
@@ -185,6 +198,7 @@ STAGE_AND_ACT_TRANSITION: SAME_INSTANCE_REMAINS
 ACTIVE_SLOT_CLEAR: HERO_DEATH_OR_MAPRUN_END
 PRE_DEATH_STORED_TOKEN_FOR_REDEPLOYMENT: FORBIDDEN
 POST_DEATH_MATCHING_HERO_GRADE_RESULT: REQUIRED
+HERO_POWER_BUDGET: RESOLVED_BY_OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 EXACT_VALUES: PENDING
 SIMULATION: NOT_RUN
 RUNTIME: NOT_RUN
