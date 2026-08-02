@@ -8,11 +8,11 @@ phase: POST_MERGE_MAIN_CANONICAL
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-baseline_main: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
-current_pr: NONE
-last_merged_pr: 121
-last_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+current_planning_pr: NONE
+last_merged_planning_pr: 121
 base: 9.4.2_RELEASED
 current_product: LEGACY_PROTOTYPE
 latest_planning: MERGED_TO_MAIN_NOT_IMPLEMENTED
@@ -24,6 +24,8 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
 preflight: PR121_PASS_AND_MERGED
 ```
+
+`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 정본화한 역사적 증거다.
 
 ## 1. 최근 완료 작업
 
