@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: CANON_RECOVERY_AND_ADVERSARIAL_PLANNING
+current_phase: GRILL_ME_DECISION_INTAKE
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_branch: main
 context_baseline_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -17,9 +17,10 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-sheet_sync: READBACK_PASS_AT_PREVIOUS_HEAD / FINAL_HEAD_REFRESH_REQUIRED
+sheet_sync: SYNCED / EXACT_HEAD_RECORDED_IN_SHEET_AND_PR
 superseded_pr: 116
 recovery_pr: 119
+ci_validation: PROJECT_CORE_PASS / GDD_SHEET_PASS / BASE_ADOPTION_PASS
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
@@ -28,22 +29,21 @@ human_validation: NOT_RUN
 
 ## 1. 현재 작업
 
-현재는 제품 구현 단계가 아니다. PR #116에 누적된 승인 기획을 현재 `main`과 Base v9.4 기준으로 복구하고, GitHub와 Google Sheet를 같은 Decision ID로 동기화한 뒤 총기획을 재개한다.
+정본 복구·Sheet schema 보완·PR #116 대체·문서 검증기 호환성 복구가 완료되어, 검증된 핵심 기획 충돌을 Grill Me로 한 번에 하나씩 결정하는 단계다.
 
 ```text
-정본 복구
-→ 적대적 검토 finding 확정
-→ 안전한 누락·참조·상태 오류 보완
-→ 중요한 기획 충돌만 Grill Me
-→ 승인 즉시 GitHub·Sheet 동기화
-→ 다음 기획 질문
+적대적 검토 finding
+→ 중요한 기획 충돌 1개 선택
+→ Grill Me
+→ 사용자 승인
+→ GitHub·Sheet 동일 Decision ID 즉시 동기화
+→ 재조회
+→ 다음 기획 충돌
 ```
 
 ## 2. 프로젝트 약속
 
 > 공개된 세 전선의 공세를 읽고 건물과 TokenSource로 세 물리 릴의 미래 배열을 설계·영구 편집한 뒤, 얻은 병력을 한 전선에 비가역 커밋하고 결과 원인을 다음 설계에 반영한다.
-
-핵심 문구:
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
@@ -87,14 +87,15 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 
 ## 5. 현재 적대적 검토 결과
 
-### MUST_FIX / AUTO_FIX
+### AUTO_FIX 완료
 
-1. Base v9.1→v9.3 기록을 current Base v9.4로 복구.
-2. PR #116을 현행 병합 단위가 아닌 역사·승계 근거로 전환.
-3. Sheet의 오래된 PR HEAD와 `SYNCED_TO_PR_HEAD` 상태 수정.
-4. Active Context·Handoff·Documentation Map·Workbook의 current routing 복구.
+1. Base v9.4 current authority 복구.
+2. PR #116 closed/superseded, PR #119 current recovery authority.
+3. Sheet exact PR HEAD·Decision·상태 축 복구.
+4. Active Context·Handoff·Documentation Map·Workbook current routing 복구.
 5. 시험값·legacy값·승인값·구현값·검증값 상태 분리.
-6. 검증된 Sheet 열 밀림과 schema 불일치 수정.
+6. 검증된 Sheet 열 밀림과 schema 오류 수정.
+7. Project Core·GDD Sheet·Base adoption CI Green.
 
 ### USER_DECISION_REQUIRED
 
@@ -145,14 +146,14 @@ Profile 영구 성장은 무엇을 제공해야 하는가?
 ## 8. 다음 작업
 
 ```text
-호환성 validator Green
-→ 최종 GitHub HEAD·Sheet 재동기화
-→ Grill Me #1: Profile 영구 성장 역할
+Grill Me #1: Profile 영구 성장 역할
+→ 승인 Decision 즉시 GitHub·Sheet 동기화
+→ 다음 validated planning conflict
 ```
 
 ```text
 PRODUCT_CODE: UNCHANGED
 CODEX: BLOCKED
 PR_MERGE: NOT_REQUESTED
-FIRST_GRILL_ME: WAITING_FOR_FINAL_SYNC
+FIRST_GRILL_ME: READY
 ```
