@@ -4,9 +4,9 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: GAMEPLAY_HERO_STAGE_STATE_GRILL_ME_READY
+phase: GAMEPLAY_HERO_REDEPLOYMENT_GRILL_ME_READY
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
@@ -17,7 +17,7 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 6
+current_grill_me_count: 7
 future_merge_cadence: 10
 ```
 
@@ -37,6 +37,9 @@ future_merge_cadence: 10
 - 룰렛의 동병종 `[영웅]` 등급 토큰을 보관한 뒤 원본 유지 또는 해금 영웅 변환을 선택한다.
 - 세 전선을 합쳐 출전 중인 이름 지정 영웅은 동시에 최대 1명이다.
 - 배치한 영웅은 수동 퇴각·교대할 수 없고 Stage·Act·정비시간에도 살아 있는 동일 인스턴스로 유지된다.
+- 살아 있는 영웅의 현재 HP·남은 쿨다운·충전·사용 횟수·고유 자원은 Stage를 넘어 유지한다.
+- 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
+- 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 
 ## 2. MapRun·Stage·Wave·정비시간 계약
 
@@ -59,7 +62,7 @@ future_merge_cadence: 10
 - Wave 사이에는 기본 정비시간이 없고 Stage 종료 뒤 한 번만 발생한다.
 - 위험 Stage에서도 Stage 경계 정비시간은 존재한다.
 - 네 가지 운영 기능은 정비시간 전용이 아니며 Stage 진행 중에도 실시간 사용 가능하다.
-- 정비시간 중 경제·건설·수리·회복·쿨다운 clock matrix는 pending이다.
+- 영웅 clock 외 일반 경제·건설·수리 clock matrix는 pending이다.
 - MapRun 초기화는 RunState만 초기화하며 Profile 영구 해금은 유지한다.
 
 ## 3. 영웅 계약
@@ -72,6 +75,7 @@ future_merge_cadence: 10
 → active hero가 없으면 1토큰을 1영웅으로 치환
 → 한 전선에 비가역 배치
 → 살아 있는 동안 Stage·Act·정비시간을 넘어 유지
+→ Stage 정산에서 장기 상태 저장·전투 잔여물 제거
 → 사망·완전 제거 또는 MapRun 종료 시 슬롯 해제
 ```
 
@@ -85,7 +89,11 @@ future_merge_cadence: 10
 - 수동 퇴각·교대·판매·재보관·전선 이동은 불가다.
 - Stage·Act 전환과 정비시간만으로 영웅을 귀환시키거나 무료 교체하지 않는다.
 - 배치 확정 전에는 취소·후보 변경 가능, 확정 뒤 되돌릴 수 없다.
-- Stage 정산·정비시간·다음 Stage 사이 체력·쿨다운·상태 규칙은 pending이다.
+- 현재 HP·남은 쿨다운·충전·사용 횟수·고유 자원은 Stage를 넘어 현재 값 그대로 유지한다.
+- 일시 버프·디버프·타깃·어그로·시전 상태는 Stage 정산에서 초기화한다.
+- 투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
+- 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
+- 사망 후 새 토큰으로 출전하는 새 영웅 인스턴스의 초기 상태는 pending이다.
 
 ## 4. 보호할 코어
 
@@ -127,6 +135,7 @@ future_merge_cadence: 10
 - `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -154,19 +163,21 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - stored Hero-grade token conversion and irreversible deployment
 - one active Hero across all lanes; repeat deployment after slot clears
 - no manual Hero retreat or replacement; same instance persists across Stage, Act and MaintenancePhase
+- persistent Hero HP/cooldowns/charges/unique resources across Stage boundaries
+- transient Hero combat state cleared and Hero clocks paused during MaintenancePhase
 ```
 
 ## 8. Grill Me 운영
 
-- 현재 승인 카운터는 `6/10`이다.
+- 현재 승인 카운터는 `7/10`이다.
 - 10번째 승인 시 병합 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 9. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
-= Stage 정산·정비시간·다음 Stage 전환에서 살아 있는 영웅의 체력·쿨다운·버프·디버프·고유 자원을 어떻게 처리하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
+= 영웅 사망 뒤 새 영웅 등급 토큰으로 같은 영웅 또는 다른 영웅을 재배치할 때 새 인스턴스의 HP·쿨다운·충전·고유 자원은 어떤 초기값으로 시작하는가
 ```
 
 ```text
