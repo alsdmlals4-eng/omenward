@@ -7,14 +7,14 @@ spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG
 workbook_role: USER_FACING_GDD_WORKSPACE
 sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
+current_sync_decision: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 baseline_main_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
 recovery_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED / READBACK_PASS
-ci_validation: GDD_SHEET_ADOPTION_PASS
+sheet_status: PROJECT_SHEET_CONFIGURED / META_DECISION_SYNC_PENDING
+ci_validation: PREVIOUS_HEAD_3_GREEN / CURRENT_HEAD_PENDING
 last_full_audit: 2026-08-02
 ```
 
@@ -87,9 +87,28 @@ Sheet read-back status
 | System ID 누락으로 행 밀림 | `40` | `OM-S-04`, `OM-S-07` 복구, read-back PASS |
 | 사업 milestone 행이 헤더보다 넓음 | `90` | 8열 milestone schema로 정렬, read-back PASS |
 | `60_UX_UI_접근성` schema 오류 주장 | `60` | 재조회 결과 10열 일치, `REJECTED_CRITIQUE` |
-| simulator Work Order가 Decision과 혼동될 위험 | `02`, `04`, `99` | 계획 artifact이며 실행·제품값 권한 없음 |
 
-## 4. Decision 즉시 동기화
+## 4. 현재 Meta Decision
+
+Decision: `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1`
+
+```text
+PRIMARY = 수평 해금 + 제한된 편의
+SECONDARY = 선택형·상한형 준비 보정
+FORBIDDEN = 무한 영구 능력치 누적
+```
+
+Sheet는 다음을 명시한다.
+
+- 기본 Profile로 모든 콘텐츠 완료 가능.
+- 수평 해금은 sidegrade.
+- 시작 보관 편의는 hard cap.
+- 준비 보정은 한 런 1개·유한 랭크·시작/Act 1 중심.
+- Retry spendable balance와 준비 보정 milestone 해금 분리.
+- 정확 효과량·milestone·비용·재화명은 `EXACT_VALUES_PENDING`.
+- P0/P1/P2 simulation·runtime·human 검증은 `NOT_RUN`.
+
+## 5. Decision 즉시 동기화
 
 사용자가 주요 기획 Decision을 승인하면 다음을 한 흐름 안에서 수행한다.
 
@@ -105,7 +124,7 @@ Decision ID 생성 또는 재사용
 
 `PARTIAL_SYNC_BLOCKED` 또는 `SYNC_CONFLICT`이면 다음 주요 Grill Me 질문이나 제품 구현으로 진행하지 않는다.
 
-## 5. 상세 수치 셀 상태
+## 6. 상세 수치 셀 상태
 
 - `LEGACY_H0 / HISTORICAL_ONLY`
 - `RECOMMENDED_DEFAULT`
@@ -118,36 +137,35 @@ Decision ID 생성 또는 재사용
 
 빈칸이나 과거값을 제품 기본값으로 자동 해석하지 않는다.
 
-## 6. 현재 권위 매핑
+Meta candidate guardrail의 5 percentage points, 3~8 percentage points, 준비 보정 3개 후보, 랭크 2단계 후보는 제품 확정값이 아니다. 한 런 장착 1개만 승인 제약이다.
+
+## 7. 현재 권위 매핑
 
 | 의미 | GitHub 책임 원본 |
 |---|---|
 | 제품 코어 | `docs/PROJECT_CORE.md` |
 | 현재 승인 Decision | `docs/PROJECT_CANON_DECISION_LEDGER.md` |
-| 정본 복구·Finding·Grill Me 큐 | `docs/audits/OMENWARD_CANON_RECOVERY_AND_TOTAL_PLANNING_RESTART_2026-08-02.md` |
+| Profile 영구 성장 | `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` |
 | 실제 구현 | `docs/CURRENT_IMPLEMENTATION_STATUS.md`와 실제 파일 |
 | 작업 상태 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 | 인계 | `docs/HANDOFF_CONTEXT.md` |
 
-## 7. 동기화 완료 범위
+## 8. 이번 동기화 대상
 
-Decision: `OMW-DEC-20260802-CANON-RECOVERY-V1`
+- `00_프로젝트_허브!E2:L2`: 현재 Decision·다음 Grill Me·exact PR HEAD.
+- `01_작업순서!A10:N10`: Meta 승인 Bundle.
+- `02_현재_확정결정!A19:M19`: 같은 Decision ID와 승인 역할.
+- `04_누락_충돌_감사!E26:H26`: 기존 영구 성장 공백 해결 상태.
+- `04_누락_충돌_감사!A30:H32`: B 노가다·숨은 상위 호환·Retry 지갑 충돌 검토.
+- `41_성장_경제`: Profile·준비 보정·가드레일·저장 책임.
+- `99_변경이력!A19:H19`: GitHub path·commit·Sheet 범위·재검증.
 
-- `00_프로젝트_허브`: Base v9.4·TOTAL_PLANNING·recovery PR 상태.
-- `01_작업순서`: 정본 복구→Grill Me→기획 작성 순서.
-- `02_현재_확정결정`: recovery Decision과 PR #116 superseded 관계.
-- `03_근거_라이브러리`: recovery evidence와 열 정렬.
-- `04_누락_충돌_감사`: recovery finding ledger.
-- `40_핵심시스템_메인콘텐츠`: System ID 복구.
-- `90_본제작_출시_사업`: milestone schema 정렬.
-- `99_변경이력`: GitHub path·commit·read-back 결과.
-
-## 8. 금지
+## 9. 금지
 
 - Sheet-only 변경을 승인 Decision으로 처리.
-- PR #116의 과거 HEAD를 current recovery HEAD로 표시.
-- Base SHA와 project head를 같은 의미로 사용.
-- 승인 기획을 구현 완료로 표시.
+- PR #116의 과거 HEAD를 current HEAD로 표시.
+- 승인된 역할을 정확 수치 승인으로 확대.
+- 준비 보정을 직접 공격력·생산량 전 구간 배율로 확대.
 - 시험값을 제품 확정값으로 표시.
-- 이미지 계획·생성·승인·엔진 적용을 한 상태로 합침.
+- 승인 기획을 구현 완료로 표시.
