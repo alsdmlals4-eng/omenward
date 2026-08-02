@@ -10,6 +10,8 @@ current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-COOLDOW
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
+current_branch: main
+context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base_version: 9.4.3
@@ -29,7 +31,7 @@ runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. 승인 기획은 Draft PR #129에 누적하며 제품 구현 권한은 없다.
+`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. 승인 기획은 Draft PR #129에 누적하며 제품 구현 권한은 없다.
 
 ## 1. 제품 정체성·핵심 재미
 
@@ -45,7 +47,7 @@ human_validation: NOT_RUN
 → 다음 Stage 설계에 환류
 ```
 
-현재 제품은 Legacy 프로토타입이며 최신 승인 기획은 미구현이다.
+현재 제품은 Legacy 프로토타입이며 최신 승인 기획은 미구현이다. 룰렛 Evidence Pilot은 `PILOT_RECOMMENDATION / NOT_CANON`이며 현행 APPROVED 정본을 덮어쓸 수 없다.
 
 ## 2. 등급·전역 슬롯
 
