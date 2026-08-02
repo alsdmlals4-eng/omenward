@@ -8,13 +8,23 @@ current_decision: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-R
 current_pr: 129
 working_branch: gpt/omenward-hero-kit-planning-20260802
 grill_me_count: 6_of_10
-sheet_status: SYNC_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_PR_129_HEAD / READBACK_PASS / CI_REVALIDATION_PENDING
+workspace_mode: USER_FACING_GDD_WORKSPACE
+change_protocol: PROPOSED_SHEET_CHANGE
 product_code_authority: NONE
 ```
 
 ## 1. 동기화 목적
 
 GitHub 기획 정본과 연결 Google Sheet가 같은 Decision ID·같은 PR head·같은 상태 언어를 사용하도록 유지한다.
+
+```text
+PROJECT_SHEET_CONFIGURED
+USER_FACING_GDD_WORKSPACE
+PROPOSED_SHEET_CHANGE
+```
+
+`PROPOSED_SHEET_CHANGE`는 기획 변경을 GitHub 정본과 같은 Decision ID로 Sheet에 제안·기록하고 bounded read-back으로 검증하는 운영 계약이다.
 
 ```text
 USER_APPROVED_PLAN
@@ -55,7 +65,7 @@ FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
 
 ## 4. Sheet 반영 범위
 
-이번 Decision에서 다음 범위를 사용한다.
+이번 Decision에서 다음 범위를 사용했다.
 
 - `00_프로젝트_허브!E2:L2`
 - `01_작업순서!A33:N33`
@@ -72,9 +82,9 @@ FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
 - `70_아트_오디오_에셋!A11:J11`
 - `99_변경이력!A43:H43`
 
-쓰기 전 다음 빈 행과 기존 서식을 bounded read로 확인한다. 쓰기 뒤 같은 범위를 다시 읽어 값·Decision ID·PR SHA를 검증한다.
+쓰기 전 빈 행과 서식을 bounded read로 확인했고, 쓰기 뒤 같은 범위를 다시 읽어 값·Decision ID·PR SHA를 확인했다.
 
-## 5. Sheet에 기록할 핵심 불변식
+## 5. Sheet 핵심 불변식
 
 ```text
 HIGH_GRADE_ACTIVE_CAP = 1
@@ -96,7 +106,7 @@ FUTURE_UNLOCKED_NAMED_LEGENDARY = UPGRADED_SKILL_1 + UPGRADED_STANDARD_SKILL_2 +
 
 ## 6. 적대적 검토 기록
 
-Sheet 감사 탭에 다음을 기록한다.
+Sheet 감사 탭에 다음을 기록했다.
 
 - OMW-AUD-153: named-only 제한과 최신 전 등급 제한 충돌.
 - OMW-AUD-154: 고유 스킬 추가가 전설 계층 침범.
@@ -136,20 +146,32 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 최종 검증 체크리스트
+## 9. 검증 상태
 
-- [ ] GitHub와 Sheet에 같은 Decision ID.
-- [ ] Sheet에 exact PR head SHA.
-- [ ] bounded read-back PASS.
+```text
+SAME_DECISION_ID = PASS
+SHEET_BOUNDED_READBACK = PASS
+CANDIDATE_HEAD_CI_CORE = PASS / run 708
+CANDIDATE_HEAD_CI_BASE_V9 = PASS / run 409
+CANDIDATE_HEAD_CI_GDD_SHEET = FAILED_MISSING_REQUIRED_MARKER / run 428
+REMEDIATION = REQUIRED_MARKERS_RESTORED
+FINAL_EXACT_HEAD_CI = PENDING
+```
+
+## 10. 최종 검증 체크리스트
+
+- [x] GitHub와 Sheet에 같은 Decision ID.
+- [ ] Sheet에 최종 exact PR head SHA.
+- [x] bounded read-back PASS.
 - [ ] 필수 CI 3개 exact HEAD Green.
 - [ ] latest main 대비 behind 0.
 - [ ] changed paths가 문서 전용.
 - [ ] 제품 경로 0.
 - [ ] PR comments·reviews·unresolved threads 0 또는 해결.
 - [ ] Sheet `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 0.
-- [ ] PR #129 Draft 유지, 카운터 6/10.
+- [x] PR #129 Draft 유지, 카운터 6/10.
 
-## 10. 다음 Gate
+## 11. 다음 Gate
 
 ```text
 OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-2-CONCEPTS-V1
