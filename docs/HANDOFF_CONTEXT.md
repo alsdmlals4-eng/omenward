@@ -4,123 +4,101 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: POST_MERGE_MAIN_CANONICAL
+phase: HERO_SINGLE_DELTA_VARIANT_PLANNING
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-working_branch: NONE
-current_planning_pr: NONE
-last_merged_planning_pr: 121
+working_branch: gpt/omenward-hero-kit-planning-20260802
+current_planning_pr: 129
+last_merged_planning_pr: 127
 base: 9.4.3_RELEASED
 current_product: LEGACY_PROTOTYPE
-latest_planning: MERGED_TO_MAIN_NOT_IMPLEMENTED
+latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 0
+current_grill_me_count: 1
 future_merge_cadence: 10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
-preflight: PR121_PASS_AND_MERGED
+preflight: NEXT_AT_10_OF_10
 ```
 
-`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 정본화한 역사적 증거다.
+`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다.
 
-## 1. 최근 완료 작업
+## 1. 현재 승인 결정
 
-- PR #121을 exact HEAD `79cb43b71d0072374a9586bb66dd4a24c3b069a9`에서 최종 검증했다.
-- Project Core run 630, GDD Sheet run 347, Base v9 run 324가 통과했다.
-- latest main 대비 `ahead 117 / behind 0`, 문서 21개, 제품 경로 0개였다.
-- 댓글·리뷰·미해결 스레드는 모두 0이었다.
-- Sheet `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 검색 결과는 모두 0이었다.
-- PR #121은 squash 병합됐고 merge commit은 `8337a3eba5ff065b2a7c06c6a6256e5b4951c055`다.
+Decision ID:
 
-## 2. 현재 제품·기획 경계
-
-- 현재 제품은 Legacy 프로토타입이다.
-- 최신 승인 기획은 main 정본이지만 아직 구현되지 않았다.
-- 제품 코드·데이터·Scene·Resource는 PR #121에서 변경되지 않았다.
-- `APPROVED_PLAN != IMPLEMENTED != VALIDATED`를 유지한다.
-
-## 3. MapRun·영웅 정본
+`OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1`
 
 ```text
-맵 → MapRun → Stage → Wave → Stage 정산 → 정비시간
+원본 병종 [영웅] 등급 유닛
++ 영웅 전용 스킨·이름·최소 식별 연출
++ 패시브 1개 또는 자동 [사용스킬] 1개
+= 이름 지정 영웅
 ```
 
-- Stage와 정비시간 모두 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치가 가능하다.
-- 이름 지정 영웅은 기존 UnitArchetype에 고정 연결된다.
-- 동병종 `[영웅]` 등급 토큰을 원본 병종 또는 해금 영웅으로 1:1 변환한다.
+- 이름 지정 영웅은 완전 신규 유닛이 아니라 기존 `[영웅]` 등급 병종의 스킨형 전술 변주다.
+- 영웅 전용 차이는 정확히 하나다.
+- `PASSIVE XOR AUTOMATIC_ACTIVE_SKILL`이며 두 유형을 동시에 제공하지 않는다.
+- `[사용스킬]`은 기존 자동 발동 계약을 따르며 수동 버튼·수동 타깃이 아니다.
+- 원본 병종의 역할·기본 공격·사거리·이동·AI·리그·기본 애니메이션을 우선 재사용한다.
+- 기본적으로 고유 자원·궁극기·새 AI·새 전체 애니메이션 세트를 요구하지 않는다.
+- 외형 제작량은 스킨 수준을 목표로 하되 단일 차이는 실제 전술 선택을 바꿔야 한다.
+
+## 2. 전투 예산 경계
+
+- 이름 지정 영웅은 원본 `[영웅]` 등급 병종의 순수 상위호환이 아니다.
+- 패시브 또는 사용스킬의 가치는 기본 스탯·안정성·범용성에서 상쇄한다.
+- 원본 병종이 더 좋은 대표 상황을 최소 하나 유지한다.
+- 장식 전용 스킨과 신규 병종 수준의 과도한 차이를 모두 금지한다.
+
+## 3. 기존 생명주기 연결
+
+- 영웅은 기존 UnitArchetype에 고정 연결된다.
+- 동병종 `[영웅]` 토큰을 원본 병종 또는 이름 지정 영웅으로 1:1 변환한다.
 - 세 전선 전체 active 이름 지정 영웅은 최대 1명이다.
-- 수동 퇴각·교대·판매·재보관·전선 이동은 금지한다.
-- 생존 영웅은 HP·쿨다운·충전·고유 자원을 Stage 경계 너머로 유지한다.
-- 사망은 회수 보상을 제공하지 않으며 사망 이후 새 적격 토큰으로만 재출전한다.
-- 이름 지정 영웅은 원본 병종의 순수 상위호환이 아닌 조건부 고점형 전문화 sidegrade다.
+- 수동 퇴각·교대·판매·재보관·전선 이동은 금지다.
+- 사망 후 재출전에는 사망 이후 새 적격 토큰이 필요하다.
+- 생존 상태·Stage 경계·정비시간·저장 규칙은 기존 승인 계약을 따른다.
 
-## 4. 자동 능력 정본
+## 4. 책임 원본
 
-```text
-공개 trigger
-→ 고정 ability priority
-→ 공개 target priority·tie-break
-→ 유효성 재검증
-→ 자동 발동
-```
-
-- 수동 스킬 버튼·수동 타깃 지정은 없다.
-- 동일 저장 상태와 입력 순서는 동일한 능력·대상 결과를 만든다.
-- 저장·Retry를 통한 자동 판단 재굴림은 금지한다.
-
-## 5. 현재 책임 원본
-
-- `docs/PROJECT_CORE.md`
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
 - `docs/ACTIVE_CONTEXT.md`
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md`
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
 - `docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` — `PILOT_RECOMMENDATION / NOT_CANON`
-- `docs/design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
-- `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
 
-## 6. 앞으로의 동일 작업 규칙
+## 5. 적대적 검토 핵심
 
-- 중요 결정 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
-- 승인 10건마다 적대적 preflight를 실행한다.
-- 문서·기획 PR은 blocker 0·필수 CI Green·latest main 동기화·제품 경로 0이면 별도 승인 대기 없이 직접 병합한다.
-- blocker가 있으면 수정하고 다시 검증한다.
-- GitHub auto-merge는 사용하지 않는다.
-- 제품 코드 구현과 제품 코드 PR 병합은 이 standing authorization 범위 밖이다.
+- 패시브 안에 여러 독립 효과를 숨겨 제작량이 다시 증가하지 않는지 확인한다.
+- 사용스킬이 수동 조작으로 변질되지 않는지 확인한다.
+- 스킨형이라는 이유로 무료 능력 추가가 되지 않는지 확인한다.
+- 색상만 바꾼 장식 전용 영웅이 되지 않도록 실루엣·장비·VFX 식별성을 확보한다.
+- 단일 차이가 원본 역할을 파괴해 새 병종처럼 작동하지 않는지 확인한다.
 
-## 7. 다음 작업
+## 6. 구현 경계·다음 작업
 
 ```text
-NEXT_PLANNING_BATCH_SELECTION
-```
-
-우선순위 후보:
-
-- HeroAbilitySpec의 첫 영웅 능력 계약.
-- 일반 MaintenancePhase clock matrix.
-- 병종별 영웅 명단·해금 비용.
-- 영웅 토큰 빈도·선택률 simulation 계약.
-
-## 8. 미완료 검증
-
-```text
+CURRENT_PRODUCT = LEGACY_PROTOTYPE
+PRODUCT_CODE = UNCHANGED
+EXACT_HERO_VARIANTS = PENDING
 EXACT_VALUES = PENDING
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
-PRODUCT_IMPLEMENTATION = NOT_STARTED
 ```
+
+다음 우선 결정:
+
+```text
+OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1
+```
+
+검토 주제는 `단일 패시브/사용스킬의 전투 가치와 원본 병종 보상 조정 방식`이다.
