@@ -1,11 +1,11 @@
-# 오멘워드 해금 영웅 전투 예산·제한형 상위호환 계약
+# 오멘워드 해금 영웅 전투 예산·등급 계층 계약
 
 ```yaml
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 approved_at: 2026-08-02 19:05 KST
-refined_at: 2026-08-02 22:29 KST
-status: MERGED_USER_APPROVED / REFINED_BY_UNIQUE_SKILL_UPGRADE_MODEL / NOT_IMPLEMENTED
-current_authority: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1
+refined_at: 2026-08-02 23:07 KST
+status: MERGED_USER_APPROVED / REFINED_TO_GRADE_HIERARCHY / NOT_IMPLEMENTED
+current_authority: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-REPLACEMENT-V1
 product_code_authority: NONE
 exact_values: PENDING
 simulation: NOT_RUN
@@ -13,99 +13,112 @@ runtime: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-## 1. 현행 결정
-
-이름 지정 영웅은 원본 `[영웅]` 등급 유닛보다 조금 더 강하고 임팩트 있는 해금 보상이다.
+## 1. 현행 파워 계층
 
 ```text
-원본 [영웅] 등급 기본 전투 성능
-+ 고유 자동 사용스킬 1개
-= 제한형 상위호환 이름 지정 영웅
+표준 [영웅] 등급
+< 해금 이름 지정 [영웅]
+< 표준 [전설] 등급
 ```
 
 ```text
-HERO_POWER_MODEL = CONSTRAINED_UPGRADE
-SOURCE_BASELINE_STATS = INHERITED
-UNIQUE_AUTOMATIC_ACTIVE_SKILL_COUNT = 1
-HERO_EXCLUSIVE_PASSIVE_COUNT = 0
-MANDATORY_COMPENSATION_AXIS_COUNT = 0
+NAMED_HERO_POWER_FLOOR > STANDARD_HERO_POWER
+NAMED_HERO_POWER_CEILING < STANDARD_LEGENDARY_POWER
 ```
 
-이전의 평균 예산 동등 sidegrade·강제 상쇄 축 모델은 현행 정본이 아니다.
+- 해금 영웅은 표준 영웅보다 강하고 임팩트 있는 해금 보상이다.
+- 해금 영웅은 표준 전설의 전체 전투 고점을 넘지 않는다.
+- 정확 수치·허용 오차·역할별 가치 환산은 simulation 전까지 pending이다.
 
-## 2. 전투력 통제 방식
-
-상위호환은 원본 능력치 하향이 아니라 다음 제한으로 통제한다.
-
-- 세 전선 전체 활성 이름 지정 영웅 최대 1명.
-- 영구 해금 필요.
-- 연결 병종 `[영웅]` 등급 토큰 필요.
-- 비가역 전선 배치.
-- 수동 퇴각·교대·판매·재보관·전선 이동 금지.
-- 고유 스킬 cooldown 또는 charge.
-- 공개 trigger·대상 우선순위·결정론적 tie-break.
-
-원본 `[영웅]` 등급 유닛은 미해금 상태와 다른 이름 지정 영웅이 전역 슬롯을 점유한 상태에서 계속 사용된다.
-
-## 3. 허용되는 강화
-
-- 원본 역할을 강화하는 순간 고점.
-- 원본 타기팅 문법을 활용한 추가 공격·보호·치유·제어.
-- 적절한 cooldown 또는 charge를 가진 인상적인 자동 스킬.
-- 전투 결과와 VFX/SFX에서 즉시 체감되는 해금 보상.
-
-정확 강화 폭은 각 고유 스킬의 역할 가치로 산정한다. 모든 영웅에게 동일한 공격력 배율을 주지 않는다.
-
-## 4. 금지되는 강화
-
-- 영웅 전용 패시브 또는 숨은 상시 보너스.
-- 고유 스킬 두 개 이상.
-- 원본 기본 스탯과 성장 곡선 전체 재설계.
-- 원본 병종과 완전히 다른 기본 공격·사거리·전선 역할.
-- 수동 궁극기·수동 타깃.
-- 새 AI 아키텍처나 전체 신규 애니메이션 세트를 기본 요구.
-- 모든 전선·Stage에서 한 영웅이 유일한 정답이 되는 예산.
-
-## 5. 검증 계약
-
-각 영웅은 최소 다음을 검증한다.
-
-1. 고유 스킬 발동 전·후 전투 기여.
-2. cooldown 또는 charge 공백 구간.
-3. 병종별 대표 타기팅 조건.
-4. 다른 이름 지정 영웅과의 전역 슬롯 경쟁.
-5. 원본 유닛만으로 콘텐츠 진행 가능성.
-6. 영웅 미해금 상태와 해금 상태의 체감 차이.
-
-측정 항목:
-
-- 원본 대비 평균·고점 전투 기여.
-- 고유 스킬 발동 빈도와 유효 적중률.
-- 영웅 간 선택률.
-- Stage·전선별 지배율.
-- 해금 전후 난이도 변화.
-- 신규 자산량과 제작 시간.
-
-정확 허용 강화 폭·표본 수·선택률 목표는 아직 확정하지 않는다.
-
-## 6. UX 책임
+## 2. 키트 비교
 
 ```text
-원본 [영웅] 등급: 기본 최고 등급
-해금 이름 지정 영웅: 동일 기본 성능 + 고유 자동 사용스킬 1개
+표준 [영웅]
+= 강화된 1스킬 + 표준 2스킬
+
+해금 이름 지정 [영웅]
+= 강화된 1스킬 + 고유 2스킬
+
+표준 [전설]
+= 강화된 1스킬 + 강화된 표준 2스킬 + 표준 3스킬
 ```
 
-- 고유 스킬 이름·효과·발동 조건·cooldown 또는 charge를 표시한다.
-- 이름 지정 영웅이 더 강한 해금 보상임을 숨기지 않는다.
-- 전역 활성 제한 `1/1`과 다른 영웅과의 경쟁을 명확히 표시한다.
+- 해금 영웅은 표준 2스킬을 고유 2스킬로 교체한다.
+- 표준 2스킬과 고유 2스킬을 동시에 보유하지 않는다.
+- 추가 3번째 스킬 슬롯이나 영웅 전용 패시브는 없다.
+- 기본 능력치 의무 하향·강제 상쇄 축은 없다.
 
-## 7. 구현 경계
+## 3. 전역 슬롯과 전투 예산
 
 ```text
-CURRENT_AUTHORITY = APPROVED_OMENWARD_HERO_UNIQUE_SKILL_UPGRADE_MODEL_2026-08-02.md
-TOTAL_COMBAT_BUDGET = SOURCE_BASELINE_PLUS_SIGNATURE_SKILL
-HERO_POWER_MODEL = CONSTRAINED_UPGRADE
-BASELINE_NERF_REQUIRED = FALSE
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+```
+
+표준 영웅·해금 영웅·표준 전설·향후 해금 전설이 같은 전역 슬롯을 사용한다. 이 제한은 파워를 직접 깎는 세금이 아니라 세 전선 중 어느 곳에 최고 등급을 투입할지 만드는 전략적 기회비용이다.
+
+## 4. 고유 2스킬 임팩트 상한
+
+고유 2스킬은 한 번의 발동으로 전선 국면을 바꿀 수 있다.
+
+허용 예:
+
+- 무너지는 전열을 일정 시간 안정화.
+- 고가치 비행 위협을 신속 제거.
+- 치명적 피해를 입은 아군 집단 복구.
+- 밀집 공세를 분산·무력화.
+- 적 후열의 핵심 지원 유닛 제거.
+
+금지:
+
+- 피해·제어·회복·소환을 모두 독립적으로 제공하는 복합 궁극기.
+- 모든 공세 유형과 전선에서 같은 수준의 최고 효율.
+- 표준 전설의 강화 2스킬+3스킬 전체보다 높은 평균·고점 기여.
+- 영웅 고유 스킬만으로 건물·룰렛·전선 배치 판단을 무의미하게 만드는 효과.
+
+## 5. 비교 검증
+
+각 고유 2스킬은 같은 병종·같은 Stage·같은 전선 조건에서 다음을 비교한다.
+
+1. 표준 영웅의 표준 2스킬 기여.
+2. 해금 영웅의 고유 2스킬 기여.
+3. 표준 전설의 강화 2스킬+3스킬 및 상위 기본 성능 기여.
+4. 발동 전후 전선 유지시간·피해·회복·제어·목표 제거.
+5. 전역 슬롯 점유시간과 다른 전선 기회비용.
+
+```text
+STANDARD_HERO < NAMED_HERO < STANDARD_LEGENDARY
+```
+
+위 순서를 대표 encounter와 장기 MapRun 모두에서 유지해야 한다.
+
+## 6. 향후 해금 전설
+
+```text
+향후 해금 이름 지정 [전설]
+= 강화된 1스킬 + 강화된 표준 2스킬 + 고유 3스킬
+```
+
+```text
+FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
+FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
+```
+
+향후 해금 전설과 표준 전설의 정확 파워 관계는 별도 Decision에서 확정한다.
+
+## 7. 적대적 검토
+
+| 공격 | 판정 | 보완 |
+|---|---|---|
+| 해금 영웅이 사실상 3스킬이라 전설을 침범한다 | 해소 | 표준 2스킬을 고유 2스킬로 교체, 추가 슬롯 금지 |
+| 상위호환 때문에 표준 영웅이 무의미하다 | 의도된 수직 성장 | 미해금 상태 기본 진행 가능성 유지 |
+| 고유 2스킬 한 번이 전설 전체 키트보다 강하다 | 유효 | 등급 비교 매트릭스·상한 simulation 필수 |
+| 전역 슬롯이 파워 밸런스를 모두 해결한다 | 거짓 | 스킬 자체의 총 전투 가치와 콘텐츠 지배율 별도 검증 |
+| 한 영웅이 모든 Stage의 유일한 정답이 된다 | 유효 | 병종별 조건·counter pressure·선택률 검증 |
+| 전설 당첨이 슬롯 충돌로 손해처럼 느껴진다 | 유효 | 보관·판매 가치·UI·장기 슬롯 점유 검증 |
+
+## 8. 구현 경계
+
+```text
 PRODUCT_CODE = UNCHANGED
 EXACT_SKILLS = PENDING
 EXACT_VALUES = PENDING
