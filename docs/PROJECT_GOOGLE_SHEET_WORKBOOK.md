@@ -13,7 +13,7 @@ active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
 recovery_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / ONTOLOGY_SYNC_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 last_full_audit: 2026-08-02
 ```
 
@@ -61,7 +61,7 @@ Decision: `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1`
 상흔 = 봉쇄 뒤에도 남는 지형·생태·물질·기억 변화
 ```
 
-Sheet에 기록할 경계:
+Sheet에는 다음 경계가 기록되고 bounded read-back을 통과했다.
 
 - 베일은 장소·물리 장벽·악신이 아니다.
 - 베일 자체에는 통일된 의지·선악·계획이 없다.
@@ -85,8 +85,6 @@ Profile = 여러 작전의 교리·보급망·기록·준비 축적
 시간 루프·전부 가상 시뮬레이션·예언 결정론을 금지한다. paid Retry는 같은 공세의 비상 재투입이다.
 
 ## 5. 기존 명칭 계보
-
-`OMENWARD_GAME_DESIGN.md`에는 다음 이름이 있다.
 
 - 루메른 왕국.
 - 루미엔 영토.
@@ -128,13 +126,13 @@ Profile = 여러 작전의 교리·보급망·기록·준비 축적
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 | 인계 | `docs/HANDOFF_CONTEXT.md` |
 
-## 8. 이번 동기화 예정 범위
+## 8. 이번 동기화 완료 범위
 
 - `00_프로젝트_허브!E2:L2`: 현재 Decision·다음 세계관 Gate·exact PR HEAD.
 - `01_작업순서!A12:N12`: Veil Ontology Approval Bundle.
 - `02_현재_확정결정!A21:M21`: 같은 Decision ID와 승인 원칙.
 - `04_누락_충돌_감사!A37:H42`: 신격화·생태적 의지·만능 법칙·침공 주체·봉쇄 한계·외부 우주론 검토.
-- `11_세계관!A9:H15`: 베일·법칙·징조·균열·상흔·미확정 경계.
+- `11_세계관!A9:H15`: 베일·법칙·징조·균열·상흔·행위 주체·미확정 경계.
 - `99_변경이력!A21:H21`: GitHub path·commit·Sheet 범위·재검증.
 
 ## 9. 금지
