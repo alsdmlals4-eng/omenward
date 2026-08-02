@@ -4,6 +4,7 @@
 updated_at: 2026-08-02
 status: CURRENT_DECISION_LEDGER / TOTAL_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
+current_planning_decision: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 canonical_baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
@@ -11,8 +12,8 @@ recovery_pr: 119
 superseded_planning_pr: 116
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-sheet_sync: SYNCED / EXACT_HEAD_RECORDED_IN_SHEET_AND_PR
-ci_validation: PROJECT_CORE_PASS / GDD_SHEET_PASS / BASE_ADOPTION_PASS
+sheet_sync: PENDING_META_DECISION_SYNC
+ci_validation: PREVIOUS_HEAD_3_GREEN / CURRENT_HEAD_PENDING
 ```
 
 이 문서는 **현재 승인 Decision과 상태**만 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 라우팅은 `DOCUMENTATION_MAP.md`가 소유한다.
@@ -36,6 +37,7 @@ RECOMMENDED_DEFAULT
 
 | Decision ID | 상태 | 현재 결정 | 권위·계보 | 구현·검증 |
 |---|---|---|---|---|
+| `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | `USER_APPROVED / CURRENT / SYNC_PENDING` | 수평 해금·제한 편의를 주축으로 하고 한 런 1개·유한 랭크·초반 한정의 선택형 준비 보정으로 소규모 영구 전투력을 포함 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | exact values·simulation·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / SYNCED` | Base v9.4와 현재 main에서 깨끗한 정본 복구 PR을 만들고 PR #116은 역사 증거로 대체 | recovery audit, PR #119, connected Sheet | 문서·Sheet sync·CI Green, 제품 변경 없음 |
 | `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | `INHERITED_USER_APPROVED_PLAN` | 전장 1개·4막·Stage 20·일반 공세 8·위험 패키지 4·보스 패키지 3·미션 카드 12 | PR #116 승인 계보 | 미구현·미검증 |
 | `OMW-DEC-20260731-DEFEAT-RETRY-V1` | `INHERITED_CURRENT_PRINCIPLE / EXACT_VALUES_PENDING` | Stage 5 이후 MapRun당 최대 1회 paid Retry와 동일 RNG lineage checkpoint 복원 | PR #116 승인 계보 | 미구현·fault test 미실행 |
@@ -62,7 +64,24 @@ RECOMMENDED_DEFAULT
 - 금고·농장·타워·병영·지휘소.
 - 벨루 안내자.
 
-## 4. 현재 실제 구현 경계
+## 4. Profile 영구 성장 정본
+
+```text
+PRIMARY = 수평 해금 + 제한된 편의
+SECONDARY = 선택형·상한형 준비 보정
+FORBIDDEN = 무한 영구 능력치 누적
+```
+
+- 기본 Profile로 모든 콘텐츠 완료 가능.
+- 수평 해금은 sidegrade이며 단순 상위 호환 금지.
+- 시작 보관 편의는 hard cap을 가진다.
+- 준비 보정은 한 MapRun에 하나만 장착한다.
+- 준비 보정은 유한 랭크이고 시작·Act 1 중심이며 후반 복리로 확장하지 않는다.
+- 유닛 전투 배율·생산량 전 구간 배율·릴 확률 조작·무한 prestige 누적을 금지한다.
+- Retry는 spendable balance를 소비하고 준비 보정은 누적 정산 milestone으로 해금하는 것을 권장한다.
+- 정확 효과량·milestone·비용은 시험값과 100K Profile trajectory 뒤 별도 승인한다.
+
+## 5. 현재 실제 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -78,9 +97,9 @@ CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 ```
 
-제품 코드가 최신 정본과 다른 것은 migration 대상이라는 뜻이며, 문서만으로 구현 완료를 주장하지 않는다.
+Profile 영구 성장·수평 해금·준비 보정·paid Retry는 제품에 구현되지 않았다.
 
-## 5. 상세 수치 정책
+## 6. 상세 수치 정책
 
 ```text
 기획 철학·플레이어 결과 확정
@@ -95,57 +114,61 @@ LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 
 과거 코드와 문서의 `20 gold spin`, `160 starting gold`, `70/50/40 refund` 등은 `LEGACY_H0 / HISTORICAL_ONLY`이며 현재 제품값이 아니다.
 
-## 6. 복구 Finding 상태
+영구 성장 후보의 현재 권장 시험 가드레일은 제품값이 아니다.
 
-### AUTO_FIX 완료
+- 최고 Profile과 기본 Profile의 full-run 승률 차이 상한 후보: 5 percentage points.
+- Act 1 clear-rate 차이 후보 범위: 3~8 percentage points.
+- 준비 보정 후보군: 3개.
+- 한 런 장착 수: 1개 승인.
+- 준비 보정별 랭크 후보: 2단계.
 
-- Base v9.4·main 기준선 동기화.
-- PR #116 closed/superseded, PR #119 current authority.
-- Active Context·Handoff·Documentation Map·Workbook 갱신.
-- Sheet PR HEAD·Base SHA·authority 의미 분리.
-- `03`, `40`, `90`의 검증된 열·schema 오류 수정.
-- `60_UX_UI_접근성` schema 비판은 재조회 후 기각.
-- 수치 상태 레이블 통일.
-- Project Core·GDD Sheet·Base adoption CI Green.
+## 7. 적대적 검토 판정
 
-### USER_DECISION_REQUIRED
+### 해결된 핵심 충돌
 
-| 순서 | Decision ID | 질문 | 상태 |
-|---|---|---|---|
-| 1 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | Profile 영구 성장의 역할 | `READY_FOR_GRILL_ME` |
-| 2 | `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | 20 Stage 반복과 세계·플레이어 동기의 연결 | `QUEUED` |
-| 3 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED` |
+- 영구 성장 없음으로 반복 동기가 약해지는 위험: 수평 해금과 제한된 준비 보정으로 보완.
+- 직접 능력치 누적으로 노가다가 정답이 되는 위험: 한 런 1개·유한 랭크·초반 한정으로 제한.
+- Retry와 전투력 구매가 같은 재화를 두고 경쟁하는 위험: 준비 보정은 누적 milestone 해금으로 분리.
+- 수평 해금이 숨은 상위 호환이 되는 위험: sidegrade 비용·조건·채택률 검증을 의무화.
 
 ### RESEARCH_OR_TEST_REQUIRED
 
+- `P0_BASE_PROFILE`, `P1_HORIZONTAL_ONLY`, `P2_HYBRID_MAX_CANDIDATE` 100K Profile trajectory 비교.
+- 준비 보정별 지배 전략·후반 꼬리 seed·실패 귀인.
+- 성장 체감과 노가다 강제감 사람 검증.
 - 룰렛 통제감 사람 검증.
-- 100K economy/retry/save simulation.
 - save/retry fault injection.
 - 일반/위험 Stage 인지 부하.
 - 35분 런 피로도.
 - 1080p·720p 가독성·접근성.
 
-## 7. Recovery 검증
+## 8. USER_DECISION_REQUIRED
+
+| 순서 | Decision ID | 질문 | 상태 |
+|---|---|---|---|
+| 1 | `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | 20 Stage 반복과 세계·플레이어 동기의 연결 | `READY_AFTER_META_SYNC` |
+| 2 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED` |
+
+## 9. Recovery 검증 기준
 
 ```text
-DECISION_ID_MATCH: PASS
+RECOVERY_DECISION_ID_MATCH: PASS
 BASE_V9_4_CURRENT: PASS
 PR_116_CLOSED_NOT_MERGED: PASS
 PR_119_CURRENT_DRAFT: PASS
 PRODUCT_PATH_CHANGES: 0
-SHEET_BOUNDED_READBACK: PASS
-PROJECT_CORE_DOCUMENTATION_CI: PASS
-GDD_SHEET_ADOPTION_CI: PASS
-BASE_V9_ADOPTION_CI: PASS
+RECOVERY_SHEET_READBACK: PASS
+PREVIOUS_HEAD_CI_3_GREEN: PASS
+META_DECISION_SHEET_SYNC: PENDING
+META_DECISION_CURRENT_HEAD_CI: PENDING
 RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```
 
-## 8. 현재 다음 Gate
+## 10. 현재 다음 Gate
 
 ```text
-Grill Me #1: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
-→ 승인 Decision 즉시 GitHub·Sheet 동기화
-→ 다음 validated planning conflict
+OMW-DEC-20260802-META-PROGRESSION-ROLE-V1 GitHub·Sheet 동기화·재검증
+→ Grill Me #2: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 ```
 
 ```text
