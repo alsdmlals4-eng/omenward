@@ -13,7 +13,7 @@ active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
 recovery_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: WORLD_RUN_SYNC_IN_PROGRESS
+sheet_status: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 last_full_audit: 2026-08-02
 ```
 
@@ -61,7 +61,7 @@ MapRun = 징조로 감지된 별개의 실제 경계 방어 작전
 Profile = 여러 작전의 교리·보급망·기록·준비 축적
 ```
 
-Sheet에는 다음 경계를 기록한다.
+Sheet에는 다음 경계를 기록하고 재조회했다.
 
 - 시간 루프 아님.
 - 전부 가상 시뮬레이션 아님.
@@ -114,15 +114,15 @@ Sheet에는 다음 경계를 기록한다.
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 | 인계 | `docs/HANDOFF_CONTEXT.md` |
 
-## 7. 이번 동기화 예정 범위
+## 7. 이번 동기화 완료 범위
 
-- `00_프로젝트_허브`: 현재 Decision·다음 세계관 Gate·exact PR HEAD.
-- `01_작업순서`: World Run Approval Bundle.
-- `02_현재_확정결정`: 같은 Decision ID와 승인 원칙.
-- `04_누락_충돌_감사`: 시간 루프·승리 무효화·예언 결정론·세계 소모 위험.
-- `11_세계관`: MapRun·징조·승패·Profile의 세계관 의미.
-- `13_주요인물`: 지휘자·벨루의 작전 기록 관계.
-- `99_변경이력`: GitHub path·commit·Sheet 범위·재검증.
+- `00_프로젝트_허브!E2:L2`: 현재 Decision·다음 세계관 Gate·exact PR HEAD.
+- `01_작업순서!A11:N11`: World Run Approval Bundle.
+- `02_현재_확정결정!A20:M20`: 같은 Decision ID와 승인 원칙.
+- `04_누락_충돌_감사!A33:H36`: 시간 루프·승리 무효화·예언 결정론·세계 소모 위험.
+- `11_세계관!A4:H8`: MapRun·징조·승패·기존 명칭 보류선.
+- `13_주요인물!A2:J2`, `A4:J4`: 지휘자·벨루의 작전 기록 역할.
+- `99_변경이력!A20:H20`: GitHub path·commit·Sheet 범위·재검증.
 
 ## 8. 금지
 
