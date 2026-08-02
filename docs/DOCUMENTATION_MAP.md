@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-03
 work_mode: TOTAL_PLANNING
-current_phase: HERO_UNIQUE_SKILL_2_TIMER_STAGE_POLICY_APPROVED
+current_phase: HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_POWER_VALIDATION_APPROVED
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TIMER-PERSISTENCE-AND-STAGE-BOUNDARY-POLICY-V1
+current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 working_branch: gpt/omenward-hero-kit-planning-20260802
@@ -15,8 +15,8 @@ latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
 last_merged_planning_pr: 127
 current_planning_pr: 129
-current_grill_me_count: 9
-preflight: NEXT_AT_10_OF_10
+current_grill_me_count: 10
+preflight: REQUIRED_NOW
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 ```
 
@@ -45,7 +45,7 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 질문 | 현행 책임 원본 | 권한 |
 |---|---|---|
 | 제품 정체성·플레이어 약속 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
-| 승인 Decision·9/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
+| 승인 Decision·10/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
 | Grill Me 벤치마크·현업 비교 | `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
 | Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
@@ -55,11 +55,12 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 초기 5명 고유 2스킬 콘셉트 | `design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md` | `CURRENT_FIRST_FIVE_SKILL_CONCEPT_AUTHORITY` |
 | 고유 2스킬 자동 발동 | `design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` | `COMMON_AUTOMATIC_ACTIVATION_LINEAGE` |
 | cooldown·charge·실패 정책 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md` | `CURRENT_TIMER_AND_FAILURE_PARENT_AUTHORITY` |
-| timer 지속·Stage·정비시간 경계 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md` | `USER_APPROVED_CURRENT_TIMER_STAGE_AUTHORITY` |
+| timer 지속·Stage·정비시간 경계 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md` | `CURRENT_TIMER_STAGE_AUTHORITY` |
+| Trigger·대상·파워 예산 검증 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md` | `USER_APPROVED_CURRENT_TRIGGER_TARGET_POWER_AUTHORITY` |
 | 재전설 결과와 전역 슬롯 충돌 | `design/APPROVED_OMENWARD_REPEAT_LEGENDARY_RESULT_HIGH_GRADE_SLOT_RESOLUTION_2026-08-02.md` | `CURRENT_REPEAT_LEGENDARY_TOKEN_RESOLUTION` |
 | 영웅 슬롯·핵심 재미 적대적 검토 | `reviews/ADVERSARIAL_HERO_GRADE_SLOT_AND_CORE_FIT_REVIEW_2026-08-02.md` | `CURRENT_HERO_GRADE_SLOT_REVIEW` |
 | 실제 구현·Legacy 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
-| 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
+| 현재 작업·preflight | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 동기화 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 
@@ -90,8 +91,6 @@ ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
 FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
 ```
 
-제한은 획득이 아니라 전장 배치에 적용하며 슬롯 충돌 토큰은 보관·판매한다.
-
 ## 5. 초기 5명
 
 ```text
@@ -102,9 +101,7 @@ mage         → 메테오
 assassin     → 그림자 분신
 ```
 
-상세 trigger·대상·금지·제작 경계는 초기 5명 책임 원본이 소유한다.
-
-## 6. 공통 cooldown·failure 라우팅
+## 6. 공통 상태·Stage 정책
 
 ```text
 INITIAL_WARMUP
@@ -121,42 +118,85 @@ MAX_STORED_READY_COUNT = 1
 CHARGE_ACCUMULATION = FALSE
 MANA_OR_ENERGY_RESOURCE = FALSE
 COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
+ACTIVE_COMBAT = TIMER_PROGRESS
+MAINTENANCE_OR_PREPARATION = TIMER_PAUSED
+READY_AND_REMAINING_TIME = CARRY_ON_SAME_INSTANCE
+ACTIVE_EFFECT_OR_UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
 ```
 
-## 7. timer 지속·Stage 경계 라우팅
+## 7. Trigger·대상 라우팅
 
 ```text
-ACTIVE_COMBAT = timer progress
-MAINTENANCE / PREPARATION / ROULETTE / BUILD = timer paused
-READY = carry
-remaining warmup/cooldown = carry on same living instance
-owner-bound active effect = terminate at combat end
-unresolved committed event = cancel, consume use, enter full cooldown
+READY
+→ public trigger
+→ same-lane legal filter
+→ public priority score
+→ stability window
+→ stable ID / stable position tie-break
+→ CAST_PRECHECK
+→ immutable CAST_COMMIT snapshot
 ```
 
-- Stage·Act 전환은 초기화 지점이 아니다.
-- save/load·Retry는 timer·target snapshot·commit payload를 그대로 복원한다.
-- 정비시간을 길게 유지해 cooldown을 회복할 수 없다.
-- 사망·완전 제거 시 모든 고유 스킬 상태와 전역 고등급 슬롯을 정리한다.
+- 방패병: 전열 압력·보호 가치.
+- 궁병: 비행 수·가중 위협도와 비행 Snapshot.
+- 사제: 체력 기준 이하 생존 아군 집합.
+- 마법사: 적중 수 → 총 위협도 → stable 위치.
+- 암살자: 역할 → 후열 깊이 → 위협도 → stable ID; 분신 독립 재탐색 금지.
 
-## 8. 계보·구형 표현
+```text
+PUBLIC_TRIGGER_RULE = REQUIRED
+PUBLIC_TARGET_PRIORITY = REQUIRED
+DETERMINISTIC_TIE_BREAK = REQUIRED
+ARBITRARY_FALLBACK_RETARGET = FORBIDDEN
+HIDDEN_FUTURE_BATTLE_END_ORACLE = FORBIDDEN
+```
+
+## 8. 파워 위계 검증 라우팅
+
+```text
+A = 표준 [영웅]
+B = 해금 이름 지정 [영웅]
+C = 표준 [전설]
+```
+
+동일 source Tier·seed·Stage·건물·다른 두 전선 조건으로 대표 encounter family를 비교한다.
+
+```text
+NEUTRAL_MIXED
+FRONTLINE_PRESSURE
+FLYING_HEAVY
+ALLY_BURST_CRISIS
+DENSE_ENEMY_CLUSTER
+DISPERSED_ENEMY_FORMATION
+HIGH_VALUE_BACKLINE
+LONG_ATTRITION
+SHORT_STAGE
+LATE_COMMIT_BOUNDARY
+```
+
+B는 의도된 family에서 A보다 강하고, C는 전체 대표 family 합산 가치에서 B보다 강해야 한다. 모든 family 자동 최선 또는 다른 두 전선 비결정화는 실패다.
+
+## 9. 계보·구형 표현
 
 - named Hero만 1명 제한은 현행이 아니다.
 - 표준 2스킬과 고유 2스킬 동시 보유는 현행이 아니다.
 - 패시브/active 선택형·강제 상쇄 sidegrade는 계보 보존용이다.
-- Stage마다 warmup·cooldown 초기화 또는 정비시간 cooldown 진행은 현행이 아니다.
-- 미해결 메테오·일제사격을 다음 Stage에 이월·재타깃하는 것은 금지한다.
+- Stage마다 timer 초기화 또는 정비시간 cooldown 진행은 현행이 아니다.
+- 미해결 commit 다음 Stage 이월·재타깃은 금지한다.
+- 영웅별 숨은 AI·랜덤 tie-break·수동 target은 현행이 아니다.
 
-## 9. 구현 경계
+## 10. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 CODEX = BLOCKED
-COMMON_TIMER_POLICY = APPROVED
-TIMER_STAGE_BOUNDARY_POLICY = APPROVED
+PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
+POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
+EXACT_SCHEMA = PENDING
 EXACT_TRIGGER_THRESHOLDS = PENDING
+EXACT_STABILITY_WINDOWS = PENDING
 EXACT_SECONDS = PENDING
 EXACT_DURATIONS_AND_VALUES = PENDING
 ASSETS = NOT_CREATED
@@ -165,12 +205,11 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 10. 운영·다음 Gate
-
-- 현재 카운터는 `9/10`이다.
-- 10번째 승인에서 fresh adversarial preflight를 실행한다.
-- 문서·기획 PR은 latest main 동기화·exact-head CI Green·Sheet read-back·blocker 0·review 확인·product path 0이면 standing authorization에 따라 병합한다.
+## 11. 운영 Gate
 
 ```text
-NEXT_GATE = OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+CURRENT_COUNT = 10/10
+PREFLIGHT = REQUIRED_NOW
 ```
+
+latest main 동기화·exact-head CI Green·Sheet read-back·blocker 0·review 확인·product path 0이면 standing authorization에 따라 PR #129를 병합한다.
