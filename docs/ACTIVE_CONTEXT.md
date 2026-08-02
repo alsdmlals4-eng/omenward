@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: WORLD_CANON_FOUNDATION
+current_phase: WORLD_VEIL_ONTOLOGY_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 context_baseline_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -16,7 +16,7 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-sheet_sync: WORLD_RUN_SYNC_IN_PROGRESS
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 recovery_pr: 119_DRAFT
 superseded_pr: 116_CLOSED_NOT_MERGED
 runtime_validation: NOT_RUN
@@ -26,14 +26,14 @@ simulation: NOT_RUN
 
 ## 1. 현재 작업
 
-사용자는 다음을 승인했다.
+`OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1`이 사용자 승인되고 GitHub·Sheet 내용 재조회가 통과했다.
 
 ```text
-OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
-= 반복되는 실제 경계 공세 + 징조의 제한된 예측 정보
+반복되는 실제 경계 공세
++ 징조의 제한된 예측 정보
 ```
 
-현재 작업은 승인 내용을 GitHub·Sheet에 동기화하고 세계관의 가장 상위 존재론인 **베일의 본질**부터 확정하는 것이다.
+현재 다음 작업은 세계관의 가장 상위 존재론인 **베일의 본질과 세계의 경계 상태**를 확정하는 것이다.
 
 ## 2. 프로젝트 약속
 
@@ -50,11 +50,9 @@ OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 - 징조는 공세의 구조와 치명적 행동을 제한적으로 예고하지만 결과를 확정하지 않는다.
 - Stage 20 승리는 한 균열·침공로를 실제로 봉쇄한다.
 - 패배는 전진 방어선 붕괴와 실제 피해이며 시간 되감기로 삭제되지 않는다.
-- paid Retry는 시간 반복이 아니라 같은 공세의 비상 재투입이다.
+- paid Retry는 같은 공세의 비상 재투입이다.
 - Profile은 여러 실제 작전에서 축적된 교리·보급망·기록·준비 체계다.
-- 벨루는 시간 루프 기억자가 아니라 작전을 관측·기록하고 인과를 설명하는 안내자다.
-
-금지:
+- 벨루는 작전을 관측·기록하고 인과를 설명하는 안내자다.
 
 ```text
 NO_TIME_LOOP_RESET
@@ -64,8 +62,6 @@ NO_STAGE_20_VICTORY_NULLIFICATION
 ```
 
 ## 4. 기존 세계관 명칭 계보
-
-기존 통합 기획서에는 다음 이름이 있다.
 
 - 루메른 왕국.
 - 루미엔 영토.
@@ -77,7 +73,7 @@ NO_STAGE_20_VICTORY_NULLIFICATION
 - 벨루.
 - 베일종.
 
-이름은 보존하지만, 최종 정의·관계·어원·정치 구조는 아직 확정하지 않았다. 기존 명칭을 삭제하거나 일반 판타지 관습으로 임의 보충하지 않는다.
+이름은 보존하지만 최종 정의·관계·어원·정치 구조는 아직 확정하지 않았다.
 
 ## 5. 보호할 게임 시스템
 
@@ -96,15 +92,13 @@ NO_STAGE_20_VICTORY_NULLIFICATION
 
 ## 6. Profile 영구 성장 경계
 
-정본: `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
-
 ```text
 PRIMARY = 수평 해금 + 제한된 편의
 SECONDARY = 선택형·상한형 준비 보정
 FORBIDDEN = 무한 영구 능력치 누적
 ```
 
-세계관상 Profile은 초월적 능력치가 아니라 실제 작전의 교리·보급·기록 축적이다.
+세계관상 Profile은 실제 작전의 교리·보급·기록 축적이다.
 
 ## 7. 실제 구현 경계
 
@@ -138,19 +132,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 6. 벨루의 종족·기원·조직과의 관계.
 7. 승패가 지역·세력·인물에게 남기는 지속 결과.
 
-## 9. 우선 읽기
-
-1. `AGENTS.md`
-2. `docs/BASE_RULES_VERSION.md`
-3. `docs/DOCUMENTATION_MAP.md`
-4. `docs/PROJECT_CORE.md`
-5. `docs/PROJECT_CANON_DECISION_LEDGER.md`
-6. `docs/design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md`
-7. `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
-8. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-9. 관련 분야 정본·Sheet·실제 파일
-
-## 10. 다음 Gate
+## 9. 다음 Gate
 
 ```text
 Grill Me: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
