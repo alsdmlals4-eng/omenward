@@ -81,24 +81,14 @@ Stage final combat tick
 ## 4. 동기화 증거
 
 ```text
-PR #121 final exact head:
-1a59d96f1a74008d4f35b95fb6c50cbbe658234a
+PR #121 verified head before workbook closure commit:
+85e6669631d57e8879bffc59611a06c10d3d2d4e
 
 SHEET_BOUNDED_READBACK: PASS
-REQUIRED_CI_AT_FINAL_HEAD:
-- Project Core Documentation run 568: PASS
-- GDD Sheet Adoption run 282: PASS
-- Base v9 adoption run 257: PASS
-
-PR_SCOPE_AT_FINAL_HEAD:
-- compare: ahead 55 / behind 0
-- changed paths: 14 documentation-only files
-- product paths: 0
-- comments: 0
-- reviews: 0
-- unresolved threads: 0
-- draft: true
-- mergeable: true
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 567: PASS
+- GDD Sheet Adoption run 281: PASS
+- Base v9 adoption run 256: PASS
 ```
 
 동기화 범위:
