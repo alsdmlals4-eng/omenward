@@ -12,14 +12,15 @@ baseline_main_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
 recovery_pr: 119
-superseded_pr: 116
-sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / FINAL_HEAD_REFRESH_REQUIRED
+superseded_pr: 116_CLOSED_NOT_MERGED
+sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED / READBACK_PASS
+ci_validation: GDD_SHEET_ADOPTION_PASS
 last_full_audit: 2026-08-02
 ```
 
 Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. 독립 정본이 아니며 GitHub의 현재 Decision·책임 원본·실제 구현 상태를 임의로 덮어쓰지 않는다.
 
-`PROJECT_SHEET_CONFIGURED`는 Workbook이 연결·구성됐다는 호환성 상태다. 현재 Decision과 exact PR HEAD 동기화 여부는 같은 줄의 `READBACK_PASS / FINAL_HEAD_REFRESH_REQUIRED`와 Sheet의 실제 행을 함께 확인한다.
+`PROJECT_SHEET_CONFIGURED`는 Workbook 연결·구성이 완료됐다는 호환성 상태다. 현재 Decision의 exact PR HEAD는 Sheet `00_프로젝트_허브`, `02_현재_확정결정`, `99_변경이력`과 PR #119에서 재조회한다.
 
 GitHub 정본에 없는 Sheet-only 편집은 `PROPOSED_SHEET_CHANGE`로 보존하고, 사용자 승인과 GitHub 반영·재조회가 끝나기 전에는 현행 Decision으로 승격하지 않는다.
 
@@ -129,7 +130,7 @@ Decision ID 생성 또는 재사용
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 | 인계 | `docs/HANDOFF_CONTEXT.md` |
 
-## 7. 현재 동기화 범위
+## 7. 동기화 완료 범위
 
 Decision: `OMW-DEC-20260802-CANON-RECOVERY-V1`
 
