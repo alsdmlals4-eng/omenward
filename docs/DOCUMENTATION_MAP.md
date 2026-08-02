@@ -3,7 +3,7 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: META_PROGRESSION_SYNC_AND_NEXT_GRILL_ME
+current_phase: WORLD_RUN_MOTIVATION_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -13,8 +13,8 @@ latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 superseded_pr: 116
 recovery_pr: 119
-sheet_sync: PENDING_META_DECISION_SYNC
-ci_validation: PREVIOUS_HEAD_THREE_REQUIRED_WORKFLOWS_PASS / CURRENT_HEAD_PENDING
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
+ci_validation: META_DECISION_CONTENT_HEAD_2DA4E1BE_3_GREEN / FINAL_PR_HEAD_GATED
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 현행 책임 원본만 둔다. PR #116은 승인 결정의 역사·승계 근거이며 현재 작업 브랜치나 병합 권위가 아니다.
@@ -159,7 +159,7 @@ VALIDATED_VALUE
 - 이미 승인된 결정은 재질문하지 않는다.
 - 기술 세부와 시험값은 묻지 않는다.
 - 프로젝트 방향을 다르게 만드는 핵심 충돌만 한 번에 하나씩 질문한다.
-- 답변 후 GitHub·Sheet가 `SYNCED`가 되기 전 다음 질문으로 넘어가지 않는다.
+- 답변 후 GitHub·Sheet가 내용 동기화되고 exact HEAD가 Sheet·PR에서 추적되기 전 다음 질문으로 넘어가지 않는다.
 
 현재 다음 질문:
 
@@ -171,8 +171,7 @@ OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 ## 10. 현재 다음 Gate
 
 ```text
-Meta Decision 동일 ID GitHub·Sheet 동기화·재검증
-→ Grill Me #2: World·Run Motivation
+Grill Me #2: World·Run Motivation
 ```
 
 ```text
