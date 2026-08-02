@@ -1,148 +1,134 @@
 # OMENWARD 프로젝트 Google Sheets Workbook
 
 ```yaml
-project: omenward
+updated_at: 2026-08-02
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw/edit
-workbook_role: USER_FACING_GDD_WORKSPACE
-sheet_edit_policy: PROPOSED_SHEET_CHANGE
-canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1
-current_operating_gate: OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-CONCEPTS-V1
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+spreadsheet_title: 오멘워드(OMENWARD)
+current_decision: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-REPLACEMENT-V1
+current_pr: 129
 working_branch: gpt/omenward-hero-kit-planning-20260802
-active_base: 9.4.3
-last_merged_planning_pr: 127
-current_planning_pr: 129
-sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED
-current_grill_me_count: 5
-preflight: NEXT_AT_10_OF_10
-planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
-product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
-last_full_audit: 2026-08-02
+grill_me_count: 6_of_10
+sheet_status: SYNC_IN_PROGRESS
+product_code_authority: NONE
 ```
 
-Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. GitHub가 기획 정본이며 Sheet는 같은 Decision ID와 PR SHA를 표시한다.
+## 1. 동기화 목적
 
-## 1. 현재 동기화 Decision
-
-`OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1`
+GitHub 기획 정본과 연결 Google Sheet가 같은 Decision ID·같은 PR head·같은 상태 언어를 사용하도록 유지한다.
 
 ```text
-원본 병종 [영웅] 등급 기본 전투 성능
-+ 이름·초상·스킨·식별 연출
-+ 고유 자동 사용스킬 1개
-= 제한형 상위호환 이름 지정 영웅
+USER_APPROVED_PLAN
+!= PRODUCT_IMPLEMENTED
+!= SIMULATION_VALIDATED
+!= RUNTIME_VALIDATED
+!= HUMAN_VALIDATED
 ```
 
-```text
-HERO_POWER_MODEL = CONSTRAINED_UPGRADE
-HERO_EXCLUSIVE_PASSIVE_COUNT = 0
-UNIQUE_AUTOMATIC_ACTIVE_SKILL_COUNT = 1_PER_HERO
-MANDATORY_COMPENSATION_AXIS_COUNT = 0
-SOURCE_BASELINE_STATS = INHERITED
-GLOBAL_ACTIVE_NAMED_HERO_CAP = 1
-```
-
-- 이름 지정 영웅은 원본보다 조금 더 강하고 임팩트 있는 해금 보상이다.
-- 이전 패시브 선택 구조·강제 상쇄 축·평균 예산 동등 sidegrade는 현행 정본이 아니다.
-- 스킬은 규칙 기반 자동 발동하며 수동 버튼·수동 타깃은 없다.
-- 정확 영웅·스킬·cooldown·VFX/SFX·수치는 pending이다.
-
-## 2. 초기 5명
+## 2. 현행 Decision 요약
 
 ```text
-shield_guard / archer / priest / mage / assassin
-→ 각 병종 이름 지정 영웅 1명
-→ 고유 자동 사용스킬 1개씩
+[영웅]·[전설] 등급 유닛은 표준/해금·병종·전선과 관계없이 전장 전체 최대 1명
+해금 이름 지정 [영웅]은 표준 2스킬을 고유 2스킬로 교체
+향후 해금 이름 지정 [전설]은 표준 3스킬을 고유 3스킬로 교체 / NOT_NOW
 ```
 
 ```text
-INITIAL_HERO_COUNT = 5
-INITIAL_PASSIVE_COUNT = 0
-INITIAL_AUTOMATIC_ACTIVE_SKILL_COUNT = 5
-FINAL_RELEASE_CAP = FALSE
+STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+NAMED_HERO_UNIQUE_SKILL_SLOT = 2
+FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
 ```
 
-## 3. Sheet 동기화 범위
+## 3. 핵심 시스템·재미 연결
+
+```text
+예고된 공세
+→ 건물·TokenSource로 릴 설계
+→ 룰렛 조작·확정
+→ 희귀 병력 획득
+→ 세 전선 중 하나에 비가역 커밋
+→ 전황 역전
+→ 다음 설계
+```
+
+영웅 이상 전역 단일 슬롯은 최고 등급을 누적하는 것이 아니라 어느 전선에 최고 전력을 투입할지 판단하게 한다.
+
+## 4. Sheet 반영 범위
+
+이번 Decision에서 다음 범위를 사용한다.
 
 - `00_프로젝트_허브!E2:L2`
-- `01_작업순서!A32:N32`
-- `02_현재_확정결정!A40:M40`
-- `04_누락_충돌_감사!A145:H152`
+- `01_작업순서!A33:N33`
+- `02_현재_확정결정!A41:M41`
+- `04_누락_충돌_감사!A153:H162`
 - `05_GDD_요약!D8:J8`
 - `05_GDD_요약!B9:J9`
-- `12_핵심루프!A16:J16`
-- `15_조작_게임규칙!A19:J19`
-- `40_핵심시스템_메인콘텐츠!A19:J19`
-- `41_성장_경제!A29:I29`
-- `50_메인콘텐츠!A26:J26`
-- `60_UX_UI_접근성!A27:J27`
-- `70_아트_오디오_에셋!A10:J10`
-- `99_변경이력!A42:H42`
+- `12_핵심루프!A17:J17`
+- `15_조작_게임규칙!A20:J20`
+- `40_핵심시스템_메인콘텐츠!A20:J20`
+- `41_성장_경제!A30:I30`
+- `50_메인콘텐츠!A27:J27`
+- `60_UX_UI_접근성!A28:J28`
+- `70_아트_오디오_에셋!A11:J11`
+- `99_변경이력!A43:H43`
 
-bounded read-back:
+쓰기 전 다음 빈 행과 기존 서식을 bounded read로 확인한다. 쓰기 뒤 같은 범위를 다시 읽어 값·Decision ID·PR SHA를 검증한다.
+
+## 5. Sheet에 기록할 핵심 불변식
 
 ```text
-SAME_DECISION_ID = PASS
-GRILL_ME_COUNT = 5_OF_10
-HERO_POWER_MODEL = CONSTRAINED_UPGRADE
-HERO_EXCLUSIVE_PASSIVE_COUNT = 0
-UNIQUE_AUTOMATIC_ACTIVE_SKILL_COUNT = 5_INITIAL
-MANDATORY_COMPENSATION_AXIS_COUNT = 0
-GLOBAL_ACTIVE_NAMED_HERO_CAP = 1
-PRODUCT_STATUS = NOT_IMPLEMENTED
+HIGH_GRADE_ACTIVE_CAP = 1
+COUNTED_GRADES = HERO | LEGENDARY
+COUNTED_VARIANTS = STANDARD | UNLOCKED_NAMED
+SCOPE = ALL_THREE_LANES
+LIMIT_APPLIES_TO = BATTLEFIELD_DEPLOYMENT
+TOKEN_ACQUISITION_WHEN_SLOT_FULL = ALLOWED
+STORE_OR_SELL_WHEN_SLOT_FULL = ALLOWED
+AUTO_DELETE_OR_AUTO_REPLACE = FORBIDDEN
 ```
 
-## 4. 후보 HEAD 검증
-
-후보 증거 HEAD:
-
-`e32d4c7cf0a88ff2d275764b4ef3a9dea77aee97`
-
 ```text
-Validate Project Core Documentation: PASS / run 692
-Validate Omenward GDD Sheet Adoption: PASS / run 412
-Validate Base v9 adoption: PASS / run 393
-SHEET_READBACK = PASS
+STANDARD_HERO = UPGRADED_SKILL_1 + STANDARD_SKILL_2
+UNLOCKED_NAMED_HERO = UPGRADED_SKILL_1 + UNIQUE_SKILL_2
+STANDARD_LEGENDARY = UPGRADED_SKILL_1 + UPGRADED_STANDARD_SKILL_2 + STANDARD_SKILL_3
+FUTURE_UNLOCKED_NAMED_LEGENDARY = UPGRADED_SKILL_1 + UPGRADED_STANDARD_SKILL_2 + UNIQUE_SKILL_3
 ```
 
-이 Workbook 마감 커밋으로 PR HEAD가 이동하므로 최종 exact HEAD에서 필수 CI·latest main compare·Sheet SHA를 다시 확인한다.
+## 6. 적대적 검토 기록
 
-## 5. 감사 기준
+Sheet 감사 탭에 다음을 기록한다.
+
+- OMW-AUD-153: named-only 제한과 최신 전 등급 제한 충돌.
+- OMW-AUD-154: 고유 스킬 추가가 전설 계층 침범.
+- OMW-AUD-155: 전설 잭팟의 즉시 배치 불가 좌절.
+- OMW-AUD-156: 영웅 결과 빈도·장기 슬롯 점유·보관함 압력.
+- OMW-AUD-157: 해금 후 표준 영웅 완전 대체는 의도된 수직 성장.
+- OMW-AUD-158: 고유 2스킬이 표준 전설 전체 키트를 넘는 위험.
+- OMW-AUD-159: 단일 고등급 슬롯이 세 전선 다양성을 축소할 위험.
+- OMW-AUD-160: 수동 교체가 비가역 커밋 훼손.
+- OMW-AUD-161: 미래 해금 전설 범위 폭증.
+- OMW-AUD-162: cooldown 완료 즉시 낭비 발동.
+
+## 7. 자동 발동 Sheet 표현
 
 ```text
-EVERY_NAMED_HERO_HAS_UNIQUE_ACTIVE_SKILL = TRUE
-UNIQUE_ACTIVE_SKILL_COUNT_PER_HERO = 1
-HERO_EXCLUSIVE_PASSIVE_COUNT = 0
-MANDATORY_COMPENSATION_AXIS_COUNT = 0
-SOURCE_BASELINE_INHERITED = TRUE
-NAMED_HERO_GLOBAL_ACTIVE_CAP = 1
-PRODUCT_IMPLEMENTED = FALSE
+COOLDOWN
+→ READY_WAITING_FOR_VALID_CONDITION
+→ trigger·target·priority·tie-break
+→ CAST_COMMIT
+→ effect·VFX/SFX·log
+→ COOLDOWN
 ```
 
-## 6. 책임 원본
+유효 조건이 없으면 준비 상태를 유지한다.
 
-- `docs/PROJECT_CANON_DECISION_LEDGER.md`
-- `docs/DOCUMENTATION_MAP.md`
-- `docs/ACTIVE_CONTEXT.md`
-- `docs/HANDOFF_CONTEXT.md`
-- `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_UPGRADE_MODEL_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_ARCHETYPE_SELECTION_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` — `SUPERSEDED_HISTORY`
-
-## 7. 구현·검증 경계
+## 8. 구현·검증 경계
 
 ```text
-PROJECT_SHEET_CONFIGURED
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 PRODUCT_CODE = UNCHANGED
-EXACT_HERO_IDENTITIES = PENDING
-EXACT_UNIQUE_SKILLS = PENDING
+EXACT_UNIQUE_SKILL_2 = PENDING
+FUTURE_NAMED_LEGENDARY = NOT_NOW
 EXACT_VALUES = PENDING
 ASSETS = NOT_CREATED
 SIMULATION = NOT_RUN
@@ -150,13 +136,21 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 8. 운영·다음 Gate
+## 9. 최종 검증 체크리스트
 
-- 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
-- 현재 카운터는 `5/10`이다.
-- 10번째 승인에서 적대적 preflight를 실행한다.
-- 제품 코드 PR은 별도 계약 대상이다.
+- [ ] GitHub와 Sheet에 같은 Decision ID.
+- [ ] Sheet에 exact PR head SHA.
+- [ ] bounded read-back PASS.
+- [ ] 필수 CI 3개 exact HEAD Green.
+- [ ] latest main 대비 behind 0.
+- [ ] changed paths가 문서 전용.
+- [ ] 제품 경로 0.
+- [ ] PR comments·reviews·unresolved threads 0 또는 해결.
+- [ ] Sheet `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 0.
+- [ ] PR #129 Draft 유지, 카운터 6/10.
+
+## 10. 다음 Gate
 
 ```text
-NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-CONCEPTS-V1
+OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-2-CONCEPTS-V1
 ```
