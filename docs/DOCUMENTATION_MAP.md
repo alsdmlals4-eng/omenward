@@ -6,9 +6,10 @@ work_mode: TOTAL_PLANNING
 current_phase: PR121_PREFLIGHT_CONTENT_PASS_MERGE_NOT_AUTHORIZED
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
-baseline_main: a521cf744533139063a72ab358b4381d2aae6f0b
+baseline_main: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
 working_branch: gpt/omenward-gameplay-planning-20260802
-active_base: 9.4.1_RELEASED
+active_base: 9.4.2_RELEASED
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
 current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
@@ -65,6 +66,7 @@ merge_authorization: NOT_GRANTED
 | 제품 화면·메인 작전 허브 | `design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md` | `TEXT_SPEC_CURRENT / IMAGE_NOT_GENERATED` |
 | Grill Me 10건 병합 주기 | `operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` | `CURRENT_OPERATING_RULE` |
 | PR #121 10건 적대적 preflight | `reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md` | `CONTENT_PASS / MERGE_NOT_AUTHORIZED` |
+| Base v9.4.2 latest-main 동기화 | `operations/PR121_MAIN_SYNC_V942_NOTE_2026-08-02.md` | `MAIN_TO_FEATURE_SYNC_ONLY` |
 | 실제 구현·Legacy·미검증 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
 | 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
