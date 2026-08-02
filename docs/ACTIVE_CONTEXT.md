@@ -7,6 +7,7 @@ work_mode: TOTAL_PLANNING
 current_phase: WORLD_VEIL_ONTOLOGY_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
+current_branch: main
 context_baseline_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 working_branch: gpt/omenward-canon-recovery-20260802
 active_base_version: 9.4.0
@@ -23,6 +24,8 @@ runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 simulation: NOT_RUN
 ```
+
+`current_branch: main`과 `context_baseline_commit`은 현재 정본 기준선을 뜻한다. 실제 쓰기 작업은 `working_branch`에서 수행하며 main 직접 변경을 의미하지 않는다.
 
 ## 1. 현재 작업
 
