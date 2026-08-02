@@ -9,7 +9,7 @@ current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MOD
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
-active_base: 9.4.2_RELEASED
+active_base: 9.4.3_RELEASED
 current_product: LEGACY_PROTOTYPE
 latest_planning: MERGED_TO_MAIN_NOT_IMPLEMENTED
 product_code_authority: NONE
