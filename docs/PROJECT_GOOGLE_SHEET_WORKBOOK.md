@@ -7,15 +7,15 @@ spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG
 workbook_role: USER_FACING_GDD_WORKSPACE
 sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
+current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 baseline_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
-current_grill_me_count: 3
-next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+sheet_status: PROJECT_SHEET_CONFIGURED / ACTIVE_DECISION_SYNC
+current_grill_me_count: 4
+next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 last_full_audit: 2026-08-02
 ```
 
@@ -46,66 +46,39 @@ Grill Me approval count
 | `02_현재_확정결정` | 같은 Decision ID의 승인 내용 |
 | `04_누락_충돌_감사` | 적대적 finding·해결·검증·merge blocker |
 | `05_GDD_요약` | 최신 게임플레이·Meta·구현 요약 |
-| `15_조작_게임규칙` | 룰렛·보관함 변환·전선 배치 규칙 |
+| `15_조작_게임규칙` | 룰렛·보관함 변환·active hero·전선 배치 규칙 |
 | `41_성장_경제` | 영구재화·주점·영웅 명부·병영·연구 |
 | `50_메인콘텐츠` | Stage·적 역할·영웅 활용 콘텐츠 |
-| `60_UX_UI_접근성` | 메인 허브·주점·보관함 영웅 변환·정보 위계 |
+| `60_UX_UI_접근성` | 메인 허브·주점·보관함 영웅 변환·active slot 표시 |
 | `99_변경이력` | GitHub path·HEAD·Sheet 범위·read-back·merge 결과 |
 
 ## 3. 현재 동기화 Decision
 
-Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
+Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1`
 
 ```text
-병종별 영웅 후보 복수 가능
-→ 주점에서 영구 해금·Profile 명부 등록
-→ 룰렛에서 같은 병종 [영웅] 등급 토큰 획득
-→ 보관함에서 원본 유지 또는 해금 영웅 선택
-→ 1토큰을 1유닛으로 변환
-→ 한 전선에 비가역 배치
+전장 전체 active Hero 최대 1명
+→ active Hero가 없을 때만 영웅 등급 토큰을 해금 영웅으로 변환
+→ 이전 인스턴스 종료 뒤 동일 hero_id도 새 토큰으로 반복 출전 가능
 ```
 
-- 별도의 런 시작 전 영웅 등록·계약 단계는 없다.
-- 병종 불일치·미해금 영웅은 변환 후보가 아니다.
-- 변환하지 않은 원본 영웅 등급 병종도 정상 사용 가능하다.
-- 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
-- 배치 확정 전 취소 가능, 확정 뒤 undo·회수·판매·라인 변경 불가다.
-- 동일 영웅 중복 배치와 동병종 활성 상한은 pending이다.
+- 상·중·하 전선을 합쳐 이름 지정 영웅 유닛은 동시에 최대 1명이다.
+- 서로 다른 영웅도 동시에 둘 이상 배치할 수 없다.
+- 같은 영웅도 이전 인스턴스가 종료된 뒤 반복 배치할 수 있다.
+- 반복 출전마다 별도의 동병종 `[영웅]` 등급 토큰 1개를 소비한다.
+- active hero가 있으면 새 토큰은 보관하거나 원본 영웅 등급 병종 유닛으로 배치한다.
+- 제한 때문에 토큰을 소멸시키거나 기존 영웅을 자동 교체하지 않는다.
+- 수동 퇴각·교대·Stage 유지·반복 초기화 계약은 pending이다.
 
-## 4. 동기화 증거
+## 4. 기존 승인 연결
 
-```text
-PR #121 verified head before workbook closure commit:
-398aee3106df166c5909d808c78531a213a64c6b
-
-SHEET_BOUNDED_READBACK: PASS
-REQUIRED_CI_AT_VERIFIED_HEAD:
-- Project Core Documentation run 534: PASS
-- GDD Sheet Adoption run 243: PASS
-- Base v9 adoption run 218: PASS
-```
-
-동기화 범위:
-
-- `00_프로젝트_허브!E2:L2`
-- `01_작업순서!A17:N18`
-- `02_현재_확정결정!A26:M27`
-- `04_누락_충돌_감사!A59:H67`
-- `05_GDD_요약!A8:J9`
-- `15_조작_게임규칙!A6:J7`
-- `41_성장_경제!A18:I19`
-- `50_메인콘텐츠!A13:J13`
-- `60_UX_UI_접근성!A13:J14`
-- `99_변경이력!A27:H28`
-
-## 5. 기존 승인 연결
-
-- 주점·허브 병영·연구는 유한 공개 영구 노드다.
-- 영웅 해금은 랜덤 뽑기·유료 재굴림·중복 합성이 아니다.
-- 세계관은 균열에서 넘어온 이계 생물종 수준으로 최소 노출한다.
+- 병종별 영웅 후보는 복수 해금 가능하고 Profile 명부에 등록된다.
+- 별도의 pre-run 영웅 편성·계약은 없다.
+- 영웅 변환은 `1토큰 → 1유닛`이며 보너스 유닛과 릴 odds 변경이 없다.
+- 원본 영웅 등급 병종 유닛은 영웅 미해금·active slot 점유 중에도 정상 사용 가능하다.
 - 게임 코어는 세 물리 릴 설계와 한 전선 비가역 커밋이다.
 
-## 6. 동기화 절차
+## 5. 동기화 절차
 
 ```text
 사용자 승인
@@ -120,7 +93,7 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 
 `PARTIAL_SYNC_BLOCKED`, `SYNC_CONFLICT`, `OPEN_P0_OR_P1`이면 다음 중요 Decision 또는 병합으로 진행하지 않는다.
 
-## 7. 권위 매핑
+## 6. 권위 매핑
 
 | 의미 | GitHub 책임 원본 |
 |---|---|
@@ -128,6 +101,7 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 | 현재 승인 Decision | `docs/PROJECT_CANON_DECISION_LEDGER.md` |
 | 영웅 해금·명부 | `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` |
 | 영웅 토큰 변환·배치 | `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` |
+| 영웅 단일 활성·반복 출전 | `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` |
 | 주점·병영·연구 | `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` |
 | Profile 성장 | `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` |
 | 이계 생물종·경계파쇄자 | `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` |
@@ -137,22 +111,23 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 | 현재 작업 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 
-## 8. 금지
+## 7. 금지
 
 - Sheet-only 변경을 승인 Decision으로 처리.
 - 영웅 해금을 모든 런의 자동 효과로 처리.
 - 영웅을 다른 병종에 자유 배속.
 - 별도 pre-run 영웅 계약을 다시 도입.
 - 영웅 변환을 숨은 릴 확률 상승·전역 능력치·보너스 유닛으로 처리.
-- 영웅 미해금을 이유로 원본 영웅 등급 병종을 불완전하게 설계.
+- 이름·병종·전선을 달리해 active Hero 1명 제한을 우회.
+- 동일 영웅 반복 출전을 한 런 1회 제한으로 오해.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
 
-## 9. 현재 상태
+## 8. 현재 상태
 
 ```text
-SHEET_STATUS = READBACK_PASS / CI_3_GREEN
+SHEET_STATUS = ACTIVE_DECISION_SYNC
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-GRILL_ME_COUNTER = 3_OF_10
-NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+GRILL_ME_COUNTER = 4_OF_10
+NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 PRODUCT_CODE = UNCHANGED
 ```
