@@ -10,6 +10,7 @@ current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MOD
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
+context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
@@ -32,7 +33,7 @@ human_validation: NOT_RUN
 simulation: NOT_RUN
 ```
 
-`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 main 정본으로 만든 역사적 병합 증거다.
+`context_baseline_commit`과 `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 main 정본으로 만든 역사적 병합 증거다.
 
 ## 1. 현재 상태
 
