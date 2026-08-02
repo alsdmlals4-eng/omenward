@@ -48,7 +48,7 @@ current_grill_me_count: 8
 | 영웅 동시 활성 1명·동일 영웅 반복 출전 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | `USER_APPROVED_SINGLE_ACTIVE_LIMIT` |
 | 영웅 수동 퇴각·교대 금지·Stage/Act/정비시간 유지·active 종료 | `design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` | `USER_APPROVED_NO_MANUAL_EXIT` |
 | 영웅 Stage 경계 HP·쿨다운·충전·고유 자원 지속과 전투 잔여 상태 정리 | `design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` | `USER_APPROVED_HERO_LONG_TERM_STATE_PERSISTENCE` |
-| 영웅 사망 무회수·새 영웅 등급 토큰 요구·새 인스턴스 초기 상태 | `design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` | `USER_APPROVED_FRESH_INSTANCE_AND_NO_RECOVERY_REWARD` |
+| 영웅 사망 무회수·사망 이후 새 룰렛 결과·새 인스턴스 초기 상태 | `design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` | `USER_APPROVED_POST_DEATH_ROULETTE_RESULT_AND_FRESH_INSTANCE` |
 | 세계·MapRun 반복·승패·징조 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | `USER_APPROVED_WORLD_PRINCIPLE` |
 | 베일 본질·법칙·균열·상흔 | `design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md` | `USER_APPROVED_WORLD_ONTOLOGY` |
 | 이계 생물종·경계파쇄자 게임플레이 범위 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | `USER_APPROVED_MINIMAL_LORE_GAMEPLAY_SCOPE` |
@@ -109,7 +109,8 @@ current_grill_me_count: 8
 → 살아 있는 동안 Stage·Act·정비시간을 넘어 동일 인스턴스 유지
 → Stage 정산에서 장기 상태 저장·전투 잔여물 제거
 → 사망·완전 제거 시 active 슬롯 해제, 회수 보상 없음
-→ 새 동병종 [영웅] 등급 토큰으로만 새 인스턴스 출전
+→ 사망 이후 룰렛에서 새 동병종 [영웅] 등급 결과 확정
+→ post-death provenance 토큰으로만 이름 지정 영웅 재출전
 ```
 
 - 각 영웅은 하나의 기존 `UnitArchetype`에 고정 연결된다.
@@ -119,8 +120,9 @@ current_grill_me_count: 8
 - 원본 영웅 등급 병종 토큰도 정상 배치 가능하다.
 - 상·중·하를 합쳐 출전 중인 이름 지정 영웅은 동시에 최대 1명이다.
 - active hero가 있으면 새 토큰은 보관하거나 원본 병종으로 사용한다.
-- 같은 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 새 토큰으로 반복 출전할 수 있다.
-- 반복 출전마다 별도의 영웅 등급 토큰이 필요하다.
+- 같은 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 다시 출전할 수 있지만 사망 이후 새 동병종 영웅 등급 결과가 필요하다.
+- 반복 출전 적격 토큰은 `created_sequence > previous_hero.ended_sequence`를 만족해야 한다.
+- 사망 전 보관 토큰은 원본 영웅 등급 병종으로 사용할 수 있지만 이름 지정 영웅 재출전 자격은 없다.
 - 수동 퇴각·수동 교체·판매·재보관·전선 이동은 불가다.
 - Stage·Act 전환과 정비시간은 active 슬롯을 비우거나 무료 귀환·교체를 제공하지 않는다.
 - 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 Stage 경계를 넘어 유지한다.
@@ -128,8 +130,7 @@ current_grill_me_count: 8
 - 투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 - 영웅 사망은 source token·재화·회수권·부활권·재배치권·보장 토큰·pity를 제공하지 않는다.
-- 새 미소비 동병종 영웅 등급 토큰이 없다면 룰렛에서 해당 `[영웅]` 등급 결과가 다시 나와야 한다.
-- 새 인스턴스는 최대 HP·쿨다운 0·능력 기본 충전·능력 초기 고유 자원으로 시작한다.
+- 새 적격 인스턴스는 최대 HP·쿨다운 0·능력 기본 충전·능력 초기 고유 자원으로 시작한다.
 - 이전 사망 인스턴스 상태는 새 unit_instance에 승계하지 않는다.
 - 확정 전 취소 가능, 전선 배치 뒤 undo·회수·판매·라인 변경 불가다.
 
@@ -157,16 +158,16 @@ OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 | 핵심 컨셉·뾰족한 재미 | `PROJECT_CORE.md`, Decision Ledger | 룰렛 통제감·사람 검증 |
 | MapRun·Stage·Wave·정비시간 | MapRun Stage Wave Maintenance | 일반 clock matrix·맵별 Wave 편성 |
 | 영웅 해금·명부 | Hero Unlock Registration | 병종별 정확 명단·비용 |
-| 영웅 토큰 변환·배치 | Hero Token Conversion | 단일 활성·퇴각 계약 검증 |
+| 영웅 토큰 변환·배치 | Hero Token Conversion | post-death provenance 검증 |
 | 영웅 활성·반복 출전 | Hero Single Active | 반복 빈도·강한 영웅 편중 simulation |
 | 영웅 퇴각·교대·종료 | Hero Exit and Replacement | 사망·재배치 UX 검증 |
 | 영웅 Stage 상태 지속 | Hero Stage State Persistence | 능력별 영속 동반자 예외 |
-| 영웅 사망·재출전 초기 상태 | Hero Redeployment Initial State | power budget·초기값 능력별 수치 |
+| 영웅 사망·재출전 초기 상태 | Hero Redeployment Initial State | power budget·토큰 provenance fault test |
 | 적 역할·경계파쇄자 | Veilspecies Gameplay Scope | Stage·Wave별 도입·정확 명단·행동 |
 | 룰렛·TokenSource·이동 | `design/APPROVED_ROULETTE_CORE_RULES.md` | latest Red·runtime |
 | 전장·노드·점령 | Project Core | Legacy battle code·tests |
-| 경제·Retry·저장 | Meta + Auxiliary Hub + Hero Redeployment + inherited economy lineage | 일반 maintenance clock matrix·사망 무회수·fault test |
-| 화면·UX | Screen Board V2 | Stage/Wave/정비·영웅 상태·사망 무회수 표시 |
+| 경제·Retry·저장 | Meta + Auxiliary Hub + Hero Redeployment + inherited economy lineage | 일반 maintenance clock matrix·사망 무회수·provenance fault test |
+| 화면·UX | Screen Board V2 | Stage/Wave/정비·영웅 상태·post-death 결과 필요 표시 |
 | 콘텐츠·위험 Stage·미션 | MapRun Stage Wave Maintenance + Decision Ledger | exact Wave·mission·choice breadth review |
 
 ## 8. 메인 허브·성장 라우팅
@@ -174,7 +175,8 @@ OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 - 주점: 병종별 복수 영웅 후보의 결정론적 영구 해금과 명부.
 - 보관함: 영웅 등급 토큰의 원본 유지 또는 동병종 해금 영웅 변환.
 - 전장: 이름 지정 영웅 active slot 1개를 세 전선이 공유하며 수동 퇴각·교대는 없다.
-- 영웅 사망은 토큰·재화·회수권을 제공하지 않고 새 영웅 등급 토큰 획득 전에는 재출전할 수 없다.
+- 영웅 사망은 토큰·재화·회수권을 제공하지 않는다.
+- 사망 전 보관 토큰은 원본 병종으로만 사용할 수 있고, 사망 후 이름 지정 영웅 재출전에는 사망 이후 새 룰렛 영웅 등급 결과가 필요하다.
 - 허브 병영: 병사 훈련·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 랜덤 유료 영입·무한 레벨·전 구간 배율·숨은 릴 확률·자동 플레이 금지.
@@ -203,7 +205,9 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - Hero HP/cooldowns/charges/unique resources persist across Stage boundaries
 - transient Hero combat state clears and Hero clocks pause during MaintenancePhase
 - no Hero death recovery reward or source-token return
-- fresh matching Hero-grade token required for a fresh full-state Hero instance
+- post-death matching Hero-grade Roulette result required for named-Hero redeployment
+- pre-death stored Hero-grade token cannot qualify for named-Hero redeployment
+- eligible post-death token creates a fresh full-state Hero instance
 ```
 
 ## 10. Grill Me·병합 규칙
