@@ -45,6 +45,8 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 제품 정체성·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
 | 승인 Decision·4/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
+| 현행 적대적 검토·blocker 계보 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
+| 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 | 영웅 해금·토큰·활성·생명주기 | 관련 `APPROVED_OMENWARD_HERO_*_2026-08-02.md` | `MERGED_USER_APPROVED_LIFECYCLE` |
 | 이름 지정 영웅 스킨형 단일 차이 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | `USER_APPROVED_SINGLE_DELTA_VARIANT` |
 | 단일 차이의 상쇄 | `design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` | `USER_APPROVED_ONE_RELATED_COMPENSATION_AXIS` |
@@ -103,7 +105,14 @@ ALL_OTHER_SOURCE_AXES_INHERITED = TRUE
 - 무료 능력·다축 하향·전체 스탯 재설계를 금지한다.
 - 원본 병종 우위 상황을 병종마다 하나 이상 유지한다.
 
-## 6. 구현 경계
+## 6. 계보·증거 경계
+
+- `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 현행 전체 시스템 기획 권위지만 구현 완료 증거가 아니다.
+- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 현행 적대적 검토와 제품 코드 blocker 경계의 책임 원본이다.
+- `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 **`PILOT_RECOMMENDATION / NOT_CANON`**이다.
+- Evidence Pilot은 별도 사용자 승인 전 정본·구현 권한을 가지지 않는다.
+
+## 7. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -121,7 +130,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영·다음 Gate
+## 8. 운영·다음 Gate
 
 - 현재 카운터는 `4/10`이다.
 - 10번째 승인에서 적대적 preflight를 실행한다.
