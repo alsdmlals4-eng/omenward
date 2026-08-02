@@ -8,27 +8,27 @@ workbook_role: USER_FACING_GDD_WORKSPACE
 sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
 current_sync_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
-baseline_main_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
+planning_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
 active_base: 9.4.0
-working_branch: gpt/omenward-canon-recovery-20260802
-merge_batch_pr: 119
+last_merged_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / MERGE_PREFLIGHT_SYNC
+sheet_status: PROJECT_SHEET_CONFIGURED / POSTMERGE_MAIN_SYNC
+current_grill_me_count: 0
+next_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 last_full_audit: 2026-08-02
 ```
 
 Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. 독립 정본이 아니며 GitHub의 현재 Decision·책임 원본·실제 구현 상태를 임의로 덮어쓰지 않는다.
 
-`PROJECT_SHEET_CONFIGURED`는 Workbook 연결과 필수 탭 계약이 구성됐음을 뜻한다. 현재 Decision의 exact PR HEAD는 `00_프로젝트_허브`, `02_현재_확정결정`, `99_변경이력`과 PR 설명에서 추적한다. GitHub 정본에 없는 Sheet-only 편집은 `PROPOSED_SHEET_CHANGE`다.
+`PROJECT_SHEET_CONFIGURED`는 Workbook 연결과 필수 탭 계약이 구성됐음을 뜻한다. exact PR head와 merged main commit을 구분해 기록한다. GitHub 정본에 없는 Sheet-only 편집은 `PROPOSED_SHEET_CHANGE`다.
 
 ## 1. 상태 축
 
 ```text
 Decision status
 Canonical authority path
-Baseline main commit
-Current working PR head
-Merged main commit
+Planning merge commit
+Current future-work PR head
 Implementation status
 Automated validation status
 Human validation status
@@ -42,7 +42,7 @@ Base SHA·project main·Decision authority commit·PR head·merge commit·구현
 
 | 탭 | 역할 |
 |---|---|
-| `00_프로젝트_허브` | 현재 단계·Decision·PR/main SHA·다음 Gate·카운터 |
+| `00_프로젝트_허브` | 현재 단계·Decision·main/PR SHA·다음 Gate·카운터 |
 | `01_작업순서` | Approval Bundle·선행/후속·병합 단계 |
 | `02_현재_확정결정` | 같은 Decision ID의 사용자 승인 내용 |
 | `04_누락_충돌_감사` | 적대적 finding·해결·검증·merge blocker |
@@ -89,13 +89,15 @@ Decision: `OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1`
 
 Decision: `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1`
 
-- 현재 PR #119는 사용자 명시 지시로 조기 병합 preflight.
+- PR #119는 사용자 명시 지시와 preflight 통과 후 squash 병합됐다.
+- verified head: `230b250a21d87b7f37a644d227d2a459ba1fddc4`.
+- planning merge commit: `26b0a39fbf576557f2658723dee8405c2ea07a6f`.
 - 이후 승인 Grill Me Decision 10건마다 preflight.
 - 10건은 강제 병합이 아니라 검증 시작 트리거.
 - P0/P1·누락 권위·Sheet divergence·CI 실패·review thread·merge conflict가 있으면 병합 금지.
-- 병합 뒤 Sheet를 merged main SHA와 `SYNCED_TO_MAIN / MERGE_VERIFIED`로 갱신하고 카운터 `0/10`.
+- 현재 카운터 `0/10`.
 
-## 4. 즉시 동기화 절차
+## 4. 동기화 절차
 
 ```text
 사용자 승인
@@ -106,7 +108,7 @@ Decision: `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1`
 → exact PR HEAD·CI 확인
 → premerge adversarial review
 → merge
-→ main SHA·파일 재조회
+→ main commit·파일 재조회
 → Sheet SYNCED_TO_MAIN
 ```
 
@@ -125,25 +127,28 @@ Decision: `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1`
 | 주점·병영·연구 | `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` |
 | 화면 | `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md` |
 | 병합 운영 | `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` |
+| 병합 검토 | `docs/reviews/OMENWARD_PR119_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md` |
 | 실제 구현 | `docs/CURRENT_IMPLEMENTATION_STATUS.md`와 실제 파일 |
 | 작업 상태 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 
 PR #116의 경로는 역사 증거이며 current local authority가 아니다.
 
-## 6. 이번 동기화 예정 범위
+## 6. PR #119 동기화 범위
 
 - `00_프로젝트_허브!E2:L2`
-- `01_작업순서`: 정치·보조 허브·병합 cadence 행.
-- `02_현재_확정결정`: 같은 세 Decision ID.
-- `04_누락_충돌_감사`: 정치 권한·영웅/훈련/연구·지갑 경쟁·병합 규칙·누락 권위 finding.
-- `05_GDD_요약`: Base v9.4·CI·세계·Meta 최신화.
-- `11_세계관`: 오멘워드·왕실·작전 권한.
-- `13_주요인물`: 플레이어의 현장 지휘관 책임.
-- `14_조연_세력_관계`: 루메른 왕국·오멘워드·왕실군·지방 행정.
-- `41_성장_경제`: 영구재화·주점·병영·연구·Hero+ roster.
-- `60_UX_UI_접근성`: 메인 작전 허브·노드 UX.
-- `99_변경이력`: GitHub path·exact head·Sheet 범위·read-back·merge.
+- `01_작업순서!A13:N15`
+- `02_현재_확정결정!A22:M24`
+- `04_누락_충돌_감사!A43:H53`
+- `05_GDD_요약!A4:J9`
+- `11_세계관!A16:H18`
+- `13_주요인물!A2:J2`
+- `14_조연_세력_관계!A5:J8`
+- `41_성장_경제!A14:I18`
+- `60_UX_UI_접근성!A11:J12`
+- `99_변경이력!A22:H24`
+
+병합 후에는 위 범위의 PR-head 상태를 merged main commit으로 교체하고 별도 merge history 행을 추가한다.
 
 ## 7. 금지
 
@@ -154,12 +159,13 @@ PR #116의 경로는 역사 증거이며 current local authority가 아니다.
 - 연구를 숨은 릴 확률·생산량 전 구간 배율로 사용.
 - PR #116 역사 파일을 검증 없이 current authority로 표시.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
-- PR head를 merged main SHA로 표시하거나 그 반대로 혼합.
+- PR head를 merged main commit으로 표시하거나 그 반대로 혼합.
 
-## 8. 병합 후 상태
+## 8. 현재 상태
 
 ```text
-SHEET_STATUS = SYNCED_TO_MAIN / MERGE_VERIFIED
+SHEET_STATUS = POSTMERGE_MAIN_SYNC
+PLANNING_MERGE_COMMIT = 26b0a39fbf576557f2658723dee8405c2ea07a6f
 GRILL_ME_COUNTER = 0_OF_10
 NEXT_DECISION = OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 NEXT_WORK = NEW_BRANCH_AND_DRAFT_PR

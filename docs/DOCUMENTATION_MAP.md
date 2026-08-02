@@ -3,16 +3,18 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: PR_119_MERGE_PREFLIGHT
+current_phase: WORLD_VEILSPECIES_PURPOSE_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
-baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
+baseline_main: 26b0a39fbf576557f2658723dee8405c2ea07a6f
 active_base: 9.4.0_RELEASED
 current_product: LEGACY_PROTOTYPE
-latest_planning: APPROVED_NOT_IMPLEMENTED
+latest_planning: APPROVED_MAIN_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
-merge_batch_pr: 119
+last_merged_pr: 119
+last_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
 superseded_pr: 116_CLOSED_NOT_MERGED
+current_grill_me_count: 0
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 주 책임 원본을 두고 다른 문서는 계보·보조·검증으로만 사용한다.
@@ -47,11 +49,12 @@ superseded_pr: 116_CLOSED_NOT_MERGED
 | 주점·허브 병영·연구·영웅 영입·영구 노드 | `design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` | `USER_APPROVED_STRUCTURE / VALUES_PENDING` |
 | 8개 제품 화면·메인 작전 허브 | `design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md` | `TEXT_SPEC_CURRENT / IMAGE_NOT_GENERATED` |
 | Grill Me 10건 병합 주기·preflight | `operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` | `CURRENT_OPERATING_RULE` |
-| 현재 전체 Vertical Slice 시스템 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `APPROVED_SYSTEM_CONTRACT / LATER_DECISIONS_OVERRIDE` |
+| PR #119 병합 직전 적대적 검토 | `reviews/OMENWARD_PR119_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md` | `MERGED_BATCH_EVIDENCE` |
+| 전체 Vertical Slice 시스템 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `APPROVED_SYSTEM_CONTRACT / LATER_DECISIONS_OVERRIDE` |
 | 현행 Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_REVIEW_LINEAGE / LATER_REVIEWS_OVERRIDE` |
 | 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 | 실제 구현·Legacy·미검증 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
-| 현재 작업·병합 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
+| 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 역할·동기화 계약 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 | 미확정 수치·콘텐츠 | `DECISIONS_PENDING.md` | `PENDING_REFERENCE / LEDGER_OVERRIDES` |
@@ -59,16 +62,17 @@ superseded_pr: 116_CLOSED_NOT_MERGED
 
 ## 3. current와 history 구분
 
+- PR #119는 squash 병합되어 승인 묶음의 main 정본이 됐다.
+- 병합 commit은 `26b0a39fbf576557f2658723dee8405c2ea07a6f`이다.
 - PR #116은 승인 대화와 세부 문서의 역사 증거다.
-- PR #116은 닫혔고 병합되지 않았으며 현재 local authority가 아니다.
-- PR #116 경로를 current authority로 사용하려면 현재 Base v9.4와 최신 Decision을 대조해 working branch에 선별 복구해야 한다.
-- `APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`는 이번 묶음에서 current local authority로 복구·확장했다.
-- Decision Ledger의 `INHERITED_*` 행은 역사 승인 원칙이며 구현 패키지·정확값의 자동 권한이 아니다.
+- PR #116은 닫혔고 병합되지 않았으며 current local authority가 아니다.
+- PR #116 경로를 current authority로 사용하려면 현재 Base v9.4와 최신 Decision을 대조해 새 PR에 선별 복구해야 한다.
+- `APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`는 PR #119에서 current local authority로 복구·확장됐다.
 
 ## 4. 검토·증거 경계
 
 - `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 전체 시스템 Vertical Slice 계보의 적대적 검토다.
-- 이후 사용자 승인·분야 정본·이번 premerge review가 충돌하면 최신 사용자 승인과 최신 분야 정본이 우선한다.
+- 이후 사용자 승인·분야 정본·새 premerge review가 충돌하면 최신 사용자 승인과 최신 분야 정본이 우선한다.
 - `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 룰렛 통제감 가설의 Evidence Pilot이다.
 - Evidence Pilot 상태는 반드시 `PILOT_RECOMMENDATION / NOT_CANON`으로 유지한다.
 - Pilot은 제품 구현·사람 검증·세계관 정본·CORE_LOCK 권한을 갖지 않는다.
@@ -96,25 +100,9 @@ OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 
 ## 6. 메인 허브·성장 라우팅
 
-### 주점
-
-- 영웅 이상 전문 인재의 영구 명부와 결정론적 공개 영입 노드.
-- 랜덤 뽑기·유료 재굴림·중복 합성 금지.
-- 영입은 영구, 한 런 출전은 제한. 정확 상한 pending.
-
-### 허브 병영
-
-- 병사 훈련·병종·전문화·교리 sidegrade.
-- MapRun TokenSource 건물 `병영`과 Profile 시설을 구분.
-- 무한 레벨·전 구간 전투 배율 금지.
-
-### 연구
-
-- 대체 건물·TokenSource·미션·징조 분석·편의 sidegrade.
-- 숨은 릴 확률 조작·전 구간 생산 배율·자동 플레이 금지.
-
-### 공통
-
+- 주점: 영웅 이상 전문 인재의 영구 명부와 결정론적 공개 영입 노드. 랜덤 뽑기·유료 재굴림·중복 합성 금지.
+- 허브 병영: 병사 훈련·병종·전문화·교리 sidegrade. MapRun TokenSource 병영과 구분.
+- 연구: 대체 건물·TokenSource·미션·징조 분석·편의 sidegrade. 숨은 odds·전 구간 생산 배율·자동 플레이 금지.
 - 기본 Profile로 모든 콘텐츠 완료 가능.
 - balance는 노드·Retry 소비, total은 비감소 milestone 판정.
 - 비용·노드 수·영웅 목록·능력·환불은 exact-value approval 전 제품값이 아니다.
@@ -161,26 +149,20 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - 프로젝트 방향을 바꾸는 충돌만 한 번에 하나씩 질문한다.
 - 답변 후 GitHub·Sheet가 같은 Decision ID로 동기화되기 전 다음 중요 질문으로 넘어가지 않는다.
 - 승인 Grill Me Decision ID만 병합 카운트에 포함한다.
+- 현재 카운터는 `0/10`이다.
 - 매 10건은 preflight trigger이며 blocker가 있으면 병합하지 않는다.
-- 현재 PR #119는 사용자 명시 지시로 4건에서 조기 병합 preflight를 수행한다.
+- 다음 Decision은 새 branch·새 Draft PR에서 시작한다.
 
 ## 10. 현재 Gate
 
 ```text
-PR #119 PREMERGE
-→ authority path audit
-→ Sheet bounded read-back
-→ changed-path and product-path audit
-→ reviews/comments/threads
-→ required CI at exact HEAD
-→ adversarial P0/P1 review
-→ squash merge
-→ main and Sheet verification
+Grill Me: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 ```
 
 ```text
 PRODUCT_CODE: UNCHANGED
 CODEX: BLOCKED
 EXACT_VALUES: PENDING
+CURRENT_MERGE_PENDING: NO
 RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```

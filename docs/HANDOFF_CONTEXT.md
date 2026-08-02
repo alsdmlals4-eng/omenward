@@ -4,26 +4,29 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: PR_119_MERGE_PREFLIGHT
+phase: WORLD_VEILSPECIES_PURPOSE_GRILL_ME_READY
 recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_world_decision: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
 current_meta_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
-working_branch: gpt/omenward-canon-recovery-20260802
-merge_batch_pr: 119
+baseline_main: 26b0a39fbf576557f2658723dee8405c2ea07a6f
+last_merged_pr: 119
+last_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
 superseded_pr: 116_CLOSED_NOT_MERGED
 base: 9.4.0_RELEASED
 current_product: LEGACY_PROTOTYPE
-latest_planning: APPROVED_NOT_IMPLEMENTED
+latest_planning: APPROVED_MAIN_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-merge_authorization: USER_APPROVED / PREFLIGHT_REQUIRED
-current_grill_me_count: 4
+current_grill_me_count: 0
+future_merge_cadence: 10
+next_work_branch: NEW_BRANCH_REQUIRED
 ```
 
 ## 1. 현재 정본
 
+- PR #119는 exact head `230b250a21d87b7f37a644d227d2a459ba1fddc4`에서 squash 병합됐다.
+- main planning merge commit은 `26b0a39fbf576557f2658723dee8405c2ea07a6f`이다.
 - 오멘워드는 건물과 TokenSource로 세 물리 릴을 설계하고 당첨 병력을 세 전선에 비가역 배치하는 전략 오토배틀이다.
 - 현재 제품은 Legacy 프로토타입이고 최신 기획은 미구현이다.
 - 각 MapRun은 별개의 실제 경계 공세이며 징조는 제한된 예측 정보다.
@@ -78,18 +81,18 @@ current_grill_me_count: 4
 
 PR #116은 역사 승인 증거이며 병합·current local authority가 아니다.
 
-## 5. 현재 병합 절차
+## 5. 병합 검증 결과
 
-1. GitHub·Sheet에 세 신규 Decision ID 반영.
-2. current authority 경로 존재 확인.
-3. PR 전체 changed path와 제품 경로 0변경 확인.
-4. 댓글·리뷰·미해결 thread 확인.
-5. exact HEAD에서 필수 CI 3개 Green 확인.
-6. 적대적 premerge review에서 P0/P1 blocker 0 확인.
-7. PR Ready 전환 후 expected-head squash merge.
-8. main 파일·merge commit 재조회.
-9. Sheet를 merged main SHA와 `SYNCED_TO_MAIN / MERGE_VERIFIED`로 갱신.
-10. 새 branch·새 Draft PR, Grill Me counter `0/10`.
+```text
+PR_119: MERGED
+MERGE_COMMIT: 26b0a39fbf576557f2658723dee8405c2ea07a6f
+PREMERGE_BLOCKERS: 0
+REQUIRED_CI: 3_GREEN
+SHEET_CONTENT_READBACK: PASS
+PRODUCT_PATH_CHANGES: 0
+```
+
+병합 직전 검토는 `docs/reviews/OMENWARD_PR119_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`가 소유한다.
 
 ## 6. 실제 구현 경계
 
@@ -109,7 +112,15 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - deterministic Hero+ roster
 ```
 
-## 7. 병합 후 다음 Gate
+## 7. Grill Me 운영
+
+- 이전 병합 묶음의 Grill Me 승인은 4건이었다.
+- 병합 완료 뒤 현재 카운터는 `0/10`이다.
+- 10번째 승인 시 병합 preflight를 실행한다.
+- blocker가 있으면 병합하지 않는다.
+- 다음 작업은 새 branch·새 Draft PR에서 진행한다.
+
+## 8. 다음 Gate
 
 ```text
 OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
