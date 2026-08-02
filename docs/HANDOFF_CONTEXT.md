@@ -4,39 +4,38 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: WORLD_VEILSPECIES_PURPOSE_GRILL_ME_READY
-recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_world_decision: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
+phase: GAMEPLAY_HERO_RUN_ROLE_GRILL_ME_READY
+current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_meta_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-baseline_main: 26b0a39fbf576557f2658723dee8405c2ea07a6f
-last_merged_pr: 119
-last_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
+baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
+working_branch: gpt/omenward-gameplay-planning-20260802
+last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
 base: 9.4.0_RELEASED
 current_product: LEGACY_PROTOTYPE
-latest_planning: APPROVED_MAIN_SYNCED_NOT_IMPLEMENTED
+latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 0
+current_grill_me_count: 1
 future_merge_cadence: 10
-next_work_branch: NEW_BRANCH_REQUIRED
 ```
 
 ## 1. 현재 정본
 
-- PR #119는 exact head `230b250a21d87b7f37a644d227d2a459ba1fddc4`에서 squash 병합됐다.
-- main planning merge commit은 `26b0a39fbf576557f2658723dee8405c2ea07a6f`이다.
 - 오멘워드는 건물과 TokenSource로 세 물리 릴을 설계하고 당첨 병력을 세 전선에 비가역 배치하는 전략 오토배틀이다.
 - 현재 제품은 Legacy 프로토타입이고 최신 기획은 미구현이다.
-- 각 MapRun은 별개의 실제 경계 공세이며 징조는 제한된 예측 정보다.
-- 베일은 현실과 이질적 외부 법칙 영역의 비의지적 경계 겹침이다.
-- 오멘워드는 루메른 왕실 인가 자율 경계대응단이다.
-- 플레이어는 활성 작전에서 제한된 비상 지휘권을 가진 현장 지휘관이지 통치자가 아니다.
-- Profile 영구 성장은 수평 해금·제한 편의 + 한 런 1개 상한형 준비 보정이다.
+- 각 MapRun은 별개의 실제 경계 공세다.
+- 사용자에게 세계관을 장문으로 공개하지 않는다.
+- 베일종은 제품에서 `균열을 통해 넘어온 이계 생물종` 정도로만 설명한다.
+- 단일 이계 제국·통일 종족·외교·정치 상세는 현재 범위가 아니다.
+- 경계파쇄자는 균열을 고정·확장하고 공세 규칙을 바꾸는 보스급 생물이다.
+- 적 콘텐츠는 군집·돌격·원거리·방호·교란·공성 역할로 구분한다.
+- 적의 역사보다 행동·위협 대상·대응법을 우선 전달한다.
+- 오멘워드는 루메른 왕실 인가 자율 경계대응단이며 플레이어는 현장 지휘관이다.
 - 메인 허브 보조 콘텐츠는 주점·허브 병영·연구다.
-- 정산 영구재화로 유한한 공개 노드를 개방한다.
-- 주점 영웅 영입은 공개 결정론적 노드이며 랜덤 뽑기·유료 재굴림이 아니다.
+- 정산 영구재화로 유한 공개 노드를 개방한다.
+- 주점 영웅 영입은 랜덤 뽑기가 아닌 결정론적 공개 노드다.
 
 ## 2. 보호할 코어
 
@@ -60,11 +59,11 @@ next_work_branch: NEW_BRANCH_REQUIRED
 노드 = 유한·비용/선행/결과 공개
 ```
 
-- 주점: 영웅 이상 전문 인재 명부·영구 영입. 출전 상한과 실제 능력은 pending.
-- 허브 병영: 병사 훈련·병종·전문화·교리 sidegrade. 전장 TokenSource 병영과 구분.
-- 연구: 대체 건물·TokenSource·미션·징조 분석·편의 sidegrade.
-- 금지: 랜덤 유료 영입, 무한 레벨, 전 구간 전투/생산 배율, 숨은 릴 확률 조작, 자동 플레이.
-- 영구재화 balance는 노드·Retry 소비, total은 비감소 milestone 판정.
+- 주점: 영웅 이상 전문 인재 명부·영구 영입.
+- 허브 병영: 병사·병종·전문화·교리 sidegrade.
+- 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
+- 금지: 랜덤 유료 영입, 무한 레벨, 전 구간 배율, 숨은 릴 확률, 자동 플레이.
+- 영웅의 정확한 MapRun 참여 방식·능력·출전 상한은 미확정이다.
 
 ## 4. current authority
 
@@ -73,28 +72,14 @@ next_work_branch: NEW_BRANCH_REQUIRED
 - `docs/DOCUMENTATION_MAP.md`
 - `docs/design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`
 - `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md`
 
-PR #116은 역사 승인 증거이며 병합·current local authority가 아니다.
-
-## 5. 병합 검증 결과
-
-```text
-PR_119: MERGED
-MERGE_COMMIT: 26b0a39fbf576557f2658723dee8405c2ea07a6f
-PREMERGE_BLOCKERS: 0
-REQUIRED_CI: 3_GREEN
-SHEET_CONTENT_READBACK: PASS
-PRODUCT_PATH_CHANGES: 0
-```
-
-병합 직전 검토는 `docs/reviews/OMENWARD_PR119_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`가 소유한다.
-
-## 6. 실제 구현 경계
+## 5. 실제 구현 경계
 
 ```text
 CURRENT_PRODUCT
@@ -107,24 +92,23 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - physical reels and permanent movement
 - 30-node topology and five buildings
 - paid Retry and Profile save
-- world/Veil/political canon
+- minimal extradimensional-creature gameplay scope
 - Tavern/Barracks/Research permanent-node hub
 - deterministic Hero+ roster
 ```
 
-## 7. Grill Me 운영
+## 6. Grill Me 운영
 
-- 이전 병합 묶음의 Grill Me 승인은 4건이었다.
-- 병합 완료 뒤 현재 카운터는 `0/10`이다.
+- 현재 승인 카운터는 `1/10`이다.
 - 10번째 승인 시 병합 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
-- 다음 작업은 새 branch·새 Draft PR에서 진행한다.
+- 다음 질문부터 세계관 확장이 아니라 실제 플레이 구조를 결정한다.
 
-## 8. 다음 Gate
+## 7. 다음 Gate
 
 ```text
-OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-= 베일종·경계파쇄자의 발생·지성·사회·침공 목적
+OMW-DEC-20260802-GAMEPLAY-HERO-RUN-ROLE-V1
+= 영입한 영웅이 한 MapRun에서 어떤 방식으로 플레이에 참여하는가
 ```
 
 ```text
