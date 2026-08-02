@@ -3,7 +3,7 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: CANON_RECOVERY_AND_ADVERSARIAL_PLANNING
+current_phase: GRILL_ME_DECISION_INTAKE
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0_RELEASED
@@ -12,6 +12,8 @@ latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 superseded_pr: 116
 recovery_pr: 119
+sheet_sync: SYNCED
+ci_validation: THREE_REQUIRED_WORKFLOWS_PASS
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 현행 책임 원본만 둔다. PR #116은 승인 결정의 역사·승계 근거이며 현재 작업 브랜치나 병합 권위가 아니다.
@@ -55,8 +57,6 @@ recovery_pr: 119
 
 ## 3. 현재 승인 기획 계보
 
-다음은 PR #116에서 사용자 승인된 기획 계보다. 현행 상태와 대체 관계는 `PROJECT_CANON_DECISION_LEDGER.md`가 소유한다.
-
 - 20 Stage·4막·런타임/피로도.
 - 콘텐츠 Manifest·미션 카드.
 - 위험 Stage·보스 패키지.
@@ -68,7 +68,7 @@ recovery_pr: 119
 - 최신 Red test 책임과 Legacy test 분류.
 - 즉시 Decision sync 운영 규칙.
 
-PR #116의 Base v9.3 migration 상태, 오래된 PR HEAD와 CI 판정은 현행 권위가 아니다.
+현행 상태와 대체 관계는 `PROJECT_CANON_DECISION_LEDGER.md`가 소유한다. PR #116의 Base v9.3 migration 상태, 오래된 PR HEAD와 CI 판정은 현행 권위가 아니다.
 
 ## 4. 분야별 라우팅
 
@@ -79,8 +79,8 @@ PR #116의 Base v9.3 migration 상태, 오래된 PR HEAD와 CI 판정은 현행 
 | 전체 Vertical Slice 시스템 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | 최신 Decision Ledger가 대체·보완 관계를 소유 |
 | 룰렛·TokenSource·이동 | `design/APPROVED_ROULETTE_CORE_RULES.md`, Decision Ledger | Legacy `roulette_service.gd`, 최신 Red spec 계보 |
 | 전장·노드·점령 | Project Core, 30-node inherited Decision | Legacy battle simulator·tests |
-| 경제·Retry·저장 | 현재 Decision Ledger | PR #116의 승인 구조 문서 계보, simulator/fault test는 NOT_RUN |
-| 콘텐츠·위험 Stage·미션 | 현재 Decision Ledger | PR #116 승인 계보, exact values pending |
+| 경제·Retry·저장 | 현재 Decision Ledger | 승인 구조 계보, simulator/fault test는 NOT_RUN |
+| 콘텐츠·위험 Stage·미션 | 현재 Decision Ledger | 승인 계보, exact values pending |
 | 세계·인물·세력 | 기존 세계·인물 문서 + 현재 Grill Me 큐 | 벨루 Decision, 반복 동기 충돌 검토 |
 | UX·UI·접근성 | Screen Board V2 inherited Decision | 실제 HUD·Visual Index·해상도/접근성 NOT_RUN |
 | 아트·오디오·에셋 | 관련 승인 아트 문서·Visual Index | 제품 적용·라이선스·runtime 확인 |
@@ -88,10 +88,8 @@ PR #116의 Base v9.3 migration 상태, 오래된 PR HEAD와 CI 판정은 현행 
 
 ## 5. Evidence·Review 경계
 
-### Current Vertical Slice compatibility routes
-
 - `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 승인된 전체 시스템 관계의 호환성 책임 원본이다. 이후 Decision ID가 충돌하거나 구체화한 부분은 Decision Ledger가 우선한다.
-- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 기존 Vertical Slice의 적대적 검토 증거다. 2026-08-02 현재 복구 finding은 새 recovery audit가 소유한다.
+- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 기존 Vertical Slice의 적대적 검토 증거다. 2026-08-02 현재 finding은 recovery audit가 소유한다.
 - `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 룰렛 통제감 연구 입력이다.
 - Evidence Pilot 상태는 정확히 `PILOT_RECOMMENDATION / NOT_CANON`이다.
 - Evidence Pilot은 제품 구현, 사람 검증 통과, Core Lock 또는 별도 제품 기능의 권위를 갖지 않는다.
@@ -150,10 +148,8 @@ Profile 영구 성장의 역할
 ## 9. 현재 다음 Gate
 
 ```text
-VALIDATOR_COMPATIBILITY_GREEN
-→ FINAL_PR_HEAD_SHEET_SYNC
-→ Grill Me #1
-→ 승인 Decision 즉시 sync
+Grill Me #1
+→ 승인 Decision 동일 ID GitHub·Sheet 즉시 동기화
 → 다음 validated conflict
 ```
 
