@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 class TestBaseV94Omenward(unittest.TestCase):
  def test_identity_routes_and_protection(self):
   a=json.loads((ROOT/'skills/PROJECT_BASE_ADAPTER.json').read_text(encoding='utf-8')); s=json.loads((ROOT/'skills/PROJECT_SKILL_SNAPSHOT.json').read_text(encoding='utf-8'))
-  self.assertEqual('9.4.0',a['base_release']['version']); self.assertEqual('a728712cb776ec98f4875914a580fcf7d0156593',a['base_release']['release_commit']); self.assertEqual('ef1fba11167e4da0b298123b0c85ebd268191a42',a['base_release']['release_evidence_commit']); self.assertEqual('693a0dff3f054ecdd653079909e044211473838e73dd9aff07734d1ce5694c59',a['skill_registry']['base']['sha256'])
+  self.assertEqual('9.4.0',a['base_release']['version']); self.assertEqual('3f2c4a624d302b704c1b5322eb5c9f34ad55abb9',a['base_release']['release_commit']); self.assertEqual('ff117d24d5bdb121314e109a6aa9b4f552e0fdc1',a['base_release']['release_evidence_commit']); self.assertEqual('693a0dff3f054ecdd653079909e044211473838e73dd9aff07734d1ce5694c59',a['skill_registry']['base']['sha256'])
   self.assertIn('optimizing-ai-model-and-prompt-costs',{x['route_id'] for x in a['routing']['base_routes']}); self.assertEqual({'omenward-art-assets','omenward-core-design','omenward-core-ux','omenward-godot'},{x['route_id'] for x in a['routing']['project_routes']}); self.assertEqual('BASE_SHARED',s['effective_routes']['optimizing-ai-model-and-prompt-costs']['source'])
   self.assertEqual(['data/','scripts/','scenes/','assets/','addons/','project.godot'],a['protected_paths'])
  def test_views(self):

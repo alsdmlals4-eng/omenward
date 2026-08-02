@@ -9,7 +9,7 @@ class BaseV9AdoptionTests(unittest.TestCase):
     def test_v9_4_canonical_adapter_preserves_implementation_boundary(self) -> None:
         data = json.loads((ROOT / "skills/PROJECT_BASE_ADAPTER.json").read_text(encoding="utf-8"))
         health = json.loads((ROOT / "docs/PROJECT_OPERATING_HEALTH.json").read_text(encoding="utf-8"))
-        self.assertEqual(data["base_release"]["version"], "9.4.0")
+        self.assertEqual(data["base_release"]["version"], "9.4.1")
         self.assertEqual(data["gdd_sheet"]["sync_status"], "BLOCKED")
         self.assertEqual(health["operating_maturity"], "OM-L0")
         self.assertEqual(health["product_evidence_maturity"], "PE-0")
