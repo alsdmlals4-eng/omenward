@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: WORLD_VEIL_ONTOLOGY_SYNC_IN_PROGRESS
+phase: WORLD_OMENWARD_POLITICAL_ROLE_GRILL_ME_READY
 recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -16,7 +16,7 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-sheet_sync: ONTOLOGY_DECISION_SYNC_IN_PROGRESS
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 ```
 
 ## 1. 현재 정본
@@ -102,8 +102,8 @@ NO_PROPHECY_DETERMINISM
 
 ## 7. 세계관 결정 큐
 
-1. `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` — 사용자 승인, GitHub·Sheet 동기화 진행 중.
-2. `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` — 오멘워드·루메른 왕국·지휘관의 조직 및 정치적 위치.
+1. `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` — 승인·정본·Sheet read-back 완료.
+2. `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` — 오멘워드·루메른 왕국·지휘관의 조직 및 정치적 위치, `READY`.
 3. `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1` — 베일종·경계파쇄자의 발생·지성·목적.
 4. `OMW-DEC-20260802-WORLD-REEL-METAPHYSICS-V1` — 징조·세 물리 릴·TokenSource의 세계 내 원리.
 5. 트리븐 전선·실베른 성채·베일런 황야의 지리와 역사.
@@ -114,8 +114,7 @@ NO_PROPHECY_DETERMINISM
 ## 8. 바로 다음 작업
 
 ```text
-Ontology sync·exact HEAD·CI closure
-→ Grill Me: 오멘워드는 루메른 왕국 안에서 어떤 권한과 책임을 가진 조직인가?
+Grill Me: 오멘워드는 루메른 왕국 안에서 어떤 권한과 책임을 가진 조직인가?
 ```
 
 exact PR HEAD·CI·Sheet 상태는 PR #119와 Sheet `00`, `02`, `11`, `99`에서 확인한다.
