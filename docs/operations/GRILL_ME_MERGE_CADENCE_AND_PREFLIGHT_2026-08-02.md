@@ -8,7 +8,8 @@ status: CURRENT_OPERATING_RULE
 current_batch: PR_121
 current_grill_me_count: 10
 preflight_trigger: REACHED
-preflight: REQUIRED_IN_PROGRESS
+preflight: CONTENT_PASS / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED_BEFORE_MERGE
+preflight_report: docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md
 current_merge_authorization: NOT_GRANTED
 future_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 product_code_authority: NONE
@@ -16,37 +17,24 @@ product_code_authority: NONE
 
 ## 1. 목적
 
-승인된 기획이 Draft PR과 Sheet에 장기간 누적되어 main 정본과 분리되는 문제를 막되, 숫자만 채웠다는 이유로 불완전한 PR을 강제 병합하지 않는다.
+승인 기획이 Draft PR과 Sheet에 누적되어 main 정본과 분리되는 문제를 막되, 숫자만 채웠다는 이유로 불완전한 PR을 병합하지 않는다.
 
 ```text
 승인 Decision 누적
 → 즉시 GitHub·Sheet 동기화
-→ 10번째 Grill Me 승인
-→ 적대적 병합 사전 검증
-→ blocker 0 + 사용자 명시적 병합 승인
+→ 10번째 승인
+→ 적대적 preflight
+→ blocker 0·최종 exact HEAD Green
+→ 사용자 명시적 병합 승인
 → 병합
 → main·Sheet 재동기화
-→ 새 branch·새 Draft PR에서 다음 묶음 시작
 ```
 
 ## 2. 카운트 규칙
 
-카운트 단위는 사용자에게 한 번에 하나씩 제시되고 사용자가 승인한 Grill Me Decision ID다.
+카운트에는 사용자가 승인하고 GitHub·Sheet에 같은 Decision ID로 정본화한 Grill Me만 포함한다. 오타·경로·CI 호환 수정, 적대적 finding, 동일 Decision 보완, 브랜치·병합·Sheet 운영은 제외한다.
 
-포함:
-
-- 선택지와 권장안을 제시한 Grill Me 질문.
-- 사용자가 `권장안대로`, 번호 선택 또는 수정안으로 승인한 Decision.
-- GitHub·Sheet에 같은 Decision ID로 정본화된 항목.
-
-제외:
-
-- 오타·경로·상태·CI 호환 수정.
-- 적대적 finding만 추가한 작업.
-- 이미 카운트된 Decision의 문구 보완.
-- 병합·브랜치·Sheet 동기화 같은 운영 작업.
-
-## 3. PR #121 현재 10건
+## 3. PR #121 승인 10건
 
 1. `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1`
 2. `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1`
@@ -62,97 +50,95 @@ product_code_authority: NONE
 ## 4. 10건의 의미
 
 ```text
-APPROVAL_COUNT_REACHED = PREFLIGHT_REQUIRED
-PREFLIGHT_PASS = MERGE_ELIGIBLE
+TEN_APPROVALS = PREFLIGHT_TRIGGER
+PREFLIGHT_PASS = MERGE_ELIGIBLE_AFTER_FINAL_HEAD_REVALIDATION
 PREFLIGHT_PASS != MERGE_AUTHORIZED
 OPEN_P0_OR_P1 = MERGE_BLOCKED
 ```
 
-- 10번째 승인은 무조건 병합 명령이 아니라 preflight 시작 트리거다.
+- 10번째 승인은 병합 명령이 아니다.
 - P0/P1 blocker가 있으면 병합하지 않는다.
-- blocker를 수정하고 동일 preflight를 다시 통과해야 한다.
-- blocker 0이어도 사용자의 명시적 병합 승인 전에는 병합하지 않는다.
-- Draft→Ready 전환도 병합 승인 단계에서만 수행한다.
-- 자동 병합과 auto-merge 설정은 금지한다.
+- blocker 0이어도 사용자의 별도 병합 승인 전에는 Draft를 유지한다.
+- Draft→Ready 전환과 병합은 승인 단계에서만 수행한다.
+- auto-merge는 금지한다.
 
-## 5. 필수 GitHub 검증
+## 5. 필수 검증
 
-### 5.1 권위·내용
+### GitHub 권위
 
-- 최신 사용자 승인 Decision 목록과 Decision Ledger 대조.
-- Documentation Map의 책임 원본 경로 존재 확인.
-- 역사 PR에만 있는 문서를 current authority처럼 가리키는 참조 탐지.
-- CURRENT_CANON·CURRENT_IMPLEMENTATION·LEGACY·REJECTED·PENDING 구분 확인.
-- Decision ID·상태·대체 관계·미확정 범위 확인.
-- 미검증 수치가 제품 확정값으로 잘못 승격되지 않았는지 확인.
-- 최신 승인 규칙이 이전 결정을 조용히 약화·확대하지 않았는지 확인.
+- Decision Ledger의 승인 목록·상태·미확정 범위.
+- Documentation Map의 책임 원본 존재·Decision ID.
+- Legacy·현재 승인·미구현·미검증 경계.
+- Vertical Slice·적대적 검토·Evidence Pilot 계보.
+- 후속 문서가 이전 결정을 조용히 약화·확대하지 않았는지.
 
-### 5.2 PR
+### PR
 
-- state·draft·base·head·exact HEAD 확인.
-- main 대비 ahead/behind·mergeability·충돌 확인.
-- 전체 changed paths와 제품 경로 변경 여부 확인.
-- PR 설명이 최신 Decision·Sheet 범위·검증 결과를 포함하는지 확인.
-- 댓글·리뷰·미해결 inline thread 전수 확인.
-- scope drift·폐기 자료 혼입·동일 내용 중복 커밋 위험 확인.
+- Open·Draft·base·head·exact HEAD·mergeability.
+- current main 대비 ahead/behind와 merge base.
+- changed paths·제품 경로·scope drift.
+- 댓글·리뷰·미해결 thread.
+- PR 본문의 최신 Decision·Sheet·검증 상태.
 
-### 5.3 CI
+### CI
 
-exact PR HEAD에서 다음 workflow를 새로 확인한다.
+최종 exact PR HEAD에서 다음을 확인한다.
 
 - `Validate Project Core Documentation`
 - `Validate Omenward GDD Sheet Adoption`
 - `Validate Base v9 adoption`
 
-하나라도 없거나 queued·in_progress·failure·cancelled면 병합할 수 없다.
+### Google Sheet
 
-## 6. 필수 Google Sheet 검증
+- Workbook ID·25개 탭.
+- Hub·작업순서·현재 결정·분야 탭·감사·변경이력.
+- 같은 Decision ID·exact HEAD·상태의 bounded read-back.
+- `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 검색.
 
-- Workbook ID와 25개 필수 탭 확인.
-- `00_프로젝트_허브` 현재 단계·다음 Gate·exact PR HEAD 확인.
-- `01_작업순서` 승인 순서와 선행·후속 관계 확인.
-- `02_현재_확정결정` Decision ID·정본 경로·PR surface 확인.
-- 분야 탭의 승인 내용·금지선 확인.
-- `04_누락_충돌_감사`의 열린 P0/P1·MERGE_BLOCKER 확인.
-- `99_변경이력` GitHub path·HEAD·Sheet 범위·read-back 확인.
-- Sheet-only 변경이 `PROPOSED_SHEET_CHANGE` 없이 정본으로 승격되지 않았는지 확인.
-- GitHub·Sheet의 같은 Decision ID·문구·상태·exact HEAD를 bounded read-back으로 재검증.
+## 6. PR #121 preflight 결과
 
-## 7. 적대적 공격 질문
+주 책임 보고서:
 
-1. 승인 내용 중 GitHub나 Sheet 한쪽에만 있는 항목이 있는가?
-2. 책임 원본이 실제로 존재하지 않거나 역사 PR에만 남아 있는가?
-3. 후속 문서가 이전 결정을 조용히 약화·확대했는가?
-4. Legacy 구현을 승인 제품으로 오인하게 만드는 표현이 있는가?
-5. 미검증 수치·성능·아트·서사가 완료 상태로 표시됐는가?
-6. Hero 해금·자동 능력·Meta가 pay/grind-to-win 또는 원본 사장을 만드는가?
-7. 폐기·실패 증거가 삭제되거나 `NOT_CREATED`로 되돌아갔는가?
-8. 병합 뒤 main에서 branch·PR·pending 표현이 즉시 낡게 되는가?
-9. 새 작업자가 Documentation Map만 읽고 다음 작업을 찾을 수 있는가?
-10. 롤백 시 어떤 commit·Decision·Sheet 범위를 되돌려야 하는가?
+`docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
 
-모든 finding은 `RESOLVED`, `ACCEPTED_RISK`, `TEST_REQUIRED`, `USER_DECISION_REQUIRED`, `MERGE_BLOCKER` 중 하나로 분류한다.
+후보 증거 HEAD `be552b54b96a029dfa042675ae002ad21b96af65`:
 
-## 8. 병합 방식
+```text
+CONTENT_PREFLIGHT = PASS
+OPEN_P0 = 0
+OPEN_P1 = 0
+MERGE_BLOCKER = 0
+PRODUCT_PATHS = 0
+BEHIND_MAIN = 0
+COMMENTS = 0
+REVIEWS = 0
+UNRESOLVED_THREADS = 0
+```
 
-- 문서·기획 묶음의 기본 권장 방식은 `squash`다.
-- 병합 직전 exact HEAD를 고정하고 expected HEAD가 움직이면 preflight를 다시 수행한다.
-- PR이 Draft이면 사용자 병합 승인 후 Ready로 전환한다.
-- 제품 코드가 포함된 PR은 이 문서만으로 병합하지 않는다.
-- 현재 PR #121은 문서-only 기획 묶음이지만 **사용자 병합 승인은 아직 없다**.
+필수 CI:
 
-## 9. 병합 직후 필수 작업
+```text
+Project Core Documentation run 615 = PASS
+GDD Sheet Adoption run 332 = PASS
+Base v9 adoption run 308 = PASS
+```
 
-- `merged=true`와 merge commit 확인.
-- main HEAD와 변경 경로 재조회.
-- 필수 정본 파일이 main에서 읽히는지 확인.
-- Sheet의 PR head를 merged main SHA로 교체.
-- `SYNCED_TO_MAIN / MERGE_VERIFIED` bounded read-back.
-- Grill Me 카운터를 `0/10`으로 초기화.
-- 새 branch·새 Draft PR에서 다음 묶음을 시작.
-- 병합된 PR branch를 후속 작업에 재사용하지 않는다.
+해결된 주요 finding:
 
-## 10. 병합 차단 조건
+- latest main Base v9.4.1 ancestry 누락 → main→feature PR #124로 해결.
+- Documentation Map의 Vertical Slice·review·Evidence Pilot 계보 누락 → 복원 후 Core CI Green.
+- 과거 PR #116 `OPEN_P1` CI 행 → 역사적 해결 상태로 전환.
+- 제품 구현 전 parser·simulation·fault test → `TEST_REQUIRED`로 유지하되 문서-only 병합 blocker와 분리.
+
+## 7. 병합 방식
+
+- 문서·기획 묶음 기본 권장은 `squash`다.
+- 병합 직전 expected HEAD를 고정한다.
+- HEAD가 움직이면 필수 CI·compare·review·Sheet exact HEAD를 다시 확인한다.
+- 사용자 승인 후에만 Draft를 Ready로 전환하고 병합한다.
+- 현재 PR #121의 사용자 병합 승인은 없다.
+
+## 8. 병합 차단 조건
 
 ```text
 OPEN_P0_OR_P1
@@ -166,16 +152,23 @@ UNDECLARED_PRODUCT_PATH_CHANGE
 STALE_EXACT_HEAD
 ```
 
-하나라도 참이면 병합하지 않고 원인·수정 위치·재검증 결과를 기록한다.
+## 9. 병합 직후 작업
 
-## 11. 현재 상태
+- merged 상태와 merge commit 확인.
+- main HEAD·정본 파일 재조회.
+- Sheet를 `SYNCED_TO_MAIN / MERGE_VERIFIED`로 갱신.
+- 카운터를 `0/10`으로 초기화.
+- 새 branch·새 Draft PR에서 다음 묶음 시작.
+
+## 10. 현재 상태
 
 ```text
-CURRENT_BATCH: PR_121
-CURRENT_GRILL_ME_COUNT: 10_OF_10
-PREFLIGHT_TRIGGER: REACHED
-PREFLIGHT: REQUIRED_IN_PROGRESS
-CURRENT_USER_MERGE_AUTHORIZATION: NO
-AUTO_MERGE: FORBIDDEN
-POST_MERGE_NEXT_COUNT: 0_OF_10
+CURRENT_BATCH = PR_121
+CURRENT_GRILL_ME_COUNT = 10_OF_10
+CONTENT_PREFLIGHT = PASS
+FINAL_EXACT_HEAD_REVALIDATION = REQUIRED_BEFORE_MERGE
+CURRENT_USER_MERGE_AUTHORIZATION = NO
+DRAFT_MUST_REMAIN = TRUE
+AUTO_MERGE = FORBIDDEN
+POST_MERGE_NEXT_COUNT = 0_OF_10
 ```
