@@ -4,11 +4,11 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: GAMEPLAY_HERO_EXIT_REPLACEMENT_GRILL_ME_READY
+current_phase: GAMEPLAY_HERO_STAGE_STATE_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
 context_baseline_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
@@ -22,7 +22,7 @@ primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
 last_merged_pr: 120
 last_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-current_grill_me_count: 4
+current_grill_me_count: 5
 future_merge_cadence: 10
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
@@ -37,6 +37,7 @@ simulation: NOT_RUN
 - 우선순위는 실제 게임플레이·콘텐츠 구조다.
 - 영웅은 사전 편성 캐릭터가 아니라 영웅 등급 보관 토큰의 선택형 변환 후보다.
 - 전장 전체의 출전 중 영웅 유닛은 동시에 최대 1명이다.
+- 배치한 영웅은 수동 퇴각·교대할 수 없고 살아 있는 동일 인스턴스가 Stage·Act를 넘어 유지된다.
 
 ## 2. 프로젝트 약속
 
@@ -44,7 +45,7 @@ simulation: NOT_RUN
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-## 3. 영웅 해금·사용·활성 제한
+## 3. 영웅 해금·사용·활성·종료
 
 ```text
 주점에서 병종별 영웅 영구 해금
@@ -53,6 +54,8 @@ simulation: NOT_RUN
 → 보관함에서 원본 유지 또는 해금 영웅 선택
 → active hero가 없으면 1토큰을 1영웅으로 변환
 → 한 전선에 비가역 배치
+→ 살아 있는 동안 Stage·Act를 넘어 같은 인스턴스로 유지
+→ 사망·완전 제거 또는 MapRun 종료 시 active 슬롯 해제
 ```
 
 - 하나의 병종에 해금 영웅이 여러 명 존재할 수 있다.
@@ -61,10 +64,13 @@ simulation: NOT_RUN
 - 변환하지 않아도 원본 영웅 등급 병종을 배치할 수 있다.
 - 상·중·하를 합쳐 이름 지정 영웅은 동시에 최대 1명만 출전한다.
 - active hero가 있으면 새 토큰은 보관하거나 원본 병종으로 사용할 수 있다.
-- 같은 영웅도 이전 인스턴스가 더 이상 출전 중이 아니면 새 토큰으로 다시 배치할 수 있다.
+- 같은 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 새 토큰으로 다시 배치할 수 있다.
 - 반복 출전마다 별도의 영웅 등급 토큰을 소비한다.
+- 수동 퇴각·수동 교체·판매·재보관·전선 이동은 불가다.
+- Stage·Act 전환은 active 슬롯을 비우거나 무료 재배치·귀환을 제공하지 않는다.
 - 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
 - 확정 전 취소 가능, 배치 확정 뒤 undo·회수·판매·라인 변경 불가다.
+- Stage 사이 체력·쿨다운·상태 처리는 다음 Decision이다.
 
 ## 4. 최소 세계 배경
 
@@ -119,6 +125,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - multi-hero-per-unit unlock roster
 - stored Hero-grade token conversion and irreversible deployment
 - one active Hero across all lanes; same Hero repeat deployment after slot clears
+- no manual Hero retreat or replacement; same Hero instance persists across Stage and Act
 ```
 
 `APPROVED_PLAN != IMPLEMENTED != VALIDATED`.
@@ -131,6 +138,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -140,15 +148,15 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 ## 9. Grill Me·병합 규칙
 
 - 승인 Grill Me Decision ID만 카운트한다.
-- 현재 카운터는 `4/10`이다.
+- 현재 카운터는 `5/10`이다.
 - 10번째 승인 시 GitHub·Sheet·PR·CI·review·authority path 적대적 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 10. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
-= 현재 영웅이 살아 있을 때 수동 교대·퇴각을 허용하는가, 어떤 사건에서 active 상태가 종료되는가
+OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+= 살아 있는 영웅의 체력·쿨다운·버프·디버프·고유 자원은 Stage 전환에서 어떻게 유지·회복되는가
 ```
 
 ## 11. 경계
