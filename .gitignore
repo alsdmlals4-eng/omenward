@@ -34,6 +34,7 @@ coverage/
 logs/
 .cache/
 tmp/
+.worktrees/
 # Python verification cache
 __pycache__/
 *.py[cod]
