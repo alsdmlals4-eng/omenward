@@ -1,168 +1,182 @@
-# 오멘워드 영웅 능력 자동 발동 승인 계약
+# 오멘워드 해금 영웅 고유 2스킬 자동 발동 계약
 
 ```yaml
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 approved_at: 2026-08-02 19:26 KST
-approval: USER_APPROVED_RECOMMENDED_OPTION
-status: USER_APPROVED / CURRENT_BRANCH_SYNCED / NOT_IMPLEMENTED
-work_mode: TOTAL_PLANNING
+refined_at: 2026-08-03 07:47 KST
+status: USER_APPROVED / REFINED_BY_COOLDOWN_CHARGE_FAILURE_POLICY / NOT_IMPLEMENTED
+current_authority: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-COOLDOWN-CHARGE-AND-FAILURE-POLICY-V1
 product_code_authority: NONE
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-## 1. 결정 요약
+## 1. 결정
 
-이름 지정 영웅의 기본 공격과 전투 능력은 규칙 기반으로 자동 발동한다. 플레이어는 전투 중 스킬 버튼을 누르거나 타깃을 직접 지정하지 않는다. 플레이어의 통제는 영웅 선택, 전선 배치, 병력 조합, 건물·룰렛 운영과 발동 조건 조성에 둔다.
-
-```text
-전투 상태 갱신
-→ 공개된 발동 조건 평가
-→ 공개된 능력 우선순위 평가
-→ 공개된 대상 우선순위와 동률 해소 규칙 적용
-→ 유효 대상·비용·쿨다운·충전 재검증
-→ 능력 자동 시작
-→ 결과·쿨다운·충전·고유 자원 기록
-```
-
-## 2. 플레이어 조작 경계
-
-허용:
-
-- 원본 `[영웅]` 등급 병종 또는 이름 지정 영웅 선택.
-- 영웅을 배치할 전선 선택.
-- 영웅의 고점 조건을 만들 병력·건물·적 대응 조합 구성.
-- 공개된 발동 조건과 대상 우선순위를 보고 배치 시점 판단.
-
-금지:
-
-- 영웅 능력 수동 발동 버튼.
-- 수동 타깃 지정·드래그·조준.
-- 능력 발동 직전 수동 취소 또는 보류.
-- 자동 판단을 우회하는 숨은 명령 큐.
-- 영웅마다 자동·수동·혼합 방식을 임의로 섞는 예외.
-
-## 3. 능력 계약 필수 필드
-
-모든 영웅 전투 능력은 최소 다음을 정의한다.
-
-```yaml
-ability_id:
-activation_mode: AUTOMATIC_RULE_BASED
-trigger_conditions: []
-ability_priority:
-target_filter:
-target_priority:
-tie_break_rule:
-precast_tell:
-cast_or_windup_time:
-interrupt_policy:
-resource_cost:
-charge_policy:
-cooldown_policy:
-invalid_target_policy:
-stage_persistence_scope:
-```
-
-- 조건과 우선순위는 사용자에게 이해 가능한 언어로 공개한다.
-- 동률 해소는 거리, 전선 진행도, 생성 순서, 고정 ID 등 결정론적 기준을 사용한다.
-- 무작위 타깃 선택이 필요하면 별도 승인된 seed와 로그가 없는 한 사용하지 않는다.
-- 능력 시작 전 대상·비용·충전·쿨다운을 다시 검증한다.
-- 대상이 사라졌을 때의 취소·재탐색·비용 소비 여부를 능력별로 명시한다.
-
-## 4. 다중 능력 우선순위
-
-한 영웅의 여러 능력이 동시에 준비되면 고정된 `ability_priority` 순서로 평가한다.
+초기 해금 이름 지정 영웅은 표준 영웅 등급의 2스킬을 고유 2스킬로 교체하며, 공통 상태 머신과 병종별 유효 조건을 사용해 자동 발동한다.
 
 ```text
-높은 우선순위 능력의 모든 조건 충족
-→ 해당 능력 시작
-
-높은 우선순위 능력의 조건 불충족
-→ 다음 우선순위 능력 평가
+INITIAL_WARMUP
+→ READY_WAITING_FOR_VALID_CONDITION
+→ CAST_PRECHECK
+→ CAST_COMMIT
+→ RESOLUTION_OR_ACTIVE_EFFECT
+→ COOLDOWN
+→ READY_WAITING_FOR_VALID_CONDITION
 ```
 
-- 우선순위는 숨기지 않는다.
-- 같은 combat tick에 복수 능력을 동시에 시작하지 않는다.
-- 능력 하나가 시작되면 다른 능력은 다음 합법 평가 시점까지 대기한다.
-- 영웅별 우선순위 변경은 명시적 상태 효과나 능력 계약이 없으면 허용하지 않는다.
+```text
+NAMED_HERO_UNIQUE_SKILL_SLOT = 2
+MANUAL_ACTIVATION = FALSE
+COMMON_STATE_MACHINE = TRUE
+MAX_STORED_READY_COUNT = 1
+CHARGE_ACCUMULATION = FALSE
+MANA_OR_ENERGY_RESOURCE = FALSE
+READY_STATE_PERSISTS_WITHOUT_VALID_CONDITION = TRUE
+```
 
-## 5. 결정론·저장·Stage 경계
+상세 책임 원본은 `APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md`다.
 
-- 동일한 저장 상태와 동일한 입력 순서에서는 같은 능력·대상·결과를 선택해야 한다.
-- 저장·불러오기·Retry로 발동 순서, 대상 우선순위, 쿨다운 또는 충전을 다시 굴리지 않는다.
-- 살아 있는 영웅의 남은 쿨다운·충전·고유 자원은 기존 Stage 지속 계약을 따른다.
-- MaintenancePhase에서는 영웅 쿨다운·충전·고유 자원 clock이 진행되지 않는다.
-- Stage 정산 시 진행 중 시전·타깃·일시 파생 개체는 기존 상태 정리 계약을 따른다.
-- 사망한 영웅의 능력 상태는 새 인스턴스에 승계하지 않는다.
+## 2. INITIAL_WARMUP
 
-## 6. 전투 예산과 약점
+- 새 전장 배치 뒤 첫 사용 전에 초기 준비시간을 거친다.
+- save/load·Retry로 warmup을 초기화하거나 단축할 수 없다.
+- 정확 warmup 초는 simulation 전까지 고정하지 않는다.
+- Stage·정비시간 경계에서 timer를 어떻게 carry할지는 후속 Decision이 소유한다.
 
-자동 발동은 이름 지정 영웅의 조건부 전문화 sidegrade 계약을 약화하지 않는다.
+## 3. READY와 실패 정책
 
-- 좋은 조건을 플레이어가 조성했을 때 높은 고점이 나타나야 한다.
-- 조건이 맞지 않으면 능력이 늦게 발동하거나 덜 적합한 대상을 선택하는 위험이 존재할 수 있다.
-- 단, 비효율은 숨은 오작동이 아니라 공개된 조건·우선순위·약점에서 예측 가능해야 한다.
-- 자동 발동 편의성 자체를 무료 전투력으로 계산하지 않는다.
-- 수동 조작 숙련도나 APM을 전투 예산의 숨은 조건으로 사용하지 않는다.
+- cooldown 완료 뒤 READY 1회만 저장한다.
+- 유효 조건이 없어도 READY를 유지한다.
+- READY 상태에서 추가 사용권을 비축하지 않는다.
+- `CAST_COMMIT` 전 trigger·target이 무효화되면 READY로 돌아가고 cooldown을 소비하지 않는다.
+- 임의의 대체 대상으로 즉시 재지정하지 않고 다음 deterministic 평가 주기에 재검사한다.
 
-주 책임 원본:
+## 4. CAST_COMMIT 이후
 
-- 전투 예산·조건부 고점·약점: `APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
-- Stage 상태 지속: `APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
-- 토큰 변환·배치: `APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
+단발 해결형:
 
-## 7. UX 요구
+- `천공 소거`는 commit된 표적 snapshot을 한 번 해결한다.
+- `메테오`는 commit된 지점에 예고 후 한 번 낙하한다.
+- commit 뒤 시전자 사망만으로 단발 사건을 취소하지 않는다.
 
-배치·비교 화면에는 다음을 제공한다.
+시전자 귀속 지속형:
 
-- 자동 발동 표기.
-- 핵심 발동 조건.
+- `불퇴의 성벽`.
+- `생명의 서약`.
+- `그림자 분신`.
+
+시전자가 사망·완전 제거되면 남은 owner-bound 지속 효과를 종료한다.
+
+## 5. cooldown 시작점
+
+```text
+불퇴의 성벽: 지속시간 또는 흡수 예산 종료 후
+천공 소거: 일제사격 판정 완료 후
+생명의 서약: 체력 하한 지속시간 종료 후
+메테오: 낙하·폭발 판정 완료 후
+그림자 분신: 분신 지속시간 또는 조기 종료 후
+```
+
+```text
+COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
+```
+
+모든 스킬에 동일한 exact cooldown을 강제하지 않는다. 공통 상태 머신 안에서 스킬별 cooldown 값을 데이터로 둔다.
+
+## 6. 필수 데이터
+
+각 고유 2스킬은 다음을 명시한다.
+
+- 발동 가능한 전투 조건.
+- 대상 후보 조건.
 - 대상 우선순위.
-- 능력 우선순위.
-- 고점 조건과 명시적 약점.
-- 현재 전선에서 조건 충족 가능성을 판단할 정보.
+- 결정론적 동률 처리.
+- warmup과 cooldown 길이.
+- cooldown 시작 시점.
+- 유효 대상이 없을 때 READY 유지 규칙.
+- 발동 직전 재검증.
+- commit payload.
+- 효과와 종료 조건.
+- 식별 가능한 VFX/SFX·전투 로그.
+- save/load·Retry·Stage 경계에서 유지할 상태.
 
-전투 중에는 다음을 제공한다.
+## 7. 플레이어 통제·UX
 
-- 발동 전 예고 애니메이션·아이콘·범위 표시.
-- 실제 선택 대상 표시.
-- 발동 실패·취소·대상 상실의 짧은 원인 로그.
-- 쿨다운·충전·고유 자원 상태 표시.
+플레이어는 스킬 버튼·직접 타기팅·수동 보류를 사용하지 않는다. 대신 다음을 확인한다.
 
-## 8. 적대적 검토
+- 고유 2스킬 이름과 전장 역할.
+- 유효 발동 조건.
+- 현재 `INITIAL_WARMUP | READY | ACTIVE | COOLDOWN` 상태.
+- READY지만 조건이 없어 대기 중인 이유.
+- commit 예고와 대상·범위.
+- 효과 또는 cooldown 남은 시간.
+- 전장 전체 `[영웅]·[전설]` 활성 슬롯 `0/1` 또는 `1/1`.
 
-| 공격 | 판정 | 보완 |
-|---|---|---|
-| 자동 능력이 숨은 조건 때문에 멋대로 작동한다 | 유효 | 조건·대상·우선순위 공개 의무 |
-| 능력 둘이 동시에 준비되어 비결정적으로 선택된다 | 유효 | 고정 ability_priority와 tie-break |
-| 저장 후 더 좋은 대상이 나올 때까지 재로드한다 | 유효 | 저장 상태·입력 순서 기반 결정론 유지 |
-| 자동 발동이 잘못된 대상에 낭비되어 통제감이 없다 | 유효 | 타깃 필터·우선순위·예고·원인 로그 제공 |
-| 수동 궁극기만 예외로 추가되어 APM 게임이 된다 | 유효 | 모든 이름 지정 영웅 능력에 동일 자동 규칙 적용 |
-| 자동 편의성과 전투 능력을 함께 받아 순수 상위호환이 된다 | 유효 | 다축 전투 예산·명시적 약점 계약 유지 |
-| 고점 조건이 자동으로 항상 충족된다 | 유효 | encounter matrix와 조건 충족률 simulation 필요 |
+자동 발동은 숨은 랜덤이 아니라 예고된 공세와 전선 배치 판단에 사용할 수 있는 공개 규칙이어야 한다.
 
-## 9. 미확정 항목
-
-- 영웅별 능력 명단·정확 트리거·우선순위·수치.
-- combat tick과 능력 평가 주기.
-- 무작위가 필요한 능력의 seed 정책.
-- 정확한 예고 시간·로그 문구·접근성 표현.
-- 자동 판단 UX·결정론·저장 복구 runtime test.
-
-## 10. 상태 경계
+## 8. 결정론·저장
 
 ```text
-ABILITY_ACTIVATION = AUTOMATIC_RULE_BASED
-MANUAL_SKILL_BUTTON = FORBIDDEN
-MANUAL_TARGETING = FORBIDDEN
-TRIGGER_AND_PRIORITY_DISCLOSURE = REQUIRED
-DETERMINISTIC_TIE_BREAK = REQUIRED
-SAVE_REROLL = FORBIDDEN
-EXACT_ABILITIES_AND_VALUES = PENDING
+동일 저장 상태
++ 동일 전투 입력 순서
+= 동일 준비 전환·대상·발동 결과
+```
+
+저장 대상:
+
+- state enum.
+- warmup·cooldown 남은 시간.
+- 선택 대상 stable ID·snapshot.
+- commit된 메테오 위치와 남은 낙하시간.
+- 지속효과 남은 시간·예산·대상별 하한.
+- 분신 owner link.
+
+저장·Retry로 대상·발동 시점·READY 사용권을 재굴림하거나 복제할 수 없다.
+
+## 9. 전장 임팩트와 등급 상한
+
+- 고유 2스킬은 한 번의 발동으로 배치 전선의 국면에 명확한 변화를 만든다.
+- 표준 `[영웅]`보다 강하지만 표준 `[전설]`의 전체 키트보다 약해야 한다.
+- 여러 독립 효과를 묶어 사실상 궁극기 세트로 만들지 않는다.
+- active effect와 cooldown을 동시에 흘려 사실상 상시 유지하지 않는다.
+
+## 10. 향후 해금 전설
+
+```text
+FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
+FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
+```
+
+현재 문서는 해금 전설의 정확 trigger·cooldown·효과를 승인하지 않는다.
+
+## 11. 금지
+
+- 표준 2스킬과 고유 2스킬 동시 보유.
+- 수동 스킬·수동 타깃·수동 보류.
+- mana·energy·rage 등 신규 영웅 전용 자원.
+- 다중 charge·READY 누적.
+- 유효 조건 없는 자동 소모.
+- precommit 무효화 후 cooldown 소비.
+- active effect 중 cooldown 진행.
+- 숨은 무작위 대상 선택.
+- 저장·Retry 재굴림.
+- 영웅별 신규 AI 아키텍처·전체 신규 리그 요구.
+- 해금 전설을 현재 구현 범위에 포함.
+
+## 12. 구현 경계
+
+```text
+PRODUCT_CODE = UNCHANGED
+COMMON_STATE_MACHINE = APPROVED
+SINGLE_READY_STORAGE = APPROVED
+INITIAL_WARMUP = APPROVED
+EXACT_WARMUP_SECONDS = PENDING
+EXACT_PER_SKILL_COOLDOWNS = PENDING
+STAGE_AND_MAINTENANCE_TIMER_POLICY = PENDING
+EXACT_VALUES = PENDING
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
-PRODUCT_CODE = UNCHANGED
 ```

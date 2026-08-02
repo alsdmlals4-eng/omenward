@@ -1,108 +1,154 @@
 # OMENWARD 프로젝트 Google Sheets Workbook
 
 ```yaml
-project: omenward
+updated_at: 2026-08-03
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw/edit
-workbook_role: USER_FACING_GDD_WORKSPACE
-sheet_edit_policy: PROPOSED_SHEET_CHANGE
-canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
-current_operating_gate: NEXT_PLANNING_BATCH_SELECTION
+spreadsheet_title: 오멘워드(OMENWARD)
+workspace_role: USER_FACING_GDD_WORKSPACE
+change_protocol: PROPOSED_SHEET_CHANGE
+current_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+current_pr: 129
+current_branch: gpt/omenward-hero-kit-planning-20260802
+current_pr_head: RESOLVE_FROM_PR_129
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-working_branch: NONE
-active_base: 9.4.3
-last_merged_planning_pr: 121
-current_planning_pr: NONE
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_MAIN / MERGE_VERIFIED
-current_grill_me_count: 0
-preflight: PR121_PASS_AND_MERGED
-planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
-product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
-last_full_audit: 2026-08-02
+status: PROJECT_SHEET_CONFIGURED / SYNC_REQUIRED_TO_PR_HEAD / READBACK_REQUIRED / CI_REQUIRED / COUNTER_10_OF_10
+product_code_authority: NONE
 ```
 
-Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. GitHub main이 기획 정본이며 Sheet는 같은 Decision ID와 main SHA를 표시한다. `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석하며 `pr121_merge_commit`은 최근 기획 묶음의 역사적 병합 증거다.
+이 문서는 GitHub 정본과 연결 Google Sheet의 동기화 계약을 소유한다. 연결 Sheet는 기획자가 읽고 운영하는 `USER_FACING_GDD_WORKSPACE`다. 모든 변경은 정본 Decision ID와 근거를 먼저 갖춘 `PROPOSED_SHEET_CHANGE`로 취급한 뒤 read-back과 CI를 통과해야 동기화 완료로 기록한다.
 
-## 1. 현재 동기화 상태
+PR HEAD는 자기참조 commit을 만들지 않도록 GitHub PR #129와 Sheet에서 해석한다.
+
+## 1. 이번 Decision
 
 ```text
-PROJECT_SHEET_CONFIGURED
-PR #121 = MERGED
-MERGE_METHOD = SQUASH
-PR121_MERGE_COMMIT = 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-SHEET_STATUS = SYNCED_TO_MAIN / MERGE_VERIFIED
-GRILL_ME_COUNTER = 0_OF_10
-PRODUCT_STATUS = NOT_IMPLEMENTED
+READY
+→ public trigger
+→ same-lane legal filter
+→ public priority score
+→ stability window
+→ stable tie-break
+→ CAST_PRECHECK
+→ immutable CAST_COMMIT snapshot
 ```
-
-## 2. 최근 병합 Decision
-
-- `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1`
-- `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1`
-- `OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1`
-
-## 3. 병합 전 검증 증거
 
 ```text
-PR_HEAD = 79cb43b71d0072374a9586bb66dd4a24c3b069a9
-Project Core Documentation run 630 = PASS
-GDD Sheet Adoption run 347 = PASS
-Base v9 adoption run 324 = PASS
-AHEAD = 117
-BEHIND = 0
-CHANGED_PATHS = 21_DOCUMENTATION_ONLY
-PRODUCT_PATHS = 0
-COMMENTS = 0
-REVIEWS = 0
-UNRESOLVED_THREADS = 0
-OPEN_P0 = 0
-OPEN_P1 = 0
-MERGE_BLOCKER = 0
+A = 표준 [영웅]
+B = 해금 이름 지정 [영웅]
+C = 표준 [전설]
 ```
 
-## 4. 주요 탭 역할
+- 공개 Trigger·Priority·tie-break와 공통 Resolver를 사용한다.
+- 숨은 AI·랜덤 tie-break·임의 fallback target·수동 발동을 금지한다.
+- B는 의도된 encounter에서 A보다 강하고 C는 전체 대표 encounter 합산 가치에서 B보다 강해야 한다.
+- 모든 encounter 자동 최선과 다른 두 전선 비결정화는 실패다.
+- exact threshold·sample size·tolerance·값은 simulation 계획에서 고정한다.
 
-| 탭 | 역할 |
+## 2. Sheet 반영 범위
+
+| 목적 | 범위 |
 |---|---|
-| `00_프로젝트_허브` | main SHA·현재 단계·카운터·다음 Gate |
-| `01_작업순서` | 완료된 묶음과 다음 계획 순서 |
-| `02_현재_확정결정` | 승인 Decision·main 정본 경로 |
-| `04_누락_충돌_감사` | 열린 P0/P1·blocker·해결 이력 |
-| `05_GDD_요약` | 최신 기획·구현 경계·검증 상태 |
-| `12_핵심루프` | 핵심 플레이 흐름 |
-| `15_조작_게임규칙` | 조작·결정론·금지선 |
-| `40_핵심시스템_메인콘텐츠` | 시스템 계약·데이터 구조 |
-| `41_성장_경제` | 성장·공정성 경계 |
-| `50_메인콘텐츠` | 콘텐츠·encounter 요구 |
-| `60_UX_UI_접근성` | 정보 공개·접근성 요구 |
-| `99_변경이력` | main SHA·PR·검증·Sheet 범위 |
+| 프로젝트 Hub·카운터·HEAD | `00_프로젝트_허브!E2:L2` |
+| 작업순서 | `01_작업순서!A38:N38` |
+| 확정 Decision | `02_현재_확정결정!A46:M46` |
+| 벤치마크 근거 | `03_근거_라이브러리!A25:J28` |
+| 적대적 감사 | `04_누락_충돌_감사!A191:H202` |
+| GDD 상태 요약 | `05_GDD_요약!D8:J8`, `05_GDD_요약!B9:J9` |
+| 핵심루프 | `12_핵심루프!A21:J21` |
+| 조작·게임 규칙 | `15_조작_게임규칙!A24:J24` |
+| 핵심 시스템 | `40_핵심시스템_메인콘텐츠!A24:J24` |
+| 성장·경제 경계 | `41_성장_경제!A34:I34` |
+| encounter 검증 | `50_메인콘텐츠!A31:J31` |
+| UX·접근성 | `60_UX_UI_접근성!A32:J32` |
+| 아트·오디오 | `70_아트_오디오_에셋!A15:J15` |
+| 변경 이력 | `99_변경이력!A49:H49` |
 
-## 5. 현재 승인 경계
+## 3. 근거 라이브러리
 
-- 최신 승인 기획은 main 정본이다.
-- 제품 구현은 시작되지 않았다.
-- 정확 영웅 능력·수치·경제 clock·simulation·runtime·human QA는 pending이다.
-- Sheet-only 변경은 `PROPOSED_SHEET_CHANGE` 없이 정본으로 승격하지 않는다.
+- `OM-EVD-024`: Riot Games `Clarity in League` — 전투 이해·대응 가능성, 중요도 위계, 노이즈 관리.
+- `OM-EVD-025`: TFT `Neon Nights Gameplay Overview` — largest group·lowest health ally 같은 설명 가능한 자동 대상 규칙.
+- `OM-EVD-026`: Riot `Champion Balance Framework`·`Balancing for Pro Play` — 일관된 측정과 특정 선택의 과도한 필수화 감시.
+- `OM-EVD-027`: 내부 Trigger·target·A/B/C encounter validation contract.
 
-## 6. 향후 동일 작업 운영
+공식 자료는 exact OMENWARD 값 권위가 아니다.
 
-- 중요 결정 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
-- 다음 10건 동안 카운터를 `1/10`부터 누적한다.
-- 10번째 승인 뒤 문서·기획 PR이 Green preflight와 blocker 0을 만족하면 별도 승인 대기 없이 병합한다.
-- GitHub auto-merge는 사용하지 않는다.
-- 제품 코드 PR은 별도 작업 계약 대상이다.
-
-## 7. 다음 Gate
+## 4. 적대적 감사
 
 ```text
-NEXT_PLANNING_BATCH_SELECTION
+OMW-AUD-191 hidden AI
+OMW-AUD-192 one-frame trigger flicker
+OMW-AUD-193 unstable tie-break
+OMW-AUD-194 barrier permanent uptime
+OMW-AUD-195 anti-air encounter deletion
+OMW-AUD-196 Priest invulnerability/heal drift
+OMW-AUD-197 undodgeable Meteor
+OMW-AUD-198 autonomous clone scope expansion
+OMW-AUD-199 unlocked Hero exceeds Legendary
+OMW-AUD-200 one Hero best in all encounter families
+OMW-AUD-201 late commit value loss
+OMW-AUD-202 other two lanes become non-decisive
 ```
+
+## 5. 쓰기·검증·병합 절차
+
+```text
+1. 대상 범위 bounded read
+2. 기존 서식·검증 확인
+3. 같은 Decision ID로 batch update
+4. 동일 범위 bounded read-back
+5. exact PR HEAD CI 3종 확인
+6. latest main compare
+7. changed path·review·thread 확인
+8. OPEN_P0·OPEN_P1·MERGE_BLOCKER 검색
+9. Sheet에 exact HEAD·run 번호 마감
+10. PR 설명 갱신
+11. fresh Green이면 Draft 해제
+12. expected HEAD SHA로 직접 병합
+13. merged PR·main SHA·Sheet merge 상태 확인
+```
+
+## 6. 필수 CI
+
+```text
+Validate Project Core Documentation
+Validate Omenward GDD Sheet Adoption
+Validate Base v9 adoption
+```
+
+모두 exact PR HEAD에서 `success`여야 `CI_3_GREEN`으로 기록한다.
+
+## 7. blocker 검색
+
+`04_누락_충돌_감사!A1:H300`에서 다음 문자열의 실제 데이터 행을 검색한다.
+
+```text
+OPEN_P0
+OPEN_P1
+MERGE_BLOCKER
+```
+
+헤더 외 일치 행이 없어야 한다.
+
+## 8. 경계
+
+```text
+CURRENT_PRODUCT = LEGACY_PROTOTYPE
+LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
+PRODUCT_CODE = UNCHANGED
+SHEET_WRITES = PLANNING_DATA_ONLY
+PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
+POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
+EXACT_SCHEMA_AND_VALUES = PENDING
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+```
+
+## 9. 카운터·병합
+
+```text
+GRILL_ME_COUNT = 10/10
+PREFLIGHT = REQUIRED_NOW
+```
+
+fresh preflight가 Green이면 standing user authorization에 따라 문서 PR #129를 별도 승인 대기 없이 병합한다. 제품 구현 권한은 포함하지 않는다.

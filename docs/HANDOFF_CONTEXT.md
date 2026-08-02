@@ -1,126 +1,226 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
 ```yaml
-updated_at: 2026-08-02
+updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: POST_MERGE_MAIN_CANONICAL
+phase: HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_POWER_VALIDATION_APPROVED
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+current_meta_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
+current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-working_branch: NONE
-current_planning_pr: NONE
-last_merged_planning_pr: 121
+working_branch: gpt/omenward-hero-kit-planning-20260802
+current_planning_pr: 129
+last_merged_planning_pr: 127
 base: 9.4.3_RELEASED
 current_product: LEGACY_PROTOTYPE
-latest_planning: MERGED_TO_MAIN_NOT_IMPLEMENTED
+latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 0
+current_grill_me_count: 10
 future_merge_cadence: 10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
-preflight: PR121_PASS_AND_MERGED
+preflight: REQUIRED_NOW
 ```
 
-`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 정본화한 역사적 증거다.
+## 1. 최신 사용자 결정
 
-## 1. 최근 완료 작업
+Decision ID:
 
-- PR #121을 exact HEAD `79cb43b71d0072374a9586bb66dd4a24c3b069a9`에서 최종 검증했다.
-- Project Core run 630, GDD Sheet run 347, Base v9 run 324가 통과했다.
-- latest main 대비 `ahead 117 / behind 0`, 문서 21개, 제품 경로 0개였다.
-- 댓글·리뷰·미해결 스레드는 모두 0이었다.
-- Sheet `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 검색 결과는 모두 0이었다.
-- PR #121은 squash 병합됐고 merge commit은 `8337a3eba5ff065b2a7c06c6a6256e5b4951c055`다.
-
-## 2. 현재 제품·기획 경계
-
-- 현재 제품은 Legacy 프로토타입이다.
-- 최신 승인 기획은 main 정본이지만 아직 구현되지 않았다.
-- 제품 코드·데이터·Scene·Resource는 PR #121에서 변경되지 않았다.
-- `APPROVED_PLAN != IMPLEMENTED != VALIDATED`를 유지한다.
-
-## 3. MapRun·영웅 정본
+`OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1`
 
 ```text
-맵 → MapRun → Stage → Wave → Stage 정산 → 정비시간
+READY
+→ 공개 Trigger
+→ 같은 전선 합법 후보 Filter
+→ 공개 Priority Score
+→ stability window
+→ stable ID / position tie-break
+→ CAST_PRECHECK
+→ immutable CAST_COMMIT snapshot
 ```
 
-- Stage와 정비시간 모두 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치가 가능하다.
-- 이름 지정 영웅은 기존 UnitArchetype에 고정 연결된다.
-- 동병종 `[영웅]` 등급 토큰을 원본 병종 또는 해금 영웅으로 1:1 변환한다.
-- 세 전선 전체 active 이름 지정 영웅은 최대 1명이다.
-- 수동 퇴각·교대·판매·재보관·전선 이동은 금지한다.
-- 생존 영웅은 HP·쿨다운·충전·고유 자원을 Stage 경계 너머로 유지한다.
-- 사망은 회수 보상을 제공하지 않으며 사망 이후 새 적격 토큰으로만 재출전한다.
-- 이름 지정 영웅은 원본 병종의 순수 상위호환이 아닌 조건부 고점형 전문화 sidegrade다.
+숨은 AI·랜덤 tie-break·임의 fallback target·수동 발동·숨은 전투 종료 예측은 금지한다.
 
-## 4. 자동 능력 정본
+## 2. 초기 5명 Trigger·대상
 
 ```text
-공개 trigger
-→ 고정 ability priority
-→ 공개 target priority·tie-break
-→ 유효성 재검증
-→ 자동 발동
+방패병 → 전열 압력·보호 가치가 기준 이상 / owner 전열 anchor
+궁병   → 비행 수·가중 위협도 기준 이상 / commit 시 합법 비행 Snapshot
+사제   → 체력 기준 이하 생존 아군 존재 / 같은 전선 qualifying ally set
+마법사 → 유효 군집 점수 기준 이상 / 적중 수→위협도→stable 위치
+암살자 → 합법 후열 고가치 표적 존재 / 역할→후열 깊이→위협도→stable ID
 ```
 
-- 수동 스킬 버튼·수동 타깃 지정은 없다.
-- 동일 저장 상태와 입력 순서는 동일한 능력·대상 결과를 만든다.
-- 저장·Retry를 통한 자동 판단 재굴림은 금지한다.
+- 분신은 독립 target selection·pathfinding·skill casting을 하지 않는다.
+- 메테오는 commit 지점 고정 후 회피 가능하다.
+- 사제는 회복·부활이 아닌 체력 하한 보호다.
+- 궁병은 지상·건물·다른 전선을 공격하지 않는다.
+- 방벽은 지형·navmesh를 만들지 않는다.
 
-## 5. 현재 책임 원본
+## 3. 공통 상태·Stage 정책
+
+```text
+INITIAL_WARMUP
+→ READY_WAITING_FOR_VALID_CONDITION
+→ CAST_PRECHECK
+→ CAST_COMMIT
+→ RESOLUTION_OR_ACTIVE_EFFECT
+→ COOLDOWN
+→ READY
+```
+
+```text
+ACTIVE_COMBAT = TIMER_PROGRESS
+MAINTENANCE / PREPARATION / ROULETTE / BUILD = TIMER_PAUSED
+READY_AND_REMAINING_TIME = CARRY_ON_SAME_LIVING_INSTANCE
+ACTIVE_EFFECT_STAGE_CARRY = FORBIDDEN
+UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
+```
+
+- precheck 실패는 READY 복귀·cooldown 0.
+- owner-bound effect는 전투 종료 시 정리 후 full cooldown.
+- 미해결 천공 소거·메테오는 취소·사용 소비·full cooldown.
+- save/load·Retry 재굴림·READY 복제·payload 이중 해결 금지.
+
+## 4. 등급·전역 슬롯
+
+```text
+표준 [영웅] = 강화 1스킬 + 표준 2스킬
+해금 이름 지정 [영웅] = 강화 1스킬 + 고유 2스킬
+표준 [전설] = 강화 1스킬 + 강화 표준 2스킬 + 표준 3스킬
+향후 해금 이름 지정 [전설] = 강화 1스킬 + 강화 표준 2스킬 + 고유 3스킬
+```
+
+```text
+STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+```
+
+## 5. 파워 검증 Matrix
+
+```text
+A = 표준 [영웅]
+B = 같은 source archetype 해금 이름 지정 [영웅]
+C = 같은 계열 표준 [전설]
+```
+
+고정 조건:
+
+```text
+same source Tier and passive stage
+same seed and Stage
+same enemy composition and buildings
+same other-two-lane state
+same ordered input where possible
+```
+
+대표 family:
+
+```text
+NEUTRAL_MIXED
+FRONTLINE_PRESSURE
+FLYING_HEAVY
+ALLY_BURST_CRISIS
+DENSE_ENEMY_CLUSTER
+DISPERSED_ENEMY_FORMATION
+HIGH_VALUE_BACKLINE
+LONG_ATTRITION
+SHORT_STAGE
+LATE_COMMIT_BOUNDARY
+```
+
+통과 방향:
+
+- B는 의도된 family에서 A보다 명확히 강함.
+- C는 전체 대표 family 합산 가치에서 B보다 강함.
+- 한 B가 모든 family 자동 최선이면 실패.
+- 고등급 한 명이 다른 두 전선의 건물·일반·엘리트 운영을 무의미하게 만들면 실패.
+
+## 6. 측정 지표
+
+```text
+lane victory / defense success
+objective survival / capture
+time to collapse or stabilization
+damage dealt / prevented
+health-floor prevented lethal damage
+cast count / interval
+READY waiting time
+no-cast rate
+precheck failure rate
+combat-end committed cancellation rate
+active uptime
+A/B/C selection value
+other-two-lane contribution
+```
+
+정확 tolerance·sample size·threshold·값은 simulation 계획에서 고정한다.
+
+## 7. 벤치마크·현업 비교
+
+- Riot `Clarity in League`: 이해·대응 가능성, 시청각 위계, 노이즈 관리.
+- TFT `Neon Nights Gameplay Overview`: largest group·lowest health ally 같은 설명 가능한 자동 대상 규칙.
+- Riot balance framework: 일관된 측정과 특정 선택의 과도한 필수화 감시.
+
+이 자료는 exact OMENWARD 값 권위가 아니다.
+
+## 8. 적대적 위험
+
+```text
+OMW-AUD-191 hidden AI
+OMW-AUD-192 one-frame trigger flicker
+OMW-AUD-193 unstable tie-break
+OMW-AUD-194 barrier permanent uptime
+OMW-AUD-195 anti-air encounter deletion
+OMW-AUD-196 Priest invulnerability/heal drift
+OMW-AUD-197 undodgeable Meteor
+OMW-AUD-198 autonomous clone scope expansion
+OMW-AUD-199 unlocked Hero exceeds Legendary
+OMW-AUD-200 one Hero best in all encounters
+OMW-AUD-201 late commit value loss
+OMW-AUD-202 other two lanes become non-decisive
+```
+
+## 9. 책임 원본
 
 - `docs/PROJECT_CORE.md`
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
 - `docs/ACTIVE_CONTEXT.md`
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
 - `docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` — `PILOT_RECOMMENDATION / NOT_CANON`
-- `docs/design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
-- `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_GRADE_SLOT_AND_UNLOCKED_SKILL_REPLACEMENT_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md`
+- `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md`
+- `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md`
+- `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
+- `docs/process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`
 
-## 6. 앞으로의 동일 작업 규칙
-
-- 중요 결정 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
-- 승인 10건마다 적대적 preflight를 실행한다.
-- 문서·기획 PR은 blocker 0·필수 CI Green·latest main 동기화·제품 경로 0이면 별도 승인 대기 없이 직접 병합한다.
-- blocker가 있으면 수정하고 다시 검증한다.
-- GitHub auto-merge는 사용하지 않는다.
-- 제품 코드 구현과 제품 코드 PR 병합은 이 standing authorization 범위 밖이다.
-
-## 7. 다음 작업
+## 10. 구현 경계·현재 작업
 
 ```text
-NEXT_PLANNING_BATCH_SELECTION
-```
-
-우선순위 후보:
-
-- HeroAbilitySpec의 첫 영웅 능력 계약.
-- 일반 MaintenancePhase clock matrix.
-- 병종별 영웅 명단·해금 비용.
-- 영웅 토큰 빈도·선택률 simulation 계약.
-
-## 8. 미완료 검증
-
-```text
-EXACT_VALUES = PENDING
+CURRENT_PRODUCT = LEGACY_PROTOTYPE
+PRODUCT_CODE = UNCHANGED
+PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
+POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
+EXACT_SCHEMA = PENDING
+EXACT_THRESHOLDS_AND_VALUES = PENDING
+SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
-PRODUCT_IMPLEMENTATION = NOT_STARTED
 ```
+
+현재 작업:
+
+```text
+GRILL_ME_COUNT = 10/10
+RUN_FRESH_PREFLIGHT
+IF_GREEN → MARK_READY_AND_MERGE_PR_129_UNDER_STANDING_AUTHORIZATION
+```
+
+제품 구현은 별도 계약이다.

@@ -1,141 +1,223 @@
 # Active Context
 
 ```yaml
-updated_at: 2026-08-02
+updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: POST_MERGE_MAIN_CANONICAL
+current_phase: HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_POWER_VALIDATION_APPROVED
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
+current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_branch: main
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-working_branch: NONE
+working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
-latest_planning: MERGED_TO_MAIN / NOT_IMPLEMENTED
+latest_planning: USER_APPROVED / ACTIVE_BRANCH_SYNC_REQUIRED / NOT_IMPLEMENTED
 product_code_authority: NONE
 codex_execution: BLOCKED
-primary_platform: PC
-future_platform: MOBILE_CONSIDERATION_ONLY
-last_merged_planning_pr: 121
-current_planning_pr: NONE
-current_grill_me_count: 0
+last_merged_planning_pr: 127
+current_planning_pr: 129
+current_grill_me_count: 10
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
-preflight: PR121_PASS_AND_MERGED
+preflight: REQUIRED_NOW_AT_10_OF_10
+simulation: NOT_RUN
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
-simulation: NOT_RUN
 ```
 
-`context_baseline_commit`과 `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 main 정본으로 만든 역사적 병합 증거다.
+`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. 승인 기획은 Draft PR #129에 누적하며 제품 구현 권한은 없다.
 
-## 1. 현재 상태
-
-- PR #121은 2026-08-02에 squash 병합됐다.
-- PR #121 merge commit은 `8337a3eba5ff065b2a7c06c6a6256e5b4951c055`다.
-- 승인 10건은 main 기획 정본이며 Grill Me 카운터는 `0/10`으로 초기화됐다.
-- 현재 제품은 여전히 Legacy 프로토타입이고 최신 승인 기획은 미구현이다.
-- 제품 코드·데이터·Scene·Resource는 PR #121에서 변경되지 않았다.
+## 1. 제품 정체성·핵심 재미
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-## 2. 현재 제품 방향
-
-- 공식 흐름은 `맵 → MapRun → Stage → Wave → Stage 정산 → 정비시간`이다.
-- MapRun 목표는 20 Stage·4막·약 35분이며 위험 Stage는 5·10·15·20이다.
-- 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치는 Stage와 정비시간 모두 사용할 수 있다.
-- 세 물리 원형 릴·비가역 가로 이동·immutable SpinSnapshot을 보호한다.
-- 상·중·하 3전선과 총 30개 건설 노드, 다섯 MapRun 건물을 보호한다.
-- 기본 Profile과 원본 병종만으로 모든 콘텐츠 완료 가능성을 유지한다.
-- 무한 성장·숨은 릴 확률·전역 multiplier·자동 플레이는 금지한다.
-
-## 3. 영웅 정본
-
 ```text
-기존 UnitArchetype
-→ 이름 지정 영웅 결정론적 해금·Profile 등록
-→ 룰렛 동병종 [영웅] 등급 토큰
-→ 원본 병종 또는 해금 영웅 선택
-→ 전역 active slot 검사
-→ 1토큰을 1유닛으로 변환·한 전선 비가역 배치
-→ 공개 규칙 기반 자동 능력 운용
+예고된 세 전선 공세 읽기
+→ 제한된 건물·TokenSource로 룰렛 설계
+→ 가로·세로 이동과 확정으로 결과 조작
+→ 병력 보관·판매·획득
+→ 어느 전선에 비가역 배치할지 판단
+→ 자동전투·점령·건물 운영으로 전황 역전
+→ 다음 Stage 설계에 환류
 ```
 
-- 세 전선 전체 active 이름 지정 영웅은 동시에 최대 1명이다.
-- 수동 퇴각·교대·판매·재보관·전선 이동은 금지다.
-- 생존 영웅의 HP·쿨다운·충전·사용 횟수·고유 자원은 Stage를 넘어 유지한다.
-- 일시 전투 상태와 임시 파생 개체는 Stage 정산에서 제거한다.
-- 영웅 사망은 회수 보상·부활권·보장·pity를 제공하지 않는다.
-- 이름 지정 영웅 재출전에는 사망 이후 새 동병종 `[영웅]` 룰렛 결과가 필요하다.
-- 이름 지정 영웅은 원본 병종과 유사한 평균 전투 예산의 조건부 고점형 전문화 sidegrade다.
+핵심 시스템은 공세 예측, 건물·병영·금고 기반 토큰 구조, SpinSnapshot 룰렛 조작, 보관·판매·비가역 전선 배치, 세 전선 자동전투·점령·거점 운영이다.
 
-## 4. 영웅 자동 능력
+보조 시스템은 골드·식량·보관함, 건설·업그레이드·수리·파괴, 병영 Tier 패시브와 룰렛 등급 성장, 20 Stage MapRun·Wave·정비시간·checkpoint, 미션·메타 해금·벨루·UI·아트·오디오다.
+
+전체 시스템 권위는 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`, 적대적 검토 계보는 `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`다.
+
+룰렛 통제감 Evidence Pilot은 `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`이며 상태는 정확히 `PILOT_RECOMMENDATION / NOT_CANON`이다. Evidence Pilot은 현행 APPROVED 정본을 자동 변경하지 않는다.
+
+## 2. 등급·전역 슬롯
 
 ```text
-전투 상태 갱신
-→ 공개 trigger 평가
-→ 고정 ability priority 평가
-→ 공개 target filter·priority·tie-break 적용
-→ 유효성 재검증
-→ 자동 발동
-→ 결과 상태 기록
+[일반] = 1스킬
+[엘리트] = 강화된 1스킬
+[영웅] = 강화된 1스킬 + 표준 2스킬
+해금 이름 지정 [영웅] = 강화된 1스킬 + 고유 2스킬
+[전설] = 강화된 1스킬 + 강화된 표준 2스킬 + 표준 3스킬
+향후 해금 이름 지정 [전설] = 강화된 1스킬 + 강화된 표준 2스킬 + 고유 3스킬
 ```
 
-- 기본 공격과 이름 지정 영웅 전투 능력은 `AUTOMATIC_RULE_BASED`다.
-- 수동 스킬 버튼·수동 타깃 지정·숨은 명령 큐는 없다.
-- 동일 저장 상태와 입력 순서에서는 같은 능력과 대상을 선택한다.
-- 저장·Retry로 자동 판단을 재굴림할 수 없다.
+```text
+STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+```
 
-## 5. 현재 책임 원본
+영웅·전설은 이름 지정 여부와 관계없이 상·중·하 전선 전체에서 슬롯 1개를 공유한다. 제한은 획득이 아니라 배치에 적용하며 충돌 토큰은 보관·판매한다.
 
-- `docs/PROJECT_CORE.md`
-- `docs/PROJECT_CANON_DECISION_LEDGER.md`
-- `docs/DOCUMENTATION_MAP.md`
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
-- `docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` — `PILOT_RECOMMENDATION / NOT_CANON`
-- `docs/design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
-- `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
+## 3. 초기 5명 고유 2스킬
 
-## 6. 구현 경계
+```text
+shield_guard / 방패병 → 불퇴의 성벽
+archer / 궁병         → 천공 소거
+priest / 사제         → 생명의 서약
+mage / 마법사         → 메테오
+assassin / 암살자     → 그림자 분신
+```
+
+- 방벽은 지형·navmesh를 만들지 않는 전열 피해 흡수 사건이다.
+- 천공 소거는 같은 전선 비행 표적 Snapshot을 동시 공격한다.
+- 생명의 서약은 회복 없는 짧은 체력 하한 보호다.
+- 메테오는 deterministic 적 군집 지점을 예고 후 단발 타격한다.
+- 분신은 독립 AI 없이 원본 표적과 기본 공격 일부를 종속 복제하는 proxy 1체다.
+
+## 4. 공통 cooldown·Stage 정책
+
+```text
+INITIAL_WARMUP
+→ READY_WAITING_FOR_VALID_CONDITION
+→ CAST_PRECHECK
+→ CAST_COMMIT
+→ RESOLUTION_OR_ACTIVE_EFFECT
+→ COOLDOWN
+→ READY
+```
+
+```text
+MAX_STORED_READY_COUNT = 1
+CHARGE_ACCUMULATION = FALSE
+MANA_OR_ENERGY_RESOURCE = FALSE
+COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
+```
+
+```text
+ACTIVE_COMBAT = TIMER_PROGRESS
+MAINTENANCE / PREPARATION / ROULETTE / BUILD = TIMER_PAUSED
+READY_AND_REMAINING_TIME = CARRY_ON_SAME_LIVING_INSTANCE
+ACTIVE_EFFECT_STAGE_CARRY = FORBIDDEN
+UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
+```
+
+- commit 전 무효화는 READY 복귀·cooldown 0이다.
+- Stage·Act 전환은 timer 초기화 지점이 아니다.
+- owner-bound effect는 전투 종료 시 정리하고 full cooldown으로 들어간다.
+- 미해결 천공 소거·메테오는 취소·사용 소비·full cooldown이다.
+- save/load·Retry 재굴림·READY 복제·payload 이중 해결을 금지한다.
+
+## 5. Trigger·대상 Resolver 현행 정본
+
+```text
+READY
+→ public trigger
+→ same-lane legal filter
+→ public priority score
+→ data-driven stability window
+→ stable ID / stable position tie-break
+→ CAST_PRECHECK
+→ immutable CAST_COMMIT snapshot
+```
+
+```text
+PUBLIC_TRIGGER_RULE = REQUIRED
+PUBLIC_TARGET_PRIORITY = REQUIRED
+DETERMINISTIC_TIE_BREAK = REQUIRED
+ARBITRARY_FALLBACK_RETARGET = FORBIDDEN
+HIDDEN_FUTURE_BATTLE_END_ORACLE = FORBIDDEN
+MANUAL_CAST_OR_TARGET = FORBIDDEN
+```
+
+- 방패병: 전열 압력과 유효 보호 가치가 기준 이상일 때 owner 전열 anchor에 방벽.
+- 궁병: 같은 전선 비행 수·가중 위협도가 기준 이상일 때 합법 비행 표적 Snapshot.
+- 사제: 체력 기준 이하 생존 아군 집합에 회복 없는 하한 보호.
+- 마법사: 적중 수 → 총 위협도 → stable 위치 순으로 메테오 지점 결정.
+- 암살자: 공개 역할 우선순위 → 후열 깊이 → 위협도 → stable ID로 분신 Trigger를 검증하며 분신은 독립 재탐색하지 않는다.
+
+책임 원본: `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`.
+
+## 6. 파워 위계 검증
+
+```text
+A = 표준 [영웅]
+B = 같은 source archetype의 해금 이름 지정 [영웅]
+C = 같은 계열 표준 [전설]
+```
+
+동일 source Tier·seed·Stage·건물·다른 두 전선 상태에서 비교한다.
+
+필수 encounter family:
+
+```text
+NEUTRAL_MIXED
+FRONTLINE_PRESSURE
+FLYING_HEAVY
+ALLY_BURST_CRISIS
+DENSE_ENEMY_CLUSTER
+DISPERSED_ENEMY_FORMATION
+HIGH_VALUE_BACKLINE
+LONG_ATTRITION
+SHORT_STAGE
+LATE_COMMIT_BOUNDARY
+```
+
+통과 방향:
+
+- B는 의도된 encounter에서 A보다 명확히 강해야 한다.
+- C는 대표 encounter 전체 합산 가치에서 B보다 높아야 한다.
+- 한 해금 영웅이 모든 encounter에서 자동 최선이면 실패다.
+- 고등급 한 명이 다른 두 전선의 건물·일반·엘리트 운영을 무의미하게 만들면 실패다.
+- 정확 tolerance·sample size·값은 simulation 계획에서 고정한다.
+
+## 7. 벤치마크·현업 비교 정책
+
+모든 Grill Me 질문과 승인 작업은 `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`를 적용한다.
+
+이번 Decision은 Riot의 전투 가독성, TFT의 설명 가능한 자동 대상 규칙, Riot balance framework의 일관된 측정·선택 다양성 원칙을 참고했다. 참고 자료는 exact 값 권위가 아니다.
+
+## 8. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = MERGED_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
-CODEX = BLOCKED
-EXACT_VALUES = PENDING
+UNIQUE_SKILL_2_CONCEPTS = APPROVED
+COMMON_TIMER_POLICY = APPROVED
+TIMER_STAGE_BOUNDARY_POLICY = APPROVED
+PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
+POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
+EXACT_TRIGGER_THRESHOLDS = PENDING
+EXACT_STABILITY_WINDOWS = PENDING
+EXACT_WARMUP_AND_COOLDOWN_SECONDS = PENDING
+EXACT_DURATIONS_AND_VALUES = PENDING
+ASSETS = NOT_CREATED
+SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 향후 동일 작업 운영
-
-- 승인된 중요 결정은 GitHub 정본과 Sheet에 같은 Decision ID로 즉시 반영한다.
-- 승인 10건마다 적대적 preflight를 수행한다.
-- 문서·기획 PR이 latest main 동기화, 필수 CI Green, Sheet read-back, `OPEN_P0=0`, `OPEN_P1=0`, `MERGE_BLOCKER=0`, 제품 경로 0을 만족하면 별도 승인 대기 없이 Ready 전환·병합한다.
-- blocker가 있으면 먼저 수정하고 같은 preflight를 반복한다.
-- GitHub auto-merge 기능은 사용하지 않고 검증 직후 명시적 expected HEAD로 직접 병합한다.
-- 이 standing authorization은 제품 코드 구현·병합으로 자동 확장되지 않는다.
-
-## 8. 다음 Gate
+## 9. 현재 Gate
 
 ```text
-NEXT_PLANNING_BATCH_SELECTION
+GRILL_ME_COUNT = 10/10
+PREFLIGHT = RUN_NOW
 ```
+
+latest main·exact-head CI·Sheet read-back·blocker·review·product-path preflight가 Green이면 standing authorization에 따라 PR #129를 별도 승인 대기 없이 병합한다.
