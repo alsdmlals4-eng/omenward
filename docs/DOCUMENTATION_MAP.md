@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: HERO_UNIQUE_SKILL_UPGRADE_PLANNING
+current_phase: HERO_GRADE_SLOT_AND_UNIQUE_SKILL_2_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-REPLACEMENT-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base: 9.4.3_RELEASED
@@ -14,7 +14,7 @@ latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
 last_merged_planning_pr: 127
 current_planning_pr: 129
-current_grill_me_count: 5
+current_grill_me_count: 6
 preflight: NEXT_AT_10_OF_10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 ```
@@ -43,20 +43,23 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 질문 | 현행 책임 원본 | 권한 |
 |---|---|---|
 | 제품 정체성·플레이어 약속·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
-| 승인 Decision·5/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
+| 승인 Decision·6/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
 | Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
 | 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
+| 병종 등급·Tier·표준 스킬 성장 | `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` | `MERGED_STANDARD_GRADE_AUTHORITY` |
+| 영웅 이상 전역 단일 활성·해금 스킬 슬롯 교체 | `design/APPROVED_OMENWARD_HERO_GRADE_SLOT_AND_UNLOCKED_SKILL_REPLACEMENT_2026-08-02.md` | `USER_APPROVED_CURRENT_GRADE_SLOT_AND_SKILL_AUTHORITY` |
+| 영웅 등급 해금 상위호환 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_UPGRADE_MODEL_2026-08-02.md` | `REFINED_TO_UNIQUE_SKILL_2_REPLACEMENT` |
+| 고유 2스킬 자동 발동·공통 cooldown | `design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` | `USER_APPROVED_COMMON_COOLDOWN_READY_FRAMEWORK` |
+| 영웅 슬롯·핵심 재미 적합성 적대적 검토 | `reviews/ADVERSARIAL_HERO_GRADE_SLOT_AND_CORE_FIT_REVIEW_2026-08-02.md` | `CURRENT_HERO_GRADE_SLOT_REVIEW` |
 | 영웅 해금·병종 등록 | `design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` | `MERGED_USER_APPROVED_ROSTER` |
-| 영웅 토큰 변환·배치 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | `MERGED_USER_APPROVED_ACTIVATION` |
-| 영웅 단일 활성·반복 출전 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | `MERGED_USER_APPROVED_ACTIVE_LIMIT` |
+| 영웅 토큰 변환·배치 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | `MERGED_USER_APPROVED_ACTIVATION / REFINED_BY_HIGH_GRADE_SLOT` |
+| 과거 이름 지정 영웅 단일 활성·반복 출전 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | `MERGED_HISTORY / ACTIVE_LIMIT_REFINED_BY_HIGH_GRADE_SLOT` |
 | 영웅 Stage 상태·사망·재출전 | `design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`, `design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` | `MERGED_USER_APPROVED_LIFECYCLE` |
-| 해금 영웅 상위호환·고유 스킬 모델 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_UPGRADE_MODEL_2026-08-02.md` | `USER_APPROVED_CURRENT_HERO_POWER_AND_KIT_AUTHORITY` |
-| 영웅 자동 발동·결정론 | `design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` | `USER_APPROVED_ALL_HEROES_AUTO_ACTIVE` |
 | 초기 영웅 병종 5종 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_ARCHETYPE_SELECTION_2026-08-02.md` | `USER_APPROVED_FIVE_ARCHETYPE_ROSTER` |
-| 초기 영웅 검증 범위 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md` | `USER_APPROVED_FIVE_UNIQUE_SKILL_HEROES` |
-| 영웅 스킨형 자산·단일 스킬 구조 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | `REFINED_TO_UNIQUE_ACTIVE_ONLY` |
-| 영웅 전투 예산 | `design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md` | `REFINED_TO_CONSTRAINED_UPGRADE` |
+| 초기 영웅 검증 범위 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md` | `USER_APPROVED_FIVE_UNIQUE_SKILL_2_HEROES` |
+| 영웅 스킨형 자산 구조 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | `REFINED_TO_UNIQUE_SKILL_2` |
+| 영웅 전투 예산 | `design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md` | `REFINED_TO_HERO_LT_NAMED_HERO_LT_LEGENDARY` |
 | 과거 강제 상쇄 축 | `design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` | `SUPERSEDED_HISTORY / NOT_CURRENT` |
 | 이계 생물종·경계파쇄자 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | `MERGED_USER_APPROVED_GAMEPLAY_SCOPE` |
 | 실제 구현·Legacy 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
@@ -64,45 +67,63 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 동기화 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 
-## 3. 현행 영웅 라우팅
+## 3. 등급·스킬 라우팅
 
 ```text
-원본 병종 [영웅] 등급 기본 성능
-+ 스킨·이름·식별 연출
-+ 고유 자동 사용스킬 1개
-= 제한형 상위호환 이름 지정 영웅
+[일반] = 1스킬
+[엘리트] = 강화 1스킬
+[영웅] = 강화 1스킬 + 표준 2스킬
+해금 이름 지정 [영웅] = 강화 1스킬 + 고유 2스킬
+[전설] = 강화 1스킬 + 강화 표준 2스킬 + 표준 3스킬
+향후 해금 이름 지정 [전설] = 강화 1스킬 + 강화 표준 2스킬 + 고유 3스킬
 ```
 
-- 모든 이름 지정 영웅은 자동 사용스킬형이다.
-- 영웅 전용 패시브는 없다.
-- 의무 능력치 하향·강제 상쇄 축은 없다.
-- 전역 활성 이름 지정 영웅 최대 1명 제한을 유지한다.
-- 원본 역할·기본 공격·사거리·이동·기본 AI·리그·공통 애니메이션을 재사용한다.
-- 수동 스킬·수동 타깃·저장 재굴림은 금지한다.
+```text
+STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
+FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
+```
 
-## 4. 초기 5명 라우팅
+- 해금 영웅은 표준 2스킬을 고유 2스킬로 교체하며 추가 스킬 슬롯을 얻지 않는다.
+- 향후 해금 전설은 표준 3스킬을 고유 3스킬로 교체한다.
+- 패시브·숨은 상시 보너스·의무 능력치 하향은 없다.
+
+## 4. 전역 고등급 슬롯 라우팅
+
+```text
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+```
+
+- 표준·해금, 이름, 병종, 전선을 막론하고 `[영웅]·[전설]` 활성 유닛을 모두 합산한다.
+- 일반·엘리트는 제외한다.
+- 제한은 획득이 아니라 배치에 적용한다.
+- 슬롯 충돌 토큰은 보관·판매 가능하다.
+- 자동 삭제·자동 교체·수동 퇴각·수동 교대는 금지한다.
+
+## 5. 초기 5명·자동 발동
 
 ```text
 shield_guard / archer / priest / mage / assassin
 → 각 병종 이름 지정 영웅 1명
-→ 자동 고유 사용스킬 1개씩
+→ 고유 2스킬
 ```
 
 ```text
-INITIAL_HERO_COUNT = 5
-INITIAL_PASSIVE_COUNT = 0
-INITIAL_AUTOMATIC_ACTIVE_SKILL_COUNT = 5
-FINAL_RELEASE_CAP = FALSE
+COOLDOWN
+→ READY_WAITING_FOR_VALID_CONDITION
+→ 유효 조건·대상·priority·tie-break
+→ CAST_COMMIT
+→ 효과·VFX/SFX·로그
+→ COOLDOWN
 ```
 
-## 5. 계보·증거 경계
+## 6. 계보·증거 경계
 
 - `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 전체 시스템 기획 권위지만 구현 완료 증거가 아니다.
-- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 현행 적대적 검토 계보다.
-- `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 `PILOT_RECOMMENDATION / NOT_CANON`이며 별도 승인 전 정본·구현 권한이 없다.
-- 강제 상쇄 축 문서는 계보 보존용이며 현행 설계에 적용하지 않는다.
+- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 현행 전체 시스템 적대적 검토 계보다.
+- `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 `PILOT_RECOMMENDATION / NOT_CANON`이다.
+- 과거 named-only active limit과 강제 상쇄 축 문서는 계보 보존용이며 현재 제한·파워 모델을 덮어쓸 수 없다.
 
-## 6. 구현 경계
+## 7. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -110,19 +131,20 @@ LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 CODEX = BLOCKED
 EXACT_HERO_IDENTITIES = PENDING
-EXACT_UNIQUE_SKILLS = PENDING
+EXACT_UNIQUE_SKILL_2 = PENDING
+FUTURE_NAMED_LEGENDARY = NOT_NOW
 ASSETS = NOT_CREATED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영·다음 Gate
+## 8. 운영·다음 Gate
 
-- 현재 카운터는 `5/10`이다.
+- 현재 카운터는 `6/10`이다.
 - 10번째 승인에서 적대적 preflight를 실행한다.
 - 문서·기획 PR은 latest main 동기화·필수 CI Green·Sheet read-back·blocker 0·제품 경로 0이면 standing authorization에 따라 병합한다.
 
 ```text
-NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-CONCEPTS-V1
+NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-2-CONCEPTS-V1
 ```
