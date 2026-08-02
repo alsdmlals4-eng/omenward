@@ -10,12 +10,15 @@ current_sync_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 baseline_main_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
+recovery_pr: 119
 superseded_pr: 116
-sheet_status: RECOVERY_SYNC_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / FINAL_HEAD_REFRESH_REQUIRED
 last_full_audit: 2026-08-02
 ```
 
 Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. 독립 정본이 아니며 GitHub의 현재 Decision·책임 원본·실제 구현 상태를 임의로 덮어쓰지 않는다.
+
+`PROJECT_SHEET_CONFIGURED`는 Workbook이 연결·구성됐다는 호환성 상태다. 현재 Decision과 exact PR HEAD 동기화 여부는 같은 줄의 `READBACK_PASS / FINAL_HEAD_REFRESH_REQUIRED`와 Sheet의 실제 행을 함께 확인한다.
 
 ## 1. 필수 상태 축
 
@@ -69,17 +72,18 @@ Sheet read-back status
 - `98_Base_반영후보`
 - `99_변경이력`
 
-## 3. 현재 복구 Finding
+## 3. 복구 Finding과 검증 결과
 
 | Finding | Sheet 영향 | 처리 |
 |---|---|---|
-| Base v9.1 기록이 current main v9.4와 충돌 | `00`, `04`, `99` | v9.4로 복구 |
-| `SYNCED_TO_PR_HEAD`가 실제 PR #116 HEAD와 다름 | `00`, `02`, `99` | PR #116 historical 처리, recovery head 기록 |
+| Base v9.1 기록이 current main v9.4와 충돌 | `00`, `04`, `99` | v9.4로 복구, read-back PASS |
+| `SYNCED_TO_PR_HEAD`가 실제 PR #116 HEAD와 다름 | `00`, `02`, `99` | PR #116 closed/superseded, PR #119 HEAD 기록 |
 | authority commit과 main commit 의미 혼합 | `02` | 상태·설명에서 분리 |
-| Evidence 행 열 밀림 | `03` | 검증된 행만 재정렬 |
-| System ID 누락으로 행 밀림 | `40` | System ID와 필드 정렬 |
-| UX/사업 행이 헤더보다 넓음 | `60`, `90` | 명시적 헤더 추가 또는 현행 열 안으로 정렬 |
-| 신규 simulator Work Order가 Sheet Decision에 없음 | `02`, `04`, `99` | 계획 artifact로 기록하되 실행·제품값으로 승격 금지 |
+| Evidence 행 열 밀림 | `03` | 검증된 행 재정렬, read-back PASS |
+| System ID 누락으로 행 밀림 | `40` | `OM-S-04`, `OM-S-07` 복구, read-back PASS |
+| 사업 milestone 행이 헤더보다 넓음 | `90` | 8열 milestone schema로 정렬, read-back PASS |
+| `60_UX_UI_접근성` schema 오류 주장 | `60` | 재조회 결과 10열 일치, `REJECTED_CRITIQUE` |
+| simulator Work Order가 Decision과 혼동될 위험 | `02`, `04`, `99` | 계획 artifact이며 실행·제품값 권한 없음 |
 
 ## 4. Decision 즉시 동기화
 
@@ -98,8 +102,6 @@ Decision ID 생성 또는 재사용
 `PARTIAL_SYNC_BLOCKED` 또는 `SYNC_CONFLICT`이면 다음 주요 Grill Me 질문이나 제품 구현으로 진행하지 않는다.
 
 ## 5. 상세 수치 셀 상태
-
-수치와 공식에는 다음 상태를 사용한다.
 
 - `LEGACY_H0 / HISTORICAL_ONLY`
 - `RECOMMENDED_DEFAULT`
@@ -124,18 +126,17 @@ Decision ID 생성 또는 재사용
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 | 인계 | `docs/HANDOFF_CONTEXT.md` |
 
-## 7. 현재 동기화 대상
+## 7. 현재 동기화 범위
 
 Decision: `OMW-DEC-20260802-CANON-RECOVERY-V1`
 
 - `00_프로젝트_허브`: Base v9.4·TOTAL_PLANNING·recovery PR 상태.
 - `01_작업순서`: 정본 복구→Grill Me→기획 작성 순서.
 - `02_현재_확정결정`: recovery Decision과 PR #116 superseded 관계.
-- `03_근거_라이브러리`: Base v9.4·main·PR #116·실제 code evidence 정렬.
+- `03_근거_라이브러리`: recovery evidence와 열 정렬.
 - `04_누락_충돌_감사`: recovery finding ledger.
-- `40_핵심시스템_메인콘텐츠`: System ID 누락 복구.
-- `60_UX_UI_접근성`: 헤더·데이터 열 의미 정렬.
-- `90_본제작_출시_사업`: 장기 플랫폼·출시 필드 명시.
+- `40_핵심시스템_메인콘텐츠`: System ID 복구.
+- `90_본제작_출시_사업`: milestone schema 정렬.
 - `99_변경이력`: GitHub path·commit·read-back 결과.
 
 ## 8. 금지
