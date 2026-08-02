@@ -13,7 +13,7 @@ working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PENDING / CI_PENDING
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
 current_grill_me_count: 8
 next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 last_full_audit: 2026-08-02
@@ -80,21 +80,25 @@ Hero death or complete removal
 - 동일 hero_id를 다시 선택해도 새 unit_instance_id와 deployment_id를 만든다.
 - 사망·슬롯 해제 transaction은 보상을 생성하지 않으며 새 토큰 소비·새 유닛 생성 transaction과 분리한다.
 
-## 4. 동기화 후보
+## 4. 동기화 증거
 
 ```text
-PR #121 candidate head before Sheet synchronization:
-13972d82831699e5a1ea79875ec725ed5c828800
+PR #121 verified candidate head before workbook closure commit:
+d22bd2ec2ba1cb4c07511da4f10aaf194e8a2591
 
-SHEET_BOUNDED_READBACK: PENDING
-REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
+SHEET_BOUNDED_READBACK: PASS
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 577: PASS
+- GDD Sheet Adoption run 291: PASS
+- Base v9 adoption run 266: PASS
 ```
 
-동기화 예정 범위:
+동기화 범위:
 
 - `00_프로젝트_허브!E2:L2`
 - `01_작업순서!A23:N23`
 - `02_현재_확정결정!A32:M32`
+- `04_누락_충돌_감사!E89:H89`
 - `04_누락_충돌_감사!A90:H95`
 - `05_GDD_요약!D8:J8`
 - `05_GDD_요약!B9:J9`
@@ -184,7 +188,7 @@ REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
 ## 9. 현재 상태
 
 ```text
-SHEET_STATUS = READBACK_PENDING / CI_PENDING
+SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 GRILL_ME_COUNTER = 8_OF_10
 NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
