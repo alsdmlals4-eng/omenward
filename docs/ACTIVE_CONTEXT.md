@@ -14,7 +14,7 @@ context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
-active_base_version: 9.4.2
+active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
 latest_planning: MERGED_TO_MAIN / NOT_IMPLEMENTED
 product_code_authority: NONE
