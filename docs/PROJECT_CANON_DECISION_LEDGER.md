@@ -4,18 +4,18 @@
 updated_at: 2026-08-02
 status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 canonical_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-grill_me_approved_since_last_merge: 6
+grill_me_approved_since_last_merge: 7
 future_merge_cadence: 10_APPROVED_GRILL_ME_DECISIONS
-next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
 ```
 
 이 문서는 현재 승인 Decision과 상태를 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 책임 원본은 `DOCUMENTATION_MAP.md`가 소유한다.
@@ -67,21 +67,29 @@ HERO_EXIT_RULE
 = NO_MANUAL_RETREAT_OR_REPLACEMENT
 = SAME_INSTANCE_ACROSS_STAGE_AND_ACT
 = SLOT_CLEARS_ON_DEATH_OR_MAPRUN_END
+
+HERO_STAGE_PERSISTENCE
+= CURRENT_HP_PERSISTS
+= REMAINING_COOLDOWNS_AND_CHARGES_PERSIST
+= UNIQUE_RESOURCES_PERSIST
+= TEMPORARY_COMBAT_STATE_CLEARS_AT_STAGE_SETTLEMENT
+= HERO_CLOCKS_PAUSE_DURING_MAINTENANCE
 ```
 
 ## 2. 현재 승인 Decision
 
 | Decision ID | 상태 | 결정 | 현재 책임 원본 | 미완료 경계 |
 |---|---|---|---|---|
-| `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 맵 선택으로 MapRun을 초기화하고, 각 Stage는 맵·Stage가 정의한 하나 이상의 Wave로 구성한다. Stage 정산 뒤 정비시간에서 전투를 일시정지하고 미션·선택지를 처리한다. 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치는 Stage 중에도 사용 가능하다 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | 정비시간 clock matrix·정확 길이·맵별 Wave 편성 pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 배치한 영웅은 수동 퇴각·교대할 수 없고 Stage·Act 전환에도 살아 있는 동일 인스턴스로 유지된다. 사망·완전 제거 또는 MapRun 종료 시 active 슬롯을 비운다 | `design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` | Stage 정산·정비시간·다음 Stage 사이 체력·쿨다운·상태 처리 pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 전장 전체의 출전 중 영웅은 동시에 최대 1명이다. 동일 영웅도 기존 인스턴스가 종료된 뒤 새 영웅 등급 토큰을 소비해 반복 출전할 수 있다 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | Stage 상태·반복 초기화 pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 룰렛의 동병종 `[영웅]` 등급 토큰을 보관함에서 선택해 원본 유지 또는 해금된 동병종 영웅 중 한 명으로 변환한 뒤 한 전선에 비가역 배치한다 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | Stage 상태·능력·수치 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 살아 있는 영웅의 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 Stage 경계를 넘어 유지한다. 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거하고 정비시간에는 영웅 clock을 정지한다 | `design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` | 사망 뒤 새 토큰 재배치 인스턴스 초기 상태·영웅별 예외 pending |
+| `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 맵 선택으로 MapRun을 초기화하고, 각 Stage는 맵·Stage가 정의한 하나 이상의 Wave로 구성한다. Stage 정산 뒤 정비시간에서 전투를 일시정지하고 미션·선택지를 처리한다. 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치는 Stage 중에도 사용 가능하다 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | 일반 정비시간 clock matrix·정확 길이·맵별 Wave 편성 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 배치한 영웅은 수동 퇴각·교대할 수 없고 Stage·Act 전환에도 살아 있는 동일 인스턴스로 유지된다. 사망·완전 제거 또는 MapRun 종료 시 active 슬롯을 비운다 | `design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` | 재배치 초기 상태 pending; Stage 상태 처리는 후속 Decision으로 확정됨 |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 전장 전체의 출전 중 영웅은 동시에 최대 1명이다. 동일 영웅도 기존 인스턴스가 종료된 뒤 새 영웅 등급 토큰을 소비해 반복 출전할 수 있다 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | 반복 출전 새 인스턴스 초기 상태 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 룰렛의 동병종 `[영웅]` 등급 토큰을 보관함에서 선택해 원본 유지 또는 해금된 동병종 영웅 중 한 명으로 변환한 뒤 한 전선에 비가역 배치한다 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | 영웅 능력·수치 pending |
 | `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1` | `USER_APPROVED / CORRECTED_BY_LATER_CLARIFICATION` | 각 영웅은 기존 병종에 고정 연결되며 같은 병종에 여러 영웅을 해금할 수 있다. 해금 시 Profile 명부에 영구 등록된다 | `design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` | 병종별 영웅 명단·능력 pending; pre-run 등록 해석은 폐기 |
 | `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 베일종은 균열을 통해 유입된 다양한 이계 생물의 통칭이며 사용자에게 상세 문명·정치 설명을 제공하지 않는다 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | 적 명단·Act 배치·정확 행동·수치 pending |
 | `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` | `USER_APPROVED / MAIN_SYNCED` | 오멘워드는 루메른 왕실 인가 자율 경계대응단이며 활성 작전에서 제한된 비상 지휘권을 갖는다 | `design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md` | 정치 인물·법률명 상세 pending |
 | `OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1` | `USER_APPROVED / MAIN_SYNCED` | 메인 허브에 주점·허브 병영·연구를 두고 정산 영구재화로 유한 공개 노드를 개방한다 | `design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` | 비용·노드·영웅 능력 pending |
-| `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1` | `CURRENT_OPERATING_RULE / MAIN_SYNCED` | 승인 Grill Me 10건마다 적대적 병합 preflight를 실행하고 blocker 0일 때만 병합한다 | `operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` | 현재 카운터 `6/10` |
+| `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1` | `CURRENT_OPERATING_RULE / MAIN_SYNCED` | 승인 Grill Me 10건마다 적대적 병합 preflight를 실행하고 blocker 0일 때만 병합한다 | `operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` | 현재 카운터 `7/10` |
 | `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` | `USER_APPROVED / MAIN_SYNCED` | 베일은 현실과 이질적인 외부 법칙 영역의 비의지적 경계 겹침이다 | `design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md` | 기원·우주론은 제품 범위 밖 |
 | `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | `USER_APPROVED / MAIN_SYNCED` | 각 MapRun은 별개의 실제 경계 공세이며 승리는 한 침공로 봉쇄다 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | 지역·콘텐츠 상세 pending |
 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | `USER_APPROVED / MAIN_SYNCED` | 수평 해금·제한 편의를 주축으로 하고 상한형 준비 보정을 보조축으로 둔다 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | exact values·simulation pending |
@@ -109,10 +117,10 @@ HERO_EXIT_RULE
 - Wave 사이에는 기본 정비시간을 두지 않고 Stage 정산 뒤 한 번만 진입한다.
 - 위험 Stage에서도 Stage 경계 정비시간은 존재하며 전투 중 전술계획 정지와 별개다.
 - 네 가지 런 운영 기능은 Stage 중에도 사용 가능하고 정비시간에서도 사용할 수 있다.
-- 정비시간 중 경제·수리·건설·회복·쿨다운 시간축은 아직 승인되지 않았다.
+- 영웅 clock 외 일반 경제·수리·건설 시간축은 아직 승인되지 않았다.
 - MapRun 초기화는 RunState만 초기화하며 Profile 영구 해금을 지우지 않는다.
 
-## 4. 영웅 해금·토큰 변환·단일 활성·종료 정본
+## 4. 영웅 해금·토큰 변환·단일 활성·종료·상태 지속 정본
 
 ```text
 병종별 영웅 후보 1명 이상
@@ -123,6 +131,9 @@ HERO_EXIT_RULE
 → active hero가 없으면 1토큰을 1영웅으로 변환
 → 상·중·하 한 전선에 비가역 배치
 → 살아 있는 동안 Stage·Act와 정비시간을 넘어 같은 인스턴스로 유지
+→ Stage 정산에서 현재 HP·남은 쿨다운·충전·고유 자원 저장
+→ 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물 제거
+→ 정비시간 중 영웅 clock 정지
 → 사망·완전 제거 또는 MapRun 종료 시 active 슬롯 해제
 ```
 
@@ -136,6 +147,9 @@ HERO_EXIT_RULE
 - 반복 출전마다 별도의 영웅 등급 토큰 하나를 소비한다.
 - 수동 퇴각·수동 교체·판매·재보관·전선 이동은 불가다.
 - Stage·Act 전환과 정비시간 진입은 active 슬롯 해제나 무료 재배치 사건이 아니다.
+- 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 Stage 경계를 넘어 현재 값 그대로 유지한다.
+- 일시 전투 상태와 임시 파생 개체는 Stage 정산에서 제거한다.
+- 정비시간에는 영웅 HP 회복·쿨다운·충전·고유 자원 clock이 진행되지 않는다.
 - 변환·배치는 확정 전 취소 가능, 확정 후 undo·회수·판매·라인 변경 불가다.
 - 영웅 해금과 반복 출전은 릴 odds·과거 SpinSnapshot·다른 토큰을 변경하지 않는다.
 
@@ -156,12 +170,9 @@ BOUNDARY_BREAKER = BREACH_STABILIZING_BOSS_ORGANISM
 > 공개된 세 전선의 위험을 읽고 건물과 TokenSource로 세 물리 릴의 미래 배열을 설계·영구 편집한 뒤, 얻은 병력을 한 전선에 비가역 커밋하고 결과 원인을 다음 설계에 반영한다.
 
 - PC-primary, 20 Stage·4막·약 35분 목표.
-- Stage는 맵별 하나 이상의 Wave로 구성된다.
-- Stage 정산 뒤 정비시간에서 미션·선택지를 처리한다.
 - 위험 Stage 5·10·15·20.
 - 세 물리 릴·TokenInstance·cursor·3×3 노출.
 - immutable SpinSnapshot·명시적 확정·한 라인 비가역 배치.
-- Stage 중 건설·업그레이드·수리·룰렛·보관함·병력 배치 사용 가능.
 - 상·중·하 3라인·고정시간 점령·전체 30 건설 노드.
 - MapRun 건물: 금고·농장·타워·전장 병영·지휘소.
 - 실제 경계 공세·국소 봉쇄·벨루 비모달 안내자.
@@ -178,9 +189,8 @@ BOUNDARY_BREAKER = BREACH_STABILIZING_BOSS_ORGANISM
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED_NOT_IMPLEMENTED
-- map selection to MapRun reset and 20-Stage lifecycle
-- Stage contains map-authored Waves and post-Stage MaintenancePhase
-- build/upgrade/repair, roulette, storage and deployment during active Stage
+- map selection→MapRun reset→Stage/Wave→settlement→maintenance lifecycle
+- Stage-runtime build/upgrade/repair, roulette, storage and deployment
 - three physical reels and permanent horizontal movement
 - 30-node topology and five MapRun buildings
 - fixed-time capture
@@ -191,31 +201,29 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - Hero-grade stored token conversion and irreversible deployment
 - one active named Hero across all lanes with repeat deployment after slot clears
 - no manual Hero retreat or replacement; same instance persists across Stage, Act and MaintenancePhase
+- Hero persistent HP/cooldown/charge/resource state across Stage boundaries
+- transient Hero combat-state cleanup and MaintenancePhase Hero-clock pause
 ```
 
 ## 9. 남은 검증·결정
 
 ### TEST_REQUIRED
 
-- Stage 중 네 가지 운영 기능이 실시간 전투 판단을 강화하는지 과부하를 만드는지.
-- 맵·Stage별 Wave 수와 전투 리듬이 35분 목표를 만족하는지.
-- 정비시간이 충분한 호흡을 주면서 무한 무료 생산·수리를 만들지 않는지.
 - 강한 영웅 하나를 반복 출전시키는 전략이 지배하는지.
 - 영웅 등급 토큰 출현 빈도와 단일 활성 제한이 적절한지.
 - active hero가 있을 때 토큰 보관·원본 사용 선택이 충분한지.
 - 퇴각 불가가 선택 책임을 강화하는지 단순한 답답함이 되는지.
-- 오래 생존한 영웅이 후속 영웅 선택을 과도하게 봉쇄하는지.
+- 현재 HP 누적이 장기 전략을 만드는지 영웅 사용을 과도하게 봉쇄하는지.
+- 정비시간 clock 정지가 무료 회복 악용을 차단하는지.
+- Stage 경계의 전투 잔여물 제거가 저장·복구에서 결정론적으로 동작하는지.
 - 보관함 변환 UX가 전투 흐름을 과도하게 지연하는지.
-- 미해금 상태에서도 원본 영웅 등급 토큰이 완전한 선택지인지.
 
 ### USER_DECISION_REQUIRED
 
-- Stage 정산·정비시간·다음 Stage 전환 시 영웅 체력 유지·회복 비율.
-- Stage 전환 시 쿨다운·충전·버프·디버프·고유 자원 처리.
-- 정비시간 중 경제·건설·업그레이드·수리·회복 clock matrix.
-- 맵·Stage별 정확한 Wave 수와 적 편성.
-- 반복 출전 시 새 인스턴스 초기 상태.
+- 사망 뒤 새 토큰 재배치 인스턴스의 초기 HP·쿨다운·충전·고유 자원.
 - 병종별 영웅 명단·능력·등급·수치.
+- 영속 동반자·소환 특화 영웅의 개별 예외.
+- 일반 정비시간 경제·건설·수리 clock matrix.
 - Act별 적 역할 조합과 정확 명단.
 - 노드 수·비용·환불·영구재화 최종명.
 
@@ -223,7 +231,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 
 ```text
 LAST_MERGED_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-CURRENT_COUNT_SINCE_MERGE = 6_OF_10
+CURRENT_COUNT_SINCE_MERGE = 7_OF_10
 NEXT_PREFLIGHT_TRIGGER = 10_APPROVED_GRILL_ME_DECISIONS
 CURRENT_MERGE_PENDING = NO
 ```
@@ -231,8 +239,8 @@ CURRENT_MERGE_PENDING = NO
 ## 11. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
-= Stage 정산·정비시간·다음 Stage 전환에서 살아 있는 영웅의 체력·쿨다운·버프·디버프·고유 자원을 어떻게 처리하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
+= 사망 뒤 새 영웅 등급 토큰을 소비해 재배치하는 새 영웅 인스턴스의 HP·쿨다운·충전·고유 자원 초기값
 ```
 
 ## 12. 상태 경계
