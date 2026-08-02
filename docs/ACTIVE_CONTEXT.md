@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: WORLD_VEIL_ONTOLOGY_SYNC_IN_PROGRESS
+current_phase: WORLD_OMENWARD_POLITICAL_ROLE_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 current_branch: main
@@ -17,7 +17,7 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-sheet_sync: ONTOLOGY_DECISION_SYNC_IN_PROGRESS
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 recovery_pr: 119_DRAFT
 superseded_pr: 116_CLOSED_NOT_MERGED
 runtime_validation: NOT_RUN
@@ -25,20 +25,20 @@ human_validation: NOT_RUN
 simulation: NOT_RUN
 ```
 
-`current_branch: main`과 `context_baseline_commit`은 현재 정본 기준선을 뜻한다. 실제 쓰기 작업은 `working_branch`에서 수행하며 main 직접 변경을 의미하지 않는다.
+`current_branch: main`과 `context_baseline_commit`은 정본 기준선을 뜻한다. 실제 쓰기 작업은 `working_branch`에서 수행하며 main 직접 변경을 의미하지 않는다.
 
 ## 1. 현재 작업
 
-`OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1`에서 사용자가 권장 혼합안을 승인했다.
+`OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1`의 권장 혼합안이 사용자 승인됐고 GitHub 정본과 Sheet bounded read-back이 통과했다.
 
 ```text
 본질 = 현실과 외부 법칙 영역의 비의지적 경계 겹침
 외형 = 생태적으로 자라는 물질적 패턴
 베일 자체의 통일된 의지 = 없음
-베일종의 독립 행위 가능성 = 열어 둠
+베일종의 독립 행위 가능성 = 별도 결정
 ```
 
-현재는 GitHub 정본과 Sheet를 같은 Decision ID로 동기화하고 exact PR HEAD·CI를 확인하는 단계다. 동기화 뒤 다음 질문은 오멘워드 조직·루메른 왕국·지휘관의 정치적 위치다.
+현재 다음 작업은 `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1`이다. 오멘워드 조직, 루메른 왕국, 플레이어 지휘관 사이의 권한·책임·정치적 긴장을 확정한다.
 
 ## 2. 프로젝트 약속
 
@@ -52,11 +52,10 @@ simulation: NOT_RUN
 
 - 베일은 장소·장벽·신격이 아니라 현실과 이질적인 외부 법칙 영역의 접촉면과 겹침 과정이다.
 - 베일 자체에는 통일된 의지·도덕·계획이 없다.
-- 균사·혈관·뿌리·결정·조직처럼 보이는 증식은 생물 의지가 아니라 법칙 충돌의 물질적 패턴이다.
+- 균사·혈관·결정·조직처럼 보이는 증식은 법칙 충돌의 물질적 패턴이다.
 - 베일의 법칙은 공세별로 관측 가능한 유한 규칙 묶음이다.
 - 징조는 겹침 전의 선행 공명으로 위협 구조를 예고하지만 결과를 확정하지 않는다.
-- 균열 봉쇄는 국소 접촉면을 끊는 행위이며 베일 전체나 외부 영역을 제거하지 않는다.
-- 봉쇄 뒤에도 지형·생태·물질·기억에 베일 상흔이 남을 수 있다.
+- 균열 봉쇄는 국소 접촉면을 끊으며, 봉쇄 뒤에도 지형·생태·물질·기억에 상흔이 남을 수 있다.
 - 베일종은 베일과 분리된 독립 행위자일 수 있으나 발생·지성·목적은 미확정이다.
 - 외부 영역의 수·구조·기원과 최초 베일 발생 원인은 미확정이다.
 
@@ -73,26 +72,19 @@ NO_LOCAL_VICTORY_NULLIFICATION
 정본: `docs/design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md`
 
 - 하나의 MapRun은 징조로 감지된 별개의 실제 경계 공세를 막는 방어 작전이다.
-- 20 Stage·4막은 하나의 공세와 겹침 강도가 단계적으로 고조되는 구조다.
+- 20 Stage·4막은 한 공세와 겹침 강도가 단계적으로 고조되는 구조다.
 - Stage 20 승리는 한 균열·침공로를 실제로 봉쇄한다.
-- 패배는 전진 방어선 붕괴와 실제 피해이며 시간 되감기로 삭제되지 않는다.
-- paid Retry는 같은 공세의 비상 재투입이다.
+- 패배는 전진 방어선 붕괴와 실제 피해이며 paid Retry는 같은 공세의 비상 재투입이다.
 - Profile은 여러 실제 작전에서 축적된 교리·보급망·기록·준비 체계다.
 - 벨루는 작전을 관측·기록하고 인과를 설명하는 안내자다.
 
 ## 5. 기존 세계관 명칭 계보
 
-- 루메른 왕국.
-- 루미엔 영토.
-- 트리븐 전선.
-- 실베른 성채.
-- 베일런 황야.
-- 베일의 법칙.
-- 베일의 징조.
+- 루메른 왕국, 루미엔 영토, 트리븐 전선, 실베른 성채.
+- 베일런 황야, 베일의 법칙, 베일의 징조, 베일종.
 - 벨루.
-- 베일종.
 
-명칭은 보존한다. 이번 승인으로 베일·법칙·징조·균열·상흔의 상위 관계는 확정됐지만 명칭의 정치적 소유·어원·정확한 지리와 역사는 아직 확정하지 않았다.
+명칭은 보존한다. 베일·법칙·징조·균열·상흔의 상위 관계는 확정됐지만 정치적 소유·어원·정확한 지리와 역사는 아직 확정하지 않았다.
 
 ## 6. 보호할 게임 시스템
 
@@ -144,7 +136,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 
 ## 9. 세계관 결정 순서
 
-1. `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` — 사용자 승인, 정본 동기화 진행 중.
+1. `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` — 승인·정본·Sheet read-back 완료.
 2. `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` — 오멘워드·루메른 왕국·지휘관의 조직 및 정치적 위치.
 3. `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1` — 베일종·경계파쇄자의 발생·지성·목적.
 4. `OMW-DEC-20260802-WORLD-REEL-METAPHYSICS-V1` — 징조와 세 물리 릴·TokenSource의 세계 내 원리.
@@ -155,9 +147,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 ## 10. 다음 Gate
 
 ```text
-Ontology GitHub·Sheet content sync
-→ exact PR HEAD·CI verification
-→ Grill Me: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
+Grill Me: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
 ```
 
 ```text
