@@ -1,14 +1,15 @@
 # OMENWARD 프로젝트 Google Sheets Workbook
 
 ```yaml
-updated_at: 2026-08-02
+updated_at: 2026-08-03
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 spreadsheet_title: 오멘워드(OMENWARD)
-current_decision: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-REPLACEMENT-V1
+current_decision: OMW-DEC-20260803-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-2-CONCEPTS-V1
+current_process_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_pr: 129
 working_branch: gpt/omenward-hero-kit-planning-20260802
-grill_me_count: 6_of_10
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_PR_129_HEAD / READBACK_PASS
+grill_me_count: 7_of_10
+sheet_status: PROJECT_SHEET_CONFIGURED / SYNC_IN_PROGRESS
 workspace_mode: USER_FACING_GDD_WORKSPACE
 change_protocol: PROPOSED_SHEET_CHANGE
 exact_head_source: RESOLVE_FROM_PR_129_METADATA_AND_CONNECTED_SHEET
@@ -36,111 +37,142 @@ USER_APPROVED_PLAN
 != HUMAN_VALIDATED
 ```
 
-## 2. 현행 Decision
+## 2. 현행 제품 Decision
+
+```text
+shield_guard / 방패병 → 불퇴의 성벽
+archer / 궁병         → 천공 소거
+priest / 사제         → 생명의 서약
+mage / 마법사         → 메테오
+assassin / 암살자     → 그림자 분신
+```
+
+```text
+ONE_UNIQUE_SKILL_2
+ONE_LANE
+ONE_PRIMARY_TACTICAL_PURPOSE
+AUTOMATIC_RULE_BASED_ACTIVATION
+READY_STATE_PRESERVED_UNTIL_VALID_CONDITION
+STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
+```
+
+- `생명의 서약`은 회복이 아니라 짧은 체력 하한 보호다.
+- `메테오`는 deterministic 적 밀집 지점에 예고 후 메테오 1개가 지연 낙하한다.
+- `그림자 분신`은 독립 AI 없이 원본 표적과 기본 공격 일부만 복제하는 owner-bound proxy 1체다.
+- 정확 trigger·cooldown·duration·damage·floor·clone coefficient·최종 표시 이름은 pending이다.
+
+## 3. 상위 등급·전역 슬롯 계보
 
 ```text
 [영웅]·[전설] 등급 유닛은 표준/해금·병종·전선과 관계없이 전장 전체 최대 1명
 해금 이름 지정 [영웅]은 표준 2스킬을 고유 2스킬로 교체
 향후 해금 이름 지정 [전설]은 표준 3스킬을 고유 3스킬로 교체 / NOT_NOW
+재전설 결과는 같은 계열 [영웅] 보상 토큰 2개 / 즉시 유닛 생성 0
 ```
 
 ```text
-STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
 ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
-NAMED_HERO_UNIQUE_SKILL_SLOT = 2
-FUTURE_NAMED_LEGENDARY_UNIQUE_SKILL_SLOT = 3
 ```
 
-## 3. 핵심 시스템·재미 연결
+## 4. Grill Me 벤치마크·현업 비교 정책
 
-```text
-예고된 공세
-→ 건물·TokenSource로 릴 설계
-→ 룰렛 조작·확정
-→ 희귀 병력 획득
-→ 세 전선 중 하나에 비가역 커밋
-→ 전황 역전
-→ 다음 설계
-```
+Process ID:
 
-영웅 이상 전역 단일 슬롯은 최고 등급을 누적하는 것이 아니라 어느 전선에 최고 전력을 투입할지 판단하게 한다.
+`OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1`
 
-## 4. Sheet 반영·read-back 범위
+앞으로 모든 Grill Me 질문과 승인 작업은 다음을 포함한다.
+
+1. Project Core·현행 APPROVED 문서 근거.
+2. 공식 상용 게임·개발 자료 중심 직접 사례 2~4개.
+3. OMENWARD와의 장르·조작·전투 규모 차이.
+4. 구현·데이터·AI·pathfinding·animation·VFX/SFX·UI·save/load·determinism·QA 비용.
+5. 적대적 검토와 복제 금지 경계.
+6. 2~4개 선택지와 제작비·검증비·권장안.
+
+이 운영 정책은 제품 Grill Me 카운터를 별도로 증가시키지 않는다.
+
+## 5. Sheet 반영·read-back 범위
 
 - `00_프로젝트_허브!E2:L2`
-- `01_작업순서!A33:N33`
-- `02_현재_확정결정!A41:M41`
-- `04_누락_충돌_감사!A153:H162`
+- `01_작업순서!A34:N35`
+- `02_현재_확정결정!A42:M43`
+- `03_근거_라이브러리!A12:J18`
+- `04_누락_충돌_감사!A164:H172`
 - `05_GDD_요약!D8:J8`
 - `05_GDD_요약!B9:J9`
-- `12_핵심루프!A17:J17`
-- `15_조작_게임규칙!A20:J20`
-- `40_핵심시스템_메인콘텐츠!A20:J20`
-- `41_성장_경제!A30:I30`
-- `50_메인콘텐츠!A27:J27`
-- `60_UX_UI_접근성!A28:J28`
-- `70_아트_오디오_에셋!A11:J11`
-- `99_변경이력!A43:H43`
+- `12_핵심루프!A18:J18`
+- `15_조작_게임규칙!A21:J21`
+- `40_핵심시스템_메인콘텐츠!A21:J21`
+- `41_성장_경제!A31:I31`
+- `50_메인콘텐츠!A28:J28`
+- `60_UX_UI_접근성!A29:J29`
+- `70_아트_오디오_에셋!A12:J12`
+- `99_변경이력!A45:H46`
 
-쓰기 전 빈 행·서식을 확인하고, 쓰기 뒤 같은 범위를 읽어 다음을 확인한다.
+쓰기 전 빈 행·서식을 bounded read로 확인했고, 쓰기 뒤 같은 범위를 다시 읽어 다음을 확인한다.
 
 ```text
 SAME_DECISION_ID = PASS
+PROCESS_POLICY_ID_PRESENT = PASS
+BENCHMARK_EVIDENCE_ROWS = PRESENT
 SHEET_BOUNDED_READBACK = PASS
 EXACT_PR_HEAD_MATCH = PASS
-HIGH_GRADE_CAP_1 = PRESENT
-NAMED_HERO_UNIQUE_SKILL_2_REPLACEMENT = PRESENT
-FUTURE_NAMED_LEGENDARY_SKILL_3_NOT_NOW = PRESENT
-POWER_HIERARCHY = PRESENT
+FIRST_FIVE_SKILL_CONCEPTS = PRESENT
+COUNTER_7_OF_10 = PRESENT
 ```
 
-## 5. Sheet 핵심 불변식
+## 6. 초기 5명 Sheet 불변식
 
 ```text
-HIGH_GRADE_ACTIVE_CAP = 1
-COUNTED_GRADES = HERO | LEGENDARY
-COUNTED_VARIANTS = STANDARD | UNLOCKED_NAMED
-SCOPE = ALL_THREE_LANES
-LIMIT_APPLIES_TO = BATTLEFIELD_DEPLOYMENT
-TOKEN_ACQUISITION_WHEN_SLOT_FULL = ALLOWED
-STORE_OR_SELL_WHEN_SLOT_FULL = ALLOWED
-AUTO_DELETE_OR_AUTO_REPLACE = FORBIDDEN
+SHIELD_GUARD = NON_TERRAIN_DAMAGE_ABSORPTION_BARRIER
+ARCHER = SAME_LANE_VALID_FLYING_TARGET_VOLLEY
+PRIEST = TEMPORARY_HEALTH_FLOOR_NO_HEALING
+MAGE = TELEGRAPHED_DELAYED_SINGLE_METEOR
+ASSASSIN = ONE_OWNER_BOUND_DEPENDENT_CLONE_PROXY
 ```
 
 ```text
-STANDARD_HERO = UPGRADED_SKILL_1 + STANDARD_SKILL_2
-UNLOCKED_NAMED_HERO = UPGRADED_SKILL_1 + UNIQUE_SKILL_2
-STANDARD_LEGENDARY = UPGRADED_SKILL_1 + UPGRADED_STANDARD_SKILL_2 + STANDARD_SKILL_3
-FUTURE_UNLOCKED_NAMED_LEGENDARY = UPGRADED_SKILL_1 + UPGRADED_STANDARD_SKILL_2 + UNIQUE_SKILL_3
+PRIEST_EFFECTIVE_FLOOR
+= min(current_hp_at_cast, configured_floor_percent * max_hp)
 ```
-
-## 6. 적대적 검토 기록
-
-- OMW-AUD-153: named-only 제한과 최신 전 등급 제한 충돌.
-- OMW-AUD-154: 고유 스킬 추가가 전설 계층 침범.
-- OMW-AUD-155: 전설 잭팟의 즉시 배치 불가 좌절.
-- OMW-AUD-156: 영웅 결과 빈도·장기 슬롯 점유·보관함 압력.
-- OMW-AUD-157: 해금 후 표준 영웅 완전 대체는 의도된 수직 성장.
-- OMW-AUD-158: 고유 2스킬이 표준 전설 전체 키트를 넘는 위험.
-- OMW-AUD-159: 단일 고등급 슬롯이 세 전선 다양성을 축소할 위험.
-- OMW-AUD-160: 수동 교체가 비가역 커밋 훼손.
-- OMW-AUD-161: 미래 해금 전설 범위 폭증.
-- OMW-AUD-162: cooldown 완료 즉시 낭비 발동.
-
-## 7. 자동 발동
 
 ```text
-COOLDOWN
-→ READY_WAITING_FOR_VALID_CONDITION
-→ trigger·target·priority·tie-break
-→ CAST_COMMIT
-→ effect·VFX/SFX·log
-→ COOLDOWN
+ASSASSIN_CLONE_COUNT = 1
+INDEPENDENT_TARGET_SELECTION = FALSE
+INDEPENDENT_PATHFINDING = FALSE
+SKILL_CASTING = FALSE
+ON_HIT_AND_CC_COPY = FALSE
+RESOURCE_OR_REWARD_GENERATION = FALSE
+HIGH_GRADE_SLOT_OCCUPANCY = FALSE
 ```
 
-유효 조건이 없으면 준비 상태를 유지한다.
+## 7. 근거 라이브러리
 
-## 8. exact-head 검증 절차
+`03_근거_라이브러리`에는 다음 공식 자료를 기록한다.
+
+- Riot Games `Clarity in League`.
+- Riot Games `Quick Gameplay Thoughts: Champion Counterplay`.
+- Riot Games `Braum`.
+- Blizzard Entertainment `Rain of Vengeance`.
+- Riot Games / Wild Rift `Kindred`.
+- Riot Games / Wild Rift `Meteor Enchant` patch notes.
+- Riot Games `Zed`.
+
+이 자료는 정확 수치 권위가 아니라 가독성·counterplay·telegraph·proxy 제작 경계를 비교하는 `REFERENCE_ONLY / ADAPT / DO_NOT_COPY` 근거다.
+
+## 8. 적대적 검토 기록
+
+- OMW-AUD-164: 체력 하한이 한 전선 전체 무적으로 변할 위험.
+- OMW-AUD-165: 체력 하한이 낮은 대상에게 숨은 회복을 제공할 위험.
+- OMW-AUD-166: 메테오 즉발로 대응 불가능해질 위험.
+- OMW-AUD-167: 메테오가 지나치게 빗나가 해금 보상이 사라질 위험.
+- OMW-AUD-168: 분신이 독립 AI 유닛으로 팽창할 위험.
+- OMW-AUD-169: 분신이 스킬·on-hit·CC까지 복제할 위험.
+- OMW-AUD-170: 방벽이 navmesh를 변경할 위험.
+- OMW-AUD-171: 천공 소거가 비행 Wave를 혼자 무조건 삭제할 위험.
+- OMW-AUD-172: 고유 스킬 VFX가 전장 가독성을 파괴할 위험.
+
+## 9. exact-head 검증 절차
 
 ```text
 1. PR #129 actual head 조회
@@ -156,26 +188,16 @@ COOLDOWN
 
 최종 증거는 PR #129 설명과 연결 Sheet가 소유한다. Workbook은 검증 방법과 반영 범위만 소유한다.
 
-## 9. 실패·교정 계보
-
-첫 후보에서 GDD Sheet CI가 실패한 원인은 설계 내용이 아니라 Workbook의 고정 표식 `PROJECT_SHEET_CONFIGURED` 누락이었다. 테스트 계약을 확인해 다음 표식을 복원했다.
-
-```text
-PROJECT_SHEET_CONFIGURED
-USER_FACING_GDD_WORKSPACE
-PROPOSED_SHEET_CHANGE
-```
-
-후속 exact-head 검증에서는 이 표식과 실제 Sheet 동기화를 모두 확인한다.
-
 ## 10. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 PRODUCT_CODE = UNCHANGED
-EXACT_UNIQUE_SKILL_2 = PENDING
-FUTURE_NAMED_LEGENDARY = NOT_NOW
-EXACT_VALUES = PENDING
+UNIQUE_SKILL_2_CONCEPTS = APPROVED
+EXACT_TRIGGER_THRESHOLDS = PENDING
+EXACT_COOLDOWNS = PENDING
+EXACT_DURATIONS_AND_VALUES = PENDING
+FINAL_DISPLAY_NAMES = PENDING
 ASSETS = NOT_CREATED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
@@ -185,7 +207,7 @@ HUMAN_QA = NOT_RUN
 ## 11. 최종 검증 체크리스트
 
 - [ ] PR actual HEAD와 Sheet SHA 동일.
-- [ ] 같은 Decision ID.
+- [ ] 같은 Decision ID와 Process ID.
 - [ ] bounded read-back PASS.
 - [ ] 필수 CI 3개 actual HEAD Green.
 - [ ] latest main 대비 behind 0.
@@ -193,10 +215,10 @@ HUMAN_QA = NOT_RUN
 - [ ] 제품 경로 0.
 - [ ] comments·reviews·unresolved threads 0 또는 해결.
 - [ ] Sheet `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 0.
-- [ ] PR #129 Draft 유지, 카운터 6/10.
+- [ ] PR #129 Draft 유지, 카운터 7/10.
 
 ## 12. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-2-CONCEPTS-V1
+OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-COOLDOWN-CHARGE-AND-FAILURE-POLICY-V1
 ```
