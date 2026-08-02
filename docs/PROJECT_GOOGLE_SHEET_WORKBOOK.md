@@ -12,7 +12,7 @@ current_operating_gate: NEXT_PLANNING_BATCH_SELECTION
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
-active_base: 9.4.2
+active_base: 9.4.3
 last_merged_planning_pr: 121
 current_planning_pr: NONE
 sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_MAIN / MERGE_VERIFIED
