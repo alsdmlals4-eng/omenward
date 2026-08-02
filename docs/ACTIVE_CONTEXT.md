@@ -4,9 +4,9 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: HERO_SIGNATURE_DELTA_BALANCE_PLANNING
+current_phase: HERO_INITIAL_ROSTER_SCOPE_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
@@ -20,7 +20,7 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 last_merged_planning_pr: 127
 current_planning_pr: 129
-current_grill_me_count: 2
+current_grill_me_count: 3
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
@@ -61,48 +61,55 @@ human_validation: NOT_RUN
 - 사망은 회수 보상을 제공하지 않고 사망 이후 새 동병종 `[영웅]` 결과로만 재출전한다.
 - 이름 지정 영웅은 원본 병종의 순수 상위호환이 아닌 전문화 sidegrade다.
 
-## 3. 이름 지정 영웅 제작 모델
+## 3. 이름 지정 영웅 제작·밸런스 모델
 
 ```text
 기존 병종 [영웅] 등급 유닛
 + 영웅 전용 스킨·이름·최소 식별 연출
 + 패시브 1개 또는 자동 [사용스킬] 1개
+- 직접 관련된 상쇄 축 1개
 = 이름 지정 영웅
 ```
 
 ```text
 SIGNATURE_DELTA_COUNT = 1
 SIGNATURE_DELTA = PASSIVE XOR AUTOMATIC_ACTIVE_SKILL
+COMPENSATION_AXIS_COUNT = 1
+COMPENSATION_MUST_BE_CAUSALLY_RELATED = TRUE
+ALL_OTHER_SOURCE_AXES_INHERITED = TRUE
 ```
 
 - 원본 병종의 핵심 역할·기본 공격·사거리·이동·AI·리그·기본 애니메이션을 우선 재사용한다.
 - 패시브형과 사용스킬형 중 하나만 선택하며 둘을 동시에 제공하지 않는다.
 - `[사용스킬]`은 수동 버튼이 아니라 기존 자동 발동 정본을 따르는 규칙 기반 자동 능력이다.
-- 기본적으로 고유 자원·공통 궁극기·새 AI 구조·전체 신규 애니메이션 세트를 만들지 않는다.
-- 외형은 스킨에 가까운 제작량을 목표로 하지만 차이 하나는 실제 전술 선택을 바꿔야 한다.
+- 고유 자원·공통 궁극기·새 AI 구조·전체 신규 애니메이션 세트는 기본 금지다.
+- 단일 차이의 가치와 직접 연결된 능력치·효율·조건 축 하나만 조정한다.
+- 상쇄 축 외의 원본 데이터는 유지하고 원본 병종이 더 나은 대표 상황을 최소 하나 유지한다.
 
-## 4. 단일 상쇄 축 밸런스
+## 4. 초기 검증 로스터 범위
 
 ```text
-원본 [영웅] 등급 병종 데이터 복사
-→ 영웅 전용 단일 차이 적용
-→ 직접 관련된 상쇄 축 1개 선택
-→ 그 축만 하향 또는 조건화
-→ 나머지 원본 전투 데이터 유지
+서로 다른 기존 UnitArchetype 4종
+→ 병종마다 이름 지정 영웅 1명
+→ 패시브형 2명
+→ 자동 사용스킬형 2명
+→ 초기 검증 로스터 총 4명
 ```
 
 ```text
-COMPENSATION_AXIS_COUNT = 1
-COMPENSATION_MUST_BE_CAUSALLY_RELATED = TRUE
-FULL_STAT_REDESIGN = FORBIDDEN
-FREE_SIGNATURE_POWER = FORBIDDEN
+INITIAL_NAMED_HERO_COUNT = 4
+INITIAL_SOURCE_ARCHETYPE_COUNT = 4
+HEROES_PER_SOURCE_ARCHETYPE = 1
+PASSIVE_VARIANT_COUNT = 2
+AUTOMATIC_ACTIVE_SKILL_VARIANT_COUNT = 2
 ```
 
-- 패시브 또는 사용스킬의 가치와 직접 연결된 능력치·효율·조건 축 하나만 조정한다.
-- 여러 스탯을 동시에 낮추거나 영웅별 전체 성장 곡선을 다시 만들지 않는다.
-- 조건 의존도를 상쇄로 쓰는 경우 조건 미충족 구간에서 원본보다 낮은 효율이 실제로 나타나야 한다.
-- 상쇄 축 외의 원본 데이터는 유지한다.
-- 원본 병종이 더 나은 대표 상황을 최소 하나 유지한다.
+- 초기 4명은 서로 다른 원본 병종에 연결하며 역할·전투 판단 중복을 최소화한다.
+- 정확 병종·영웅 이름·능력·상쇄 축은 아직 확정하지 않는다.
+- 4명은 최종 출시 전체 로스터 상한이 아니라 첫 제작·밸런스·UX·자산 재사용 검증 범위다.
+- 패시브형과 자동 사용스킬형을 각각 2명씩 검증한다.
+- 후보 병종은 원본 완성도·자산 재사용성·전술 차별성·상쇄 가독성·콘텐츠 노출성을 기준으로 선정한다.
+- 초기 4명을 모두 완전 신규 유닛으로 제작하는 것은 금지한다.
 
 ## 5. 자동 발동·결정론
 
@@ -133,6 +140,7 @@ FREE_SIGNATURE_POWER = FORBIDDEN
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md`
 
 ## 7. 구현 경계
 
@@ -141,8 +149,11 @@ CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 CODEX = BLOCKED
-EXACT_HERO_VARIANTS = PENDING
+INITIAL_HERO_COUNT = 4
+EXACT_ARCHETYPES = PENDING
+EXACT_HEROES = PENDING
 EXACT_VALUES = PENDING
+ASSETS = NOT_CREATED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
@@ -150,11 +161,11 @@ HUMAN_QA = NOT_RUN
 
 ## 8. 운영 규칙·다음 Gate
 
-- 현재 카운터는 `2/10`이다.
+- 현재 카운터는 `3/10`이다.
 - 승인된 중요 결정은 GitHub와 Sheet에 같은 Decision ID로 즉시 반영한다.
 - 10번째 승인에서 적대적 preflight를 실행한다.
 - Green preflight와 blocker 0인 문서·기획 PR은 standing authorization에 따라 병합한다.
 
 ```text
-NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1
+NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-ARCHETYPE-SELECTION-V1
 ```
