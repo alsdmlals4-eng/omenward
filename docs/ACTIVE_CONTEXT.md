@@ -10,7 +10,8 @@ current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MOD
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
-context_baseline_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
 active_base_version: 9.4.2
 current_product: LEGACY_PROTOTYPE
@@ -19,9 +20,8 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-last_merged_pr: 121
-last_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-current_pr: NONE
+last_merged_planning_pr: 121
+current_planning_pr: NONE
 current_grill_me_count: 0
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
@@ -32,11 +32,13 @@ human_validation: NOT_RUN
 simulation: NOT_RUN
 ```
 
+`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 최근 승인 10건을 main 정본으로 만든 역사적 병합 증거다.
+
 ## 1. 현재 상태
 
 - PR #121은 2026-08-02에 squash 병합됐다.
-- 병합 commit은 `8337a3eba5ff065b2a7c06c6a6256e5b4951c055`다.
-- 승인 10건은 이제 main 정본이며 Grill Me 카운터는 `0/10`으로 초기화됐다.
+- PR #121 merge commit은 `8337a3eba5ff065b2a7c06c6a6256e5b4951c055`다.
+- 승인 10건은 main 기획 정본이며 Grill Me 카운터는 `0/10`으로 초기화됐다.
 - 현재 제품은 여전히 Legacy 프로토타입이고 최신 승인 기획은 미구현이다.
 - 제품 코드·데이터·Scene·Resource는 PR #121에서 변경되지 않았다.
 
