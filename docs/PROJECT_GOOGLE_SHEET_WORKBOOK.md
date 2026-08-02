@@ -7,15 +7,15 @@ spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG
 workbook_role: USER_FACING_GDD_WORKSPACE
 sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1
+current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
 baseline_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
 sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
-current_grill_me_count: 6
-next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+current_grill_me_count: 7
+next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
 last_full_audit: 2026-08-02
 ```
 
@@ -46,72 +46,70 @@ Grill Me approval count
 | `02_현재_확정결정` | 같은 Decision ID의 승인 내용 |
 | `04_누락_충돌_감사` | 적대적 finding·해결·검증·merge blocker |
 | `05_GDD_요약` | 최신 게임플레이·Meta·구현 요약 |
-| `12_핵심루프` | 맵 선택·MapRun·Stage·Wave·정산·정비시간 흐름 |
-| `15_조작_게임규칙` | Stage 중 운영 기능·룰렛·보관함·active hero·전선 배치 규칙 |
-| `40_핵심시스템_메인콘텐츠` | Stage/Wave 상태기·정비시간·전장 시스템 연결 |
+| `12_핵심루프` | 맵 선택·MapRun·Stage·Wave·정산·정비시간·영웅 정산 흐름 |
+| `15_조작_게임규칙` | Stage 중 운영 기능·영웅 상태 지속·룰렛·보관함·전선 배치 규칙 |
+| `40_핵심시스템_메인콘텐츠` | Stage/Wave 상태기·정비시간·Hero persistent/transient 상태기 |
 | `41_성장_경제` | 영구재화·주점·영웅 명부·병영·연구 |
-| `50_메인콘텐츠` | 맵·Stage·Wave·미션·선택지·적 역할 콘텐츠 |
-| `60_UX_UI_접근성` | Stage/Wave/정비시간·보관함·active hero 표시 |
+| `50_메인콘텐츠` | 맵·Stage·Wave·미션·선택지·영웅 장기 손상·적 역할 콘텐츠 |
+| `60_UX_UI_접근성` | Stage/Wave/정비시간·영웅 장기 상태·보관함·active hero 표시 |
 | `99_변경이력` | GitHub path·HEAD·Sheet 범위·read-back·merge 결과 |
 
 ## 3. 현재 동기화 Decision
 
-Decision: `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1`
+Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1`
 
 ```text
-맵 선택
-→ MapRun 생성·RunState 초기화
-→ Stage
-→ Stage 내부 Wave 1...N
-   ↔ 건설·업그레이드·수리
-   ↔ 룰렛 조작과 병력 확보
-   ↔ 보관함 관리
-   ↔ 병력 배치
-→ Stage 정산·checkpoint
-→ 정비시간: 전투·Wave 일시정지, 미션·선택지 처리
-→ 다음 Stage
+Stage final combat tick
+→ damage and Hero death resolution
+→ if alive: clear transient combat state and transient child entities
+→ capture current HP·remaining cooldowns·charges·uses·unique resources
+→ atomic Stage settlement and checkpoint
+→ MaintenancePhase: Hero recovery/cooldown/charge/resource clocks paused
+→ next Stage: restore the same Hero instance on the same lane
 ```
 
-- 현재 MapRun 목표는 20 Stage다.
-- 각 Stage는 맵·Stage 데이터가 정의한 하나 이상의 Wave로 구성된다.
-- `라운드`는 별도 상태가 아니며 공식 용어는 `Wave / 웨이브`다.
-- Wave 사이에는 기본 정비시간을 두지 않고 Stage 종료 뒤 한 번만 발생한다.
-- 위험 Stage에서도 Stage 경계 정비시간은 존재한다.
-- 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치는 Stage 진행 중에도 사용 가능하다.
-- 정비시간 중 경제·건설·수리·회복·쿨다운 clock matrix는 pending이다.
-- MapRun 초기화는 RunState만 초기화하며 Profile 영구 해금을 지우지 않는다.
-- 정비시간 진입은 active 영웅 슬롯 해제 사건이 아니다.
+- 살아 있는 영웅의 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 다음 Stage에 현재 값 그대로 유지한다.
+- 일시 버프·디버프·타깃·어그로·공격/시전 상태는 Stage 정산에서 제거한다.
+- 투사체·장판·함정·일시 소환물과 제거된 객체 참조는 Stage 정산에서 제거한다.
+- 영웅의 영구 패시브·Profile 해금·영속 능력은 유지한다.
+- 정비시간에는 영웅 HP 회복·쿨다운·충전·고유 자원 clock이 진행되지 않는다.
+- Stage 경계는 무료 전회복·스킬 초기화·충전 회복·영웅 교체 사건이 아니다.
+- 사망 영웅은 persistent snapshot을 만들지 않고 기존 Hero Exit 규칙에 따라 active 슬롯을 해제한다.
+- persistent snapshot은 최종 전투 틱과 사망 판정 뒤 원자 저장하고 동일 영웅 인스턴스에 한 번만 복원한다.
+- 사망 뒤 새 토큰으로 생성하는 새 영웅 인스턴스의 초기 상태는 pending이다.
 
 ## 4. 동기화 증거
 
 ```text
 PR #121 verified head before workbook closure commit:
-20e5fd1fb446dc03fadafb90c22305d786b1d499
+85e6669631d57e8879bffc59611a06c10d3d2d4e
 
 SHEET_BOUNDED_READBACK: PASS
 REQUIRED_CI_AT_VERIFIED_HEAD:
-- Project Core Documentation run 559: PASS
-- GDD Sheet Adoption run 270: PASS
-- Base v9 adoption run 245: PASS
+- Project Core Documentation run 567: PASS
+- GDD Sheet Adoption run 281: PASS
+- Base v9 adoption run 256: PASS
 ```
 
 동기화 범위:
 
 - `00_프로젝트_허브!E2:L2`
-- `01_작업순서!A21:N21`
-- `02_현재_확정결정!A30:M30`
-- `04_누락_충돌_감사!A78:H83`
+- `01_작업순서!A22:N22`
+- `02_현재_확정결정!A31:M31`
+- `04_누락_충돌_감사!A84:H89`
 - `05_GDD_요약!D8:J8`
 - `05_GDD_요약!B9:J9`
-- `12_핵심루프!A6:J7`
-- `15_조작_게임규칙!A10:J10`
-- `40_핵심시스템_메인콘텐츠!A9:J10`
-- `50_메인콘텐츠!A16:J17`
-- `60_UX_UI_접근성!A17:J18`
-- `99_변경이력!A31:H31`
+- `12_핵심루프!A8:J8`
+- `15_조작_게임규칙!A11:J11`
+- `40_핵심시스템_메인콘텐츠!A11:J11`
+- `50_메인콘텐츠!A18:J18`
+- `60_UX_UI_접근성!A19:J19`
+- `99_변경이력!A32:H32`
 
 ## 5. 기존 승인 연결
 
+- 공식 게임 진행 계층은 `맵 → MapRun → Stage → Wave → Stage 정산 → 정비시간`이다.
+- 네 가지 런 운영 기능은 Stage 전투 중과 정비시간 모두 사용할 수 있다.
 - 병종별 영웅 후보는 복수 해금 가능하고 Profile 명부에 등록된다.
 - 별도의 pre-run 영웅 편성·계약은 없다.
 - 영웅 변환은 `1토큰 → 1유닛`이며 보너스 유닛과 릴 odds 변경이 없다.
@@ -125,11 +123,13 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 
 ```text
 사용자 승인
-→ GitHub 분야 정본·Core·Ledger·Map·Context 갱신
+→ GitHub 분야 정본·Ledger·Map·Context·관련 계약 갱신
 → commit
 → Sheet 결정·분야·감사·변경이력 갱신
 → bounded read-back
 → exact PR HEAD·CI 확인
+→ Workbook closure commit
+→ final exact HEAD·CI·PR·review·changed-path 확인
 → 승인 10건 또는 사용자 지시 시 preflight·merge
 → main·Sheet 재검증
 ```
@@ -147,6 +147,7 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 | 영웅 토큰 변환·배치 | `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` |
 | 영웅 단일 활성·반복 출전 | `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` |
 | 영웅 퇴각·교대·active 종료 | `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` |
+| 영웅 Stage 상태 지속·전투 잔여물 정리·정비 clock | `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` |
 | 주점·병영·연구 | `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` |
 | Profile 성장 | `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` |
 | 이계 생물종·경계파쇄자 | `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` |
@@ -164,7 +165,7 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 - `라운드`를 Wave와 별개인 중복 상태로 추가.
 - 정비시간을 건설·룰렛·보관함·배치가 가능한 유일한 구간으로 처리.
 - Stage 진행 중 네 가지 운영 기능을 일괄 차단.
-- 정비시간을 무한 무료 생산·수리·회복 시간으로 간주.
+- 일반 정비시간을 무한 무료 생산·수리 시간으로 간주.
 - 위험 Stage라는 이유로 Stage 경계 정비시간을 제거.
 - 영웅 해금을 모든 런의 자동 효과로 처리.
 - 영웅을 다른 병종에 자유 배속.
@@ -174,6 +175,11 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 - 동일 영웅 반복 출전을 한 런 1회 제한으로 오해.
 - 수동 퇴각·교대·재화 취소권을 추가.
 - Stage·Act·정비시간마다 active 슬롯을 자동 해제.
+- Stage마다 영웅 HP·쿨다운·충전·고유 자원을 무료 초기화.
+- 정비시간 체류로 영웅 HP·쿨다운·충전·고유 자원을 회복.
+- 이전 Stage의 일시 버프·디버프·투사체·장판·일시 소환물을 다음 Stage로 이월.
+- 최종 전투 틱 사망보다 먼저 persistent snapshot을 저장.
+- 저장·로드로 영웅 상태를 복제하거나 새 영웅을 자동 생성.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
 
 ## 9. 현재 상태
@@ -181,7 +187,7 @@ REQUIRED_CI_AT_VERIFIED_HEAD:
 ```text
 SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-GRILL_ME_COUNTER = 6_OF_10
-NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+GRILL_ME_COUNTER = 7_OF_10
+NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
 PRODUCT_CODE = UNCHANGED
 ```
