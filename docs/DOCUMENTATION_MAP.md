@@ -6,9 +6,9 @@ work_mode: TOTAL_PLANNING
 current_phase: PR121_TEN_DECISION_ADVERSARIAL_PREFLIGHT
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
-baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
+baseline_main: a521cf744533139063a72ab358b4381d2aae6f0b
 working_branch: gpt/omenward-gameplay-planning-20260802
-active_base: 9.4.0_RELEASED
+active_base: 9.4.1_RELEASED
 current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
@@ -44,6 +44,9 @@ merge_authorization: NOT_GRANTED
 |---|---|---|
 | 제품 정체성·플레이어 약속·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
 | 승인 Decision·상태·10건 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
+| 현행 전체 시스템 Vertical Slice 계약 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
+| 현행 Vertical Slice 적대적 검토·blocker 계보 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
+| 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 | 맵·MapRun·Stage·Wave·정산·정비시간·Stage 중 운영 기능 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | `USER_APPROVED_GAME_FLOW_TERMINOLOGY` |
 | 영웅 해금·병종 바인딩·복수 동병종 영웅 명부 | `design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` | `USER_APPROVED_HERO_ROSTER_STRUCTURE` |
 | 영웅 등급 보관 토큰·영웅 변환·비가역 배치 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | `USER_APPROVED_HERO_ACTIVATION_STRUCTURE` |
@@ -66,6 +69,13 @@ merge_authorization: NOT_GRANTED
 | 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 역할·동기화 계약 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
+
+### 2.1 계보·증거 경계
+
+- `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 현재 전체 시스템 Vertical Slice 기획 계약이지만 구현 완료 증거가 아니다.
+- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 해당 계약의 현재 적대적 검토 계보다.
+- `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 룰렛 통제감 검증을 위한 Evidence Pilot이며 상태는 **`PILOT_RECOMMENDATION / NOT_CANON`**이다.
+- Evidence Pilot은 별도 승인 없이는 제품 정본·구현 권한·수치 권한을 갖지 않는다.
 
 ## 3. MapRun 라우팅
 
@@ -118,6 +128,8 @@ merge_authorization: NOT_GRANTED
 | 분야 | 먼저 읽을 원본 | 다음 검증·결정 |
 |---|---|---|
 | 핵심 컨셉·뾰족한 재미 | `PROJECT_CORE.md`, Decision Ledger | 룰렛 통제감·사람 검증 |
+| 전체 시스템 Vertical Slice | `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | 구현 전 Work Order·runtime·human QA |
+| 룰렛 Evidence Pilot | `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON`; 별도 승인 전 비정본 |
 | MapRun·Stage·Wave·정비시간 | MapRun Stage Wave Maintenance | 일반 clock matrix·맵별 Wave 편성 |
 | 영웅 해금·명부 | Hero Unlock Registration | 병종별 명단·비용 |
 | 영웅 토큰 변환·배치 | Hero Token Conversion | UI·transaction runtime |
