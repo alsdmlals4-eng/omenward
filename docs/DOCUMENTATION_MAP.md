@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: GAMEPLAY_HERO_UNIQUENESS_LIMIT_GRILL_ME_READY
+current_phase: GAMEPLAY_HERO_EXIT_REPLACEMENT_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0_RELEASED
@@ -14,7 +14,7 @@ latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-current_grill_me_count: 3
+current_grill_me_count: 4
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 주 책임 원본을 두고 다른 문서는 계보·보조·검증으로만 사용한다.
@@ -44,6 +44,7 @@ current_grill_me_count: 3
 | 승인 Decision·상태·병합 카운트 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
 | 영웅 해금·병종 바인딩·복수 동병종 영웅 명부 | `design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` | `USER_APPROVED_HERO_ROSTER_STRUCTURE` |
 | 영웅 등급 보관 토큰·영웅 변환·비가역 배치 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | `USER_APPROVED_HERO_ACTIVATION_STRUCTURE` |
+| 영웅 동시 활성 1명·동일 영웅 반복 출전 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | `USER_APPROVED_SINGLE_ACTIVE_LIMIT` |
 | 세계·MapRun 반복·승패·징조 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | `USER_APPROVED_WORLD_PRINCIPLE` |
 | 베일 본질·법칙·균열·상흔 | `design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md` | `USER_APPROVED_WORLD_ONTOLOGY` |
 | 이계 생물종·경계파쇄자 게임플레이 범위 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | `USER_APPROVED_MINIMAL_LORE_GAMEPLAY_SCOPE` |
@@ -73,7 +74,7 @@ current_grill_me_count: 3
 → 주점에서 영구 해금·명부 등록
 → 룰렛에서 동병종 [영웅] 등급 토큰 획득
 → 보관함에서 원본 유지 또는 해금 영웅 선택
-→ 1토큰을 1유닛으로 변환
+→ active hero가 없으면 1토큰을 1유닛으로 변환
 → 한 전선에 비가역 배치
 ```
 
@@ -81,15 +82,18 @@ current_grill_me_count: 3
 - 같은 병종에 서로 다른 해금 영웅이 여러 명 존재할 수 있다.
 - 런 시작 전 별도 영웅 등록·계약은 없다.
 - 병종 불일치·미해금 영웅은 변환 후보가 아니다.
-- 변환은 추가 유닛·전역 패시브·릴 odds 변화를 만들지 않는다.
 - 원본 영웅 등급 병종 토큰도 정상 배치 가능하다.
+- 상·중·하를 합쳐 출전 중인 이름 지정 영웅은 동시에 최대 1명이다.
+- active hero가 있으면 새 토큰은 보관하거나 원본 병종으로 사용한다.
+- 같은 영웅도 이전 인스턴스가 종료된 뒤 새 토큰으로 반복 출전할 수 있다.
+- 반복 출전마다 별도의 영웅 등급 토큰이 필요하다.
 - 확정 전 취소 가능, 전선 배치 뒤 undo·회수·판매·라인 변경 불가다.
 
 ### 다음 결정
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
-= 여러 영웅 등급 토큰이 나왔을 때 동일 영웅·동병종 영웅의 한 런 배치 상한
+OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
+= 현재 영웅이 살아 있을 때 수동 교대·퇴각을 허용하는가, 어떤 사건에서 active 상태가 종료되는가
 ```
 
 정확 명단·능력·수치는 별도 결정이다.
@@ -108,18 +112,20 @@ OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 |---|---|---|
 | 핵심 컨셉·뾰족한 재미 | `PROJECT_CORE.md`, Decision Ledger | 룰렛 통제감·사람 검증 |
 | 영웅 해금·명부 | Hero Unlock Registration | 병종별 정확 명단·비용 |
-| 영웅 토큰 변환·배치 | Hero Token Conversion | 동일 영웅 중복·동시 활성 상한 |
+| 영웅 토큰 변환·배치 | Hero Token Conversion | 단일 활성 상태 검증 |
+| 영웅 활성·반복 출전 | Hero Single Active | 퇴각·교대·Stage 유지 |
 | 적 역할·경계파쇄자 | Veilspecies Gameplay Scope | Act별 도입·정확 명단·행동 |
 | 룰렛·TokenSource·이동 | `design/APPROVED_ROULETTE_CORE_RULES.md` | latest Red·runtime |
 | 전장·노드·점령 | Project Core | Legacy battle code·tests |
 | 경제·Retry·저장 | Meta + Auxiliary Hub + inherited economy lineage | simulator·fault test |
-| 화면·UX | Screen Board V2 | 보관함 영웅 변환 UI·runtime·사람 검증 |
+| 화면·UX | Screen Board V2 | active hero 표시·보관함 차단 피드백 |
 | 콘텐츠·위험 Stage·미션 | Decision Ledger inherited lineage | exact content breadth review |
 
 ## 7. 메인 허브·성장 라우팅
 
 - 주점: 병종별 복수 영웅 후보의 결정론적 영구 해금과 명부.
 - 보관함: 영웅 등급 토큰의 원본 유지 또는 동병종 해금 영웅 변환.
+- 전장: 이름 지정 영웅 active slot 1개를 세 전선이 공유.
 - 허브 병영: 병사 훈련·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 랜덤 유료 영입·무한 레벨·전 구간 배율·숨은 릴 확률·자동 플레이 금지.
@@ -141,6 +147,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - Tavern/Barracks/Research hub
 - multi-hero-per-unit unlock roster
 - stored Hero-grade token conversion and irreversible deployment
+- one active Hero across all lanes; repeat deployment after slot clears
 ```
 
 ## 9. Grill Me·병합 규칙
@@ -149,13 +156,13 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - 프로젝트 방향을 바꾸는 충돌만 한 번에 하나씩 질문한다.
 - 승인 뒤 GitHub·Sheet가 같은 Decision ID로 동기화되기 전 다음 중요 질문으로 넘어가지 않는다.
 - 승인 Grill Me Decision ID만 카운트한다.
-- 현재 카운터는 `3/10`이다.
+- 현재 카운터는 `4/10`이다.
 - 10건은 preflight trigger이며 blocker가 있으면 병합하지 않는다.
 
 ## 10. 현재 Gate
 
 ```text
-Grill Me: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+Grill Me: OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 ```
 
 ```text
