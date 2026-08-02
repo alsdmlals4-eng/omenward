@@ -4,9 +4,9 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: GAMEPLAY_HERO_REDEPLOYMENT_GRILL_ME_READY
+phase: GAMEPLAY_HERO_POWER_BUDGET_GRILL_ME_READY
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
@@ -17,7 +17,7 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 7
+current_grill_me_count: 8
 future_merge_cadence: 10
 ```
 
@@ -40,6 +40,9 @@ future_merge_cadence: 10
 - 살아 있는 영웅의 현재 HP·남은 쿨다운·충전·사용 횟수·고유 자원은 Stage를 넘어 유지한다.
 - 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
+- 영웅 사망은 source token 반환·골드·식량·영구재화·회수권·부활권·무료 재배치권을 제공하지 않는다.
+- 다시 출전하려면 새 동병종 `[영웅]` 등급 토큰이 필요하며, 보관함에 없다면 룰렛에서 영웅 등급 결과가 다시 나와야 한다.
+- 새 토큰으로 만든 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 새 인스턴스로 시작하고 이전 사망 상태를 승계하지 않는다.
 
 ## 2. MapRun·Stage·Wave·정비시간 계약
 
@@ -76,7 +79,8 @@ future_merge_cadence: 10
 → 한 전선에 비가역 배치
 → 살아 있는 동안 Stage·Act·정비시간을 넘어 유지
 → Stage 정산에서 장기 상태 저장·전투 잔여물 제거
-→ 사망·완전 제거 또는 MapRun 종료 시 슬롯 해제
+→ 사망·완전 제거 시 슬롯 해제, 회수 보상 없음
+→ 새 동병종 영웅 등급 토큰으로만 새 인스턴스 출전
 ```
 
 - 다른 병종 영웅은 후보가 아니다.
@@ -93,7 +97,10 @@ future_merge_cadence: 10
 - 일시 버프·디버프·타깃·어그로·시전 상태는 Stage 정산에서 초기화한다.
 - 투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
-- 사망 후 새 토큰으로 출전하는 새 영웅 인스턴스의 초기 상태는 pending이다.
+- 사망한 출전의 토큰·재화·상태를 회수하지 않고 다음 스핀 보정·보장·pity도 생성하지 않는다.
+- 새 토큰이 없다면 룰렛에서 해당 병종 `[영웅]` 등급이 다시 나올 때까지 이름 지정 영웅 출전은 불가능하다.
+- 새 인스턴스는 최대 HP, 쿨다운 0, 능력 기본 충전, 능력 초기 고유 자원으로 시작한다.
+- 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태를 승계하지 않는다.
 
 ## 4. 보호할 코어
 
@@ -121,6 +128,7 @@ future_merge_cadence: 10
 - 보관함: 영웅 등급 토큰의 원본 유지 또는 동병종 해금 영웅 변환.
 - 전장: 이름 지정 영웅 active slot 1개를 세 전선이 공유.
 - 영웅은 수동 퇴각·교대할 수 없으며 사망·MapRun 종료로만 active 상태를 종료한다.
+- 영웅 사망은 회수 보상이나 무료 재출전권을 제공하지 않는다.
 - 허브 병영: 병사·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 금지: 랜덤 유료 영입, 중복 합성, 무한 레벨, 전 구간 배율, 숨은 릴 확률, 자동 플레이.
@@ -136,6 +144,7 @@ future_merge_cadence: 10
 - `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -165,19 +174,21 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - no manual Hero retreat or replacement; same instance persists across Stage, Act and MaintenancePhase
 - persistent Hero HP/cooldowns/charges/unique resources across Stage boundaries
 - transient Hero combat state cleared and Hero clocks paused during MaintenancePhase
+- no Hero death recovery reward or source-token return
+- fresh matching Hero-grade token required for a fresh full-state Hero instance
 ```
 
 ## 8. Grill Me 운영
 
-- 현재 승인 카운터는 `7/10`이다.
+- 현재 승인 카운터는 `8/10`이다.
 - 10번째 승인 시 병합 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 9. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
-= 영웅 사망 뒤 새 영웅 등급 토큰으로 같은 영웅 또는 다른 영웅을 재배치할 때 새 인스턴스의 HP·쿨다운·충전·고유 자원은 어떤 초기값으로 시작하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
+= 이름 지정 영웅은 원본 [영웅] 등급 병종과 비교해 순수 상위호환인가, 같은 총 전투 예산을 다른 능력 구조로 교환하는 전문화 sidegrade인가
 ```
 
 ```text
