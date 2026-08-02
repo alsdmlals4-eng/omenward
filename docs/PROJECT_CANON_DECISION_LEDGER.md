@@ -11,7 +11,8 @@ recovery_pr: 119
 superseded_planning_pr: 116
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-sheet_sync: FIRST_READBACK_PASS / FINAL_EXACT_HEAD_WRITEBACK_FOLLOWS_THIS_COMMIT
+sheet_sync: SYNCED / EXACT_HEAD_RECORDED_IN_SHEET_AND_PR
+ci_validation: PROJECT_CORE_PASS / GDD_SHEET_PASS / BASE_ADOPTION_PASS
 ```
 
 이 문서는 **현재 승인 Decision과 상태**만 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 라우팅은 `DOCUMENTATION_MAP.md`가 소유한다.
@@ -35,7 +36,7 @@ RECOMMENDED_DEFAULT
 
 | Decision ID | 상태 | 현재 결정 | 권위·계보 | 구현·검증 |
 |---|---|---|---|---|
-| `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / CURRENT` | Base v9.4와 현재 main에서 깨끗한 정본 복구 PR을 만들고 PR #116은 역사 증거로 대체 | `docs/audits/OMENWARD_CANON_RECOVERY_AND_TOTAL_PLANNING_RESTART_2026-08-02.md`, PR #119 | 문서·Sheet만, 첫 read-back PASS, 제품 변경 없음 |
+| `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / SYNCED` | Base v9.4와 현재 main에서 깨끗한 정본 복구 PR을 만들고 PR #116은 역사 증거로 대체 | recovery audit, PR #119, connected Sheet | 문서·Sheet sync·CI Green, 제품 변경 없음 |
 | `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | `INHERITED_USER_APPROVED_PLAN` | 전장 1개·4막·Stage 20·일반 공세 8·위험 패키지 4·보스 패키지 3·미션 카드 12 | PR #116 승인 계보 | 미구현·미검증 |
 | `OMW-DEC-20260731-DEFEAT-RETRY-V1` | `INHERITED_CURRENT_PRINCIPLE / EXACT_VALUES_PENDING` | Stage 5 이후 MapRun당 최대 1회 paid Retry와 동일 RNG lineage checkpoint 복원 | PR #116 승인 계보 | 미구현·fault test 미실행 |
 | `OMW-DEC-20260731-DANGER-BOSS-V1` | `INHERITED_USER_APPROVED_PLAN` | 위험 Stage 5/10/15/20의 차별화된 공개 위협 패키지 | PR #116 승인 계보 | exact values·runtime 미실행 |
@@ -44,15 +45,11 @@ RECOMMENDED_DEFAULT
 | `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2` | `INHERITED_TEXT_SPEC / IMAGE_NOT_APPROVED` | 8개 독립 제품 화면과 정보 위계 방향 | PR #116 승인 계보 | 이미지·엔진 UI 미검증 |
 | `OMW-DEC-20260801-ECONOMY-RETRY-SAVE-PLANNING-V1` | `INHERITED_STRUCTURE_CURRENT / VALUES_PENDING` | MapRun/Profile 경제 분리, Retry·checkpoint·Journal·Backup 구조 | PR #116 승인 계보 | simulator·schema·fault test 미실행 |
 | `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | `INHERITED_SPEC_WRITTEN_NOT_EXECUTED` | 최신 3릴·30노드·5건물·fixed capture·paid Retry의 Red test 책임 정의 | PR #116 승인 계보 | 실제 test files 없음 |
-| `OMW-DEC-20260731-CANON-SYNC-V1` | `INHERITED_OPERATING_RULE` | 주요 승인 Decision은 GitHub와 Sheet에 같은 ID·commit으로 즉시 동기화 | PR #116 승인 계보 | 이번 복구에서 재적용 |
+| `OMW-DEC-20260731-CANON-SYNC-V1` | `INHERITED_OPERATING_RULE` | 주요 승인 Decision은 GitHub와 Sheet에 같은 ID·commit으로 즉시 동기화 | PR #116 승인 계보 | recovery Decision에서 재검증됨 |
 
 ## 3. 보호된 제품 기획
 
-### 플레이어 약속
-
 > 공개된 세 전선의 위험을 읽고 건물과 TokenSource로 세 물리 릴의 미래 배열을 설계·영구 편집한 뒤, 얻은 병력을 한 전선에 비가역 커밋하고 결과 원인을 다음 설계에 반영한다.
-
-### 승인된 구조
 
 - PC-primary.
 - 20 Stage, 4막, 약 35분 목표.
@@ -98,22 +95,24 @@ LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 
 과거 코드와 문서의 `20 gold spin`, `160 starting gold`, `70/50/40 refund` 등은 `LEGACY_H0 / HISTORICAL_ONLY`이며 현재 제품값이 아니다.
 
-## 6. 현재 Finding 분류
+## 6. 복구 Finding 상태
 
-### AUTO_FIX_ELIGIBLE
+### AUTO_FIX 완료
 
-- Base v9.4·main 기준선 동기화: PR #119에 반영.
-- PR #116 대체 관계: final Sheet sync 뒤 close.
-- Active Context·Handoff·Documentation Map·Workbook: PR #119에 반영.
-- Sheet PR HEAD·Base SHA·authority 의미: 첫 read-back PASS.
-- `03`, `40`, `90`의 검증된 열·schema 오류: 첫 read-back PASS.
-- 수치 상태 레이블: current policy로 반영.
+- Base v9.4·main 기준선 동기화.
+- PR #116 closed/superseded, PR #119 current authority.
+- Active Context·Handoff·Documentation Map·Workbook 갱신.
+- Sheet PR HEAD·Base SHA·authority 의미 분리.
+- `03`, `40`, `90`의 검증된 열·schema 오류 수정.
+- `60_UX_UI_접근성` schema 비판은 재조회 후 기각.
+- 수치 상태 레이블 통일.
+- Project Core·GDD Sheet·Base adoption CI Green.
 
 ### USER_DECISION_REQUIRED
 
 | 순서 | Decision ID | 질문 | 상태 |
 |---|---|---|---|
-| 1 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | Profile 영구 성장의 역할 | `READY_AFTER_FINAL_SYNC` |
+| 1 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | Profile 영구 성장의 역할 | `READY_FOR_GRILL_ME` |
 | 2 | `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | 20 Stage 반복과 세계·플레이어 동기의 연결 | `QUEUED` |
 | 3 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED` |
 
@@ -126,30 +125,27 @@ LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 - 35분 런 피로도.
 - 1080p·720p 가독성·접근성.
 
-## 7. Sheet 첫 read-back
+## 7. Recovery 검증
 
 ```text
 DECISION_ID_MATCH: PASS
 BASE_V9_4_CURRENT: PASS
-PR_116_HISTORICAL_BOUNDARY: PASS
-APPROVAL_IMPLEMENTATION_VALIDATION_AXES: PASS
-03_EVIDENCE_ALIGNMENT: PASS
-40_SYSTEM_ID_ALIGNMENT: PASS
-90_MILESTONE_SCHEMA_ALIGNMENT: PASS
-60_UX_SCHEMA_CRITIQUE: REJECTED / NO_ERROR_FOUND
-FIRST_BOUNDED_READBACK: PASS
+PR_116_CLOSED_NOT_MERGED: PASS
+PR_119_CURRENT_DRAFT: PASS
+PRODUCT_PATH_CHANGES: 0
+SHEET_BOUNDED_READBACK: PASS
+PROJECT_CORE_DOCUMENTATION_CI: PASS
+GDD_SHEET_ADOPTION_CI: PASS
+BASE_V9_ADOPTION_CI: PASS
+RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```
-
-이 파일을 갱신한 최종 PR HEAD를 Sheet에 다시 기록하고 재조회한 뒤 `SYNCED`로 닫는다.
 
 ## 8. 현재 다음 Gate
 
 ```text
-FINAL_EXACT_HEAD_SHEET_WRITEBACK_AND_READBACK
-→ CLOSE_PR_116_AS_SUPERSEDED
-→ FIRST_GRILL_ME_META_PROGRESSION_ROLE
-→ APPROVED_DECISION_IMMEDIATE_SYNC
-→ NEXT_VALIDATED_PLANNING_CONFLICT
+Grill Me #1: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
+→ 승인 Decision 즉시 GitHub·Sheet 동기화
+→ 다음 validated planning conflict
 ```
 
 ```text
