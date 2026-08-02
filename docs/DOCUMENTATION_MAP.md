@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: HERO_SINGLE_DELTA_VARIANT_PLANNING
+current_phase: HERO_SIGNATURE_DELTA_BALANCE_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base: 9.4.3_RELEASED
@@ -14,7 +14,7 @@ latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
 last_merged_planning_pr: 127
 current_planning_pr: 129
-current_grill_me_count: 1
+current_grill_me_count: 2
 preflight: NEXT_AT_10_OF_10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 ```
@@ -43,7 +43,7 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 질문 | 현행 책임 원본 | 권한 |
 |---|---|---|
 | 제품 정체성·플레이어 약속·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
-| 승인 Decision·1/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
+| 승인 Decision·2/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
 | Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
 | 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
@@ -54,18 +54,20 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | 영웅 전투 예산·sidegrade | `design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md` | `MERGED_USER_APPROVED_SIDEGRADE` |
 | 영웅 능력 자동 발동·결정론 | `design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` | `MERGED_USER_APPROVED_AUTOMATIC_ACTIVATION` |
 | 이름 지정 영웅 스킨형 단일 차이 구조 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | `USER_APPROVED_SINGLE_DELTA_VARIANT` |
+| 단일 패시브·사용스킬의 전투 예산 상쇄 | `design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` | `USER_APPROVED_ONE_RELATED_COMPENSATION_AXIS` |
 | 이계 생물종·경계파쇄자 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | `MERGED_USER_APPROVED_GAMEPLAY_SCOPE` |
 | 실제 구현·Legacy 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
 | 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 동기화 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 
-## 3. 영웅 단일 차이 라우팅
+## 3. 영웅 단일 차이·상쇄 라우팅
 
 ```text
 원본 병종 [영웅] 등급 유닛
 + 스킨·이름·최소 식별 연출
 + 패시브 1개 또는 자동 [사용스킬] 1개
+- 직접 관련된 상쇄 축 1개
 = 이름 지정 영웅
 ```
 
@@ -73,8 +75,10 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 - 원본 역할·기본 공격·사거리·이동·AI·리그·기본 애니메이션을 우선 재사용한다.
 - `[사용스킬]`은 수동 버튼이 아닌 규칙 기반 자동 발동이다.
 - 패시브와 사용스킬을 동시에 제공하지 않는다.
-- 기본적으로 고유 자원·궁극기·신규 AI·전체 신규 애니메이션을 요구하지 않는다.
-- 전투 예산 상쇄와 원본 병종 선택 상황을 유지한다.
+- 고유 자원·궁극기·신규 AI·전체 신규 애니메이션은 기본 금지다.
+- 상쇄 축은 단일 차이의 가치와 직접 관련돼야 한다.
+- 상쇄 축 외의 원본 전투 데이터는 유지한다.
+- 여러 스탯 동시 조정·전체 성장 곡선 재설계·무료 능력 추가는 금지한다.
 
 ## 4. 계보·증거 경계
 
@@ -90,6 +94,7 @@ LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 CODEX = BLOCKED
 EXACT_HERO_VARIANTS = PENDING
+EXACT_VALUES = PENDING
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
@@ -97,10 +102,10 @@ HUMAN_QA = NOT_RUN
 
 ## 6. 운영·다음 Gate
 
-- 현재 카운터는 `1/10`이다.
+- 현재 카운터는 `2/10`이다.
 - 10번째 승인에서 적대적 preflight를 실행한다.
 - 문서·기획 PR은 latest main 동기화·필수 CI Green·Sheet read-back·blocker 0·제품 경로 0이면 standing authorization에 따라 병합한다.
 
 ```text
-NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1
+NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1
 ```
