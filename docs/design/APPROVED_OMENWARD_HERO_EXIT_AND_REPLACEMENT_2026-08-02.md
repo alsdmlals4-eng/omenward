@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 approved_at: 2026-08-02 17:18 KST
 approval: USER_APPROVED_RECOMMENDED_OPTION
-status: USER_APPROVED_NO_MANUAL_EXIT / STAGE_STATE_VALUES_PENDING / NOT_IMPLEMENTED
+status: USER_APPROVED_NO_MANUAL_EXIT / STAGE_STATE_RESOLVED_BY_LATER_DECISION / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -25,6 +25,8 @@ human_validation: NOT_RUN
 → 사망·완전 제거 시 active hero 슬롯 해제
 → MapRun 종료 시 active 상태 종료
 ```
+
+Stage 경계의 HP·쿨다운·충전·고유 자원·전투 잔여물 처리는 후속 승인 문서 `APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`가 소유한다.
 
 ## 2. 수동 퇴각·교대 금지
 
@@ -52,7 +54,9 @@ AND MapRun continues
 - 다음 Stage에는 새 영웅을 다시 배치하는 것이 아니라 기존 영웅 인스턴스가 계속 존재한다.
 - 영웅의 배치 전선은 Stage·Act 전환과 정비시간 후에도 유지한다.
 - Stage 전환·정비시간을 무료 회복·부활·재배치로 간주하지 않는다.
-- 체력·쿨다운·일시 상태·소환물의 정확한 Stage 정산·정비시간·다음 Stage 처리는 다음 Decision에서 확정한다.
+- 후속 승인에 따라 현재 HP·남은 쿨다운·충전·사용 횟수·고유 자원은 유지한다.
+- 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
+- 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 
 ## 4. active hero 슬롯 해제 사건
 
@@ -86,6 +90,7 @@ AND selected hero matches token UnitArchetype
 - 같은 `hero_id`의 반복 출전도 동일한 조건을 따른다.
 - active 영웅이 살아 있는 동안 얻은 영웅 등급 토큰은 보관하거나 원본 영웅 등급 병종 유닛으로 배치할 수 있다.
 - 정비시간은 새 영웅 출전 조건을 우회하지 않는다. 살아 있는 active 영웅이 있으면 영웅 변환·배치는 계속 차단된다.
+- 새 토큰으로 생성하는 새 인스턴스의 초기 HP·쿨다운·충전·고유 자원은 별도 다음 Decision이다.
 
 ## 6. 데이터·상태 책임
 
@@ -118,6 +123,7 @@ ApprovedHeroEndedReason:
 - 영웅 사망 판정, 슬롯 해제, 전장 효과 종료, 기록 갱신은 원자적으로 처리한다.
 - 저장 복구 후 살아 있는 영웅 인스턴스와 active 슬롯이 서로 불일치하면 오류로 처리하고 무단으로 새 영웅을 생성하지 않는다.
 - 정비시간 checkpoint 복구 시 살아 있는 active 영웅 인스턴스를 전투 종료 인스턴스로 오인하지 않는다.
+- Stage 경계 persistent state는 `HeroPersistentBattleState`로 별도 원자 저장한다.
 
 ## 7. UX 책임
 
@@ -127,6 +133,7 @@ ApprovedHeroEndedReason:
 - 수동 퇴각이 가능한 것처럼 보이는 귀환·교체·판매 버튼을 노출하지 않는다.
 - Stage·Act 전환과 정비시간 화면에서 영웅이 유지된다는 사실을 명확히 보여 준다.
 - 정비시간을 영웅 교체 화면처럼 표현하지 않는다.
+- 현재 HP·남은 주요 쿨다운·충전·고유 자원 유지와 정비 중 clock 정지를 표시한다.
 
 ## 8. 적대적 검토
 
@@ -139,23 +146,20 @@ ApprovedHeroEndedReason:
 | 영웅 사망 후 자동 부활로 토큰 비용을 우회한다 | 유효 | 새 출전마다 새 영웅 등급 토큰 소비 |
 | 사망한 영웅 효과가 남아 단일 활성 제한을 우회한다 | 유효 | active 효과는 슬롯 해제와 함께 종료, 예외는 개별 능력에 명시 |
 | 저장 복구로 영웅이 둘이 되거나 슬롯이 잠긴다 | 유효 | 사망·종료·슬롯 해제를 원자 기록하고 fault test 필요 |
-| 영웅이 Stage 사이에 계속 남지만 상태 처리가 모호하다 | 유효 | 체력·쿨다운·상태 지속 규칙을 다음 Gate로 분리 |
+| Stage 상태가 문서마다 다르게 해석된다 | 해결됨 | 후속 Stage State Persistence 문서로 HP·쿨다운·전투 잔여 상태를 단일 소유 |
 
 ## 9. 미확정 항목
 
-- Stage 정산·정비시간·다음 Stage 전환 시 영웅 체력 유지·회복 비율.
-- Stage 전환 시 스킬 쿨다운·충전·일시 버프·디버프 처리.
-- 소환물·장판·투사체 같은 파생 인스턴스의 Stage 경계 처리.
-- 정비시간 중 회복·쿨다운·고유 자원 시간축.
-- 반복 출전 시 새 인스턴스의 초기 체력·쿨다운·고유 자원.
+- 반복 출전 시 새 인스턴스의 초기 HP·쿨다운·충전·고유 자원.
 - 영웅별 능력·명단·등급·수치.
+- 영속 동반자·소환 특화 영웅의 개별 예외.
 - 영웅 사망 연출·결과 로그·접근성 피드백.
 
 ## 10. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
-= Stage 정산·정비시간·다음 Stage 전환에서 살아 있는 영웅의 체력·쿨다운·버프·디버프·고유 자원을 어떻게 처리하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
+= 사망 뒤 새 영웅 등급 토큰을 소비해 재배치하는 새 영웅 인스턴스의 HP·쿨다운·충전·고유 자원 초기값
 ```
 
 ## 11. 상태 경계
@@ -167,7 +171,8 @@ MANUAL_REPLACEMENT: FORBIDDEN
 STAGE_ACT_MAINTENANCE_TRANSITION: SAME_HERO_INSTANCE_REMAINS
 ACTIVE_SLOT_CLEAR: HERO_DEATH_OR_MAPRUN_END
 NEW_DEPLOYMENT: NEW_HERO_GRADE_TOKEN_REQUIRED
-STAGE_STATE_VALUES: PENDING
+STAGE_STATE: RESOLVED_BY_OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+REDEPLOYMENT_INITIAL_STATE: PENDING
 SIMULATION: NOT_RUN
 RUNTIME: NOT_RUN
 HUMAN_QA: NOT_RUN
