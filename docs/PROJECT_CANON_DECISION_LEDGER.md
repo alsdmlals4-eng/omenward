@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-ARCHETYPE-SELECTION-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
@@ -13,15 +13,15 @@ current_planning_pr: 129
 active_base: 9.4.3
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-grill_me_approved_since_last_merge: 4
+grill_me_approved_since_last_merge: 5
 future_merge_cadence: 10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
 preflight: NEXT_AT_10_OF_10
-next_gate: OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-SIGNATURE-CONCEPTS-V1
+next_gate: OMW-DEC-20260802-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-CONCEPTS-V1
 ```
 
-`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다.
+`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. 이 문서는 현재 승인 Decision과 10건 카운터를 소유한다.
 
 ## 1. 상태 언어
 
@@ -33,67 +33,68 @@ USER_APPROVED_PLAN
 != RELEASE_READY
 ```
 
-## 2. 현재 묶음 Decision 4/10
+## 2. 현재 묶음 Decision 5/10
 
 | Decision ID | 상태 | 결정 | 책임 원본 | 미완료 경계 |
 |---|---|---|---|---|
-| `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-ARCHETYPE-SELECTION-V1` | `USER_APPROVED / ACTIVE_BRANCH_SYNCED / NOT_IMPLEMENTED` | 초기 5명은 방패병·궁병·사제·마법사·암살자이며 패시브형 3명·자동 사용스킬형 2명으로 구성한다 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_ARCHETYPE_SELECTION_2026-08-02.md` | 영웅 정체성·이름·단일 차이·상쇄 축·자산·simulation pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1` | `USER_APPROVED / REFINED / NOT_IMPLEMENTED` | 초기 로스터는 서로 다른 원본 병종에 1명씩 배치하는 제작·검증 범위이며 최종 출시 상한이 아니다. 최신 수량은 5명이다 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md` | 확장 조건·출시 전체 로스터 상한 pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1` | `USER_APPROVED / ACTIVE_BRANCH_SYNCED / NOT_IMPLEMENTED` | 원본 데이터를 복사하고 단일 차이와 직접 관련된 상쇄 축 하나만 조정한다 | `design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` | 정확 효과·수치·허용 편차·simulation pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1` | `USER_APPROVED / ACTIVE_BRANCH_SYNCED / NOT_IMPLEMENTED` | 이름 지정 영웅은 스킨형 변주이며 패시브 또는 자동 사용스킬 하나만 가진다 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | 실제 효과·자산·simulation pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1` | `USER_APPROVED / ACTIVE_BRANCH_SYNCED / NOT_IMPLEMENTED` | 모든 해금 이름 지정 영웅은 원본 `[영웅]` 등급 기본 성능을 계승하고 고유 자동 사용스킬 하나를 추가하는 제한형 상위호환이며 패시브·강제 상쇄 축은 없다 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_UPGRADE_MODEL_2026-08-02.md` | 정확 영웅·스킬·trigger·cooldown·VFX/SFX·수치 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-ARCHETYPE-SELECTION-V1` | `USER_APPROVED / REFINED_TO_ALL_AUTO_ACTIVE / NOT_IMPLEMENTED` | 초기 5개 병종은 방패병·궁병·사제·마법사·암살자이며 다섯 영웅 모두 고유 자동 사용스킬형이다 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_ARCHETYPE_SELECTION_2026-08-02.md` | 정확 영웅 이름·스킬 콘셉트·수치·자산 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1` | `USER_APPROVED / REFINED_TO_FIVE_AUTO_ACTIVE / NOT_IMPLEMENTED` | 초기 검증 로스터는 서로 다른 병종 5종에 영웅 1명씩 총 5명이며 최종 출시 상한이 아니다 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md` | 정확 스킬·자산·simulation pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1` | `SUPERSEDED_HISTORY / NOT_IMPLEMENTED` | 과거 강제 상쇄 축 sidegrade 결정; 현행 정본에 사용하지 않는다 | `design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` | 계보만 유지 |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1` | `USER_APPROVED / REFINED_TO_UNIQUE_ACTIVE_ONLY / NOT_IMPLEMENTED` | 패시브 선택 구조를 폐기하고 고유 자동 사용스킬 정확히 1개로 고정 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | 정확 스킬 pending |
 
-## 3. 현행 초기 영웅 로스터
+## 3. 현행 영웅 모델
 
 ```text
-shield_guard / 방패병   → PASSIVE
-archer / 궁병           → PASSIVE
-assassin / 암살자       → PASSIVE
-priest / 사제           → AUTOMATIC_ACTIVE_SKILL
-mage / 마법사           → AUTOMATIC_ACTIVE_SKILL
+원본 병종 [영웅] 등급 기본 전투 성능
++ 이름·초상·스킨·식별 연출
++ 고유 자동 사용스킬 정확히 1개
+= 제한형 상위호환 이름 지정 영웅
 ```
 
 ```text
-INITIAL_NAMED_HERO_COUNT = 5
-INITIAL_SOURCE_ARCHETYPE_COUNT = 5
-PASSIVE_VARIANT_COUNT = 3
-AUTOMATIC_ACTIVE_SKILL_VARIANT_COUNT = 2
+HERO_POWER_MODEL = CONSTRAINED_UPGRADE
+UNIQUE_AUTOMATIC_ACTIVE_SKILL_COUNT = 1_PER_HERO
+HERO_EXCLUSIVE_PASSIVE_COUNT = 0
+MANDATORY_COMPENSATION_AXIS_COUNT = 0
+SOURCE_BASELINE_STATS = INHERITED
+GLOBAL_ACTIVE_NAMED_HERO_CAP = 1
 ```
 
-- 최신 사용자 직접 선택이 이전 4명·2:2 수량 부분을 대체한다.
-- 동일 병종 복수 영웅은 초기 로스터에서 금지한다.
-- 5명은 최종 출시 전체 로스터 상한이 아니다.
-- 거인·기병은 이번 초기 범위에서 제외한다.
+- 패시브형 이름 지정 영웅은 없다.
+- 의무 능력치 하향·강제 상쇄 축은 없다.
+- 밸런스는 전역 활성 1명·해금·적격 토큰·비가역 배치·스킬 cooldown/charge·trigger·효과 범위로 통제한다.
+- 원본 유닛은 미해금과 다른 이름 지정 영웅 활성 상황에서 계속 필요하다.
 
-## 4. 검증 역할
-
-- 방패병: frontline·nearest·ranged defense.
-- 궁병: ranged·flying priority·anti-air.
-- 암살자: bypass·backline priority.
-- 사제: support·lowest-health ally.
-- 마법사: ranged control·cluster priority.
-
-궁병과 마법사는 모두 ranged이나 지속 대공과 군집 광역 자동 스킬로 판단을 분리한다.
-
-## 5. 공통 영웅 계약
+## 4. 초기 5명
 
 ```text
-원본 [영웅] 등급 병종
-+ 스킨·이름·최소 식별 연출
-+ PASSIVE XOR AUTOMATIC_ACTIVE_SKILL
-- 직접 관련된 상쇄 축 1개
-= 이름 지정 영웅
+shield_guard → UNIQUE_AUTOMATIC_ACTIVE_SKILL
+archer       → UNIQUE_AUTOMATIC_ACTIVE_SKILL
+priest       → UNIQUE_AUTOMATIC_ACTIVE_SKILL
+mage         → UNIQUE_AUTOMATIC_ACTIVE_SKILL
+assassin     → UNIQUE_AUTOMATIC_ACTIVE_SKILL
 ```
 
-- 원본 역할·공격·사거리·이동·AI·리그·기본 애니메이션을 우선 재사용한다.
-- 무료 능력·다축 하향·전체 성장 곡선 재설계를 금지한다.
-- 원본 병종 우위 상황을 병종마다 하나 이상 유지한다.
+```text
+INITIAL_HERO_COUNT = 5
+INITIAL_PASSIVE_COUNT = 0
+INITIAL_AUTOMATIC_ACTIVE_SKILL_COUNT = 5
+INITIAL_ROSTER_IS_FINAL_RELEASE_CAP = FALSE
+```
+
+## 5. 기존 main 정본 연결
+
+PR #121에서 승인된 영웅 해금·동병종 바인딩·토큰 변환·전역 단일 활성·Stage 상태·사망 후 재출전·자동 발동·결정론 계약은 계속 유지한다.
 
 ## 6. 충돌 해소
 
-- 활성 문서의 4명·4병종·2:2 표현은 5명·5병종·3:2로 갱신한다.
-- 사제와 마법사의 자동 능력은 수동 버튼이 아니다.
-- 암살자 패시브는 기존 후열 타기팅을 단순 반복하는 장식 효과가 아니어야 한다.
-- 초기 5명을 완전 신규 유닛으로 제작하지 않는다.
+- `패시브 XOR 자동 사용스킬`은 폐기됐다.
+- `단일 차이 + 관련 상쇄 축 1개`와 평균 예산 동등 sidegrade 의무는 폐기됐다.
+- 이전 5명 패시브 3·자동 스킬 2 분배는 폐기됐다.
+- 이름 지정 영웅은 해금 보상으로 원본보다 조금 더 강해야 한다.
+- 상위호환은 전역 활성 1명 제한을 제거하는 근거가 아니다.
+- 완전 신규 유닛·새 AI·전체 신규 애니메이션 제작은 계속 금지한다.
 
 ## 7. 구현·검증 경계
 
@@ -101,11 +102,9 @@ AUTOMATIC_ACTIVE_SKILL_VARIANT_COUNT = 2
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE_AUTHORITY = NONE
-INITIAL_HERO_COUNT = 5
-EXACT_ARCHETYPES = [shield_guard, archer, priest, mage, assassin]
 EXACT_HERO_IDENTITIES = PENDING
-EXACT_SIGNATURE_EFFECTS = PENDING
-EXACT_COMPENSATION_AXES = PENDING
+EXACT_UNIQUE_SKILLS = PENDING
+EXACT_VALUES = PENDING
 ASSETS = NOT_CREATED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
@@ -115,10 +114,10 @@ HUMAN_QA = NOT_RUN
 ## 8. 카운터·병합 규칙
 
 ```text
-CURRENT_COUNT_SINCE_MERGE = 4_OF_10
+CURRENT_COUNT_SINCE_MERGE = 5_OF_10
 NEXT_PREFLIGHT_AT = 10_OF_10
 ```
 
 - 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
-- 10번째 승인 뒤 문서·기획 PR이 Green preflight와 blocker 0을 만족하면 standing authorization에 따라 병합한다.
+- 10번째 승인 뒤 문서·기획 PR이 Green preflight와 blocker 0을 만족하면 별도 승인 대기 없이 병합한다.
 - 제품 코드 구현·병합은 별도 계약 대상이다.
