@@ -4,11 +4,11 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: GAMEPLAY_HERO_POWER_BUDGET_GRILL_ME_READY
+current_phase: GAMEPLAY_HERO_ABILITY_ACTIVATION_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
 context_baseline_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
@@ -22,7 +22,7 @@ primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
 last_merged_pr: 120
 last_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-current_grill_me_count: 8
+current_grill_me_count: 9
 future_merge_cadence: 10
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
@@ -49,6 +49,8 @@ simulation: NOT_RUN
 - 이름 지정 영웅을 다시 출전시키려면 **사망 사건 이후 룰렛에서 새로 확정된 동병종 `[영웅]` 등급 토큰**이 필요하다.
 - 사망 전에 보관한 `[영웅]` 등급 토큰은 원본 영웅 등급 병종으로 사용할 수 있지만 이름 지정 영웅 재출전에 사용할 수 없다.
 - 사망 이후 적격 토큰으로 생성한 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 완전한 새 인스턴스로 시작한다.
+- 이름 지정 영웅은 원본 `[영웅]` 등급 병종의 순수 상위호환이 아니라 유사한 평균 총 전투 예산을 가진 조건부 고점형 전문화 sidegrade다.
+- 모든 영웅은 전술 정체성·고점 조건·명시적 약점·원본 병종을 선택할 합리적 상황을 가져야 한다.
 
 ## 2. 프로젝트 약속
 
@@ -81,7 +83,7 @@ simulation: NOT_RUN
 - 영웅 clock 외 일반 경제·건설·수리 clock matrix는 pending이다.
 - MapRun 초기화는 RunState만 초기화하며 Profile 영구 해금을 지우지 않는다.
 
-## 4. 영웅 해금·사용·활성·종료·상태 지속·재출전
+## 4. 영웅 해금·사용·활성·종료·상태 지속·재출전·전투 예산
 
 ```text
 주점에서 병종별 영웅 영구 해금
@@ -118,6 +120,11 @@ simulation: NOT_RUN
 - 새 인스턴스는 최대 HP, 쿨다운 0, 능력 기본 충전, 능력 초기 고유 자원으로 시작한다.
 - 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태를 승계하지 않는다.
 - 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
+- 이름 지정 영웅과 원본 영웅 등급 병종은 대표 상황 전체에서 유사한 평균 총 전투 예산을 목표로 한다.
+- 이름 지정 영웅은 명확한 조건 충족 시 원본보다 높은 전술적 고점을 가질 수 있다.
+- 조건이 맞지 않을 때는 안정성·범용성·지속력·대응 폭 중 하나 이상이 원본보다 낮아야 한다.
+- 피해·생존·사거리·제어·지원이 동시에 우세하고 실질적 약점이 없는 영웅은 금지한다.
+- 같은 병종의 복수 영웅은 서로 다른 고점 조건·약점·선택 상황을 가져야 한다.
 - 확정 전 취소 가능, 배치 확정 뒤 undo·회수·판매·라인 변경 불가다.
 
 ## 5. 최소 세계 배경
@@ -185,6 +192,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - named-Hero redeployment requires a matching Hero-grade token created by a post-death Roulette result
 - pre-death stored Hero-grade tokens remain original-unit options but cannot qualify for named-Hero redeployment
 - an eligible post-death token creates a fresh full-state Hero instance
+- named Heroes are conditional-peak specialized sidegrades with comparable average total combat budget and explicit weaknesses
 ```
 
 `APPROVED_PLAN != IMPLEMENTED != VALIDATED`.
@@ -201,6 +209,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -210,15 +219,15 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 ## 10. Grill Me·병합 규칙
 
 - 승인 Grill Me Decision ID만 카운트한다.
-- 현재 카운터는 `8/10`이다.
+- 현재 카운터는 `9/10`이다.
 - 10번째 승인 시 GitHub·Sheet·PR·CI·review·authority path 적대적 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 11. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
-= 이름 지정 영웅은 원본 [영웅] 등급 병종과 비교해 순수 상위호환인가, 같은 총 전투 예산을 다른 능력 구조로 교환하는 전문화 sidegrade인가
+OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+= 이름 지정 영웅의 고유 능력은 오토배틀 규칙에 따라 자동 발동하는가, 플레이어가 직접 수동 발동하는가, 또는 혼합 구조인가
 ```
 
 ## 12. 경계
