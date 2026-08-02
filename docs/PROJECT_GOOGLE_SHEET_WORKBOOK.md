@@ -13,7 +13,7 @@ working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PENDING / CI_PENDING
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
 current_grill_me_count: 9
 next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 last_full_audit: 2026-08-02
@@ -78,17 +78,20 @@ Named Hero
 - 원본 영웅 등급 병종은 높은 일관성·넓은 범용성·낮은 조건 의존도를 고유 장점으로 유지한다.
 - 정확 전투 예산식·가중치·허용 편차·영웅별 수치는 simulation 전까지 pending이다.
 
-## 4. 동기화 후보
+## 4. 동기화 증거
 
 ```text
-PR #121 candidate head before Sheet synchronization:
-97454815fad711813fde41cd4f4eba9d56536945
+PR #121 verified candidate head before workbook closure commit:
+f2f97144aea2f577fe6062615f1f17d1a78cbf33
 
-SHEET_BOUNDED_READBACK: PENDING
-REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
+SHEET_BOUNDED_READBACK: PASS
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 595: PASS
+- GDD Sheet Adoption run 309: PASS
+- Base v9 adoption run 284: PASS
 ```
 
-동기화 예정 범위:
+동기화 범위:
 
 - `00_프로젝트_허브!E2:L2`
 - `01_작업순서!A24:N24`
@@ -161,7 +164,7 @@ REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
 ## 9. 현재 상태
 
 ```text
-SHEET_STATUS = READBACK_PENDING / CI_PENDING
+SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 GRILL_ME_COUNTER = 9_OF_10
 NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
