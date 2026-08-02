@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: META_PROGRESSION_SYNC_AND_NEXT_GRILL_ME
+current_phase: WORLD_RUN_MOTIVATION_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 current_branch: main
@@ -18,10 +18,10 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-sheet_sync: PENDING_META_DECISION_SYNC
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 superseded_pr: 116
 recovery_pr: 119
-ci_validation: PREVIOUS_HEAD_3_GREEN / CURRENT_HEAD_PENDING
+ci_validation: META_DECISION_CONTENT_HEAD_2DA4E1BE_3_GREEN / FINAL_PR_HEAD_GATED
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 simulation: NOT_RUN
@@ -31,14 +31,14 @@ simulation: NOT_RUN
 
 ## 1. 현재 작업
 
-첫 Grill Me Decision이 사용자 승인됐다.
+첫 Grill Me Decision이 사용자 승인되고 GitHub·Sheet 내용 재조회까지 통과했다.
 
 ```text
 OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 = A 권장안 + B의 제한된 성장 체감 반영
 ```
 
-현재 작업은 승인 내용을 GitHub 정본과 연결 Sheet에 같은 Decision ID·현재 PR HEAD로 동기화하고 재검증하는 것이다. 동기화가 끝난 뒤 다음 중요 충돌인 세계·플레이어 동기로 이동한다.
+현재 다음 작업은 두 번째 중요 충돌인 세계·세력·플레이어 동기와 20 Stage 반복 구조를 결정하는 것이다.
 
 ## 2. 프로젝트 약속
 
@@ -161,13 +161,12 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 ## 9. 다음 작업
 
 ```text
-Meta Decision GitHub·Sheet 동일 ID 동기화·재조회
-→ Grill Me #2: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
+Grill Me #2: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 ```
 
 ```text
 PRODUCT_CODE: UNCHANGED
 CODEX: BLOCKED
 PR_MERGE: NOT_REQUESTED
-NEXT_GRILL_ME: BLOCKED_UNTIL_SYNC
+NEXT_GRILL_ME: READY
 ```
