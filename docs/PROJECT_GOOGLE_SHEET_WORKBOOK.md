@@ -9,9 +9,10 @@ sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
 current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_gate: OMW-OPS-20260802-PR121-TEN-DECISION-PREFLIGHT-V1
-baseline_main_commit: a521cf744533139063a72ab358b4381d2aae6f0b
+baseline_main_commit: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
 working_branch: gpt/omenward-gameplay-planning-20260802
-active_base: 9.4.1
+active_base: 9.4.2
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
 last_merged_pr: 120
 current_pr: 121
 sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / CONTENT_PREFLIGHT_PASS
@@ -102,7 +103,6 @@ bounded read-back:
 SAME_DECISION_ID = PASS
 GRILL_ME_COUNT = 10_OF_10
 PRODUCT_STATUS = NOT_IMPLEMENTED
-LATEST_MAIN = a521cf744533139063a72ab358b4381d2aae6f0b
 MERGE_AUTHORIZATION = NOT_GRANTED
 ```
 
@@ -124,22 +124,21 @@ OPEN_P0 = 0
 OPEN_P1 = 0
 MERGE_BLOCKER = 0
 PRODUCT_PATHS = 0
-BEHIND_MAIN = 0
 COMMENTS = 0
 REVIEWS = 0
 UNRESOLVED_THREADS = 0
 CONTENT_PREFLIGHT = PASS
 ```
 
-current main Base v9.4.1 증거:
+latest main sync:
 
 ```text
-Base Shared External AI Adapter run 16 = PASS
-Omenward Skill System run 153 = PASS
-Base v9 adoption run 304 = PASS
+Base v9.4.1 sync = PR #124
+Base v9.4.2 planning-first sync = PR #125
+CURRENT_MAIN = 7c8be1ba47d4159ca3cead6343c20ef068907bcd
 ```
 
-마감 문서 커밋이 후보 증거 HEAD를 이동시키므로 병합 전 최종 exact HEAD에서 필수 PR CI·compare·review·Sheet SHA를 다시 확인한다.
+마감 문서 커밋과 latest-main sync로 HEAD가 이동했으므로 병합 전 최종 exact HEAD에서 필수 PR CI·compare·review·Sheet SHA를 다시 확인한다.
 
 ## 6. 감사 상태 정리
 
@@ -147,8 +146,6 @@ Base v9 adoption run 304 = PASS
 - Parameter Registry parser·100K simulation·Save fault injection은 제품 구현 전 필수 검증이다.
 - 해당 세 항목은 `PRODUCT_IMPLEMENTATION_BLOCKED / DOCS_ONLY_MERGE_ALLOWED`로 유지한다.
 - 자동 능력의 결정론·save/retry·대상 상실 정책은 `TEST_REQUIRED` 또는 `USER_DECISION_REQUIRED`이며 구현 완료로 승격하지 않는다.
-
-최종 Sheet 검색:
 
 ```text
 OPEN_P0 = 0
@@ -179,6 +176,7 @@ MERGE_BLOCKER = 0
 | 영웅 능력 자동 발동 | `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` |
 | Grill Me preflight 운영 | `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` |
 | PR #121 preflight 결과 | `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md` |
+| Base v9.4.2 sync | `docs/operations/PR121_MAIN_SYNC_V942_NOTE_2026-08-02.md` |
 | 현재 작업 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 
@@ -196,7 +194,8 @@ MERGE_BLOCKER = 0
 
 ```text
 SHEET_STATUS = READBACK_PASS / CANDIDATE_CI_GREEN / CONTENT_PREFLIGHT_PASS
-BASELINE_MAIN = a521cf744533139063a72ab358b4381d2aae6f0b
+BASELINE_MAIN = 7c8be1ba47d4159ca3cead6343c20ef068907bcd
+ACTIVE_BASE = 9.4.2
 GRILL_ME_COUNTER = 10_OF_10
 FINAL_EXACT_HEAD_REVALIDATION = REQUIRED_BEFORE_MERGE
 MERGE_AUTHORIZATION = NOT_GRANTED
