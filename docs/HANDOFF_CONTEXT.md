@@ -4,9 +4,9 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: GAMEPLAY_HERO_BATTLEFIELD_ACTIVATION_GRILL_ME_READY
+phase: GAMEPLAY_HERO_UNIQUENESS_LIMIT_GRILL_ME_READY
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 baseline_main: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
@@ -17,7 +17,7 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 2
+current_grill_me_count: 3
 future_merge_cadence: 10
 ```
 
@@ -28,26 +28,27 @@ future_merge_cadence: 10
 - 세계관은 `균열을 통해 넘어온 이계 생물종` 정도로만 사용자에게 제시한다.
 - 적은 군집·돌격·원거리·방호·교란·공성 역할로 제작하며 경계파쇄자는 균열을 고정·확장하는 보스급 생물이다.
 - 메인 허브 보조 콘텐츠는 주점·허브 병영·연구다.
-- 정산 영구재화로 유한 공개 노드를 개방한다.
-- 영웅은 랜덤 풀이 아니라 기존 병종에 고정 대응한다.
-- 주점에서 영웅을 영구 해금하고, 런 전 대응 병종에 등록해야 사용할 수 있다.
-- 등록은 런별 사용 자격이며 즉시 전장 배치·전역 패시브·릴 확률 변경이 아니다.
+- 영웅은 기존 병종에 고정 연결되며 같은 병종에 여러 영웅을 해금할 수 있다.
+- 주점 해금은 Profile 영웅 명부 등록이며 별도 pre-run 영웅 편성은 없다.
+- 룰렛의 동병종 `[영웅]` 등급 토큰을 보관한 뒤 원본 유지 또는 해금 영웅 변환을 선택한다.
 
 ## 2. 영웅 계약
 
 ```text
-UnitArchetype
-→ fixed hero binding
-→ deterministic permanent unlock
-→ pre-run registration to the matching unit type
-→ eligible in that run only when registered
+병종별 영웅 후보 복수 가능
+→ 주점에서 영구 해금·명부 등록
+→ 동병종 [영웅] 등급 토큰을 룰렛에서 획득
+→ 보관함에서 원본 또는 해금 영웅 선택
+→ 1토큰을 1유닛으로 치환
+→ 한 전선에 비가역 배치
 ```
 
-- 영웅을 다른 병종에 교차 등록하지 않는다.
-- 해금만으로 자동 등록되지 않는다.
-- 런 시작 뒤 등록 상태를 변경하지 않는다.
-- 미해금·미등록 기본 병종으로도 전체 콘텐츠 완료가 가능해야 한다.
-- 동시에 등록 가능한 영웅 수와 실제 전장 등장 방식은 pending이다.
+- 다른 병종 영웅은 후보가 아니다.
+- 해금 영웅은 릴 확률·전역 능력치·과거 결과를 바꾸지 않는다.
+- 영웅 변환은 보너스 병력을 추가하지 않는다.
+- 변환하지 않은 원본 영웅 등급 병종도 정상 배치 가능하다.
+- 배치 확정 전에는 취소·후보 변경 가능, 확정 뒤 되돌릴 수 없다.
+- 동일 영웅 중복 배치와 동병종 활성 상한은 pending이다.
 
 ## 3. 보호할 코어
 
@@ -69,8 +70,8 @@ UnitArchetype
 노드 = 유한·비용/선행/결과 공개
 ```
 
-- 주점: 병종별 고정 영웅 해금·명부 관리.
-- 런 준비: 해금된 영웅을 대응 병종에 등록.
+- 주점: 병종별 복수 영웅 후보 해금·명부 관리.
+- 보관함: 영웅 등급 토큰의 원본 유지 또는 동병종 해금 영웅 변환.
 - 허브 병영: 병사·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 금지: 랜덤 유료 영입, 중복 합성, 무한 레벨, 전 구간 배율, 숨은 릴 확률, 자동 플레이.
@@ -81,6 +82,7 @@ UnitArchetype
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
 - `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -102,20 +104,21 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - paid Retry and Profile save
 - minimal extradimensional-creature gameplay scope
 - Tavern/Barracks/Research permanent-node hub
-- fixed unit-hero unlock and registration
+- multi-hero-per-unit unlock roster
+- stored Hero-grade token conversion and irreversible deployment
 ```
 
 ## 7. Grill Me 운영
 
-- 현재 승인 카운터는 `2/10`이다.
+- 현재 승인 카운터는 `3/10`이다.
 - 10번째 승인 시 병합 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 8. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
-= 등록된 영웅이 대응 병종의 획득·배치와 어떤 방식으로 연결되어 전장에 등장하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+= 영웅 등급 토큰이 여러 번 나왔을 때 동일 영웅과 동병종 영웅을 한 런에 몇 번 배치할 수 있는가
 ```
 
 ```text
