@@ -11,6 +11,7 @@ current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 superseded_pr: 116
+recovery_pr: 119
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 현행 책임 원본만 둔다. PR #116은 승인 결정의 역사·승계 근거이며 현재 작업 브랜치나 병합 권위가 아니다.
@@ -40,6 +41,8 @@ superseded_pr: 116
 | 제품 정체성·플레이어 약속·불변 조건 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
 | 현재 승인 Decision·상태 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY` |
 | 정본 복구·적대적 finding·Grill Me 큐 | `audits/OMENWARD_CANON_RECOVERY_AND_TOTAL_PLANNING_RESTART_2026-08-02.md` | `CURRENT_RECOVERY_AND_REVIEW_AUTHORITY` |
+| 전체 시스템 Vertical Slice 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `APPROVED_SYSTEM_CONTRACT / LATER_DECISIONS_OVERRIDE` |
+| 기존 Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `HISTORICAL_CURRENT_REVIEW_EVIDENCE` |
 | 실제 구현·Legacy·미검증 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
 | 현재 작업과 다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
@@ -48,6 +51,7 @@ superseded_pr: 116
 | 미확정 기획 | `DECISIONS_PENDING.md` | `PENDING_ONLY / MUST_BE_RECONCILED_WITH_LEDGER` |
 | 제품 구현·검증 순서 | `OMENWARD_ROADMAP.md` | `HISTORICAL_SEQUENCE / REPLAN_REQUIRED_BEFORE_CODEX` |
 | 통합 게임 설명 | `OMENWARD_GAME_DESIGN.md` | `REFERENCE_SUMMARY / CURRENT_DECISIONS_OVERRIDE` |
+| 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 
 ## 3. 현재 승인 기획 계보
 
@@ -72,6 +76,7 @@ PR #116의 Base v9.3 migration 상태, 오래된 PR HEAD와 CI 판정은 현행 
 |---|---|---|
 | 핵심 컨셉·뾰족한 재미 | `PROJECT_CORE.md`, Decision Ledger | 룰렛 agency Evidence·사람 검증 계획 |
 | Core·Session·Meta Loop | `PROJECT_CORE.md`, 현재 Grill Me Decision | 실제 Legacy session/retry code |
+| 전체 Vertical Slice 시스템 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | 최신 Decision Ledger가 대체·보완 관계를 소유 |
 | 룰렛·TokenSource·이동 | `design/APPROVED_ROULETTE_CORE_RULES.md`, Decision Ledger | Legacy `roulette_service.gd`, 최신 Red spec 계보 |
 | 전장·노드·점령 | Project Core, 30-node inherited Decision | Legacy battle simulator·tests |
 | 경제·Retry·저장 | 현재 Decision Ledger | PR #116의 승인 구조 문서 계보, simulator/fault test는 NOT_RUN |
@@ -81,7 +86,17 @@ PR #116의 Base v9.3 migration 상태, 오래된 PR HEAD와 CI 판정은 현행 
 | 아트·오디오·에셋 | 관련 승인 아트 문서·Visual Index | 제품 적용·라이선스·runtime 확인 |
 | 구현 인계 | Planning and Review Complete Gate 이후 새 승인 Plan | 현재 Codex BLOCKED |
 
-## 5. 실제 구현 경계
+## 5. Evidence·Review 경계
+
+### Current Vertical Slice compatibility routes
+
+- `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 승인된 전체 시스템 관계의 호환성 책임 원본이다. 이후 Decision ID가 충돌하거나 구체화한 부분은 Decision Ledger가 우선한다.
+- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 기존 Vertical Slice의 적대적 검토 증거다. 2026-08-02 현재 복구 finding은 새 recovery audit가 소유한다.
+- `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 룰렛 통제감 연구 입력이다.
+- Evidence Pilot 상태는 정확히 `PILOT_RECOMMENDATION / NOT_CANON`이다.
+- Evidence Pilot은 제품 구현, 사람 검증 통과, Core Lock 또는 별도 제품 기능의 권위를 갖지 않는다.
+
+## 6. 실제 구현 경계
 
 ```text
 CURRENT_PRODUCT
@@ -103,7 +118,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 
 최종 구현 상태와 검증 상태는 `CURRENT_IMPLEMENTATION_STATUS.md`와 실제 실행 증거만 소유한다.
 
-## 6. 상세 수치 라우팅
+## 7. 상세 수치 라우팅
 
 ```text
 LEGACY_H0 / HISTORICAL_ONLY
@@ -117,7 +132,7 @@ VALIDATED_VALUE
 
 수치의 플레이어 의미·상대 관계·제약식은 기획 정본이 소유하고, 후보 산출·분포·꼬리 위험은 simulation이 소유한다. 사용자가 상세 수치를 권장안대로 진행하도록 승인했더라도 시험값을 제품 확정값으로 표시하지 않는다.
 
-## 7. Grill Me 규칙
+## 8. Grill Me 규칙
 
 - 저장소·Sheet·실제 파일로 확인 가능한 사실은 묻지 않는다.
 - 이미 승인된 결정은 재질문하지 않는다.
@@ -132,12 +147,11 @@ OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
 Profile 영구 성장의 역할
 ```
 
-## 8. 현재 다음 Gate
+## 9. 현재 다음 Gate
 
 ```text
-OMW-DEC-20260802-CANON-RECOVERY-V1 GitHub·Sheet sync
-→ replacement Draft PR
-→ PR #116 superseded
+VALIDATOR_COMPATIBILITY_GREEN
+→ FINAL_PR_HEAD_SHEET_SYNC
 → Grill Me #1
 → 승인 Decision 즉시 sync
 → 다음 validated conflict
