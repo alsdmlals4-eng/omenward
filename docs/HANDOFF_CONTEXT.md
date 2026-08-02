@@ -1,34 +1,54 @@
 # OMENWARD 프로젝트 인수인계 컨텍스트
 
-- 갱신일: 2026-07-27
-- 공식명: **오멘워드 / OMENWARD**
-- 제품 단계: `PROTOTYPE_AND_VERTICAL_SLICE`
-- 현재 Work Mode: `PLAN`
-- 실행 프로필: `PLANNING_ONLY_PROFILE`
-- 직전 REVIEW: `COMPLETE`
-- 다음 작업: `V6_PLANNING_INTAKE`
-- 현재 제품 Issue: `#69`
-- 제품 코드 승인: `NO`
-- 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
-- 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
-- 사람 플레이: `HUMAN_QA_NOT_RUN`
-- 잠금 상태: `CORE_LOCK_V2_PENDING`
-- Codex 최종 인계: `DEFERRED_BY_USER_FOR_V6_PLANNING`
-
-이 문서는 새 작업자가 이전 대화 없이 현재 승인 상태, 보호 경계, 실제 구현 상태와 다음 기획 시작점을 이해하기 위한 압축 인계다.
+```yaml
+updated_at: 2026-08-02
+project: OMENWARD / 오멘워드
+work_mode: TOTAL_PLANNING
+phase: CANON_RECOVERY_AND_ADVERSARIAL_PLANNING
+recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
+baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
+branch: gpt/omenward-canon-recovery-20260802
+base: 9.4.0_RELEASED
+current_product: LEGACY_PROTOTYPE
+latest_planning: APPROVED_NOT_IMPLEMENTED
+product_code_authority: NONE
+codex: BLOCKED
+sheet_sync: IN_PROGRESS
+superseded_pr: 116
+```
 
 ## 1. 가장 먼저 알아야 할 것
 
-1. 오멘워드는 건물과 영구 가로 이동으로 세 원형 릴의 미래 배열을 설계하고 당첨 병력을 세 라인 중 하나에 비가역 배치하는 실시간 전략 오토배틀이다.
-2. V2 제품 정본과 GM-01~GM-106 통합 결정은 승인됐지만 V2 Godot 제품 구현은 시작하지 않았다.
-3. 현재 C1·C2·C3 실행 증거는 Legacy 설계 기준이며 V2 구현 완료 증거가 아니다.
-4. R1+R2 범위와 기술 경계는 검수 완료 상태다.
-5. F-30은 `construction progress → repair settlement` 순서로 해결되고 PR #93으로 검수 문서가 병합됐다.
-6. 사용자는 다음 작업을 v6 기준 기획으로 계속하도록 지시했다.
-7. 따라서 최종 Codex 인계와 Build는 자동 진행하지 않는다.
-8. 공용 10병종·진영 Visual 분리, Godot 4.7.1 Standard·GDScript·Compatibility 기준선은 유지한다.
+1. 오멘워드는 건물과 TokenSource로 세 물리 릴의 미래 배열을 설계하고, 당첨 병력을 세 전선 중 하나에 비가역 배치하는 전략 오토배틀이다.
+2. 주 플랫폼은 PC다. 모바일은 후속 고려이며 현재 구현 범위가 아니다.
+3. 현재 `main`은 Base v9.4 운영 계약을 채택했다.
+4. PR #116에는 유효한 승인 기획이 많지만 Base v9.3 전제·오래된 HEAD·stale validator·거대 scope drift 때문에 병합 단위로 사용하지 않는다.
+5. PR #116의 승인 결정은 새 복구 PR에서 선별 승계한다.
+6. 최신 기획은 제품에 구현되지 않았다. 실제 제품은 Legacy 9칸 룰렛·3건물·capture_power·무료 Stage retry다.
+7. 현재 목표는 기획 작성과 적대적 검토다. 제품 코드와 Codex 실행은 승인되지 않았다.
+8. 상세 수치는 GPT 권장안을 `RECOMMENDED_DEFAULT/TEST_VALUE`로 제시하고 simulation·playtest·사용자 승인 뒤 제품값으로 승격한다.
+9. 중요한 기획 충돌만 Grill Me로 한 번에 하나씩 결정한다.
+10. 한 Decision이 승인되면 GitHub와 Sheet를 같은 ID·commit으로 동기화한 뒤 다음 질문으로 간다.
 
-## 2. 읽기 순서
+## 2. 보호할 프로젝트 코어
+
+```text
+공세 예고
+→ 건설·TokenSource·세 물리 릴 설계
+→ 회전·영구 이동·immutable snapshot·확정
+→ 보관·판매·한 라인 비가역 배치
+→ 세 라인 자동전투·고정시간 점령
+→ 정산·인과 복기
+```
+
+- 20 Stage·4막·약 35분.
+- 위험 Stage 5/10/15/20.
+- 30개 건설 노드.
+- 금고·농장·타워·병영·지휘소.
+- paid Retry 원칙.
+- 안내자 벨루.
+
+## 3. 권위 읽기 순서
 
 ```text
 최신 사용자 지시
@@ -36,133 +56,63 @@
 → docs/BASE_RULES_VERSION.md
 → docs/DOCUMENTATION_MAP.md
 → docs/PROJECT_CORE.md
-→ docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md
-→ docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md
+→ docs/PROJECT_CANON_DECISION_LEDGER.md
+→ docs/audits/OMENWARD_CANON_RECOVERY_AND_TOTAL_PLANNING_RESTART_2026-08-02.md
 → docs/CURRENT_IMPLEMENTATION_STATUS.md
-→ docs/reviews/2026-07-27-v6-review-complete-planning-transition.md
-→ docs/design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md
-→ Issue #69
-→ 현재 작업별 세부 정본
-→ 실제 code/data/Scene/tests
 → docs/ACTIVE_CONTEXT.md
+→ 관련 분야 정본·Sheet
+→ 실제 code/data/Scene/tests
 ```
 
-역사적 계획과 Pre-V2 벤치마크는 현재 제품 구현 근거로 사용하지 않는다.
+## 4. 현재 적대적 검토 핵심
 
-## 3. 제품 약속
+### 자동 보완 대상
 
-> **예고된 세 전선의 공세를 읽고, 제한된 건물로 세 원형 릴의 토큰 구조를 설계·영구 편집한 뒤, 당첨 병력을 어느 전선에 커밋할지 결정해 전황을 뒤집는다.**
+- Base v9.4 기준선과 PR #116 대체 관계.
+- GitHub·Sheet HEAD와 authority commit 의미 분리.
+- 상태·수치 레이블 통일.
+- Context·Handoff·Documentation Map·Workbook 복구.
+- 검증된 Sheet schema/열 밀림 오류.
 
-핵심 감정:
+### 사용자 결정 큐
+
+1. `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` — Profile 영구 성장 역할.
+2. 세계·세력·플레이어 동기와 20 Stage 반복의 연결.
+3. 10병종·20전문화의 완성형 데모 대표 범위.
+
+### 조사·테스트 큐
+
+- 룰렛 통제감 사람 검증.
+- 100K 경제·Retry·save simulation.
+- save/retry fault injection.
+- 위험 Stage 인지 부하.
+- 35분 런 피로도.
+- 해상도·접근성 검증.
+
+## 5. 금지된 해석
 
 ```text
-설계했다 → 릴 토큰·출처·인접 순서를 만들었다
-읽어냈다 → 보드·공세·보관·식량을 비교했다
-적중했다 → 비가역 배치가 전선을 뒤집었다
-학습했다 → 실패 원인을 다음 건설·조작·배치에 반영했다
+APPROVED_PLAN != IMPLEMENTED
+LEGACY_PROVEN != LATEST_PROVEN
+TEXT_SPEC != PRODUCT_UI
+RECOMMENDED_DEFAULT != PRODUCT_VALUE
+SHEET_SYNC_PENDING != SYNCED
 ```
 
-## 4. 현재 실제 구조
+- PR #116을 병합하지 않는다.
+- Base v9.3 migration을 다시 실행하지 않는다.
+- 제품 코드·Scene·Resource·data·asset을 변경하지 않는다.
+- 수치·영구 성장·콘텐츠 범위를 AI가 조용히 확정하지 않는다.
+- 실행하지 않은 검증을 통과로 기록하지 않는다.
 
-현재 `RouletteService`는 Legacy 독립 9칸 생성, 중앙 판정, 등급·금화, 출처 선택, 보상 생성, 경제와 입력 로그를 함께 소유한다. `StageRun`은 Legacy 결과를 pending reward에 보관한다.
+## 6. 바로 다음 작업
 
 ```text
-LEGACY_C1_C2_C3_PROVEN
-!= V2_IMPLEMENTED
-!= V2_PROVEN
+정본 복구 완료
+→ Sheet read-back SYNCED
+→ 대체 Draft PR 생성
+→ PR #116 superseded 처리
+→ Grill Me #1
 ```
 
-## 5. 검수 완료된 R1+R2 경계
-
-```text
-Legacy RouletteService orchestration
-├─ paid spin economy
-├─ legacy independent 9-cell generation
-├─ legendary conversion and reward creation
-└─ pure RouletteBoardResolver delegation
-
-Isolated V2 transient RefCounted domain
-caller-injected RouletteTokenInstance
-→ RouletteReelState × 3
-→ RouletteRunState
-→ RouletteSpinSnapshot
-→ stopped-only RouletteSpinSession
-```
-
-### 포함
-
-- 중앙 가로줄 선행 판정·8개 완성선·등급·금화·출처 결정론 보존.
-- Legacy service adapter.
-- caller-injected token instance ID.
-- transient `RefCounted` 원형 릴 도메인.
-- `NORMAL_X` 최저 안정 index 교체, 없으면 append.
-- `SOURCE_BOUND_X` 일반 교체 제외.
-- 전역 token ID 유일성.
-- 동일 상태·시드의 동일 정지 index.
-- copy-out deep immutable snapshot.
-- 이동·확정 없는 stopped session seam.
-
-### 제외
-
-- live `spin()`의 V2 물리 릴 전환.
-- TokenSource lifecycle.
-- StageRun·MapRun·건물·경제·UI·보관·배치 연결.
-- 세로·가로 이동 실행.
-- 럭키·이동 아이템·전설·원자 확정 거래.
-- Scene·아트·사운드·사람 플레이·분포 시뮬레이션.
-
-## 6. F-30 승인 순서
-
-```text
-construction progress
-→ lifecycle·allowed max HP 갱신
-→ target 유효성
-→ repair request 적용
-→ 글로벌 affordability
-→ debit
-→ heal
-```
-
-책임 원본:
-
-- `docs/design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md`
-- `docs/reviews/2026-07-27-v2-construction-repair-same-timestamp-order-review.md`
-
-## 7. 다음 v6 기획 목표
-
-다음 세션은 구현 계획 재개가 아니라 Stage 2 통합 데모 기획을 진행한다.
-
-1. `CORE_POC`에서 가장 위험한 플레이 가설 하나를 선택한다.
-2. 플레이어 행동·고민·감정·실패 후 행동 변화·관찰 지표를 정의한다.
-3. 대표 3스테이지 Vertical Slice의 첫인상부터 데모 종료까지 설계한다.
-4. 설계 청사진·전선 대응 브리핑·전투 인과 사슬의 UX 역할을 정한다.
-5. 마스코트 또는 상징 동반자의 세계관·UI·세일즈 역할을 정한다.
-6. UI·사운드·에셋은 역할 정의 후 기존 승인·보유·스토어 조사 순서로 접근한다.
-7. Codex Goal과 Plan Mode 인계는 기획 승인 뒤 별도 작업으로 작성한다.
-
-## 8. 현재 미검증
-
-- V2 Godot 실행 경로.
-- R1+R2 자동 계약과 원격 실행 증거.
-- live physical reel.
-- CORE_POC 사람 플레이.
-- 10~15분 Vertical Slice 흐름.
-- 1080p·720p 가독성.
-- 저장·복귀·성능.
-- 마스코트 실제 적용·기억도.
-
-## 9. 금지된 완료 표현
-
-다음 조건 전에는 `CORE_LOCK_V2`, `V2_IMPLEMENTED`, `CORE_LOOP_PROVEN`, `MVP_COMPLETE`를 사용하지 않는다.
-
-- 해당 V2 실행 경로 구현.
-- 자동 계약과 원격 실행 증거.
-- 10~15분 사람 플레이.
-- 1080p·720p 가독성 검증.
-
-```text
-NEXT_WORK_MODE: PLAN
-NEXT_EXECUTION_PROFILE: PLANNING_ONLY_PROFILE
-FINAL_CODEX_HANDOFF: DEFERRED
-PRODUCT_CODE_AUTHORIZED: NO
-```
+첫 Grill Me는 Profile 영구 성장의 역할을 결정한다. 이 결정이 확정되기 전에는 Retry 통화·시작 해금·보관 용량·영구 성장 수치를 제품값으로 고정하지 않는다.
