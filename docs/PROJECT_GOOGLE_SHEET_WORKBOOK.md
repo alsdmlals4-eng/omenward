@@ -5,6 +5,7 @@ project: omenward
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw/edit
 workbook_role: USER_FACING_GDD_WORKSPACE
+sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
 current_sync_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 baseline_main_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -19,6 +20,8 @@ last_full_audit: 2026-08-02
 Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. 독립 정본이 아니며 GitHub의 현재 Decision·책임 원본·실제 구현 상태를 임의로 덮어쓰지 않는다.
 
 `PROJECT_SHEET_CONFIGURED`는 Workbook이 연결·구성됐다는 호환성 상태다. 현재 Decision과 exact PR HEAD 동기화 여부는 같은 줄의 `READBACK_PASS / FINAL_HEAD_REFRESH_REQUIRED`와 Sheet의 실제 행을 함께 확인한다.
+
+GitHub 정본에 없는 Sheet-only 편집은 `PROPOSED_SHEET_CHANGE`로 보존하고, 사용자 승인과 GitHub 반영·재조회가 끝나기 전에는 현행 Decision으로 승격하지 않는다.
 
 ## 1. 필수 상태 축
 
