@@ -4,9 +4,9 @@
 updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: HERO_UNIQUE_SKILL_2_COOLDOWN_POLICY_APPROVED
+current_phase: HERO_UNIQUE_SKILL_2_TIMER_STAGE_POLICY_APPROVED
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-COOLDOWN-CHARGE-AND-FAILURE-POLICY-V1
+current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TIMER-PERSISTENCE-AND-STAGE-BOUNDARY-POLICY-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
@@ -21,7 +21,7 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 last_merged_planning_pr: 127
 current_planning_pr: 129
-current_grill_me_count: 8
+current_grill_me_count: 9
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
@@ -39,15 +39,21 @@ human_validation: NOT_RUN
 
 ```text
 예고된 세 전선 공세 읽기
-→ 건물·TokenSource로 릴 설계
-→ 룰렛 조작·확정
-→ 희귀 병력 획득
+→ 제한된 건물·TokenSource로 룰렛 설계
+→ 가로·세로 이동과 확정으로 결과 조작
+→ 병력 보관·판매·획득
 → 어느 전선에 비가역 배치할지 판단
 → 자동전투·점령·건물 운영으로 전황 역전
 → 다음 Stage 설계에 환류
 ```
 
-현재 제품은 Legacy 프로토타입이며 최신 승인 기획은 미구현이다. 룰렛 Evidence Pilot은 `PILOT_RECOMMENDATION / NOT_CANON`이며 현행 APPROVED 정본을 덮어쓸 수 없다.
+핵심 시스템은 공세 예측, 건물·병영·금고 기반 토큰 구조, SpinSnapshot 룰렛 조작, 보관·판매·비가역 전선 배치, 세 전선 자동전투·점령·거점 운영이다.
+
+보조 시스템은 골드·식량·보관함, 건설·업그레이드·수리·파괴, 병영 Tier 패시브와 룰렛 등급 성장, 20 Stage MapRun·Wave·정비시간·checkpoint, 미션·메타 해금·벨루·UI·아트·오디오다.
+
+전체 시스템 권위는 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`, 적대적 검토 계보는 `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`다.
+
+룰렛 통제감 Evidence Pilot은 `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`이며 상태는 정확히 `PILOT_RECOMMENDATION / NOT_CANON`이다. Evidence Pilot은 현행 APPROVED 정본을 자동 변경하지 않는다.
 
 ## 2. 등급·전역 슬롯
 
@@ -57,6 +63,7 @@ human_validation: NOT_RUN
 [영웅] = 강화된 1스킬 + 표준 2스킬
 해금 이름 지정 [영웅] = 강화된 1스킬 + 고유 2스킬
 [전설] = 강화된 1스킬 + 강화된 표준 2스킬 + 표준 3스킬
+향후 해금 이름 지정 [전설] = 강화된 1스킬 + 강화된 표준 2스킬 + 고유 3스킬
 ```
 
 ```text
@@ -64,12 +71,9 @@ STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
 ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
 ```
 
-- 표준 영웅·해금 영웅·표준 전설·향후 해금 전설은 전장 전체 슬롯 하나를 공유한다.
-- 제한은 획득이 아니라 배치에 적용한다.
-- 슬롯 충돌 토큰은 보관·판매한다.
-- 같은 Stage의 재전설 결과는 동일 계열 영웅 등급 보상 토큰 2개다.
+영웅·전설은 이름 지정 여부와 관계없이 상·중·하 전선 전체에서 슬롯 1개를 공유한다. 제한은 획득이 아니라 배치에 적용하며 충돌 토큰은 보관·판매한다.
 
-## 3. 초기 해금 영웅 5명
+## 3. 초기 5명 고유 2스킬
 
 ```text
 shield_guard / 방패병 → 불퇴의 성벽
@@ -79,13 +83,13 @@ mage / 마법사         → 메테오
 assassin / 암살자     → 그림자 분신
 ```
 
-- 불퇴의 성벽: 새 지형 없이 피해 예산을 흡수하는 짧은 전열 방벽.
-- 천공 소거: 같은 전선의 유효 비행 표적 동시 일제사격.
-- 생명의 서약: 발동 시 회복 없이 짧은 체력 하한 보호.
-- 메테오: 적 밀집 지점에 예고 후 단발 지연 낙하.
-- 그림자 분신: 독립 AI 없이 기본 공격 일부를 복제하는 owner-bound proxy 1체.
+- 불퇴의 성벽: 새 지형 없이 짧은 전열 유지와 피해 흡수.
+- 천공 소거: 같은 전선 유효 비행 표적 동시 일제사격.
+- 생명의 서약: 회복 없는 짧은 체력 하한 보호.
+- 메테오: deterministic 적 밀집 지점에 예고 후 단발 지연 낙하.
+- 그림자 분신: 독립 AI 없이 원본 표적과 기본 공격 일부를 복제하는 owner-bound proxy 1체.
 
-## 4. 승인된 공통 cooldown·charge·실패 정책
+## 4. 공통 cooldown·실패 정책
 
 ```text
 INITIAL_WARMUP
@@ -94,7 +98,7 @@ INITIAL_WARMUP
 → CAST_COMMIT
 → RESOLUTION_OR_ACTIVE_EFFECT
 → COOLDOWN
-→ READY_WAITING_FOR_VALID_CONDITION
+→ READY
 ```
 
 ```text
@@ -104,71 +108,62 @@ MANA_OR_ENERGY_RESOURCE = FALSE
 COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
 ```
 
-- 새 전장 배치 뒤 첫 사용 전에 initial warmup을 거친다.
 - 유효 조건이 없으면 READY를 보존한다.
-- READY 상태에서 두 번째 사용권을 비축하지 않는다.
-- `CAST_COMMIT` 전 trigger·target 무효화는 READY 복귀·cooldown 소비 0이다.
-- 천공 소거·메테오는 commit 뒤 단발 사건을 한 번 해결한다.
-- 불퇴의 성벽·생명의 서약·그림자 분신은 owner-bound 지속형이며 시전자 제거 시 종료한다.
-- cooldown은 일제사격 판정, 메테오 폭발, 또는 지속효과 종료 뒤 시작한다.
-- save/load·Retry로 warmup·cooldown·target·READY를 재굴림하거나 복제할 수 없다.
+- commit 전 무효화는 READY 복귀·cooldown 0이다.
+- 천공 소거·메테오는 commit 후 단발 해결형이다.
+- 방벽·서약·분신은 owner-bound 지속형이다.
+- cooldown은 사건 해결 또는 지속효과 종료 뒤 시작한다.
 
-상세 책임 원본:
+## 5. timer 지속·Stage 경계 현행 정본
 
-`design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md`
+```text
+ACTIVE_COMBAT
+→ warmup·cooldown 진행
 
-## 5. UX·저장 계약
+MAINTENANCE / PREPARATION / ROULETTE / BUILD
+→ timer 일시정지
+→ READY 유지
 
-표시 대상:
+NEXT_STAGE_ACTIVE_COMBAT
+→ 동일 생존 인스턴스의 남은 상태 재개
+```
 
-- `INITIAL_WARMUP`과 남은 시간.
-- `READY`와 유효 조건 대기 이유.
-- `CAST_COMMIT` 대상·범위·예고.
-- active effect 남은 시간 또는 예산.
-- cooldown 남은 시간.
+- Stage·Act 전환은 warmup·cooldown 초기화 지점이 아니다.
+- READY와 남은 timer는 동일 영웅 인스턴스에 유지한다.
+- 방벽·서약·분신은 전투 종료 시 정리하고 full cooldown으로 들어간다.
+- 전투 종료 시 미해결 천공 소거·메테오 commit은 취소하지만 사용은 소비하며 full cooldown으로 들어간다.
+- 전투 timer는 정비시간 동안 감소하지 않는다.
+- 사망·완전 제거 시 timer·READY·commit·active 상태를 삭제하고 전역 고등급 슬롯을 해제한다.
+- save/load·Retry는 상태, 잔여시간, target snapshot, commit payload를 그대로 복원하며 재굴림·중복 해결을 금지한다.
 
-저장 대상:
+책임 원본: `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md`.
 
-- 상태 enum.
-- warmup·cooldown 남은 시간.
-- deterministic target snapshot.
-- 메테오 commit 위치·낙하 시간.
-- 방벽 예산·체력 하한·분신 owner link 등 active payload.
+## 6. 벤치마크·현업 비교 정책
 
-## 6. 벤치마크·현업 비교 운영 정책
+모든 Grill Me 질문과 승인 작업은 `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`를 적용한다.
 
-모든 Grill Me 질문과 승인 작업은 다음을 포함한다.
+```text
+project canon
+→ official/commercial benchmark 2~4
+→ OMENWARD 차이
+→ production cost·dependencies
+→ adversarial review
+→ options·recommendation
+```
 
-- Project Core·현행 정본.
-- 직접 관련 공식 상용 사례 2~4개.
-- OMENWARD와의 장르·조작·전투 규모 차이.
-- 데이터·AI·pathfinding·animation·VFX/SFX·UI·save/load·determinism·QA 비용.
-- 적대적 검토·복제 금지 경계.
-- 선택지·제작비·검증비·권장안.
+직접 비교 사례가 없으면 `DIRECT_COMPARABLE_NOT_FOUND`를 기록한다.
 
-## 7. 적대적 검토 핵심
-
-- warmup이 너무 짧으면 배치 즉시 폭발, 너무 길면 해금 보상이 죽는다.
-- active effect 중 cooldown이 흐르면 지속형 스킬이 상시 유지될 수 있다.
-- charge 누적은 전역 고등급 슬롯 하나의 순간 지배력을 과도하게 높인다.
-- precommit 대상 소멸로 사용권을 잃으면 자동전투가 불공정하게 느껴진다.
-- save/load·Retry·Stage 전환이 timer를 초기화하면 재굴림 exploit이 된다.
-- commit 뒤 시전자 사망은 단발 해결형과 owner-bound 지속형을 구분해야 한다.
-- Stage·정비시간 timer 진행 규칙은 아직 pending이다.
-
-## 8. 구현 경계·다음 Gate
+## 7. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
-COMMON_STATE_MACHINE = APPROVED
-SINGLE_READY_STORAGE = APPROVED
-CHARGE_ACCUMULATION = FORBIDDEN
-INITIAL_WARMUP = APPROVED
+UNIQUE_SKILL_2_CONCEPTS = APPROVED
+COMMON_TIMER_POLICY = APPROVED
+TIMER_STAGE_BOUNDARY_POLICY = APPROVED
 EXACT_WARMUP_SECONDS = PENDING
-EXACT_PER_SKILL_COOLDOWNS = PENDING
-STAGE_AND_MAINTENANCE_TIMER_POLICY = PENDING
+EXACT_PER_SKILL_COOLDOWN_SECONDS = PENDING
 EXACT_TRIGGER_THRESHOLDS = PENDING
 EXACT_DURATIONS_AND_VALUES = PENDING
 ASSETS = NOT_CREATED
@@ -177,9 +172,10 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-- 현재 카운터는 `8/10`이다.
-- 10번째 승인에서 fresh adversarial preflight를 실행한다.
+## 8. 다음 Gate
 
 ```text
-NEXT_GATE = OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TIMER-PERSISTENCE-AND-STAGE-BOUNDARY-POLICY-V1
+OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
 ```
+
+10번째 승인 후 latest main·exact-head CI·Sheet read-back·blocker·review·product-path preflight를 새로 실행한다.
