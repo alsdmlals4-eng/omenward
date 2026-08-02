@@ -8,11 +8,12 @@ phase: PR121_PREFLIGHT_CONTENT_PASS_MERGE_NOT_AUTHORIZED
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-baseline_main: a521cf744533139063a72ab358b4381d2aae6f0b
+baseline_main: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
 working_branch: gpt/omenward-gameplay-planning-20260802
 current_pr: 121
 last_merged_pr: 120
-base: 9.4.1_RELEASED
+base: 9.4.2_RELEASED
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
 current_product: LEGACY_PROTOTYPE
 latest_planning: APPROVED_BRANCH_SYNCED_NOT_IMPLEMENTED
 product_code_authority: NONE
@@ -107,6 +108,7 @@ merge_authorization: NOT_GRANTED
 - `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
 - `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
+- `docs/operations/PR121_MAIN_SYNC_V942_NOTE_2026-08-02.md`
 
 ## 5. preflight 결과
 
@@ -118,7 +120,6 @@ OPEN_P0 = 0
 OPEN_P1 = 0
 MERGE_BLOCKER = 0
 PRODUCT_PATHS = 0
-BEHIND_MAIN = 0
 COMMENTS = 0
 REVIEWS = 0
 UNRESOLVED_THREADS = 0
@@ -127,10 +128,11 @@ GDD Sheet run 332 = PASS
 Base v9 run 308 = PASS
 ```
 
-- latest main Base v9.4.1은 main→feature PR #124로 동기화했다.
+- Base v9.4.1은 PR #124, 이후 Base v9.4.2 planning-first adoption은 PR #125로 main→feature 동기화했다.
 - 누락됐던 Vertical Slice·적대적 review·Evidence Pilot 라우팅을 복원했다.
 - 과거 `OPEN_P1` CI 행은 역사적 해결 상태로 전환했다.
 - 제품 parser·simulation·fault test는 제품 구현 전 필수지만 문서-only 병합 blocker는 아니다.
+- 최신 main 동기화 후 최종 exact HEAD CI·compare·Sheet SHA를 다시 확인해야 한다.
 
 ## 6. 보호할 코어
 
