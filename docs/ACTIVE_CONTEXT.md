@@ -4,11 +4,11 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: GAMEPLAY_HERO_BATTLEFIELD_ACTIVATION_GRILL_ME_READY
+current_phase: GAMEPLAY_HERO_UNIQUENESS_LIMIT_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
 context_baseline_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
@@ -22,7 +22,7 @@ primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
 last_merged_pr: 120
 last_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-current_grill_me_count: 2
+current_grill_me_count: 3
 future_merge_cadence: 10
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
@@ -34,8 +34,8 @@ simulation: NOT_RUN
 ## 1. 현재 방향
 
 - 세계관 노출은 `균열에서 넘어온 이계 생물종` 수준으로 제한한다.
-- 다음 우선순위는 실제 게임플레이·콘텐츠 구조다.
-- 이번 승인으로 영웅의 획득·등록 구조를 고정했다.
+- 우선순위는 실제 게임플레이·콘텐츠 구조다.
+- 영웅은 사전 편성 캐릭터가 아니라 영웅 등급 보관 토큰의 선택형 변환 후보다.
 
 ## 2. 프로젝트 약속
 
@@ -43,29 +43,31 @@ simulation: NOT_RUN
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-## 3. 영웅 해금·등록
+## 3. 영웅 해금·사용
 
 ```text
-기존 병종
-→ 병종별 고정 대응 영웅
-→ 주점에서 영구 해금
-→ 런 시작 전 대응 병종에 등록
-→ 등록된 영웅만 해당 런에서 사용 가능
+주점에서 병종별 영웅 영구 해금
+→ Profile 명부 등록
+→ 룰렛에서 동병종 [영웅] 등급 토큰 획득
+→ 보관함에서 원본 유지 또는 해금 영웅 선택
+→ 1토큰을 1영웅으로 변환
+→ 한 전선에 비가역 배치
 ```
 
-- 영웅은 자유 병종 배속 캐릭터가 아니다.
-- 해금만으로 모든 런에 자동 적용되지 않는다.
-- 등록은 사용 자격이며 즉시 전장 배치나 전 구간 패시브가 아니다.
-- 등록 상태는 런 시작 시 스냅샷으로 고정하고 런 도중 변경하지 않는다.
-- 미해금·미등록 상태에서도 기본 병종과 기본 Profile로 전체 콘텐츠 완료가 가능해야 한다.
-- 동시에 등록 가능한 수와 전장 등장 방식은 아직 미확정이다.
+- 하나의 병종에 해금 영웅이 여러 명 존재할 수 있다.
+- 별도의 런 시작 전 영웅 등록·계약 단계는 없다.
+- 병종이 일치하는 해금 영웅만 변환 후보로 표시한다.
+- 변환하지 않아도 원본 영웅 등급 병종을 배치할 수 있다.
+- 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
+- 확정 전 취소 가능, 배치 확정 뒤 undo·회수·판매·라인 변경 불가다.
+- 동일 영웅 중복 배치와 동병종 활성 상한은 다음 Decision이다.
 
 ## 4. 최소 세계 배경
 
 - MapRun은 별개의 실제 경계 공세다.
 - 베일종은 사용자에게 균열에서 넘어온 다양한 이계 생물로 설명한다.
 - 적은 군집·돌격·원거리·방호·교란·공성 역할로 제작한다.
-- 경계파쇄자는 균열을 고정·확장하고 공세 규칙을 바꾸는 보스급 생물이다.
+- 경계파쇄자는 균열을 고정·확장하는 보스급 생물이다.
 - 오멘워드는 루메른 왕실 인가 자율 경계대응단이며 플레이어는 현장 지휘관이다.
 
 ## 5. 메인 허브·영구 성장
@@ -76,7 +78,7 @@ simulation: NOT_RUN
 3순위 = 주점·병영·연구
 ```
 
-- 주점: 병종별 고정 영웅 해금·명부·런 등록 준비.
+- 주점: 병종별 복수 영웅 후보 해금·명부 관리.
 - 허브 병영: 병사·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 랜덤 유료 영입·중복 합성·무한 레벨·전 구간 배율·숨은 릴 확률 조작 금지.
@@ -110,7 +112,8 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - profile/checkpoint/journal/backup and paid Retry
 - minimal extradimensional-creature background
 - Tavern/Barracks/Research auxiliary hub
-- fixed unit-hero unlock and pre-run registration
+- multi-hero-per-unit unlock roster
+- stored Hero-grade token conversion and irreversible deployment
 ```
 
 `APPROVED_PLAN != IMPLEMENTED != VALIDATED`.
@@ -121,6 +124,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
 - `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -130,15 +134,15 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 ## 9. Grill Me·병합 규칙
 
 - 승인 Grill Me Decision ID만 카운트한다.
-- 현재 카운터는 `2/10`이다.
+- 현재 카운터는 `3/10`이다.
 - 10번째 승인 시 GitHub·Sheet·PR·CI·review·authority path 적대적 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 10. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
-= 등록된 병종 영웅이 해당 병종의 룰렛 결과·배치와 어떤 방식으로 연결되어 전장에 등장하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
+= 영웅 등급 토큰이 여러 번 나왔을 때 동일 영웅과 동병종 영웅을 한 런에 몇 번 배치할 수 있는가
 ```
 
 ## 11. 경계
