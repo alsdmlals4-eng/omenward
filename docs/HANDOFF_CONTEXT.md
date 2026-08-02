@@ -41,8 +41,9 @@ future_merge_cadence: 10
 - 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 - 영웅 사망은 source token 반환·골드·식량·영구재화·회수권·부활권·무료 재배치권을 제공하지 않는다.
-- 다시 출전하려면 새 동병종 `[영웅]` 등급 토큰이 필요하며, 보관함에 없다면 룰렛에서 영웅 등급 결과가 다시 나와야 한다.
-- 새 토큰으로 만든 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 새 인스턴스로 시작하고 이전 사망 상태를 승계하지 않는다.
+- 이름 지정 영웅의 사망 후 재출전에는 **사망 이후 룰렛에서 새로 확정된 동병종 `[영웅]` 등급 토큰**이 필요하다.
+- 사망 전에 보관한 `[영웅]` 등급 토큰은 원본 영웅 등급 병종으로 사용할 수 있지만 이름 지정 영웅 재출전에는 사용할 수 없다.
+- 사망 이후 적격 토큰으로 만든 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 새 인스턴스로 시작하고 이전 사망 상태를 승계하지 않는다.
 
 ## 2. MapRun·Stage·Wave·정비시간 계약
 
@@ -80,7 +81,7 @@ future_merge_cadence: 10
 → 살아 있는 동안 Stage·Act·정비시간을 넘어 유지
 → Stage 정산에서 장기 상태 저장·전투 잔여물 제거
 → 사망·완전 제거 시 슬롯 해제, 회수 보상 없음
-→ 새 동병종 영웅 등급 토큰으로만 새 인스턴스 출전
+→ 사망 이후 새 룰렛 동병종 [영웅] 결과로만 이름 지정 영웅 재출전
 ```
 
 - 다른 병종 영웅은 후보가 아니다.
@@ -89,7 +90,7 @@ future_merge_cadence: 10
 - 변환하지 않은 원본 영웅 등급 병종도 정상 배치 가능하다.
 - active hero가 있으면 새 토큰은 보관하거나 원본 병종으로 배치한다.
 - 서로 다른 영웅도 동시에 둘 이상 출전할 수 없다.
-- 같은 영웅은 이전 인스턴스가 사망·완전 제거된 뒤 새 영웅 등급 토큰으로 다시 배치할 수 있다.
+- 같은 영웅은 이전 인스턴스가 사망·완전 제거된 뒤 다시 배치할 수 있지만 사망 이후 새 동병종 영웅 등급 결과가 필요하다.
 - 수동 퇴각·교대·판매·재보관·전선 이동은 불가다.
 - Stage·Act 전환과 정비시간만으로 영웅을 귀환시키거나 무료 교체하지 않는다.
 - 배치 확정 전에는 취소·후보 변경 가능, 확정 뒤 되돌릴 수 없다.
@@ -98,7 +99,8 @@ future_merge_cadence: 10
 - 투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 - 사망한 출전의 토큰·재화·상태를 회수하지 않고 다음 스핀 보정·보장·pity도 생성하지 않는다.
-- 새 토큰이 없다면 룰렛에서 해당 병종 `[영웅]` 등급이 다시 나올 때까지 이름 지정 영웅 출전은 불가능하다.
+- 사망 전 보관 토큰은 원본 영웅 등급 병종으로만 사용 가능하며 이름 지정 영웅 재출전 자격이 없다.
+- 적격 토큰은 `created_sequence > previous_hero.ended_sequence`를 만족해야 한다.
 - 새 인스턴스는 최대 HP, 쿨다운 0, 능력 기본 충전, 능력 초기 고유 자원으로 시작한다.
 - 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태를 승계하지 않는다.
 
@@ -129,6 +131,7 @@ future_merge_cadence: 10
 - 전장: 이름 지정 영웅 active slot 1개를 세 전선이 공유.
 - 영웅은 수동 퇴각·교대할 수 없으며 사망·MapRun 종료로만 active 상태를 종료한다.
 - 영웅 사망은 회수 보상이나 무료 재출전권을 제공하지 않는다.
+- 사망 후 재출전은 사망 이후 룰렛에서 새로 확정된 적격 영웅 등급 토큰을 요구한다.
 - 허브 병영: 병사·병종·전문화·교리 sidegrade.
 - 연구: 대체 건물·TokenSource·미션·정보·편의 sidegrade.
 - 금지: 랜덤 유료 영입, 중복 합성, 무한 레벨, 전 구간 배율, 숨은 릴 확률, 자동 플레이.
@@ -175,7 +178,9 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - persistent Hero HP/cooldowns/charges/unique resources across Stage boundaries
 - transient Hero combat state cleared and Hero clocks paused during MaintenancePhase
 - no Hero death recovery reward or source-token return
-- fresh matching Hero-grade token required for a fresh full-state Hero instance
+- post-death matching Hero-grade Roulette result required for named-Hero redeployment
+- pre-death stored Hero-grade token cannot qualify for named-Hero redeployment
+- eligible post-death token creates a fresh full-state Hero instance
 ```
 
 ## 8. Grill Me 운영
