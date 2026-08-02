@@ -6,20 +6,21 @@ work_mode: TOTAL_PLANNING
 current_phase: POST_MERGE_MAIN_CANONICAL
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
-baseline_main: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
 active_base: 9.4.2_RELEASED
 current_product: LEGACY_PROTOTYPE
 latest_planning: MERGED_TO_MAIN_NOT_IMPLEMENTED
 product_code_authority: NONE
-last_merged_pr: 121
-current_pr: NONE
+last_merged_planning_pr: 121
+current_planning_pr: NONE
 current_grill_me_count: 0
 preflight: PR121_PASS_AND_MERGED
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 ```
 
-이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 주 책임 원본을 두고 다른 문서는 계보·보조·검증으로만 사용한다.
+이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석하며 `pr121_merge_commit`은 최근 기획 묶음의 역사적 병합 증거다.
 
 ## 1. 기본 읽기 순서
 
