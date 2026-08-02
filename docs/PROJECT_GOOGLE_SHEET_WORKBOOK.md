@@ -14,7 +14,7 @@ working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base: 9.4.3
 last_merged_planning_pr: 127
 current_planning_pr: 129
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNC_TO_PR_129_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED
 current_grill_me_count: 4
 preflight: NEXT_AT_10_OF_10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
@@ -61,23 +61,53 @@ INITIAL_ROSTER_IS_FINAL_CAP = FALSE
 
 궁병과 마법사의 중복은 지속 대공과 군집 광역 자동 스킬로 분리한다.
 
-## 3. Sheet 동기화 예정 범위
+## 3. Sheet 동기화 범위
 
 - `00_프로젝트_허브!E2:L2`
-- `01_작업순서` 다음 빈 행
-- `02_현재_확정결정` 다음 빈 행
-- `04_누락_충돌_감사` 다음 빈 행들
-- `05_GDD_요약!D8:J8`, `B9:J9`
-- `12_핵심루프` 다음 빈 행
-- `15_조작_게임규칙` 다음 빈 행
-- `40_핵심시스템_메인콘텐츠` 다음 빈 행
-- `41_성장_경제` 다음 빈 행
-- `50_메인콘텐츠` 다음 빈 행
-- `60_UX_UI_접근성` 다음 빈 행
-- `70_아트_오디오_에셋` 다음 빈 행
-- `99_변경이력` 다음 빈 행
+- `01_작업순서!A30:N31`
+- `02_현재_확정결정!A38:M39`
+- `04_누락_충돌_감사!A137:H144`
+- `05_GDD_요약!D8:J8`
+- `05_GDD_요약!B9:J9`
+- `12_핵심루프!A15:J15`
+- `15_조작_게임규칙!A18:J18`
+- `40_핵심시스템_메인콘텐츠!A18:J18`
+- `41_성장_경제!A28:I28`
+- `50_메인콘텐츠!A25:J25`
+- `60_UX_UI_접근성!A26:J26`
+- `70_아트_오디오_에셋!A9:J9`
+- `99_변경이력!A41:H41`
 
-## 4. 감사 기준
+bounded read-back:
+
+```text
+SAME_DECISION_ID = PASS
+GRILL_ME_COUNT = 4_OF_10
+INITIAL_HERO_COUNT = 5
+EXACT_ARCHETYPES = PASS
+PASSIVE_VARIANT_COUNT = 3
+AUTOMATIC_ACTIVE_SKILL_VARIANT_COUNT = 2
+STALE_FOUR_COUNT_MARKED_REFINED = PASS
+INITIAL_ROSTER_IS_FINAL_CAP = FALSE
+PRODUCT_STATUS = NOT_IMPLEMENTED
+```
+
+## 4. 후보 HEAD 검증
+
+후보 증거 HEAD:
+
+`e8bdec8cd20022f9afc2e86468da103359a794f7`
+
+```text
+Validate Project Core Documentation: PASS / run 679
+Validate Omenward GDD Sheet Adoption: PASS / run 399
+Validate Base v9 adoption: PASS / run 380
+SHEET_READBACK = PASS
+```
+
+이 Workbook 마감 커밋으로 PR HEAD가 이동하므로 최종 exact HEAD에서 필수 CI·latest main compare·Sheet SHA·review surface·blocker를 다시 확인한다.
+
+## 5. 감사 기준
 
 ```text
 INITIAL_NAMED_HERO_COUNT = 5
@@ -90,7 +120,7 @@ FIVE_FULL_NEW_UNITS = FORBIDDEN
 PRODUCT_IMPLEMENTED = FALSE
 ```
 
-## 5. 책임 원본
+## 6. 책임 원본
 
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
@@ -101,7 +131,7 @@ PRODUCT_IMPLEMENTED = FALSE
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md`
 
-## 6. 구현·검증 경계
+## 7. 구현·검증 경계
 
 ```text
 PROJECT_SHEET_CONFIGURED
@@ -118,7 +148,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영·다음 Gate
+## 8. 운영·다음 Gate
 
 - 현재 카운터는 `4/10`이다.
 - 10번째 승인에서 적대적 preflight를 실행한다.
