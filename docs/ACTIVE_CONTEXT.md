@@ -1,130 +1,181 @@
 # Active Context
 
-- 갱신일: 2026-07-27
-- 공식명: **오멘워드 / OMENWARD**
-- 제품 단계: `PROTOTYPE_AND_VERTICAL_SLICE`
-- 현재 Work Mode: `PLAN`
-- 실행 프로필: `PLANNING_ONLY_PROFILE`
-- 직전 단계: `REVIEW_COMPLETE`
-- 다음 작업: `V6_PLANNING_INTAKE`
-- 현재 제품 Issue: `#69`
-- 제품 코드 승인: `NO`
-- 구현 상태: `V2_IMPLEMENTATION_NOT_STARTED`
-- 기존 증거: `LEGACY_C1_C2_C3_PROVEN`
-- 사람 검증: `HUMAN_QA_NOT_RUN`
-- 잠금: `CORE_LOCK_V2_PENDING`
-- 최종 Codex 인계: `DEFERRED_BY_USER_FOR_V6_PLANNING`
-- 별도 운영 작업: Issue `#62`
-
-## 1. Context Pack
-
 ```yaml
+updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
-target_platform: PC
-current_stage: PROTOTYPE_AND_VERTICAL_SLICE
-current_work_mode: PLAN
-execution_profile: PLANNING_ONLY_PROFILE
+work_mode: TOTAL_PLANNING
+current_phase: PR_119_MERGE_PREFLIGHT
+current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
+current_planning_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
+current_world_decision: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
+current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
-context_baseline_commit: c4c02dc553dbf6e79fe26fc751bd268bd396c627  # PR #94 v6 전환 병합 기준
-player_promise: 예고된 세 전선의 공세를 읽고 건물과 영구 가로 이동으로 미래 릴을 설계한 뒤 당첨 병력을 한 전선에 비가역 커밋한다.
-project_core: 정확 공세 예고 + TokenSource + 세 원형 릴 + immutable snapshot + 명시적 확정 + 3라인 자동전투
-pointed_fun: 무작위 결과 소비가 아니라 미래 룰렛 구조를 설계하고 그 결과를 전선에 커밋하는 판단
-current_slice_or_goal: v6 기준 CORE_POC와 Vertical Slice 사이의 가장 위험한 플레이 가설 재정의
-protected_decisions_and_assets: Legacy C1 판정, 3라인, 공용 병종, 진영 Visual 분리, immutable SpinSnapshot, 비가역 배치
-canonical_sources: PROJECT_CORE, 통합 결정 원장, R1+R2 검수, F-30 승인 정본, Documentation Map
-actual_build_state: V2 제품 구현 미시작, Legacy C1~C3만 실행 증거 보유
-open_conflicts: 없음. 다음 PLAN에서 새 충돌이 발견되면 한 문항씩 처리
-blocked_unverified: V2 실행 경로, 사람 플레이, 1080p·720p, 성능, 저장·복귀, 마스코트 실제 적용
-next_evidence_needed: CORE_POC 가설·관찰 기준·실패 기준과 3스테이지 Slice 후보
+context_baseline_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
+working_branch: gpt/omenward-canon-recovery-20260802
+active_base_version: 9.4.0
+current_product: LEGACY_PROTOTYPE
+latest_planning: USER_APPROVED / NOT_IMPLEMENTED
+product_code_authority: NONE
+codex_execution: BLOCKED
+primary_platform: PC
+future_platform: MOBILE_CONSIDERATION_ONLY
+merge_batch_pr: 119
+merge_authorization: USER_APPROVED / PREFLIGHT_REQUIRED
+current_grill_me_count: 4
+future_merge_cadence: 10
+sheet_sync: UPDATE_AND_READBACK_REQUIRED_AT_FINAL_HEAD
+runtime_validation: NOT_RUN
+human_validation: NOT_RUN
+simulation: NOT_RUN
 ```
 
-`context_baseline_commit`은 이 Context Pack이 확정된 전환 병합 기준이다. 현재 `main` HEAD를 자기참조 방식으로 고정하는 필드가 아니다.
+`current_branch: main`과 `context_baseline_commit`은 현재 정본 기준선을 뜻한다. 실제 쓰기와 preflight는 `working_branch`에서 수행한다.
 
-## 2. 우선 읽기
+## 1. 현재 작업
 
-1. `AGENTS.md`
-2. `docs/BASE_RULES_VERSION.md`
-3. `docs/DOCUMENTATION_MAP.md`
-4. `docs/PROJECT_CORE.md`
-5. `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`
-6. `docs/design/APPROVED_CORE_V2_INTEGRATED_SPEC.md`
-7. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-8. `docs/reviews/2026-07-27-v6-review-complete-planning-transition.md`
-9. `docs/design/APPROVED_V2_CONSTRUCTION_REPAIR_SAME_TIMESTAMP_ORDER_2026-07-27.md`
-10. Issue `#69`
-11. 현재 작업에 필요한 세부 정본과 실제 파일
+사용자가 다음을 승인했다.
 
-## 3. 핵심 문장
+- 오멘워드 = 루메른 왕실 인가 자율 경계대응단.
+- 활성 경계 작전에서 제한된 비상 지휘권, 평시·작전 후 감사와 지방 협조.
+- 메인 허브 보조 콘텐츠 = 주점·허브 병영·연구.
+- 정산 영구재화로 유한한 공개 노드 개방.
+- 주점에서 영웅 이상 전문 인재를 결정론적 공개 노드로 영구 영입.
+- 이후 승인 Grill Me 10건마다 병합 preflight·병합·main/Sheet 동기화.
+- 현재 PR #119는 사용자 지시로 10건 전이라도 즉시 preflight·병합.
+
+## 2. 프로젝트 약속
+
+> 공개된 세 전선의 공세를 읽고 건물과 TokenSource로 세 물리 릴의 미래 배열을 설계·영구 편집한 뒤, 얻은 병력을 한 전선에 비가역 커밋하고 결과 원인을 다음 설계에 반영한다.
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-오멘워드는 좋은 슬롯 결과를 기다리는 게임이 아니다. 플레이어가 공개된 전선 위험을 읽고 건물과 영구 이동으로 미래 릴 배열을 설계하며, 결과를 한 라인에 되돌릴 수 없이 커밋하는 게임이다.
+## 3. 현재 세계 정본
 
-## 4. 보호 대상
+### MapRun
 
-- 일반 유닛의 자유로운 라인 횡단 금지.
-- 기본·일반 난이도에서 치명적 공세 정보 공개.
-- 중앙 가로줄 선행 판정과 기존 C1 결과.
-- 가로 이동은 token instance와 출처를 이동시키며 길이·cursor를 유지.
-- immutable `SpinSnapshot`.
-- 배치 후 회수·라인 변경·판매 금지.
-- 공용 `UnitArchetypeProfile`과 진영 Visual 분리.
-- UI는 규칙을 계산하지 않고 표시와 사용자 의도 반환만 담당.
-- Godot 4.7.1 Standard / GDScript / Compatibility renderer.
+- 하나의 MapRun은 징조로 감지된 별개의 실제 경계 공세다.
+- 20 Stage·4막은 한 공세가 고조되는 과정이다.
+- 승리는 하나의 균열·침공로 봉쇄, 패배는 실제 전진 방어선 붕괴다.
+- paid Retry는 시간 되감기가 아닌 같은 공세의 비상 재투입이다.
 
-## 5. 직전 REVIEW 결과
+### 베일
 
-```text
-R1_PLUS_R2_SCOPE: APPROVED_AND_UNCHANGED
-LEGACY_C1_PRESERVATION: SOUND
-PURE_DOMAIN_ISOLATION: SOUND
-F-30: RESOLVED
-F-30_ORDER: CONSTRUCTION_PROGRESS_THEN_REPAIR_SETTLEMENT
-REVIEW_PHASE: COMPLETE
-PRODUCT_CODE_AUTHORIZED: NO
-```
+- 현실과 이질적인 외부 법칙 영역의 비의지적 경계 겹침.
+- 균사·혈관·결정형 증식은 법칙 충돌의 물질 패턴.
+- 공세별 베일 법칙은 유한·관측·반복 가능해야 한다.
+- 베일종은 별도 지성·목적을 가질 수 있으며 다음 세계관 Decision에서 확정한다.
 
-PR #93은 F-30 기술 검수 문서만 병합했다. Godot 코드·Scene·Resource·게임 데이터·workflow를 구현하지 않았다.
+### 오멘워드
 
-## 6. 현재 포함·제외
+- 루메른 왕실의 법적 인가를 받은 전문 경계대응단.
+- 평시에는 감독·예산 감사·지방 협조.
+- 활성 작전에서는 지정 구역·기간·배속 전력에 한정된 현장 자율권.
+- 영구 통치·무제한 징발·상시 왕국군 지휘·일반 사법권은 없음.
+- 플레이어는 작전 지휘관이며 통치자가 아니다.
 
-### R1+R2 포함
-
-- 순수 `RouletteBoardResolver`와 Legacy adapter.
-- caller-injected token ID.
-- transient `RefCounted` 세 원형 릴 도메인.
-- 결정론적 정지 index와 deep immutable snapshot.
-- 이동·확정 없는 stopped-only `RouletteSpinSession`.
-
-### 계속 제외
-
-- live `RouletteService.spin()`의 V2 전환.
-- TokenSource lifecycle과 건물·경제·StageRun·MapRun 연결.
-- 세로·가로 이동 실행.
-- 럭키·이동 아이템·전설·원자 확정 거래.
-- UI·Scene·아트·사운드·사람 플레이·100,000시드.
-
-## 7. 다음 v6 PLAN
-
-우선순위는 다음과 같다.
-
-1. CORE_POC의 가장 위험한 플레이 가설 하나 선택.
-2. 플레이어 행동·감정·실패 후 변화·관찰 지표 정의.
-3. 대표 3스테이지 Vertical Slice 흐름과 종료점 설계.
-4. 설계 청사진·전선 브리핑·전투 인과 사슬 UX 역할 설계.
-5. 마스코트·상징 동반자 역할 설계.
-6. 에셋·UI·사운드 조달과 검증 계획.
-7. Codex Goal은 기획 승인 뒤에만 작성.
+## 4. 메인 허브·영구 성장
 
 ```text
-NEXT_WORK_MODE: PLAN
-NEXT_EXECUTION_PROFILE: PLANNING_ONLY_PROFILE
-FINAL_CODEX_HANDOFF: DEFERRED
-CODEX_BUILD: NOT_AUTHORIZED
+1순위 = 이어하기·새 MapRun
+2순위 = Profile·영구재화·현재 준비 상태
+3순위 = 주점·병영·연구
 ```
 
-## Base v9.4 운영 계약
+- 주점: 영웅 이상 전문 인재의 공개 결정론적 영입·명부.
+- 허브 병영: 병사 훈련·병종·전문화·교리 sidegrade.
+- 연구: 대체 건물·TokenSource·미션·징조 분석·편의 sidegrade.
+- 영구 노드는 유한하고 비용·선행·결과를 구매 전에 공개한다.
+- 기본 Profile로 모든 콘텐츠 완료 가능.
+- 랜덤 유료 영입·무한 레벨·전 구간 전투 배율·숨은 릴 확률 조작 금지.
+- 영구재화 balance는 노드·Retry 소비, total은 비감소 milestone 판정.
 
-- adapter에 Base `9.4.0` payload/evidence를 적용했다.
-- 제품 코드·데이터·Scene·Resource·자산·Sheet는 변경하지 않는다.
-- 런타임·입력·사람·provider 검증은 `NOT_RUN` 또는 `HUMAN_NOT_RUN`이다.
+정확 비용·노드 수·영웅 목록·등급·능력·출전 상한은 pending이다.
+
+## 5. 보호할 게임 시스템
+
+- 20 Stage·4막·약 35분 목표.
+- 위험 Stage 5·10·15·20.
+- 상·중·하 세 라인.
+- 세 물리 원형 릴·TokenInstance·cursor·3×3 view.
+- 가로 이동은 future reel structure에 영구 반영, undo 없음.
+- immutable SpinSnapshot과 명시적 한 번 확정.
+- PendingReward 보관·판매·한 라인 비가역 배치.
+- 본진 6노드/진영, 중간 거점 6곳×3노드, 접전지 0, 총 30노드.
+- MapRun 건물: 금고·농장·타워·전장 병영·지휘소.
+- 고정시간 점령.
+- Stage 5 이후 MapRun당 최대 1회 paid Retry 원칙.
+- 정본 안내자 벨루.
+
+## 6. 실제 구현 경계
+
+```text
+CURRENT_LEGACY
+- independent weighted 9-cell roulette
+- barracks/tower/farm
+- legacy outpost/capture_power
+- free same-stage retry
+
+LATEST_APPROVED_NOT_IMPLEMENTED
+- three physical reels and permanent movement
+- 30-node topology and five MapRun buildings
+- fixed-time capture
+- profile/checkpoint/journal/backup
+- paid Retry
+- real-incursion world and Veil ontology
+- royal-chartered Omenward organization
+- Tavern/Barracks/Research auxiliary hub
+- deterministic Hero+ roster recruitment
+```
+
+`APPROVED_PLAN != IMPLEMENTED != VALIDATED`.
+
+## 7. current authority
+
+- `docs/PROJECT_CORE.md`
+- `docs/PROJECT_CANON_DECISION_LEDGER.md`
+- `docs/design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md`
+- `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md`
+
+PR #116은 역사 승인 증거이며 current local authority가 아니다.
+
+## 8. 병합 Gate
+
+```text
+GitHub authority/path audit
+→ Sheet exact ranges read-back
+→ Decision ID and exact HEAD match
+→ full PR changed-path audit
+→ review/comment/thread audit
+→ required CI at exact HEAD
+→ adversarial P0/P1 review
+→ Ready transition
+→ expected-head squash merge
+→ main and Sheet merge verification
+```
+
+열린 P0/P1, 누락된 current authority, Sheet divergence, required CI failure, unresolved review thread, merge conflict가 있으면 병합하지 않는다.
+
+## 9. 병합 후 다음 작업
+
+- 새 branch·새 Draft PR을 만든다.
+- Grill Me 카운터를 `0/10`에서 시작한다.
+- 다음 Gate:
+
+```text
+OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
+```
+
+## 10. 경계
+
+```text
+PRODUCT_CODE: UNCHANGED
+CODEX: BLOCKED
+EXACT_VALUES: PENDING
+PR_MERGE: USER_AUTHORIZED / PREFLIGHT_IN_PROGRESS
+RUNTIME/HUMAN/SIMULATION: NOT_RUN
+```
