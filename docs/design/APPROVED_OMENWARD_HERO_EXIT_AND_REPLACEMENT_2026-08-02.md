@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
 approved_at: 2026-08-02 17:18 KST
 approval: USER_APPROVED_RECOMMENDED_OPTION
-status: USER_APPROVED_NO_MANUAL_EXIT / STAGE_STATE_RESOLVED_BY_LATER_DECISION / NOT_IMPLEMENTED
+status: USER_APPROVED_NO_MANUAL_EXIT / STAGE_AND_POST_DEATH_REDEPLOYMENT_RULES_RESOLVED / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -22,11 +22,13 @@ human_validation: NOT_RUN
 → 수동 퇴각 불가
 → 수동 교체 불가
 → Stage·Act 전환·정비시간 진입만으로 귀환하지 않음
-→ 사망·완전 제거 시 active hero 슬롯 해제
+→ 사망·완전 제거 시 active hero 슬롯 해제와 ended_sequence 기록
+→ 사망 회수 보상·토큰 반환 없음
+→ 사망 이후 룰렛에서 새 동병종 [영웅] 등급 결과가 나와야 재출전 가능
 → MapRun 종료 시 active 상태 종료
 ```
 
-Stage 경계의 HP·쿨다운·충전·고유 자원·전투 잔여물 처리는 후속 승인 문서 `APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`가 소유한다.
+Stage 경계의 HP·쿨다운·충전·고유 자원·전투 잔여물 처리는 `APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`가 소유한다. 사망 무회수·post-death 결과·새 인스턴스 처리는 `APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`가 소유한다.
 
 ## 2. 수동 퇴각·교대 금지
 
@@ -54,7 +56,7 @@ AND MapRun continues
 - 다음 Stage에는 새 영웅을 다시 배치하는 것이 아니라 기존 영웅 인스턴스가 계속 존재한다.
 - 영웅의 배치 전선은 Stage·Act 전환과 정비시간 후에도 유지한다.
 - Stage 전환·정비시간을 무료 회복·부활·재배치로 간주하지 않는다.
-- 후속 승인에 따라 현재 HP·남은 쿨다운·충전·사용 횟수·고유 자원은 유지한다.
+- 현재 HP·남은 쿨다운·충전·사용 횟수·고유 자원은 유지한다.
 - 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 
@@ -65,8 +67,10 @@ AND MapRun continues
 ### 4.1 영웅 사망·완전 제거
 
 - 영웅 유닛이 사망하고 전장 인스턴스가 완전히 제거되면 active hero 슬롯을 비운다.
-- 슬롯 해제와 해당 출전 기록의 종료는 같은 원자적 transaction으로 기록한다.
-- 슬롯이 비워진 뒤에는 새 동병종 `[영웅]` 등급 토큰을 소비해 같은 영웅 또는 다른 해금 영웅을 다시 출전시킬 수 있다.
+- 슬롯 해제, 전장 효과 종료, 출전 기록 종료, `ended_sequence` 기록을 같은 원자적 transaction으로 처리한다.
+- 사망은 source token·토큰 조각·골드·식량·런/영구재화·회수권·부활권·무료 재배치권·보장·pity를 생성하지 않는다.
+- 사망 전에 보관한 영웅 등급 토큰은 원본 영웅 등급 병종으로는 사용할 수 있으나 이름 지정 영웅 재출전에는 사용할 수 없다.
+- 같은 영웅 또는 다른 영웅의 재출전은 사망 이후 룰렛에서 생성된 동병종 영웅 등급 토큰을 요구한다.
 - 사망한 영웅의 active 전장 효과는 함께 종료한다. 지속 효과 예외는 개별 능력 계약에 명시된 경우에만 허용한다.
 
 ### 4.2 MapRun 종료
@@ -75,22 +79,24 @@ AND MapRun continues
 - MapRun 종료 시 영웅 유닛을 다음 MapRun으로 직접 이월하지 않는다.
 - Profile의 영웅 해금·명부 소유권은 유지하지만, 전장 인스턴스·active 슬롯·전투 상태는 Run 범위다.
 
-## 5. 새 영웅 출전 조건
+## 5. 사망 후 새 영웅 출전 조건
 
 ```text
 active_hero_unit_instance_id == null
-AND matching Hero-grade token is available
-AND selected hero is unlocked
-AND selected hero matches token UnitArchetype
-→ new Hero deployment may be confirmed
+AND token.grade == HERO
+AND token.UnitArchetype matches selected unlocked Hero
+AND token.created_sequence > latest_named_hero_death_sequence
+→ named-Hero redeployment may be confirmed
 ```
 
-- 새 출전은 반드시 새로운 `[영웅]` 등급 토큰 하나를 소비한다.
+- 첫 이름 지정 영웅 출전에는 이전 사망 sequence가 없으므로 기본 토큰 변환 조건만 적용한다.
+- 사망 후 이름 지정 영웅 재출전은 반드시 사망 이후 룰렛에서 새로 생성된 `[영웅]` 등급 토큰 하나를 소비한다.
 - 이전 영웅이 사망했다고 무료 재출전·자동 부활·자동 교대를 제공하지 않는다.
-- 같은 `hero_id`의 반복 출전도 동일한 조건을 따른다.
-- active 영웅이 살아 있는 동안 얻은 영웅 등급 토큰은 보관하거나 원본 영웅 등급 병종 유닛으로 배치할 수 있다.
+- 같은 `hero_id`의 반복 출전도 동일한 post-death 조건을 따른다.
+- active 영웅이 살아 있는 동안 얻어 사망 전에 보관한 영웅 등급 토큰은 원본 영웅 등급 병종 유닛으로 배치하거나 계속 보관할 수 있다.
+- 사망 전 보관 토큰은 사망 후 이름 지정 영웅 변환 후보가 아니다.
 - 정비시간은 새 영웅 출전 조건을 우회하지 않는다. 살아 있는 active 영웅이 있으면 영웅 변환·배치는 계속 차단된다.
-- 새 토큰으로 생성하는 새 인스턴스의 초기 HP·쿨다운·충전·고유 자원은 별도 다음 Decision이다.
+- 적격 새 토큰으로 생성한 새 인스턴스는 최대 HP·쿨다운 0·능력 기본 충전·초기 고유 자원으로 시작하고 이전 상태를 승계하지 않는다.
 
 ## 6. 데이터·상태 책임
 
@@ -99,6 +105,7 @@ HeroBattlefieldState:
   active_hero_unit_instance_id
   active_hero_id
   active_hero_lane_id
+  latest_named_hero_death_sequence
   hero_deployment_history
 
 HeroDeploymentRecord:
@@ -110,6 +117,7 @@ HeroDeploymentRecord:
   deployed_at_stage
   ended_at_stage
   ended_reason
+  ended_sequence
 
 ApprovedHeroEndedReason:
   HERO_DEATH
@@ -120,16 +128,19 @@ ApprovedHeroEndedReason:
 
 - 수동 퇴각·수동 교체를 위한 종료 사유는 만들지 않는다.
 - Stage·Act 전환과 `MaintenancePhase` 진입·종료는 `ended_reason`이 아니다.
-- 영웅 사망 판정, 슬롯 해제, 전장 효과 종료, 기록 갱신은 원자적으로 처리한다.
+- 영웅 사망 판정, 슬롯 해제, 전장 효과 종료, 기록·sequence 갱신은 원자적으로 처리한다.
 - 저장 복구 후 살아 있는 영웅 인스턴스와 active 슬롯이 서로 불일치하면 오류로 처리하고 무단으로 새 영웅을 생성하지 않는다.
 - 정비시간 checkpoint 복구 시 살아 있는 active 영웅 인스턴스를 전투 종료 인스턴스로 오인하지 않는다.
 - Stage 경계 persistent state는 `HeroPersistentBattleState`로 별도 원자 저장한다.
+- 재출전 시 토큰 created_sequence와 latest death sequence를 원자 검증한다.
 
 ## 7. UX 책임
 
 - active 영웅 초상·전선·생존 상태·슬롯 점유를 항상 확인할 수 있게 한다.
 - 영웅 상세·보관함 화면에 `퇴각 불가`, `교체 불가`, `사망 또는 작전 종료 시 슬롯 해제`를 명시한다.
-- 새 영웅 후보가 비활성화된 경우 현재 영웅과 점유 전선을 보여 준다.
+- 영웅 사망 시 `회수 보상 없음`, `토큰 반환 없음`, `사망 이후 새 [영웅] 결과 필요`를 명확히 표시한다.
+- 사망 전 보관 토큰은 원본 병종 사용 가능·이름 지정 영웅 재출전 불가를 구분해 표시한다.
+- 새 영웅 후보가 비활성화된 경우 현재 영웅 또는 provenance 미충족 사유를 보여 준다.
 - 수동 퇴각이 가능한 것처럼 보이는 귀환·교체·판매 버튼을 노출하지 않는다.
 - Stage·Act 전환과 정비시간 화면에서 영웅이 유지된다는 사실을 명확히 보여 준다.
 - 정비시간을 영웅 교체 화면처럼 표현하지 않는다.
@@ -143,23 +154,24 @@ ApprovedHeroEndedReason:
 | 안전할 때 영웅을 회수해 위험을 제거한다 | 유효 | 수동 퇴각·교대·판매·보관 금지 |
 | Stage 종료마다 무료로 영웅을 바꾼다 | 유효 | Stage·Act 전환과 정비시간에도 동일 인스턴스 유지 |
 | 정비시간을 영웅 교체 창구로 사용한다 | 유효 | 정비시간은 active 슬롯 해제 사건이 아니며 살아 있는 영웅 변환 차단 유지 |
-| 영웅 사망 후 자동 부활로 토큰 비용을 우회한다 | 유효 | 새 출전마다 새 영웅 등급 토큰 소비 |
+| 영웅 사망 후 자동 부활로 토큰 비용을 우회한다 | 유효 | 사망 후 룰렛에서 새 동병종 영웅 등급 결과가 필요 |
+| 사망 전 보관 토큰으로 즉시 교대한다 | 유효 | 이름 지정 영웅 재출전은 post-death provenance 토큰만 허용 |
 | 사망한 영웅 효과가 남아 단일 활성 제한을 우회한다 | 유효 | active 효과는 슬롯 해제와 함께 종료, 예외는 개별 능력에 명시 |
-| 저장 복구로 영웅이 둘이 되거나 슬롯이 잠긴다 | 유효 | 사망·종료·슬롯 해제를 원자 기록하고 fault test 필요 |
-| Stage 상태가 문서마다 다르게 해석된다 | 해결됨 | 후속 Stage State Persistence 문서로 HP·쿨다운·전투 잔여 상태를 단일 소유 |
+| 저장 복구로 영웅이 둘이 되거나 슬롯이 잠긴다 | 유효 | 사망·종료·sequence·슬롯 해제를 원자 기록하고 fault test 필요 |
+| Stage 상태가 문서마다 다르게 해석된다 | 해결됨 | Stage State Persistence 문서로 HP·쿨다운·전투 잔여 상태를 단일 소유 |
 
 ## 9. 미확정 항목
 
-- 반복 출전 시 새 인스턴스의 초기 HP·쿨다운·충전·고유 자원.
 - 영웅별 능력·명단·등급·수치.
 - 영속 동반자·소환 특화 영웅의 개별 예외.
-- 영웅 사망 연출·결과 로그·접근성 피드백.
+- 영웅 사망·post-death 결과 필요 연출·로그·접근성 피드백.
+- 이름 지정 영웅과 원본 영웅 등급 병종의 power budget.
 
 ## 10. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
-= 사망 뒤 새 영웅 등급 토큰을 소비해 재배치하는 새 영웅 인스턴스의 HP·쿨다운·충전·고유 자원 초기값
+OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
+= 이름 지정 영웅과 원본 [영웅] 등급 병종의 총 전투 예산·전문화·약점 관계
 ```
 
 ## 11. 상태 경계
@@ -170,9 +182,10 @@ MANUAL_RETREAT: FORBIDDEN
 MANUAL_REPLACEMENT: FORBIDDEN
 STAGE_ACT_MAINTENANCE_TRANSITION: SAME_HERO_INSTANCE_REMAINS
 ACTIVE_SLOT_CLEAR: HERO_DEATH_OR_MAPRUN_END
-NEW_DEPLOYMENT: NEW_HERO_GRADE_TOKEN_REQUIRED
-STAGE_STATE: RESOLVED_BY_OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
-REDEPLOYMENT_INITIAL_STATE: PENDING
+DEATH_RECOVERY_REWARD: NONE
+PRE_DEATH_STORED_TOKEN_FOR_NAMED_HERO_REDEPLOYMENT: FORBIDDEN
+POST_DEATH_MATCHING_HERO_GRADE_RESULT: REQUIRED
+FRESH_INSTANCE_INITIAL_STATE: RESOLVED
 SIMULATION: NOT_RUN
 RUNTIME: NOT_RUN
 HUMAN_QA: NOT_RUN
