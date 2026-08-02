@@ -11,9 +11,9 @@ current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
-context_baseline_commit: a521cf744533139063a72ab358b4381d2aae6f0b
+context_baseline_commit: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
 working_branch: gpt/omenward-gameplay-planning-20260802
-active_base_version: 9.4.1
+active_base_version: 9.4.2
 current_product: LEGACY_PROTOTYPE
 latest_planning: USER_APPROVED / ACTIVE_BRANCH_SYNCED / NOT_IMPLEMENTED
 product_code_authority: NONE
@@ -26,6 +26,7 @@ current_grill_me_count: 10
 future_merge_cadence: 10
 preflight: CONTENT_PASS / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED_BEFORE_MERGE
 preflight_report: docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
 merge_authorization: NOT_GRANTED
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
@@ -148,6 +149,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
 - `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
+- `docs/operations/PR121_MAIN_SYNC_V942_NOTE_2026-08-02.md`
 
 ## 7. preflight·병합 상태
 
