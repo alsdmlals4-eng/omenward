@@ -7,15 +7,15 @@ spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG
 workbook_role: USER_FACING_GDD_WORKSPACE
 sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1
+current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 baseline_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
 sheet_status: PROJECT_SHEET_CONFIGURED / ACTIVE_DECISION_SYNC
-current_grill_me_count: 2
-next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
+current_grill_me_count: 3
+next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 last_full_audit: 2026-08-02
 ```
 
@@ -46,31 +46,31 @@ Grill Me approval count
 | `02_현재_확정결정` | 같은 Decision ID의 승인 내용 |
 | `04_누락_충돌_감사` | 적대적 finding·해결·검증·merge blocker |
 | `05_GDD_요약` | 최신 게임플레이·Meta·구현 요약 |
-| `15_조작_게임규칙` | 런 준비·등록·룰렛·배치 규칙 |
-| `41_성장_경제` | 영구재화·주점·병영·연구·영웅 해금·등록 |
+| `15_조작_게임규칙` | 룰렛·보관함 변환·전선 배치 규칙 |
+| `41_성장_경제` | 영구재화·주점·영웅 명부·병영·연구 |
 | `50_메인콘텐츠` | Stage·적 역할·영웅 활용 콘텐츠 |
-| `60_UX_UI_접근성` | 메인 허브·주점·런 등록 화면·정보 위계 |
+| `60_UX_UI_접근성` | 메인 허브·주점·보관함 영웅 변환·정보 위계 |
 | `99_변경이력` | GitHub path·HEAD·Sheet 범위·read-back·merge 결과 |
 
 ## 3. 현재 동기화 Decision
 
-Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1`
+Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1`
 
 ```text
-기존 병종
-→ 고정 대응 영웅
-→ 주점 공개 노드에서 영구 해금
-→ 런 시작 전 대응 병종에 등록
-→ 등록된 영웅만 해당 런에서 사용 가능
+병종별 영웅 후보 복수 가능
+→ 주점에서 영구 해금·Profile 명부 등록
+→ 룰렛에서 같은 병종 [영웅] 등급 토큰 획득
+→ 보관함에서 원본 유지 또는 해금 영웅 선택
+→ 1토큰을 1유닛으로 변환
+→ 한 전선에 비가역 배치
 ```
 
-- 영웅은 하나의 기존 `UnitArchetype`에 고정 연결한다.
-- 해금은 영구 Profile 소유권, 등록은 해당 런의 사용 자격이다.
-- 다른 병종에 교차 등록하지 않는다.
-- 등록은 런 시작 스냅샷에 고정하며 런 중 변경하지 않는다.
-- 등록은 즉시 전장 배치·전 구간 패시브·릴 odds 변경이 아니다.
-- 미해금·미등록 기본 병종도 완전하고 전체 콘텐츠 완료가 가능해야 한다.
-- 동시에 등록 가능한 수와 전장 등장 방식은 pending이다.
+- 별도의 런 시작 전 영웅 등록·계약 단계는 없다.
+- 병종 불일치·미해금 영웅은 변환 후보가 아니다.
+- 변환하지 않은 원본 영웅 등급 병종도 정상 사용 가능하다.
+- 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
+- 배치 확정 전 취소 가능, 확정 뒤 undo·회수·판매·라인 변경 불가다.
+- 동일 영웅 중복 배치와 동병종 활성 상한은 pending이다.
 
 ## 4. 기존 승인 연결
 
@@ -100,7 +100,8 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1`
 |---|---|
 | 제품 코어 | `docs/PROJECT_CORE.md` |
 | 현재 승인 Decision | `docs/PROJECT_CANON_DECISION_LEDGER.md` |
-| 영웅 해금·등록 | `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` |
+| 영웅 해금·명부 | `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` |
+| 영웅 토큰 변환·배치 | `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` |
 | 주점·병영·연구 | `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` |
 | Profile 성장 | `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` |
 | 이계 생물종·경계파쇄자 | `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` |
@@ -113,10 +114,11 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1`
 ## 7. 금지
 
 - Sheet-only 변경을 승인 Decision으로 처리.
-- 영웅 해금과 런 등록을 하나의 자동 적용으로 혼합.
+- 영웅 해금을 모든 런의 자동 효과로 처리.
 - 영웅을 다른 병종에 자유 배속.
-- 등록을 숨은 릴 확률 상승·전역 능력치 누적으로 처리.
-- 영웅 미해금을 이유로 기본 병종을 불완전하게 설계.
+- 별도 pre-run 영웅 계약을 다시 도입.
+- 영웅 변환을 숨은 릴 확률 상승·전역 능력치·보너스 유닛으로 처리.
+- 영웅 미해금을 이유로 원본 영웅 등급 병종을 불완전하게 설계.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
 
 ## 8. 현재 상태
@@ -124,7 +126,7 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1`
 ```text
 SHEET_STATUS = ACTIVE_DECISION_SYNC
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-GRILL_ME_COUNTER = 2_OF_10
-NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
+GRILL_ME_COUNTER = 3_OF_10
+NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 PRODUCT_CODE = UNCHANGED
 ```
