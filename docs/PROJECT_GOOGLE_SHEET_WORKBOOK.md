@@ -13,7 +13,7 @@ working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / ACTIVE_DECISION_SYNC / READBACK_PENDING / CI_PENDING
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
 current_grill_me_count: 6
 next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
 last_full_audit: 2026-08-02
@@ -85,14 +85,17 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1`
 ## 4. 동기화 증거
 
 ```text
-GITHUB_AUTHORITY_SYNC: PASS
-SHEET_WRITE: PENDING
-SHEET_BOUNDED_READBACK: PENDING
-EXACT_PR_HEAD: PENDING
-REQUIRED_CI_AT_EXACT_HEAD: PENDING
+PR #121 verified head before workbook closure commit:
+20e5fd1fb446dc03fadafb90c22305d786b1d499
+
+SHEET_BOUNDED_READBACK: PASS
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 559: PASS
+- GDD Sheet Adoption run 270: PASS
+- Base v9 adoption run 245: PASS
 ```
 
-예정 동기화 범위:
+동기화 범위:
 
 - `00_프로젝트_허브!E2:L2`
 - `01_작업순서!A21:N21`
@@ -100,11 +103,11 @@ REQUIRED_CI_AT_EXACT_HEAD: PENDING
 - `04_누락_충돌_감사!A78:H83`
 - `05_GDD_요약!D8:J8`
 - `05_GDD_요약!B9:J9`
-- `12_핵심루프` 신규/갱신 행
+- `12_핵심루프!A6:J7`
 - `15_조작_게임규칙!A10:J10`
-- `40_핵심시스템_메인콘텐츠` 신규/갱신 행
-- `50_메인콘텐츠` 신규/갱신 행
-- `60_UX_UI_접근성` 신규/갱신 행
+- `40_핵심시스템_메인콘텐츠!A9:J10`
+- `50_메인콘텐츠!A16:J17`
+- `60_UX_UI_접근성!A17:J18`
 - `99_변경이력!A31:H31`
 
 ## 5. 기존 승인 연결
@@ -176,7 +179,7 @@ REQUIRED_CI_AT_EXACT_HEAD: PENDING
 ## 9. 현재 상태
 
 ```text
-SHEET_STATUS = ACTIVE_DECISION_SYNC / READBACK_PENDING / CI_PENDING
+SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 GRILL_ME_COUNTER = 6_OF_10
 NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
