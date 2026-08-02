@@ -7,11 +7,11 @@ current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-canonical_main: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
 active_base: 9.4.2
-last_merged_pr: 121
-last_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+last_merged_planning_pr: 121
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 grill_me_approved_since_last_merge: 0
@@ -22,7 +22,7 @@ preflight: PR121_PASS_AND_MERGED
 next_gate: NEXT_PLANNING_BATCH_SELECTION
 ```
 
-이 문서는 승인 Decision·상태·병합 카운트를 소유한다. 제품 정체성은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 책임 원본은 `DOCUMENTATION_MAP.md`가 소유한다.
+`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. `pr121_merge_commit`은 아래 승인 10건을 main 정본으로 만든 역사적 증거다.
 
 ## 1. 상태 언어
 
@@ -62,7 +62,7 @@ TEN_APPROVED_GRILL_ME_DECISIONS
 PR = 121
 PR_HEAD = 79cb43b71d0072374a9586bb66dd4a24c3b069a9
 MERGE_METHOD = SQUASH
-MERGE_COMMIT = 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+PR121_MERGE_COMMIT = 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 PREMERGE_PROJECT_CORE_RUN = 630_PASS
 PREMERGE_GDD_SHEET_RUN = 347_PASS
 PREMERGE_BASE_V9_RUN = 324_PASS
