@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 status: CURRENT_DECISION_LEDGER / TOTAL_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-META-PROGRESSION-ROLE-V1
+current_planning_decision: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 canonical_baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
@@ -12,8 +12,8 @@ recovery_pr: 119
 superseded_planning_pr: 116
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
-ci_validation: META_DECISION_CONTENT_HEAD_2DA4E1BE_3_GREEN / FINAL_PR_HEAD_GATED
+sheet_sync: WORLD_RUN_SYNC_IN_PROGRESS
+ci_validation: PENDING_CURRENT_HEAD
 ```
 
 이 문서는 **현재 승인 Decision과 상태**만 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 라우팅은 `DOCUMENTATION_MAP.md`가 소유한다.
@@ -37,6 +37,7 @@ RECOMMENDED_DEFAULT
 
 | Decision ID | 상태 | 현재 결정 | 권위·계보 | 구현·검증 |
 |---|---|---|---|---|
+| `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | `USER_APPROVED / CURRENT / SYNC_IN_PROGRESS` | 각 MapRun은 징조로 감지된 별개의 실제 경계 공세이며, 징조는 제한된 예측 정보다. 승리는 한 균열·침공로 봉쇄, 패배는 전진 방어선 붕괴이며 시간 반복·가상 시뮬레이션이 아니다 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | 세계 상세·서사 콘텐츠·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | `USER_APPROVED / CURRENT / CONTENT_SYNCED` | 수평 해금·제한 편의를 주축으로 하고 한 런 1개·유한 랭크·초반 한정의 선택형 준비 보정으로 소규모 영구 전투력을 포함 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | exact values·simulation·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / SYNCED` | Base v9.4와 현재 main에서 깨끗한 정본 복구 PR을 만들고 PR #116은 역사 증거로 대체 | recovery audit, PR #119, connected Sheet | 문서·Sheet sync·CI Green, 제품 변경 없음 |
 | `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | `INHERITED_USER_APPROVED_PLAN` | 전장 1개·4막·Stage 20·일반 공세 8·위험 패키지 4·보스 패키지 3·미션 카드 12 | PR #116 승인 계보 | 미구현·미검증 |
@@ -47,7 +48,7 @@ RECOMMENDED_DEFAULT
 | `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2` | `INHERITED_TEXT_SPEC / IMAGE_NOT_APPROVED` | 8개 독립 제품 화면과 정보 위계 방향 | PR #116 승인 계보 | 이미지·엔진 UI 미검증 |
 | `OMW-DEC-20260801-ECONOMY-RETRY-SAVE-PLANNING-V1` | `INHERITED_STRUCTURE_CURRENT / VALUES_PENDING` | MapRun/Profile 경제 분리, Retry·checkpoint·Journal·Backup 구조 | PR #116 승인 계보 | simulator·schema·fault test 미실행 |
 | `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | `INHERITED_SPEC_WRITTEN_NOT_EXECUTED` | 최신 3릴·30노드·5건물·fixed capture·paid Retry의 Red test 책임 정의 | PR #116 승인 계보 | 실제 test files 없음 |
-| `OMW-DEC-20260731-CANON-SYNC-V1` | `INHERITED_OPERATING_RULE` | 주요 승인 Decision은 GitHub와 Sheet에 같은 ID·commit으로 즉시 동기화 | PR #116 승인 계보 | recovery와 Meta Decision에서 재검증됨 |
+| `OMW-DEC-20260731-CANON-SYNC-V1` | `INHERITED_OPERATING_RULE` | 주요 승인 Decision은 GitHub와 Sheet에 같은 ID·commit으로 즉시 동기화 | PR #116 승인 계보 | recovery와 후속 Decision에서 재검증 |
 
 ## 3. 보호된 제품 기획
 
@@ -64,7 +65,26 @@ RECOMMENDED_DEFAULT
 - 금고·농장·타워·병영·지휘소.
 - 벨루 안내자.
 
-## 4. Profile 영구 성장 정본
+## 4. 세계·MapRun 반복 동기 정본
+
+```text
+징조 감지
+→ 별개의 실제 경계 방어 작전
+→ 4막·20 Stage 공세 고조
+→ 균열/침공로 봉쇄 또는 전진 방어선 붕괴
+→ 기록·교리·정산된 성과가 Profile로 귀환
+```
+
+- 같은 멸망의 날을 반복하지 않는다.
+- 모든 전투가 가상 시뮬레이션이었다는 반전을 사용하지 않는다.
+- 징조는 공세의 구조와 치명적 행동을 제한적으로 예고하지만 결과를 확정하지 않는다.
+- Stage 20 승리는 해당 공세를 실제로 막은 결과이며, 다른 베일·침공로가 존재해 전쟁은 지속된다.
+- 패배는 실제 피해와 철수로 남는다. paid Retry는 시간 되감기가 아니라 같은 공세의 비상 재투입이다.
+- Profile은 실제 작전에서 축적된 교리·보급망·기록·준비 체계다.
+- 벨루는 시간 루프 기억자가 아니라 공세를 관측·기록하고 인과를 설명하는 안내자다.
+- 기존 `루메른 왕국·루미엔 영토·트리븐 전선·실베른 성채·베일런 황야·베일의 법칙·베일종` 명칭 계보는 보존하지만 최종 정의는 후속 세계관 Decision에서 재검증한다.
+
+## 5. Profile 영구 성장 정본
 
 ```text
 PRIMARY = 수평 해금 + 제한된 편의
@@ -81,7 +101,7 @@ FORBIDDEN = 무한 영구 능력치 누적
 - Retry는 spendable balance를 소비하고 준비 보정은 누적 정산 milestone으로 해금하는 것을 권장한다.
 - 정확 효과량·milestone·비용은 시험값과 100K Profile trajectory 뒤 별도 승인한다.
 
-## 5. 현재 실제 구현 경계
+## 6. 현재 실제 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -97,9 +117,9 @@ CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 ```
 
-Profile 영구 성장·수평 해금·준비 보정·paid Retry는 제품에 구현되지 않았다.
+세계·MapRun 정본, Profile 영구 성장, 수평 해금, 준비 보정, paid Retry는 제품에 구현되지 않았다.
 
-## 6. 상세 수치 정책
+## 7. 상세 수치 정책
 
 ```text
 기획 철학·플레이어 결과 확정
@@ -114,25 +134,20 @@ Profile 영구 성장·수평 해금·준비 보정·paid Retry는 제품에 구
 
 과거 코드와 문서의 `20 gold spin`, `160 starting gold`, `70/50/40 refund` 등은 `LEGACY_H0 / HISTORICAL_ONLY`이며 현재 제품값이 아니다.
 
-영구 성장 후보의 현재 권장 시험 가드레일은 제품값이 아니다.
-
-- 최고 Profile과 기본 Profile의 full-run 승률 차이 상한 후보: 5 percentage points.
-- Act 1 clear-rate 차이 후보 범위: 3~8 percentage points.
-- 준비 보정 후보군: 3개.
-- 한 런 장착 수: 1개 승인.
-- 준비 보정별 랭크 후보: 2단계.
-
-## 7. 적대적 검토 판정
+## 8. 적대적 검토 판정
 
 ### 해결된 핵심 충돌
 
+- 반복 전투가 시간 루프인가 실제 전쟁인가: 별개의 실제 경계 공세로 확정.
+- Stage 20 승리 뒤 반복의 의미: 한 균열·침공로는 봉쇄되지만 전쟁 전체는 지속.
+- 징조가 선택을 무효화하는 문제: 공세 구조를 예고하지만 결과는 확정하지 않음.
+- Profile 성장의 세계관 의미: 전술 교리·보급망·기록·준비 체계의 축적.
 - 영구 성장 없음으로 반복 동기가 약해지는 위험: 수평 해금과 제한된 준비 보정으로 보완.
 - 직접 능력치 누적으로 노가다가 정답이 되는 위험: 한 런 1개·유한 랭크·초반 한정으로 제한.
-- Retry와 전투력 구매가 같은 재화를 두고 경쟁하는 위험: 준비 보정은 누적 milestone 해금으로 분리.
-- 수평 해금이 숨은 상위 호환이 되는 위험: sidegrade 비용·조건·채택률 검증을 의무화.
 
 ### RESEARCH_OR_TEST_REQUIRED
 
+- 세계 규모·공세 빈도·한 작전의 인명·영토 지속 결과.
 - `P0_BASE_PROFILE`, `P1_HORIZONTAL_ONLY`, `P2_HYBRID_MAX_CANDIDATE` 100K Profile trajectory 비교.
 - 준비 보정별 지배 전략·후반 꼬리 seed·실패 귀인.
 - 성장 체감과 노가다 강제감 사람 검증.
@@ -140,16 +155,18 @@ Profile 영구 성장·수평 해금·준비 보정·paid Retry는 제품에 구
 - save/retry fault injection.
 - 일반/위험 Stage 인지 부하.
 - 35분 런 피로도.
-- 1080p·720p 가독성·접근성.
 
-## 8. USER_DECISION_REQUIRED
+## 9. USER_DECISION_REQUIRED
 
 | 순서 | Decision ID | 질문 | 상태 |
 |---|---|---|---|
-| 1 | `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | 20 Stage 반복과 세계·플레이어 동기의 연결 | `READY` |
-| 2 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED` |
+| 1 | `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` | 베일의 본질과 세계의 경계 상태 | `READY` |
+| 2 | 오멘워드 조직·루메른 왕국·지휘관의 정치적 위치 | 세계 조직 결정 | `QUEUED` |
+| 3 | 베일종·경계파쇄자의 발생·지성·목적 | 적대 존재 결정 | `QUEUED` |
+| 4 | 징조·세 물리 릴·TokenSource의 세계 내 원리 | 시스템 세계관 연결 | `QUEUED` |
+| 5 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED_AFTER_WORLD_CORE` |
 
-## 9. 검증 기준
+## 10. 검증 기준
 
 ```text
 RECOVERY_DECISION_ID_MATCH: PASS
@@ -157,17 +174,16 @@ BASE_V9_4_CURRENT: PASS
 PR_116_CLOSED_NOT_MERGED: PASS
 PR_119_CURRENT_DRAFT: PASS
 PRODUCT_PATH_CHANGES: 0
-RECOVERY_SHEET_READBACK: PASS
-META_DECISION_CONTENT_READBACK: PASS
-META_DECISION_CONTENT_HEAD_2DA4E1BE_CI_3_GREEN: PASS
-EXACT_PR_HEAD: TRACKED_IN_PR_AND_SHEET
+WORLD_RUN_GITHUB_SYNC: IN_PROGRESS
+WORLD_RUN_SHEET_READBACK: PENDING
+EXACT_PR_HEAD: TRACK_IN_PR_AND_SHEET_AFTER_SYNC
 RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```
 
-## 10. 현재 다음 Gate
+## 11. 현재 다음 Gate
 
 ```text
-Grill Me #2: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
+Grill Me: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 ```
 
 ```text
