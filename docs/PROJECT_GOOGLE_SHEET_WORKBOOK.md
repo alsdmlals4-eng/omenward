@@ -14,7 +14,7 @@ working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base: 9.4.3
 last_merged_planning_pr: 127
 current_planning_pr: 129
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNC_TO_PR_129_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED
 current_grill_me_count: 2
 preflight: NEXT_AT_10_OF_10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
@@ -58,24 +58,48 @@ Decision:
 - `[사용스킬]`은 수동 버튼이 아닌 규칙 기반 자동 발동이다.
 - 고유 자원·궁극기·신규 AI·전체 신규 애니메이션은 기본 금지다.
 
-## 3. 주요 탭 동기화 목적
+## 3. Sheet 동기화 범위
 
-| 탭 | 이번 Decision 반영 내용 |
-|---|---|
-| `00_프로젝트_허브` | PR #129·Decision·2/10·다음 Gate |
-| `01_작업순서` | 단일 상쇄 축 승인과 초기 영웅 범위 후속 결정 |
-| `02_현재_확정결정` | 원본 복사·관련 축 하나 상쇄 승인 |
-| `04_누락_충돌_감사` | 무료 능력·무관 축·다축 재설계·함정 영웅 위험 |
-| `05_GDD_요약` | 스킨형 단일 차이와 단일 상쇄 축 요약 |
-| `12_핵심루프` | 원본/영웅의 얻는 것·잃는 것 판단 |
-| `15_조작_게임규칙` | `compensation_axis_count == 1` 불변식 |
-| `40_핵심시스템_메인콘텐츠` | `HeroSignatureDeltaBalanceSpec` 방향 |
-| `41_성장_경제` | 해금이 무료 수직 강화가 아님을 유지 |
-| `50_메인콘텐츠` | 상쇄 축이 실제로 드러나는 encounter 요구 |
-| `60_UX_UI_접근성` | 얻는 것 하나·잃는 것 하나 비교 표시 |
-| `99_변경이력` | GitHub path·PR SHA·read-back 상태 |
+- `00_프로젝트_허브!E2:L2`
+- `01_작업순서!A29:N29`
+- `02_현재_확정결정!A37:M37`
+- `04_누락_충돌_감사!A122:H128`
+- `05_GDD_요약!D8:J8`
+- `05_GDD_요약!B9:J9`
+- `12_핵심루프!A13:J13`
+- `15_조작_게임규칙!A16:J16`
+- `40_핵심시스템_메인콘텐츠!A16:J16`
+- `41_성장_경제!A26:I26`
+- `50_메인콘텐츠!A23:J23`
+- `60_UX_UI_접근성!A24:J24`
+- `99_변경이력!A39:H39`
 
-## 4. 감사 기준
+bounded read-back:
+
+```text
+SAME_DECISION_ID = PASS
+GRILL_ME_COUNT = 2_OF_10
+SOURCE_PROFILE_INHERITANCE = PASS
+ONE_RELATED_COMPENSATION_AXIS = PASS
+PRODUCT_STATUS = NOT_IMPLEMENTED
+```
+
+## 4. 후보 HEAD 검증
+
+후보 증거 HEAD:
+
+`b34dd6179af8d1ad7fe4b16fba88db2125c6c1f9`
+
+```text
+Validate Project Core Documentation: PASS / run 663
+Validate Omenward GDD Sheet Adoption: PASS / run 383
+Validate Base v9 adoption: PASS / run 364
+SHEET_READBACK = PASS
+```
+
+이 Workbook 마감 커밋으로 PR HEAD가 이동하므로 최종 exact HEAD에서 필수 CI·latest main compare·Sheet SHA를 다시 확인한다.
+
+## 5. 감사 기준
 
 ```text
 SIGNATURE_DELTA_COUNT = 1
@@ -87,7 +111,7 @@ FREE_SIGNATURE_POWER = FORBIDDEN
 PRODUCT_IMPLEMENTED = FALSE
 ```
 
-## 5. 책임 원본
+## 6. 책임 원본
 
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
@@ -98,7 +122,7 @@ PRODUCT_IMPLEMENTED = FALSE
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 
-## 6. 구현·검증 경계
+## 7. 구현·검증 경계
 
 ```text
 PROJECT_SHEET_CONFIGURED
@@ -111,7 +135,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영·다음 Gate
+## 8. 운영·다음 Gate
 
 - 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
 - 현재 카운터는 `2/10`이다.
