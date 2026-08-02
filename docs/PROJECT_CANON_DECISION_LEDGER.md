@@ -2,22 +2,27 @@
 
 ```yaml
 updated_at: 2026-08-02
-status: CURRENT_DECISION_LEDGER / MAIN_SYNCED
+status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
-current_world_decision: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-planning_merge_pr: 119_MERGED
-planning_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
-active_base: 9.4.0
+canonical_main: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
+working_branch: gpt/omenward-gameplay-planning-20260802
+active_base: 9.4.2
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-grill_me_approved_since_last_merge: 0
+grill_me_approved_since_last_merge: 10
 future_merge_cadence: 10_APPROVED_GRILL_ME_DECISIONS
-next_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
+preflight: CONTENT_PASS / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED_BEFORE_MERGE
+preflight_report: reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md
+merge_authorization: NOT_GRANTED
+next_gate: USER_EXPLICIT_MERGE_DECISION_AFTER_FINAL_EXACT_HEAD_VERIFICATION
 ```
 
-이 문서는 현재 승인 Decision과 상태를 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 책임 원본은 `DOCUMENTATION_MAP.md`가 소유한다.
+이 문서는 현재 승인 Decision·상태·병합 카운트를 소유한다. 제품 정체성은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 책임 원본은 `DOCUMENTATION_MAP.md`가 소유한다.
 
 ## 1. 상태 언어
 
@@ -28,167 +33,106 @@ USER_APPROVED_PLAN
 != HUMAN_VALIDATED
 != RELEASE_READY
 
-RECOMMENDED_DEFAULT
-!= USER_APPROVED_VALUE
-!= IMPLEMENTED_VALUE
-!= VALIDATED_VALUE
+TEN_APPROVED_GRILL_ME_DECISIONS
+= PREFLIGHT_TRIGGER
+!= AUTO_MERGE
 
-HISTORICAL_APPROVAL_EVIDENCE
-!= CURRENT_LOCAL_AUTHORITY
+CONTENT_PREFLIGHT_PASS
+= DOCS_ONLY_ELIGIBLE_AFTER_FINAL_HEAD_REVALIDATION
+!= MERGE_AUTHORIZED
 ```
 
-## 2. 현재 승인 Decision
+## 2. 현재 승인 Decision 10건
 
 | Decision ID | 상태 | 결정 | 현재 책임 원본 | 미완료 경계 |
 |---|---|---|---|---|
-| `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` | `USER_APPROVED / MAIN_SYNCED` | 오멘워드는 루메른 왕실 인가 자율 경계대응단이며 활성 작전에서 제한된 비상 지휘권을 갖고 평시·작전 후 감사와 지방 협조를 따른다 | `design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md` | 왕실 인물·법률명·최종 직함·세력 상세 pending |
-| `OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1` | `USER_APPROVED / MAIN_SYNCED` | 메인 허브에 주점·허브 병영·연구를 두고 정산 영구재화로 유한 공개 노드를 개방한다 | `design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` | 비용·노드 수·영웅 목록·등급·능력·출전 상한 pending |
-| `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1` | `CURRENT_OPERATING_RULE / MAIN_SYNCED` | 승인 Grill Me 10건마다 적대적 병합 preflight를 실행하고 blocker 0일 때만 병합한다 | `operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` | 현재 카운터 `0/10` |
-| `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` | `USER_APPROVED / MAIN_SYNCED` | 베일은 현실과 이질적인 외부 법칙 영역의 비의지적 경계 겹침이며 생태적 증식은 법칙 충돌의 물질 패턴이다 | `design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md` | 기원·외부 영역 구조·베일종 목적 pending |
-| `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | `USER_APPROVED / MAIN_SYNCED` | 각 MapRun은 징조로 감지된 별개의 실제 경계 공세이고 승리는 한 침공로 봉쇄, 패배는 실제 방어선 붕괴다 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | 지역·세력·지속 결과 상세 pending |
-| `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | `USER_APPROVED / MAIN_SYNCED` | 수평 해금·제한 편의를 주축으로 하고 한 런 1개·유한 랭크·초반 한정 준비 보정을 보조축으로 둔다 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | exact values·simulation·runtime·human validation pending |
-| `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / MERGED` | Base v9.4 기준으로 정본을 복구하고 PR #116은 역사 증거로 보존 | recovery audit, PR #119 | PR #119 squash merge verified |
-| `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2` | `INHERITED_APPROVED / MAIN_SYNCED_LOCAL_AUTHORITY` | 메인 허브부터 Retry까지 8개 화면과 정보 위계; 메인 허브에 주점·병영·연구 확장 | `design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md` | image·Godot UI·runtime·human validation pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 이름 지정 영웅의 기본 공격과 전투 능력은 공개 trigger·고정 ability priority·target priority·결정론적 tie-break에 따라 자동 발동하며 수동 스킬 버튼·수동 타깃 지정은 없다 | `design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` | 정확 능력·trigger·priority·tick·수치·runtime pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 이름 지정 영웅은 원본 `[영웅]` 등급 병종과 유사한 평균 총 전투 예산, 조건부 고점, 고유 전술 정체성, 명시적 약점과 원본 선택 사유를 가진 전문화 sidegrade다 | `design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md` | 정확 예산식·가중치·허용 편차·simulation pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 영웅 사망은 회수 보상을 제공하지 않으며 재출전에는 사망 이후 새 동병종 `[영웅]` 등급 룰렛 결과가 필요하고 새 인스턴스는 최대 HP·준비 상태로 시작한다 | `design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` | provenance fault test·정확 초기값 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 생존 영웅의 HP·쿨다운·충전·고유 자원은 Stage를 넘어 유지하고 일시 전투 상태는 정산에서 제거하며 정비시간에는 영웅 clock을 정지한다 | `design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` | 영속 동반자 예외·runtime pending |
+| `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | `맵 → MapRun → Stage → Wave → 정산 → 정비시간` 계층을 사용하고 네 가지 운영 기능은 Stage와 정비시간 모두 사용 가능하다 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | 일반 clock matrix·정확 길이·Wave 편성 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 배치 영웅은 수동 퇴각·교대할 수 없고 생존 시 Stage·Act·정비시간을 넘어 같은 인스턴스로 유지된다 | `design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` | 사망 연출·로그 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 세 전선 전체 active 이름 지정 영웅은 최대 1명이며 이전 인스턴스 종료 뒤 같은 영웅도 새 적격 토큰으로 반복 출전 가능하다 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | 영웅별 능력·토큰 빈도 simulation pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 룰렛의 동병종 `[영웅]` 등급 토큰을 원본 병종으로 유지하거나 해금된 동병종 영웅 하나로 1:1 변환해 한 전선에 비가역 배치한다 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | 정확 UI·transaction runtime pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 각 영웅은 기존 병종 하나에 고정 연결되며 같은 병종에 복수 영웅을 해금할 수 있고 해금 시 Profile 명부에 영구 등록된다 | `design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` | 병종별 영웅 명단·비용 pending |
+| `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 베일종은 균열을 통해 유입된 다양한 이계 생물의 통칭이며 상세 문명·정치 설명을 제품 범위로 요구하지 않는다 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | 적 명단·행동·Act 배치 pending |
 
-## 3. 병합 완료 증거
+## 3. 기존 main 승인 연결
 
-```text
-PR: 119
-PR_STATE: CLOSED / MERGED
-VERIFIED_HEAD: 230b250a21d87b7f37a644d227d2a459ba1fddc4
-SQUASH_MERGE_COMMIT: 26b0a39fbf576557f2658723dee8405c2ea07a6f
-OPEN_P0: 0
-OPEN_P1_MERGE_BLOCKER: 0
-COMMENTS_REVIEWS_THREADS: 0
-PRODUCT_PATH_CHANGES: 0
-REQUIRED_CI_AT_HEAD: 3_GREEN
-```
+- `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1`
+- `OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1`
+- `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1`
+- `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1`
+- `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1`
+- `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2`
 
-병합 직전 적대적 검토: `reviews/OMENWARD_PR119_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`.
-
-## 4. 역사 승인 계보
-
-PR #116은 `CLOSED_NOT_MERGED / HISTORICAL_APPROVAL_EVIDENCE`다. 현재 local authority가 아니며 필요한 세부 패키지는 Base v9.4와 최신 Decision을 대조한 뒤 선별 복구한다.
-
-| Decision ID | 보존된 원칙 | 현재 해석 |
-|---|---|---|
-| `OMW-DEC-20260731-CONTENT-MANIFEST-V1` | 전장 1·4막·Stage 20·일반 공세 8·위험 4·보스 3·미션 12 | `INHERITED_PLAN / CONTENT_BREADTH_REVIEW_PENDING` |
-| `OMW-DEC-20260731-DEFEAT-RETRY-V1` | Stage 5 이후 MapRun당 최대 1회 paid Retry·동일 RNG checkpoint | `INHERITED_PRINCIPLE / EXACT_COST_PENDING` |
-| `OMW-DEC-20260731-DANGER-BOSS-V1` | Stage 5·10·15·20 공개 위험 패키지 | `INHERITED_PLAN / EXACT_CONTENT_PENDING` |
-| `OMW-DEC-20260801-PROJECT-INTEGRITY-GATE-V1` | 노드 1종·본진 6/진영·중간 6곳×3·접전지 0·총 30 | `CURRENT_INVARIANT_IN_PROJECT_CORE` |
-| `OMW-DEC-20260801-BELU-IDENTITY-V1` | 정본명 벨루·자동 결정 금지 | `CURRENT_INVARIANT_IN_CONTEXT_AND_SCREEN_SPEC` |
-| `OMW-DEC-20260801-ECONOMY-RETRY-SAVE-PLANNING-V1` | MapRun/Profile 분리·Journal·Backup·100K/fault Gate | `INHERITED_STRUCTURE / IMPLEMENTATION_PACKAGE_PENDING` |
-| `OMW-DEC-20260801-LATEST-CONTRACT-RED-TEST-V1` | 최신 3릴·30노드·5건물·fixed capture·paid Retry Red 책임 | `INHERITED_GATE / TEST_FILES_NOT_CREATED` |
-
-## 5. 보호된 제품 코어
-
-> 공개된 세 전선의 위험을 읽고 건물과 TokenSource로 세 물리 릴의 미래 배열을 설계·영구 편집한 뒤, 얻은 병력을 한 전선에 비가역 커밋하고 결과 원인을 다음 설계에 반영한다.
-
-- PC-primary, 모바일은 미래 고려.
-- 20 Stage·4막·약 35분 목표.
-- 위험 Stage 5·10·15·20.
-- 세 물리 원형 릴·TokenInstance·cursor·3×3 노출.
-- immutable SpinSnapshot과 명시적 한 번 확정.
-- 보관·판매·한 라인 비가역 배치.
-- 상·중·하 3라인·고정시간 점령.
-- 건설 노드 1종·전체 30개.
-- 금고·농장·타워·전장 병영·지휘소.
-- 벨루 비모달 안내자.
-- 실제 경계 공세·제한된 징조·국소 봉쇄·상흔.
-
-## 6. 세계 조직 정본
+## 4. 영웅 자동 발동 정본
 
 ```text
-루메른 왕실 인가
-→ 평시 감독·예산 감사·지방 협조
-→ 징조·경계 비상사태
-→ 오멘워드 현장 지휘관의 제한된 작전 자율권
-→ 균열 봉쇄 또는 철수
-→ 권한 반납·피해·재화·명령 인과 감사
+전투 상태 갱신
+→ 공개 trigger 평가
+→ 고정 ability priority 평가
+→ 공개 target filter·priority·tie-break 적용
+→ 유효성 재검증
+→ 자동 발동
+→ cooldown·charge·resource·결과 기록
 ```
 
-플레이어는 활성 작전 지휘관이며 통치자가 아니다. 영구 통치·무제한 징발·상시 왕국군 지휘·일반 사법권·쿠데타 권한은 없다.
+- 플레이어는 영웅 선택·전선 배치·조합·조건 조성으로 통제한다.
+- 수동 스킬 버튼·수동 타깃 지정·수동 보류는 금지다.
+- 동일 저장 상태와 입력 순서에서는 같은 능력과 대상을 선택한다.
+- 저장·Retry로 자동 판단을 재굴림할 수 없다.
 
-## 7. 메인 허브·Profile 정본
+## 5. preflight 결과
+
+주 책임 원본:
+
+`reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
+
+후보 증거 HEAD `be552b54b96a029dfa042675ae002ad21b96af65`:
 
 ```text
-PRIMARY_ACTION = MAPRUN_ENTRY
-AUXILIARY = TAVERN + HUB_BARRACKS + RESEARCH
-CURRENCY = SETTLED_PERMANENT_CURRENCY_BALANCE
-NODE_GRAPH = FINITE / VISIBLE / DETERMINISTIC
+CONTENT_PREFLIGHT = PASS
+OPEN_P0 = 0
+OPEN_P1 = 0
+MERGE_BLOCKER = 0
+PRODUCT_PATHS = 0
+COMMENTS = 0
+REVIEWS = 0
+UNRESOLVED_THREADS = 0
+Project Core run 615 = PASS
+GDD Sheet run 332 = PASS
+Base v9 run 308 = PASS
 ```
 
-- 주점: 영웅 이상 전문 인재를 공개 노드로 영구 영입. 랜덤 뽑기·유료 재굴림·중복 합성 금지.
-- 허브 병영: 병사·병종·전문화·교리 sidegrade. 전장 TokenSource 병영과 구분.
-- 연구: 대체 건물·TokenSource·미션·징조 분석·편의 sidegrade. 숨은 odds·전 구간 생산 배율·자동 플레이 금지.
-- 기본 Profile로 모든 콘텐츠 완료 가능.
-- balance는 노드·Retry 소비, total은 비감소 milestone 판정.
-- 비용·노드 수·영웅 목록·능력·환불은 pending.
+- Base v9.4.1은 PR #124, Base v9.4.2 planning-first adoption은 PR #125로 main→feature 동기화했다.
+- Documentation Map의 Vertical Slice·review·Evidence Pilot 계보 누락을 복원했다.
+- 과거 `OPEN_P1` CI 행은 역사적 해결 상태로 전환했다.
+- 제품 구현 전 parser·simulation·fault test는 `TEST_REQUIRED`로 유지하되 문서-only 병합 blocker와 분리했다.
+- 최신 main 동기화 이후 최종 exact HEAD 검증이 필요하다.
 
-## 8. 실제 구현 경계
+## 6. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-- independent weighted 9-cell roulette
-- barracks/tower/farm only
-- legacy outpost/capture_power
-- free same-stage restart
-- Label/code-drawn graybox UI
-
-LATEST_APPROVED_NOT_IMPLEMENTED
-- three physical reels and permanent horizontal movement
-- 30-node topology and five MapRun buildings
-- fixed-time capture
-- paid Retry and Profile save
-- real-incursion world and Veil ontology
-- royal-chartered Omenward organization
-- Tavern/Barracks/Research permanent-node hub
-- deterministic Hero+ roster recruitment
+LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+EXACT_VALUES = PENDING
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
 ```
 
-## 9. 남은 검증·결정
-
-### TEST_REQUIRED
-
-- 영웅 보유가 일반 병사와 기본 Profile을 무력화하는지.
-- 주점·병영·연구 중 지배 시설이 생기는지.
-- 노드 구매와 Retry의 같은 지갑 경쟁이 과도한 비축·후회를 만드는지.
-- 메인 허브가 MapRun보다 중요한 메뉴 게임이 되는지.
-- save/journal/fault injection과 사람 가독성.
-
-### USER_DECISION_REQUIRED
-
-- 영웅 등급 체계·명단·출전 상한·능력.
-- 노드 수·비용·환불·영구재화 최종명.
-- 루메른 왕실·지방 세력 상세.
-- 베일종·경계파쇄자의 발생·지성·목적.
-
-## 10. Grill Me·병합 상태
+## 7. 병합 상태
 
 ```text
-LAST_MERGED_BATCH_GRILL_ME_COUNT = 4
-CURRENT_COUNT_SINCE_MERGE = 0_OF_10
-NEXT_PREFLIGHT_TRIGGER = 10_APPROVED_GRILL_ME_DECISIONS
-CURRENT_MERGE_PENDING = NO
+CURRENT_PR = 121
+CURRENT_COUNT_SINCE_MERGE = 10_OF_10
+CONTENT_PREFLIGHT = PASS
+FINAL_EXACT_HEAD_REVALIDATION = REQUIRED_BEFORE_MERGE
+MERGE_AUTHORIZATION = NOT_GRANTED
+DRAFT_MUST_REMAIN = TRUE
+AUTO_MERGE = FORBIDDEN
 ```
 
-직접 요청으로 승인된 보조 허브와 병합 cadence는 이전 Grill Me 카운트에 포함하지 않았다.
-
-## 11. 다음 Gate
-
-```text
-OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-= 베일종·경계파쇄자의 발생·지성·사회·침공 목적
-```
-
-## 12. 상태 경계
-
-```text
-PRODUCT_CODE: NOT_AUTHORIZED
-CODEX: BLOCKED
-EXACT_VALUES: PENDING
-SIMULATION: NOT_RUN
-RUNTIME: NOT_RUN
-HUMAN_QA: NOT_RUN
-MAIN_CANON: PR_119_MERGED_AND_VERIFIED
-```
+최종 exact HEAD가 Green이어도 사용자의 별도 병합 승인 전에는 Ready 전환·병합을 수행하지 않는다.

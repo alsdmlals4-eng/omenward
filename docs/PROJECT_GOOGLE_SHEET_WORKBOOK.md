@@ -7,166 +7,197 @@ spreadsheet_url: https://docs.google.com/spreadsheets/d/1VLwRtXGDtyj0JFt98wdIOtG
 workbook_role: USER_FACING_GDD_WORKSPACE
 sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
-current_sync_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
-planning_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
-active_base: 9.4.0
-last_merged_pr: 119
-superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / POSTMERGE_MAIN_SYNC
-current_grill_me_count: 0
-next_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
+current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
+current_operating_gate: OMW-OPS-20260802-PR121-TEN-DECISION-PREFLIGHT-V1
+baseline_main_commit: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
+working_branch: gpt/omenward-gameplay-planning-20260802
+active_base: 9.4.2
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
+last_merged_pr: 120
+current_pr: 121
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / CONTENT_PREFLIGHT_PASS
+current_grill_me_count: 10
+preflight: CONTENT_PASS / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED_BEFORE_MERGE
+merge_authorization: NOT_GRANTED
 last_full_audit: 2026-08-02
 ```
 
-Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. 독립 정본이 아니며 GitHub의 현재 Decision·책임 원본·실제 구현 상태를 임의로 덮어쓰지 않는다.
-
-`PROJECT_SHEET_CONFIGURED`는 Workbook 연결과 필수 탭 계약이 구성됐음을 뜻한다. exact PR head와 merged main commit을 구분해 기록한다. GitHub 정본에 없는 Sheet-only 편집은 `PROPOSED_SHEET_CHANGE`다.
+Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. 독립 정본이 아니며 GitHub 정본을 임의로 덮어쓰지 않는다.
 
 ## 1. 상태 축
 
 ```text
-Decision status
+Decision ID
 Canonical authority path
-Planning merge commit
-Current future-work PR head
+Baseline main commit
+Active planning PR head
 Implementation status
 Automated validation status
 Human validation status
 Sheet read-back status
 Grill Me approval count
+Preflight status
+Merge authorization
 ```
-
-Base SHA·project main·Decision authority commit·PR head·merge commit·구현 commit·검증 evidence를 혼합하지 않는다.
 
 ## 2. 주요 탭 역할
 
 | 탭 | 역할 |
 |---|---|
-| `00_프로젝트_허브` | 현재 단계·Decision·main/PR SHA·다음 Gate·카운터 |
-| `01_작업순서` | Approval Bundle·선행/후속·병합 단계 |
-| `02_현재_확정결정` | 같은 Decision ID의 사용자 승인 내용 |
-| `04_누락_충돌_감사` | 적대적 finding·해결·검증·merge blocker |
-| `05_GDD_요약` | 최신 세계·Meta·구현·검증 요약 |
-| `11_세계관` | 세계·베일·오멘워드 조직·승패 |
-| `13_주요인물` | 플레이어 지휘관·벨루 역할 |
-| `14_조연_세력_관계` | 루메른 왕국·오멘워드·왕실군·지방 관계 |
-| `41_성장_경제` | 영구재화·주점·병영·연구·Readiness·Retry |
-| `60_UX_UI_접근성` | 메인 작전 허브·노드 그래프·8개 화면 |
-| `99_변경이력` | GitHub path·HEAD·Sheet 범위·read-back·merge 결과 |
+| `00_프로젝트_허브` | 현재 단계·Decision·main/PR SHA·preflight·카운터 |
+| `01_작업순서` | 10번째 승인·preflight·병합 보류 순서 |
+| `02_현재_확정결정` | 같은 Decision ID의 자동 발동 승인 내용 |
+| `04_누락_충돌_감사` | 자동 판단·결정론·UI·preflight finding·blocker 검색 |
+| `05_GDD_요약` | 최신 영웅 규칙·구현 경계·검증 상태 |
+| `12_핵심루프` | 영웅 선택·배치·조건 조성·자동 전투 흐름 |
+| `15_조작_게임규칙` | 수동 스킬 금지·trigger/priority/tie-break 규칙 |
+| `40_핵심시스템_메인콘텐츠` | HeroAbilitySpec·결정론·저장 구조 |
+| `41_성장_경제` | 영웅 해금이 APM 우위나 전역 강화가 되지 않는 경계 |
+| `50_메인콘텐츠` | 자동 발동 조건·약점이 드러나는 encounter 구성 |
+| `60_UX_UI_접근성` | 자동 표기·예고·대상·실패 원인·쿨다운 표시 |
+| `99_변경이력` | GitHub path·HEAD·Sheet 범위·read-back·preflight 결과 |
 
 ## 3. 현재 동기화 Decision
 
-### 조직·정치
-
-Decision: `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1`
+Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1`
 
 ```text
-오멘워드 = 루메른 왕실 인가 자율 경계대응단
-평시 = 감독·예산 감사·지방 협조
-활성 작전 = 지정 구역·기간의 제한된 비상 지휘권
-플레이어 = 현장 작전 지휘관 / 통치자 아님
+전투 상태 갱신
+→ 공개 trigger_conditions 평가
+→ 고정 ability_priority 평가
+→ 공개 target_filter·target_priority·tie_break_rule 적용
+→ 대상·비용·충전·쿨다운 재검증
+→ 능력 자동 시작
+→ 결과 상태 기록
 ```
 
-### 보조 허브
+- 기본 공격과 이름 지정 영웅 전투 능력은 규칙 기반 자동 발동이다.
+- 수동 스킬 버튼·수동 타깃 지정·수동 발동 보류는 금지한다.
+- 플레이어는 영웅 선택·전선 배치·병력 조합·조건 조성으로 능력 고점을 만든다.
+- trigger·능력 우선순위·대상 우선순위·동률 해소 규칙을 숨기지 않는다.
+- 같은 tick에 여러 능력이 준비되면 고정 우선순위의 첫 합법 능력 하나만 시작한다.
+- 동일 저장 상태·입력 순서에서는 같은 능력과 대상을 선택한다.
+- 저장·Retry로 능력 또는 타깃을 다시 굴릴 수 없다.
+- 자동 비효율은 공개된 조건·우선순위·명시적 약점에서 예측 가능해야 한다.
+- 정확 능력·trigger·priority·tick·수치·UI는 pending이다.
 
-Decision: `OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1`
+## 4. Sheet 동기화 범위
+
+- `00_프로젝트_허브!E2:L2`
+- `01_작업순서!A25:N26`
+- `02_현재_확정결정!A34:M34`
+- `04_누락_충돌_감사!A103:H111`
+- `05_GDD_요약!D8:J8`
+- `05_GDD_요약!B9:J9`
+- `12_핵심루프!A11:J11`
+- `15_조작_게임규칙!A14:J14`
+- `40_핵심시스템_메인콘텐츠!A14:J14`
+- `41_성장_경제!A24:I24`
+- `50_메인콘텐츠!A21:J21`
+- `60_UX_UI_접근성!A22:J22`
+- `99_변경이력!A35:H36`
+
+bounded read-back:
 
 ```text
-메인 1순위 = 이어하기·새 MapRun
-보조 시설 = 주점·허브 병영·연구
-영구 노드 = 유한·비용/선행/결과 공개
-주점 = 결정론적 Hero+ 영입
-병영 = 병사·병종·교리 sidegrade
-연구 = 시스템·정보·편의 sidegrade
+SAME_DECISION_ID = PASS
+GRILL_ME_COUNT = 10_OF_10
+PRODUCT_STATUS = NOT_IMPLEMENTED
+MERGE_AUTHORIZATION = NOT_GRANTED
 ```
 
-- 랜덤 유료 영입·무한 레벨·전 구간 전투/생산 배율·숨은 릴 확률 조작 금지.
-- 기본 Profile로 모든 콘텐츠 완료 가능.
-- balance는 노드·Retry 소비, total은 비감소 milestone 판정.
-- 비용·노드 수·영웅 목록·능력·출전 상한은 pending.
+## 5. preflight 증거
 
-### 병합 운영
+주 책임 보고서:
 
-Decision: `OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1`
+`docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md`
 
-- PR #119는 사용자 명시 지시와 preflight 통과 후 squash 병합됐다.
-- verified head: `230b250a21d87b7f37a644d227d2a459ba1fddc4`.
-- planning merge commit: `26b0a39fbf576557f2658723dee8405c2ea07a6f`.
-- 이후 승인 Grill Me Decision 10건마다 preflight.
-- 10건은 강제 병합이 아니라 검증 시작 트리거.
-- P0/P1·누락 권위·Sheet divergence·CI 실패·review thread·merge conflict가 있으면 병합 금지.
-- 현재 카운터 `0/10`.
+후보 증거 HEAD:
 
-## 4. 동기화 절차
+`be552b54b96a029dfa042675ae002ad21b96af65`
 
 ```text
-사용자 승인
-→ GitHub 분야 정본·Ledger·Map·Context 갱신
-→ commit
-→ Sheet 결정·분야·감사·변경이력 갱신
-→ bounded read-back
-→ exact PR HEAD·CI 확인
-→ premerge adversarial review
-→ merge
-→ main commit·파일 재조회
-→ Sheet SYNCED_TO_MAIN
+Project Core Documentation run 615 = PASS
+GDD Sheet Adoption run 332 = PASS
+Base v9 adoption run 308 = PASS
+OPEN_P0 = 0
+OPEN_P1 = 0
+MERGE_BLOCKER = 0
+PRODUCT_PATHS = 0
+COMMENTS = 0
+REVIEWS = 0
+UNRESOLVED_THREADS = 0
+CONTENT_PREFLIGHT = PASS
 ```
 
-`PARTIAL_SYNC_BLOCKED`, `SYNC_CONFLICT`, `OPEN_P0_OR_P1`이면 다음 중요 Decision 또는 병합으로 진행하지 않는다.
+latest main sync:
 
-## 5. 권위 매핑
+```text
+Base v9.4.1 sync = PR #124
+Base v9.4.2 planning-first sync = PR #125
+CURRENT_MAIN = 7c8be1ba47d4159ca3cead6343c20ef068907bcd
+```
+
+마감 문서 커밋과 latest-main sync로 HEAD가 이동했으므로 병합 전 최종 exact HEAD에서 필수 PR CI·compare·review·Sheet SHA를 다시 확인한다.
+
+## 6. 감사 상태 정리
+
+- 과거 PR #116의 Project Core·GDD Sheet `OPEN_P1`은 현재 Green CI로 역사적 해결 상태가 됐다.
+- Parameter Registry parser·100K simulation·Save fault injection은 제품 구현 전 필수 검증이다.
+- 해당 세 항목은 `PRODUCT_IMPLEMENTATION_BLOCKED / DOCS_ONLY_MERGE_ALLOWED`로 유지한다.
+- 자동 능력의 결정론·save/retry·대상 상실 정책은 `TEST_REQUIRED` 또는 `USER_DECISION_REQUIRED`이며 구현 완료로 승격하지 않는다.
+
+```text
+OPEN_P0 = 0
+OPEN_P1 = 0
+MERGE_BLOCKER = 0
+```
+
+## 7. 기존 승인 연결
+
+- 영웅 변환은 `1토큰 → 1유닛`이며 보너스 유닛과 릴 odds 변경이 없다.
+- 세 전선 전체 active 이름 지정 영웅은 최대 1명이다.
+- 영웅은 수동 퇴각·교대할 수 없고 생존 시 같은 인스턴스로 유지된다.
+- 영웅 장기 상태는 Stage를 넘어 유지하며 일시 전투 상태는 정산에서 제거한다.
+- 사망은 회수 보상을 제공하지 않고 재출전에는 post-death token provenance가 필요하다.
+- 이름 지정 영웅은 원본 병종과 유사한 평균 전투 예산의 조건부 고점형 전문화 sidegrade다.
+- 자동 발동 편의성은 무료 전투력이나 수동 APM 우위가 아니다.
+- 기본 Profile과 원본 영웅 등급 병종만으로 모든 콘텐츠 완료 가능성을 유지한다.
+
+## 8. 권위 매핑
 
 | 의미 | GitHub 책임 원본 |
 |---|---|
 | 제품 코어 | `docs/PROJECT_CORE.md` |
-| 현재 승인 Decision | `docs/PROJECT_CANON_DECISION_LEDGER.md` |
-| 세계·MapRun | `docs/design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` |
-| 베일 존재론 | `docs/design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md` |
-| 오멘워드 조직·정치 | `docs/design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md` |
-| Profile 성장 | `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` |
-| 주점·병영·연구 | `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` |
-| 화면 | `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md` |
-| 병합 운영 | `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` |
-| 병합 검토 | `docs/reviews/OMENWARD_PR119_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md` |
-| 실제 구현 | `docs/CURRENT_IMPLEMENTATION_STATUS.md`와 실제 파일 |
-| 작업 상태 | `docs/ACTIVE_CONTEXT.md` |
+| 승인 Decision | `docs/PROJECT_CANON_DECISION_LEDGER.md` |
+| Vertical Slice | `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` |
+| Evidence Pilot | `docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` (`PILOT_RECOMMENDATION / NOT_CANON`) |
+| 영웅 전투 예산 | `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md` |
+| 영웅 능력 자동 발동 | `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` |
+| Grill Me preflight 운영 | `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` |
+| PR #121 preflight 결과 | `docs/reviews/OMENWARD_PR121_TEN_DECISION_PREMERGE_ADVERSARIAL_REVIEW_2026-08-02.md` |
+| Base v9.4.2 sync | `docs/operations/PR121_MAIN_SYNC_V942_NOTE_2026-08-02.md` |
+| 현재 작업 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 
-PR #116의 경로는 역사 증거이며 current local authority가 아니다.
+## 9. 금지
 
-## 6. PR #119 동기화 범위
-
-- `00_프로젝트_허브!E2:L2`
-- `01_작업순서!A13:N15`
-- `02_현재_확정결정!A22:M24`
-- `04_누락_충돌_감사!A43:H53`
-- `05_GDD_요약!A4:J9`
-- `11_세계관!A16:H18`
-- `13_주요인물!A2:J2`
-- `14_조연_세력_관계!A5:J8`
-- `41_성장_경제!A14:I18`
-- `60_UX_UI_접근성!A11:J12`
-- `99_변경이력!A22:H24`
-
-병합 후에는 위 범위의 PR-head 상태를 merged main commit으로 교체하고 별도 merge history 행을 추가한다.
-
-## 7. 금지
-
-- Sheet-only 변경을 승인 Decision으로 처리.
-- 정치 역할 승인을 왕실 인물·법률·지방 세력 상세 승인으로 확대.
-- Hero+를 무한 전투력·필수 과금·랜덤 뽑기로 확대.
-- 허브 병영과 MapRun TokenSource 병영의 책임 혼합.
-- 연구를 숨은 릴 확률·생산량 전 구간 배율로 사용.
-- PR #116 역사 파일을 검증 없이 current authority로 표시.
+- 수동 스킬 버튼·수동 타깃 지정·영웅별 혼합 조작 방식.
+- 숨은 trigger·능력 우선순위·대상 우선순위.
+- 동률에서 비결정적 대상 선택.
+- 저장·Retry로 자동 판단 재굴림.
+- 자동 편의성과 무료 제어·지원·기동성을 함께 받아 순수 상위호환이 됨.
+- 10건 도달을 자동 병합 승인으로 해석.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
-- PR head를 merged main commit으로 표시하거나 그 반대로 혼합.
 
-## 8. 현재 상태
+## 10. 현재 상태
 
 ```text
-SHEET_STATUS = POSTMERGE_MAIN_SYNC
-PLANNING_MERGE_COMMIT = 26b0a39fbf576557f2658723dee8405c2ea07a6f
-GRILL_ME_COUNTER = 0_OF_10
-NEXT_DECISION = OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-NEXT_WORK = NEW_BRANCH_AND_DRAFT_PR
+SHEET_STATUS = READBACK_PASS / CANDIDATE_CI_GREEN / CONTENT_PREFLIGHT_PASS
+BASELINE_MAIN = 7c8be1ba47d4159ca3cead6343c20ef068907bcd
+ACTIVE_BASE = 9.4.2
+GRILL_ME_COUNTER = 10_OF_10
+FINAL_EXACT_HEAD_REVALIDATION = REQUIRED_BEFORE_MERGE
+MERGE_AUTHORIZATION = NOT_GRANTED
+PRODUCT_CODE = UNCHANGED
 ```
