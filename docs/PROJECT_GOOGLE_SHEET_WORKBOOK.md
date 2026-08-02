@@ -135,12 +135,14 @@ COOLDOWN
 
 유효 조건이 없으면 준비 상태를 유지한다.
 
-## 8. 최종 exact HEAD 검증
+## 8. 최종 검증 증거
+
+Workbook 증거 기록 자체가 branch HEAD를 이동시키므로 최종 증거는 다음 순서로 해석한다.
 
 ```text
-EXACT_HEAD = 22bc9c05fd3fdbe33fc9ed3b7a44f375f23ad652
+VERIFIED_EXACT_HEAD = 55ab226354228d3b3b79e3b7c21e0903855e5431
 BASE_MAIN = f7ab60c1ec983fe08a6c3a1dcf02876c4bb18c1e
-COMPARE = ahead 65 / behind 0
+COMPARE = ahead 66 / behind 0
 CHANGED_PATHS = 16 documentation-only files
 PRODUCT_PATHS = 0
 COMMENTS = 0
@@ -152,23 +154,25 @@ MERGE_BLOCKER = 0
 ```
 
 ```text
-Validate Project Core Documentation = PASS / run 710
-Validate Omenward GDD Sheet Adoption = PASS / run 430
-Validate Base v9 adoption = PASS / run 411
+Validate Project Core Documentation = PASS / run 711
+Validate Omenward GDD Sheet Adoption = PASS / run 431
+Validate Base v9 adoption = PASS / run 412
 ```
 
-Google Sheet read-back:
+Google Sheet final read-back:
 
 ```text
-00 Hub exact SHA = 22bc9c05fd3fdbe33fc9ed3b7a44f375f23ad652
-02 Decision exact SHA/status = PASS
-05 GDD CI runs = 710 / 430 / 411
-99 Change History exact SHA/status = PASS
+00 Hub SHA = 55ab226354228d3b3b79e3b7c21e0903855e5431
+02 Decision SHA/status = PASS
+05 GDD CI runs = 711 / 431 / 412
+99 Change History SHA/status = PASS
 ```
+
+이 문서의 현재 커밋은 위 검증 이후 생성되는 증거 보존 커밋이다. 따라서 PR 메타데이터와 연결 Sheet는 위 검증된 exact HEAD를 증거 기준으로 사용하며, 병합 전 10/10 preflight에서는 당시 실제 HEAD를 다시 검증한다.
 
 ## 9. 실패·교정 기록
 
-첫 후보 HEAD `ddb509fcec174fb6ec682b941d2a0a62092859a3`에서 GDD Sheet run 428이 실패했다. 원인은 Workbook에서 CI 고정 표식 `PROJECT_SHEET_CONFIGURED`가 누락된 것이었다. 테스트 계약을 확인해 `PROJECT_SHEET_CONFIGURED`, `USER_FACING_GDD_WORKSPACE`, `PROPOSED_SHEET_CHANGE`를 복원했고 이후 후보 run 429와 최종 exact-head run 430이 통과했다.
+첫 후보 HEAD `ddb509fcec174fb6ec682b941d2a0a62092859a3`에서 GDD Sheet run 428이 실패했다. 원인은 Workbook에서 CI 고정 표식 `PROJECT_SHEET_CONFIGURED`가 누락된 것이었다. 테스트 계약을 확인해 `PROJECT_SHEET_CONFIGURED`, `USER_FACING_GDD_WORKSPACE`, `PROPOSED_SHEET_CHANGE`를 복원했고 이후 GDD Sheet run 429·430·431이 통과했다.
 
 ## 10. 구현·검증 경계
 
@@ -184,12 +188,12 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 11. 최종 검증 체크리스트
+## 11. 검증 체크리스트
 
 - [x] GitHub와 Sheet에 같은 Decision ID.
-- [x] Sheet에 최종 exact PR head SHA.
+- [x] Sheet에 검증 exact PR head SHA.
 - [x] bounded read-back PASS.
-- [x] 필수 CI 3개 final exact HEAD Green.
+- [x] 필수 CI 3개 verified exact HEAD Green.
 - [x] latest main 대비 behind 0.
 - [x] changed paths가 문서 전용.
 - [x] 제품 경로 0.
