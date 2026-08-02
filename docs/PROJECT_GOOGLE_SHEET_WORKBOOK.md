@@ -14,7 +14,7 @@ working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base: 9.4.3
 last_merged_planning_pr: 127
 current_planning_pr: 129
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNC_TO_PR_129_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED
 current_grill_me_count: 3
 preflight: NEXT_AT_10_OF_10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
@@ -25,8 +25,6 @@ last_full_audit: 2026-08-02
 Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. GitHub가 기획 정본이며 Sheet는 같은 Decision ID와 PR SHA를 표시한다.
 
 ## 1. 현재 동기화 Decision
-
-Decision:
 
 `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1`
 
@@ -60,25 +58,52 @@ Decision:
 - 상쇄 축 외의 원본 데이터는 유지한다.
 - 무료 능력·다축 하향·전체 스탯 재설계는 금지다.
 
-## 3. 주요 탭 동기화 목적
+## 3. Sheet 동기화 범위
 
-| 탭 | 이번 Decision 반영 내용 |
-|---|---|
-| `00_프로젝트_허브` | PR #129·Decision·3/10·다음 Gate |
-| `01_작업순서` | 초기 로스터 4명 승인과 실제 병종 선정 후속 |
-| `02_현재_확정결정` | 서로 다른 병종 4종·패시브 2·자동 스킬 2 승인 |
-| `04_누락_충돌_감사` | 최종 로스터 상한 오해·2:2 강제·역할 중복·제작량 폭증 위험 |
-| `05_GDD_요약` | 초기 검증 로스터 범위 요약 |
-| `12_핵심루프` | 네 병종 원본/영웅 선택 비교 검증 |
-| `15_조작_게임규칙` | 초기 로스터 수·병종 중복 금지·2:2 유형 불변식 |
-| `40_핵심시스템_메인콘텐츠` | `InitialNamedHeroRosterSpec` 방향 |
-| `41_성장_경제` | 초기 4명 해금 범위와 원본 완주 가능성 |
-| `50_메인콘텐츠` | 네 병종의 장점·약점을 드러내는 encounter 매트릭스 |
-| `60_UX_UI_접근성` | 4명 카드의 원본 대비 한 쌍 교환 비교 |
-| `70_아트_오디오_에셋` | 4개 스킨형 변주 제작량·재사용 기준 |
-| `99_변경이력` | GitHub path·PR SHA·read-back 상태 |
+- `00_프로젝트_허브!E2:L2`
+- `01_작업순서!A30:N30`
+- `02_현재_확정결정!A38:M38`
+- `04_누락_충돌_감사!A129:H136`
+- `05_GDD_요약!D8:J8`
+- `05_GDD_요약!B9:J9`
+- `12_핵심루프!A14:J14`
+- `15_조작_게임규칙!A17:J17`
+- `40_핵심시스템_메인콘텐츠!A17:J17`
+- `41_성장_경제!A27:I27`
+- `50_메인콘텐츠!A24:J24`
+- `60_UX_UI_접근성!A25:J25`
+- `70_아트_오디오_에셋!A8:J8`
+- `99_변경이력!A40:H40`
 
-## 4. 감사 기준
+bounded read-back:
+
+```text
+SAME_DECISION_ID = PASS
+GRILL_ME_COUNT = 3_OF_10
+INITIAL_HERO_COUNT = 4
+UNIQUE_SOURCE_ARCHETYPE_COUNT = 4
+PASSIVE_VARIANT_COUNT = 2
+AUTOMATIC_ACTIVE_SKILL_VARIANT_COUNT = 2
+INITIAL_ROSTER_IS_FINAL_CAP = FALSE
+PRODUCT_STATUS = NOT_IMPLEMENTED
+```
+
+## 4. 후보 HEAD 검증
+
+후보 증거 HEAD:
+
+`dec1d811782dbad3023d3f821468d9706b21a884`
+
+```text
+Validate Project Core Documentation: PASS / run 670
+Validate Omenward GDD Sheet Adoption: PASS / run 390
+Validate Base v9 adoption: PASS / run 371
+SHEET_READBACK = PASS
+```
+
+이 Workbook 마감 커밋으로 PR HEAD가 이동하므로 최종 exact HEAD에서 필수 CI·latest main compare·Sheet SHA를 다시 확인한다.
+
+## 5. 감사 기준
 
 ```text
 INITIAL_NAMED_HERO_COUNT = 4
@@ -91,7 +116,7 @@ FOUR_FULL_NEW_UNITS = FORBIDDEN
 PRODUCT_IMPLEMENTED = FALSE
 ```
 
-## 5. 책임 원본
+## 6. 책임 원본
 
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
@@ -103,7 +128,7 @@ PRODUCT_IMPLEMENTED = FALSE
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 
-## 6. 구현·검증 경계
+## 7. 구현·검증 경계
 
 ```text
 PROJECT_SHEET_CONFIGURED
@@ -119,7 +144,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영·다음 Gate
+## 8. 운영·다음 Gate
 
 - 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
 - 현재 카운터는 `3/10`이다.
