@@ -14,7 +14,7 @@ working_branch: gpt/omenward-hero-kit-planning-20260802
 active_base: 9.4.3
 last_merged_planning_pr: 127
 current_planning_pr: 129
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNC_TO_PR_129_IN_PROGRESS
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CANDIDATE_CI_GREEN / FINAL_EXACT_HEAD_REVALIDATION_REQUIRED
 current_grill_me_count: 5
 preflight: NEXT_AT_10_OF_10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
@@ -64,23 +64,52 @@ INITIAL_AUTOMATIC_ACTIVE_SKILL_COUNT = 5
 FINAL_RELEASE_CAP = FALSE
 ```
 
-## 3. Sheet 동기화 예정 범위
+## 3. Sheet 동기화 범위
 
-- `00_프로젝트_허브`
-- `01_작업순서`
-- `02_현재_확정결정`
-- `04_누락_충돌_감사`
-- `05_GDD_요약`
-- `12_핵심루프`
-- `15_조작_게임규칙`
-- `40_핵심시스템_메인콘텐츠`
-- `41_성장_경제`
-- `50_메인콘텐츠`
-- `60_UX_UI_접근성`
-- `70_아트_오디오_에셋`
-- `99_변경이력`
+- `00_프로젝트_허브!E2:L2`
+- `01_작업순서!A32:N32`
+- `02_현재_확정결정!A40:M40`
+- `04_누락_충돌_감사!A145:H152`
+- `05_GDD_요약!D8:J8`
+- `05_GDD_요약!B9:J9`
+- `12_핵심루프!A16:J16`
+- `15_조작_게임규칙!A19:J19`
+- `40_핵심시스템_메인콘텐츠!A19:J19`
+- `41_성장_경제!A29:I29`
+- `50_메인콘텐츠!A26:J26`
+- `60_UX_UI_접근성!A27:J27`
+- `70_아트_오디오_에셋!A10:J10`
+- `99_변경이력!A42:H42`
 
-## 4. 감사 기준
+bounded read-back:
+
+```text
+SAME_DECISION_ID = PASS
+GRILL_ME_COUNT = 5_OF_10
+HERO_POWER_MODEL = CONSTRAINED_UPGRADE
+HERO_EXCLUSIVE_PASSIVE_COUNT = 0
+UNIQUE_AUTOMATIC_ACTIVE_SKILL_COUNT = 5_INITIAL
+MANDATORY_COMPENSATION_AXIS_COUNT = 0
+GLOBAL_ACTIVE_NAMED_HERO_CAP = 1
+PRODUCT_STATUS = NOT_IMPLEMENTED
+```
+
+## 4. 후보 HEAD 검증
+
+후보 증거 HEAD:
+
+`e32d4c7cf0a88ff2d275764b4ef3a9dea77aee97`
+
+```text
+Validate Project Core Documentation: PASS / run 692
+Validate Omenward GDD Sheet Adoption: PASS / run 412
+Validate Base v9 adoption: PASS / run 393
+SHEET_READBACK = PASS
+```
+
+이 Workbook 마감 커밋으로 PR HEAD가 이동하므로 최종 exact HEAD에서 필수 CI·latest main compare·Sheet SHA를 다시 확인한다.
+
+## 5. 감사 기준
 
 ```text
 EVERY_NAMED_HERO_HAS_UNIQUE_ACTIVE_SKILL = TRUE
@@ -92,7 +121,7 @@ NAMED_HERO_GLOBAL_ACTIVE_CAP = 1
 PRODUCT_IMPLEMENTED = FALSE
 ```
 
-## 5. 책임 원본
+## 6. 책임 원본
 
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
 - `docs/DOCUMENTATION_MAP.md`
@@ -106,7 +135,7 @@ PRODUCT_IMPLEMENTED = FALSE
 - `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` — `SUPERSEDED_HISTORY`
 
-## 6. 구현·검증 경계
+## 7. 구현·검증 경계
 
 ```text
 PROJECT_SHEET_CONFIGURED
@@ -121,7 +150,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영·다음 Gate
+## 8. 운영·다음 Gate
 
 - 승인 즉시 GitHub·Sheet에 같은 Decision ID로 반영한다.
 - 현재 카운터는 `5/10`이다.
