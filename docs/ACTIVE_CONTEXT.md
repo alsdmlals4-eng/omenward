@@ -4,44 +4,44 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: PR_119_MERGE_PREFLIGHT
+current_phase: WORLD_VEILSPECIES_PURPOSE_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
 current_world_decision: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
-context_baseline_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
-working_branch: gpt/omenward-canon-recovery-20260802
+context_baseline_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
+working_branch: NEW_BRANCH_REQUIRED_FOR_NEXT_DECISION
 active_base_version: 9.4.0
 current_product: LEGACY_PROTOTYPE
-latest_planning: USER_APPROVED / NOT_IMPLEMENTED
+latest_planning: USER_APPROVED / MAIN_SYNCED / NOT_IMPLEMENTED
 product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-merge_batch_pr: 119
-merge_authorization: USER_APPROVED / PREFLIGHT_REQUIRED
-current_grill_me_count: 4
+last_merged_pr: 119
+last_planning_merge_commit: 26b0a39fbf576557f2658723dee8405c2ea07a6f
+current_grill_me_count: 0
 future_merge_cadence: 10
-sheet_sync: UPDATE_AND_READBACK_REQUIRED_AT_FINAL_HEAD
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 simulation: NOT_RUN
 ```
 
-`current_branch: main`과 `context_baseline_commit`은 현재 정본 기준선을 뜻한다. 실제 쓰기와 preflight는 `working_branch`에서 수행한다.
+`current_branch: main`과 `context_baseline_commit`은 현재 정본 기준선을 뜻한다. 다음 Decision은 새 branch·새 Draft PR에서 시작한다.
 
-## 1. 현재 작업
+## 1. 현재 상태
 
-사용자가 다음을 승인했다.
+PR #119가 검증된 HEAD `230b250a21d87b7f37a644d227d2a459ba1fddc4`에서 squash 병합됐다.
 
-- 오멘워드 = 루메른 왕실 인가 자율 경계대응단.
-- 활성 경계 작전에서 제한된 비상 지휘권, 평시·작전 후 감사와 지방 협조.
-- 메인 허브 보조 콘텐츠 = 주점·허브 병영·연구.
-- 정산 영구재화로 유한한 공개 노드 개방.
-- 주점에서 영웅 이상 전문 인재를 결정론적 공개 노드로 영구 영입.
-- 이후 승인 Grill Me 10건마다 병합 preflight·병합·main/Sheet 동기화.
-- 현재 PR #119는 사용자 지시로 10건 전이라도 즉시 preflight·병합.
+```text
+PR #119: CLOSED / MERGED
+MERGE COMMIT: 26b0a39fbf576557f2658723dee8405c2ea07a6f
+PREMERGE P0/P1 BLOCKER: 0
+REQUIRED CI: 3 GREEN
+PRODUCT PATH CHANGES: 0
+GRILL ME COUNTER: 0/10
+```
 
 ## 2. 프로젝트 약속
 
@@ -133,6 +133,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 
 - `docs/PROJECT_CORE.md`
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
+- `docs/DOCUMENTATION_MAP.md`
 - `docs/design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md`
@@ -143,31 +144,19 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 
 PR #116은 역사 승인 증거이며 current local authority가 아니다.
 
-## 8. 병합 Gate
+## 8. Grill Me·병합 규칙
 
-```text
-GitHub authority/path audit
-→ Sheet exact ranges read-back
-→ Decision ID and exact HEAD match
-→ full PR changed-path audit
-→ review/comment/thread audit
-→ required CI at exact HEAD
-→ adversarial P0/P1 review
-→ Ready transition
-→ expected-head squash merge
-→ main and Sheet merge verification
-```
+- 승인 Grill Me Decision ID만 카운트한다.
+- 현재 카운터는 `0/10`이다.
+- 10번째 승인 시 GitHub·Sheet·PR·CI·review·authority path 적대적 preflight를 실행한다.
+- P0/P1 blocker가 있으면 병합하지 않는다.
+- 직접 사용자 병합·보류 지시는 10건 주기보다 우선한다.
 
-열린 P0/P1, 누락된 current authority, Sheet divergence, required CI failure, unresolved review thread, merge conflict가 있으면 병합하지 않는다.
-
-## 9. 병합 후 다음 작업
-
-- 새 branch·새 Draft PR을 만든다.
-- Grill Me 카운터를 `0/10`에서 시작한다.
-- 다음 Gate:
+## 9. 다음 Gate
 
 ```text
 OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
+= 베일종·경계파쇄자의 발생·지성·사회·침공 목적
 ```
 
 ## 10. 경계
@@ -176,6 +165,6 @@ OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 PRODUCT_CODE: UNCHANGED
 CODEX: BLOCKED
 EXACT_VALUES: PENDING
-PR_MERGE: USER_AUTHORIZED / PREFLIGHT_IN_PROGRESS
+CURRENT_MERGE_PENDING: NO
 RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```
