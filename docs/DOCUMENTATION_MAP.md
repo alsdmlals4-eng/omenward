@@ -3,7 +3,7 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: WORLD_VEIL_ONTOLOGY_SYNC_IN_PROGRESS
+current_phase: WORLD_OMENWARD_POLITICAL_ROLE_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -13,7 +13,7 @@ latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 recovery_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_sync: ONTOLOGY_DECISION_SYNC_IN_PROGRESS
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 현행 책임 원본만 둔다. PR #116은 역사적 승인 계보이며 현재 작업·병합 권위가 아니다.
@@ -88,7 +88,7 @@ sheet_sync: ONTOLOGY_DECISION_SYNC_IN_PROGRESS
 - 균사·혈관·결정·조직처럼 보이는 성장은 법칙 충돌의 물질적 패턴이다.
 - 베일의 법칙은 공세별 유한·관측·반복 가능한 규칙 묶음이다.
 - 징조는 겹침 전 선행 공명이며 결과를 확정하지 않는다.
-- 균열 봉쇄는 국소 접촉면을 닫는 행위이며 상흔이 남을 수 있다.
+- 균열 봉쇄는 국소 접촉면을 닫으며 상흔이 남을 수 있다.
 - 베일종은 베일과 분리된 독립 행위자일 수 있지만 발생·지성·목적은 미확정이다.
 
 ### 확정: MapRun
@@ -101,14 +101,8 @@ sheet_sync: ONTOLOGY_DECISION_SYNC_IN_PROGRESS
 
 ### 기존 명칭 계보
 
-- 루메른 왕국.
-- 루미엔 영토.
-- 트리븐 전선.
-- 실베른 성채.
-- 베일런 황야.
-- 베일의 법칙.
-- 베일의 징조.
-- 베일종.
+- 루메른 왕국, 루미엔 영토, 트리븐 전선, 실베른 성채.
+- 베일런 황야, 베일의 법칙, 베일의 징조, 베일종.
 
 ### 다음 결정
 
@@ -177,8 +171,7 @@ VEIL_NON_SENTIENT != VEIL_SPECIES_MINDLESS
 ## 10. 현재 다음 Gate
 
 ```text
-Ontology sync completion
-→ Grill Me: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
+Grill Me: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
 ```
 
 ```text
