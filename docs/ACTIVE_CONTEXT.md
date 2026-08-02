@@ -4,11 +4,11 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: GAMEPLAY_HERO_REDEPLOYMENT_GRILL_ME_READY
+current_phase: GAMEPLAY_HERO_POWER_BUDGET_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
 context_baseline_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
@@ -22,7 +22,7 @@ primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
 last_merged_pr: 120
 last_main_commit: 12012f88bc1dc1d9aaaa538b578be3893e4b1591
-current_grill_me_count: 7
+current_grill_me_count: 8
 future_merge_cadence: 10
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
@@ -45,6 +45,9 @@ simulation: NOT_RUN
 - 영웅의 현재 HP·남은 쿨다운·남은 사용 횟수·고유 자원은 Stage를 넘어 유지한다.
 - 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 HP 회복·쿨다운·충전·고유 자원 clock이 정지한다.
+- 영웅 사망 시 소비 토큰·재화·회수권·부활권·재배치권을 돌려주지 않는다.
+- 새 영웅 출전에는 새 동병종 `[영웅]` 등급 토큰이 필요하며, 보관 토큰이 없다면 룰렛에서 다시 영웅 등급 결과가 나와야 한다.
+- 새 토큰으로 생성한 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 완전한 새 인스턴스로 시작한다.
 
 ## 2. 프로젝트 약속
 
@@ -77,7 +80,7 @@ simulation: NOT_RUN
 - 영웅 clock 외 일반 경제·건설·수리 clock matrix는 pending이다.
 - MapRun 초기화는 RunState만 초기화하며 Profile 영구 해금을 지우지 않는다.
 
-## 4. 영웅 해금·사용·활성·종료·상태 지속
+## 4. 영웅 해금·사용·활성·종료·상태 지속·재출전
 
 ```text
 주점에서 병종별 영웅 영구 해금
@@ -88,7 +91,8 @@ simulation: NOT_RUN
 → 한 전선에 비가역 배치
 → 살아 있는 동안 Stage·Act·정비시간을 넘어 같은 인스턴스로 유지
 → Stage 정산에서 장기 상태 저장·전투 잔여물 제거
-→ 사망·완전 제거 또는 MapRun 종료 시 active 슬롯 해제
+→ 사망·완전 제거 시 active 슬롯 해제, 회수 보상 없음
+→ 새 토큰이 있을 때만 새 영웅 인스턴스 출전 가능
 ```
 
 - 하나의 병종에 해금 영웅이 여러 명 존재할 수 있다.
@@ -105,9 +109,12 @@ simulation: NOT_RUN
 - 일시 버프·디버프·타깃·어그로·시전 상태는 Stage 정산에서 초기화한다.
 - 투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅의 회복·쿨다운·충전·고유 자원 clock이 정지한다.
+- 영웅 사망은 source token 반환·골드·식량·영구재화·회수권·보장 토큰·pity를 생성하지 않는다.
+- 보관함에 새 미소비 동병종 영웅 등급 토큰이 없다면 룰렛에서 다시 해당 결과를 얻어야 한다.
+- 새 인스턴스는 최대 HP, 쿨다운 0, 능력 기본 충전, 능력 초기 고유 자원으로 시작한다.
+- 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태를 승계하지 않는다.
 - 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
 - 확정 전 취소 가능, 배치 확정 뒤 undo·회수·판매·라인 변경 불가다.
-- 사망 뒤 새 토큰으로 재배치하는 새 인스턴스의 초기 상태는 다음 Decision이다.
 
 ## 5. 최소 세계 배경
 
@@ -170,6 +177,8 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - no manual Hero retreat or replacement; same Hero instance persists across Stage, Act and MaintenancePhase
 - Hero HP/cooldown/charges/unique resources persist; transient combat state clears at Stage settlement
 - Hero recovery/cooldown/charge/resource clocks pause during MaintenancePhase
+- Hero death gives no recovery reward or source-token return
+- a fresh matching Hero-grade token is required for a fresh full-state Hero instance
 ```
 
 `APPROVED_PLAN != IMPLEMENTED != VALIDATED`.
@@ -185,6 +194,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
@@ -194,15 +204,15 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 ## 10. Grill Me·병합 규칙
 
 - 승인 Grill Me Decision ID만 카운트한다.
-- 현재 카운터는 `7/10`이다.
+- 현재 카운터는 `8/10`이다.
 - 10번째 승인 시 GitHub·Sheet·PR·CI·review·authority path 적대적 preflight를 실행한다.
 - blocker가 있으면 병합하지 않는다.
 
 ## 11. 다음 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1
-= 영웅 사망 뒤 새 영웅 등급 토큰을 소비해 같은 영웅 또는 다른 영웅을 다시 배치할 때 새 인스턴스의 HP·쿨다운·충전·고유 자원은 어떤 초기값으로 시작하는가
+OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
+= 이름 지정 영웅은 원본 [영웅] 등급 병종과 비교해 순수 상위호환인가, 같은 총 전투 예산을 다른 능력 구조로 교환하는 전문화 sidegrade인가
 ```
 
 ## 12. 경계
