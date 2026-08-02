@@ -78,7 +78,8 @@ HERO_STAGE_PERSISTENCE
 HERO_REDEPLOYMENT
 = NO_DEATH_RECOVERY_REWARD
 = NO_SOURCE_TOKEN_RETURN
-= NEW_MATCHING_HERO_GRADE_TOKEN_REQUIRED
+= POST_DEATH_MATCHING_HERO_GRADE_ROULETTE_RESULT_REQUIRED
+= PRE_DEATH_STORED_TOKEN_NOT_ELIGIBLE_FOR_NAMED_HERO_REDEPLOYMENT
 = FRESH_INSTANCE_AT_FULL_INITIAL_STATE
 = NO_PREVIOUS_INSTANCE_STATE_INHERITANCE
 ```
@@ -87,12 +88,12 @@ HERO_REDEPLOYMENT
 
 | Decision ID | 상태 | 결정 | 현재 책임 원본 | 미완료 경계 |
 |---|---|---|---|---|
-| `OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 영웅 사망은 토큰·재화·회수권·부활권·무료 재출전권을 제공하지 않는다. 새 동병종 `[영웅]` 등급 토큰을 다시 소비해야 하며 새 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 완전한 새 인스턴스로 시작한다 | `design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` | 원본 영웅 등급 병종 대비 영웅 power budget·능력별 초기값 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-REDEPLOYMENT-INITIAL-STATE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 영웅 사망은 토큰·재화·회수권·부활권·무료 재출전권을 제공하지 않는다. 이름 지정 영웅을 다시 출전시키려면 사망 이후 룰렛에서 새로 확정된 동병종 `[영웅]` 등급 토큰을 소비해야 한다. 사망 전 보관 토큰은 원본 병종으로만 사용할 수 있으며 새 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 완전한 새 인스턴스로 시작한다 | `design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` | 원본 영웅 등급 병종 대비 영웅 power budget·능력별 초기값 pending |
 | `OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 살아 있는 영웅의 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 Stage 경계를 넘어 유지한다. 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거하고 정비시간에는 영웅 clock을 정지한다 | `design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` | 영웅별 영속 동반자 예외 pending; 재출전 초기 상태는 후속 Decision으로 확정됨 |
 | `OMW-DEC-20260802-GAMEPLAY-MAPRUN-STAGE-WAVE-MAINTENANCE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 맵 선택으로 MapRun을 초기화하고, 각 Stage는 맵·Stage가 정의한 하나 이상의 Wave로 구성한다. Stage 정산 뒤 정비시간에서 전투를 일시정지하고 미션·선택지를 처리한다. 건설·업그레이드·수리, 룰렛, 보관함, 병력 배치는 Stage 중에도 사용 가능하다 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | 일반 정비시간 clock matrix·정확 길이·맵별 Wave 편성 pending |
 | `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 배치한 영웅은 수동 퇴각·교대할 수 없고 Stage·Act 전환에도 살아 있는 동일 인스턴스로 유지된다. 사망·완전 제거 또는 MapRun 종료 시 active 슬롯을 비운다 | `design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` | 영웅 사망 연출·로그 pending; Stage·재출전 상태는 후속 Decision으로 확정됨 |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 전장 전체의 출전 중 영웅은 동시에 최대 1명이다. 동일 영웅도 기존 인스턴스가 종료된 뒤 새 영웅 등급 토큰을 소비해 반복 출전할 수 있다 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | 영웅 능력·토큰 출현 빈도 pending; 새 인스턴스 초기 상태는 후속 Decision으로 확정됨 |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 룰렛의 동병종 `[영웅]` 등급 토큰을 보관함에서 선택해 원본 유지 또는 해금된 동병종 영웅 중 한 명으로 변환한 뒤 한 전선에 비가역 배치한다 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | 영웅 능력·수치 pending |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 전장 전체의 출전 중 영웅은 동시에 최대 1명이다. 동일 영웅도 기존 인스턴스가 종료된 뒤 사망 이후 새 룰렛 결과로 획득한 영웅 등급 토큰을 소비해 반복 출전할 수 있다 | `design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` | 영웅 능력·토큰 출현 빈도 pending; 새 인스턴스 초기 상태는 후속 Decision으로 확정됨 |
+| `OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 룰렛의 동병종 `[영웅]` 등급 토큰을 보관함에서 선택해 원본 유지 또는 해금된 동병종 영웅 중 한 명으로 변환한 뒤 한 전선에 비가역 배치한다. 사망 후 이름 지정 영웅 재출전에는 post-death 토큰 provenance가 추가로 필요하다 | `design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` | 영웅 능력·수치 pending |
 | `OMW-DEC-20260802-GAMEPLAY-HERO-UNLOCK-REGISTRATION-V1` | `USER_APPROVED / CORRECTED_BY_LATER_CLARIFICATION` | 각 영웅은 기존 병종에 고정 연결되며 같은 병종에 여러 영웅을 해금할 수 있다. 해금 시 Profile 명부에 영구 등록된다 | `design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` | 병종별 영웅 명단·능력 pending; pre-run 등록 해석은 폐기 |
 | `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1` | `USER_APPROVED / CURRENT_BRANCH_SYNCED` | 베일종은 균열을 통해 유입된 다양한 이계 생물의 통칭이며 사용자에게 상세 문명·정치 설명을 제공하지 않는다 | `design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` | 적 명단·Act 배치·정확 행동·수치 pending |
 | `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` | `USER_APPROVED / MAIN_SYNCED` | 오멘워드는 루메른 왕실 인가 자율 경계대응단이며 활성 작전에서 제한된 비상 지휘권을 갖는다 | `design/APPROVED_OMENWARD_POLITICAL_ROLE_2026-08-02.md` | 정치 인물·법률명 상세 pending |
@@ -143,7 +144,8 @@ HERO_REDEPLOYMENT
 → 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물 제거
 → 정비시간 중 영웅 clock 정지
 → 사망·완전 제거 시 active 슬롯 해제, 회수 보상 없음
-→ 새 동병종 [영웅] 등급 토큰으로 새 인스턴스 출전
+→ 사망 이후 룰렛에서 새 동병종 [영웅] 등급 결과 확정
+→ post-death provenance 토큰으로 새 이름 지정 영웅 인스턴스 출전
 ```
 
 - 하나의 병종에 해금 영웅이 여러 명 존재할 수 있다.
@@ -152,16 +154,16 @@ HERO_REDEPLOYMENT
 - 변환하지 않으면 원본 영웅 등급 병종 토큰을 정상 배치할 수 있다.
 - 세 전선을 합쳐 출전 중인 이름 지정 영웅 유닛은 최대 1명이다.
 - active hero가 있으면 새 토큰은 보관하거나 원본 병종으로 배치할 수 있으나 다른 영웅으로 변환할 수 없다.
-- 동일 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 새 토큰으로 반복 배치할 수 있다.
-- 반복 출전마다 별도의 영웅 등급 토큰 하나를 소비한다.
+- 동일 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 다시 출전할 수 있지만 사망 이후 새 룰렛 결과가 필요하다.
+- 반복 출전마다 `token.created_sequence > previous_hero.ended_sequence`를 만족하는 별도 동병종 영웅 등급 토큰 하나를 소비한다.
 - 수동 퇴각·수동 교체·판매·재보관·전선 이동은 불가다.
 - Stage·Act 전환과 정비시간 진입은 active 슬롯 해제나 무료 재배치 사건이 아니다.
 - 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 Stage 경계를 넘어 현재 값 그대로 유지한다.
 - 일시 전투 상태와 임시 파생 개체는 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 HP 회복·쿨다운·충전·고유 자원 clock이 진행되지 않는다.
 - 영웅 사망 시 source token·재화·회수권·부활권·보장 토큰·pity를 생성하지 않는다.
-- 새 미소비 동병종 영웅 등급 토큰이 없다면 정상 룰렛에서 영웅 등급 결과가 다시 나와야 한다.
-- 새 인스턴스는 최대 HP·쿨다운 0·능력 기본 충전·능력 초기 고유 자원으로 시작한다.
+- 사망 전에 보관한 `[영웅]` 등급 토큰은 원본 영웅 등급 병종으로 사용할 수 있으나 이름 지정 영웅의 사망 후 재출전에는 사용할 수 없다.
+- 새 적격 인스턴스는 최대 HP·쿨다운 0·능력 기본 충전·능력 초기 고유 자원으로 시작한다.
 - 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태는 승계하지 않는다.
 - 변환·배치는 확정 전 취소 가능, 확정 후 undo·회수·판매·라인 변경 불가다.
 - 영웅 해금·사망·반복 출전은 릴 odds·과거 SpinSnapshot·다른 토큰을 변경하지 않는다.
@@ -217,7 +219,9 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - Hero persistent HP/cooldown/charge/resource state across Stage boundaries
 - transient Hero combat-state cleanup and MaintenancePhase Hero-clock pause
 - no Hero death recovery reward or source-token return
-- fresh matching Hero-grade token required for a fresh full-state Hero instance
+- post-death matching Hero-grade Roulette result required for named-Hero redeployment
+- pre-death stored Hero-grade token cannot qualify for named-Hero redeployment
+- eligible post-death token creates a fresh full-state Hero instance
 ```
 
 ## 9. 남은 검증·결정
@@ -231,9 +235,10 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - 현재 HP 누적이 장기 전략을 만드는지 영웅 사용을 과도하게 봉쇄하는지.
 - 정비시간 clock 정지가 무료 회복 악용을 차단하는지.
 - Stage 경계의 전투 잔여물 제거가 저장·복구에서 결정론적으로 동작하는지.
-- 사망 무회수와 새 희귀 토큰 요구가 과도한 손실 압박이 되는지.
-- 새 토큰 소비로 최대 HP 새 인스턴스를 얻는 가치가 적절한지.
-- 보관함 변환 UX가 전투 흐름을 과도하게 지연하는지.
+- 사망 무회수와 post-death 희귀 토큰 요구가 과도한 손실 압박이 되는지.
+- 사망 전 보관 토큰의 영웅 변환 차단이 UX에서 명확한지.
+- post-death 토큰 소비로 최대 HP 새 인스턴스를 얻는 가치가 적절한지.
+- 토큰 provenance와 생성 순서가 저장·Retry에서 보존되는지.
 
 ### USER_DECISION_REQUIRED
 
