@@ -13,8 +13,8 @@ active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
 recovery_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / META_DECISION_SYNC_PENDING
-ci_validation: PREVIOUS_HEAD_3_GREEN / CURRENT_HEAD_PENDING
+sheet_status: PROJECT_SHEET_CONFIGURED / CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
+ci_validation: META_DECISION_CONTENT_HEAD_2DA4E1BE_3_GREEN / FINAL_PR_HEAD_GATED
 last_full_audit: 2026-08-02
 ```
 
@@ -98,7 +98,7 @@ SECONDARY = 선택형·상한형 준비 보정
 FORBIDDEN = 무한 영구 능력치 누적
 ```
 
-Sheet는 다음을 명시한다.
+Sheet에 다음 내용이 반영되고 재조회됐다.
 
 - 기본 Profile로 모든 콘텐츠 완료 가능.
 - 수평 해금은 sidegrade.
@@ -151,14 +151,15 @@ Meta candidate guardrail의 5 percentage points, 3~8 percentage points, 준비 �
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 | 인계 | `docs/HANDOFF_CONTEXT.md` |
 
-## 8. 이번 동기화 대상
+## 8. 동기화·재조회 범위
 
 - `00_프로젝트_허브!E2:L2`: 현재 Decision·다음 Grill Me·exact PR HEAD.
 - `01_작업순서!A10:N10`: Meta 승인 Bundle.
 - `02_현재_확정결정!A19:M19`: 같은 Decision ID와 승인 역할.
 - `04_누락_충돌_감사!E26:H26`: 기존 영구 성장 공백 해결 상태.
 - `04_누락_충돌_감사!A30:H32`: B 노가다·숨은 상위 호환·Retry 지갑 충돌 검토.
-- `41_성장_경제`: Profile·준비 보정·가드레일·저장 책임.
+- `41_성장_경제!A8:I8`: 수평 해금·제한 편의.
+- `41_성장_경제!A11:I13`: 준비 보정·시험 가드레일·저장 책임.
 - `99_변경이력!A19:H19`: GitHub path·commit·Sheet 범위·재검증.
 
 ## 9. 금지
