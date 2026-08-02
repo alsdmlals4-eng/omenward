@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 approved_at: 2026-08-02 16:11 KST
 approval: USER_DIRECT_APPROVAL
-status: USER_APPROVED_STRUCTURE / SINGLE_ACTIVE_LIMIT_APPROVED / NOT_IMPLEMENTED
+status: USER_APPROVED_STRUCTURE / SINGLE_ACTIVE_AND_EXIT_RULES_APPROVED / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -69,16 +69,22 @@ ONE_HERO_GRADE_TOKEN
 - 변환은 다른 보관 토큰·과거 SpinSnapshot·릴 구조·당첨 확률을 변경하지 않는다.
 - 전선 배치는 기존 PendingReward의 한 전선 비가역 커밋 규칙을 따른다.
 
-## 5. 복수 동병종 영웅과 단일 활성 제한
+## 5. 복수 동병종 영웅·단일 활성·퇴각 금지
 
 - 한 병종에 여러 영웅을 해금할 수 있다.
 - 보관함의 영웅 선택 목록에는 해당 토큰과 병종이 일치하는 모든 해금 영웅을 표시한다.
 - 각 영웅은 단순 수치 상위호환이 아니라 다른 역할·조건·약점을 제공해야 한다.
 - 전장 전체에는 이름이 지정된 해금 영웅 유닛이 동시에 최대 1명만 존재할 수 있다.
-- 동일한 `hero_id`도 이전 인스턴스가 더 이상 출전 중이 아니면 새 영웅 등급 토큰을 소비해 다시 배치할 수 있다.
+- 동일한 `hero_id`도 이전 인스턴스가 사망·완전 제거된 뒤 새 영웅 등급 토큰을 소비해 다시 배치할 수 있다.
 - 서로 다른 영웅도 기존 active hero가 남아 있는 동안에는 추가 배치할 수 없다.
+- 배치한 영웅은 수동 퇴각·교대·판매·재보관할 수 없다.
+- Stage·Act 전환만으로 영웅을 귀환시키거나 active 슬롯을 비우지 않는다.
+- 영웅 사망·완전 제거 또는 MapRun 종료 시 active 상태를 종료한다.
 
-단일 활성·반복 출전의 주 책임 원본은 `APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`다.
+주 책임 원본:
+
+- 단일 활성·반복 출전: `APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`
+- 퇴각·교대·종료 사건: `APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md`
 
 ## 6. UX·데이터 책임
 
@@ -103,6 +109,7 @@ HeroConversionPreview:
 HeroBattlefieldState:
   active_hero_unit_instance_id
   active_hero_id
+  active_hero_lane_id
 ```
 
 - 후보에는 이름·초상·연결 병종·핵심 역할·변환 후 변화·현재 사용 가능 여부를 표시한다.
@@ -111,6 +118,7 @@ HeroBattlefieldState:
 - 병종 불일치 영웅은 후보에 포함하지 않는다.
 - 확정 시 active slot 검증, 원본 token instance, 선택 영웅 ID, 대상 전선을 한 transaction으로 기록한다.
 - 중복 확정·부분 저장·원본 토큰 잔존·동시 영웅 둘 생성을 허용하지 않는다.
+- 수동 퇴각·교체 버튼을 노출하지 않으며, Stage 전환에도 현재 영웅 유지 상태를 표시한다.
 
 ## 7. 적대적 검토
 
@@ -124,21 +132,23 @@ HeroBattlefieldState:
 | 영웅 미해금 플레이가 손해만 보는 미완성판이 된다 | 유효 | 원본 영웅 등급 토큰 사용 가능·기본 Profile 완주 유지 |
 | 같은 영웅을 여러 번 배치해 복제된다 | 사용자 승인 | 동시 활성은 1명, 이전 인스턴스 종료 뒤 새 토큰으로 반복 출전 허용 |
 | 저장·동시 입력으로 영웅 둘이 생긴다 | 유효 | active slot 검증과 토큰 변환·배치를 원자 transaction으로 처리 |
+| 살아 있는 영웅을 퇴각해 새 영웅으로 즉시 바꾼다 | 유효 | 수동 퇴각·교대·판매·재보관 금지 |
+| Stage 종료마다 무료 교체한다 | 유효 | Stage·Act 전환에도 동일 영웅 인스턴스 유지 |
 
 ## 8. 미확정 항목
 
-- 영웅의 수동 퇴각·교대 허용 여부.
-- 영웅이 Stage 사이에 계속 남는지와 active 상태 종료 사건.
+- Stage 전환 시 체력·쿨다운·버프·디버프·고유 자원 처리.
+- 반복 출전 시 새 영웅 인스턴스의 초기 상태.
 - 원본 `[영웅] 등급 병종 토큰`의 정확한 능력 계약.
 - 영웅별 능력·등급·명단·수치.
 - 변환 UI의 정확한 화면 배치·키 입력.
-- 반복 출전 시 체력·쿨다운·상태 초기화 계약.
+- 영웅 사망 연출·결과 로그.
 
 ## 9. 후속 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
-= 현재 영웅이 살아 있을 때 수동 교대·퇴각을 허용하는가, 어떤 사건에서 active 상태가 종료되는가
+OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
+= 살아 있는 영웅의 체력·쿨다운·버프·디버프·고유 자원은 Stage 전환에서 어떻게 유지·회복되는가
 ```
 
 ## 10. 상태 경계
@@ -148,6 +158,10 @@ DESIGN: USER_APPROVED_TOKEN_CONVERSION_AND_DEPLOYMENT
 PRE_RUN_HERO_REGISTRATION: SUPERSEDED
 SIMULTANEOUS_ACTIVE_HEROES: MAX_1
 SAME_HERO_REPEAT_DEPLOYMENT: ALLOWED_AFTER_SLOT_CLEARS
+MANUAL_RETREAT_AND_REPLACEMENT: FORBIDDEN
+STAGE_AND_ACT_TRANSITION: SAME_INSTANCE_REMAINS
+ACTIVE_SLOT_CLEAR: HERO_DEATH_OR_MAPRUN_END
+STAGE_STATE_VALUES: PENDING
 EXACT_VALUES: PENDING
 SIMULATION: NOT_RUN
 RUNTIME: NOT_RUN
