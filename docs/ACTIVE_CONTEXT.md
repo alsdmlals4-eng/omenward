@@ -46,8 +46,9 @@ simulation: NOT_RUN
 - 일시 버프·디버프·타깃·어그로·시전·투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅 HP 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 - 영웅 사망 시 소비 토큰·재화·회수권·부활권·재배치권을 돌려주지 않는다.
-- 새 영웅 출전에는 새 동병종 `[영웅]` 등급 토큰이 필요하며, 보관 토큰이 없다면 룰렛에서 다시 영웅 등급 결과가 나와야 한다.
-- 새 토큰으로 생성한 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 완전한 새 인스턴스로 시작한다.
+- 이름 지정 영웅을 다시 출전시키려면 **사망 사건 이후 룰렛에서 새로 확정된 동병종 `[영웅]` 등급 토큰**이 필요하다.
+- 사망 전에 보관한 `[영웅]` 등급 토큰은 원본 영웅 등급 병종으로 사용할 수 있지만 이름 지정 영웅 재출전에 사용할 수 없다.
+- 사망 이후 적격 토큰으로 생성한 영웅은 최대 HP·준비된 스킬·기본 충전·초기 고유 자원의 완전한 새 인스턴스로 시작한다.
 
 ## 2. 프로젝트 약속
 
@@ -92,7 +93,8 @@ simulation: NOT_RUN
 → 살아 있는 동안 Stage·Act·정비시간을 넘어 같은 인스턴스로 유지
 → Stage 정산에서 장기 상태 저장·전투 잔여물 제거
 → 사망·완전 제거 시 active 슬롯 해제, 회수 보상 없음
-→ 새 토큰이 있을 때만 새 영웅 인스턴스 출전 가능
+→ 사망 이후 룰렛에서 새 동병종 [영웅] 등급 결과 확정
+→ 해당 post-death 토큰으로만 새 이름 지정 영웅 인스턴스 출전
 ```
 
 - 하나의 병종에 해금 영웅이 여러 명 존재할 수 있다.
@@ -101,8 +103,8 @@ simulation: NOT_RUN
 - 변환하지 않아도 원본 영웅 등급 병종을 배치할 수 있다.
 - 상·중·하를 합쳐 이름 지정 영웅은 동시에 최대 1명만 출전한다.
 - active hero가 있으면 새 토큰은 보관하거나 원본 병종으로 사용할 수 있다.
-- 같은 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 새 토큰으로 다시 배치할 수 있다.
-- 반복 출전마다 별도의 영웅 등급 토큰을 소비한다.
+- 같은 영웅도 이전 인스턴스가 사망·완전 제거된 뒤 다시 출전할 수 있지만, 사망 이후 새 룰렛 결과가 필요하다.
+- 반복 출전마다 사망 이후 획득한 별도의 동병종 영웅 등급 토큰을 소비한다.
 - 수동 퇴각·수동 교체·판매·재보관·전선 이동은 불가다.
 - Stage·Act 전환과 정비시간은 active 슬롯을 비우거나 무료 재배치·귀환을 제공하지 않는다.
 - 현재 HP·남은 쿨다운·사용 횟수·충전·고유 자원은 다음 Stage에 그대로 유지한다.
@@ -110,7 +112,9 @@ simulation: NOT_RUN
 - 투사체·장판·일시 소환물은 Stage 정산에서 제거한다.
 - 정비시간에는 영웅의 회복·쿨다운·충전·고유 자원 clock이 정지한다.
 - 영웅 사망은 source token 반환·골드·식량·영구재화·회수권·보장 토큰·pity를 생성하지 않는다.
-- 보관함에 새 미소비 동병종 영웅 등급 토큰이 없다면 룰렛에서 다시 해당 결과를 얻어야 한다.
+- 사망 전에 보관한 영웅 등급 토큰은 이름 지정 영웅의 사망 후 재출전 자격을 충족하지 않는다.
+- 사망 전 보관 토큰은 원본 영웅 등급 병종으로 배치하거나 계속 보관할 수 있다.
+- 적격 재출전 토큰은 `token.created_sequence > previous_hero.ended_sequence`를 만족해야 한다.
 - 새 인스턴스는 최대 HP, 쿨다운 0, 능력 기본 충전, 능력 초기 고유 자원으로 시작한다.
 - 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태를 승계하지 않는다.
 - 변환은 추가 병력·전역 패시브·릴 odds 변경을 만들지 않는다.
@@ -178,7 +182,9 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - Hero HP/cooldown/charges/unique resources persist; transient combat state clears at Stage settlement
 - Hero recovery/cooldown/charge/resource clocks pause during MaintenancePhase
 - Hero death gives no recovery reward or source-token return
-- a fresh matching Hero-grade token is required for a fresh full-state Hero instance
+- named-Hero redeployment requires a matching Hero-grade token created by a post-death Roulette result
+- pre-death stored Hero-grade tokens remain original-unit options but cannot qualify for named-Hero redeployment
+- an eligible post-death token creates a fresh full-state Hero instance
 ```
 
 `APPROVED_PLAN != IMPLEMENTED != VALIDATED`.
