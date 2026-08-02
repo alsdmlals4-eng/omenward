@@ -4,7 +4,7 @@
 updated_at: 2026-08-02
 status: CURRENT_DECISION_LEDGER / TOTAL_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
+current_planning_decision: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 canonical_baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 active_base: 9.4.0
 working_branch: gpt/omenward-canon-recovery-20260802
@@ -12,8 +12,8 @@ recovery_pr: 119
 superseded_planning_pr: 116
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
-ci_validation: REQUIRED_WORKFLOWS_TRACKED_AT_EXACT_PR_HEAD
+sheet_sync: ONTOLOGY_DECISION_SYNC_IN_PROGRESS
+ci_validation: PENDING_AT_FINAL_EXACT_PR_HEAD
 ```
 
 이 문서는 **현재 승인 Decision과 상태**만 소유한다. 제품 정체성과 불변 조건은 `PROJECT_CORE.md`, 실제 구현은 `CURRENT_IMPLEMENTATION_STATUS.md`, 질문별 라우팅은 `DOCUMENTATION_MAP.md`가 소유한다.
@@ -37,6 +37,7 @@ RECOMMENDED_DEFAULT
 
 | Decision ID | 상태 | 현재 결정 | 권위·계보 | 구현·검증 |
 |---|---|---|---|---|
+| `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` | `USER_APPROVED / CURRENT / SYNC_IN_PROGRESS` | 베일은 현실과 이질적인 외부 법칙 영역이 국소적으로 겹칠 때 생기는 비의지적 경계 현상이며, 혈관·균사·결정처럼 자라는 모습은 생명 의지가 아니라 법칙 충돌의 물질적 패턴이다 | `design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md` | 기원·외부 영역 구조·베일종 목적·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1` | `USER_APPROVED / CURRENT / CONTENT_SYNCED` | 각 MapRun은 징조로 감지된 별개의 실제 경계 공세이며, 징조는 제한된 예측 정보다. 승리는 한 균열·침공로 봉쇄, 패배는 전진 방어선 붕괴이며 시간 반복·가상 시뮬레이션이 아니다 | `design/APPROVED_OMENWARD_WORLD_RUN_MOTIVATION_2026-08-02.md` | 세계 상세·서사 콘텐츠·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1` | `USER_APPROVED / CURRENT / CONTENT_SYNCED` | 수평 해금·제한 편의를 주축으로 하고 한 런 1개·유한 랭크·초반 한정의 선택형 준비 보정으로 소규모 영구 전투력을 포함 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | exact values·simulation·runtime·human 검증 미실행 |
 | `OMW-DEC-20260802-CANON-RECOVERY-V1` | `USER_APPROVED / SYNCED` | Base v9.4와 현재 main에서 깨끗한 정본 복구 PR을 만들고 PR #116은 역사 증거로 대체 | recovery audit, PR #119, connected Sheet | 문서·Sheet sync·CI Green, 제품 변경 없음 |
@@ -65,7 +66,29 @@ RECOMMENDED_DEFAULT
 - 금고·농장·타워·병영·지휘소.
 - 벨루 안내자.
 
-## 4. 세계·MapRun 반복 동기 정본
+## 4. 베일 존재론 정본
+
+정본: `design/APPROVED_OMENWARD_VEIL_ONTOLOGY_2026-08-02.md`
+
+```text
+현실 세계 + 이질적인 외부 법칙 영역
+→ 선행 공명과 징조
+→ 국소적 법칙 겹침
+→ 물질적 성장·균열·침공로
+→ 봉쇄 또는 상흔 확대
+```
+
+- 베일은 장소·물리 장벽·신격이 아니라 현실과 외부 영역의 접촉면과 겹침 과정이다.
+- 베일 자체에는 통일된 의지·선악·계획이 없다.
+- 혈관·균사·뿌리·결정·조직처럼 보이는 증식은 법칙 충돌이 만든 반복적 물질 패턴이다.
+- `베일의 법칙`은 공세별로 관측 가능한 유한 규칙 묶음이며, 편의적으로 무엇이든 허용하는 마법이 아니다.
+- `베일의 징조`는 겹침 전의 선행 공명으로 공세 구조를 예고하지만 결과를 확정하지 않는다.
+- 균열 봉쇄는 베일을 죽이는 것이 아니라 국소 접촉면을 끊고 현실 법칙을 회복하는 행위다.
+- 봉쇄 뒤에도 지형·생태·물질·기억에 베일 상흔이 남을 수 있다.
+- 베일종은 베일 자체와 분리된 독립 행위자일 수 있으며, 발생·지성·목적은 후속 Decision에서 확정한다.
+- 외부 영역의 수·구조·기원과 최초 베일 발생 원인은 아직 미확정이다.
+
+## 5. 세계·MapRun 반복 동기 정본
 
 ```text
 징조 감지
@@ -82,9 +105,9 @@ RECOMMENDED_DEFAULT
 - 패배는 실제 피해와 철수로 남는다. paid Retry는 시간 되감기가 아니라 같은 공세의 비상 재투입이다.
 - Profile은 실제 작전에서 축적된 교리·보급망·기록·준비 체계다.
 - 벨루는 시간 루프 기억자가 아니라 공세를 관측·기록하고 인과를 설명하는 안내자다.
-- 기존 `루메른 왕국·루미엔 영토·트리븐 전선·실베른 성채·베일런 황야·베일의 법칙·베일종` 명칭 계보는 보존하지만 최종 정의는 후속 세계관 Decision에서 재검증한다.
+- 기존 `루메른 왕국·루미엔 영토·트리븐 전선·실베른 성채·베일런 황야·베일의 법칙·베일종` 명칭 계보는 보존한다.
 
-## 5. Profile 영구 성장 정본
+## 6. Profile 영구 성장 정본
 
 ```text
 PRIMARY = 수평 해금 + 제한된 편의
@@ -101,7 +124,7 @@ FORBIDDEN = 무한 영구 능력치 누적
 - Retry는 spendable balance를 소비하고 준비 보정은 누적 정산 milestone으로 해금하는 것을 권장한다.
 - 정확 효과량·milestone·비용은 시험값과 100K Profile trajectory 뒤 별도 승인한다.
 
-## 6. 현재 실제 구현 경계
+## 7. 현재 실제 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -117,9 +140,9 @@ CURRENT_PRODUCT = LEGACY_PROTOTYPE
 LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 ```
 
-세계·MapRun 정본, Profile 영구 성장, 수평 해금, 준비 보정, paid Retry는 제품에 구현되지 않았다.
+베일 존재론, 세계·MapRun 정본, Profile 영구 성장, 수평 해금, 준비 보정, paid Retry는 제품에 구현되지 않았다.
 
-## 7. 상세 수치 정책
+## 8. 상세 수치 정책
 
 ```text
 기획 철학·플레이어 결과 확정
@@ -134,39 +157,41 @@ LATEST_APPROVED_PRODUCT = NOT_IMPLEMENTED
 
 과거 코드와 문서의 `20 gold spin`, `160 starting gold`, `70/50/40 refund` 등은 `LEGACY_H0 / HISTORICAL_ONLY`이며 현재 제품값이 아니다.
 
-## 8. 적대적 검토 판정
+## 9. 적대적 검토 판정
 
 ### 해결된 핵심 충돌
 
+- 베일이 신·장벽·장소 중 무엇인지 불명확: 비의지적 경계 겹침 현상으로 확정.
+- 생태적으로 자라는 외형이 통일된 의지로 오인될 위험: 물질적 패턴과 행위 주체를 분리.
+- 베일의 법칙이 만능 설정이 될 위험: 공세별 유한·관측·반복 가능한 규칙으로 제한.
+- 베일에 의지가 없으면 침공을 설명할 수 없는 문제: 베일종의 독립 행위 가능성을 분리하고 목적은 후속 결정.
+- 국소 봉쇄 뒤 전쟁 지속이 승리를 무효화하는 문제: 해당 접촉면은 실제로 닫되 다른 균열과 상흔은 남음.
 - 반복 전투가 시간 루프인가 실제 전쟁인가: 별개의 실제 경계 공세로 확정.
-- Stage 20 승리 뒤 반복의 의미: 한 균열·침공로는 봉쇄되지만 전쟁 전체는 지속.
 - 징조가 선택을 무효화하는 문제: 공세 구조를 예고하지만 결과는 확정하지 않음.
 - Profile 성장의 세계관 의미: 전술 교리·보급망·기록·준비 체계의 축적.
-- 영구 성장 없음으로 반복 동기가 약해지는 위험: 수평 해금과 제한된 준비 보정으로 보완.
-- 직접 능력치 누적으로 노가다가 정답이 되는 위험: 한 런 1개·유한 랭크·초반 한정으로 제한.
 
 ### RESEARCH_OR_TEST_REQUIRED
 
-- 세계 규모·공세 빈도·한 작전의 인명·영토 지속 결과.
+- 플레이어가 베일을 장소·신·생명체가 아닌 경계 현상으로 이해하는지 사람 검증.
+- 생태적 외형과 비의지적 본질의 동시 전달.
+- 외부 영역의 수·구조·기원.
+- 균열 발생 조건·공세 빈도·세계 규모·베일 상흔의 누적 한계.
+- 베일 법칙 콘텐츠의 일관성·예고 가능성·가독성.
 - `P0_BASE_PROFILE`, `P1_HORIZONTAL_ONLY`, `P2_HYBRID_MAX_CANDIDATE` 100K Profile trajectory 비교.
-- 준비 보정별 지배 전략·후반 꼬리 seed·실패 귀인.
-- 성장 체감과 노가다 강제감 사람 검증.
-- 룰렛 통제감 사람 검증.
-- save/retry fault injection.
-- 일반/위험 Stage 인지 부하.
-- 35분 런 피로도.
+- 룰렛 통제감, save/retry fault injection, 위험 Stage 인지 부하, 35분 런 피로도.
 
-## 9. USER_DECISION_REQUIRED
+## 10. USER_DECISION_REQUIRED
 
 | 순서 | Decision ID | 질문 | 상태 |
 |---|---|---|---|
-| 1 | `OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1` | 베일의 본질과 세계의 경계 상태 | `READY` |
-| 2 | 오멘워드 조직·루메른 왕국·지휘관의 정치적 위치 | 세계 조직 결정 | `QUEUED` |
-| 3 | 베일종·경계파쇄자의 발생·지성·목적 | 적대 존재 결정 | `QUEUED` |
-| 4 | 징조·세 물리 릴·TokenSource의 세계 내 원리 | 시스템 세계관 연결 | `QUEUED` |
-| 5 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED_AFTER_WORLD_CORE` |
+| 1 | `OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1` | 오멘워드 조직·루메른 왕국·지휘관의 정치적 위치 | `READY_AFTER_SYNC` |
+| 2 | `OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1` | 베일종·경계파쇄자의 발생·지성·목적 | `QUEUED` |
+| 3 | `OMW-DEC-20260802-WORLD-REEL-METAPHYSICS-V1` | 징조·세 물리 릴·TokenSource의 세계 내 원리 | `QUEUED` |
+| 4 | 세계 지리·역사·상흔 | 트리븐 전선·실베른 성채·베일런 황야 | `QUEUED` |
+| 5 | 벨루의 종족·기원·관계 | 베일 감지 능력과 조직 관계 | `QUEUED` |
+| 6 | `OMW-DEC-20260802-VS-CONTENT-BREADTH-V1` | 10병종·20전문화의 데모 대표 범위 | `QUEUED_AFTER_WORLD_CORE` |
 
-## 10. 검증 기준
+## 11. 검증 기준
 
 ```text
 RECOVERY_DECISION_ID_MATCH: PASS
@@ -174,17 +199,18 @@ BASE_V9_4_CURRENT: PASS
 PR_116_CLOSED_NOT_MERGED: PASS
 PR_119_CURRENT_DRAFT: PASS
 PRODUCT_PATH_CHANGES: 0
-WORLD_RUN_GITHUB_CONTENT_SYNC: PASS
-WORLD_RUN_SHEET_READBACK: PASS
-EXACT_PR_HEAD: TRACKED_IN_PR_AND_SHEET
-REQUIRED_WORKFLOW_RESULTS: TRACKED_AT_EXACT_PR_HEAD
+ONTOLOGY_GITHUB_CONTENT_SYNC: IN_PROGRESS
+ONTOLOGY_SHEET_READBACK: PENDING
+EXACT_PR_HEAD: PENDING_FINAL_SYNC
+REQUIRED_WORKFLOW_RESULTS: PENDING_FINAL_HEAD
 RUNTIME/HUMAN/SIMULATION: NOT_RUN
 ```
 
-## 11. 현재 다음 Gate
+## 12. 현재 다음 Gate
 
 ```text
-Grill Me: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
+Sync OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
+→ Grill Me: OMW-DEC-20260802-WORLD-OMENWARD-POLITICAL-ROLE-V1
 ```
 
 ```text
