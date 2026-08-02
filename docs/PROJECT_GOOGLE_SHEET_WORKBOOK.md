@@ -13,7 +13,7 @@ working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PENDING / CI_PENDING
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
 current_grill_me_count: 8
 next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 last_full_audit: 2026-08-02
@@ -76,28 +76,31 @@ Hero death or complete removal
 - 이름 지정 영웅 재출전에는 사망 이후 룰렛에서 새로 확정된 동병종 `[영웅]` 등급 토큰이 필요하다.
 - 일반·다른 등급·병종 불일치 토큰은 사용할 수 없다.
 - 새 적격 영웅 인스턴스는 최대 HP, 남은 쿨다운 `0`, 능력 기본 사용 횟수·충전, 능력 초기 고유 자원으로 시작한다.
-- 고유 자원 초기값은 능력 계약이 정하며 별도 명시가 없으면 `0`이다.
-- 이전 사망 인스턴스의 HP·쿨다운·충전·고유 자원·일시 상태·파생 개체를 승계하지 않는다.
+- 이전 사망 인스턴스의 전투 상태와 파생 개체는 승계하지 않는다.
 - 동일 hero_id를 다시 선택해도 새 unit_instance_id와 deployment_id를 만든다.
 - 사망·슬롯 해제 transaction과 provenance 검증·토큰 소비·새 유닛 생성 transaction을 분리한다.
 
-## 4. 재동기화 후보
+## 4. 동기화 증거
 
 ```text
-PR #121 candidate head before Sheet correction:
-44744647546e3b8b1c4d1111284dcfb2cface056
+PR #121 verified candidate head before workbook closure commit:
+63c9fb65fc23660ab46ec169ba9d9f5af6cfa047
 
-SHEET_BOUNDED_READBACK: PENDING
-REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
+SHEET_BOUNDED_READBACK: PASS
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 587: PASS
+- GDD Sheet Adoption run 301: PASS
+- Base v9 adoption run 276: PASS
 ```
 
-재동기화 예정 범위:
+동기화 범위:
 
-- `00_프로젝트_허브!E2:L2`
+- `00_프로젝트_허브!H2:L2`
 - `01_작업순서!D23:N23`
 - `02_현재_확정결정!D32:M32`
-- `04_누락_충돌_감사!A91:H91`
-- `04_누락_충돌_감사!A95:H96`
+- `04_누락_충돌_감사!C92:H92`
+- `04_누락_충돌_감사!C95:H95`
+- `04_누락_충돌_감사!A96:H96`
 - `05_GDD_요약!B9:J9`
 - `12_핵심루프!C9:J9`
 - `15_조작_게임규칙!C12:J12`
@@ -112,14 +115,12 @@ REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
 - 공식 게임 진행 계층은 `맵 → MapRun → Stage → Wave → Stage 정산 → 정비시간`이다.
 - 네 가지 런 운영 기능은 Stage 전투 중과 정비시간 모두 사용할 수 있다.
 - 병종별 영웅 후보는 복수 해금 가능하고 Profile 명부에 등록된다.
-- 별도의 pre-run 영웅 편성·계약은 없다.
 - 영웅 변환은 `1토큰 → 1유닛`이며 보너스 유닛과 릴 odds 변경이 없다.
 - 전장 전체 이름 지정 active 영웅은 최대 1명이다.
 - 영웅은 수동 퇴각·교대할 수 없고 Stage·Act·정비시간에 동일 인스턴스로 유지된다.
 - 생존 인스턴스의 HP·쿨다운·충전·고유 자원은 Stage 경계를 넘어 유지하고 일시 전투 상태는 제거한다.
 - 사망한 인스턴스에는 생존 persistent-state 규칙을 적용하지 않으며 회수 보상도 없다.
 - 사망 후 이름 지정 영웅 반복 출전은 post-death token provenance를 요구한다.
-- 게임 코어는 세 물리 릴 설계와 한 전선 비가역 커밋이다.
 
 ## 6. 동기화 절차
 
@@ -144,39 +145,28 @@ REQUIRED_CI_AT_CANDIDATE_HEAD: PENDING
 |---|---|
 | 제품 코어 | `docs/PROJECT_CORE.md` |
 | 현재 승인 Decision | `docs/PROJECT_CANON_DECISION_LEDGER.md` |
-| 맵·MapRun·Stage·Wave·정비시간 | `docs/design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` |
-| 영웅 해금·명부 | `docs/design/APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md` |
 | 영웅 토큰 변환·배치 | `docs/design/APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md` |
 | 영웅 단일 활성·반복 출전 | `docs/design/APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md` |
 | 영웅 퇴각·교대·active 종료 | `docs/design/APPROVED_OMENWARD_HERO_EXIT_AND_REPLACEMENT_2026-08-02.md` |
-| 영웅 Stage 상태 지속·전투 잔여물 정리·정비 clock | `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` |
-| 영웅 사망 무회수·post-death 결과·새 인스턴스 초기 상태 | `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` |
-| 주점·병영·연구 | `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md` |
-| Profile 성장 | `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` |
-| 이계 생물종·경계파쇄자 | `docs/design/APPROVED_OMENWARD_VEILSPECIES_GAMEPLAY_SCOPE_2026-08-02.md` |
-| 화면 | `docs/design/APPROVED_OMENWARD_VISUAL_SCREEN_BOARD_V2_TEXT_SPEC_2026-08-01.md` |
-| 병합 운영 | `docs/operations/GRILL_ME_MERGE_CADENCE_AND_PREFLIGHT_2026-08-02.md` |
-| 실제 구현 | `docs/CURRENT_IMPLEMENTATION_STATUS.md`와 실제 파일 |
+| 영웅 Stage 상태 지속 | `docs/design/APPROVED_OMENWARD_HERO_STAGE_STATE_PERSISTENCE_2026-08-02.md` |
+| 영웅 사망 무회수·post-death 결과·새 인스턴스 | `docs/design/APPROVED_OMENWARD_HERO_REDEPLOYMENT_INITIAL_STATE_2026-08-02.md` |
 | 현재 작업 | `docs/ACTIVE_CONTEXT.md` |
 | 질문별 라우팅 | `docs/DOCUMENTATION_MAP.md` |
 
 ## 8. 금지
 
-- Sheet-only 변경을 승인 Decision으로 처리.
 - 영웅 사망 시 source token·재화·회수권·부활권·무료 재배치권을 생성.
 - 영웅 사망으로 다음 룰렛 영웅 확률·보장·pity를 변경.
 - 사망 전에 보관한 영웅 등급 토큰으로 사망 후 이름 지정 영웅을 재출전.
 - 일반·다른 등급·병종 불일치 토큰을 이름 지정 영웅으로 승격.
 - 새 영웅 인스턴스에 이전 사망 인스턴스 상태를 승계.
-- 저장·재시도로 토큰 하나에서 영웅 둘을 생성.
-- Stage마다 생존 영웅 HP·쿨다운·충전·고유 자원을 무료 초기화.
-- 정비시간 체류로 생존 영웅 상태를 회복.
+- 저장·재시도로 토큰 하나에서 영웅 둘을 생성하거나 provenance 순서를 변경.
 - 승인 기획을 구현 완료·runtime 검증 완료로 표시.
 
 ## 9. 현재 상태
 
 ```text
-SHEET_STATUS = READBACK_PENDING / CI_PENDING
+SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 GRILL_ME_COUNTER = 8_OF_10
 NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
