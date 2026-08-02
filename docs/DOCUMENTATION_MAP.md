@@ -3,7 +3,7 @@
 ```yaml
 updated_at: 2026-08-02
 work_mode: TOTAL_PLANNING
-current_phase: WORLD_CANON_FOUNDATION
+current_phase: WORLD_VEIL_ONTOLOGY_GRILL_ME_READY
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260802-WORLD-RUN-MOTIVATION-V1
 baseline_main: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
@@ -13,7 +13,7 @@ latest_planning: APPROVED_NOT_IMPLEMENTED
 product_code_authority: NONE
 recovery_pr: 119
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_sync: WORLD_RUN_SYNC_IN_PROGRESS
+sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. 한 질문에 하나의 현행 책임 원본만 둔다. PR #116은 역사적 승인 계보이며 현재 작업·병합 권위가 아니다.
