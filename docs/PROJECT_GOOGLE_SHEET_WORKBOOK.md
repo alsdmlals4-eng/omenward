@@ -13,7 +13,7 @@ working_branch: gpt/omenward-gameplay-planning-20260802
 active_base: 9.4.0
 last_merged_pr: 120
 superseded_pr: 116_CLOSED_NOT_MERGED
-sheet_status: PROJECT_SHEET_CONFIGURED / ACTIVE_DECISION_SYNC
+sheet_status: PROJECT_SHEET_CONFIGURED / READBACK_PASS / CI_3_GREEN
 current_grill_me_count: 5
 next_decision: OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
 last_full_audit: 2026-08-02
@@ -72,18 +72,31 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1`
 - 사망 후 무료 재출전·자동 부활·자동 교체는 없다.
 - Stage 사이 체력·쿨다운·버프·디버프·고유 자원 처리는 pending이다.
 
-## 4. 동기화 예정 범위
+## 4. 동기화 증거
+
+```text
+PR #121 verified head before workbook closure commit:
+b6a06b8ee2079d513292cf6fc92c948bf0744854
+
+SHEET_BOUNDED_READBACK: PASS
+REQUIRED_CI_AT_VERIFIED_HEAD:
+- Project Core Documentation run 550: PASS
+- GDD Sheet Adoption run 261: PASS
+- Base v9 adoption run 236: PASS
+```
+
+동기화 범위:
 
 - `00_프로젝트_허브!E2:L2`
-- `01_작업순서!A20:N20`
-- `02_현재_확정결정!A29:M29`
+- `01_작업순서!A19:N20`
+- `02_현재_확정결정!A28:M29`
 - `04_누락_충돌_감사!A73:H77`
 - `05_GDD_요약!D8:J8`
 - `05_GDD_요약!B9:J9`
 - `15_조작_게임규칙!A9:J9`
-- `41_성장_경제!A21:I21`
-- `50_메인콘텐츠!A15:J15`
-- `60_UX_UI_접근성!A16:J16`
+- `41_성장_경제!A20:I21`
+- `50_메인콘텐츠!A14:J15`
+- `60_UX_UI_접근성!A15:J16`
 - `99_변경이력!A30:H30`
 
 ## 5. 기존 승인 연결
@@ -146,7 +159,7 @@ Decision: `OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1`
 ## 9. 현재 상태
 
 ```text
-SHEET_STATUS = ACTIVE_DECISION_SYNC
+SHEET_STATUS = READBACK_PASS / CI_3_GREEN
 BASELINE_MAIN = 12012f88bc1dc1d9aaaa538b578be3893e4b1591
 GRILL_ME_COUNTER = 5_OF_10
 NEXT_DECISION = OMW-DEC-20260802-GAMEPLAY-HERO-STAGE-STATE-PERSISTENCE-V1
