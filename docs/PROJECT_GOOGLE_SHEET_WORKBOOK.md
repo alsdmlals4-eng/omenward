@@ -8,7 +8,7 @@ current_decision: OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-R
 current_pr: 129
 working_branch: gpt/omenward-hero-kit-planning-20260802
 grill_me_count: 6_of_10
-sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_PR_129_HEAD / READBACK_PASS / CANDIDATE_CI_3_GREEN / FINAL_EXACT_REVALIDATION_PENDING
+sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_PR_129_HEAD / READBACK_PASS / CI_3_GREEN
 workspace_mode: USER_FACING_GDD_WORKSPACE
 change_protocol: PROPOSED_SHEET_CHANGE
 product_code_authority: NONE
@@ -135,12 +135,12 @@ COOLDOWN
 
 유효 조건이 없으면 준비 상태를 유지한다.
 
-## 8. 후보 HEAD 검증 증거
+## 8. 최종 exact HEAD 검증
 
 ```text
-CANDIDATE_HEAD = fb39e0f40a6b580c1f3e70619aaa4abcf6e34cb4
+EXACT_HEAD = 22bc9c05fd3fdbe33fc9ed3b7a44f375f23ad652
 BASE_MAIN = f7ab60c1ec983fe08a6c3a1dcf02876c4bb18c1e
-COMPARE = ahead 64 / behind 0
+COMPARE = ahead 65 / behind 0
 CHANGED_PATHS = 16 documentation-only files
 PRODUCT_PATHS = 0
 COMMENTS = 0
@@ -152,24 +152,23 @@ MERGE_BLOCKER = 0
 ```
 
 ```text
-Validate Project Core Documentation = PASS / run 709
-Validate Omenward GDD Sheet Adoption = PASS / run 429
-Validate Base v9 adoption = PASS / run 410
+Validate Project Core Documentation = PASS / run 710
+Validate Omenward GDD Sheet Adoption = PASS / run 430
+Validate Base v9 adoption = PASS / run 411
 ```
 
-이 Workbook 마감 커밋으로 PR head가 이동하므로, 위 증거는 후보 HEAD 증거다. 이동한 최종 exact HEAD에서 CI 3개를 다시 확인해야 한다.
+Google Sheet read-back:
+
+```text
+00 Hub exact SHA = 22bc9c05fd3fdbe33fc9ed3b7a44f375f23ad652
+02 Decision exact SHA/status = PASS
+05 GDD CI runs = 710 / 430 / 411
+99 Change History exact SHA/status = PASS
+```
 
 ## 9. 실패·교정 기록
 
-첫 후보 HEAD `ddb509fcec174fb6ec682b941d2a0a62092859a3`에서:
-
-```text
-Core = PASS / run 708
-Base v9 = PASS / run 409
-GDD Sheet = FAIL / run 428
-```
-
-실패 원인은 내용 충돌이 아니라 Workbook에서 CI 고정 표식 `PROJECT_SHEET_CONFIGURED`가 누락된 것이었다. 테스트 계약을 확인해 `PROJECT_SHEET_CONFIGURED`, `USER_FACING_GDD_WORKSPACE`, `PROPOSED_SHEET_CHANGE`를 복원했고 후보 HEAD에서 GDD Sheet run 429가 통과했다.
+첫 후보 HEAD `ddb509fcec174fb6ec682b941d2a0a62092859a3`에서 GDD Sheet run 428이 실패했다. 원인은 Workbook에서 CI 고정 표식 `PROJECT_SHEET_CONFIGURED`가 누락된 것이었다. 테스트 계약을 확인해 `PROJECT_SHEET_CONFIGURED`, `USER_FACING_GDD_WORKSPACE`, `PROPOSED_SHEET_CHANGE`를 복원했고 이후 후보 run 429와 최종 exact-head run 430이 통과했다.
 
 ## 10. 구현·검증 경계
 
@@ -188,13 +187,13 @@ HUMAN_QA = NOT_RUN
 ## 11. 최종 검증 체크리스트
 
 - [x] GitHub와 Sheet에 같은 Decision ID.
-- [ ] Sheet에 최종 exact PR head SHA.
+- [x] Sheet에 최종 exact PR head SHA.
 - [x] bounded read-back PASS.
-- [ ] 필수 CI 3개 final exact HEAD Green.
-- [x] latest main 대비 behind 0 at candidate.
-- [x] changed paths가 문서 전용 at candidate.
-- [x] 제품 경로 0 at candidate.
-- [x] PR comments·reviews·unresolved threads 0 at candidate.
+- [x] 필수 CI 3개 final exact HEAD Green.
+- [x] latest main 대비 behind 0.
+- [x] changed paths가 문서 전용.
+- [x] 제품 경로 0.
+- [x] PR comments·reviews·unresolved threads 0.
 - [x] Sheet `OPEN_P0`, `OPEN_P1`, `MERGE_BLOCKER` 0.
 - [x] PR #129 Draft 유지, 카운터 6/10.
 
