@@ -47,6 +47,8 @@ sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 | Profile 영구 성장 역할 | `design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md` | `USER_APPROVED_PLAN / EXACT_VALUES_PENDING` |
 | 정본 복구·적대적 finding | `audits/OMENWARD_CANON_RECOVERY_AND_TOTAL_PLANNING_RESTART_2026-08-02.md` | `CURRENT_RECOVERY_AUTHORITY` |
 | 전체 Vertical Slice 시스템 관계 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `APPROVED_SYSTEM_CONTRACT / LATER_DECISIONS_OVERRIDE` |
+| 현행 Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_REVIEW_LINEAGE / LATER_REVIEWS_OVERRIDE` |
+| 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 | 실제 구현·Legacy·미검증 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
 | 현재 작업과 다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
@@ -54,7 +56,14 @@ sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 | 미확정 수치·콘텐츠 | `DECISIONS_PENDING.md` | `PENDING_REFERENCE / LEDGER_OVERRIDES` |
 | 통합 게임 설명 | `OMENWARD_GAME_DESIGN.md` | `REFERENCE_SUMMARY / CURRENT_DECISIONS_OVERRIDE` |
 
-## 3. 현재 승인 기획 계보
+## 3. 검토·증거 경계
+
+- `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`는 현재 전체 시스템 Vertical Slice 계보의 적대적 검토다. 이후 Decision과 이번 세계관 검토가 충돌하면 최신 사용자 승인과 최신 분야 정본이 우선한다.
+- `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 룰렛 통제감 가설의 Evidence Pilot이다.
+- Evidence Pilot 상태는 반드시 `PILOT_RECOMMENDATION / NOT_CANON`으로 유지한다.
+- Pilot은 제품 구현·사람 검증·세계관 정본·CORE_LOCK 권한을 갖지 않는다.
+
+## 4. 현재 승인 기획 계보
 
 - 20 Stage·4막·위험 Stage 5/10/15/20.
 - 콘텐츠 Manifest·미션 카드·보스 패키지.
@@ -67,7 +76,7 @@ sheet_sync: CONTENT_READBACK_PASS / EXACT_HEAD_TRACKED_IN_SHEET_AND_PR
 - 별개의 실제 경계 공세 + 징조의 제한된 예측 정보.
 - 즉시 GitHub·Sheet Decision sync.
 
-## 4. 세계관 라우팅
+## 5. 세계관 라우팅
 
 ### 확정
 
@@ -98,7 +107,7 @@ OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 
 이 결정 전에는 베일을 다른 차원·마법 장벽·신적 존재·생명체 군집 중 하나로 임의 확정하지 않는다.
 
-## 5. 분야별 라우팅
+## 6. 분야별 라우팅
 
 | 분야 | 먼저 읽을 원본 | 보조·검증 |
 |---|---|---|
@@ -114,7 +123,7 @@ OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
 | UX·UI·접근성 | Screen Board V2 inherited Decision | runtime·해상도 검증 NOT_RUN |
 | 구현 인계 | Planning and Review Complete 이후 새 Plan | Codex BLOCKED |
 
-## 6. 실제 구현 경계
+## 7. 실제 구현 경계
 
 ```text
 CURRENT_PRODUCT
@@ -133,7 +142,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 - real-incursion world/run principle
 ```
 
-## 7. 상태·수치 경계
+## 8. 상태·수치 경계
 
 ```text
 APPROVED_PLAN != IMPLEMENTED != VALIDATED
@@ -141,7 +150,7 @@ RECOMMENDED_DEFAULT != PRODUCT_VALUE
 WORLD_PRINCIPLE_APPROVED != WORLD_DETAIL_APPROVED
 ```
 
-## 8. Grill Me 규칙
+## 9. Grill Me 규칙
 
 - 자료에서 확인 가능한 사실은 묻지 않는다.
 - 이미 승인된 결정은 재질문하지 않는다.
@@ -149,7 +158,7 @@ WORLD_PRINCIPLE_APPROVED != WORLD_DETAIL_APPROVED
 - 프로젝트 방향을 바꾸는 핵심 충돌만 한 번에 하나씩 질문한다.
 - 답변 후 GitHub·Sheet가 같은 Decision ID로 동기화되기 전 다음 질문으로 넘어가지 않는다.
 
-## 9. 현재 다음 Gate
+## 10. 현재 다음 Gate
 
 ```text
 Grill Me: OMW-DEC-20260802-WORLD-VEIL-ONTOLOGY-V1
