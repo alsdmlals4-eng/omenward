@@ -9,13 +9,13 @@ sheet_edit_policy: PROPOSED_SHEET_CHANGE
 canonical_authority: GITHUB
 current_sync_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_gate: NEXT_PLANNING_BATCH_SELECTION
-baseline_main_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+pr121_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 working_branch: NONE
 active_base: 9.4.2
-last_merged_pr: 121
-last_merge_commit: 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
-current_pr: NONE
-sheet_status: SYNCED_TO_MAIN / MERGE_VERIFIED
+last_merged_planning_pr: 121
+current_planning_pr: NONE
+sheet_status: PROJECT_SHEET_CONFIGURED / SYNCED_TO_MAIN / MERGE_VERIFIED
 current_grill_me_count: 0
 preflight: PR121_PASS_AND_MERGED
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
@@ -23,14 +23,15 @@ product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
 last_full_audit: 2026-08-02
 ```
 
-Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. GitHub main이 기획 정본이며 Sheet는 같은 Decision ID와 main SHA를 표시한다.
+Google Sheet는 사용자가 전체 GDD 흐름·결정·근거·작업 순서를 확인하고 수정하는 계획 작업면이다. GitHub main이 기획 정본이며 Sheet는 같은 Decision ID와 main SHA를 표시한다. `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석하며 `pr121_merge_commit`은 최근 기획 묶음의 역사적 병합 증거다.
 
 ## 1. 현재 동기화 상태
 
 ```text
+PROJECT_SHEET_CONFIGURED
 PR #121 = MERGED
 MERGE_METHOD = SQUASH
-MERGE_COMMIT = 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
+PR121_MERGE_COMMIT = 8337a3eba5ff065b2a7c06c6a6256e5b4951c055
 SHEET_STATUS = SYNCED_TO_MAIN / MERGE_VERIFIED
 GRILL_ME_COUNTER = 0_OF_10
 PRODUCT_STATUS = NOT_IMPLEMENTED
