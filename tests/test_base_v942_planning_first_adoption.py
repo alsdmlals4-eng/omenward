@@ -6,34 +6,28 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ADAPTER = ROOT / "skills/PROJECT_BASE_ADAPTER.json"
-PAYLOAD = "dd705d7f48a7919187bc0507610ba5fc5b43a658"
-EVIDENCE = "0c6cdd128bf1f5782e96b3a6240c9585f8d1ef6d"
-FINALIZATION = "ac9466edc2d93b59f274c9ac55ca719eba2809e3"
-REGISTRY = "693a0dff3f054ecdd653079909e044211473838e73dd9aff07734d1ce5694c59"
 
 
 def load() -> dict:
     return json.loads(ADAPTER.read_text(encoding="utf-8"))
 
 
-class BaseV942PlanningFirstAdoptionTests(unittest.TestCase):
-    def test_release_identity(self) -> None:
-        adapter = load()
-        release = adapter["base_release"]
-        self.assertEqual("9.4.2", release["version"])
-        self.assertEqual(PAYLOAD, release["release_commit"])
-        self.assertEqual(EVIDENCE, release["release_evidence_commit"])
-        self.assertEqual(FINALIZATION, release["finalization_commit"])
-        self.assertEqual(REGISTRY, adapter["skill_registry"]["base"]["sha256"])
+class PlanningFirstCompatibilityTests(unittest.TestCase):
+    def test_v943_preserves_planning_first_contract(self) -> None:
+        data = load(); release = data["base_release"]
+        self.assertEqual("9.4.3", release["version"])
+        self.assertEqual("7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8", release["release_commit"])
+        self.assertEqual("da33a350d61b8adc52df97fccc7001708a933370", release["release_evidence_commit"])
+        self.assertEqual("0b7c94f38d959efc0fc9442274c60b2e268a3c97", release["finalization_commit"])
+        self.assertEqual("693a0dff3f054ecdd653079909e044211473838e73dd9aff07734d1ce5694c59", data["skill_registry"]["base"]["sha256"])
 
     def test_planning_first_contract(self) -> None:
-        adapter = load()
-        active = {route["skill_id"] for route in adapter["routing"]["base_routes"] if route.get("status") == "ACTIVE"}
+        data = load(); active = {r if isinstance(r, str) else r["skill_id"] for r in data["routing"]["base_routes"] if isinstance(r, str) or r.get("status") == "ACTIVE"}
         self.assertIn("managing-project-intake-and-work-contract", active)
-        policy = adapter["shared_overrides"]["managing-project-intake-and-work-contract"]["planning_first_governance"]
+        policy = data["shared_overrides"]["managing-project-intake-and-work-contract"]["planning_first_governance"]
         self.assertEqual("docs/PLANNING_FIRST_GRILL_ME_BATCH_POLICY.md", policy["base_contract_source"])
         self.assertEqual("templates/project-operations/GRILL_ME_BATCH_CHECKPOINT.md", policy["checkpoint_template"])
-        self.assertEqual("base-v9.4.2.lock.json", policy["base_release_lock"])
+        self.assertEqual("base-v9.4.3.lock.json", policy["base_release_lock"])
         self.assertEqual(10, policy["max_approved_decisions_per_batch"])
         self.assertEqual("RECOMMENDED_DEFAULT", policy["numeric_default_state"])
         self.assertEqual("GRILL_ME_REQUIRED", policy["planning_conflict_state"])
@@ -42,11 +36,10 @@ class BaseV942PlanningFirstAdoptionTests(unittest.TestCase):
         self.assertEqual("NOT_RUN", policy["actual_project_batch_execution"])
 
     def test_project_boundaries_remain_unchanged(self) -> None:
-        adapter = load()
-        self.assertEqual("BLOCKED", adapter["gdd_sheet"]["sync_status"])
-        self.assertEqual(["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"], adapter["protected_paths"])
-        self.assertEqual("NOT_RUN", adapter["shared_overrides"]["orchestrating-deepseek-worktrees"]["actual_external_ai_worktree_execution"])
+        data = load()
+        self.assertEqual("BLOCKED", data["gdd_sheet"]["sync_status"])
+        self.assertEqual(["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"], data["protected_paths"])
+        self.assertEqual("NOT_RUN", data["shared_overrides"]["orchestrating-deepseek-worktrees"]["actual_external_ai_worktree_execution"])
 
 
-if __name__ == "__main__":
-    unittest.main()
+if __name__ == "__main__": unittest.main()
