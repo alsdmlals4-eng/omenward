@@ -6,7 +6,8 @@ project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
 current_phase: CANON_RECOVERY_AND_ADVERSARIAL_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-baseline_main_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
+current_branch: main
+context_baseline_commit: 9a39f6869f95ec4e6e1f6b96a6a2f896a22c5739
 working_branch: gpt/omenward-canon-recovery-20260802
 active_base_version: 9.4.0
 base_unreleased_main: OBSERVED_NOT_ADOPTED
@@ -16,11 +17,14 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 primary_platform: PC
 future_platform: MOBILE_CONSIDERATION_ONLY
-sheet_sync: IN_PROGRESS
+sheet_sync: READBACK_PASS_AT_PREVIOUS_HEAD / FINAL_HEAD_REFRESH_REQUIRED
 superseded_pr: 116
+recovery_pr: 119
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
+
+`current_branch: main`과 `context_baseline_commit`은 현재 정본 기준선을 뜻한다. 실제 쓰기 작업은 `working_branch`에서 수행하며 main 직접 변경을 의미하지 않는다.
 
 ## 1. 현재 작업
 
@@ -90,7 +94,7 @@ LATEST_APPROVED_NOT_IMPLEMENTED
 3. Sheet의 오래된 PR HEAD와 `SYNCED_TO_PR_HEAD` 상태 수정.
 4. Active Context·Handoff·Documentation Map·Workbook의 current routing 복구.
 5. 시험값·legacy값·승인값·구현값·검증값 상태 분리.
-6. 검증된 Sheet 열 밀림과 헤더 불일치 수정.
+6. 검증된 Sheet 열 밀림과 schema 불일치 수정.
 
 ### USER_DECISION_REQUIRED
 
@@ -113,8 +117,6 @@ Profile 영구 성장은 무엇을 제공해야 하는가?
 - 1080p·720p 가독성·접근성.
 
 ## 6. 상세 수치 처리
-
-사용자가 상세 데이터 수치는 GPT 권장안으로 진행하도록 승인했다. 따라서 숫자는 다음 순서로 제시한다.
 
 ```text
 기획 의미와 제약식
@@ -143,10 +145,8 @@ Profile 영구 성장은 무엇을 제공해야 하는가?
 ## 8. 다음 작업
 
 ```text
-GitHub 정본 복구 commit
-→ Google Sheet same-Decision sync·read-back
-→ 대체 Draft PR 생성
-→ PR #116 superseded 처리
+호환성 validator Green
+→ 최종 GitHub HEAD·Sheet 재동기화
 → Grill Me #1: Profile 영구 성장 역할
 ```
 
@@ -154,5 +154,5 @@ GitHub 정본 복구 commit
 PRODUCT_CODE: UNCHANGED
 CODEX: BLOCKED
 PR_MERGE: NOT_REQUESTED
-FIRST_GRILL_ME: WAITING_FOR_SYNC
+FIRST_GRILL_ME: WAITING_FOR_FINAL_SYNC
 ```
