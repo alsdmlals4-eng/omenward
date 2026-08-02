@@ -3,6 +3,7 @@
 ```yaml
 decision_id: OMW-DEC-20260802-META-HUB-AUXILIARY-CONTENT-V1
 approved_at: 2026-08-02 15:09 KST
+latest_clarification_at: 2026-08-02 16:11 KST
 approval: USER_DIRECT_APPROVAL_WITH_ADVERSARIAL_GUARDRAILS
 status: USER_APPROVED_STRUCTURE / EXACT_VALUES_PENDING / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
@@ -36,38 +37,42 @@ UNBOUNDED_STAT_GRIND = FORBIDDEN
 
 ## 3. 주점
 
-주점은 **기존 병종에 고정 대응하는 영웅을 영구 해금**하고 명부를 관리하는 시설이다.
+주점은 **기존 병종에 고정 대응하는 영웅 후보를 영구 해금하고 Profile 명부를 관리하는 시설**이다.
 
 ```text
 RECRUITMENT = DETERMINISTIC_VISIBLE_NODE_UNLOCK
 HERO_BINDING = FIXED_TO_EXISTING_UNIT_ARCHETYPE
+MULTIPLE_HEROES_PER_UNIT_ARCHETYPE = ALLOWED
 ROSTER_OWNERSHIP = PERMANENT
-RUN_USE = EXPLICIT_PRE_RUN_REGISTRATION_REQUIRED
-REGISTRATION_CAP = PENDING
-HERO_GRADE_TAXONOMY = PENDING
+PRE_RUN_HERO_REGISTRATION = NOT_REQUIRED
+HERO_USE = STORED_HERO_GRADE_TOKEN_CONVERSION
 ```
 
 ### 승인 원칙
 
 - 영웅 후보·비용·전제 조건·연결 병종을 노드에서 사전에 공개한다.
 - 랜덤 상자·확률 뽑기·유료 재굴림으로 영웅을 구매하지 않는다.
-- 영웅은 하나의 기존 병종에 고정 연결되며 다른 병종에 자유 배속하지 않는다.
-- 영구 해금과 런별 등록을 분리한다.
-- 해금만으로 모든 런에 자동 적용하지 않는다.
-- 해금된 영웅을 런 시작 전에 대응 병종에 등록해야 해당 런에서 사용할 수 있다.
-- 등록 상태는 런 시작 스냅샷으로 고정하고 런 중 변경하지 않는다.
-- 등록은 즉시 전장 배치·전역 패시브·릴 확률 조작을 뜻하지 않는다.
-- 영웅 미해금·미등록 기본 병종도 전체 Stage를 완료할 수 있어야 한다.
-- 동시에 등록 가능한 슬롯 수·전장 등장 방식·영웅 명단·능력은 후속 Decision이다.
+- 각 영웅은 하나의 기존 병종에 고정 연결되며 다른 병종에 자유 배속하지 않는다.
+- 같은 병종에 서로 다른 영웅을 여러 명 해금할 수 있다.
+- 해금 시 영웅이 Profile 명부에 영구 등록된다.
+- 별도의 런 시작 전 영웅 등록·계약 단계는 없다.
+- 룰렛에서 같은 병종의 `[영웅]` 등급 토큰을 획득해 보관함에 넣은 뒤, 원본 유지 또는 해금 영웅 변환을 선택한다.
+- 변환은 `1토큰→1유닛`이며 추가 병력을 생성하지 않는다.
+- 영웅 미해금 상태에서도 원본 영웅 등급 병종 토큰과 기본 Profile로 전체 Stage를 완료할 수 있어야 한다.
+- 동일 영웅 중복 배치·동병종 활성 상한·능력은 후속 Decision이다.
 
-주 책임 원본: `APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`.
+주 책임 원본:
+
+- `APPROVED_OMENWARD_HERO_UNLOCK_REGISTRATION_2026-08-02.md`
+- `APPROVED_OMENWARD_HERO_TOKEN_CONVERSION_AND_DEPLOYMENT_2026-08-02.md`
 
 ### 금지
 
 - 현실 화폐 또는 프리미엄 능력 구매.
 - 중복 영웅 합성·확률 승급·무한 능력치.
-- 다른 병종 영웅의 교차 등록.
-- 해금 즉시 자동 장착·미등록 효과 잔존.
+- 다른 병종 영웅의 교차 선택.
+- 해금 즉시 전역 패시브·자동 배치·릴 확률 변경.
+- 영웅 변환 시 원본 토큰을 유지한 채 보너스 영웅 추가.
 - 영웅 미보유를 이유로 핵심 Stage를 사실상 차단.
 - 메인 화면을 일반 수집형 RPG 파티 화면으로 구성.
 
@@ -129,8 +134,8 @@ settled_permanent_currency_total
 
 - 보조 시설은 런 진입을 가리지 않는다.
 - 잠긴 노드는 선행 조건과 결과를 공개한다.
-- 영웅 초상은 주점과 런 준비에서 사용하되 메인 화면 전체를 파티 화면으로 만들지 않는다.
-- 영웅 해금 상태와 런 등록 상태를 서로 다른 표식으로 보여 준다.
+- 영웅 초상은 주점 명부와 보관함 변환 선택에서 사용하되 메인 화면 전체를 파티 화면으로 만들지 않는다.
+- 주점에서는 병종별 해금 영웅 수와 역할 차이를 표시한다.
 
 ## 8. 저장 책임
 
@@ -141,46 +146,47 @@ AuxiliaryHubProgressionState:
   unlocked_node_ids
   unlocked_hero_ids
   hero_unit_archetype_bindings
-  registered_hero_by_unit_archetype
+  unlocked_hero_ids_by_unit_archetype
   barracks_training_ids
   research_unlock_ids
   transaction_receipts
 ```
 
-- Profile 소유와 RunLoadoutSnapshot을 분리한다.
+- pre-run hero registration 필드는 요구하지 않는다.
 - node ID·hero ID·unit archetype ID는 안정 식별자를 사용한다.
-- 중복 구매·중복 차감·병종 불일치 등록·부분 저장을 허용하지 않는다.
+- 중복 구매·중복 차감·병종 불일치·부분 저장을 허용하지 않는다.
 - schema migration·journal replay·current/backup 복구는 기존 save 계약을 따른다.
 
 ## 9. 적대적 검토
 
 | 공격 | 판정 | 보완 |
 |---|---|---|
-| 영웅이 일반 병사를 무가치하게 만든다 | 유효 | 고정 병종 연결·기본 병종 완주·전장 발동 별도 검증 |
-| 해금 영웅 효과가 자동 누적된다 | 유효 | 영구 해금과 런별 등록 분리 |
+| 영웅이 일반 병사를 무가치하게 만든다 | 유효 | 원본 영웅 등급 토큰 유지 선택·기본 Profile 완주·sidegrade 검증 |
+| 해금 영웅 효과가 자동 누적된다 | 유효 | 해금은 동병종 보관 토큰 변환 후보만 추가 |
 | 주점이 가챠 UX로 변질된다 | 유효 | 공개 결정론적 노드·재굴림·중복 합성 금지 |
 | 영웅이 다른 병종에 자유 배속된다 | 유효 | 영웅-UnitArchetype 고정 바인딩 |
+| 영웅 변환이 보너스 병력을 만든다 | 유효 | 1토큰→1유닛 치환 불변식 |
 | 병영이 무한 공격력 트리가 된다 | 유효 | sidegrade·유한 노드·전 구간 배율 금지 |
 | 연구가 숨은 확률·생산량 버프가 된다 | 유효 | odds 조작·전 구간 생산 배율·자동 플레이 금지 |
 | 세 시설이 런보다 중요해진다 | 유효 | MapRun 진입 1순위 |
-| Retry와 노드가 같은 재화를 써 후회가 커진다 | 유효 | 비용·잔액·기회비용 공개·trajectory 검증 |
 
 ## 10. 미확정 항목
 
 - 영구재화 최종 명칭.
 - 시설별 노드 수·비용·분기·환불.
 - 병종별 영웅 명단·등급·능력.
-- 동시에 등록 가능한 영웅 수.
-- 등록 영웅의 전장 등장·발동 방식.
+- 동일 영웅 중복 배치와 동병종 활성 상한.
+- 원본 영웅 등급 병종의 정확 능력 계약.
 - 병영 훈련·연구 sidegrade 실제 목록.
-- 보조 시설 최종 UI·아트·애니메이션.
+- 보조 시설·보관함 변환의 최종 UI·아트·애니메이션.
 
 ## 11. 상태 경계
 
 ```text
 DESIGN: USER_APPROVED_STRUCTURE
-HERO_UNLOCK_AND_REGISTRATION: USER_APPROVED
-HERO_BATTLEFIELD_ACTIVATION: PENDING
+HERO_UNLOCK_AND_ROSTER: USER_APPROVED
+HERO_TOKEN_CONVERSION_AND_DEPLOYMENT: USER_APPROVED
+PRE_RUN_HERO_REGISTRATION: SUPERSEDED
 EXACT_VALUES: PENDING
 SIMULATION: NOT_RUN
 RUNTIME: NOT_RUN
