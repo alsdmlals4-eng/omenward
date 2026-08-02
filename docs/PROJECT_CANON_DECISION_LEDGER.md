@@ -8,9 +8,10 @@ current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MOD
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_meta_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-canonical_main: a521cf744533139063a72ab358b4381d2aae6f0b
+canonical_main: 7c8be1ba47d4159ca3cead6343c20ef068907bcd
 working_branch: gpt/omenward-gameplay-planning-20260802
-active_base: 9.4.1
+active_base: 9.4.2
+latest_main_sync: PR_125 / f9334f32bd5ac5142860c991a809b6bc911963c4
 product_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 grill_me_approved_since_last_merge: 10
@@ -65,8 +66,6 @@ CONTENT_PREFLIGHT_PASS
 - `OMW-DEC-20260802-META-PROGRESSION-ROLE-V1`
 - `OMW-DEC-20260801-VISUAL-SCREEN-BOARD-V2`
 
-이 기존 결정은 이번 10건 카운트에 포함하지 않지만 현재 기획과 함께 유지한다.
-
 ## 4. 영웅 자동 발동 정본
 
 ```text
@@ -98,7 +97,6 @@ OPEN_P0 = 0
 OPEN_P1 = 0
 MERGE_BLOCKER = 0
 PRODUCT_PATHS = 0
-BEHIND_MAIN = 0
 COMMENTS = 0
 REVIEWS = 0
 UNRESOLVED_THREADS = 0
@@ -107,10 +105,11 @@ GDD Sheet run 332 = PASS
 Base v9 run 308 = PASS
 ```
 
-- latest main Base v9.4.1 ancestry는 PR #124로 동기화했다.
+- Base v9.4.1은 PR #124, Base v9.4.2 planning-first adoption은 PR #125로 main→feature 동기화했다.
 - Documentation Map의 Vertical Slice·review·Evidence Pilot 계보 누락을 복원했다.
 - 과거 `OPEN_P1` CI 행은 역사적 해결 상태로 전환했다.
 - 제품 구현 전 parser·simulation·fault test는 `TEST_REQUIRED`로 유지하되 문서-only 병합 blocker와 분리했다.
+- 최신 main 동기화 이후 최종 exact HEAD 검증이 필요하다.
 
 ## 6. 구현·검증 경계
 
