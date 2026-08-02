@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-BATTLEFIELD-ACTIVATION-V1
 approved_at: 2026-08-02 16:11 KST
 approval: USER_DIRECT_APPROVAL
-status: USER_APPROVED_STRUCTURE / UNIQUENESS_AND_VALUES_PENDING / NOT_IMPLEMENTED
+status: USER_APPROVED_STRUCTURE / SINGLE_ACTIVE_LIMIT_APPROVED / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -41,16 +41,19 @@ human_validation: NOT_RUN
 token.grade == HERO
 AND token.unit_archetype_id == hero.unit_archetype_id
 AND hero.id IN unlocked_hero_ids
+AND active_hero_unit_instance_id == null
 ```
 
 플레이어 선택:
 
 1. 원본 `[영웅] 등급 병종 토큰`을 그대로 유지한다.
-2. 같은 병종의 해금 영웅 목록을 열어 한 명을 선택한다.
+2. active hero 슬롯이 비어 있다면 같은 병종의 해금 영웅 목록을 열어 한 명을 선택한다.
 3. 변환 결과와 전선 배치 영향을 미리 확인한다.
 4. 상·중·하 중 한 전선을 선택하고 확정한다.
 
 확정 전에는 취소하거나 다른 동병종 영웅을 선택할 수 있다. 확정 뒤에는 토큰 변환과 전선 배치를 되돌리지 않는다.
+
+활성 영웅이 이미 존재하면 영웅 변환은 차단되지만, 토큰은 보관함에 유지하거나 원본 영웅 등급 병종 유닛으로 배치할 수 있다.
 
 ## 4. 수량·인과 불변식
 
@@ -66,12 +69,16 @@ ONE_HERO_GRADE_TOKEN
 - 변환은 다른 보관 토큰·과거 SpinSnapshot·릴 구조·당첨 확률을 변경하지 않는다.
 - 전선 배치는 기존 PendingReward의 한 전선 비가역 커밋 규칙을 따른다.
 
-## 5. 복수 동병종 영웅
+## 5. 복수 동병종 영웅과 단일 활성 제한
 
 - 한 병종에 여러 영웅을 해금할 수 있다.
 - 보관함의 영웅 선택 목록에는 해당 토큰과 병종이 일치하는 모든 해금 영웅을 표시한다.
 - 각 영웅은 단순 수치 상위호환이 아니라 다른 역할·조건·약점을 제공해야 한다.
-- 같은 이름의 영웅을 한 런에 여러 번 배치할 수 있는지, 서로 다른 동병종 영웅을 몇 명까지 활성화할 수 있는지는 다음 Decision에서 확정한다.
+- 전장 전체에는 이름이 지정된 해금 영웅 유닛이 동시에 최대 1명만 존재할 수 있다.
+- 동일한 `hero_id`도 이전 인스턴스가 더 이상 출전 중이 아니면 새 영웅 등급 토큰을 소비해 다시 배치할 수 있다.
+- 서로 다른 영웅도 기존 active hero가 남아 있는 동안에는 추가 배치할 수 없다.
+
+단일 활성·반복 출전의 주 책임 원본은 `APPROVED_OMENWARD_HERO_SINGLE_ACTIVE_AND_REPEAT_DEPLOYMENT_2026-08-02.md`다.
 
 ## 6. UX·데이터 책임
 
@@ -92,13 +99,18 @@ HeroConversionPreview:
   candidate_hero_ids
   selected_hero_id
   target_lane_id
+
+HeroBattlefieldState:
+  active_hero_unit_instance_id
+  active_hero_id
 ```
 
 - 후보에는 이름·초상·연결 병종·핵심 역할·변환 후 변화·현재 사용 가능 여부를 표시한다.
+- active hero가 있으면 후보를 `전장 영웅 1명 제한` 사유로 비활성화한다.
 - 해금되지 않은 영웅은 잠금 이유를 보여 줄 수 있지만 선택할 수 없다.
 - 병종 불일치 영웅은 후보에 포함하지 않는다.
-- 확정 시 원본 token instance와 선택 영웅 ID, 대상 전선을 한 transaction으로 기록한다.
-- 중복 확정·부분 저장·원본 토큰 잔존을 허용하지 않는다.
+- 확정 시 active slot 검증, 원본 token instance, 선택 영웅 ID, 대상 전선을 한 transaction으로 기록한다.
+- 중복 확정·부분 저장·원본 토큰 잔존·동시 영웅 둘 생성을 허용하지 않는다.
 
 ## 7. 적대적 검토
 
@@ -107,25 +119,26 @@ HeroConversionPreview:
 | 영웅 해금이 릴 확률을 직접 높인다 | 유효 | 룰렛은 익명 영웅 등급 병종 토큰만 생성, 해금은 보관함 변환 후보만 추가 |
 | 영웅 변경으로 병력이 하나 더 생긴다 | 유효 | 1토큰→1유닛 치환 불변식 |
 | 같은 병종 영웅이 여러 명이면 자유 직업 변경처럼 변한다 | 유효 | 모든 후보는 동일 UnitArchetype 고정 바인딩 |
-| 강한 영웅 하나가 모든 선택을 지배한다 | 유효 | 역할·조건·약점 기반 sidegrade, 수치·사용률 simulation 필요 |
+| 강한 영웅 하나가 모든 선택을 지배한다 | 유효 | 역할·조건·약점 기반 sidegrade, 반복 선택률 simulation 필요 |
 | 보관함 선택이 복잡해진다 | 유효 | 영웅 등급 토큰에서만 목록 노출, 동병종 후보만 필터링 |
 | 영웅 미해금 플레이가 손해만 보는 미완성판이 된다 | 유효 | 원본 영웅 등급 토큰 사용 가능·기본 Profile 완주 유지 |
-| 같은 영웅을 무한 복제한다 | 유효 | 동일 영웅 중복 배치 규칙을 다음 Gate로 분리 |
+| 같은 영웅을 여러 번 배치해 복제된다 | 사용자 승인 | 동시 활성은 1명, 이전 인스턴스 종료 뒤 새 토큰으로 반복 출전 허용 |
+| 저장·동시 입력으로 영웅 둘이 생긴다 | 유효 | active slot 검증과 토큰 변환·배치를 원자 transaction으로 처리 |
 
 ## 8. 미확정 항목
 
-- 동일 영웅의 한 런 중복 배치 허용 여부.
-- 서로 다른 동병종 영웅의 동시 활성 상한.
+- 영웅의 수동 퇴각·교대 허용 여부.
+- 영웅이 Stage 사이에 계속 남는지와 active 상태 종료 사건.
 - 원본 `[영웅] 등급 병종 토큰`의 정확한 능력 계약.
 - 영웅별 능력·등급·명단·수치.
 - 변환 UI의 정확한 화면 배치·키 입력.
-- 영웅 사망·재출전·런 종료 처리.
+- 반복 출전 시 체력·쿨다운·상태 초기화 계약.
 
-## 9. 다음 Gate
+## 9. 후속 Gate
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
-= 영웅 등급 토큰이 여러 번 나왔을 때 같은 영웅과 동병종 영웅을 한 런에 몇 번 배치할 수 있는가
+OMW-DEC-20260802-GAMEPLAY-HERO-EXIT-AND-REPLACEMENT-V1
+= 현재 영웅이 살아 있을 때 수동 교대·퇴각을 허용하는가, 어떤 사건에서 active 상태가 종료되는가
 ```
 
 ## 10. 상태 경계
@@ -133,6 +146,8 @@ OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUENESS-AND-ACTIVE-LIMIT-V1
 ```text
 DESIGN: USER_APPROVED_TOKEN_CONVERSION_AND_DEPLOYMENT
 PRE_RUN_HERO_REGISTRATION: SUPERSEDED
+SIMULTANEOUS_ACTIVE_HEROES: MAX_1
+SAME_HERO_REPEAT_DEPLOYMENT: ALLOWED_AFTER_SLOT_CLEARS
 EXACT_VALUES: PENDING
 SIMULATION: NOT_RUN
 RUNTIME: NOT_RUN
