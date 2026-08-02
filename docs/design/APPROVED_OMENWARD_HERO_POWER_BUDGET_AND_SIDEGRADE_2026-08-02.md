@@ -3,9 +3,8 @@
 ```yaml
 decision_id: OMW-DEC-20260802-GAMEPLAY-HERO-POWER-BUDGET-AND-SIDEGRADE-V1
 approved_at: 2026-08-02 19:05 KST
-approval: USER_APPROVED_RECOMMENDED_OPTION
-status: USER_APPROVED_CONDITIONAL_PEAK_SIDEGRADE / NOT_IMPLEMENTED
-work_mode: TOTAL_PLANNING
+status: MERGED_USER_APPROVED / NOT_IMPLEMENTED
+current_specialization: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1
 product_code_authority: NONE
 exact_values: PENDING
 simulation: NOT_RUN
@@ -13,207 +12,124 @@ runtime: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-## 1. 결정 요약
+## 1. 결정
 
-이름 지정 영웅은 같은 `UnitArchetype`의 원본 `[영웅]` 등급 병종 유닛을 모든 상황에서 압도하는 순수 상위호환이 아니다. 평균적인 총 전투 예산은 원본과 비슷하게 유지하되, 영웅마다 명확한 조건을 충족했을 때 더 높은 전술적 고점을 만들고 조건이 맞지 않을 때는 원본 병종보다 낮은 안정성·범용성 또는 지속력을 갖는 전문화 sidegrade로 설계한다.
+이름 지정 영웅은 같은 `UnitArchetype`의 원본 `[영웅]` 등급 유닛을 모든 상황에서 압도하는 순수 상위호환이 아니다.
 
 ```text
 원본 [영웅] 등급 병종
-= 높은 일관성
-+ 넓은 범용성
-+ 낮은 운용 조건
+= 일관성 + 범용성 + 낮은 조건 의존도
 
 이름 지정 영웅
-= 유사한 평균 총 전투 예산
-+ 명확한 조건부 고점
-+ 고유한 전술 변화
-- 명시적 약점 또는 기회비용
+= 원본 병종 기반 스킨형 변주
++ 패시브 1개 또는 자동 사용스킬 1개
++ 조건부 전문성
+- 필요한 전투 예산 상쇄
 ```
 
-영웅 변환은 `더 강한 유닛으로 자동 승격`이 아니라 현재 맵·전선·적 조합·전투 시점에 맞는 전문화 선택이다.
-
-## 2. 비교 기준
-
-전투 예산은 단일 DPS 수치가 아니라 다음 축을 함께 비교한다.
-
-- 피해량과 피해 적용 범위.
-- 생존력·회복력·피해 회피.
-- 사거리·이동성·배치 제약.
-- 군중 제어·방호·교란·지원 가치.
-- 발동 준비 시간·조건 충족 난도·쿨다운.
-- 단일 대상·다수 대상·공성·방어 등 상황별 편차.
-- 플레이어가 부담하는 관찰·배치·조합 기회비용.
-- 같은 병종 원본 유닛이 제공하는 일관성과 실패 안전성.
+## 2. 단일 차이 전투 예산
 
 ```text
-COMPARABLE_TOTAL_COMBAT_BUDGET
-!= IDENTICAL_STATS
-!= IDENTICAL_DPS
-!= HERO_ALWAYS_EQUAL_IN_EVERY_SCENARIO
+SIGNATURE_DELTA_COUNT = 1
+SIGNATURE_DELTA = PASSIVE XOR AUTOMATIC_ACTIVE_SKILL
 ```
 
-영웅이 특정 조건에서 원본보다 크게 강해지는 것은 허용한다. 그러나 대표적인 전투 상황 전체를 합산한 평균 기대 가치가 명백히 더 높고 약점도 없다면 이 계약을 위반한다.
+- 단일 패시브 또는 자동 사용스킬의 가치를 피해·생존·사거리·제어·지원·기동·안정성·조건 의존도로 함께 평가한다.
+- 단일 차이가 추가되면 기본 스탯·공격 주기·조건 의존도·범용성·지속력 중 필요한 축에서 상쇄한다.
+- 외형·이름·VFX 차이는 전투 예산으로 계산하지 않는다.
+- 자동 발동 편의성 자체를 무료 전투력으로 계산하지 않는다.
+- 원본 병종이 더 좋은 대표 상황을 최소 하나 유지한다.
 
-## 3. 영웅별 필수 설계 요소
+## 3. 허용되는 차이
 
-모든 이름 지정 영웅은 최소한 다음을 가져야 한다.
+### 패시브형
 
-1. **전술 정체성**: 한 문장으로 설명 가능한 고유 역할.
-2. **고점 조건**: 배치 전선·적 유형·아군 조합·체력 구간·시간·행동 누적 등 플레이어가 이해할 수 있는 발동 조건.
-3. **고점 보상**: 조건을 충족했을 때 원본 병종보다 분명히 우수한 결과.
-4. **명시적 약점**: 조건 불충족 시 낮아지는 안정성·범용성·지속력·대응 폭 중 하나 이상.
-5. **원본 선택 사유**: 동일 토큰을 원본 `[영웅]` 등급 병종으로 사용하는 것이 합리적인 대표 상황.
-6. **적·맵의 대응 압력**: 영웅의 강점을 약화하거나 약점을 노출하는 적 역할 또는 맵 조건.
+- 특정 전선·적 유형·체력 구간·아군 조합에서 강해지는 조건부 효과.
+- 기본 공격에 하나의 명확한 전술 효과를 추가하는 변주.
+- 위치·전선·조합 규칙에 따른 단일 전문성.
 
-이 중 하나라도 정의되지 않은 영웅은 제작 완료로 간주하지 않는다.
+### 자동 사용스킬형
 
-## 4. 금지되는 상위호환 설계
+- 공개 trigger와 cooldown 또는 charge를 가진 자동 능력 하나.
+- 특정 적·Wave·전선 상태에서 원본보다 높은 순간 고점.
+- 조건 불충족·대상 부재·cooldown 동안 원본보다 낮은 안정성 또는 범용성.
 
-다음 설계는 금지한다.
+## 4. 금지되는 상위호환
 
-- 피해·생존·사거리·제어·지원이 원본보다 동시에 높고 실질적 약점이 없음.
-- 조건이 명목상으로만 존재하고 대부분의 전투에서 자동 충족됨.
-- 영웅 해금 뒤 원본 `[영웅]` 등급 병종을 선택할 이유가 사라짐.
-- 영웅 이름·외형만 다르고 역할과 선택 기준은 동일함.
-- 특정 영웅 하나가 같은 병종의 모든 다른 영웅과 원본을 지속적으로 지배함.
-- 영웅 보유 자체가 전역 능력치·숨은 릴 확률·무료 병력·자동 효과를 제공함.
-- 약점을 단순히 설명문에만 적고 실제 전투 규칙·수치·대응 관계에는 반영하지 않음.
-- 희귀 토큰을 소비했다는 이유만으로 모든 상황의 기대전투력을 일괄 상승시킴.
+- 원본 스탯을 그대로 유지하면서 패시브 또는 사용스킬을 무료로 추가.
+- 패시브와 사용스킬을 동시에 제공.
+- 패시브 내부에 여러 독립 효과를 숨김.
+- 사용스킬 내부에 둘 이상의 독립 능력을 묶음.
+- 조건이 명목상 존재하지만 대부분의 전투에서 상시 충족됨.
+- 원본 병종을 선택할 이유가 사라짐.
+- 같은 병종의 다른 영웅을 수치 단계로 압도함.
+- 스킨형이라는 이유로 전투 차이가 전혀 없음.
+- 단일 차이가 새 병종 수준으로 역할·사거리·AI를 변경함.
 
-## 5. 허용되는 조건부 고점 예시
-
-### 방호 병종 영웅
-
-```text
-고점 = 한 전선의 짧은 집중 공세를 강하게 봉쇄
-약점 = 장기 지속 방어·원거리 압박·전선 이동 대응 중 하나가 낮음
-원본 선택 = 안정적인 장기 방어가 필요한 맵
-```
-
-### 원거리 병종 영웅
-
-```text
-고점 = 표식·고립·보스 같은 특정 표적에 높은 집중 피해
-약점 = 군집 대응·근접 압박·조건 없는 지속 화력 중 하나가 낮음
-원본 선택 = 적 구성이 넓고 예측하기 어려운 Stage
-```
-
-### 지원 병종 영웅
-
-```text
-고점 = 특정 진형·병종 조합의 효율을 크게 증폭
-약점 = 조합이 무너지면 개인 전투력과 범용 지원이 낮음
-원본 선택 = 아군 조합이 유동적이거나 손실이 잦은 MapRun
-```
-
-예시는 구조만 승인하며 실제 영웅 명단·능력·수치를 확정하지 않는다.
-
-## 6. 복수 동병종 영웅 원칙
-
-같은 `UnitArchetype`에 여러 영웅이 존재할 경우 각 영웅은 서로 다른 질문에 답해야 한다.
-
-```text
-영웅 A = 어떤 조건에서 선택하는가
-영웅 B = A와 다른 어떤 조건에서 선택하는가
-원본 유닛 = 두 영웅보다 어떤 상황에서 안전한가
-```
-
-- 영웅 간 차이를 단순 피해량·체력 수치 단계로 만들지 않는다.
-- 한 영웅이 다른 영웅의 역할에 더 높은 수치만 가진 형태를 금지한다.
-- 동일 맵에서도 전선·Stage·적 편성·보관 토큰 상황에 따라 선택이 달라질 수 있어야 한다.
-- 같은 영웅 반복 출전이 허용되더라도 해당 영웅이 항상 최적이라면 밸런스 실패로 본다.
-
-## 7. 데이터 책임
+## 5. 필수 설계 필드
 
 ```yaml
-HeroPowerBudgetProfile:
-  hero_id
-  unit_archetype_id
-  tactical_identity
-  peak_condition
-  peak_payoff
-  explicit_weakness
-  original_unit_advantage_scenarios
-  counter_pressure_tags
-  comparison_dimensions
-  exact_values_status
-  simulation_status
+NamedHeroVariantBudget:
+  hero_id: string
+  source_hero_grade_unit_id: string
+  signature_delta_type: PASSIVE | AUTOMATIC_ACTIVE_SKILL
+  tactical_identity: string
+  peak_condition: string
+  peak_payoff: string
+  stat_or_reliability_compensation: object
+  explicit_tradeoff: string
+  original_unit_pick_case: string
+  counter_pressure: list
+  exact_values_status: PENDING
+  simulation_status: NOT_RUN
 ```
 
-- `tactical_identity`, `peak_condition`, `explicit_weakness`, `original_unit_advantage_scenarios`는 필수다.
-- 조건과 약점은 사용자에게 노출 가능한 규칙이어야 하며 숨은 보정으로만 구현하지 않는다.
-- 전투 예산 산정식과 정확 가중치는 후속 밸런스 문서·시뮬레이션에서 확정한다.
-- 영웅별 능력 데이터는 이 계약의 필수 필드를 참조해야 한다.
+- `original_unit_pick_case`가 없으면 승인 가능한 영웅 설계가 아니다.
+- `explicit_tradeoff`는 설명문뿐 아니라 실제 규칙·수치·조건에서 체감돼야 한다.
+- 패시브형과 사용스킬형을 동일한 단일 DPS 수치로만 비교하지 않는다.
+
+## 6. 제작량과 전투 가치 경계
+
+- 원본 리그·애니메이션·AI·기본 공격 구조를 재사용하는 것은 제작량 절감이며 전투 약점으로 계산하지 않는다.
+- 신규 제작량이 적다는 이유로 무료 능력 추가를 허용하지 않는다.
+- 반대로 신규 자산이 많다는 이유로 전투력을 높이지 않는다.
+- 이름 지정 영웅의 수집 매력은 외형·이름·연출 차이와 단일 전술 변주에서 확보한다.
+
+## 7. 검증 계약
+
+구현 전·후에 최소 다음을 비교한다.
+
+- 원본 병종과 이름 지정 영웅의 조건 충족·불충족 encounter.
+- 원본·패시브형·사용스킬형 선택률.
+- 단일 차이의 평균 가치와 고점 가치.
+- 원본 선택 상황이 실제로 발생하는지.
+- 같은 병종 영웅 간 역할 중복과 지배 여부.
+- 기본 Profile과 원본 병종만으로 콘텐츠 완료 가능성.
+
+정확 허용 편차·표본 수·가중치는 아직 확정하지 않는다.
 
 ## 8. UX 책임
 
-영웅 변환 후보 화면은 최소한 다음을 비교 가능하게 표시한다.
+영웅 변환 화면은 다음을 짧게 비교한다.
 
-- 원본 `[영웅]` 등급 병종의 안정적 강점.
-- 이름 지정 영웅의 전술 정체성.
-- 고점 발동 조건.
-- 조건 충족 시 얻는 핵심 이득.
-- 명시적 약점과 불리한 상황.
-- 현재 맵·전선·적 편성에서 조건 충족 가능성을 판단할 정보.
+- 원본과 동일한 핵심 역할.
+- 바뀌는 단 하나의 패시브 또는 자동 사용스킬.
+- 유리한 조건과 핵심 이득.
+- 상쇄되는 스탯·안정성·범용성.
+- 원본 병종을 선택할 대표 상황.
 
-`더 강함`, `상위 등급`, `완전한 강화`처럼 순수 상위호환으로 오해시키는 표현을 사용하지 않는다.
+`완전한 강화`, `상위 버전`, `무료 스킬 추가`처럼 순수 상위호환으로 오해시키는 표현을 사용하지 않는다.
 
-## 9. 적대적 검토
-
-| 공격 | 판정 | 보완 |
-|---|---|---|
-| 희귀 토큰을 썼는데 평균적으로 강하지 않으면 보상이 약하다 | 유효 | 평균 예산은 유사하되 조건 충족 시 체감 가능한 고점과 고유 전술 변화를 보장 |
-| 조건부 고점이 사실상 항상 발동해 순수 상위호환이 된다 | 유효 | 대표 encounter matrix에서 조건 충족률·평균 가치·원본 선택률을 검증 |
-| DPS만 같추고 제어·지원이 공짜로 붙는다 | 유효 | 피해·생존·제어·지원·운용 조건을 합친 총 예산으로 비교 |
-| 원본 병종은 영웅 미해금 사용자용 하위 버전이 된다 | 유효 | 원본의 일관성·범용성·낮은 조건을 고유 장점으로 유지 |
-| 한 영웅이 같은 병종의 모든 선택을 지배한다 | 유효 | 영웅별 다른 고점 조건·약점·대응 압력과 선택률 simulation 필요 |
-| 약점이 설명만 있고 실제로 체감되지 않는다 | 유효 | 약점을 수치·규칙·적 대응 관계와 UX에 명시 |
-| 특수 유틸리티는 DPS로 비교하기 어렵다 | 유효 | 단일 수치가 아닌 시나리오 기반 다축 평가 사용 |
-| 조합 시너지가 예산을 폭발시킨다 | 유효 | 단독·표준 조합·최적 조합을 분리 측정하고 최적 조합 지배 여부 검증 |
-
-## 10. 검증 계약
-
-구현 전·후에 최소 다음을 측정한다.
-
-- 원본 병종과 각 영웅의 대표 encounter matrix 결과.
-- 조건 충족·불충족 구간의 성능 차이.
-- 원본·영웅별 선택률과 반복 출전 편중.
-- Stage·Act·맵·전선·적 역할별 승률 또는 기여도 편차.
-- 최적 조합과 표준 조합의 격차.
-- 영웅 없이 기본 Profile로 모든 콘텐츠를 완료할 수 있는지.
-
-정확 허용 범위·가중치·표본 수는 아직 확정하지 않는다. `SIMULATION_NOT_RUN` 상태에서는 균형이 검증됐다고 표시하지 않는다.
-
-## 11. 미확정 항목
-
-- 병종별 이름 지정 영웅 명단.
-- 영웅별 자동·수동 능력 발동 방식.
-- 능력 슬롯 구조와 정확한 효과·수치·쿨다운·충전.
-- 전투 예산 산정식·시나리오 가중치·허용 편차.
-- 각 영웅의 고점 조건·명시적 약점·대응 적.
-- 토큰 출현 빈도와 영웅 반복 출전 편중 simulation.
-
-## 12. 다음 Gate
+## 9. 구현 경계
 
 ```text
-OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-ACTIVATION-MODE-V1
-= 이름 지정 영웅의 고유 능력은 오토배틀 규칙에 따라 자동 발동하는가, 플레이어가 직접 수동 발동하는가, 또는 혼합 구조인가
-```
-
-## 13. 상태 경계
-
-```text
-DESIGN: USER_APPROVED_CONDITIONAL_PEAK_SIDEGRADE
-RAW_UPGRADE_OVER_ORIGINAL_HERO_GRADE_UNIT: FORBIDDEN
-AVERAGE_TOTAL_COMBAT_BUDGET: COMPARABLE
-CONDITIONAL_PEAK: REQUIRED
-TACTICAL_IDENTITY: REQUIRED
-EXPLICIT_WEAKNESS: REQUIRED
-ORIGINAL_UNIT_RATIONAL_PICK: REQUIRED
-HIDDEN_GLOBAL_PASSIVE_OR_ROULETTE_ODDS: FORBIDDEN
-EXACT_VALUES: PENDING
-SIMULATION: NOT_RUN
-RUNTIME: NOT_RUN
-HUMAN_QA: NOT_RUN
-PRODUCT_CODE: UNCHANGED
+HERO_MODEL = SOURCE_HERO_GRADE_UNIT_PLUS_ONE_SIGNATURE_DELTA
+TOTAL_COMBAT_BUDGET = COMPARABLE_NOT_IDENTICAL
+ORIGINAL_UNIT_PICK_CASE = REQUIRED
+FREE_SIGNATURE_POWER = FORBIDDEN
+EXACT_VALUES = PENDING
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+PRODUCT_CODE = UNCHANGED
 ```
