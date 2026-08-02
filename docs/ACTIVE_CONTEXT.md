@@ -4,9 +4,9 @@
 updated_at: 2026-08-02
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: HERO_SINGLE_DELTA_VARIANT_PLANNING
+current_phase: HERO_SIGNATURE_DELTA_BALANCE_PLANNING
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1
+current_planning_decision: OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_branch: main
@@ -20,7 +20,7 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 last_merged_planning_pr: 127
 current_planning_pr: 129
-current_grill_me_count: 1
+current_grill_me_count: 2
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
@@ -80,9 +80,31 @@ SIGNATURE_DELTA = PASSIVE XOR AUTOMATIC_ACTIVE_SKILL
 - `[사용스킬]`은 수동 버튼이 아니라 기존 자동 발동 정본을 따르는 규칙 기반 자동 능력이다.
 - 기본적으로 고유 자원·공통 궁극기·새 AI 구조·전체 신규 애니메이션 세트를 만들지 않는다.
 - 외형은 스킨에 가까운 제작량을 목표로 하지만 차이 하나는 실제 전술 선택을 바꿔야 한다.
-- 원본 병종이 더 유리한 상황과 전투 예산 상쇄를 유지한다.
 
-## 4. 자동 발동·결정론
+## 4. 단일 상쇄 축 밸런스
+
+```text
+원본 [영웅] 등급 병종 데이터 복사
+→ 영웅 전용 단일 차이 적용
+→ 직접 관련된 상쇄 축 1개 선택
+→ 그 축만 하향 또는 조건화
+→ 나머지 원본 전투 데이터 유지
+```
+
+```text
+COMPENSATION_AXIS_COUNT = 1
+COMPENSATION_MUST_BE_CAUSALLY_RELATED = TRUE
+FULL_STAT_REDESIGN = FORBIDDEN
+FREE_SIGNATURE_POWER = FORBIDDEN
+```
+
+- 패시브 또는 사용스킬의 가치와 직접 연결된 능력치·효율·조건 축 하나만 조정한다.
+- 여러 스탯을 동시에 낮추거나 영웅별 전체 성장 곡선을 다시 만들지 않는다.
+- 조건 의존도를 상쇄로 쓰는 경우 조건 미충족 구간에서 원본보다 낮은 효율이 실제로 나타나야 한다.
+- 상쇄 축 외의 원본 데이터는 유지한다.
+- 원본 병종이 더 나은 대표 상황을 최소 하나 유지한다.
+
+## 5. 자동 발동·결정론
 
 사용스킬형 영웅은 다음을 따른다.
 
@@ -98,7 +120,7 @@ SIGNATURE_DELTA = PASSIVE XOR AUTOMATIC_ACTIVE_SKILL
 - 동일 저장 상태와 입력 순서에서는 같은 결과를 낸다.
 - 저장·Retry 재굴림은 금지다.
 
-## 5. 현재 책임 원본
+## 6. 현재 책임 원본
 
 - `docs/PROJECT_CORE.md`
 - `docs/PROJECT_CANON_DECISION_LEDGER.md`
@@ -110,8 +132,9 @@ SIGNATURE_DELTA = PASSIVE XOR AUTOMATIC_ACTIVE_SKILL
 - `docs/design/APPROVED_OMENWARD_HERO_POWER_BUDGET_AND_SIDEGRADE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md`
 - `docs/design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md`
+- `docs/design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md`
 
-## 6. 구현 경계
+## 7. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -125,13 +148,13 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 운영 규칙·다음 Gate
+## 8. 운영 규칙·다음 Gate
 
-- 현재 카운터는 `1/10`이다.
+- 현재 카운터는 `2/10`이다.
 - 승인된 중요 결정은 GitHub와 Sheet에 같은 Decision ID로 즉시 반영한다.
 - 10번째 승인에서 적대적 preflight를 실행한다.
 - Green preflight와 blocker 0인 문서·기획 PR은 standing authorization에 따라 병합한다.
 
 ```text
-NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1
+NEXT_GATE = OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1
 ```
