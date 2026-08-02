@@ -4,6 +4,8 @@
 updated_at: 2026-08-03
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 spreadsheet_title: 오멘워드(OMENWARD)
+workspace_role: USER_FACING_GDD_WORKSPACE
+change_protocol: PROPOSED_SHEET_CHANGE
 current_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TIMER-PERSISTENCE-AND-STAGE-BOUNDARY-POLICY-V1
 current_pr: 129
 current_branch: gpt/omenward-hero-kit-planning-20260802
@@ -13,7 +15,9 @@ status: PROJECT_SHEET_CONFIGURED / SYNC_REQUIRED_TO_PR_HEAD / READBACK_REQUIRED 
 product_code_authority: NONE
 ```
 
-이 문서는 GitHub 정본과 연결 Google Sheet의 동기화 계약을 소유한다. PR HEAD는 자기참조 commit을 만들지 않도록 GitHub PR #129와 Sheet에서 해석한다.
+이 문서는 GitHub 정본과 연결 Google Sheet의 동기화 계약을 소유한다. 연결 Sheet는 기획자가 읽고 운영하는 `USER_FACING_GDD_WORKSPACE`다. 모든 변경은 정본 Decision ID와 근거를 먼저 갖춘 `PROPOSED_SHEET_CHANGE`로 취급한 뒤 read-back과 CI를 통과해야 동기화 완료로 기록한다.
+
+PR HEAD는 자기참조 commit을 만들지 않도록 GitHub PR #129와 Sheet에서 해석한다.
 
 ## 1. 이번 Decision
 
@@ -35,7 +39,7 @@ NEXT_STAGE_ACTIVE_COMBAT
 - 미해결 천공 소거·메테오 commit은 취소, 사용 소비, full cooldown.
 - save/load·Retry 재굴림·이중 해결 금지.
 
-## 2. 예정 Sheet 반영 범위
+## 2. Sheet 반영 범위
 
 | 목적 | 범위 |
 |---|---|
@@ -56,8 +60,6 @@ NEXT_STAGE_ACTIVE_COMBAT
 
 ## 3. 근거 라이브러리
 
-예정 Evidence:
-
 - `OM-EVD-021`: Godot stable `Pausing games and process mode` — 전투 clock과 정비 UI clock 분리 production reference.
 - `OM-EVD-022`: Godot stable `Saving games` — timer state·commit payload 명시적 직렬화 production reference.
 - `OM-EVD-023`: 내부 timer Stage-boundary 비교 — carry/pause가 reset·maintenance-progress보다 exploit과 상태 복잡도가 낮음.
@@ -65,8 +67,6 @@ NEXT_STAGE_ACTIVE_COMBAT
 직접 동일한 상용 사례는 확인하지 못했으므로 `DIRECT_COMPARABLE_NOT_FOUND`를 기록한다.
 
 ## 4. 적대적 감사
-
-예정 감사 ID:
 
 ```text
 OMW-AUD-182 정비시간 무료 cooldown 회복
