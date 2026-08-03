@@ -7,287 +7,159 @@
 - 공통 전투 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
 - 피해 의미 정본: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
 - 수치 기본값 정본: `docs/design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md`
+- 시간·활성화 정본: `docs/design/APPROVED_OMENWARD_FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_2026-08-03.md`
 - 작업 모드: `TOTAL_PLANNING / PLANNING_ONLY_PROFILE`
 - 최신 기획 상태: `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED`
 - 제품 코드 승인: `NOT_AUTHORIZED`
-- Simulation tool 코드 승인: `NOT_AUTHORIZED`
-- 최신 버티컬 슬라이스 구현: `NOT_STARTED`
-- 기존 구현: `LEGACY_C1_C2_C3_PROVEN`
-- 최신 자동 계약: `LATEST_AUTOMATED_CONTRACTS_NOT_RUN`
-- Simulation 실행: `NOT_RUN`
-- Runtime 검증: `NOT_RUN`
-- 사람 검증: `HUMAN_QA_NOT_RUN`
-- Core Lock: `CORE_LOCK_NOT_ALLOWED`
+- Simulation tool 승인: `NOT_AUTHORIZED`
 
-이 문서는 사용자 승인 기획·현재 제품 구현·기존 실행 증거를 분리한다. 문서·PR·Sheet에 정본이 존재해도 제품·도구 구현 또는 검증 완료를 의미하지 않는다.
-
----
-
-## 1. 상태 용어
-
-| 용어 | 의미 |
-|---|---|
-| `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED` | 사용자 승인 기획이 계획 브랜치에 기록됐으나 main 병합·제품 구현되지 않음 |
-| `HARNESS_SCOPE_APPROVED_NOT_IMPLEMENTED` | Harness 목적·입출력·검증 Tier만 승인 |
-| `COMMON_COMBAT_SCHEMA_APPROVED_NOT_IMPLEMENTED` | 전투 상태·phase·동일 tick 계약만 승인 |
-| `DAMAGE_SEMANTICS_APPROVED_NOT_IMPLEMENTED` | 피해·보호·상태 의미만 승인 |
-| `NUMERIC_DEFAULTS_APPROVED_NOT_IMPLEMENTED` | 공식·cap·duration·초기 수치만 승인 |
-| `LEGACY_IMPLEMENTED` | 과거 설계 기준 제품 코드가 존재 |
-| `LEGACY_PROVEN` | 과거 요구 계약과 실행 증거가 존재 |
-| `MIGRATION_REQUIRED` | 최신 설계와 충돌해 보존 seam 또는 교체 필요 |
-| `NOT_STARTED` | 최신 제품·도구 구현 시작 전 |
-| `NOT_RUN` | 자동·simulation·runtime·사람 검증 미실행 |
-| `PROVEN` | 최신 요구 계약과 fresh 실행 증거가 함께 존재 |
-
----
-
-## 2. 기술 기준선
-
-유지 대상:
-
-- Godot 4.7.1 Standard.
-- Compatibility renderer.
-- 960×540 논리 화면, 1920×1080 출력.
-- GDScript.
-- typed Resource와 명시적 도메인 상태 객체.
-- 이름 기반 RNG stream과 재현 가능한 입력 로그.
-- 공용 UnitArchetypeProfile과 진영 Visual 데이터 분리.
-- 최신 계약과 양립하는 기존 상태·서비스·테스트 자산.
-
-기술 기준선은 최신 Vertical Slice·영웅·Harness·전투 공식 구현 증거가 아니다.
-
----
-
-## 3. 보존 가능한 Legacy 증거
-
-### Legacy C1 — 룰렛
-
-보존 후보:
-
-- 중앙 가로줄 선행 판정.
-- 완성선·등급 계산.
-- 금화 resolver.
-- 출처 결정론 개념.
-
-Migration 필요:
-
-- 독립 9칸 생성.
-- 구형 TokenSource 장부.
-- 구형 럭키·이동 거래.
-- 스테이지당 전설 제한.
-- 구형 보관 계약.
+## 1. 정확한 상태 표기
 
 ```text
+최신 버티컬 슬라이스 구현: `NOT_STARTED`
+VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
+LATEST_AUTOMATED_CONTRACTS_NOT_RUN
+HUMAN_QA_NOT_RUN
+CORE_LOCK_NOT_ALLOWED
+```
+
+```text
+CURRENT_PRODUCT = LEGACY_PROTOTYPE
+LATEST_APPROVED_PLANNING = FIXED_TICK_TIME_ACTIVATION_DEFAULTS_DOCUMENTED_NOT_IMPLEMENTED
+PRODUCT_CODE = UNCHANGED
+SIMULATION_TOOL_CODE = NOT_AUTHORIZED
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+```
+
+문서 계약과 CI 통과는 최신 Vertical Slice·Harness·전투 시스템이 구현됐다는 뜻이 아니다.
+
+## 2. Legacy 검증 증거
+
+```text
+LEGACY_C1_C2_C3_PROVEN
 LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-+ LATEST_ROULETTE_MIGRATION_REQUIRED
 ```
 
-C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+- C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+- C1 최종 검증 run: `29926598807`
 
-C1 최종 검증 run: `29926598807`
+이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 V2 전체 시스템, 20 Stage Vertical Slice, Harness, Common Combat, Damage, Numeric, Time 계약 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
 
-이 Legacy C1 증거는 V2 구현 완료를 뜻하지 않는다.
-
-### Legacy C2 — 전장
-
-보존 후보:
-
-- 3라인 전투 기반.
-- 공용 병종 데이터.
-- 구조물 피해.
-- 전장 상태 기반 승패.
-
-Migration 필요:
-
-- capture_power 합산.
-- 구형 중간거점·라인 수명주기.
-- 구형 주기적 출격.
-- SceneTree·node iteration 의존.
-- 동일 tick actor 순차 선공 편향.
-- 신규 Damage/Protection 공식 부재.
+## 3. 현행 승인 Planning Stack
 
 ```text
-LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-+ LATEST_BATTLEFIELD_MIGRATION_REQUIRED
+P0 Harness Scope
+P1 Common Combat Schema and R00~R130
+P2 Damage/Protection/Status Semantics
+P3 Mitigation/Protection Numeric Defaults
+P4 Fixed Tick/Time/Activation Defaults
 ```
 
-### Legacy C3 — UX·원인 보고
-
-보존 후보:
-
-- 도메인 snapshot→HUD 경계.
-- 전투 원인 보고.
-- 표시와 규칙 계산 분리.
-
-Migration 필요:
-
-- 독립 9칸 확률 미리보기.
-- 구형 토큰 장부.
-- channel·Barrier·raw/final damage 단계 표시 부재.
+### P4 승인 내용
 
 ```text
-LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
-+ LATEST_UX_MIGRATION_REQUIRED
-+ HUMAN_QA_NOT_RUN
+DOMAIN_TPS = 30
+AUTHORING_TIME = integer milliseconds
+RUNTIME_TIME_AUTHORITY = integer tick
+DURATION_TICKS = ceil(duration_ms * 30 / 1000)
+ACTIVE_RANGE = [start_tick,end_tick_exclusive)
+SPAWN_AT_T → ACTIVATE_AT_T_PLUS_1
 ```
 
----
-
-## 4. 최신 승인 기획
-
-### 4.1 전체 Vertical Slice
-
-- 세 물리 원형 릴과 immutable SpinSnapshot.
-- 금고·병영 TokenSource.
-- 3전선·5구간·30개 건설 노드.
-- 5개 건물.
-- 20 Stage MapRun과 준비·전투·정산·정비.
-- checkpoint·미션·메타·벨루 UX.
-
-### 4.2 영웅·전설
-
 ```text
-STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
-ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+Barrier 3000ms = 90 ticks
+DOT/HOT pulse 1000ms = 30 ticks
+Control max 2000ms = 60 ticks
+Control lockout 1000ms = 30 ticks
 ```
 
-공개 Trigger·same-lane Filter·Priority·stable tie-break·commit Snapshot과 A/B/C 검증 방향이 main 정본이다.
+Tick T spawn은 상태·대상 후보에 존재하고 피해받을 수 있지만 T+1 전에는 이동·Target·Action·Skill·Protection·Objective 기여를 할 수 없다.
 
-### 4.3 Deterministic Harness
+## 4. 구현 상태 행렬
+
+| 영역 | 기획 상태 | 제품 구현 | 자동 검증 | 사람 검증 |
+|---|---|---|---|---|
+| 20 Stage 전체 시스템 Vertical Slice | 승인 정본 존재 | `NOT_STARTED` | `NOT_RUN_LATEST` | `NOT_RUN` |
+| Deterministic Harness | 범위 승인 | `NOT_STARTED` | `NOT_RUN` | `N/A` |
+| Common Combat Schema | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Damage·Protection·Status | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Mitigation·Protection Numeric | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 30 TPS·Time·Activation | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Modifier stacking·precedence | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| 콘텐츠 Parameter Set | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| Runtime Adapter | 미승인 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| 이미지·Animation·HX | 후속 Gate | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+
+## 5. 구현 시 필수 시간 계약
 
 ```text
-versioned fixture
-+ fixed integer tick
-+ named RNG streams
-+ stable object IDs
-+ ordered commands
-+ pure domain transition
-→ events / normalized state / metrics / fingerprints
+R00 = exclusive expiry before commands
+R10 = ingest current scheduled commands only
+R20 = spawn at T, activate at T+1
+R110 = integer Tick Timer advance
+R130 = Save canonical boundary
 ```
 
-T0~T3의 기획 계약만 승인됐다.
-
-### 4.4 Core-First Common Combat
-
 ```text
-CombatRunState
-+ LaneState[TOP,MID,BOTTOM]
-+ Combatant / Building / Objective
-+ DeploymentProvenance
-+ OrderedCommand / Intent / Protection / Status
-+ R00~R130
+WALL_CLOCK = NON_AUTHORITATIVE
+GODOT_TIMER = NON_AUTHORITATIVE_FOR_COMBAT
+ANIMATION_CALLBACK = NON_AUTHORITATIVE
+RENDER_INTERPOLATION = VISUAL_ONLY
+TICK_SKIP_OR_MERGE = FORBIDDEN
 ```
 
-동일 tick actor는 같은 post-movement snapshot에서 commit한다.
-
-### 4.5 Damage·Protection·Status Semantics
+## 6. 전투·수치 필수 계약
 
 ```text
+ALL_ELIGIBLE_ACTORS_COMMIT_FROM_SAME_PHASE_SNAPSHOT
+DEATH_FINALIZE_AFTER_DAMAGE_BATCH
+OBJECTIVE_USES_POST_DEATH_ACTIVE_SURVIVORS
 KINETIC → ARMOR
-ARCANE  → RESISTANCE
+ARCANE → RESISTANCE
+DEFENSE = clamp(base + buff - debuff,0,300)
+BARRIER = application20% / total30% / 90ticks
+REDIRECTION = 30% / one recipient
+HEALTH_FLOOR = 1 HP / one trigger
+STATUS = stack3 / pulse30 / control60 / lockout30 ticks
 ```
 
-- channel·delivery·target profile 분리.
-- Barrier·Restore·Redirection·Floor·Status 의미 분리.
-- true damage·execute·revive 금지.
-- R80A~R80G·R90 death finalize.
-
-### 4.6 Numeric Defaults
+## 7. Pause·Save 경계
 
 ```text
-effective_defense = clamp(base + buff - debuff, 0, 300)
-post_mitigation = max(1, round_half_up(adjusted_damage * 100 / (100 + effective_defense)))
+ACTIVE_COMBAT = DOMAIN_TICK_ADVANCES
+MAINTENANCE_PREPARATION_APPLICATION_PAUSE = DOMAIN_TICK_PAUSED
+SAVE = AFTER_R130_ONLY
+SAVE_TIMERS = INTEGER_TICKS
 ```
 
+전술 pause의 허용 여부는 Normal/Danger UX·콘텐츠 정책이 소유하지만, pause가 허용되면 모든 전투 시간은 함께 멈춘다.
+
+## 8. CI 호환 회귀 기록
+
+`OMW-AUD-261`에서 중앙 문서 간소화로 Legacy C1·Vertical Slice 상태·Review·Pilot 라우팅 marker가 누락되어 CI가 실패했다. 다음 커밋에서 복구했고 non-counter 유지보수로 기록했다.
+
 ```text
-Barrier = application 20% / total 30% max HP / 3000ms
-Redirection = 30% / recipient 1 / invalid returns original
-Health Floor = 1 HP / one trigger / exclusive
-Status = stack 3 / pulse 1000ms / Control 2000ms / lockout 1000ms
+CURRENT_IMPLEMENTATION_STATUS restore commit = 1cca3bdb4a278aa741e4112a5c16970472daa9bb
+DOCUMENTATION_MAP restore commit = 601be3bb5a885b8ada966621b994973accf17577
 ```
 
-밀리초→tick 변환은 아직 미확정이다.
-
----
-
-## 5. 최신 미구현 영역
-
-### 룰렛·경제·건물·전장
-
-- 세 원형 릴과 source lifecycle.
-- PendingReward·보관·판매·식량.
-- 금고·수리·에스크로 프로젝트.
-- 3전선 5구간·점령·소유권 원자 이전.
-- 5개 건물 Tier·분기·병영 전문화.
-- DeploymentProvenance 생성·event 연결.
-
-### 공통 전투·AI
-
-- 공통 상태 DTO/Resource.
-- quantized 2D 위치·anchor·collision.
-- ordered command·phase snapshot·barrier resolver.
-- Damage/Protection/Status Intent와 R80A~G.
-- 정수 방어 공식·Barrier cap·Redirection·Floor·Status default.
-- fixed tick·ms 변환·activation policy.
-- modifier stacking·threat·target score.
-- R120 event·fingerprint.
-
-### 영웅·Harness
-
-- 전역 단일 영웅·전설 resolver.
-- 고유 2스킬 Trigger·commit payload.
-- warmup·cooldown·READY·Stage 직렬화.
-- 영웅 exact 값.
-- Harness fixture/domain/event/fingerprint 구현.
-- T0~T3 실행 도구.
-- A/B/C sample·tolerance·stop-ship.
-- 제품 Scene adapter.
-
-### 저장·UX·메타
-
-- 20 Stage checkpoint schema·migration.
-- timer·RNG·commit·Protection·Status 저장.
-- save round-trip fixture.
-- channel·Barrier·raw/final damage HUD.
-- provenance 기반 결과 복기.
-- 미션·메타 성장·벨루.
-
----
-
-## 6. 현재 판정
+## 9. 남은 구현 차단 요인
 
 ```text
-TECHNICAL_BASELINE_IMPLEMENTED
-+ LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-+ LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-+ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
-+ LATEST_USER_DESIGN_MAIN_CANONICAL
-+ DETERMINISTIC_HARNESS_SCOPE_USER_APPROVED
-+ COMMON_COMBAT_SCHEMA_USER_APPROVED
-+ DAMAGE_SEMANTICS_USER_APPROVED
-+ NUMERIC_DEFAULTS_USER_APPROVED
-+ PRODUCT_CODE_NOT_CHANGED
-+ SIMULATION_TOOL_CODE_NOT_AUTHORIZED
-+ VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
-+ LATEST_AUTOMATED_CONTRACTS_NOT_RUN
-+ SIMULATION_NOT_RUN
-+ RUNTIME_NOT_RUN
-+ HUMAN_QA_NOT_RUN
-+ CORE_LOCK_NOT_ALLOWED
+SOURCE_TARGET_MODIFIER_STACKING = PENDING_USER_DECISION
+EFFECT_PRECEDENCE = PENDING_USER_DECISION
+EXACT_UNIT_HERO_BUILDING_VALUES = PENDING
+FIXTURE_SAMPLE_TOLERANCE = PENDING
+IMPLEMENTATION_PLAN = NOT_WRITTEN_FOR_CURRENT_STACK
+PRODUCT_CODE_AUTHORITY = NONE
 ```
 
----
-
-## 7. 다음 Gate
-
-1. `OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V1`.
-2. tick rate·ms 변환·spawn activation·pulse·expiry 경계를 고정한다.
-3. source/target modifier stacking을 후속 결정한다.
-4. 영웅 exact Trigger·timer·effect 값을 작성한다.
-5. A/B/C sample·tolerance·stop-ship을 결정한다.
-6. 별도 제품·도구 구현 승인 뒤에만 GDScript·Scene·Resource·test를 변경한다.
+## 10. 다음 Gate
 
 ```text
-GRILL_ME_COUNT = 4/10
+GRILL_ME_COUNT = 5/10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1
 NEXT_PREFLIGHT = AT_10_OF_10
 ```
