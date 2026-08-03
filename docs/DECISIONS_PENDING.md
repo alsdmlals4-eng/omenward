@@ -4,8 +4,9 @@
 - 현재 main: `RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH`
 - 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 최신 영웅 정본: `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
-- 최신 검증 설계: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- 상태: `PLANNING_ONLY / HARNESS_SCOPE_APPROVED_NOT_IMPLEMENTED / PRODUCT_AND_TOOL_CODE_NOT_AUTHORIZED`
+- Harness 상위 정본: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
+- 최신 검증 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
+- 상태: `PLANNING_ONLY / COMMON_COMBAT_SCHEMA_APPROVED_NOT_IMPLEMENTED / PRODUCT_AND_TOOL_CODE_NOT_AUTHORIZED`
 - 원칙: 체크되지 않은 값은 구현 사양이나 밸런스 결론으로 확정하지 않는다.
 
 이미 승인된 구조를 다시 질문하지 않는다. 이 문서는 제품·Harness 구현 전에 실제 schema·수치·fixture·통과선을 고정해야 할 항목만 추적한다.
@@ -54,54 +55,77 @@
 
 Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다.
 
+### 1.4 Common Combat Schema·Resolution Order
+
+- [x] 영웅 우선이 아닌 core-first 공통 Schema.
+- [x] `CombatRunState`, `LaneState`, `CombatantState`, `BuildingState`, `ObjectiveState`.
+- [x] `DeploymentProvenance`, `OrderedCommand`, `ActionIntent`, `EffectIntent`.
+- [x] `StatusInstance`, `PendingCommit`, `ActiveEffect`, `RngStreamState`.
+- [x] 전장 유닛의 `SpinSnapshot·TokenSource·lane commit→deployment_id` provenance.
+- [x] `TOP=0`, `MID=1`, `BOTTOM=2` canonical lane order.
+- [x] 실제 거리 기반 cross-lane 효과를 위한 quantized 2D `position_q`.
+- [x] Dictionary·SceneTree traversal을 resolution order 권위에서 제외.
+- [x] R00~R130 fixed-tick phase order.
+- [x] movement 뒤 same snapshot targeting·action commit.
+- [x] 동일 tick damage/effect batch 뒤 death·destruction finalize.
+- [x] post-death 생존자만 objective 계산.
+- [x] commit 뒤 hidden fallback retarget 금지.
+- [x] R120 phase 뒤 canonical fingerprint 생성.
+- [x] 영웅·전설은 공통 resolver extension seam만 사용.
+
+Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아니다.
+
 ---
 
-## 2. 현재 최우선 — 공통 Combat Schema·Resolution Order
+## 2. 현재 최우선 — Damage·Protection·Status Semantics
 
 다음 Decision:
 
-`OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1`
+`OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1`
 
-### 2.1 공통 상태 Field Dictionary
+### 2.1 피해 분류
 
-- [ ] `BattleState`, `LaneState`, `UnitState`, `BuildingState`, `ObjectiveState` 필수 필드.
-- [ ] `HeroSkillState`, `PendingCommit`, `ActiveEffect`, `RngStreamState`, `ResolvedEventState` 필수 필드.
-- [ ] 상태 owner·source·target 관계와 stable ID 형식.
-- [ ] enum versioning과 unknown value 안전 처리.
-- [ ] fixture schema version·parameter set ID·engine contract version 관계.
+- [ ] 기본 공격·스킬·광역·지속·환경·재전달 피해 taxonomy.
+- [ ] 물리·마법 또는 대체 damage channel 구조.
+- [ ] 절대 피해·처형·최소 피해 지원 여부.
+- [ ] friendly fire·self damage·building/objective damage 경계.
+- [ ] raw damage와 resolved HP loss의 event 분리.
 
-### 2.2 시간·위치·순서
+### 2.2 방어·보호
 
-- [ ] fixed tick duration과 시간 단위.
-- [ ] lane order·전열/후열·anchor·quantized position 정의.
-- [ ] 동일 tick command·movement·target·commit·damage·death·objective·timer 순서.
-- [ ] 같은 tick 사망·보호·회복·점령 경쟁 해결 규칙.
-- [ ] event sequence와 checkpoint fingerprint 생성 시점.
+- [ ] armor·resistance 공식 형태와 상·하한.
+- [ ] 피해 감소·barrier·absorption·damage sharing 적용 순서.
+- [ ] 방벽 budget과 target별/전체 공유 방식.
+- [ ] health-floor가 damage clamp인지 status인지.
+- [ ] 보호 효과 중첩·동일 category 우선순위.
 
-### 2.3 피해·방어·효과 분류
+### 2.3 회복·상태·죽음
 
-- [ ] 기본 공격·스킬·광역·지속·환경·재전달 피해 분류.
-- [ ] 방어 공식·상한 또는 diminishing cap.
-- [ ] 절대 피해·처형·최소 피해 여부.
-- [ ] 피해 흡수·피해 감소·HP 손실 분담·체력 하한의 적용 순서.
-- [ ] 회복·부활·보호·면역·상태이상 분류.
-- [ ] 건물·거점·유닛의 공격 가능성과 면역 범위.
+- [ ] restore/heal과 health-floor의 구분.
+- [ ] overheal·revive 지원 여부와 금지 기본값.
+- [ ] buff·debuff·crowd-control·immunity taxonomy.
+- [ ] status stacking·refresh·replace·exclusive group.
+- [ ] start/end tick exclusive semantics와 dispel/cleanup.
+- [ ] post-hit trigger·on-death trigger·owner removal 순서.
 
-### 2.4 AI·Trigger 공통 의미
+### 2.4 전투 대상 범위
 
-- [ ] `role`, `threat`, `frontline`, `backline`, `cluster`, `flying`, `high_value` schema.
-- [ ] target filter·priority score·tie-break 공통 envelope.
-- [ ] trigger 평가 주기와 stability window 표현.
-- [ ] target snapshot과 position snapshot의 불변 범위.
-- [ ] 분신 proxy와 owner link·독립 AI 금지 표현.
+- [ ] 유닛·건물·목표의 targetable channel.
+- [ ] flying·ground·structure·objective filter.
+- [ ] 공격 불가·면역·무효 target event.
+- [ ] cross-lane scope와 거리 계산.
 
 ---
 
 ## 3. 이후 미확정 결정
 
-### 3.1 Harness 구현 계약
+### 3.1 Common Schema 기술 기본값
 
-- [ ] fixture 파일 형식과 canonical serialization field order.
+- [ ] fixed tick duration과 시간 단위.
+- [ ] spawn `activation_tick` 즉시/다음 tick 정책.
+- [ ] movement speed·range·position quantization scale.
+- [ ] enum versioning과 unknown value 안전 처리.
+- [ ] canonical serialization field order.
 - [ ] fingerprint algorithm.
 - [ ] reference engine build·reference CI environment.
 - [ ] full snapshot checkpoint 간격과 event log 보존 정책.
@@ -110,7 +134,15 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [ ] holdout fixture 관리와 변경 승인 절차.
 - [ ] simulation tool GDScript·test 구현 패키지와 Red tests.
 
-### 3.2 영웅 Exact 값
+### 3.2 AI·Trigger 공통 의미
+
+- [ ] `role`, `threat`, `frontline`, `backline`, `cluster`, `flying`, `high_value` exact schema.
+- [ ] target filter·priority score 세부 계산.
+- [ ] trigger 평가 주기와 stability window exact 값.
+- [ ] target snapshot과 position snapshot의 효과별 정책.
+- [ ] 분신 proxy owner link·독립 AI 금지 직렬화.
+
+### 3.3 영웅 Exact 값
 
 - [ ] 다섯 고유 2스킬 Trigger 임계치.
 - [ ] Trigger stability window와 평가 주기.
@@ -121,7 +153,7 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [ ] 메테오 군집 반경·최소 적중 수·낙하 지연·피해·경고시간.
 - [ ] 그림자 분신 지속시간·복제 피해율·owner link 세부.
 
-### 3.3 A/B/C Acceptance
+### 3.4 A/B/C Acceptance
 
 - [ ] family별 fixture·seed·난이도·배치 표본 수.
 - [ ] B>A 의도 상황 통과선.
@@ -132,7 +164,7 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [ ] 다른 두 전선 기여도 하한.
 - [ ] placeholder parameter set 결과의 `EXPLORATORY_ONLY` 표시.
 
-### 3.4 룰렛·경제
+### 3.5 룰렛·경제
 
 - [ ] 유료 회전 기본 비용과 Stage별 변화.
 - [ ] 무료 회전 금화 보상 기준가.
@@ -142,7 +174,7 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [ ] 금고 Tier·중앙 경합 지역 골드/초.
 - [ ] 100,000-seed 목표 기대값·허용 범위.
 
-### 3.5 건물·수리·점령
+### 3.6 건물·수리·점령
 
 - [ ] 5개 건물 기본 비용·시간·HP와 Tier 값.
 - [ ] 연사/포격 타워와 돌격/수비 지휘소 exact 값.
@@ -151,7 +183,7 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [ ] 점령 유예·회복속도·반경.
 - [ ] 거점·본진 능력치와 실제 node/anchor 배치.
 
-### 3.6 병종·전투 콘텐츠
+### 3.7 병종·전투 콘텐츠
 
 - [ ] 전체 10병종 표준 능력치.
 - [ ] 나머지 Tier 3 전문화 능력.
@@ -160,13 +192,14 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [ ] 타워와 유닛 target score 통합.
 - [ ] 20 Stage 적 구성·보스·미션·난이도·세션 길이.
 
-### 3.7 저장·메타·UX
+### 3.8 저장·메타·UX
 
 - [ ] save schema version·migration·checksum·atomic replace·backup.
 - [ ] checkpoint 직렬화 field와 중간 사건 ID.
 - [ ] timer·READY·RNG·commit·resolved 상태 저장.
 - [ ] 메타 재화·영구 성장·respec·반복 clear 점감.
 - [ ] 영웅 상태 HUD와 paused/waiting/cancel 이유 표시.
+- [ ] provenance 기반 결과 복기 UX.
 - [ ] 1920×1080·1280×720 가독성.
 
 ---
@@ -209,12 +242,13 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 
 ```text
 P0 = deterministic Harness 범위·입출력·재현성 — APPROVED_CONCEPT / NOT_IMPLEMENTED
-P1 = common combat schema·resolution order — CURRENT_NEXT_GATE
-P2 = 다섯 해금 영웅 exact Trigger·timer·효과값
-P3 = A/B/C sample·tolerance·stop-ship
-P4 = roulette/economy 100,000-seed simulation
-P5 = checkpoint/save schema
-P6 = Harness 및 첫 제품 구현 패키지·Red tests·회귀·롤백
+P1 = common combat schema·resolution order — APPROVED_CONCEPT / NOT_IMPLEMENTED
+P2 = damage·protection·status semantics — CURRENT_NEXT_GATE
+P3 = 다섯 해금 영웅 exact Trigger·timer·효과값
+P4 = A/B/C sample·tolerance·stop-ship
+P5 = roulette/economy 100,000-seed simulation
+P6 = checkpoint/save schema
+P7 = Harness 및 첫 제품 구현 패키지·Red tests·회귀·롤백
 ```
 
 제품 코드·simulation tool 코드·Scene·Resource·test 변경은 별도 사용자 승인 전 금지한다.
