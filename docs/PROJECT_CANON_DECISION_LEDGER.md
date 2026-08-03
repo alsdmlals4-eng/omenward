@@ -2,41 +2,44 @@
 
 ```yaml
 updated_at: 2026-08-03
-status: CURRENT_DECISION_LEDGER / MAIN_CANONICAL / MAINTENANCE_SYNC_ACTIVE
+status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
-current_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
+current_planning_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
+parent_gameplay_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+last_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: gpt/omenward-status-pending-refresh-20260803-v2
-current_planning_pr: PENDING_CREATION
+working_branch: gpt/omenward-simulation-harness-planning-20260803
+current_planning_pr: RESOLVE_FROM_OPEN_PR
 last_merged_planning_pr: 129
 last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
-last_maintenance_pr: 131
-last_maintenance_commit: 8ecbb78df47813a6332963db16d235131e65981a
+last_maintenance_pr: 132
+last_maintenance_commit: 970ca7c52d757806c6968b55808346ac8a50b3ea
 active_base: 9.4.3
 product_code_authority: NONE
+simulation_tool_code_authority: NONE
 sheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-grill_me_approved_since_last_merge: 0
+grill_me_approved_since_last_merge: 1
 future_merge_cadence: 10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
-preflight: MAINTENANCE_SYNC_REQUIRED
-next_gate: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
+preflight: NEXT_AT_10_OF_10
+next_gate: OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
 ```
 
-`current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다. PR #129의 squash merge commit은 병합 이력 증거이며 최신 기획 Decision은 main 정본이다. PR #131은 개별 문서의 과거 branch 표식보다 원장·Active·Map의 현재 생명주기 분류가 우선한다는 규칙을 확정했다.
+`current_main`과 `current_planning_pr`은 실행 시점에 저장소에서 해석한다. 최신 Decision은 simulation Harness의 기획 범위만 승인하며 코드 구현·simulation 실행 권한을 부여하지 않는다.
 
 ## 1. 상태 언어
 
 ```text
 USER_APPROVED_PLAN
 != PRODUCT_IMPLEMENTED
+!= SIMULATION_TOOL_IMPLEMENTED
+!= SIMULATION_EXECUTED
 != AUTOMATED_VALIDATED
 != HUMAN_VALIDATED
-!= RELEASE_READY
 ```
 
 ```text
@@ -45,71 +48,87 @@ MAIN_CANONICAL_NOT_IMPLEMENTED
 + product code/data/Scene/Resource remains unchanged
 ```
 
-## 2. PR #129에서 병합된 10개 Decision
+## 2. 현재 최상위 Decision
 
-| Decision ID | 상태 | 결정 | 책임 원본 | 미완료 경계 |
+| Decision ID | 상태 | 핵심 결정 | 책임 원본 | 미완료 경계 |
 |---|---|---|---|---|
+| `OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1` | `USER_APPROVED / ACTIVE_PLANNING_BRANCH / NOT_IMPLEMENTED` | headless 순수 도메인 fixed-tick Harness, versioned fixture, named RNG, stable ID, event log, fingerprint, paired A/B/C 비교 | `design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md` | exact combat schema·tick rate·formula·tool code·execution pending |
 | `OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1` | `USER_APPROVED / MAIN_CANONICAL / NOT_IMPLEMENTED` | 공개 Trigger·same-lane Filter·Priority·stable tie-break·commit Snapshot, A/B/C encounter 파워 위계 검증 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md` | exact schema·threshold·values·simulation·runtime·human pending |
-| `OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TIMER-PERSISTENCE-AND-STAGE-BOUNDARY-POLICY-V1` | `USER_APPROVED / MAIN_CANONICAL / NOT_IMPLEMENTED` | 전투 clock만 timer 진행, 정비 pause, READY·잔여시간 carry, active·미해결 commit Stage carry 금지 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md` | exact seconds·simulation·runtime·human pending |
-| `OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-COOLDOWN-CHARGE-AND-FAILURE-POLICY-V1` | `USER_APPROVED / MAIN_CANONICAL_REFINED / NOT_IMPLEMENTED` | 단일 cooldown, READY 1회, charge·mana 없음, initial warmup, precommit 실패 무소모 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md` | exact warmup·cooldown pending |
-| `OMW-DEC-20260803-GAMEPLAY-HERO-FIRST-FIVE-UNIQUE-SKILL-2-CONCEPTS-V1` | `USER_APPROVED / MAIN_CANONICAL_REFINED / NOT_IMPLEMENTED` | 불퇴의 성벽·천공 소거·생명의 서약·메테오·그림자 분신 | `design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md` | exact duration·value·asset pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-GRADE-SLOT-AND-UNLOCKED-SKILL-REPLACEMENT-V1` | `USER_APPROVED / MAIN_CANONICAL / NOT_IMPLEMENTED` | `[영웅]·[전설]` 전장 전체 최대 1명; 해금 영웅 고유 2스킬 교체; 미래 해금 전설 고유 3스킬 교체 | `design/APPROVED_OMENWARD_HERO_GRADE_SLOT_AND_UNLOCKED_SKILL_REPLACEMENT_2026-08-02.md` | 미래 해금 전설 상세 pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-UNIQUE-SKILL-UPGRADE-MODEL-V1` | `USER_APPROVED / MAIN_CANONICAL_REFINED / NOT_IMPLEMENTED` | 표준 영웅보다 강하고 표준 전설보다 약한 해금 영웅 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_UPGRADE_MODEL_2026-08-02.md` | exact values pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-ARCHETYPE-SELECTION-V1` | `USER_APPROVED / MAIN_CANONICAL_REFINED / NOT_IMPLEMENTED` | 방패병·궁병·사제·마법사·암살자 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_ARCHETYPE_SELECTION_2026-08-02.md` | identities·assets pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-INITIAL-ROSTER-SCOPE-V1` | `USER_APPROVED / MAIN_CANONICAL_REFINED / NOT_IMPLEMENTED` | 초기 검증 로스터 5명, 최종 출시 상한 아님 | `design/APPROVED_OMENWARD_HERO_INITIAL_ROSTER_SCOPE_2026-08-02.md` | production validation pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-ABILITY-KIT-STRUCTURE-V1` | `USER_APPROVED / MAIN_CANONICAL_REFINED / NOT_IMPLEMENTED` | 패시브 선택 폐기, 해금 영웅은 고유 2스킬 슬롯 사용 | `design/APPROVED_OMENWARD_HERO_ABILITY_KIT_STRUCTURE_2026-08-02.md` | assets·values pending |
-| `OMW-DEC-20260802-GAMEPLAY-HERO-SIGNATURE-DELTA-BALANCE-V1` | `SUPERSEDED_HISTORY / MAIN_LINEAGE / NOT_IMPLEMENTED` | 과거 강제 상쇄 축 sidegrade 결정 | `design/APPROVED_OMENWARD_HERO_SIGNATURE_DELTA_BALANCE_2026-08-02.md` | 계보만 유지 |
 
-## 3. 비카운트 운영 정책·동기화
-
-| ID | 상태 | 정책·동기화 | 책임 원본 |
-|---|---|---|---|
-| `OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1` | `ACTIVE_STANDING_POLICY / MAIN_CANONICAL` | 공식 벤치마크·OMENWARD 차이·제작비·QA·적대적 검토·선택지와 권장안을 포함 | `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md` |
-| `OMW-SYNC-20260803-LIFECYCLE-STATUS-CLEANUP-V1` | `MAINTENANCE_SYNC / MAIN_CANONICAL / NON_COUNTER` | 현행 Trigger 책임 원본과 생명주기 우선순위를 main 상태로 교정 | `DOCUMENTATION_MAP.md`, Trigger 책임 원본 |
-| `OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1` | `MAINTENANCE_SYNC / ACTIVE / NON_COUNTER` | 7월 27일에 멈춘 구현 상태·미확정 목록을 8월 3일 main 영웅 정본과 다음 simulation gate에 동기화 | `CURRENT_IMPLEMENTATION_STATUS.md`, `DECISIONS_PENDING.md` |
-
-직접 비교 사례가 없으면 `DIRECT_COMPARABLE_NOT_FOUND`를 기록한다. 운영 정책과 유지보수 Sync는 제품 Decision 카운터에 포함하지 않는다.
-
-## 4. 현행 등급·전역 슬롯
+## 3. Harness 승인 계약
 
 ```text
-[일반] = 1스킬
-[엘리트] = 강화 1스킬
-[영웅] = 강화 1스킬 + 표준 2스킬
-해금 이름 지정 [영웅] = 강화 1스킬 + 고유 2스킬
-[전설] = 강화 1스킬 + 강화 표준 2스킬 + 표준 3스킬
-향후 해금 이름 지정 [전설] = 강화 1스킬 + 강화 표준 2스킬 + 고유 3스킬
+versioned fixture
++ explicit fixed integer tick
++ named RNG streams
++ stable object IDs
++ ordered external commands
++ pure domain state transitions
+→ ordered event log
+→ normalized final state
+→ metrics summary
+→ deterministic state fingerprint
 ```
 
 ```text
-STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
-ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
-FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
+GLOBAL_RANDOM_API = FORBIDDEN
+RANDOMIZE = FORBIDDEN
+WALL_CLOCK = FORBIDDEN
+VARIABLE_FRAME_DELTA = FORBIDDEN
+FIXED_INTEGER_TICK = REQUIRED
+STABLE_OBJECT_ID = REQUIRED
+EXPLICIT_SORT_KEY = REQUIRED
+UNSORTED_COLLECTION_ORDER = FORBIDDEN
 ```
 
-## 5. Trigger·대상 Resolver
+headless는 실행 수단이며 결정론 자체가 아니다.
+
+## 4. Harness 입력·출력
+
+필수 입력 상위 필드:
 
 ```text
-READY
-→ public trigger
-→ same-lane legal filter
-→ public priority score
-→ stability window
-→ stable ID / stable position tie-break
-→ CAST_PRECHECK
-→ immutable CAST_COMMIT snapshot
+schema_version
+fixture_id / encounter_family
+parameter_set_id / engine_contract_version
+master_seed / named_rng_streams
+tick_duration_units / max_ticks
+initial_state
+ordered_external_commands
+expected_invariants
+comparison_group
 ```
+
+필수 출력:
 
 ```text
-PUBLIC_TRIGGER_RULE = REQUIRED
-PUBLIC_TARGET_PRIORITY = REQUIRED
-DETERMINISTIC_TIE_BREAK = REQUIRED
-ARBITRARY_FALLBACK_RETARGET = FORBIDDEN
-HIDDEN_FUTURE_BATTLE_END_ORACLE = FORBIDDEN
-MANUAL_CAST_OR_TARGET = FORBIDDEN
+run_manifest
+normalized_final_state
+ordered_event_log
+metrics_summary
+invariant_results
+named_rng_final_states
+checkpoint_fingerprints
+final_state_fingerprint
+termination_reason
 ```
 
-## 6. 파워 검증 계약
+JSON은 manifest 교환 형식일 수 있지만 raw JSON 문자열과 float 변환 결과는 상태 hash 권위가 아니다.
+
+## 5. 검증 Tier
+
+```text
+T0 = fixture schema validation
+T1 = replay determinism
+T2 = rule invariants
+T3 = paired A/B/C metrics
+T4 = aggregate balance evaluation after acceptance approval
+T5 = product runtime adapter after separate authorization
+```
+
+현재 승인 범위는 T0~T3의 기획 계약이다.
+
+## 6. A/B/C 비교 계약
 
 ```text
 A = 표준 [영웅]
@@ -117,56 +136,100 @@ B = 같은 source archetype 해금 이름 지정 [영웅]
 C = 같은 계열 표준 [전설]
 ```
 
-- B는 의도된 encounter family에서 A보다 명확히 강해야 한다.
-- C는 전체 대표 encounter 합산 가치에서 B보다 강해야 한다.
-- 모든 encounter 자동 최선 또는 다른 두 전선 비결정화는 stop-ship이다.
-- exact sample size·tolerance·수치는 simulation 계획에서 확정한다.
+paired group에서 fixture·seed·source Tier·Stage·적 구성·건물·다른 두 전선·ordered input은 같아야 한다. 등급/키트 외 필드가 달라지면 `INVALID_COMPARISON`이다.
 
-## 7. 구현·미확정 추적 정본
-
-`CURRENT_IMPLEMENTATION_STATUS.md`는 실제 제품과 main 기획 사이의 경계를 소유한다.
-
-`DECISIONS_PENDING.md`는 다음 P0~P6를 소유한다.
+필수 family:
 
 ```text
-P0 = deterministic simulation harness 범위·재현성·입출력 계약
-P1 = 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
-P2 = 다섯 해금 영웅 exact Trigger·timer·효과값
-P3 = A/B/C 통과선·표본 수·stop-ship 기준
-P4 = 100,000시드 룰렛·경제 simulation 계약
-P5 = checkpoint·save schema
-P6 = 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
+NEUTRAL_MIXED
+FRONTLINE_PRESSURE
+FLYING_HEAVY
+ALLY_BURST_CRISIS
+DENSE_ENEMY_CLUSTER
+DISPERSED_ENEMY_FORMATION
+HIGH_VALUE_BACKLINE
+LONG_ATTRITION
+SHORT_STAGE
+LATE_COMMIT_BOUNDARY
 ```
 
-## 8. 구현·검증 경계
+## 7. 벤치마크·현업 경계
+
+공식 Godot 자료를 적용했다.
+
+- `--headless`와 CI script 실행.
+- fixed physics process와 variable idle frame 구분.
+- `RandomNumberGenerator` seed·state·복수 stream.
+- JSON 숫자 float 변환·FileAccess 직렬화 경계.
+
+```text
+REFERENCE_ENVIRONMENT_BIT_PARITY = REQUIRED_LATER
+CROSS_PLATFORM_FLOAT_BIT_PARITY = NOT_CLAIMED
+SCALED_INTEGER_OR_QUANTIZED_CRITICAL_VALUES = RECOMMENDED_BOUNDARY
+```
+
+## 8. 적대적 검토
+
+```text
+OMW-AUD-208 global RNG coupling
+OMW-AUD-209 wall-clock or frame delta leakage
+OMW-AUD-210 unstable collection iteration order
+OMW-AUD-211 float and cross-platform divergence
+OMW-AUD-212 fixture drift from canon
+OMW-AUD-213 encounter-family overfitting
+OMW-AUD-214 harness/runtime divergence
+OMW-AUD-215 excessive event-log cost
+OMW-AUD-216 placeholder balance conclusions
+OMW-AUD-217 contaminated A/B/C comparison
+OMW-AUD-218 omitted other-two-lane contribution
+OMW-AUD-219 missing save/Retry state
+OMW-AUD-220 headless mistaken for determinism
+```
+
+## 9. 기존 Hero 정본 계보
+
+PR #129에서 병합된 영웅 등급·초기 5명·cooldown·Stage·Trigger·파워 검증 Decision은 main 정본이다. 상세 계보는 각 `APPROVED_OMENWARD_*` 책임 원본과 이전 원장 history에서 확인한다.
+
+핵심 불변식:
+
+```text
+STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
+ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+MAX_STORED_READY_COUNT = 1
+MANUAL_CAST_OR_TARGET = FORBIDDEN
+ACTIVE_EFFECT_OR_UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
+```
+
+## 10. 비카운트 운영 정책·Sync
+
+| ID | 상태 | 역할 |
+|---|---|---|
+| `OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1` | `ACTIVE_STANDING_POLICY / MAIN_CANONICAL` | 공식 벤치마크·차이·제작비·QA·적대적 검토를 모든 Grill Me에 적용 |
+| `OMW-SYNC-20260803-LIFECYCLE-STATUS-CLEANUP-V1` | `MAINTENANCE_SYNC / MAIN_CANONICAL / NON_COUNTER` | Decision 생명주기 우선순위 교정 |
+| `OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1` | `MAINTENANCE_SYNC / MAIN_CANONICAL / NON_COUNTER` | 구현 상태·미확정 목록 최신화와 simulation-first Gate 라우팅 |
+
+## 11. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = MAIN_CANONICAL_NOT_IMPLEMENTED
+LATEST_APPROVED = USER_APPROVED_HARNESS_SCOPE_NOT_IMPLEMENTED
 PRODUCT_CODE_AUTHORITY = NONE
-PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
-POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
-EXACT_SCHEMA = PENDING
-EXACT_TRIGGER_THRESHOLDS = PENDING
-EXACT_STABILITY_WINDOWS = PENDING
-EXACT_SECONDS = PENDING
-EXACT_DURATIONS_AND_VALUES = PENDING
-ASSETS = NOT_CREATED
-SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
+SIMULATION_TOOL_CODE_AUTHORITY = NONE
+EXACT_COMBAT_SCHEMA = PENDING
+EXACT_TICK_RATE = PENDING
+EXACT_DAMAGE_AND_DEFENSE_FORMULA = PENDING
+EXACT_HERO_VALUES = PENDING
+EXACT_SAMPLE_SIZE_AND_TOLERANCE = PENDING
+BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 카운터·다음 Gate
+## 12. 카운터·다음 Gate
 
 ```text
-CURRENT_COUNT_SINCE_MERGE = 0_OF_10
-CURRENT_MAINTENANCE_SYNC = OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
-NEXT_GRILL_ME_DECISION = OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
+CURRENT_COUNT_SINCE_MERGE = 1_OF_10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
 NEXT_PREFLIGHT_AT = 10_OF_10
 ```
-
-- 승인 Decision은 즉시 GitHub·Sheet에 같은 ID로 반영한다.
-- 다음 10번째 승인 뒤 문서·기획 PR이 fresh Green preflight와 blocker 0을 만족하면 standing authorization에 따라 병합한다.
-- 제품 코드 구현·병합은 별도 계약 대상이다.
