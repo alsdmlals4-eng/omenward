@@ -5,11 +5,12 @@
 - 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 최신 영웅 정본: `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
 - Harness 상위 정본: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- 최신 검증 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
-- 상태: `PLANNING_ONLY / COMMON_COMBAT_SCHEMA_APPROVED_NOT_IMPLEMENTED / PRODUCT_AND_TOOL_CODE_NOT_AUTHORIZED`
+- 공통 전투 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
+- 최신 검증 정본: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
+- 상태: `PLANNING_ONLY / DAMAGE_PROTECTION_STATUS_SEMANTICS_APPROVED_NOT_IMPLEMENTED / PRODUCT_AND_TOOL_CODE_NOT_AUTHORIZED`
 - 원칙: 체크되지 않은 값은 구현 사양이나 밸런스 결론으로 확정하지 않는다.
 
-이미 승인된 구조를 다시 질문하지 않는다. 이 문서는 제품·Harness 구현 전에 실제 schema·수치·fixture·통과선을 고정해야 할 항목만 추적한다.
+이미 승인된 구조를 다시 질문하지 않는다. 이 문서는 제품·Harness 구현 전에 실제 수치·기술 기본값·fixture·통과선을 고정해야 할 항목만 추적한다.
 
 ---
 
@@ -60,7 +61,7 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 - [x] 영웅 우선이 아닌 core-first 공통 Schema.
 - [x] `CombatRunState`, `LaneState`, `CombatantState`, `BuildingState`, `ObjectiveState`.
 - [x] `DeploymentProvenance`, `OrderedCommand`, `ActionIntent`, `EffectIntent`.
-- [x] `StatusInstance`, `PendingCommit`, `ActiveEffect`, `RngStreamState`.
+- [x] `ProtectionInstance`, `StatusInstance`, `PendingCommit`, `ActiveEffect`, `RngStreamState`.
 - [x] 전장 유닛의 `SpinSnapshot·TokenSource·lane commit→deployment_id` provenance.
 - [x] `TOP=0`, `MID=1`, `BOTTOM=2` canonical lane order.
 - [x] 실제 거리 기반 cross-lane 효과를 위한 quantized 2D `position_q`.
@@ -75,45 +76,80 @@ Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다
 
 Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아니다.
 
+### 1.5 Damage·Protection·Status Semantics
+
+- [x] damage channel은 `KINETIC`, `ARCANE` 두 개.
+- [x] `KINETIC → ARMOR`, `ARCANE → RESISTANCE` 대응.
+- [x] `BASIC`, `SKILL`, `AREA`, `DAMAGE_OVER_TIME`, `ENVIRONMENT`, `TRANSFERRED` delivery tag 분리.
+- [x] `UNIT`, `BUILDING`, `OBJECTIVE`와 `GROUND`, `FLYING` target profile 분리.
+- [x] AREA·DOT·SIEGE·FLYING을 damage channel로 만들지 않음.
+- [x] `DamageIntent`, `RestoreIntent`, `ProtectionIntent`, `StatusApplicationIntent` 분리.
+- [x] R80A~R80G의 validity→protection→mitigation→redirection→HP/restore→status→death mark 의미 순서.
+- [x] barrier는 post-mitigation temporary budget이며 HP·heal·Armor/Resistance가 아님.
+- [x] HP-loss redirection은 depth 1, recursion과 second mitigation 금지.
+- [x] Restore는 negative damage가 아니며 기본 overheal은 폐기.
+- [x] health floor는 damage clamp이며 heal·revive가 아님.
+- [x] status family와 stacking policy 필수 선언.
+- [x] 일반 status가 이미 commit된 same-tick 행동을 소급 취소하지 않음.
+- [x] Objective는 기본 HP damage target이 아님.
+- [x] true damage·execute·revive를 현 Slice에서 금지.
+- [x] raw·mitigated·barrier absorbed·final HP loss metric 분리.
+
+Damage Semantics 승인은 exact formula·수치·코드·simulation 승인이 아니다.
+
 ---
 
-## 2. 현재 최우선 — Damage·Protection·Status Semantics
+## 2. 현재 최우선 — Mitigation Formula·Protection Numeric Defaults
 
 다음 Decision:
 
-`OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1`
+`OMW-DEC-20260803-VALIDATION-MITIGATION-FORMULA-AND-PROTECTION-NUMERIC-DEFAULTS-V1`
 
-### 2.1 피해 분류
+### 2.1 Armor·Resistance Formula
 
-- [ ] 기본 공격·스킬·광역·지속·환경·재전달 피해 taxonomy.
-- [ ] 물리·마법 또는 대체 damage channel 구조.
-- [ ] 절대 피해·처형·최소 피해 지원 여부.
-- [ ] friendly fire·self damage·building/objective damage 경계.
-- [ ] raw damage와 resolved HP loss의 event 분리.
+- [ ] diminishing-return 또는 대체 formula 형태.
+- [ ] `ARMOR`와 `RESISTANCE`가 동일 곡선을 공유하는지.
+- [ ] 기준 상수·Stage scaling·단위와 scaled integer 표현.
+- [ ] 음수 방어 또는 관통 지원 여부.
+- [ ] 최종 피해 rounding 규칙.
+- [ ] 최소 피해 0 또는 1 정책.
+- [ ] incoming/outgoing modifier의 additive/multiplicative group.
+- [ ] modifier 순서와 cap.
 
-### 2.2 방어·보호
+### 2.2 Barrier Numeric Defaults
 
-- [ ] armor·resistance 공식 형태와 상·하한.
-- [ ] 피해 감소·barrier·absorption·damage sharing 적용 순서.
-- [ ] 방벽 budget과 target별/전체 공유 방식.
-- [ ] health-floor가 damage clamp인지 status인지.
-- [ ] 보호 효과 중첩·동일 category 우선순위.
+- [ ] recipient max HP 대비 기본 cap.
+- [ ] source별 barrier budget 계산.
+- [ ] 기본 지속 tick/초.
+- [ ] 여러 barrier instance의 cap·소비·만료 규칙.
+- [ ] barrier가 특정 channel 또는 delivery만 막을 수 있는지.
+- [ ] 영웅 방벽과 일반 protection의 power budget 분리.
+- [ ] barrier uptime stop-ship threshold.
 
-### 2.3 회복·상태·죽음
+### 2.3 HP-Loss Redirection·Health Floor Defaults
 
-- [ ] restore/heal과 health-floor의 구분.
-- [ ] overheal·revive 지원 여부와 금지 기본값.
-- [ ] buff·debuff·crowd-control·immunity taxonomy.
-- [ ] status stacking·refresh·replace·exclusive group.
-- [ ] start/end tick exclusive semantics와 dispel/cleanup.
-- [ ] post-hit trigger·on-death trigger·owner removal 순서.
+- [ ] share ratio·최대 recipient 수.
+- [ ] original target 최소 잔여 비율.
+- [ ] invalid recipient 시 `CANCEL_SHARE` 또는 `RETURN_TO_ORIGINAL_TARGET` 기본값.
+- [ ] health-floor 기본 하한과 지속 방식.
+- [ ] redirection·floor event rounding.
 
-### 2.4 전투 대상 범위
+### 2.4 Status Numeric Defaults
 
-- [ ] 유닛·건물·목표의 targetable channel.
-- [ ] flying·ground·structure·objective filter.
-- [ ] 공격 불가·면역·무효 target event.
-- [ ] cross-lane scope와 거리 계산.
+- [ ] `ADD_STACKS_CAPPED` 기본 cap.
+- [ ] `REFRESH_DURATION`과 stronger comparison key.
+- [ ] DoT·HoT 기본 pulse interval.
+- [ ] control status 최대 duration·연속 적용 방지.
+- [ ] immunity·dispel 기본 범위.
+- [ ] status uptime stop-ship threshold.
+
+### 2.5 Production·QA Gate
+
+- [ ] PC-first HUD에서 Armor/Resistance·Barrier·Status 표시 밀도.
+- [ ] color-only 표현 금지와 아이콘/문자 fallback.
+- [ ] 2 channel × target profile × protection layer fixture matrix.
+- [ ] barrier·status가 병종·전선 대응을 대체하지 않는 통과선.
+- [ ] exact numeric defaults를 `EXPLORATORY_ONLY` parameter set에서 검증하는 절차.
 
 ---
 
@@ -149,7 +185,7 @@ Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아
 - [ ] initial warmup과 스킬별 cooldown.
 - [ ] 방벽 흡수량·지속시간·전열 압력 공식.
 - [ ] 천공 소거 비행 위협도·대상 수·대상별 피해.
-- [ ] 생명의 서약 Trigger·유효 하한·지속시간.
+- [ ] 생명의 서약 Trigger·유효 하한·지속시간·redirection ratio.
 - [ ] 메테오 군집 반경·최소 적중 수·낙하 지연·피해·경고시간.
 - [ ] 그림자 분신 지속시간·복제 피해율·owner link 세부.
 
@@ -185,7 +221,7 @@ Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아
 
 ### 3.7 병종·전투 콘텐츠
 
-- [ ] 전체 10병종 표준 능력치.
+- [ ] 전체 10병종 표준 HP·Armor·Resistance·공격 채널·공격력·공속·사거리.
 - [ ] 나머지 Tier 3 전문화 능력.
 - [ ] 일반~전설 스킬 강화 exact 값.
 - [ ] 비행 충돌·고도·수평거리 규칙.
@@ -196,10 +232,11 @@ Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아
 
 - [ ] save schema version·migration·checksum·atomic replace·backup.
 - [ ] checkpoint 직렬화 field와 중간 사건 ID.
-- [ ] timer·READY·RNG·commit·resolved 상태 저장.
+- [ ] timer·READY·RNG·commit·resolved·protection·status 상태 저장.
 - [ ] 메타 재화·영구 성장·respec·반복 clear 점감.
 - [ ] 영웅 상태 HUD와 paused/waiting/cancel 이유 표시.
 - [ ] provenance 기반 결과 복기 UX.
+- [ ] KINETIC/ARCANE·Armor/Resistance·Barrier 접근성 표시.
 - [ ] 1920×1080·1280×720 가독성.
 
 ---
@@ -214,6 +251,9 @@ Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아
 - [ ] 표준 영웅·해금 영웅·표준 전설 A/B/C 결과.
 - [ ] 방벽 상시 유지, 비행 공세 삭제, 서약 광역 무적 체감.
 - [ ] 메테오 회피 불가·전설 초과, 분신 독립 AI 확장.
+- [ ] KINETIC/ARCANE 대응이 명목상이고 실제 선택을 바꾸지 않는 문제.
+- [ ] Armor/Resistance stacking으로 무적 tank가 생기는 문제.
+- [ ] barrier와 status가 세 전선·병종 선택을 대체하는 문제.
 - [ ] 다른 두 전선 운영의 결정성.
 - [ ] Harness와 실제 Scene 결과 분기.
 - [ ] reference CI replay bit parity.
@@ -235,20 +275,24 @@ Common Schema 승인은 GDScript·fixture·test·simulation 구현 승인이 아
 - 해금 영웅 패시브/active 선택과 3번째 추가 스킬.
 - 강제 상쇄 sidegrade.
 - 공개 12% 럭키와 이동 되돌리기.
+- 단일 generic defense 또는 숨은 damage type.
+- 즉사·처형·부활·true damage.
 
 ---
 
 ## 6. 현재 우선순위
 
 ```text
-P0 = deterministic Harness 범위·입출력·재현성 — APPROVED_CONCEPT / NOT_IMPLEMENTED
+P0 = deterministic Harness scope — APPROVED_CONCEPT / NOT_IMPLEMENTED
 P1 = common combat schema·resolution order — APPROVED_CONCEPT / NOT_IMPLEMENTED
-P2 = damage·protection·status semantics — CURRENT_NEXT_GATE
-P3 = 다섯 해금 영웅 exact Trigger·timer·효과값
-P4 = A/B/C sample·tolerance·stop-ship
-P5 = roulette/economy 100,000-seed simulation
-P6 = checkpoint/save schema
-P7 = Harness 및 첫 제품 구현 패키지·Red tests·회귀·롤백
+P2 = damage·protection·status semantics — APPROVED_CONCEPT / NOT_IMPLEMENTED
+P3 = mitigation formula·protection numeric defaults — CURRENT_NEXT_GATE
+P4 = tick·activation·quantization technical defaults
+P5 = 다섯 해금 영웅 exact Trigger·timer·효과값
+P6 = A/B/C sample·tolerance·stop-ship
+P7 = roulette/economy 100,000-seed simulation
+P8 = checkpoint/save schema
+P9 = Harness 및 첫 제품 구현 패키지·Red tests·회귀·롤백
 ```
 
 제품 코드·simulation tool 코드·Scene·Resource·test 변경은 별도 사용자 승인 전 금지한다.
