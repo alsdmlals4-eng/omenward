@@ -8,6 +8,7 @@
 - 피해 의미 정본: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
 - 수치 기본값 정본: `docs/design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md`
 - 시간·활성화 정본: `docs/design/APPROVED_OMENWARD_FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_2026-08-03.md`
+- Modifier·precedence 정본: `docs/design/APPROVED_OMENWARD_MODIFIER_STACKING_AND_EFFECT_PRECEDENCE_2026-08-03.md`
 - 작업 모드: `TOTAL_PLANNING / PLANNING_ONLY_PROFILE`
 - 최신 기획 상태: `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED`
 - 제품 코드 승인: `NOT_AUTHORIZED`
@@ -25,7 +26,7 @@ CORE_LOCK_NOT_ALLOWED
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED_PLANNING = FIXED_TICK_TIME_ACTIVATION_DEFAULTS_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED_PLANNING = MODIFIER_STACKING_EFFECT_PRECEDENCE_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 SIMULATION = NOT_RUN
@@ -45,7 +46,7 @@ LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
 
-이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 V2 전체 시스템, 20 Stage Vertical Slice, Harness, Common Combat, Damage, Numeric, Time 계약 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
+이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 V2 전체 시스템, 20 Stage Vertical Slice, Harness, Common Combat, Damage, Numeric, Time, Modifier 계약 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
 
 ## 3. 현행 승인 Planning Stack
 
@@ -55,27 +56,32 @@ P1 Common Combat Schema and R00~R130
 P2 Damage/Protection/Status Semantics
 P3 Mitigation/Protection Numeric Defaults
 P4 Fixed Tick/Time/Activation Defaults
+P5 Modifier Stacking/Effect Precedence
 ```
 
-### P4 승인 내용
+### P5 승인 내용
 
 ```text
-DOMAIN_TPS = 30
-AUTHORING_TIME = integer milliseconds
-RUNTIME_TIME_AUTHORITY = integer tick
-DURATION_TICKS = ceil(duration_ms * 30 / 1000)
-ACTIVE_RANGE = [start_tick,end_tick_exclusive)
-SPAWN_AT_T → ACTIVATE_AT_T_PLUS_1
+SOURCE_OUTGOING = 50%~150%
+TARGET_INCOMING = 50%~150%
+COMBINED_PRE_DEFENSE = 25%~200%
+R60 = source snapshot
+R80 = target snapshot
 ```
 
 ```text
-Barrier 3000ms = 90 ticks
-DOT/HOT pulse 1000ms = 30 ticks
-Control max 2000ms = 60 ticks
-Control lockout 1000ms = 30 ticks
+REFRESH_DURATION
+REPLACE_IF_STRONGER
+ADD_STACKS_CAPPED
+INDEPENDENT_BY_SOURCE
+EXCLUSIVE_GROUP
 ```
 
-Tick T spawn은 상태·대상 후보에 존재하고 피해받을 수 있지만 T+1 전에는 이동·Target·Action·Skill·Protection·Objective 기여를 할 수 없다.
+```text
+P00 validity → P10 immunity → P20 source → P30 target incoming
+→ P40 defense → P50 Barrier → P60 redirection → P70 Floor
+→ P80 HP/Restore → P90 Status → P100 death pending
+```
 
 ## 4. 구현 상태 행렬
 
@@ -87,54 +93,54 @@ Tick T spawn은 상태·대상 후보에 존재하고 피해받을 수 있지만
 | Damage·Protection·Status | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
 | Mitigation·Protection Numeric | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
 | 30 TPS·Time·Activation | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Modifier stacking·precedence | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| Modifier stacking·precedence | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Spatial·Movement·Targeting | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
 | 콘텐츠 Parameter Set | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
 | Runtime Adapter | 미승인 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
 | 이미지·Animation·HX | 후속 Gate | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
 
-## 5. 구현 시 필수 시간 계약
+## 5. Modifier 구현 시 필수 계약
 
 ```text
+BASIS_POINTS = 10000
+FAMILY_CAP_APPLIES_AFTER_ALL_SOURCES
+POSITIVE_VALID_ADJUSTED_DAMAGE_MIN = 1
+ARMOR_RESISTANCE_MODIFIER = INTEGER_POINT_ADDITIVE_ONLY
+GENERIC_FLAT_DAMAGE_MODIFIER = FORBIDDEN
+GENERIC_OVERRIDE_OPERATION = FORBIDDEN
+CONSUMABLE_NEXT_HIT_MODIFIER = FORBIDDEN
+TRANSFERRED_DAMAGE_SECOND_PASS = FORBIDDEN
+```
+
+영웅·전설도 공통 ModifierRecord·Intent·precedence를 사용하며 직접 HP를 변경할 수 없다.
+
+## 6. Trigger 필수 계약
+
+```text
+ON_VALID_IMPACT
+ON_POST_MITIGATION_DAMAGE
+ON_BARRIER_ABSORBED
+ON_FINAL_HP_LOSS
+ON_STATUS_APPLIED
+ON_TARGET_DEATH_FINALIZED
+```
+
+모호한 `on hit`만으로 Trigger를 구현하지 않는다.
+
+## 7. 시간·전투 필수 계약
+
+```text
+DOMAIN_TPS = 30
 R00 = exclusive expiry before commands
 R10 = ingest current scheduled commands only
 R20 = spawn at T, activate at T+1
 R110 = integer Tick Timer advance
 R130 = Save canonical boundary
-```
-
-```text
-WALL_CLOCK = NON_AUTHORITATIVE
-GODOT_TIMER = NON_AUTHORITATIVE_FOR_COMBAT
-ANIMATION_CALLBACK = NON_AUTHORITATIVE
-RENDER_INTERPOLATION = VISUAL_ONLY
-TICK_SKIP_OR_MERGE = FORBIDDEN
-```
-
-## 6. 전투·수치 필수 계약
-
-```text
+WALL_CLOCK_TIMER_ANIMATION_CALLBACK = NON_AUTHORITATIVE
 ALL_ELIGIBLE_ACTORS_COMMIT_FROM_SAME_PHASE_SNAPSHOT
 DEATH_FINALIZE_AFTER_DAMAGE_BATCH
 OBJECTIVE_USES_POST_DEATH_ACTIVE_SURVIVORS
-KINETIC → ARMOR
-ARCANE → RESISTANCE
-DEFENSE = clamp(base + buff - debuff,0,300)
-BARRIER = application20% / total30% / 90ticks
-REDIRECTION = 30% / one recipient
-HEALTH_FLOOR = 1 HP / one trigger
-STATUS = stack3 / pulse30 / control60 / lockout30 ticks
 ```
-
-## 7. Pause·Save 경계
-
-```text
-ACTIVE_COMBAT = DOMAIN_TICK_ADVANCES
-MAINTENANCE_PREPARATION_APPLICATION_PAUSE = DOMAIN_TICK_PAUSED
-SAVE = AFTER_R130_ONLY
-SAVE_TIMERS = INTEGER_TICKS
-```
-
-전술 pause의 허용 여부는 Normal/Danger UX·콘텐츠 정책이 소유하지만, pause가 허용되면 모든 전투 시간은 함께 멈춘다.
 
 ## 8. CI 호환 회귀 기록
 
@@ -148,8 +154,7 @@ DOCUMENTATION_MAP restore commit = 601be3bb5a885b8ada966621b994973accf17577
 ## 9. 남은 구현 차단 요인
 
 ```text
-SOURCE_TARGET_MODIFIER_STACKING = PENDING_USER_DECISION
-EFFECT_PRECEDENCE = PENDING_USER_DECISION
+SPATIAL_QUANTIZATION_MOVEMENT_TARGETING = PENDING_USER_DECISION
 EXACT_UNIT_HERO_BUILDING_VALUES = PENDING
 FIXTURE_SAMPLE_TOLERANCE = PENDING
 IMPLEMENTATION_PLAN = NOT_WRITTEN_FOR_CURRENT_STACK
@@ -159,7 +164,7 @@ PRODUCT_CODE_AUTHORITY = NONE
 ## 10. 다음 Gate
 
 ```text
-GRILL_ME_COUNT = 5/10
-NEXT_DECISION = OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1
+GRILL_ME_COUNT = 6/10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-SPATIAL-QUANTIZATION-MOVEMENT-AND-TARGETING-DEFAULTS-V1
 NEXT_PREFLIGHT = AT_10_OF_10
 ```
