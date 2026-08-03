@@ -4,339 +4,217 @@
 - 현재 main: `RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH`
 - 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 최신 영웅 정본: `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
-- 상태: `PLANNING_ONLY / MAIN_CANONICAL_NOT_IMPLEMENTED / PRODUCT_CODE_NOT_AUTHORIZED`
-- 원칙: 체크되지 않은 값은 구현 사양으로 확정하지 않는다.
+- 최신 검증 설계: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
+- 상태: `PLANNING_ONLY / HARNESS_SCOPE_APPROVED_NOT_IMPLEMENTED / PRODUCT_AND_TOOL_CODE_NOT_AUTHORIZED`
+- 원칙: 체크되지 않은 값은 구현 사양이나 밸런스 결론으로 확정하지 않는다.
 
-이 문서는 이미 승인된 구조를 다시 질문하는 목록이 아니다. 최신 통합 계약을 유지하고, 제품 구현 전에 실제 수치·콘텐츠·스키마·검증 기준으로 고정해야 할 항목만 추적한다.
+이미 승인된 구조를 다시 질문하지 않는다. 이 문서는 제품·Harness 구현 전에 실제 schema·수치·fixture·통과선을 고정해야 할 항목만 추적한다.
 
 ---
 
 ## 1. 해결된 주요 결정
 
-### 1.1 범위와 상태
+### 1.1 전체 시스템
 
-- [x] 코어 PoC를 건너뛰고 버티컬 슬라이스로 진행.
-- [x] 과거 3스테이지 최소 슬라이스 대신 20스테이지 전체 시스템 슬라이스 채택.
-- [x] 콘텐츠 폭은 최소화하되 룰렛·경제·전장·건설·미션·메타·저장·UI·오디오 연결 포함.
-- [x] 제품 코드는 별도 계획 승인 전 변경하지 않음.
-- [x] 최신 영웅 기획은 main 정본이지만 제품 구현은 아님.
+- [x] 20 Stage 전체 시스템 Vertical Slice.
+- [x] 세 원형 릴·금고/병영 TokenSource·immutable SpinSnapshot.
+- [x] 상·중·하 3전선과 5구간·30개 건설 노드.
+- [x] 금고·농장·타워·병영·지휘소.
+- [x] 보관·판매·식량·수리·건설 프로젝트 기본 계약.
+- [x] 준비·전투·정산·정비시간과 versioned checkpoint 방향.
+- [x] 제품 코드는 별도 승인 전 변경하지 않음.
 
-### 1.2 전장과 점령
+### 1.2 영웅·전설
 
-- [x] 라인 구조: 아군 본진 → 아군 중간 거점 → 중앙 경합 지역 → 적 중간 거점 → 적 본진.
-- [x] 3라인, 전체 중간 거점 6개, 중앙 경합 지역 3개.
-- [x] 진영당 본진 노드 6개, 중간 거점당 노드 3개, 전체 건설 노드 30개.
-- [x] 중앙 경합 지역과 중간 거점은 고정 시간 점령.
-- [x] 유닛 수·Tier·등급은 점령속도에 영향 없음.
-- [x] 적 진입 시 점령 정지, 점령 부대 소멸 시 유예 뒤 진행 회복.
-- [x] 소유권은 주둔 없이 유지.
-- [x] 중앙 경합 지역 소유는 전역 골드/초 보너스 제공.
-- [x] 후방 거점 상실 시 전진 병력은 후퇴·약화·소멸하지 않음.
-- [x] 점령 완료 순간 소유권·수입·건설 권리·건물 상태 원자 이전.
-
-### 1.3 건물
-
-- [x] 기본 건물 5종: 금고, 농장, 타워, 병영, 지휘소.
-- [x] 금고: 골드/초 + `[금화]` 토큰.
-- [x] 농장: 식량 생산 + 식량 한도.
-- [x] 타워: 직접 공격 가능한 전투 건물.
-- [x] 병영: 병종 토큰 TokenSource.
-- [x] 지휘소: 범위형 전장 버프.
-- [x] 금고·농장은 선형 T1→T3.
-- [x] 타워는 T2 연사/포격 분기, T3 선택 계열 선형 강화.
-- [x] 지휘소는 T2 돌격/수비 분기, T3 선택 계열 선형 강화.
-- [x] 병영은 T2 10병종, T3 각 2전문화.
-- [x] 타워 외 비전투 건물은 점령 전 직접·부수 피해 대상이 아님.
-- [x] 파괴 건물은 잔해·재건 없이 제거되고 노드 즉시 EMPTY.
-- [x] 금고·농장·타워·지휘소는 호환 점령 이전.
-- [x] 병영은 적 점령 시 `BLOCKED`.
-- [x] 보관·판매는 별도 건물이 아니라 플레이어 공통 런 시스템.
-
-### 1.4 수리와 프로젝트
-
-- [x] 별도 수리공방·작업자·임금·글로벌 수리 예산 제거.
-- [x] 건물당 수리 작업 하나.
-- [x] 여러 건물 동시 수리 가능.
-- [x] 실제 회복 HP만큼 골드 실시간 차감.
-- [x] 지갑 음수 금지, 부족 시 부분 회복 후 자동 일시정지.
-- [x] 동일 시각 피해 → 파괴 확정 → 생존 건물 수리.
-- [x] 건물당 건설·업그레이드·철거 프로젝트 하나.
-- [x] 병렬 업그레이드 허용.
-- [x] 업그레이드 전체 비용 선차감과 소비/미소비 에스크로 분리.
-- [x] 취소 시 미소비 100% + 소비 비용 50% 반환.
-- [x] 파괴 시 소비 비용 소멸 + 미소비 반환.
-- [x] 호환 점령 시 원래 자금 제공자 보존.
-
-### 1.5 토큰·룰렛
-
-- [x] 금고와 병영 모두 TokenSource 기능 계약 사용.
-- [x] 물리 노드마다 세 릴에 결속 슬롯 하나씩.
-- [x] `SOURCE_BOUND_X ↔ 활성 토큰` 같은 자리 교체.
-- [x] 파괴·철거 완료·교체·BLOCKED·소유권 상실 시 X 복구.
-- [x] 릴 길이·순서·cursor 유지.
-- [x] 기존 SpinSnapshot·PendingReward 불변.
-- [x] 금화 토큰은 금고 Tier 변형을 사용하지 않음.
-- [x] 금화 보상은 실제 회전 비용 75/200/500% 규칙 유지.
-- [x] 병종 exact variant는 물리 병영 수 × Tier 가중치 1/2/3.
-- [x] 같은 병영은 세 릴을 공급해도 후보 풀에서 한 번만 계산.
-
-### 1.6 병종 성장
-
-- [x] Tier 1 공통 보병.
-- [x] Tier 2 10병종 확정.
-- [x] Tier 3 각 2전문화, 총 20종 구조 확정.
-- [x] 궁병 Tier 3는 석궁병 / 연사궁병.
-- [x] 두 궁병 모두 지상·비행 공격 가능, 별도 영역 피해 배율 없음.
-- [x] Tier 2 비용군 표준/고급/전략과 배율 방향 승인.
-- [x] 비용·시간은 5골드·1초 half-up 반올림.
-
-### 1.7 방패병 계열
-
-- [x] 방패병 계열 기본 표적 우선도 상승.
-- [x] 표적 가중치 방패 1.0 / 근거리 1.4 / 원거리 1.8.
-- [x] 예상 교전 도달시간을 2초 기준으로 정규화.
-- [x] 공격 주기 완료 후 재평가, 새 표적 20% 이상 우수 시 전환.
-- [x] 암살·대공·공성·방패파괴·보스 전문 프로필.
-- [x] 전문 보정 등급 -0.4 / -0.8 / -1.0.
-- [x] 여러 전문 조건은 가장 강한 보정 하나만 적용.
-- [x] `HIGH_DEFENSE`는 명시 태그이며 방패 계열 자동 보유.
-- [x] 태그가 있는 공격 가능한 전투 건물도 방패파괴 선호 대상.
-
-#### 호위병
-
-- [x] 원형 반경 2.5D, 라인 제한 없음.
-- [x] 보호 대상의 방어 후 HP 손실 25% 분담.
-- [x] 직접·광역 피해 포함, 지속·환경·재전달 피해 제외.
-- [x] 가장 가까운 호위병 하나만 선택.
-- [x] 호위병 계열은 보호 대상에서 제외.
-- [x] 동일 틱 배정 고정과 사망 후 일괄 처리.
-- [x] 완전 행동불능 상태에서 보호 중단.
-- [x] 선택·오버레이 중심 범위 VFX와 분담 순간 피드백.
-
-#### 철벽수호병
-
-- [x] 정지시간 기반 0~3단계.
-- [x] 2초/5초/10초 단계 임계.
-- [x] 직접·광역 피해 감소 10%/20%/40%.
-- [x] 강제 이동 저항 25%/50%/100%.
-- [x] 이동 누적 1초마다 1단계 하락, 부분 이동시간 보존.
-- [x] 일반 전투 강제 이동 3단계 면역.
-- [x] 모든 예외 재배치 성공 시 0단계 초기화.
-- [x] 추적 반경 0단계 무제한, 1단계 2.5D, 2단계 1.25D, 3단계 없음.
-
-### 1.8 벨루
-
-- [x] 자동 `[벨루의 조언]`과 수동 `[벨루 팁]` 분리.
-- [x] 자동 조언은 한 문장, 비상호작용, 비정지.
-- [x] 수동 팁은 비모달, 추천 최대 2개, 이유·단점 포함.
-- [x] RecommendationSnapshot, 오래됨 표시, 수동 새로고침.
-- [x] 이벤트 기반 우선 큐, 중복 억제, 쿨다운.
-- [x] 현재 스테이지 최근 조언 최대 5개.
-- [x] 텍스트 우선, 중요 사건만 선택 음성.
-
-### 1.9 MapRun과 저장
-
-- [x] 표준 20스테이지.
-- [x] 일반 3웨이브, 위험 4웨이브, 최종 5웨이브.
-- [x] 매 5번째 스테이지 위험.
-- [x] 일반 전술계획 정지는 전투·점령·회복·수리·경제 모두 정지.
-- [x] 위험 전투는 전술계획 정지 없음.
-- [x] 활성 전투 임의 프레임 저장 제외.
-- [x] 준비 진입과 정산 완료 시 versioned checkpoint 저장.
-- [x] 불완전 저장은 이전 정상본을 대체하지 않음.
-
-### 1.10 영웅·전설 등급과 초기 5명
-
-- [x] 표준 `[영웅]`은 강화 1스킬 + 표준 2스킬.
-- [x] 해금 이름 지정 `[영웅]`은 강화 1스킬 + 고유 2스킬.
-- [x] 표준 `[전설]`은 강화 1스킬 + 강화 표준 2스킬 + 표준 3스킬.
-- [x] 미래 해금 이름 지정 `[전설]`은 표준 3스킬을 고유 3스킬로 교체.
-- [x] 파워 위계는 `표준 영웅 < 해금 영웅 < 표준 전설`.
-- [x] 상·중·하 전체에서 `[영웅]·[전설]` 활성 유닛 합계 최대 1명.
-- [x] 제한은 획득이 아니라 전장 배치에 적용.
-- [x] 초기 해금 영웅은 방패병·궁병·사제·마법사·암살자 5명.
-- [x] 고유 2스킬은 불퇴의 성벽·천공 소거·생명의 서약·메테오·그림자 분신.
+- [x] 표준 `[영웅]` = 강화 1스킬 + 표준 2스킬.
+- [x] 해금 이름 지정 `[영웅]` = 강화 1스킬 + 고유 2스킬.
+- [x] 표준 `[전설]` = 강화 1스킬 + 강화 표준 2스킬 + 표준 3스킬.
+- [x] 향후 해금 이름 지정 `[전설]`은 고유 3스킬을 사용하되 상세는 후속 범위.
+- [x] `표준 영웅 < 해금 영웅 < 표준 전설` 파워 방향.
+- [x] 전장 전체 `[영웅]·[전설]` 활성 유닛 합계 최대 1명.
+- [x] 초기 5명: 방패병·궁병·사제·마법사·암살자.
+- [x] 고유 2스킬: 불퇴의 성벽·천공 소거·생명의 서약·메테오·그림자 분신.
 - [x] 수동 발동·수동 타깃·마나·다중 charge 금지.
-- [x] cooldown 완료 시 READY 최대 1회 저장.
-- [x] 전투 중에만 timer 진행, 정비·준비·룰렛·건설 중 일시정지.
-- [x] 공개 Trigger·same-lane filter·priority·stable tie-break·immutable commit Snapshot.
-- [x] active effect와 미해결 commit의 다음 Stage 이월 금지.
-- [x] A/B/C 대표 encounter 파워 검증 방향 승인.
-- [x] 미래 해금 전설 상세·구현은 현재 범위가 아님.
+- [x] READY 최대 1회, 전투 clock만 timer 진행.
+- [x] 공개 Trigger·same-lane Filter·Priority·stable tie-break·immutable commit Snapshot.
+- [x] active effect·미해결 commit의 다음 Stage 이월 금지.
+- [x] A/B/C 대표 encounter 파워 검증 방향.
+
+### 1.3 Deterministic Simulation Harness 범위
+
+- [x] headless 순수 도메인 fixed-tick Harness를 초기 기준으로 선택.
+- [x] versioned fixture·ordered external commands·pure domain state transition.
+- [x] named RNG streams와 seed/state/draw count 기록.
+- [x] stable object ID·explicit sort key·양자화 위치 경계.
+- [x] ordered event log·normalized final state·metrics·fingerprint 출력.
+- [x] T0 schema / T1 replay / T2 invariants / T3 paired A/B/C 설계 범위.
+- [x] headless 실행은 결정론 자체가 아니라는 경계.
+- [x] raw JSON text·variable frame delta·wall clock·global RNG를 결정론 권위에서 제외.
+- [x] T4 aggregate balance와 T5 product runtime adapter를 후속 Gate로 분리.
+
+Harness scope 승인은 simulation tool 구현 또는 실행 승인이 아니다.
 
 ---
 
-## 2. 구현 전 남은 수치·콘텐츠·스키마 결정
+## 2. 현재 최우선 — 공통 Combat Schema·Resolution Order
 
-### 2.1 룰렛·경제
+다음 Decision:
 
-- [ ] 유료 회전 기본 비용.
-- [ ] 스테이지 진행에 따른 회전 비용 변화 여부.
-- [ ] 무료 회전의 금화 보상 기준 회전가.
-- [ ] 초기 각 릴의 정확한 X·고정 토큰 구성.
-- [ ] 이동 기본가격 `P`와 세션 내 `nP` 실제값.
-- [ ] 일반·엘리트·영웅·전설 병력 판매가.
-- [ ] 보관함 영구 확장 상한과 비용.
-- [ ] 금고 Tier별 골드/초.
-- [ ] 중앙 경합 지역 골드/초 최종값.
-- [ ] 100,000시드 목표 기대값과 허용 범위.
+`OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1`
 
-### 2.2 건물
+### 2.1 공통 상태 Field Dictionary
 
-- [ ] 금고·농장·타워·병영·지휘소 기본 건설비·건설시간·HP.
-- [ ] 각 Tier 업그레이드 비용·시간·HP 증가.
-- [ ] 연사탑 공격력·공격속도·사거리·비행 선호.
-- [ ] 포격탑 공격력·공격속도·광역 반경·최소 사거리 여부.
-- [ ] 돌격 지휘소 오라 반경·공격속도·이동속도.
-- [ ] 수비 지휘소 오라 반경·방어력·강제 이동 저항.
-- [ ] 지휘소 오라 경계와 HUD 표시.
-- [ ] 철거 시간과 철거 환불률.
+- [ ] `BattleState`, `LaneState`, `UnitState`, `BuildingState`, `ObjectiveState` 필수 필드.
+- [ ] `HeroSkillState`, `PendingCommit`, `ActiveEffect`, `RngStreamState`, `ResolvedEventState` 필수 필드.
+- [ ] 상태 owner·source·target 관계와 stable ID 형식.
+- [ ] enum versioning과 unknown value 안전 처리.
+- [ ] fixture schema version·parameter set ID·engine contract version 관계.
 
-### 2.3 수리
+### 2.2 시간·위치·순서
 
-- [ ] 초당 수리 HP 또는 최대 HP 비율.
-- [ ] HP당 골드 비용.
-- [ ] 수리 시작·중지 UI와 자동 재개 여부.
-- [ ] 전술계획 정지·위험 전투에서 수리 명령 UX.
+- [ ] fixed tick duration과 시간 단위.
+- [ ] lane order·전열/후열·anchor·quantized position 정의.
+- [ ] 동일 tick command·movement·target·commit·damage·death·objective·timer 순서.
+- [ ] 같은 tick 사망·보호·회복·점령 경쟁 해결 규칙.
+- [ ] event sequence와 checkpoint fingerprint 생성 시점.
 
-### 2.4 점령·전장
+### 2.3 피해·방어·효과 분류
 
-- [ ] 중앙 경합 지역·중간 거점 점령 유예시간.
-- [ ] 진행도 회복속도.
-- [ ] 점령 원형 반경.
-- [ ] 중간 거점·본진 기본 HP·방어·저항.
-- [ ] 전선 진격·재집결 앵커와 HoldRadius.
-- [ ] 본진 건설 노드와 중간 거점 노드 실제 배치.
+- [ ] 기본 공격·스킬·광역·지속·환경·재전달 피해 분류.
+- [ ] 방어 공식·상한 또는 diminishing cap.
+- [ ] 절대 피해·처형·최소 피해 여부.
+- [ ] 피해 흡수·피해 감소·HP 손실 분담·체력 하한의 적용 순서.
+- [ ] 회복·부활·보호·면역·상태이상 분류.
+- [ ] 건물·거점·유닛의 공격 가능성과 면역 범위.
 
-### 2.5 병종·Tier 3 능력
+### 2.4 AI·Trigger 공통 의미
 
-- [ ] 대검전사 두 전문화 상세 능력.
-- [ ] 암살자 두 전문화 상세 능력.
-- [ ] 창병 두 전문화 상세 능력.
-- [ ] 기병 두 전문화 상세 능력.
-- [ ] 사제 두 전문화 상세 능력.
-- [ ] 마법사 두 전문화 상세 능력.
-- [ ] 비행병 두 전문화 상세 능력.
-- [ ] 거인 두 전문화 상세 능력.
-- [ ] 궁병 두 전문화의 정확한 공격 수치와 표적 선호 계수.
-- [ ] 병종별 액티브·패시브, 일반~전설 등급 강화.
-- [ ] 병종별 AI 우선순위와 동률 규칙.
+- [ ] `role`, `threat`, `frontline`, `backline`, `cluster`, `flying`, `high_value` schema.
+- [ ] target filter·priority score·tie-break 공통 envelope.
+- [ ] trigger 평가 주기와 stability window 표현.
+- [ ] target snapshot과 position snapshot의 불변 범위.
+- [ ] 분신 proxy와 owner link·독립 AI 금지 표현.
 
-### 2.6 전투 기준
+---
 
-- [ ] 표준 능력치 기준표를 전체 10병종에 적용한 실제 값.
-- [ ] 방어 공식의 방어력 상한 또는 diminishing cap.
-- [ ] 상태이상·절대 피해·처형 피해 분류.
-- [ ] 비행 충돌·수평 거리·고도 표현 규칙.
-- [ ] 타워와 유닛의 표적 점수 통합 방식.
-- [ ] threat·role·frontline·backline·cluster 공통 schema.
-- [ ] stable object ID와 위치 양자화 규칙.
+## 3. 이후 미확정 결정
 
-### 2.7 해금 영웅·전설
+### 3.1 Harness 구현 계약
 
-- [ ] deterministic simulation harness의 입출력·seed·clock·event log 계약.
-- [ ] 대표 encounter fixture와 동일 조건 A/B/C 비교 schema.
-- [ ] 다섯 고유 2스킬의 exact Trigger 임계치.
+- [ ] fixture 파일 형식과 canonical serialization field order.
+- [ ] fingerprint algorithm.
+- [ ] reference engine build·reference CI environment.
+- [ ] full snapshot checkpoint 간격과 event log 보존 정책.
+- [ ] save round-trip fixture와 divergent tick 보고 형식.
+- [ ] fixture migration·authority commit pinning.
+- [ ] holdout fixture 관리와 변경 승인 절차.
+- [ ] simulation tool GDScript·test 구현 패키지와 Red tests.
+
+### 3.2 영웅 Exact 값
+
+- [ ] 다섯 고유 2스킬 Trigger 임계치.
 - [ ] Trigger stability window와 평가 주기.
 - [ ] initial warmup과 스킬별 cooldown.
-- [ ] 방벽 흡수량·지속시간·전열 압력 계산식.
-- [ ] 천공 소거 대상 수·가중 위협도·대상별 피해.
-- [ ] 생명의 서약 체력 Trigger·유효 하한·지속시간.
+- [ ] 방벽 흡수량·지속시간·전열 압력 공식.
+- [ ] 천공 소거 비행 위협도·대상 수·대상별 피해.
+- [ ] 생명의 서약 Trigger·유효 하한·지속시간.
 - [ ] 메테오 군집 반경·최소 적중 수·낙하 지연·피해·경고시간.
 - [ ] 그림자 분신 지속시간·복제 피해율·owner link 세부.
-- [ ] A/B/C 표본 수·허용오차·통과선·stop-ship 기준.
-- [ ] 짧은 Stage 미발동률과 전투 종료 commit 취소율 허용 범위.
-- [ ] 전체 encounter에서 특정 해금 영웅의 필수 선택화 허용 범위.
-- [ ] 미래 해금 전설의 로스터·획득·고유 3스킬·파워 검증은 후속 범위.
 
-### 2.8 미션·스테이지·콘텐츠
+### 3.3 A/B/C Acceptance
 
-- [ ] 20스테이지별 일반·위험·최종 적 구성.
-- [ ] 보스 수와 배치 스테이지.
-- [ ] 미션 카드 풀과 보상표.
-- [ ] 미션 보상 전체 사전 공개 여부.
-- [ ] 난이도별 적 능력 배율과 변형 풀.
-- [ ] 맵 클리어 등급 가중치와 기준 시간.
-- [ ] 20스테이지 예상 세션 길이.
+- [ ] family별 fixture·seed·난이도·배치 표본 수.
+- [ ] B>A 의도 상황 통과선.
+- [ ] C>B 전체 대표 family 합산 통과선.
+- [ ] 허용오차·신뢰구간·재실행 기준.
+- [ ] no-cast·precheck 실패·late commit 취소율 허용 범위.
+- [ ] 특정 해금 영웅의 전 encounter 필수 선택화 stop-ship.
+- [ ] 다른 두 전선 기여도 하한.
+- [ ] placeholder parameter set 결과의 `EXPLORATORY_ONLY` 표시.
 
-### 2.9 메타 성장
+### 3.4 룰렛·경제
 
-- [ ] 메타 재화 공식 명칭.
-- [ ] 영구 성장 노드별 수치·비용·상한.
-- [ ] respec 비용과 제한.
-- [ ] 반복 clear 보상 점감 단위와 예외.
-- [ ] 기록·도감·업적·장식 최소 범위.
-- [ ] 무한 방어 포함 시점과 보상.
+- [ ] 유료 회전 기본 비용과 Stage별 변화.
+- [ ] 무료 회전 금화 보상 기준가.
+- [ ] 초기 릴 X·고정 토큰 구성.
+- [ ] 이동 기본가격 `P`와 세션 `nP`.
+- [ ] 등급별 판매가·보관함 확장 비용과 상한.
+- [ ] 금고 Tier·중앙 경합 지역 골드/초.
+- [ ] 100,000-seed 목표 기대값·허용 범위.
 
-### 2.10 저장
+### 3.5 건물·수리·점령
 
-- [ ] save schema version.
-- [ ] migration 정책.
-- [ ] checkpoint 직렬화 필드 목록.
-- [ ] checksum·원자 교체·백업 보존 방식.
-- [ ] 호환 불가 버전의 안전 처리.
-- [ ] 점령·프로젝트·PendingReward 저장 중간 사건 ID.
-- [ ] 영웅 timer state·잔여시간·READY·commit payload·resolved flag 직렬화.
+- [ ] 5개 건물 기본 비용·시간·HP와 Tier 값.
+- [ ] 연사/포격 타워와 돌격/수비 지휘소 exact 값.
+- [ ] 철거 시간·환불률.
+- [ ] 수리 HPS·HP당 비용·자동 재개 UX.
+- [ ] 점령 유예·회복속도·반경.
+- [ ] 거점·본진 능력치와 실제 node/anchor 배치.
 
----
+### 3.6 병종·전투 콘텐츠
 
-## 3. 자동·사람 검증 전 보류
+- [ ] 전체 10병종 표준 능력치.
+- [ ] 나머지 Tier 3 전문화 능력.
+- [ ] 일반~전설 스킬 강화 exact 값.
+- [ ] 비행 충돌·고도·수평거리 규칙.
+- [ ] 타워와 유닛 target score 통합.
+- [ ] 20 Stage 적 구성·보스·미션·난이도·세션 길이.
 
-- [ ] 금화 TokenSource 포함 100,000시드 경제 분포.
-- [ ] 금고 수 증가에 따른 회수기간과 무한 증식 여부.
-- [ ] 다중 건물 수리의 골드 압박과 HPS.
-- [ ] 호위병이 광역 피해에서 급사하는 체감과 허용 범위.
-- [ ] 철벽수호병 3단계 가동률과 전선 진행 지연.
-- [ ] 타워 분기가 유닛 조합을 대체하는지.
-- [ ] 지휘소 오라 중첩과 노드 독점 전략.
-- [ ] 20스테이지 checkpoint 왕복과 저장 손상 복구.
-- [ ] 벨루 조언 빈도와 전투 정보 과밀.
-- [ ] 첫 10~15분의 릴 장기 편집 이해도.
-- [ ] 1920×1080과 1280×720 가독성.
-- [ ] 표준 영웅·해금 영웅·표준 전설 A/B/C 대표 encounter 결과.
-- [ ] 방벽 uptime과 영구 유지 위험.
-- [ ] 천공 소거가 비행 공세를 사실상 삭제하는지.
-- [ ] 생명의 서약이 회복·광역 무적으로 체감되는지.
-- [ ] 메테오가 회피 불가능하거나 전설 전체 키트보다 강한지.
-- [ ] 분신이 독립 AI·스킬 복제로 확장되는지.
-- [ ] 다른 두 전선의 건물·일반·엘리트 기여가 여전히 결정적인지.
+### 3.7 저장·메타·UX
+
+- [ ] save schema version·migration·checksum·atomic replace·backup.
+- [ ] checkpoint 직렬화 field와 중간 사건 ID.
+- [ ] timer·READY·RNG·commit·resolved 상태 저장.
+- [ ] 메타 재화·영구 성장·respec·반복 clear 점감.
+- [ ] 영웅 상태 HUD와 paused/waiting/cancel 이유 표시.
+- [ ] 1920×1080·1280×720 가독성.
 
 ---
 
-## 4. legacy evidence로만 남는 값
+## 4. 검증 전 보류
 
-다음은 현재 정본이 아니다.
+- [ ] 금화 TokenSource 포함 100,000-seed 경제 분포.
+- [ ] 금고 회수기간·무한 증식 여부.
+- [ ] 다중 수리 골드 압박.
+- [ ] 타워·지휘소가 유닛 조합을 대체하는지.
+- [ ] 20 Stage checkpoint 왕복·손상 복구.
+- [ ] 표준 영웅·해금 영웅·표준 전설 A/B/C 결과.
+- [ ] 방벽 상시 유지, 비행 공세 삭제, 서약 광역 무적 체감.
+- [ ] 메테오 회피 불가·전설 초과, 분신 독립 AI 확장.
+- [ ] 다른 두 전선 운영의 결정성.
+- [ ] Harness와 실제 Scene 결과 분기.
+- [ ] reference CI replay bit parity.
+
+---
+
+## 5. Legacy evidence로만 남는 값
+
+현재 정본이 아님:
 
 - 독립 9칸 가중 추첨.
 - `capture_power` 합산.
-- 중앙 접전지에 구형 중간거점 상태기 재사용.
-- 10초 중립화 + 10초 점령.
-- 작업자 임금 곡선과 글로벌 수리 예산.
-- 파괴 건물 재건과 성문 BREACHED 30초 재건.
-- 3스테이지 최소 수직 슬라이스.
-- 첫 슬라이스 mid-run save 미지원.
+- 구형 중간거점 상태기와 10초+10초 점령.
+- 작업자 임금·글로벌 수리 예산.
+- 파괴 건물 재건.
+- 3 Stage 최소 Slice.
 - 스테이지당 전설 1회.
-- 이름 지정 영웅만 전역 1명 제한.
-- 해금 영웅의 패시브/active 선택형.
-- 고유 스킬을 원본 영웅 키트에 추가하는 3스킬 구조.
-- 강제 상쇄 축 sidegrade.
-- 공개 12% 럭키와 +8%p.
-- 이동 되돌리기·확정 시 소비.
-
-최신 구현에서 그대로 재사용하지 않는다.
+- 이름 지정 영웅만 1명 제한.
+- 해금 영웅 패시브/active 선택과 3번째 추가 스킬.
+- 강제 상쇄 sidegrade.
+- 공개 12% 럭키와 이동 되돌리기.
 
 ---
 
-## 5. 현재 우선순위
+## 6. 현재 우선순위
 
 ```text
-P0 = deterministic simulation harness 범위·재현성·입출력 계약
-P1 = 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
+P0 = deterministic Harness 범위·입출력·재현성 — APPROVED_CONCEPT / NOT_IMPLEMENTED
+P1 = common combat schema·resolution order — CURRENT_NEXT_GATE
 P2 = 다섯 해금 영웅 exact Trigger·timer·효과값
-P3 = A/B/C 통과선·표본 수·stop-ship 기준
-P4 = 100,000시드 룰렛·경제 simulation 계약
-P5 = checkpoint·save schema
-P6 = 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
+P3 = A/B/C sample·tolerance·stop-ship
+P4 = roulette/economy 100,000-seed simulation
+P5 = checkpoint/save schema
+P6 = Harness 및 첫 제품 구현 패키지·Red tests·회귀·롤백
 ```
 
-제품 코드·데이터·Scene·Resource 변경은 별도 사용자 승인 전 금지한다.
+제품 코드·simulation tool 코드·Scene·Resource·test 변경은 별도 사용자 승인 전 금지한다.
