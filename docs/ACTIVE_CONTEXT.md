@@ -7,6 +7,9 @@ work_mode: TOTAL_PLANNING
 current_phase: COMBAT_SPACE_ROUTE_AND_TARGETING_EXPERIENCE_APPROVED
 current_planning_decision: OMW-DEC-20260804-PLANNING-COMBAT-SPACE-ROUTE-AND-TARGETING-EXPERIENCE-V1
 current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
+current_branch: main
+context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 working_branch: gpt/omenward-simulation-harness-planning-20260803
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
@@ -22,6 +25,8 @@ runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
 
+`current_main`과 `context_baseline_commit`은 실행 시점 저장소에서 해석한다.
+
 ## 1. 프로젝트 코어
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
@@ -35,6 +40,8 @@ human_validation: NOT_RUN
 → 결과 원인 복기
 → 다음 Stage 설계
 ```
+
+전체 시스템 Vertical Slice 정본은 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
 
 ## 2. 작업 권한 경계
 
