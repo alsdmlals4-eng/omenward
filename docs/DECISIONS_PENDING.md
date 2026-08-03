@@ -1,114 +1,100 @@
 # 오멘워드 미확정 결정 목록
 
-- 갱신일: 2026-08-03
+- 갱신일: 2026-08-04
 - 현재 main: `RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH`
-- 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- Harness 정본: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- 공통 전투 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
-- 피해 의미 정본: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
-- 수치 기본값 정본: `docs/design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md`
-- 시간·활성화 정본: `docs/design/APPROVED_OMENWARD_FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_2026-08-03.md`
-- Modifier·precedence 정본: `docs/design/APPROVED_OMENWARD_MODIFIER_STACKING_AND_EFFECT_PRECEDENCE_2026-08-03.md`
-- 현재 Grill Me: `6/10`
-- 제품·Simulation tool 구현: `NOT_AUTHORIZED`
+- 현재 Decision: `OMW-DEC-20260804-PLANNING-COMBAT-SPACE-ROUTE-AND-TARGETING-EXPERIENCE-V1`
+- 운영 정책: `OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1`
+- 현재 Grill Me: `7/10`
+- 제품 코드·이미지 제작: `NOT_AUTHORIZED`
 
 ## 1. 이번 Decision으로 해결된 항목
 
-`OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1`
+- 세 전선 중심의 전장 구조.
+- 주 경로·우회로·공중 Route의 플레이어 가시성.
+- Ground·Flying·침투 병력의 체감 차이.
+- 기본 같은 전선 최근접 Targeting.
+- Cross-lane 공격·지원의 명시적 허용과 사전 표시.
+- Target 변경 이유의 가시성.
+- Concept Art와 실제 규칙의 일치 기준.
+- GPT 기획·이미지와 Codex 구현 권한 분리.
 
-해결:
+## 2. 다음 최우선 사용자 Decision — 8/10
 
-- source outgoing family 합산·cap.
-- target incoming family 합산·cap.
-- combined pre-defense 25~200% cap.
-- 유효 양수 damage의 pre-defense 최소 1.
-- Armor/Resistance integer point additive.
-- R60 source snapshot과 R80 target snapshot.
-- projectile·DOT/HOT·environment source snapshot.
-- duplicate key와 다섯 Stacking 정책.
-- immunity→defense→Barrier→redirection→Floor→HP→Status→death precedence.
-- valid impact·Barrier hit·final HP loss·Status·death trigger 분리.
-- transferred damage second pass 금지.
-- generic flat damage·override·penetration·next-hit 소비형 Modifier 금지.
-
-## 2. 다음 최우선 사용자 Decision
-
-`OMW-DEC-20260803-VALIDATION-SPATIAL-QUANTIZATION-MOVEMENT-AND-TARGETING-DEFAULTS-V1`
+`OMW-DEC-20260804-PLANNING-BATTLEFIELD-VISUAL-HIERARCHY-AND-CAMERA-V1`
 
 결정 필요:
 
-- quantized 2D 좌표 단위와 integer scale.
-- 이동속도·사거리의 tick당 정수 변환.
-- lane anchor·segment·frontline 좌표 관계.
-- same-lane 기본 targeting과 cross-lane 허용 범위.
-- ground/flying movement layer와 collision class.
-- range 경계 포함 여부와 distance metric.
-- movement collision·swap·blocking batch 규칙.
-- target filter·priority·stable tie-break exact order.
-- projectile travel과 impact point quantization.
-- 건물·Objective targetability와 후열 침투 규칙.
+- PC 16:9 기준 전장 전체 구도와 카메라 거리.
+- 세 전선을 동시에 읽을 수 있는 화면 비율.
+- 본진·성문·중간거점·건물 노드의 시각 우선순위.
+- 주 경로·우회로·공중 Route의 선·재질·고도 표현.
+- 교전 밀집 시 유닛 실루엣·체력·상태 표시 밀도.
+- 위험 전선·점령 변화·후방 침투 경고 방식.
+- 일반 전투와 Danger/Boss 전투의 카메라 차이.
 
-설계 충돌이므로 Grill Me 7/10 승인 대상으로 유지한다.
+## 3. 9/10 — 전투 HUD·룰렛·건설 UX
 
-## 3. 후속 검증 Decision
+`OMW-DEC-20260804-PLANNING-COMBAT-HUD-REEL-AND-BUILD-UX-V1`
 
-### 콘텐츠 Parameter Set
+- 세 원형 릴과 전선 정보의 연결.
+- 건설·전술 스킬 목록 진입 방식.
+- 배치 확정·취소·경고·비가역성 표현.
+- 현재 Target·위험·건물 효과의 정보 단계.
+- 키보드·마우스 중심 PC 조작.
 
-- 표준 병종·적·건물 HP·공격·Armor·Resistance.
-- 이동속도·사거리·공격속도·cooldown.
-- 다섯 영웅 Trigger·Timer·Effect 실제 값.
-- 전설 power budget과 동일 전장 1명 제한 검증.
-- Stage·Wave·Danger·Boss Fixture 값.
+## 4. 10/10 — 아트·이미지 Prototype Brief
 
-### Harness Fixture·Sample·Tolerance
+`OMW-DEC-20260804-PLANNING-ART-DIRECTION-AND-IMAGE-PROTOTYPE-BRIEF-V1`
 
-- T0 Fixture schema와 invalid data matrix.
-- T1 replay seed·반복 횟수.
-- T2 invariant fixture 목록.
-- T3 paired A/B/C sample size와 허용오차.
-- Barrier·Control stop-ship guard 통계 처리.
-- other-two-lane contribution과 causal attribution 합격선.
+- 전장·유닛·건물·Veil의 미술 방향.
+- 색상·재질·광원·실루엣 규칙.
+- 전장 전체·Route Overlay·교전 확대·HUD 결합 이미지 Brief.
+- 이미지별 검수 기준과 금지 표현.
+- 10/10 preflight 후 실제 이미지 제작 순서.
 
-### Runtime Adapter
+## 5. Codex에 위임된 구현 결정
 
-- pure domain state와 Godot node adapter 경계.
-- render interpolation snapshot.
-- catch-up step 상한과 slow-mode UX.
-- Save/Load adapter와 version migration.
-- headless command와 CI 실행 경로.
+아래는 더 이상 Grill Me에서 구현 정본으로 고정하지 않는다.
 
-Runtime adapter는 T0~T3 구현 권한 뒤 별도 승인한다.
+```text
+coordinate unit and numeric representation
+fixed/variable tick implementation
+state/schema/class/resource design
+pathfinding, avoidance and collision algorithms
+distance and targeting search implementation
+canonical sort and serialization details
+performance and test architecture
+```
 
-## 4. 제품·UX 미확정
+Codex의 선택이 플레이어 경험이나 밸런스를 바꾸면 다시 기획 Gate로 돌아온다.
 
-- Normal 전투 tactical pause 허용 범위.
-- Danger 전투 실시간 강제 범위.
-- 세 전선·세 릴 동시 정보 UX 부하 기준.
-- Damage/Barrier/Status/Modifier debug trail의 플레이어용 축약.
-- PC 16:9 우선 HUD와 모바일 별도 타당성 Gate.
-- 첫 10~15분 사람 검증 절차와 성공 기준.
+## 6. 후속 콘텐츠 기획
 
-## 5. 계속 금지되는 항목
+이미지·UX 방향 이후 결정할 항목:
+
+- 표준 병종·적·건물의 역할별 Parameter Set.
+- 다섯 영웅 Trigger·Timer·Effect 기획 값.
+- Stage·Wave·Danger·Boss 구성.
+- 첫 10~15분 사람 검증 시나리오.
+- PC 완료 후 모바일 별도 타당성 검토.
+
+## 7. 계속 금지되는 항목
 
 ```text
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-GDSCRIPT_SCENE_RESOURCE_FIXTURE_TEST = NOT_AUTHORIZED
-GENERIC_FLAT_DAMAGE_MODIFIER = FORBIDDEN_CURRENT_SLICE
-GENERIC_OVERRIDE_OPERATION = FORBIDDEN
-CONSUMABLE_NEXT_HIT_MODIFIER = FORBIDDEN_CURRENT_SLICE
+IMAGE_ANIMATION_HX_PRODUCTION = NOT_AUTHORIZED_UNTIL_10_OF_10_PREFLIGHT
 TRUE_DAMAGE_EXECUTE_REVIVE = FORBIDDEN_CURRENT_SLICE
-DEFENSE_PENETRATION = FORBIDDEN_UNTIL_SEPARATE_DECISION
 BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 6. Merge Cadence
+## 8. Merge Cadence
 
 ```text
-CURRENT_COUNT = 6/10
+CURRENT_COUNT = 7/10
 NEXT_PREFLIGHT = AT_10_OF_10
 EARLY_PREFLIGHT = only high-risk conflict / session boundary / large canon impact
 ```
