@@ -56,9 +56,10 @@ next_gate: OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V
 | 공통 전투 Schema·동일 tick 순서 | `design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md` | `CURRENT_COMMON_COMBAT_AUTHORITY / NOT_IMPLEMENTED` |
 | Damage·Protection·Status 의미 | `design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md` | `CURRENT_DAMAGE_SEMANTICS_AUTHORITY / NOT_IMPLEMENTED` |
 | 방어 공식·보호·상태 초기 수치 | `design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md` | `CURRENT_COMBAT_NUMERIC_DEFAULTS_AUTHORITY / NOT_IMPLEMENTED` |
-| Grill Me 벤치마크 정책 | `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
+| Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
 | 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
+| Grill Me 벤치마크 정책 | `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
 | 병종 등급·Tier·표준 스킬 | `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` | `MERGED_STANDARD_GRADE_AUTHORITY` |
 | 영웅 등급·슬롯·해금 교체 | `design/APPROVED_OMENWARD_HERO_GRADE_SLOT_AND_UNLOCKED_SKILL_REPLACEMENT_2026-08-02.md` | `MAIN_CANONICAL_GRADE_SLOT_AUTHORITY` |
 | 초기 5명 고유 2스킬 | `design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md` | `MAIN_CANONICAL_FIRST_FIVE_AUTHORITY` |
@@ -69,7 +70,15 @@ next_gate: OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 동기화 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 
-## 3. 검증 계층
+## 3. Evidence Pilot 경계
+
+```text
+PILOT_RECOMMENDATION / NOT_CANON
+```
+
+`benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 벤치마크·가설·검증 후보를 제공하지만 APPROVED 정본이나 구현 권한이 아니다. 현행 Vertical Slice 책임 원본과 충돌하면 ADAPT 또는 REJECT하고 정본을 우선한다.
+
+## 4. 검증 계층
 
 ```text
 P0 Harness Scope
@@ -84,7 +93,7 @@ P0 Harness Scope
 
 현재 P0~P3만 사용자 승인된 기획 계약이다.
 
-## 4. Core-First Combat 라우팅
+## 5. Core-First Combat 라우팅
 
 ```text
 SpinSnapshot / TokenSource / lane commit provenance
@@ -98,7 +107,7 @@ SpinSnapshot / TokenSource / lane commit provenance
 
 영웅·전설은 공통 계약을 확장하며 별도 AI loop·clock·damage formula·death resolver를 만들지 않는다.
 
-## 5. 피해·보호 의미 라우팅
+## 6. 피해·보호 의미 라우팅
 
 ```text
 KINETIC → ARMOR
@@ -123,7 +132,7 @@ R80A validity
 → R80G death mark
 ```
 
-## 6. 현행 수치 권위
+## 7. 현행 수치 권위
 
 ```text
 DEFENSE_MIN = 0
@@ -152,7 +161,7 @@ SAME_CONTROL_GROUP_LOCKOUT = 1000ms
 
 밀리초→tick 변환은 다음 Gate가 소유한다.
 
-## 7. Event·Metric 라우팅
+## 8. Event·Metric 라우팅
 
 ```text
 RAW_DAMAGE
@@ -168,7 +177,7 @@ RAW_DAMAGE
 
 Restore·Status 결과는 별도 event·metric이다. 모든 단계는 root effect와 가능한 경우 deployment provenance를 유지한다.
 
-## 8. 조기 Stop-Ship Guard
+## 9. 조기 Stop-Ship Guard
 
 ```text
 FRONTLINE_MEAN_BARRIER_UPTIME > 40%
@@ -178,7 +187,7 @@ BARRIER_ABSORBED / POST_MITIGATION_INCOMING_DAMAGE > 35%
 
 최종 밸런스 합격선이 아니라 조기 중단 후보 분류다.
 
-## 9. 검증 Tier
+## 10. 검증 Tier
 
 ```text
 T0 = fixture/schema/default field validation
@@ -189,7 +198,7 @@ T4 = aggregate balance after acceptance approval
 T5 = product runtime adapter after separate authorization
 ```
 
-## 10. 적대적 감사 계보
+## 11. 적대적 감사 계보
 
 ```text
 OMW-AUD-208 ~ 220 = Harness
@@ -199,7 +208,7 @@ OMW-AUD-233 ~ 246 = Damage Semantics
 OMW-AUD-247 ~ 260 = Numeric Defaults
 ```
 
-## 11. 구현 경계
+## 12. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -216,7 +225,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 12. 운영 Gate
+## 13. 운영 Gate
 
 ```text
 CURRENT_COUNT = 4/10
