@@ -4,9 +4,10 @@
 updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: DETERMINISTIC_SIMULATION_HARNESS_SCOPE_APPROVED
+phase: COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_APPROVED
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_meta_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
+current_validation_decision: OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
+parent_validation_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 parent_gameplay_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
 last_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
@@ -23,22 +24,31 @@ latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
 simulation_tool_code_authority: NONE
 codex: BLOCKED
-current_grill_me_count: 1
+current_grill_me_count: 2
 future_merge_cadence: 10
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
 preflight: NEXT_AT_10_OF_10
 ```
 
-최신 Decision은 simulation Harness의 기획 범위만 승인한다. 제품·도구 코드 작성, simulation 실행, 밸런스 결론은 승인되지 않았다.
+최신 Decision은 공통 전투 Schema와 fixed-tick resolution order의 기획 계약만 승인한다. 제품·도구 코드 작성, simulation 실행, 밸런스 결론은 승인되지 않았다.
 
 ## 1. 제품 정체성
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-Harness는 핵심 플레이를 대체하는 시스템이 아니라 수치·AI·영웅 파워가 이 판단 구조를 훼손하지 않는지 반복 검증하는 제작 도구 계약이다.
+공통 전투 Schema는 핵심 플레이를 대체하지 않는다. `SpinSnapshot·TokenSource·비가역 전선 커밋 → 전투 결과`의 provenance를 보존하고 세 전선 전체의 결과 원인을 설명하기 위한 제작 기반이다.
 
-## 2. 영웅 검증 대상
+## 2. 현재 책임 원본
+
+- Harness 상위 범위: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
+- 공통 전투 Schema·순서: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
+- 영웅 Trigger·파워 검증: `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
+- 결정 원장: `docs/PROJECT_CANON_DECISION_LEDGER.md`
+- 현재 상태: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- 미확정: `docs/DECISIONS_PENDING.md`
+
+## 3. 영웅 검증 대상
 
 ```text
 A = 표준 [영웅]
@@ -61,11 +71,7 @@ mage         → 메테오
 assassin     → 그림자 분신
 ```
 
-## 3. 승인된 Harness 구조
-
-책임 원본:
-
-`docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
+## 4. Harness 상위 구조
 
 ```text
 versioned fixture
@@ -80,195 +86,184 @@ versioned fixture
 → deterministic state fingerprint
 ```
 
-실행 개념:
-
-```text
-Godot editor --headless --script
-→ fixture loader
-→ domain runner
-→ fixed-tick scheduler
-→ deterministic resolver set
-→ result writer
-```
-
 initial core Harness는 production battle Scene, rendering, audio, NavigationServer, PhysicsServer, variable frame delta에 직접 의존하지 않는다.
 
-## 4. 입력 계약
+## 5. 공통 Combat Schema 결정
 
 ```text
-schema_version
-fixture_id
-encounter_family
-parameter_set_id
-engine_contract_version
-master_seed
-named_rng_streams
-tick_duration_units
-max_ticks
-initial_state
-ordered_external_commands
-expected_invariants
-comparison_group
+CORE_FIRST_COMMON_SCHEMA = REQUIRED
+HERO_FIRST_SPECIAL_CASE_SCHEMA = REJECTED
+FULL_SYSTEM_SINGLE_SCHEMA = DEFERRED
 ```
 
+필수 공통 상태:
+
 ```text
-GLOBAL_RANDOM_API = FORBIDDEN
-RANDOMIZE = FORBIDDEN
-WALL_CLOCK = FORBIDDEN
-VARIABLE_FRAME_DELTA = FORBIDDEN
-FIXED_INTEGER_TICK = REQUIRED
-STABLE_OBJECT_ID = REQUIRED
-EXPLICIT_SORT_KEY = REQUIRED
+CombatRunState
+LaneState
+CombatantState
+BuildingState
+ObjectiveState
+DeploymentProvenance
+OrderedCommand
+ActionIntent
+EffectIntent
+StatusInstance
+PendingCommit
+ActiveEffect
+RngStreamState
 ```
 
-RNG target tie-break는 금지하며 모든 random domain은 named stream·seed·state·draw count를 가진다.
-
-## 5. 출력 계약
+`DeploymentProvenance` 필수 계보:
 
 ```text
-run_manifest
-normalized_final_state
-ordered_event_log
-metrics_summary
-invariant_results
-named_rng_final_states
-checkpoint_fingerprints
-final_state_fingerprint
-termination_reason
+deployment_id
+spin_snapshot_id
+pending_reward_id
+token_instance_id
+token_source_id
+reward_resolution_sequence
+lane_commit_id
+commit_sequence
 ```
 
-공통 event envelope:
+전투 Harness는 이 provenance를 입력으로 소비하지만 룰렛을 재추첨하지 않는다.
+
+## 6. 위치·Canonical Order
 
 ```text
-event_schema_version
+position_q = {x_q, y_q, anchor_id}
+lane_order = TOP(0), MID(1), BOTTOM(2)
+canonical_key = lane_order → entity_kind_order → spawn_sequence → stable_entity_id → local_sequence
+```
+
+- quantized 2D 위치를 사용한다.
+- 1D lane 좌표만으로 실제 거리 기반 cross-lane 효과를 계산하지 않는다.
+- Dictionary·SceneTree traversal·callback order를 resolution 권위로 사용하지 않는다.
+
+## 7. Fixed-Tick Resolution Order
+
+```text
+R00 TICK_OPEN_AND_EXPIRE
+R10 ORDERED_COMMAND_INGEST
+R20 SPAWN_AND_ACTIVATION
+R30 MOVEMENT_INTENT_BUILD
+R40 MOVEMENT_RESOLVE
+R50 TARGET_SENSE_AND_SELECT
+R60 ACTION_AND_SKILL_COMMIT
+R70 IMPACT_AND_EFFECT_INTENT_BUILD
+R80 DAMAGE_PROTECTION_STATUS_APPLY
+R90 DEATH_AND_DESTRUCTION_FINALIZE
+R100 OBJECTIVE_AND_OWNERSHIP_RESOLVE
+R110 TIMER_COOLDOWN_STATUS_ADVANCE
+R120 METRICS_EVENT_FINGERPRINT
+R130 TICK_CLOSE
+```
+
+모든 적격 actor는 같은 post-movement snapshot에서 intent를 commit한다. entity 순차 처리로 낮은 ID가 같은 tick 행동 우선권을 얻는 것을 금지한다.
+
+## 8. Damage·Effect 상위 순서
+
+```text
+impact validity
+→ immunity / eligibility
+→ pre-mitigation modifier
+→ armor / resistance formula hook
+→ barrier / absorption
+→ health-floor clamp
+→ HP delta or restore
+→ post-hit status and trigger
+→ death_or_destruction_mark
+```
+
+정확 공식·수치는 미확정이다. health-floor는 회복이 아니며 명시적 revive 계약 없이는 사망을 되돌리지 않는다.
+
+## 9. 동일 Tick 공정성
+
+```text
+ALL_ELIGIBLE_ACTORS_COMMIT_FROM_SAME_PHASE_SNAPSHOT
+SEQUENTIAL_ENTITY_ID_KILL_ADVANTAGE = FORBIDDEN
+FALLBACK_RETARGET_AFTER_COMMIT = FORBIDDEN
+DEATH_FINALIZATION_BEFORE_DAMAGE_BATCH_END = FORBIDDEN
+OBJECTIVE_USES_POST_DEATH_SURVIVORS = REQUIRED
+DESTROYED_BUILDING_PASSIVE_REMOVED_AFTER_FINALIZE = REQUIRED
+```
+
+- damage/effect batch 뒤 death·destruction을 원자 확정한다.
+- 이미 commit된 합법 행동은 source의 같은 tick 사망 때문에 ID 순서로 취소하지 않는다.
+- 점령은 post-death 생존자와 post-destruction 가동 상태만 사용한다.
+
+## 10. 공통 event·fingerprint
+
+```text
 tick
-sequence_in_tick
-event_id
-event_type
-source_id
-target_ids
-lane_id
+phase_order
+resolver_order
+source_canonical_key
+local_sequence
+event_id / event_type
+source_id / target_ids / lane_id
 payload
 rng_stream_and_draw_index_if_any
+deployment_id_if_applicable
 ```
 
-## 6. 결정론 수준
+R120 phase barrier 이후 canonical state fingerprint를 생성하며 다음 tick 전 mutation을 금지한다.
 
-초기 필수:
-
-```text
-same approved engine build
-+ same reference CI environment
-+ same fixture and ordered input
-= identical event log and state fingerprints
-```
-
-cross-platform float bitwise parity는 현 Gate에서 주장하지 않는다. deterministic-critical 값은 scaled integer, quantized position, string/stable ID를 우선한다. JSON raw text 자체는 fingerprint 권위가 아니다.
-
-## 7. 검증 Tier
+## 11. 검증 Tier
 
 ```text
-T0 = schema validation
-T1 = replay determinism
-T2 = rule invariants
-T3 = paired A/B/C metrics
+T0 = fixture·common schema·provenance validation
+T1 = replay determinism·phase-event parity
+T2 = same-tick fairness·death/objective order·no fallback invariants
+T3 = paired A/B/C metrics including all three lanes
 T4 = aggregate balance after acceptance approval
 T5 = product Scene/runtime adapter after separate authorization
 ```
 
 현재 승인 범위는 T0~T3의 기획 계약이다.
 
-## 8. 필수 Encounter Family
+## 12. 벤치마크·현업 비교
 
-```text
-NEUTRAL_MIXED
-FRONTLINE_PRESSURE
-FLYING_HEAVY
-ALLY_BURST_CRISIS
-DENSE_ENEMY_CLUSTER
-DISPERSED_ENEMY_FORMATION
-HIGH_VALUE_BACKLINE
-LONG_ATTRITION
-SHORT_STAGE
-LATE_COMMIT_BOUNDARY
-```
-
-family당 여러 배치·난이도·seed 변형과 후속 holdout fixture가 필요하다.
-
-## 9. A/B/C 비교 불변식
-
-paired group에서 다음을 고정한다.
-
-```text
-fixture base state
-master seed and named RNG state
-source Tier and passive stage
-Stage and enemy composition
-buildings and objectives
-other-two-lane state
-ordered external commands
-parameter set except compared grade/kit fields
-```
-
-비교 대상 외 field 차이가 있으면 `INVALID_COMPARISON`이다.
-
-## 10. 벤치마크·현업 비교
-
-Godot 공식 자료:
-
-- `--headless` command-line/CI script.
-- fixed physics processing과 variable idle processing.
-- `RandomNumberGenerator` seed·state.
-- JSON number float 변환 및 FileAccess.
-
-중요 판정:
+Godot 공식 자료의 fixed physics processing, instance RNG seed/state, JSON 숫자 처리 경계를 참고한다.
 
 ```text
 HEADLESS != DETERMINISTIC
-JSON_TEXT != CANONICAL_STATE_HASH
-FIXED_TICK + NAMED_RNG + STABLE_ORDER + CANONICAL_STATE = DETERMINISM_CONTRACT
+ENGINE_FIXED_CALLBACK != COMPLETE_DETERMINISM
+RAW_JSON_TEXT != CANONICAL_STATE_HASH
 ```
 
-## 11. 적대적 위험
+OMENWARD 권위는 explicit integer tick·named RNG·phase barrier·canonical order·normalized state가 소유한다.
+
+## 13. 적대적 위험
 
 ```text
-OMW-AUD-208 global RNG coupling
-OMW-AUD-209 frame/wall-clock leakage
-OMW-AUD-210 unstable collection order
-OMW-AUD-211 float/platform divergence
-OMW-AUD-212 fixture drift
-OMW-AUD-213 family overfitting
-OMW-AUD-214 harness/runtime divergence
-OMW-AUD-215 event-log cost
-OMW-AUD-216 placeholder balance conclusions
-OMW-AUD-217 A/B/C contamination
-OMW-AUD-218 other-lane omission
-OMW-AUD-219 save/Retry state omission
-OMW-AUD-220 headless/determinism confusion
+OMW-AUD-208 ~ OMW-AUD-220 = Harness 범위
+OMW-AUD-221 = Sheet stale PR-head / RESOLVED / NON_COUNTER
+OMW-AUD-222 ~ OMW-AUD-232 = common combat schema·resolution order
 ```
 
-## 12. 책임 원본
+핵심 방어:
 
-- `docs/PROJECT_CORE.md`
-- `docs/PROJECT_CANON_DECISION_LEDGER.md`
-- `docs/DOCUMENTATION_MAP.md`
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- `docs/DECISIONS_PENDING.md`
-- `docs/ACTIVE_CONTEXT.md`
-- `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
-- `docs/process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`
+- 룰렛 provenance 누락 금지.
+- 영웅 5명 예외로 공통 Schema 오염 금지.
+- 순차 entity kill bias 금지.
+- hidden fallback retarget 금지.
+- 사망 유닛 점령 기여 금지.
+- 1D 위치로 cross-lane 거리 왜곡 금지.
+- R120 이전/이후 fingerprint 시점 혼용 금지.
 
-## 13. 구현 경계·다음 작업
+## 14. 구현 경계·다음 작업
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = HARNESS_SCOPE_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = COMMON_COMBAT_SCHEMA_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-EXACT_COMBAT_SCHEMA = PENDING
 EXACT_TICK_RATE = PENDING
-EXACT_FORMULAS_AND_VALUES = PENDING
+EXACT_DAMAGE_DEFENSE_PROTECTION_FORMULAS = PENDING
+EXACT_ACTIVATION_POLICY = PENDING
+EXACT_HERO_VALUES = PENDING
 EXACT_SAMPLE_SIZE_AND_TOLERANCE = PENDING
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
@@ -276,6 +271,6 @@ HUMAN_QA = NOT_RUN
 ```
 
 ```text
-GRILL_ME_COUNT = 1/10
-NEXT_DECISION = OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
+GRILL_ME_COUNT = 2/10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1
 ```
