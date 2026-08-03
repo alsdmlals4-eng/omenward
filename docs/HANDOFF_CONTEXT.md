@@ -4,264 +4,212 @@
 updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_APPROVED
-current_validation_decision: OMW-DEC-20260803-VALIDATION-MITIGATION-FORMULA-AND-PROTECTION-NUMERIC-DEFAULTS-V1
+phase: FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_APPROVED
+current_validation_decision: OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V1
+parent_numeric_decision: OMW-DEC-20260803-VALIDATION-MITIGATION-FORMULA-AND-PROTECTION-NUMERIC-DEFAULTS-V1
 parent_semantics_decision: OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1
 parent_combat_decision: OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
 parent_harness_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
-current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 working_branch: gpt/omenward-simulation-harness-planning-20260803
-current_planning_pr: RESOLVE_FROM_OPEN_PR
-last_merged_planning_pr: 129
-last_maintenance_pr: 132
-last_maintenance_commit: 970ca7c52d757806c6968b55808346ac8a50b3ea
-base: 9.4.3_RELEASED
-current_product: LEGACY_PROTOTYPE
-latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
+current_grill_me_count: 5_OF_10
 product_code_authority: NONE
 simulation_tool_code_authority: NONE
-codex: BLOCKED
-current_grill_me_count: 4
-future_merge_cadence: 10
-planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
-product_code_merge_policy: SEPARATE_CONTRACT_REQUIRED
-preflight: NEXT_AT_10_OF_10
+simulation: NOT_RUN
+runtime: NOT_RUN
+human_qa: NOT_RUN
 ```
 
-최신 Decision은 방어 공식과 Barrier·Redirection·Health Floor·Status 초기 수치를 승인한다. 제품·도구 코드, simulation, runtime, human QA, image·animation·HX는 승인되지 않았다.
+## 1. 먼저 읽을 문서
 
-## 1. 제품 정체성
+```text
+PROJECT_CORE.md
+ACTIVE_CONTEXT.md
+CURRENT_IMPLEMENTATION_STATUS.md
+DOCUMENTATION_MAP.md
+PROJECT_CANON_DECISION_LEDGER.md
+DECISIONS_PENDING.md
+```
 
-> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
+현재 책임 원본:
 
-검증 계층은 `SpinSnapshot·TokenSource·비가역 전선 커밋 → 전투 결과`의 인과를 증명하기 위한 제작 기반이며 핵심 플레이를 대체하지 않는다.
+```text
+design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md
+design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md
+design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md
+design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md
+design/APPROVED_OMENWARD_FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_2026-08-03.md
+```
 
-## 2. 현재 책임 원본
+전체 시스템 제품 범위는 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`가 소유한다.
 
-- Harness 범위: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- 공통 전투 Schema: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
-- Damage·Protection·Status 의미: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
-- Mitigation·Protection 수치: `docs/design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md`
-- 영웅 Trigger·파워: 관련 `APPROVED_OMENWARD_HERO_*` 문서
-- 결정 원장: `docs/PROJECT_CANON_DECISION_LEDGER.md`
-- 현재 구현: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- 미확정: `docs/DECISIONS_PENDING.md`
-- Sheet 계약: `docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
+## 2. 제품 코어
 
-## 3. 현재 검증 계층
+```text
+예고된 세 전선 공세
+→ 제한된 건물·TokenSource로 세 원형 릴 설계
+→ SpinSnapshot 결과
+→ 비가역 전선 배치
+→ 자동전투·점령·건물 운영
+→ 결과 provenance 복기
+→ 다음 Stage 설계
+```
+
+Harness와 전투 기술 계약은 이 핵심 재미를 대체하지 않는다.
+
+## 3. 현재 승인된 기술 기획 Stack
 
 ```text
 P0 Deterministic Harness Scope
-P1 Core-First Common Combat Schema·R00~R130
-P2 Damage·Protection·Status Semantics
-P3 Mitigation·Protection Numeric Defaults
-P4 Fixed Tick·Time·Activation — NEXT
+P1 Core-First Common Combat Schema
+P2 Damage/Protection/Status Semantics
+P3 Mitigation/Protection Numeric Defaults
+P4 Fixed Tick/Time/Activation Defaults
 ```
 
-## 4. Harness 상위 구조
+### 시간축 핵심
 
 ```text
-versioned fixture
-+ fixed integer tick
-+ named RNG streams
-+ stable IDs
-+ ordered commands
-+ pure domain transition
-→ ordered events
-→ normalized state
-→ metrics
-→ fingerprint
-```
-
-production Scene·render·audio·NavigationServer·PhysicsServer·frame delta는 초기 Harness 권위가 아니다.
-
-## 5. Common Combat 결정
-
-```text
-CombatRunState
-LaneState[TOP,MID,BOTTOM]
-CombatantState / BuildingState / ObjectiveState
-DeploymentProvenance
-OrderedCommand
-ActionIntent / EffectIntent
-ProtectionInstance / StatusInstance
-PendingCommit / ActiveEffect
-RngStreamState
+DOMAIN_TPS = 30
+AUTHORING_TIME = integer ms
+RUNTIME_TIME_AUTHORITY = integer tick
+DURATION_TICKS = ceil(duration_ms * 30 / 1000)
+ACTIVE_RANGE = [start_tick,end_tick_exclusive)
 ```
 
 ```text
-SpinSnapshot
-→ PendingReward
-→ TokenInstance / TokenSource
-→ lane commit
-→ deployment_id
-→ combat event and result
+3000ms = 90 ticks
+1000ms = 30 ticks
+2000ms = 60 ticks
+1000ms = 30 ticks
 ```
 
-## 6. Fixed Phase Order
+### Spawn·Activation
 
 ```text
-R00 TICK_OPEN_AND_EXPIRE
-R10 ORDERED_COMMAND_INGEST
-R20 SPAWN_AND_ACTIVATION
-R30 MOVEMENT_INTENT_BUILD
-R40 MOVEMENT_RESOLVE
-R50 TARGET_SENSE_AND_SELECT
-R60 ACTION_AND_SKILL_COMMIT
-R70 IMPACT_AND_EFFECT_INTENT_BUILD
-R80 DAMAGE_PROTECTION_STATUS_APPLY
-R90 DEATH_AND_DESTRUCTION_FINALIZE
-R100 OBJECTIVE_AND_OWNERSHIP_RESOLVE
-R110 TIMER_COOLDOWN_STATUS_ADVANCE
-R120 METRICS_EVENT_FINGERPRINT
-R130 TICK_CLOSE
+scheduled command at Tick T
+→ R10 ingest
+→ R20 spawn
+→ activation_tick = T + 1
 ```
 
-동일 tick actor는 같은 post-movement snapshot에서 commit한다.
+Tick T spawn:
 
-## 7. Damage·Protection·Status 의미
+- canonical state·serialization·Target 후보에 존재.
+- 피해·보호·상태 대상이 될 수 있음.
+- 이동·Target 선택·Action·Skill·Protection commit 불가.
+- Objective 점령 기여 불가.
+- Tick T+1부터 적격 행동 가능.
+
+## 4. R00~R130 핵심
+
+```text
+R00 expiry before commands
+R10 ordered command ingest
+R20 spawn and activation
+R30 movement intent
+R40 movement resolve
+R50 target select
+R60 action/skill commit
+R70 impact/effect intents
+R80 damage/protection/status
+R90 death/destruction
+R100 objective/ownership
+R110 timer/status advance
+R120 metrics/event/fingerprint
+R130 close and save boundary
+```
+
+```text
+ALL_ELIGIBLE_ACTORS_COMMIT_FROM_SAME_PHASE_SNAPSHOT
+DEATH_FINALIZE_AFTER_DAMAGE_BATCH
+OBJECTIVE_USES_POST_DEATH_ACTIVE_SURVIVORS
+HIDDEN_FALLBACK_RETARGET = FORBIDDEN
+```
+
+## 5. Damage·Numeric 핵심
 
 ```text
 KINETIC → ARMOR
 ARCANE  → RESISTANCE
+DEFENSE = clamp(base + buff - debuff,0,300)
+ROUNDING = positive integer half-up
+BARRIER = application20% / total30% / 90ticks
+REDIRECTION = 30% / one recipient / invalid returns original
+HEALTH_FLOOR = 1HP / one trigger / target batch
+STATUS = stack3 / pulse30 / control60 / lockout30 ticks
 ```
+
+## 6. Pause·Save·Render
 
 ```text
-CHANNEL != DELIVERY_TAG != TARGET_PROFILE
-BARRIER != HP != HEAL != DEFENSE
-RESTORE != NEGATIVE_DAMAGE
-HEALTH_FLOOR != HEAL != REVIVE
-TRANSFER_DEPTH_MAX = 1
-SECOND_MITIGATION_PASS = FORBIDDEN
+ACTIVE_COMBAT = TICK_ADVANCES
+MAINTENANCE_PREPARATION_APPLICATION_PAUSE = TICK_PAUSED
+SAVE = AFTER_R130_ONLY
+SAVE_TIMER = INTEGER_TICKS
+RENDER_INTERPOLATION = VISUAL_ONLY
+WALL_CLOCK_TIMER_ANIMATION_CALLBACK = NON_AUTHORITATIVE
+TICK_SKIP_OR_MERGE = FORBIDDEN
 ```
+
+Normal/Danger tactical pause 가용성은 별도 UX·콘텐츠 Decision이다.
+
+## 7. 적대적 감사
 
 ```text
-R80A validity
-→ R80B protection setup
-→ R80C mitigation and Barrier
-→ R80D redirection and Floor
-→ R80E HP delta and Restore
-→ R80F Status and post-hit
-→ R80G death mark
+OMW-AUD-208~220 Harness
+OMW-AUD-221 Sheet HEAD correction / resolved / non-counter
+OMW-AUD-222~232 Common Combat
+OMW-AUD-233~246 Damage Semantics
+OMW-AUD-247~260 Numeric Defaults
+OMW-AUD-261 CI compatibility restore / resolved / non-counter
+OMW-AUD-262~275 Time/Activation
 ```
 
-## 8. 수치 기본값
+P4 주요 위험:
 
-### 방어 공식
+- wall clock·Timer callback 권위.
+- ms floor 변환.
+- expiry fencepost.
+- spawn same-tick 선공 또는 숨은 무적.
+- pause 중 일부 Timer 진행.
+- float Save Timer.
+- frame overload Tick 유실.
+- interpolation writeback.
 
-```text
-raw_effective_defense = base + additive_buff - additive_debuff
-effective_defense = clamp(raw_effective_defense, 0, 300)
-denominator = 100 + effective_defense
-post_mitigation = adjusted_damage <= 0
-  ? 0
-  : max(1, (adjusted_damage * 100 + floor(denominator/2)) div denominator)
-```
+모두 정본에서 차단했으나 구현·T1/T2 검증은 아직 실행되지 않았다.
 
-### Barrier
-
-```text
-PER_APPLICATION_CAP = floor(max HP * 20%)
-TOTAL_CAP = floor(max HP * 30%)
-DEFAULT_DURATION = 3000ms
-EXCESS = DISCARDED
-CONSUME = priority → oldest → stable ID
-```
-
-### Redirection·Floor
-
-```text
-DEFAULT_REDIRECTION = 30%
-MAX_RECIPIENTS = 1
-INVALID_RECIPIENT = RETURN_TO_ORIGINAL_TARGET
-DEFAULT_HEALTH_FLOOR = 1 HP
-FLOOR_TRIGGER = instance당 1회
-FLOOR_GROUP = exclusive
-```
-
-### Status
-
-```text
-ADD_STACKS_DEFAULT_CAP = 3
-DOT_HOT_PULSE = 1000ms
-CONTROL_DURATION_MAX = 2000ms
-SAME_CONTROL_GROUP_LOCKOUT = 1000ms
-```
-
-밀리초→tick 변환은 다음 Decision 전까지 구현하지 않는다.
-
-## 9. 조기 Stop-Ship
-
-```text
-FRONTLINE_MEAN_BARRIER_UPTIME > 40%
-OR
-BARRIER_ABSORBED / POST_MITIGATION_INCOMING_DAMAGE > 35%
-```
-
-최종 acceptance가 아니라 조기 후보 분류다.
-
-## 10. 영웅 검증 대상
-
-```text
-A = 표준 영웅
-B = 같은 source archetype 해금 이름 지정 영웅
-C = 같은 계열 표준 전설
-```
-
-```text
-STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
-ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
-```
-
-초기 5명은 공통 Damage·Protection·Status·Timer·Event 계약을 소비한다.
-
-## 11. Event·Metric
-
-```text
-RAW_DAMAGE
-→ ADJUSTED_DAMAGE
-→ EFFECTIVE_DEFENSE
-→ POST_MITIGATION_DAMAGE
-→ BARRIER_ABSORBED
-→ CANDIDATE_HP_LOSS
-→ REDIRECTED_HP_LOSS
-→ HEALTH_FLOOR_PREVENTED
-→ FINAL_HP_LOSS
-```
-
-root_effect_id·source·target·tick·phase·deployment_id를 보존한다.
-
-## 12. 적대적 감사
-
-```text
-OMW-AUD-208 ~ 220 = Harness
-OMW-AUD-221 = Sheet correction / resolved
-OMW-AUD-222 ~ 232 = Common Combat
-OMW-AUD-233 ~ 246 = Damage Semantics
-OMW-AUD-247 ~ 260 = Numeric Defaults
-```
-
-## 13. 구현 경계·다음 작업
+## 8. 현재 금지선
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = MITIGATION_AND_PROTECTION_NUMERIC_DEFAULTS_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = FIXED_TICK_TIME_ACTIVATION_DEFAULTS_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-FIXED_TICK_RATE = PENDING
-MS_TO_TICK_CONVERSION = PENDING
-SOURCE_TARGET_MODIFIER_STACKING = PENDING
-EXACT_UNIT_HERO_BUILDING_VALUES = PENDING
-A_B_C_SAMPLE_AND_TOLERANCE = PENDING
+GDSCRIPT_SCENE_RESOURCE_FIXTURE_TEST = NOT_AUTHORIZED
+BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
+## 9. 다음 작업
+
+다음 사용자 Decision:
+
 ```text
-GRILL_ME_COUNT = 4/10
-NEXT_DECISION = OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V1
+OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1
+```
+
+검토 범위:
+
+- outgoing/incoming modifier 합산·곱연산.
+- defense buff/debuff·vulnerability·immunity ordering.
+- effect family stacking·refresh·exclusive.
+- Barrier·redirection·Floor·Status precedence.
+- 동일 Tick Effect batch.
+- 영웅 예외가 공통 Resolver를 우회하지 않는 extension seam.
+
+```text
+NEXT_GRILL_ME = 6/10
+NEXT_PREFLIGHT = AT_10_OF_10
 ```
