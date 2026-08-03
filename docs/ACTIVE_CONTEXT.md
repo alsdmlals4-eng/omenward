@@ -4,16 +4,17 @@
 updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: HERO_TRIGGER_TARGET_POWER_MAIN_CANONICAL
+current_phase: IMPLEMENTATION_STATUS_AND_PENDING_REFRESH
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+current_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
 current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_branch: main
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: NONE
+working_branch: gpt/omenward-status-pending-refresh-20260803
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
 latest_planning: MAIN_CANONICAL / NOT_IMPLEMENTED
@@ -21,18 +22,18 @@ product_code_authority: NONE
 codex_execution: BLOCKED
 last_merged_planning_pr: 129
 last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
-current_planning_pr: NONE
+current_planning_pr: PENDING_CREATION
 current_grill_me_count: 0
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
-preflight: NEXT_AT_10_OF_10
+preflight: MAINTENANCE_SYNC_REQUIRED
 simulation: NOT_RUN
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. PR #129는 squash merge됐으며 위 merge commit은 병합 증거다. 최신 기획은 main 정본이지만 제품 구현 권한이나 완료 증거는 아니다.
+`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. PR #129는 squash merge됐고 PR #130이 post-merge 상태를 동기화했다. 최신 기획은 main 정본이지만 제품 구현 권한이나 완료 증거는 아니다.
 
 ## 1. 제품 정체성·핵심 재미
 
@@ -179,13 +180,39 @@ LATE_COMMIT_BOUNDARY
 - 고등급 한 명이 다른 두 전선 운영을 무의미하게 만들면 실패다.
 - 정확 tolerance·sample size·값은 simulation 계획에서 고정한다.
 
-## 7. 벤치마크·현업 비교 정책
+## 7. 구현·검증 추적 정본
+
+`CURRENT_IMPLEMENTATION_STATUS.md`와 `DECISIONS_PENDING.md`는 이번 sync에서 다음 상태로 교정한다.
+
+```text
+MAIN_CANONICAL_NOT_IMPLEMENTED
+EXACT_SCHEMA = PENDING
+EXACT_THRESHOLDS_AND_VALUES = PENDING
+SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+```
+
+현재 우선순위:
+
+```text
+P0 = deterministic simulation harness 범위·재현성·입출력 계약
+P1 = 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
+P2 = 다섯 해금 영웅 exact Trigger·timer·효과값
+P3 = A/B/C 통과선·표본 수·stop-ship 기준
+P4 = 100,000시드 룰렛·경제 simulation 계약
+P5 = checkpoint·save schema
+P6 = 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
+```
+
+## 8. 벤치마크·현업 비교 정책
 
 모든 Grill Me 질문과 승인 작업은 `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`를 적용한다.
 
-이번 결정은 Riot의 전투 가독성, TFT의 설명 가능한 자동 대상 규칙, Riot balance framework의 일관된 측정·선택 다양성 원칙을 참고했다. 외부 자료는 exact 값 권위가 아니다.
+외부 자료는 exact OMENWARD 값 권위가 아니며 직접 비교 사례가 없으면 `DIRECT_COMPARABLE_NOT_FOUND`를 기록한다.
 
-## 8. 구현·검증 경계
+## 9. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -205,10 +232,12 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 다음 Gate
+## 10. 다음 Gate
 
 ```text
 GRILL_ME_COUNT = 0/10
+CURRENT_MAINTENANCE_SYNC = OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
+NEXT_GRILL_ME_DECISION = OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
-NEXT_PRODUCT_GATE = USER_PRIORITY_OR_SIMULATION_PLAN_WITH_SEPARATE_AUTHORIZATION
+NEXT_PRODUCT_GATE = SEPARATELY_AUTHORIZED_SIMULATION_PLAN
 ```
