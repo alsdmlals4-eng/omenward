@@ -5,7 +5,8 @@
 - 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 최신 영웅 정본: `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
 - Harness 상위 정본: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- 최신 검증 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
+- 공통 전투 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
+- 최신 검증 정본: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
 - 작업 모드: `TOTAL_PLANNING / PLANNING_ONLY_PROFILE`
 - 최신 기획 상태: `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED`
 - 제품 코드 승인: `NOT_AUTHORIZED`
@@ -30,6 +31,7 @@
 | `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED` | 새 기획이 사용자 승인되어 계획 브랜치에 기록됐지만 아직 main 병합·제품 구현되지 않음 |
 | `HARNESS_SCOPE_APPROVED_NOT_IMPLEMENTED` | Harness 목적·입출력·재현성·검증 Tier만 승인됐으며 실행 도구는 작성되지 않음 |
 | `COMMON_COMBAT_SCHEMA_APPROVED_NOT_IMPLEMENTED` | core-first 전투 상태·phase order·동일 tick 공정성 계약만 승인됐으며 코드·fixture·test는 없음 |
+| `DAMAGE_PROTECTION_STATUS_SEMANTICS_APPROVED_NOT_IMPLEMENTED` | KINETIC/ARCANE·barrier·restore·status 의미만 승인됐으며 formula·수치·코드는 없음 |
 | `LEGACY_IMPLEMENTED` | 과거 설계 기준 제품 코드가 존재 |
 | `LEGACY_PROVEN` | 과거 요구 계약과 실행 증거가 존재 |
 | `MIGRATION_REQUIRED` | 최신 설계와 충돌해 보존 seam 또는 교체가 필요 |
@@ -52,7 +54,7 @@
 - 공용 `UnitArchetypeProfile`과 진영 Visual 데이터 분리.
 - 기존 상태·서비스·테스트 자산 중 최신 계약과 양립하는 부분.
 
-기술 기준선의 존재는 최신 버티컬 슬라이스·영웅 시스템·Harness·공통 전투 Schema 구현을 의미하지 않는다.
+기술 기준선의 존재는 최신 버티컬 슬라이스·영웅 시스템·Harness·공통 전투 Schema·Damage Semantics 구현을 의미하지 않는다.
 
 ---
 
@@ -97,6 +99,8 @@ LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 - 아군 주기적 출격 묶음.
 - SceneTree·node iteration 순서에 기대는 처리.
 - 동일 tick actor를 순차 실행해 생기는 선공 편향.
+- 단일 generic defense 또는 암묵 damage type.
+- barrier·heal·status를 하나의 효과 처리로 섞는 구현.
 
 ```text
 LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
@@ -116,6 +120,8 @@ LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
 - 독립 9칸 확률 미리보기.
 - T-30/T-15/T-5 의미.
 - 구형 토큰 장부.
+- raw damage와 final HP loss를 구분하지 않는 로그.
+- channel을 색상만으로 구분하는 UI.
 
 ```text
 LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
@@ -190,11 +196,7 @@ T5_PRODUCT_RUNTIME_ADAPTER = PENDING
 SIMULATION_EXECUTION = NOT_RUN
 ```
 
-Headless 실행은 결정론을 자동 보장하지 않는다. 결정론은 고정 tick·named RNG·stable ordering·canonical state 계약으로 보장한다.
-
 ### 4.4 Core-First Common Combat Schema
-
-현재 계획 브랜치에서 다음 구조가 승인됐다.
 
 ```text
 CombatRunState
@@ -205,7 +207,7 @@ CombatRunState
 + DeploymentProvenance
 + OrderedCommand
 + ActionIntent / EffectIntent
-+ StatusInstance / PendingCommit / ActiveEffect
++ ProtectionInstance / StatusInstance / PendingCommit / ActiveEffect
 + named RNG and canonical event state
 ```
 
@@ -241,14 +243,44 @@ R130 TICK_CLOSE
 
 동일 tick actor는 같은 post-movement snapshot에서 commit한다. sequential entity ID order로 같은 tick 행동이 삭제되는 처리를 금지한다.
 
-위치·정렬:
+### 4.5 Damage·Protection·Status Semantics
 
 ```text
-position_q = {x_q, y_q, anchor_id}
-canonical_key = lane_order → entity_kind_order → spawn_sequence → stable_entity_id → local_sequence
+KINETIC → ARMOR
+ARCANE  → RESISTANCE
 ```
 
-정확 tick rate·공식·수치·activation policy는 미확정이다.
+```text
+DELIVERY_TAGS = BASIC / SKILL / AREA / DAMAGE_OVER_TIME / ENVIRONMENT / TRANSFERRED
+TARGET_PROFILE = UNIT / BUILDING / OBJECTIVE + GROUND / FLYING
+```
+
+R80 내부 의미:
+
+```text
+VALIDITY
+→ PROTECTION SETUP
+→ CHANNEL MITIGATION
+→ BARRIER
+→ HP-LOSS REDIRECTION
+→ HEALTH FLOOR
+→ HP DELTA / SEPARATE RESTORE
+→ STATUS / POST-HIT
+→ DEATH_PENDING
+```
+
+핵심 불변식:
+
+```text
+BARRIER != HP_OR_HEAL
+RESTORE != NEGATIVE_DAMAGE
+TRANSFER_DEPTH_MAX = 1
+SECOND_MITIGATION_PASS = FORBIDDEN
+RETROACTIVE_STATUS_COMMIT_CANCELLATION = FORBIDDEN
+TRUE_DAMAGE_EXECUTE_REVIVE = FORBIDDEN_CURRENT_SLICE
+```
+
+정확 formula·Armor/Resistance 값·barrier cap·duration·status stack cap은 미확정이다.
 
 ---
 
@@ -263,15 +295,19 @@ canonical_key = lane_order → entity_kind_order → spawn_sequence → stable_e
 - 5개 건물과 Tier·분기·병영 전문화.
 - `DeploymentProvenance` 생성과 전투 event 연결.
 
-### 5.2 공통 전투·AI
+### 5.2 공통 전투·피해·AI
 
 - `CombatRunState`와 공통 상태 Resource/DTO.
 - quantized 2D 위치·anchor·collision layer.
 - ordered command·phase snapshot·intent·barrier resolver.
 - 동일 tick action commit·damage batch·death finalize·objective order.
-- 피해·방어·보호·상태이상 exact semantics와 formula.
+- `DamageIntent`, `RestoreIntent`, `ProtectionIntent`, `StatusApplicationIntent`.
+- KINETIC/ARCANE과 Armor/Resistance resolver.
+- mitigation formula·rounding·cap·최소 피해.
+- barrier budget·duration·stack·consume order.
+- HP-loss redirection·health-floor resolver.
+- status family·stacking·expiry·dispel resolver.
 - 방패 표적 우선도·전문화 점수·히스테리시스.
-- 호위병·철벽수호병과 나머지 Tier 3 능력.
 - threat·role·frontline·backline·cluster 의미.
 - event ordering·R120 fingerprint.
 
@@ -289,9 +325,10 @@ canonical_key = lane_order → entity_kind_order → spawn_sequence → stable_e
 ### 5.4 저장·UX·메타
 
 - 20 Stage checkpoint schema와 migration.
-- 영웅 timer·RNG·commit·resolved 상태 직렬화.
+- timer·RNG·commit·resolved·protection·status 상태 직렬화.
 - Harness save round-trip fixture.
 - 영웅 상태 표시와 전투 원인 로그.
+- KINETIC/ARCANE·Armor/Resistance·Barrier 접근성 UI.
 - 배치 provenance 기반 결과 복기 UI.
 - 미션·메타 성장·벨루.
 
@@ -307,6 +344,7 @@ TECHNICAL_BASELINE_IMPLEMENTED
 + LATEST_USER_DESIGN_MAIN_CANONICAL
 + DETERMINISTIC_HARNESS_SCOPE_USER_APPROVED
 + COMMON_COMBAT_SCHEMA_USER_APPROVED
++ DAMAGE_PROTECTION_STATUS_SEMANTICS_USER_APPROVED
 + PRODUCT_CODE_NOT_CHANGED
 + SIMULATION_TOOL_CODE_NOT_AUTHORIZED
 + VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
@@ -322,25 +360,20 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 ## 7. 다음 Gate
 
-1. `OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1`을 결정한다.
-2. 피해 유형·방어·저항·barrier·absorption·health-floor·restore·status 의미를 고정한다.
-3. 같은 tick 보호·피해·죽음·post-hit trigger의 세부 barrier를 고정한다.
-4. exact tick rate·activation policy를 후속 기술 기본값으로 고정한다.
-5. 이후 다섯 영웅 exact Trigger·timer·효과값을 작성한다.
-6. A/B/C 표본 수·허용오차·stop-ship을 결정한다.
-7. 별도 제품·도구 구현 승인 뒤에만 GDScript·Scene·Resource·test를 변경한다.
+1. `OMW-DEC-20260803-VALIDATION-MITIGATION-FORMULA-AND-PROTECTION-NUMERIC-DEFAULTS-V1`을 결정한다.
+2. Armor·Resistance curve·rounding·modifier group·최소 피해를 고정한다.
+3. barrier cap·duration·consume·uptime stop-ship을 고정한다.
+4. HP-loss redirection·health-floor·status stack numeric defaults를 고정한다.
+5. 이후 fixed tick·activation·quantization 기술 기본값을 고정한다.
+6. 다섯 영웅 exact Trigger·timer·효과값을 작성한다.
+7. A/B/C 표본 수·허용오차·stop-ship을 결정한다.
+8. 별도 제품·도구 구현 승인 뒤에만 GDScript·Scene·Resource·test를 변경한다.
 
 문서 병합만으로 제품 또는 Harness 구현을 시작하거나 완료 상태를 선언하지 않는다.
 
-## Legacy C1 원격 검증 증거
+## Legacy 원격 검증 증거
 
-- `C1_ROULETTE_CORE_REMOTE_PROVEN`
-- C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-- C1 최종 검증 run: `29926598807`
-- 이 증거는 legacy C1 보존 seam의 원격 검증이며 V2 구현 완료를 뜻하지 않는다.
-
-## Legacy C2 원격 검증 증거
-
-- `C2_BATTLE_OBJECTIVE_REMOTE_PROVEN`
-- C2 최종 검증 run: `29938742864`
-- 이 증거는 legacy C2 전투 목적 루프의 원격 검증이며 V2 전장 구현 완료를 뜻하지 않는다.
+- C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`.
+- C1 최종 검증 run: `29926598807`.
+- C2 최종 검증 run: `29938742864`.
+- 이 증거는 legacy 보존 seam의 원격 검증이며 V2 구현 완료를 뜻하지 않는다.
