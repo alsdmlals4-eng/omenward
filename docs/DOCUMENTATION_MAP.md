@@ -3,29 +3,28 @@
 ```yaml
 updated_at: 2026-08-03
 work_mode: TOTAL_PLANNING
-current_phase: IMPLEMENTATION_STATUS_AND_PENDING_REFRESH
+current_phase: DETERMINISTIC_SIMULATION_HARNESS_SCOPE_APPROVED
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
-current_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
+current_planning_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
+parent_gameplay_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+last_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: gpt/omenward-status-pending-refresh-20260803-v2
+working_branch: gpt/omenward-simulation-harness-planning-20260803
 active_base: 9.4.3_RELEASED
 current_product: LEGACY_PROTOTYPE
-latest_planning: MAIN_CANONICAL_NOT_IMPLEMENTED
+latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
 product_code_authority: NONE
+simulation_tool_code_authority: NONE
 last_merged_planning_pr: 129
-last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
-last_maintenance_pr: 131
-last_maintenance_commit: 8ecbb78df47813a6332963db16d235131e65981a
-current_planning_pr: PENDING_CREATION
-current_grill_me_count: 0
-preflight: MAINTENANCE_SYNC_REQUIRED
-planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
-next_gate: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
+last_maintenance_pr: 132
+current_planning_pr: RESOLVE_FROM_OPEN_PR
+current_grill_me_count: 1
+preflight: NEXT_AT_10_OF_10
+next_gate: OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
 ```
 
-이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다.
+이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. `current_main`과 `current_planning_pr`은 실행 시점에 저장소에서 해석한다.
 
 ## 1. 기본 읽기 순서
 
@@ -51,170 +50,175 @@ next_gate: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 | 질문 | 현행 책임 원본 | 권한 |
 |---|---|---|
 | 제품 정체성·플레이어 약속 | `PROJECT_CORE.md` | `CURRENT_CORE_AUTHORITY` |
-| 승인 Decision·병합 후 0/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY / MAIN_CANONICAL` |
+| 승인 Decision·1/10 카운터 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_AUTHORITY / ACTIVE_BRANCH` |
+| 결정론적 simulation Harness 범위 | `design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md` | `CURRENT_HARNESS_SCOPE_AUTHORITY / NOT_IMPLEMENTED` |
 | Grill Me 벤치마크·현업 비교 | `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
 | Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
 | 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
 | 병종 등급·Tier·표준 스킬 | `design/APPROVED_UNIT_GRADE_AND_ABILITY_GROWTH.md` | `MERGED_STANDARD_GRADE_AUTHORITY` |
 | 영웅 이상 전역 단일 활성·해금 스킬 교체 | `design/APPROVED_OMENWARD_HERO_GRADE_SLOT_AND_UNLOCKED_SKILL_REPLACEMENT_2026-08-02.md` | `MAIN_CANONICAL_GRADE_SLOT_AND_SKILL_AUTHORITY` |
-| 초기 5명 고유 2스킬 콘셉트 | `design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md` | `MAIN_CANONICAL_FIRST_FIVE_SKILL_CONCEPT_AUTHORITY` |
-| 고유 2스킬 자동 발동 계보 | `design/APPROVED_OMENWARD_HERO_ABILITY_ACTIVATION_MODE_2026-08-02.md` | `COMMON_AUTOMATIC_ACTIVATION_LINEAGE` |
-| cooldown·charge·실패 정책 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md` | `MAIN_CANONICAL_TIMER_AND_FAILURE_PARENT` |
-| timer 지속·Stage·정비시간 경계 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md` | `MAIN_CANONICAL_TIMER_STAGE_AUTHORITY` |
-| Trigger·대상·파워 예산 검증 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md` | `MAIN_CANONICAL_TRIGGER_TARGET_POWER_AUTHORITY` |
-| 재전설 결과와 전역 슬롯 충돌 | `design/APPROVED_OMENWARD_REPEAT_LEGENDARY_RESULT_HIGH_GRADE_SLOT_RESOLUTION_2026-08-02.md` | `MAIN_CANONICAL_REPEAT_LEGENDARY_TOKEN_RESOLUTION` |
-| 영웅 슬롯·핵심 재미 적대적 검토 | `reviews/ADVERSARIAL_HERO_GRADE_SLOT_AND_CORE_FIT_REVIEW_2026-08-02.md` | `CURRENT_HERO_GRADE_SLOT_REVIEW` |
-| 실제 구현·Legacy·main 기획 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY / REFRESHED_2026-08-03` |
-| 구현 전 미확정 수치·schema·검증 우선순위 | `DECISIONS_PENDING.md` | `CURRENT_PENDING_AUTHORITY / REFRESHED_2026-08-03` |
+| 초기 5명 고유 2스킬 | `design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md` | `MAIN_CANONICAL_FIRST_FIVE_SKILL_AUTHORITY` |
+| cooldown·charge·실패 정책 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_COOLDOWN_CHARGE_AND_FAILURE_POLICY_2026-08-03.md` | `MAIN_CANONICAL_TIMER_PARENT` |
+| timer 지속·Stage 경계 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TIMER_PERSISTENCE_AND_STAGE_BOUNDARY_POLICY_2026-08-03.md` | `MAIN_CANONICAL_TIMER_STAGE_AUTHORITY` |
+| Trigger·대상·파워 검증 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md` | `MAIN_CANONICAL_TRIGGER_TARGET_POWER_AUTHORITY` |
+| 실제 구현·Legacy·main 기획 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
+| 미확정 schema·수치·검증 우선순위 | `DECISIONS_PENDING.md` | `CURRENT_PENDING_AUTHORITY` |
 | 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 동기화 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 
 ## 3. Evidence Pilot 경계
 
-`benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 반드시 라우팅하지만 상태는 정확히 다음과 같다.
-
 ```text
 PILOT_RECOMMENDATION / NOT_CANON
 ```
 
-Pilot은 APPROVED 정본과 실제 구현 완료 증거가 아니며 Project Core를 자동 변경하지 않는다.
+`benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`는 반드시 라우팅하지만 APPROVED 정본이나 구현 완료 증거가 아니다.
 
-## 4. 등급·전역 슬롯
-
-```text
-[일반] = 1스킬
-[엘리트] = 강화 1스킬
-[영웅] = 강화 1스킬 + 표준 2스킬
-해금 이름 지정 [영웅] = 강화 1스킬 + 고유 2스킬
-[전설] = 강화 1스킬 + 강화 표준 2스킬 + 표준 3스킬
-향후 해금 이름 지정 [전설] = 강화 1스킬 + 강화 표준 2스킬 + 고유 3스킬
-```
+## 4. Harness 선택 구조
 
 ```text
-STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
-ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
-FUTURE_NAMED_LEGENDARY_IMPLEMENTATION = NOT_NOW
+Godot --headless --script
+→ versioned fixture
+→ pure domain state
+→ fixed integer tick scheduler
+→ deterministic resolvers
+→ event log / metrics / fingerprints
 ```
 
-## 5. 초기 5명
+초기 Harness에서 제외:
 
 ```text
-shield_guard → 불퇴의 성벽
-archer       → 천공 소거
-priest       → 생명의 서약
-mage         → 메테오
-assassin     → 그림자 분신
+full production battle Scene
+rendering and audio
+real-time frame delta
+NavigationServer and PhysicsServer dependency
+balance acceptance conclusion
+product runtime adapter
 ```
 
-## 6. 공통 상태·Stage 정책
+## 5. 입력·출력 라우팅
+
+입력:
 
 ```text
-INITIAL_WARMUP
-→ READY_WAITING_FOR_VALID_CONDITION
-→ CAST_PRECHECK
-→ CAST_COMMIT
-→ RESOLUTION_OR_ACTIVE_EFFECT
-→ COOLDOWN
-→ READY
+schema_version
+fixture_id / encounter_family
+parameter_set_id / engine_contract_version
+master_seed / named_rng_streams
+tick_duration_units / max_ticks
+initial_state
+ordered_external_commands
+expected_invariants
+comparison_group
 ```
+
+출력:
 
 ```text
-MAX_STORED_READY_COUNT = 1
-CHARGE_ACCUMULATION = FALSE
-MANA_OR_ENERGY_RESOURCE = FALSE
-COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
-ACTIVE_COMBAT = TIMER_PROGRESS
-MAINTENANCE_OR_PREPARATION = TIMER_PAUSED
-READY_AND_REMAINING_TIME = CARRY_ON_SAME_INSTANCE
-ACTIVE_EFFECT_OR_UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
+run_manifest
+normalized_final_state
+ordered_event_log
+metrics_summary
+invariant_results
+named_rng_final_states
+checkpoint_fingerprints
+final_state_fingerprint
+termination_reason
 ```
 
-## 7. Trigger·대상 라우팅
+## 6. 결정론 불변식
 
 ```text
-READY
-→ public trigger
-→ same-lane legal filter
-→ public priority score
-→ stability window
-→ stable ID / stable position tie-break
-→ CAST_PRECHECK
-→ immutable CAST_COMMIT snapshot
+GLOBAL_RANDOM_API = FORBIDDEN
+RANDOMIZE = FORBIDDEN
+WALL_CLOCK = FORBIDDEN
+VARIABLE_FRAME_DELTA = FORBIDDEN
+FIXED_INTEGER_TICK = REQUIRED
+STABLE_OBJECT_ID = REQUIRED
+EXPLICIT_SORT_KEY = REQUIRED
+UNSORTED_COLLECTION_ORDER = FORBIDDEN
 ```
 
-- 방패병: 전열 압력·보호 가치.
-- 궁병: 비행 수·가중 위협도와 비행 Snapshot.
-- 사제: 체력 기준 이하 생존 아군 집합.
-- 마법사: 적중 수 → 총 위협도 → stable 위치.
-- 암살자: 역할 → 후열 깊이 → 위협도 → stable ID; 분신 독립 재탐색 금지.
+headless는 실행 방식일 뿐 결정론 보장이 아니다.
+
+## 7. 검증 Tier
 
 ```text
-PUBLIC_TRIGGER_RULE = REQUIRED
-PUBLIC_TARGET_PRIORITY = REQUIRED
-DETERMINISTIC_TIE_BREAK = REQUIRED
-ARBITRARY_FALLBACK_RETARGET = FORBIDDEN
-HIDDEN_FUTURE_BATTLE_END_ORACLE = FORBIDDEN
+T0 = fixture schema validation
+T1 = replay determinism
+T2 = rule invariants
+T3 = paired A/B/C metrics
+T4 = aggregate balance after acceptance approval
+T5 = product runtime adapter after separate authorization
 ```
 
-## 8. 파워 위계 검증 라우팅
+현재 승인된 설계 범위는 T0~T3다.
+
+## 8. A/B/C 라우팅
 
 ```text
 A = 표준 [영웅]
-B = 해금 이름 지정 [영웅]
-C = 표준 [전설]
+B = 같은 source archetype 해금 이름 지정 [영웅]
+C = 같은 계열 표준 [전설]
 ```
 
-동일 source Tier·seed·Stage·건물·다른 두 전선 조건으로 대표 encounter family를 비교한다. B는 의도된 family에서 A보다 강하고, C는 전체 대표 family 합산 가치에서 B보다 강해야 한다. 모든 family 자동 최선 또는 다른 두 전선 비결정화는 실패다.
+paired group에서 seed·Stage·적 구성·건물·다른 두 전선·ordered input은 같아야 한다. 비교 대상 외 차이는 `INVALID_COMPARISON`이다.
 
-## 9. 구현 전 우선순위 라우팅
+필수 family:
 
 ```text
-P0 → deterministic simulation harness 범위·재현성·입출력 계약
-P1 → 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
-P2 → 다섯 해금 영웅 exact Trigger·timer·효과값
-P3 → A/B/C 통과선·표본 수·stop-ship 기준
-P4 → 100,000시드 룰렛·경제 simulation 계약
-P5 → checkpoint·save schema
-P6 → 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
+NEUTRAL_MIXED
+FRONTLINE_PRESSURE
+FLYING_HEAVY
+ALLY_BURST_CRISIS
+DENSE_ENEMY_CLUSTER
+DISPERSED_ENEMY_FORMATION
+HIGH_VALUE_BACKLINE
+LONG_ATTRITION
+SHORT_STAGE
+LATE_COMMIT_BOUNDARY
 ```
 
-P0~P6의 상세 체크리스트는 `DECISIONS_PENDING.md`가 소유한다.
+## 9. 벤치마크 경계
 
-## 10. 계보·구형 표현
+- Godot `--headless`는 CI script 실행 수단이다.
+- fixed physics process와 variable idle frame을 구분한다.
+- RNG는 개별 seed·state를 가진 named stream으로 분리한다.
+- JSON 숫자는 float로 변환될 수 있으므로 raw JSON text를 fingerprint 권위로 쓰지 않는다.
+- deterministic-critical 값은 scaled integer·quantized position·string ID를 우선한다.
+- cross-platform float bitwise parity는 현 Gate의 완료 조건이 아니다.
 
-- named Hero만 1명 제한은 현행이 아니다.
-- 표준 2스킬과 고유 2스킬 동시 보유는 현행이 아니다.
-- 패시브/active 선택형·강제 상쇄 sidegrade는 계보 보존용이다.
-- Stage마다 timer 초기화 또는 정비시간 cooldown 진행은 현행이 아니다.
-- 미해결 commit 다음 Stage 이월·재타깃은 금지한다.
-- 영웅별 숨은 AI·랜덤 tie-break·수동 target은 현행이 아니다.
+## 10. 구현 전 우선순위
+
+```text
+P0 APPROVED_SCOPE → deterministic Harness 범위·입출력·재현성
+P1 NEXT → common combat schema·resolution order
+P2 → Hero exact Trigger·timer·effects
+P3 → A/B/C tolerance·sample·stop-ship
+P4 → roulette/economy 100,000-seed simulation
+P5 → checkpoint/save schema
+P6 → implementation package·Red tests·regression·rollback
+```
 
 ## 11. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = MAIN_CANONICAL_NOT_IMPLEMENTED
+LATEST_APPROVED = HARNESS_SCOPE_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
-CODEX = BLOCKED
-PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
-POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
-EXACT_SCHEMA = PENDING
-EXACT_TRIGGER_THRESHOLDS = PENDING
-EXACT_STABILITY_WINDOWS = PENDING
-EXACT_SECONDS = PENDING
-EXACT_DURATIONS_AND_VALUES = PENDING
-ASSETS = NOT_CREATED
-SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
+SIMULATION_TOOL_CODE = NOT_AUTHORIZED
+EXACT_COMBAT_SCHEMA = PENDING
+EXACT_TICK_RATE = PENDING
+EXACT_FORMULAS_AND_VALUES = PENDING
+BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
 ## 12. Decision 생명주기 상태 우선순위
-
-Decision 문서의 본문·규칙은 해당 분야 권위지만, **현재 생명주기 상태**는 다음 순서로 판정한다.
 
 ```text
 PROJECT_CANON_DECISION_LEDGER.md
@@ -223,19 +227,14 @@ PROJECT_CANON_DECISION_LEDGER.md
 → 개별 Decision 문서의 status 필드
 ```
 
-- 병합 전 작성된 부모·계보 문서에 `ACTIVE_PLANNING_BRANCH`가 남아 있더라도 원장과 이 Map이 `MAIN_CANONICAL`로 지정하면 현재 상태는 main 정본이다.
-- 개별 문서의 `approved_at`, `refined_at`, 과거 branch 상태는 결정 계보 증거로 보존할 수 있다.
-- 현재 최상위 Trigger·대상·파워 검증 책임 원본은 자체 status도 `USER_APPROVED / MAIN_CANONICAL / NOT_IMPLEMENTED`다.
-- 이 우선순위는 제품 구현 상태를 바꾸지 않는다. 구현 여부는 `CURRENT_IMPLEMENTATION_STATUS.md`와 실제 product path가 소유한다.
+개별 문서의 과거 branch 상태는 계보 증거일 뿐 현재 원장 분류를 뒤집지 않는다. 제품 구현 여부는 `CURRENT_IMPLEMENTATION_STATUS.md`와 실제 product path가 소유한다.
 
 ## 13. 운영 Gate
 
 ```text
-CURRENT_COUNT = 0/10
-CURRENT_MAINTENANCE_SYNC = OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
-NEXT_GRILL_ME_DECISION = OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
-NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
-CURRENT_PLANNING_PR = PENDING_CREATION
-LAST_MERGED_PLANNING_PR = 129
-LAST_MAINTENANCE_PR = 131
+CURRENT_COUNT = 1/10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
+NEXT_PREFLIGHT = AT_10_OF_10
+CURRENT_PLANNING_PR = RESOLVE_FROM_OPEN_PR
+LAST_MAINTENANCE_PR = 132
 ```
