@@ -71,6 +71,7 @@ FRONT_FLOW_BEFORE_UNIT_DETAIL = REQUIRED
 | `50_메인콘텐츠` | 기본·위험·교전 확대·Boss 이미지 Fixture |
 | `60_UX_UI_접근성` | 체력·Status·Target·경고의 단계적 공개 |
 | `70_아트_오디오_에셋` | 고각도 3/4 구도·Route·VFX·광원 검수 기준 |
+| `71_이미지기획_생성목록` | `OM-IMG-019~022` 실제 생성 전 승인 Brief |
 | `99_변경이력` | 범위·HEAD·CI·GPT 역할 우선순위 기록 |
 
 ## 5. Bounded Read-Back
@@ -83,6 +84,7 @@ FRONT_FLOW_BEFORE_UNIT_DETAIL = REQUIRED
 - 고각도 3/4·세 전선 동시 가독성·정보 우선순위.
 - 대상 행 위치.
 - 감사 `OMW-AUD-300~313` 연속성.
+- 이미지 계획 `OM-IMG-019~022`와 `IMAGE_NOT_GENERATED` 상태.
 - CI 상태 셀.
 
 일치 전에는 `READBACK_PASS`를 기록하지 않는다.
