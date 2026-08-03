@@ -7,7 +7,9 @@ status: USER_APPROVED / ACTIVE_PLANNING_BRANCH / NOT_IMPLEMENTED
 work_mode: TOTAL_PLANNING
 parent_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 parent_gameplay_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+child_damage_decision: OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1
 grill_me_count: 2_OF_10
+current_branch_counter: 3_OF_10
 product_code_authority: NONE
 simulation_tool_code_authority: NONE
 simulation: NOT_RUN
@@ -34,8 +36,6 @@ OMENWARD의 최초 공통 전투 계약은 **코어 우선 공통 Schema**로 �
 
 ## 2. 목적과 플레이어 코어 연결
 
-이 결정의 목적은 추상적인 범용 전투 엔진을 만드는 것이 아니다. 다음 OMENWARD 인과를 재현·검증 가능하게 만드는 것이다.
-
 ```text
 건물·TokenSource가 미래 릴 구조를 변경
 → SpinSnapshot에서 병력 결과 생성
@@ -53,7 +53,7 @@ OMENWARD의 최초 공통 전투 계약은 **코어 우선 공통 Schema**로 �
 
 - `CombatRunState`, `LaneState`, `CombatantState`, `BuildingState`, `ObjectiveState`.
 - `DeploymentProvenance`, `OrderedCommand`, `ActionIntent`, `EffectIntent`.
-- `StatusInstance`, `PendingCommit`, `ActiveEffect`, `RngStreamState`.
+- `ProtectionInstance`, `StatusInstance`, `PendingCommit`, `ActiveEffect`, `RngStreamState`.
 - quantized 2D 위치와 lane·anchor 관계.
 - 표준 이동·targeting·공격·효과·죽음·파괴·점령 순서.
 - 공통 event envelope·phase barrier·fingerprint 시점.
@@ -69,6 +69,8 @@ OMENWARD의 최초 공통 전투 계약은 **코어 우선 공통 Schema**로 �
 - Godot SceneTree·NavigationServer·PhysicsServer를 전투 권위로 사용.
 - GDScript·Scene·Resource·test·fixture 구현.
 - simulation 실행과 밸런스 결론.
+
+Damage·Protection·Status 의미는 하위 책임 원본 `design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`가 소유한다. 이 부모 문서는 phase 위치와 공통 extension seam만 소유한다.
 
 ## 4. 공통 상태 Schema
 
@@ -89,6 +91,8 @@ objectives_by_id + canonical_objective_order
 scheduled_commands
 pending_commits
 active_effects
+protection_instances
+status_instances
 named_rng_streams
 event_sequence_state
 termination_state
@@ -126,10 +130,12 @@ position_q{x_q,y_q,anchor_id}
 facing
 movement_layer / collision_class
 hp_q / max_hp_q
+armor_q / resistance_q
 attack_state
 ability_state_refs
 target_id
 role_tags
+protection_instance_ids
 status_instance_ids
 deployment_provenance
 alive / death_pending
@@ -163,14 +169,17 @@ owner_side
 lane_id
 position_q
 hp_q / max_hp_q
+armor_q / resistance_q
 operational_state
 targetable_flags
 passive_effect_refs
 active_action_state
+protection_instance_ids
+status_instance_ids
 alive / destruction_pending
 ```
 
-전투에 직접 영향을 주지 않는 경제 상세는 별도 경제 Schema가 소유한다. 다만 전투 중인 건물의 소유권·HP·가동 상태·전투 효과 출처는 공통 전투 상태에 존재해야 한다.
+전투에 직접 영향을 주지 않는 경제 상세는 별도 경제 Schema가 소유한다. 전투 중인 건물의 소유권·HP·방어축·가동 상태·전투 효과 출처는 공통 전투 상태에 존재해야 한다.
 
 ### 4.6 `ObjectiveState`
 
@@ -186,9 +195,10 @@ capture_state
 eligible_contestant_ids
 blocked_or_locked_state
 ownership_change_sequence
+hp_targetable_flag
 ```
 
-점령은 유닛 수·Tier·등급의 합산 `capture_power`를 부활시키지 않는다. exact 점령 속도는 별도 값 계약이 소유한다.
+점령은 유닛 수·Tier·등급의 합산 `capture_power`를 부활시키지 않는다. Objective는 기본 HP target이 아니며 파괴형 Objective는 별도 승인과 명시적 flag가 필요하다.
 
 ### 4.7 공통 행동·효과
 
@@ -202,8 +212,11 @@ ActionIntent:
 EffectIntent:
   effect_id / source_id / target_ids / effect_category / raw_payload / application_priority
 
+ProtectionInstance:
+  protection_id / protection_type / source_id / owner_id / start_tick / end_tick_exclusive / remaining_budget_q / filter / consume_priority
+
 StatusInstance:
-  status_instance_id / status_type / source_id / start_tick / end_tick_exclusive / stack_state / payload
+  status_instance_id / status_type / source_id / start_tick / end_tick_exclusive / stacking_group_id / stacking_policy / stack_state / payload
 
 PendingCommit:
   commit_id / source_id / immutable_target_snapshot / immutable_position_snapshot / resolve_tick / resolved_flag
@@ -257,7 +270,7 @@ R130 TICK_CLOSE
 
 ### `R00 TICK_OPEN_AND_EXPIRE`
 
-- `end_tick_exclusive <= current_tick` 상태·효과를 제거한다.
+- `end_tick_exclusive <= current_tick` 상태·효과·보호를 제거한다.
 - 이전 tick에서 완료된 cleanup을 검증한다.
 - 현재 tick 전투 권위 snapshot을 연다.
 
@@ -271,7 +284,7 @@ R130 TICK_CLOSE
 
 - 유효한 배치 provenance와 lane commit을 검증한다.
 - `activation_tick` 필드로 행동 가능 시점을 명시한다.
-- 정확한 즉시 행동/다음 tick 행동 정책은 후속 값 계약까지 parameterized 상태로 둔다.
+- 정확한 즉시 행동/다음 tick 행동 정책은 후속 numeric/technical Decision까지 parameterized 상태로 둔다.
 
 ### `R30~R40 MOVEMENT`
 
@@ -291,23 +304,38 @@ R130 TICK_CLOSE
 - 낮은 stable ID actor가 먼저 피해를 줘 높은 ID actor의 같은 tick 적격 행동을 지우는 순차 편향을 금지한다.
 - commit 뒤 source 사망 시 처리 방식은 `interrupt_policy`가 소유하며 숨은 예외를 두지 않는다.
 
-### `R70~R80 IMPACT·DAMAGE·EFFECT`
+### `R70 IMPACT_AND_EFFECT_INTENT_BUILD`
 
-공통 적용 단계:
+- immutable commit snapshot으로 Damage·Restore·Protection·Status intent를 생성한다.
+- channel·delivery tag·target profile·root effect provenance를 명시한다.
+- target 상실 뒤 hidden fallback을 생성하지 않는다.
+
+### `R80 DAMAGE_PROTECTION_STATUS_APPLY`
+
+세부 권위는 Damage 책임 원본이 소유한다.
 
 ```text
-impact validity
-→ immunity / eligibility
-→ pre-mitigation modifier
-→ armor / resistance formula hook
-→ barrier / absorption
-→ health-floor clamp
-→ HP delta or restore
-→ post-hit status and trigger
-→ death_or_destruction_mark
+R80A VALIDITY_AND_ELIGIBILITY
+R80B PROTECTION_SETUP
+R80C DAMAGE_MITIGATION_AND_BARRIER
+R80D HP_LOSS_REDIRECTION_AND_FLOOR
+R80E HP_DELTA_AND_RESTORE
+R80F STATUS_APPLICATION_AND_POST_HIT_QUEUE
+R80G DEATH_OR_DESTRUCTION_MARK
 ```
 
-정확 공식·상한·최소 피해·회복량은 후속 Decision이다. `health-floor`는 회복이 아니며 실제 HP를 증가시키지 않는다. 명시적 revive 계약 없이는 사망 상태를 되돌리지 않는다.
+상위 불변식:
+
+```text
+KINETIC → ARMOR
+ARCANE → RESISTANCE
+BARRIER != HP_OR_HEAL
+RESTORE != NEGATIVE_DAMAGE
+TRANSFER_DEPTH_MAX = 1
+TRUE_DAMAGE_EXECUTE_REVIVE = FORBIDDEN_CURRENT_SLICE
+```
+
+정확 mitigation formula·rounding·cap·duration은 후속 numeric Decision이다.
 
 ### `R90 DEATH_AND_DESTRUCTION_FINALIZE`
 
@@ -324,13 +352,14 @@ impact validity
 ### `R110 TIMER_COOLDOWN_STATUS_ADVANCE`
 
 - 전투 clock에 속한 timer만 진행한다.
-- status는 `[start_tick, end_tick_exclusive)` 규칙을 따른다.
+- status·protection은 `[start_tick, end_tick_exclusive)` 규칙을 따른다.
 - 정비시간 pause·Stage carry 정책은 기존 영웅 timer 정본을 따른다.
 
 ### `R120 METRICS_EVENT_FINGERPRINT`
 
 - 모든 phase barrier 적용 뒤 canonical state를 직렬화한다.
 - ordered event log·lane contribution·other-two-lane contribution·fingerprint를 기록한다.
+- raw damage·mitigated damage·barrier absorbed·final HP loss를 분리한다.
 - fingerprint 생성 뒤 state mutation은 금지하며 다음 tick에서만 변경한다.
 
 ## 7. 동일 Tick 공정성 불변식
@@ -342,6 +371,7 @@ FALLBACK_RETARGET_AFTER_COMMIT = FORBIDDEN
 DEATH_FINALIZATION_BEFORE_DAMAGE_BATCH_END = FORBIDDEN
 OBJECTIVE_USES_POST_DEATH_SURVIVORS = REQUIRED
 DESTROYED_BUILDING_PASSIVE_REMOVED_AFTER_FINALIZE = REQUIRED
+RETROACTIVE_STATUS_COMMIT_CANCELLATION = FORBIDDEN
 CANONICAL_EVENT_ORDER = REQUIRED
 ```
 
@@ -351,10 +381,10 @@ CANONICAL_EVENT_ORDER = REQUIRED
 
 ```text
 CombatantState
-ActionIntent
+ActionIntent / EffectIntent
+DamageIntent / RestoreIntent / ProtectionIntent / StatusApplicationIntent
 PendingCommit
-ActiveEffect
-StatusInstance
+ActiveEffect / ProtectionInstance / StatusInstance
 Target Filter/Priority/Tie-break
 Damage/Protection hooks
 Timer/Stage boundary
@@ -365,58 +395,64 @@ Event envelope
 
 ## 9. 벤치마크·현업 비교
 
-Godot 4.x 공식 문서는 `_physics_process()`가 가변 렌더 frame과 분리된 고정 주기로 실행됨을 설명한다. OMENWARD Harness는 이를 참고하되 엔진 callback 자체를 결정론 보장으로 오해하지 않고 명시적 integer tick과 phase barrier를 권위로 둔다.
-
-Godot `RandomNumberGenerator`는 instance별 seed·state 저장과 재현 가능한 sequence를 제공한다. OMENWARD는 전역 RNG 대신 domain별 named stream·state·draw count를 기록한다.
-
-Godot JSON parser는 숫자 처리와 규격 허용 범위가 canonical hash 권위로 충분하지 않다. 따라서 raw JSON text가 아니라 stable field order·scaled integer·quantized position으로 normalized state를 만든다.
-
-외부 게임의 전투 순서를 복사하지 않는다. OMENWARD의 세 전선·TokenSource·SpinSnapshot·비가역 배치·점령 인과가 이 Schema의 우선 기준이다.
+- Godot fixed processing·instance RNG·JSON serialization 경계를 참고하되 엔진 callback 자체를 결정론 권위로 사용하지 않는다.
+- TFT의 Armor/Magic Resistance 분리는 두 방어축의 읽기 쉬운 참고 사례지만 아이템 중심 메타를 복사하지 않는다.
+- Guild Wars 2 Barrier의 임시 HP buffer·분리 UI를 참고하되 exact cap·duration을 복사하지 않는다.
+- Overwatch barrier 조정 사례처럼 barrier uptime이 전투 pace와 선택을 대체하면 stop-ship으로 본다.
+- 외부 게임 전투 순서를 복사하지 않고 OMENWARD의 세 전선·TokenSource·SpinSnapshot·비가역 배치·점령 인과를 우선한다.
 
 ## 10. 적대적 검토
 
-| Audit ID | 공격 | 판정·대응 |
-|---|---|---|
-| `OMW-AUD-222` | 범용 Schema가 룰렛 인과를 지움 | `DeploymentProvenance` 필수 |
-| `OMW-AUD-223` | 영웅 5명 예외가 공통 Schema를 오염 | 영웅은 extension seam만 사용 |
-| `OMW-AUD-224` | entity 순차 처리로 낮은 ID가 선공 특권 획득 | phase snapshot·intent·barrier 필수 |
-| `OMW-AUD-225` | damage 중 즉시 death finalize로 같은 tick 반격 삭제 | damage batch 뒤 death finalize |
-| `OMW-AUD-226` | target 상실 시 숨은 fallback이 결과 원인을 변경 | fallback 금지·명시적 commit policy |
-| `OMW-AUD-227` | 사망한 유닛이 같은 tick 점령에 기여 | post-death survivors만 사용 |
-| `OMW-AUD-228` | 건물 파괴가 이미 commit된 행동을 소급 취소 | commit 보존·passive는 이후 phase 제거 |
-| `OMW-AUD-229` | 1D 위치가 cross-lane 실제 거리 효과를 왜곡 | quantized 2D position 필수 |
-| `OMW-AUD-230` | Schema 승인에 exact 밸런스 값이 밀수됨 | formula·rate·value는 pending 유지 |
-| `OMW-AUD-231` | SceneTree·callback 순서가 도메인 결과를 지배 | pure domain canonical order 필수 |
-| `OMW-AUD-232` | fingerprint 시점이 불명확해 replay diff가 흔들림 | R120 이후 mutation 금지 |
+```text
+OMW-AUD-222 ~ OMW-AUD-232 = common schema·resolution order
+OMW-AUD-233 ~ OMW-AUD-246 = damage·protection·status semantics
+```
+
+핵심 방어:
+
+- `DeploymentProvenance` 필수.
+- 영웅 special-case Schema 금지.
+- phase snapshot·intent·barrier 필수.
+- damage batch 뒤 death finalize.
+- post-death objective.
+- channel/tag/target profile 분리.
+- barrier·restore·redirection 의미 분리.
+- 일반 status의 same-tick 소급 취소 금지.
+- R120 fingerprint 이후 mutation 금지.
 
 ## 11. 검증 계약
 
 ```text
 T0:
-  required field·enum·ID·provenance·canonical order 검사
+  required field·enum·ID·provenance·canonical order
+  exactly-one channel·valid tags·target profile·stacking policy
 
 T1:
   동일 fixture·input·RNG에서 phase event와 final fingerprint 동일
 
 T2:
-  same-tick fairness·death/objective order·no fallback·provenance invariants
+  same-tick fairness·death/objective order·no fallback·provenance
+  no true/execute/revive·no recursive transfer·barrier/restore/status invariants
 
 T3:
-  세 전선 전체와 other-two-lane contribution을 포함한 paired A/B/C
+  세 전선 전체·other-two-lane contribution·KINETIC/ARCANE 대응을 포함한 paired A/B/C
 ```
 
-필수 Red-test 후보는 후속 구현 계획에서 작성한다. 현재는 테스트 파일을 만들거나 실행하지 않는다.
+현재는 테스트 파일을 만들거나 실행하지 않는다.
 
-## 12. 경계·다음 Gate
+## 12. 경계·후속
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 COMMON_COMBAT_SCHEMA = USER_APPROVED_DOCUMENTED_NOT_IMPLEMENTED
+DAMAGE_PROTECTION_STATUS_SEMANTICS = USER_APPROVED_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-EXACT_TICK_RATE = PENDING
-EXACT_DAMAGE_DEFENSE_PROTECTION_FORMULAS = PENDING
-EXACT_ACTIVATION_POLICY = PENDING
+EXACT_MITIGATION_FORMULA = PENDING
+EXACT_ARMOR_RESISTANCE_DEFAULTS = PENDING
+EXACT_BARRIER_BUDGET_CAP_DURATION = PENDING
+EXACT_STATUS_STACK_CAP_DURATION = PENDING
+EXACT_TICK_RATE_AND_ACTIVATION_POLICY = PENDING
 EXACT_HERO_TRIGGER_TIMER_EFFECT_VALUES = PENDING
 EXACT_SAMPLE_SIZE_AND_TOLERANCE = PENDING
 SIMULATION = NOT_RUN
@@ -425,7 +461,7 @@ HUMAN_QA = NOT_RUN
 ```
 
 ```text
-GRILL_ME_COUNT = 2/10
-NEXT_DECISION = OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1
+CURRENT_BRANCH_GRILL_ME_COUNT = 3/10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-MITIGATION-FORMULA-AND-PROTECTION-NUMERIC-DEFAULTS-V1
 NEXT_PREFLIGHT = AT_10_OF_10
 ```
