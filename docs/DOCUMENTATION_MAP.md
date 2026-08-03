@@ -3,22 +3,24 @@
 ```yaml
 updated_at: 2026-08-03
 work_mode: TOTAL_PLANNING
-current_phase: HERO_TRIGGER_TARGET_POWER_MAIN_CANONICAL
+current_phase: IMPLEMENTATION_STATUS_AND_PENDING_REFRESH
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
+current_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: NONE
+working_branch: gpt/omenward-status-pending-refresh-20260803
 active_base: 9.4.3_RELEASED
 current_product: LEGACY_PROTOTYPE
 latest_planning: MAIN_CANONICAL_NOT_IMPLEMENTED
 product_code_authority: NONE
 last_merged_planning_pr: 129
 last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
-current_planning_pr: NONE
+current_planning_pr: PENDING_CREATION
 current_grill_me_count: 0
-preflight: NEXT_AT_10_OF_10
+preflight: MAINTENANCE_SYNC_REQUIRED
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
+next_gate: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 ```
 
 이 문서는 질문별 현행 책임 원본을 선택하는 라우터다. `current_main`은 저장소 기본 브랜치에서 실행 시점에 해석한다.
@@ -35,6 +37,7 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 → 현재 질문의 APPROVED 분야 문서
 → benchmark·production comparison 자료
 → CURRENT_IMPLEMENTATION_STATUS.md
+→ DECISIONS_PENDING.md
 → ACTIVE_CONTEXT.md
 → HANDOFF_CONTEXT.md
 → 실제 code/data/Scene/Resource/tests
@@ -60,7 +63,8 @@ planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_US
 | Trigger·대상·파워 예산 검증 | `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md` | `MAIN_CANONICAL_TRIGGER_TARGET_POWER_AUTHORITY` |
 | 재전설 결과와 전역 슬롯 충돌 | `design/APPROVED_OMENWARD_REPEAT_LEGENDARY_RESULT_HIGH_GRADE_SLOT_RESOLUTION_2026-08-02.md` | `MAIN_CANONICAL_REPEAT_LEGENDARY_TOKEN_RESOLUTION` |
 | 영웅 슬롯·핵심 재미 적대적 검토 | `reviews/ADVERSARIAL_HERO_GRADE_SLOT_AND_CORE_FIT_REVIEW_2026-08-02.md` | `CURRENT_HERO_GRADE_SLOT_REVIEW` |
-| 실제 구현·Legacy 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY` |
+| 실제 구현·Legacy·main 기획 경계 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_AUTHORITY / REFRESHED_2026-08-03` |
+| 구현 전 미확정 수치·schema·검증 우선순위 | `DECISIONS_PENDING.md` | `CURRENT_PENDING_AUTHORITY / REFRESHED_2026-08-03` |
 | 현재 작업·다음 Gate | `ACTIVE_CONTEXT.md` | `CURRENT_CONTEXT_PACK` |
 | 새 작업자 인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet 동기화 | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
@@ -162,7 +166,21 @@ C = 표준 [전설]
 
 동일 source Tier·seed·Stage·건물·다른 두 전선 조건으로 대표 encounter family를 비교한다. B는 의도된 family에서 A보다 강하고, C는 전체 대표 family 합산 가치에서 B보다 강해야 한다. 모든 family 자동 최선 또는 다른 두 전선 비결정화는 실패다.
 
-## 9. 계보·구형 표현
+## 9. 구현 전 우선순위 라우팅
+
+```text
+P0 → deterministic simulation harness 범위·재현성·입출력 계약
+P1 → 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
+P2 → 다섯 해금 영웅 exact Trigger·timer·효과값
+P3 → A/B/C 통과선·표본 수·stop-ship 기준
+P4 → 100,000시드 룰렛·경제 simulation 계약
+P5 → checkpoint·save schema
+P6 → 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
+```
+
+P0~P6의 상세 체크리스트는 `DECISIONS_PENDING.md`가 소유한다.
+
+## 10. 계보·구형 표현
 
 - named Hero만 1명 제한은 현행이 아니다.
 - 표준 2스킬과 고유 2스킬 동시 보유는 현행이 아니다.
@@ -171,7 +189,7 @@ C = 표준 [전설]
 - 미해결 commit 다음 Stage 이월·재타깃은 금지한다.
 - 영웅별 숨은 AI·랜덤 tie-break·수동 target은 현행이 아니다.
 
-## 10. 구현 경계
+## 11. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -186,16 +204,19 @@ EXACT_STABILITY_WINDOWS = PENDING
 EXACT_SECONDS = PENDING
 EXACT_DURATIONS_AND_VALUES = PENDING
 ASSETS = NOT_CREATED
+SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 11. 운영 Gate
+## 12. 운영 Gate
 
 ```text
 CURRENT_COUNT = 0/10
+CURRENT_MAINTENANCE_SYNC = OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
+NEXT_GRILL_ME_DECISION = OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
-CURRENT_PLANNING_PR = NONE
+CURRENT_PLANNING_PR = PENDING_CREATION
 LAST_MERGED_PLANNING_PR = 129
 ```
