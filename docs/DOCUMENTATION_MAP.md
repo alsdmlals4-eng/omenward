@@ -3,16 +3,17 @@
 ```yaml
 updated_at: 2026-08-03
 work_mode: TOTAL_PLANNING
-current_phase: FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_APPROVED
-current_planning_decision: OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V1
+current_phase: MODIFIER_STACKING_AND_EFFECT_PRECEDENCE_APPROVED
+current_planning_decision: OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1
+parent_time_decision: OMW-DEC-20260803-VALIDATION-FIXED-TICK-TIME-AND-ACTIVATION-DEFAULTS-V1
 parent_numeric_decision: OMW-DEC-20260803-VALIDATION-MITIGATION-FORMULA-AND-PROTECTION-NUMERIC-DEFAULTS-V1
 parent_semantics_decision: OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1
 parent_combat_decision: OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1
 parent_harness_decision: OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
-current_count: 5_OF_10
-next_gate: OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1
+current_count: 6_OF_10
+next_gate: OMW-DEC-20260803-VALIDATION-SPATIAL-QUANTIZATION-MOVEMENT-AND-TARGETING-DEFAULTS-V1
 ```
 
 ## 1. 읽기 순서
@@ -40,6 +41,7 @@ README.md
 | Damage·Protection·Status 의미 | `design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md` | `CURRENT_DAMAGE_SEMANTICS_AUTHORITY / NOT_IMPLEMENTED` |
 | 방어 공식·보호·상태 수치 | `design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md` | `CURRENT_NUMERIC_DEFAULTS_AUTHORITY / NOT_IMPLEMENTED` |
 | 30 TPS·시간·활성화 | `design/APPROVED_OMENWARD_FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_2026-08-03.md` | `CURRENT_TIME_AUTHORITY / NOT_IMPLEMENTED` |
+| Modifier stacking·effect precedence | `design/APPROVED_OMENWARD_MODIFIER_STACKING_AND_EFFECT_PRECEDENCE_2026-08-03.md` | `CURRENT_MODIFIER_PRECEDENCE_AUTHORITY / NOT_IMPLEMENTED` |
 | 전체 시스템 Vertical Slice | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / NOT_IMPLEMENTED` |
 | Vertical Slice 적대적 검토 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` | `CURRENT_ADVERSARIAL_REVIEW_LINEAGE` |
 | 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
@@ -69,11 +71,38 @@ P1 Common Combat Schema
 P2 Damage/Protection/Status Semantics
 P3 Mitigation/Protection Numeric Defaults
 P4 Fixed Tick/Time/Activation Defaults
+P5 Modifier Stacking/Effect Precedence
 ```
 
-현재 P0~P4만 사용자 승인된 기획 계약이다.
+현재 P0~P5만 사용자 승인된 기획 계약이다.
 
-## 5. Time Authority 라우팅
+## 5. Modifier·Precedence 라우팅
+
+```text
+SOURCE_OUTGOING = 50%~150%
+TARGET_INCOMING = 50%~150%
+COMBINED_PRE_DEFENSE = 25%~200%
+R60 = source snapshot
+R80 = target snapshot
+```
+
+```text
+REFRESH_DURATION
+REPLACE_IF_STRONGER
+ADD_STACKS_CAPPED
+INDEPENDENT_BY_SOURCE
+EXCLUSIVE_GROUP
+```
+
+```text
+P00 validity → P10 immunity → P20 source → P30 target incoming
+→ P40 defense → P50 Barrier → P60 redirection → P70 Floor
+→ P80 HP/Restore → P90 Status → P100 death pending
+```
+
+Generic flat damage·override·penetration·next-hit 소비 Modifier는 현 Slice에서 금지한다.
+
+## 6. Time Authority 라우팅
 
 ```text
 DOMAIN_TPS = 30
@@ -84,16 +113,7 @@ ACTIVE_RANGE = [start_tick,end_tick_exclusive)
 SPAWN_AT_T → ACTIVATE_AT_T_PLUS_1
 ```
 
-```text
-3000ms = 90 ticks
-1000ms = 30 ticks
-2000ms = 60 ticks
-1000ms = 30 ticks
-```
-
-R00 expiry·R10 command·R20 spawn/activation·R110 Timer 진행·R130 Save boundary의 세부 권위는 시간 책임 원본에 있다.
-
-## 6. Core-First Combat 라우팅
+## 7. Core-First Combat 라우팅
 
 ```text
 SpinSnapshot / TokenSource / lane commit provenance
@@ -105,14 +125,11 @@ SpinSnapshot / TokenSource / lane commit provenance
 
 영웅·전설은 공통 계약을 확장하며 별도 AI loop·clock·damage formula·death resolver를 만들지 않는다.
 
-## 7. Damage·Numeric 라우팅
+## 8. Damage·Numeric 라우팅
 
 ```text
 KINETIC → ARMOR
 ARCANE  → RESISTANCE
-```
-
-```text
 DEFENSE_MIN = 0
 DEFENSE_MAX = 300
 ROUNDING = POSITIVE_INTEGER_HALF_UP
@@ -122,18 +139,18 @@ HEALTH_FLOOR = 1 HP / one trigger
 STATUS = stack 3 / pulse 30 / control 60 / lockout 30 ticks
 ```
 
-## 8. 동일 Tick·Activation 핵심
+## 9. Trigger 라우팅
 
 ```text
-ALL_ELIGIBLE_ACTORS_COMMIT_FROM_SAME_PHASE_SNAPSHOT
-SPAWNED_AT_T_IS_TARGETABLE_AT_T
-SPAWNED_AT_T_CANNOT_COMMIT_ACTION_UNTIL_T_PLUS_1
-ACTIVE_ACTOR_PROTECTION_COMMIT_CAN_APPLY_AT_SAME_TICK_R80B
-DEATH_FINALIZE_AFTER_DAMAGE_BATCH
-OBJECTIVE_USES_POST_DEATH_ACTIVE_SURVIVORS
+ON_VALID_IMPACT
+ON_POST_MITIGATION_DAMAGE
+ON_BARRIER_ABSORBED
+ON_FINAL_HP_LOSS
+ON_STATUS_APPLIED
+ON_TARGET_DEATH_FINALIZED
 ```
 
-## 9. Pause·Save·Render
+## 10. Pause·Save·Render
 
 ```text
 ACTIVE_COMBAT = DOMAIN_TICK_ADVANCES
@@ -143,33 +160,7 @@ RENDER_INTERPOLATION = VISUAL_ONLY
 GODOT_TIMER_ANIMATION_WALL_CLOCK = NON_AUTHORITATIVE
 ```
 
-## 10. Event·Metric 라우팅
-
-```text
-RAW_DAMAGE
-→ ADJUSTED_DAMAGE
-→ EFFECTIVE_DEFENSE
-→ POST_MITIGATION_DAMAGE
-→ BARRIER_ABSORBED
-→ CANDIDATE_HP_LOSS
-→ REDIRECTED_HP_LOSS
-→ HEALTH_FLOOR_PREVENTED
-→ FINAL_HP_LOSS
-```
-
-시간 Event는 `spawn_tick`, `activation_tick`, `start_tick`, `end_tick_exclusive`, `next_due_tick`을 필요한 경우 포함한다.
-
-## 11. 조기 Stop-Ship Guard
-
-```text
-FRONTLINE_MEAN_BARRIER_UPTIME > 40%
-OR
-BARRIER_ABSORBED / POST_MITIGATION_INCOMING_DAMAGE > 35%
-```
-
-최종 밸런스 합격선이 아니라 조기 중단 후보 분류다.
-
-## 12. 적대적 감사 계보
+## 11. 적대적 감사 계보
 
 ```text
 OMW-AUD-208 ~ 220 = Harness
@@ -179,13 +170,14 @@ OMW-AUD-233 ~ 246 = Damage Semantics
 OMW-AUD-247 ~ 260 = Numeric Defaults
 OMW-AUD-261 = CI compatibility restore / RESOLVED / NON_COUNTER
 OMW-AUD-262 ~ 275 = Fixed Tick/Time/Activation
+OMW-AUD-276 ~ 289 = Modifier Stacking/Effect Precedence
 ```
 
-## 13. 구현 경계
+## 12. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = FIXED_TICK_TIME_ACTIVATION_DEFAULTS_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = MODIFIER_STACKING_EFFECT_PRECEDENCE_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 SIMULATION = NOT_RUN
@@ -193,10 +185,10 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 14. 운영 Gate
+## 13. 운영 Gate
 
 ```text
-CURRENT_COUNT = 5/10
-NEXT_DECISION = OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1
+CURRENT_COUNT = 6/10
+NEXT_DECISION = OMW-DEC-20260803-VALIDATION-SPATIAL-QUANTIZATION-MOVEMENT-AND-TARGETING-DEFAULTS-V1
 NEXT_PREFLIGHT = AT_10_OF_10
 ```
