@@ -1,18 +1,12 @@
 # 오멘워드 현재 구현 상태
 
-- 갱신일: 2026-08-03
-- 현재 main: `RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH`
-- 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- Harness 정본: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
-- 공통 전투 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
-- 피해 의미 정본: `docs/design/APPROVED_OMENWARD_DAMAGE_PROTECTION_AND_STATUS_SEMANTICS_2026-08-03.md`
-- 수치 기본값 정본: `docs/design/APPROVED_OMENWARD_MITIGATION_FORMULA_AND_PROTECTION_NUMERIC_DEFAULTS_2026-08-03.md`
-- 시간·활성화 정본: `docs/design/APPROVED_OMENWARD_FIXED_TICK_TIME_AND_ACTIVATION_DEFAULTS_2026-08-03.md`
-- Modifier·precedence 정본: `docs/design/APPROVED_OMENWARD_MODIFIER_STACKING_AND_EFFECT_PRECEDENCE_2026-08-03.md`
-- 작업 모드: `TOTAL_PLANNING / PLANNING_ONLY_PROFILE`
+- 갱신일: 2026-08-04
+- 작업 모드: `TOTAL_PLANNING / PLANNING_AND_VISUALS_PROFILE`
 - 최신 기획 상태: `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED`
+- 현재 Decision: `OMW-DEC-20260804-PLANNING-COMBAT-SPACE-ROUTE-AND-TARGETING-EXPERIENCE-V1`
+- 운영 정책: `OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1`
 - 제품 코드 승인: `NOT_AUTHORIZED`
-- Simulation tool 승인: `NOT_AUTHORIZED`
+- 이미지 제작 승인: `NOT_AUTHORIZED_UNTIL_10_OF_10_PREFLIGHT`
 
 ## 1. 정확한 상태 표기
 
@@ -26,15 +20,16 @@ CORE_LOCK_NOT_ALLOWED
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED_PLANNING = MODIFIER_STACKING_EFFECT_PRECEDENCE_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED_PLANNING = COMBAT_SPACE_ROUTE_TARGETING_EXPERIENCE_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
+IMAGE_PRODUCTION = NOT_AUTHORIZED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-문서 계약과 CI 통과는 최신 Vertical Slice·Harness·전투 시스템이 구현됐다는 뜻이 아니다.
+문서 계약과 CI 통과는 최신 Vertical Slice·전투 시스템·이미지가 구현됐다는 뜻이 아니다.
 
 ## 2. Legacy 검증 증거
 
@@ -46,125 +41,90 @@ LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
 
-이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 V2 전체 시스템, 20 Stage Vertical Slice, Harness, Common Combat, Damage, Numeric, Time, Modifier 계약 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
+이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 V2 전체 시스템, 20 Stage Vertical Slice, 현재 Planning Stack 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
 
-## 3. 현행 승인 Planning Stack
-
-```text
-P0 Harness Scope
-P1 Common Combat Schema and R00~R130
-P2 Damage/Protection/Status Semantics
-P3 Mitigation/Protection Numeric Defaults
-P4 Fixed Tick/Time/Activation Defaults
-P5 Modifier Stacking/Effect Precedence
-```
-
-### P5 승인 내용
+## 3. 현행 작업 권한
 
 ```text
-SOURCE_OUTGOING = 50%~150%
-TARGET_INCOMING = 50%~150%
-COMBINED_PRE_DEFENSE = 25%~200%
-R60 = source snapshot
-R80 = target snapshot
+GPT / Work
+= 플레이어 경험·게임 규칙·콘텐츠·UX·아트 방향·이미지 Brief·검수 기준
+
+Codex
+= 자료구조·알고리즘·좌표·경로탐색·물리·성능·코드·테스트 구현
 ```
+
+기존 1~6 Decision의 기술 세부는 `CODEX_REFERENCE_RECOMMENDATION / NOT_BINDING_IMPLEMENTATION`이다. 플레이어에게 보이는 규칙·밸런스 의도·가독성 목표는 계속 승인 상태다.
+
+## 4. 승인 Planning Stack
 
 ```text
-REFRESH_DURATION
-REPLACE_IF_STRONGER
-ADD_STACKS_CAPPED
-INDEPENDENT_BY_SOURCE
-EXCLUSIVE_GROUP
+P0 결과 재현·원인 복기 요구
+P1 공통 전투 공정성·숨은 선공 금지
+P2 Damage·Protection·Status 의미
+P3 방어·Barrier·Status 기획 기본값
+P4 전투 템포·Spawn 가독성 의도
+P5 Modifier 폭증 방지·효과 가독성
+P6 세 전선·Route·Targeting 경험
 ```
+
+### P6 플레이어 규칙
 
 ```text
-P00 validity → P10 immunity → P20 source → P30 target incoming
-→ P40 defense → P50 Barrier → P60 redirection → P70 Floor
-→ P80 HP/Restore → P90 Status → P100 death pending
+THREE_FRONTS = TOP / MID / BOTTOM
+VISIBLE_MAIN_ROUTE_PER_FRONT
+VISIBLE_BYPASS_AND_AIR_ROUTE
+DEFAULT_TARGET = nearest valid on same front/route
+CROSS_LANE = explicit and telegraphed only
+HIDDEN_AUTO_LANE_CHANGE = FORBIDDEN
 ```
 
-## 4. 구현 상태 행렬
+## 5. 구현 상태 행렬
 
 | 영역 | 기획 상태 | 제품 구현 | 자동 검증 | 사람 검증 |
 |---|---|---|---|---|
 | 20 Stage 전체 시스템 Vertical Slice | 승인 정본 존재 | `NOT_STARTED` | `NOT_RUN_LATEST` | `NOT_RUN` |
-| Deterministic Harness | 범위 승인 | `NOT_STARTED` | `NOT_RUN` | `N/A` |
-| Common Combat Schema | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Damage·Protection·Status | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Mitigation·Protection Numeric | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 30 TPS·Time·Activation | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Modifier stacking·precedence | 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Spatial·Movement·Targeting | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
-| 콘텐츠 Parameter Set | 미확정 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
-| Runtime Adapter | 미승인 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
-| 이미지·Animation·HX | 후속 Gate | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 결정론·공통 전투 참고 계약 | 플레이어 결과 요구 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Damage·Protection·Status | 플레이어 의미 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 방어·Barrier·Modifier | 기획 기본값 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 전투 공간·Route·Targeting | 플레이 경험 승인 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 전장 시각 계층·카메라 | 미확정 8/10 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| HUD·룰렛·건설 UX | 미확정 9/10 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| 아트·이미지 Prototype Brief | 미확정 10/10 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
+| 실제 이미지·Animation·HX | 후속 Gate | `NOT_STARTED` | `N/A` | `NOT_RUN` |
+| Codex 구현 계약 | Planning preflight 이후 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
 
-## 5. Modifier 구현 시 필수 계약
+## 6. Decision 7 이미지 검수 목표
 
-```text
-BASIS_POINTS = 10000
-FAMILY_CAP_APPLIES_AFTER_ALL_SOURCES
-POSITIVE_VALID_ADJUSTED_DAMAGE_MIN = 1
-ARMOR_RESISTANCE_MODIFIER = INTEGER_POINT_ADDITIVE_ONLY
-GENERIC_FLAT_DAMAGE_MODIFIER = FORBIDDEN
-GENERIC_OVERRIDE_OPERATION = FORBIDDEN
-CONSUMABLE_NEXT_HIT_MODIFIER = FORBIDDEN
-TRANSFERRED_DAMAGE_SECOND_PASS = FORBIDDEN
-```
+- 정지 화면에서 세 전선을 구분할 수 있다.
+- 주 경로·우회로·공중 경로가 서로 다른 시각 언어를 가진다.
+- Ground·Flying·침투 병력의 이동 방식이 보인다.
+- 기본 Target과 Cross-lane 효과 범위를 예측할 수 있다.
+- 이미지가 실제 GDD 규칙과 충돌하지 않는다.
 
-영웅·전설도 공통 ModifierRecord·Intent·precedence를 사용하며 직접 HP를 변경할 수 없다.
+## 7. CI 호환 회귀 기록
 
-## 6. Trigger 필수 계약
-
-```text
-ON_VALID_IMPACT
-ON_POST_MITIGATION_DAMAGE
-ON_BARRIER_ABSORBED
-ON_FINAL_HP_LOSS
-ON_STATUS_APPLIED
-ON_TARGET_DEATH_FINALIZED
-```
-
-모호한 `on hit`만으로 Trigger를 구현하지 않는다.
-
-## 7. 시간·전투 필수 계약
-
-```text
-DOMAIN_TPS = 30
-R00 = exclusive expiry before commands
-R10 = ingest current scheduled commands only
-R20 = spawn at T, activate at T+1
-R110 = integer Tick Timer advance
-R130 = Save canonical boundary
-WALL_CLOCK_TIMER_ANIMATION_CALLBACK = NON_AUTHORITATIVE
-ALL_ELIGIBLE_ACTORS_COMMIT_FROM_SAME_PHASE_SNAPSHOT
-DEATH_FINALIZE_AFTER_DAMAGE_BATCH
-OBJECTIVE_USES_POST_DEATH_ACTIVE_SURVIVORS
-```
-
-## 8. CI 호환 회귀 기록
-
-`OMW-AUD-261`에서 중앙 문서 간소화로 Legacy C1·Vertical Slice 상태·Review·Pilot 라우팅 marker가 누락되어 CI가 실패했다. 다음 커밋에서 복구했고 non-counter 유지보수로 기록했다.
+`OMW-AUD-261`에서 중앙 문서 간소화로 Legacy C1·Vertical Slice 상태·Review·Pilot 라우팅 marker가 누락되어 CI가 실패했다. 복구 후 non-counter 유지보수로 기록했다.
 
 ```text
 CURRENT_IMPLEMENTATION_STATUS restore commit = 1cca3bdb4a278aa741e4112a5c16970472daa9bb
 DOCUMENTATION_MAP restore commit = 601be3bb5a885b8ada966621b994973accf17577
 ```
 
-## 9. 남은 구현 차단 요인
+## 8. 남은 차단 요인
 
 ```text
-SPATIAL_QUANTIZATION_MOVEMENT_TARGETING = PENDING_USER_DECISION
-EXACT_UNIT_HERO_BUILDING_VALUES = PENDING
-FIXTURE_SAMPLE_TOLERANCE = PENDING
-IMPLEMENTATION_PLAN = NOT_WRITTEN_FOR_CURRENT_STACK
+BATTLEFIELD_VISUAL_HIERARCHY_CAMERA = PENDING_USER_DECISION
+COMBAT_HUD_REEL_BUILD_UX = PENDING_USER_DECISION
+ART_DIRECTION_IMAGE_PROTOTYPE_BRIEF = PENDING_USER_DECISION
+IMAGE_PRODUCTION = BLOCKED_UNTIL_10_OF_10_PREFLIGHT
+CODEX_IMPLEMENTATION_PLAN = BLOCKED_UNTIL_PLANNING_HANDOFF
 PRODUCT_CODE_AUTHORITY = NONE
 ```
 
-## 10. 다음 Gate
+## 9. 다음 Gate
 
 ```text
-GRILL_ME_COUNT = 6/10
-NEXT_DECISION = OMW-DEC-20260803-VALIDATION-SPATIAL-QUANTIZATION-MOVEMENT-AND-TARGETING-DEFAULTS-V1
+GRILL_ME_COUNT = 7/10
+NEXT_DECISION = OMW-DEC-20260804-PLANNING-BATTLEFIELD-VISUAL-HIERARCHY-AND-CAMERA-V1
 NEXT_PREFLIGHT = AT_10_OF_10
 ```
