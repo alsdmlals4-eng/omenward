@@ -3,12 +3,12 @@
 ```yaml
 updated_at: 2026-08-04
 status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
-current_planning_decision: OMW-DEC-20260804-PLANNING-BATTLEFIELD-VISUAL-HIERARCHY-AND-CAMERA-V1
+current_planning_decision: OMW-DEC-20260804-PLANNING-COMBAT-HUD-REEL-AND-BUILD-UX-V1
 current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
 work_mode: TOTAL_PLANNING
-current_count: 8_OF_10
+current_count: 9_OF_10
 product_code_authority: NONE
-image_production_authority: NONE
+image_production_authority: PAUSED_BY_USER
 ```
 
 ## 1. 운영 원칙
@@ -33,6 +33,7 @@ image_production_authority: NONE
 | 6 | `OMW-DEC-20260803-VALIDATION-MODIFIER-STACKING-AND-EFFECT-PRECEDENCE-V1` | Buff 폭증 방지·효과 가독성 | basis point·phase·Snapshot 저장은 Codex 참고안 |
 | 7 | `OMW-DEC-20260804-PLANNING-COMBAT-SPACE-ROUTE-AND-TARGETING-EXPERIENCE-V1` | 세 전선·명시적 Route·Targeting·이미지 요구 | 좌표·Pathfinding·충돌은 Codex 결정 |
 | 8 | `OMW-DEC-20260804-PLANNING-BATTLEFIELD-VISUAL-HIERARCHY-AND-CAMERA-V1` | 고각도 3/4 카메라·정보 우선순위·전장 가독성 | Camera transform·FOV·Occlusion은 Codex 결정 |
+| 9 | `OMW-DEC-20260804-PLANNING-COMBAT-HUD-REEL-AND-BUILD-UX-V1` | HUD·룰렛 정보·골드/마석/병력 한도·Stage 종료 상인·6종 건물·벨루 | UI Scene·입력·데이터 구조는 Codex 결정 |
 
 ## 3. 비카운트 운영 정책
 
@@ -45,56 +46,79 @@ Codex = implementation architecture and code
 
 이는 Decision 수에 포함하지 않는 standing policy다.
 
-## 4. Decision 8 핵심 정본
+## 4. Decision 9 핵심 정본
 
 ```text
-CAMERA = PC 16:9 HIGH_ANGLE_THREE_QUARTER_STRATEGY
-THREE_FRONTS_VISIBLE = REQUIRED
-BATTLEFIELD_SHARE = ABOUT_70_TO_75_PERCENT
-BOTTOM_HUD_SHARE = ABOUT_25_TO_30_PERCENT
-FORCED_CAMERA_MOVEMENT = MINIMIZED
+BOTTOM_FUNCTIONS = ROULETTE / STORAGE / BUILD / TACTICAL_SKILL / BELU
+SHOP_BUTTON = REMOVED
+MAIN_HUD_RESOURCES = GOLD / MANA_STONE / DEPLOYED_TROOP_CAPACITY
+MOVE_TICKET_DISPLAY = ROULETTE_PANEL_ONLY
+MERCHANT = AFTER_STAGE_MAINTENANCE_ONLY
 ```
 
-정보 순서:
+룰렛:
+
+- 세 릴은 세 전선과 직접 대응하지 않는다.
+- 토큰은 초당 공급되지 않고 활성 TokenSource가 세 릴에 결속한다.
+- 릴 또는 행을 먼저 선택한 뒤 이동 방향을 미리보고 실행한다.
+- 이동권은 룰렛 안에서 `보관 이동권 n/3`과 럭키 무료 이동으로 분리한다.
+- 병종 Tier와 완성선 기반 보상 등급을 별도 정보로 설명한다.
+
+건물:
 
 ```text
-전선 흐름
-→ 우회·침투·공중 위협
-→ 본진·거점·건물 상태
-→ 영웅·전설·핵심 병종 역할
-→ 개별 피해·세부 Status
+금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
 ```
 
-- 모든 체력바·Status·Target 선을 상시 표시하지 않는다.
-- Boss·Danger 연출은 다른 전선을 숨기지 않는다.
-- 주 경로·우회로·공중 Route는 별도 시각 언어를 사용한다.
-- 화면의 화려함보다 룰렛 배치 결과와 전선 판단이 먼저 보인다.
+- 건물별 지속 유지비는 없다.
+- 농장은 병력 한도를 확장한다.
+- 지휘소는 현재 MapRun 전체 아군 배치 병력에 전역 오라를 제공한다.
+- 같은 지휘소 계열은 최고 Tier만 적용하며 돌격·수비 계열은 공존할 수 있다.
+- 마력탑은 전술스킬 자원인 마석 수급 또는 최대 보유량을 강화한다.
+- 벨루는 우측 하단에서 상황과 선택 근거만 알려준다.
 
-## 5. 적대적 감사 계보
+## 5. 충돌 대체 규칙
+
+Decision 9는 다음 기존 표현을 대체한다.
+
+```text
+5종 기본 건물 목록
+농장의 별도 초당 식량 자원 UI
+지휘소 주변 반경 오라
+평상시 상점 버튼
+전투 중 상점 이동권 반복 구매
+평상시 이동권 7/10 게이지
+토큰 초당 공급량
+독립 희귀도 확률표
+건물별 지속 유지비
+벨루 목록형 메뉴
+```
+
+## 6. 적대적 감사 계보
 
 ```text
 OMW-AUD-208~289 = Decisions 1~6 and maintenance findings
 OMW-AUD-290~299 = planning/implementation boundary and combat-space readability
 OMW-AUD-300~313 = visual hierarchy, camera, information density and core-fun priority
+OMW-AUD-314~330 = HUD, roulette, resources, merchant and building-role integrity
 ```
 
-## 6. 현재 금지선
+## 7. 현재 금지선
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-IMAGE_PRODUCTION = NOT_AUTHORIZED_UNTIL_10_OF_10_PREFLIGHT
+IMAGE_PRODUCTION = PAUSED_BY_USER
 BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 7. 다음 Decision
+## 8. 다음 Decision
 
 ```text
-9/10 OMW-DEC-20260804-PLANNING-COMBAT-HUD-REEL-AND-BUILD-UX-V1
 10/10 OMW-DEC-20260804-PLANNING-ART-DIRECTION-AND-IMAGE-PROTOTYPE-BRIEF-V1
 NEXT_PREFLIGHT = AT_10_OF_10
 ```
