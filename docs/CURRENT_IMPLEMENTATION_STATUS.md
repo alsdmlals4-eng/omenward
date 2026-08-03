@@ -4,7 +4,8 @@
 - 현재 main: `RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH`
 - 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 최신 영웅 정본: `docs/design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`
-- 최신 검증 설계: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
+- Harness 상위 정본: `docs/design/APPROVED_OMENWARD_DETERMINISTIC_SIMULATION_HARNESS_SCOPE_2026-08-03.md`
+- 최신 검증 정본: `docs/design/APPROVED_OMENWARD_COMMON_COMBAT_SCHEMA_AND_RESOLUTION_ORDER_2026-08-03.md`
 - 작업 모드: `TOTAL_PLANNING / PLANNING_ONLY_PROFILE`
 - 최신 기획 상태: `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED`
 - 제품 코드 승인: `NOT_AUTHORIZED`
@@ -27,7 +28,8 @@
 |---|---|
 | `MAIN_CANONICAL_NOT_IMPLEMENTED` | 승인 기획이 main과 연결 Sheet에 병합됐지만 제품 코드·데이터·Scene·Resource에는 구현되지 않음 |
 | `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED` | 새 기획이 사용자 승인되어 계획 브랜치에 기록됐지만 아직 main 병합·제품 구현되지 않음 |
-| `HARNESS_SCOPE_APPROVED_NOT_IMPLEMENTED` | Harness의 목적·입출력·재현성·검증 Tier만 승인됐으며 실행 도구는 작성되지 않음 |
+| `HARNESS_SCOPE_APPROVED_NOT_IMPLEMENTED` | Harness 목적·입출력·재현성·검증 Tier만 승인됐으며 실행 도구는 작성되지 않음 |
+| `COMMON_COMBAT_SCHEMA_APPROVED_NOT_IMPLEMENTED` | core-first 전투 상태·phase order·동일 tick 공정성 계약만 승인됐으며 코드·fixture·test는 없음 |
 | `LEGACY_IMPLEMENTED` | 과거 설계 기준 제품 코드가 존재 |
 | `LEGACY_PROVEN` | 과거 요구 계약과 실행 증거가 존재 |
 | `MIGRATION_REQUIRED` | 최신 설계와 충돌해 보존 seam 또는 교체가 필요 |
@@ -50,7 +52,7 @@
 - 공용 `UnitArchetypeProfile`과 진영 Visual 데이터 분리.
 - 기존 상태·서비스·테스트 자산 중 최신 계약과 양립하는 부분.
 
-기술 기준선의 존재는 최신 버티컬 슬라이스·영웅 시스템·Harness 구현을 의미하지 않는다.
+기술 기준선의 존재는 최신 버티컬 슬라이스·영웅 시스템·Harness·공통 전투 Schema 구현을 의미하지 않는다.
 
 ---
 
@@ -93,6 +95,8 @@ LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 - 중앙 접전지에 구형 중간거점 상태기 재사용.
 - 구형 라인 수명주기.
 - 아군 주기적 출격 묶음.
+- SceneTree·node iteration 순서에 기대는 처리.
+- 동일 tick actor를 순차 실행해 생기는 선공 편향.
 
 ```text
 LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
@@ -148,16 +152,6 @@ STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
 ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
 ```
 
-초기 해금 영웅:
-
-```text
-shield_guard → 불퇴의 성벽
-archer       → 천공 소거
-priest       → 생명의 서약
-mage         → 메테오
-assassin     → 그림자 분신
-```
-
 공개 Trigger·same-lane Filter·Priority·stable tie-break·immutable commit Snapshot과 A/B/C encounter 검증 방향이 main 정본이다. Exact schema·수치·runtime은 미확정이다.
 
 ### 4.3 Deterministic Simulation Harness
@@ -198,6 +192,64 @@ SIMULATION_EXECUTION = NOT_RUN
 
 Headless 실행은 결정론을 자동 보장하지 않는다. 결정론은 고정 tick·named RNG·stable ordering·canonical state 계약으로 보장한다.
 
+### 4.4 Core-First Common Combat Schema
+
+현재 계획 브랜치에서 다음 구조가 승인됐다.
+
+```text
+CombatRunState
++ LaneState[TOP,MID,BOTTOM]
++ CombatantState
++ BuildingState
++ ObjectiveState
++ DeploymentProvenance
++ OrderedCommand
++ ActionIntent / EffectIntent
++ StatusInstance / PendingCommit / ActiveEffect
++ named RNG and canonical event state
+```
+
+룰렛 전체를 전투 Harness가 재실행하지는 않지만 모든 전장 유닛은 다음 provenance를 가진다.
+
+```text
+SpinSnapshot
+→ PendingReward
+→ TokenInstance / TokenSource
+→ lane commit
+→ deployment_id
+→ combat events
+```
+
+고정 phase 순서:
+
+```text
+R00 TICK_OPEN_AND_EXPIRE
+R10 ORDERED_COMMAND_INGEST
+R20 SPAWN_AND_ACTIVATION
+R30 MOVEMENT_INTENT_BUILD
+R40 MOVEMENT_RESOLVE
+R50 TARGET_SENSE_AND_SELECT
+R60 ACTION_AND_SKILL_COMMIT
+R70 IMPACT_AND_EFFECT_INTENT_BUILD
+R80 DAMAGE_PROTECTION_STATUS_APPLY
+R90 DEATH_AND_DESTRUCTION_FINALIZE
+R100 OBJECTIVE_AND_OWNERSHIP_RESOLVE
+R110 TIMER_COOLDOWN_STATUS_ADVANCE
+R120 METRICS_EVENT_FINGERPRINT
+R130 TICK_CLOSE
+```
+
+동일 tick actor는 같은 post-movement snapshot에서 commit한다. sequential entity ID order로 같은 tick 행동이 삭제되는 처리를 금지한다.
+
+위치·정렬:
+
+```text
+position_q = {x_q, y_q, anchor_id}
+canonical_key = lane_order → entity_kind_order → spawn_sequence → stable_entity_id → local_sequence
+```
+
+정확 tick rate·공식·수치·activation policy는 미확정이다.
+
 ---
 
 ## 5. 최신 미구현 영역
@@ -209,14 +261,19 @@ Headless 실행은 결정론을 자동 보장하지 않는다. 결정론은 고�
 - 금고 지속 수입·다중 수리·에스크로 프로젝트.
 - 3전선 5구간·점령·소유권 원자 이전.
 - 5개 건물과 Tier·분기·병영 전문화.
+- `DeploymentProvenance` 생성과 전투 event 연결.
 
-### 5.2 전투·AI
+### 5.2 공통 전투·AI
 
-- 전체 10병종 능력치·피해·방어 공통 schema.
+- `CombatRunState`와 공통 상태 Resource/DTO.
+- quantized 2D 위치·anchor·collision layer.
+- ordered command·phase snapshot·intent·barrier resolver.
+- 동일 tick action commit·damage batch·death finalize·objective order.
+- 피해·방어·보호·상태이상 exact semantics와 formula.
 - 방패 표적 우선도·전문화 점수·히스테리시스.
 - 호위병·철벽수호병과 나머지 Tier 3 능력.
 - threat·role·frontline·backline·cluster 의미.
-- stable object ID·위치 양자화·동일 tick resolution order.
+- event ordering·R120 fingerprint.
 
 ### 5.3 영웅·Harness
 
@@ -224,7 +281,7 @@ Headless 실행은 결정론을 자동 보장하지 않는다. 결정론은 고�
 - 고유 2스킬 상태 머신·Trigger·commit payload.
 - warmup·cooldown·READY·Stage 경계 직렬화.
 - 다섯 고유 2스킬 exact 값.
-- Harness fixture/domain/event/fingerprint schema.
+- Harness fixture/domain/event/fingerprint schema implementation.
 - T0~T3 실행 도구와 fixture.
 - A/B/C 표본 수·허용오차·stop-ship 기준.
 - 실제 제품 Scene adapter.
@@ -235,6 +292,7 @@ Headless 실행은 결정론을 자동 보장하지 않는다. 결정론은 고�
 - 영웅 timer·RNG·commit·resolved 상태 직렬화.
 - Harness save round-trip fixture.
 - 영웅 상태 표시와 전투 원인 로그.
+- 배치 provenance 기반 결과 복기 UI.
 - 미션·메타 성장·벨루.
 
 ---
@@ -248,6 +306,7 @@ TECHNICAL_BASELINE_IMPLEMENTED
 + LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 + LATEST_USER_DESIGN_MAIN_CANONICAL
 + DETERMINISTIC_HARNESS_SCOPE_USER_APPROVED
++ COMMON_COMBAT_SCHEMA_USER_APPROVED
 + PRODUCT_CODE_NOT_CHANGED
 + SIMULATION_TOOL_CODE_NOT_AUTHORIZED
 + VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
@@ -263,10 +322,10 @@ TECHNICAL_BASELINE_IMPLEMENTED
 
 ## 7. 다음 Gate
 
-1. `OMW-DEC-20260803-VALIDATION-COMMON-COMBAT-SCHEMA-AND-RESOLUTION-ORDER-V1`을 결정한다.
-2. Unit·Building·Objective 상태 field dictionary를 고정한다.
-3. 피해·방어·보호·상태이상 분류와 동일 tick resolution order를 고정한다.
-4. threat·role·frontline·backline·cluster·위치 양자화를 고정한다.
+1. `OMW-DEC-20260803-VALIDATION-DAMAGE-PROTECTION-AND-STATUS-SEMANTICS-V1`을 결정한다.
+2. 피해 유형·방어·저항·barrier·absorption·health-floor·restore·status 의미를 고정한다.
+3. 같은 tick 보호·피해·죽음·post-hit trigger의 세부 barrier를 고정한다.
+4. exact tick rate·activation policy를 후속 기술 기본값으로 고정한다.
 5. 이후 다섯 영웅 exact Trigger·timer·효과값을 작성한다.
 6. A/B/C 표본 수·허용오차·stop-ship을 결정한다.
 7. 별도 제품·도구 구현 승인 뒤에만 GDScript·Scene·Resource·test를 변경한다.
