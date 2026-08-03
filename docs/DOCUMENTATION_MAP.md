@@ -199,3 +199,19 @@ NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
 CURRENT_PLANNING_PR = NONE
 LAST_MERGED_PLANNING_PR = 129
 ```
+
+## 12. Decision 생명주기 상태 우선순위
+
+Decision 문서의 본문·규칙은 해당 분야 권위지만, **현재 생명주기 상태**는 다음 순서로 판정한다.
+
+```text
+PROJECT_CANON_DECISION_LEDGER.md
+→ ACTIVE_CONTEXT.md
+→ DOCUMENTATION_MAP.md 권한 열
+→ 개별 Decision 문서의 status 필드
+```
+
+- 병합 전 작성된 부모·계보 문서에 `ACTIVE_PLANNING_BRANCH`가 남아 있더라도 원장과 이 Map이 `MAIN_CANONICAL`로 지정하면 현재 상태는 main 정본이다.
+- 개별 문서의 `approved_at`, `refined_at`, 과거 branch 상태는 결정 계보 증거로 보존할 수 있다.
+- 현재 최상위 Trigger·대상·파워 검증 책임 원본은 혼동을 막기 위해 자체 status도 `USER_APPROVED / MAIN_CANONICAL / NOT_IMPLEMENTED`로 교정했다.
+- 이 우선순위는 제품 구현 상태를 바꾸지 않는다. 구현 여부는 `CURRENT_IMPLEMENTATION_STATUS.md`와 실제 product path가 소유한다.
