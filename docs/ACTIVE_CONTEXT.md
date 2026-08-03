@@ -4,7 +4,7 @@
 updated_at: 2026-08-03
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_POWER_VALIDATION_APPROVED
+current_phase: HERO_TRIGGER_TARGET_POWER_MAIN_CANONICAL
 current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
 current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
 current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
@@ -13,25 +13,26 @@ current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPAR
 current_branch: main
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: gpt/omenward-hero-kit-planning-20260802
+working_branch: NONE
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
-latest_planning: USER_APPROVED / ACTIVE_BRANCH_SYNC_REQUIRED / NOT_IMPLEMENTED
+latest_planning: MAIN_CANONICAL / NOT_IMPLEMENTED
 product_code_authority: NONE
 codex_execution: BLOCKED
-last_merged_planning_pr: 127
-current_planning_pr: 129
-current_grill_me_count: 10
+last_merged_planning_pr: 129
+last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
+current_planning_pr: NONE
+current_grill_me_count: 0
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
 planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
 product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
-preflight: REQUIRED_NOW_AT_10_OF_10
+preflight: NEXT_AT_10_OF_10
 simulation: NOT_RUN
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. 승인 기획은 Draft PR #129에 누적하며 제품 구현 권한은 없다.
+`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. PR #129는 squash merge됐으며 위 merge commit은 병합 증거다. 최신 기획은 main 정본이지만 제품 구현 권한이나 완료 증거는 아니다.
 
 ## 1. 제품 정체성·핵심 재미
 
@@ -71,7 +72,7 @@ STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
 ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
 ```
 
-영웅·전설은 이름 지정 여부와 관계없이 상·중·하 전선 전체에서 슬롯 1개를 공유한다. 제한은 획득이 아니라 배치에 적용하며 충돌 토큰은 보관·판매한다.
+영웅·전설은 이름 지정 여부와 관계없이 상·중·하 전선 전체에서 슬롯 1개를 공유한다. 제한은 획득이 아니라 배치에 적용하며 충돌 토큰은 보관·판매한다. 미래 해금 전설 상세와 구현은 현재 범위가 아니다.
 
 ## 3. 초기 5명 고유 2스킬
 
@@ -106,9 +107,6 @@ MAX_STORED_READY_COUNT = 1
 CHARGE_ACCUMULATION = FALSE
 MANA_OR_ENERGY_RESOURCE = FALSE
 COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
-```
-
-```text
 ACTIVE_COMBAT = TIMER_PROGRESS
 MAINTENANCE / PREPARATION / ROULETTE / BUILD = TIMER_PAUSED
 READY_AND_REMAINING_TIME = CARRY_ON_SAME_LIVING_INSTANCE
@@ -122,7 +120,7 @@ UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
 - 미해결 천공 소거·메테오는 취소·사용 소비·full cooldown이다.
 - save/load·Retry 재굴림·READY 복제·payload 이중 해결을 금지한다.
 
-## 5. Trigger·대상 Resolver 현행 정본
+## 5. Trigger·대상 Resolver
 
 ```text
 READY
@@ -144,11 +142,11 @@ HIDDEN_FUTURE_BATTLE_END_ORACLE = FORBIDDEN
 MANUAL_CAST_OR_TARGET = FORBIDDEN
 ```
 
-- 방패병: 전열 압력과 유효 보호 가치가 기준 이상일 때 owner 전열 anchor에 방벽.
-- 궁병: 같은 전선 비행 수·가중 위협도가 기준 이상일 때 합법 비행 표적 Snapshot.
-- 사제: 체력 기준 이하 생존 아군 집합에 회복 없는 하한 보호.
+- 방패병: 전열 압력과 유효 보호 가치.
+- 궁병: 같은 전선 비행 수·가중 위협도와 합법 비행 Snapshot.
+- 사제: 체력 기준 이하 생존 아군 집합과 회복 없는 체력 하한.
 - 마법사: 적중 수 → 총 위협도 → stable 위치 순으로 메테오 지점 결정.
-- 암살자: 공개 역할 우선순위 → 후열 깊이 → 위협도 → stable ID로 분신 Trigger를 검증하며 분신은 독립 재탐색하지 않는다.
+- 암살자: 역할 → 후열 깊이 → 위협도 → stable ID; 분신 독립 재탐색 금지.
 
 책임 원본: `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`.
 
@@ -160,9 +158,7 @@ B = 같은 source archetype의 해금 이름 지정 [영웅]
 C = 같은 계열 표준 [전설]
 ```
 
-동일 source Tier·seed·Stage·건물·다른 두 전선 상태에서 비교한다.
-
-필수 encounter family:
+동일 source Tier·seed·Stage·적 구성·건물·다른 두 전선 상태에서 대표 encounter family를 비교한다.
 
 ```text
 NEUTRAL_MIXED
@@ -177,31 +173,27 @@ SHORT_STAGE
 LATE_COMMIT_BOUNDARY
 ```
 
-통과 방향:
-
 - B는 의도된 encounter에서 A보다 명확히 강해야 한다.
 - C는 대표 encounter 전체 합산 가치에서 B보다 높아야 한다.
 - 한 해금 영웅이 모든 encounter에서 자동 최선이면 실패다.
-- 고등급 한 명이 다른 두 전선의 건물·일반·엘리트 운영을 무의미하게 만들면 실패다.
+- 고등급 한 명이 다른 두 전선 운영을 무의미하게 만들면 실패다.
 - 정확 tolerance·sample size·값은 simulation 계획에서 고정한다.
 
 ## 7. 벤치마크·현업 비교 정책
 
 모든 Grill Me 질문과 승인 작업은 `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`를 적용한다.
 
-이번 Decision은 Riot의 전투 가독성, TFT의 설명 가능한 자동 대상 규칙, Riot balance framework의 일관된 측정·선택 다양성 원칙을 참고했다. 참고 자료는 exact 값 권위가 아니다.
+이번 결정은 Riot의 전투 가독성, TFT의 설명 가능한 자동 대상 규칙, Riot balance framework의 일관된 측정·선택 다양성 원칙을 참고했다. 외부 자료는 exact 값 권위가 아니다.
 
 ## 8. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = MAIN_CANONICAL_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
-UNIQUE_SKILL_2_CONCEPTS = APPROVED
-COMMON_TIMER_POLICY = APPROVED
-TIMER_STAGE_BOUNDARY_POLICY = APPROVED
 PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
 POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
+EXACT_SCHEMA = PENDING
 EXACT_TRIGGER_THRESHOLDS = PENDING
 EXACT_STABILITY_WINDOWS = PENDING
 EXACT_WARMUP_AND_COOLDOWN_SECONDS = PENDING
@@ -213,11 +205,10 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 현재 Gate
+## 9. 다음 Gate
 
 ```text
-GRILL_ME_COUNT = 10/10
-PREFLIGHT = RUN_NOW
+GRILL_ME_COUNT = 0/10
+NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
+NEXT_PRODUCT_GATE = USER_PRIORITY_OR_SIMULATION_PLAN_WITH_SEPARATE_AUTHORIZATION
 ```
-
-latest main·exact-head CI·Sheet read-back·blocker·review·product-path preflight가 Green이면 standing authorization에 따라 PR #129를 별도 승인 대기 없이 병합한다.
