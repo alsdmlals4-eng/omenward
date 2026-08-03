@@ -11,13 +11,13 @@
 - 최신 기획 상태: `USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED`
 - 제품 코드 승인: `NOT_AUTHORIZED`
 - Simulation tool 코드 승인: `NOT_AUTHORIZED`
-- 최신 Vertical Slice 구현: `NOT_STARTED`
+- 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 - 기존 구현: `LEGACY_C1_C2_C3_PROVEN`
 - 최신 자동 계약: `LATEST_AUTOMATED_CONTRACTS_NOT_RUN`
 - Simulation 실행: `NOT_RUN`
 - Runtime 검증: `NOT_RUN`
 - 사람 검증: `HUMAN_QA_NOT_RUN`
-- Core Lock: `NOT_ALLOWED`
+- Core Lock: `CORE_LOCK_NOT_ALLOWED`
 
 이 문서는 사용자 승인 기획·현재 제품 구현·기존 실행 증거를 분리한다. 문서·PR·Sheet에 정본이 존재해도 제품·도구 구현 또는 검증 완료를 의미하지 않는다.
 
@@ -81,6 +81,12 @@ Migration 필요:
 LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 + LATEST_ROULETTE_MIGRATION_REQUIRED
 ```
+
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+
+C1 최종 검증 run: `29926598807`
+
+이 Legacy C1 증거는 V2 구현 완료를 뜻하지 않는다.
 
 ### Legacy C2 — 전장
 
