@@ -1,245 +1,156 @@
 # Active Context
 
 ```yaml
-updated_at: 2026-08-03
+updated_at: 2026-08-04
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: IMPLEMENTATION_STATUS_AND_PENDING_REFRESH
-current_recovery_decision: OMW-DEC-20260802-CANON-RECOVERY-V1
-current_planning_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
-current_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
-current_world_decision: OMW-DEC-20260802-WORLD-VEILSPECIES-PURPOSE-V1
-current_operating_decision: OMW-DEC-20260802-GRILL-ME-MERGE-CADENCE-V1
-current_benchmark_policy: OMW-PROC-20260803-GRILL-ME-BENCHMARK-PRODUCTION-COMPARISON-V1
+current_phase: PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_APPROVED
+current_planning_decision: OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
+current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
 current_branch: main
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: gpt/omenward-status-pending-refresh-20260803-v2
+working_branch: gpt/omenward-simulation-harness-planning-20260803
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
-latest_planning: MAIN_CANONICAL / NOT_IMPLEMENTED
+latest_planning: USER_APPROVED / ACTIVE_PLANNING_BRANCH / NOT_IMPLEMENTED
 product_code_authority: NONE
-codex_execution: BLOCKED
-last_merged_planning_pr: 129
-last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
-last_maintenance_pr: 131
-last_maintenance_commit: 8ecbb78df47813a6332963db16d235131e65981a
-current_planning_pr: PENDING_CREATION
-current_grill_me_count: 0
+art_asset_production_authority: NONE
+image_generation: STOPPED_BY_USER
+codex_execution: BLOCKED_UNTIL_PLANNING_PREFLIGHT
+current_grill_me_count: 10
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
-planning_docs_merge_policy: AUTO_PROCEED_AFTER_GREEN_PREFLIGHT_UNDER_STANDING_USER_AUTHORIZATION
-product_code_merge_policy: OUT_OF_SCOPE_REQUIRES_SEPARATE_CONTRACT
-preflight: MAINTENANCE_SYNC_REQUIRED
+preflight: REQUIRED_NOW_AT_10_OF_10
 simulation: NOT_RUN
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-`current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 실행 시점에 해석한다. PR #129는 squash merge됐고 PR #130이 post-merge 상태를, PR #131이 Decision 생명주기 우선순위를 동기화했다. 최신 기획은 main 정본이지만 제품 구현 권한이나 완료 증거는 아니다.
+`current_main`과 `context_baseline_commit`은 실행 시점 저장소에서 해석한다.
 
-## 1. 제품 정체성·핵심 재미
+## 1. 프로젝트 코어
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
 ```text
 예고된 세 전선 공세 읽기
-→ 제한된 건물·TokenSource로 룰렛 설계
-→ 가로·세로 이동과 확정으로 결과 조작
-→ 병력 보관·판매·획득
-→ 어느 전선에 비가역 배치할지 판단
-→ 자동전투·점령·건물 운영으로 전황 역전
-→ 다음 Stage 설계에 환류
+→ 제한된 건물·TokenSource로 세 원형 릴 설계
+→ 릴·행 이동과 회전 결과 확정
+→ 보관·판매·한 전선 비가역 배치
+→ 자동전투·점령·건물 운영
+→ 결과 원인 복기
+→ 다음 Stage 설계
 ```
 
-핵심 시스템은 공세 예측, 건물·병영·금고 기반 토큰 구조, SpinSnapshot 룰렛 조작, 보관·판매·비가역 전선 배치, 세 전선 자동전투·점령·거점 운영이다.
+전체 시스템 Vertical Slice 정본은 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다. 최신 HUD·자원·상인·건물 역할은 Decision 9가, 최신 시각 문법은 Decision 10이 우선한다.
 
-보조 시스템은 골드·식량·보관함, 건설·업그레이드·수리·파괴, 병영 Tier 패시브와 룰렛 등급 성장, 20 Stage MapRun·Wave·정비시간·checkpoint, 미션·메타 해금·벨루·UI·아트·오디오다.
-
-전체 시스템 권위는 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`, 적대적 검토 계보는 `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`다.
-
-룰렛 통제감 Evidence Pilot은 `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`이며 상태는 정확히 `PILOT_RECOMMENDATION / NOT_CANON`이다. Evidence Pilot은 현행 APPROVED 정본을 자동 변경하지 않는다.
-
-## 2. 등급·전역 슬롯
+## 2. GPT와 Codex 역할
 
 ```text
-[일반] = 1스킬
-[엘리트] = 강화된 1스킬
-[영웅] = 강화된 1스킬 + 표준 2스킬
-해금 이름 지정 [영웅] = 강화된 1스킬 + 고유 2스킬
-[전설] = 강화된 1스킬 + 강화된 표준 2스킬 + 표준 3스킬
-향후 해금 이름 지정 [전설] = 강화된 1스킬 + 강화된 표준 2스킬 + 고유 3스킬
+GPT / Work
+= 핵심 재미·플레이 동기·콘텐츠 기획·플레이어 규칙·UX·이미지·아트 방향·검수 기준
+
+Codex
+= 자료구조·알고리즘·좌표·경로탐색·물리·성능·코드·테스트 구현
 ```
+
+GPT 우선순위는 핵심 재미 → 콘텐츠 구조 → UX·이미지·아트 → 구현 결과 조건이다. Codex 구현이 플레이어 경험과 기획 역할을 바꾸면 다시 Grill Me 승인을 받는다.
+
+## 3. 승인된 Planning Stack
 
 ```text
-STANDARD_HERO_POWER < UNLOCKED_NAMED_HERO_POWER < STANDARD_LEGENDARY_POWER
-ACTIVE_UNIT_COUNT_WHERE_GRADE_IN(HERO, LEGENDARY) <= 1
+1. Deterministic outcome·provenance requirement
+2. Common combat behavior and same-tick fairness intent
+3. Damage·Protection·Status player-facing semantics
+4. Mitigation·Barrier·Status design defaults
+5. Combat tempo·spawn readability intent
+6. Modifier readability·stacking guard intent
+7. Combat space·route·targeting experience
+8. Battlefield visual hierarchy·camera·information density
+9. Combat HUD·roulette information·resources·merchant·building roster
+10. Pixel·illustration hybrid art direction and asset lineage
 ```
 
-영웅·전설은 이름 지정 여부와 관계없이 상·중·하 전선 전체에서 슬롯 1개를 공유한다. 제한은 획득이 아니라 배치에 적용하며 충돌 토큰은 보관·판매한다. 미래 해금 전설 상세와 구현은 현재 범위가 아니다.
+Decision 10 책임 원본:
 
-## 3. 초기 5명 고유 2스킬
+`design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md`
+
+## 4. Decision 9 — HUD·룰렛·자원·상인·건물
 
 ```text
-shield_guard / 방패병 → 불퇴의 성벽
-archer / 궁병         → 천공 소거
-priest / 사제         → 생명의 서약
-mage / 마법사         → 메테오
-assassin / 암살자     → 그림자 분신
+평상시 하단 = [룰렛] [보관함] [건설] [전술스킬] [벨루]
+핵심 자원 = 골드 / 마석 / 배치 병력·병력 한도
+이동권 = 룰렛 패널 내부 n/3 + 럭키 무료 이동
+상인 = Stage 종료 정비시간
+건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
+지휘소 = 현재 MapRun 전체 아군 병력 오라
 ```
 
-- 방벽은 지형·navmesh를 만들지 않는 전열 피해 흡수 사건이다.
-- 천공 소거는 같은 전선 비행 표적 Snapshot을 동시 공격한다.
-- 생명의 서약은 회복 없는 짧은 체력 하한 보호다.
-- 메테오는 deterministic 적 군집 지점을 예고 후 단발 타격한다.
-- 분신은 독립 AI 없이 원본 표적과 기본 공격 일부를 종속 복제하는 proxy 1체다.
+룰렛 작업대는 낮고 가로로 길며 좌측 규칙, 중앙 3×3 보드와 이동 화살표, 우측 회전·결과·벨루로 구성한다.
 
-## 4. 공통 cooldown·Stage 정책
+## 5. Decision 10 — 최종 아트 방향
 
 ```text
-INITIAL_WARMUP
-→ READY_WAITING_FOR_VALID_CONDITION
-→ CAST_PRECHECK
-→ CAST_COMMIT
-→ RESOLUTION_OR_ACTIVE_EFFECT
-→ COOLDOWN
-→ READY
+STYLE = PIXEL_ILLUSTRATION_HYBRID
+MOOD = FAIRYTALE_HOLY_FANTASY_VS_VEIL_GOTHIC
+BATTLEFIELD = PIXEL_READABILITY + ILLUSTRATED_MATERIAL_AND_LIGHT
+CLOSEUP_UI = ILLUSTRATION_FORWARD
 ```
+
+- 전장에서는 먼 카메라 가독성과 역할 실루엣을 우선한다.
+- 보상·도감·벨루에서는 일러스트의 재질·표정·동화 감성을 강화한다.
+- 아군은 상아·청색·절제된 금색, Veil은 흑색·심자색·적자색을 사용한다.
+- Veil은 아군 자산의 단순 재도색이 아니라 비대칭·가시·유기 고딕 형태를 사용한다.
+- Tier 상승은 색 변경이나 몸집 확대가 아니라 장비·자세·실루엣·역할 판타지로 표현한다.
+
+룰렛 자산:
 
 ```text
-MAX_STORED_READY_COUNT = 1
-CHARGE_ACCUMULATION = FALSE
-MANA_OR_ENERGY_RESOURCE = FALSE
-COOLDOWN_DURING_ACTIVE_EFFECT = FALSE
-ACTIVE_COMBAT = TIMER_PROGRESS
-MAINTENANCE / PREPARATION / ROULETTE / BUILD = TIMER_PAUSED
-READY_AND_REMAINING_TIME = CARRY_ON_SAME_LIVING_INSTANCE
-ACTIVE_EFFECT_STAGE_CARRY = FORBIDDEN
-UNRESOLVED_COMMIT_STAGE_CARRY = FORBIDDEN
+금화 토큰 = 인게임 금화 이미지
+병종 토큰 = 인게임 T1·T2 병종 이미지
+T3 병종 토큰 = 금지
+결과 보상 = 실제 지급 병종 이미지
+별도 금화·병종 토큰 아이콘 제작 = 금지
 ```
 
-- commit 전 무효화는 READY 복귀·cooldown 0이다.
-- Stage·Act 전환은 timer 초기화 지점이 아니다.
-- owner-bound effect는 전투 종료 시 정리하고 full cooldown으로 들어간다.
-- 미해결 천공 소거·메테오는 취소·사용 소비·full cooldown이다.
-- save/load·Retry 재굴림·READY 복제·payload 이중 해결을 금지한다.
-
-## 5. Trigger·대상 Resolver
+## 6. 이미지·제작 경계
 
 ```text
-READY
-→ public trigger
-→ same-lane legal filter
-→ public priority score
-→ data-driven stability window
-→ stable ID / stable position tie-break
-→ CAST_PRECHECK
-→ immutable CAST_COMMIT snapshot
+IMAGE_GENERATION = STOPPED_BY_USER
+EXISTING_GENERATED_IMAGES = SELECTION_EVIDENCE_AND_LAYOUT_REFERENCE_ONLY / NOT_CANON_ASSETS
+ART_ASSET_PRODUCTION = NOT_AUTHORIZED
 ```
+
+사용자가 별도로 제작 재개를 지시하기 전까지 추가 이미지·애니메이션·VFX 자산을 만들지 않는다.
+
+## 7. 적대적 감사 계보
 
 ```text
-PUBLIC_TRIGGER_RULE = REQUIRED
-PUBLIC_TARGET_PRIORITY = REQUIRED
-DETERMINISTIC_TIE_BREAK = REQUIRED
-ARBITRARY_FALLBACK_RETARGET = FORBIDDEN
-HIDDEN_FUTURE_BATTLE_END_ORACLE = FORBIDDEN
-MANUAL_CAST_OR_TARGET = FORBIDDEN
+OMW-AUD-208~289 = Decisions 1~6 and maintenance
+OMW-AUD-290~299 = planning boundary and combat-space readability
+OMW-AUD-300~313 = battlefield visual hierarchy·camera·core-fun priority
+OMW-AUD-314~343 = HUD·roulette·resources·merchant·building and asset reuse
+OMW-AUD-344~359 = pixel·illustration hybrid art direction integrity
 ```
 
-- 방패병: 전열 압력과 유효 보호 가치.
-- 궁병: 같은 전선 비행 수·가중 위협도와 합법 비행 Snapshot.
-- 사제: 체력 기준 이하 생존 아군 집합과 회복 없는 체력 하한.
-- 마법사: 적중 수 → 총 위협도 → stable 위치 순으로 메테오 지점 결정.
-- 암살자: 역할 → 후열 깊이 → 위협도 → stable ID; 분신 독립 재탐색 금지.
-
-책임 원본: `design/APPROVED_OMENWARD_HERO_UNIQUE_SKILL_2_TRIGGER_TARGET_AND_POWER_BUDGET_VALIDATION_2026-08-03.md`.
-
-## 6. 파워 위계 검증
-
-```text
-A = 표준 [영웅]
-B = 같은 source archetype의 해금 이름 지정 [영웅]
-C = 같은 계열 표준 [전설]
-```
-
-동일 source Tier·seed·Stage·적 구성·건물·다른 두 전선 상태에서 대표 encounter family를 비교한다.
-
-```text
-NEUTRAL_MIXED
-FRONTLINE_PRESSURE
-FLYING_HEAVY
-ALLY_BURST_CRISIS
-DENSE_ENEMY_CLUSTER
-DISPERSED_ENEMY_FORMATION
-HIGH_VALUE_BACKLINE
-LONG_ATTRITION
-SHORT_STAGE
-LATE_COMMIT_BOUNDARY
-```
-
-- B는 의도된 encounter에서 A보다 명확히 강해야 한다.
-- C는 대표 encounter 전체 합산 가치에서 B보다 높아야 한다.
-- 한 해금 영웅이 모든 encounter에서 자동 최선이면 실패다.
-- 고등급 한 명이 다른 두 전선 운영을 무의미하게 만들면 실패다.
-- 정확 tolerance·sample size·값은 simulation 계획에서 고정한다.
-
-## 7. 구현·검증 추적 정본
-
-`CURRENT_IMPLEMENTATION_STATUS.md`와 `DECISIONS_PENDING.md`는 이번 sync에서 다음 상태로 교정한다.
-
-```text
-MAIN_CANONICAL_NOT_IMPLEMENTED
-EXACT_SCHEMA = PENDING
-EXACT_THRESHOLDS_AND_VALUES = PENDING
-SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
-SIMULATION = NOT_RUN
-RUNTIME = NOT_RUN
-HUMAN_QA = NOT_RUN
-```
-
-현재 우선순위:
-
-```text
-P0 = deterministic simulation harness 범위·재현성·입출력 계약
-P1 = 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
-P2 = 다섯 해금 영웅 exact Trigger·timer·효과값
-P3 = A/B/C 통과선·표본 수·stop-ship 기준
-P4 = 100,000시드 룰렛·경제 simulation 계약
-P5 = checkpoint·save schema
-P6 = 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
-```
-
-## 8. 벤치마크·현업 비교 정책
-
-모든 Grill Me 질문과 승인 작업은 `process/APPROVED_GRILL_ME_BENCHMARK_AND_PRODUCTION_COMPARISON_POLICY_2026-08-03.md`를 적용한다.
-
-외부 자료는 exact OMENWARD 값 권위가 아니며 직접 비교 사례가 없으면 `DIRECT_COMPARABLE_NOT_FOUND`를 기록한다.
-
-## 9. 구현·검증 경계
+## 8. 구현·검증 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = MAIN_CANONICAL_NOT_IMPLEMENTED
+LATEST_APPROVED = PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
-PUBLIC_TRIGGER_TARGET_RESOLVER = APPROVED_CONCEPT
-POWER_VALIDATION_MATRIX = APPROVED_CONCEPT
-EXACT_SCHEMA = PENDING
-EXACT_TRIGGER_THRESHOLDS = PENDING
-EXACT_STABILITY_WINDOWS = PENDING
-EXACT_WARMUP_AND_COOLDOWN_SECONDS = PENDING
-EXACT_DURATIONS_AND_VALUES = PENDING
-ASSETS = NOT_CREATED
-SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
+SIMULATION_TOOL_CODE = NOT_AUTHORIZED
+ART_ASSET_PRODUCTION = NOT_AUTHORIZED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 10. 다음 Gate
+## 9. 다음 Gate
 
 ```text
-GRILL_ME_COUNT = 0/10
-CURRENT_MAINTENANCE_SYNC = OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
-NEXT_GRILL_ME_DECISION = OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
-NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
-NEXT_PRODUCT_GATE = SEPARATELY_AUTHORIZED_SIMULATION_PLAN
+GRILL_ME_COUNT = 10/10
+NEXT_ACTION = FRESH_PREFLIGHT_AND_ADVERSARIAL_REVIEW
+NEXT_PLANNING = CORE_FUN_AND_CONTENT_DEEPENING_AFTER_CANON_SYNC
+NEXT_IMPLEMENTATION = SEPARATELY_AUTHORIZED_CODEX_HANDOFF
 ```

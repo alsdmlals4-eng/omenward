@@ -1,102 +1,87 @@
 # OMENWARD 프로젝트 Google Sheets Workbook
 
 ```yaml
-updated_at: 2026-08-03
+updated_at: 2026-08-04
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 spreadsheet_title: 오멘워드(OMENWARD)
 workspace_role: USER_FACING_GDD_WORKSPACE
 change_protocol: PROPOSED_SHEET_CHANGE
-current_decision: OMW-DEC-20260803-GAMEPLAY-HERO-UNIQUE-SKILL-2-TRIGGER-TARGET-AND-POWER-BUDGET-VALIDATION-V1
-current_sync: OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-last_merged_planning_pr: 129
-last_merged_planning_commit: 173a408eb7b89992a81165438d97946167db0e14
-last_maintenance_pr: 131
-last_maintenance_commit: 8ecbb78df47813a6332963db16d235131e65981a
-current_planning_pr: PENDING_CREATION
-current_branch: gpt/omenward-status-pending-refresh-20260803-v2
-current_pr_head: RESOLVE_FROM_PR
-status: PROJECT_SHEET_CONFIGURED / MAINTENANCE_SYNC_PENDING / COUNTER_0_OF_10
+sheet_status: PROJECT_SHEET_CONFIGURED
+current_decision: OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
+current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
+current_grill_me_count: 10_OF_10
 product_code_authority: NONE
+art_asset_production_authority: NONE
+image_generation: STOPPED_BY_USER
 ```
 
-이 문서는 GitHub 정본과 연결 Google Sheet의 동기화 계약을 소유한다. 연결 Sheet는 기획자가 읽고 운영하는 `USER_FACING_GDD_WORKSPACE`다. 모든 변경은 정본 Decision 또는 Sync ID와 근거를 먼저 갖춘 `PROPOSED_SHEET_CHANGE`로 취급한 뒤 read-back과 CI를 통과해야 동기화 완료로 기록한다.
+## 1. 역할
 
-## 1. 유지보수 Sync
+GitHub APPROVED 문서가 기획 정본이며 Sheet는 사용자 가시 GDD·근거·감사·이미지 계획 Workspace다. 승인 변경은 같은 Decision ID와 exact PR HEAD로 기록한다.
+
+## 2. Decision 10 Sheet 동기화 계약
+
+Decision ID:
+
+`OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1`
+
+반영 내용:
 
 ```text
-OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
+STYLE = PIXEL_ILLUSTRATION_HYBRID
+MOOD = FAIRYTALE_HOLY_FANTASY_VS_VEIL_GOTHIC
+BATTLEFIELD = PIXEL_READABILITY + ILLUSTRATED_MATERIAL_AND_LIGHT
+CLOSEUP_UI = ILLUSTRATION_FORWARD
+ALLY = IVORY / BLUE / RESTRAINED_GOLD
+VEIL = CHARCOAL / DEEP_PURPLE / CRIMSON / ASYMMETRIC_GOTHIC
 ```
 
-목적:
+룰렛 자산:
 
-- `CURRENT_IMPLEMENTATION_STATUS.md`를 2026-08-03 main 영웅 정본에 맞춘다.
-- `DECISIONS_PENDING.md`에 영웅·전설 exact schema·Trigger·timer·효과값·simulation·save 항목을 추가한다.
-- 다음 제품 Gate를 deterministic simulation harness 설계로 고정한다.
-- 제품 구현과 시뮬레이션 실행은 승인하지 않는다.
-- Grill Me 카운터는 `0/10`으로 유지한다.
+```text
+GOLD_TOKEN_ART = IN_GAME_GOLD_IMAGE
+TROOP_TOKEN_ART = IN_GAME_T1_T2_TROOP_IMAGE
+T3_TROOP_TOKEN = FORBIDDEN
+RESULT_REWARD_ART = ACTUAL_REWARDED_TROOP_IMAGE
+SEPARATE_GOLD_OR_TROOP_TOKEN_ICON_PRODUCTION = FORBIDDEN
+```
 
-## 2. Sheet 반영 범위
+## 3. 탭별 반영 의미
 
-| 목적 | 범위 |
+| 탭 | 반영 내용 |
 |---|---|
-| 프로젝트 Hub·현재 Sync·다음 Gate | `00_프로젝트_허브!E2:L2` |
-| 유지보수 작업순서 | `01_작업순서!A40:N40` |
-| 비카운트 Sync 상태 | `02_현재_확정결정!A48:M48` |
-| 정본 불일치·보완 감사 | `04_누락_충돌_감사!A205:H207` |
-| GDD 상태·우선순위 요약 | `05_GDD_요약!B8:J9` |
-| 변경 이력 | `99_변경이력!A52:H52` |
+| `00_프로젝트_허브` | 10/10·Decision·PR HEAD·preflight 상태 |
+| `01_작업순서` | Decision 10 완료와 preflight 단계 |
+| `02_현재_확정결정` | 픽셀·일러스트 하이브리드 최종 아트 정본 |
+| `03_근거_라이브러리` | 사용자 제공 병종 이미지·스타일 비교 선택·기존 전장/HUD 근거 |
+| `04_누락_충돌_감사` | `OMW-AUD-344~359` |
+| `05_GDD_요약` | 최종 아트 방향과 10/10 상태 |
+| `12_핵심루프` | 전장 가독성과 룰렛·보상 자산 계보가 핵심 루프를 지원하는 방식 |
+| `40_핵심시스템_메인콘텐츠` | 병종 Tier·등급·Veil·건물 6종 시각 문법 |
+| `50_메인콘텐츠` | 전장·병종·건물·영웅·전설 콘텐츠 표현 |
+| `60_UX_UI_접근성` | 픽셀 가독성·일러스트 근접 정보·UI 장식 제한 |
+| `70_아트_오디오_에셋` | 최종 색·재질·실루엣·VFX·벨루·자산 우선순위 |
+| `71_이미지기획_생성목록` | 스타일 4 선택 기록·비교 이미지는 비정본·추가 생성 중단 |
+| `99_변경이력` | Decision·HEAD·10/10·CI·preflight 기록 |
 
-기존 PR #129~#131 Decision·근거·감사·병합 행은 보존한다.
+## 4. Bounded Read-Back
 
-## 3. 감사 항목
+쓰기 후 다음을 다시 읽는다.
 
-```text
-OMW-AUD-205
-→ CURRENT_IMPLEMENTATION_STATUS가 2026-07-27에 고정되어 최신 영웅 main 정본을 추적하지 못함
+- Decision ID와 exact PR HEAD.
+- `10/10` 상태.
+- 픽셀·일러스트 하이브리드 표현.
+- 아군·Veil 색·형태 문법.
+- T1·T2 토큰 재사용과 T3 토큰 금지.
+- 실제 지급 병종 결과 이미지.
+- 건물 6종 실루엣과 벨루 일러스트 우선.
+- 이미지 생성 중단·비정본 참고 이미지 상태.
+- 감사 `OMW-AUD-344~359` 연속성.
+- CI와 blocker 상태.
 
-OMW-AUD-206
-→ DECISIONS_PENDING에 영웅 Trigger·timer·효과값·simulation·save 미확정 항목이 누락됨
+일치 전에는 `READBACK_PASS`를 기록하지 않는다.
 
-OMW-AUD-207
-→ 제품 구현 전에 deterministic harness와 공통 combat schema를 먼저 확정하지 않으면 값 재작업과 비결정성 위험이 큼
-```
-
-세 항목은 이번 Sync에서 추적 문서와 라우터를 교정해 해소한다. exact simulation schema와 값 자체는 후속 Grill Me Decision에 남긴다.
-
-## 4. 다음 Gate
-
-```text
-NEXT_GRILL_ME_DECISION
-= OMW-DEC-20260803-VALIDATION-DETERMINISTIC-SIMULATION-HARNESS-SCOPE-V1
-```
-
-```text
-P0 = deterministic simulation harness 범위·재현성·입출력 계약
-P1 = 전체 병종 공통 전투 schema와 피해·방어·위협도 기준
-P2 = 다섯 해금 영웅 exact Trigger·timer·효과값
-P3 = A/B/C 통과선·표본 수·stop-ship 기준
-P4 = 100,000시드 룰렛·경제 simulation 계약
-P5 = checkpoint·save schema
-P6 = 첫 제품 구현 패키지·Red tests·회귀·롤백 계획
-```
-
-## 5. 쓰기·검증 절차
-
-```text
-1. 대상 범위 bounded read
-2. 기존 PR #129~#131 행 보존 확인
-3. Sync ID·감사·P0~P6·PR exact HEAD batch update
-4. 동일 범위 bounded read-back
-5. maintenance PR exact-head CI 3종 확인
-6. latest main compare
-7. changed path·review·thread 확인
-8. OPEN_P0·OPEN_P1·MERGE_BLOCKER 검색
-9. maintenance PR 병합
-10. final main과 Sheet 상태 재확인
-```
-
-## 6. 필수 CI
+## 5. 필수 CI
 
 ```text
 Validate Project Core Documentation
@@ -104,11 +89,11 @@ Validate Omenward GDD Sheet Adoption
 Validate Base v9 adoption
 ```
 
-모두 maintenance PR exact HEAD에서 `success`여야 한다.
+모두 PR exact HEAD에서 `success`여야 한다.
 
-## 7. blocker 검색
+## 6. Blocker 검색
 
-`04_누락_충돌_감사!A1:H300`에서 다음 문자열의 실제 데이터 행을 검색한다.
+`04_누락_충돌_감사`에서 다음 실제 데이터 행을 검색한다.
 
 ```text
 OPEN_P0
@@ -118,27 +103,23 @@ MERGE_BLOCKER
 
 헤더 외 일치 행이 없어야 한다.
 
-## 8. 경계
+## 7. 상태 표기
 
 ```text
-CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = MAIN_CANONICAL_NOT_IMPLEMENTED
+SHEET_SYNC = SYNCED_TO_PR_HEAD_AFTER_WRITE_AND_READBACK
 PRODUCT_CODE = UNCHANGED
-SHEET_WRITES = PLANNING_DATA_ONLY
-EXACT_SCHEMA_AND_VALUES = PENDING
-SIMULATION_PLAN = REQUIRED_BEFORE_IMPLEMENTATION
+SIMULATION_TOOL_CODE = NOT_AUTHORIZED
+ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+IMAGE_GENERATION = STOPPED_BY_USER
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 카운터·운영 상태
+## 8. 운영 Gate
 
 ```text
-GRILL_ME_COUNT = 0/10
-CURRENT_MAINTENANCE_SYNC = OMW-SYNC-20260803-IMPLEMENTATION-STATUS-AND-PENDING-REFRESH-V1
-NEXT_PREFLIGHT = AFTER_10_MORE_APPROVED_GRILL_ME_DECISIONS
-CURRENT_PLANNING_PR = PENDING_CREATION
-LAST_MERGED_PLANNING_PR = 129
-LAST_MAINTENANCE_PR = 131
+GRILL_ME_COUNT = 10/10
+NEXT_PREFLIGHT = NOW
+MERGE = ONLY_AFTER_FRESH_GREEN_AND_ZERO_BLOCKERS
 ```
