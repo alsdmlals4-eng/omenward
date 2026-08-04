@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Validate OMENWARD current Vertical Slice documentation contracts.
-
-The active authority moved from the earlier V2 minimum-slice package to the
-2026-07-27 full-system Vertical Slice contract. Historical V2 documents remain
-required as lineage and detailed-rule evidence, but they no longer own current
-product status.
-"""
+"""Validate OMENWARD current documentation contracts and lifecycle boundaries."""
 from __future__ import annotations
 
 import pathlib
@@ -16,11 +10,17 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_SPEC = "docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md"
 CURRENT_REVIEW = "docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md"
+CURRENT_CORE_REVIEW = "docs/reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md"
+CURRENT_CORE_FUN = "docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md"
+CURRENT_GDD = "docs/OMENWARD_GDD_CURRENT_CANON.md"
+LIFECYCLE_REGISTRY = "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+LIFECYCLE_POLICY = "docs/process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md"
 EVIDENCE_PILOT = "docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md"
 LEDGER = "docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md"
 LEGENDARY_DEPLOYMENT_POLICY = "docs/design/APPROVED_V2_LEGENDARY_DEPLOYMENT_LIMIT_2026-07-26.md"
 ROULETTE_RULES = "docs/design/APPROVED_ROULETTE_CORE_RULES.md"
 MAPRUN_RULES = "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
+DYNAMIC_CURRENT_REF = "RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH"
 
 REQUIRED_FILES = (
     "README.md",
@@ -30,9 +30,14 @@ REQUIRED_FILES = (
     "docs/ACTIVE_CONTEXT.md",
     "docs/HANDOFF_CONTEXT.md",
     "docs/DOCUMENTATION_MAP.md",
+    LIFECYCLE_REGISTRY,
+    LIFECYCLE_POLICY,
+    CURRENT_GDD,
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
+    CURRENT_CORE_FUN,
+    CURRENT_CORE_REVIEW,
     CURRENT_SPEC,
     CURRENT_REVIEW,
     EVIDENCE_PILOT,
@@ -46,6 +51,7 @@ REQUIRED_FILES = (
 CURRENT_ROUTE_FILES = (
     "docs/PROJECT_CORE.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    CURRENT_GDD,
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/DECISIONS_PENDING.md",
     "docs/DOCUMENTATION_MAP.md",
@@ -58,6 +64,8 @@ CORE_MARKERS = (
     "VERTICAL_SLICE_NOT_IMPLEMENTED",
     "LEGACY_C1_C2_C3_PROVEN",
     "HUMAN_QA_NOT_RUN",
+    "골드 / 마석 / 배치 병력·병력 한도 / 이동권",
+    "금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑",
 )
 
 STATUS_MARKERS = (
@@ -122,10 +130,35 @@ LEGENDARY_POLICY_MARKERS = (
     "AUTO_DOWNGRADE_WITHOUT_CONSENT: FORBIDDEN",
 )
 
+LIFECYCLE_MARKERS = (
+    "[현행]",
+    "[대체됨]",
+    "[보류]",
+    "[폐기]",
+    "[증거]",
+    "OMENWARD_GDD_CURRENT_CANON.md",
+)
+
+CORE_FUN_MARKERS = (
+    "예고된 압력",
+    "제작한 확률",
+    "비가역 전선 커밋",
+    "설명 가능한 결과",
+    "MASS",
+    "ARMORED",
+    "FLYING",
+    "INFILTRATION",
+    "SIEGE",
+)
+
 PREMATURE_EXACT_STATES = (
     "VERTICAL_SLICE_PROVEN",
     "MVP_COMPLETE",
     "CORE_LOCK",
+)
+
+LEGACY_CORE_MARKERS = (
+    "storage_selling_food",
 )
 
 
@@ -154,12 +187,19 @@ def link_exists(root: pathlib.Path, source_relative: str, target: str) -> bool:
     return False
 
 
+def has_fixed_sha_field(text: str, field: str) -> bool:
+    return bool(re.search(rf"(?m)^{re.escape(field)}:\s*[0-9a-f]{{40}}\s*$", text))
+
+
 def validate(root: pathlib.Path = ROOT) -> list[str]:
     errors: list[str] = []
 
     for relative in REQUIRED_FILES:
         if not (root / relative).is_file():
-            errors.append(f"missing required file: {relative}")
+            if relative == LIFECYCLE_REGISTRY:
+                errors.append(f"missing lifecycle registry: {relative}")
+            else:
+                errors.append(f"missing required file: {relative}")
     if errors:
         return errors
 
@@ -167,6 +207,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     status = read(root, "docs/CURRENT_IMPLEMENTATION_STATUS.md")
     spec = read(root, CURRENT_SPEC)
     review = read(root, CURRENT_REVIEW)
+    core_review = read(root, CURRENT_CORE_REVIEW)
+    core_fun = read(root, CURRENT_CORE_FUN)
+    current_gdd = read(root, CURRENT_GDD)
+    legacy_gdd = read(root, "docs/OMENWARD_GAME_DESIGN.md")
+    lifecycle = read(root, LIFECYCLE_REGISTRY)
+    policy = read(root, LIFECYCLE_POLICY)
     pilot = read(root, EVIDENCE_PILOT)
     ledger = read(root, LEDGER)
     legendary = read(root, LEGENDARY_DEPLOYMENT_POLICY)
@@ -186,9 +232,15 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors.append(f"V2 decision lineage missing contract: {value}")
     for value in missing(legendary, LEGENDARY_POLICY_MARKERS):
         errors.append(f"legendary deployment policy missing contract: {value}")
+    for value in missing(lifecycle, LIFECYCLE_MARKERS):
+        errors.append(f"document lifecycle registry missing marker: {value}")
+    for value in missing(core_fun, CORE_FUN_MARKERS):
+        errors.append(f"core fun guardrails missing marker: {value}")
 
     if "BLOCKER" not in review or "제품 코드" not in review:
         errors.append("current adversarial review missing blocker or product-code boundary")
+    if "BLOCKER" not in core_review or "PRODUCT_CODE" not in core_review:
+        errors.append("current core adversarial review missing blocker or product-code boundary")
 
     for relative in CURRENT_ROUTE_FILES:
         if pathlib.PurePosixPath(CURRENT_SPEC).name not in read(root, relative):
@@ -196,17 +248,40 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
 
     if pathlib.PurePosixPath(CURRENT_REVIEW).name not in docmap:
         errors.append("documentation map does not route current adversarial review")
+    if pathlib.PurePosixPath(CURRENT_CORE_REVIEW).name not in docmap:
+        errors.append("documentation map does not route current core adversarial review")
     if pathlib.PurePosixPath(EVIDENCE_PILOT).name not in docmap:
         errors.append("documentation map does not route Evidence Pilot")
     if "PILOT_RECOMMENDATION / NOT_CANON" not in docmap:
         errors.append("documentation map does not preserve Pilot non-canon boundary")
+    if pathlib.PurePosixPath(LIFECYCLE_REGISTRY).name not in docmap:
+        errors.append("documentation map does not route lifecycle registry")
+    if pathlib.PurePosixPath(CURRENT_GDD).name not in docmap:
+        errors.append("documentation map does not route current GDD")
 
     if "current_branch: main" not in active_context:
         errors.append("ACTIVE_CONTEXT missing current_branch: main")
-    if "context_baseline_commit" not in active_context:
-        errors.append("ACTIVE_CONTEXT missing context_baseline_commit")
+    if f"current_main: {DYNAMIC_CURRENT_REF}" not in active_context or has_fixed_sha_field(
+        active_context, "current_main"
+    ):
+        errors.append("ACTIVE_CONTEXT current_main must resolve dynamically")
+    if f"context_baseline_commit: {DYNAMIC_CURRENT_REF}" not in active_context or has_fixed_sha_field(
+        active_context, "context_baseline_commit"
+    ):
+        errors.append("ACTIVE_CONTEXT context_baseline_commit must resolve dynamically")
     if "current_branch_and_commit" in active_context:
         errors.append("ACTIVE_CONTEXT restored forbidden self-referential branch/commit field")
+    if DYNAMIC_CURRENT_REF not in policy:
+        errors.append("dynamic current-main policy missing repository-default resolution")
+
+    if "[대체됨]" not in legacy_gdd:
+        errors.append("legacy GDD missing [대체됨] lifecycle marker")
+    if "CURRENT_GDD_CANON" not in current_gdd:
+        errors.append("current GDD missing current authority marker")
+
+    for marker in LEGACY_CORE_MARKERS:
+        if marker in core:
+            errors.append(f"PROJECT_CORE contains forbidden legacy core marker: {marker}")
 
     if "노출 인덱스" not in roulette or "cursor" not in roulette:
         errors.append("roulette horizontal movement contract incomplete")
@@ -224,9 +299,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "docs/CURRENT_IMPLEMENTATION_STATUS.md",
         "docs/ACTIVE_CONTEXT.md",
         "docs/HANDOFF_CONTEXT.md",
-        "docs/OMENWARD_GAME_DESIGN.md",
+        CURRENT_GDD,
         CURRENT_SPEC,
         CURRENT_REVIEW,
+        CURRENT_CORE_REVIEW,
     ):
         text = read(root, relative)
         for state in PREMATURE_EXACT_STATES:
@@ -249,11 +325,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
 def main() -> int:
     errors = validate()
     if errors:
-        print("OMENWARD current Vertical Slice documentation validation FAILED")
+        print("OMENWARD current documentation validation FAILED")
         for error in errors:
             print(f"- {error}")
         return 1
-    print("OMENWARD current Vertical Slice documentation validation PASSED")
+    print("OMENWARD current documentation validation PASSED")
     return 0
 
 
