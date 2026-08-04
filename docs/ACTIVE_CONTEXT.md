@@ -4,29 +4,30 @@
 updated_at: 2026-08-04
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_APPROVED
+current_phase: POST_MERGE_CANON_SYNC / CORE_FUN_CONTENT_DEEPENING
 current_planning_decision: OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
+current_sync: OMW-SYNC-20260804-POST-MERGE-PIXEL-ILLUSTRATION-HYBRID-CANON-V1
 current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
 current_branch: main
-context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-working_branch: gpt/omenward-simulation-harness-planning-20260803
+context_baseline_commit: d8ce26ee3ee21dbab50839b7a1334116e147789e
+current_main: d8ce26ee3ee21dbab50839b7a1334116e147789e
+working_branch: gpt/omenward-post-merge-art-direction-sync-20260804
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
-latest_planning: USER_APPROVED / ACTIVE_PLANNING_BRANCH / NOT_IMPLEMENTED
+latest_planning: MAIN_CANONICAL / NOT_IMPLEMENTED
 product_code_authority: NONE
 art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
-codex_execution: BLOCKED_UNTIL_PLANNING_PREFLIGHT
-current_grill_me_count: 10
+codex_execution: BLOCKED_UNTIL_SEPARATE_IMPLEMENTATION_HANDOFF
+last_merged_planning_pr: 133
+last_merged_planning_commit: d8ce26ee3ee21dbab50839b7a1334116e147789e
+current_grill_me_count: 0
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
-preflight: REQUIRED_NOW_AT_10_OF_10
+last_preflight: PASS_AT_10_OF_10 / CI_842_558_539
 simulation: NOT_RUN
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
-
-`current_main`과 `context_baseline_commit`은 실행 시점 저장소에서 해석한다.
 
 ## 1. 프로젝트 코어
 
@@ -56,7 +57,7 @@ Codex
 
 GPT 우선순위는 핵심 재미 → 콘텐츠 구조 → UX·이미지·아트 → 구현 결과 조건이다. Codex 구현이 플레이어 경험과 기획 역할을 바꾸면 다시 Grill Me 승인을 받는다.
 
-## 3. 승인된 Planning Stack
+## 3. main에 병합된 Planning Stack
 
 ```text
 1. Deterministic outcome·provenance requirement
@@ -75,7 +76,7 @@ Decision 10 책임 원본:
 
 `design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md`
 
-## 4. Decision 9 — HUD·룰렛·자원·상인·건물
+## 4. 승인된 HUD·룰렛·자원·건물
 
 ```text
 평상시 하단 = [룰렛] [보관함] [건설] [전술스킬] [벨루]
@@ -88,7 +89,7 @@ Decision 10 책임 원본:
 
 룰렛 작업대는 낮고 가로로 길며 좌측 규칙, 중앙 3×3 보드와 이동 화살표, 우측 회전·결과·벨루로 구성한다.
 
-## 5. Decision 10 — 최종 아트 방향
+## 5. 승인된 최종 아트 방향
 
 ```text
 STYLE = PIXEL_ILLUSTRATION_HYBRID
@@ -98,10 +99,10 @@ CLOSEUP_UI = ILLUSTRATION_FORWARD
 ```
 
 - 전장에서는 먼 카메라 가독성과 역할 실루엣을 우선한다.
-- 보상·도감·벨루에서는 일러스트의 재질·표정·동화 감성을 강화한다.
-- 아군은 상아·청색·절제된 금색, Veil은 흑색·심자색·적자색을 사용한다.
-- Veil은 아군 자산의 단순 재도색이 아니라 비대칭·가시·유기 고딕 형태를 사용한다.
-- Tier 상승은 색 변경이나 몸집 확대가 아니라 장비·자세·실루엣·역할 판타지로 표현한다.
+- 보상·도감·벨루에서는 일러스트 재질·표정·동화 감성을 강화한다.
+- 아군은 상아·청색·절제된 금색, Veil은 흑색·심자색·적자색이다.
+- Veil은 아군 자산 재도색이 아니라 비대칭·가시·유기 고딕 형태를 사용한다.
+- Tier 상승은 색 변경·몸집 확대가 아니라 장비·자세·실루엣·역할 판타지로 표현한다.
 
 룰렛 자산:
 
@@ -123,21 +124,26 @@ ART_ASSET_PRODUCTION = NOT_AUTHORIZED
 
 사용자가 별도로 제작 재개를 지시하기 전까지 추가 이미지·애니메이션·VFX 자산을 만들지 않는다.
 
-## 7. 적대적 감사 계보
+## 7. 완료된 Preflight·Merge
 
 ```text
-OMW-AUD-208~289 = Decisions 1~6 and maintenance
-OMW-AUD-290~299 = planning boundary and combat-space readability
-OMW-AUD-300~313 = battlefield visual hierarchy·camera·core-fun priority
-OMW-AUD-314~343 = HUD·roulette·resources·merchant·building and asset reuse
-OMW-AUD-344~359 = pixel·illustration hybrid art direction integrity
+SOURCE_PR = 133
+SOURCE_HEAD = 48466c4f669e24e19e2c8be3f4c879bdbfda04a9
+MERGED_MAIN = d8ce26ee3ee21dbab50839b7a1334116e147789e
+CI = 842 / 558 / 539 PASS
+BEHIND = 0
+DOCS_ONLY_PATHS = 19
+UNRESOLVED_THREADS = 0
+OPEN_P0 = 0
+OPEN_P1 = 0
+MERGE_BLOCKER = 0
 ```
 
-## 8. 구현·검증 경계
+## 8. 현재 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_MAIN_CANON_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
@@ -146,11 +152,13 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 다음 Gate
+## 9. 다음 GPT 작업
 
 ```text
-GRILL_ME_COUNT = 10/10
-NEXT_ACTION = FRESH_PREFLIGHT_AND_ADVERSARIAL_REVIEW
-NEXT_PLANNING = CORE_FUN_AND_CONTENT_DEEPENING_AFTER_CANON_SYNC
+GRILL_ME_COUNT = 0/10
+NEXT_PLANNING = CORE_FUN_AND_CONTENT_DEEPENING
+PRIORITY_1 = STAGE_WAVE_DANGER_BOSS_CONTENT_PRESSURE
+PRIORITY_2 = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
+PRIORITY_3 = TACTICAL_SKILLS_MANA_AND_STAGE_END_MERCHANT
 NEXT_IMPLEMENTATION = SEPARATELY_AUTHORIZED_CODEX_HANDOFF
 ```
