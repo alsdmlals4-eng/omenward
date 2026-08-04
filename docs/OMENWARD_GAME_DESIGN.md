@@ -12,7 +12,7 @@ legacy_c2_evidence: LATEST_USER_DESIGN_INTEGRATED / PRODUCT_CODE_NOT_AUTHORIZED
 
 이 파일의 과거 본문은 Git 이력에 보존되어 있다. 신규 기획·Codex 구현·아트 제작의 책임 원본으로 사용하지 않는다.
 
-`LATEST_USER_DESIGN_INTEGRATED`는 과거 C2 검증 계보 marker이며 `PRODUCT_CODE_NOT_AUTHORIZED` 경계를 유지한다. 이 marker는 이 파일을 현행 정본으로 복구하지 않는다.
+위 legacy C2 evidence는 과거 검증 계보와 제품 코드 비승인 경계를 보존한다. 이 marker는 이 파일을 현행 정본으로 복구하지 않는다.
 
 ## 대체 이유
 
