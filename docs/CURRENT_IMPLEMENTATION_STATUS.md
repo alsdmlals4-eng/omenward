@@ -1,16 +1,21 @@
-# 오멘워드 현재 구현 상태
+# [현행] 오멘워드 현재 구현 상태
 
-- 갱신일: 2026-08-04
-- 현재 main: `d8ce26ee3ee21dbab50839b7a1334116e147789e`
-- 전체 시스템 정본: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- 최신 아트 정본: `docs/design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md`
-- 최신 HUD 보완: `docs/design/APPROVED_OMENWARD_HUD_ROULETTE_LAYOUT_AND_BATTLEFIELD_VIEW_AMENDMENT_2026-08-04.md`
-- 현재 Sync: `OMW-SYNC-20260804-POST-MERGE-PIXEL-ILLUSTRATION-HYBRID-CANON-V1`
-- 작업 모드: `TOTAL_PLANNING / CORE_FUN_CONTENT_VISUAL_PROFILE`
-- 최신 기획 상태: `MAIN_CANONICAL_NOT_IMPLEMENTED`
-- 제품 코드 승인: `NOT_AUTHORIZED`
-- 실제 아트 자산 제작: `NOT_AUTHORIZED`
-- 이미지 생성: `STOPPED_BY_USER`
+```yaml
+updated_at: 2026-08-04
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+current_planning_decision: OMW-DEC-20260804-PLANNING-CORE-FUN-AND-CONTENT-GUARDRAILS-V1
+current_process_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
+work_mode: TOTAL_PLANNING / CORE_FUN_CONTENT
+latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
+product_code_authority: NONE
+art_asset_production_authority: NONE
+image_generation: STOPPED_BY_USER
+```
+
+- 전체 시스템 기준선: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- 현행 GDD: `docs/OMENWARD_GDD_CURRENT_CANON.md`
+- 핵심 재미 정본: `docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
+- 문서 수명주기: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
 - 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 
 ## 1. 정확한 상태 표기
@@ -24,7 +29,7 @@ CORE_LOCK_NOT_ALLOWED
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED_PLANNING = PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_MAIN_CANON_NOT_IMPLEMENTED
+LATEST_APPROVED_PLANNING = CORE_FUN_AND_CONTENT_GUARDRAILS_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
@@ -34,7 +39,7 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-문서 계약·CI·병합은 최신 Vertical Slice·HUD·룰렛·아트 방향이 제품에 구현됐다는 뜻이 아니다.
+문서 계약·CI·병합은 최신 Vertical Slice·HUD·룰렛·아트·콘텐츠 가드레일이 제품에 구현됐다는 뜻이 아니다.
 
 ## 2. Legacy 검증 증거
 
@@ -46,96 +51,74 @@ LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
 
-이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 V2 전체 시스템, 20 Stage Vertical Slice, Planning Stack, 픽셀·일러스트 하이브리드 아트 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
+이 증거는 과거 Legacy C1 룰렛 계약의 원격 검증을 뜻한다. 최신 전체 시스템·20 Stage·HUD·아트·콘텐츠 압력의 구현을 증명하지 않으며 **V2 구현 완료를 뜻하지 않는다**.
 
-## 3. 현행 작업 권한
+## 3. 현행 기획·구형 문서 경계
 
 ```text
-GPT / Work
-= 핵심 재미·플레이 동기·콘텐츠 기획·플레이어 규칙·UX·이미지·아트 방향·검수 기준
-
-Codex
-= 자료구조·알고리즘·좌표·경로탐색·물리·성능·코드·테스트 구현
+[현행] = 신규 기획·구현 입력 허용
+[대체됨] = 후속 문서 사용
+[보류] = 재검증 전 구현 금지
+[폐기] = 사용 금지
+[증거] = 과거 사실만 증명
 ```
 
-기존 1~6 Decision의 기술 세부는 `CODEX_REFERENCE_RECOMMENDATION / NOT_BINDING_IMPLEMENTATION`이다. 플레이어에게 보이는 규칙·밸런스 의도·가독성 목표는 main 정본이다.
+- `OMENWARD_GAME_DESIGN.md`는 `[대체됨]`이다.
+- 구형 첫 10분·Hero·Legendary·Meta·Hub 문서군은 `[보류]`다.
+- 식량 현행 자원·기본 건물 5종·주변 지휘소 오라·별도 룰렛 아이콘은 `[폐기]`다.
 
-## 4. main에 병합된 Planning Stack
-
-```text
-P0 결과 재현·원인 복기 요구
-P1 공통 전투 공정성·숨은 선공 금지
-P2 Damage·Protection·Status 의미
-P3 방어·Barrier·Status 기획 기본값
-P4 전투 템포·Spawn 가독성 의도
-P5 Modifier 폭증 방지·효과 가독성
-P6 세 전선·Route·Targeting 경험
-P7 전장 시각 계층·카메라·정보 밀도
-P8 HUD·룰렛 정보·자원·상인·건물 역할
-P9 픽셀·일러스트 하이브리드 아트 방향·자산 계보
-```
-
-## 5. 최신 플레이어 규칙
+## 4. 현행 플레이어 규칙
 
 ```text
-BOTTOM_FUNCTIONS = ROULETTE / STORAGE / BUILD / TACTICAL_SKILL / BELU
-MAIN_HUD_RESOURCES = GOLD / MANA_STONE / DEPLOYED_TROOP_CAPACITY
-MOVE_TICKET = ROULETTE_PANEL_ONLY / STORED_CAP_3
-MERCHANT = AFTER_STAGE_MAINTENANCE_ONLY
+CORE = 예고된 압력 → 제작한 확률 → 비가역 전선 커밋 → 설명 가능한 결과
+RESOURCES = GOLD / MANA_STONE / DEPLOYED_TROOP_CAPACITY / MOVE_TICKET
 BUILDINGS = VAULT / FARM / BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
+BOTTOM_FUNCTIONS = ROULETTE / STORAGE / BUILD / TACTICAL_SKILL / BELU
+MERCHANT = AFTER_STAGE_MAINTENANCE_ONLY
 ```
 
-- 건물별 지속 유지비는 없다.
-- 토큰은 초당 공급되지 않는다.
-- 보상 등급은 완성선 수로 결정한다.
+- 세 원형 릴은 3×3 노출창의 세 열이다.
 - 지휘소는 현재 MapRun 전체 아군 병력 오라다.
-- 벨루는 우측 하단에서 상황과 선택 근거만 제공한다.
+- 건물 지속 유지비·토큰 초당 공급은 없다.
+- 식량은 현행 핵심 HUD 자원이 아니다.
 
-## 6. 최신 시각 규칙
+## 5. 현행 시각·자산 규칙
 
 ```text
 STYLE = PIXEL_ILLUSTRATION_HYBRID
 BATTLEFIELD = PIXEL_READABILITY + ILLUSTRATED_MATERIAL_AND_LIGHT
 CLOSEUP_UI = ILLUSTRATION_FORWARD
-ALLY = IVORY / BLUE / RESTRAINED_GOLD
-VEIL = CHARCOAL / DEEP_PURPLE / CRIMSON / ASYMMETRIC_GOTHIC
-```
-
-룰렛 자산:
-
-```text
 GOLD_TOKEN_ART = IN_GAME_GOLD_IMAGE
 TROOP_TOKEN_ART = IN_GAME_T1_T2_TROOP_IMAGE
 T3_TROOP_TOKEN = FORBIDDEN
 RESULT_REWARD_ART = ACTUAL_REWARDED_TROOP_IMAGE
-SEPARATE_GOLD_OR_TROOP_TOKEN_ICON_PRODUCTION = FORBIDDEN
 ```
 
-## 7. 구현 상태 행렬
+## 6. 구현 상태 행렬
 
 | 영역 | 기획 상태 | 제품 구현 | 자동 검증 | 사람 검증 |
 |---|---|---|---|---|
-| 20 Stage 전체 시스템 Vertical Slice | main 정본 | `NOT_STARTED` | `NOT_RUN_LATEST` | `NOT_RUN` |
-| 전투 의미·공정성·기본값 | main 정본 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 전투 공간·Route·Targeting | main 정본 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 전장 시각 계층·카메라 | main 정본 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| HUD·룰렛·자원·상인·건물 6종 | main 정본 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 픽셀·일러스트 하이브리드 아트 | main 정본 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 전체 시스템 Vertical Slice | 기준선·후속 정본 존재 | `NOT_STARTED` | `NOT_RUN_LATEST` | `NOT_RUN` |
+| 핵심 재미·콘텐츠 가드레일 | 사용자 승인 1/10 | `NOT_STARTED` | `DOCUMENT_CI_ONLY` | `NOT_RUN` |
+| Stage 압력 매트릭스 | `PENDING` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 건물 6종 T2/T3 | `PENDING` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 병종·전술스킬·상인 | `PENDING` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| 전투 공간·HUD·아트 | main 정본 | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Hero·Legendary family | `[보류]` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
+| Meta·Hub | `[보류]` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
 | 실제 이미지·Animation·VFX | 사용자 중단 | `NOT_AUTHORIZED` | `N/A` | `NOT_RUN` |
 | Codex 구현 계약 | 별도 승인 필요 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
 
-## 8. 병합 증거
+## 7. 이번 정본 정리의 검증 목표
 
-```text
-LAST_MERGED_PLANNING_PR = 133
-SOURCE_HEAD = 48466c4f669e24e19e2c8be3f4c879bdbfda04a9
-MERGED_MAIN = d8ce26ee3ee21dbab50839b7a1334116e147789e
-PREFLIGHT_CI = 842 / 558 / 539 PASS
-DOCS_ONLY_PATHS = 19
-ZERO_BLOCKERS = TRUE
-```
+- README·AGENTS·PROJECT_CORE·현행 GDD가 같은 자원·건물·핵심 루프를 말한다.
+- `current_main`과 `context_baseline_commit`이 고정 SHA가 아니다.
+- 구형 master GDD에 `[대체됨]`이 명시된다.
+- lifecycle registry가 필수 문서다.
+- `storage_selling_food`가 PROJECT_CORE에 재유입되지 않는다.
+- 제품 경로 변경은 0이다.
 
-## 9. CI 호환 marker
+## 8. CI 호환 marker
 
 ```text
 CURRENT_VERTICAL_SLICE_AUTHORITY = design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
@@ -144,12 +127,12 @@ ROULETTE_AGENCY_EVIDENCE = benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_202
 PILOT_RECOMMENDATION / NOT_CANON
 ```
 
-## 10. 다음 작업·차단 요인
+## 9. 다음 작업
 
 ```text
-CURRENT_GRILL_ME_COUNT = 0/10
-CORE_FUN_AND_CONTENT_DEEPENING = NEXT_GPT_WORK
-ART_ASSET_PRODUCTION_PLAN = REQUIRES_SEPARATE_USER_DIRECTION
+CURRENT_GRILL_ME_COUNT = 1/10
+NEXT_PLANNING = STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX
+THEN = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
 CODEX_IMPLEMENTATION_PLAN = BLOCKED_UNTIL_SEPARATE_HANDOFF
 PRODUCT_CODE_AUTHORITY = NONE
 ```
