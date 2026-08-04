@@ -1,5 +1,7 @@
 # [대체됨] 오멘워드 게임 기획서 v0.26
 
+- 문서 버전: **v0.26 Historical Superseded**
+
 ```yaml
 status: SUPERSEDED / HISTORICAL_REFERENCE_ONLY
 superseded_at: 2026-08-04
