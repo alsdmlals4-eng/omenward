@@ -2,8 +2,8 @@
 
 ```yaml
 review_id: OMW-REV-20260804-STAGE-PRESSURE-REPLAYABILITY-FAIRNESS-V1
-status: PASS_WITH_NEXT_DECISION_DEPENDENCIES
-review_scope: STAGE / WAVE / DANGER / BOSS / REPLAYABILITY / FAIRNESS
+status: PASS / REQUIRED_CANON_FIXES_APPLIED
+review_scope: STAGE / WAVE / DANGER / BOSS / REPLAYABILITY / FAIRNESS / PR_PREFLIGHT
 product_code_authority: NONE
 simulation: NOT_RUN
 human_validation: NOT_RUN
@@ -41,7 +41,7 @@ human_validation: NOT_RUN
 | 예고된 압력 | 강함 | 모든 Stage가 주 압력·Route·목표를 사전 공개 | UI 표현 검증 필요 |
 | 제작한 확률 | 강함 | 다음 Wave를 보고 TokenSource·릴을 조정 | 건물 분기 미확정 |
 | 제한 조작 | 강함 | 겹침·주 전선 이동 전에 이동권·보관을 계획 | 정확한 획득 리듬 미확정 |
-| 비가역 커밋 | 매우 강함 | Stage 9·14·19가 과투자와 예비대 가치를 시험 | 부당한 Softlock 위험 |
+| 비가역 커밋 | 매우 강함 | Stage 9·14·19가 과투자와 예비대 가치를 시험 | 사람 플레이 검증 필요 |
 | 설명 가능한 결과 | 강함 | 압력 태그·Route·목표가 실패 원인과 연결 | 결과 요약 UX 미구현 |
 | 반복 동기 | 개선됨 | 네 막마다 새 판단 층을 추가 | 적 패키지 다양성 필요 |
 
@@ -52,6 +52,7 @@ CORE_FIT = STRONG
 CONTENT_PROGRESSION = COHERENT
 REPLAYABILITY = VIABLE_WITH_AUTHORED_VARIANTS
 FAIRNESS = PASS_IF_FULL_OMEN_DISCLOSURE_IS_PRESERVED
+DOCUMENT_PR_MERGE_READINESS = PASS
 IMPLEMENTATION_READINESS = BLOCKED_BY_BUILDING_AND_TROOP_COUNTER_DECISIONS
 ```
 
@@ -68,13 +69,13 @@ IMPLEMENTATION_READINESS = BLOCKED_BY_BUILDING_AND_TROOP_COUNTER_DECISIONS
 
 - 현상: 구형 튜토리얼 밸런스가 식량, 병영 자동생산, 바리케이드, 구형 첫 10분 흐름을 전제로 한다.
 - 충돌: 현재 자원·TokenSource·건물 6종·룰렛 중심 학습과 다름.
-- 조치: `[보류]`; 첫 10~15분 Decision에서 Stage 1~3 학습 목표만 재검토해 승계.
+- 조치: `[보류]`; 첫 10~15분 Decision에서 Stage 1~5 학습 목표만 재검토해 승계.
 
 ### OMW-AUD-378 — Vertical Slice 기준선의 구형 Stage·자원 세부
 
 - 현상: 전체 시스템 기준선에 식량·건물 5종·주변 지휘소 등 구형 세부가 남아 있다.
 - 위험: 파일 전체를 최신 세부 권위로 오해.
-- 조치: 기준선은 시스템 연결 계보로 유지하되 파일 상단에 최신 정본 우선 Overlay를 명시하고 lifecycle registry에서 부분 승계 경계를 강화.
+- 조치: 기준선은 시스템 연결 계보로 유지하고 PROJECT_CORE·Documentation Map·Lifecycle Registry에서 부분 승계와 최신 Overlay를 명시.
 
 ### OMW-AUD-379 — 비가역 배치 뒤 주 전선 무작위 변경
 
@@ -84,7 +85,7 @@ IMPLEMENTATION_READINESS = BLOCKED_BY_BUILDING_AND_TROOP_COUNTER_DECISIONS
 ### OMW-AUD-380 — Danger가 기본 기능을 강제로 끔
 
 - 공격: 룰렛·건설·배치·정보 공개를 막는 방식으로 난도를 만들 수 있다.
-- 조치: Danger는 Route·시간·전선 수렴 같은 한 가지 규칙 변형만 사용하고 핵심 기능과 치명적 정보는 유지.
+- 조치: Danger는 Route·시간·전선 이동·Route 수렴 같은 한 가지 규칙 변형만 사용하고 핵심 기능과 치명적 정보는 유지.
 
 ## 4. P1 공격 — 콘텐츠 구조
 
@@ -229,24 +230,31 @@ Stage 매트릭스가 정의한 요구를 다음 Decision이 실제 콘텐츠로
 
 Hero·Meta는 위 기본 Run 콘텐츠가 연결되기 전 재개하지 않는다.
 
-## 10. PR 검수 체크리스트
+## 10. PR 검수 결과
 
-- [ ] 새 Stage 압력 정본이 Documentation Map·Lifecycle Registry에 연결됨.
-- [ ] `15웨이브=1스테이지` 구형 문서가 `[대체됨]`으로 표시됨.
-- [ ] 구형 첫 4공세 밸런스가 `[보류]`로 표시됨.
-- [ ] Vertical Slice 구형 세부에 최신 Overlay가 표시됨.
-- [ ] 현재 GDD·Project Core·Pending·Roadmap이 2/10을 동일하게 말함.
-- [ ] Google Sheet가 같은 Decision ID와 압력 매트릭스를 기록함.
-- [ ] 제품 코드·실제 자산 변경 0.
-- [ ] CI 3종 Green.
-- [ ] 리뷰·미해결 Thread·Blocker 0.
+- [x] 새 Stage 압력 정본이 Documentation Map·Lifecycle Registry에 연결됨.
+- [x] `15웨이브=1스테이지` 구형 문서가 `[대체됨]`으로 표시됨.
+- [x] 구형 첫 4공세 밸런스가 `[보류]`로 표시됨.
+- [x] Vertical Slice 구형 세부에 최신 Overlay·부분 승계 경계가 표시됨.
+- [x] 현재 GDD·Project Core·Pending·Roadmap이 2/10을 동일하게 말함.
+- [x] Google Sheet가 같은 Decision ID와 exact PR HEAD를 기록함.
+- [x] 제품 코드·실제 자산 변경 0.
+- [x] CI 3종 Green: Project Core 882 / GDD Sheet 594 / Base v9 576.
+- [x] main 대비 ahead 19 / behind 0.
+- [x] 리뷰 0 / 미해결 Thread 0.
+- [x] `OPEN_P0`·`OPEN_P1`·`MERGE_BLOCKER` 0.
+- [x] 미완성 `TODO/TBD` 0.
+- [x] Sheet bounded read-back PASS.
 
 ## 11. Blocker 판정
 
 ```text
 BLOCKER_BEFORE_CANON_SYNC = TRUE
-BLOCKER_AFTER_CANON_SYNC = PENDING_PR_PREFLIGHT
+DOCUMENT_PR_BLOCKER_AFTER_CANON_SYNC = FALSE
+PRODUCT_IMPLEMENTATION_BLOCKER = TRUE_UNTIL_BUILDING_AND_TROOP_COUNTER_DECISIONS
 PRODUCT_CODE = UNCHANGED
+SHEET_READBACK = PASS
+CI_3_GREEN = TRUE
 SIMULATION = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
