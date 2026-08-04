@@ -2,174 +2,69 @@
 
 ```yaml
 updated_at: 2026-08-05
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_planning_decision: OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
-work_mode: TOTAL_PLANNING / CORE_FUN_CONTENT
-latest_planning: USER_APPROVED_ACTIVE_BRANCH_NOT_IMPLEMENTED
-current_count: 3_OF_10
+current_planning_decision: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+current_planning_count: 4_OF_10
+latest_planning_status: MAIN_CANON_TARGET / NOT_IMPLEMENTED
+최신 버티컬 슬라이스 구현: `NOT_STARTED`
 product_code_authority: NONE
-art_asset_production_authority: NONE
-image_generation: STOPPED_BY_USER
+simulation: NOT_RUN
+runtime: NOT_RUN
+human_validation: HUMAN_QA_NOT_RUN
 ```
 
-- 전체 시스템 연결 기준선: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- 현행 GDD: `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- Stage 압력: `docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
-- 건물 전문화: `docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
-- 문서 수명주기: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-- 최신 버티컬 슬라이스 구현: `NOT_STARTED`
+현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
 
-## 1. 정확한 상태
+## 최신 구현 경계
 
 ```text
 VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
 LATEST_AUTOMATED_CONTRACTS_NOT_RUN
 HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
-CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED_PLANNING = BUILDING_BRANCH_CANON_DOCUMENTED_NOT_IMPLEMENTED
-PRODUCT_CODE = UNCHANGED
-SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-ART_ASSET_PRODUCTION = NOT_AUTHORIZED
-IMAGE_GENERATION = STOPPED_BY_USER
-SIMULATION = NOT_RUN
-RUNTIME = NOT_RUN
 ```
 
-문서 계약·CI·병합은 최신 Vertical Slice·건물 전문화·Stage 콘텐츠가 제품에 구현됐다는 뜻이 아니다. **V2 구현 완료를 뜻하지 않는다.**
+4/10 병종 역할·시너지·카운터는 문서 정본이며 다음은 아직 구현되지 않았다.
 
-## 2. Legacy 증거
+- 열 종 역할 재정의.
+- 암살자·기병·비행병 역할 분리.
+- 다섯 압력별 병종 대응 행위.
+- 행동 기반 시너지.
+- 전열/기동 병영 후보 가중.
+- Tier별 역할 변화.
+- Route·Layer·타기팅·AI.
+- 병종 수치·확률·비용.
+
+```text
+PRODUCT_CODE = UNCHANGED
+DATA_MIGRATION = NOT_AUTHORIZED
+ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+```
+
+`data/units/*.tres`는 현재 Legacy Prototype 증거이며 최신 병종 구현 권위가 아니다.
+
+## 과거 자동 검증 증거
 
 ```text
 LEGACY_C1_C2_C3_PROVEN
 LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 ```
 
-- C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-- C1 최종 검증 run: `29926598807`
-- C2 최종 검증 run: `29938742864`
+이 표식은 과거 C1/C2/C3와 룰렛 코어 검증 사실을 보존한다. 최신 4/10 병종 기획이 제품에 구현됐다는 의미가 아니다.
 
-이 증거는 과거 Legacy C1·C2·C3 계약에만 적용되며 최신 기획 구현을 증명하지 않는다.
+## 구현 시작 전 필수 Gate
 
-## 3. 현행 플레이어 규칙
+1. 5/10 전술스킬·마석 정본.
+2. 건물+병종+전술 압력 대응 재검증.
+3. 경제·수치 시뮬레이션.
+4. 사용자 승인 Codex 구현 계획.
+5. 제품 행동을 재현하는 RED 테스트.
+6. 데이터 마이그레이션·롤백·수동 플레이 계획.
+
+## 완료 이력 보존
 
 ```text
-CORE = 예고된 압력 → 제작한 확률 → 비가역 전선 커밋 → 설명 가능한 결과
-RESOURCES = GOLD / MANA_STONE / DEPLOYED_TROOP_CAPACITY / MOVE_TICKET
-BUILDINGS = VAULT / FARM / BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
-BOTTOM_FUNCTIONS = ROULETTE / STORAGE / BUILD / TACTICAL_SKILL / BELU
-MERCHANT = AFTER_STAGE_MAINTENANCE_ONLY
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10
 ```
 
-- 세 원형 릴은 3×3 노출창의 세 열.
-- 지휘소는 현재 MapRun 전체 아군 오라.
-- 건물 유지비·토큰 초당 공급 없음.
-- 식량은 현행 핵심 HUD 자원이 아님.
-
-## 4. 현행 건물 전문화
-
-```text
-T1 → T2 A → T3 A
-T1 → T2 B → T3 B
-CROSS_BRANCH = FORBIDDEN
-DUAL_T3 = FORBIDDEN
-```
-
-- 선택은 건물 인스턴스별이며 다른 인스턴스는 다른 분기 선택 가능.
-- 모든 분기는 얻는 것·포기하는 것·유리한 압력·핵심 루프 영향·T3 예고를 표시.
-- 정확한 비용·배율·범위·쿨다운은 `PENDING_SIMULATION`.
-- T3 병종 이미지는 룰렛 토큰에 사용하지 않음.
-
-```text
-VAULT = STABLE / FORTUNE
-FARM = MUSTER / RESERVE
-BARRACKS = LINE / ROUTE
-DEFENSE_TOWER = VOLLEY / BOMBARD
-COMMAND_POST = ASSAULT / BASTION
-MANA_TOWER = FLOW / RESERVOIR
-```
-
-## 5. Stage 콘텐츠
-
-```text
-MAPRUN_STAGE_COUNT = 20
-BASELINE_WAVE_BEATS = 3
-DANGER_STAGES = 4 / 9 / 14 / 19
-BOSS_STAGES = 5 / 10 / 15 / 20
-PRESSURES = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-```
-
-- Stage 1~5 압력 문해력, 6~10 조합, 11~15 기회비용, 16~20 종합 숙련.
-- Danger는 공개된 한 규칙 변형.
-- Boss는 Route·태세·목표·호위·집중 공격 기회를 변경.
-- Stage 시작 뒤 필수 카운터를 숨은 무작위로 변경하지 않음.
-- 정확한 시간·Threat Budget·적 수치는 `NOT_RUN / NOT_APPROVED_NUMERIC`.
-
-## 6. 시각·자산
-
-```text
-STYLE = PIXEL_ILLUSTRATION_HYBRID
-GOLD_TOKEN_ART = IN_GAME_GOLD_IMAGE
-TROOP_TOKEN_ART = IN_GAME_T1_T2_TROOP_IMAGE
-T3_TROOP_TOKEN = FORBIDDEN
-RESULT_REWARD_ART = ACTUAL_REWARDED_TROOP_IMAGE
-```
-
-건물 T2/T3 외형은 T1 실루엣을 유지하며 장치·무기·배너·마력 구조로 분기를 구분한다. 실제 자산 제작은 승인되지 않았다.
-
-## 7. 구현 상태 행렬
-
-| 영역 | 기획 상태 | 제품 구현 | 자동 검증 | 사람 검증 |
-|---|---|---|---|---|
-| 전체 Vertical Slice | 연결 기준선·후속 정본 | `NOT_STARTED` | `NOT_RUN_LATEST` | `NOT_RUN` |
-| 핵심 재미 | 승인 1/10 | `NOT_STARTED` | `DOCUMENT_CI_ONLY` | `NOT_RUN` |
-| Stage 압력 | 승인 2/10 | `NOT_STARTED` | `DOCUMENT_CI_ONLY` | `NOT_RUN` |
-| 건물 T2/T3 | 승인 3/10 | `NOT_STARTED` | `DOCUMENT_TDD_GREEN_REFACTOR_COMPLETE` | `NOT_RUN` |
-| 병종 역할 | `PENDING_4_OF_10` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 전술·마석 | `PENDING_5_OF_10` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 상인 | `PENDING_6_OF_10` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Hero·Legendary | `[보류]` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| Meta·Hub | `[보류]` | `NOT_STARTED` | `NOT_RUN` | `NOT_RUN` |
-| 실제 이미지·VFX | 사용자 중단 | `NOT_AUTHORIZED` | `N/A` | `NOT_RUN` |
-| Codex 구현 | 별도 승인 필요 | `BLOCKED` | `NOT_RUN` | `NOT_RUN` |
-
-## 8. TDD·검증 상태
-
-```text
-RED = Project Core Documentation run 888
-RED_REASON = BUILDING_AUTHORITY_AND_3_OF_10_ROUTING_MISSING
-GREEN = DOCUMENTATION_CONTRACTS_PASS
-REFACTOR = COMPLETE_DOCUMENTATION_ONLY
-FINAL_EXACT_HEAD_VALIDATION = REQUIRED_BEFORE_MERGE
-```
-
-제품 구현 전에 병종·전술이 압력별 대응을 완성하고 별도 구현 계획·Red 테스트·사람 플레이 계획을 승인해야 한다.
-
-## 9. 문서 수명주기
-
-- `OMENWARD_GAME_DESIGN.md`, 15 Wave Stage 문서는 `[대체됨]`.
-- 구형 첫 10분·첫 4공세·Hero·Meta 문서군은 `[보류]`.
-- 식량 핵심 자원·건물 5종·주변 지휘소·별도 룰렛 아이콘·교차 분기는 `[폐기]`.
-- `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 시스템 연결 계보만 부분 승계.
-
-## 10. CI 호환 marker
-
-```text
-CURRENT_VERTICAL_SLICE_AUTHORITY = design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
-CURRENT_ADVERSARIAL_REVIEW_LINEAGE = reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md
-ROULETTE_AGENCY_EVIDENCE = benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md
-PILOT_RECOMMENDATION / NOT_CANON
-```
-
-## 11. 다음 작업
-
-```text
-CURRENT_GRILL_ME_COUNT = 3_OF_10
-NEXT_PLANNING = OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-THEN = OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-STONE-V1
-CODEX_IMPLEMENTATION_PLAN = BLOCKED_UNTIL_SEPARATE_HANDOFF
-PRODUCT_CODE_AUTHORITY = NONE
-```
+현재 구현 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
