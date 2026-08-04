@@ -128,6 +128,6 @@
 
 - head `1976c5355124b2ce7d7ef77b8835df0c95710038`, run `29965348284`에서 Godot 4.7.1 editor import, 모든 headless, runtime smoke가 통과했다.
 - 같은 run에서 Ubuntu/Windows × Python 3.12/3.13의 C1·C2·C3 계약, mutation tests, 프로젝트 코어·Skill·whitespace가 모두 통과했다.
-- 따라서 상태를 `C3_AUTOMATED_CONTRACTS_PROVEN / HUMAN_QA_PENDING`으로 승격한다.
+- 따라서 C3 자동 계약 증거는 확정됐고 사람 QA는 아직 대기 상태다.
 - 1920×1080·1280×720 사람 가독성 QA 전에는 `CORE_LOOP_PROVEN` 또는 `CORE_VERTICAL_SLICE_COMPLETE`를 사용하지 않는다.
 - 사람 QA 전에는 최종 HUD 배치·폰트·팔레트·정보 밀도를 확정하지 않는다.
