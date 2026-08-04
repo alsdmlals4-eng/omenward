@@ -1,15 +1,18 @@
 # [현행] 오멘워드 기획 정본 결정 원장
 
 ```yaml
-updated_at: 2026-08-04
+updated_at: 2026-08-05
 status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
-current_planning_decision: OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1
-current_process_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
+current_planning_decision: OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
+lifecycle_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 work_mode: TOTAL_PLANNING
-last_merged_planning_pr: 135
-last_merged_planning_commit: 8a56d9b9d0b7b1bec3702644305d000670f6aea7
-current_count: 2_OF_10
+last_merged_planning_pr: 136
+last_merged_planning_commit: b1b1f5ff4af9b7e53df12f282415daf7fde30a9b
+last_recovery_pr: 137
+last_recovery_commit: a426aef7738a2d9aa8c40cf1eddbe97601e22f80
+current_count: 3_OF_10
 product_code_authority: NONE
 art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
@@ -22,12 +25,13 @@ image_generation: STOPPED_BY_USER
 - `current_main`과 `context_baseline_commit`은 저장소 기본 브랜치에서 동적으로 해석한다.
 - Google Sheet는 같은 Decision ID와 exact PR HEAD로 동기화한다.
 - GPT는 핵심 재미·콘텐츠·플레이어 경험·UX·아트 방향을 소유한다.
-- Codex는 자료구조·알고리즘·좌표·경로탐색·성능·코드·테스트 구현을 소유한다.
-- 10개 승인 Decision마다 fresh preflight와 적대적 검토를 수행한다.
+- Codex는 자료구조·알고리즘·좌표·경로탐색·성능·코드·테스트를 소유한다.
+- 관련 벤치마크와 현업 관행을 비교하고 채택·비채택 이유를 기록한다.
+- 승인 10건은 최대 정본 배치 크기다. P0/P1 충돌·세션 종료·대규모 정본 영향 시 조기 체크포인트를 허용한다.
+- 모든 행동 변경은 `RED → GREEN → REFACTOR`로 진행한다.
+- GitHub 파일 쓰기는 명시적 비기본 branch에서만 수행하고 main은 검증된 PR 병합으로 변경한다.
 
-## 2. 직전 병합 Planning Stack
-
-PR #133~#135를 통해 이전 10개 결정과 새 Batch 1/10이 main에 반영됐다.
+## 2. 이전 10개 결정과 새 Batch
 
 | 구간 | 핵심 |
 |---|---|
@@ -36,17 +40,17 @@ PR #133~#135를 통해 이전 10개 결정과 새 Batch 1/10이 main에 반영�
 | 이전 8 | 전장 시각 계층·카메라 |
 | 이전 9 | HUD·룰렛·자원·상인·건물 6종 |
 | 이전 10 | 픽셀·일러스트 하이브리드 아트 |
-| 새 Batch 1 | 핵심 재미·콘텐츠 가드레일·문서 lifecycle |
+| 새 1 | 핵심 재미·콘텐츠 가드레일·문서 lifecycle |
+| 새 2 | Stage·Wave·Danger·Boss 압력 매트릭스 |
+| 새 3 | 건물 6종 T2/T3 분기·카운터 |
 
-## 3. 새 Planning Batch — Decision 1/10
+## 3. Decision 1/10 — 핵심 재미
 
-### `OMW-DEC-20260804-PLANNING-CORE-FUN-AND-CONTENT-GUARDRAILS-V1`
+`OMW-DEC-20260804-PLANNING-CORE-FUN-AND-CONTENT-GUARDRAILS-V1`
 
 책임 원본:
 
 `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
-
-핵심:
 
 ```text
 예고된 압력
@@ -55,90 +59,99 @@ PR #133~#135를 통해 이전 10개 결정과 새 Batch 1/10이 main에 반영�
 → 설명 가능한 결과·다음 설계
 ```
 
-압력 분류:
+압력: `MASS / ARMORED / FLYING / INFILTRATION / SIEGE`.
 
-```text
-MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-```
+## 4. Decision 2/10 — Stage 압력
 
-## 4. 새 Planning Batch — Decision 2/10
-
-### `OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1`
+`OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1`
 
 책임 원본:
 
 `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
 
-구조:
-
 ```text
 MapRun = 20 Stage
-Stage당 3 Wave Beat 기준선
+Wave Beat = 3
 Danger = 4 / 9 / 14 / 19
 Boss = 5 / 10 / 15 / 20
 ```
 
-네 막:
-
-```text
-1~5 압력 문해력
-6~10 압력 조합
-11~15 기회비용
-16~20 종합 숙련
-```
-
-공정성:
-
-- Stage 시작 전 주·보조 압력, 전선, Route, 목표, 치명적 행동 공개.
-- Danger는 공개된 한 가지 규칙 변형.
+- 1~5 압력 문해력, 6~10 조합, 11~15 기회비용, 16~20 종합 숙련.
+- Stage 시작 전 압력·전선·Route·목표·치명 행동 공개.
+- Danger는 한 공개 규칙 변형.
 - Boss는 Route·태세·목표·호위·집중 공격 기회를 변경.
-- 압력 역할은 고정하고 적 패키지·전선·Route는 맵별 작성 변형.
-- Stage 시작 뒤 필요한 카운터를 숨은 무작위로 변경하지 않음.
 - 정확한 시간·Threat Budget·적 수치는 시뮬레이션 전 미확정.
 
-이 Decision은 건물·병종의 실제 카운터 목록을 고정하지 않는다. 3/10·4/10 Decision이 최소 두 대응 경로를 채운다.
+## 5. Decision 3/10 — 건물 전문화
 
-## 5. 현행 자원·건물·룰렛
+`OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1`
 
-```text
-자원 = 골드 / 마석 / 배치 병력·병력 한도 / 이동권
-건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
-지휘소 = 현재 MapRun 전체 아군 병력 오라
-룰렛 = 세 원형 릴이 3×3 노출창의 세 열을 구성
-```
+책임 원본:
 
-자산:
+- `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
+- `reviews/ADVERSARIAL_BUILDING_BRANCH_COUNTER_AND_OPPORTUNITY_COST_REVIEW_2026-08-05.md`
+- `superpowers/specs/2026-08-05-six-building-t2-t3-branches-design.md`
+- `superpowers/plans/2026-08-05-six-building-t2-t3-branches-implementation.md`
 
-```text
-금화 토큰 = 인게임 금화 이미지
-병종 토큰 = 인게임 T1·T2 병종 이미지
-T3 병종 토큰 = 금지
-결과 보상 = 실제 지급 병종 이미지
-```
-
-## 6. 문서 수명주기
-
-정책:
-
-`OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1`
+공통 문법:
 
 ```text
-[현행] = 신규 기획·구현 사용 허용
-[대체됨] = 후속 정본이 권위 승계
-[보류] = 최신 정본과 재검증 전 사용 금지
-[폐기] = 사용 금지
-[증거] = 과거 사실 증명만 허용
+T1 → T2 A → T3 A
+T1 → T2 B → T3 B
+CROSS_BRANCH = FORBIDDEN
+DUAL_T3 = FORBIDDEN
+MAPRUN_PERMANENT_CHOICE
 ```
 
-Stage 관련:
+| 건물 | A 경로 | B 경로 |
+|---|---|---|
+| 금고 | 안정→비축 | 행운→징조 대박 |
+| 농장 | 징집→대규모 동원 | 예비→최후 예비대 |
+| 병영 | 전열→정예 전열 | 기동→징조 대응대 |
+| 방어탑 | 연사→요격 | 포격→파성 |
+| 지휘소 | 돌격→결전 전선 | 수비→종심 방어 |
+| 마력탑 | 유량→맥동 | 저장→징조 저장고 |
 
-- `APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`: `[대체됨]`.
-- `APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`: `[보류]`.
-- Vertical Slice 2026-07-27: 전체 연결 계보만 부분 승계.
+결정:
 
-세부 파일 상태는 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 소유한다.
+- 선택은 건물 인스턴스별.
+- 다른 인스턴스는 다른 분기 선택 가능.
+- 모든 분기에 얻는 것·포기하는 것·압력 적합성·핵심 루프 영향 명시.
+- T3는 순수 수치가 아니라 결과 곡선·표적·전선 교리·Route·자원 타이밍을 변경.
+- 철거는 인스턴스와 효과를 제거하고 재건은 새 선택. 정확한 환불·비용은 경제 결정으로 이관.
+- 건물만으로 다섯 압력을 모두 해결하지 않음.
+- 정확한 비용·배율·범위·쿨다운은 `PENDING_SIMULATION`.
+- 제품 구현은 병종·전술 결정과 압력 대응 재검증 전 차단.
 
-## 7. 적대적 감사 계보
+## 6. 운영 정책 — 비카운터
+
+`OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1`
+
+```text
+BENCHMARK_REQUIRED
+INDUSTRY_COMPARISON_REQUIRED
+MAX_APPROVAL_BATCH = 10
+EARLY_CHECKPOINT = HIGH_RISK_CONFLICT / SESSION_END / LARGE_CANON_IMPACT
+TDD = RED → GREEN → REFACTOR
+EXPLICIT_BRANCH_REQUIRED_FOR_GITHUB_MUTATION
+DIRECT_MAIN_WRITE = FORBIDDEN
+```
+
+직접 main 쓰기 사고는 PR #137에서 원상복구했다. 해당 파일은 승인 정본으로 취급하지 않았고 새 작업은 PR #138의 명시적 branch에서 RED부터 재시작했다.
+
+## 7. TDD 증거
+
+```text
+RED_RUN = Project Core Documentation 888
+RED_RESULT = FAILURE_AS_EXPECTED
+RED_CAUSE = BUILDING_AUTHORITY / PROCESS_POLICY / 3_OF_10_ROUTING_MISSING
+GREEN_CANDIDATE = PR_138_DOCUMENTATION_BRANCH
+PRODUCT_CODE = UNCHANGED
+```
+
+최종 Green·Refactor·Sheet·preflight 증거는 exact PR HEAD에서 갱신한다.
+
+## 8. 적대적 감사 계보
 
 ```text
 OMW-AUD-208~289 = 전투 결정·유지보수
@@ -147,42 +160,30 @@ OMW-AUD-300~313 = 전장 시각 계층
 OMW-AUD-314~343 = HUD·룰렛·자원·건물·자산 재사용
 OMW-AUD-344~359 = 픽셀·일러스트 하이브리드 아트
 OMW-AUD-360~375 = 핵심 재미·정본·구형 문서 충돌
-OMW-AUD-376~397 = Stage 압력·공정성·리플레이성·구형 Stage 충돌
+OMW-AUD-376~397 = Stage 압력·공정성·리플레이성
+OMW-AUD-398~419 = 건물 분기·카운터·포기 비용·운영 정책
 ```
 
-## 8. 현재 보류·폐기
+## 9. 수명주기
 
-- 첫 10~15분 구형 상세 흐름: `[보류]`.
-- 구형 첫 4공세 수치·식량·자동생산: `[보류]`.
-- Hero·Legendary family: `[보류]`.
-- Meta·Hub: `[보류]`.
-- 식량 현행 HUD 자원: `[폐기]`.
-- 기본 건물 5종: `[폐기]`.
-- 주변 범위 지휘소 오라: `[폐기]`.
-- `15웨이브=1스테이지`와 고정 60초 공세: `[폐기]`.
-- Danger에서 정보·핵심 기능 차단: `[폐기]`.
-- 별도 룰렛 금화·병종 아이콘: `[폐기]`.
-- T3 병종 룰렛 토큰: `[폐기]`.
+- `[대체됨]`: 구형 master GDD, 15 Wave Stage, 과거 상태 Sync.
+- `[보류]`: 첫 10분·첫 4공세·Hero·Legendary·Meta·Hub·구형 구현 계획.
+- `[폐기]`: 식량 핵심 자원, 건물 5종, 주변 지휘소, 별도 룰렛 아이콘, T3 룰렛 토큰, 동일 인스턴스 교차 분기·양쪽 T3.
+- `[증거]`: PR·CI·벤치마크·archive.
 
-## 9. 현재 금지선
+## 10. 현재 경계와 다음 Gate
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_PLANNING = STAGE_PRESSURE_MATRIX_NOT_IMPLEMENTED
+LATEST_PLANNING = BUILDING_BRANCH_CANON_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
 IMAGE_GENERATION = STOPPED_BY_USER
-BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
-```
-
-## 10. 다음 Gate
-
-```text
-CURRENT_COUNT = 2/10
-NEXT_DECISION = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
-NEXT_AFTER = TROOP_ROLES_SYNERGIES_AND_COUNTERS
+CURRENT_COUNT = 3_OF_10
+NEXT_DECISION = OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+NEXT_AFTER = OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-STONE-V1
 ```
