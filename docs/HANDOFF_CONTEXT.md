@@ -4,13 +4,14 @@
 updated_at: 2026-08-04
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-phase: COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_BUILDING_ROSTER_APPROVED
-current_validation_decision: OMW-DEC-20260804-PLANNING-COMBAT-HUD-REEL-AND-BUILD-UX-V1
+phase: PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_APPROVED
+current_decision: OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
 current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
 working_branch: gpt/omenward-simulation-harness-planning-20260803
-current_grill_me_count: 9_OF_10
+current_grill_me_count: 10_OF_10
 product_code_authority: NONE
-image_production_authority: PAUSED_BY_USER
+art_asset_production_authority: NONE
+image_generation: STOPPED_BY_USER
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_qa: NOT_RUN
@@ -26,19 +27,21 @@ DOCUMENTATION_MAP.md
 PROJECT_CANON_DECISION_LEDGER.md
 DECISIONS_PENDING.md
 process/APPROVED_PLANNING_VISUALS_AND_CODEX_IMPLEMENTATION_BOUNDARY_2026-08-04.md
-design/APPROVED_OMENWARD_COMBAT_SPACE_ROUTE_AND_TARGETING_EXPERIENCE_2026-08-04.md
-design/APPROVED_OMENWARD_BATTLEFIELD_VISUAL_HIERARCHY_AND_CAMERA_2026-08-04.md
+design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md
+design/APPROVED_OMENWARD_HUD_ROULETTE_LAYOUT_AND_BATTLEFIELD_VIEW_AMENDMENT_2026-08-04.md
 design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md
+design/APPROVED_OMENWARD_BATTLEFIELD_VISUAL_HIERARCHY_AND_CAMERA_2026-08-04.md
+design/APPROVED_OMENWARD_COMBAT_SPACE_ROUTE_AND_TARGETING_EXPERIENCE_2026-08-04.md
 ```
 
-전체 시스템 제품 범위는 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`가 소유한다. Decision 9와 충돌하는 HUD·자원·상인·건물 조항은 최신 Decision 9 정본이 우선한다.
+전체 시스템 제품 범위는 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`가 소유한다. 최신 Decision과 충돌하는 HUD·자원·건물·시각 조항은 Decision 9·10과 HUD Amendment가 우선한다.
 
 ## 2. 제품 코어
 
 ```text
 예고된 세 전선 공세
 → 제한된 건물·TokenSource로 세 원형 릴 설계
-→ SpinSnapshot 이동·결과 확정
+→ 릴·행 이동과 회전 결과 확정
 → 보관·판매·한 전선 비가역 배치
 → 자동전투·점령·건물 운영
 → 결과 원인 복기
@@ -55,106 +58,85 @@ Codex
 = 자료구조·알고리즘·좌표·경로탐색·물리·성능·코드·테스트 구현
 ```
 
-GPT 작업 우선순위:
+기술 구현 논의가 핵심 재미·콘텐츠·이미지 논의를 밀어내면 범위를 교정한다. 과거 문서의 `30 TPS`, R00~R130, 정수 좌표·시간, basis point, Schema·정렬 키는 Codex 참고안이며 구현 구속력이 없다.
+
+## 4. 승인된 HUD·룰렛·자원
 
 ```text
-핵심 재미
-→ 콘텐츠 구조와 역할
-→ UX·이미지·아트
-→ 구현 결과 조건
+평상시 하단 = [룰렛] [보관함] [건설] [전술스킬] [벨루]
+핵심 자원 = 골드 / 마석 / 배치 병력·병력 한도
+이동권 = 룰렛 내부 n/3 + 럭키 무료 이동
+상인 = Stage 종료 정비시간
 ```
 
-기술 구현 논의가 핵심 재미·콘텐츠·이미지 논의를 밀어내면 즉시 범위를 교정한다. 과거 문서의 `30 TPS`, R00~R130, 정수 좌표·시간, basis point, Schema·정렬 키는 Codex 참고안이며 구현 구속력이 없다.
-
-## 4. 승인된 전투 공간·카메라
+룰렛 작업대:
 
 ```text
-THREE_FRONTS = TOP / MID / BOTTOM
-VISIBLE_MAIN_ROUTE_PER_FRONT
-VISIBLE_BYPASS_AND_AIR_ROUTES
-CAMERA = PC 16:9 HIGH_ANGLE_THREE_QUARTER_STRATEGY
-THREE_FRONTS_VISIBLE = REQUIRED
-FORCED_CAMERA_MOVEMENT = MINIMIZED
+좌측 = 이동권·럭키·병종 Tier·완성선 보상 등급
+중앙 = 3×3 룰렛·열 상하·행 좌우 화살표
+우측 = 회전 비용·룰렛 돌리기·결과 Preview·결과 확정·벨루
 ```
 
-- Ground는 전열·후열·혼잡을 형성한다.
-- Flying은 Ground 혼잡을 넘지만 전선·Target 규칙을 무시하지 않는다.
-- 침투 병력은 순간이동이 아니라 보이는 우회로를 사용한다.
-- Boss·Danger 연출은 다른 전선을 숨기지 않는다.
+기본 건물은 금고·농장·병영·방어탑·지휘소·마력탑이다. 지휘소는 현재 MapRun 전체 아군 오라다.
 
-## 5. 승인된 HUD·룰렛·자원
-
-평상시 하단:
+## 5. 승인된 아트 방향
 
 ```text
-[룰렛] [보관함] [건설] [전술스킬] [벨루]
+STYLE = PIXEL_ILLUSTRATION_HYBRID
+MOOD = FAIRYTALE_HOLY_FANTASY_VS_VEIL_GOTHIC
+BATTLEFIELD = PIXEL_READABILITY + ILLUSTRATED_MATERIAL_AND_LIGHT
+CLOSEUP_UI = ILLUSTRATION_FORWARD
 ```
 
-- 상시 상점 버튼은 없다.
-- 벨루는 우측 하단 초상과 짧은 상황 대사로 사용한다.
-- 평상시 자원은 골드·마석·배치 병력/병력 한도다.
-- 이동권은 룰렛 안에서만 `보관 이동권 n/3`과 럭키 무료 이동으로 표시한다.
-- 건물별 지속 유지비와 토큰 초당 공급 표시는 없다.
-- 병종 Tier와 완성선 기반 보상 등급을 분리한다.
+- 전장에서는 먼 거리 실루엣·진영·길·노드 판독이 우선이다.
+- 보상·도감·벨루에서는 일러스트의 동화 감성과 재질·표정을 강화한다.
+- 아군은 상아·청색·절제된 금색, Veil은 흑색·심자색·적자색이다.
+- Veil은 아군 자산 재도색이 아니라 비대칭·가시·유기 고딕 형태를 사용한다.
+- T1→T2→T3는 장비·자세·실루엣·역할 판타지로 성장한다.
+- 영웅·전설은 기본 병종 계보를 유지한다.
+- 벨루는 일러스트 우선 SD 컷아웃이다.
 
-룰렛 이동:
+## 6. 룰렛 자산 재사용 — 변경 금지
 
 ```text
-릴 선택 → 위/아래 미리보기 → 세로 이동 실행
-행 선택 → 왼쪽/오른쪽 미리보기 → 가로 이동 실행
+금화 토큰 = 인게임 금화 이미지
+병종 토큰 = 인게임 T1·T2 병종 이미지
+T3 병종 토큰 = 금지
+결과 보상 = 실제 지급 병종 이미지
+별도 금화·병종 토큰 아이콘 제작 = 금지
 ```
 
-## 6. 승인된 상인·건물 6종
-
-```text
-Stage 정산
-→ 정비시간
-→ 유한 재고 상인 거래
-→ 미션·선택지
-→ 다음 Stage
-```
-
-기본 건물:
-
-| 건물 | 역할 |
-|---|---|
-| 금고 | 골드 수입 + 금화 TokenSource |
-| 농장 | 병력 한도 확장 |
-| 병영 | 병종 TokenSource·Tier 성장 |
-| 방어탑 | 전선 직접 공격 |
-| 지휘소 | 현재 MapRun 전체 아군 병력 오라 |
-| 마력탑 | 마석 수급·최대 보유량 강화 |
-
-- 같은 지휘소 계열은 최고 Tier만 적용한다.
-- 돌격 지휘소와 수비 지휘소는 함께 활성화할 수 있다.
-- 마력탑은 전술스킬을 자동 사용하지 않는다.
+토큰 → 결과 카드 → 보관함 → 배치 카드 → 전장 병종은 같은 디자인 계보를 사용한다.
 
 ## 7. 이미지 상태
 
 ```text
-IMAGE_GENERATION = PAUSED_BY_USER
-EXISTING_GENERATED_IMAGES = CONCEPT_REFERENCE_ONLY / NOT_CANON
+IMAGE_GENERATION = STOPPED_BY_USER
+EXISTING_GENERATED_IMAGES = SELECTION_EVIDENCE_AND_LAYOUT_REFERENCE_ONLY / NOT_CANON_ASSETS
+ART_ASSET_PRODUCTION = NOT_AUTHORIZED
 ```
 
-10/10에서는 추가 이미지를 만들지 않고 아트 방향과 최종 Brief를 텍스트로 확정한다.
+비교 이미지에서 사용자가 선택한 것은 스타일 4의 방향이며, 이미지 파일 자체가 최종 자산은 아니다.
 
 ## 8. 적대적 감사
 
 ```text
-OMW-AUD-208~289 = 기존 검증·수치·전투 감사
-OMW-AUD-290~299 = 기술 과잉 정본화·Route·Targeting·이미지 가독성 감사
-OMW-AUD-300~313 = 카메라·시각 계층·정보 밀도·핵심 재미 우선순위 감사
-OMW-AUD-314~330 = HUD·룰렛·자원·상인·건물 역할 감사
+OMW-AUD-208~289 = 기존 검증·전투 감사
+OMW-AUD-290~299 = 기술 과잉 정본화·전투 공간 감사
+OMW-AUD-300~313 = 카메라·시각 계층 감사
+OMW-AUD-314~343 = HUD·룰렛·자원·자산 재사용 감사
+OMW-AUD-344~359 = 픽셀·일러스트 하이브리드 아트 감사
 ```
 
 ## 9. 현재 금지선
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_BUILDING_ROSTER_DOCUMENTED_NOT_IMPLEMENTED
+LATEST_APPROVED = PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
-IMAGE_ANIMATION_HX = PAUSED_BY_USER
+ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+IMAGE_GENERATION = STOPPED_BY_USER
 BALANCE_CONCLUSION = FORBIDDEN
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
@@ -164,13 +146,9 @@ HUMAN_QA = NOT_RUN
 ## 10. 다음 작업
 
 ```text
-10/10 아트 방향·최종 이미지 Brief
-→ preflight·적대적 검토
-→ merge readiness
+10/10 fresh preflight·적대적 검토
+→ Green·blocker 0 확인
+→ 기획 정본 merge readiness 판정
 → 핵심 재미·콘텐츠 기획 심화
-→ Codex 구현 계약
+→ 사용자 별도 승인 후 Codex 구현 계약
 ```
-
-다음 Decision:
-
-`OMW-DEC-20260804-PLANNING-ART-DIRECTION-AND-IMAGE-PROTOTYPE-BRIEF-V1`
