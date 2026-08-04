@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 approval: USER_FINAL_APPROVAL
 planning_counter_target: 4_OF_10
-status: APPROVED_DESIGN_SPEC / SELF_REVIEWED / NOT_CANONIZED / NOT_IMPLEMENTED
+status: USER_REVIEWED / APPROVED_DESIGN_SPEC / NOT_CANONIZED / NOT_IMPLEMENTED
 product_code_authority: NONE
 simulation: NOT_RUN
 runtime: NOT_RUN
@@ -215,58 +215,69 @@ T3는 결과 Preview·보관함·배치 카드·전장 실제 병종에서 표�
 우선 표적
 유리한 압력
 명확한 약점
-추천 전선·Route 조건
+배치 후 이동 가능 여부
+현재 Tier와 T3 역할 변화
 ```
 
-압력 대응을 설명할 때 숨은 보정값 대신 관찰 가능한 행동을 우선한다. 플레이어는 Stage 시작 전 `왜 이 병종이 필요한지`, 결과 복기에서 `왜 역할을 수행했거나 실패했는지` 설명할 수 있어야 한다.
+- 역할 아이콘과 실제 행동이 다르면 Stop-ship.
+- `공중 공격 가능`, `우회 Route 대응`, `구조물 우선` 같은 규칙은 숨은 태그로만 존재하면 안 된다.
+- 시너지는 결과 로그와 Stage 복기에서 원인·결과를 설명할 수 있어야 한다.
+- 한 화면에서 10종 전체 상성표를 강제하지 않고 현재 후보와 예고 압력의 관계를 우선 표시한다.
 
-## 12. 제품·수치 경계
+## 12. 수치·구현 경계
 
-이 Spec은 기획 계약이며 제품 코드 변경 권한이 아니다.
+이 Spec은 다음을 확정하지 않는다.
+
+- 체력·공격력·방어력·사거리·속도 수치.
+- 피해 배율·방어 관통률·회복량.
+- 룰렛 가중치·승급 비용·보상 확률.
+- 실제 AI 상태 머신·경로탐색·타기팅 구현.
+- 실제 `.tres`, GDScript, Scene, 아트 자산 변경.
 
 ```text
-EXACT_HEALTH: PENDING_SIMULATION
-EXACT_DAMAGE: PENDING_SIMULATION
-EXACT_ARMOR_AND_PENETRATION: PENDING_SIMULATION
-EXACT_RANGE_AND_SPEED: PENDING_SIMULATION
-TOKEN_WEIGHTS: PENDING_SIMULATION
-UPGRADE_COSTS: PENDING_ECONOMY
-PRODUCT_IMPLEMENTATION: NOT_AUTHORIZED
+EXACT_NUMERICS: PENDING_SIMULATION
+PRODUCT_CODE_AUTHORITY: NONE
+DATA_MIGRATION: NOT_AUTHORIZED
 ART_ASSET_PRODUCTION: NOT_AUTHORIZED
 ```
 
-현행 `.tres` 병종 수치는 Legacy prototype evidence일 뿐 최신 정본 수치로 승계하지 않는다.
+현행 `data/units/*.tres`는 Legacy Prototype 증거다. 4/10 정본과 별도 구현 계획·RED 테스트 승인 전에는 값을 새 정본으로 간주하지 않는다.
 
-## 13. TDD 수용 계약
+## 13. 수용 기준
 
-후속 구현 계획은 RED 단계에서 최소 다음 실패를 자동 검증한다.
+- 열 종의 기준선 병종이 서로 다른 역할·표적·배치 판단·포기 비용을 가진다.
+- 다섯 압력 모두에 최소 두 병종 대응 경로가 있다.
+- 병종 대응이 건물·전술 대응을 대체하지 않는다.
+- 각 병종은 단독 역할을 가지며 특정 짝이 없어도 작동한다.
+- 시너지는 관찰 가능한 전장 행동 연결로 설명된다.
+- 암살자·기병·비행병의 역할이 구분된다.
+- 전열·기동 병영 분기가 결과 방향을 바꾸되 반대 계열을 영구 삭제하지 않는다.
+- T3 병종 룰렛 토큰이 재도입되지 않는다.
+- 병종 수 변경은 증거·제작 비용·학습 비용·별도 승인 없이 수행되지 않는다.
+- 제품 코드와 정확 수치는 변경되지 않는다.
 
-- 4/10 책임 원본이 없거나 중앙 문서가 다른 Decision을 가리킴.
-- 로스터 기준선과 `ROSTER_COUNT_IS_NOT_SACRED`가 함께 기록되지 않음.
-- 다섯 압력 중 병종 대응 경로가 두 개 미만인 압력이 존재함.
-- T3 룰렛 토큰 금지 규칙이 누락됨.
-- 병종 시너지가 단순 세트 보너스만으로 정의됨.
-- 전열·기동 병영 계열과 공통 지원 계열의 역할이 누락됨.
-- 제품 코드·실제 수치가 승인 없이 변경됨.
-- Google Sheet가 같은 Decision ID·exact HEAD·4/10을 기록하지 않음.
+## 14. TDD 계약
 
-## 14. 성공 기준
+RED에서 다음 부재를 실패시킨다.
 
-- 각 병종의 역할과 약점을 한 문장으로 설명할 수 있다.
-- 같은 압력에 최소 두 병종 대응 경로가 존재한다.
-- 같은 병종이 모든 압력의 최적해가 아니다.
-- 암살자·기병·비행병의 배치 판단이 서로 다르다.
-- 병영 분기가 반대 계열을 영구 삭제하지 않으면서 결과 방향을 바꾼다.
-- T1/T2/T3 역할 계보와 룰렛 자산 규칙이 충돌하지 않는다.
-- 정확 수치 없이도 Stage·건물·병종의 인과가 검수 가능하다.
+1. 4/10 책임 정본 파일.
+2. 10종 기준선과 비고정 로스터 수 계약.
+3. 다섯 압력별 최소 두 병종 대응.
+4. 행동 기반 시너지와 세트 보너스 금지.
+5. 병영 가중 계열과 반대 계열 영구 삭제 금지.
+6. T3 룰렛 토큰 금지와 실제 자산 재사용.
+7. 적대적 검토와 Audit ID 범위.
+8. 중앙 라우터와 Sheet의 같은 Decision ID·4/10 상태.
 
-## 15. 다음 단계
+GREEN은 최소 문서 정본·라우팅·Sheet 동기화로 통과시킨다. REFACTOR에서는 중복 문구와 구형 병종 권위 충돌을 정리하고 전체 검증을 재실행한다.
 
-Spec 승인 뒤 `writing-plans`로 다음 작업을 구체화한다.
+## 15. 후속 Gate
 
-1. 병종 정본 자동 계약 테스트 작성과 RED 확인.
-2. 책임 원본·적대적 검토·중앙 라우터 작성.
-3. 구형 병종·적 계보 문서 lifecycle 분류.
-4. Google Sheet Decision·감사·exact HEAD 동기화.
-5. GREEN·REFACTOR·fresh PR preflight.
-6. 문서 PR 병합 후 다음 5/10 전술스킬·마석 Gate로 이동.
+```text
+4/10 병종 역할·시너지·카운터
+→ 5/10 전술스킬·마석
+→ 건물+병종+전술 압력 대응 재검증
+→ 별도 Codex 구현 계획과 제품 RED 테스트
+```
+
+4/10 문서 병합은 병종 데이터 구현 승인이 아니다.
