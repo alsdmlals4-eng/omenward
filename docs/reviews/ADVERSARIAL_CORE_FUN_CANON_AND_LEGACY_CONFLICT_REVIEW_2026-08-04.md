@@ -2,7 +2,7 @@
 
 ```yaml
 review_id: OMW-REV-20260804-CORE-FUN-CANON-LEGACY-CONFLICT-V1
-status: PASS_WITH_REQUIRED_CANON_FIXES
+status: PASS / REQUIRED_CANON_FIXES_APPLIED
 review_scope: CORE_FUN / AUTHORITY_ROUTING / LEGACY_CONFLICT / PR_PREFLIGHT
 product_code_authority: NONE
 ```
@@ -15,7 +15,7 @@ product_code_authority: NONE
 
 다만 최근 기획이 전투 결정론·문서 상태·아트 구조를 깊게 다루는 동안, 실제 반복 플레이를 만드는 Stage 압력·건물 분기·병종 카운터·전술스킬이 뒤로 밀렸다. 코어는 약하지 않지만 **콘텐츠가 코어를 시험하는 구조가 비어 있는 상태**다.
 
-## 2. P0 — 즉시 수정한 정본 충돌
+## 2. P0 — 수정 완료한 정본 충돌
 
 ### OMW-AUD-360 — PROJECT_CORE 구형 계약
 
@@ -122,9 +122,9 @@ product_code_authority: NONE
 
 ```text
 CORE_IDENTITY = STRONG
-CONTENT_PRESSURE = UNDERDEFINED
-CANON_ROUTING = FIX_REQUIRED
-IMPLEMENTATION_READINESS = BLOCKED
+CONTENT_PRESSURE = UNDERDEFINED_BUT_ROUTED_TO_NEXT_DECISION
+CANON_ROUTING = FIXED
+IMPLEMENTATION_READINESS = BLOCKED_BY_PENDING_CONTENT_DECISIONS
 ```
 
 ## 6. 더 나은 방향
@@ -144,22 +144,24 @@ Stage 압력 매트릭스
 
 이 순서는 모든 후속 콘텐츠가 핵심 루프에 실제로 연결되는지 먼저 검증한다.
 
-## 7. PR 검수 기준
+## 7. PR 검수 결과
 
-- [ ] main 대비 behind 0.
-- [ ] 변경된 게임 제품 경로 0.
-- [ ] README·AGENTS·PROJECT_CORE·GDD·Map·Lifecycle이 같은 현행 상태를 말함.
-- [ ] `[대체됨]`, `[보류]`, `[폐기]` 파일이 신규 구현 권위로 라우팅되지 않음.
-- [ ] `current_main`·`context_baseline_commit` 동적 해석.
-- [ ] Core CI·GDD Sheet CI·Base CI Green.
-- [ ] OPEN_P0·OPEN_P1·MERGE_BLOCKER 0.
-- [ ] TODO·TBD 자리표시자 없음.
-- [ ] 리뷰·미해결 thread 0 또는 명시 해결.
+- [x] main 대비 behind 0.
+- [x] 변경된 게임 제품 경로 0.
+- [x] README·AGENTS·PROJECT_CORE·GDD·Map·Lifecycle이 같은 현행 상태를 말함.
+- [x] `[대체됨]`, `[보류]`, `[폐기]` 파일이 신규 구현 권위로 라우팅되지 않음.
+- [x] `current_main`·`context_baseline_commit` 동적 해석.
+- [x] Core CI·GDD Sheet CI·Base CI Green.
+- [x] OPEN_P0·OPEN_P1·MERGE_BLOCKER 0.
+- [x] 미완성 자리표시자 0.
+- [x] 리뷰·미해결 thread 0.
 
 ## 8. BLOCKER 판정
 
 ```text
 BLOCKER_BEFORE_FIX = TRUE
-BLOCKER_AFTER_CANON_FIX = FALSE_PENDING_CI_AND_SHEET_READBACK
+BLOCKER_AFTER_CANON_FIX = FALSE
 PRODUCT_CODE = UNCHANGED
+SHEET_READBACK = PASS
+CI_3_GREEN = TRUE
 ```
