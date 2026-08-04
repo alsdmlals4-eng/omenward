@@ -45,13 +45,14 @@ RUNTIME = NOT_RUN
 LEGACY_C1_C2_C3_PROVEN
 LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
+LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 ```
 
 - C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 - C1 최종 검증 run: `29926598807`
 - C2 최종 검증 run: `29938742864`
 
-이 증거는 과거 Legacy C1·C2 계약에만 적용되며 최신 기획 구현을 증명하지 않는다.
+이 증거는 과거 Legacy C1·C2·C3 계약에만 적용되며 최신 기획 구현을 증명하지 않는다.
 
 ## 3. 현행 플레이어 규칙
 
