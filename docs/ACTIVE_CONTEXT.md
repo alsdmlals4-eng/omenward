@@ -1,149 +1,140 @@
-# Active Context
+# [현행] Active Context
 
 ```yaml
 updated_at: 2026-08-04
 project: OMENWARD / 오멘워드
 work_mode: TOTAL_PLANNING
-current_phase: POST_MERGE_CANON_SYNC / CORE_FUN_CONTENT_DEEPENING
-current_planning_decision: OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
-current_sync: OMW-SYNC-20260804-POST-MERGE-PIXEL-ILLUSTRATION-HYBRID-CANON-V1
-current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
+current_phase: CORE_FUN_AND_CONTENT_DEEPENING
+current_planning_decision: OMW-DEC-20260804-PLANNING-CORE-FUN-AND-CONTENT-GUARDRAILS-V1
+current_process_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 current_branch: main
-context_baseline_commit: d8ce26ee3ee21dbab50839b7a1334116e147789e
-current_main: d8ce26ee3ee21dbab50839b7a1334116e147789e
-working_branch: gpt/omenward-post-merge-art-direction-sync-20260804
+context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+working_branch: gpt/omenward-core-fun-canon-lifecycle-cleanup-20260804
 active_base_version: 9.4.3
 current_product: LEGACY_PROTOTYPE
-latest_planning: MAIN_CANONICAL / NOT_IMPLEMENTED
+latest_planning: USER_APPROVED / ACTIVE_PLANNING_BRANCH / NOT_IMPLEMENTED
 product_code_authority: NONE
 art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
 codex_execution: BLOCKED_UNTIL_SEPARATE_IMPLEMENTATION_HANDOFF
-last_merged_planning_pr: 133
-last_merged_planning_commit: d8ce26ee3ee21dbab50839b7a1334116e147789e
-current_grill_me_count: 0
+last_merged_planning_pr: 134
+last_merged_planning_commit: 3dc91102607b2e3d184897fb1fd7531f8a3327b3
+current_grill_me_count: 1
 future_merge_cadence: EVERY_10_APPROVED_GRILL_ME_DECISIONS
-last_preflight: PASS_AT_10_OF_10 / CI_842_558_539
 simulation: NOT_RUN
 runtime_validation: NOT_RUN
 human_validation: NOT_RUN
 ```
+
+`current_main`과 `context_baseline_commit`은 실행 시점 저장소 기본 브랜치에서 해석한다. 과거 병합 SHA는 `last_merged_*` 증거 필드에만 보존한다.
 
 ## 1. 프로젝트 코어
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
 ```text
-예고된 세 전선 공세 읽기
-→ 제한된 건물·TokenSource로 세 원형 릴 설계
-→ 릴·행 이동과 회전 결과 확정
-→ 보관·판매·한 전선 비가역 배치
+공세 예고
+→ 건설·TokenSource 구성
+→ 세 원형 릴 회전
+→ 3×3 노출창 이동·확정
+→ 보관·판매·한 전선 배치
 → 자동전투·점령·건물 운영
 → 결과 원인 복기
 → 다음 Stage 설계
 ```
 
-전체 시스템 Vertical Slice 정본은 `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다. 최신 HUD·자원·상인·건물 역할은 Decision 9가, 최신 시각 문법은 Decision 10이 우선한다.
+세 원형 릴은 3×3 노출창의 세 열이다.
 
-## 2. GPT와 Codex 역할
+## 2. 현재 핵심 재미 Decision
+
+책임 원본:
+
+`design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
+
+핵심 4축:
 
 ```text
-GPT / Work
-= 핵심 재미·플레이 동기·콘텐츠 기획·플레이어 규칙·UX·이미지·아트 방향·검수 기준
-
-Codex
-= 자료구조·알고리즘·좌표·경로탐색·물리·성능·코드·테스트 구현
+예고된 압력
+→ 제작한 확률
+→ 비가역 전선 커밋
+→ 설명 가능한 결과
 ```
 
-GPT 우선순위는 핵심 재미 → 콘텐츠 구조 → UX·이미지·아트 → 구현 결과 조건이다. Codex 구현이 플레이어 경험과 기획 역할을 바꾸면 다시 Grill Me 승인을 받는다.
-
-## 3. main에 병합된 Planning Stack
+Stage 콘텐츠 압력 분류:
 
 ```text
-1. Deterministic outcome·provenance requirement
-2. Common combat behavior and same-tick fairness intent
-3. Damage·Protection·Status player-facing semantics
-4. Mitigation·Barrier·Status design defaults
-5. Combat tempo·spawn readability intent
-6. Modifier readability·stacking guard intent
-7. Combat space·route·targeting experience
-8. Battlefield visual hierarchy·camera·information density
-9. Combat HUD·roulette information·resources·merchant·building roster
-10. Pixel·illustration hybrid art direction and asset lineage
+MASS / ARMORED / FLYING / INFILTRATION / SIEGE
 ```
 
-Decision 10 책임 원본:
+정확 Stage·적·수치는 후속 Decision이다.
 
-`design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md`
-
-## 4. 승인된 HUD·룰렛·자원·건물
+## 3. 현행 자원·건물·HUD
 
 ```text
-평상시 하단 = [룰렛] [보관함] [건설] [전술스킬] [벨루]
-핵심 자원 = 골드 / 마석 / 배치 병력·병력 한도
-이동권 = 룰렛 패널 내부 n/3 + 럭키 무료 이동
-상인 = Stage 종료 정비시간
+자원 = 골드 / 마석 / 배치 병력·병력 한도 / 이동권
 건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
+하단 = [룰렛] [보관함] [건설] [전술스킬] [벨루]
+상인 = Stage 종료 정비시간
 지휘소 = 현재 MapRun 전체 아군 병력 오라
 ```
 
-룰렛 작업대는 낮고 가로로 길며 좌측 규칙, 중앙 3×3 보드와 이동 화살표, 우측 회전·결과·벨루로 구성한다.
+- 식량은 현행 핵심 HUD 자원이 아니다.
+- 토큰 초당 공급·건물 지속 유지비 없음.
+- 금화·병종 토큰은 인게임 금화·T1/T2 병종 이미지를 재사용.
+- T3 병종 이미지는 룰렛 병종 토큰에 사용하지 않음.
 
-## 5. 승인된 최종 아트 방향
+## 4. 최종 아트 방향
 
 ```text
 STYLE = PIXEL_ILLUSTRATION_HYBRID
-MOOD = FAIRYTALE_HOLY_FANTASY_VS_VEIL_GOTHIC
 BATTLEFIELD = PIXEL_READABILITY + ILLUSTRATED_MATERIAL_AND_LIGHT
 CLOSEUP_UI = ILLUSTRATION_FORWARD
 ```
 
-- 전장에서는 먼 카메라 가독성과 역할 실루엣을 우선한다.
-- 보상·도감·벨루에서는 일러스트 재질·표정·동화 감성을 강화한다.
-- 아군은 상아·청색·절제된 금색, Veil은 흑색·심자색·적자색이다.
-- Veil은 아군 자산 재도색이 아니라 비대칭·가시·유기 고딕 형태를 사용한다.
-- Tier 상승은 색 변경·몸집 확대가 아니라 장비·자세·실루엣·역할 판타지로 표현한다.
+추가 이미지·실제 아트 제작은 사용자 별도 지시 전 중단한다.
 
-룰렛 자산:
+## 5. 문서 수명주기
 
-```text
-금화 토큰 = 인게임 금화 이미지
-병종 토큰 = 인게임 T1·T2 병종 이미지
-T3 병종 토큰 = 금지
-결과 보상 = 실제 지급 병종 이미지
-별도 금화·병종 토큰 아이콘 제작 = 금지
-```
+권위:
 
-## 6. 이미지·제작 경계
+- `DOCUMENTATION_MAP.md`
+- `DOCUMENT_LIFECYCLE_REGISTRY.md`
+- `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`
 
 ```text
-IMAGE_GENERATION = STOPPED_BY_USER
-EXISTING_GENERATED_IMAGES = SELECTION_EVIDENCE_AND_LAYOUT_REFERENCE_ONLY / NOT_CANON_ASSETS
-ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+[현행] = 사용 허용
+[대체됨] = 후속 정본 사용
+[보류] = 재검증 전 사용 금지
+[폐기] = 사용 금지
+[증거] = 사실 근거만 허용
 ```
 
-사용자가 별도로 제작 재개를 지시하기 전까지 추가 이미지·애니메이션·VFX 자산을 만들지 않는다.
+현재 `[보류]`:
 
-## 7. 완료된 Preflight·Merge
+- 구형 첫 10분 벨루 흐름.
+- Meta·Hub 문서.
+- Hero·Legendary family.
 
-```text
-SOURCE_PR = 133
-SOURCE_HEAD = 48466c4f669e24e19e2c8be3f4c879bdbfda04a9
-MERGED_MAIN = d8ce26ee3ee21dbab50839b7a1334116e147789e
-CI = 842 / 558 / 539 PASS
-BEHIND = 0
-DOCS_ONLY_PATHS = 19
-UNRESOLVED_THREADS = 0
-OPEN_P0 = 0
-OPEN_P1 = 0
-MERGE_BLOCKER = 0
-```
+## 6. 적대적 검토 결과
 
-## 8. 현재 경계
+책임 원본:
+
+`reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md`
+
+주요 수정:
+
+- PROJECT_CORE 구형 식량·5종 건물 제거.
+- 구형 master GDD `[대체됨]` 처리.
+- README·AGENTS·Roadmap 최신화.
+- fixed current-main 회귀 방지.
+- 고아 APPROVED 문서 lifecycle 격리.
+
+## 7. 현재 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_APPROVED = PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_MAIN_CANON_NOT_IMPLEMENTED
+LATEST_APPROVED = CORE_FUN_AND_CONTENT_GUARDRAILS_DOCUMENTED_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
@@ -152,13 +143,11 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 다음 GPT 작업
+## 8. 다음 Gate
 
 ```text
-GRILL_ME_COUNT = 0/10
-NEXT_PLANNING = CORE_FUN_AND_CONTENT_DEEPENING
-PRIORITY_1 = STAGE_WAVE_DANGER_BOSS_CONTENT_PRESSURE
-PRIORITY_2 = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
-PRIORITY_3 = TACTICAL_SKILLS_MANA_AND_STAGE_END_MERCHANT
+GRILL_ME_COUNT = 1/10
+NEXT_DECISION = STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX
+THEN = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
 NEXT_IMPLEMENTATION = SEPARATELY_AUTHORIZED_CODEX_HANDOFF
 ```
