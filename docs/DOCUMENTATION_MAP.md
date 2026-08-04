@@ -4,11 +4,11 @@
 updated_at: 2026-08-04
 work_mode: TOTAL_PLANNING
 current_phase: CORE_FUN_AND_CONTENT_DEEPENING
-current_planning_decision: OMW-DEC-20260804-PLANNING-CORE-FUN-AND-CONTENT-GUARDRAILS-V1
+current_planning_decision: OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1
 current_process_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_count: 1_OF_10
-next_gate: STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX
+current_count: 2_OF_10
+next_gate: SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
 ```
 
 ## 1. 읽기 순서
@@ -40,13 +40,17 @@ README.md
 | 동적 main·수명주기 정책 | `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
 | GPT 기획·Codex 구현 경계 | `process/APPROVED_PLANNING_VISUALS_AND_CODEX_IMPLEMENTATION_BOUNDARY_2026-08-04.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
 | 핵심 재미·콘텐츠 가드레일 | `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md` | `CURRENT_CORE_FUN_AUTHORITY / DECISION_1_OF_10` |
-| 핵심 재미·구형 충돌 적대적 검토 | `reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md` | `CURRENT_ADVERSARIAL_CORE_REVIEW` |
+| Stage·Wave·Danger·Boss 압력 | `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md` | `CURRENT_STAGE_PRESSURE_AUTHORITY / DECISION_2_OF_10` |
+| 핵심 재미·구형 충돌 검토 | `reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md` | `CURRENT_ADVERSARIAL_CORE_REVIEW` |
+| Stage 공정성·리플레이 검토 | `reviews/ADVERSARIAL_STAGE_PRESSURE_REPLAYABILITY_AND_FAIRNESS_REVIEW_2026-08-04.md` | `CURRENT_STAGE_ADVERSARIAL_REVIEW` |
 
 ## 3. 현행 시스템 권위
 
 | 주제 | 권위 문서 | 상태 |
 |---|---|---|
-| 전체 시스템 Vertical Slice 기준선 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `CURRENT_VERTICAL_SLICE_AUTHORITY / LATER_DECISIONS_SUPERSEDE_CONFLICTS` |
+| 전체 시스템 연결 계보 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `SYSTEM_CONNECTIVITY_BASELINE / PARTIAL_SUPERSESSION` |
+| MapRun·Stage·Wave·접전지 | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` | `CURRENT_MAPRUN_STAGE_WAVE_CORE / NOT_IMPLEMENTED` |
+| MapRun·Stage·Wave·정비시간 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | `CURRENT_GAME_FLOW_TERMINOLOGY / NOT_IMPLEMENTED` |
 | 전투 공간·Route·Targeting 경험 | `design/APPROVED_OMENWARD_COMBAT_SPACE_ROUTE_AND_TARGETING_EXPERIENCE_2026-08-04.md` | `CURRENT_PLAYER_FACING_SPACE_AUTHORITY / NOT_IMPLEMENTED` |
 | 전장 시각 계층·카메라 | `design/APPROVED_OMENWARD_BATTLEFIELD_VISUAL_HIERARCHY_AND_CAMERA_2026-08-04.md` | `CURRENT_BATTLEFIELD_VISUAL_AUTHORITY / NOT_IMPLEMENTED` |
 | HUD·룰렛·자원·상인·건물 | `design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md` | `CURRENT_HUD_RESOURCE_BUILDING_AUTHORITY / NOT_IMPLEMENTED` |
@@ -55,7 +59,9 @@ README.md
 | 세계관·명칭 | `design/APPROVED_OMENWARD_WORLD_AND_NAMING.md` | `CURRENT_WORLD_NAMING_AUTHORITY` |
 | 벨루 정체성 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md` | `CURRENT_BELU_IDENTITY_AUTHORITY` |
 
-## 4. 전투 의미·공정성 권위와 구현 경계
+`APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 전체 시스템 연결 계보만 현행이다. 식량·건물 5종·주변 지휘소·15~20웨이브 단일 Stage 같은 세부는 후속 현행 문서가 대체한다.
+
+## 4. 전투 의미·공정성과 구현 경계
 
 다음 문서는 플레이어에게 보이는 전투 의미·공정성·가드레일은 현행이다.
 
@@ -68,17 +74,44 @@ README.md
 
 `30 TPS`, R00~R130, 정수 좌표·시간, basis point, stable-ID 정렬, 내부 Schema·Resolver 구조는 `CODEX_REFERENCE_RECOMMENDATION / NOT_BINDING_IMPLEMENTATION`이다. 플레이어 규칙을 바꾸지 않는 범위에서 Codex가 구현 방식을 정한다.
 
-## 5. 보류·대체·폐기 라우팅
+## 5. Stage 압력 정본 요약
+
+```text
+MapRun = 20 Stage
+Wave Beat 기준선 = 3
+Danger = 4 / 9 / 14 / 19
+Boss = 5 / 10 / 15 / 20
+압력 = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
+```
+
+네 막:
+
+```text
+1~5 압력 문해력
+6~10 압력 조합
+11~15 기회비용
+16~20 종합 숙련
+```
+
+- Danger는 시작 전에 공개된 한 가지 규칙 변형만 사용한다.
+- Boss는 Route·태세·목표·호위·집중 공격 기회를 바꾼다.
+- 압력 역할은 고정하고 적 패키지·전선·Route는 맵별 작성 변형으로 둔다.
+- Stage 시작 뒤 치명적 요구 카운터를 몰래 바꾸지 않는다.
+- 정확한 시간·수량·Threat Budget은 시뮬레이션 전 미확정이다.
+
+## 6. 보류·대체·폐기 라우팅
 
 ### [대체됨]
 
 - `OMENWARD_GAME_DESIGN.md` → `OMENWARD_GDD_CURRENT_CANON.md`.
-- `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` → 핵심 원칙은 새 core-fun 정본으로 승계.
+- `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` → 핵심 원칙은 core-fun 정본으로 승계.
+- `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` → 새 20 Stage 압력 매트릭스로 대체.
 - 과거 post-merge Sync 문서 → merge 증거로만 보존.
 
 ### [보류]
 
 - `design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`.
+- `design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`.
 - Meta·Hub 문서군.
 - Hero·Legendary 문서군.
 - 구형 구현 계획.
@@ -88,13 +121,14 @@ README.md
 - 식량을 현행 핵심 HUD 자원으로 사용하는 해석.
 - 기본 건물 5종 해석.
 - 지휘소 주변 범위 오라.
+- `15웨이브=1스테이지`와 고정 60초 공세 시계.
 - 별도 룰렛 금화·병종 상징 아이콘.
 - T3 병종 룰렛 토큰.
 - 채택되지 않은 초기 명명 제안.
 
 상세 목록은 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 소유한다.
 
-## 6. 증거·계보
+## 7. 증거·계보
 
 | 주제 | 문서 | 상태 |
 |---|---|---|
@@ -106,13 +140,14 @@ README.md
 | 인수인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
 | Google Sheet | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
 
-## 7. 현행 핵심 요약
+## 8. 현행 핵심 요약
 
 ```text
 자원 = 골드 / 마석 / 배치 병력·병력 한도 / 이동권
 건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
 전장 = 상·중·하 + 주/우회/공중 Route
 룰렛 = 세 원형 릴이 3×3 노출창의 세 열을 구성
+Stage = 20 Stage / 3 Wave Beat / Danger 4·9·14·19 / Boss 5·10·15·20
 아트 = PIXEL_ILLUSTRATION_HYBRID
 ```
 
@@ -125,7 +160,7 @@ T3_TROOP_TOKEN = FORBIDDEN
 RESULT_REWARD_ART = ACTUAL_REWARDED_TROOP_IMAGE
 ```
 
-## 8. 구현·제품 경계
+## 9. 구현·제품 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
@@ -139,10 +174,10 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 9. 다음 Gate
+## 10. 다음 Gate
 
 ```text
-CURRENT_COUNT = 1/10
-NEXT_DECISION = STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX
-NEXT_AFTER = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
+CURRENT_COUNT = 2/10
+NEXT_DECISION = SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS
+NEXT_AFTER = TROOP_ROLES_SYNERGIES_AND_COUNTERS
 ```
