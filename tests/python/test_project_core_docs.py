@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib
+import re
 import runpy
 import shutil
 import tempfile
@@ -148,6 +149,70 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertTrue(any("self-referential" in error for error in validate(root)))
+
+    def test_active_context_fixed_current_main_sha_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/ACTIVE_CONTEXT.md"
+            text = re.sub(
+                r"(?m)^current_main:.*$",
+                f"current_main: {'a' * 40}",
+                path.read_text(encoding="utf-8"),
+            )
+            path.write_text(text, encoding="utf-8")
+            self.assertTrue(
+                any("current_main must resolve dynamically" in error for error in validate(root))
+            )
+
+    def test_active_context_fixed_baseline_sha_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/ACTIVE_CONTEXT.md"
+            text = re.sub(
+                r"(?m)^context_baseline_commit:.*$",
+                f"context_baseline_commit: {'b' * 40}",
+                path.read_text(encoding="utf-8"),
+            )
+            path.write_text(text, encoding="utf-8")
+            self.assertTrue(
+                any(
+                    "context_baseline_commit must resolve dynamically" in error
+                    for error in validate(root)
+                )
+            )
+
+    def test_document_lifecycle_registry_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+            if path.exists():
+                path.unlink()
+            self.assertTrue(any("lifecycle registry" in error for error in validate(root)))
+
+    def test_legacy_master_gdd_requires_superseded_marker(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/OMENWARD_GAME_DESIGN.md"
+            path.write_text(
+                path.read_text(encoding="utf-8").replace("[대체됨]", ""),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("legacy GDD" in error for error in validate(root)))
+
+    def test_project_core_rejects_legacy_food_contract(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/PROJECT_CORE.md"
+            path.write_text(
+                path.read_text(encoding="utf-8") + "\nstorage_selling_food\n",
+                encoding="utf-8",
+            )
+            self.assertTrue(any("legacy core marker" in error for error in validate(root)))
 
     def test_exact_premature_completion_claim_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
