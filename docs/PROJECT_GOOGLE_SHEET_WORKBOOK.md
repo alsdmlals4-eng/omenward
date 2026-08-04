@@ -1,16 +1,16 @@
 # [현행] OMENWARD 프로젝트 Google Sheets Workbook
 
 ```yaml
-updated_at: 2026-08-04
+updated_at: 2026-08-05
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 spreadsheet_title: 오멘워드(OMENWARD)
 workspace_role: USER_FACING_GDD_WORKSPACE
 change_protocol: PROPOSED_SHEET_CHANGE
 sheet_status: PROJECT_SHEET_CONFIGURED
-current_decision: OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1
-current_process_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
+current_decision: OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_grill_me_count: 2_OF_10
+current_grill_me_count: 3_OF_10
 product_code_authority: NONE
 art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
@@ -24,44 +24,56 @@ GitHub의 `[현행]` 책임 원본이 기획 정본이며 Sheet는 사용자 가
 
 Decision:
 
-`OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1`
+`OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1`
+
+공통 분기:
 
 ```text
-MAPRUN_STAGE_COUNT = 20
-BASELINE_WAVE_BEATS = 3
-DANGER_STAGES = 4 / 9 / 14 / 19
-BOSS_STAGES = 5 / 10 / 15 / 20
-PRESSURES = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
+T1 → T2 A → T3 A
+T1 → T2 B → T3 B
+CROSS_BRANCH = FORBIDDEN
+DUAL_T3 = FORBIDDEN
+MAPRUN_PERMANENT_CHOICE
 ```
 
-네 막:
+건물:
 
 ```text
-1~5 압력 문해력
-6~10 압력 조합
-11~15 기회비용
-16~20 종합 숙련
+금고 = 안정→비축 / 행운→징조 대박
+농장 = 징집→대규모 동원 / 예비→최후 예비대
+병영 = 전열→정예 전열 / 기동→징조 대응대
+방어탑 = 연사→요격 / 포격→파성
+지휘소 = 돌격→결전 전선 / 수비→종심 방어
+마력탑 = 유량→맥동 / 저장→징조 저장고
 ```
 
-Wave 문법:
+## 3. 압력·포기 비용 Sheet 계약
+
+- 각 T2는 `얻는 것`, `포기하는 것`, `유리한 압력`, `핵심 루프 영향`, `T3 예고`를 가진다.
+- 단일 건물 분기가 `MASS / ARMORED / FLYING / INFILTRATION / SIEGE`를 모두 해결하지 않는다.
+- 건물은 준비 경로를 제공하고 병종·전술 Decision이 실제 카운터를 완성한다.
+- `FLYING` 실제 병종·전술 대응은 4/10·5/10 전까지 blocker다.
+- 정확한 비용·배율·범위·쿨다운·환불값은 `PENDING_SIMULATION`이다.
+- T3 병종 이미지는 룰렛 토큰에 사용하지 않는다.
+
+## 4. 운영 정책 Sheet 계약
 
 ```text
-NORMAL = PROBE → COMPLICATION → COMMITMENT_TEST
-DANGER = DISTORTION_INTRODUCTION → OVERLAP → CONSEQUENCE
-BOSS = APPROACH → BOSS_ENTRY → FINALE
+BENCHMARK_REQUIRED
+INDUSTRY_COMPARISON_REQUIRED
+MAX_APPROVAL_BATCH = 10
+EARLY_CHECKPOINT = HIGH_RISK_CONFLICT / SESSION_END / LARGE_CANON_IMPACT
+TDD = RED → GREEN → REFACTOR
+EXPLICIT_BRANCH_REQUIRED_FOR_GITHUB_MUTATION
+DIRECT_MAIN_WRITE = FORBIDDEN
 ```
 
-## 3. 공정성·변형 Sheet 계약
+- 공식 벤치마크·현업 비교에서 채택·비채택 원칙을 분리한다.
+- 승인 10건은 최대 배치 크기이며 조기 체크포인트가 카운터를 임의 초기화하지 않는다.
+- RED 실패·GREEN·REFACTOR 검증을 변경 이력에 기록한다.
+- GitHub 파일 쓰기는 명시적 비기본 branch에서만 수행한다.
 
-- Stage 시작 전 압력·전선·Route·예상 목표·치명적 행동 공개.
-- Danger는 한 가지 전역 규칙 변형만 사용.
-- Boss는 Route·태세·목표·호위·집중 공격 기회를 변경.
-- Stage 시작 뒤 필수 카운터를 숨은 무작위로 변경하지 않음.
-- 압력 역할·학습 목표는 고정.
-- 적 패키지·전선·Route는 맵별 작성 변형.
-- exact 시간·수량·Threat Budget은 `PENDING_SIMULATION`.
-
-## 4. 문서 수명주기 Sheet 계약
+## 5. 수명주기 Sheet 계약
 
 ```text
 [현행] = CURRENT_AUTHORITY
@@ -71,51 +83,47 @@ BOSS = APPROACH → BOSS_ENTRY → FINALE
 [증거] = EVIDENCE_ONLY
 ```
 
-Stage 관련:
+- 기존 HUD·기본 건물 문서는 기본 역할 권위로 유지하고 새 건물 정본이 T2/T3 분기를 확장한다.
+- 동일 인스턴스 교차 분기·양쪽 T3·만능 건물·T3 룰렛 토큰은 `[폐기]`다.
+- 구형 첫 10분·Hero·Meta는 `[보류]`를 유지한다.
 
-- `APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`: `[대체됨]`.
-- `APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`: `[보류]`.
-- Vertical Slice 2026-07-27: 시스템 연결 계보만 부분 승계.
-- `15웨이브=1스테이지`, 고정 60초 공세, Danger 정보 차단, 숨은 필수 카운터 변경: `[폐기]`.
-
-## 5. 탭별 반영
+## 6. 탭별 반영
 
 | 탭 | 반영 내용 |
 |---|---|
-| `00_프로젝트_허브` | Decision 2/10·exact PR HEAD·20 Stage 상태 |
-| `01_작업순서` | Stage 압력 정본·구형 Stage 충돌·다음 건물 분기 |
-| `02_현재_확정결정` | 4막×5 Stage·Danger/Boss 위치·공정성 |
-| `03_근거_라이브러리` | 기존 MapRun·구형 15 Wave·첫 4공세·리플레이 대안 |
-| `04_누락_충돌_감사` | `OMW-AUD-376~397` |
-| `05_GDD_요약` | 20 Stage·3 Wave Beat·2/10 |
-| `12_핵심루프` | 압력 예고→릴 설계→커밋→Stage 복기 |
-| `15_조작_게임규칙` | Danger/Boss 정보 공개와 비가역 배치 공정성 |
-| `40_핵심시스템_메인콘텐츠` | 다섯 압력·Normal/Danger/Boss 문법 |
-| `41_성장_경제` | Stage 정비·Boss 재조정 기회·exact 보상 보류 |
-| `50_메인콘텐츠` | 20 Stage 전체 매트릭스 |
-| `60_UX_UI_접근성` | Omen 정보·주 전선·Route·목표 판독 |
-| `70_아트_오디오_에셋` | 압력·Danger·Boss 시각 역할·실제 제작 중단 |
-| `71_이미지기획_생성목록` | 역할 확정 전 추가 이미지 제작 보류 |
-| `99_변경이력` | Decision·lifecycle·적대적 검토 기록 |
+| `00_프로젝트_허브` | Decision 3/10·exact PR HEAD·다음 병종 Gate |
+| `01_작업순서` | 건물 분기 정본·TDD·다음 작업 |
+| `02_현재_확정결정` | 공통 분기·인스턴스 선택·수치 경계 |
+| `03_근거_라이브러리` | 공식 벤치마크·Stage 압력·기본 건물 역할 |
+| `04_누락_충돌_감사` | `OMW-AUD-398~419` |
+| `05_GDD_요약` | 건물 경로·포기 비용·3/10 |
+| `12_핵심루프` | Stage 예고→건물 전문화→룰렛/전선 커밋 |
+| `15_조작_게임규칙` | 업그레이드 카드·교차 분기 금지·Stage 전 선택 |
+| `40_핵심시스템_메인콘텐츠` | 6종×2 분기와 압력 준비 경로 |
+| `41_성장_경제` | 철거·환불·비축·저장 exact 수치 보류 |
+| `50_메인콘텐츠` | 건물·Stage 압력 의존성 |
+| `60_UX_UI_접근성` | 얻는 것·포기하는 것·T3 예고 비교 UX |
+| `70_아트_오디오_에셋` | T1 실루엣 유지·분기 장치 차별화·실제 제작 중단 |
+| `71_이미지기획_생성목록` | 건물 분기 Brief만 기록·추가 이미지 보류 |
+| `99_변경이력` | Decision·정책·RED/GREEN·lifecycle 기록 |
 
-## 6. Bounded Read-Back
+## 7. Bounded Read-Back
 
 쓰기 후 다음을 재조회한다.
 
 - Decision ID와 exact PR HEAD.
-- counter `2/10`.
-- 20 Stage와 3 Wave Beat.
-- Danger `4/9/14/19`, Boss `5/10/15/20`.
-- 네 막과 다섯 압력.
-- Danger 한 규칙·Boss 선택 구조.
-- Stage 시작 전 치명적 정보 공개.
-- lifecycle `[대체됨]/[보류]/[폐기]`.
-- 이미지 생성 중단·제품 코드 미변경.
-- 감사 `OMW-AUD-376~397`.
+- counter `3/10`.
+- 건물 6종과 12개 T2·12개 T3 경로.
+- `CROSS_BRANCH / DUAL_T3 = FORBIDDEN`.
+- 얻는 것·포기하는 것·압력 적합성.
+- 운영 정책과 RED run 888.
+- lifecycle `[현행]/[대체됨]/[보류]/[폐기]`.
+- 제품 코드·아트 자산 미변경.
+- 감사 `OMW-AUD-398~419`.
 
 일치 전에는 `READBACK_PASS`를 기록하지 않는다.
 
-## 7. 필수 CI
+## 8. 필수 CI·차단 검색
 
 ```text
 Validate Project Core Documentation
@@ -123,11 +131,9 @@ Validate Omenward GDD Sheet Adoption
 Validate Base v9 adoption
 ```
 
-모두 exact PR HEAD에서 `success`여야 한다.
+모두 exact PR HEAD에서 success여야 한다.
 
-## 8. 차단 검색
-
-`04_누락_충돌_감사`의 실제 데이터 행에서 다음이 없어야 한다.
+`04_누락_충돌_감사` 실제 데이터 행에 다음이 없어야 한다.
 
 ```text
 OPEN_P0
