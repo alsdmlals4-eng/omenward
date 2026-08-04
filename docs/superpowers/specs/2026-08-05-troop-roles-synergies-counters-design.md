@@ -4,7 +4,7 @@
 decision_id: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 approval: USER_FINAL_APPROVAL
 planning_counter_target: 4_OF_10
-status: APPROVED_DESIGN_SPEC / NOT_CANONIZED / NOT_IMPLEMENTED
+status: APPROVED_DESIGN_SPEC / SELF_REVIEWED / NOT_CANONIZED / NOT_IMPLEMENTED
 product_code_authority: NONE
 simulation: NOT_RUN
 runtime: NOT_RUN
@@ -35,9 +35,10 @@ human_validation: NOT_RUN
 ```text
 ROSTER_BASELINE: 10
 ROSTER_COUNT_IS_NOT_SACRED
+ROSTER_MIN_MAX: NOT_PRESET
 ```
 
-현행 10종은 보존 목표이지 불변 조건이 아니다.
+현행 10종은 보존 목표이지 불변 조건이 아니다. 병종 수에는 사전 고정 최소·최대치를 두지 않는다.
 
 병종 추가 조건:
 
@@ -202,7 +203,7 @@ T3는 결과 Preview·보관함·배치 카드·전장 실제 병종에서 표�
 6. 별도 정본 변경으로 승인
 ```
 
-현재 기준선에서는 10종을 유지한다. 4/10 정본 작성 과정에서 역할 공백이 해소되지 않을 때만 8~12종 범위의 변경안을 다시 제시한다.
+현재 기준선에서는 10종을 유지한다. 역할 공백이나 중복이 해소되지 않을 경우 고정된 수량 범위에 맞추지 않고, 필요한 병종 수와 제작·학습 비용을 함께 제시해 별도 승인을 받는다.
 
 ## 11. 정보 공개·UX 계약
 
