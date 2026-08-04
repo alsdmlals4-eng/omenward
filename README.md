@@ -18,7 +18,7 @@ human_validation: HUMAN_QA_NOT_RUN
 legacy_evidence: V2_SPEC_APPROVED / LEGACY_C1_C2_C3_PROVEN
 ```
 
-`V2_SPEC_APPROVED`와 `LEGACY_C1_C2_C3_PROVEN`은 과거 자동 검증 증거이며 최신 3/10 기획이 제품에 구현됐다는 뜻이 아닙니다.
+위 legacy evidence 값은 과거 자동 검증 증거이며 최신 3/10 기획이 제품에 구현됐다는 뜻이 아닙니다.
 
 ## 핵심 루프
 
