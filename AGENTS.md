@@ -2,6 +2,12 @@
 
 이 저장소는 GPT/Work가 핵심 재미·콘텐츠·플레이어 규칙·UX·아트 정본을 관리하고, Codex가 별도 승인된 범위에서 Godot 구현·테스트를 수행하는 공동 작업 저장소다.
 
+```yaml
+current_planning_decision: OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+current_planning_count: 3_OF_10
+current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
+```
+
 ## 1. 규칙 우선순위
 
 ```text
@@ -32,6 +38,10 @@
 
 Stage·Wave·Boss 작업은 `docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`를 반드시 읽는다.
 
+건물·업그레이드·카운터 작업은 `docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`를 반드시 읽는다.
+
+모든 작업은 `docs/process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md`의 벤치마킹·승인 배치·TDD·GitHub 쓰기 안전 규칙을 따른다.
+
 ## 3. 역할 분리
 
 ```text
@@ -44,7 +54,47 @@ Codex
 
 Codex 구현 선택이 플레이어 경험·콘텐츠 역할·시각 계층을 바꾸면 구현을 중단하고 새 기획 Gate로 돌아온다.
 
-## 4. 현재 프로젝트 코어
+## 4. 벤치마킹·현업 비교
+
+```text
+BENCHMARK_REQUIRED
+INDUSTRY_COMPARISON_REQUIRED
+```
+
+- 질문·기획·검수에 관련 외부 사례가 도움이 되면 최신 공식 자료와 현업 관행을 비교한다.
+- `가져올 원칙 / 프로젝트와 다른 조건 / 복제하지 않을 부분 / 권장안`을 구분한다.
+- 유명 게임 기능을 핵심 재미 검증 없이 복제하지 않는다.
+- 권장안은 `예고된 압력 → 제작한 확률 → 비가역 커밋 → 복기`에 실제로 기여해야 한다.
+
+## 5. 승인 배치와 체크포인트
+
+```text
+MAX_APPROVAL_BATCH: 10
+EARLY_CHECKPOINT_ON_HIGH_RISK_CONFLICT
+EARLY_CHECKPOINT_ON_SESSION_END
+EARLY_CHECKPOINT_ON_LARGE_CANON_IMPACT
+```
+
+- 승인 10건은 한 정본 배치의 최대 크기다.
+- P0/P1 정본 충돌, 구현 입력 오염, 세션 종료, 다수 핵심 문서 영향이 있으면 10건 전에도 안전 체크포인트를 허용한다.
+- 조기 체크포인트는 배치 카운터를 임의 초기화하지 않으며 병합 목적과 다음 상태를 기록한다.
+
+## 6. TDD와 GitHub 안전
+
+```text
+TDD_MANDATORY
+RED → GREEN → REFACTOR
+EXPLICIT_BRANCH_REQUIRED_FOR_GITHUB_MUTATION
+DIRECT_MAIN_WRITE: FORBIDDEN
+```
+
+- 기능·버그 수정·검증 규칙·행동 변경은 실패 테스트나 수용 검증을 먼저 작성하고 예상 이유로 실패하는지 확인한다.
+- 최소 변경으로 Green을 만든 뒤 중복·모호성을 Refactor하고 전체 검증을 다시 실행한다.
+- GitHub 파일 생성·수정·삭제는 명시적 비기본 branch에서만 수행한다.
+- main은 검증된 PR의 merge action으로만 변경한다.
+- 실수로 main에 직접 기록되면 정본으로 취급하지 않고 원인 기록→복구 PR→CI→병합 후 작업을 재개한다.
+
+## 7. 현재 프로젝트 코어
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
@@ -68,7 +118,7 @@ Stage 압력·Wave 순서 확인
 - 배치 뒤 자유 회수·전선 변경·판매는 없다.
 - 보상은 명시적 확정 한 번에만 지급한다.
 
-## 5. 현행 Stage·Wave 규칙
+## 8. 현행 Stage·Wave 규칙
 
 ```text
 MapRun = 20 Stage
@@ -89,7 +139,7 @@ Boss = 5 / 10 / 15 / 20
 
 구형 `15웨이브=1스테이지`, 고정 60초 공세, 식량·병영 자동생산 기반 첫 4공세는 현행 구현 입력이 아니다.
 
-## 6. 현행 자원·건물·HUD
+## 9. 현행 자원·건물·HUD
 
 ```text
 자원 = 골드 / 마석 / 배치 병력·병력 한도 / 이동권
@@ -105,7 +155,23 @@ Boss = 5 / 10 / 15 / 20
 - 룰렛 금화·병종 토큰은 인게임 금화·T1/T2 병종 이미지를 재사용한다.
 - T3 병종 이미지는 룰렛 병종 토큰에 사용하지 않는다.
 
-## 7. 핵심 재미 검수
+## 10. 현행 건물 전문화
+
+```text
+T1 → T2 A → T3 A
+T1 → T2 B → T3 B
+CROSS_BRANCH: FORBIDDEN
+DUAL_T3: FORBIDDEN
+```
+
+- 선택은 건물 인스턴스별이다.
+- 다른 인스턴스는 다른 경로를 선택할 수 있다.
+- 모든 분기는 얻는 것과 포기하는 것을 함께 가진다.
+- T3는 단순 수치 증가가 아니라 결과 곡선·표적 우선순위·전선 교리·Route 대응·자원 사용 시점을 바꾼다.
+- 정확한 비용·배율·범위·쿨다운은 `PENDING_SIMULATION`이다.
+- 제품 구현은 병종 역할·전술스킬 정본과 압력 대응 재검증 전 시작하지 않는다.
+
+## 11. 핵심 재미 검수
 
 새 기능은 다음 중 최소 두 축에 관찰 가능한 영향을 줘야 한다.
 
@@ -119,7 +185,7 @@ Boss = 5 / 10 / 15 / 20
 
 숫자만 증가시키고 핵심 선택을 바꾸지 않는 기능은 추가하지 않는다.
 
-## 8. 문서 수명주기
+## 12. 문서 수명주기
 
 - `[현행]`: 신규 기획·구현 사용 허용.
 - `[대체됨]`: 후속 문서가 권위 승계. 역사 근거만 허용.
@@ -129,7 +195,7 @@ Boss = 5 / 10 / 15 / 20
 
 `current_main`과 `context_baseline_commit`은 `RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH`로 동적 해석한다. 과거 병합 SHA는 `last_merged_*` 증거 필드에만 기록한다.
 
-## 9. GitHub·Sheet 원칙
+## 13. GitHub·Sheet 원칙
 
 - 사용자 승인 Decision은 GitHub 권위 문서와 Google Sheet에 같은 ID로 반영한다.
 - bounded read-back 전에는 `SYNCED`로 보고하지 않는다.
@@ -138,7 +204,7 @@ Boss = 5 / 10 / 15 / 20
 - Green 문서/기획 PR은 standing authorization 범위에서 preflight 후 병합할 수 있다.
 - 제품 코드·Scene·Resource·실제 게임 데이터 PR은 별도 사용자 승인 없이 병합하지 않는다.
 
-## 10. 구현 Gate
+## 14. 구현 Gate
 
 제품 코드 변경 전 필수:
 
@@ -151,7 +217,7 @@ Boss = 5 / 10 / 15 / 20
 
 문서 승인과 CI 통과는 제품 구현 완료가 아니다.
 
-## 11. 기술 기준
+## 15. 기술 기준
 
 - Godot 4.7.1 Standard, GDScript, Compatibility renderer.
 - `.godot/`과 로컬 캐시를 커밋하지 않는다.
@@ -165,11 +231,12 @@ LEGACY_PROVEN != LATEST_IMPLEMENTED
 PLANNING_APPROVED != PRODUCT_IMPLEMENTED
 ```
 
-## 12. 완료 보고
+## 16. 완료 보고
 
 - 변경 파일과 이유.
 - 적용한 Decision·Sync ID.
-- 실행한 검증과 결과.
+- RED 실패 증거와 GREEN·REFACTOR 검증 결과.
+- 벤치마크·현업 비교의 채택·비채택 원칙.
 - 미실행 항목.
 - lifecycle 상태 변경.
 - 잔여 위험과 다음 작업.

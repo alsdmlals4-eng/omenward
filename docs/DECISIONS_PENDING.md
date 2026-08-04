@@ -1,11 +1,12 @@
 # [현행] 오멘워드 미확정 결정 목록
 
 ```yaml
-updated_at: 2026-08-04
+updated_at: 2026-08-05
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_decision: OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1
-current_process_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
-current_grill_me_count: 2_OF_10
+current_decision: OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
+lifecycle_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
+current_grill_me_count: 3_OF_10
 product_code_authority: NONE
 art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
@@ -14,62 +15,64 @@ image_generation: STOPPED_BY_USER
 - 전체 시스템 연결 기준선: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 현행 GDD: `docs/OMENWARD_GDD_CURRENT_CANON.md`
 - Stage 압력 정본: `docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
+- 건물 전문화 정본: `docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
 - 문서 수명주기: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
 
-## 1. Decision 2/10으로 해결된 항목
+## 1. Decision 3/10으로 해결된 항목
 
-- 20 Stage를 4막×5 Stage로 분리.
-- 기본 Stage를 3개 Wave Beat 기준선으로 정의.
-- Danger Stage를 4·9·14·19로 배치.
-- Boss Stage를 5·10·15·20으로 배치.
-- Normal·Danger·Boss의 서로 다른 Wave 문법 확정.
-- `MASS / ARMORED / FLYING / INFILTRATION / SIEGE`를 20 Stage에 배치.
-- Danger는 한 가지 공개 규칙 변형만 사용.
-- Boss는 Route·태세·목표·호위·집중 공격 기회를 변경.
-- 압력 역할은 고정하고 적 패키지·전선·Route는 맵별 작성 변형으로 분리.
-- Stage 시작 뒤 치명적 압력·필수 카운터를 숨은 무작위로 변경하지 않음.
-- `15웨이브=1스테이지` 구형 계약을 `[대체됨]` 처리.
-- 구형 첫 4공세 수치·식량·자동생산 문서를 `[보류]` 처리.
+- 기본 건물 6종이 모두 `T1 → 두 T2 중 하나 → 같은 경로 T3` 문법을 사용.
+- 선택은 건물 인스턴스별이며 동일 인스턴스의 교차 분기·양쪽 T3를 금지.
+- 다른 인스턴스는 다른 분기를 선택 가능.
+- 철거는 인스턴스와 효과를 제거하며 재건은 새 선택. 정확한 환불·비용은 경제 결정으로 이관.
+- 모든 분기에 `얻는 것`과 `포기하는 것`을 명시.
+- T3는 수치만 올리지 않고 결과 곡선·표적 우선순위·전선 교리·Route 대응·자원 사용 시점을 변경.
+- 금고: 안정/행운, 농장: 징집/예비, 병영: 전열/기동.
+- 방어탑: 연사/포격, 지휘소: 돌격/수비, 마력탑: 유량/저장.
+- 건물만으로 다섯 압력을 모두 해결하지 않고 병종·전술 결정에 의존.
+- T3 병종 이미지는 룰렛 토큰에 사용하지 않음.
+- 정확한 비용·배율·범위·쿨다운은 `PENDING_SIMULATION`.
+- 벤치마킹·현업 비교·승인 10건 최대 배치·조기 체크포인트·TDD·명시적 branch 쓰기를 비카운터 운영 정책으로 확정.
 
-## 2. 다음 Decision — 건물 6종 T2/T3 분기·카운터
+## 2. 다음 Decision — 병종 역할·시너지·카운터 4/10
 
-`OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1`
+`OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1`
 
 다룰 내용:
 
-- 금고·농장·병영·방어탑·지휘소·마력탑의 T1 공통 정체성.
-- 각 건물의 T2 양자택일 분기.
-- T3가 같은 계열을 어떻게 전문화하는가.
-- 각 분기가 `MASS / ARMORED / FLYING / INFILTRATION / SIEGE` 중 어떤 압력에 강한가.
-- 다른 압력에서 어떤 기회비용이 생기는가.
-- 건물·병종·전술스킬 사이 역할 중복 방지.
-- MapRun 전체 지휘소 오라와 전선별 방어탑의 역할 분리.
-- TokenSource 건물의 분기가 미래 릴 구성에 어떻게 보이는가.
+- T1 공통 병종군과 T2 분기 병종의 전투 역할.
+- 전열 병영과 기동 병영이 실제로 공급하는 병종 가족.
+- Ground·Flying·우회 Route·후방 목표에 대한 공격 가능 Layer.
+- `MASS / ARMORED / FLYING / INFILTRATION / SIEGE`별 병종 대응.
+- 병종 간 시너지와 서로 대체할 수 없는 포기 비용.
+- T3 전문화가 T2 병종 역할을 어떻게 강화하는지.
+- 결과 Preview·보관함·배치 화면에서 역할과 한계를 어떻게 설명하는지.
+- 건물·병종 사이의 역할 중복과 만능 조합 방지.
 
 다루지 않을 내용:
 
-- exact 비용·생산량·피해·사거리·쿨다운.
-- 업그레이드 시간·수치 배율.
-- Scene·Resource·데이터 Schema.
-- 제품 코드.
+- exact HP·Damage·공격속도·사거리·이동속도.
+- 실제 데이터 Schema·Targeting 알고리즘·AnimationTree.
+- T3 병종 룰렛 토큰.
+- 제품 코드·Scene·Resource.
 
-## 3. 다음 Decision이 반드시 답할 질문
+## 3. Decision 4/10이 반드시 답할 질문
 
-1. 금고 분기가 단순 골드 증가와 무료 보상 중 어느 선택을 만들며 룰렛과 어떻게 연결되는가.
-2. 농장 분기가 병력 수와 정예 운용 사이의 실제 선택을 만드는가.
-3. 병영 분기는 병종 Decision을 침범하지 않으면서 TokenSource 전략을 어떻게 바꾸는가.
-4. 방어탑이 `MASS / ARMORED / FLYING / SIEGE`를 모두 해결하는 만능 정답이 되지 않는가.
-5. 지휘소의 MapRun 전역 오라가 전선 배치를 무의미하게 만들지 않는가.
-6. 마력탑이 전술스킬 Decision 전에도 획득·저장 선택을 설명할 수 있는가.
-7. 각 분기에 최소 하나의 명확한 강점과 하나의 실제 포기 비용이 있는가.
+1. `FLYING`에 최소 두 실제 병종 대응 경로가 있는가.
+2. `ARMORED`와 `SIEGE` 대응이 같은 단일 병종으로 수렴하지 않는가.
+3. `MASS` 대응이 방어탑만의 역할이 되지 않는가.
+4. `INFILTRATION` 대응이 배치 뒤 자유 전선 이동을 요구하지 않는가.
+5. T1과 T2 병종이 모두 사용할 이유가 있으며 T2가 단순 상위호환이 아닌가.
+6. 전열/기동 병영 분기가 실제 룰렛 결과와 전선 커밋을 다르게 만드는가.
+7. 병종 역할이 전술스킬과 건물 전문화를 무효화하지 않는가.
+8. 병종 토큰은 인게임 T1/T2 이미지를 재사용하며 T3 전문화는 Preview·배치 정보로 표현되는가.
 
 ## 4. 후속 Planning Batch
 
 ```text
 [완료] 1/10 핵심 재미·콘텐츠 가드레일
 [완료] 2/10 Stage·Wave·Danger·Boss 압력 매트릭스
-[다음] 3/10 건물 6종 T2/T3 분기·카운터
-4/10 T1/T2/T3 병종 역할·시너지·카운터
+[완료] 3/10 건물 6종 T2/T3 분기·카운터
+[다음] 4/10 T1/T2/T3 병종 역할·시너지·카운터
 5/10 전술스킬·마석 획득/소비
 6/10 Stage 종료 상인 재고·가격·이벤트
 7/10 최신 첫 10~15분 흐름·벨루
@@ -78,48 +81,48 @@ image_generation: STOPPED_BY_USER
 10/10 통합 플레이 시나리오·구현 handoff readiness
 ```
 
-## 5. Stage 수치·콘텐츠 미확정
+승인 10건은 최대 배치 크기다. P0/P1 정본 충돌·세션 종료·대규모 정본 영향이 있으면 조기 체크포인트를 허용한다.
 
-Stage 구조는 승인됐지만 다음은 아직 고정하지 않는다.
+## 5. 계속 미확정인 수치·경제
 
-- 정확한 Wave 길이와 전환 시간.
-- Spawn Group 수·간격.
-- 적 개체 수·HP·Damage·Threat Budget.
-- 맵별 실제 적 패키지와 전선 배치.
+- 건물 건설·업그레이드·철거 환불·재건 비용.
+- 건물 T2/T3 해금 Stage와 업그레이드 시간.
+- 금고 바닥값·대박 조건·비축 상한.
+- 농장 한도·예비 슬롯.
+- 방어탑 범위·재장전·관통·공격 Layer.
+- 지휘소 교리 효과와 중첩 수치.
+- 마력탑 Pulse·저장·예약량.
+- Stage Wave 길이·Spawn Group·Threat Budget.
 - Danger·Boss 보상.
-- Boss 외형·이름·서사·정확 패턴 수치.
-- 난이도별 Wave 겹침·수량 강화.
 
-이는 건물·병종·전술 대응이 확정되고 시뮬레이션 근거가 생긴 뒤 조정한다.
+병종·전술 대응과 경제 시뮬레이션 근거가 생긴 뒤 확정한다.
 
-## 6. [보류] 항목
+## 6. [보류]
 
-- 구형 첫 10분 타임라인.
-- 구형 첫 4공세 수치·식량·병영 자동생산.
-- Hero·Legendary 획득·배치·자동 스킬·고유 스킬 문서군.
-- Meta Profile·ReadinessPerk·주점·허브 병영·연구.
+- 구형 첫 10분 타임라인과 첫 4공세 수치.
+- 식량·병영 자동생산·바리케이드 기반 튜토리얼.
+- Hero·Legendary 문서군.
+- Meta Profile·주점·허브 병영·연구.
 - 과거 V2 구현 계획.
 
-상세 파일 목록은 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 소유한다.
+상세 목록은 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 소유한다.
 
-## 7. [폐기] 항목
+## 7. [폐기]
 
-- 식량을 현행 핵심 HUD 자원으로 사용.
-- 기본 건물 5종.
-- 지휘소 주변 범위 오라.
-- `15웨이브=1스테이지`와 고정 60초 공세.
-- Danger에서 핵심 기능·치명적 정보를 제거.
-- 전투 중 필수 카운터·주 전선을 숨은 무작위로 변경.
-- 룰렛 전용 금화·병종 상징 아이콘.
-- T3 병종 룰렛 토큰.
+- 식량 핵심 HUD 자원.
+- 기본 건물 5종과 주변 범위 지휘소.
+- `15웨이브=1스테이지`·고정 60초 공세.
+- Danger에서 핵심 기능·치명적 정보 제거.
+- Stage 중 숨은 필수 카운터 변경.
+- 룰렛 전용 금화·병종 상징 아이콘과 T3 병종 룰렛 토큰.
+- 동일 건물 인스턴스의 교차 분기·양쪽 T3.
+- 건물 하나로 다섯 압력 모두 해결.
 
 ## 8. 실제 아트 제작 전 결정
 
-- Stage 압력별 적 실루엣·Route 아이콘.
-- Danger·Boss 징조 표시 문법.
-- 건물 분기별 실루엣 차이.
-- 병종 역할·Counter 시각 문법.
-- T1·T2 토큰 크롭 안전 영역.
+- T1/T2 병종 실루엣·무기·공격 Layer.
+- 건물 T2/T3의 상단 장치·무기·배너·마력 구조 차이.
+- 압력별 적 실루엣·Route 아이콘.
 - Boss VFX 화면 점유 제한.
 
 사용자 별도 지시 전 실제 제작하지 않는다.
@@ -127,14 +130,13 @@ Stage 구조는 승인됐지만 다음은 아직 고정하지 않는다.
 ## 9. Codex 구현 결정
 
 ```text
-coordinate unit and numeric representation
-stage/wave data schema
-spawn group structure and scheduling
-fixed/variable tick implementation
-pathfinding, avoidance and collision algorithms
+building and troop data schema
+upgrade state ownership and persistence
+demolition/rebuild migration
 targeting search and distance implementation
-stage transition, checkpoint and serialization
-performance and test architecture
+stage/wave scheduling
+pathfinding, avoidance and collision
+performance and automated test architecture
 ```
 
 플레이어 경험·콘텐츠 역할을 바꾸는 선택은 기획 Gate로 되돌린다.
@@ -155,7 +157,8 @@ HUMAN_QA = NOT_RUN
 ## 11. Merge Cadence
 
 ```text
-CURRENT_COUNT = 2/10
-NEXT_PREFLIGHT = AFTER_10_APPROVED_DECISIONS_OR_HIGH_RISK_CANON_CHANGE
-CURRENT_PR = FRESH_PREFLIGHT_REQUIRED_BECAUSE_STAGE_AUTHORITY_AND_LEGACY_CONFLICT_CHANGED
+CURRENT_COUNT = 3_OF_10
+MAX_APPROVAL_BATCH = 10
+EARLY_CHECKPOINT = HIGH_RISK_CONFLICT / SESSION_END / LARGE_CANON_IMPACT
+CURRENT_PR = FRESH_PREFLIGHT_REQUIRED_AFTER_GREEN
 ```
