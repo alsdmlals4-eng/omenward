@@ -86,6 +86,15 @@ DIRECT_MAIN_WRITE: FORBIDDEN
 → [10/10] 전체 Run 콘텐츠·UX·아트 종합 검토
 ```
 
+## Legacy 자동 검증 증거
+
+```text
+V2_SPEC_APPROVED
+LEGACY_C1_C2_C3_PROVEN
+```
+
+위 표식은 과거 계약 검증 이력이며 최신 4/10 병종 기획의 제품 구현을 의미하지 않습니다.
+
 완료 이력 보존:
 
 ```text
