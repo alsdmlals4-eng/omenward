@@ -62,6 +62,12 @@ product_code_authority: NONE
 - 4/10 RED: Validate Project Core Documentation run 922.
 - GREEN/REFACTOR: 현재 PR exact head에서 fresh 검증 후 기록.
 
+## Legacy C1 증거
+
+**C1 승인 룰렛 핵심 계약 원격 검증·병합 완료 — REMOTE_PROVEN**
+
+위 증거는 과거 C1 계약 검증만 의미하며 최신 4/10 기획의 제품 구현을 의미하지 않는다.
+
 ## 완료 이력 보존
 
 ```text
