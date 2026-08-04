@@ -12,7 +12,16 @@ human_validation: NOT_RUN
 
 전체 시스템 기준선은 `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`이며, 최신 권위는 `docs/PROJECT_CORE.md`, `docs/OMENWARD_GDD_CURRENT_CANON.md`, `docs/DOCUMENTATION_MAP.md`가 라우팅한다.
 
-## 1. 완료된 기획 기반
+## 1. 보존된 Legacy 증거
+
+```text
+C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
+상태 = **REMOTE_PROVEN**
+```
+
+이 증거는 Legacy C1 중앙 판정·완성선·등급·보상 계약에만 적용된다. 최신 물리 릴·HUD·건물 6종·콘텐츠 압력·아트가 구현됐다는 뜻이 아니다.
+
+## 2. 완료된 기획 기반
 
 - 결과 재현·원인 복기 요구.
 - 공통 전투 공정성·Damage/Protection/Status 의미.
@@ -26,7 +35,7 @@ human_validation: NOT_RUN
 
 이 완료는 제품 구현 완료가 아니다.
 
-## 2. 현재 위치
+## 3. 현재 위치
 
 ```text
 [현재] 정본 충돌 제거·핵심 재미 가드레일
@@ -43,7 +52,7 @@ human_validation: NOT_RUN
 → 구현·자동 검증·사람 플레이
 ```
 
-## 3. Planning Batch 1 — 콘텐츠 압력
+## 4. Planning Batch 1 — 콘텐츠 압력
 
 ### Decision 1 — 핵심 재미·콘텐츠 가드레일
 
@@ -110,7 +119,7 @@ human_validation: NOT_RUN
 - Sheet·GitHub·PR fresh preflight.
 - 제품 구현 handoff 준비 여부 판정.
 
-## 4. 구현 Gate
+## 5. 구현 Gate
 
 Codex 구현은 다음 이후에만 시작한다.
 
@@ -119,7 +128,7 @@ Codex 구현은 다음 이후에만 시작한다.
 - 제품 범위·파일·상태 소유·테스트·롤백 계획 승인.
 - 문서 PR과 제품 코드 PR 분리.
 
-## 5. 검증 단계
+## 6. 검증 단계
 
 ```text
 문서 CI
