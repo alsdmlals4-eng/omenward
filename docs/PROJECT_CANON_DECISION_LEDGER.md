@@ -2,11 +2,14 @@
 
 ```yaml
 updated_at: 2026-08-04
-status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
+status: CURRENT_DECISION_LEDGER / MAIN_CANONICAL
 current_planning_decision: OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
+current_sync: OMW-SYNC-20260804-POST-MERGE-PIXEL-ILLUSTRATION-HYBRID-CANON-V1
 current_process_policy: OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1
 work_mode: TOTAL_PLANNING
-current_count: 10_OF_10
+last_merged_planning_pr: 133
+last_merged_planning_commit: d8ce26ee3ee21dbab50839b7a1334116e147789e
+current_count: 0_OF_10
 product_code_authority: NONE
 art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
@@ -15,13 +18,13 @@ image_generation: STOPPED_BY_USER
 ## 1. 운영 원칙
 
 - GitHub APPROVED 문서가 기획 정본이다.
-- Google Sheet는 같은 Decision ID와 exact PR HEAD로 동기화한다.
+- Google Sheet는 같은 Decision·Sync ID와 main/PR SHA로 동기화한다.
 - GPT는 핵심 재미·콘텐츠·플레이어 경험·UX·이미지·아트 Brief를 소유한다.
 - Codex는 자료구조·알고리즘·좌표·경로탐색·성능·코드·테스트 구현을 소유한다.
 - 10개 승인 Decision마다 fresh preflight와 적대적 검토를 수행한다.
 - 사용자 지시 전 제품 코드·실제 아트 자산·추가 이미지 생성을 시작하지 않는다.
 
-## 2. 현재 승인 결정
+## 2. main에 병합된 최근 10개 결정
 
 | 순번 | Decision ID | 핵심 기획 정본 | 구현 경계 |
 |---:|---|---|---|
@@ -34,13 +37,11 @@ image_generation: STOPPED_BY_USER
 | 7 | `OMW-DEC-20260804-PLANNING-COMBAT-SPACE-ROUTE-AND-TARGETING-EXPERIENCE-V1` | 세 전선·명시적 Route·Targeting 경험 | 좌표·Pathfinding·충돌은 Codex 결정 |
 | 8 | `OMW-DEC-20260804-PLANNING-BATTLEFIELD-VISUAL-HIERARCHY-AND-CAMERA-V1` | 고각도 3/4 카메라·전장 전체 가시성 | Camera transform·FOV는 Codex 결정 |
 | 9 | `OMW-DEC-20260804-PLANNING-COMBAT-HUD-REEL-AND-BUILD-UX-V1` | HUD·룰렛·자원·상인·건물 6종·벨루 | UI Scene·입력·데이터 구조는 Codex 결정 |
-| 10 | `OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1` | 픽셀 가독성+동화풍 일러스트·아군/Veil·건물·벨루·자산 계보 | 실제 제작 규격·렌더링·애니메이션 구현은 후속 승인 |
+| 10 | `OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1` | 픽셀 가독성+동화풍 일러스트·아군/Veil·건물·벨루·자산 계보 | 실제 제작 규격·렌더링·애니메이션은 후속 승인 |
 
 ## 3. Decision 10 책임 원본
 
 `design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md`
-
-핵심:
 
 ```text
 STYLE = PIXEL_ILLUSTRATION_HYBRID
@@ -49,7 +50,7 @@ BATTLEFIELD = PIXEL_READABILITY + ILLUSTRATED_MATERIAL_AND_LIGHT
 CLOSEUP_UI = ILLUSTRATION_FORWARD
 ```
 
-자산 재사용:
+룰렛 자산:
 
 ```text
 금화 토큰 = 인게임 금화 이미지
@@ -59,30 +60,27 @@ T3 병종 토큰 = 금지
 별도 금화·병종 토큰 아이콘 제작 = 금지
 ```
 
-## 4. Decision 9·Amendment 유지
+## 4. Merge 증거
 
 ```text
-BOTTOM_FUNCTIONS = ROULETTE / STORAGE / BUILD / TACTICAL_SKILL / BELU
-SHOP_BUTTON = REMOVED
-MAIN_HUD_RESOURCES = GOLD / MANA_STONE / DEPLOYED_TROOP_CAPACITY
-MOVE_TICKET_DISPLAY = ROULETTE_PANEL_ONLY
-MERCHANT = AFTER_STAGE_MAINTENANCE_ONLY
-BUILDINGS = VAULT / FARM / BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
-COMMAND_POST_AURA = MAPRUN_WIDE_ALLIED_TROOPS
+SOURCE_PR = 133
+SOURCE_HEAD = 48466c4f669e24e19e2c8be3f4c879bdbfda04a9
+MERGED_MAIN = d8ce26ee3ee21dbab50839b7a1334116e147789e
+CI = 842 / 558 / 539 PASS
+BEHIND = 0
+CHANGED_PATHS = 19 DOCS_ONLY
+UNRESOLVED_THREADS = 0
+OPEN_P0 = 0
+OPEN_P1 = 0
+MERGE_BLOCKER = 0
 ```
 
-룰렛 레이아웃과 인게임 자산 재사용의 세부 교정은 `design/APPROVED_OMENWARD_HUD_ROULETTE_LAYOUT_AND_BATTLEFIELD_VIEW_AMENDMENT_2026-08-04.md`가 소유한다.
+## 5. 비카운트 운영 정책·Sync
 
-## 5. 비카운트 운영 정책
+- `OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1`
+- `OMW-SYNC-20260804-POST-MERGE-PIXEL-ILLUSTRATION-HYBRID-CANON-V1`
 
-`OMW-PROC-20260804-PLANNING-VISUALS-CODEX-IMPLEMENTATION-BOUNDARY-V1`
-
-```text
-GPT / Work = core fun, content planning, player experience, visuals and art
-Codex = implementation architecture and code
-```
-
-이 정책과 유지보수 Amendment는 Decision 수에 포함하지 않는다.
+정책·유지보수 Sync·HUD Amendment는 Decision 수에 포함하지 않는다.
 
 ## 6. 감사 계보
 
@@ -98,6 +96,7 @@ OMW-AUD-344~359 = pixel·illustration hybrid art-direction audit
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
+LATEST_PLANNING = MAIN_CANONICAL_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 SIMULATION_TOOL_CODE = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
@@ -108,11 +107,11 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 8. 운영 Gate
+## 8. 다음 운영 Gate
 
 ```text
-CURRENT_COUNT_SINCE_MERGE = 10_OF_10
-CURRENT_DECISION = OMW-DEC-20260804-PLANNING-PIXEL-ILLUSTRATION-HYBRID-ART-DIRECTION-V1
-NEXT_ACTION = FRESH_PREFLIGHT_AND_ADVERSARIAL_REVIEW
-MERGE_ACTION = ONLY_AFTER_GREEN_PREFLIGHT_AND_ZERO_BLOCKERS
+CURRENT_COUNT_SINCE_MERGE = 0_OF_10
+NEXT_PLANNING = CORE_FUN_AND_CONTENT_DEEPENING
+NEXT_PREFLIGHT = AFTER_10_NEW_APPROVED_DECISIONS
+NEXT_IMPLEMENTATION = SEPARATELY_AUTHORIZED_CODEX_HANDOFF
 ```
