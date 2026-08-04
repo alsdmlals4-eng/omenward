@@ -57,18 +57,22 @@ product_code_authority: NONE
 
 제품 코드·Scene·Resource·병종 `.tres`·실제 아트 자산은 별도 승인 전 변경하지 않는다.
 
+제품 구현: `NOT_STARTED`
+
 ## TDD 증거
 
 - 4/10 RED: Validate Project Core Documentation run 922.
 - GREEN/REFACTOR: 현재 PR exact head에서 fresh 검증 후 기록.
 
-## Legacy C1 증거
+## Legacy 자동 검증 증거
+
+기존 기술 기준선·C1·C2·C3 자동 증거 확보
 
 C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
 
 상태: **REMOTE_PROVEN**
 
-위 증거는 과거 C1 계약 검증만 의미하며 최신 4/10 기획의 제품 구현을 의미하지 않는다.
+위 증거는 과거 계약 검증만 의미하며 최신 4/10 기획의 제품 구현을 의미하지 않는다.
 
 ## 완료 이력 보존
 
