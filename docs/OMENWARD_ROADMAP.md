@@ -17,11 +17,13 @@ human_validation: NOT_RUN
 ## 1. 보존된 Legacy 증거
 
 ```text
+기존 기술 기준선·C1·C2·C3 자동 증거 확보
 C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
 상태 = **REMOTE_PROVEN**
+제품 구현: `NOT_STARTED`
 ```
 
-이 증거는 Legacy C1 중앙 판정·완성선·등급·보상 계약에만 적용된다. 최신 물리 릴·HUD·건물 6종·Stage 압력·아트가 구현됐다는 뜻이 아니다.
+이 증거는 Legacy C1·C2·C3 계약에만 적용된다. 최신 물리 릴·HUD·건물 6종·Stage 압력·아트가 구현됐다는 뜻이 아니다.
 
 ## 2. 완료된 기획 기반
 
