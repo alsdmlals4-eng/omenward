@@ -11,6 +11,10 @@ art_asset_production_authority: NONE
 image_generation: STOPPED_BY_USER
 ```
 
+- 전체 시스템 기준선: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- 현행 GDD: `docs/OMENWARD_GDD_CURRENT_CANON.md`
+- 문서 수명주기: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+
 ## 1. 이번 Decision으로 해결된 항목
 
 - 핵심 재미를 `예고된 압력 → 제작한 확률 → 비가역 전선 커밋 → 설명 가능한 결과`로 재정의.
