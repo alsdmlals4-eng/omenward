@@ -3,9 +3,10 @@
 - 공식명: **오멘워드 / OMENWARD**
 - 갱신일: 2026-08-04
 - 기준 저장소: `alsdmlals4-eng/omenward`
-- 전체 시스템 기준선: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- 전체 시스템 연결 기준선: `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - 현행 GDD: `docs/OMENWARD_GDD_CURRENT_CANON.md`
 - 핵심 재미 정본: `docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
+- Stage 압력 정본: `docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
 - 문서 수명주기: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
 - 작업 모드: `PLANNING_ONLY_PROFILE`
 - 제품 코드: `NOT_AUTHORIZED`
@@ -14,6 +15,8 @@
 - 사람 검증: `HUMAN_QA_NOT_RUN`
 
 이 문서는 제품 정체성·핵심 인과·플레이어 불변 조건을 소유한다. 충돌 시 **사용자 최신 지시 → 이 문서 → Documentation Map·Lifecycle Registry → 주제별 `[현행]` 책임 원본 → 실제 증거 → 구형 문서** 순서로 적용한다.
+
+`APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 전체 시스템 연결 계보를 보존하지만 식량·건물 5종·주변 지휘소·구형 Stage 시계 같은 세부는 2026-08-04 이후 현행 정본이 대체한다.
 
 ## 1. 정체성
 
@@ -27,7 +30,7 @@
 
 > **독립 슬롯에서 무작위 병력을 뽑는 게임이 아니라, 건물·TokenSource·가로 이동으로 미래 룰렛 자체를 다시 쓰고 그 결과를 세 전선에 커밋하는 게임.**
 
-## 2. 핵심 재미 4축
+## 2. 핵심 재미
 
 ```text
 예고된 압력
@@ -36,7 +39,7 @@
 → 설명 가능한 결과와 다음 설계
 ```
 
-1. **예측** — 다음 공세의 전선·역할·특수 행동을 읽는다.
+1. **예측** — 다음 공세의 전선·역할·Route·특수 행동을 읽는다.
 2. **확률 설계** — 제한된 건물과 TokenSource로 미래 릴 구성을 바꾼다.
 3. **결과 조작** — 멈춘 3×3 노출창에서 제한된 이동권을 사용한다.
 4. **전선 커밋** — 보관·판매·한 전선 배치 중 선택한다.
@@ -48,7 +51,7 @@
 
 ```text
 MapRun·Stage 시작
-→ 공세 예고 확인
+→ 전체 Stage 압력·Wave 순서 확인
 → 건설·업그레이드·수리와 TokenSource 구성
 → 룰렛 회전
 → 3×3 노출창의 열 상하·행 좌우 이동
@@ -132,7 +135,7 @@ T3 병종 토큰 = 금지
 - 토큰 초당 공급 없음.
 - 지휘소를 주변 범위 오라로 해석하지 않는다.
 - T2·T3 분기는 색·수치만 다른 업그레이드가 아니라 압력별 카운터와 기회비용을 가져야 한다.
-- 정확한 분기·수치는 후속 콘텐츠 Decision이 소유한다.
+- 정확한 분기·수치는 3/10 Decision이 소유한다.
 
 ## 8. HUD·상인·벨루
 
@@ -149,18 +152,39 @@ T3 병종 토큰 = 금지
 - 정확한 수치·지속 상태는 HUD가 소유.
 - 벨루가 플레이어 대신 결정을 내리지 않는다.
 
-## 9. Stage 콘텐츠 코어
+## 9. Stage·Wave 콘텐츠 코어
 
-후속 콘텐츠는 다음 압력 범주로 릴·건물·병종 선택을 시험한다.
+```text
+한 MapRun = 20 Stage
+기본 Stage = 3개 Wave Beat
+Danger Stage = 4 / 9 / 14 / 19
+Boss Stage = 5 / 10 / 15 / 20
+```
+
+네 막:
+
+```text
+Stage 1~5   = 압력 문해력
+Stage 6~10  = 압력 조합
+Stage 11~15 = 기회비용
+Stage 16~20 = 종합 숙련
+```
+
+압력:
 
 ```text
 MASS / ARMORED / FLYING / INFILTRATION / SIEGE
 ```
 
-- 일반 Stage는 1~2개 압력을 학습시킨다.
-- Danger Stage는 기존 압력에 규칙 변형을 더한다.
-- Boss Stage는 단순 HP 증가가 아니라 선택 구조를 다시 해석하게 한다.
-- 정확한 Stage 매트릭스와 적 수치는 미확정이다.
+- Normal Stage는 하나 또는 두 압력을 학습·조합한다.
+- Danger Stage는 Stage 시작 전에 공개된 한 가지 규칙 변형을 사용한다.
+- Boss Stage는 Route·태세·목표·호위·집중 공격 기회를 바꾼다.
+- Stage 시작 뒤 치명적 압력·Route·필요 공격 Layer를 몰래 변경하지 않는다.
+- 각 압력에는 병종·건물·전술·룰렛 준비 중 최소 두 대응 경로가 필요하다.
+- 고정되는 것은 압력 역할과 학습 목표이며 실제 적 패키지·전선·Route는 맵별 작성 변형으로 둔다.
+- 정확한 시간·Threat Budget·적 수치는 시뮬레이션 전 고정하지 않는다.
+
+구형 `15웨이브=1스테이지` 구조는 `[대체됨]`이다.
 
 ## 10. 아트 코어
 
@@ -200,12 +224,14 @@ CORE_LOCK_NOT_ALLOWED
 ## 12. 다음 기획 순서
 
 ```text
-Stage·Wave·Danger·Boss 압력 매트릭스
-→ 건물 6종 T2/T3 분기·카운터
-→ 병종 역할·시너지·카운터
-→ 전술스킬·마석
-→ Stage 종료 상인
-→ 첫 10~15분 흐름
-→ Hero·Legendary 재조정
-→ Meta·Hub 재조정
+[완료 1/10] 핵심 재미·콘텐츠 가드레일
+→ [완료 2/10] Stage·Wave·Danger·Boss 압력 매트릭스
+→ [다음 3/10] 건물 6종 T2/T3 분기·카운터
+→ [4/10] 병종 역할·시너지·카운터
+→ [5/10] 전술스킬·마석
+→ [6/10] Stage 종료 상인
+→ [7/10] 첫 10~15분 흐름
+→ [8/10] Hero·Legendary 재조정
+→ [9/10] Meta·Hub 재조정
+→ [10/10] 전체 콘텐츠 Preflight
 ```
