@@ -18,7 +18,7 @@ human_validation: NOT_RUN
 
 ```text
 C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
-상태 = REMOTE_PROVEN
+상태 = **REMOTE_PROVEN**
 ```
 
 이 증거는 Legacy C1 중앙 판정·완성선·등급·보상 계약에만 적용된다. 최신 물리 릴·HUD·건물 6종·Stage 압력·아트가 구현됐다는 뜻이 아니다.
