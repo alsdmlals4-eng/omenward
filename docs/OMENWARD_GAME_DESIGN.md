@@ -7,9 +7,12 @@ status: SUPERSEDED / HISTORICAL_REFERENCE_ONLY
 superseded_at: 2026-08-04
 superseded_by: docs/OMENWARD_GDD_CURRENT_CANON.md
 implementation_authority: NONE
+legacy_c2_evidence: LATEST_USER_DESIGN_INTEGRATED / PRODUCT_CODE_NOT_AUTHORIZED
 ```
 
 이 파일의 과거 본문은 Git 이력에 보존되어 있다. 신규 기획·Codex 구현·아트 제작의 책임 원본으로 사용하지 않는다.
+
+`LATEST_USER_DESIGN_INTEGRATED`는 과거 C2 검증 계보 marker이며 `PRODUCT_CODE_NOT_AUTHORIZED` 경계를 유지한다. 이 marker는 이 파일을 현행 정본으로 복구하지 않는다.
 
 ## 대체 이유
 
@@ -37,5 +40,6 @@ implementation_authority: NONE
 - `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
+- `docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
 
 과거 상세가 필요하면 Git history에서 조회하되, 새 Decision으로 재검토·승인하기 전에는 되살리지 않는다.
