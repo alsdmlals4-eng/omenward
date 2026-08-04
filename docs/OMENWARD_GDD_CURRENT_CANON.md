@@ -4,7 +4,8 @@
 updated_at: 2026-08-04
 status: CURRENT_GDD_CANON / PLANNING_ONLY / NOT_IMPLEMENTED
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_decision: OMW-DEC-20260804-PLANNING-CORE-FUN-AND-CONTENT-GUARDRAILS-V1
+current_decision: OMW-DEC-20260804-PLANNING-STAGE-WAVE-DANGER-BOSS-PRESSURE-MATRIX-V1
+current_count: 2_OF_10
 vertical_slice_baseline: docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
 product_code_authority: NONE
 art_asset_production_authority: NONE
@@ -12,6 +13,8 @@ simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: NOT_RUN
 ```
+
+`APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 전체 시스템 연결 계보를 보존한다. 식량·건물 5종·주변 지휘소·구형 Stage 시계처럼 후속 현행 정본과 충돌하는 세부는 사용하지 않는다.
 
 ## 1. 한 문장
 
@@ -24,7 +27,7 @@ human_validation: NOT_RUN
 ## 2. 핵심 루프
 
 ```text
-공세 예고 확인
+Stage 전체 압력·Wave 순서 확인
 → 건설·업그레이드·수리와 TokenSource 구성
 → 세 원형 릴 회전
 → 3×3 노출창에서 릴·행 이동
@@ -32,6 +35,7 @@ human_validation: NOT_RUN
 → 보관·판매·한 전선 배치
 → 자동전투·점령·건물 운영
 → 결과 원인 복기
+→ Stage 정비·상인
 → 다음 Stage 설계
 ```
 
@@ -39,7 +43,14 @@ human_validation: NOT_RUN
 
 ## 3. 핵심 재미
 
-- **예측:** 다음 공세의 전선·역할·특수 압력을 읽는다.
+```text
+예고된 압력
+→ 제작한 확률
+→ 비가역 전선 커밋
+→ 설명 가능한 결과와 다음 설계
+```
+
+- **예측:** 다음 공세의 전선·역할·Route·특수 압력을 읽는다.
 - **확률 설계:** 건물과 TokenSource로 미래 릴 구성을 바꾼다.
 - **제한 조작:** 회전 뒤 제한된 이동권을 현재 결과와 미래 릴 중 어디에 쓸지 판단한다.
 - **커밋:** 획득 병력을 보관·판매하거나 한 전선에 되돌릴 수 없이 배치한다.
@@ -100,7 +111,7 @@ T3 병종 토큰 = 금지
 
 - 건물별 지속 유지비는 없다.
 - 토큰을 초당 공급하지 않는다.
-- 정확한 T2/T3 분기와 수치는 후속 Decision이다.
+- 정확한 T2/T3 분기·압력 카운터와 수치는 3/10 Decision이다.
 
 ## 8. HUD·상인·벨루
 
@@ -115,7 +126,82 @@ T3 병종 토큰 = 금지
 - 정확한 수치·지속 상태는 HUD가 소유한다.
 - 벨루가 플레이어 대신 결정을 내리지 않는다.
 
-## 9. 아트 방향
+## 9. MapRun·Stage·Wave 구조
+
+```text
+한 MapRun = 20 Stage
+기본 Stage = 3개 Wave Beat
+Danger Stage = 4 / 9 / 14 / 19
+Boss Stage = 5 / 10 / 15 / 20
+```
+
+Wave 문법:
+
+```text
+Normal = Probe → Complication → Commitment Test
+Danger = Distortion Introduction → Overlap → Consequence
+Boss = Approach → Boss Entry → Finale
+```
+
+- Wave Beat는 Spawn Group 수와 같은 뜻이 아니다.
+- Wave 사이에는 기본 정비시간을 만들지 않는다.
+- Stage 종료 뒤 정산·checkpoint·정비시간·상인이 이어진다.
+- 구형 `15웨이브=1스테이지` 구조는 `[대체됨]`이다.
+- 구형 첫 4공세 수치·식량·병영 자동생산은 `[보류]`다.
+
+## 10. Stage 압력 매트릭스
+
+압력:
+
+```text
+MASS / ARMORED / FLYING / INFILTRATION / SIEGE
+```
+
+네 막:
+
+| 구간 | 목적 |
+|---|---|
+| Stage 1~5 | 다섯 압력의 행동·Route·목표를 구분 |
+| Stage 6~10 | 두 압력을 함께 해결 |
+| Stage 11~15 | 서로 충돌하는 대응의 기회비용 |
+| Stage 16~20 | 세 전선·여러 Route 종합 숙련 |
+
+Stage 순서:
+
+| Stage | 유형 | 주 압력·규칙 |
+|---:|---|---|
+| 1 | Normal | `MASS` 처리량·병력 한도 |
+| 2 | Normal | `ARMORED` 집중 화력 |
+| 3 | Normal | `FLYING` 공격 가능 Layer |
+| 4 | Danger | `INFILTRATION`; 공개된 우회 Route 활성 순서 |
+| 5 | Boss | `SIEGE`; 가시적 파괴 준비와 집중 공격 창 |
+| 6 | Normal | `MASS + ARMORED` |
+| 7 | Normal | `FLYING + INFILTRATION` |
+| 8 | Normal | `SIEGE + MASS` |
+| 9 | Danger | 공개된 Wave 겹침 시간표 |
+| 10 | Boss | 공중 Route·우회 Route 전환 |
+| 11 | Normal | `ARMORED + FLYING` |
+| 12 | Normal | `INFILTRATION + SIEGE` |
+| 13 | Normal | `MASS + FLYING`; 세 전선 포화 |
+| 14 | Danger | 전체 순서가 공개된 주 전선 이동 |
+| 15 | Boss | 행군 태세·포격 태세 전환 |
+| 16 | Normal | `MASS + FLYING + SIEGE` |
+| 17 | Normal | `ARMORED + INFILTRATION + MASS` |
+| 18 | Normal | `FLYING + SIEGE + INFILTRATION` |
+| 19 | Danger | 공개된 Route 수렴과 결정 전선 |
+| 20 | Final Boss | 범람·붕괴·사냥 Omen Pattern |
+
+공정성:
+
+- Stage 시작 전에 주·보조 압력, 전선, Route, 예상 목표, 치명적 특수 행동을 공개한다.
+- Danger는 한 가지 전역 규칙 변형만 사용한다.
+- Boss는 HP 증가가 아니라 Route·태세·목표·호위·집중 공격 기회를 바꾼다.
+- 압력 역할·학습 목표는 고정하고 실제 적 패키지·전선 배치는 맵별 작성 변형으로 둔다.
+- 변형은 Stage 시작 뒤 필요한 카운터를 몰래 바꾸지 않는다.
+- 각 Stage에는 최소 두 대응 경로가 필요하다.
+- 정확한 시간·Threat Budget·적 수치는 시뮬레이션 전 미확정이다.
+
+## 11. 아트 방향
 
 ```text
 STYLE = PIXEL_ILLUSTRATION_HYBRID
@@ -129,21 +215,7 @@ VEIL = CHARCOAL / DEEP_PURPLE / CRIMSON / ASYMMETRIC_GOTHIC
 - 보상·도감·벨루는 일러스트의 재질과 표정을 강화한다.
 - 실제 아트 자산 제작은 별도 승인 전 시작하지 않는다.
 
-## 10. Stage 콘텐츠 압력
-
-후속 콘텐츠는 다음 압력 범주를 사용한다.
-
-```text
-MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-```
-
-- 일반 Stage는 1~2개 압력을 학습.
-- Danger Stage는 규칙 변형.
-- Boss Stage는 단순 HP 증가가 아닌 선택 구조 변화.
-
-정확한 Stage 매트릭스·적 조합·수치는 미확정이다.
-
-## 11. 문서 권위
+## 12. 문서 권위
 
 읽기 순서:
 
@@ -157,18 +229,33 @@ PROJECT_CORE.md
 
 `[대체됨]`, `[보류]`, `[폐기]` 문서는 구현 입력으로 사용하지 않는다.
 
-## 12. 현재 미확정
+## 13. 현재 미확정
 
-- Stage·Wave·Danger·Boss 압력 매트릭스.
-- 건물 6종 T2/T3 분기·카운터.
-- T1/T2/T3 병종 역할·시너지.
+- 건물 6종 T2/T3 분기·압력 카운터.
+- T1/T2/T3 병종 역할·시너지·카운터.
 - 전술스킬·마석 리듬.
 - Stage 종료 상인 재고·가격.
 - 최신 첫 10~15분 흐름.
 - Hero·Legendary 재조정.
 - Meta·Hub 재조정.
+- Stage 정확 시간·Threat Budget·적 패키지 수치.
 
-## 13. 구현 경계
+## 14. 다음 순서
+
+```text
+[완료 1/10] 핵심 재미·콘텐츠 가드레일
+→ [완료 2/10] Stage·Wave·Danger·Boss 압력 매트릭스
+→ [다음 3/10] 건물 6종 T2/T3 분기·카운터
+→ [4/10] 병종 역할·시너지·카운터
+→ [5/10] 전술스킬·마석
+→ [6/10] Stage 종료 상인
+→ [7/10] 첫 10~15분 흐름
+→ [8/10] Hero·Legendary 재조정
+→ [9/10] Meta·Hub 재조정
+→ [10/10] 전체 콘텐츠 Preflight
+```
+
+## 15. 구현 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
