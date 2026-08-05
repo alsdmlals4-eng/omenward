@@ -25,7 +25,7 @@ image_generation: STOPPED_BY_USER
 - Google Sheet는 같은 Decision ID와 exact PR HEAD로 동기화한다.
 - GPT는 핵심 재미·콘텐츠·플레이어 경험·UX·아트 방향을 소유한다.
 - Codex는 자료구조·알고리즘·좌표·경로탐색·성능·코드·테스트를 소유한다.
-- 관련 벤치마크와 현업 관행을 비교하고 채택·비채택 이유를 기록한다.
+- 벤치마크와 현업 관행의 채택·비채택 이유를 기록한다.
 - 승인 10건은 최대 정본 배치 크기이며 고위험 충돌·세션 종료·대규모 정본 영향 시 조기 체크포인트를 허용한다.
 - 모든 행동 변경은 `RED → GREEN → REFACTOR`로 진행한다.
 - GitHub 파일 쓰기는 명시적 비기본 branch에서만 수행하고 main은 검증된 PR 병합으로 변경한다.
@@ -81,8 +81,6 @@ MAPRUN_PERMANENT_CHOICE
 
 ## 6. Decision 4/10 — 병종 역할·시너지·카운터
 
-`OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1`
-
 책임 원본:
 
 - `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
@@ -113,17 +111,24 @@ ROSTER_MIN_MAX: NOT_PRESET
 - T1/T2 실제 인게임 이미지를 룰렛에 재사용하고 T3 토큰은 금지한다.
 - 제품 수치·AI·데이터는 `PENDING_SIMULATION / NOT_AUTHORIZED`다.
 
-## 7. TDD 증거
+## 7. TDD·Sheet 증거
 
 ```text
 RED_RUN = Project Core Documentation 922
 RED_RESULT = FAILURE_AS_EXPECTED
 RED_CAUSE = TROOP_AUTHORITY / REVIEW / 4_OF_10_ROUTING / LEGACY_UNIT_LIFECYCLE_MISSING
-GREEN_CANDIDATE = PR_139_EXACT_HEAD
+
+GREEN_HEAD = bfaf34dbf7c8dd46a7aa833bb782cb3440db6cfd
+PROJECT_CORE_RUN = 945 / SUCCESS
+GDD_SHEET_RUN = 652 / SUCCESS
+OMENWARD_CORE_RUN = 121 / SUCCESS
+BASE_V9_RUN = 635 / SUCCESS
+SHEET_BOUNDED_READBACK = PASS
+REFACTOR = COMPLETE
 PRODUCT_CODE = UNCHANGED
 ```
 
-최종 Green·REFACTOR·Sheet·preflight 증거는 exact PR HEAD에서 갱신한다.
+중앙 증거 갱신 뒤 final exact HEAD에서 CI·Sheet·preflight를 다시 실행한다.
 
 ## 8. 적대적 감사 계보
 
