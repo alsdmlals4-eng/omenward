@@ -2,14 +2,17 @@ class_name GameCommand
 extends RefCounted
 
 var action_id: StringName = &""
-var payload: Dictionary = {}
+var _payload: Dictionary = {}
+var payload: Dictionary:
+	get:
+		return _payload.duplicate(true)
 var _payload_is_valid := true
 
 
 func _init(assigned_action_id: StringName = &"", assigned_payload: Dictionary = {}) -> void:
 	action_id = assigned_action_id
 	_payload_is_valid = _is_platform_neutral(assigned_payload)
-	payload = assigned_payload.duplicate(true) if _payload_is_valid else {}
+	_payload = assigned_payload.duplicate(true) if _payload_is_valid else {}
 
 
 func is_valid() -> bool:
@@ -19,7 +22,7 @@ func is_valid() -> bool:
 func to_dictionary() -> Dictionary:
 	return {
 		"action_id": str(action_id),
-		"payload": payload.duplicate(true),
+		"payload": _payload.duplicate(true),
 	}
 
 
