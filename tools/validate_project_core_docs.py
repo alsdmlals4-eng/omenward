@@ -64,7 +64,7 @@ CORE_MARKERS = (
     "VERTICAL_SLICE_NOT_IMPLEMENTED",
     "LEGACY_C1_C2_C3_PROVEN",
     "HUMAN_QA_NOT_RUN",
-    "골드 / 마석 / 배치 병력·병력 한도 / 이동권",
+    "골드 / 마력 / 배치 병력·병력 한도 / 이동권",
     "금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑",
 )
 
@@ -159,6 +159,7 @@ PREMATURE_EXACT_STATES = (
 
 LEGACY_CORE_MARKERS = (
     "storage_selling_food",
+    "마석",
 )
 
 

@@ -2,8 +2,8 @@
 
 ```yaml
 updated_at: 2026-08-05
-current_planning_decision: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-current_planning_count: 4_OF_10
+current_planning_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+current_planning_count: 5_OF_10
 latest_planning_status: MAIN_CANON_TARGET / NOT_IMPLEMENTED
 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 product_code_authority: NONE
@@ -23,24 +23,24 @@ HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
 ```
 
-4/10 병종 역할·시너지·카운터는 문서 정본이며 다음은 아직 구현되지 않았다.
+5/10 전술스킬·마력은 문서 정본이며 다음은 아직 구현되지 않았다.
 
-- 열 종 역할 재정의.
-- 암살자·기병·비행병 역할 분리.
-- 다섯 압력별 병종 대응 행위.
-- 행동 기반 시너지.
-- 전열/기동 병영 후보 가중.
-- Tier별 역할 변화.
-- Route·Layer·타기팅·AI.
-- 병종 수치·확률·비용.
+- 마력 자원 상태와 초당 수급.
+- 단일 마력탑 건설·파괴·재건·선형 Tier.
+- 골드+시간 연구와 동시 연구 1개 제한.
+- MapRun 연구·해금·마력 초기화.
+- 전술 10종의 대상·효과·쿨다운·비용.
+- 대상 미리보기·유효성 검증·마력 결제.
+- 전술 패널·마력탑 연구 UI.
+- 압력별 병종·건물·전술 통합 대응.
+- 수치·AI·Layer·Route·이벤트 순서.
 
 ```text
 PRODUCT_CODE = UNCHANGED
 DATA_MIGRATION = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+EXACT_NUMERICS = PENDING_SIMULATION
 ```
-
-`data/units/*.tres`는 현재 Legacy Prototype 증거이며 최신 병종 구현 권위가 아니다.
 
 ## 과거 자동 검증 증거
 
@@ -57,22 +57,41 @@ C1 최종 검증 run: `29926598807`
 
 C2 최종 검증 run: `29938742864`
 
-이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 V2 구현 완료를 뜻하지 않는다. 최신 4/10 병종 기획이 제품에 구현됐다는 의미도 아니다.
+이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 최신 5/10 기획이 제품에 구현됐다는 의미도 아니다.
+
+## 5/10 문서 TDD
+
+```text
+RED_RUN = 954
+RED_RESULT = FAILURE_AS_EXPECTED
+RED_EXISTING_CONTRACTS = 45 PASS
+GREEN_CANDIDATE_HEAD = 917445ba9b09260da1f2b7bafb0bbf2f809a834b
+PROJECT_CORE_RUN = 976 / SUCCESS
+GDD_SHEET_RUN = 682 / SUCCESS
+OMENWARD_CORE_RUN = 150 / SUCCESS
+BASE_V9_RUN = 665 / SUCCESS
+SHEET_CANDIDATE_READBACK = PASS
+REFACTOR = COMPLETE
+```
+
+REFACTOR 뒤의 final exact-head 검증·병합 SHA는 PR #140과 Sheet 현재 상태 셀에서 기록한다. 문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다.
 
 ## 구현 시작 전 필수 Gate
 
-1. 5/10 전술스킬·마석 정본.
-2. 건물+병종+전술 압력 대응 재검증.
-3. 경제·수치 시뮬레이션.
+1. 6/10 Stage 종료 상인 정본.
+2. 첫 10~15분 흐름 재설계.
+3. 경제·전술·병종 수치 시뮬레이션.
 4. 사용자 승인 Codex 구현 계획.
 5. 제품 행동을 재현하는 RED 테스트.
 6. 데이터 마이그레이션·롤백·수동 플레이 계획.
 
-## 완료 이력 보존
+## 완료 이력
 
 ```text
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10
 ```
 
 현재 구현 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.

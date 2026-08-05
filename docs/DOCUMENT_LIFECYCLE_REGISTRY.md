@@ -5,74 +5,76 @@ updated_at: 2026-08-05
 policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
 status: CURRENT_LIFECYCLE_AUTHORITY
-current_decision: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-current_count: 4_OF_10
+current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+current_count: 5_OF_10
 ```
 
-이 레지스트리는 파일명·과거 YAML보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다.
+이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다.
 
 ## 1. [현행]
 
 ### 최상위·운영
 
-- `docs/PROJECT_CORE.md`
-- `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- `docs/ACTIVE_CONTEXT.md`
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- `docs/DOCUMENTATION_MAP.md`
-- `docs/process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`
-- `docs/process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md`
+- `PROJECT_CORE.md`
+- `OMENWARD_GDD_CURRENT_CANON.md`
+- `ACTIVE_CONTEXT.md`
+- `CURRENT_IMPLEMENTATION_STATUS.md`
+- `DOCUMENTATION_MAP.md`
+- `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`
+- `process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md`
 
-### 현재 Planning Batch
+### Planning Batch
 
-- 1/10 `docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
-- 2/10 `docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
-- 3/10 `docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
-- 4/10 `docs/design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
-- 병종 Spec `docs/superpowers/specs/2026-08-05-troop-roles-synergies-counters-design.md`
-- 병종 계획 `docs/superpowers/plans/2026-08-05-troop-roles-synergies-counters.md`
-- 병종 검토 `docs/reviews/ADVERSARIAL_TROOP_ROLE_SYNERGY_AND_COUNTER_REVIEW_2026-08-05.md`
+- 1/10 `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
+- 2/10 `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
+- 3/10 `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
+- 4/10 `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
+- 5/10 `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
+- 5/10 Spec `superpowers/specs/2026-08-05-tactical-skills-and-mana-design.md`
+- 5/10 Plan `superpowers/plans/2026-08-05-tactical-skills-and-mana.md`
+- 5/10 Review `reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md`
 
 ### 현행 시스템
 
-- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`: 전체 시스템 연결 계보.
-- `docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md`: 최신 Stage 정본 우선 조건으로 용어·연결 승계.
-- `docs/design/APPROVED_OMENWARD_COMBAT_SPACE_ROUTE_AND_TARGETING_EXPERIENCE_2026-08-04.md`: 전투 공간·Route의 플레이어 의미.
-- `docs/design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md`: HUD·룰렛·자원·기본 건물 역할.
-- `docs/design/APPROVED_OMENWARD_HUD_ROULETTE_LAYOUT_AND_BATTLEFIELD_VIEW_AMENDMENT_2026-08-04.md`: HUD 레이아웃·자산 재사용.
-- `docs/design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md`: 최종 아트 방향.
+- `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`: 전체 시스템 연결 계보.
+- `design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md`: HUD·룰렛·기본 건물 역할. 자원명·마력탑 세부 규칙은 5/10 우선.
+- `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`: 다섯 분기 건물과 과거 결정 계보. 마력탑 부분은 5/10 우선.
+- `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`: 병종 대응망.
 
 ## 2. [대체됨]
 
-- `docs/OMENWARD_GAME_DESIGN.md`: `docs/OMENWARD_GDD_CURRENT_CANON.md`이 승계.
-- `docs/design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md`: 핵심 원칙만 core-fun 정본이 승계.
-- `docs/design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`: 20 Stage·3 Wave Beat 정본으로 대체.
-- `docs/process/POST_MERGE_PIXEL_ILLUSTRATION_HYBRID_CANON_SYNC_2026-08-04.md`: 과거 병합 증거만 보존.
-- `docs/design/proposals/0011-korean-natural-fantasy-names-law-and-mascot.md`: 세계관·명칭·벨루 정본에 반영 완료.
+```text
+LEGACY_TERM_MASOK
+status = SUPERSEDED_TERMINOLOGY
+replacement = 마력
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+```text
+LEGACY_MANA_TOWER_BRANCHES
+status = SUPERSEDED_BY_DECISION_5_OF_10
+replacement = 마력탑 T1 → T2 → T3 / one active instance / no branch
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+대체되는 과거 분기:
+
+- 유량 계열과 그 T3 계보.
+- 저장 계열과 그 T3 계보.
+- 복수 마력탑·병렬 연구·분기별 독점 전술을 전제로 한 파생안.
+
+기타 대체 문서:
+
+- `OMENWARD_GAME_DESIGN.md`: `OMENWARD_GDD_CURRENT_CANON.md`이 승계.
+- `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`: 20 Stage 정본으로 대체.
+- 과거 post-merge Sync 문서: 당시 증거만 보존.
 
 ## 3. [보류]
 
-### 첫 10~15분·튜토리얼
-
-- `docs/design/APPROVED_BELLU_SINGLE_GUIDE_AND_FIRST_10_MINUTE_FLOW.md`
-- `docs/design/APPROVED_TUTORIAL_FIRST_FOUR_WAVES_BALANCE_V1.md`
-
-구형 식량·바리케이드·병영 자동생산·HUD 순서를 포함하므로 7/10에서 재설계 전 사용 금지.
-
-### Hero·Legendary
-
-`docs/design/APPROVED_OMENWARD_HERO_*`, `docs/design/APPROVED_OMENWARD_FIRST_FIVE_UNIQUE_SKILL_2_CONCEPTS_2026-08-03.md`, `docs/design/APPROVED_OMENWARD_REPEAT_LEGENDARY_RESULT_HIGH_GRADE_SLOT_RESOLUTION_2026-08-02.md`는 8/10 재조정 전 구현 입력 금지.
-
-### Meta·Hub
-
-- `docs/design/APPROVED_OMENWARD_META_PROGRESSION_ROLE_2026-08-02.md`
-- `docs/design/APPROVED_OMENWARD_AUXILIARY_HUB_PROGRESSION_2026-08-02.md`
-
-9/10 재조정 전 구현 입력 금지.
-
-### 구형 구현 계획
-
-완료·병합된 과거 계획은 재실행하지 않고 Git 이력과 결정 근거로만 사용한다.
+- 첫 10~15분·튜토리얼 문서군: 7/10 재설계 전 사용 금지.
+- Hero·Legendary 문서군: 8/10 재조정 전 구현 입력 금지.
+- Meta·Hub 문서군: 9/10 재조정 전 구현 입력 금지.
+- 구형 구현 계획: 재실행 금지, 과거 결정·검증 증거로만 사용.
 
 ## 4. [폐기]
 
@@ -80,50 +82,46 @@ current_count: 4_OF_10
 - 기본 건물 5종.
 - 지휘소 주변 범위 오라.
 - `15웨이브=1스테이지`·고정 60초.
-- Danger에서 핵심 UI·정보 차단.
 - Stage 중 숨은 필수 카운터 변경.
-- 룰렛 전용 금화·병종 상징 아이콘.
-- T3 병종 룰렛 토큰.
-- 동일 건물 인스턴스 교차 분기·양쪽 T3.
-- 건물 또는 병종 하나로 다섯 압력 전부 해결.
-- 병종 수집량 기반 단순 세트 보너스를 기본 시너지로 사용.
+- 룰렛 전용 상징 아이콘과 T3 병종 룰렛 토큰.
+- 병종 보유량 기반 기본 세트 보너스.
 - 반대 병영 계열 영구 삭제.
-- 특정 병종이 없으면 통과 불가능한 단일 하드키 Stage.
+- 특정 병종·전술 미보유 시 통과 불가능한 단일 하드키.
+- Stage 전 전술 편성 슬롯.
+- 자동 전술 시전·자동 대상 확정.
+- 연구에 마력 소비.
+- 마력탑 복수 활성·병렬 연구.
+- T3 전술의 부활·완전 회복·전면 정지·전선 자유 이동.
 
 ## 5. [증거]
-
-### Legacy Prototype 병종 데이터
 
 ```text
 [증거] data/units/*.tres
 status = LEGACY_PROTOTYPE_UNIT_DATA
-authority = historical runtime/bootstrap evidence only
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
 
-`data/units/*.tres`의 이름·수치·태그는 현재 프로토타입이 존재했다는 사실만 증명한다. Decision 4/10 병종 정본, Decision 5/10 전술 정본, 수치 시뮬레이션, 별도 Codex 구현 계획과 제품 RED 테스트 전에는 신규 구현 입력으로 사용할 수 없다.
-
-기타 증거:
-
-- `docs/reviews/**`의 과거 PR·적대적 검토 기록.
-- `docs/benchmarks/**`의 실험·Evidence Pilot.
-- `docs/archive/**`.
+- `reviews/**`의 과거 PR·적대적 검토 기록.
+- `benchmarks/**`의 Evidence Pilot.
+- `archive/**`.
 - 완료된 PR·commit·CI run·Sheet 변경 이력.
 
-`[증거]`는 사실을 증명하지만 현재 기획 규칙을 자동 변경하지 않는다.
+`[증거]`는 과거 사실을 증명하지만 현재 규칙을 자동 변경하지 않는다.
 
 ## 6. 신규 작업자 규칙
 
 1. `PROJECT_CORE.md`와 `DOCUMENTATION_MAP.md`를 먼저 읽는다.
-2. 대상 파일이 `[현행]`인지 이 레지스트리에서 확인한다.
-3. `[대체됨]`, `[보류]`, `[폐기]`를 구현 입력으로 사용하지 않는다.
-4. 병종 작업은 4/10 책임 원본을 우선하고 `data/units/*.tres`를 정본으로 역추론하지 않는다.
-5. 병종 수 변경은 역할 공백·중복·룰렛 학습량·아트 비용을 기록하고 별도 승인한다.
-6. 제품 구현은 5/10 전술·수치 시뮬레이션·Codex 계획·제품 RED 테스트 뒤에만 시작한다.
+2. 대상 파일이 `[현행]`인지 확인한다.
+3. 전술·자원 작업은 5/10 책임 원본을 우선한다.
+4. 3/10 건물 문서의 마력탑 부분을 구현 입력으로 사용하지 않는다.
+5. 정확 수치는 시뮬레이션·Codex 계획·제품 RED 테스트 뒤에만 확정한다.
 
-## 7. 완료 이력 보존
+## 7. 완료 이력
 
 ```text
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10
+LEGACY_C1_C2_C3_PROVEN
 ```

@@ -214,6 +214,17 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             )
             self.assertTrue(any("legacy core marker" in error for error in validate(root)))
 
+    def test_project_core_rejects_legacy_masok_term(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/PROJECT_CORE.md"
+            path.write_text(
+                path.read_text(encoding="utf-8") + "\n구형 전술 자원: 마석\n",
+                encoding="utf-8",
+            )
+            self.assertTrue(any("legacy core marker" in error for error in validate(root)))
+
     def test_exact_premature_completion_claim_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
