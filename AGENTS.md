@@ -2,9 +2,9 @@
 
 ```yaml
 updated_at: 2026-08-05
-current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-current_count: 5_OF_10
-next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_count: 6_OF_10
+next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 image_generation: STOPPED_BY_USER
@@ -22,7 +22,9 @@ image_generation: STOPPED_BY_USER
 
 대상 파일이 `[현행]`인지 확인하지 않고 구현 입력으로 사용하지 않는다.
 
-## 2. 현재 5/10 계약
+## 2. 현재 6/10 계약
+
+전술·마력 5/10 완료 계약:
 
 ```text
 자원 = 골드 / 마력 / 배치 병력·병력 한도 / 이동권
@@ -37,15 +39,22 @@ Stage 전 편성 = 없음
 새 MapRun = 마력탑 Tier·연구·해금·보유 마력 초기화
 ```
 
-전술스킬 기준선:
+Stage 종료 상인 6/10 현행 계약:
 
 ```text
-T1 4종 = 속박진 / 수호장 / 집중 명령 / 충격파
-T2 3종 = 폭풍 억제 / 파쇄 명령 / 봉쇄 결계
-T3 3종 = 결전의 깃발 / 성역 / 시간 왜곡
+Stage 1~19 종료 정비시간 방문
+Stage 20 상인 = FORBIDDEN
+재고 = 룰렛 제어 / 복구 / 성장 보조 / 가변 기회
+재고 = 방문별 유한
+구매 통화 = 골드
+상시 HUD 상점 = FORBIDDEN
+무한 구매·무한 reroll = FORBIDDEN
 ```
 
-전술은 병종·건물의 지속 역할을 대체하지 않는다. 대상 무효·취소·Layer 불일치에는 마력을 소비하지 않는다.
+- 이동권이 3 미만이면 이동권, 3/3이면 다음 룰렛 1회 할인을 제시한다.
+- 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기를 직접 판매하지 않는다.
+- 상인은 기존 시스템을 보정하지만 우회하지 않는다.
+- 정확 가격·재고·등장률·할인율은 `PENDING_SIMULATION`이다.
 
 ## 3. 작업 방식
 
@@ -62,8 +71,7 @@ DIRECT_MAIN_WRITE: FORBIDDEN
 
 - 기획 변경도 실패 조건을 먼저 테스트로 기록한다.
 - 제품 변경은 별도 구현 계획과 제품 RED 테스트 전 금지한다.
-- 정확 수급량·상한·비용·쿨다운·범위·지속시간은 `PENDING_SIMULATION`이다.
-- 사용자가 승인하지 않은 자동화·편성·하드카운터를 추가하지 않는다.
+- 사용자가 승인하지 않은 자동화·편성·하드카운터·직접 판매를 추가하지 않는다.
 - PR 병합 전 fresh CI·Sheet read-back·리뷰 thread·차단 표식을 다시 확인한다.
 
 ## 4. 역할 분리
@@ -79,7 +87,9 @@ OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
 OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10
 LEGACY_C1_C2_C3_PROVEN
 ```
 
-제품 코드·Scene·Resource·게임 데이터·실제 아트 자산은 현행 5/10 문서 병합으로 자동 승인되지 않는다.
+제품 코드·Scene·Resource·게임 데이터·실제 아트 자산은 현행 6/10 문서 병합으로 자동 승인되지 않는다.

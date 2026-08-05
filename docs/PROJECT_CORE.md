@@ -3,8 +3,8 @@
 ```yaml
 updated_at: 2026-08-05
 profile: PLANNING_ONLY_PROFILE
-current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-current_count: 5_OF_10
+current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_count: 6_OF_10
 status: VERTICAL_SLICE_NOT_IMPLEMENTED
 제품 코드: `NOT_AUTHORIZED`
 human_validation: HUMAN_QA_NOT_RUN
@@ -19,10 +19,11 @@ human_validation: HUMAN_QA_NOT_RUN
 → 제작한 확률
 → 비가역 전선 커밋
 → 수동 전술 타이밍
+→ Stage 종료 정비 선택
 → 설명 가능한 결과와 다음 설계
 ```
 
-전술스킬은 실패를 지우는 만능 버튼이 아니라, 건물·병종·배치로 준비한 대응을 순간적으로 증폭하는 수단이다.
+전술스킬은 준비한 대응을 순간 증폭하고, 상인은 다음 Stage 준비를 제한적으로 보정한다. 둘 다 건물·룰렛·병종의 지속 역할을 대체하지 않는다.
 
 ## 2. 현행 시스템 집합
 
@@ -60,16 +61,33 @@ T2 = 폭풍 억제 / 파쇄 명령 / 봉쇄 결계
 T3 = 결전의 깃발 / 성역 / 시간 왜곡
 ```
 
-## 4. 권위 문서
+## 4. Stage 종료 상인
+
+```text
+MERCHANT_VISIT_STAGES = 1_TO_19
+STAGE_20_MERCHANT = FORBIDDEN
+TOTAL_MERCHANT_SLOTS = 4
+VISIT_STOCK = FINITE
+PURCHASE_CURRENCY = GOLD_ONLY
+```
+
+- 슬롯은 룰렛 제어·복구·성장 보조·가변 기회다.
+- 이동권 3개 미만이면 이동권, 3/3이면 다음 룰렛 1회 할인을 제시한다.
+- 상인은 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기를 직접 판매하지 않는다.
+- 상시 HUD 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
+- 정확 가격·재고·등장률·할인율은 시뮬레이션 후 확정한다.
+
+## 5. 권위 문서
 
 - `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`: 시스템 연결 계보.
 - `APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`: 핵심 재미.
 - `APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`: Stage 압력.
 - `APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`: 건물 계보. 마력탑 부분은 5/10이 우선.
 - `APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`: 병종 역할.
-- `APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`: 현행 전술·마력 책임 원본.
+- `APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`: 전술·마력 책임 원본.
+- `APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`: 현행 Stage 종료 상인 책임 원본.
 
-## 5. 불변 가드레일
+## 6. 불변 가드레일
 
 ```text
 AUTO_CAST = FORBIDDEN
@@ -79,10 +97,14 @@ FREE_CROSS_LANE_MOVE = FORBIDDEN
 HIDDEN_ROUTE_REACTION = FORBIDDEN
 T3_ROULETTE_TOKEN = FORBIDDEN
 SINGLE_HARD_COUNTER = FORBIDDEN
+ALWAYS_AVAILABLE_HUD_SHOP = FORBIDDEN
+INFINITE_PURCHASE = FORBIDDEN
+INFINITE_REROLL = FORBIDDEN
+DIRECT_CORE_REWARD_SALE = FORBIDDEN
 EXACT_NUMERICS = PENDING_SIMULATION
 ```
 
-## 6. 제품 경계
+## 7. 제품 경계
 
 ```text
 PRODUCT_CODE = UNCHANGED
@@ -94,7 +116,7 @@ HUMAN_QA_NOT_RUN
 
 문서 정본 병합은 제품 구현·수치 확정·실제 아트 제작을 승인하지 않는다.
 
-## 7. Legacy 증거와 완료 이력
+## 8. Legacy 증거와 완료 이력
 
 ```text
 LEGACY_C1_C2_C3_PROVEN
@@ -102,11 +124,13 @@ OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
 OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10
 ```
 
-## 8. 다음 Gate
+## 9. 다음 Gate
 
 ```text
-OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-6_OF_10
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+7_OF_10
 ```

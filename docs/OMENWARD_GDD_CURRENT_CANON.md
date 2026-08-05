@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-05
 status: CURRENT_GDD_CANON
-current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-current_count: 5_OF_10
-next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_count: 6_OF_10
+next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 product_code_authority: NONE
 ```
 
@@ -13,7 +13,7 @@ product_code_authority: NONE
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-플레이어는 공개된 Stage 압력을 읽고 건물·릴·병종·전술 연구를 설계한 뒤, 획득 병력을 한 전선에 비가역 배치하고 적절한 순간에 해금 전술을 수동 시전한다.
+플레이어는 공개된 Stage 압력을 읽고 건물·릴·병종·전술 연구를 설계한 뒤, 획득 병력을 한 전선에 비가역 배치하고 적절한 순간에 해금 전술을 수동 시전한다. Stage 종료 뒤에는 제한 상인과 기존 시스템 정비를 통해 다음 Stage의 골드 기회비용을 결정한다.
 
 ## 2. 핵심 인과
 
@@ -23,6 +23,7 @@ product_code_authority: NONE
 → 제작한 확률과 룰렛 조작
 → 병력 결과·비가역 전선 커밋
 → 마력 기반 수동 전술 타이밍
+→ Stage 결과 정산·제한 상인 선택
 → 설명 가능한 결과·다음 설계
 ```
 
@@ -91,7 +92,33 @@ T3 = 결전의 깃발 / 성역 / 시간 왜곡
 
 전술은 병종·건물의 지속 역할을 대체하지 않는다.
 
-## 7. UX 정보 계약
+## 7. Stage 종료 상인
+
+```text
+MERCHANT_VISIT_STAGES = 1_TO_19
+STAGE_20_MERCHANT = FORBIDDEN
+TOTAL_MERCHANT_SLOTS = 4
+VISIT_STOCK = FINITE
+PURCHASE_CURRENCY = GOLD_ONLY
+```
+
+재고:
+
+```text
+A = 룰렛 제어
+B = 복구 서비스
+C = 성장 보조
+D = 가변 기회
+```
+
+- 이동권이 3 미만이면 보관형 이동권을, 3/3이면 다음 룰렛 1회 비용 할인을 제시한다.
+- 복구는 손상 건물 수리, 성장은 전술 연구 가속을 기본 후보로 사용한다.
+- 가변 슬롯은 이동권·수리·연구 가속·다음 건설/업그레이드/룰렛 1회 할인을 제공할 수 있다.
+- 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기·Stage 정보 직접 판매는 금지한다.
+- 상시 HUD 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
+- Stage 20 종료 뒤에는 상인이 아니라 MapRun 최종 정산으로 이동한다.
+
+## 8. UX 정보 계약
 
 HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마력은 보유량·상한·초당 수급을 읽을 수 있어야 한다.
 
@@ -99,7 +126,9 @@ HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마�
 
 전술 패널은 Tier·마력 비용·쿨다운·대상 방식·대응 압력·사용 불가 이유를 표시한다. 편성 슬롯은 만들지 않는다.
 
-## 8. 권위 계보
+상인 화면은 현재 골드, 네 슬롯의 상품·가격·재고·대상·소멸 조건·구매 후 잔액과 다음 Stage 압력 요약으로 돌아가는 경로를 표시한다.
+
+## 9. 권위 계보
 
 - `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
@@ -107,11 +136,12 @@ HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마�
 - `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
 - `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
 - `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
-- `reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md`
+- `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
+- `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
 
-5/10은 과거 마력탑 분기와 구형 자원명을 대체한다.
+6/10은 과거 상인 개요의 상시 접근·무한 재고·직접 핵심 보상 판매 가능성을 대체한다.
 
-## 9. 제품 경계
+## 10. 제품 경계
 
 ```text
 VERTICAL_SLICE_NOT_IMPLEMENTED
@@ -123,12 +153,14 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 10. 완료 이력
+## 11. 완료 이력
 
 ```text
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
 OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10
 LEGACY_C1_C2_C3_PROVEN
 ```
