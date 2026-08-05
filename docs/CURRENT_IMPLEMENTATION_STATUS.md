@@ -2,16 +2,20 @@
 
 ```yaml
 updated_at: 2026-08-06
-current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_planning_count: 6_OF_10
-latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
-최신 버티컬 슬라이스 구현: `NOT_STARTED`
+current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+current_planning_count: 7_OF_10_IN_PROGRESS
+latest_planning_status: PARTIAL_APPROVAL_6_OF_10 / DRAFT_PR / NOT_IMPLEMENTED
+current_child_decisions:
+  - OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+  - OMW-DEC-20260806-PLANNING-UNIT-BUILDING-TIER-MATRIX-V1
+latest_vertical_slice_implementation: NOT_STARTED
 product_code_authority: NONE
 platform_contract_code_authority: PHASE1_CONTRACT_TYPES_ONLY
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: HUMAN_QA_NOT_RUN
 parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+platform_phase0_baseline: OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
 parallel_platform_phase1: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 ```
 
@@ -21,99 +25,152 @@ parallel_platform_phase1: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 
 ```text
 VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
-LATEST_AUTOMATED_CONTRACTS_NOT_RUN
+LATEST_PLANNING_CONTRACTS_NOT_IMPLEMENTED
+LATEST_AUTOMATED_CONTRACTS_NOT_FULLY_RUN
 HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
 ```
 
-6/10 Stage 종료 상인은 문서 정본이며 다음은 아직 구현되지 않았다.
-
-- Stage 1~19 종료 상인 방문·Stage 20 최종 정산 예외.
-- 4칸 재고 생성과 상태 유효성 필터.
-- 이동권 3/3 시 룰렛 할인 대체.
-- 수리 대상 선택과 연구 가속 대상 선택.
-- 골드 차감·상품 적용·재고 소모의 멱등 거래.
-- 할인 소멸·중첩 방지·checkpoint 복구.
-- 상품 가격·재고 수·등장률·Act별 후보 가중.
-- 상인 화면·구매 확인·사용 불가 이유·다음 Stage 요약 UX.
-
-5/10 전술·마력 역시 제품에는 구현되지 않았다.
+## 7/10 첫 10~15분 흐름 — 부분 승인·미구현
 
 ```text
-GAMEPLAY_PRODUCT_CODE = UNCHANGED
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+7_OF_10_IN_PROGRESS
+PARTIAL_APPROVAL_6_OF_10
+ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
+FIRST_SESSION = REAL_MAPRUN
+STAGE_1_BUILD_CURRENCY = REAL_GOLD
+T1_BUILD_ORDER = PLAYER_SELECTED
+FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION
+FOUNDATION_SETUP_CONFIRMATION = REQUIRED
+FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
+STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS
+STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED
+T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
+FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
+STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
+STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
+```
+
+현재 제품에는 다음이 구현되지 않았다.
+
+- 실제 MapRun 단계 노출형 온보딩 상태머신.
+- Stage 1의 실제 골드 지급과 여섯 필수 T1 건설 완료 추적.
+- 건물 유형별 안전 노드 후보와 정확 좌표 데이터.
+- 설치 순서 자유·확인 전 무료 이동·확인 뒤 표준 규칙 전환.
+- 미설치 필수 T1 비용 예약과 비필수 소비 차단.
+- 건물 생성·노드 점유·골드 차감의 원자적 거래와 전액 복구.
+- 여섯 T1과 세팅 확인 뒤 첫 룰렛 해금.
+- Stage 1 룰렛·병력 결과·비가역 배치·실전 결과의 인과 표시.
+- Stage 2 두 유효 T2 후보 비교와 하나 업그레이드 처리.
+- Stage 3 마력탑 연구와 첫 수동 전술 시전.
+- Stage 4~5 Danger·Boss 노출 Gate.
+- 온보딩 저장·복구·스킵·재학습 및 사람 플레이 계측.
+
+```text
+T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
+FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
+STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
+EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
+```
+
+## 건물 Tier 재정렬 — 승인·미구현
+
+```text
+OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
+GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
+GENERAL_T2_BRANCHES = SHIELD / GREATSWORD / SPEAR / ARCHER / CAVALRY
+SPECIAL_T1_AUTO_PRODUCTION = RANDOM_SPECIAL_UNIT
+SPECIAL_T1_TOKEN_SOURCE = NONE
+SPECIAL_T2_BRANCHES = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
+SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
+SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
+DEFENSE_TOWER_T2 = ARTILLERY / DEFENSE_ENHANCEMENT / SNIPER
+LINEAR_TIER_BUILDINGS = VAULT / FARM / COMMAND_POST / MANA_TOWER
+LINEAR_T2_BRANCHING = FORBIDDEN
+```
+
+위 구조의 자동생산, TokenSource, 업그레이드 데이터, 건물 UI와 전장 동작은 제품에 반영되지 않았다. 특수병 T1의 무작위 선정·미리보기 시점, 생산 간격·비용·토큰 가중치와 방어탑 T3는 미정이다.
+
+## 병종·건물 매트릭스 및 궁병 T3 — 승인·미구현
+
+```text
+OMW-DEC-20260806-PLANNING-UNIT-BUILDING-TIER-MATRIX-V1
+ARCHER_T3_BRANCHES = CROSSBOW_ARCHER / RAPID_FIRE_ARCHER
+ANTI_AIR_ARCHER_T3 = SUPERSEDED / REMOVED / IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+시트 `42_병종_Tier_등급`과 `43_건물_Tier_효과`는 기획 운영 미러다. T2 궁병의 기본 비행 우선 대응은 유지하지만 석궁병·연사궁병의 대공 전용 추가 효과와 정확 수치는 시뮬레이션 전 확정하지 않는다. 대공궁병은 제품 데이터·건물 분기·자동생산·TokenSource·보상 후보·유닛 ID에 존재해서는 안 된다.
+
+## 완료된 5/10·6/10 — 아직 미구현
+
+- Stage 1~19 종료 상인 방문과 Stage 20 최종 정산 예외.
+- 4칸 유한 재고, 상태 유효성 필터, 이동권 3/3 할인 대체.
+- 수리·연구 가속 대상 선택과 멱등 구매 거래.
+- 단일 선형 마력탑, 골드+시간 연구, 마력 수동 시전.
+- 할인·연구·마력·상인 checkpoint 복구.
+
+```text
+PRODUCT_CODE = UNCHANGED
 DATA_MIGRATION = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+IMAGE_GENERATION = NOT_AUTHORIZED
 EXACT_NUMERICS = PENDING_SIMULATION
 ```
 
-## 과거 자동 검증 증거
+## 플랫폼 출시 상태
 
 ```text
-LEGACY_C1_C2_C3_PROVEN
-LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
+OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
+APPROVED_DUAL_PLATFORM
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+RELEASE_BLOCKED_UNVERIFIED
 ```
 
-C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-
-C1 최종 검증 run: `29926598807`
-
-C2 최종 검증 run: `29938742864`
-
-이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 최신 6/10 기획이 제품에 구현됐다는 의미도 아니다.
-
-## 6/10 문서 TDD
+## PC·Android 공용 코어·어댑터 상태
 
 ```text
-RED_RUN = 986
-RED_RESULT = FAILURE_AS_EXPECTED
-RED_EXISTING_CONTRACTS = 55 PASS
-RED_NEW_CONTRACTS = 10 FAIL_OR_ERROR
-RED_CAUSE = CANON / REVIEW / 6_OF_10_ROUTING / LIFECYCLE_MISSING
-
-GREEN_CANDIDATE_HEAD = 83c1dc0e241c4fd8b04a0e9a5680562f9469bd01
-PROJECT_CORE_RUN = 1002 / SUCCESS
-GDD_SHEET_RUN = 707 / SUCCESS
-OMENWARD_CORE_RUN = 174 / SUCCESS
-BASE_V9_RUN = 690 / SUCCESS
-SHEET_BOUNDED_READBACK = PASS
-REFACTOR = COMPLETE
+OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+EXPORT_PRESETS = ABSENT
+REPRESENTATIVE_PC_BUILD = NOT_RUN
+REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
+STORE_SDK_INTEGRATION = NOT_STARTED
 ```
 
-REFACTOR 뒤의 final exact-head 검증·병합 SHA는 PR #141과 Sheet 현재 상태 셀에서 기록한다. 문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다.
+현행 프로토타입에는 결정론적 전투·경제·룰렛 서비스가 있지만 공용 코어와 Godot Scene 조립 경계가 완결되지 않았다. `GameSession`은 frame tick과 Scene/HUD binding을 함께 담당하며, 제품 저장 adapter·모바일 lifecycle adapter·플랫폼 store adapter·재현 가능한 export preset이 없다.
 
-## 구현 시작 전 필수 Gate
+책임 원본은 `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`다. 구현 시작 전 별도 제품 Decision, 제품 RED 테스트, 데이터 마이그레이션·롤백·수동 QA 승인이 필요하다.
 
-1. 7/10 첫 10~15분 흐름 재설계.
-2. Hero·Legendary와 Meta·Hub 재조정.
-3. 전체 Run 콘텐츠·UX·아트 종합 검토.
-4. 경제·전술·병종·상인 수치 시뮬레이션.
-5. 사용자 승인 Codex 구현 계획.
-6. 제품 행동을 재현하는 RED 테스트.
-7. 데이터 마이그레이션·롤백·수동 플레이 계획.
-
-## 완료 이력
+## PC·Android Phase 0 무료 로컬 기준선
 
 ```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
+OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
+STATIC_BOUNDARY_GUARD = IMPLEMENTED
+GODOT_CHARACTERIZATION_BASELINE = LOCAL_ISOLATED_PASS
+LOCAL_PYTHON_TESTS = PASS_AT_MERGED_MAIN_EVIDENCE
+FULL_PRIVATE_REPO_RUNTIME = NOT_RUN
+SCENE_BUILD_EXPORT = NOT_RUN
+PAID_CI = NOT_USED
 ```
 
-현재 버티컬 슬라이스 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
+Phase 0에서 추가된 것은 `scripts/core` 및 향후 `scripts/domain`의 금지 플랫폼 API 정적 검사, 정확한 레거시 허용 목록, Godot 결정론 특성화 기준선이다. 이는 adapter 구현 완료나 플랫폼 출시 가능 판정을 뜻하지 않는다.
 
-## PC·Android 공용 코어·어댑터 구현 상태
+## PC·Android Phase 1 계약 상태
 
 ```text
-ARCHITECTURE_DECISION = OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 ARCHITECTURE_STATUS = MAIN_CANONICAL
-PHASE0_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
-PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
-PHASE1_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 PHASE1_COMMAND_EVENT_CONTRACTS = IMPLEMENTED_LOCAL_PASS_CANDIDATE
 GAME_COMMAND = IMPLEMENTED
 GAME_EVENT = IMPLEMENTED
@@ -127,17 +184,60 @@ STORE_SDK_INTEGRATION = NOT_STARTED
 COMMON_PLATFORM_GATE = NOT_RUN
 PC_RELEASE_GATE = NOT_RUN
 MOBILE_RELEASE_GATE = NOT_RUN
-EXPORT_PRESETS = ABSENT
-REPRESENTATIVE_PC_BUILD = NOT_RUN
-REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 ```
 
-Phase 1은 의미 기반 command/event 값 객체와 실패 폐쇄형 base contract만 추가한다. 기존 `GameSession`, Scene, 전투·경제·룰렛·건물 동작에는 연결하지 않았다. local Godot 4.7.1 contract test와 Python 경계 검사는 통과했지만 전체 저장소 runtime·Scene 조립·build·export는 실행하지 않았다.
-
-다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 2 `GameSession` 책임 분리다.
+Phase 1은 의미 기반 `GameCommand`, `GameEvent` 값 객체와 실패 폐쇄형 플랫폼 base contract만 추가한다. 기존 `GameSession`, Scene, 전투·경제·룰렛·건물 동작에는 연결하지 않았다. main의 local Godot 4.7.1 contract test와 Python 경계 검사 증거는 보존하지만, 이 PR 환경에서는 전체 저장소 runtime·Scene 조립·build·export를 다시 실행하지 않았다.
 
 책임 원본:
 
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
 - `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
 - `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
+
+다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 2 `GameSession` 책임 분리다.
+
+## 과거 자동 검증 증거
+
+```text
+LEGACY_C1_C2_C3_PROVEN
+LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
+LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
+LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
+```
+
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+C1 최종 검증 run: `29926598807`
+C2 최종 검증 run: `29938742864`
+
+과거 증거는 해당 시점의 룰렛·전투 목표·핵심 UX 검증만 보존하며 최신 기획이나 V2 제품 구현 완료를 뜻하지 않는다.
+
+## 7/10 문서 TDD와 최신 검증 경계
+
+```text
+CHECKPOINT_1_RED_RUN = 1009
+CHECKPOINT_1_GREEN_RUNS = 1016 / 719 / 190 / 705
+CHECKPOINT_2_RED_RUN = 1022
+CHECKPOINT_2_GREEN_RUNS = 1040 / 742 / 214 / 728 / 9
+CHECKPOINT_3_CI_LIMITATION = CI_BLOCKED_BY_GITHUB_ACTIONS_BILLING
+CHECKPOINT_5_RED_COMMIT = 09c7b7766a1a20be41960f80e4b58bd40f57bef0
+CHECKPOINT_5_AUTOMATED_GREEN = NOT_PROVEN
+BUILDING_TIER_CONTRACT_TEST = ADDED
+ARCHER_T3_TWO_BRANCH_TEST = 7_PASS_EXACT_BLOB
+FULL_PLANNING_CONTRACT_SUITE = NOT_RUN_NO_REPOSITORY_CHECKOUT
+```
+
+문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다. exact-head와 병합 SHA, Sheet read-back, 실행 증거는 PR과 시트 상태 셀이 소유한다.
+
+## 구현 시작 전 필수 Gate
+
+1. 7/10 첫 10~15분 흐름의 남은 GrillMe 승인.
+2. 특수병 T1 무작위 공개 시점과 Stage 2 골드 규칙 결정.
+3. Hero·Legendary와 Meta·Hub 재조정.
+4. 전체 Run 콘텐츠·UX·아트 종합 검토.
+5. 경제·전술·병종·건물·상인 수치 시뮬레이션.
+6. 사용자 승인 Codex 구현 계획.
+7. 제품 행동을 재현하는 RED 테스트.
+8. 데이터 마이그레이션·롤백·수동 플레이 계획.
+9. PC와 Android의 독립 대표 build 및 Gate 검증.
+
+현재 구현 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
