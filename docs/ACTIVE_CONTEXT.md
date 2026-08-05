@@ -20,7 +20,7 @@ image_generation: STOPPED_BY_USER
 
 ## 현재 작업
 
-마력탑 연구·마력 수급·수동 전술 시전과 4·3·3 전술 목록을 5/10 책임 원본으로 정리하고 있다.
+마력탑 연구·마력 수급·수동 전술 시전과 4·3·3 전술 목록을 5/10 책임 원본으로 정리하고 PR #140의 최종 exact-head 검증을 수행한다.
 
 책임 원본:
 
@@ -50,6 +50,22 @@ T1 4종 = 속박진 / 수호장 / 집중 명령 / 충격파
 T2 3종 = 폭풍 억제 / 파쇄 명령 / 봉쇄 결계
 T3 3종 = 결전의 깃발 / 성역 / 시간 왜곡
 ```
+
+## TDD·Sheet 증거
+
+```text
+RED_RUN = 954 / FAILURE_AS_EXPECTED
+RED_EXISTING_CONTRACTS = 45 PASS
+GREEN_CANDIDATE_HEAD = 917445ba9b09260da1f2b7bafb0bbf2f809a834b
+PROJECT_CORE_RUN = 976 / SUCCESS
+GDD_SHEET_RUN = 682 / SUCCESS
+OMENWARD_CORE_RUN = 150 / SUCCESS
+BASE_V9_RUN = 665 / SUCCESS
+SHEET_CANDIDATE_READBACK = PASS
+REFACTOR = COMPLETE
+```
+
+REFACTOR 이후 최종 SHA를 문서에 고정하면 다시 self-reference가 생기므로 final exact-head 증거는 PR #140과 Sheet의 현재 상태 셀이 소유한다.
 
 ## 제품 경계
 
