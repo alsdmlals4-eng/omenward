@@ -31,6 +31,9 @@ func _test_game_command(failures: PackedStringArray) -> void:
 	original_payload["slot"] = 9
 	_expect(command.action_id == &"roulette_move", "command keeps semantic action id", failures)
 	_expect(command.payload["slot"] == 2, "command deep-copies constructor payload", failures)
+	var exposed_payload: Dictionary = command.payload
+	exposed_payload["slot"] = 7
+	_expect(command.payload["slot"] == 2, "command payload getter returns an isolated snapshot", failures)
 	_expect(command.is_valid(), "semantic command with plain payload is valid", failures)
 	_expect(command.to_dictionary()["action_id"] == "roulette_move", "command dictionary normalizes action id", failures)
 	_expect(not GameCommandScript.new().is_valid(), "empty command id is invalid", failures)
@@ -54,6 +57,9 @@ func _test_game_event(failures: PackedStringArray) -> void:
 	original_payload["stage"] = 8
 	_expect(event.event_id == &"stage_started", "event keeps semantic event id", failures)
 	_expect(event.payload["stage"] == 3, "event deep-copies constructor payload", failures)
+	var exposed_payload: Dictionary = event.payload
+	exposed_payload["stage"] = 11
+	_expect(event.payload["stage"] == 3, "event payload getter returns an isolated snapshot", failures)
 	_expect(event.is_valid(), "semantic event with plain payload is valid", failures)
 	_expect(event.to_dictionary()["event_id"] == "stage_started", "event dictionary normalizes event id", failures)
 	_expect(not GameEventScript.new().is_valid(), "empty event id is invalid", failures)
