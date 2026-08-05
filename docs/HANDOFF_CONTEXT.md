@@ -49,8 +49,6 @@ DECISIONS_PENDING.md
 → 설명 가능한 결과·다음 설계
 ```
 
-세 원형 릴은 3×3 노출창의 세 열이다.
-
 ## 3. Stage·건물 기준선
 
 ```text
@@ -68,10 +66,6 @@ Boss = 5 / 10 / 15 / 20
 CROSS_BRANCH = FORBIDDEN
 DUAL_T3 = FORBIDDEN
 ```
-
-- Stage 시작 전에 압력·전선·Route·목표·치명 행동을 공개한다.
-- 건물 분기는 얻는 것과 포기하는 것을 함께 표시한다.
-- 정확한 적 수·시간·Threat Budget·건물 수치는 시뮬레이션 전 미확정이다.
 
 ## 4. 현재 병종 정본 — 4/10
 
@@ -95,9 +89,9 @@ ROSTER_MIN_MAX: NOT_PRESET
 | SIEGE | 창병·기병/암살자 | 거인 역공 |
 
 - 각 압력에는 최소 두 병종 경로와 건물·전술 대안이 필요하다.
-- 시너지는 전장에서 관찰 가능한 행동 연결이며 단순 세트 보너스는 금지한다.
+- 시너지는 관찰 가능한 행동 연결이며 단순 세트 보너스는 금지한다.
 - 암살자·기병·비행병은 우회 추적·공개 Route 대응·공중 우세로 구분한다.
-- 전열/기동 병영은 후보 가중을 바꾸되 반대 계열을 영구 삭제하지 않는다.
+- 전열/기동 병영은 후보 가중을 바꾸되 반대 계열을 삭제하지 않는다.
 - 병종 수 증감은 역할 공백·중복·학습량·아트 비용을 근거로 별도 승인한다.
 
 ## 5. Tier·룰렛·이동 경계
@@ -110,50 +104,32 @@ FREE_RECALL = FORBIDDEN
 FREE_CROSS_LANE_MOVE = FORBIDDEN
 ```
 
-T3는 결과 Preview·보관함·배치 카드·전장 병종으로만 표현한다.
-
-## 6. 자원·HUD·아트
+## 6. 검증 증거
 
 ```text
-자원 = 골드 / 마석 / 배치 병력·병력 한도 / 이동권
-건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
-하단 = [룰렛] [보관함] [건설] [전술스킬] [벨루]
-상인 = Stage 종료 정비시간
-STYLE = PIXEL_ILLUSTRATION_HYBRID
+RED = Project Core Documentation run 922 / FAILURE_AS_EXPECTED
+GREEN_HEAD = bfaf34dbf7c8dd46a7aa833bb782cb3440db6cfd
+PROJECT_CORE = 945 / SUCCESS
+GDD_SHEET = 652 / SUCCESS
+OMENWARD_CORE = 121 / SUCCESS
+BASE_V9 = 635 / SUCCESS
+SHEET_BOUNDED_READBACK = PASS
+REFACTOR = COMPLETE
 ```
 
-실제 이미지·아트 제작은 중단 상태다.
+실행 기록과 중앙 상태 갱신으로 HEAD가 변경됐으므로 최종 exact-head CI·Sheet read-back·PR preflight를 다시 수행한다.
 
-## 7. TDD·검증 상태
+## 7. 문서·제품 경계
 
 ```text
-RED = Validate Project Core Documentation run 922
-RED_CAUSE = TROOP_CANON / REVIEW / 4_OF_10_ROUTING / LEGACY_UNIT_LIFECYCLE_MISSING
-GREEN_CANDIDATE = PR_139_EXACT_HEAD
+[현행] = 사용 허용
+[대체됨] = 후속 정본 사용
+[보류] = 재검증 전 사용 금지
+[폐기] = 사용 금지
+[증거] = 과거 사실만 허용
 ```
-
-최종 Green·REFACTOR·Sheet·preflight 증거는 PR #139 exact HEAD에서 갱신한다.
-
-## 8. 문서 수명주기
-
-- `[현행]`: 사용 허용.
-- `[대체됨]`: 후속 정본 사용.
-- `[보류]`: 재검증 전 사용 금지.
-- `[폐기]`: 사용 금지.
-- `[증거]`: 과거 사실만 허용.
 
 `data/units/*.tres`는 `[증거] LEGACY_PROTOTYPE_UNIT_DATA / IMPLEMENTATION_INPUT_FORBIDDEN`이다.
-
-## 9. GPT·Codex 경계
-
-```text
-GPT / Work = 핵심 재미·콘텐츠·병종 역할·시너지·카운터·UX·아트·검수 기준
-Codex = 자료구조·알고리즘·좌표·경로탐색·Spawn·Targeting·AI·성능·코드·테스트
-```
-
-정확한 체력·공격력·관통·회복·속도·확률·비용을 기획 추정치로 구현하지 않는다.
-
-## 10. 현재 금지선과 다음 Gate
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
