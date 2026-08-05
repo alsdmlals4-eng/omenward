@@ -9,8 +9,6 @@ SPEC = ROOT / "docs/superpowers/specs/2026-08-05-tactical-skills-and-mana-design
 PLAN = ROOT / "docs/superpowers/plans/2026-08-05-tactical-skills-and-mana.md"
 CANON = ROOT / "docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md"
-BUILDING_CANON = ROOT / "docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md"
-HUD_CANON = ROOT / "docs/design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
 
 TACTICAL_SKILLS = (
@@ -41,8 +39,6 @@ CENTRAL_FILES = (
     ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md",
     ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
 )
-
-CURRENT_MANA_TERMINOLOGY_FILES = CENTRAL_FILES + (BUILDING_CANON, HUD_CANON)
 
 
 def read(path: pathlib.Path) -> str:
@@ -99,22 +95,21 @@ class TacticalSkillManaCanonTests(unittest.TestCase):
         self.assertIn("각 압력은 병종·건물·전술 중 최소 두 계층의 대응 경로", text)
         self.assertIn("전술스킬은 병종·건물의 지속 역할을 대체하지 않는다", text)
 
-    def test_current_authority_uses_mana_not_legacy_masok(self) -> None:
-        for path in CURRENT_MANA_TERMINOLOGY_FILES:
+    def test_current_central_authority_uses_mana_not_legacy_masok(self) -> None:
+        for path in CENTRAL_FILES:
             text = read(path)
             self.assertNotIn("마석", text, str(path.relative_to(ROOT)))
             self.assertIn("마력", text, str(path.relative_to(ROOT)))
 
-    def test_building_branch_and_lifecycle_are_replaced(self) -> None:
-        building = read(BUILDING_CANON)
+    def test_legacy_building_branch_and_term_are_superseded_by_precedence(self) -> None:
+        canon = read(CANON)
         lifecycle = read(LIFECYCLE)
         for marker in (
-            "MANA_TOWER_LINEAR_EXCEPTION",
             "[대체됨] 유량 마력탑 → 맥동 도관",
             "[대체됨] 저장 마력탑 → 징조 저장고",
             DECISION_ID,
         ):
-            self.assertIn(marker, building)
+            self.assertIn(marker, canon)
         for marker in (
             "LEGACY_MANA_TOWER_BRANCHES",
             "LEGACY_TERM_MASOK",
