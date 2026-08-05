@@ -1,11 +1,11 @@
 # [현행] OMENWARD GDD 정본
 
 ```yaml
-updated_at: 2026-08-05
+updated_at: 2026-08-06
 status: CURRENT_GDD_CANON
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_3_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_4_OF_10
 product_code_authority: NONE
 ```
 
@@ -19,7 +19,7 @@ product_code_authority: NONE
 
 ```text
 예고된 압력
-→ 기본 건물 구조 확인·T2 발전 선택
+→ T1 기초 구축·T2 발전 선택
 → 제작한 확률과 룰렛 조작
 → 병력 결과·비가역 전선 커밋
 → 마력 기반 수동 전술 타이밍
@@ -123,18 +123,23 @@ D = 가변 기회
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_3_OF_10
+PARTIAL_APPROVAL_4_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
-SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
-INITIAL_T1_BUILDINGS = PREBUILT
+SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
+STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
+STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
+STAGE_1_BUILD_CURRENCY = REAL_GOLD
 T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
-T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN
-LONG_T1_BUILDING_EXPLANATION = FORBIDDEN
-FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT
+T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
+T1_BUILDING_BRANCH_CHOICE = NONE
+FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
+FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
+STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
+STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
 T2_UPGRADE_PREVIEW = REQUIRED
-STAGE_1 = PREBUILT_T1_TO_T2_AND_DEPLOYMENT_CAUSAL_CHAIN
-STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT
+STAGE_1 = BUILD_ONE_EACH_T1_AND_FIRST_DEPLOYMENT
+STAGE_2 = FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL
 STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
 STAGE_4 = FIRST_DANGER_INTEGRATION
 STAGE_5 = FIRST_BOSS_MASTERY_CHECK
@@ -147,24 +152,67 @@ SCRIPTED_VICTORY = FORBIDDEN
 BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 ```
 
-첫 플레이는 실제 MapRun이다. Stage 1은 `OMEN_FORECAST → PREBUILT_T1_QUICK_READ → T2_UPGRADE_PREVIEW_AND_CHOICE → FIRST_ROULETTE → TROOP_RESULT → IRREVERSIBLE_DEPLOYMENT → REAL_COMBAT → CAUSAL_REVIEW → FIRST_MERCHANT` 순서로 핵심 인과를 완성한다.
+### Stage 1
 
-기초 T1 건물은 이미 배치되어 있고 역할은 짧게 설명한다. T1 건설법·장문 설명은 첫 핵심 학습이 아니다. 첫 의미 있는 선택은 T2 발전 방향과 병력 배치이며, 업그레이드 전 얻는 것·포기하는 것·현재 압력과의 관계를 보여준다.
+```text
+OMEN_FORECAST
+→ STAGE_1_REAL_GOLD_GRANT
+→ BUILD_ONE_EACH_ALL_T1
+→ FIRST_ROULETTE
+→ TROOP_RESULT
+→ IRREVERSIBLE_DEPLOYMENT
+→ REAL_COMBAT
+→ CAUSAL_REVIEW
+→ FIRST_MERCHANT
+```
 
-Stage 2는 이동권·행/열 조작과 다전선 판단, Stage 3은 마력탑·연구·첫 T1 전술·수동 시전, Stage 4는 학습 시스템의 첫 Danger 통합, Stage 5는 새 시스템을 추가하지 않는 첫 Boss 숙련 확인이다.
+첫 판 1스테이지에서 금고·농장·병영·방어탑·지휘소·마력탑 T1을 각각 한 개씩 직접 설치한다. 지급 골드는 여섯 T1의 실제 비용을 감당할 수 있어야 하며 가짜 튜토리얼 자원은 사용하지 않는다.
+
+T1 설명은 이름·핵심 역할 한 문장·아이콘으로 제한한다. 설치는 기초 세팅이며 분기 선택이 아니다. 첫 실제 전투 판단은 룰렛 병력을 어느 전선에 비가역 배치할지 결정하는 것이다.
+
+마력탑은 Stage 1에 설치하지만 이때는 마력 생산과 이후 전술 연구 연결만 짧게 설명한다.
+
+```text
+MANA_TOWER_T1_INCLUDED_IN_STAGE_1_SET = REQUIRED
+MANA_TOWER_STAGE_1_EXPLANATION = BRIEF_RESOURCE_ROLE_ONLY
+TACTICAL_RESEARCH_EXPLANATION_BEFORE_STAGE_3 = FORBIDDEN
+```
+
+### Stage 2
+
+```text
+STAGE_2_T2_GOLD_GRANT
+→ T2_CANDIDATE_PREVIEW_AND_CHOICE
+→ T2_UPGRADE_CONSTRUCTION
+→ MOVE_TICKET_EXPOSURE
+→ ROW_COLUMN_MOVE_PREVIEW
+→ BEFORE_AFTER_RESULT_COMPARISON
+→ MULTI_FRONT_PRESSURE_COMPARISON
+→ IRREVERSIBLE_DEPLOYMENT
+```
+
+Stage 2는 현재 압력에 유효한 T2 후보 두 개를 비교하고 하나를 지을 실제 골드를 지급한다. 선택 전 이득·포기·현재 압력 관계·룰렛 또는 전투 결과 영향을 보여준다. 두 후보 모두 유효하며 정답/오답으로 구성하지 않는다.
+
+### Stage 3~5
+
+Stage 3은 Stage 1에 설치한 마력탑의 연구 기능과 첫 T1 전술·수동 시전을 한 인과로 가르친다. Stage 4는 학습 시스템의 첫 Danger 통합, Stage 5는 새 시스템을 추가하지 않는 첫 Boss 숙련 확인이다.
 
 ```text
 MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE
 MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST
 ```
 
-첫 상인은 네 슬롯 전략을 모두 설명하지 않고, 구매는 선택 사항이며 구매 시 다음 골드 사용 기회를 포기한다는 사실만 가르친다. 벨루는 T1 역할을 짧게 설명할 수 있으나 T2 업그레이드·룰렛 조작·배치·상인 구매를 대신 선택할 수 없다.
+첫 상인은 네 슬롯 전략을 모두 설명하지 않고, 구매는 선택 사항이며 구매 시 다음 골드 사용 기회를 포기한다는 사실만 가르친다.
 
 미승인 범위:
 
 ```text
-INITIAL_T1_INSTANCE_COUNT = PENDING_GRILLME
-FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME
+T1_PLACEMENT_LAYOUT = PENDING_GRILLME
+T1_BUILD_ORDER = PENDING_GRILLME
+STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
+STAGE_1_NON_T1_SPENDING_RULE = PENDING_GRILLME
+FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
+STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
 BELU_INTERVENTION_LEVEL = PENDING_GRILLME
 DANGER_EXACT_PRESSURE = PENDING_GRILLME
@@ -176,15 +224,15 @@ EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 
 ## 9. UX 정보 계약
 
-HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마력은 보유량·상한·초당 수급을 읽을 수 있어야 한다.
+HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다.
 
-기초 T1 건물은 이름·핵심 역할·현재 생산/효과를 짧게 표시하고 상세 정보는 툴팁으로 다시 확인한다. T2 선택 화면은 얻는 것·포기하는 것·현재 압력과의 관계를 비교 가능하게 표시한다.
+Stage 1의 T1 건물 카드는 이름·핵심 역할·실제 비용·현재 건설 완료 여부를 짧게 표시하고 상세 정보는 툴팁으로 다시 확인한다. 연속 장문 모달을 금지한다.
 
-마력탑 패널은 Tier, 다음 Tier 효과, 연구 가능 Tier, 연구 중 대상·남은 시간·골드 비용을 표시한다. 전술 패널은 Tier·마력 비용·쿨다운·대상 방식·대응 압력·사용 불가 이유를 표시한다. 편성 슬롯은 만들지 않는다.
+Stage 2의 T2 비교 화면은 두 후보의 이득·포기·현재 압력 관계·룰렛/전투 영향을 같은 기준으로 비교한다.
+
+마력탑 패널은 Stage 3부터 Tier, 다음 Tier 효과, 연구 가능 Tier, 연구 중 대상·남은 시간·골드 비용을 본격 표시한다. 전술 패널은 Tier·마력 비용·쿨다운·대상 방식·대응 압력·사용 불가 이유를 표시한다.
 
 상인 화면은 현재 골드, 네 슬롯의 상품·가격·재고·대상·소멸 조건·구매 후 잔액과 다음 Stage 압력 요약으로 돌아가는 경로를 표시한다.
-
-온보딩 안내를 닫은 뒤에도 같은 정보를 HUD·툴팁에서 다시 확인할 수 있어야 한다. 승인된 Stage 1~5 순서는 유지하되 정확 입력 방식·시간·강제 클릭 경로는 후속 승인 전 확정하지 않는다.
 
 ## 10. 권위 계보
 
@@ -195,11 +243,10 @@ HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마�
 - `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
 - `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
 - `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-- `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
 - `design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
 - `reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
 
-6/10은 과거 상인 개요의 상시 접근·무한 재고·직접 핵심 보상 판매 가능성을 대체한다. 7/10 부분 승인은 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·T1 건설 튜토리얼·T1 장문 설명을 대체한다.
+7/10 부분 승인은 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·Stage 1 prebuilt T1 시작·T1 장문 설명을 대체한다.
 
 ## 11. 제품 경계
 
