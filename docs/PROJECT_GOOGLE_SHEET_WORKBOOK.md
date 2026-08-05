@@ -3,13 +3,13 @@
 ```yaml
 updated_at: 2026-08-05
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-status: PROJECT_SHEET_CONFIGURED / DECISION_5_SYNC_PENDING
+status: PROJECT_SHEET_CONFIGURED / USER_FACING_GDD_WORKSPACE / PROPOSED_SHEET_CHANGE
 current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 current_count: 5_OF_10
 next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 ```
 
-Google Sheet는 GitHub 정본을 운영·탐색 목적으로 미러링한다. Sheet 단독 변경은 정본 변경이 아니다.
+Google Sheet는 GitHub 정본을 운영·탐색 목적으로 미러링하는 `USER_FACING_GDD_WORKSPACE`다. Sheet 단독 변경은 정본 변경이 아니며, PR 병합 전 쓰기는 `PROPOSED_SHEET_CHANGE` 상태로 취급한다.
 
 ## 1. 5/10 동기화 대상
 
