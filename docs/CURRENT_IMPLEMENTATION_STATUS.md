@@ -1,7 +1,7 @@
 # [현행] 오멘워드 현재 구현 상태
 
 ```yaml
-updated_at: 2026-08-05
+updated_at: 2026-08-06
 current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 current_planning_count: 6_OF_10
 latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
@@ -10,6 +10,7 @@ product_code_authority: NONE
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: HUMAN_QA_NOT_RUN
+parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 ```
 
 현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
@@ -102,3 +103,34 @@ OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 ```
 
 현재 구현 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
+
+## PC·Android 공용 코어·어댑터 구현 상태
+
+```text
+OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+EXPORT_PRESETS = ABSENT
+REPRESENTATIVE_PC_BUILD = NOT_RUN
+REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
+STORE_SDK_INTEGRATION = NOT_STARTED
+```
+
+현행 프로토타입에는 결정론적 전투·경제·룰렛 서비스가 있지만, 공용 코어와 Godot Scene 조립 경계가 완결되지 않았다. `GameSession`은 frame tick과 Scene/HUD binding을 함께 담당하며, 제품 저장 adapter·모바일 lifecycle adapter·플랫폼 store adapter·재현 가능한 export preset이 없다.
+
+승인된 설계는 다음 구현 순서를 정할 뿐 제품 변경을 승인하지 않는다.
+
+1. 기준선 characterization test와 금지 API 정적 검사.
+2. command/event 및 platform contract.
+3. `GameSession`의 `GameApplication`·`SessionDriver`·`SceneBinder`·`PlatformBootstrap` 분리.
+4. 공유 versioned save schema와 원자 저장 adapter.
+5. shared ViewModel, responsive UI, PC/Android 입력 adapter.
+6. PC 대표 build와 독립 Gate 증거.
+7. Android lifecycle·성능·대표 build와 독립 Gate 증거.
+8. offline core 이후 Steam·Google Play adapter. STOVE는 별도 Gate.
+
+책임 원본은 `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`다. 구현 시작 전 별도 제품 Decision, 제품 RED 테스트, 데이터 마이그레이션·롤백·수동 QA 승인이 필요하다.
