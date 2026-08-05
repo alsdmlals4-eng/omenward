@@ -43,7 +43,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(CANON)
         for marker in (
             DECISION_ID,
-            "DECISION_STATUS = PARTIAL_APPROVAL_1_OF_10",
+            "DECISION_STATUS = PARTIAL_APPROVAL_2_OF_10",
             "ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE",
             "FIRST_SESSION = REAL_MAPRUN",
             "SEPARATE_TUTORIAL = FORBIDDEN",
@@ -63,14 +63,45 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
+    def test_approved_system_exposure_order_is_explicit(self) -> None:
+        text = read(CANON)
+        for marker in (
+            "SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST",
+            "STAGE_1 = CORE_CAUSAL_CHAIN_AND_FIRST_MERCHANT",
+            "STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT",
+            "STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC",
+            "STAGE_4 = FIRST_DANGER_INTEGRATION",
+            "STAGE_5 = FIRST_BOSS_MASTERY_CHECK",
+            "FIRST_BUILD_CHOICE = REQUIRED",
+            "MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE",
+            "MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST",
+        ):
+            self.assertIn(marker, text)
+
+    def test_stage_one_teaches_the_complete_causal_chain(self) -> None:
+        text = read(CANON)
+        for marker in (
+            "OMEN_FORECAST",
+            "BUILD_PREVIEW_AND_CHOICE",
+            "FIRST_ROULETTE",
+            "TROOP_RESULT",
+            "IRREVERSIBLE_DEPLOYMENT",
+            "REAL_COMBAT",
+            "CAUSAL_REVIEW",
+            "FIRST_MERCHANT",
+        ):
+            self.assertIn(marker, text)
+
     def test_unapproved_details_remain_pending(self) -> None:
         text = read(CANON)
         for marker in (
-            "SYSTEM_EXPOSURE_ORDER = PENDING_GRILLME",
+            "FIRST_BUILD_CANDIDATES = PENDING_GRILLME",
             "MINIMUM_VALID_PATHS = PENDING_GRILLME",
-            "DANGER_ONBOARDING = PENDING_GRILLME",
-            "BOSS_ONBOARDING = PENDING_GRILLME",
-            "MERCHANT_FIRST_EXPOSURE = PENDING_GRILLME",
+            "FIRST_MEANINGFUL_RULER_CHOICE = PENDING_GRILLME",
+            "BELU_INTERVENTION_LEVEL = PENDING_GRILLME",
+            "DANGER_EXACT_PRESSURE = PENDING_GRILLME",
+            "BOSS_EXACT_PATTERN = PENDING_GRILLME",
+            "FAILURE_RETRY_SKIP_RULES = PENDING_GRILLME",
             "EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA",
         ):
             self.assertIn(marker, text)
@@ -80,7 +111,8 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("7_OF_10_IN_PROGRESS", text, str(path.relative_to(ROOT)))
-            self.assertIn("PARTIAL_APPROVAL_1_OF_10", text, str(path.relative_to(ROOT)))
+            self.assertIn("PARTIAL_APPROVAL_2_OF_10", text, str(path.relative_to(ROOT)))
+            self.assertIn("SYSTEM_EXPOSURE_ORDER", text, str(path.relative_to(ROOT)))
 
     def test_post_merge_operational_drift_is_closed(self) -> None:
         active = read(ACTIVE_CONTEXT)
@@ -104,11 +136,14 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(REVIEW)
         for marker in (
             "OMW-AUD-492",
+            "OMW-AUD-504",
             "TUTORIAL_MAIN_RULE_DRIFT",
             "MODAL_OVERLOAD",
             "ANSWER_FOLLOWING_ONBOARDING",
             "SCRIPTED_VICTORY_MASKING",
             "PREMATURE_SYSTEM_EXPOSURE",
+            "STAGE_ONE_OVERLOAD",
+            "SYSTEM_UNLOCK_WITHOUT_DECISION_USE",
             "PRODUCT_CODE = UNCHANGED",
             "HUMAN_QA = NOT_RUN",
         ):
