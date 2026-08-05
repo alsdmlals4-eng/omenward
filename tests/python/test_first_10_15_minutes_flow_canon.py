@@ -43,7 +43,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(CANON)
         for marker in (
             DECISION_ID,
-            "DECISION_STATUS = PARTIAL_APPROVAL_2_OF_10",
+            "DECISION_STATUS = PARTIAL_APPROVAL_3_OF_10",
             "ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE",
             "FIRST_SESSION = REAL_MAPRUN",
             "SEPARATE_TUTORIAL = FORBIDDEN",
@@ -67,22 +67,35 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(CANON)
         for marker in (
             "SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST",
-            "STAGE_1 = CORE_CAUSAL_CHAIN_AND_FIRST_MERCHANT",
+            "STAGE_1 = PREBUILT_T1_TO_T2_AND_DEPLOYMENT_CAUSAL_CHAIN",
             "STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT",
             "STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC",
             "STAGE_4 = FIRST_DANGER_INTEGRATION",
             "STAGE_5 = FIRST_BOSS_MASTERY_CHECK",
-            "FIRST_BUILD_CHOICE = REQUIRED",
             "MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE",
             "MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST",
         ):
             self.assertIn(marker, text)
 
-    def test_stage_one_teaches_the_complete_causal_chain(self) -> None:
+    def test_prebuilt_t1_and_first_meaningful_choice_boundary(self) -> None:
+        text = read(CANON)
+        for marker in (
+            "INITIAL_T1_BUILDINGS = PREBUILT",
+            "T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS",
+            "T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN",
+            "LONG_T1_BUILDING_EXPLANATION = FORBIDDEN",
+            "FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT",
+            "T2_UPGRADE_PREVIEW = REQUIRED",
+            "IRREVERSIBLE_DEPLOYMENT = REQUIRED",
+        ):
+            self.assertIn(marker, text)
+
+    def test_stage_one_teaches_the_revised_causal_chain(self) -> None:
         text = read(CANON)
         for marker in (
             "OMEN_FORECAST",
-            "BUILD_PREVIEW_AND_CHOICE",
+            "PREBUILT_T1_QUICK_READ",
+            "T2_UPGRADE_PREVIEW_AND_CHOICE",
             "FIRST_ROULETTE",
             "TROOP_RESULT",
             "IRREVERSIBLE_DEPLOYMENT",
@@ -91,13 +104,15 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             "FIRST_MERCHANT",
         ):
             self.assertIn(marker, text)
+        self.assertNotIn("FIRST_BUILD_CHOICE = REQUIRED", text)
+        self.assertNotIn("BUILD_PREVIEW_AND_CHOICE", text)
 
     def test_unapproved_details_remain_pending(self) -> None:
         text = read(CANON)
         for marker in (
-            "FIRST_BUILD_CANDIDATES = PENDING_GRILLME",
+            "INITIAL_T1_INSTANCE_COUNT = PENDING_GRILLME",
+            "FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME",
             "MINIMUM_VALID_PATHS = PENDING_GRILLME",
-            "FIRST_MEANINGFUL_RULER_CHOICE = PENDING_GRILLME",
             "BELU_INTERVENTION_LEVEL = PENDING_GRILLME",
             "DANGER_EXACT_PRESSURE = PENDING_GRILLME",
             "BOSS_EXACT_PATTERN = PENDING_GRILLME",
@@ -111,8 +126,9 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("7_OF_10_IN_PROGRESS", text, str(path.relative_to(ROOT)))
-            self.assertIn("PARTIAL_APPROVAL_2_OF_10", text, str(path.relative_to(ROOT)))
-            self.assertIn("SYSTEM_EXPOSURE_ORDER", text, str(path.relative_to(ROOT)))
+            self.assertIn("PARTIAL_APPROVAL_3_OF_10", text, str(path.relative_to(ROOT)))
+            self.assertIn("INITIAL_T1_BUILDINGS", text, str(path.relative_to(ROOT)))
+            self.assertIn("FIRST_MEANINGFUL_RULER_CHOICE", text, str(path.relative_to(ROOT)))
 
     def test_post_merge_operational_drift_is_closed(self) -> None:
         active = read(ACTIVE_CONTEXT)
@@ -128,6 +144,8 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             "LEGACY_SEPARATE_TUTORIAL",
             "LEGACY_STAGE1_FULL_SYSTEM_DUMP",
             "LEGACY_SCRIPTED_TUTORIAL_VICTORY",
+            "LEGACY_T1_CONSTRUCTION_TUTORIAL",
+            "LEGACY_LONG_T1_BUILDING_EXPLANATION",
             "IMPLEMENTATION_INPUT_FORBIDDEN",
         ):
             self.assertIn(marker, text)
@@ -136,14 +154,15 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(REVIEW)
         for marker in (
             "OMW-AUD-492",
-            "OMW-AUD-504",
+            "OMW-AUD-512",
             "TUTORIAL_MAIN_RULE_DRIFT",
             "MODAL_OVERLOAD",
             "ANSWER_FOLLOWING_ONBOARDING",
             "SCRIPTED_VICTORY_MASKING",
             "PREMATURE_SYSTEM_EXPOSURE",
             "STAGE_ONE_OVERLOAD",
-            "SYSTEM_UNLOCK_WITHOUT_DECISION_USE",
+            "T1_EXPLANATION_OVERLOAD",
+            "T1_CONSTRUCTION_FALSE_PRIORITY",
             "PRODUCT_CODE = UNCHANGED",
             "HUMAN_QA = NOT_RUN",
         ):
