@@ -5,7 +5,7 @@ updated_at: 2026-08-05
 status: CURRENT_GDD_CANON
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_2_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_3_OF_10
 product_code_authority: NONE
 ```
 
@@ -19,7 +19,7 @@ product_code_authority: NONE
 
 ```text
 예고된 압력
-→ 건설·TokenSource·연구 투자
+→ 기본 건물 구조 확인·T2 발전 선택
 → 제작한 확률과 룰렛 조작
 → 병력 결과·비가역 전선 커밋
 → 마력 기반 수동 전술 타이밍
@@ -123,11 +123,17 @@ D = 가변 기회
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_2_OF_10
+PARTIAL_APPROVAL_3_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
-STAGE_1 = CORE_CAUSAL_CHAIN_AND_FIRST_MERCHANT
+INITIAL_T1_BUILDINGS = PREBUILT
+T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
+T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN
+LONG_T1_BUILDING_EXPLANATION = FORBIDDEN
+FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT
+T2_UPGRADE_PREVIEW = REQUIRED
+STAGE_1 = PREBUILT_T1_TO_T2_AND_DEPLOYMENT_CAUSAL_CHAIN
 STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT
 STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
 STAGE_4 = FIRST_DANGER_INTEGRATION
@@ -141,24 +147,25 @@ SCRIPTED_VICTORY = FORBIDDEN
 BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 ```
 
-첫 플레이는 실제 MapRun이다. Stage 1은 `OMEN_FORECAST → BUILD_PREVIEW_AND_CHOICE → FIRST_ROULETTE → TROOP_RESULT → IRREVERSIBLE_DEPLOYMENT → REAL_COMBAT → CAUSAL_REVIEW → FIRST_MERCHANT` 순서로 핵심 인과를 완성한다.
+첫 플레이는 실제 MapRun이다. Stage 1은 `OMEN_FORECAST → PREBUILT_T1_QUICK_READ → T2_UPGRADE_PREVIEW_AND_CHOICE → FIRST_ROULETTE → TROOP_RESULT → IRREVERSIBLE_DEPLOYMENT → REAL_COMBAT → CAUSAL_REVIEW → FIRST_MERCHANT` 순서로 핵심 인과를 완성한다.
+
+기초 T1 건물은 이미 배치되어 있고 역할은 짧게 설명한다. T1 건설법·장문 설명은 첫 핵심 학습이 아니다. 첫 의미 있는 선택은 T2 발전 방향과 병력 배치이며, 업그레이드 전 얻는 것·포기하는 것·현재 압력과의 관계를 보여준다.
 
 Stage 2는 이동권·행/열 조작과 다전선 판단, Stage 3은 마력탑·연구·첫 T1 전술·수동 시전, Stage 4는 학습 시스템의 첫 Danger 통합, Stage 5는 새 시스템을 추가하지 않는 첫 Boss 숙련 확인이다.
 
 ```text
-FIRST_BUILD_CHOICE = REQUIRED
 MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE
 MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST
 ```
 
-첫 상인은 네 슬롯 전략을 모두 설명하지 않고, 구매는 선택 사항이며 구매 시 다음 골드 사용 기회를 포기한다는 사실만 가르친다. 벨루는 목표·사용 가능한 행동·결과 원인을 설명할 수 있으나 건설·룰렛 조작·배치·상인 구매를 대신 선택하거나 정답 하나를 강제할 수 없다.
+첫 상인은 네 슬롯 전략을 모두 설명하지 않고, 구매는 선택 사항이며 구매 시 다음 골드 사용 기회를 포기한다는 사실만 가르친다. 벨루는 T1 역할을 짧게 설명할 수 있으나 T2 업그레이드·룰렛 조작·배치·상인 구매를 대신 선택할 수 없다.
 
 미승인 범위:
 
 ```text
-FIRST_BUILD_CANDIDATES = PENDING_GRILLME
+INITIAL_T1_INSTANCE_COUNT = PENDING_GRILLME
+FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
-FIRST_MEANINGFUL_RULER_CHOICE = PENDING_GRILLME
 BELU_INTERVENTION_LEVEL = PENDING_GRILLME
 DANGER_EXACT_PRESSURE = PENDING_GRILLME
 BOSS_EXACT_PATTERN = PENDING_GRILLME
@@ -171,9 +178,9 @@ EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 
 HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마력은 보유량·상한·초당 수급을 읽을 수 있어야 한다.
 
-마력탑 패널은 Tier, 다음 Tier 효과, 연구 가능 Tier, 연구 중 대상·남은 시간·골드 비용을 표시한다.
+기초 T1 건물은 이름·핵심 역할·현재 생산/효과를 짧게 표시하고 상세 정보는 툴팁으로 다시 확인한다. T2 선택 화면은 얻는 것·포기하는 것·현재 압력과의 관계를 비교 가능하게 표시한다.
 
-전술 패널은 Tier·마력 비용·쿨다운·대상 방식·대응 압력·사용 불가 이유를 표시한다. 편성 슬롯은 만들지 않는다.
+마력탑 패널은 Tier, 다음 Tier 효과, 연구 가능 Tier, 연구 중 대상·남은 시간·골드 비용을 표시한다. 전술 패널은 Tier·마력 비용·쿨다운·대상 방식·대응 압력·사용 불가 이유를 표시한다. 편성 슬롯은 만들지 않는다.
 
 상인 화면은 현재 골드, 네 슬롯의 상품·가격·재고·대상·소멸 조건·구매 후 잔액과 다음 Stage 압력 요약으로 돌아가는 경로를 표시한다.
 
@@ -192,7 +199,7 @@ HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마�
 - `design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
 - `reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
 
-6/10은 과거 상인 개요의 상시 접근·무한 재고·직접 핵심 보상 판매 가능성을 대체한다. 7/10 부분 승인은 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory를 대체하고 Stage 1~5 학습 순서를 소유한다.
+6/10은 과거 상인 개요의 상시 접근·무한 재고·직접 핵심 보상 판매 가능성을 대체한다. 7/10 부분 승인은 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·T1 건설 튜토리얼·T1 장문 설명을 대체한다.
 
 ## 11. 제품 경계
 
