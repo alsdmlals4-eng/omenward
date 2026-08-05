@@ -1,12 +1,12 @@
 # [현행] OMENWARD Google Sheet 정본 동기화 계약
 
 ```yaml
-updated_at: 2026-08-05
+updated_at: 2026-08-06
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 status: PROJECT_SHEET_CONFIGURED / USER_FACING_GDD_WORKSPACE / PROPOSED_SHEET_CHANGE
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_3_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_4_OF_10
 current_working_pr: 142
 ```
 
@@ -20,29 +20,35 @@ Google Sheet는 GitHub 정본을 운영·탐색 목적으로 미러링하는 `US
 Decision ID = OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 exact Draft PR HEAD
 Planning counter = 7_OF_10_IN_PROGRESS
-Approval checkpoint = PARTIAL_APPROVAL_3_OF_10
+Approval checkpoint = PARTIAL_APPROVAL_4_OF_10
 Onboarding format = IN_RUN_PROGRESSIVE_DISCLOSURE
 First session = REAL_MAPRUN
-SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
-INITIAL_T1_BUILDINGS = PREBUILT
+SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
+STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
+STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
+STAGE_1_BUILD_CURRENCY = REAL_GOLD
 T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
-T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN
-LONG_T1_BUILDING_EXPLANATION = FORBIDDEN
-FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT
+T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
+T1_BUILDING_BRANCH_CHOICE = NONE
+FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
+FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
+STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
+STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
 T2_UPGRADE_PREVIEW = REQUIRED
-Stage 1 = prebuilt T1 quick read, T2 upgrade, roulette, deployment, combat, first merchant
-Stage 2 = roulette control and multi-front judgment
-Stage 3 = mana tower, research, and manual tactic
+MANA_TOWER_T1_INCLUDED_IN_STAGE_1_SET = REQUIRED
+MANA_TOWER_STAGE_1_EXPLANATION = BRIEF_RESOURCE_ROLE_ONLY
+TACTICAL_RESEARCH_EXPLANATION_BEFORE_STAGE_3 = FORBIDDEN
+Stage 1 = build one each of all six T1 buildings, roulette, deployment, combat, first merchant
+Stage 2 = two valid T2 candidates, build one, roulette control and multi-front judgment
+Stage 3 = mana tower research and manual tactic
 Stage 4 = first Danger integration
 Stage 5 = first Boss mastery check
-Merchant first exposure = Stage 1 maintenance
-Merchant first lesson = optional gold opportunity cost
 Separate tutorial = FORBIDDEN
 Stage 1 full-system dump = FORBIDDEN
 Rule parity with main run = REQUIRED
 Scripted victory = FORBIDDEN
 Belu replaces player choice = FORBIDDEN
-OMW-AUD-492~515
+OMW-AUD-492~523
 Remaining decisions = PENDING_GRILLME
 Product code / image / animation HX = NOT_AUTHORIZED
 ```
@@ -50,8 +56,12 @@ Product code / image / animation HX = NOT_AUTHORIZED
 ## 2. 미승인 범위
 
 ```text
-INITIAL_T1_INSTANCE_COUNT = PENDING_GRILLME
-FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME
+T1_PLACEMENT_LAYOUT = PENDING_GRILLME
+T1_BUILD_ORDER = PENDING_GRILLME
+STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
+STAGE_1_NON_T1_SPENDING_RULE = PENDING_GRILLME
+FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
+STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
 BELU_INTERVENTION_LEVEL = PENDING_GRILLME
 DANGER_EXACT_PRESSURE = PENDING_GRILLME
@@ -79,7 +89,7 @@ POST_MERGE_BOUNDED_READBACK = PASS
 
 ## 4. 수명주기
 
-과거 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·T1 건설 튜토리얼·T1 장문 설명은 다음 상태로 기록한다.
+과거 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·Stage 1 prebuilt T1 시작·T1 장문 설명은 다음 상태로 기록한다.
 
 ```text
 SUPERSEDED
@@ -92,16 +102,16 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 - `00_프로젝트_허브`: 현재 Decision·counter·approval checkpoint·exact HEAD·상태.
 - `01_작업순서`: 7/10 진행 범위·다음 GrillMe·TDD 증거.
-- `02_현재_확정결정`: 실제 MapRun 단계 노출형, 기본 T1 배치, T2·배치 첫 판단.
+- `02_현재_확정결정`: Stage 1 여섯 T1 직접 설치와 Stage 2 두 T2 후보 선택.
 - `03_근거_라이브러리`: 사용자 지시·Spec·Review·TDD·Lifecycle 근거.
-- `04_누락_충돌_감사`: `OMW-AUD-492~515`.
-- `05_GDD_요약`: 첫 플레이 핵심 인과·Stage 1~5 노출·미승인 범위.
-- `12_핵심루프`: T1 빠른 확인→T2 선택→실제 결과→복기.
-- `15_조작_게임규칙`: T1 장문 설명 금지·벨루 비대체·재확인 경로.
+- `04_누락_충돌_감사`: `OMW-AUD-492~523`.
+- `05_GDD_요약`: Stage 1·2 핵심 인과와 미승인 범위.
+- `12_핵심루프`: 기초 구축→배치→T2 발전→결과 복기.
+- `15_조작_게임규칙`: 짧은 T1 설명·실제 골드·T2 비교 Preview·벨루 비대체.
 - `40_핵심시스템_메인콘텐츠`: Stage 1~5 시스템 노출 구조와 제품 경계.
-- `50_메인콘텐츠`: 첫 상인 노출은 승인, T1 수·T2 후보·Danger/Boss 정확 내용은 `PENDING_GRILLME`.
-- `60_UX_UI_접근성`: T1 짧은 역할 라벨·T2 비교 Preview·한 시점 한 목표.
-- `99_변경이력`: exact HEAD·PR·read-back·병합 상태.
+- `50_메인콘텐츠`: 첫 상인 노출은 승인, T1 위치·T2 정체·Danger/Boss 정확 내용은 `PENDING_GRILLME`.
+- `60_UX_UI_접근성`: T1 건설 완료 추적·짧은 역할 라벨·T2 같은 기준 비교.
+- `99_변경이력`: exact HEAD·PR·read-back·CI 상태.
 
 ## 6. 쓰기 규칙
 
