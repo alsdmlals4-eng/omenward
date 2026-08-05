@@ -4,7 +4,7 @@
 updated_at: 2026-08-06
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_4_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_5_OF_10
 current_working_pr: 142
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
@@ -42,7 +42,7 @@ EXACT_NUMERICS = PENDING_SIMULATION
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_4_OF_10
+PARTIAL_APPROVAL_5_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
@@ -52,6 +52,19 @@ STAGE_1_BUILD_CURRENCY = REAL_GOLD
 T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
 T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
 T1_BUILDING_BRANCH_CHOICE = NONE
+T1_PLACEMENT_POLICY = CATEGORY_COMPATIBLE_SAFE_NODES
+T1_BUILD_ORDER = PLAYER_SELECTED
+FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION
+FOUNDATION_SETUP_CONFIRMATION = REQUIRED
+POST_CONFIRMATION_PLACEMENT_RULES = STANDARD_RUN_RULES
+FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
+STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS
+STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED
+STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE
+FOUNDATION_GRANT_SURPLUS = FORBIDDEN
+T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+EXACT_T1_COSTS = PENDING_SIMULATION
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
 FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
 STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
@@ -67,25 +80,21 @@ SCRIPTED_VICTORY = FORBIDDEN
 BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 ```
 
-- 첫 판 1스테이지에서 금고·농장·병영·방어탑·지휘소·마력탑 T1을 각각 한 개씩 직접 설치한다.
-- Stage 1 지급 골드는 여섯 T1의 실제 비용을 감당할 수 있어야 한다.
-- 각 T1 설명은 이름·역할 한 문장·아이콘으로 제한하며 상세는 툴팁에서 재확인한다.
-- T1 설치는 기초 세팅이지 분기 선택이 아니다.
+- 첫 판 Stage 1에서 금고·농장·병영·방어탑·지휘소·마력탑 T1을 실제 골드로 각각 한 개씩 직접 설치한다.
+- 건물 유형에 맞고 첫 전투 진행을 보장하는 안전 노드만 후보로 표시한다. 정확 좌표는 레벨 레이아웃 검증 전 확정하지 않는다.
+- 설치 순서는 자유다. 여섯 T1과 세팅 확인 전에는 안전 노드 사이의 무료 이동·교환을 허용한다.
+- 세팅 확인 뒤에는 무료 이동을 종료하고 표준 Run 배치 규칙을 사용한다.
+- 실제 지갑에서 아직 설치하지 않은 필수 T1의 비용 합계를 예약한다. 필수 세트 완료 전 비필수 소비를 차단한다.
+- 잘못된 건설 거래는 생성·노드 점유·골드 차감 전체를 원자적으로 취소하고 전액 복구한다.
+- 여섯 T1과 세팅 확인 전에는 첫 룰렛을 열지 않는다.
 - 첫 전투 판단은 Stage 1의 비가역 병력 배치다.
 - 첫 건물 전략 판단은 Stage 2의 T2 업그레이드다.
-- Stage 2는 현재 압력에 유효한 T2 후보 두 개를 보여주고 하나를 지을 실제 골드를 지급한다.
-- T2 선택 전 이득·포기·현재 압력 관계·룰렛/전투 영향을 비교한다.
 - 마력탑은 Stage 1에 설치하지만 전술 연구 설명은 Stage 3까지 금지한다.
-- 첫 상인은 선택 사항과 골드 기회비용만 설명한다.
-- 벨루는 목표·선택지·결과 원인을 설명할 수 있지만 플레이어 결정을 대신하지 않는다.
 
 미승인 범위:
 
 ```text
-T1_PLACEMENT_LAYOUT = PENDING_GRILLME
-T1_BUILD_ORDER = PENDING_GRILLME
-STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
-STAGE_1_NON_T1_SPENDING_RULE = PENDING_GRILLME
+T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
 FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
 STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
@@ -112,9 +121,9 @@ DIRECT_MAIN_WRITE: FORBIDDEN
 - 기획 변경도 실패 조건을 먼저 테스트로 기록한다.
 - 승인된 내용은 같은 Decision ID로 GitHub와 Google Sheet에 동기화한다.
 - 제품 변경은 별도 구현 계획과 제품 RED 테스트 전 금지한다.
-- 사용자가 승인하지 않은 건물 위치·정확 비용·잔여 골드 처리·T2 후보 정체를 추가하지 않는다.
-- 구형 `PREBUILT T1` 시작과 장문 T1 설명을 구현 입력으로 사용하지 않는다.
-- PR 병합 전 fresh CI·Sheet read-back·review thread·차단 표식을 다시 확인한다.
+- 정확 노드 좌표·정확 비용·첫 T2 후보 정체를 자동 확정하지 않는다.
+- `UNSAFE_UNRESERVED_STAGE1_SPENDING`, 확인 뒤 무료 이동, 부분 건설 거래 커밋을 구현 입력으로 사용하지 않는다.
+- PR 병합 전 Sheet read-back·review thread·차단 표식을 다시 확인한다.
 
 ## 5. 역할 분리
 
@@ -159,10 +168,9 @@ Android = COMMITTED
 Google Play = COMMITTED_PRIMARY_STORE
 iOS = NOT_CURRENT_SCOPE
 simultaneous release = NOT_COMMITTED
+COMMON_PLATFORM_GATE
+PC_RELEASE_GATE
+MOBILE_RELEASE_GATE
 ```
 
-PC·Steam과 Android·Google Play 지원 범위는 승인됐지만, 플랫폼별 PASS는 독립이다. `COMMON_PLATFORM_GATE`, `PC_RELEASE_GATE`, `MOBILE_RELEASE_GATE`를 각각 판정하며 한 Gate의 PASS를 다른 Gate에 전이하지 않는다. STOVE는 별도 상점 Gate 전 출시 확정이 아니다.
-
-원본을 조금 수정하거나 AI로 변환했다는 이유만으로 독립 자산으로 보지 않고 `reference_brief`, `forbidden_expression`, 별도 `final_asset_record`, 유사성 검토를 요구한다.
-
-필수 권리·계약·약관 버전·설문·build/store 일치·플랫폼별 구현과 검증 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 자산 감사, 런타임 검증, 상점 제출, 최종 등급, 법률 검토는 현재 `NOT_RUN / NOT_ASSIGNED`다. 현재 기획 7/10 부분 승인과 제품 코드 권한 없음 상태를 변경하지 않는다.
+한 플랫폼의 PASS를 다른 플랫폼에 전이하지 않는다. 필수 권리·약관·설문·build/store 일치·플랫폼별 구현과 검증 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 현재 기획 7/10 부분 승인과 제품 코드 권한 없음 상태를 변경하지 않는다.
