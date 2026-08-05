@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-05
 status: CURRENT_DOCUMENTATION_MAP
-current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-current_count: 5_OF_10
-next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_count: 6_OF_10
+next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 ```
 
 ## 1. 읽기 순서
@@ -14,28 +14,28 @@ next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 2. `ACTIVE_CONTEXT.md`
 3. `DOCUMENT_LIFECYCLE_REGISTRY.md`
 4. `OMENWARD_GDD_CURRENT_CANON.md`
-5. `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
-6. `reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md`
+5. `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
+6. `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
 7. `CURRENT_IMPLEMENTATION_STATUS.md`
 8. `DECISIONS_PENDING.md`
 
-## 2. 현행 5/10 책임 원본
+## 2. 현행 6/10 책임 원본
 
-- `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
-- `reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md`
-- `superpowers/specs/2026-08-05-tactical-skills-and-mana-design.md`
-- `superpowers/plans/2026-08-05-tactical-skills-and-mana.md`
+- `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
+- `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
+- `superpowers/specs/2026-08-05-stage-end-merchant-design.md`
+- `superpowers/specs/2026-08-05-stage-end-merchant-design-amendment.md`
+- `superpowers/plans/2026-08-05-stage-end-merchant.md`
 
 핵심:
 
 ```text
-마력탑 최대 1개
-마력탑 T1 → T2 → T3
-연구 = 골드 + 시간
-시전 = 마력
-전술 = 4·3·3 / 총 10종
-자동 시전 금지
-새 MapRun에서 연구·해금·마력 초기화
+Stage 1~19 종료 정비시간 상인
+Stage 20 상인 금지 / MapRun 최종 정산
+재고 4칸 = 룰렛 제어 / 복구 / 성장 보조 / 가변 기회
+방문별 유한 재고
+구매 통화 = 골드
+상시 상점·무한 구매·무한 reroll·직접 핵심 보상 판매 금지
 ```
 
 ## 3. 상위 시스템 계보
@@ -47,8 +47,9 @@ next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 - `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
 - `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
 - `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
+- `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
 
-5/10은 3/10 건물 정본의 마력탑 분기 부분만 대체하며 다른 다섯 건물 분기와 결정 계보는 보존한다.
+6/10은 기존 HUD·상인 개요의 상인 부분을 구체화하며, 5/10 전술·마력과 3/10·4/10 결정 계보는 보존한다.
 
 ## 4. 운영·수명주기
 
@@ -75,6 +76,8 @@ OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
 OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10
 ```
 
 ## 7. 현재 경계
