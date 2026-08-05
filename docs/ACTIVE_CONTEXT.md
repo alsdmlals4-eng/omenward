@@ -8,7 +8,8 @@ context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 work_mode: TOTAL_PLANNING
 current_decision: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 current_count: 4_OF_10
-current_status: MAIN_CANON_TARGET / NOT_IMPLEMENTED
+current_status: PR_CANON_TARGET / NOT_IMPLEMENTED
+current_working_pr: 139
 next_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -19,7 +20,7 @@ image_generation: STOPPED_BY_USER
 
 ## 현재 작업
 
-병종 역할·시너지·압력 카운터를 Stage·건물 정본과 연결한다.
+병종 역할·시너지·압력 카운터를 Stage·건물 정본과 연결하고 PR #139에서 main 병합 전 최종 검증 중이다.
 
 책임 원본:
 
@@ -62,11 +63,23 @@ EXACT_NUMERICS = PENDING_SIMULATION
 
 `data/units/*.tres`는 Legacy Prototype 증거이며 최신 구현 입력이 아니다.
 
-## TDD 상태
+## TDD·동기화 증거
 
-- RED: Validate Project Core Documentation run 922.
-- 예상 실패: 병종 정본·적대적 검토·4/10 중앙 라우팅·Legacy 데이터 격리 부재.
-- GREEN/REFACTOR: 현재 PR exact head에서 재검증 예정.
+```text
+RED = Validate Project Core Documentation run 922
+RED_RESULT = FAILURE_AS_EXPECTED
+RED_CAUSE = TROOP_CANON / REVIEW / 4_OF_10_ROUTING / LEGACY_UNIT_LIFECYCLE_MISSING
+
+GREEN_CANDIDATE_HEAD = bfaf34dbf7c8dd46a7aa833bb782cb3440db6cfd
+PROJECT_CORE_RUN = 945 / SUCCESS
+GDD_SHEET_RUN = 652 / SUCCESS
+OMENWARD_CORE_RUN = 121 / SUCCESS
+BASE_V9_RUN = 635 / SUCCESS
+SHEET_BOUNDED_READBACK = PASS
+REFACTOR = COMPLETE
+```
+
+실행 증거 기록을 압축한 뒤 최종 candidate HEAD가 변경됐으므로 exact-head CI와 Sheet read-back을 한 번 더 수행한다.
 
 ## 완료 이력
 
