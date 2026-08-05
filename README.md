@@ -6,12 +6,12 @@
 
 ```yaml
 updated_at: 2026-08-06
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+current_main: f5e4bcee7f8459fcfeb492f1ebc19ff932a352f0
 work_mode: TOTAL_PLANNING
 current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_planning: FIRST_10_15_MINUTES_FLOW / NOT_IMPLEMENTED
 current_grill_me_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_4_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_5_OF_10
 working_pr: 142
 product_code_authority: NONE
 art_asset_production_authority: NONE
@@ -45,12 +45,12 @@ Stage 압력·Wave 순서 확인
 - 전술 기준선: T1 4종·T2 3종·T3 3종, 총 10종.
 - 병종 기준선: 10종이지만 역할 근거와 별도 승인에 따라 증감 가능.
 
-## 7/10 첫 10~15분 — 부분 승인 4/10
+## 7/10 첫 10~15분 — 부분 승인 5/10
 
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_4_OF_10
+PARTIAL_APPROVAL_5_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
@@ -59,6 +59,19 @@ STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
 STAGE_1_BUILD_CURRENCY = REAL_GOLD
 T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
 T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
+T1_PLACEMENT_POLICY = CATEGORY_COMPATIBLE_SAFE_NODES
+T1_BUILD_ORDER = PLAYER_SELECTED
+FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION
+FOUNDATION_SETUP_CONFIRMATION = REQUIRED
+POST_CONFIRMATION_PLACEMENT_RULES = STANDARD_RUN_RULES
+FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
+STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS
+STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED
+STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE
+FOUNDATION_GRANT_SURPLUS = FORBIDDEN
+T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+EXACT_T1_COSTS = PENDING_SIMULATION
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
 FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
 STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
@@ -68,19 +81,21 @@ FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
 SCRIPTED_VICTORY = FORBIDDEN
 ```
 
-첫 판 1스테이지에서 실제 골드로 여섯 T1을 각각 한 개씩 직접 설치한다. 설명은 건물 이름·역할 한 문장·아이콘 수준으로 제한한다. 첫 전투 판단은 병력의 비가역 전선 배치다.
+첫 판 Stage 1에서 실제 골드로 여섯 T1을 각각 한 개씩 직접 설치합니다. 건물 유형에 맞고 첫 전투 진행을 보장하는 안전 노드만 후보로 보여주며, 설치 순서는 플레이어가 정합니다.
 
-2스테이지에는 현재 압력과 관련된 유효 T2 후보 두 개를 보여주고 하나를 지을 수 있는 실제 골드를 지급한다. 선택 전 이득·포기·압력 관계·룰렛/전투 영향을 비교한다.
+세팅 확인 전에는 안전 노드 사이의 무료 이동·교환을 허용합니다. 확인 뒤에는 무료 이동을 종료하고 표준 Run 규칙으로 전환합니다. 아직 설치하지 않은 필수 T1 비용 합계를 실제 골드 지갑에 예약하고, 필수 세트 완료 전 비필수 소비를 차단합니다.
+
+잘못된 건설 거래는 생성·노드 점유·골드 차감을 원자적으로 취소하고 전액 복구합니다. 여섯 T1과 세팅 확인 전에는 첫 룰렛을 열지 않습니다.
 
 ```text
-Stage 1 = 예고→실제 골드→여섯 T1 설치→룰렛→병력 결과→비가역 배치→실전 전투→복기→첫 상인
+Stage 1 = 예고→실제 골드→여섯 T1 설치→세팅 확인→룰렛→병력 결과→비가역 배치→실전 전투→복기→첫 상인
 Stage 2 = T2 골드→두 유효 후보 비교→하나 업그레이드→룰렛 통제→다전선 비교
 Stage 3 = Stage 1에 설치한 마력탑의 연구 기능→첫 T1 전술→수동 시전
 Stage 4 = 학습 시스템을 조합하는 첫 Danger
 Stage 5 = 새 시스템 없이 숙련을 확인하는 첫 Boss
 ```
 
-마력탑은 Stage 1에 설치하지만 연구 설명은 Stage 3까지 미룬다. 정확한 T1 위치·순서·잔여 골드 처리와 두 T2 후보의 정체는 `PENDING_GRILLME`다.
+정확 T1 좌표·비용과 두 T2 후보의 정체는 아직 확정하지 않습니다.
 
 ## 먼저 읽을 문서
 
@@ -106,18 +121,20 @@ Stage 5 = 새 시스템 없이 숙련을 확인하는 첫 Boss
 [완료 4/10] 병종 역할·시너지·카운터
 [완료 5/10] 전술스킬·마력
 [완료 6/10] Stage 종료 상인
-[진행 7/10] 첫 10~15분 흐름 — PARTIAL_APPROVAL_4_OF_10
+[진행 7/10] 첫 10~15분 흐름 — PARTIAL_APPROVAL_5_OF_10
 ```
 
+## 플랫폼 범위
+
 ```text
-OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-6_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
+OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
+APPROVED_DUAL_PLATFORM
+PC / Steam = COMMITTED
+Android / Google Play = COMMITTED
+STOVE = SECONDARY_RELEASE_CANDIDATE
+iOS = NOT_CURRENT_SCOPE
+COMMON_PLATFORM_GATE / PC_RELEASE_GATE / MOBILE_RELEASE_GATE = NOT_RUN
+RELEASE_BLOCKED_UNVERIFIED
 ```
 
 ## 운영·Legacy 증거
