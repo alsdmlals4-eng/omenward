@@ -20,7 +20,7 @@ image_generation: STOPPED_BY_USER
 
 ## 현재 작업
 
-Stage 1~19 종료 정비시간의 4칸 유한 재고 상인을 6/10 책임 원본으로 정리하고 PR #141에서 TDD·적대적 검토·중앙 정본·Sheet 동기화를 수행한다.
+Stage 1~19 종료 정비시간의 4칸 유한 재고 상인을 6/10 책임 원본으로 정리하고 PR #141의 최종 exact-head 검증을 수행한다.
 
 책임 원본:
 
@@ -51,15 +51,24 @@ PURCHASE_CURRENCY = GOLD_ONLY
 - 상시 HUD 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
 - 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기를 직접 판매하지 않는다.
 
-## TDD 증거
+## TDD·Sheet 증거
 
 ```text
 RED_RUN = 986 / FAILURE_AS_EXPECTED
 RED_EXISTING_CONTRACTS = 55 PASS
 RED_NEW_MERCHANT_CONTRACTS = 10 FAIL_OR_ERROR
 RED_CAUSE = CANON / REVIEW / 6_OF_10_ROUTING / LIFECYCLE_MISSING
-GREEN = PENDING_FINAL_CENTRAL_SYNC
+
+GREEN_CANDIDATE_HEAD = 83c1dc0e241c4fd8b04a0e9a5680562f9469bd01
+PROJECT_CORE_RUN = 1002 / SUCCESS
+GDD_SHEET_RUN = 707 / SUCCESS
+OMENWARD_CORE_RUN = 174 / SUCCESS
+BASE_V9_RUN = 690 / SUCCESS
+SHEET_BOUNDED_READBACK = PASS
+REFACTOR = COMPLETE
 ```
+
+REFACTOR와 증거 갱신으로 HEAD가 변경됐으므로 final exact-head CI와 Sheet read-back을 한 번 더 수행한다.
 
 ## 제품 경계
 
