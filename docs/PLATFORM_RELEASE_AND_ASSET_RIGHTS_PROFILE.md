@@ -1,6 +1,6 @@
 # OMENWARD 플랫폼 출시·에셋 권리 Profile
 
-> Base 정본: `alsdmlals4-eng/Base/docs/knowledge/game-development/PLATFORM_REVIEW_ASSET_RIGHTS_AND_REFERENCE_PRODUCTION_GUIDE.md`  
+> Base 정본: `alsdmlals4-eng/Base/docs/knowledge/game-development/PLATFORM_REVIEW_ASSET_RIGHTS_AND_REFERENCE_PRODUCTION_GUIDE.md`
 > 기준 main: `6b23ca2bb627827651a42ba6db01829e44ee8a14`
 
 현재 기획 정본에는 최종 출시 플랫폼이 확정되어 있지 않다. 저장소명·장르·도구만으로 플랫폼을 추론하지 않는다.
