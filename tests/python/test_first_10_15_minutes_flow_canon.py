@@ -43,7 +43,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(CANON)
         for marker in (
             DECISION_ID,
-            "DECISION_STATUS = PARTIAL_APPROVAL_4_OF_10",
+            "DECISION_STATUS = PARTIAL_APPROVAL_5_OF_10",
             "ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE",
             "FIRST_SESSION = REAL_MAPRUN",
             "SEPARATE_TUTORIAL = FORBIDDEN",
@@ -63,20 +63,6 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_approved_system_exposure_order_is_explicit(self) -> None:
-        text = read(CANON)
-        for marker in (
-            "SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE",
-            "STAGE_1 = BUILD_ONE_EACH_T1_AND_FIRST_DEPLOYMENT",
-            "STAGE_2 = FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL",
-            "STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC",
-            "STAGE_4 = FIRST_DANGER_INTEGRATION",
-            "STAGE_5 = FIRST_BOSS_MASTERY_CHECK",
-            "MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE",
-            "MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST",
-        ):
-            self.assertIn(marker, text)
-
     def test_stage_one_builds_one_each_t1_with_real_gold(self) -> None:
         text = read(CANON)
         for marker in (
@@ -90,6 +76,25 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
         self.assertNotIn("INITIAL_T1_BUILDINGS = PREBUILT", text)
+
+    def test_checkpoint_five_placement_and_gold_safety_contract(self) -> None:
+        text = read(CANON)
+        for marker in (
+            "T1_PLACEMENT_POLICY = CATEGORY_COMPATIBLE_SAFE_NODES",
+            "T1_BUILD_ORDER = PLAYER_SELECTED",
+            "FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION",
+            "FOUNDATION_SETUP_CONFIRMATION = REQUIRED",
+            "POST_CONFIRMATION_PLACEMENT_RULES = STANDARD_RUN_RULES",
+            "FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN",
+            "STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS",
+            "STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED",
+            "STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE",
+            "FOUNDATION_GRANT_SURPLUS = FORBIDDEN",
+            "T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND",
+            "FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION",
+            "EXACT_T1_COSTS = PENDING_SIMULATION",
+        ):
+            self.assertIn(marker, text)
 
     def test_first_combat_and_build_choices_are_separated(self) -> None:
         text = read(CANON)
@@ -108,6 +113,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             "OMEN_FORECAST",
             "STAGE_1_REAL_GOLD_GRANT",
             "BUILD_ONE_EACH_ALL_T1",
+            "FOUNDATION_SETUP_CONFIRMATION",
             "FIRST_ROULETTE",
             "TROOP_RESULT",
             "IRREVERSIBLE_DEPLOYMENT",
@@ -131,9 +137,9 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
     def test_unapproved_details_remain_pending(self) -> None:
         text = read(CANON)
         for marker in (
-            "T1_PLACEMENT_LAYOUT = PENDING_GRILLME",
+            "T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT",
             "FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME",
-            "STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME",
+            "STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME",
             "MINIMUM_VALID_PATHS = PENDING_GRILLME",
             "BELU_INTERVENTION_LEVEL = PENDING_GRILLME",
             "DANGER_EXACT_PRESSURE = PENDING_GRILLME",
@@ -148,9 +154,23 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("7_OF_10_IN_PROGRESS", text, str(path.relative_to(ROOT)))
-            self.assertIn("PARTIAL_APPROVAL_4_OF_10", text, str(path.relative_to(ROOT)))
+            self.assertIn("PARTIAL_APPROVAL_5_OF_10", text, str(path.relative_to(ROOT)))
             self.assertIn("STAGE_1_T1_BUILDINGS", text, str(path.relative_to(ROOT)))
+            self.assertIn("T1_PLACEMENT_POLICY", text, str(path.relative_to(ROOT)))
+            self.assertIn("STAGE_1_REQUIRED_COST_RESERVE", text, str(path.relative_to(ROOT)))
             self.assertIn("FIRST_MEANINGFUL_BUILD_CHOICE", text, str(path.relative_to(ROOT)))
+
+    def test_platform_authority_survives_onboarding_updates(self) -> None:
+        agents = read(ROOT / "AGENTS.md")
+        for marker in (
+            "OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1",
+            "APPROVED_DUAL_PLATFORM",
+            "COMMON_PLATFORM_GATE",
+            "PC_RELEASE_GATE",
+            "MOBILE_RELEASE_GATE",
+            "RELEASE_BLOCKED_UNVERIFIED",
+        ):
+            self.assertIn(marker, agents)
 
     def test_post_merge_operational_drift_is_closed(self) -> None:
         active = read(ACTIVE_CONTEXT)
@@ -159,7 +179,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         self.assertIn("last_merged_planning_pr: 141", ledger)
         self.assertIn("last_merged_planning_commit: 6b23ca2bb627827651a42ba6db01829e44ee8a14", ledger)
 
-    def test_lifecycle_blocks_superseded_prebuilt_and_long_explanation_inputs(self) -> None:
+    def test_lifecycle_blocks_superseded_inputs(self) -> None:
         text = read(LIFECYCLE)
         for marker in (
             DECISION_ID,
@@ -168,6 +188,8 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             "LEGACY_SCRIPTED_TUTORIAL_VICTORY",
             "SUPERSEDED_PREBUILT_T1_START",
             "LEGACY_LONG_T1_BUILDING_EXPLANATION",
+            "UNSAFE_UNRESERVED_STAGE1_SPENDING",
+            "FREE_RELOCATION_AFTER_CONFIRMATION",
             "IMPLEMENTATION_INPUT_FORBIDDEN",
         ):
             self.assertIn(marker, text)
@@ -176,16 +198,13 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(REVIEW)
         for marker in (
             "OMW-AUD-492",
-            "OMW-AUD-516",
             "TUTORIAL_MAIN_RULE_DRIFT",
-            "MODAL_OVERLOAD",
-            "ANSWER_FOLLOWING_ONBOARDING",
-            "SCRIPTED_VICTORY_MASKING",
-            "PREMATURE_SYSTEM_EXPOSURE",
-            "STAGE_ONE_OVERLOAD",
             "T1_BUILD_CHECKLIST_FATIGUE",
-            "MANA_TOWER_EARLY_RESEARCH_DUMP",
             "TUTORIAL_GOLD_ECONOMY_DRIFT",
+            "FOUNDATION_SETUP_SOFTLOCK",
+            "RESERVED_GOLD_ESCAPE",
+            "FREE_RELOCATION_RULE_LEAK",
+            "INVALID_PLACEMENT_PARTIAL_COMMIT",
             "PRODUCT_CODE = UNCHANGED",
             "HUMAN_QA = NOT_RUN",
         ):
