@@ -3,9 +3,9 @@
 ```yaml
 updated_at: 2026-08-05
 status: CURRENT_GDD_CANON
-current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_count: 6_OF_10
-next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+current_count: 7_OF_10_IN_PROGRESS
+approval_checkpoint: PARTIAL_APPROVAL_1_OF_10
 product_code_authority: NONE
 ```
 
@@ -92,7 +92,7 @@ T3 = 결전의 깃발 / 성역 / 시간 왜곡
 
 전술은 병종·건물의 지속 역할을 대체하지 않는다.
 
-## 7. Stage 종료 상인
+## 7. Stage 종료 상인 — 완료 6/10
 
 ```text
 MERCHANT_VISIT_STAGES = 1_TO_19
@@ -113,12 +113,48 @@ D = 가변 기회
 
 - 이동권이 3 미만이면 보관형 이동권을, 3/3이면 다음 룰렛 1회 비용 할인을 제시한다.
 - 복구는 손상 건물 수리, 성장은 전술 연구 가속을 기본 후보로 사용한다.
-- 가변 슬롯은 이동권·수리·연구 가속·다음 건설/업그레이드/룰렛 1회 할인을 제공할 수 있다.
+- 가변 슬롯은 이동권·수리·연구·다음 건설/업그레이드/룰렛 1회 할인을 제공할 수 있다.
 - 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기·Stage 정보 직접 판매는 금지한다.
 - 상시 HUD 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
 - Stage 20 종료 뒤에는 상인이 아니라 MapRun 최종 정산으로 이동한다.
 
-## 8. UX 정보 계약
+## 8. 첫 10~15분 흐름 — 7/10 진행 중
+
+```text
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+7_OF_10_IN_PROGRESS
+PARTIAL_APPROVAL_1_OF_10
+ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
+FIRST_SESSION = REAL_MAPRUN
+SEPARATE_TUTORIAL = FORBIDDEN
+FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
+RULE_PARITY_WITH_MAIN_RUN = REQUIRED
+REAL_ECONOMY_RULES = REQUIRED
+REAL_COMBAT_RESULT_RULES = REQUIRED
+SCRIPTED_VICTORY = FORBIDDEN
+BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
+```
+
+첫 플레이는 실제 MapRun이다. 기능을 별도 연습장에서 암기시키거나 Stage 1에 전부 개방하지 않는다. 현재 목표에 필요한 시스템을 단계적으로 노출하고, 설명 직후 실제 핵심 선택을 수행하게 한다.
+
+벨루는 목표·사용 가능한 행동·결과 원인을 설명할 수 있다. 건설·룰렛 조작·배치·상인 구매를 대신 선택하거나 정답 하나를 강제할 수 없다.
+
+미승인 범위:
+
+```text
+SYSTEM_EXPOSURE_ORDER = PENDING_GRILLME
+MINIMUM_VALID_PATHS = PENDING_GRILLME
+FIRST_MEANINGFUL_RULER_CHOICE = PENDING_GRILLME
+BELU_INTERVENTION_LEVEL = PENDING_GRILLME
+DANGER_ONBOARDING = PENDING_GRILLME
+BOSS_ONBOARDING = PENDING_GRILLME
+MERCHANT_FIRST_EXPOSURE = PENDING_GRILLME
+FAILURE_RETRY_SKIP_RULES = PENDING_GRILLME
+HUMAN_VALIDATION_STOP_SHIP = PENDING_GRILLME
+EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
+```
+
+## 9. UX 정보 계약
 
 HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마력은 보유량·상한·초당 수급을 읽을 수 있어야 한다.
 
@@ -128,7 +164,9 @@ HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마�
 
 상인 화면은 현재 골드, 네 슬롯의 상품·가격·재고·대상·소멸 조건·구매 후 잔액과 다음 Stage 압력 요약으로 돌아가는 경로를 표시한다.
 
-## 9. 권위 계보
+온보딩 안내를 닫은 뒤에도 같은 정보를 HUD·툴팁에서 다시 확인할 수 있어야 한다. 구체적인 노출 순서와 입력 방식은 후속 승인 전 확정하지 않는다.
+
+## 10. 권위 계보
 
 - `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
@@ -138,29 +176,35 @@ HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다. 마�
 - `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
 - `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
 - `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
+- `design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
+- `reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
 
-6/10은 과거 상인 개요의 상시 접근·무한 재고·직접 핵심 보상 판매 가능성을 대체한다.
+6/10은 과거 상인 개요의 상시 접근·무한 재고·직접 핵심 보상 판매 가능성을 대체한다. 7/10 부분 승인은 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory를 대체한다.
 
-## 10. 제품 경계
+## 11. 제품 경계
 
 ```text
 VERTICAL_SLICE_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 DATA_MIGRATION = NOT_AUTHORIZED
+IMAGE_GENERATION = NOT_AUTHORIZED
+ANIMATION_HX = NOT_AUTHORIZED
 EXACT_NUMERICS = PENDING_SIMULATION
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-## 11. 완료 이력
+## 12. 완료 이력
 
 ```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10
 OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 5_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10
 LEGACY_C1_C2_C3_PROVEN
 ```

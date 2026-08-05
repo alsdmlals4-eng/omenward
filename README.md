@@ -8,12 +8,14 @@
 updated_at: 2026-08-05
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 work_mode: TOTAL_PLANNING
-current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_planning: STAGE_END_MERCHANT / NOT_IMPLEMENTED
-current_grill_me_count: 6_OF_10
+current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+current_planning: FIRST_10_15_MINUTES_FLOW / NOT_IMPLEMENTED
+current_grill_me_count: 7_OF_10_IN_PROGRESS
+approval_checkpoint: PARTIAL_APPROVAL_1_OF_10
+working_pr: 142
 product_code_authority: NONE
 art_asset_production_authority: NONE
-image_generation: STOPPED_BY_USER
+image_generation: NOT_AUTHORIZED
 human_validation: HUMAN_QA_NOT_RUN
 ```
 
@@ -45,6 +47,24 @@ Stage 압력·Wave 순서 확인
 - 병종 기준선: 10종이지만 역할 근거와 별도 승인에 따라 증감 가능.
 - 룰렛 자산: 실제 T1/T2 병종 이미지를 재사용하고 T3 병종 토큰은 금지.
 
+## 7/10 첫 10~15분 — 부분 승인 1/10
+
+```text
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+7_OF_10_IN_PROGRESS
+PARTIAL_APPROVAL_1_OF_10
+ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
+FIRST_SESSION = REAL_MAPRUN
+SEPARATE_TUTORIAL = FORBIDDEN
+FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
+RULE_PARITY_WITH_MAIN_RUN = REQUIRED
+SCRIPTED_VICTORY = FORBIDDEN
+```
+
+첫 플레이는 실제 MapRun이며 필요한 시스템을 실제 목표와 선택에 맞춰 단계적으로 노출한다. 벨루는 목표·행동·결과 원인을 설명하지만 플레이어의 건설·룰렛·배치·구매 결정을 대신하지 않는다.
+
+시스템 노출 순서, 최소 유효 경로 수, Danger·Boss·상인의 첫 노출, 실패·재시도 규칙, 정확 시간은 아직 `PENDING_GRILLME`다.
+
 ## 먼저 읽을 문서
 
 1. `AGENTS.md`
@@ -53,9 +73,10 @@ Stage 압력·Wave 순서 확인
 4. `docs/DOCUMENTATION_MAP.md`
 5. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
 6. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-7. `docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-8. `docs/reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
-9. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+7. `docs/design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
+8. `docs/reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
+9. `docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
+10. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 
 `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않습니다.
 
@@ -67,19 +88,21 @@ Stage 압력·Wave 순서 확인
 [완료 3/10] 건물 분기·카운터
 [완료 4/10] 병종 역할·시너지·카운터
 [완료 5/10] 전술스킬·마력
-[현행 6/10] Stage 종료 상인
-[다음 7/10] 첫 10~15분 흐름
+[완료 6/10] Stage 종료 상인
+[진행 7/10] 첫 10~15분 흐름 — PARTIAL_APPROVAL_1_OF_10
 ```
 
 완료 이력:
 
 ```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10
 OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 5_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10
 ```
 
 ## 운영·Legacy 증거

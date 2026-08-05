@@ -3,17 +3,18 @@
 ```yaml
 updated_at: 2026-08-05
 status: CURRENT_DECISION_LEDGER / ACTIVE_PLANNING_BRANCH
-current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
 lifecycle_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 work_mode: TOTAL_PLANNING
-last_merged_planning_pr: 140
-last_merged_planning_commit: 3b212e61b4b6cfcf51282ba44e0e24cfd20ed61e
-current_working_pr: 141
-current_count: 6_OF_10
+last_merged_planning_pr: 141
+last_merged_planning_commit: 6b23ca2bb627827651a42ba6db01829e44ee8a14
+current_working_pr: 142
+current_count: 7_OF_10_IN_PROGRESS
+approval_checkpoint: PARTIAL_APPROVAL_1_OF_10
 product_code_authority: NONE
-image_generation: STOPPED_BY_USER
+image_generation: NOT_AUTHORIZED
 ```
 
 ## 1. 운영 원칙
@@ -36,18 +37,44 @@ image_generation: STOPPED_BY_USER
 | 3/10 | 완료 | `OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1` |
 | 4/10 | 완료 | `OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1` |
 | 5/10 | 완료 | `OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1` |
-| 6/10 | 현행 | `OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1` |
-| 7/10 | 다음 | `OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1` |
+| 6/10 | 완료 | `OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1` |
+| 7/10 | 진행 — 부분 승인 1/10 | `OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1` |
 
-## 3. Decision 6/10 — Stage 종료 상인
+## 3. Decision 7/10 — 첫 10~15분 흐름
 
 책임 원본:
 
-- `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-- `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
-- `superpowers/specs/2026-08-05-stage-end-merchant-design.md`
-- `superpowers/specs/2026-08-05-stage-end-merchant-design-amendment.md`
-- `superpowers/plans/2026-08-05-stage-end-merchant.md`
+- `design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
+- `reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
+- `superpowers/specs/2026-08-05-first-10-15-minutes-flow-checkpoint-1.md`
+- `superpowers/plans/2026-08-05-first-10-15-minutes-flow-checkpoint-1.md`
+
+승인된 체크포인트:
+
+```text
+7_OF_10_IN_PROGRESS
+PARTIAL_APPROVAL_1_OF_10
+ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
+FIRST_SESSION = REAL_MAPRUN
+SEPARATE_TUTORIAL = FORBIDDEN
+FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
+RULE_PARITY_WITH_MAIN_RUN = REQUIRED
+SCRIPTED_VICTORY = FORBIDDEN
+BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
+```
+
+미승인:
+
+```text
+SYSTEM_EXPOSURE_ORDER = PENDING_GRILLME
+MINIMUM_VALID_PATHS = PENDING_GRILLME
+DANGER_ONBOARDING = PENDING_GRILLME
+BOSS_ONBOARDING = PENDING_GRILLME
+MERCHANT_FIRST_EXPOSURE = PENDING_GRILLME
+EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
+```
+
+## 4. Decision 6/10 — Stage 종료 상인 완료
 
 ```text
 MERCHANT_VISIT_STAGES = 1_TO_19
@@ -57,44 +84,32 @@ VISIT_STOCK = FINITE
 PURCHASE_CURRENCY = GOLD_ONLY
 ```
 
-재고:
-
-```text
-A = 룰렛 제어
-B = 복구 서비스
-C = 성장 보조
-D = 가변 기회
-```
-
-결정:
-
 - 이동권이 3개 미만이면 이동권, 3/3이면 다음 룰렛 1회 할인을 제시한다.
-- 상인은 손상 건물 수리·전술 연구 가속·다음 행동 1회 비용 할인을 제공할 수 있다.
 - 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기·Stage 정보 직접 판매는 금지한다.
 - 상시 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
 - 정확 가격·재고 수·등장률·할인율은 `PENDING_SIMULATION`이다.
 
-## 4. TDD·적대적 감사
+병합 증거:
 
 ```text
-RED_RUN = Project Core Documentation 986
-RED_RESULT = FAILURE_AS_EXPECTED
-RED_EXISTING_CONTRACTS = 55 PASS
-OMW-AUD-468~491 = REQUIRED_FIXES_APPLIED
+PR = 141
+MERGED_MAIN = 6b23ca2bb627827651a42ba6db01829e44ee8a14
+SHEET_POST_MERGE_BOUNDED_READBACK = PASS
+```
 
-GREEN_CANDIDATE_HEAD = 83c1dc0e241c4fd8b04a0e9a5680562f9469bd01
-PROJECT_CORE_RUN = 1002 / SUCCESS
-GDD_SHEET_RUN = 707 / SUCCESS
-OMENWARD_CORE_RUN = 174 / SUCCESS
-BASE_V9_RUN = 690 / SUCCESS
-SHEET_BOUNDED_READBACK = PASS
-REFACTOR = COMPLETE
+## 5. TDD·적대적 감사
+
+```text
+7_OF_10_RED_TEST_COMMIT = 4c90e02b8ef1fbfae04bd6ea59fc50dffc108664
+7_OF_10_RED_CI_WIRING_COMMIT = 704da9d09427baa8bdc2e11298867611c050b9ba
+7_OF_10_RED_RESULT = PENDING_FRESH_RUN_CONFIRMATION
+7_OF_10_GREEN = NOT_YET_PROVEN
+7_OF_10_REFACTOR = NOT_YET_PROVEN
+OMW-AUD-492~503 = FORMAT_RISKS_REVIEWED
 PRODUCT_CODE = UNCHANGED
 ```
 
-REFACTOR 이후 final exact-head·merge 증거는 PR #141과 Sheet 현재 상태 셀이 소유한다.
-
-## 5. 감사 계보
+## 6. 감사 계보
 
 ```text
 OMW-AUD-360~375 = 핵심 재미·정본 충돌
@@ -103,37 +118,28 @@ OMW-AUD-398~419 = 건물 분기
 OMW-AUD-420~443 = 병종 역할
 OMW-AUD-444~467 = 전술스킬·마력·연구
 OMW-AUD-468~491 = Stage 종료 상인·골드 경제·재고·거래
+OMW-AUD-492~503 = 첫 10~15분 온보딩 형식
 ```
 
-## 6. 수명주기
+## 7. 수명주기
 
-- `[현행]`: 6/10 책임 원본·Spec·Amendment·Plan·Review.
-- `[대체됨]`: 상시 HUD 상점·무한 재고·직접 핵심 보상 판매·과거 마력탑 분기·구형 자원명.
-- `[보류]`: 첫 10~15분·Hero·Legendary·Meta·Hub.
+- `[현행]`: 1~6/10 완료 책임 원본과 7/10 부분 승인 책임 원본.
+- `[대체됨]`: 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·상시 상점·무한 재고·직접 핵심 보상 판매·과거 마력탑 분기·구형 자원명.
+- `[보류]`: 7/10 미승인 노출 순서·Danger/Boss·상인·실패 규칙, Hero·Legendary, Meta·Hub.
 - `[폐기]`: 자동 시전·Stage 전 편성·복수 마력탑·병렬 연구·상인 무한 reroll·할인 중첩.
 - `[증거]`: 과거 PR·CI·Sheet·Legacy Prototype.
 
-## 7. 제품 경계
+## 8. 제품 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
-LATEST_PLANNING = STAGE_END_MERCHANT_CANON_NOT_IMPLEMENTED
+LATEST_PLANNING = FIRST_10_15_MINUTES_FLOW_PARTIAL_CANON_NOT_IMPLEMENTED
 PRODUCT_CODE = UNCHANGED
 DATA_MIGRATION = NOT_AUTHORIZED
+IMAGE_GENERATION = NOT_AUTHORIZED
+ANIMATION_HX = NOT_AUTHORIZED
 EXACT_NUMERICS = PENDING_SIMULATION
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
-```
-
-## 8. 완료 이력
-
-```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
-LEGACY_C1_C2_C3_PROVEN
 ```

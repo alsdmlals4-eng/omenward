@@ -2,9 +2,9 @@
 
 ```yaml
 updated_at: 2026-08-05
-current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_planning_count: 6_OF_10
-latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
+current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+current_planning_count: 7_OF_10_IN_PROGRESS
+latest_planning_status: PARTIAL_APPROVAL_1_OF_10 / DRAFT_PR / NOT_IMPLEMENTED
 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -23,7 +23,33 @@ HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
 ```
 
-6/10 Stage 종료 상인은 문서 정본이며 다음은 아직 구현되지 않았다.
+## 7/10 부분 승인 — 아직 미구현
+
+```text
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+7_OF_10_IN_PROGRESS
+PARTIAL_APPROVAL_1_OF_10
+ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
+FIRST_SESSION = REAL_MAPRUN
+SEPARATE_TUTORIAL = FORBIDDEN
+FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
+RULE_PARITY_WITH_MAIN_RUN = REQUIRED
+SCRIPTED_VICTORY = FORBIDDEN
+BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
+```
+
+현재 제품에는 다음이 구현되지 않았다.
+
+- 실제 MapRun 단계 노출형 온보딩 상태머신.
+- 목표별 패널 강조·비모달 벨루 안내·재확인 툴팁.
+- 온보딩 진행·저장·복구·스킵·재학습.
+- 실패 원인 설명과 다음 선택 연결.
+- Danger·Boss·상인의 첫 노출.
+- 사람 플레이 검증 로그와 Stop-ship 계측.
+
+시스템 노출 순서·최소 유효 경로·Danger/Boss/상인 노출·실패 규칙·정확 시간은 `PENDING_GRILLME`이므로 구현 입력으로 사용할 수 없다.
+
+## 완료된 6/10 상인 — 아직 미구현
 
 - Stage 1~19 종료 상인 방문·Stage 20 최종 정산 예외.
 - 4칸 재고 생성과 상태 유효성 필터.
@@ -40,6 +66,8 @@ CORE_LOCK_NOT_ALLOWED
 PRODUCT_CODE = UNCHANGED
 DATA_MIGRATION = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+IMAGE_GENERATION = NOT_AUTHORIZED
+ANIMATION_HX = NOT_AUTHORIZED
 EXACT_NUMERICS = PENDING_SIMULATION
 ```
 
@@ -58,47 +86,41 @@ C1 최종 검증 run: `29926598807`
 
 C2 최종 검증 run: `29938742864`
 
-이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 최신 6/10 기획이 제품에 구현됐다는 의미도 아니다.
+이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 최신 7/10 기획이 제품에 구현됐다는 의미도 아니다.
 
-## 6/10 문서 TDD
+## 6/10 문서 TDD·병합 증거
 
 ```text
 RED_RUN = 986
 RED_RESULT = FAILURE_AS_EXPECTED
 RED_EXISTING_CONTRACTS = 55 PASS
-RED_NEW_CONTRACTS = 10 FAIL_OR_ERROR
-RED_CAUSE = CANON / REVIEW / 6_OF_10_ROUTING / LIFECYCLE_MISSING
-
-GREEN_CANDIDATE_HEAD = 83c1dc0e241c4fd8b04a0e9a5680562f9469bd01
-PROJECT_CORE_RUN = 1002 / SUCCESS
-GDD_SHEET_RUN = 707 / SUCCESS
-OMENWARD_CORE_RUN = 174 / SUCCESS
-BASE_V9_RUN = 690 / SUCCESS
-SHEET_BOUNDED_READBACK = PASS
-REFACTOR = COMPLETE
+PR = 141
+MERGED_MAIN = 6b23ca2bb627827651a42ba6db01829e44ee8a14
+SHEET_POST_MERGE_BOUNDED_READBACK = PASS
 ```
 
-REFACTOR 뒤의 final exact-head 검증·병합 SHA는 PR #141과 Sheet 현재 상태 셀에서 기록한다. 문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다.
+## 7/10 문서 TDD
+
+```text
+RED_TEST_COMMIT = 4c90e02b8ef1fbfae04bd6ea59fc50dffc108664
+RED_CI_WIRING_COMMIT = 704da9d09427baa8bdc2e11298867611c050b9ba
+RED_RESULT = PENDING_FRESH_RUN_CONFIRMATION
+GREEN = NOT_YET_PROVEN
+REFACTOR = NOT_YET_PROVEN
+```
+
+문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다. exact-head 검증과 최종 병합 SHA는 PR과 Sheet 상태 셀이 소유한다.
 
 ## 구현 시작 전 필수 Gate
 
-1. 7/10 첫 10~15분 흐름 재설계.
-2. Hero·Legendary와 Meta·Hub 재조정.
-3. 전체 Run 콘텐츠·UX·아트 종합 검토.
-4. 경제·전술·병종·상인 수치 시뮬레이션.
-5. 사용자 승인 Codex 구현 계획.
-6. 제품 행동을 재현하는 RED 테스트.
-7. 데이터 마이그레이션·롤백·수동 플레이 계획.
-
-## 완료 이력
-
-```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
-```
+1. 7/10 첫 10~15분 흐름의 남은 GrillMe 승인.
+2. 7/10 적대적 검토와 사람 QA 계획 완료.
+3. Hero·Legendary와 Meta·Hub 재조정.
+4. 전체 Run 콘텐츠·UX·아트 종합 검토.
+5. 검토 완료 뒤 필요한 이미지·애니메이션·HX 승인.
+6. 경제·전술·병종·상인 수치 시뮬레이션.
+7. 사용자 승인 Codex 구현 계획.
+8. 제품 행동을 재현하는 RED 테스트.
+9. 데이터 마이그레이션·롤백·수동 플레이 계획.
 
 현재 구현 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
