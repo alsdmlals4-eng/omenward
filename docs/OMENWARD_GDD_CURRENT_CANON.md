@@ -5,7 +5,7 @@ updated_at: 2026-08-06
 status: CURRENT_GDD_CANON
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_4_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_5_OF_10
 product_code_authority: NONE
 ```
 
@@ -39,60 +39,39 @@ Boss = 5 / 10 / 15 / 20
 
 Stage 중 숨은 필수 카운터 변경과 비공개 Route 강제를 금지한다.
 
-## 4. 자원·건물
+## 4. 자원·건물·룰렛
 
 ```text
 자원 = 골드 / 마력 / 배치 병력·병력 한도 / 이동권
 건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
 ```
 
-다섯 건물은 승인된 분기 계보를 사용한다. 마력탑은 유일한 선형 예외다.
+- 세 원형 릴은 하나의 3×3 노출창을 형성한다.
+- 병력은 보관·판매 후 한 전선에 비가역 배치한다.
+- 배치 뒤 자유 회수·판매·Cross-lane 이동은 금지한다.
+- T3 병종 룰렛 토큰은 금지한다.
+- 병종 기준선은 10종이며 역할 근거와 별도 승인에 따라 증감 가능하다.
+
+## 5. 마력탑·전술 연구
 
 ```text
-마력탑 최대 활성 수 = 1
+MANA_TOWER_MAX_ACTIVE_INSTANCES = 1
 마력탑 T1 → T2 → T3
 BRANCHING = FORBIDDEN
-Tier 상승 = 초당 마력 수급 증가 + 연구 가능 전술 Tier 증가
-```
-
-## 5. 병종·룰렛
-
-병종 기준선은 10종이며 불변 수량이 아니다. 압력별 최소 두 병종 경로를 유지하고 역할 증감은 별도 승인한다.
-
-- 룰렛에는 실제 T1/T2 병종 이미지를 사용한다.
-- T3 병종 룰렛 토큰은 금지한다.
-- 병력은 보관·판매 후 한 전선에 배치한다.
-- 배치 뒤 자유 회수·판매·Cross-lane 이동은 금지한다.
-
-## 6. 전술 연구·시전
-
-```text
 TOTAL_TACTICAL_SKILLS = 10
-T1 = 4
-T2 = 3
-T3 = 3
+T1 = 4 / T2 = 3 / T3 = 3
 ONE_CONCURRENT_RESEARCH
 STAGE_LOADOUT = NONE
 AUTO_CAST = FORBIDDEN
 ```
 
-```text
-T1 = 속박진 / 수호장 / 집중 명령 / 충격파
-T2 = 폭풍 억제 / 파쇄 명령 / 봉쇄 결계
-T3 = 결전의 깃발 / 성역 / 시간 왜곡
-```
-
 - 연구 비용은 골드+시간이다.
-- 연구 완료 스킬은 현재 MapRun 동안 해금된다.
-- 해금된 모든 스킬은 전술 패널에서 사용 가능하다.
-- 플레이어가 대상·전선·시점을 직접 지정한다.
+- 연구 완료 전술은 현재 MapRun 동안 해금된다.
+- 대상·전선·시점을 플레이어가 직접 정한다.
 - 유효한 시전 확정 시 마력을 소비한다.
-- 대상 무효·취소·Layer 불일치에는 마력을 소비하지 않는다.
 - 새 MapRun에서 마력탑 Tier·연구·해금·보유 마력을 초기화한다.
 
-전술은 병종·건물의 지속 역할을 대체하지 않는다.
-
-## 7. Stage 종료 상인 — 완료 6/10
+## 6. Stage 종료 상인 — 완료 6/10
 
 ```text
 MERCHANT_VISIT_STAGES = 1_TO_19
@@ -102,28 +81,14 @@ VISIT_STOCK = FINITE
 PURCHASE_CURRENCY = GOLD_ONLY
 ```
 
-재고:
+재고는 룰렛 제어·복구·성장 보조·가변 기회 4칸이다. 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기·Stage 정보 직접 판매, 상시 HUD 상점, 무한 구매, 무한 reroll, 할인 중첩을 금지한다.
 
-```text
-A = 룰렛 제어
-B = 복구 서비스
-C = 성장 보조
-D = 가변 기회
-```
-
-- 이동권이 3 미만이면 보관형 이동권을, 3/3이면 다음 룰렛 1회 비용 할인을 제시한다.
-- 복구는 손상 건물 수리, 성장은 전술 연구 가속을 기본 후보로 사용한다.
-- 가변 슬롯은 이동권·수리·연구·다음 건설/업그레이드/룰렛 1회 할인을 제공할 수 있다.
-- 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기·Stage 정보 직접 판매는 금지한다.
-- 상시 HUD 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
-- Stage 20 종료 뒤에는 상인이 아니라 MapRun 최종 정산으로 이동한다.
-
-## 8. 첫 10~15분 흐름 — 7/10 진행 중
+## 7. 첫 10~15분 흐름 — 7/10 부분 승인 5/10
 
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_4_OF_10
+PARTIAL_APPROVAL_5_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
@@ -133,16 +98,24 @@ STAGE_1_BUILD_CURRENCY = REAL_GOLD
 T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
 T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
 T1_BUILDING_BRANCH_CHOICE = NONE
+T1_PLACEMENT_POLICY = CATEGORY_COMPATIBLE_SAFE_NODES
+T1_BUILD_ORDER = PLAYER_SELECTED
+FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION
+FOUNDATION_SETUP_CONFIRMATION = REQUIRED
+POST_CONFIRMATION_PLACEMENT_RULES = STANDARD_RUN_RULES
+FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
+STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS
+STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED
+STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE
+FOUNDATION_GRANT_SURPLUS = FORBIDDEN
+T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+EXACT_T1_COSTS = PENDING_SIMULATION
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
 FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
 STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
 STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
 T2_UPGRADE_PREVIEW = REQUIRED
-STAGE_1 = BUILD_ONE_EACH_T1_AND_FIRST_DEPLOYMENT
-STAGE_2 = FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL
-STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
-STAGE_4 = FIRST_DANGER_INTEGRATION
-STAGE_5 = FIRST_BOSS_MASTERY_CHECK
 SEPARATE_TUTORIAL = FORBIDDEN
 FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
 RULE_PARITY_WITH_MAIN_RUN = REQUIRED
@@ -158,6 +131,7 @@ BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 OMEN_FORECAST
 → STAGE_1_REAL_GOLD_GRANT
 → BUILD_ONE_EACH_ALL_T1
+→ FOUNDATION_SETUP_CONFIRMATION
 → FIRST_ROULETTE
 → TROOP_RESULT
 → IRREVERSIBLE_DEPLOYMENT
@@ -166,51 +140,32 @@ OMEN_FORECAST
 → FIRST_MERCHANT
 ```
 
-첫 판 1스테이지에서 금고·농장·병영·방어탑·지휘소·마력탑 T1을 각각 한 개씩 직접 설치한다. 지급 골드는 여섯 T1의 실제 비용을 감당할 수 있어야 하며 가짜 튜토리얼 자원은 사용하지 않는다.
+- 금고·농장·병영·방어탑·지휘소·마력탑 T1을 실제 골드로 각각 한 개씩 직접 설치한다.
+- 건물 유형에 적합하고 첫 전투 진행을 보장하는 안전 노드만 후보로 표시한다.
+- 설치 순서는 플레이어가 선택한다.
+- 세팅 확인 전에는 안전 노드 사이 무료 이동·교환을 허용한다.
+- 확인 뒤에는 무료 이동을 종료하고 표준 Run 규칙으로 전환한다.
+- 아직 설치하지 않은 필수 T1의 실제 비용 합계를 지갑에 예약한다.
+- 필수 세트 완료 전 비필수 소비를 차단한다.
+- 건물 생성·노드 점유·골드 차감은 원자 거래이며 실패 시 전액 복구한다.
+- 여섯 T1과 세팅 확인 전에는 첫 룰렛을 열지 않는다.
+- 마력탑 연구 설명은 Stage 3까지 열지 않는다.
 
-T1 설명은 이름·핵심 역할 한 문장·아이콘으로 제한한다. 설치는 기초 세팅이며 분기 선택이 아니다. 첫 실제 전투 판단은 룰렛 병력을 어느 전선에 비가역 배치할지 결정하는 것이다.
-
-마력탑은 Stage 1에 설치하지만 이때는 마력 생산과 이후 전술 연구 연결만 짧게 설명한다.
-
-```text
-MANA_TOWER_T1_INCLUDED_IN_STAGE_1_SET = REQUIRED
-MANA_TOWER_STAGE_1_EXPLANATION = BRIEF_RESOURCE_ROLE_ONLY
-TACTICAL_RESEARCH_EXPLANATION_BEFORE_STAGE_3 = FORBIDDEN
-```
-
-### Stage 2
-
-```text
-STAGE_2_T2_GOLD_GRANT
-→ T2_CANDIDATE_PREVIEW_AND_CHOICE
-→ T2_UPGRADE_CONSTRUCTION
-→ MOVE_TICKET_EXPOSURE
-→ ROW_COLUMN_MOVE_PREVIEW
-→ BEFORE_AFTER_RESULT_COMPARISON
-→ MULTI_FRONT_PRESSURE_COMPARISON
-→ IRREVERSIBLE_DEPLOYMENT
-```
-
-Stage 2는 현재 압력에 유효한 T2 후보 두 개를 비교하고 하나를 지을 실제 골드를 지급한다. 선택 전 이득·포기·현재 압력 관계·룰렛 또는 전투 결과 영향을 보여준다. 두 후보 모두 유효하며 정답/오답으로 구성하지 않는다.
-
-### Stage 3~5
-
-Stage 3은 Stage 1에 설치한 마력탑의 연구 기능과 첫 T1 전술·수동 시전을 한 인과로 가르친다. Stage 4는 학습 시스템의 첫 Danger 통합, Stage 5는 새 시스템을 추가하지 않는 첫 Boss 숙련 확인이다.
+### Stage 2~5
 
 ```text
-MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE
-MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST
+STAGE_2 = FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL
+STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
+STAGE_4 = FIRST_DANGER_INTEGRATION
+STAGE_5 = FIRST_BOSS_MASTERY_CHECK
 ```
 
-첫 상인은 네 슬롯 전략을 모두 설명하지 않고, 구매는 선택 사항이며 구매 시 다음 골드 사용 기회를 포기한다는 사실만 가르친다.
+Stage 2는 현재 압력에 유효한 T2 후보 두 개를 비교하고 하나를 지을 실제 골드를 지급한다. 두 후보는 정답/오답으로 구성하지 않는다. Stage 3은 마력탑 연구·첫 T1 전술·수동 시전을 한 인과로 가르친다. Stage 4는 학습 시스템의 Danger 통합, Stage 5는 새 시스템 없는 Boss 숙련 확인이다.
 
 미승인 범위:
 
 ```text
-T1_PLACEMENT_LAYOUT = PENDING_GRILLME
-T1_BUILD_ORDER = PENDING_GRILLME
-STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
-STAGE_1_NON_T1_SPENDING_RULE = PENDING_GRILLME
+T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
 FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
 STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
@@ -222,17 +177,28 @@ HUMAN_VALIDATION_STOP_SHIP = PENDING_GRILLME
 EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
-## 9. UX 정보 계약
+## 8. UX 정보 계약
 
-HUD는 골드·마력·배치 병력/병력 한도를 상시 표시한다.
+- Stage 1 T1 카드는 이름·역할·실제 비용·설치 완료 여부를 짧게 표시한다.
+- 안전 노드·남은 필수 건물·예약 골드·세팅 확인 상태를 표시한다.
+- 실패한 건설은 이유와 전액 복구 여부를 즉시 보여준다.
+- Stage 2 T2 비교는 이득·포기·현재 압력 관계·룰렛/전투 영향을 같은 기준으로 표시한다.
+- HUD·툴팁에서 닫은 정보를 다시 확인할 수 있어야 한다.
 
-Stage 1의 T1 건물 카드는 이름·핵심 역할·실제 비용·현재 건설 완료 여부를 짧게 표시하고 상세 정보는 툴팁으로 다시 확인한다. 연속 장문 모달을 금지한다.
+## 9. 플랫폼 범위
 
-Stage 2의 T2 비교 화면은 두 후보의 이득·포기·현재 압력 관계·룰렛/전투 영향을 같은 기준으로 비교한다.
-
-마력탑 패널은 Stage 3부터 Tier, 다음 Tier 효과, 연구 가능 Tier, 연구 중 대상·남은 시간·골드 비용을 본격 표시한다. 전술 패널은 Tier·마력 비용·쿨다운·대상 방식·대응 압력·사용 불가 이유를 표시한다.
-
-상인 화면은 현재 골드, 네 슬롯의 상품·가격·재고·대상·소멸 조건·구매 후 잔액과 다음 Stage 압력 요약으로 돌아가는 경로를 표시한다.
+```text
+OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
+APPROVED_DUAL_PLATFORM
+PC / Steam = COMMITTED
+Android / Google Play = COMMITTED
+STOVE = SECONDARY_RELEASE_CANDIDATE
+iOS = NOT_CURRENT_SCOPE
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+RELEASE_BLOCKED_UNVERIFIED
+```
 
 ## 10. 권위 계보
 
@@ -245,8 +211,6 @@ Stage 2의 T2 비교 화면은 두 후보의 이득·포기·현재 압력 관�
 - `design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
 - `design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
 - `reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
-
-7/10 부분 승인은 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·Stage 1 prebuilt T1 시작·T1 장문 설명을 대체한다.
 
 ## 11. 제품 경계
 
@@ -265,13 +229,9 @@ HUMAN_QA = NOT_RUN
 ## 12. 완료 이력
 
 ```text
-OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-6_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 / 6_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 / 5_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 / 4_OF_10
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 / 3_OF_10
 LEGACY_C1_C2_C3_PROVEN
 ```
