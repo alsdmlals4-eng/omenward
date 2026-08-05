@@ -40,7 +40,20 @@ image_generation: NOT_AUTHORIZED
 | 6/10 | 완료 | `OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1` |
 | 7/10 | 진행 — 부분 승인 1/10 | `OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1` |
 
-## 3. Decision 7/10 — 첫 10~15분 흐름
+## 3. 완료 Decision 호환 계보
+
+```text
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10
+```
+
+## 4. Decision 7/10 — 첫 10~15분 흐름
 
 책임 원본:
 
@@ -74,7 +87,7 @@ MERCHANT_FIRST_EXPOSURE = PENDING_GRILLME
 EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
-## 4. Decision 6/10 — Stage 종료 상인 완료
+## 5. Decision 6/10 — Stage 종료 상인 완료
 
 ```text
 MERCHANT_VISIT_STAGES = 1_TO_19
@@ -97,7 +110,7 @@ MERGED_MAIN = 6b23ca2bb627827651a42ba6db01829e44ee8a14
 SHEET_POST_MERGE_BOUNDED_READBACK = PASS
 ```
 
-## 5. TDD·적대적 감사
+## 6. TDD·적대적 감사
 
 ```text
 7_OF_10_RED_TEST_COMMIT = 4c90e02b8ef1fbfae04bd6ea59fc50dffc108664
@@ -109,7 +122,7 @@ OMW-AUD-492~503 = FORMAT_RISKS_REVIEWED
 PRODUCT_CODE = UNCHANGED
 ```
 
-## 6. 감사 계보
+## 7. 감사 계보
 
 ```text
 OMW-AUD-360~375 = 핵심 재미·정본 충돌
@@ -121,7 +134,7 @@ OMW-AUD-468~491 = Stage 종료 상인·골드 경제·재고·거래
 OMW-AUD-492~503 = 첫 10~15분 온보딩 형식
 ```
 
-## 7. 수명주기
+## 8. 수명주기
 
 - `[현행]`: 1~6/10 완료 책임 원본과 7/10 부분 승인 책임 원본.
 - `[대체됨]`: 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·상시 상점·무한 재고·직접 핵심 보상 판매·과거 마력탑 분기·구형 자원명.
@@ -129,7 +142,7 @@ OMW-AUD-492~503 = 첫 10~15분 온보딩 형식
 - `[폐기]`: 자동 시전·Stage 전 편성·복수 마력탑·병렬 연구·상인 무한 reroll·할인 중첩.
 - `[증거]`: 과거 PR·CI·Sheet·Legacy Prototype.
 
-## 8. 제품 경계
+## 9. 제품 경계
 
 ```text
 CURRENT_PRODUCT = LEGACY_PROTOTYPE
