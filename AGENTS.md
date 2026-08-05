@@ -96,12 +96,29 @@ LEGACY_C1_C2_C3_PROVEN
 
 ## 6. 플랫폼 출시·에셋 권리
 
-출시 플랫폼 결정, 외부 자산, AI·외주·참조 기반 독립 제작 작업은 다음 프로젝트 증거를 읽는다.
+출시 플랫폼, 외부 자산, AI·외주·참조 기반 독립 제작 작업은 다음 프로젝트 증거를 읽는다.
 
+- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
 - `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
 - `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
 - `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
 
-현재 플랫폼은 `PLATFORM_DECISION_REQUIRED / UNDECIDED`이며 Steam·STOVE·Google Play 행은 비교용일 뿐 출시 확정이 아니다. 원본을 조금 수정하거나 AI로 변환했다는 이유만으로 독립 자산으로 보지 않고 `reference_brief`, `forbidden_expression`, 별도 `final_asset_record`, 유사성 검토를 요구한다.
+플랫폼 운영 Decision은 `OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1`이다.
 
-플랫폼 결정, 필수 권리·계약·약관 버전·설문·build/store 일치 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 현재 기획 6/10과 제품 코드 권한 없음 상태를 변경하지 않는다.
+```text
+platform_decision = APPROVED_DUAL_PLATFORM
+release_strategy = STAGED_CROSS_PLATFORM
+PC = COMMITTED
+Steam = COMMITTED_PRIMARY_STORE
+STOVE = SECONDARY_RELEASE_CANDIDATE
+Android = COMMITTED
+Google Play = COMMITTED_PRIMARY_STORE
+iOS = NOT_CURRENT_SCOPE
+simultaneous release = NOT_COMMITTED
+```
+
+PC·Steam과 Android·Google Play 지원 범위는 승인됐지만, 플랫폼별 PASS는 독립이다. `COMMON_PLATFORM_GATE`, `PC_RELEASE_GATE`, `MOBILE_RELEASE_GATE`를 각각 판정하며 한 Gate의 PASS를 다른 Gate에 전이하지 않는다. STOVE는 별도 상점 Gate 전 출시 확정이 아니다.
+
+원본을 조금 수정하거나 AI로 변환했다는 이유만으로 독립 자산으로 보지 않고 `reference_brief`, `forbidden_expression`, 별도 `final_asset_record`, 유사성 검토를 요구한다.
+
+필수 권리·계약·약관 버전·설문·build/store 일치·플랫폼별 구현과 검증 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 자산 감사, 런타임 검증, 상점 제출, 최종 등급, 법률 검토는 현재 `NOT_RUN / NOT_ASSIGNED`다. 현재 기획 6/10과 제품 코드 권한 없음 상태를 변경하지 않는다.

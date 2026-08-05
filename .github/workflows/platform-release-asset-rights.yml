@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'AGENTS.md'
+      - 'docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md'
       - 'docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md'
       - 'docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md'
       - 'docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md'
@@ -13,6 +14,7 @@ on:
     branches: [main]
     paths:
       - 'AGENTS.md'
+      - 'docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md'
       - 'docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md'
       - 'docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md'
       - 'docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md'
