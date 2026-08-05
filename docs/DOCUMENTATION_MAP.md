@@ -2,168 +2,89 @@
 
 ```yaml
 updated_at: 2026-08-05
-work_mode: TOTAL_PLANNING
-current_phase: CORE_FUN_AND_CONTENT_DEEPENING
-current_planning_decision: OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-current_process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
-lifecycle_policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_count: 3_OF_10
-next_gate: TROOP_ROLES_SYNERGIES_AND_COUNTERS
+current_decision: OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+current_count: 4_OF_10
+status: CURRENT_DOCUMENTATION_ROUTER
 ```
 
-## 1. 읽기 순서
+## 1. 최상위 읽기 순서
 
-```text
-README.md
-→ AGENTS.md
-→ PROJECT_CORE.md
-→ ACTIVE_CONTEXT.md
-→ DOCUMENTATION_MAP.md
-→ DOCUMENT_LIFECYCLE_REGISTRY.md
-→ OMENWARD_GDD_CURRENT_CANON.md
-→ 현재 작업의 [현행] 책임 원본
-→ CURRENT_IMPLEMENTATION_STATUS.md
-→ PROJECT_CANON_DECISION_LEDGER.md
-→ DECISIONS_PENDING.md
-→ HANDOFF_CONTEXT.md
-```
+1. `AGENTS.md`
+2. `docs/PROJECT_CORE.md`
+3. `docs/ACTIVE_CONTEXT.md`
+4. `docs/DOCUMENTATION_MAP.md`
+5. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+6. `docs/OMENWARD_GDD_CURRENT_CANON.md`
+7. 주제별 `[현행]` 책임 원본
+8. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+9. `docs/DECISIONS_PENDING.md`
 
-파일명에 `APPROVED`가 있어도 `DOCUMENT_LIFECYCLE_REGISTRY.md`에서 `[보류]`, `[대체됨]`, `[폐기]`로 분류되면 신규 기획·구현 입력으로 사용하지 않는다.
+## 2. 현재 시스템 연결·증거
 
-## 2. 최상위 권위
+- Vertical Slice 계보: `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- Vertical Slice 적대적 검토: `ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
+- 핵심 재미 적대적 검토: `ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md`
+- 룰렛 Evidence Pilot: `OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`
+- Pilot 경계: `PILOT_RECOMMENDATION / NOT_CANON`
+- 현행 GDD: `OMENWARD_GDD_CURRENT_CANON.md`
+- 수명주기: `DOCUMENT_LIFECYCLE_REGISTRY.md`
 
-| 주제 | 권위 문서 | 상태 |
+## 3. 현재 Planning Batch
+
+| 순서 | 상태 | 책임 원본 |
 |---|---|---|
-| 프로젝트 코어 | `PROJECT_CORE.md` | `CURRENT_PRODUCT_IDENTITY` |
-| 현행 GDD | `OMENWARD_GDD_CURRENT_CANON.md` | `CURRENT_GDD_CANON / NOT_IMPLEMENTED` |
-| 문서 수명주기 | `DOCUMENT_LIFECYCLE_REGISTRY.md` | `CURRENT_LIFECYCLE_AUTHORITY` |
-| 동적 main·수명주기 | `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md` | `ACTIVE_STANDING_POLICY` |
-| 벤치마킹·TDD·승인 배치 | `process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md` | `ACTIVE_STANDING_POLICY / NON_COUNTER` |
-| GPT 기획·Codex 구현 경계 | `process/APPROVED_PLANNING_VISUALS_AND_CODEX_IMPLEMENTATION_BOUNDARY_2026-08-04.md` | `ACTIVE_STANDING_POLICY` |
-| 핵심 재미 | `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md` | `DECISION_1_OF_10` |
-| Stage 압력 | `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md` | `DECISION_2_OF_10` |
-| 건물 전문화 | `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md` | `DECISION_3_OF_10` |
+| 1/10 | 완료 | `APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md` |
+| 2/10 | 완료 | `APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md` |
+| 3/10 | 완료 | `APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md` |
+| 4/10 | 현행 | `APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md` |
+| 5/10 | 다음 | `OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1` |
 
-## 3. 현재 적대적 검토
+병종 설계 근거와 실행 계획:
 
-| 범위 | 문서 |
-|---|---|
-| 전체 Vertical Slice 계보 | `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` |
-| 핵심 재미·구형 충돌 | `reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md` |
-| Stage 공정성·리플레이 | `reviews/ADVERSARIAL_STAGE_PRESSURE_REPLAYABILITY_AND_FAIRNESS_REVIEW_2026-08-04.md` |
-| 건물 분기·카운터·포기 비용 | `reviews/ADVERSARIAL_BUILDING_BRANCH_COUNTER_AND_OPPORTUNITY_COST_REVIEW_2026-08-05.md` |
+- `docs/superpowers/specs/2026-08-05-troop-roles-synergies-counters-design.md`
+- `docs/superpowers/plans/2026-08-05-troop-roles-synergies-counters.md`
+- `docs/reviews/ADVERSARIAL_TROOP_ROLE_SYNERGY_AND_COUNTER_REVIEW_2026-08-05.md`
 
-## 4. 현행 시스템 권위
-
-| 주제 | 권위 문서 | 상태 |
-|---|---|---|
-| 전체 시스템 연결 계보 | `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md` | `PARTIAL_SUPERSESSION` |
-| MapRun·Stage·Wave | `design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md` | `CURRENT_TERMINOLOGY` |
-| 정비시간·상인 흐름 | `design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md` | `CURRENT_GAME_FLOW` |
-| 전투 공간·Route·Targeting | `design/APPROVED_OMENWARD_COMBAT_SPACE_ROUTE_AND_TARGETING_EXPERIENCE_2026-08-04.md` | `CURRENT_PLAYER_FACING_SPACE` |
-| 전장 시각 계층·카메라 | `design/APPROVED_OMENWARD_BATTLEFIELD_VISUAL_HIERARCHY_AND_CAMERA_2026-08-04.md` | `CURRENT_VISUAL_HIERARCHY` |
-| HUD·룰렛·자원·기본 건물 | `design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md` | `CURRENT_BASE_ROLES` |
-| HUD 레이아웃·자산 재사용 | `design/APPROVED_OMENWARD_HUD_ROULETTE_LAYOUT_AND_BATTLEFIELD_VIEW_AMENDMENT_2026-08-04.md` | `CURRENT_LAYOUT_ASSET_REUSE` |
-| 픽셀·일러스트 아트 | `design/APPROVED_OMENWARD_PIXEL_ILLUSTRATION_HYBRID_ART_DIRECTION_2026-08-04.md` | `CURRENT_ART_DIRECTION` |
-| 세계관·명칭 | `design/APPROVED_OMENWARD_WORLD_AND_NAMING.md` | `CURRENT_WORLD_NAMING` |
-| 벨루 | `design/APPROVED_BELLU_MASCOT_AND_GUIDE_CONTRACT.md` | `CURRENT_BELU_IDENTITY` |
-
-`APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 시스템 연결 계보만 현행이다. 식량·건물 5종·주변 지휘소·구형 Stage 시계는 후속 문서가 대체한다.
-
-## 5. 현재 건물 전문화 요약
+## 4. 현행 병종 권위
 
 ```text
-T1 → T2 A → T3 A
-T1 → T2 B → T3 B
-CROSS_BRANCH = FORBIDDEN
-DUAL_T3 = FORBIDDEN
+ROSTER_BASELINE: 10
+ROSTER_COUNT_IS_NOT_SACRED
+ROSTER_MIN_MAX: NOT_PRESET
 ```
 
-```text
-금고 = 안정/행운
-농장 = 징집/예비
-병영 = 전열/기동
-방어탑 = 연사/포격
-지휘소 = 돌격/수비
-마력탑 = 유량/저장
-```
+- 열 종 기준선은 방패수호병·대검병·창병·궁수·마도사·사제·암살자·기병·비행병·거인이다.
+- 압력별 최소 두 병종 대응 경로를 둔다.
+- 시너지는 행동 기반이며 단순 세트 보너스는 금지한다.
+- 병영은 전열/기동 가중을 바꾸되 반대 계열을 영구 삭제하지 않는다.
+- T1/T2 실제 병종 이미지를 룰렛에 재사용하며 T3 토큰은 금지한다.
+- `data/units/*.tres`는 최신 정본 구현 입력이 아닌 Legacy Prototype 증거다.
 
-- 선택은 건물 인스턴스별이다.
-- 모든 분기는 얻는 것과 포기하는 것을 함께 표시한다.
-- 정확한 비용·배율·범위·쿨다운은 시뮬레이션 전 미확정이다.
-- 병종 역할과 전술스킬이 압력별 대응 경로를 완성하기 전 제품 구현을 시작하지 않는다.
+## 5. 수명주기 해석
 
-## 6. Stage·핵심 상태
+- `[현행]`: 신규 기획·구현 입력 허용.
+- `[대체됨]`: 후속 책임 원본이 승계. 역사 근거만 허용.
+- `[보류]`: 최신 정본과 재검증 전 사용 금지.
+- `[폐기]`: 채택하지 않음. 사용 금지.
+- `[증거]`: 과거 사실만 증명.
 
-```text
-MapRun = 20 Stage
-Wave Beat = 3
-Danger = 4 / 9 / 14 / 19
-Boss = 5 / 10 / 15 / 20
-압력 = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-자원 = 골드 / 마석 / 배치 병력·병력 한도 / 이동권
-건물 = 금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
-룰렛 = 세 원형 릴이 3×3 노출창의 세 열
-아트 = PIXEL_ILLUSTRATION_HYBRID
-```
+파일명보다 `DOCUMENT_LIFECYCLE_REGISTRY.md`의 상태를 우선한다.
 
-룰렛 자산:
+## 6. 제품 경계
 
 ```text
-GOLD_TOKEN_ART = IN_GAME_GOLD_IMAGE
-TROOP_TOKEN_ART = IN_GAME_T1_T2_TROOP_IMAGE
-T3_TROOP_TOKEN = FORBIDDEN
-RESULT_REWARD_ART = ACTUAL_REWARDED_TROOP_IMAGE
-```
-
-## 7. 수명주기 라우팅
-
-### [대체됨]
-
-- `OMENWARD_GAME_DESIGN.md` → `OMENWARD_GDD_CURRENT_CANON.md`.
-- `design/APPROVED_DOPAMINE_DRIVEN_DESIGN_AND_FIRST_10_MINUTES.md` → 핵심 원칙만 현행 core-fun으로 승계.
-- `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md` → 20 Stage 압력 매트릭스로 대체.
-
-### [보류]
-
-- 구형 첫 10분·첫 4공세.
-- Meta·Hub.
-- Hero·Legendary 문서군.
-- 구형 구현 계획.
-
-### [폐기]
-
-- 식량 핵심 HUD 자원.
-- 기본 건물 5종.
-- 주변 범위 지휘소.
-- `15웨이브=1스테이지`·고정 60초 공세.
-- 룰렛 전용 금화·병종 상징 아이콘.
-- T3 병종 룰렛 토큰.
-- 동일 건물 인스턴스의 교차 분기·양쪽 T3.
-
-상세 파일별 상태는 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 소유한다.
-
-## 8. 증거·상태
-
-| 주제 | 문서 | 상태 |
-|---|---|---|
-| 룰렛 통제감 Evidence Pilot | `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` | `PILOT_RECOMMENDATION / NOT_CANON` |
-| 결정 원장 | `PROJECT_CANON_DECISION_LEDGER.md` | `CURRENT_DECISION_LEDGER` |
-| 미확정 결정 | `DECISIONS_PENDING.md` | `CURRENT_PENDING_GATES` |
-| 구현 상태 | `CURRENT_IMPLEMENTATION_STATUS.md` | `CURRENT_IMPLEMENTATION_BOUNDARY` |
-| 인수인계 | `HANDOFF_CONTEXT.md` | `CURRENT_HANDOFF` |
-| Google Sheet | `PROJECT_GOOGLE_SHEET_WORKBOOK.md` | `CURRENT_SHEET_CONTRACT` |
-
-## 9. 제품 경계와 다음 Gate
-
-```text
-CURRENT_PRODUCT = LEGACY_PROTOTYPE
-VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
 PRODUCT_CODE = UNCHANGED
+PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
 SIMULATION = NOT_RUN
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
-CURRENT_COUNT = 3_OF_10
-NEXT_DECISION = OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 ```
+
+## 7. 완료 이력 보존
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10
+```
+
+4/10 문서 병합은 병종 `.tres`, AI, Scene, 수치 구현 승인이 아니다.
