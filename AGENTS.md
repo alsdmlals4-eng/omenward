@@ -1,13 +1,14 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-05
+updated_at: 2026-08-06
 current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 current_count: 6_OF_10
 next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 image_generation: STOPPED_BY_USER
+parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 ```
 
 ## 1. 작업 시작 순서
@@ -122,3 +123,22 @@ PC·Steam과 Android·Google Play 지원 범위는 승인됐지만, 플랫폼별
 원본을 조금 수정하거나 AI로 변환했다는 이유만으로 독립 자산으로 보지 않고 `reference_brief`, `forbidden_expression`, 별도 `final_asset_record`, 유사성 검토를 요구한다.
 
 필수 권리·계약·약관 버전·설문·build/store 일치·플랫폼별 구현과 검증 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 자산 감사, 런타임 검증, 상점 제출, 최종 등급, 법률 검토는 현재 `NOT_RUN / NOT_ASSIGNED`다. 현재 기획 6/10과 제품 코드 권한 없음 상태를 변경하지 않는다.
+
+## 7. PC·Android 공용 코어·어댑터 설계
+
+```text
+OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+```
+
+제품 구조 작업은 다음 책임 원본을 우선한다.
+
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
+- `docs/reviews/ADVERSARIAL_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_REVIEW_2026-08-06.md`
+- `docs/superpowers/plans/2026-08-06-pc-android-core-adapter-architecture.md`
+
+공용 domain/core는 `Node`, SceneTree lookup, `Input`, `DisplayServer`, `FileAccess`, Steam·STOVE·Google Play SDK를 직접 참조하지 않는다. 입력·표시·저장·수명주기·성능·상점은 계약과 PC/Android 어댑터로 분리한다.
+
+이 Decision은 기획 Grill Me 카운터에 포함되지 않는 `NON_COUNTER` 병렬 설계다. 현행 기획 상태, 제품 코드 권한 없음, 세 플랫폼 Gate의 `NOT_RUN`, `RELEASE_BLOCKED_UNVERIFIED`를 변경하지 않는다.
