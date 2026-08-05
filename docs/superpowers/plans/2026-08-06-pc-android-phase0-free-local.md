@@ -71,21 +71,21 @@ Run:
 godot --headless --path . --script tests/headless/platform_core_characterization_test.gd
 ```
 
-Current result: `NOT_RUN` because the assistant execution environment has no Godot binary. Do not mark PASS until the command exits 0.
+Current result: `NOT_RUN`. The assistant execution environment had no Godot binary, and the free temporary download attempt was blocked by the runtime network boundary. Do not mark PASS until the command exits 0 on a local Godot 4.7 installation.
 
 ### Task 5: Free-Only Documentation and Sync
 
 **Files:**
 - Create: `scripts/platform/README.md`
 - Create: `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
-- Update: project implementation status
+- Preserve: product implementation status and all product paths unchanged
 - Sync: Google Sheet with the same Decision ID
 
 - [x] Document free local commands and honest Gate semantics.
 - [x] Record RED/GREEN evidence and Godot limitation.
-- [ ] Open stacked Draft PR against the architecture branch.
-- [ ] Write exact head and bounded read-back status to Sheet.
-- [ ] Verify changed files, review threads, and comments.
+- [x] Open stacked Draft PR #147 against the PR #146 architecture branch.
+- [x] Write exact head and bounded read-back status to Sheet.
+- [x] Verify changed files, mergeability, review threads, comments, and reviews.
 
 ## Completion Boundary
 
@@ -97,4 +97,4 @@ PHASE_1_IMPLEMENTATION = NOT_AUTHORIZED
 COMMON_PLATFORM_GATE = NOT_RUN
 ```
 
-Phase 0 may be reviewed and merged without GitHub Actions only when local Python evidence, connector read-back, Sheet read-back, and diff scope are recorded honestly. Godot PASS remains a separate local prerequisite before the characterization fixture is treated as executable proof.
+Phase 0 documentation and free Python guard may be reviewed without GitHub Actions. Godot PASS remains a separate free local prerequisite before the characterization fixture is treated as executable proof.
