@@ -7,10 +7,12 @@ current_planning_count: 6_OF_10
 latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 product_code_authority: NONE
+platform_contract_code_authority: PHASE1_CONTRACT_TYPES_ONLY
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: HUMAN_QA_NOT_RUN
 parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+parallel_platform_phase1: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 ```
 
 현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
@@ -38,7 +40,7 @@ CORE_LOCK_NOT_ALLOWED
 5/10 전술·마력 역시 제품에는 구현되지 않았다.
 
 ```text
-PRODUCT_CODE = UNCHANGED
+GAMEPLAY_PRODUCT_CODE = UNCHANGED
 DATA_MIGRATION = NOT_AUTHORIZED
 ART_ASSET_PRODUCTION = NOT_AUTHORIZED
 EXACT_NUMERICS = PENDING_SIMULATION
@@ -102,35 +104,40 @@ OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 5_OF_10
 ```
 
-현재 구현 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
+현재 버티컬 슬라이스 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
 
 ## PC·Android 공용 코어·어댑터 구현 상태
 
 ```text
-OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
-APPROVED_DESIGN_NOT_IMPLEMENTED
-PRODUCT_CODE_AUTHORITY = NONE
-PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+ARCHITECTURE_DECISION = OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+ARCHITECTURE_STATUS = MAIN_CANONICAL
+PHASE0_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
+PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
+PHASE1_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
+PHASE1_COMMAND_EVENT_CONTRACTS = IMPLEMENTED_LOCAL_PASS_CANDIDATE
+GAME_COMMAND = IMPLEMENTED
+GAME_EVENT = IMPLEMENTED
+SEVEN_PLATFORM_CONTRACTS = IMPLEMENTED
+PLATFORM_CAPABILITIES = IMPLEMENTED
+GAME_SESSION_DECOUPLING = NOT_STARTED
+SHARED_SAVE_SCHEMA = NOT_STARTED
+PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
+ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+STORE_SDK_INTEGRATION = NOT_STARTED
 COMMON_PLATFORM_GATE = NOT_RUN
 PC_RELEASE_GATE = NOT_RUN
 MOBILE_RELEASE_GATE = NOT_RUN
 EXPORT_PRESETS = ABSENT
 REPRESENTATIVE_PC_BUILD = NOT_RUN
 REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
-STORE_SDK_INTEGRATION = NOT_STARTED
 ```
 
-현행 프로토타입에는 결정론적 전투·경제·룰렛 서비스가 있지만, 공용 코어와 Godot Scene 조립 경계가 완결되지 않았다. `GameSession`은 frame tick과 Scene/HUD binding을 함께 담당하며, 제품 저장 adapter·모바일 lifecycle adapter·플랫폼 store adapter·재현 가능한 export preset이 없다.
+Phase 1은 의미 기반 command/event 값 객체와 실패 폐쇄형 base contract만 추가한다. 기존 `GameSession`, Scene, 전투·경제·룰렛·건물 동작에는 연결하지 않았다. local Godot 4.7.1 contract test와 Python 경계 검사는 통과했지만 전체 저장소 runtime·Scene 조립·build·export는 실행하지 않았다.
 
-승인된 설계는 다음 구현 순서를 정할 뿐 제품 변경을 승인하지 않는다.
+다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 2 `GameSession` 책임 분리다.
 
-1. 기준선 characterization test와 금지 API 정적 검사.
-2. command/event 및 platform contract.
-3. `GameSession`의 `GameApplication`·`SessionDriver`·`SceneBinder`·`PlatformBootstrap` 분리.
-4. 공유 versioned save schema와 원자 저장 adapter.
-5. shared ViewModel, responsive UI, PC/Android 입력 adapter.
-6. PC 대표 build와 독립 Gate 증거.
-7. Android lifecycle·성능·대표 build와 독립 Gate 증거.
-8. offline core 이후 Steam·Google Play adapter. STOVE는 별도 Gate.
+책임 원본:
 
-책임 원본은 `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`다. 구현 시작 전 별도 제품 Decision, 제품 RED 테스트, 데이터 마이그레이션·롤백·수동 QA 승인이 필요하다.
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
