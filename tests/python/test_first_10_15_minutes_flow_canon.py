@@ -132,7 +132,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(CANON)
         for marker in (
             "T1_PLACEMENT_LAYOUT = PENDING_GRILLME",
-            "FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME",
+            "FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME",
             "STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME",
             "MINIMUM_VALID_PATHS = PENDING_GRILLME",
             "BELU_INTERVENTION_LEVEL = PENDING_GRILLME",
