@@ -1,268 +1,104 @@
-# OMENWARD Tactical Skills and Mana Canon Implementation Plan
+# OMENWARD 전술스킬·마력 실행 기록
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
-
-**Goal:** 승인된 5/10 전술스킬·마력 설계를 현행 정본으로 만들고, 구형 `마석` 및 마력탑 분기 계약을 대체하며, GitHub와 Google Sheet를 같은 Decision ID로 동기화한다.
-
-**Architecture:** 문서 계약 테스트가 새 책임 원본·용어·4·3·3 전술 목록·MapRun 초기화·단일 마력탑·중앙 라우팅·수명주기 상태를 검증한다. 제품 코드와 수치 데이터는 수정하지 않으며, 문서 RED를 확인한 뒤 최소 정본과 적대적 검토를 추가하고 중앙 권위와 Sheet를 갱신한다.
-
-**Tech Stack:** Markdown canon, Python 3.12 `unittest`, GitHub Actions, Google Sheets authority mirror.
-
-## Global Constraints
-
-- Decision ID: `OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1`.
-- Planning counter: `5_OF_10`.
-- 현행 용어는 `마력`; `마석`은 구형 용어 설명과 비현행 역사 문서에서만 허용한다.
-- 마력탑 활성 인스턴스 최대 1개, 분기 없는 `T1 → T2 → T3`.
-- 전술스킬 기준선은 `T1 4 / T2 3 / T3 3`, 총 10종.
-- 연구 비용은 골드+시간, 시전 비용은 마력.
-- 연구·해금·보유 마력·마력탑 Tier는 MapRun 동안 유지하고 새 MapRun에서 초기화한다.
-- Stage 전 편성·자동 시전·연구 마력 비용·T3 자동 승리·전선 자유 재배치는 금지한다.
-- 정확 수급량·상한·비용·쿨다운·범위·지속시간은 `PENDING_SIMULATION`.
-- 제품 코드·Scene·Resource·게임 데이터·아트 자산은 변경하지 않는다.
-- 모든 GitHub 쓰기는 `gpt/omenward-tactical-skills-mana-spec-20260805`에서만 수행한다.
-
----
-
-### Task 1: Add the RED documentation contract
-
-**Files:**
-- Create: `tests/python/test_tactical_skill_mana_canon.py`
-- Modify: `.github/workflows/validate-project-core-docs.yml`
-
-**Interfaces:**
-- Consumes: approved Spec `docs/superpowers/specs/2026-08-05-tactical-skills-and-mana-design.md`.
-- Produces: executable contract for authority files, terminology, tower rules, 4·3·3 roster, reset rules, central routing, lifecycle, and implementation boundary.
-
-- [ ] **Step 1: Write the failing test**
-
-Create a `unittest` module that requires:
-
-```python
-DECISION_ID = "OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1"
-TACTICAL_SKILLS = (
-    "속박진", "수호장", "집중 명령", "충격파",
-    "폭풍 억제", "파쇄 명령", "봉쇄 결계",
-    "결전의 깃발", "성역", "시간 왜곡",
-)
+```yaml
+decision_id: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+branch: gpt/omenward-tactical-skills-mana-spec-20260805
+pull_request: 140
+status: BRANCH_WORK_COMPLETE / READY_FOR_FINAL_PREFLIGHT
+planning_counter: 5_OF_10
+product_code: UNCHANGED
+simulation: NOT_RUN
+runtime: NOT_RUN
+human_validation: NOT_RUN
 ```
 
-Assertions must verify:
+## 목표
+
+승인된 5/10 설계를 현행 정본으로 만들고, 전술 자원·마력탑 성장·연구·해금·수동 시전·MapRun 초기화 계약을 GitHub와 Google Sheet에 같은 Decision ID로 동기화한다.
+
+## 확정된 계약
 
 ```text
-MANA_TOWER_MAX_ACTIVE_INSTANCES = 1
-BRANCHING = FORBIDDEN
-TOTAL_TACTICAL_SKILLS = 10
-T1 = 4 / T2 = 3 / T3 = 3
+마력탑 최대 활성 수 = 1
+마력탑 T1 → T2 → T3
+분기 = FORBIDDEN
+동시 연구 = 1
 연구 비용 = 골드 + 연구 시간
 시전 비용 = 마력
-STAGE_LOADOUT = NONE
-AUTO_CAST = FORBIDDEN
-RESET_SCOPE = NEW_MAPRUN
-EXACT_NUMERICS = PENDING_SIMULATION
-PRODUCT_CODE = UNCHANGED
+Stage 전 편성 = 없음
+자동 시전 = 금지
+Reset = NEW_MAPRUN
 ```
 
-The test must also require the new canon and adversarial review files, `5_OF_10` routing in central files, and lifecycle replacement of `유량 마력탑 / 저장 마력탑`.
-
-- [ ] **Step 2: Register the test in CI**
-
-Add the new file to workflow path filters, `py_compile`, and the unittest command.
-
-- [ ] **Step 3: Run CI and verify RED**
-
-Expected: only the new tactical/mana contract fails because canon, review, 5/10 routing, terminology migration, and lifecycle replacement do not exist yet. Existing contracts remain Green.
-
-- [ ] **Step 4: Commit the RED state**
-
-Commit message:
-
 ```text
-test: add failing tactical skill and mana canon contract
+T1 4종 = 속박진 / 수호장 / 집중 명령 / 충격파
+T2 3종 = 폭풍 억제 / 파쇄 명령 / 봉쇄 결계
+T3 3종 = 결전의 깃발 / 성역 / 시간 왜곡
 ```
 
----
+## 실행 결과
 
-### Task 2: Create the tactical/mana authority and adversarial review
+- [x] 승인 Spec 작성 및 사용자 검토 완료.
+- [x] `tests/python/test_tactical_skill_mana_canon.py` 작성 및 CI 등록.
+- [x] RED run 954에서 새 정본·검토·5/10 라우팅·용어·수명주기 부재만 예상대로 검출.
+- [x] 기존 문서·CI 계약 45개가 RED 단계에서도 통과함을 확인.
+- [x] 전술스킬·마력 책임 원본과 적대적 검토 `OMW-AUD-444~467` 작성.
+- [x] 중앙 13개 권위 문서를 5/10으로 라우팅.
+- [x] Project Core의 현행 자원 계약을 마력으로 전환하고 구형 용어 재유입 mutation test 추가.
+- [x] 과거 마력탑 분기는 결정 계보로 보존하되 `[대체됨] / IMPLEMENTATION_INPUT_FORBIDDEN`으로 격리.
+- [x] Legacy C1·C2·C3와 3/10·4/10 완료 이력 보존.
+- [x] Google Sheet에 Decision 5/10, 근거 `089~093`, 감사 `444~467`, 시스템·콘텐츠·변경 이력을 신규 행으로 기록.
+- [x] Sheet bounded read-back에서 Decision ID·exact HEAD·5/10·4·3·3·MapRun reset·감사 범위·다음 Gate 일치 확인.
+- [x] candidate HEAD `917445ba9b09260da1f2b7bafb0bbf2f809a834b`에서 CI 네 종 Green 확인.
 
-**Files:**
-- Create: `docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
-- Create: `docs/reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md`
-
-**Interfaces:**
-- Consumes: approved Spec and Decisions 1–4.
-- Produces: current 5/10 authority and audit `OMW-AUD-444~467`.
-
-- [ ] **Step 1: Write the minimal canon**
-
-The canon must define:
+## TDD 증거
 
 ```text
-마력탑 T1 → T2 → T3
-one active tower
-one concurrent research
-research = gold + time
-cast = mana
-unlocked skills persist for current MapRun
-new MapRun resets tower/research/unlocks/mana
+RED
+Validate Project Core Documentation run 954
+result = FAILURE_AS_EXPECTED
+existing_contract_tests = 45 PASS
+cause = TACTICAL_CANON / REVIEW / 5_OF_10_ROUTING / TERMINOLOGY / LIFECYCLE_MISSING
+
+GREEN CANDIDATE
+Validate Project Core Documentation run 976
+Validate Omenward GDD Sheet Adoption run 682
+Validate Omenward Core run 150
+Validate Base v9 adoption run 665
+result = SUCCESS
 ```
 
-Include the exact 10 tactical skills, targets, pressure coverage, limitations, UI requirements, invalid-target no-spend behavior, and `PENDING_SIMULATION` boundaries.
+## REFACTOR
 
-- [ ] **Step 2: Write the adversarial review**
+- 긴 실행 체크리스트를 실제 증거 중심 기록으로 압축했다.
+- 5/10 현행 상태와 3/10·4/10 완료 이력 및 Legacy C1·C2·C3 증거를 분리했다.
+- 구형 건물 문서 전체를 파괴적으로 교체하지 않고 수명주기 우선순위로 마력탑 부분만 대체했다.
+- 검증기의 전술 자원 계약을 마력으로 이동하고 구형 용어 회귀를 자동 차단했다.
+- Sheet 과거 행을 보존하고 신규 5/10 행만 추가했다.
+- 제품 코드·Scene·Resource·게임 데이터·실제 아트 자산은 변경하지 않았다.
 
-Audit at least:
+## Sheet 기록 범위
 
 ```text
-resource hoarding dominance
-research snowball
-single-tower destruction lockout
-rebuild exploit
-research cancellation refund exploit
-auto-cast regression
-T3 panic-button dominance
-hard-counter unlock dependency
-flying/siege coverage gaps
-route information cheating
-mana overflow and infinite storage
-cooldown-only balancing failure
-UI overload with ten unlocked skills
-legacy masok terminology leak
-legacy branched mana-tower authority leak
+00_프로젝트_허브!E2:L2
+01_작업순서!A56:L56
+02_현재_확정결정!A63:M63
+03_근거_라이브러리!A89:J93
+04_누락_충돌_감사!A444:H467
+05_GDD_요약!A14:J15
+12_핵심루프!A36:J36
+15_조작_게임규칙!A39:J39
+40_핵심시스템_메인콘텐츠!A39:J39
+50_메인콘텐츠!A46:J46
+99_변경이력!A73:H73
 ```
 
-Record required fixes and preserve `PRODUCT_CODE = UNCHANGED`.
+## 최종 검증 계약
 
-- [ ] **Step 3: Run the tactical contract**
-
-Expected: authority-specific assertions pass; central routing and terminology migration may still fail.
-
-- [ ] **Step 4: Commit**
-
-Commit message:
+REFACTOR로 HEAD가 변경됐으므로 다음을 새 exact HEAD에서 다시 확인한다.
 
 ```text
-docs: define tactical skill and mana canon
-```
-
----
-
-### Task 3: Migrate current authority and lifecycle
-
-**Files:**
-- Modify: `README.md`
-- Modify: `AGENTS.md`
-- Modify: `docs/PROJECT_CORE.md`
-- Modify: `docs/ACTIVE_CONTEXT.md`
-- Modify: `docs/DOCUMENTATION_MAP.md`
-- Modify: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-- Modify: `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- Modify: `docs/DECISIONS_PENDING.md`
-- Modify: `docs/OMENWARD_ROADMAP.md`
-- Modify: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- Modify: `docs/HANDOFF_CONTEXT.md`
-- Modify: `docs/PROJECT_CANON_DECISION_LEDGER.md`
-- Modify: `docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
-- Modify: `docs/design/APPROVED_OMENWARD_COMBAT_HUD_ROULETTE_RESOURCE_MERCHANT_AND_BUILDING_ROSTER_2026-08-04.md`
-- Modify: `docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
-
-**Interfaces:**
-- Consumes: Task 2 authority.
-- Produces: one current terminology and 5/10 authority graph.
-
-- [ ] **Step 1: Route 5/10 centrally**
-
-Every central file must include the Decision ID and `5_OF_10`; 4/10 remains in completed history.
-
-- [ ] **Step 2: Replace current `마석` terminology**
-
-Current authority must use `마력`. The new canon may retain one explicit migration statement `구형 용어: 마석`.
-
-- [ ] **Step 3: Replace the mana-tower branch contract**
-
-In the building canon, mark `유량 마력탑 → 맥동 도관` and `저장 마력탑 → 징조 저장고` as `[대체됨]` and route to the 5/10 linear tower authority. Update the global six-building rule to state that the mana tower is the sole linear-growth exception.
-
-- [ ] **Step 4: Update lifecycle rules**
-
-Register the new canon, Spec, plan, and review as `[현행]`; register the old mana-tower branch section and `마석` terminology as `[대체됨]`; forbid them as new implementation input.
-
-- [ ] **Step 5: Run all documentation workflows**
-
-Expected: Project Core, GDD Sheet, Omenward Core, and Base v9 workflows are Green after preserving Legacy C1/C2/C3 evidence markers.
-
-- [ ] **Step 6: Commit**
-
-Commit message:
-
-```text
-docs: route tactical mana canon through current authority
-```
-
----
-
-### Task 4: Sync Google Sheet and complete REFACTOR
-
-**Files:**
-- Modify: Google Sheet `1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw`
-- Modify: `docs/superpowers/plans/2026-08-05-tactical-skills-and-mana.md`
-
-**Interfaces:**
-- Consumes: exact PR HEAD and Green CI evidence.
-- Produces: mirrored Decision 5/10, evidence, audit, and next Gate.
-
-- [ ] **Step 1: Append Sheet records**
-
-Write new rows rather than overwriting 4/10 history. Record:
-
-```text
-Decision 5/10
-10 skills = 4·3·3
-mana tower max 1 and linear tiers
-research gold+time / cast mana
-MapRun reset
-OMW-AUD-444~467
-RED and Green run IDs
-exact PR HEAD
-next Gate = Stage-end merchant 6/10
-```
-
-- [ ] **Step 2: Perform bounded read-back**
-
-Confirm Decision ID, exact HEAD, counter, terminology, skill names, lifecycle replacement, audit range, and next Gate.
-
-- [ ] **Step 3: Refactor the plan into an evidence record**
-
-Replace unchecked steps with actual RED/GREEN/REFACTOR evidence without changing product scope.
-
-- [ ] **Step 4: Re-run exact-head CI**
-
-Because REFACTOR changes HEAD, run all four workflows again and update Sheet to the final candidate SHA.
-
-- [ ] **Step 5: Commit**
-
-Commit message:
-
-```text
-docs: finalize tactical mana evidence and Sheet sync
-```
-
----
-
-### Task 5: Fresh preflight and protected merge
-
-**Files:**
-- Modify: PR #140 body and status.
-- Modify: current Sheet status cells after merge.
-
-**Interfaces:**
-- Consumes: final exact HEAD with Green CI and bounded Sheet read-back.
-- Produces: merged main canon and post-merge Sheet evidence.
-
-- [ ] **Step 1: Verify preflight**
-
-Require:
-
-```text
+CI 4종 Green
 behind main = 0
 product paths changed = 0
 reviews addressed
@@ -270,22 +106,26 @@ unresolved threads = 0
 OPEN_P0 = 0
 OPEN_P1 = 0
 MERGE_BLOCKER = 0
-unfinished TODO/TBD = 0
-Sheet exact-head read-back = PASS
+unfinished placeholders = 0
+Sheet exact-head bounded read-back = PASS
 ```
 
-- [ ] **Step 2: Update PR body**
+검증이 통과하면 PR #140을 ready로 전환하고 exact HEAD 보호 조건으로 squash merge한다. 병합 뒤 현재 5/10 Sheet 상태만 merged main SHA로 갱신한다.
 
-Document the 4·3·3 roster, research/cast economy, terminology migration, single tower exception, RED→GREEN→REFACTOR evidence, lifecycle changes, Sheet ranges, and product boundaries.
+## 제품 경계
 
-- [ ] **Step 3: Mark ready and squash merge with expected HEAD**
+```text
+PRODUCT_CODE = UNCHANGED
+DATA_MIGRATION = NOT_AUTHORIZED
+EXACT_NUMERICS = PENDING_SIMULATION
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+```
 
-Use exact SHA protection. Do not create a post-merge documentation PR because `current_main` is dynamically resolved.
+## 다음 Gate
 
-- [ ] **Step 4: Update Sheet post-merge state**
-
-Record merged main SHA and change only the current 5/10 status ranges.
-
-- [ ] **Step 5: Perform final bounded read-back**
-
-Expected: `MAIN_CANONICAL / READBACK_PASS / COUNTER_5_OF_10` and next Decision `OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1`.
+```text
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10
+```
