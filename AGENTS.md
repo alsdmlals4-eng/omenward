@@ -4,7 +4,7 @@
 updated_at: 2026-08-05
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_1_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_2_OF_10
 current_working_pr: 142
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
@@ -42,9 +42,15 @@ EXACT_NUMERICS = PENDING_SIMULATION
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_1_OF_10
+PARTIAL_APPROVAL_2_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
+SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
+STAGE_1 = CORE_CAUSAL_CHAIN_AND_FIRST_MERCHANT
+STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT
+STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
+STAGE_4 = FIRST_DANGER_INTEGRATION
+STAGE_5 = FIRST_BOSS_MASTERY_CHECK
 SEPARATE_TUTORIAL = FORBIDDEN
 FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN
 RULE_PARITY_WITH_MAIN_RUN = REQUIRED
@@ -53,10 +59,13 @@ BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 ```
 
 - 첫 플레이는 실제 MapRun이다.
-- 시스템은 현재 목표와 직접 관련된 시점에 단계적으로 노출한다.
-- 실제 경제·전투 결과 규칙을 사용한다.
+- Stage 1은 예고→첫 건설 선택→룰렛→병력 결과→비가역 배치→실전 전투→복기→첫 상인의 핵심 인과를 완성한다.
+- Stage 2는 이동권과 행·열 조작을 다전선 판단에 연결한다.
+- Stage 3은 마력탑·연구·첫 T1 전술·수동 시전을 하나의 인과로 가르친다.
+- Stage 4 Danger와 Stage 5 Boss는 새 시스템을 추가하지 않고 학습 시스템 조합과 숙련을 시험한다.
+- 첫 상인은 선택 사항과 골드 기회비용만 설명한다.
 - 벨루는 목표·선택지·결과 원인을 설명할 수 있지만 플레이어 결정을 대신하지 않는다.
-- 시스템 노출 순서·최소 유효 경로·Danger/Boss/상인 노출·실패 규칙·정확 시간은 `PENDING_GRILLME`다.
+- 첫 건설 후보·최소 유효 경로·Danger/Boss 세부·실패 규칙·정확 시간은 `PENDING_GRILLME`다.
 
 ## 4. 작업 방식
 
@@ -74,7 +83,7 @@ DIRECT_MAIN_WRITE: FORBIDDEN
 - 기획 변경도 실패 조건을 먼저 테스트로 기록한다.
 - 승인된 내용은 같은 Decision ID로 GitHub와 Google Sheet에 동기화한다.
 - 제품 변경은 별도 구현 계획과 제품 RED 테스트 전 금지한다.
-- 사용자가 승인하지 않은 자동화·편성·하드카운터·직접 판매·노출 순서를 추가하지 않는다.
+- 사용자가 승인하지 않은 자동화·편성·하드카운터·직접 판매·후속 후보·수치를 추가하지 않는다.
 - PR 병합 전 fresh CI·Sheet read-back·review thread·차단 표식을 다시 확인한다.
 
 ## 5. 역할 분리
