@@ -39,6 +39,13 @@ func _test_game_command(failures: PackedStringArray) -> void:
 		"command rejects nested Object payload values",
 		failures,
 	)
+	var cyclic_payload := {}
+	cyclic_payload["self"] = cyclic_payload
+	_expect(
+		not GameCommandScript.new(&"cycle", cyclic_payload).is_valid(),
+		"command rejects cyclic payload containers without recursive duplication",
+		failures,
+	)
 
 
 func _test_game_event(failures: PackedStringArray) -> void:
@@ -53,6 +60,13 @@ func _test_game_event(failures: PackedStringArray) -> void:
 	_expect(
 		not GameEventScript.new(&"bad", {"callable": func() -> void: pass}).is_valid(),
 		"event rejects Callable payload values",
+		failures,
+	)
+	var cyclic_payload := {}
+	cyclic_payload["self"] = cyclic_payload
+	_expect(
+		not GameEventScript.new(&"cycle", cyclic_payload).is_valid(),
+		"event rejects cyclic payload containers without recursive duplication",
 		failures,
 	)
 
