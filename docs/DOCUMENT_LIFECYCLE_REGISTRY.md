@@ -5,8 +5,9 @@ updated_at: 2026-08-05
 policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
 status: CURRENT_LIFECYCLE_AUTHORITY
-current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_count: 6_OF_10
+current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+current_count: 7_OF_10_IN_PROGRESS
+approval_checkpoint: PARTIAL_APPROVAL_2_OF_10
 ```
 
 이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다.
@@ -35,6 +36,17 @@ current_count: 6_OF_10
 - 6/10 Amendment `superpowers/specs/2026-08-05-stage-end-merchant-design-amendment.md`
 - 6/10 Plan `superpowers/plans/2026-08-05-stage-end-merchant.md`
 - 6/10 Review `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
+- 7/10 partial `design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
+- 7/10 partial Spec `superpowers/specs/2026-08-05-first-10-15-minutes-flow-checkpoint-1.md`
+- 7/10 partial Plan `superpowers/plans/2026-08-05-first-10-15-minutes-flow-checkpoint-1.md`
+- 7/10 partial Review `reviews/ADVERSARIAL_FIRST_10_15_MINUTES_FLOW_FORMAT_REVIEW_2026-08-05.md`
+
+```text
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+7_OF_10_IN_PROGRESS
+PARTIAL_APPROVAL_2_OF_10
+SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
+```
 
 ### 현행 시스템
 
@@ -81,11 +93,33 @@ replacement = repair/research/roulette/build discount support only
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
 
+```text
+LEGACY_SEPARATE_TUTORIAL
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_2
+replacement = real MapRun in-run progressive disclosure
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+```text
+LEGACY_STAGE1_FULL_SYSTEM_DUMP
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_2
+replacement = Stage 1 core causal chain, Stage 2 roulette control, Stage 3 tactical chain
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+```text
+LEGACY_SCRIPTED_TUTORIAL_VICTORY
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_2
+replacement = real economy and combat result rules
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
 대체되는 과거 규칙:
 
 - 유량 계열과 저장 계열 마력탑 분기.
 - 상시 HUD 상점·전투 중 구매·무한 재고·무한 reroll.
 - 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기 직접 판매.
+- 별도 연습장 튜토리얼·Stage 1 전체 시스템 덤프·보장된 튜토리얼 승리.
 
 기타 대체 문서:
 
@@ -95,7 +129,8 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 ## 3. [보류]
 
-- 첫 10~15분·튜토리얼 문서군: 7/10 재설계 전 사용 금지.
+- 7/10 첫 건설 후보·첫 실질 선택·최소 유효 경로·벨루 개입 수준·Danger/Boss 세부·실패/재시도·사람 QA 기준: 후속 GrillMe 승인 전 구현 입력 금지.
+- `FIRST_BUILD_CANDIDATES`, `MINIMUM_VALID_PATHS`, `FIRST_MEANINGFUL_RULER_CHOICE`, `DANGER_EXACT_PRESSURE`, `BOSS_EXACT_PATTERN`, `FAILURE_RETRY_SKIP_RULES`는 `PENDING_GRILLME`다.
 - Hero·Legendary 문서군: 8/10 재조정 전 구현 입력 금지.
 - Meta·Hub 문서군: 9/10 재조정 전 구현 입력 금지.
 - 구형 구현 계획: 재실행 금지, 과거 결정·검증 증거로만 사용.
@@ -138,18 +173,20 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 1. `PROJECT_CORE.md`와 `DOCUMENTATION_MAP.md`를 먼저 읽는다.
 2. 대상 파일이 `[현행]`인지 확인한다.
-3. 상인 작업은 6/10 책임 원본을 우선한다.
-4. 과거 HUD·상인 개요에서 상시 상점·무한 재고·직접 판매를 구현 입력으로 사용하지 않는다.
+3. 온보딩 작업은 7/10 부분 승인 책임 원본과 `SYSTEM_EXPOSURE_ORDER`를 우선하되 나머지 `PENDING_GRILLME`를 임의 해소하지 않는다.
+4. 상인 작업은 완료된 6/10 책임 원본을 우선한다.
 5. 정확 수치는 시뮬레이션·Codex 계획·제품 RED 테스트 뒤에만 확정한다.
 
 ## 7. 완료 이력
 
 ```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10
 OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 5_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10
 LEGACY_C1_C2_C3_PROVEN
 ```
