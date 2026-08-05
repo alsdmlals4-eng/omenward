@@ -4,7 +4,7 @@
 updated_at: 2026-08-05
 current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_planning_count: 7_OF_10_IN_PROGRESS
-latest_planning_status: PARTIAL_APPROVAL_2_OF_10 / DRAFT_PR / NOT_IMPLEMENTED
+latest_planning_status: PARTIAL_APPROVAL_3_OF_10 / DRAFT_PR / NOT_IMPLEMENTED
 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 product_code_authority: NONE
 simulation: NOT_RUN
@@ -28,11 +28,17 @@ CORE_LOCK_NOT_ALLOWED
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_2_OF_10
+PARTIAL_APPROVAL_3_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
-STAGE_1 = CORE_CAUSAL_CHAIN_AND_FIRST_MERCHANT
+INITIAL_T1_BUILDINGS = PREBUILT
+T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
+T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN
+LONG_T1_BUILDING_EXPLANATION = FORBIDDEN
+FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT
+T2_UPGRADE_PREVIEW = REQUIRED
+STAGE_1 = PREBUILT_T1_TO_T2_AND_DEPLOYMENT_CAUSAL_CHAIN
 STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT
 STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
 STAGE_4 = FIRST_DANGER_INTEGRATION
@@ -49,7 +55,10 @@ BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 현재 제품에는 다음이 구현되지 않았다.
 
 - 실제 MapRun 단계 노출형 온보딩 상태머신.
-- Stage 1 핵심 인과와 Stage 2~5 노출 Gate.
+- 첫 세션의 기본 T1 건물 배치 상태와 짧은 역할 라벨.
+- T2 업그레이드 비교 Preview와 첫 선택 Gate.
+- Stage 1의 T2→룰렛→병력 결과→비가역 배치→실전 결과 인과.
+- Stage 2~5 노출 Gate.
 - 목표별 패널 강조·비모달 벨루 안내·재확인 툴팁.
 - 온보딩 진행·저장·복구·스킵·재학습.
 - 실패 원인 설명과 다음 선택 연결.
@@ -57,7 +66,7 @@ BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 - Danger·Boss의 정확한 첫 압력·패턴.
 - 사람 플레이 검증 로그와 Stop-ship 계측.
 
-첫 건설 후보·최소 유효 경로·Danger/Boss 세부·실패 규칙·정확 시간은 `PENDING_GRILLME`이므로 구현 입력으로 사용할 수 없다.
+정확한 T1 인스턴스 수·위치, 첫 T2 후보, 최소 유효 경로, Danger/Boss 세부, 실패 규칙과 정확 시간은 `PENDING_GRILLME`이므로 구현 입력으로 사용할 수 없다.
 
 ## 완료된 6/10 상인 — 아직 미구현
 
@@ -104,12 +113,10 @@ LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 ```
 
 C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-
 C1 최종 검증 run: `29926598807`
-
 C2 최종 검증 run: `29938742864`
 
-이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 최신 7/10 기획이 제품에 구현됐다는 의미도 아니다.
+이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 V2 구현 완료를 뜻하지 않는다.
 
 ## 6/10 문서 TDD·병합 증거
 
@@ -127,10 +134,12 @@ SHEET_POST_MERGE_BOUNDED_READBACK = PASS
 ```text
 CHECKPOINT_1_RED_RUN = 1009
 CHECKPOINT_1_GREEN_RUNS = 1016 / 719 / 190 / 705
-CHECKPOINT_2_RED_COMMIT = 540b821253a9819a51707e7e6294601889306ab0
 CHECKPOINT_2_RED_RUN = 1022
-CHECKPOINT_2_RED_RESULT = FAILURE_AS_EXPECTED
-CHECKPOINT_2_GREEN = IN_PROGRESS
+CHECKPOINT_2_GREEN_RUNS = 1040 / 742 / 214 / 728 / 9
+CHECKPOINT_3_RED_COMMIT = 6004f3fd3bfef75281aaaa4e59e79567de4abdb3
+CHECKPOINT_3_RED_RUN = 1041
+CHECKPOINT_3_RED_RESULT = FAILURE_AS_EXPECTED
+CHECKPOINT_3_GREEN = IN_PROGRESS
 ```
 
 문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다. exact-head 검증과 최종 병합 SHA는 PR과 Sheet 상태 셀이 소유한다.
