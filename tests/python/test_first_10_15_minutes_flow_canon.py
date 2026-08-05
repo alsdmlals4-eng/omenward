@@ -43,7 +43,7 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(CANON)
         for marker in (
             DECISION_ID,
-            "DECISION_STATUS = PARTIAL_APPROVAL_3_OF_10",
+            "DECISION_STATUS = PARTIAL_APPROVAL_4_OF_10",
             "ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE",
             "FIRST_SESSION = REAL_MAPRUN",
             "SEPARATE_TUTORIAL = FORBIDDEN",
@@ -66,9 +66,9 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
     def test_approved_system_exposure_order_is_explicit(self) -> None:
         text = read(CANON)
         for marker in (
-            "SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST",
-            "STAGE_1 = PREBUILT_T1_TO_T2_AND_DEPLOYMENT_CAUSAL_CHAIN",
-            "STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT",
+            "SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE",
+            "STAGE_1 = BUILD_ONE_EACH_T1_AND_FIRST_DEPLOYMENT",
+            "STAGE_2 = FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL",
             "STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC",
             "STAGE_4 = FIRST_DANGER_INTEGRATION",
             "STAGE_5 = FIRST_BOSS_MASTERY_CHECK",
@@ -77,41 +77,63 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_prebuilt_t1_and_first_meaningful_choice_boundary(self) -> None:
+    def test_stage_one_builds_one_each_t1_with_real_gold(self) -> None:
         text = read(CANON)
         for marker in (
-            "INITIAL_T1_BUILDINGS = PREBUILT",
+            "STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX",
+            "STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET",
+            "STAGE_1_BUILD_CURRENCY = REAL_GOLD",
             "T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS",
-            "T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN",
+            "T1_BUILDING_PLACEMENT = PLAYER_EXECUTED",
+            "T1_BUILDING_BRANCH_CHOICE = NONE",
             "LONG_T1_BUILDING_EXPLANATION = FORBIDDEN",
-            "FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT",
+        ):
+            self.assertIn(marker, text)
+        self.assertNotIn("INITIAL_T1_BUILDINGS = PREBUILT", text)
+
+    def test_first_combat_and_build_choices_are_separated(self) -> None:
+        text = read(CANON)
+        for marker in (
+            "FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT",
+            "FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE",
+            "STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE",
             "T2_UPGRADE_PREVIEW = REQUIRED",
             "IRREVERSIBLE_DEPLOYMENT = REQUIRED",
         ):
             self.assertIn(marker, text)
 
-    def test_stage_one_teaches_the_revised_causal_chain(self) -> None:
+    def test_stage_one_and_two_teach_revised_causal_chain(self) -> None:
         text = read(CANON)
         for marker in (
             "OMEN_FORECAST",
-            "PREBUILT_T1_QUICK_READ",
-            "T2_UPGRADE_PREVIEW_AND_CHOICE",
+            "STAGE_1_REAL_GOLD_GRANT",
+            "BUILD_ONE_EACH_ALL_T1",
             "FIRST_ROULETTE",
             "TROOP_RESULT",
             "IRREVERSIBLE_DEPLOYMENT",
             "REAL_COMBAT",
             "CAUSAL_REVIEW",
             "FIRST_MERCHANT",
+            "STAGE_2_T2_GOLD_GRANT",
+            "T2_CANDIDATE_PREVIEW_AND_CHOICE",
         ):
             self.assertIn(marker, text)
-        self.assertNotIn("FIRST_BUILD_CHOICE = REQUIRED", text)
-        self.assertNotIn("BUILD_PREVIEW_AND_CHOICE", text)
+
+    def test_mana_tower_construction_does_not_dump_research_early(self) -> None:
+        text = read(CANON)
+        for marker in (
+            "MANA_TOWER_T1_INCLUDED_IN_STAGE_1_SET = REQUIRED",
+            "MANA_TOWER_STAGE_1_EXPLANATION = BRIEF_RESOURCE_ROLE_ONLY",
+            "TACTICAL_RESEARCH_EXPLANATION_BEFORE_STAGE_3 = FORBIDDEN",
+        ):
+            self.assertIn(marker, text)
 
     def test_unapproved_details_remain_pending(self) -> None:
         text = read(CANON)
         for marker in (
-            "INITIAL_T1_INSTANCE_COUNT = PENDING_GRILLME",
+            "T1_PLACEMENT_LAYOUT = PENDING_GRILLME",
             "FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME",
+            "STAGE_1_LEFTOVER_GOLD_POLICY = PENDING_GRILLME",
             "MINIMUM_VALID_PATHS = PENDING_GRILLME",
             "BELU_INTERVENTION_LEVEL = PENDING_GRILLME",
             "DANGER_EXACT_PRESSURE = PENDING_GRILLME",
@@ -126,9 +148,9 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("7_OF_10_IN_PROGRESS", text, str(path.relative_to(ROOT)))
-            self.assertIn("PARTIAL_APPROVAL_3_OF_10", text, str(path.relative_to(ROOT)))
-            self.assertIn("INITIAL_T1_BUILDINGS", text, str(path.relative_to(ROOT)))
-            self.assertIn("FIRST_MEANINGFUL_RULER_CHOICE", text, str(path.relative_to(ROOT)))
+            self.assertIn("PARTIAL_APPROVAL_4_OF_10", text, str(path.relative_to(ROOT)))
+            self.assertIn("STAGE_1_T1_BUILDINGS", text, str(path.relative_to(ROOT)))
+            self.assertIn("FIRST_MEANINGFUL_BUILD_CHOICE", text, str(path.relative_to(ROOT)))
 
     def test_post_merge_operational_drift_is_closed(self) -> None:
         active = read(ACTIVE_CONTEXT)
@@ -137,14 +159,14 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         self.assertIn("last_merged_planning_pr: 141", ledger)
         self.assertIn("last_merged_planning_commit: 6b23ca2bb627827651a42ba6db01829e44ee8a14", ledger)
 
-    def test_lifecycle_blocks_old_tutorial_inputs(self) -> None:
+    def test_lifecycle_blocks_superseded_prebuilt_and_long_explanation_inputs(self) -> None:
         text = read(LIFECYCLE)
         for marker in (
             DECISION_ID,
             "LEGACY_SEPARATE_TUTORIAL",
             "LEGACY_STAGE1_FULL_SYSTEM_DUMP",
             "LEGACY_SCRIPTED_TUTORIAL_VICTORY",
-            "LEGACY_T1_CONSTRUCTION_TUTORIAL",
+            "SUPERSEDED_PREBUILT_T1_START",
             "LEGACY_LONG_T1_BUILDING_EXPLANATION",
             "IMPLEMENTATION_INPUT_FORBIDDEN",
         ):
@@ -154,15 +176,16 @@ class FirstTenFifteenMinutesFlowCanonTests(unittest.TestCase):
         text = read(REVIEW)
         for marker in (
             "OMW-AUD-492",
-            "OMW-AUD-512",
+            "OMW-AUD-516",
             "TUTORIAL_MAIN_RULE_DRIFT",
             "MODAL_OVERLOAD",
             "ANSWER_FOLLOWING_ONBOARDING",
             "SCRIPTED_VICTORY_MASKING",
             "PREMATURE_SYSTEM_EXPOSURE",
             "STAGE_ONE_OVERLOAD",
-            "T1_EXPLANATION_OVERLOAD",
-            "T1_CONSTRUCTION_FALSE_PRIORITY",
+            "T1_BUILD_CHECKLIST_FATIGUE",
+            "MANA_TOWER_EARLY_RESEARCH_DUMP",
+            "TUTORIAL_GOLD_ECONOMY_DRIFT",
             "PRODUCT_CODE = UNCHANGED",
             "HUMAN_QA = NOT_RUN",
         ):
