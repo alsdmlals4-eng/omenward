@@ -6,7 +6,7 @@ spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 status: PROJECT_SHEET_CONFIGURED / USER_FACING_GDD_WORKSPACE / PROPOSED_SHEET_CHANGE
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_2_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_3_OF_10
 current_working_pr: 142
 ```
 
@@ -20,11 +20,17 @@ Google Sheet는 GitHub 정본을 운영·탐색 목적으로 미러링하는 `US
 Decision ID = OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 exact Draft PR HEAD
 Planning counter = 7_OF_10_IN_PROGRESS
-Approval checkpoint = PARTIAL_APPROVAL_2_OF_10
+Approval checkpoint = PARTIAL_APPROVAL_3_OF_10
 Onboarding format = IN_RUN_PROGRESSIVE_DISCLOSURE
 First session = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
-Stage 1 = core causal chain and first merchant
+INITIAL_T1_BUILDINGS = PREBUILT
+T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
+T1_BUILDING_CONSTRUCTION_TUTORIAL = FORBIDDEN
+LONG_T1_BUILDING_EXPLANATION = FORBIDDEN
+FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT
+T2_UPGRADE_PREVIEW = REQUIRED
+Stage 1 = prebuilt T1 quick read, T2 upgrade, roulette, deployment, combat, first merchant
 Stage 2 = roulette control and multi-front judgment
 Stage 3 = mana tower, research, and manual tactic
 Stage 4 = first Danger integration
@@ -36,7 +42,7 @@ Stage 1 full-system dump = FORBIDDEN
 Rule parity with main run = REQUIRED
 Scripted victory = FORBIDDEN
 Belu replaces player choice = FORBIDDEN
-OMW-AUD-492~511
+OMW-AUD-492~515
 Remaining decisions = PENDING_GRILLME
 Product code / image / animation HX = NOT_AUTHORIZED
 ```
@@ -44,9 +50,9 @@ Product code / image / animation HX = NOT_AUTHORIZED
 ## 2. 미승인 범위
 
 ```text
-FIRST_BUILD_CANDIDATES = PENDING_GRILLME
+INITIAL_T1_INSTANCE_COUNT = PENDING_GRILLME
+FIRST_T2_UPGRADE_CANDIDATES = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
-FIRST_MEANINGFUL_RULER_CHOICE = PENDING_GRILLME
 BELU_INTERVENTION_LEVEL = PENDING_GRILLME
 DANGER_EXACT_PRESSURE = PENDING_GRILLME
 BOSS_EXACT_PATTERN = PENDING_GRILLME
@@ -73,7 +79,7 @@ POST_MERGE_BOUNDED_READBACK = PASS
 
 ## 4. 수명주기
 
-과거 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory는 다음 상태로 신규 행에 기록한다.
+과거 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory·T1 건설 튜토리얼·T1 장문 설명은 다음 상태로 기록한다.
 
 ```text
 SUPERSEDED
@@ -86,15 +92,15 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 - `00_프로젝트_허브`: 현재 Decision·counter·approval checkpoint·exact HEAD·상태.
 - `01_작업순서`: 7/10 진행 범위·다음 GrillMe·TDD 증거.
-- `02_현재_확정결정`: 실제 MapRun 단계 노출형 온보딩 형식과 Stage 1~5 순서.
-- `03_근거_라이브러리`: 사용자 승인·Spec·Review·TDD·Lifecycle 근거.
-- `04_누락_충돌_감사`: `OMW-AUD-492~511`.
+- `02_현재_확정결정`: 실제 MapRun 단계 노출형, 기본 T1 배치, T2·배치 첫 판단.
+- `03_근거_라이브러리`: 사용자 지시·Spec·Review·TDD·Lifecycle 근거.
+- `04_누락_충돌_감사`: `OMW-AUD-492~515`.
 - `05_GDD_요약`: 첫 플레이 핵심 인과·Stage 1~5 노출·미승인 범위.
-- `12_핵심루프`: 실제 선택→실제 결과→복기와 단계별 확장.
-- `15_조작_게임규칙`: 벨루 비대체·모달 과부하 방지·재확인 경로.
+- `12_핵심루프`: T1 빠른 확인→T2 선택→실제 결과→복기.
+- `15_조작_게임규칙`: T1 장문 설명 금지·벨루 비대체·재확인 경로.
 - `40_핵심시스템_메인콘텐츠`: Stage 1~5 시스템 노출 구조와 제품 경계.
-- `50_메인콘텐츠`: 첫 상인 노출은 승인, Danger/Boss 정확 내용은 `PENDING_GRILLME`.
-- `60_UX_UI_접근성`: 실제 MapRun 규칙 일치·안내 재확인·한 시점 한 목표.
+- `50_메인콘텐츠`: 첫 상인 노출은 승인, T1 수·T2 후보·Danger/Boss 정확 내용은 `PENDING_GRILLME`.
+- `60_UX_UI_접근성`: T1 짧은 역할 라벨·T2 비교 Preview·한 시점 한 목표.
 - `99_변경이력`: exact HEAD·PR·read-back·병합 상태.
 
 ## 6. 쓰기 규칙
