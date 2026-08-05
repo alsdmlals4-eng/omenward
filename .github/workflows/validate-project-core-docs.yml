@@ -61,8 +61,14 @@ jobs:
         run: python tools/validate_ci_usage_contract.py
       - name: Run base documentation contracts
         run: python -m unittest tests.python.test_project_core_docs tests.python.test_ci_usage_contract -v
-      - name: Run prior planning canon contracts
-        run: python -m unittest tests.python.test_building_branch_canon tests.python.test_troop_role_canon tests.python.test_tactical_skill_mana_canon tests.python.test_stage_end_merchant_canon -v
+      - name: Run building canon contract
+        run: python -m unittest tests.python.test_building_branch_canon -v
+      - name: Run troop canon contract
+        run: python -m unittest tests.python.test_troop_role_canon -v
+      - name: Run tactical and mana canon contract
+        run: python -m unittest tests.python.test_tactical_skill_mana_canon -v
+      - name: Run merchant canon contract
+        run: python -m unittest tests.python.test_stage_end_merchant_canon -v
       - name: Run onboarding checkpoint contract
         run: python -m unittest tests.python.test_first_10_15_minutes_flow_canon -v
       - name: Check whitespace
