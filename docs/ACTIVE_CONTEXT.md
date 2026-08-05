@@ -6,11 +6,11 @@ current_branch: main
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 work_mode: TOTAL_PLANNING
-current_decision: OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-current_count: 5_OF_10
+current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_count: 6_OF_10
 current_status: PR_CANON_TARGET / NOT_IMPLEMENTED
-current_working_pr: 140
-next_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+current_working_pr: 141
+next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 product_code_authority: NONE
 simulation: NOT_RUN
 runtime: NOT_RUN
@@ -20,52 +20,46 @@ image_generation: STOPPED_BY_USER
 
 ## 현재 작업
 
-마력탑 연구·마력 수급·수동 전술 시전과 4·3·3 전술 목록을 5/10 책임 원본으로 정리하고 PR #140의 최종 exact-head 검증을 수행한다.
+Stage 1~19 종료 정비시간의 4칸 유한 재고 상인을 6/10 책임 원본으로 정리하고 PR #141에서 TDD·적대적 검토·중앙 정본·Sheet 동기화를 수행한다.
 
 책임 원본:
 
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/OMENWARD_GDD_CURRENT_CANON.md`
 - `docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
-- `docs/reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md`
-- `docs/superpowers/specs/2026-08-05-tactical-skills-and-mana-design.md`
-- `docs/superpowers/plans/2026-08-05-tactical-skills-and-mana.md`
+- `docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
+- `docs/reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
+- `docs/superpowers/specs/2026-08-05-stage-end-merchant-design.md`
+- `docs/superpowers/specs/2026-08-05-stage-end-merchant-design-amendment.md`
+- `docs/superpowers/plans/2026-08-05-stage-end-merchant.md`
 
-## 현행 계약
-
-```text
-마력탑 최대 활성 수 = 1
-마력탑 = T1 → T2 → T3
-분기 = FORBIDDEN
-동시 연구 = 1
-연구 = 골드 + 시간
-시전 = 마력
-Stage 전 편성 = 없음
-자동 시전 = 금지
-Reset = NEW_MAPRUN
-```
+## 현행 상인 계약
 
 ```text
-T1 4종 = 속박진 / 수호장 / 집중 명령 / 충격파
-T2 3종 = 폭풍 억제 / 파쇄 명령 / 봉쇄 결계
-T3 3종 = 결전의 깃발 / 성역 / 시간 왜곡
+MERCHANT_VISIT_STAGES = 1_TO_19
+STAGE_20_MERCHANT = FORBIDDEN
+TOTAL_MERCHANT_SLOTS = 4
+SLOT_A = ROULETTE_CONTROL
+SLOT_B = RECOVERY_SERVICE
+SLOT_C = DEVELOPMENT_SERVICE
+SLOT_D = VARIABLE_OPPORTUNITY
+VISIT_STOCK = FINITE
+PURCHASE_CURRENCY = GOLD_ONLY
 ```
 
-## TDD·Sheet 증거
+- 이동권이 3 미만이면 이동권, 3/3이면 다음 룰렛 1회 할인을 제시한다.
+- 상시 HUD 상점·전투 중 재진입·무한 구매·무한 reroll·할인 중첩은 금지한다.
+- 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기를 직접 판매하지 않는다.
+
+## TDD 증거
 
 ```text
-RED_RUN = 954 / FAILURE_AS_EXPECTED
-RED_EXISTING_CONTRACTS = 45 PASS
-GREEN_CANDIDATE_HEAD = 917445ba9b09260da1f2b7bafb0bbf2f809a834b
-PROJECT_CORE_RUN = 976 / SUCCESS
-GDD_SHEET_RUN = 682 / SUCCESS
-OMENWARD_CORE_RUN = 150 / SUCCESS
-BASE_V9_RUN = 665 / SUCCESS
-SHEET_CANDIDATE_READBACK = PASS
-REFACTOR = COMPLETE
+RED_RUN = 986 / FAILURE_AS_EXPECTED
+RED_EXISTING_CONTRACTS = 55 PASS
+RED_NEW_MERCHANT_CONTRACTS = 10 FAIL_OR_ERROR
+RED_CAUSE = CANON / REVIEW / 6_OF_10_ROUTING / LIFECYCLE_MISSING
+GREEN = PENDING_FINAL_CENTRAL_SYNC
 ```
-
-REFACTOR 이후 최종 SHA를 문서에 고정하면 다시 self-reference가 생기므로 final exact-head 증거는 PR #140과 Sheet의 현재 상태 셀이 소유한다.
 
 ## 제품 경계
 
@@ -75,7 +69,7 @@ DATA_MIGRATION = NOT_AUTHORIZED
 EXACT_NUMERICS = PENDING_SIMULATION
 ```
 
-마력 수급량·보유 상한·연구비·연구시간·시전비·쿨다운·범위·지속시간은 아직 확정하지 않는다.
+가격·재고 수·등장률·할인율·거래 상태머신은 아직 확정하거나 구현하지 않는다.
 
 ## 완료 이력
 
@@ -84,7 +78,9 @@ OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 3_OF_10
 OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10
 LEGACY_C1_C2_C3_PROVEN
 ```
 
-다음 Gate는 Stage 종료 상인 6/10이다.
+다음 Gate는 첫 10~15분 흐름 7/10이다.
