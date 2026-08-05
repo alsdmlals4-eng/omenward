@@ -69,7 +69,7 @@ Stage 20 상인 금지 / MapRun 최종 정산
 - `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
 - `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
 
-7/10은 1~6/10 계보를 보존하며 첫 세션의 학습 형식만 부분 승인한다.
+5/10 전술·마력 계보와 1~6/10 정본을 보존하며, 7/10은 첫 세션의 학습 형식만 부분 승인한다.
 
 ## 5. 운영·수명주기
 

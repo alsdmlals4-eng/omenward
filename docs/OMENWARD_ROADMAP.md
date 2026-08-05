@@ -115,6 +115,8 @@ OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
 
 ## Legacy 자동 검증 증거
 
+기존 기술 기준선·C1·C2·C3 자동 증거 확보
+
 C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
 
 상태: **REMOTE_PROVEN**

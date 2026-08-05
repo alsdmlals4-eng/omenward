@@ -60,6 +60,8 @@ MERGED_MAIN = 6b23ca2bb627827651a42ba6db01829e44ee8a14
 POST_MERGE_BOUNDED_READBACK = PASS
 ```
 
+5/10 전술·마력 정본 계보와 1~6/10 완료 행을 보존한다.
+
 ## 4. 수명주기
 
 과거 별도 튜토리얼·Stage 1 전체 시스템 덤프·scripted victory는 다음 상태로 신규 행에 기록한다.
