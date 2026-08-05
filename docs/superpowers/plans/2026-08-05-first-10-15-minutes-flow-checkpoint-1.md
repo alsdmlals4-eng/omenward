@@ -3,19 +3,19 @@
 ```yaml
 updated_at: 2026-08-05
 decision_id: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-status: PARTIAL_APPROVAL_1_OF_10
+status: PARTIAL_APPROVAL_2_OF_10
 planning_count: 7_OF_10_IN_PROGRESS
 ```
 
 ## Goal
 
-Canonize only the approved onboarding form while keeping every unapproved sequence, timing, numeric, UX, and implementation detail blocked.
+Canonize the approved onboarding form and Stage 1–5 system exposure order while keeping every unapproved candidate, path count, timing, numeric, UX, and implementation detail blocked.
 
 ## TDD sequence
 
-1. Add `test_first_10_15_minutes_flow_canon.py` and wire it into documentation CI.
-2. Confirm the new contract fails because authority and routing files are absent.
-3. Add the partial canon, adversarial review, and central authority routing.
+1. Extend `test_first_10_15_minutes_flow_canon.py` with the approved Stage 1–5 sequence and Stage 1 merchant boundary.
+2. Confirm RED because the authority, central routing, lifecycle, and review documents still describe checkpoint 1/10.
+3. Update the partial canon, adversarial review, and central authority routing to checkpoint 2/10.
 4. Synchronize Google Sheet with the same Decision ID and exact Draft PR HEAD.
 5. Run fresh documentation CI, bounded Sheet read-back, PR diff review, and unresolved-thread check.
 6. Keep PR #142 as Draft until the remaining 7/10 decisions are approved or an explicit early merge checkpoint is requested.
@@ -29,14 +29,20 @@ Canonize only the approved onboarding form while keeping every unapproved sequen
 - no scripted victory
 - rule parity with the main run
 - Belu does not replace player choice
+- Stage 1 core causal chain and first merchant
+- Stage 2 roulette control and multi-front judgment
+- Stage 3 mana tower, research, and manual tactical use
+- Stage 4 first Danger integration
+- Stage 5 first Boss mastery check
+- first merchant teaches optional purchase and gold opportunity cost only
 
 ## Deferred scope
 
-- system exposure order
-- first meaningful ruler choice
+- exact first building candidates
+- first meaningful ruler-choice content
 - minimum valid paths
-- Danger and Boss teaching
-- first merchant exposure
+- Belu intervention level
+- exact Danger pressure and Boss pattern
 - failure/retry/skip rules
 - exact timings and human-QA thresholds
 
