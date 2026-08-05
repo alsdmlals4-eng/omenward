@@ -4,8 +4,8 @@
 updated_at: 2026-08-06
 current_branch: main
 working_branch: planning/first-10-15-flow-checkpoint-1
-current_main: f5e4bcee7f8459fcfeb492f1ebc19ff932a352f0
-context_baseline_commit: f5e4bcee7f8459fcfeb492f1ebc19ff932a352f0
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 work_mode: TOTAL_PLANNING
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
