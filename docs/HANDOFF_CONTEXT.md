@@ -138,10 +138,16 @@ NEXT_DECISION = OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 ```text
 RED = Project Core Documentation run 986 / FAILURE_AS_EXPECTED
 RED_EXISTING_CONTRACTS = 55 PASS
-GREEN = PENDING_FINAL_CENTRAL_AND_SHEET_SYNC
+GREEN_CANDIDATE_HEAD = 83c1dc0e241c4fd8b04a0e9a5680562f9469bd01
+PROJECT_CORE = 1002 / SUCCESS
+GDD_SHEET = 707 / SUCCESS
+OMENWARD_CORE = 174 / SUCCESS
+BASE_V9 = 690 / SUCCESS
+SHEET_BOUNDED_READBACK = PASS
+REFACTOR = COMPLETE
 ```
 
-최종 exact-head 검증과 merge 증거는 PR #141 및 Sheet 현재 상태 셀에서 확인한다. 문서에 최종 SHA를 반복 고정하지 않는다.
+REFACTOR 이후 final exact-head 검증과 merge 증거는 PR #141 및 Sheet 현재 상태 셀에서 확인한다. 문서에 최종 SHA를 반복 고정하지 않는다.
 
 ## 8. 완료 이력
 
