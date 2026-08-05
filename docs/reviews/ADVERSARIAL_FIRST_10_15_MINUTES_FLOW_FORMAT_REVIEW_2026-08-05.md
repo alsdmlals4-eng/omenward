@@ -1,16 +1,16 @@
-# [검토] 첫 10~15분 온보딩 형식 적대적 검토
+# [검토] 첫 10~15분 온보딩 형식·노출 순서 적대적 검토
 
 ```yaml
 updated_at: 2026-08-05
 decision_id: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-status: CHECKPOINT_1_REVIEWED
+status: CHECKPOINT_2_REVIEWED
 planning_count: 7_OF_10_IN_PROGRESS
-review_range: OMW-AUD-492~503
+review_range: OMW-AUD-492~511
 ```
 
 ## 검토 결론
 
-실제 MapRun 안에서 시스템을 단계적으로 노출하는 방식은 OMENWARD의 핵심 재미와 가장 잘 맞는다. 다만 아래 실패 조건을 제품 설계와 사람 QA에서 닫기 전에는 7/10 전체 완료로 판정할 수 없다.
+실제 MapRun 안에서 핵심 인과 사슬을 먼저 완성하고, 룰렛 통제·전술·Danger·Boss를 단계적으로 추가하는 순서는 OMENWARD의 핵심 재미와 가장 잘 맞는다. 다만 Stage 1 과밀, 사용 이유 없는 조기 개방, 첫 상인 과설명, Danger/Boss의 신규 시스템 덤프를 막지 못하면 형식상 단계 노출이어도 실제 경험은 과부하가 된다.
 
 ## 감사 항목
 
@@ -25,35 +25,60 @@ review_range: OMW-AUD-492~503
 | OMW-AUD-498 | 안내를 닫으면 정보를 다시 찾을 수 없음 | P1 | HUD·툴팁 재확인 경로 필요 |
 | OMW-AUD-499 | 튜토리얼 보정이 본편 경제를 왜곡 | P0 | 가짜 자원·가짜 비용 금지 |
 | OMW-AUD-500 | 실패 불가능 구조로 원인 학습 차단 | P1 | scripted victory 금지, 실패 피드백은 후속 결정 |
-| OMW-AUD-501 | 후속 노출 순서를 승인 없이 고정 | P0 | `SYSTEM_EXPOSURE_ORDER = PENDING_GRILLME` |
+| OMW-AUD-501 | 후속 노출 순서를 승인 없이 고정 | P0 | 승인 전 `SYSTEM_EXPOSURE_ORDER = PENDING_GRILLME` 유지, 승인 뒤 동일 ID로 갱신 |
 | OMW-AUD-502 | 이미지·HX 제작을 조기 착수 | P1 | 검토 완료 전 제작 금지 |
 | OMW-AUD-503 | 문서 체크포인트를 제품 승인으로 오해 | P0 | 제품·데이터·아트 경계 반복 표기 |
+| OMW-AUD-504 | `STAGE_ONE_OVERLOAD` | P0 | Stage 1은 핵심 인과 한 줄과 상인 선택성만 교육 |
+| OMW-AUD-505 | `SYSTEM_UNLOCK_WITHOUT_DECISION_USE` | P1 | 새 시스템은 즉시 의미 있는 선택에 사용될 때만 강조 |
+| OMW-AUD-506 | 첫 상인에서 4개 슬롯 전략을 모두 강의 | P1 | 선택 사항·골드 기회비용만 교육 |
+| OMW-AUD-507 | Stage 2가 이동 조작 연습으로 축소 | P1 | 이동 전후 결과와 두 전선 이상 판단을 함께 요구 |
+| OMW-AUD-508 | Stage 3에서 마력탑·연구·전술이 분리된 메뉴 암기 | P1 | 하나의 해금·시전·결과 인과 사슬로 교육 |
+| OMW-AUD-509 | Stage 4 Danger가 미학습 신규 시스템을 추가 | P0 | 학습한 시스템 조합+공개 규칙 변형 하나만 허용 |
+| OMW-AUD-510 | Stage 5 Boss가 튜토리얼 전용 패턴을 사용 | P0 | 본편 Boss 정보 공개·전투 규칙과 동일 |
+| OMW-AUD-511 | 승인된 순서를 정확 시간·강제 클릭 순서로 오독 | P1 | exact timings·입력 강제·후보 수는 후속 승인·사람 QA 전 보류 |
 
 ## 채택 이유
 
-- 별도 프롤로그보다 튜토리얼과 본편의 규칙 일치성이 높다.
-- 모든 시스템 동시 개방보다 인지 부하가 낮다.
-- 실제 핵심 선택을 빠르게 수행해 OMENWARD의 정체성을 전달할 수 있다.
+- 첫 전투 전에 OMENWARD의 건설→룰렛→배치 인과를 경험해 일반 자동전투 게임으로 오인할 가능성을 줄인다.
+- Stage 2와 Stage 3는 이전 단계의 인과를 확장하며 새로운 별도 루프를 만들지 않는다.
+- Stage 4와 Stage 5는 신규 시스템 설명이 아니라 조합 판단과 숙련 확인에 집중한다.
+- 상인은 정본상 Stage 1 종료 뒤 등장하되, 첫 방문의 교육 범위를 최소화할 수 있다.
 
 ## 비채택안
 
-### 별도 프롤로그 튜토리얼
+### 전투 우선형
 
-규칙·경제·승패 조건이 실제 MapRun과 달라질 위험과 반복 학습 비용 때문에 비채택했다.
+첫 전투는 빠르지만 건물로 룰렛을 설계한다는 핵심 정체성이 늦게 나타나 일반 자동전투 게임처럼 보일 위험 때문에 비채택했다.
 
-### Stage 1 전체 시스템 개방
+### 준비 시스템 선개방형
 
-선택 원인과 결과가 섞이고 첫 실패를 설명하기 어려워 비채택했다.
+전투 결과를 보기 전에 건설·룰렛·이동권·마력탑·연구·전술을 모두 학습시켜 `FULL_SYSTEM_DUMP_AT_STAGE_1 = FORBIDDEN`과 충돌하므로 비채택했다.
+
+## 승인된 순서
+
+```text
+SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
+STAGE_1 = CORE_CAUSAL_CHAIN_AND_FIRST_MERCHANT
+STAGE_2 = ROULETTE_CONTROL_AND_MULTI_FRONT
+STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
+STAGE_4 = FIRST_DANGER_INTEGRATION
+STAGE_5 = FIRST_BOSS_MASTERY_CHECK
+MERCHANT_FIRST_EXPOSURE = STAGE_1_MAINTENANCE
+MERCHANT_FIRST_LESSON = OPTIONAL_GOLD_OPPORTUNITY_COST
+```
 
 ## 남은 검증
 
 ```text
-SYSTEM_EXPOSURE_ORDER = PENDING_GRILLME
+FIRST_BUILD_CANDIDATES = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
-DANGER_ONBOARDING = PENDING_GRILLME
-BOSS_ONBOARDING = PENDING_GRILLME
-MERCHANT_FIRST_EXPOSURE = PENDING_GRILLME
+FIRST_MEANINGFUL_RULER_CHOICE = PENDING_GRILLME
+BELU_INTERVENTION_LEVEL = PENDING_GRILLME
+DANGER_EXACT_PRESSURE = PENDING_GRILLME
+BOSS_EXACT_PATTERN = PENDING_GRILLME
+FAILURE_RETRY_SKIP_RULES = PENDING_GRILLME
 HUMAN_QA_STOP_SHIP = PENDING_GRILLME
+EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
 ## 경계
@@ -73,6 +98,7 @@ HUMAN_QA = NOT_RUN
 ```text
 CORE_FIT = STRONG
 FORMAT_DECISION = PASS
+SYSTEM_EXPOSURE_ORDER = PASS
 FULL_7_OF_10_COMPLETION = NOT_READY
 IMPLEMENTATION_READINESS = BLOCKED_BY_REMAINING_GRILLME_AND_RUNTIME_PLAN
 ```
