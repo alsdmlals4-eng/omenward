@@ -29,6 +29,24 @@ godot --headless --path . --script tests/headless/economy_roulette_test.gd
 
 Windows에서 실행 파일명이 `godot4`라면 명령의 `godot`만 `godot4`로 바꾼다.
 
+## 확인된 무료 실행 증거
+
+사용자 제공 Godot Linux 실행 파일을 사용해 다음 Phase 0 특성화 테스트를 무료로 실행했다.
+
+```text
+GODOT_VERSION = 4.7.1.stable.official.a13da4feb
+EDITOR_CLASS_SCAN = EXIT_0
+CHARACTERIZATION_OUTPUT = Platform-neutral core characterization checks passed
+CHARACTERIZATION_RESULT = EXIT_0
+```
+
+테스트 파일과 StageManifest·StageEconomy·DeterminismService·UnitSpawnDefinition·RouletteSpinResult·RouletteService의 Git blob SHA는 PR #147 exact source와 모두 일치했다. 실행은 관련 exact 파일만 포함한 최소 격리 harness에서 수행했으므로 다음 판정을 사용한다.
+
+```text
+GODOT_CHARACTERIZATION = LOCAL_PASS_ISOLATED_EXACT_SOURCE_HARNESS
+FULL_PROJECT_RUNTIME = NOT_RUN
+```
+
 ## 정적 경계
 
 검사 대상:
@@ -58,8 +76,9 @@ Windows에서 실행 파일명이 `godot4`라면 명령의 `godot`만 `godot4`�
 
 ```text
 PYTHON_STATIC_GUARD_PASS != GODOT_HEADLESS_PASS
+GODOT_CHARACTERIZATION_PASS != FULL_PROJECT_RUNTIME_PASS
 GODOT_HEADLESS_PASS != COMMON_PLATFORM_GATE_PASS
 EXPORT_SUCCESS != PLATFORM_READY
 ```
 
-Python 검사 통과는 정적 경계만 증명한다. Godot 특성화 테스트는 실제 Godot 4.7 실행 결과가 있어야 PASS로 기록한다. Phase 0은 제품 코드·Scene·저장·입력·상점 SDK를 변경하거나 승인하지 않는다.
+Python 검사 통과는 정적 경계만 증명한다. 특성화 테스트 통과는 해당 exact-source fixture가 Godot 4.7.1에서 실행된 사실만 증명한다. Phase 0은 제품 코드·Scene·저장·입력·상점 SDK를 변경하거나 승인하지 않는다.
