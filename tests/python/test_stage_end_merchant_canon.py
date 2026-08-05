@@ -6,7 +6,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 DECISION_ID = "OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1"
 SPEC = ROOT / "docs/superpowers/specs/2026-08-05-stage-end-merchant-design.md"
-AMENDMENT = ROOT / "docs/superpowers/specs/2026-08-05-stage-end-merchant-slot-a-amendment.md"
+AMENDMENT = ROOT / "docs/superpowers/specs/2026-08-05-stage-end-merchant-design-amendment.md"
 PLAN = ROOT / "docs/superpowers/plans/2026-08-05-stage-end-merchant.md"
 CANON = ROOT / "docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md"
