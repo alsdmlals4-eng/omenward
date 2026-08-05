@@ -93,3 +93,15 @@ LEGACY_C1_C2_C3_PROVEN
 ```
 
 제품 코드·Scene·Resource·게임 데이터·실제 아트 자산은 현행 6/10 문서 병합으로 자동 승인되지 않는다.
+
+## 6. 플랫폼 출시·에셋 권리
+
+출시 플랫폼 결정, 외부 자산, AI·외주·참조 기반 독립 제작 작업은 다음 프로젝트 증거를 읽는다.
+
+- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
+- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
+- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
+
+현재 플랫폼은 `PLATFORM_DECISION_REQUIRED / UNDECIDED`이며 Steam·STOVE·Google Play 행은 비교용일 뿐 출시 확정이 아니다. 원본을 조금 수정하거나 AI로 변환했다는 이유만으로 독립 자산으로 보지 않고 `reference_brief`, `forbidden_expression`, 별도 `final_asset_record`, 유사성 검토를 요구한다.
+
+플랫폼 결정, 필수 권리·계약·약관 버전·설문·build/store 일치 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 현재 기획 6/10과 제품 코드 권한 없음 상태를 변경하지 않는다.
