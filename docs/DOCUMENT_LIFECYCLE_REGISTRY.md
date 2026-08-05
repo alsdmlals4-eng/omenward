@@ -7,7 +7,7 @@ process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
 status: CURRENT_LIFECYCLE_AUTHORITY
 current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_2_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_3_OF_10
 ```
 
 이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다.
@@ -44,8 +44,10 @@ approval_checkpoint: PARTIAL_APPROVAL_2_OF_10
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_2_OF_10
+PARTIAL_APPROVAL_3_OF_10
 SYSTEM_EXPOSURE_ORDER = APPROVED_CORE_CAUSAL_CHAIN_FIRST
+INITIAL_T1_BUILDINGS = PREBUILT
+FIRST_MEANINGFUL_RULER_CHOICE = T2_UPGRADE_AND_IRREVERSIBLE_DEPLOYMENT
 ```
 
 ### 현행 시스템
@@ -95,22 +97,36 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 ```text
 LEGACY_SEPARATE_TUTORIAL
-status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_2
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_3
 replacement = real MapRun in-run progressive disclosure
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
 
 ```text
 LEGACY_STAGE1_FULL_SYSTEM_DUMP
-status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_2
-replacement = Stage 1 core causal chain, Stage 2 roulette control, Stage 3 tactical chain
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_3
+replacement = prebuilt T1 quick read, Stage 1 T2/deployment chain, Stage 2 roulette control, Stage 3 tactical chain
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
 
 ```text
 LEGACY_SCRIPTED_TUTORIAL_VICTORY
-status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_2
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_3
 replacement = real economy and combat result rules
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+```text
+LEGACY_T1_CONSTRUCTION_TUTORIAL
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_3
+replacement = INITIAL_T1_BUILDINGS_PREBUILT
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+```text
+LEGACY_LONG_T1_BUILDING_EXPLANATION
+status = SUPERSEDED_BY_DECISION_7_OF_10_PARTIAL_3
+replacement = BRIEF_ROLE_LABELS_AND_RECHECKABLE_TOOLTIPS
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
 
@@ -120,6 +136,8 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 - 상시 HUD 상점·전투 중 구매·무한 재고·무한 reroll.
 - 병종·T3·Hero·Legendary·전술스킬·마력·건물 분기 직접 판매.
 - 별도 연습장 튜토리얼·Stage 1 전체 시스템 덤프·보장된 튜토리얼 승리.
+- T1 건설을 첫 의미 있는 선택으로 취급하는 튜토리얼.
+- T1 건물별 장문 선행 설명.
 
 기타 대체 문서:
 
@@ -129,8 +147,8 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 ## 3. [보류]
 
-- 7/10 첫 건설 후보·첫 실질 선택·최소 유효 경로·벨루 개입 수준·Danger/Boss 세부·실패/재시도·사람 QA 기준: 후속 GrillMe 승인 전 구현 입력 금지.
-- `FIRST_BUILD_CANDIDATES`, `MINIMUM_VALID_PATHS`, `FIRST_MEANINGFUL_RULER_CHOICE`, `DANGER_EXACT_PRESSURE`, `BOSS_EXACT_PATTERN`, `FAILURE_RETRY_SKIP_RULES`는 `PENDING_GRILLME`다.
+- 7/10 정확한 기본 T1 인스턴스 수·위치, 첫 T2 후보, 최소 유효 경로, 벨루 개입 수준, Danger/Boss 세부, 실패/재시도, 사람 QA 기준은 후속 GrillMe 승인 전 구현 입력 금지.
+- `INITIAL_T1_INSTANCE_COUNT`, `FIRST_T2_UPGRADE_CANDIDATES`, `MINIMUM_VALID_PATHS`, `DANGER_EXACT_PRESSURE`, `BOSS_EXACT_PATTERN`, `FAILURE_RETRY_SKIP_RULES`는 `PENDING_GRILLME`다.
 - Hero·Legendary 문서군: 8/10 재조정 전 구현 입력 금지.
 - Meta·Hub 문서군: 9/10 재조정 전 구현 입력 금지.
 - 구형 구현 계획: 재실행 금지, 과거 결정·검증 증거로만 사용.
@@ -173,7 +191,7 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 1. `PROJECT_CORE.md`와 `DOCUMENTATION_MAP.md`를 먼저 읽는다.
 2. 대상 파일이 `[현행]`인지 확인한다.
-3. 온보딩 작업은 7/10 부분 승인 책임 원본과 `SYSTEM_EXPOSURE_ORDER`를 우선하되 나머지 `PENDING_GRILLME`를 임의 해소하지 않는다.
+3. 온보딩 작업은 7/10 부분 승인 책임 원본과 `PREBUILT T1 / T2+배치 첫 판단`을 우선하되 나머지 `PENDING_GRILLME`를 임의 해소하지 않는다.
 4. 상인 작업은 완료된 6/10 책임 원본을 우선한다.
 5. 정확 수치는 시뮬레이션·Codex 계획·제품 RED 테스트 뒤에만 확정한다.
 
