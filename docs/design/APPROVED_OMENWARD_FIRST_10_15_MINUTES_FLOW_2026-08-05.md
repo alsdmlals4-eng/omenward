@@ -3,9 +3,10 @@
 ```yaml
 updated_at: 2026-08-06
 decision_id: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-decision_status: PARTIAL_APPROVAL_5_OF_10
+latest_child_decision: OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+decision_status: PARTIAL_APPROVAL_6_OF_10
 planning_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: T1_PLACEMENT_AND_GOLD_SAFETY_RULES
+approval_checkpoint: BUILDING_TIER_REALIGNMENT
 product_code_authority: NONE
 art_asset_production_authority: NONE
 ```
@@ -13,11 +14,13 @@ art_asset_production_authority: NONE
 ## 1. 승인된 결론
 
 ```text
-DECISION_STATUS = PARTIAL_APPROVAL_5_OF_10
+DECISION_STATUS = PARTIAL_APPROVAL_6_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
 STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
+STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
+SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
 STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
 STAGE_1_BUILD_CURRENCY = REAL_GOLD
 T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
@@ -36,9 +39,9 @@ RULE_PARITY_WITH_MAIN_RUN = REQUIRED
 CORE_FUN_FIRST = REQUIRED
 ```
 
-첫 판은 실제 MapRun이다. Stage 1에서 플레이어는 금고·농장·병영·방어탑·지휘소·마력탑 T1을 각각 한 개씩 실제 골드로 설치한다. 각 건물은 이름·핵심 역할 한 문장·아이콘 수준으로만 설명한다.
+첫 판은 실제 MapRun이다. Stage 1에서 플레이어는 금고·농장·일반병 병영·방어탑·지휘소·마력탑 T1을 각각 한 개씩 실제 골드로 설치한다. 특수병 병영은 초반 의무 건물이 아니라 이후 선택 투자 건물이다.
 
-T1 설치는 이후 시스템을 이해하기 위한 기초 세팅이다. 이 단계에서 배치 실수나 지출 실수로 첫 판이 막히지 않도록 설치 확인 전까지만 안전 장치를 제공하고, 확인 뒤에는 본편 규칙으로 전환한다.
+각 건물은 이름·핵심 역할 한 문장·아이콘 수준으로만 설명한다. T1 설치는 이후 시스템을 이해하기 위한 기초 세팅이며, 설치 확인 전까지만 안전 장치를 제공하고 확인 뒤에는 본편 규칙으로 전환한다.
 
 ## 2. Stage 1 배치·골드 안전 계약 — 체크포인트 5
 
@@ -63,15 +66,14 @@ T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
 
 - Stage 1은 각 건물 유형에 적합하고 첫 전투를 정상 진행할 수 있는 안전 노드만 강조한다.
 - 경제·지원 건물과 방어 건물의 역할 차이는 유지하되, 표시된 후보 중 어느 하나를 선택해도 첫 전투 진행이 불가능해져서는 안 된다.
-- 정확 좌표와 노드 수는 전장 레이아웃 검증 뒤 정한다. 이 체크포인트는 좌표를 확정하지 않는다.
-- 여섯 건물의 설치 순서는 플레이어가 선택한다. 강제 순서는 두지 않으며 HUD에는 남은 필수 건물만 간단히 표시한다.
+- 정확 좌표와 노드 수는 전장 레이아웃 검증 뒤 정한다.
+- 여섯 건물의 설치 순서는 플레이어가 선택한다.
 
 ### 2.2 설치 확인 전 수정
 
 - 여섯 T1의 기초 세팅이 끝나기 전에는 설치한 건물을 허용된 안전 노드 사이에서 무료로 이동하거나 서로 교환할 수 있다.
-- 무료 이동은 튜토리얼 전용 영구 규칙이 아니라 `FOUNDATION_SETUP_CONFIRMATION` 이전의 오류 복구 범위다.
-- 여섯 건물을 모두 설치한 뒤 플레이어가 세팅을 확인하면 무료 이동이 종료되고 본편의 표준 배치·철거·환불 규칙을 따른다.
-- 확인 이후 무료 이동이나 전액 환불을 암묵적으로 제공하지 않는다.
+- 무료 이동은 `FOUNDATION_SETUP_CONFIRMATION` 이전의 오류 복구 범위다.
+- 확인 뒤에는 본편의 표준 배치·철거·환불 규칙을 따른다.
 
 ### 2.3 실제 골드와 필수 비용 예약
 
@@ -81,9 +83,8 @@ required_cost_reserve = Σ(아직 설치하지 않은 필수 T1의 실제 비용
 
 - Stage 1 지급 골드는 실제 골드 지갑에 들어간다.
 - 필수 세트 완료 전에는 남은 골드가 `required_cost_reserve`보다 작아지는 거래를 허용하지 않는다.
-- 첫 세트 완료 전 비필수 건설·상점·기타 소비는 차단한다. 별도 튜토리얼 화폐는 만들지 않는다.
+- 첫 세트 완료 전 비필수 건설·상점·기타 소비는 차단한다.
 - Foundation 지급액은 여섯 T1의 실제 비용 합계를 충족하지만 의도적인 추가 이익을 만들지 않는다.
-- 여섯 T1과 세팅 확인이 끝나면 예약액은 0이 되고, 남은 골드는 일반 지갑으로 정상 사용한다.
 - 정확 비용은 시뮬레이션 전 확정하지 않는다.
 
 ### 2.4 원자적 실패 처리
@@ -93,7 +94,40 @@ required_cost_reserve = Σ(아직 설치하지 않은 필수 T1의 실제 비용
 - 실패한 거래는 전액 복구하며 필수 비용 예약액을 다시 계산한다.
 - 여섯 T1 설치와 세팅 확인 전에는 첫 룰렛을 열지 않는다.
 
-## 3. 승인된 시스템 노출 순서
+## 3. 건물 Tier 구조 — 체크포인트 6
+
+현행 책임 원본:
+
+`docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md`
+
+```text
+GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
+GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
+GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT
+GENERAL_T2_TOKEN_SOURCE = SELECTED_GENERAL_UNIT
+
+SPECIAL_T1_AUTO_PRODUCTION = RANDOM_SPECIAL_UNIT
+SPECIAL_T1_TOKEN_SOURCE = NONE
+SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
+SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
+
+SPECIAL_UNIT_FUNCTIONAL_POWER = STRONGER_THAN_GENERAL_UNIT
+SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT
+
+DEFENSE_TOWER_T2 = ARTILLERY / DEFENSE_ENHANCEMENT / SNIPER
+LINEAR_TIER_BUILDINGS = VAULT / FARM / COMMAND_POST / MANA_TOWER
+LINEAR_T2_BRANCHING = FORBIDDEN
+```
+
+일반병 병영 T2는 방패병·대검병·창병·궁병·기병으로 전문화한다. 특수병 병영 T2는 마도사·사제·암살자·비행병·거인으로 전문화한다.
+
+특수병 병영 T1은 특수병 5종 중 하나를 무작위 자동생산하지만 TokenSource는 제공하지 않는다. T2 전문화 이후 선택한 특수병 자동생산과 TokenSource 공급을 함께 제공한다.
+
+방어탑 T2는 포격탑(범위 공격), 방어탑(방어 강화형), 저격탑(긴 사거리)으로 구분한다. 금고·농장·지휘소·마력탑은 분기 없이 기존 기능을 직선 강화한다.
+
+기존의 모든 6종 건물 공통 A/B 분기는 현행 구현 입력에서 제외한다.
+
+## 4. 승인된 시스템 노출 순서
 
 ```text
 STAGE_1 = BUILD_ONE_EACH_T1_AND_FIRST_DEPLOYMENT
@@ -118,7 +152,7 @@ OMEN_FORECAST
 → FIRST_MERCHANT
 ```
 
-마력탑도 Stage 1의 여섯 T1에 포함하지만 이때는 마력 자원 역할만 짧게 설명한다. 연구 대상·연구 시간·전술 시전 설명은 Stage 3 전까지 열지 않는다.
+마력탑도 Stage 1의 여섯 T1에 포함하지만 이때는 마력 자원 역할만 짧게 설명한다.
 
 ```text
 MANA_TOWER_T1_INCLUDED_IN_STAGE_1_SET = REQUIRED
@@ -141,7 +175,7 @@ STAGE_2_T2_GOLD_GRANT
 → IRREVERSIBLE_DEPLOYMENT
 ```
 
-두 T2 후보는 모두 현재 압력에 대응 가능한 실제 선택이어야 한다. 선택 전 얻는 것·포기하는 것·현재 압력과의 관계·룰렛 또는 전투 영향을 비교한다. 벨루는 어느 쪽을 고르라고 대신 결정하지 않는다.
+두 T2 후보는 새 건물 Tier 정본 안에서 선택하며, 모두 현재 압력에 대응 가능한 실제 선택이어야 한다. 선택 전 얻는 것·포기하는 것·현재 압력과의 관계·룰렛 또는 전투 영향을 비교한다.
 
 ### Stage 3~5
 
@@ -149,13 +183,13 @@ STAGE_2_T2_GOLD_GRANT
 - Stage 4: Stage 1~3에서 배운 시스템을 조합하는 첫 Danger다.
 - Stage 5: 새 시스템을 추가하지 않고 기존 시스템 이해를 시험하는 첫 Boss다.
 
-## 4. 핵심 재미 전달 계약
+## 5. 핵심 재미 전달 계약
 
 ```text
 예고된 압력
 → 실제 골드로 여섯 T1 기초 구축
 → 안전한 기초 세팅 확인
-→ 룰렛 병력 획득
+→ 자동생산과 룰렛 병력 획득
 → 비가역 전선 배치
 → 실제 전투 결과와 복기
 → 다음 Stage의 두 T2 발전안 비교
@@ -172,11 +206,12 @@ TUTORIAL_ONLY_FAKE_RESOURCE = FORBIDDEN
 TUTORIAL_ONLY_FAKE_COMBAT_RULE = FORBIDDEN
 ```
 
-## 5. 아직 승인되지 않은 항목
+## 6. 아직 승인되지 않은 항목
 
 ```text
 T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
 FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
+FIRST_STAGE2_T2_CANDIDATES = PENDING_GRILLME
 STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
 MINIMUM_VALID_PATHS = PENDING_GRILLME
 BELU_INTERVENTION_LEVEL = PENDING_GRILLME
@@ -184,12 +219,16 @@ DANGER_EXACT_PRESSURE = PENDING_GRILLME
 BOSS_EXACT_PATTERN = PENDING_GRILLME
 FAILURE_RETRY_SKIP_RULES = PENDING_GRILLME
 HUMAN_VALIDATION_STOP_SHIP = PENDING_GRILLME
+GENERAL_AND_SPECIAL_EXACT_PRODUCTION_INTERVALS = PENDING_SIMULATION
+SPECIAL_T1_RANDOM_SELECTION_TIMING = PENDING_GRILLME
+SPECIAL_T1_RESULT_PREVIEW = PENDING_GRILLME
+TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
+T2_EXACT_COSTS = PENDING_SIMULATION
+T3_IDENTITIES_AND_EFFECTS = PENDING_GRILLME
 EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
-정확 노드 좌표, T1 비용, 첫 T2 후보 정체와 비용, 정확 시간은 자동 확정하지 않는다.
-
-## 6. 금지·대체 규칙
+## 7. 금지·대체 규칙
 
 ```text
 SUPERSEDED_PREBUILT_T1_START = IMPLEMENTATION_INPUT_FORBIDDEN
@@ -197,9 +236,11 @@ LEGACY_LONG_T1_BUILDING_EXPLANATION = IMPLEMENTATION_INPUT_FORBIDDEN
 UNSAFE_UNRESERVED_STAGE1_SPENDING = IMPLEMENTATION_INPUT_FORBIDDEN
 FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
 PARTIAL_BUILD_TRANSACTION_COMMIT = FORBIDDEN
+UNIVERSAL_AB_BUILDING_BRANCH_GRAMMAR = IMPLEMENTATION_INPUT_FORBIDDEN
+SPECIAL_T1_TOKEN_SOURCE = NONE
 ```
 
-## 7. 제품·아트 경계
+## 8. 제품·아트 경계
 
 ```text
 PRODUCT_CODE = UNCHANGED
@@ -212,8 +253,6 @@ RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 ```
 
-기획 체크포인트는 제품 구현·튜토리얼 UI 제작·이미지·애니메이션·HX 생성을 승인하지 않는다.
+## 9. 다음 GrillMe
 
-## 8. 다음 GrillMe
-
-다음 결정은 **Stage 2의 첫 T2 후보 두 개와 골드·잔여 골드 규칙**이다. 후보 수와 유효성 원칙은 승인됐지만 정확한 후보 정체와 수치는 아직 확정하지 않는다.
+다음 결정은 **새 건물 Tier 구조 안에서 Stage 2에 처음 제시할 T2 후보 두 개와 골드·잔여 골드 규칙**이다.
