@@ -107,3 +107,23 @@ release_decision: RELEASE_BLOCKED_UNVERIFIED
 - Sheet 운영 미러: `02_현재_확정결정`, `90_본제작_출시_사업`, `99_변경이력`
 
 진행 중 PR #142의 온보딩 정본·Grill Me 카운터와 이 플랫폼 운영 Decision은 독립이다.
+
+## 6. 공용 코어·어댑터 설계 권위
+
+플랫폼 범위를 실제 제품 구조로 연결하는 설계 Decision은 다음과 같다.
+
+```text
+OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+ARCHITECTURE_STATUS = APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+```
+
+책임 원본:
+
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
+- `docs/reviews/ADVERSARIAL_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_REVIEW_2026-08-06.md`
+- `docs/superpowers/plans/2026-08-06-pc-android-core-adapter-architecture.md`
+- `tests/python/test_pc_android_core_adapter_architecture_contract.py`
+
+설계 승인은 제품 코드·export preset·SDK·대표 빌드가 구현됐다는 뜻이 아니다. 세 Gate는 계속 `NOT_RUN`이고 출시는 `RELEASE_BLOCKED_UNVERIFIED`다.
