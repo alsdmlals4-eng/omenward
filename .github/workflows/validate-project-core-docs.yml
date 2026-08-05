@@ -15,6 +15,7 @@ on:
       - "tests/python/test_troop_role_canon.py"
       - "tests/python/test_tactical_skill_mana_canon.py"
       - "tests/python/test_stage_end_merchant_canon.py"
+      - "tests/python/test_first_10_15_minutes_flow_canon.py"
       - ".github/workflows/validate-project-core-docs.yml"
   push:
     branches:
@@ -32,6 +33,7 @@ on:
       - "tests/python/test_troop_role_canon.py"
       - "tests/python/test_tactical_skill_mana_canon.py"
       - "tests/python/test_stage_end_merchant_canon.py"
+      - "tests/python/test_first_10_15_minutes_flow_canon.py"
       - ".github/workflows/validate-project-core-docs.yml"
   workflow_dispatch:
 
@@ -52,12 +54,22 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile documentation contracts
-        run: python -m py_compile tools/validate_project_core_docs.py tools/validate_ci_usage_contract.py tests/python/test_project_core_docs.py tests/python/test_ci_usage_contract.py tests/python/test_building_branch_canon.py tests/python/test_troop_role_canon.py tests/python/test_tactical_skill_mana_canon.py tests/python/test_stage_end_merchant_canon.py
+        run: python -m py_compile tools/validate_project_core_docs.py tools/validate_ci_usage_contract.py tests/python/test_project_core_docs.py tests/python/test_ci_usage_contract.py tests/python/test_building_branch_canon.py tests/python/test_troop_role_canon.py tests/python/test_tactical_skill_mana_canon.py tests/python/test_stage_end_merchant_canon.py tests/python/test_first_10_15_minutes_flow_canon.py
       - name: Validate project core and current-state documents
         run: python tools/validate_project_core_docs.py
       - name: Validate CI usage contract
         run: python tools/validate_ci_usage_contract.py
-      - name: Run documentation and CI mutation tests
-        run: python -m unittest tests.python.test_project_core_docs tests.python.test_ci_usage_contract tests.python.test_building_branch_canon tests.python.test_troop_role_canon tests.python.test_tactical_skill_mana_canon tests.python.test_stage_end_merchant_canon -v
+      - name: Run base documentation contracts
+        run: python -m unittest tests.python.test_project_core_docs tests.python.test_ci_usage_contract -v
+      - name: Run building canon contract
+        run: python -m unittest tests.python.test_building_branch_canon -v
+      - name: Run troop canon contract
+        run: python -m unittest tests.python.test_troop_role_canon -v
+      - name: Run tactical and mana canon contract
+        run: python -m unittest tests.python.test_tactical_skill_mana_canon -v
+      - name: Run merchant canon contract
+        run: python -m unittest tests.python.test_stage_end_merchant_canon -v
+      - name: Run onboarding checkpoint contract
+        run: python -m unittest tests.python.test_first_10_15_minutes_flow_canon -v
       - name: Check whitespace
         run: git diff --check
