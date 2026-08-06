@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1",
+  "observed_at": "2026-08-06T23:55:00+09:00",
+  "repository_main_sha": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
+  "base_repository_main_sha": "4f98f968a377f7b6a11aafa4fc94d11bddbebedc",
+  "active_contract": {
+    "name": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
+    "version": "4.3",
+    "declared_status": "ACTIVE_INTEGRATED_AUDIT_IMPLEMENTATION_DELIVERY_CONTRACT",
+    "source_file": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.3.md",
+    "binding_status": "ACTIVE",
+    "activation_authority": "USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION",
+    "counter": "NON_COUNTER"
+  },
+  "superseded_contracts": [
+    {
+      "version": "4.2",
+      "status": "HISTORICAL_COMPARISON_ONLY"
+    }
+  ],
+  "entry_gate": {
+    "decision": "BLOCK",
+    "status": "ENTRY_STATE_RECONCILIATION_BLOCKING_GATE_ACTIVE",
+    "decision_ledger_readback": {
+      "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
+      "blob_sha": "e3a1cb16c0d03d941dc6db9c2e762c79beaa29bc",
+      "status": "STALE_CANON_CONFLICT"
+    },
+    "unresolved_list_readback": {
+      "path": "docs/DECISIONS_PENDING.md",
+      "blob_sha": "4e061274a0b2bac99d2132df0bdd08973f30ff8e",
+      "status": "STALE_RELATIVE_TO_PR154_4_OF_10"
+    },
+    "image_review_sheet_readback": {
+      "sheet": "72_이미지검수_승인로그",
+      "ready_count": 0,
+      "awaiting_count": 0,
+      "in_review_not_generated_count": 1,
+      "rejected_project_mismatch_count": 6,
+      "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
+    },
+    "blocking_reasons": [
+      "BASE_WHOLE_REPOSITORY_AND_SKILL_RECOVERY_NOT_COMPLETED",
+      "CANON_LEDGER_STALE",
+      "PENDING_DECISIONS_STALE",
+      "PR154_CONDITIONAL_FAIL_UNMERGED",
+      "IMAGE_REVIEW_NOT_CLOSED",
+      "GUT_ADOPTION_SPEC_NOT_MERGED",
+      "PR155_V4_3_SCOPE_ALIGNMENT_REQUIRED",
+      "PR156_SEQUENCE_BLOCKED_UNTIL_ADOPTION_SPEC_MERGED",
+      "HIGODOT_SOURCE_OR_VERSION_UNVERIFIED",
+      "GODOT_EXACT_4_7_VERSION_UNVERIFIED",
+      "AUDIO_VAULT_PATH_UNVERIFIED",
+      "GITHUB_ACTIONS_BILLING_PRE_START"
+    ],
+    "allowed_next_actions": [
+      "CONTRACT_BINDING_AND_ENTRY_RECONCILIATION",
+      "EXACT_HEAD_REVIEW_OF_PR155_WITH_V4_3_SCOPE_CHECK",
+      "DRAFT_ONLY_VENDOR_PROVENANCE_EVIDENCE_ON_PR156_WITHOUT_ADDON_OR_GODOT_MUTATION",
+      "SEPARATE_DECISION_AND_PR_FOR_NON_DESTRUCTIVE_CANON_RECONCILIATION",
+      "BASE_WHOLE_REPOSITORY_AND_SKILL_MAP_RECOVERY",
+      "AUDIO_VAULT_INVENTORY_ONLY_AFTER_LOCAL_ACCESS_IS_PROVEN"
+    ],
+    "forbidden_actions": [
+      "PRODUCT_IMPLEMENTATION",
+      "GODOT_AUTHORING_MUTATION",
+      "FORMAL_GUT_EXECUTION",
+      "GUT_PLUGIN_ENABLEMENT",
+      "AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE",
+      "MARK_PR155_OR_PR156_READY",
+      "MERGE_PR155_OR_PR156",
+      "LOCAL_MAIN_SYNC",
+      "GODOT_RUNTIME_CLAIM"
+    ]
+  },
+  "tool_authority": {
+    "higodot": {
+      "canonical_repository": "hi-godot/godot-ai",
+      "authority": "SINGLE_GODOT_SCENE_NODE_RESOURCE_PROJECT_SETTINGS_AUTHOR",
+      "pinned_version_or_commit": null,
+      "status": "HIGODOT_SOURCE_OR_VERSION_UNVERIFIED"
+    },
+    "gut": {
+      "canonical_repository": "bitwes/Gut",
+      "version": "9.7.1",
+      "source_branch": "godot_4_7",
+      "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605",
+      "authority": "FORMAL_TEST_EXECUTION_AND_ASSERTION",
+      "adoption_spec_pr": 155,
+      "adoption_spec_merge_status": "NOT_MERGED",
+      "formal_execution_status": "BLOCKED_BY_GUT_ADOPTION_SPEC",
+      "bootstrap_python_test_status": "BOOTSTRAP_CONTRACT_TEST_ONLY_NOT_FORMAL_GUT"
+    },
+    "role_overlap": "FORBIDDEN",
+    "production_mutation_by_gut": "FORBIDDEN"
+  },
+  "pr_transition": {
+    "pr155": {
+      "head_sha": "0dc062a2e8a6ed4c330f0428cd41a1d071a52a86",
+      "status": "DRAFT_SCOPE_ALIGNMENT_REQUIRED_UNDER_V4_3",
+      "merge": "BLOCKED"
+    },
+    "pr156": {
+      "head_sha_observed_before_binding_pr": "47f0a0be2557b55ecba4e7edda564c0a4c63dea6",
+      "status": "DRAFT_EVIDENCE_ONLY_SEQUENCE_BLOCKED",
+      "merge": "BLOCKED"
+    }
+  },
+  "review_authority": {
+    "model": "GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY",
+    "external_independent_reviewer": "NOT_PLANNED_SOLO_DEVELOPMENT",
+    "objective_evidence": "GUT_CI_EXACT_HEAD_REQUIRED_WHEN_PREREQUISITES_ARE_MET"
+  },
+  "audio_vault": {
+    "path": "C:/Users/user/Documents/GitHub/shered audio vault",
+    "access_policy": "READ_ONLY_SOURCE_LIBRARY",
+    "runtime_reference_policy": "COPY_APPROVED_ASSETS_INTO_RES_NOT_ABSOLUTE_PATH",
+    "local_access": "NOT_AVAILABLE_IN_CURRENT_AGENT_ENVIRONMENT",
+    "status": "BLOCKED_UNVERIFIED"
+  },
+  "local_delivery": {
+    "local_sync": "LOCAL_SYNC_BLOCKED_NO_LOCAL_ACCESS",
+    "godot_run": "GODOT_RUN_BLOCKED_NO_LOCAL_ACCESS"
+  }
+}
