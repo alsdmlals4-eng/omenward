@@ -5,8 +5,8 @@ updated_at: 2026-08-06
 policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 status: CURRENT_LIFECYCLE_AUTHORITY
 approved_planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-current_proposal: OMW-DEC-20260806-PLANNING-BARRACKS-ECONOMY-PRODUCTION-TOKEN-SOURCE-SIMULATION-CONTRACT-V1
-current_count: 0_OF_10
+latest_approved_contract: OMW-DEC-20260806-PLANNING-BARRACKS-ECONOMY-PRODUCTION-TOKEN-SOURCE-SIMULATION-CONTRACT-V1
+current_count: 1_OF_10
 ```
 
 이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[제안]`은 사용자 승인 전 구현 입력으로 사용할 수 없다.
@@ -34,23 +34,15 @@ current_count: 0_OF_10
 - `design/APPROVED_OMENWARD_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_2026-08-06.md`
 - `design/APPROVED_OMENWARD_BELU_INTERVENTION_FAILURE_RETRY_SKIP_RULES_2026-08-06.md`
 - `design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
+- `design/APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md`
 
 ## [제안]
 
-```text
-decision = OMW-DEC-20260806-PLANNING-BARRACKS-ECONOMY-PRODUCTION-TOKEN-SOURCE-SIMULATION-CONTRACT-V1
-status = USER_REVIEW_PENDING
-counted = FALSE
-implementation_input = FORBIDDEN
-```
-
-- `design/PROPOSED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md`
-- `reviews/ADVERSARIAL_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_REVIEW_2026-08-06.md`
-- `superpowers/specs/2026-08-06-barracks-economy-production-token-source-simulation-contract-design.md`
-- `superpowers/plans/2026-08-06-barracks-economy-production-token-source-simulation-contract.md`
+- 현재 없음.
 
 ## [대체됨]
 
+- `design/PROPOSED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md`: 승인 계약으로 대체.
 - 과거 모든 특수병 T1 TokenSource 무공급 조항: 병영 자동생산·TokenSource 정정으로 대체.
 - 구형 6종 건물 공통 A/B 분기: 건물 Tier 재정렬로 대체.
 - 대공궁병 T3 독립 분기: 궁병 T3 2분기 정정으로 대체.
