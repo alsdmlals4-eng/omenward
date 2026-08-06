@@ -1,8 +1,9 @@
-# OMENWARD Platform Boundary — Free Local Baseline and Phase 1 Contracts
+# OMENWARD Platform Boundary — Free Local Baseline through Phase 2
 
 ```yaml
 phase0_decision: OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
 phase1_decision: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
+phase2_decision: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
 parent_architecture_decision: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 verification_mode: FREE_LOCAL_ONLY
 github_actions: NOT_USED
@@ -13,11 +14,15 @@ github_actions: NOT_USED
 ## 무료 로컬 명령
 
 ```bash
-python -m unittest tests.python.test_platform_boundary_static_guard -v
+python -m unittest \
+  tests.python.test_game_session_decoupling_contract \
+  tests.python.test_platform_boundary_static_guard -v
 python tools/platform_boundary_guard.py --root .
 godot --headless --path . --editor --quit
 godot --headless --path . --script tests/headless/platform_core_characterization_test.gd
 godot --headless --path . --script tests/headless/platform_contracts_test.gd
+godot --headless --path . --script tests/headless/game_session_decoupling_test.gd
+godot --headless --path . --script tests/headless/platform_bootstrap_idempotence_test.gd
 ```
 
 ## Phase 0 정적 경계
@@ -30,7 +35,7 @@ godot --headless --path . --script tests/headless/platform_contracts_test.gd
 - `OS.has_feature()`
 - Steam·Google Play SDK
 
-현재 레거시 허용은 `scripts/core/game_session.gd`의 정확한 세 문장뿐이다. 경로·규칙·정확한 코드가 모두 일치해야 하며 추가 호출과 낡은 허용 목록은 실패한다.
+Phase 2에서 구형 `scripts/core/game_session.gd`를 제거했으므로 현재 legacy allowance는 0건이다. 새 위반과 낡은 allowlist 항목은 모두 실패한다.
 
 ## Phase 1 계약 구조
 
@@ -56,13 +61,31 @@ scripts/platform/contracts/platform_capabilities.gd
 - Store: unavailable, capability 없음.
 - PlatformCapabilities: 생성 시 제공한 capability의 읽기 전용 snapshot.
 
+## Phase 2 조립 구조
+
+```text
+scripts/application/game_application.gd
+scripts/application/game_session.gd
+scripts/application/session_driver.gd
+scripts/application/platform_bootstrap.gd
+scripts/presentation/scene_binder.gd
+```
+
+- `GameApplication`: platform-neutral 상태·bootstrap·stage start/retry·advance.
+- `SessionDriver`: `_process(delta)`와 deferred stage start.
+- `SceneBinder`: Battlefield·StageHud lookup과 run binding.
+- `PlatformBootstrap`: driver·binder를 host당 정확히 하나 구성하고 재조립 시 재사용.
+- `GameSession`: 기존 Scene API를 보존하는 thin facade.
+
+Main Scene은 기존 UID를 유지하며 `res://scripts/application/game_session.gd`를 사용한다.
+
 ## 판정 규칙
 
 ```text
 PYTHON_STATIC_GUARD_PASS != GODOT_CONTRACT_PASS
 GODOT_CONTRACT_PASS != FULL_PROJECT_RUNTIME_PASS
-PHASE1_CONTRACT_PASS != COMMON_PLATFORM_GATE_PASS
+PHASE2_SESSION_PASS != COMMON_PLATFORM_GATE_PASS
 EXPORT_SUCCESS != PLATFORM_READY
 ```
 
-Phase 1은 GameSession 분리, 저장 스키마, PC·Android 어댑터, SDK, build 또는 release Gate를 구현하지 않는다.
+Phase 2는 GameSession 책임만 분리한다. 공용 save schema, PC·Android adapter 구현, 반응형 UI, SDK, build 또는 release Gate는 구현하지 않는다.
