@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
+  "parent_decision_id": "OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1",
+  "approval_count": "4_OF_10",
+  "seed_count": 2000,
+  "common_random_numbers": true,
+  "approach": "PROXY_MONTE_CARLO_WITH_IDENTIFIABILITY_ENVELOPE",
+  "parameter_vectors": [
+    {"vector_id": "V00_BASELINE", "special_cost_multiplier": 1.50, "special_interval_multiplier": 1.70, "special_functional_value_index": 1.50},
+    {"vector_id": "V01_CHEAP_FAST_LOW", "special_cost_multiplier": 1.25, "special_interval_multiplier": 1.45, "special_functional_value_index": 1.35},
+    {"vector_id": "V02_CHEAP_FAST_HIGH", "special_cost_multiplier": 1.25, "special_interval_multiplier": 1.45, "special_functional_value_index": 1.65},
+    {"vector_id": "V03_CHEAP_SLOW_LOW", "special_cost_multiplier": 1.25, "special_interval_multiplier": 2.20, "special_functional_value_index": 1.35},
+    {"vector_id": "V04_CHEAP_SLOW_HIGH", "special_cost_multiplier": 1.25, "special_interval_multiplier": 2.20, "special_functional_value_index": 1.65},
+    {"vector_id": "V05_EXPENSIVE_FAST_LOW", "special_cost_multiplier": 2.00, "special_interval_multiplier": 1.45, "special_functional_value_index": 1.35},
+    {"vector_id": "V06_EXPENSIVE_FAST_HIGH", "special_cost_multiplier": 2.00, "special_interval_multiplier": 1.45, "special_functional_value_index": 1.65},
+    {"vector_id": "V07_EXPENSIVE_SLOW_LOW", "special_cost_multiplier": 2.00, "special_interval_multiplier": 2.20, "special_functional_value_index": 1.35},
+    {"vector_id": "V08_EXPENSIVE_SLOW_HIGH", "special_cost_multiplier": 2.00, "special_interval_multiplier": 2.20, "special_functional_value_index": 1.65}
+  ],
+  "scenario_matrix": {
+    "stage2_paths": ["shield", "archer"],
+    "gold_scenarios": {"low": 0, "standard": 1, "high": 2},
+    "spin_policies": ["aggressive", "reserve", "maintenance"],
+    "build_plans": ["general_only", "special_only", "general_and_special", "multi_special"],
+    "fixed_special_outcomes": ["assassin", "priest", "mage", "flying_unit", "giant"]
+  },
+  "model_boundaries": {
+    "roulette": "NATURAL_CENTERLINE_ONLY",
+    "reward_grade": "NORMAL_ONLY",
+    "fifteen_minute_window": "CENSORED_AT_STAGE5_END_830_SECONDS",
+    "not_modeled": [
+      "LUCKY_AND_MOVE_OPTIMIZATION",
+      "CASUALTY_AND_DEATH",
+      "IRREVERSIBLE_LANE_ASSIGNMENT",
+      "PRODUCT_HP_DPS_RANGE_SPEED",
+      "EXACT_TOWER_COMMAND_AND_TACTIC_OUTPUT"
+    ]
+  },
+  "unit_proxy": {
+    "unit_types": ["basic_infantry", "shield", "archer", "assassin", "priest", "mage", "flying_unit", "giant"],
+    "base_power": {"basic_infantry": 2.5, "shield": 3.0, "archer": 3.0},
+    "special_base_power_multiplier": 3.0,
+    "food_cost": {"basic_infantry": 1, "shield": 2, "archer": 2, "assassin": 2, "priest": 3, "mage": 3, "flying_unit": 4, "giant": 6},
+    "pressure_affinity": {
+      "MASS": {"basic_infantry": 1.00, "shield": 1.15, "archer": 1.00, "assassin": 0.80, "priest": 1.05, "mage": 1.20, "flying_unit": 0.90, "giant": 0.75},
+      "ARMORED": {"basic_infantry": 1.00, "shield": 1.00, "archer": 0.90, "assassin": 0.90, "priest": 1.05, "mage": 1.25, "flying_unit": 0.90, "giant": 1.30},
+      "FLYING": {"basic_infantry": 1.00, "shield": 0.65, "archer": 1.25, "assassin": 0.75, "priest": 1.00, "mage": 0.85, "flying_unit": 1.25, "giant": 0.50},
+      "INFILTRATION": {"basic_infantry": 1.00, "shield": 1.15, "archer": 1.00, "assassin": 1.30, "priest": 1.05, "mage": 0.80, "flying_unit": 1.00, "giant": 0.70},
+      "SIEGE": {"basic_infantry": 1.00, "shield": 0.90, "archer": 0.85, "assassin": 1.20, "priest": 1.10, "mage": 1.00, "flying_unit": 1.15, "giant": 1.30}
+    }
+  },
+  "support_envelopes_tu": {
+    "LOW": {"MASS": 13.0, "ARMORED": 10.0, "FLYING": 10.0, "INFILTRATION": 10.0, "SIEGE": 10.0},
+    "MID": {"MASS": 14.5, "ARMORED": 11.0, "FLYING": 12.0, "INFILTRATION": 11.0, "SIEGE": 12.0},
+    "HIGH": {"MASS": 16.0, "ARMORED": 13.0, "FLYING": 14.0, "INFILTRATION": 13.0, "SIEGE": 14.0}
+  },
+  "battle_noise": {"minimum": 0.95, "maximum": 1.05},
+  "dominance_rules": {
+    "mean_margin_advantage": 0.20,
+    "unit_equivalent_advantage": 1.05,
+    "regret_threshold": 0.15
+  },
+  "thresholds": {
+    "SPECIAL_OPTION_DOMINANCE_RATE_MAX": 0.60,
+    "GENERAL_PATH_VALIDITY_RATE_MIN": 0.95,
+    "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE_MIN": 0.85,
+    "WORST_SPECIAL_REGRET_RATE_MAX": 0.15,
+    "SPECIAL_TOKEN_SHARE_10_MIN_MAX": 0.35,
+    "SPECIAL_TOKEN_SHARE_BURST_MAX_MAX": 0.45,
+    "MULTI_SPECIAL_DOMINANCE_RATE_MAX": 0.55,
+    "SECOND_SPECIAL_MARGINAL_VALUE_RATIO_MAX": 0.80,
+    "REROLL_EXPECTED_VALUE_GAIN": 0.0
+  },
+  "gate_rules": {
+    "support_sensitivity_delta_max": 0.20,
+    "threshold_flip_is_identifiability_fail": true,
+    "decision_sweep_requires_smoke_pass": true,
+    "product_implementation": "NOT_AUTHORIZED"
+  }
+}
