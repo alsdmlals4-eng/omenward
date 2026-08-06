@@ -56,8 +56,10 @@ class BarracksSimulationInputProvenanceManifestTest(unittest.TestCase):
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, self.authority)
-        self.assertIn("AMENDED_BY_INPUT_PROVENANCE_DECISION", self.contract)
-        self.assertNotIn("SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER = 0.35 / 0.50 / 0.65 / 0.80", self.contract)
+        self.assertIn("SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER = 0.35 / 0.50 / 0.65 / 0.80", self.contract)
+        self.assertIn("[부분 대체됨]", self.lifecycle)
+        self.assertIn("물리 릴 TokenInstance 축으로 대체", self.lifecycle)
+        self.assertIn("SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER_0_35_TO_0_80 = SUPERSEDED", self.ledger)
 
     def test_legacy_sources_are_never_current_v2_authority(self) -> None:
         classifications = {s["source_id"]: s["classification"] for s in self.manifest["sources"]}
