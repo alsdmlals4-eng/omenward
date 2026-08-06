@@ -52,6 +52,8 @@ def validate(root: Path = ROOT) -> list[str]:
         "tools/run_local_verification_pack.ps1",
         "tools/run_local_verification_pack_wsl.sh",
         "tests/python/test_base_recovery_and_local_verification_pack.py",
+        "tests/python/test_local_verification_powershell_root.py",
+        "tests/python/test_local_verification_pack_registration.py",
     ]
     for relative in required:
         if not (root / relative).is_file():
