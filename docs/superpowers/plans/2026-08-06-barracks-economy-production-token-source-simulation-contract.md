@@ -126,7 +126,7 @@ git commit -m "docs: route proposed barracks simulation gate"
 python -m unittest tests.python.test_barracks_economy_production_token_source_simulation_contract -v
 ```
 
-Expected: 8 tests pass.
+Expected: 9 tests pass.
 
 - [ ] **Step 2: Compile the test**
 
