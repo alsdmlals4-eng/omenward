@@ -9,6 +9,8 @@ from smoke_common import SPECIAL_TYPES, rounded, threshold_pass
 
 
 def aggregate_vector(simulator, vector: dict[str, Any], general_mid_cache: dict[tuple[str, str, str], dict[str, Any]]) -> dict[str, Any]:
+    if np is None:
+        raise RuntimeError("NumPy is required for accelerated smoke execution")
     special_dominance = 0
     multi_dominance = 0
     comparison_count = 0
