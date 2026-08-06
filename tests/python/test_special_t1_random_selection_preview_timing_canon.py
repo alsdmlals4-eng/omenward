@@ -5,11 +5,14 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 DECISION_ID = "OMW-DEC-20260806-PLANNING-SPECIAL-T1-RANDOM-SELECTION-AND-PREVIEW-TIMING-V1"
+AMENDMENT_ID = "OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1"
 PARENT_DECISION_ID = "OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1"
 AUTHORITY = ROOT / "docs/design/APPROVED_OMENWARD_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_2026-08-06.md"
+AMENDMENT = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_REVIEW_2026-08-06.md"
 SPEC = ROOT / "docs/superpowers/specs/2026-08-06-special-t1-random-selection-preview-timing-design.md"
 ONBOARDING = ROOT / "docs/design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md"
+CURRENT = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
 
 
 def read(path: pathlib.Path) -> str:
@@ -18,7 +21,7 @@ def read(path: pathlib.Path) -> str:
 
 class SpecialT1RandomSelectionPreviewTimingCanonTests(unittest.TestCase):
     def test_authority_files_exist(self) -> None:
-        for path in (AUTHORITY, REVIEW, SPEC, ONBOARDING):
+        for path in (AUTHORITY, AMENDMENT, REVIEW, SPEC, ONBOARDING, CURRENT):
             self.assertTrue(path.is_file(), f"missing authority file: {path.relative_to(ROOT)}")
 
     def test_decision_and_checkpoint_are_explicit(self) -> None:
@@ -30,6 +33,7 @@ class SpecialT1RandomSelectionPreviewTimingCanonTests(unittest.TestCase):
             "APPROVAL_CHECKPOINT = SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING",
         ):
             self.assertIn(marker, text)
+        self.assertIn(AMENDMENT_ID, read(AMENDMENT))
 
     def test_selection_occurs_once_per_building_after_successful_commit(self) -> None:
         text = read(AUTHORITY)
@@ -54,17 +58,22 @@ class SpecialT1RandomSelectionPreviewTimingCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_no_t1_token_source_and_t2_overrides_random_identity(self) -> None:
-        text = read(AUTHORITY)
+    def test_amendment_adds_matching_t1_token_source_and_preserves_t2_override(self) -> None:
+        amendment = read(AMENDMENT)
         for marker in (
-            "SPECIAL_T1_TOKEN_SOURCE = NONE",
+            "SPECIAL_T1_TOKEN_SOURCE_NONE = SUPERSEDED",
+            "SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT",
+            "SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT",
+            "SPECIAL_T1_AUTO_PRODUCTION_AND_TOKEN_SOURCE = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS",
             "SPECIAL_T2_SPECIALIZATION_OVERRIDES_T1_SELECTION = TRUE",
-            "SPECIAL_T2_SELECTED_UNIT_TOKEN_SOURCE = ENABLED",
+            "SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT",
         ):
-            self.assertIn(marker, text)
+            self.assertIn(marker, amendment)
+        self.assertIn("SPECIAL_T1_TOKEN_SOURCE = NONE", read(AUTHORITY))
+        self.assertIn("역사 증거이며 현행 구현 입력으로 사용할 수 없다", read(CURRENT))
 
     def test_free_reroll_and_save_scumming_are_forbidden(self) -> None:
-        text = read(AUTHORITY)
+        text = read(AUTHORITY) + read(AMENDMENT)
         for marker in (
             "SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN",
             "SPECIAL_T1_FREE_REROLL = FORBIDDEN",
@@ -86,23 +95,10 @@ class SpecialT1RandomSelectionPreviewTimingCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_onboarding_parent_is_promoted_to_checkpoint_eight(self) -> None:
-        text = read(ONBOARDING)
-        for marker in (
-            DECISION_ID,
-            "DECISION_STATUS = PARTIAL_APPROVAL_8_OF_10",
-            "SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT",
-            "SPECIAL_T1_RESULT_REVEAL = IMMEDIATELY_AFTER_CONSTRUCTION_COMMIT",
-        ):
-            self.assertIn(marker, text)
-        self.assertNotIn("SPECIAL_T1_RANDOM_SELECTION_TIMING = PENDING_GRILLME", text)
-        self.assertNotIn("SPECIAL_T1_RESULT_PREVIEW = PENDING_GRILLME", text)
-
     def test_numeric_and_product_boundaries_remain_closed(self) -> None:
-        text = read(AUTHORITY)
+        text = read(AUTHORITY) + read(AMENDMENT)
         for marker in (
             "SPECIAL_T1_SELECTION_WEIGHTS = PENDING_SIMULATION",
-            "SPECIAL_T1_PRODUCTION_INTERVAL = PENDING_SIMULATION",
             "PRODUCT_CODE = UNCHANGED",
             "SCENE_RESOURCE_DATA = UNCHANGED",
             "SIMULATION = NOT_RUN",

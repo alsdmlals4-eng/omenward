@@ -27,6 +27,7 @@ class BarracksAutoProductionTokenSourceAmendmentCanonTest(unittest.TestCase):
         )
         self.assertIn("SUPERSEDES_SPECIAL_T1_NO_TOKEN_SOURCE_CLAUSES = TRUE", self.amendment)
         self.assertIn("SPECIAL_T1_TOKEN_SOURCE_NONE = SUPERSEDED", self.amendment)
+        self.assertIn("APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT", self.current)
 
     def test_both_barracks_tiers_produce_and_supply_token_sources(self) -> None:
         for marker in (
@@ -41,6 +42,7 @@ class BarracksAutoProductionTokenSourceAmendmentCanonTest(unittest.TestCase):
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, self.amendment)
+                self.assertIn(marker, self.current)
 
     def test_special_t1_uses_one_fixed_selected_unit_for_both_paths(self) -> None:
         for marker in (
@@ -58,10 +60,12 @@ class BarracksAutoProductionTokenSourceAmendmentCanonTest(unittest.TestCase):
         self.assertIn("SPECIAL_T1_TOKEN_WEIGHT = PENDING_SIMULATION", self.amendment)
         self.assertIn("SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT", self.amendment)
 
-    def test_current_authorities_no_longer_require_no_token_source(self) -> None:
-        for text in (self.building, self.special, self.onboarding, self.current):
-            self.assertNotIn("SPECIAL_T1_TOKEN_SOURCE = NONE", text)
-            self.assertIn("SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT", text)
+    def test_prior_no_token_source_clauses_are_historical_only(self) -> None:
+        self.assertIn("SPECIAL_T1_TOKEN_SOURCE = NONE", self.building)
+        self.assertIn("SPECIAL_T1_TOKEN_SOURCE = NONE", self.special)
+        self.assertIn("SPECIAL_T1_TOKEN_SOURCE = NONE", self.onboarding)
+        self.assertIn("역사 증거이며 현행 구현 입력으로 사용할 수 없다", self.current)
+        self.assertNotIn("SPECIAL_T1_TOKEN_SOURCE = NONE", self.current)
 
     def test_adversarial_review_covers_double_value_and_pool_dilution(self) -> None:
         for marker in (
