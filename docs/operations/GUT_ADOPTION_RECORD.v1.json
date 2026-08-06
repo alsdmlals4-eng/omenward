@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260806-TOOLS-HIGODOT-GUT-AUTHORITY-AND-WORK-ENTRY-GATE-V1",
+  "adoption_status": "DESIGN_APPROVED_ACTIVATION_BLOCKED",
+  "framework": {
+    "name": "GUT",
+    "version": "9.7.1",
+    "source_repository": "https://github.com/bitwes/Gut",
+    "source_branch": "godot_4_7",
+    "source_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605",
+    "project_plugin_path": "res://addons/gut/plugin.cfg"
+  },
+  "compatibility": {
+    "project_godot_feature": "4.7",
+    "godot_declared": "4.7.x",
+    "documentation_review": "PASS",
+    "project_import_and_runtime": "NOT_RUN"
+  },
+  "authorities": {
+    "higodot": {
+      "role": "HIGODOT_AUTHORING_AUTHORITY",
+      "may_mutate_project_files": true,
+      "may_write_test_artifacts_only": false,
+      "owned_surfaces": [
+        "Scene",
+        "Node",
+        "Resource",
+        "project.godot",
+        "InputMap",
+        "autoload",
+        "Godot import-affecting project authoring"
+      ]
+    },
+    "gut": {
+      "role": "GUT_TEST_AUTHORITY",
+      "may_mutate_project_files": false,
+      "may_write_test_artifacts_only": true,
+      "owned_surfaces": [
+        "test discovery",
+        "test execution",
+        "assertions",
+        "test doubles",
+        "JUnit and test reports"
+      ]
+    }
+  },
+  "provenance": {
+    "upstream_addons_tree_sha": "5d6893836af4917ee62b1a395125a7530b1f239d",
+    "project_addons_tree_sha": "09d040309bbed0e07420ad72c4aa69cbd0e58190",
+    "plugin_cfg_blob_sha": "64cd593b7c57492096820583d785e9fef4ddf092",
+    "vendor_tree_exact_match": false,
+    "status": "VENDOR_TREE_MISMATCH",
+    "required_action": "MANIFEST_RECONCILIATION_REQUIRED"
+  },
+  "licenses": {
+    "gut": "MIT",
+    "gut_path": "addons/gut/LICENSE.md",
+    "fonts": "SIL-OFL-1.1",
+    "fonts_path": "addons/gut/fonts/OFL.txt"
+  },
+  "consumption_path": {
+    "planned_gut_test_root": "res://tests/gut",
+    "cli_entry": "res://addons/gut/gut_cmdln.gd",
+    "candidate_command": "<EXACT_GODOT_BIN> --headless --path . -s addons/gut/gut_cmdln.gd -gdir=res://tests/gut -gexit -gjunit_xml_file=artifacts/gut/junit.xml",
+    "report_path": "artifacts/gut/junit.xml",
+    "current_project_tests": "NOT_CREATED",
+    "current_ci_execution": "NOT_RUN"
+  },
+  "verification": {
+    "static_contract": "PASS_IN_RECONSTRUCTED_AUDIT",
+    "vendor_manifest": "FAIL",
+    "godot_import": "NOT_RUN",
+    "gut_cli_smoke": "NOT_RUN",
+    "project_regression": "NOT_RUN",
+    "windows": "NOT_RUN",
+    "android": "NOT_RUN"
+  },
+  "removal_and_rollback": {
+    "status": "DEFINED_NOT_EXECUTED",
+    "steps": [
+      "Disable GUT through HiGodot only if project.godot activation was previously approved and applied",
+      "Remove GUT-specific test and CI wiring without modifying gameplay authoring surfaces",
+      "Remove addons/gut only after repository reference scan proves zero consumers",
+      "Run clean Godot import, existing Python contracts, and project regression",
+      "Confirm git diff contains no Scene, Resource, gameplay data, or unrelated project setting changes"
+    ]
+  }
+}

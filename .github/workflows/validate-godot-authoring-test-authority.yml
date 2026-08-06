@@ -1,0 +1,41 @@
+name: Validate Godot Authoring and Test Authority
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile authority gate
+        run: python -m py_compile tools/validate_godot_authoring_test_authority.py tests/python/test_godot_authoring_test_authority.py
+      - name: Run authority and work-entry tests
+        run: python -m unittest tests.python.test_godot_authoring_test_authority -v
+      - name: Validate truthful contract state
+        run: python tools/validate_godot_authoring_test_authority.py --contract
+      - name: Enforce fail-closed changed-file entry
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          mapfile -t files < <(git diff --name-only "${{ github.event.pull_request.base.sha }}"...HEAD)
+          args=()
+          for file in "${files[@]}"; do
+            args+=(--changed-file "$file")
+          done
+          python tools/validate_godot_authoring_test_authority.py --entry "${args[@]}"
+      - name: Check whitespace
+        run: git diff --check

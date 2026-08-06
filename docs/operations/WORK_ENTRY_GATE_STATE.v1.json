@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260806-TOOLS-HIGODOT-GUT-AUTHORITY-AND-WORK-ENTRY-GATE-V1",
+  "observed_at": "2026-08-06T22:15:00+09:00",
+  "repository_main_sha": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
+  "base_main_sha": "4f98f968a377f7b6a11aafa4fc94d11bddbebedc",
+  "gate_status": "BLOCKED",
+  "decision_readback": {
+    "decision_ledger_path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "decision_ledger_blob_sha": "e3a1cb16c0d03d941dc6db9c2e762c79beaa29bc",
+    "decision_ledger_status": "STALE_CANON_CONFLICT",
+    "pending_decisions_path": "docs/DECISIONS_PENDING.md",
+    "pending_decisions_blob_sha": "4e061274a0b2bac99d2132df0bdd08973f30ff8e",
+    "pending_decisions_status": "STALE_RELATIVE_TO_PR154_4_OF_10",
+    "sheet_latest_decision": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
+    "sheet_latest_status": "APPROVED_4_OF_10_CONDITIONAL_FAIL",
+    "sheet_pr_head": "b8bd5f63414332748458d98a077dd7e089f75efa"
+  },
+  "image_review_readback": {
+    "sheet": "72_이미지검수_승인로그",
+    "ready_count": 0,
+    "awaiting_count": 0,
+    "in_review_not_generated_count": 1,
+    "in_review_not_generated": [
+      {
+        "review_id": "OM-REV-INIT",
+        "image_id": "OM-IMG-001",
+        "status": "IN_REVIEW",
+        "fact": "IMAGE_NOT_GENERATED"
+      }
+    ],
+    "rejected_image_ids": [
+      {"image_id": "OM-IMG-005", "status": "REJECTED_PROJECT_MISMATCH"},
+      {"image_id": "OM-IMG-006", "status": "REJECTED_PROJECT_MISMATCH"},
+      {"image_id": "OM-IMG-007", "status": "REJECTED_PROJECT_MISMATCH"},
+      {"image_id": "OM-IMG-008", "status": "REJECTED_PROJECT_MISMATCH"},
+      {"image_id": "OM-IMG-009", "status": "REJECTED_PROJECT_MISMATCH"},
+      {"image_id": "OM-IMG-010", "status": "REJECTED_PROJECT_MISMATCH"}
+    ],
+    "classification": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
+  },
+  "blockers": [
+    "CANON_LEDGER_STALE",
+    "PENDING_DECISIONS_STALE",
+    "PR154_CONDITIONAL_FAIL_UNMERGED",
+    "IMAGE_APPROVAL_NONE_AVAILABLE",
+    "GUT_VENDOR_TREE_MISMATCH",
+    "GUT_RUNTIME_NOT_RUN"
+  ],
+  "safe_next_actions": [
+    "Bootstrap or repair this gate contract",
+    "Reconcile central canon non-destructively against Sheet 4/10 and PR154 exact HEAD",
+    "Reconcile the vendored GUT tree against reviewed upstream commit",
+    "Run exact Godot 4.7 import and GUT CLI canary through the approved authority boundary"
+  ]
+}
