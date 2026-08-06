@@ -19,7 +19,7 @@ func _init() -> void:
 	var bootstrapper: Variant = PlatformBootstrapScript.new()
 	var first: Dictionary = bootstrapper.compose(host, application)
 	var second: Dictionary = bootstrapper.compose(host, application)
-	var ok := (
+	var ok: bool = (
 		host.get_child_count() == 2
 		and first.get("driver") == second.get("driver")
 		and first.get("binder") == second.get("binder")
