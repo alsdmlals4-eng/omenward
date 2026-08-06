@@ -14,6 +14,8 @@ HIGODOT_AUTHORING_AUTHORITY
 GUT_TEST_AUTHORITY
 MUTATION_AUTHORITY_OVERLAP = FORBIDDEN
 WORK_ENTRY_GATE = FAIL_CLOSED
+BOOTSTRAP_EXCEPTION = PR155_ONLY
+BROAD_REMEDIATION_PREFIX = FORBIDDEN
 ```
 
 HiGodot은 Scene·Node·Resource·`project.godot`·InputMap·autoload 등 Godot 저작·편집의 단일 mutation 권위다. GUT는 test discovery, assertion, double, execution, JUnit report를 소유하는 테스트 권위다. GUT 테스트가 제품 Scene·Resource·프로젝트 설정을 영구 수정하거나 HiGodot이 테스트 결과를 임의로 통과 처리하는 역할 침범을 금지한다.
@@ -64,7 +66,9 @@ CI는 다음을 실패 폐쇄한다.
 4. import·GUT CLI·project regression 미실행 상태에서 채택 완료 주장.
 5. Decision Ledger·미확정 목록·Sheet·이미지 검수 상태 충돌 상태에서 일반 제품 작업 진입.
 
-현재 차단 상태에서는 Gate 자체 구축과 정본/vendor 교정 경로만 제한적으로 허용한다.
+현재 차단 상태의 bootstrap 예외는 PR #155·고정 브랜치·고정 base SHA·10개 exact path에만 적용한다. `addons/gut/**` 같은 포괄 prefix remediation은 금지한다. 후속 정본/vendor 교정은 별도 Decision·PR·base SHA·exact changed-file 목록을 먼저 승인한 경우에만 허용한다.
+
+Godot authoring surface와 GUT test surface가 한 변경 묶음에 함께 나타나면 CI가 실패한다. Scene·Resource·`project.godot` 변경은 `HIGODOT_AUTHORING_AUTHORITY` manifest가 실제 authoring 파일 목록과 정확히 일치해야 한다.
 
 ## REMOVAL_AND_ROLLBACK_PROCEDURE
 
