@@ -9,8 +9,10 @@ from typing import Any, Iterable, NamedTuple, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
 DECISION_ID = "OMW-DEC-20260806-TOOLS-HIGODOT-GUT-AUTHORITY-AND-WORK-ENTRY-GATE-V1"
+COUNTED_PLANNING_DECISION = "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1"
 ADOPTION_PATH = Path("docs/operations/GUT_ADOPTION_RECORD.v1.json")
 ENTRY_PATH = Path("docs/operations/WORK_ENTRY_GATE_STATE.v1.json")
+AUTHORING_MANIFEST_PATH = Path("docs/operations/HIGODOT_AUTHORING_CHANGE_MANIFEST.v1.json")
 SPEC_PATH = Path("docs/design/PROPOSED_OMENWARD_HIGODOT_GUT_AUTHORITY_AND_GUT_9_7_1_ADOPTION_2026-08-06.md")
 GATE_PATH = Path("docs/operations/OMENWARD_WORK_ENTRY_GATE_2026-08-06.md")
 REVIEW_PATH = Path("docs/reviews/ADVERSARIAL_GUT_ADOPTION_AND_WORK_ENTRY_GATE_REVIEW_2026-08-06.md")
@@ -33,21 +35,10 @@ BOOTSTRAP_ALLOWLIST = frozenset(
         str(AGENTS_PATH),
     }
 )
-
-REMEDIATION_EXACT_PATHS = frozenset(
-    {
-        "docs/PROJECT_CANON_DECISION_LEDGER.md",
-        "docs/DECISIONS_PENDING.md",
-        "docs/ACTIVE_CONTEXT.md",
-        "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-        "docs/DOCUMENTATION_MAP.md",
-        "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
-        "README.md",
-        "AGENTS.md",
-        *BOOTSTRAP_ALLOWLIST,
-    }
-)
-REMEDIATION_PREFIXES = ("addons/gut/", "tests/gut/", "scripts/tests/")
+AUTHORING_EXACT_PATHS = frozenset({"project.godot"})
+AUTHORING_SUFFIXES = (".tscn", ".tres", ".res")
+GUT_SCOPE_PREFIXES = ("addons/gut/", "tests/gut/", "artifacts/gut/")
+GUT_SCOPE_EXACT_PATHS = frozenset({str(WORKFLOW_PATH), str(ADOPTION_PATH)})
 FORBIDDEN_REJECTED_IMAGE_STATES = {"READY", "AWAITING", "APPROVED"}
 
 
@@ -62,8 +53,37 @@ def load_json(root: Path, relative: Path) -> dict[str, Any]:
     return json.loads((root / relative).read_text(encoding="utf-8"))
 
 
-def _is_remediation_path(path: str) -> bool:
-    return path in REMEDIATION_EXACT_PATHS or path.startswith(REMEDIATION_PREFIXES)
+def _is_authoring_path(path: str) -> bool:
+    return path in AUTHORING_EXACT_PATHS or path.endswith(AUTHORING_SUFFIXES)
+
+
+def _is_gut_scope_path(path: str) -> bool:
+    return path in GUT_SCOPE_EXACT_PATHS or path.startswith(GUT_SCOPE_PREFIXES)
+
+
+def validate_changed_file_authority(
+    changed_files: Sequence[str],
+    authoring_manifest: dict[str, Any] | None,
+) -> list[str]:
+    errors: list[str] = []
+    authoring_files = sorted({path for path in changed_files if _is_authoring_path(path)})
+    gut_files = sorted({path for path in changed_files if _is_gut_scope_path(path)})
+
+    if authoring_files and gut_files:
+        errors.append("HiGodot authoring surfaces and GUT test surfaces cannot share one change set")
+
+    if authoring_files:
+        if authoring_manifest is None:
+            errors.append("Godot authoring changes require a HiGodot authoring manifest")
+        else:
+            if authoring_manifest.get("authority") != "HIGODOT_AUTHORING_AUTHORITY":
+                errors.append("Godot authoring manifest authority must be HiGodot")
+            if authoring_manifest.get("gut_mutation") is not False:
+                errors.append("HiGodot authoring manifest must declare gut_mutation false")
+            manifest_files = sorted(set(authoring_manifest.get("changed_authoring_files", [])))
+            if manifest_files != authoring_files:
+                errors.append("HiGodot authoring manifest must exactly match changed authoring files")
+    return errors
 
 
 def validate_adoption(data: dict[str, Any]) -> list[str]:
@@ -133,8 +153,10 @@ def validate_entry_state(data: dict[str, Any]) -> list[str]:
         errors.append("blocked gate must name at least one blocker")
 
     decision_readback = data.get("decision_readback", {})
-    if decision_readback.get("sheet_latest_decision") != "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1":
-        errors.append("Sheet latest approved Decision readback is not the current 4/10 smoke gate")
+    if decision_readback.get("latest_counted_planning_decision") != COUNTED_PLANNING_DECISION:
+        errors.append("Sheet latest counted planning Decision readback mismatch")
+    if decision_readback.get("latest_non_counter_decision") != DECISION_ID:
+        errors.append("Sheet latest NON_COUNTER Decision readback mismatch")
     if decision_readback.get("decision_ledger_status") != "STALE_CANON_CONFLICT":
         errors.append("Decision Ledger must remain classified as STALE_CANON_CONFLICT until reconciled")
     if decision_readback.get("pending_decisions_status") != "STALE_RELATIVE_TO_PR154_4_OF_10":
@@ -155,6 +177,31 @@ def validate_entry_state(data: dict[str, Any]) -> list[str]:
     for row in rejected:
         if row.get("status") in FORBIDDEN_REJECTED_IMAGE_STATES:
             errors.append("rejected image cannot be READY/AWAITING/APPROVED")
+
+    bootstrap = data.get("bootstrap_exception", {})
+    if bootstrap.get("status") != "OPEN_FOR_PR155_ONLY":
+        errors.append("bootstrap exception must be open for PR155 only")
+    if bootstrap.get("pr_number") != 155:
+        errors.append("bootstrap exception PR number must be 155")
+    if bootstrap.get("head_branch") != "planning/gut-9-7-1-adoption-work-entry-gate-20260806":
+        errors.append("bootstrap exception branch mismatch")
+    if bootstrap.get("base_sha") != "7588317f294d602cfad5f7f15bfebcf849b8a77b":
+        errors.append("bootstrap exception base SHA mismatch")
+    if set(bootstrap.get("allowed_paths", [])) != set(BOOTSTRAP_ALLOWLIST):
+        errors.append("bootstrap exception allowlist mismatch")
+
+    remediation = data.get("remediation_authorization", {})
+    if remediation.get("status") == "NOT_AUTHORIZED":
+        if remediation.get("exact_paths", []) != []:
+            errors.append("unauthorized remediation must have an empty exact path list")
+    elif remediation.get("status") == "AUTHORIZED_EXACT_PR":
+        for key in ("decision_id", "pr_number", "head_branch", "base_sha"):
+            if not remediation.get(key):
+                errors.append(f"authorized remediation missing {key}")
+        if not remediation.get("exact_paths"):
+            errors.append("authorized remediation requires exact paths")
+    else:
+        errors.append("unknown remediation authorization status")
     return errors
 
 
@@ -192,10 +239,17 @@ def validate_contract(root: Path = ROOT) -> list[str]:
         "VENDOR_TREE_MISMATCH",
         "REMOVAL_AND_ROLLBACK_PROCEDURE",
         "WORK_ENTRY_GATE = FAIL_CLOSED",
+        "BOOTSTRAP_EXCEPTION = PR155_ONLY",
+        "BROAD_REMEDIATION_PREFIX = FORBIDDEN",
     ):
         if marker not in spec:
             errors.append(f"adoption spec missing marker: {marker}")
-    for marker in ("WORK_ENTRY_GATE = FAIL_CLOSED", "BOOTSTRAP_ONLY_EXCEPTION", "GATE_REMEDIATION_ONLY_EXCEPTION"):
+    for marker in (
+        "WORK_ENTRY_GATE = FAIL_CLOSED",
+        "BOOTSTRAP_ONLY_EXCEPTION",
+        "GATE_REMEDIATION_ONLY_EXCEPTION",
+        "BROAD_REMEDIATION_PREFIX = FORBIDDEN",
+    ):
         if marker not in gate:
             errors.append(f"work-entry gate document missing marker: {marker}")
     if "python tools/validate_godot_authoring_test_authority.py --entry" not in agents:
@@ -203,8 +257,26 @@ def validate_contract(root: Path = ROOT) -> list[str]:
     return errors
 
 
-def evaluate_entry(data: dict[str, Any], changed_files: Sequence[str] = ()) -> EntryDecision:
-    errors = tuple(validate_entry_state(data))
+def _context_matches(rule: dict[str, Any], pr_number: int | None, head_branch: str | None, base_sha: str | None) -> bool:
+    return (
+        rule.get("pr_number") == pr_number
+        and rule.get("head_branch") == head_branch
+        and rule.get("base_sha") == base_sha
+    )
+
+
+def evaluate_entry(
+    data: dict[str, Any],
+    changed_files: Sequence[str] = (),
+    *,
+    pr_number: int | None = None,
+    head_branch: str | None = None,
+    base_sha: str | None = None,
+    authoring_manifest: dict[str, Any] | None = None,
+) -> EntryDecision:
+    entry_errors = validate_entry_state(data)
+    authority_errors = validate_changed_file_authority(changed_files, authoring_manifest)
+    errors = tuple(entry_errors + authority_errors)
     blockers = tuple(data.get("blockers", []))
     if errors:
         return EntryDecision(False, "WORK_ENTRY_CONTRACT_INVALID", blockers, errors)
@@ -212,9 +284,22 @@ def evaluate_entry(data: dict[str, Any], changed_files: Sequence[str] = ()) -> E
         return EntryDecision(True, "WORK_ENTRY_READY", ())
 
     changed = tuple(path for path in changed_files if path)
-    if changed and set(changed).issubset(BOOTSTRAP_ALLOWLIST):
+    bootstrap = data.get("bootstrap_exception", {})
+    if (
+        changed
+        and set(changed).issubset(BOOTSTRAP_ALLOWLIST)
+        and bootstrap.get("status") == "OPEN_FOR_PR155_ONLY"
+        and _context_matches(bootstrap, pr_number, head_branch, base_sha)
+    ):
         return EntryDecision(True, "BOOTSTRAP_ONLY_ALLOWED_WHILE_ENTRY_BLOCKED", blockers)
-    if changed and all(_is_remediation_path(path) for path in changed):
+
+    remediation = data.get("remediation_authorization", {})
+    if (
+        changed
+        and remediation.get("status") == "AUTHORIZED_EXACT_PR"
+        and set(changed) == set(remediation.get("exact_paths", []))
+        and _context_matches(remediation, pr_number, head_branch, base_sha)
+    ):
         return EntryDecision(True, "GATE_REMEDIATION_ONLY_ALLOWED", blockers)
     return EntryDecision(False, "WORK_ENTRY_BLOCKED", blockers)
 
@@ -224,6 +309,9 @@ def main(argv: Iterable[str] | None = None) -> int:
     parser.add_argument("--contract", action="store_true", help="validate contract truthfulness without opening normal work entry")
     parser.add_argument("--entry", action="store_true", help="evaluate whether the provided changed files may enter work")
     parser.add_argument("--changed-file", action="append", default=[], help="repository-relative changed path; repeatable")
+    parser.add_argument("--pr-number", type=int)
+    parser.add_argument("--head-branch")
+    parser.add_argument("--base-sha")
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     errors = validate_contract(ROOT)
@@ -234,10 +322,22 @@ def main(argv: Iterable[str] | None = None) -> int:
         return 1
 
     entry = load_json(ROOT, ENTRY_PATH)
-    decision = evaluate_entry(entry, changed_files=tuple(args.changed_file))
+    authoring_manifest = None
+    if (ROOT / AUTHORING_MANIFEST_PATH).is_file():
+        authoring_manifest = load_json(ROOT, AUTHORING_MANIFEST_PATH)
+    decision = evaluate_entry(
+        entry,
+        changed_files=tuple(args.changed_file),
+        pr_number=args.pr_number,
+        head_branch=args.head_branch,
+        base_sha=args.base_sha,
+        authoring_manifest=authoring_manifest,
+    )
     print(f"contract=PASS entry_status={decision.status}")
     for blocker in decision.blockers:
         print(f"blocker={blocker}")
+    for error in decision.errors:
+        print(f"error={error}")
     if args.entry and not decision.allowed:
         return 1
     return 0
