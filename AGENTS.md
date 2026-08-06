@@ -12,9 +12,38 @@ image_generation: STOPPED_BY_USER
 parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 parallel_platform_phase2: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
 platform_phase2_status: MAIN_CANONICAL
+work_entry_gate: REQUIRED_FAIL_CLOSED
+work_entry_gate_decision: OMW-DEC-20260806-TOOLS-HIGODOT-GUT-AUTHORITY-AND-WORK-ENTRY-GATE-V1
+work_entry_gate_status: BLOCKED_CANON_VENDOR_AND_RUNTIME_RECONCILIATION
+work_entry_command: python tools/validate_godot_authoring_test_authority.py --entry
 ```
 
 공통 작업·검증·TDD·벤치마킹·PR·승인 배치·정본·Sheet 동기화 규칙은 Base 책임 원본만 따른다. 이 파일은 해당 규칙을 재서술하지 않고 OMENWARD 고유의 읽기 순서, 현재 결정, 제품 제약, 구현·검증 상태만 책임진다.
+
+## 0. 필수 작업 진입 Gate
+
+모든 일반 작업은 다음 명령을 먼저 통과해야 한다.
+
+```text
+python tools/validate_godot_authoring_test_authority.py --entry
+```
+
+현재 Decision Ledger·미확정 목록·Sheet·이미지 검수·GUT vendor/runtime 상태에 차단 요소가 있으므로 일반 제품 작업은 시작하지 않는다. Gate 자체 bootstrap과 명시된 정본·vendor 교정 경로만 exact changed-file allowlist로 허용한다.
+
+권위 경계:
+
+```text
+HIGODOT_AUTHORING_AUTHORITY = Scene / Node / Resource / project settings mutation
+GUT_TEST_AUTHORITY = discovery / assertion / double / execution / report
+MUTATION_AUTHORITY_OVERLAP = FORBIDDEN
+```
+
+책임 원본:
+
+- `docs/design/PROPOSED_OMENWARD_HIGODOT_GUT_AUTHORITY_AND_GUT_9_7_1_ADOPTION_2026-08-06.md`
+- `docs/operations/OMENWARD_WORK_ENTRY_GATE_2026-08-06.md`
+- `docs/operations/GUT_ADOPTION_RECORD.v1.json`
+- `docs/operations/WORK_ENTRY_GATE_STATE.v1.json`
 
 ## 1. 작업 시작 순서
 
