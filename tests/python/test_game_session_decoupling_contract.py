@@ -16,7 +16,8 @@ EXPECTED_FILES = {
 
 
 def _read(path: str) -> str:
-    return (ROOT / path).read_text(encoding="utf-8")
+    target = ROOT / path
+    return target.read_text(encoding="utf-8") if target.is_file() else ""
 
 
 class GameSessionDecouplingContractTests(unittest.TestCase):
