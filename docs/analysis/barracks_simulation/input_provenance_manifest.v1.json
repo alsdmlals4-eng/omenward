@@ -1,0 +1,281 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260806-PLANNING-BARRACKS-SIMULATION-INPUT-PROVENANCE-AND-ROULETTE-AXIS-CORRECTION-V1",
+  "status": "APPROVED_INPUT_PROVENANCE_MANIFEST",
+  "approval": "USER_APPROVED_RECOMMENDED_OPTION",
+  "approval_count": "2_OF_10",
+  "source_snapshot": {
+    "git_parent_head": "90e058ac0b9dc31d484af66da122741cc8a483cf",
+    "sheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
+    "sheet_revision_id": "386",
+    "captured_at": "2026-08-06T19:00:00+09:00"
+  },
+  "scope": {
+    "artifact": "SIMULATION_INPUT_PROVENANCE_ONLY",
+    "product_code": "UNCHANGED",
+    "local_godot_project": "UNCHANGED",
+    "absolute_product_numerics": "NOT_APPROVED"
+  },
+  "sources": [
+    {
+      "source_id": "approved_simulation_contract",
+      "location": "docs/design/APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md",
+      "version": "blob:2379a3f973a40fb490987a3e38bdb83b1ca4ff7d",
+      "classification": "CURRENT_APPROVED_CONTRACT",
+      "authority_use": "DIMENSIONLESS_RANGES_KPIS_WINDOWS_SEEDS"
+    },
+    {
+      "source_id": "current_barracks_identity",
+      "location": "docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md",
+      "version": "blob:20d2baafa24c7ac09d95b9fbc06311b68b204afe",
+      "classification": "CURRENT_APPROVED_IDENTITY",
+      "authority_use": "AUTO_PRODUCTION_AND_TOKEN_SOURCE_IDENTITY"
+    },
+    {
+      "source_id": "current_physical_roulette_core",
+      "location": "docs/design/APPROVED_ROULETTE_CORE_RULES.md",
+      "version": "blob:4e02586cbc3806e52fe79ed5b1dabffae598f879",
+      "classification": "CURRENT_APPROVED_MECHANIC",
+      "authority_use": "PHYSICAL_REELS_TOKEN_INSTANCES_AND_SNAPSHOT"
+    },
+    {
+      "source_id": "current_pressure_matrix",
+      "location": "docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md",
+      "version": "blob:baa009ad1d0493c9a600cdfb1c8ef45a32df6191",
+      "classification": "CURRENT_APPROVED_QUALITATIVE_PRESSURE",
+      "authority_use": "PRESSURE_CATEGORIES_AND_STAGE_ROLES_ONLY"
+    },
+    {
+      "source_id": "current_maprun_structure",
+      "location": "docs/design/APPROVED_OMENWARD_MAPRUN_STAGE_WAVE_MAINTENANCE_2026-08-02.md",
+      "version": "blob:c0c91381e25a18771cf9292461853649e9876588",
+      "classification": "CURRENT_APPROVED_FLOW",
+      "authority_use": "20_STAGE_3_WAVE_BEAT_FLOW_ONLY"
+    },
+    {
+      "source_id": "current_building_sheet",
+      "location": "google-sheet:1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw#43_건물_Tier_효과!A3:Q6",
+      "version": "revision:386",
+      "classification": "CURRENT_SHEET_CANON",
+      "authority_use": "BUILDING_IDENTITY_AND_NUMERICS_PENDING_STATUS"
+    },
+    {
+      "source_id": "current_simulation_sheet",
+      "location": "google-sheet:1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw#44_병영_경제_시뮬레이션!A1:R40",
+      "version": "revision:386",
+      "classification": "CURRENT_ANALYSIS_MATRIX",
+      "authority_use": "APPROVED_RANGES_EXCEPT_SUPERSEDED_WEIGHT_AXIS"
+    },
+    {
+      "source_id": "legacy_stage_economy_baseline",
+      "location": "docs/design/APPROVED_STAGE_ECONOMY_AND_BUILDING_COST_BASELINE_V1.md",
+      "version": "blob:84d5c45346f6706cd4d3467f7d24eb789d2297ba",
+      "classification": "LEGACY_POC_CANDIDATE",
+      "authority_use": "CANDIDATE_VALUES_ONLY_NOT_CURRENT_MAPRUN_AUTHORITY"
+    },
+    {
+      "source_id": "legacy_special_corps_v5",
+      "location": "docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md",
+      "version": "blob:94015833f6d72cd4eb0738b92efe6fd4daaf771a",
+      "classification": "PARTIALLY_SUPERSEDED_CANDIDATE",
+      "authority_use": "FOUR_SPECIAL_PRODUCTION_TIME_CANDIDATES_ONLY"
+    },
+    {
+      "source_id": "legacy_weighted_board_code",
+      "location": "scripts/roulette/roulette_service.gd",
+      "version": "blob:d52f02c56a6454220fbff042e1b751ea751c7bfb",
+      "classification": "IMPLEMENTED_LEGACY_CONFLICT",
+      "authority_use": "COMPARATOR_ONLY_NOT_V2_SIMULATION_AUTHORITY"
+    }
+  ],
+  "inputs": [
+    {
+      "input_id": "GENERAL_BARRACKS_COST_INDEX",
+      "value": 1.0,
+      "unit": "relative_index",
+      "status": "READY_DIMENSIONLESS",
+      "source_ids": ["approved_simulation_contract"]
+    },
+    {
+      "input_id": "SPECIAL_BARRACKS_COST_MULTIPLIER",
+      "candidates": [1.25, 1.5, 1.75, 2.0],
+      "unit": "multiplier_vs_general",
+      "status": "READY_DIMENSIONLESS",
+      "source_ids": ["approved_simulation_contract"]
+    },
+    {
+      "input_id": "GENERAL_BARRACKS_COST_GOLD",
+      "candidate_value": 40,
+      "unit": "gold",
+      "status": "LEGACY_CANDIDATE_BLOCKED",
+      "source_ids": ["legacy_stage_economy_baseline", "current_building_sheet"],
+      "reason": "CURRENT_BUILDING_CANON_MARKS_EXACT_COST_PENDING_AND_LEGACY_VALUE_ASSUMES_SUPERSEDED_15_MIN_STAGE_CONTEXT"
+    },
+    {
+      "input_id": "SPECIAL_BARRACKS_COST_GOLD",
+      "candidate_value": 40,
+      "unit": "gold",
+      "status": "LEGACY_CANDIDATE_BLOCKED",
+      "source_ids": ["legacy_stage_economy_baseline", "current_building_sheet"],
+      "reason": "CURRENT_SPECIAL_T1_IDENTITY_AND_DOUBLE_VALUE_CHANGED"
+    },
+    {
+      "input_id": "GENERAL_PRODUCTION_INTERVAL_INDEX",
+      "value": 1.0,
+      "unit": "relative_index",
+      "status": "READY_DIMENSIONLESS",
+      "source_ids": ["approved_simulation_contract"]
+    },
+    {
+      "input_id": "SPECIAL_PRODUCTION_INTERVAL_MULTIPLIER",
+      "candidates": [1.45, 1.7, 1.95, 2.2],
+      "unit": "multiplier_vs_general",
+      "status": "READY_DIMENSIONLESS",
+      "source_ids": ["approved_simulation_contract"]
+    },
+    {
+      "input_id": "GENERAL_PRODUCTION_INTERVAL_SECONDS",
+      "unit": "active_combat_seconds",
+      "status": "MISSING_BLOCKER",
+      "source_ids": [],
+      "reason": "NO_CURRENT_GENERAL_T1_OR_T2_PRODUCTION_CLOCK"
+    },
+    {
+      "input_id": "SPECIAL_PRODUCTION_INTERVAL_SECONDS",
+      "candidate_values": {"priest": 180, "mage": 210, "flying": 240, "giant": 300},
+      "unit": "active_combat_seconds",
+      "status": "PARTIAL_LEGACY_CANDIDATE_BLOCKED",
+      "source_ids": ["legacy_stage_economy_baseline", "legacy_special_corps_v5"],
+      "reason": "OLD_T2_ONLY_FOUR_TYPE_STRUCTURE_CONFLICTS_WITH_CURRENT_T1_FIVE_TYPE_RANDOM_SELECTION"
+    },
+    {
+      "input_id": "ASSASSIN_PRODUCTION_INTERVAL_SECONDS",
+      "unit": "active_combat_seconds",
+      "status": "MISSING_BLOCKER",
+      "source_ids": [],
+      "reason": "CURRENT_SPECIAL_SET_HAS_ASSASSIN_BUT_LEGACY_NUMERIC_SOURCE_DOES_NOT"
+    },
+    {
+      "input_id": "TOKEN_INSTANCES_PER_REEL_PER_SOURCE",
+      "value": 1,
+      "unit": "token_instance_per_reel",
+      "status": "READY_CANON",
+      "source_ids": ["current_physical_roulette_core"]
+    },
+    {
+      "input_id": "TOTAL_TOKEN_INSTANCES_PER_SOURCE_BUILDING",
+      "value": 3,
+      "unit": "token_instances",
+      "status": "READY_CANON",
+      "source_ids": ["current_physical_roulette_core"]
+    },
+    {
+      "input_id": "SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER",
+      "previous_candidates": [0.35, 0.5, 0.65, 0.8],
+      "unit": "legacy_abstract_weight",
+      "status": "SUPERSEDED_BY_PHYSICAL_REEL_CORRECTION",
+      "source_ids": ["approved_simulation_contract", "current_physical_roulette_core"],
+      "replacement_input_id": "TOKEN_INSTANCES_PER_REEL_PER_SOURCE"
+    },
+    {
+      "input_id": "SAME_SYMBOL_SOURCE_WEIGHT",
+      "unit": "reward_source_selection_weight",
+      "status": "OPTIONAL_STRESS_AXIS_NOT_SYMBOL_PROBABILITY",
+      "source_ids": ["current_physical_roulette_core"],
+      "reason": "AFFECTS_REWARD_SOURCE_SELECTION_AFTER_SYMBOL_WIN_ONLY"
+    },
+    {
+      "input_id": "ROULETTE_DRAW_POLICY",
+      "candidates": ["AGGRESSIVE_WHEN_AFFORDABLE", "RESERVE_ESSENTIAL_OBLIGATIONS", "MAINTENANCE_ONLY"],
+      "unit": "policy_scenario",
+      "status": "READY_SCENARIO_POLICY",
+      "source_ids": ["current_physical_roulette_core", "current_maprun_structure"]
+    },
+    {
+      "input_id": "ROULETTE_POOL_INITIAL_STATE",
+      "value": {"left": ["X", "X", "X"], "center": ["X", "X", "X"], "right": ["X", "X", "X"]},
+      "unit": "token_instances",
+      "status": "READY_CANON",
+      "source_ids": ["current_physical_roulette_core"]
+    },
+    {
+      "input_id": "ROULETTE_SPIN_COST_GOLD",
+      "candidate_value": 20,
+      "unit": "gold",
+      "status": "LEGACY_CANDIDATE_BLOCKED",
+      "source_ids": ["legacy_stage_economy_baseline", "legacy_weighted_board_code"],
+      "reason": "VALUE_AGREES_ACROSS_LEGACY_SOURCES_BUT_CURRENT_MAPRUN_ECONOMY_CLOCK_IS_UNDEFINED"
+    },
+    {
+      "input_id": "UNIT_FUNCTIONAL_VALUE_INDEX",
+      "value": {"general": 1.0, "special_candidates": [1.35, 1.5, 1.65]},
+      "unit": "relative_functional_value",
+      "status": "READY_DIMENSIONLESS_ASSUMPTION",
+      "source_ids": ["approved_simulation_contract"]
+    },
+    {
+      "input_id": "FOOD_SLOT_AND_NODE_OPPORTUNITY_COST",
+      "unit": "normalized_opportunity_cost",
+      "status": "MISSING_BLOCKER",
+      "source_ids": ["legacy_stage_economy_baseline", "current_building_sheet"],
+      "reason": "CURRENT_EXACT_FOOD_AND_NODE_VALUES_NOT_APPROVED"
+    },
+    {
+      "input_id": "CURRENT_MAPRUN_GOLD_TIMELINE",
+      "unit": "gold_by_active_time_and_stage",
+      "status": "MISSING_BLOCKER",
+      "source_ids": ["legacy_stage_economy_baseline", "current_maprun_structure"],
+      "reason": "LEGACY_15_MIN_STAGE_ECONOMY_CONFLICTS_WITH_CURRENT_20_STAGE_FLOW_AND_PENDING_MAINTENANCE_CLOCKS"
+    },
+    {
+      "input_id": "ENEMY_THREAT_BUDGET_AND_TIMELINE",
+      "unit": "threat_points_by_wave_time_route",
+      "status": "MISSING_BLOCKER",
+      "source_ids": ["current_pressure_matrix", "current_maprun_structure"],
+      "reason": "ONLY_QUALITATIVE_PRESSURE_AND_THREE_BEAT_ROLES_ARE_APPROVED"
+    },
+    {
+      "input_id": "MAINTENANCE_CLOCK_MATRIX",
+      "unit": "clock_on_off_rules",
+      "status": "MISSING_BLOCKER",
+      "source_ids": ["current_maprun_structure"],
+      "reason": "ECONOMY_PRODUCTION_REPAIR_COOLDOWN_CLOCKS_ARE_PENDING"
+    },
+    {
+      "input_id": "PRESSURE_CATEGORIES",
+      "value": ["MASS", "ARMORED", "FLYING", "INFILTRATION", "SIEGE"],
+      "unit": "categorical",
+      "status": "READY_QUALITATIVE",
+      "source_ids": ["current_pressure_matrix"]
+    },
+    {
+      "input_id": "WINDOWS_MINUTES",
+      "value": [5, 10, 15],
+      "unit": "minutes",
+      "status": "READY_CONTRACT",
+      "source_ids": ["approved_simulation_contract"]
+    },
+    {
+      "input_id": "SEED_COUNTS",
+      "value": {"smoke": 2000, "decision": 10000, "confirmation": 50000},
+      "unit": "seeds",
+      "status": "READY_CONTRACT",
+      "source_ids": ["approved_simulation_contract"]
+    }
+  ],
+  "run_gate": {
+    "simulation_runnable": false,
+    "smoke_sweep": "BLOCKED",
+    "decision_sweep": "BLOCKED",
+    "confirmation_sweep": "BLOCKED",
+    "blocking_inputs": [
+      "GENERAL_PRODUCTION_INTERVAL_SECONDS",
+      "ASSASSIN_PRODUCTION_INTERVAL_SECONDS",
+      "FOOD_SLOT_AND_NODE_OPPORTUNITY_COST",
+      "CURRENT_MAPRUN_GOLD_TIMELINE",
+      "ENEMY_THREAT_BUDGET_AND_TIMELINE",
+      "MAINTENANCE_CLOCK_MATRIX"
+    ],
+    "next_gate": "CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE"
+  }
+}
