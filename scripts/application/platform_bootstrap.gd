@@ -14,14 +14,14 @@ func compose(host: Node, assigned_application: Variant = null) -> Dictionary:
 	var application: Variant = assigned_application
 	if application == null:
 		application = GameApplicationScript.new()
-	var driver: Variant = host.get_meta(DRIVER_META, null)
+	var driver: Variant = host.get_meta(DRIVER_META) if host.has_meta(DRIVER_META) else null
 	if not is_instance_valid(driver):
 		driver = SessionDriverScript.new()
 		driver.name = "SessionDriver"
 		host.add_child(driver)
 		host.set_meta(DRIVER_META, driver)
 	driver.configure(application)
-	var binder: Variant = host.get_meta(BINDER_META, null)
+	var binder: Variant = host.get_meta(BINDER_META) if host.has_meta(BINDER_META) else null
 	if not is_instance_valid(binder):
 		binder = SceneBinderScript.new()
 		binder.name = "SceneBinder"
