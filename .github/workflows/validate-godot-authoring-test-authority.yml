@@ -36,6 +36,19 @@ jobs:
           for file in "${files[@]}"; do
             args+=(--changed-file "$file")
           done
-          python tools/validate_godot_authoring_test_authority.py --entry "${args[@]}"
+          python tools/validate_godot_authoring_test_authority.py \
+            --entry \
+            --pr-number "${{ github.event.pull_request.number }}" \
+            --head-branch "${{ github.head_ref }}" \
+            --base-sha "${{ github.event.pull_request.base.sha }}" \
+            "${args[@]}"
+      - name: Prove tests did not mutate Godot authoring surfaces
+        shell: bash
+        run: |
+          dirty="$(git status --porcelain -- project.godot ':(glob)**/*.tscn' ':(glob)**/*.tres' ':(glob)**/*.res')"
+          if [[ -n "$dirty" ]]; then
+            echo "$dirty"
+            exit 1
+          fi
       - name: Check whitespace
         run: git diff --check
