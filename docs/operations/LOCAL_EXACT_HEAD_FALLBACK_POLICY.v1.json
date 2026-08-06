@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260807-PROCESS-ACTIONS-BUDGET-LOCAL-EXACT-HEAD-FALLBACK-V1",
+  "observed_at": "2026-08-07T06:51:00+09:00",
+  "status": "ACTIVE_TEMPORARY_FALLBACK",
+  "authority": "USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION",
+  "active_contract": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.3",
+  "trigger": {
+    "classification": "BILLING_OR_SPENDING_LIMIT_PRE_START",
+    "workflow_steps": 0,
+    "runner_id": 0,
+    "github_actions_green": false,
+    "code_or_test_commands_executed_in_actions": false
+  },
+  "scope": {
+    "eligible_pr_classes": [
+      "PROCESS_ONLY",
+      "DOCUMENTATION_ONLY",
+      "PYTHON_VALIDATOR_ONLY",
+      "DATA_CONTRACT_ONLY"
+    ],
+    "ineligible_pr_classes": [
+      "PRODUCT_IMPLEMENTATION",
+      "GODOT_AUTHORING",
+      "FORMAL_GUT_RUNTIME",
+      "WINDOWS_ANDROID_RUNTIME",
+      "ASSET_IMPORT_OR_RUNTIME",
+      "EXPORT_OR_PACKAGE",
+      "GODOT_RUNTIME"
+    ],
+    "required_process_pr_levels": [
+      "REMOTE_EXACT_HEAD_READBACK",
+      "GIT_BLOB_SHA_READBACK",
+      "RECONSTRUCTED_EXECUTION",
+      "ADVERSARIAL_REVIEW",
+      "GOOGLE_SHEET_SYNC"
+    ]
+  },
+  "verification_requirements": {
+    "require_exact_head": true,
+    "require_changed_file_allowlist": true,
+    "require_git_blob_sha": true,
+    "require_reconstruct_from_remote": true,
+    "require_fresh_commands": true,
+    "require_exit_codes": true,
+    "require_remote_and_reconstructed_blob_match_for_executables": true,
+    "require_zero_unexpected_product_or_godot_paths": true,
+    "can_claim_github_actions_green": false,
+    "can_substitute_for_godot_runtime": false,
+    "can_substitute_for_gut_runtime": false,
+    "can_substitute_for_windows_android": false
+  },
+  "merge_policy": {
+    "normal_merge_only": true,
+    "repository_policy_bypass": "FORBIDDEN",
+    "branch_protection_bypass": "FORBIDDEN",
+    "eligible_pr_classes": [
+      "PROCESS_ONLY",
+      "DOCUMENTATION_ONLY",
+      "PYTHON_VALIDATOR_ONLY",
+      "DATA_CONTRACT_ONLY"
+    ],
+    "requires_zero_p0_p1": true,
+    "requires_exact_head_evidence": true,
+    "requires_github_to_accept_normal_merge": true,
+    "runtime_pr_merge_authorized": false
+  },
+  "initial_subject": {
+    "pull_request": 157,
+    "head_sha": "c27715cfb7f161854fd994711a6859ee23a68fac",
+    "base_sha": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
+    "pr_class": "PROCESS_ONLY"
+  },
+  "limitations": [
+    "DOES_NOT_CREATE_A_GITHUB_CHECK_RUN",
+    "DOES_NOT_PROVE_GITHUB_ACTIONS_GREEN",
+    "DOES_NOT_PROVE_GODOT_IMPORT_OR_RUNTIME",
+    "DOES_NOT_PROVE_GUT_CLI_OR_JUNIT",
+    "DOES_NOT_PROVE_WINDOWS_OR_ANDROID",
+    "DOES_NOT_ACCESS_USER_WINDOWS_CHECKOUT"
+  ]
+}
