@@ -1,15 +1,15 @@
 # [현행] OMENWARD 문서 수명주기 레지스트리
 
 ```yaml
-updated_at: 2026-08-05
+updated_at: 2026-08-06
 policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
-process_policy: OMW-PROC-20260805-BENCHMARK-TDD-APPROVAL-BATCH-V1
+common_process_authority: alsdmlals4-eng/Base/AGENTS.md
 status: CURRENT_LIFECYCLE_AUTHORITY
 current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 current_count: 6_OF_10
 ```
 
-이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다.
+이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다. 재사용 가능한 공통 작업 규칙은 Base에서만 관리하며 이 레지스트리는 OMENWARD 문서 상태만 판정한다.
 
 ## 1. [현행]
 
@@ -21,7 +21,12 @@ current_count: 6_OF_10
 - `CURRENT_IMPLEMENTATION_STATUS.md`
 - `DOCUMENTATION_MAP.md`
 - `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`
-- `process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md`
+
+외부 공통 운영 권위:
+
+- `alsdmlals4-eng/Base/AGENTS.md`
+- `alsdmlals4-eng/Base/docs/OPERATING_MODEL.md`
+- `alsdmlals4-eng/Base/docs/WORK_MODE_AND_SKILL_ROUTING.md`
 
 ### Planning Batch
 
@@ -43,8 +48,21 @@ current_count: 6_OF_10
 - `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`: 다섯 분기 건물과 과거 결정 계보. 마력탑 부분은 5/10 우선.
 - `design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`: 병종 대응망.
 - `design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`: 전술·마력.
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`: 플랫폼 구조.
+- `APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`: Phase 0 증거.
+- `APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`: Phase 1 계약.
+- `APPROVED_PC_ANDROID_PHASE2_GAME_SESSION_DECOUPLING_2026-08-06.md`: Phase 2 구현·검증 증거.
 
 ## 2. [대체됨]
+
+```text
+LOCAL_COMMON_PROCESS_POLICY
+path = process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md
+status = SUPERSEDED_BY_BASE_COMMON_AUTHORITY
+replacement = alsdmlals4-eng/Base/AGENTS.md
+retention = HISTORICAL_PATH_POINTER_ONLY
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
 
 ```text
 LEGACY_TERM_MASOK
@@ -131,16 +149,18 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 - `benchmarks/**`의 Evidence Pilot.
 - `archive/**`.
 - 완료된 PR·commit·CI run·Sheet 변경 이력.
+- `superpowers/plans/**`의 완료·대체된 계획은 당시 실행 계약 증거이며 공통 운영 권위가 아니다.
 
 `[증거]`는 과거 사실을 증명하지만 현재 규칙을 자동 변경하지 않는다.
 
-## 6. 신규 작업자 규칙
+## 6. 신규 작업자용 프로젝트 확인
 
 1. `PROJECT_CORE.md`와 `DOCUMENTATION_MAP.md`를 먼저 읽는다.
 2. 대상 파일이 `[현행]`인지 확인한다.
 3. 상인 작업은 6/10 책임 원본을 우선한다.
 4. 과거 HUD·상인 개요에서 상시 상점·무한 재고·직접 판매를 구현 입력으로 사용하지 않는다.
 5. 정확 수치는 시뮬레이션·Codex 계획·제품 RED 테스트 뒤에만 확정한다.
+6. 공통 작업 절차는 프로젝트 내부 과거 정책이 아니라 Base 책임 원본을 따른다.
 
 ## 7. 완료 이력
 
