@@ -1,17 +1,17 @@
-# OMENWARD Platform Boundary — Free Local Baseline through Phase 2
+# OMENWARD Platform Boundary — Phase 0 through Phase 2
 
 ```yaml
 phase0_decision: OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
 phase1_decision: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 phase2_decision: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
 parent_architecture_decision: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
-verification_mode: FREE_LOCAL_ONLY
-github_actions: NOT_USED
+common_work_authority: alsdmlals4-eng/Base/AGENTS.md
+phase2_main: 04e53660387a3bb6d51edd746950cbb6cad8b745
 ```
 
-이 디렉터리는 공용 코어 경계를 보호하고 플랫폼별 구현이 따라야 할 계약을 정의한다. GitHub Actions 또는 유료 runner 없이 개발자 PC와 무료 로컬 도구에서 직접 검증한다.
+공통 작업·검증·PR 운영 규칙은 Base에서만 관리한다. 이 문서는 OMENWARD에 실제 적용된 플랫폼 경계, 실행 명령, 구현 경로와 검증 범위만 기록한다.
 
-## 무료 로컬 명령
+## 실행에 사용한 로컬 명령
 
 ```bash
 python -m unittest \
@@ -35,7 +35,7 @@ godot --headless --path . --script tests/headless/platform_bootstrap_idempotence
 - `OS.has_feature()`
 - Steam·Google Play SDK
 
-Phase 2에서 구형 `scripts/core/game_session.gd`를 제거했으므로 현재 legacy allowance는 0건이다. 새 위반과 낡은 allowlist 항목은 모두 실패한다.
+Phase 2에서 구형 `scripts/core/game_session.gd`를 제거했으므로 현재 legacy allowance는 0건이다. 새 위반과 낡은 allowlist 항목은 모두 검사 실패로 판정된다.
 
 ## Phase 1 계약 구조
 
@@ -79,13 +79,25 @@ scripts/presentation/scene_binder.gd
 
 Main Scene은 기존 UID를 유지하며 `res://scripts/application/game_session.gd`를 사용한다.
 
-## 판정 규칙
+## 검증 증거와 미검증 범위
 
 ```text
-PYTHON_STATIC_GUARD_PASS != GODOT_CONTRACT_PASS
-GODOT_CONTRACT_PASS != FULL_PROJECT_RUNTIME_PASS
-PHASE2_SESSION_PASS != COMMON_PLATFORM_GATE_PASS
-EXPORT_SUCCESS != PLATFORM_READY
+PYTHON_PHASE2_AND_STATIC = 9_PASS
+STATIC_GUARD = ALLOWED_0 / UNAPPROVED_0 / STALE_0
+GODOT_EDITOR_CLASS_SCAN = EXIT_0
+GODOT_PHASE0_CHARACTERIZATION = EXIT_0
+GODOT_PHASE1_CONTRACTS = EXIT_0
+GODOT_PHASE2_SESSION = EXIT_0
+GODOT_BOOTSTRAP_IDEMPOTENCE = EXIT_0
+MAIN_EXACT_TREE_LOCAL_PASS = TRUE
+FULL_PROJECT_RUNTIME = NOT_RUN
+COMPLETE_SCENE_ASSEMBLY = NOT_RUN
+REPRESENTATIVE_PC_BUILD = NOT_RUN
+REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
+EXPORT = NOT_RUN
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
 ```
 
-Phase 2는 GameSession 책임만 분리한다. 공용 save schema, PC·Android adapter 구현, 반응형 UI, SDK, build 또는 release Gate는 구현하지 않는다.
+Phase 2는 GameSession 책임 분리까지만 구현했다. 공용 save schema, PC·Android adapter 구현, 반응형 UI, SDK, build와 release Gate는 구현하지 않았다.
