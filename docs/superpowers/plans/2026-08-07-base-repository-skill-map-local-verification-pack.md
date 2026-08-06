@@ -1,52 +1,57 @@
-# Base repository/Skill recovery map and Windows + WSL2 local verification pack
+# Base recovery map and existing Actions validation simplification
 
-> **Decision:** `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1` (`NON_COUNTER`)
-> **Status:** `RECOVERY_MAP_CREATED_INCOMPLETE / LOCAL_EXECUTION_NOT_RUN / ENTRY_GATE_BLOCK`
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Record an exact-commit, fail-closed map of the Base repository surfaces already read, explicitly mark unread material, and add a repeatable local verification pack for Windows Python 3.11/3.12/3.13 plus WSL2 Ubuntu Python 3.12.
+**Goal:** Preserve the fail-closed Base recovery map while removing the local verification pack and reusing the existing Full validation workflow.
 
-**Base commit:** `4f98f968a377f7b6a11aafa4fc94d11bddbebedc`  
-**OMENWARD base commit:** `93c388ad1c50581671f8ea059357c863d8d8e0f7`
+**Architecture:** `validate-omenward-core.yml` is the single full-validation entrypoint. Its manual-dispatch matrix covers standard Ubuntu and Windows GitHub-hosted runners with Python 3.11, 3.12, and 3.13, while the existing Godot 4.7.1 job remains unchanged. Base recovery evidence stays separate and incomplete.
 
-## Non-goals
+**Tech Stack:** GitHub Actions, Python `unittest`, Godot 4.7.1, Google Sheets decision ledger.
 
-- Do not clear `BASE_WHOLE_REPOSITORY_AND_SKILL_RECOVERY_NOT_COMPLETED`.
-- Do not claim any user-local Windows or WSL2 command ran.
-- Do not authorize product implementation, Godot authoring, GUT activation/execution, asset import, Ready, or merge.
-- Do not mutate `addons/gut`, product, Scene, Resource, `project.godot`, or audio paths.
+## Global Constraints
 
-## TDD sequence
+- Decision ID remains `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`.
+- Repository visibility is not changed.
+- `RECOVERY_STATUS=INCOMPLETE`.
+- `BASE_RECOVERY_BLOCKER_CLEARED=FALSE`.
+- `ENTRY_GATE=BLOCK`.
+- Do not claim `ACTIONS_GREEN` without an exact-head successful run.
+- Do not authorize product, Godot authoring, GUT activation, audio import, Ready, or merge.
 
-1. Commit this plan.
-2. Add a focused bootstrap/contract test that requires:
-   - exact Base and OMENWARD SHAs,
-   - all 29 Base root paths,
-   - 29 discovered Base `SKILL.md` entrypoints,
-   - nine Base workflows,
-   - explicit `NOT_READ/BLOCKED` entries,
-   - exact Windows/WSL2 matrix,
-   - all user-local results initialized to `NOT_RUN_USER_LOCAL`,
-   - `ENTRY_GATE=BLOCK`,
-   - PowerShell and WSL2 launchers.
-3. Reproduce RED while validator/state/launchers are absent.
-4. Add the machine state, validator, common runner, PowerShell launcher, WSL2 launcher, and intended GitHub Actions matrix.
-5. Run fresh compile, focused unittest, state validator, launcher dry checks, and `git diff --check` in a reconstructed exact-file workspace.
-6. Open a Draft PR, record exact head, changed-file allowlist, verification evidence, and GitHub Actions classification.
-7. Sync the same Decision ID to bounded Sheet rows and read them back.
+---
 
-## Local matrix
+### Task 1: Strengthen the existing CI usage contract
 
-| Environment ID | Host | Runtime | Required command |
-|---|---|---|---|
-| `windows-py311` | Windows | CPython 3.11 | `py -3.11` |
-| `windows-py312` | Windows | CPython 3.12 | `py -3.12` |
-| `windows-py313` | Windows | CPython 3.13 | `py -3.13` |
-| `wsl2-ubuntu-py312` | WSL2 Ubuntu | CPython 3.12 | `python3.12` |
+**Files:**
+- Modify: `tests/python/test_ci_usage_contract.py`
+- Modify: `tools/validate_ci_usage_contract.py`
+- Modify: `.github/workflows/validate-omenward-core.yml`
 
-Each run writes one JSON receipt. Until the user executes the pack, every environment remains `NOT_RUN_USER_LOCAL`.
+- [x] Write failing assertions for manual dispatch, standard runner labels, and Python 3.11/3.12/3.13.
+- [x] Observe RED against the former Python 3.12/3.13 matrix.
+- [x] Add Python 3.11 and reject `self-hosted`.
+- [x] Run the focused CI usage suite to GREEN.
 
-## Acceptance
+### Task 2: Remove the local verification pack
 
-- The map is honest about coverage and does not clear the Base recovery blocker while unread surfaces remain.
-- The local pack is deterministic, checks the exact Git HEAD, records runtime identity and every command exit code, and fails on the first non-zero command.
-- No completion claim is made without fresh evidence.
+**Files:**
+- Create: `tests/python/test_base_recovery_map.py`
+- Modify: `docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP.v1.json`
+- Modify: `docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP_2026-08-07.md`
+- Delete: dedicated local workflow, matrix, launchers, receipt runner, validator, and local-pack regression tests
+
+- [x] Write a failing test requiring the existing Actions workflow as the only validation path.
+- [x] Observe RED while local pack files and old state remain.
+- [x] Add `validation_strategy` and remove all local pack paths.
+- [x] Run the Base recovery map contract to GREEN.
+
+### Task 3: Synchronize authority records
+
+**Files:**
+- Modify: this plan and adversarial review
+- Update: PR #159 title/body
+- Update: Google Sheet rows under the same Decision ID
+
+- [ ] Record the exact new PR head and changed-file list.
+- [ ] Read back GitHub and Sheet values.
+- [ ] Leave the PR Draft and merge blocked until exact-head Actions Green.
