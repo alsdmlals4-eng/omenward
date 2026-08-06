@@ -8,20 +8,17 @@ DECISION_ID = "OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTER
 SPEC = ROOT / "docs/superpowers/specs/2026-08-05-six-building-t2-t3-branches-design.md"
 CANON = ROOT / "docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_BUILDING_BRANCH_COUNTER_AND_OPPORTUNITY_COST_REVIEW_2026-08-05.md"
-PROCESS = ROOT / "docs/process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md"
+PROCESS_TOMBSTONE = ROOT / "docs/process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md"
 
 BUILDINGS = ("금고", "농장", "병영", "방어탑", "지휘소", "마력탑")
 PRESSURES = ("MASS", "ARMORED", "FLYING", "INFILTRATION", "SIEGE")
-PROCESS_MARKERS = (
+LOCAL_COMMON_POLICY_MARKERS = (
     "BENCHMARK_REQUIRED",
     "INDUSTRY_COMPARISON_REQUIRED",
     "MAX_APPROVAL_BATCH: 10",
-    "EARLY_CHECKPOINT_ON_HIGH_RISK_CONFLICT",
-    "EARLY_CHECKPOINT_ON_SESSION_END",
-    "EARLY_CHECKPOINT_ON_LARGE_CANON_IMPACT",
     "TDD_MANDATORY",
-    "RED → GREEN → REFACTOR",
     "EXPLICIT_BRANCH_REQUIRED_FOR_GITHUB_MUTATION",
+    "DIRECT_MAIN_WRITE: FORBIDDEN",
 )
 CENTRAL_FILES = (
     ROOT / "README.md",
@@ -42,7 +39,7 @@ def read(path: pathlib.Path) -> str:
 
 class BuildingBranchCanonTests(unittest.TestCase):
     def test_building_branch_authority_files_exist(self) -> None:
-        for path in (SPEC, CANON, REVIEW, PROCESS):
+        for path in (SPEC, CANON, REVIEW):
             self.assertTrue(path.is_file(), f"missing authority file: {path.relative_to(ROOT)}")
 
     def test_common_branch_grammar_and_tradeoffs_are_explicit(self) -> None:
@@ -79,10 +76,17 @@ class BuildingBranchCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_process_policy_requires_benchmark_batch_checkpoint_and_tdd(self) -> None:
-        text = read(PROCESS)
-        for marker in PROCESS_MARKERS:
-            self.assertIn(marker, text)
+    def test_common_process_authority_is_base_only(self) -> None:
+        self.assertTrue(PROCESS_TOMBSTONE.is_file())
+        tombstone = read(PROCESS_TOMBSTONE)
+        self.assertIn("SUPERSEDED_BY_BASE_COMMON_AUTHORITY", tombstone)
+        self.assertIn("alsdmlals4-eng/Base/AGENTS.md", tombstone)
+        self.assertIn("HISTORICAL_PATH_POINTER_ONLY", tombstone)
+        self.assertIn("IMPLEMENTATION_INPUT: FORBIDDEN", tombstone)
+        for marker in LOCAL_COMMON_POLICY_MARKERS:
+            self.assertNotIn(marker, tombstone)
+            self.assertNotIn(marker, read(ROOT / "README.md"))
+            self.assertNotIn(marker, read(ROOT / "AGENTS.md"))
 
     def test_central_authority_routes_decision_three_of_ten(self) -> None:
         for path in CENTRAL_FILES:
