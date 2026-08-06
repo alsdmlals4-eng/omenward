@@ -9,7 +9,7 @@ Status: `INCOMPLETE / ENTRY_GATE_BLOCK`
 
 The Base root tree contains 29 tracked root paths. Exact recursive indexes were recovered for `.codex-plugin`, `.github`, `skills`, and `tools`; the tests index was fetched but the connector response was clamped. The Base Skill subtree exposes 29 `SKILL.md` entrypoints. The GitHub configuration contains nine workflow files.
 
-The authoritative Base cold-start order begins with `START_HERE.md` and `AGENTS.md`, then routes through the operating model, Work Mode/Skill routing, documentation map, and `skills/SKILL_REGISTRY.json`. Base explicitly says that “look through the whole repository” does not mean blindly loading every file; it means selecting the responsibility originals and minimum Skills required by the request, without claiming completion when repository access is incomplete.
+The authoritative Base cold-start order begins with `START_HERE.md` and `AGENTS.md`, then routes through the operating model, Work Mode/Skill routing, documentation map, and `skills/SKILL_REGISTRY.json`. A top-level inventory is not full-content recovery.
 
 ## Read coverage
 
@@ -31,25 +31,20 @@ Partially read:
 
 ## Blocking unread coverage
 
-The machine state lists every unread or partially read top-level surface and gives each `gate_effect=BLOCKED`. Consequently:
+Every unread or partially read top-level surface remains `gate_effect=BLOCKED`. Consequently:
 
 - `BASE_WHOLE_REPOSITORY_AND_SKILL_RECOVERY_NOT_COMPLETED` remains unresolved.
 - `ENTRY_GATE` remains `BLOCK`.
 - This map cannot authorize product, Godot, GUT, audio, Ready, or merge activity.
 
-## Local verification pack
+## Simplified validation path
 
-The canonical local matrix is:
-- Windows: `py -3.11`, `py -3.12`, `py -3.13`
-- WSL2 Ubuntu: `python3.12`
+The separate Windows/WSL2 launcher and JSON-receipt pack has been removed. Validation now reuses `.github/workflows/validate-omenward-core.yml` through `workflow_dispatch`.
 
-`tools/run_local_verification_pack.ps1` runs the three Windows environments. `tools/run_local_verification_pack_wsl.sh` runs Ubuntu 3.12. Each delegates to the same Python runner, verifies exact Git HEAD and Python version, executes the focused contract commands, and writes a JSON receipt.
+The Full validation job uses only standard GitHub-hosted labels:
 
-Shell boundaries are explicit:
+- operating systems: `ubuntu-latest`, `windows-latest`
+- Python: `3.11`, `3.12`, `3.13`
+- Godot: `4.7.1` headless import, contract tests, and runtime smoke
 
-- Run `tools/run_local_verification_pack.ps1` from Windows PowerShell.
-- Run `tools/run_local_verification_pack_wsl.sh` inside a WSL2 Ubuntu shell.
-- Do not use `/mnt/c/...` with PowerShell `Set-Location`, and do not execute the `.sh` file directly as a PowerShell command.
-- To launch the WSL verifier while remaining in PowerShell, use `wsl.exe --cd /mnt/c/Users/<USER>/Documents/GitHub/Ninza/omenward bash -lc "./tools/run_local_verification_pack_wsl.sh"`.
-
-Canonical statuses stay `NOT_RUN_USER_LOCAL` until receipts produced on the user's machine are reviewed and bound to an exact commit.
+The repository was observed as `private` during this decision. No visibility change is included. Therefore this decision does not claim that public-repository free-and-unlimited billing policy currently applies, and it does not claim Actions Green until an exact-head workflow run completes successfully.
