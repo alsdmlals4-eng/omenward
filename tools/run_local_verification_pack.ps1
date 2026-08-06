@@ -4,7 +4,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$RepositoryRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
+$RepositoryRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $RepositoryRoot
 $ExpectedHead = (git rev-parse HEAD).Trim()
 if ($LASTEXITCODE -ne 0) { throw "git rev-parse HEAD failed" }
