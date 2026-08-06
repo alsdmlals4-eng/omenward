@@ -46,6 +46,8 @@ BUILD_PLANS = GENERAL_ONLY / SPECIAL_ONLY / GENERAL_AND_SPECIAL / MULTI_SPECIAL
 FIXED_SPECIAL_OUTCOMES = ASSASSIN / PRIEST / MAGE / FLYING_UNIT / GIANT
 ```
 
+분석 방식:
+
 ```text
 APPROACH = PROXY_MONTE_CARLO_WITH_IDENTIFIABILITY_ENVELOPE
 CANON_BACKED = ECONOMY / PRODUCTION CLOCK / PHYSICAL REEL / STAGE1_TO_5_TU_TIMELINE
@@ -54,6 +56,8 @@ SUPPORT_ENVELOPES = LOW / MID / HIGH
 ```
 
 ## 3. 기준 벡터 결과
+
+기준 벡터:
 
 ```text
 SPECIAL_COST_MULTIPLIER = 1.50
@@ -77,6 +81,8 @@ SPECIAL_FUNCTIONAL_VALUE_INDEX = 1.50
 
 ## 4. 식별 가능성 결과
 
+같은 기준 벡터와 같은 seed를 유지하고 비병영 지원 기여만 변경했다.
+
 ```text
 GENERAL_PATH_VALIDITY_LOW  = 0.195417
 GENERAL_PATH_VALIDITY_MID  = 1.000000
@@ -91,23 +97,30 @@ IDENTIFIABILITY = FAIL
 
 ## 5. 물리 릴 결과
 
+TokenSource 건물 한 동이 각 릴에 한 토큰씩 공급하는 현행 정본을 사용했다.
+
 ```text
-ONE_SPECIAL_SOURCE_SHARE_WITH_VAULT_AND_GENERAL = 1 / 3 = 0.333333 MAX BEFORE REEL GROWTH
+ONE_SPECIAL_SOURCE_SHARE_WITH_VAULT_AND_GENERAL = 1 / 3 = 0.333333 MAX BEFORE_REEL_GROWTH
 TWO_SPECIAL_SOURCES_WITH_VAULT_AND_GENERAL = 2 / 4 = 0.500000
 SPECIAL_TOKEN_SHARE_10_MIN = 0.296259
 SPECIAL_TOKEN_SHARE_BURST_MAX = 0.500000
 ```
 
-10분 평균은 통과하지만 복수 특수병 병영이 활성화되는 순간 물리 출처 점유율이 상한을 초과한다. 구형 fractional 가중치로 숨기지 않는다. 후속 Gate는 복수 특수병 접근 압력, 두 번째 TokenSource 활성 지연, 다른 실제 출처의 자연 희석, 또는 KPI 상한 재검토를 비교해야 한다.
+10분 평균은 통과하지만 복수 특수병 병영이 활성화되는 순간 물리 출처 점유율이 상한을 초과한다. 이 문제는 구형 fractional 가중치로 숨기지 않는다. 후속 Gate는 다음 중 정본과 일치하는 해결책을 비교해야 한다.
+
+- 복수 특수병 건설 시점·비용·노드 압력 강화.
+- 두 번째 특수병 TokenSource 활성 지연 또는 조건부 활성.
+- 금고·일반병 등 다른 실제 TokenSource 추가에 따른 자연 희석.
+- 상한 자체가 물리 릴 문법과 충돌하는지 KPI 재검토.
 
 `건물당 각 릴 1개` 정본을 몰래 fractional token으로 변경하는 방법은 금지한다.
 
 ## 6. 9개 벡터 판정
 
-- 모든 벡터가 `SPECIAL_TOKEN_SHARE_BURST_MAX`에서 실패했다. 비용·생산간격·기능가치가 아니라 물리 TokenSource 개수 구조에서 발생한다.
+- 모든 벡터가 `SPECIAL_TOKEN_SHARE_BURST_MAX`에서 실패했다. 이는 비용·생산간격·기능가치가 아니라 물리 TokenSource 개수 구조에서 발생한다.
 - `V01_CHEAP_FAST_LOW`, `V02_CHEAP_FAST_HIGH`는 추가로 `WORST_SPECIAL_REGRET_RATE`를 실패했다.
 - 기준 벡터와 나머지 여섯 corner는 countable KPI 8/9를 통과했지만 식별 가능성 실패 때문에 순위를 제품 추천으로 사용하지 않는다.
-- 비싼·느린 벡터의 낮은 regret는 특수병 접근이 늦어 차이가 관찰되지 않는 censoring 결과일 수 있다.
+- 비싼·느린 벡터의 낮은 regret는 강한 밸런스가 아니라 특수병 접근 자체가 늦어 차이가 관찰되지 않는 censoring 결과일 수 있다.
 
 ## 7. 모델 경계
 
@@ -122,7 +135,7 @@ EXACT_TOWER_COMMAND_AND_TACTIC_OUTPUT = NOT_MODELED
 FIFTEEN_MINUTE_WINDOW = CENSORED_AT_STAGE5_END_830_SECONDS
 ```
 
-이 Smoke는 경제·생산·물리 릴 구조의 screening과 미확정 입력 탐지에 유효하지만 실제 승률·난이도·전투 체감 예측으로 사용하지 않는다.
+따라서 이 Smoke는 경제·생산·물리 릴 구조의 screening과 미확정 입력 탐지에 유효하지만 실제 승률·난이도·전투 체감 예측으로 사용하지 않는다.
 
 ## 8. 재현성
 
@@ -136,7 +149,7 @@ CSV_BYTES = 1437
 REPEAT_RUN_BYTE_IDENTICAL = PASS
 ```
 
-32-seed 표준 경로는 바이트 단위 재현성을 통과했고, 개발 검증에서 100 seeds scalar·NumPy KPI와 지원 민감도가 일치했다. 최종 저장 실행기는 책임별 NumPy 모듈로 정리됐다.
+32-seed 표준 라이브러리 경로도 바이트 단위 재현성을 통과했다. 100 seeds에서 가속 NumPy 경로와 표준 경로의 모든 KPI·지원 민감도가 정확히 일치했다.
 
 ## 9. 다음 Gate
 
@@ -144,6 +157,11 @@ REPEAT_RUN_BYTE_IDENTICAL = PASS
 NEXT_GATE = PLAYER_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION
 ```
 
-다음 Gate에서 Stage 1~5 비병영 전투 기여 proxy, 제품 HP/DPS 없이 비교할 player-capability budget, 복수 특수병 TokenSource `0.50` 해결 또는 KPI 재설계, 두 번째 특수병 첫 생산·노드·골드 censoring을 결정한다.
+다음 Gate에서 최소한 다음을 결정한다.
+
+1. Stage 1~5 비병영 전투 기여를 `방어탑 / 지휘소 / 마력·전술 / 기본 전선 상태`로 분리한 승인 proxy.
+2. HP·DPS 제품 수치 없이도 비교 가능한 Stage별 player-capability budget.
+3. 복수 특수병 TokenSource 0.50 burst의 구조적 해결 또는 KPI 상한 재설계.
+4. 두 번째 특수병의 첫 생산 도착·노드·골드 censoring 진단.
 
 이 Gate를 통과하고 2,000-seed smoke를 다시 통과하기 전에는 10,000-seed decision sweep를 실행하지 않는다.
