@@ -3,7 +3,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 DECISION_ID = "OMW-DEC-20260806-PLANNING-BARRACKS-ECONOMY-PRODUCTION-TOKEN-SOURCE-SIMULATION-CONTRACT-V1"
-CONTRACT = ROOT / "docs/design/PROPOSED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md"
+CONTRACT = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_REVIEW_2026-08-06.md"
 SPEC = ROOT / "docs/superpowers/specs/2026-08-06-barracks-economy-production-token-source-simulation-contract-design.md"
 PLAN = ROOT / "docs/superpowers/plans/2026-08-06-barracks-economy-production-token-source-simulation-contract.md"
@@ -27,13 +27,13 @@ class BarracksEconomyProductionTokenSourceSimulationContractTest(unittest.TestCa
         cls.map = MAP.read_text(encoding="utf-8")
         cls.lifecycle = LIFECYCLE.read_text(encoding="utf-8")
 
-    def test_contract_is_proposed_not_approved_or_implemented(self) -> None:
+    def test_contract_is_approved_for_simulation_not_product_implemented(self) -> None:
         self.assertIn(f"decision_id: {DECISION_ID}", self.contract)
-        self.assertIn("status: PROPOSED_SIMULATION_CONTRACT", self.contract)
-        self.assertIn("approval: USER_REVIEW_PENDING", self.contract)
+        self.assertIn("status: APPROVED_SIMULATION_CONTRACT", self.contract)
+        self.assertIn("approval: USER_APPROVED", self.contract)
         self.assertIn("PRODUCT_CODE = UNCHANGED", self.contract)
         self.assertIn("SIMULATION_RESULTS = NOT_RUN", self.contract)
-        self.assertNotIn("status: APPROVED", self.contract)
+        self.assertIn("PRODUCT_IMPLEMENTATION = SEPARATE_DECISION_REQUIRED", self.contract)
 
     def test_current_barracks_identity_contract_is_preserved(self) -> None:
         for marker in (
@@ -94,7 +94,7 @@ class BarracksEconomyProductionTokenSourceSimulationContractTest(unittest.TestCa
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, self.contract)
-        self.assertIn("THRESHOLDS = POC_HYPOTHESES_REQUIRING_USER_APPROVAL", self.contract)
+        self.assertIn("THRESHOLDS = APPROVED_FOR_SIMULATION_CONTRACT", self.contract)
 
     def test_contract_defines_sample_sizes_and_no_false_green(self) -> None:
         for marker in (
@@ -124,10 +124,11 @@ class BarracksEconomyProductionTokenSourceSimulationContractTest(unittest.TestCa
     def test_router_documents_mark_proposal_and_remove_stale_no_token_authority(self) -> None:
         for text in (self.active, self.pending, self.ledger, self.map, self.lifecycle):
             self.assertIn(DECISION_ID, text)
-        self.assertIn("PROPOSED / USER_REVIEW_PENDING", self.active)
+        self.assertIn("APPROVED / 1_OF_10", self.active)
         self.assertIn("SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT", self.ledger)
         self.assertNotIn("SPECIAL_T1_TOKEN_SOURCE = NONE", self.ledger)
-        self.assertIn("[제안]", self.lifecycle)
+        self.assertIn("[현행]", self.lifecycle)
+        self.assertIn("APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md", self.lifecycle)
 
     def test_spec_and_plan_keep_simulation_separate_from_product_implementation(self) -> None:
         self.assertIn("SIMULATION_ARTIFACT_ONLY", self.spec)
