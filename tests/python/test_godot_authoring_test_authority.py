@@ -33,17 +33,59 @@ class GodotAuthoringTestAuthorityTest(unittest.TestCase):
     def test_contract_accepts_truthful_blocked_bootstrap_state(self) -> None:
         errors = self.validator.validate_contract(ROOT)
         self.assertEqual(errors, [])
-        decision = self.validator.evaluate_entry(self.entry, changed_files=self.validator.BOOTSTRAP_ALLOWLIST)
+        decision = self.validator.evaluate_entry(
+            self.entry,
+            changed_files=self.validator.BOOTSTRAP_ALLOWLIST,
+            pr_number=155,
+            head_branch="planning/gut-9-7-1-adoption-work-entry-gate-20260806",
+            base_sha="7588317f294d602cfad5f7f15bfebcf849b8a77b",
+        )
         self.assertTrue(decision.allowed)
         self.assertEqual(decision.status, "BOOTSTRAP_ONLY_ALLOWED_WHILE_ENTRY_BLOCKED")
         self.assertIn("CANON_LEDGER_STALE", decision.blockers)
         self.assertIn("GUT_VENDOR_TREE_MISMATCH", decision.blockers)
+
+    def test_bootstrap_exception_is_scoped_to_pr_branch_and_base(self) -> None:
+        for pr_number, head_branch, base_sha in (
+            (156, "planning/gut-9-7-1-adoption-work-entry-gate-20260806", "7588317f294d602cfad5f7f15bfebcf849b8a77b"),
+            (155, "other-branch", "7588317f294d602cfad5f7f15bfebcf849b8a77b"),
+            (155, "planning/gut-9-7-1-adoption-work-entry-gate-20260806", "deadbeef"),
+        ):
+            decision = self.validator.evaluate_entry(
+                self.entry,
+                changed_files=self.validator.BOOTSTRAP_ALLOWLIST,
+                pr_number=pr_number,
+                head_branch=head_branch,
+                base_sha=base_sha,
+            )
+            self.assertFalse(decision.allowed)
+            self.assertEqual(decision.status, "WORK_ENTRY_BLOCKED")
 
     def test_higodot_and_gut_cannot_share_mutation_authority(self) -> None:
         mutated = copy.deepcopy(self.adoption)
         mutated["authorities"]["gut"]["may_mutate_project_files"] = True
         errors = self.validator.validate_adoption(mutated)
         self.assertIn("GUT must not mutate project authoring files", errors)
+
+    def test_authoring_and_gut_scope_cannot_share_one_change_set(self) -> None:
+        errors = self.validator.validate_changed_file_authority(
+            ("project.godot", "tests/gut/test_canary.gd"),
+            authoring_manifest=None,
+        )
+        self.assertIn("HiGodot authoring surfaces and GUT test surfaces cannot share one change set", errors)
+        self.assertIn("Godot authoring changes require a HiGodot authoring manifest", errors)
+
+    def test_authoring_manifest_must_exactly_match_authoring_files(self) -> None:
+        manifest = {
+            "authority": "HIGODOT_AUTHORING_AUTHORITY",
+            "gut_mutation": False,
+            "changed_authoring_files": ["scenes/main/main.tscn"],
+        }
+        errors = self.validator.validate_changed_file_authority(
+            ("project.godot",),
+            authoring_manifest=manifest,
+        )
+        self.assertIn("HiGodot authoring manifest must exactly match changed authoring files", errors)
 
     def test_activation_cannot_be_ready_with_vendor_mismatch_or_runtime_not_run(self) -> None:
         mutated = copy.deepcopy(self.adoption)
@@ -59,6 +101,12 @@ class GodotAuthoringTestAuthorityTest(unittest.TestCase):
             errors = self.validator.validate_entry_state(mutated)
             self.assertIn("rejected image cannot be READY/AWAITING/APPROVED", errors)
 
+    def test_sheet_readback_separates_counted_planning_and_non_counter_decisions(self) -> None:
+        mutated = copy.deepcopy(self.entry)
+        mutated["decision_readback"]["latest_non_counter_decision"] = "WRONG"
+        errors = self.validator.validate_entry_state(mutated)
+        self.assertIn("Sheet latest NON_COUNTER Decision readback mismatch", errors)
+
     def test_non_bootstrap_work_is_blocked_until_all_entry_surfaces_are_current(self) -> None:
         decision = self.validator.evaluate_entry(
             self.entry,
@@ -68,6 +116,17 @@ class GodotAuthoringTestAuthorityTest(unittest.TestCase):
         self.assertEqual(decision.status, "WORK_ENTRY_BLOCKED")
         self.assertIn("CANON_LEDGER_STALE", decision.blockers)
         self.assertIn("IMAGE_APPROVAL_NONE_AVAILABLE", decision.blockers)
+
+    def test_broad_gut_prefix_is_not_implicitly_authorized(self) -> None:
+        decision = self.validator.evaluate_entry(
+            self.entry,
+            changed_files=("addons/gut/unreviewed_change.gd",),
+            pr_number=156,
+            head_branch="vendor-change",
+            base_sha="7588317f294d602cfad5f7f15bfebcf849b8a77b",
+        )
+        self.assertFalse(decision.allowed)
+        self.assertEqual(decision.status, "WORK_ENTRY_BLOCKED")
 
     def test_ready_claim_is_rejected_while_blockers_remain(self) -> None:
         mutated = copy.deepcopy(self.entry)
@@ -83,6 +142,8 @@ class GodotAuthoringTestAuthorityTest(unittest.TestCase):
             "VENDOR_TREE_MISMATCH",
             "REMOVAL_AND_ROLLBACK_PROCEDURE",
             "WORK_ENTRY_GATE = FAIL_CLOSED",
+            "BOOTSTRAP_EXCEPTION = PR155_ONLY",
+            "BROAD_REMEDIATION_PREFIX = FORBIDDEN",
         ):
             self.assertIn(marker, self.spec_text)
 
