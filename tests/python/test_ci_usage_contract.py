@@ -47,8 +47,11 @@ class CiUsageContractTests(unittest.TestCase):
         self.assertIn("contracts_full:", text)
         self.assertIn("github.event_name == 'pull_request'", text)
         self.assertIn("github.event_name != 'pull_request'", text)
+        self.assertIn("workflow_dispatch:", text)
         self.assertIn("os: [ubuntu-latest, windows-latest]", text)
-        self.assertIn('python-version: ["3.12", "3.13"]', text)
+        self.assertIn('python-version: ["3.11", "3.12", "3.13"]', text)
+        self.assertIn("runs-on: ${{ matrix.os }}", full_section)
+        self.assertNotIn("self-hosted", full_section)
         self.assertNotIn('- "docs/**"', text)
         self.assertNotIn('- "README.md"', text)
         self.assertNotIn("unittest discover", pr_section)
@@ -58,6 +61,7 @@ class CiUsageContractTests(unittest.TestCase):
             "tests.python.test_c2_battle_objective_contract",
             "tests.python.test_c3_core_ux_contract",
             "tests.python.test_ci_usage_contract",
+            "tests.python.test_base_recovery_map",
         ):
             self.assertIn(test_name, pr_section)
         self.assertIn("python tools/validate_ci_usage_contract.py", pr_section)
@@ -162,12 +166,46 @@ class CiUsageValidatorMutationTests(unittest.TestCase):
             pr_start = text.index("  contracts_pr:")
             full_start = text.index("  contracts_full:")
             pr_section = text[pr_start:full_start].replace(
-                "python -m unittest tests.python.test_c1_roulette_contract tests.python.test_c2_battle_objective_contract tests.python.test_c3_core_ux_contract tests.python.test_ci_usage_contract -v",
+                "python -m unittest tests.python.test_c1_roulette_contract tests.python.test_c2_battle_objective_contract tests.python.test_c3_core_ux_contract tests.python.test_ci_usage_contract tests.python.test_base_recovery_map -v",
                 "python -m unittest discover -s tests/python -v",
             )
             workflow.write_text(text[:pr_start] + pr_section + text[full_start:], encoding="utf-8")
             errors = validate(temp_root)
             self.assertTrue(any("core PR job must not run the full Python suite" in error for error in errors))
+
+    def test_core_python_311_regression_is_rejected(self) -> None:
+        validate = self._load_validator()
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_workflows(temp_root)
+            workflow = temp_root / ".github" / "workflows" / "validate-omenward-core.yml"
+            workflow.write_text(
+                workflow.read_text(encoding="utf-8").replace(
+                    'python-version: ["3.11", "3.12", "3.13"]',
+                    'python-version: ["3.12", "3.13"]',
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            errors = validate(temp_root)
+            self.assertTrue(any("Python 3.11, 3.12, and 3.13" in error for error in errors))
+
+    def test_core_self_hosted_regression_is_rejected(self) -> None:
+        validate = self._load_validator()
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_workflows(temp_root)
+            workflow = temp_root / ".github" / "workflows" / "validate-omenward-core.yml"
+            workflow.write_text(
+                workflow.read_text(encoding="utf-8").replace(
+                    "runs-on: ${{ matrix.os }}",
+                    "runs-on: [self-hosted, ${{ matrix.os }}]",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            errors = validate(temp_root)
+            self.assertTrue(any("standard GitHub-hosted runners" in error for error in errors))
 
     def test_skill_ci_contract_omission_is_rejected(self) -> None:
         validate = self._load_validator()
