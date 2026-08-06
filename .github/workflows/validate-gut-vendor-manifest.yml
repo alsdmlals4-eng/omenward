@@ -1,0 +1,36 @@
+name: Validate GUT Vendor Manifest
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile manifest validator
+        run: python -m py_compile tools/validate_gut_vendor_manifest.py tests/python/test_gut_vendor_manifest.py
+      - name: Run focused vendor tests
+        run: python -m unittest tests.python.test_gut_vendor_manifest -v
+      - name: Validate static vendor contract
+        run: python tools/validate_gut_vendor_manifest.py --contract
+      - name: Prove activation remains blocked
+        shell: bash
+        run: |
+          if python tools/validate_gut_vendor_manifest.py --activation; then
+            echo "Activation unexpectedly passed"
+            exit 1
+          fi
+      - name: Check whitespace
+        run: git diff --check
