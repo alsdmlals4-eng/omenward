@@ -9,6 +9,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 VALIDATOR_PATH = ROOT / "tools/validate_gut_vendor_manifest.py"
 MANIFEST_PATH = ROOT / "docs/operations/GUT_9_7_1_VENDOR_MANIFEST.v1.json"
+EVIDENCE_PATH = ROOT / "docs/operations/GUT_9_7_1_TEXT_NORMALIZATION_EVIDENCE.v1.json"
 
 
 def load_validator():
@@ -25,9 +26,10 @@ class GutVendorManifestTest(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.validator = load_validator()
         cls.manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+        cls.evidence = json.loads(EVIDENCE_PATH.read_text(encoding="utf-8"))
 
     def test_truthful_blocked_manifest_passes(self) -> None:
-        self.assertEqual(self.validator.validate_manifest(self.manifest), [])
+        self.assertEqual(self.validator.validate_manifest(self.manifest, self.evidence), [])
 
     def test_exact_changed_path_set_is_pinned(self) -> None:
         paths = {row["path"] for row in self.manifest["changed_paths"]}
@@ -37,34 +39,47 @@ class GutVendorManifestTest(unittest.TestCase):
     def test_gdscript_delta_is_rejected(self) -> None:
         mutated = copy.deepcopy(self.manifest)
         mutated["changed_paths"][0]["path"] = "gut.gd"
-        errors = self.validator.validate_manifest(mutated)
+        errors = self.validator.validate_manifest(mutated, self.evidence)
         self.assertTrue(any("code/config/license delta forbidden" in item for item in errors))
 
     def test_missing_or_extra_paths_are_rejected(self) -> None:
         for field in ("missing_paths", "extra_paths"):
             mutated = copy.deepcopy(self.manifest)
             mutated["path_set"][field] = ["unexpected.txt"]
-            errors = self.validator.validate_manifest(mutated)
+            errors = self.validator.validate_manifest(mutated, self.evidence)
             self.assertTrue(any("must not hide" in item for item in errors))
 
-    def test_binary_resource_cannot_be_promoted_to_normalized(self) -> None:
+    def test_binary_resource_cannot_be_promoted_to_semantic_equivalence(self) -> None:
         mutated = copy.deepcopy(self.manifest)
         row = next(item for item in mutated["changed_paths"] if item["path"] == "source_code_pro.fnt")
-        row["classification"] = "HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE"
-        errors = self.validator.validate_manifest(mutated)
-        self.assertIn("source_code_pro.fnt must remain unclassified until decoded", errors)
+        row["classification"] = "SEMANTICALLY_IDENTICAL"
+        errors = self.validator.validate_manifest(mutated, self.evidence)
+        self.assertIn("source_code_pro.fnt raw-byte delta must remain unresolved", errors)
+
+    def test_all_text_resources_are_proven_by_normalized_git_blob_sha(self) -> None:
+        text_rows = [item for item in self.manifest["changed_paths"] if item["path"] != "source_code_pro.fnt"]
+        self.assertEqual(len(text_rows), 17)
+        self.assertTrue(all(item["classification"] == "HEADER_LOAD_STEPS_ONLY_PROVEN" for item in text_rows))
+        self.assertTrue(all(item["content_diff_verification"] == "FULL_GIT_BLOB_SHA_AFTER_NORMALIZATION_MATCH" for item in text_rows))
+        self.assertEqual(self.validator.validate_text_evidence(self.evidence), [])
+
+    def test_text_evidence_rejects_one_bad_normalized_sha(self) -> None:
+        mutated = copy.deepcopy(self.evidence)
+        mutated["resources"][0]["normalized_blob_sha"] = "0" * 40
+        errors = self.validator.validate_text_evidence(mutated)
+        self.assertTrue(any("normalized project blob mismatch" in item for item in errors))
 
     def test_activation_cannot_be_ready_while_blockers_remain(self) -> None:
         mutated = copy.deepcopy(self.manifest)
         mutated["activation"]["status"] = "READY"
-        errors = self.validator.validate_manifest(mutated)
+        errors = self.validator.validate_manifest(mutated, self.evidence)
         self.assertIn("activation must remain BLOCKED", errors)
 
-    def test_text_candidates_preserve_minus_thirteen_byte_evidence(self) -> None:
+    def test_text_proofs_preserve_minus_thirteen_byte_evidence(self) -> None:
         mutated = copy.deepcopy(self.manifest)
         row = next(item for item in mutated["changed_paths"] if item["path"] != "source_code_pro.fnt")
         row["size_delta"] = -12
-        errors = self.validator.validate_manifest(mutated)
+        errors = self.validator.validate_manifest(mutated, self.evidence)
         self.assertTrue(any("size delta must be -13" in item for item in errors))
 
 
