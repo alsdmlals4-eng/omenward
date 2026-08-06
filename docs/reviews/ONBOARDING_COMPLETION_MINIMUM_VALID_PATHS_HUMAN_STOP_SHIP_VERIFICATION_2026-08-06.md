@@ -1,0 +1,61 @@
+# 체크포인트 10 검증 기록 — 온보딩 완료·최소 유효 경로·Stop-ship
+
+```yaml
+decision_id: OMW-DEC-20260806-PLANNING-ONBOARDING-COMPLETION-MINIMUM-VALID-PATHS-HUMAN-STOP-SHIP-V1
+verified_at: 2026-08-06 KST
+scope: REMOTE_AUTHORITY_READBACK_AND_BOUNDED_MARKER_CONTRACT
+```
+
+## TDD 순서
+
+```text
+RED_COMMIT = e2341ef045712015a4b3447027aa314d90b1966e
+RED_REASON = FINAL_AUTHORITY_REVIEW_AND_SPEC_ABSENT
+AUTHORITY_COMMIT = 6485a3d01e0313039b29f4d5d27f544ff5fa8e3f
+REVIEW_COMMIT = 104c924ac78a1319e4fce5b3eb9b33a1da7661e2
+SPEC_COMMIT = 08aadb28e69d17832aedf1d090e44125ed27687a
+```
+
+테스트 계약을 먼저 추가한 뒤 책임 원본·적대적 검토·설계 명세를 추가했다.
+
+## 원격 read-back
+
+```text
+AUTHORITY_BLOB = 6ab8b401d763ff55ff88b511570c9afa413643e7
+REVIEW_BLOB = 0225a9501157e28c0a7bbe4f6d0c5c4a087aa4e8
+SPEC_BLOB = 1c965feb2e9c6d2661a3a0961b49db222ad4a40a
+TEST_BLOB = 301ccce47cc6a49ab0ab97db6141e602e32664d6
+GITHUB_AUTHORITY_READBACK = PASS
+BOUNDED_REQUIRED_MARKERS = 42
+BOUNDED_MARKER_READBACK = 42_PASS
+```
+
+확인한 범위:
+
+- 승인 10/10과 부모 흐름 기획 완료.
+- Boss 단독이 아닌 모든 Stage 마일스톤 기반 완료 거래.
+- 완료 플래그·첫 보상·표준 Run·스킵 해금 원자성.
+- 방패병·궁병 두 기본 경로와 특수병 비필수성.
+- 특수병 5종을 포함한 12개 내부 QA 행렬.
+- 첫 플레이어 20명·경로별 10명·완료율·시간·인과 이해 합격선.
+- 진행·저장·보상·재시도·필수 행동·벨루·죽은 경로·Boss·표준 Run 관련 Stop-ship.
+- 제품 코드·Scene·Resource·로컬 Godot 프로젝트 불변.
+
+## 검증 한계
+
+```text
+EXACT_HEAD_FULL_TEST_EXECUTION = NOT_RUN
+PYTHON_UNITTEST_EXECUTION = NOT_RUN
+FULL_PLANNING_CONTRACT_SUITE = NOT_RUN
+GODOT_TESTS = NOT_RUN
+INTERNAL_QA_TWELVE_SCENARIOS = NOT_RUN
+FIRST_TIME_HUMAN_SAMPLE = NOT_RUN
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+GITHUB_ACTIONS_GREEN = NOT_PROVEN
+PRODUCT_CODE = UNCHANGED
+LOCAL_GODOT_PROJECT = UNCHANGED
+```
+
+문서 계약의 존재와 필수 표식은 검증했지만 제품 동작이나 전체 PR Green을 증명하지 않는다.
