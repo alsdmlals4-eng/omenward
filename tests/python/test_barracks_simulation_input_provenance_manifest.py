@@ -8,7 +8,6 @@ DECISION_ID = "OMW-DEC-20260806-PLANNING-BARRACKS-SIMULATION-INPUT-PROVENANCE-AN
 AUTHORITY = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_SIMULATION_INPUT_PROVENANCE_MANIFEST_2026-08-06.md"
 MANIFEST = ROOT / "docs/analysis/barracks_simulation/input_provenance_manifest.v1.json"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_BARRACKS_SIMULATION_INPUT_PROVENANCE_REVIEW_2026-08-06.md"
-CONTRACT = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
 LEDGER = ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md"
@@ -22,7 +21,6 @@ class BarracksSimulationInputProvenanceManifestTest(unittest.TestCase):
         cls.authority = AUTHORITY.read_text(encoding="utf-8")
         cls.manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
         cls.review = REVIEW.read_text(encoding="utf-8")
-        cls.contract = CONTRACT.read_text(encoding="utf-8")
         cls.active = ACTIVE.read_text(encoding="utf-8")
         cls.pending = PENDING.read_text(encoding="utf-8")
         cls.ledger = LEDGER.read_text(encoding="utf-8")
@@ -56,7 +54,6 @@ class BarracksSimulationInputProvenanceManifestTest(unittest.TestCase):
         ):
             with self.subTest(marker=marker):
                 self.assertIn(marker, self.authority)
-        self.assertIn("SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER = 0.35 / 0.50 / 0.65 / 0.80", self.contract)
         self.assertIn("[부분 대체됨]", self.lifecycle)
         self.assertIn("물리 릴 TokenInstance 축으로 대체", self.lifecycle)
         self.assertIn("SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER_0_35_TO_0_80 = SUPERSEDED", self.ledger)
