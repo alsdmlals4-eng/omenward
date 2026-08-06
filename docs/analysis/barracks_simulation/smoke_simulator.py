@@ -28,12 +28,14 @@ class SmokeSimulator:
         return stable_code(f"{path}|{gold_scenario}|{policy}")
 
     def _uniform_array(self, seeds: Any, scenario_code: int, stream: int) -> Any:
+        if np is None:
+            raise RuntimeError("NumPy is required for the 2,000-seed accelerated smoke execution")
         seeds_u = np.asarray(seeds, dtype=np.uint64)
         with np.errstate(over="ignore"):
             value = ((seeds_u + np.uint64(1)) * np.uint64(0xD1342543DE82EF95))
             value ^= np.uint64(scenario_code)
             value ^= np.uint64((stream * 0x9E3779B97F4A7C15) & MASK64)
-            value = value + np.uint64(0x9E3779B97F4A7C15)
+            value = (value + np.uint64(0x9E3779B97F4A7C15))
             value = ((value ^ (value >> np.uint64(30))) * np.uint64(0xBF58476D1CE4E5B9))
             value = ((value ^ (value >> np.uint64(27))) * np.uint64(0x94D049BB133111EB))
             value = value ^ (value >> np.uint64(31))
@@ -50,9 +52,12 @@ class SmokeSimulator:
         support_label: str = "MID",
         fixed_special: str | None = None,
     ) -> dict[str, Any]:
+        if np is None:
+            raise RuntimeError("NumPy is required for accelerated smoke execution")
         economy = self.baseline["economy"]
         seeds = np.arange(self.seed_count, dtype=np.uint64)
         n = self.seed_count
+        rows = np.arange(n)
         scenario_code = self._scenario_code(path, gold_scenario, policy)
         control_points = int(self.gold_scenarios[gold_scenario])
         special_cost = 40.0 * float(vector["special_cost_multiplier"])
@@ -104,9 +109,7 @@ class SmokeSimulator:
             for slot in range(2):
                 active_rows = np.flatnonzero(special_active[:, slot])
                 if active_rows.size:
-                    columns = 1 + np.array(
-                        [UNIT_INDEX[SPECIAL_TYPES[index]] for index in special_type[active_rows, slot]], dtype=np.int16
-                    )
+                    columns = 1 + np.array([UNIT_INDEX[SPECIAL_TYPES[index]] for index in special_type[active_rows, slot]], dtype=np.int16)
                     np.add.at(symbol_counts, (active_rows, columns), 1.0)
             source_count = symbol_counts.sum(axis=1)
             reel_length = np.maximum(3.0, source_count)
@@ -173,9 +176,7 @@ class SmokeSimulator:
                             special_type[slot_rows, slot] = SPECIAL_TYPES.index(fixed_special)
                         else:
                             rolls = self._uniform_array(seeds[slot_rows], scenario_code, 2000 + slot)
-                            special_type[slot_rows, slot] = np.minimum(
-                                (rolls * len(SPECIAL_TYPES)).astype(np.int16), len(SPECIAL_TYPES) - 1
-                            )
+                            special_type[slot_rows, slot] = np.minimum((rolls * len(SPECIAL_TYPES)).astype(np.int16), len(SPECIAL_TYPES) - 1)
                 plan_position[mask] += 1
 
         def advance_active(delta: float) -> None:
