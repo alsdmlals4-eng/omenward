@@ -82,7 +82,7 @@ class BuildingBranchCanonTests(unittest.TestCase):
         self.assertIn("SUPERSEDED_BY_BASE_COMMON_AUTHORITY", tombstone)
         self.assertIn("alsdmlals4-eng/Base/AGENTS.md", tombstone)
         self.assertIn("HISTORICAL_PATH_POINTER_ONLY", tombstone)
-        self.assertIn("IMPLEMENTATION_INPUT: FORBIDDEN", tombstone)
+        self.assertIn("implementation_input: FORBIDDEN", tombstone)
         for marker in LOCAL_COMMON_POLICY_MARKERS:
             self.assertNotIn(marker, tombstone)
             self.assertNotIn(marker, read(ROOT / "README.md"))
