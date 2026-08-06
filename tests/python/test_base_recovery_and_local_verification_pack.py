@@ -14,6 +14,7 @@ WSL = ROOT / "tools/run_local_verification_pack_wsl.sh"
 
 DECISION_ID = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
 BASE_SHA = "4f98f968a377f7b6a11aafa4fc94d11bddbebedc"
+BASE_TREE_SHA = "4bc8d45d4bb88649eb5041f16478b862801b3901"
 OMENWARD_SHA = "93c388ad1c50581671f8ea059357c863d8d8e0f7"
 
 EXPECTED_ROOT_PATHS = {
@@ -87,6 +88,7 @@ class BaseRecoveryAndLocalPackContract(unittest.TestCase):
     def test_authority_and_gate_are_fail_closed(self) -> None:
         self.assertEqual(self.state["decision_id"], DECISION_ID)
         self.assertEqual(self.state["base_repository_commit"], BASE_SHA)
+        self.assertEqual(self.state["base_root_tree_sha"], BASE_TREE_SHA)
         self.assertEqual(self.state["omenward_repository_base_commit"], OMENWARD_SHA)
         self.assertEqual(self.state["recovery_status"], "INCOMPLETE")
         self.assertFalse(self.state["base_recovery_blocker_cleared"])
