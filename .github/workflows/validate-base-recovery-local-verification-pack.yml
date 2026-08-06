@@ -1,0 +1,41 @@
+name: Validate Base recovery and local verification pack
+
+on:
+  pull_request:
+    paths:
+      - "docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP.v1.json"
+      - "docs/operations/LOCAL_VERIFICATION_MATRIX.v1.json"
+      - "tools/run_local_verification_pack.py"
+      - "tools/run_local_verification_pack.ps1"
+      - "tools/run_local_verification_pack_wsl.sh"
+      - "tools/verify_base_recovery_and_local_verification_pack.py"
+      - "tests/python/test_base_recovery_and_local_verification_pack.py"
+      - ".github/workflows/validate-base-recovery-local-verification-pack.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            python: "3.11"
+          - os: windows-latest
+            python: "3.12"
+          - os: windows-latest
+            python: "3.13"
+          - os: ubuntu-latest
+            python: "3.12"
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m py_compile tools/verify_base_recovery_and_local_verification_pack.py tools/run_local_verification_pack.py tests/python/test_base_recovery_and_local_verification_pack.py
+      - run: python -m unittest tests.python.test_base_recovery_and_local_verification_pack
+      - run: python tools/verify_base_recovery_and_local_verification_pack.py
