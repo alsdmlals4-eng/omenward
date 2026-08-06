@@ -71,12 +71,16 @@ def main() -> int:
                 "tools/verify_base_recovery_and_local_verification_pack.py",
                 "tools/run_local_verification_pack.py",
                 "tests/python/test_base_recovery_and_local_verification_pack.py",
+                "tests/python/test_local_verification_powershell_root.py",
+                "tests/python/test_local_verification_pack_registration.py",
             ],
             [
                 sys.executable,
                 "-m",
                 "unittest",
                 "tests.python.test_base_recovery_and_local_verification_pack",
+                "tests.python.test_local_verification_powershell_root",
+                "tests.python.test_local_verification_pack_registration",
             ],
             [
                 sys.executable,
