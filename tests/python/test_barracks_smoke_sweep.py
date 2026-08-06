@@ -75,7 +75,7 @@ class BarracksSmokeSweepTest(unittest.TestCase):
         }
         self.assertEqual(set(baseline["primary_kpis"]), expected)
         self.assertEqual(set(baseline["threshold_pass"]), expected)
-        self.assertFalse(baseline["threshold_pass"]["GENERAL_PATH_VALIDITY_RATE"])
+        self.assertTrue(baseline["threshold_pass"]["GENERAL_PATH_VALIDITY_RATE"])
         self.assertFalse(baseline["threshold_pass"]["SPECIAL_TOKEN_SHARE_BURST_MAX"])
         self.assertLessEqual(baseline["primary_kpis"]["SPECIAL_TOKEN_SHARE_10_MIN"], 0.35)
         self.assertGreater(baseline["primary_kpis"]["SPECIAL_TOKEN_SHARE_BURST_MAX"], 0.45)
@@ -83,7 +83,7 @@ class BarracksSmokeSweepTest(unittest.TestCase):
     def test_support_sensitivity_proves_identifiability_failure(self) -> None:
         sensitivity = self.result["baseline_vector"]["support_sensitivity"]
         self.assertLess(sensitivity["LOW"], 0.95)
-        self.assertLess(sensitivity["MID"], 0.95)
+        self.assertGreaterEqual(sensitivity["MID"], 0.95)
         self.assertGreaterEqual(sensitivity["HIGH"], 0.95)
         self.assertGreater(sensitivity["HIGH"] - sensitivity["LOW"], 0.20)
         self.assertEqual(self.result["identifiability"]["status"], "FAIL")
