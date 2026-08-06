@@ -3,137 +3,49 @@
 ```yaml
 updated_at: 2026-08-06
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_planning_count: 6_OF_10
-latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
-최신 버티컬 슬라이스 구현: `NOT_STARTED`
+current_planning_authority: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
+onboarding_planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
+pr142_merge: 1c646c2d764d0df43545e00b914189ed46cf1bd4
+vertical_slice_implementation: NOT_STARTED
 product_code_authority: NONE
 platform_contract_code_authority: PHASE2_SESSION_DECOUPLING
 simulation: NOT_RUN
 runtime: NOT_RUN
-human_validation: HUMAN_QA_NOT_RUN
-parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
-parallel_platform_phase1: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
-parallel_platform_phase2: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
-platform_phase2_main: 04e53660387a3bb6d51edd746950cbb6cad8b745
+human_validation: NOT_RUN
+local_godot_project: UNCHANGED
 ```
 
-공통 운영 규칙은 Base 책임 원본에서만 관리한다. 이 문서는 OMENWARD의 프로젝트별 구현·검증 상태와 미검증 범위만 기록한다.
+공통 운영 규칙은 Base 책임 원본에서 관리한다. 이 문서는 OMENWARD의 프로젝트별 기획·구현·검증 상태만 기록한다.
 
-현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
-
-## 최신 구현 경계
+## 기획과 제품 상태
 
 ```text
-VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
-LATEST_AUTOMATED_CONTRACTS_NOT_RUN
-HUMAN_QA_NOT_RUN
-CORE_LOCK_NOT_ALLOWED
-```
-
-6/10 Stage 종료 상인은 문서 정본이며 다음은 아직 구현되지 않았다.
-
-- Stage 1~19 종료 상인 방문·Stage 20 최종 정산 예외.
-- 4칸 재고 생성과 상태 유효성 필터.
-- 이동권 3/3 시 룰렛 할인 대체.
-- 수리 대상 선택과 연구 가속 대상 선택.
-- 골드 차감·상품 적용·재고 소모의 멱등 거래.
-- 할인 소멸·중첩 방지·checkpoint 복구.
-- 상품 가격·재고 수·등장률·Act별 후보 가중.
-- 상인 화면·구매 확인·사용 불가 이유·다음 Stage 요약 UX.
-
-5/10 전술·마력 역시 제품에는 구현되지 않았다.
-
-```text
-GAMEPLAY_PRODUCT_CODE = UNCHANGED
-DATA_MIGRATION = NOT_AUTHORIZED
-ART_ASSET_PRODUCTION = NOT_AUTHORIZED
+FIRST_10_15_MINUTES_PLANNING = MAIN_CANONICAL_APPROVED_10_OF_10
+BARRACKS_TOKEN_SOURCE_AMENDMENT = MAIN_CANONICAL
+GAMEPLAY_PRODUCT_IMPLEMENTATION = NOT_STARTED
+SCENE_RESOURCE_DATA_CHANGE_BY_PR142 = NONE
 EXACT_NUMERICS = PENDING_SIMULATION
+TWELVE_SCENARIO_QA = NOT_RUN
+FIRST_TIME_HUMAN_QA = NOT_RUN
 ```
 
-## 과거 자동 검증 증거
+현행 특수병 T1은 건설 확정 시 선정된 같은 병종을 반복 자동생산하고 같은 병종 TokenSource를 별도 획득 경로로 공급한다. 기존 `SPECIAL_T1_TOKEN_SOURCE = NONE`은 역사 증거이며 구현 입력 금지다.
+
+## PC·Android 공용 코어 상태
 
 ```text
-LEGACY_C1_C2_C3_PROVEN
-LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
-```
-
-C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-
-C1 최종 검증 run: `29926598807`
-
-C2 최종 검증 run: `29938742864`
-
-이 C1·C2·C3 증거는 과거 룰렛·전투 목표·핵심 UX 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 최신 6/10 기획이 제품에 구현됐다는 의미도 아니다.
-
-## 6/10 문서 TDD
-
-```text
-RED_RUN = 986
-RED_RESULT = FAILURE_AS_EXPECTED
-RED_EXISTING_CONTRACTS = 55 PASS
-RED_NEW_CONTRACTS = 10 FAIL_OR_ERROR
-RED_CAUSE = CANON / REVIEW / 6_OF_10_ROUTING / LIFECYCLE_MISSING
-
-GREEN_CANDIDATE_HEAD = 83c1dc0e241c4fd8b04a0e9a5680562f9469bd01
-PROJECT_CORE_RUN = 1002 / SUCCESS
-GDD_SHEET_RUN = 707 / SUCCESS
-OMENWARD_CORE_RUN = 174 / SUCCESS
-BASE_V9_RUN = 690 / SUCCESS
-SHEET_BOUNDED_READBACK = PASS
-REFACTOR = COMPLETE
-```
-
-REFACTOR 뒤의 final exact-head 검증·병합 SHA는 PR #141과 Sheet 현재 상태 셀에서 기록한다. 문서 자체에 final SHA를 고정해 self-reference를 만들지 않는다.
-
-## 구현 시작 전 필수 Gate
-
-1. 7/10 첫 10~15분 흐름 재설계.
-2. Hero·Legendary와 Meta·Hub 재조정.
-3. 전체 Run 콘텐츠·UX·아트 종합 검토.
-4. 경제·전술·병종·상인 수치 시뮬레이션.
-5. 사용자 승인 Codex 구현 계획.
-6. 제품 행동을 재현하는 RED 테스트.
-7. 데이터 마이그레이션·롤백·수동 플레이 계획.
-
-## 완료 이력
-
-```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
-```
-
-현재 버티컬 슬라이스 판정은 `VERTICAL_SLICE_NOT_IMPLEMENTED`다.
-
-## PC·Android 공용 코어·어댑터 구현 상태
-
-```text
-ARCHITECTURE_DECISION = OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 ARCHITECTURE_STATUS = MAIN_CANONICAL
-PHASE0_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
 PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
-PHASE1_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 PHASE1_COMMAND_EVENT_CONTRACTS = MAIN_CANONICAL_LOCAL_PASS
+PHASE2_GAME_SESSION_DECOUPLING = MAIN_CANONICAL_LOCAL_PASS
 GAME_COMMAND = IMPLEMENTED
 GAME_EVENT = IMPLEMENTED
 SEVEN_PLATFORM_CONTRACTS = IMPLEMENTED
-PLATFORM_CAPABILITIES = IMPLEMENTED
-PHASE2_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
-PHASE2_SOURCE = 0fcc17de2759c763621258dbf50176b9b05c6764
-PHASE2_MAIN = 04e53660387a3bb6d51edd746950cbb6cad8b745
-GAME_SESSION_DECOUPLING = MAIN_CANONICAL_LOCAL_PASS
 GAME_APPLICATION = IMPLEMENTED
 SESSION_DRIVER = IMPLEMENTED
 SCENE_BINDER = IMPLEMENTED
 PLATFORM_BOOTSTRAP = IMPLEMENTED_IDEMPOTENT
 GAME_SESSION_COMPATIBILITY_FACADE = IMPLEMENTED
-PHASE0_LEGACY_ALLOWLIST = 0
 SHARED_SAVE_SCHEMA = NOT_STARTED
 PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
 ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
@@ -146,14 +58,41 @@ REPRESENTATIVE_PC_BUILD = NOT_RUN
 REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 ```
 
-Phase 2는 기존 Scene-facing `GameSession` API를 유지하면서 application 상태·frame driving·Scene binding·composition을 분리했다. Main Scene의 script UID는 유지했고 StageSelect·전투·경제·룰렛·건물·데이터·UI 행동 파일은 변경하지 않았다.
+Phase 0~2의 과거 local-pass 증거는 플랫폼 경계 구현만 증명하며 온보딩 제품 구현이나 출시 준비 완료를 뜻하지 않는다.
 
-Godot 4.7.1 exact-source harness에서 editor class scan, Phase 2 행동 테스트, bootstrap idempotence 테스트, Phase 1 계약 회귀가 통과했다. Python 구조·정적 테스트는 9 PASS이며 legacy allowance·신규 위반·stale allowance는 모두 0이다. 전체 private repository runtime·전체 Scene 조립·대표 build·export는 실행하지 않았다.
+## PR #142 검증 경계
 
-다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 3 공용 versioned save다. Phase 3 구현은 아직 승인되지 않았다.
+```text
+PR142_MERGED = TRUE
+MERGE_SHA = 1c646c2d764d0df43545e00b914189ed46cf1bd4
+PRODUCT_PATHS_CHANGED = 0
+DELETED_FILES = 0
+REVIEW_THREADS = 0
+SHEET_BOUNDED_READBACK = PASS
+BOUNDED_CANON_TESTS = PASS_AS_RECORDED
+FULL_PRIVATE_REPOSITORY_CHECKOUT = UNAVAILABLE_IN_EXECUTION_ENVIRONMENT
+FULL_PYTHON_SUITE = NOT_RUN
+GITHUB_ACTIONS_GREEN = NOT_PROVEN
+GITHUB_ACTIONS = BLOCKED_BEFORE_JOB_START_BY_BILLING
+GODOT_TESTS_FOR_PR142 = NOT_RUN
+SIMULATION = NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+```
+
+## 다음 제품·검증 순서
+
+1. 병영 건설비·생산 간격·TokenSource 수량·가중치의 시뮬레이션 계약 작성.
+2. 일반병·특수병 병영의 가치와 필수화 위험 비교.
+3. 5개 특수병 결과 저장·복구·재추첨 방지 QA 설계.
+4. 승인된 수치 후 Codex 구현 계획과 RED 테스트 작성.
+5. 제품 구현 후 12개 온보딩 시나리오와 20명 사람 검증 실행.
 
 책임 원본:
 
+- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
+- `docs/design/APPROVED_OMENWARD_ONBOARDING_COMPLETION_MINIMUM_VALID_PATHS_AND_HUMAN_STOP_SHIP_2026-08-06.md`
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
 - `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
 - `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
