@@ -7,12 +7,13 @@ current_planning_count: 6_OF_10
 latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
 최신 버티컬 슬라이스 구현: `NOT_STARTED`
 product_code_authority: NONE
-platform_contract_code_authority: PHASE1_CONTRACT_TYPES_ONLY
+platform_contract_code_authority: PHASE2_SESSION_DECOUPLING
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: HUMAN_QA_NOT_RUN
 parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 parallel_platform_phase1: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
+parallel_platform_phase2: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
 ```
 
 현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
@@ -114,12 +115,19 @@ ARCHITECTURE_STATUS = MAIN_CANONICAL
 PHASE0_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
 PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
 PHASE1_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
-PHASE1_COMMAND_EVENT_CONTRACTS = IMPLEMENTED_LOCAL_PASS_CANDIDATE
+PHASE1_COMMAND_EVENT_CONTRACTS = MAIN_CANONICAL_LOCAL_PASS
 GAME_COMMAND = IMPLEMENTED
 GAME_EVENT = IMPLEMENTED
 SEVEN_PLATFORM_CONTRACTS = IMPLEMENTED
 PLATFORM_CAPABILITIES = IMPLEMENTED
-GAME_SESSION_DECOUPLING = NOT_STARTED
+PHASE2_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
+GAME_SESSION_DECOUPLING = IMPLEMENTED_LOCAL_PASS_CANDIDATE
+GAME_APPLICATION = IMPLEMENTED
+SESSION_DRIVER = IMPLEMENTED
+SCENE_BINDER = IMPLEMENTED
+PLATFORM_BOOTSTRAP = IMPLEMENTED_IDEMPOTENT
+GAME_SESSION_COMPATIBILITY_FACADE = IMPLEMENTED
+PHASE0_LEGACY_ALLOWLIST = 0
 SHARED_SAVE_SCHEMA = NOT_STARTED
 PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
 ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
@@ -132,12 +140,15 @@ REPRESENTATIVE_PC_BUILD = NOT_RUN
 REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 ```
 
-Phase 1은 의미 기반 command/event 값 객체와 실패 폐쇄형 base contract만 추가한다. 기존 `GameSession`, Scene, 전투·경제·룰렛·건물 동작에는 연결하지 않았다. local Godot 4.7.1 contract test와 Python 경계 검사는 통과했지만 전체 저장소 runtime·Scene 조립·build·export는 실행하지 않았다.
+Phase 2는 기존 Scene-facing `GameSession` API를 유지하면서 application 상태·frame driving·Scene binding·composition을 분리했다. Main Scene의 script UID는 유지했고 StageSelect·전투·경제·룰렛·건물·데이터·UI 행동 파일은 변경하지 않았다.
 
-다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 2 `GameSession` 책임 분리다.
+무료 로컬 Godot 4.7.1에서 editor class scan, Phase 2 행동 테스트, bootstrap idempotence 테스트, Phase 1 exact 계약 회귀가 통과했다. Python 구조·정적 테스트는 9 PASS이며 legacy allowance·신규 위반·stale allowance는 모두 0이다. 전체 private repository runtime·전체 Scene 조립·대표 build·export는 실행하지 않았다.
+
+다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 3 공용 versioned save다. Phase 3 구현은 아직 승인되지 않았다.
 
 책임 원본:
 
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
 - `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
 - `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE2_GAME_SESSION_DECOUPLING_2026-08-06.md`
