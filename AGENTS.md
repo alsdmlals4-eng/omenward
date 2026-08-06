@@ -2,6 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-06
+common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 current_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 current_count: 6_OF_10
 next_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
@@ -9,7 +10,11 @@ work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 image_generation: STOPPED_BY_USER
 parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+parallel_platform_phase2: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
+platform_phase2_status: MAIN_CANONICAL
 ```
+
+공통 작업·검증·TDD·벤치마킹·PR·승인 배치·정본·Sheet 동기화 규칙은 Base 책임 원본만 따른다. 이 파일은 해당 규칙을 재서술하지 않고 OMENWARD 고유의 읽기 순서, 현재 결정, 제품 제약, 구현·검증 상태만 책임진다.
 
 ## 1. 작업 시작 순서
 
@@ -57,31 +62,15 @@ Stage 20 상인 = FORBIDDEN
 - 상인은 기존 시스템을 보정하지만 우회하지 않는다.
 - 정확 가격·재고·등장률·할인율은 `PENDING_SIMULATION`이다.
 
-## 3. 작업 방식
+## 3. OMENWARD 고유 보호 경계
 
-```text
-BENCHMARK_REQUIRED
-INDUSTRY_COMPARISON_REQUIRED
-MAX_APPROVAL_BATCH: 10
-EARLY_CHECKPOINT = HIGH_RISK_CONFLICT / SESSION_END / LARGE_CANON_IMPACT
-TDD_MANDATORY
-RED → GREEN → REFACTOR
-EXPLICIT_BRANCH_REQUIRED_FOR_GITHUB_MUTATION
-DIRECT_MAIN_WRITE: FORBIDDEN
-```
+- 현재 기획 6/10은 문서 정본이며 제품 코드·Scene·Resource·게임 데이터·실제 아트 자산을 자동 승인하지 않는다.
+- 사용자가 승인하지 않은 자동화·편성·하드카운터·직접 핵심 보상 판매를 추가하지 않는다.
+- 이미지 생성은 사용자 지시에 따라 중단 상태다.
+- 정확 수치는 시뮬레이션과 제품 구현 계약 전까지 `PENDING_SIMULATION`을 유지한다.
+- 병렬 플랫폼 작업은 Planning Batch 카운터에 포함되지 않는 `NON_COUNTER`다.
 
-- 기획 변경도 실패 조건을 먼저 테스트로 기록한다.
-- 제품 변경은 별도 구현 계획과 제품 RED 테스트 전 금지한다.
-- 사용자가 승인하지 않은 자동화·편성·하드카운터·직접 판매를 추가하지 않는다.
-- PR 병합 전 fresh CI·Sheet read-back·리뷰 thread·차단 표식을 다시 확인한다.
-
-## 4. 역할 분리
-
-- GPT: 핵심 재미·콘텐츠·플레이어 경험·UX·아트 방향·정본 동기화.
-- Codex: 자료구조·알고리즘·좌표·경로·성능·제품 코드·제품 테스트.
-- Google Sheet: GitHub Decision의 운영 미러이며 독립 권위가 아니다.
-
-## 5. 완료 이력
+## 4. 완료 이력
 
 ```text
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
@@ -93,11 +82,9 @@ OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
 LEGACY_C1_C2_C3_PROVEN
 ```
 
-제품 코드·Scene·Resource·게임 데이터·실제 아트 자산은 현행 6/10 문서 병합으로 자동 승인되지 않는다.
+## 5. 플랫폼 출시·에셋 증거
 
-## 6. 플랫폼 출시·에셋 권리
-
-출시 플랫폼, 외부 자산, AI·외주·참조 기반 독립 제작 작업은 다음 프로젝트 증거를 읽는다.
+출시 플랫폼과 프로젝트별 자산 증거는 다음 파일을 읽는다.
 
 - `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
 - `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
@@ -116,29 +103,39 @@ Android = COMMITTED
 Google Play = COMMITTED_PRIMARY_STORE
 iOS = NOT_CURRENT_SCOPE
 simultaneous release = NOT_COMMITTED
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+RELEASE_BLOCKED_UNVERIFIED
 ```
 
-PC·Steam과 Android·Google Play 지원 범위는 승인됐지만, 플랫폼별 PASS는 독립이다. `COMMON_PLATFORM_GATE`, `PC_RELEASE_GATE`, `MOBILE_RELEASE_GATE`를 각각 판정하며 한 Gate의 PASS를 다른 Gate에 전이하지 않는다. STOVE는 별도 상점 Gate 전 출시 확정이 아니다.
+자산 감사, 런타임 검증, 상점 제출, 최종 등급, 법률 검토는 현재 `NOT_RUN / NOT_ASSIGNED`다.
 
-원본을 조금 수정하거나 AI로 변환했다는 이유만으로 독립 자산으로 보지 않고 `reference_brief`, `forbidden_expression`, 별도 `final_asset_record`, 유사성 검토를 요구한다.
-
-필수 권리·계약·약관 버전·설문·build/store 일치·플랫폼별 구현과 검증 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다. 자산 감사, 런타임 검증, 상점 제출, 최종 등급, 법률 검토는 현재 `NOT_RUN / NOT_ASSIGNED`다. 현재 기획 6/10과 제품 코드 권한 없음 상태를 변경하지 않는다.
-
-## 7. PC·Android 공용 코어·어댑터 설계
+## 6. PC·Android 공용 코어·어댑터 상태
 
 ```text
-OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
-APPROVED_DESIGN_NOT_IMPLEMENTED
-PRODUCT_CODE_AUTHORITY = NONE
-PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+ARCHITECTURE_DECISION = OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+PHASE0_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
+PHASE1_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
+PHASE2_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
+PHASE2_MAIN = 04e53660387a3bb6d51edd746950cbb6cad8b745
+ARCHITECTURE_STATUS = MAIN_CANONICAL
+PHASE0_STATUS = MAIN_CANONICAL_LOCAL_PASS
+PHASE1_STATUS = MAIN_CANONICAL_LOCAL_PASS
+PHASE2_STATUS = MAIN_CANONICAL_LOCAL_PASS
+PHASE0_LEGACY_ALLOWLIST = 0
+SHARED_SAVE_SCHEMA = NOT_STARTED
+PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
+ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+STORE_SDK_INTEGRATION = NOT_STARTED
 ```
 
-제품 구조 작업은 다음 책임 원본을 우선한다.
+제품 구조 책임 원본:
 
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
-- `docs/reviews/ADVERSARIAL_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_REVIEW_2026-08-06.md`
-- `docs/superpowers/plans/2026-08-06-pc-android-core-adapter-architecture.md`
+- `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE2_GAME_SESSION_DECOUPLING_2026-08-06.md`
+- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 
-공용 domain/core는 `Node`, SceneTree lookup, `Input`, `DisplayServer`, `FileAccess`, Steam·STOVE·Google Play SDK를 직접 참조하지 않는다. 입력·표시·저장·수명주기·성능·상점은 계약과 PC/Android 어댑터로 분리한다.
-
-이 Decision은 기획 Grill Me 카운터에 포함되지 않는 `NON_COUNTER` 병렬 설계다. 현행 기획 상태, 제품 코드 권한 없음, 세 플랫폼 Gate의 `NOT_RUN`, `RELEASE_BLOCKED_UNVERIFIED`를 변경하지 않는다.
+공용 domain/core의 실제 검사 대상과 실행 명령은 `scripts/platform/README.md`에 기록한다. 전체 프로젝트 runtime·대표 PC/Android build·export는 아직 실행하지 않았다.

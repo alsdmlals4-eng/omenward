@@ -2,6 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-06
+common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 current_planning_count: 6_OF_10
 latest_planning_status: PR_CANON_TARGET / NOT_IMPLEMENTED
@@ -14,7 +15,10 @@ human_validation: HUMAN_QA_NOT_RUN
 parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 parallel_platform_phase1: OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
 parallel_platform_phase2: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
+platform_phase2_main: 04e53660387a3bb6d51edd746950cbb6cad8b745
 ```
+
+공통 운영 규칙은 Base 책임 원본에서만 관리한다. 이 문서는 OMENWARD의 프로젝트별 구현·검증 상태와 미검증 범위만 기록한다.
 
 현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
 
@@ -121,7 +125,9 @@ GAME_EVENT = IMPLEMENTED
 SEVEN_PLATFORM_CONTRACTS = IMPLEMENTED
 PLATFORM_CAPABILITIES = IMPLEMENTED
 PHASE2_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
-GAME_SESSION_DECOUPLING = IMPLEMENTED_LOCAL_PASS_CANDIDATE
+PHASE2_SOURCE = 0fcc17de2759c763621258dbf50176b9b05c6764
+PHASE2_MAIN = 04e53660387a3bb6d51edd746950cbb6cad8b745
+GAME_SESSION_DECOUPLING = MAIN_CANONICAL_LOCAL_PASS
 GAME_APPLICATION = IMPLEMENTED
 SESSION_DRIVER = IMPLEMENTED
 SCENE_BINDER = IMPLEMENTED
@@ -142,7 +148,7 @@ REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 
 Phase 2는 기존 Scene-facing `GameSession` API를 유지하면서 application 상태·frame driving·Scene binding·composition을 분리했다. Main Scene의 script UID는 유지했고 StageSelect·전투·경제·룰렛·건물·데이터·UI 행동 파일은 변경하지 않았다.
 
-무료 로컬 Godot 4.7.1에서 editor class scan, Phase 2 행동 테스트, bootstrap idempotence 테스트, Phase 1 exact 계약 회귀가 통과했다. Python 구조·정적 테스트는 9 PASS이며 legacy allowance·신규 위반·stale allowance는 모두 0이다. 전체 private repository runtime·전체 Scene 조립·대표 build·export는 실행하지 않았다.
+Godot 4.7.1 exact-source harness에서 editor class scan, Phase 2 행동 테스트, bootstrap idempotence 테스트, Phase 1 계약 회귀가 통과했다. Python 구조·정적 테스트는 9 PASS이며 legacy allowance·신규 위반·stale allowance는 모두 0이다. 전체 private repository runtime·전체 Scene 조립·대표 build·export는 실행하지 않았다.
 
 다음 제품 단계는 별도 Decision과 RED 테스트를 가진 Phase 3 공용 versioned save다. Phase 3 구현은 아직 승인되지 않았다.
 
