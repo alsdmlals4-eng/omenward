@@ -46,7 +46,7 @@ def write_outputs(output_dir: Path, result: dict[str, Any]) -> tuple[Path, Path]
     output_dir.mkdir(parents=True, exist_ok=True)
     json_path = output_dir / "smoke_sweep_2000.v1.json"
     csv_path = output_dir / "smoke_sweep_2000.v1.csv"
-    json_path.write_text(json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    json_path.write_text(json.dumps(result, ensure_ascii=False, separators=(",", ":"), sort_keys=True) + "\n", encoding="utf-8")
     fields = [
         "vector_id", "special_cost_multiplier", "special_interval_multiplier",
         "special_functional_value_index", "passed_threshold_count", "failed_thresholds",
