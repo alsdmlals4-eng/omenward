@@ -164,13 +164,12 @@ func test_application() -> void:
 		"progression": progression,
 		"stage_run_factory": Callable(self, "make_run"),
 	})
-	var ready := 0
-	var started := 0
-	app.bootstrap_ready.connect(func(_manifest: Variant) -> void: ready += 1)
-	app.stage_started.connect(func(_id: StringName, _run: Variant) -> void: started += 1)
-	check(app.bootstrap().is_empty() and ready == 1, "bootstrap should succeed and emit once")
+	var counts := {"ready": 0, "started": 0}
+	app.bootstrap_ready.connect(func(_manifest: Variant) -> void: counts["ready"] += 1)
+	app.stage_started.connect(func(_id: StringName, _run: Variant) -> void: counts["started"] += 1)
+	check(app.bootstrap().is_empty() and counts["ready"] == 1, "bootstrap should succeed and emit once")
 	check(created_runs.size() == 1, "bootstrap should create one run")
-	check(app.start_stage(&"tutorial_stage") and started == 1, "tutorial should start and emit once")
+	check(app.start_stage(&"tutorial_stage") and counts["started"] == 1, "tutorial should start and emit once")
 	app.advance(0.25)
 	check(is_equal_approx(app.stage_run.advanced, 0.25), "advance should reach the run")
 	check(app.retry_stage() and app.stage_run.starts == 2, "retry should restart current stage")
@@ -184,9 +183,9 @@ func test_application() -> void:
 		"validator": FakeValidator.new(), "progression": FakeProgression.new(),
 		"stage_run_factory": Callable(self, "make_run"),
 	})
-	var failed_signals := 0
-	failed.bootstrap_failed.connect(func(_errors: PackedStringArray) -> void: failed_signals += 1)
-	check(failed.bootstrap().size() == 1 and failed_signals == 1 and failed.stage_run == null, "bootstrap failure should fail closed")
+	var failed_counts := {"signals": 0}
+	failed.bootstrap_failed.connect(func(_errors: PackedStringArray) -> void: failed_counts["signals"] += 1)
+	check(failed.bootstrap().size() == 1 and failed_counts["signals"] == 1 and failed.stage_run == null, "bootstrap failure should fail closed")
 
 
 func test_driver() -> void:
@@ -226,7 +225,7 @@ func test_binder() -> void:
 	app.stage_started.emit(&"tutorial_stage", &"second_run")
 	check(battlefield.calls == 2 and hud.calls == 2, "binder should connect once and bind both targets")
 	check(battlefield.run == &"second_run" and hud.run == &"second_run", "binder should pass the same run")
-	root.queue_free()
+	root.free()
 
 
 func test_bootstrap() -> void:
@@ -237,7 +236,7 @@ func test_bootstrap() -> void:
 	check(composition.get("application") == app, "bootstrap should preserve injected application")
 	check(composition.get("driver") != null and composition.get("binder") != null, "bootstrap should create driver and binder")
 	check(host.get_child_count() == 2, "bootstrap should add exactly two children")
-	host.queue_free()
+	host.free()
 
 
 func test_facade() -> void:
@@ -246,15 +245,14 @@ func test_facade() -> void:
 	var app := FakeApplication.new()
 	var driver := FakeDriver.new()
 	var session: Variant = GameSessionScript.new(FakeBootstrapper.new(app, driver))
-	var ready := 0
-	var started := 0
-	session.bootstrap_ready.connect(func(_manifest: Variant) -> void: ready += 1)
-	session.stage_started.connect(func(_id: StringName, _run: Variant) -> void: started += 1)
+	var counts := {"ready": 0, "started": 0}
+	session.bootstrap_ready.connect(func(_manifest: Variant) -> void: counts["ready"] += 1)
+	session.stage_started.connect(func(_id: StringName, _run: Variant) -> void: counts["started"] += 1)
 	root.add_child(session)
 	await process_frame
-	check(ready == 1 and driver.requested == [&"tutorial_stage"], "facade should bootstrap and schedule tutorial once")
+	check(counts["ready"] == 1 and driver.requested == [&"tutorial_stage"], "facade should bootstrap and schedule tutorial once")
 	check(session.clock == app.clock and session.progression == app.progression, "facade should expose compatibility state")
-	check(session.start_stage(&"regular_stage") and started == 1, "facade should delegate and forward stage start")
+	check(session.start_stage(&"regular_stage") and counts["started"] == 1, "facade should delegate and forward stage start")
 	check(session.retry_stage() and app.retries == 1, "facade should delegate retry")
 	root.queue_free()
 	await process_frame
