@@ -45,4 +45,11 @@ The canonical local matrix is:
 
 `tools/run_local_verification_pack.ps1` runs the three Windows environments. `tools/run_local_verification_pack_wsl.sh` runs Ubuntu 3.12. Each delegates to the same Python runner, verifies exact Git HEAD and Python version, executes the focused contract commands, and writes a JSON receipt.
 
+Shell boundaries are explicit:
+
+- Run `tools/run_local_verification_pack.ps1` from Windows PowerShell.
+- Run `tools/run_local_verification_pack_wsl.sh` inside a WSL2 Ubuntu shell.
+- Do not use `/mnt/c/...` with PowerShell `Set-Location`, and do not execute the `.sh` file directly as a PowerShell command.
+- To launch the WSL verifier while remaining in PowerShell, use `wsl.exe --cd /mnt/c/Users/<USER>/Documents/GitHub/Ninza/omenward bash -lc "./tools/run_local_verification_pack_wsl.sh"`.
+
 Canonical statuses stay `NOT_RUN_USER_LOCAL` until receipts produced on the user's machine are reviewed and bound to an exact commit.
