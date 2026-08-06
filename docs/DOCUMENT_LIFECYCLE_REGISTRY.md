@@ -5,11 +5,11 @@ updated_at: 2026-08-06
 policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 status: CURRENT_LIFECYCLE_AUTHORITY
 approved_planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-latest_approved_contract: OMW-DEC-20260806-PLANNING-BARRACKS-SIMULATION-INPUT-PROVENANCE-AND-ROULETTE-AXIS-CORRECTION-V1
-current_count: 2_OF_10
+latest_approved_decision: OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1
+current_count: 3_OF_10
 ```
 
-이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[제안]`은 사용자 승인 전 구현 입력으로 사용할 수 없다.
+이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. 시뮬레이션 기준선은 제품 구현 권위가 아니다.
 
 ## [현행]
 
@@ -24,7 +24,7 @@ current_count: 2_OF_10
 - `HANDOFF_CONTEXT.md`
 - `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
 
-### 승인 기획
+### 승인 기획·분석 입력
 
 - `design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
 - `design/APPROVED_ROULETTE_CORE_RULES.md`
@@ -37,15 +37,19 @@ current_count: 2_OF_10
 - `design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
 - `design/APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md`
 - `design/APPROVED_OMENWARD_BARRACKS_SIMULATION_INPUT_PROVENANCE_MANIFEST_2026-08-06.md`
+- `design/APPROVED_OMENWARD_CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE_2026-08-06.md`
 - `analysis/barracks_simulation/input_provenance_manifest.v1.json`
+- `analysis/barracks_simulation/current_maprun_economy_pressure_baseline.v1.json`
 
 ## [승인]
 
 ```text
-decision = OMW-DEC-20260806-PLANNING-BARRACKS-SIMULATION-INPUT-PROVENANCE-AND-ROULETTE-AXIS-CORRECTION-V1
-status = APPROVED / 2_OF_10
-simulation_runnable = FALSE
-next_gate = CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE
+decision = OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1
+status = APPROVED / 3_OF_10
+simulation_runnable = TRUE_FOR_SMOKE_ONLY
+smoke_sweep = READY_NOT_RUN
+decision_sweep = BLOCKED_UNTIL_SMOKE_PASS
+next_gate = BARRACKS_SMOKE_SWEEP_EXECUTION
 ```
 
 ## [제안]
@@ -54,8 +58,8 @@ next_gate = CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE
 
 ## [부분 대체됨]
 
-- `design/APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md`의 `SPECIAL_TOKEN_SOURCE_WEIGHT_MULTIPLIER = 0.35 / 0.50 / 0.65 / 0.80`: 물리 릴 TokenInstance 축으로 대체.
-- `TOKEN_SOURCE_COUNT_PER_EVENT = 1_BASELINE / 2_STRESS_ONLY`: 건물당 각 릴 1개, 총 3개 고정으로 대체.
+- 2/10 manifest의 여섯 `MISSING_BLOCKER`: 3/10 smoke 기준값으로 `RESOLVED_FOR_SMOKE` 처리. 최종 제품 수치로 대체된 것은 아니다.
+- `APPROVED_OMENWARD_BARRACKS_ECONOMY_PRODUCTION_TOKEN_SOURCE_SIMULATION_CONTRACT_2026-08-06.md`의 fractional TokenSource weight 축: 물리 릴 TokenInstance 축으로 대체.
 - 7월 정규 15분 Stage 경제·특수병 생산 수치: 현행 절대값이 아니라 legacy PoC 후보로 강등.
 
 ## [대체됨]
@@ -68,11 +72,11 @@ next_gate = CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE
 
 ## [보류]
 
-- 현재 MapRun 시작 골드·수입·기본 회전비.
-- 일반병 생산 기준 초와 특수병 5종 생산 초.
-- 정비시간 경제·생산·건설 Clock.
-- Stage 1~5 Wave 시간표와 Threat Budget.
-- 식량·건설 노드 기회비용 공식.
+- 2,000-seed smoke 결과와 판정.
+- 10,000-seed decision 및 50,000-seed confirmation sweep.
+- 최종 제품 비용·생산시간·Threat 수치.
+- Stage 6~20 수치 확장.
+- 최종 레벨 노드 좌표와 노드 수.
 - 방어탑 T3 상세 효과.
 - 승인된 수치의 제품 구현·데이터 마이그레이션.
 - 12개 온보딩 시나리오와 첫 사용자 20명 검증.
@@ -80,6 +84,9 @@ next_gate = CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE
 ## [폐기]
 
 - fractional TokenInstance와 legacy board weight의 V2 확률 입력 사용.
+- Foundation 지급 surplus.
+- 정비시간 passive gold·자동생산 AFK 파밍.
+- Stage 9 이전 강제 Wave overlap.
 - 무료 재추첨·저장 재추첨.
 - T3 병종 룰렛 토큰.
 - 단일 하드키로만 통과 가능한 압력.
@@ -93,12 +100,13 @@ next_gate = CURRENT_MAPRUN_ECONOMY_AND_PRESSURE_BASELINE
 - `data/units/*.tres` legacy prototype unit data.
 - 완료·대체된 `superpowers/plans/**`.
 
-## 제품 경계
+## 제품·검증 경계
 
 ```text
 PRODUCT_CODE = UNCHANGED
-SIMULATION_RESULTS = NOT_RUN
-SIMULATION_RUNNABLE = FALSE
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+SMOKE_SWEEP = READY_NOT_RUN
+DECISION_SWEEP = BLOCKED_UNTIL_SMOKE_PASS
 RUNTIME = NOT_RUN
 HUMAN_QA = NOT_RUN
 LOCAL_GODOT_PROJECT = UNCHANGED
