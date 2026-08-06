@@ -52,6 +52,8 @@
 - Update: PR #159 title/body
 - Update: Google Sheet rows under the same Decision ID
 
-- [ ] Record the exact new PR head and changed-file list.
-- [ ] Read back GitHub and Sheet values.
-- [ ] Leave the PR Draft and merge blocked until exact-head Actions Green.
+- [x] Record the final PR head and eight-file changed-path allowlist in PR metadata and the Sheet ledger.
+- [x] Read back GitHub and Sheet values.
+- [x] Leave the PR Draft and merge blocked until exact-head Actions Green.
+
+The exact final SHA is intentionally recorded in PR metadata and the Sheet rather than embedded in this file, which would create a self-referential commit loop.
