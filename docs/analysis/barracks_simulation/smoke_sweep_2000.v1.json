@@ -1,0 +1,129 @@
+{
+  "baseline_vector": {
+    "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"],
+    "passed_threshold_count": 8,
+    "primary_kpis": {
+      "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0},
+      "GENERAL_PATH_VALIDITY_RATE": 1.0,
+      "MULTI_SPECIAL_DOMINANCE_RATE": 0.0,
+      "REROLL_EXPECTED_VALUE_GAIN": 0.0,
+      "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0,
+      "SPECIAL_OPTION_DOMINANCE_RATE": 0.199417,
+      "SPECIAL_TOKEN_SHARE_10_MIN": 0.296259,
+      "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5,
+      "WORST_SPECIAL_REGRET_RATE": 0.1145
+    },
+    "special_cost_multiplier": 1.5,
+    "special_functional_value_index": 1.5,
+    "special_interval_multiplier": 1.7,
+    "support_sensitivity": {"HIGH": 1.0, "LOW": 0.195417, "MID": 1.0},
+    "threshold_pass": {
+      "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true,
+      "GENERAL_PATH_VALIDITY_RATE": true,
+      "MULTI_SPECIAL_DOMINANCE_RATE": true,
+      "REROLL_EXPECTED_VALUE_GAIN": true,
+      "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true,
+      "SPECIAL_OPTION_DOMINANCE_RATE": true,
+      "SPECIAL_TOKEN_SHARE_10_MIN": true,
+      "SPECIAL_TOKEN_SHARE_BURST_MAX": false,
+      "WORST_SPECIAL_REGRET_RATE": true
+    },
+    "vector_id": "V00_BASELINE"
+  },
+  "common_random_numbers": true,
+  "decision_id": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
+  "failed_gates": ["MODEL_IDENTIFIABILITY_FAIL", "SPECIAL_TOKEN_SHARE_BURST_MAX"],
+  "gate": {
+    "confirmation_sweep": "BLOCKED",
+    "decision_sweep": "BLOCKED",
+    "next_gate": "PLAYER_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION",
+    "product_implementation": "NOT_AUTHORIZED",
+    "smoke_sweep": "COMPLETED"
+  },
+  "identifiability": {
+    "general_validity_threshold_states": {"HIGH": true, "LOW": false, "MID": true},
+    "reason": "NON_BARRACKS_SUPPORT_NUMERICS_NOT_CANONICAL",
+    "status": "FAIL",
+    "support_sensitivity_delta": 0.804583
+  },
+  "input_hashes": {
+    "baseline_sha256": "a8424ae1b5f22e86db3eca52b7942ff5b1f0e50a3c689ae57b9062550c066878",
+    "model_sha256": "9fd10ad3ad131c4dbfcf2700144e61449e890324a861892e470004a5bfdc627a"
+  },
+  "model_boundaries": {
+    "fifteen_minute_window": "CENSORED_AT_STAGE5_END_830_SECONDS",
+    "not_modeled": ["LUCKY_AND_MOVE_OPTIMIZATION", "CASUALTY_AND_DEATH", "IRREVERSIBLE_LANE_ASSIGNMENT", "PRODUCT_HP_DPS_RANGE_SPEED", "EXACT_TOWER_COMMAND_AND_TACTIC_OUTPUT"],
+    "reward_grade": "NORMAL_ONLY",
+    "roulette": "NATURAL_CENTERLINE_ONLY"
+  },
+  "parameter_vector_count": 9,
+  "parameter_vectors": [
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"],
+      "passed_threshold_count": 8,
+      "primary_kpis": {
+        "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0},
+        "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0,
+        "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.199417,
+        "SPECIAL_TOKEN_SHARE_10_MIN": 0.296259, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.1145
+      },
+      "special_cost_multiplier": 1.5, "special_functional_value_index": 1.5, "special_interval_multiplier": 1.7,
+      "support_sensitivity": {"HIGH": 1.0, "LOW": 0.195417, "MID": 1.0},
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true},
+      "vector_id": "V00_BASELINE"
+    },
+    {
+      "failed_thresholds": ["WORST_SPECIAL_REGRET_RATE", "SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 7,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": -0.067019, "SPECIAL_OPTION_DOMINANCE_RATE": 0.2085, "SPECIAL_TOKEN_SHARE_10_MIN": 0.296796, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.79075},
+      "special_cost_multiplier": 1.25, "special_functional_value_index": 1.35, "special_interval_multiplier": 1.45,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": false}, "vector_id": "V01_CHEAP_FAST_LOW"
+    },
+    {
+      "failed_thresholds": ["WORST_SPECIAL_REGRET_RATE", "SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 7,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": -0.002171, "SPECIAL_OPTION_DOMINANCE_RATE": 0.432778, "SPECIAL_TOKEN_SHARE_10_MIN": 0.296796, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.85675},
+      "special_cost_multiplier": 1.25, "special_functional_value_index": 1.65, "special_interval_multiplier": 1.45,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": false}, "vector_id": "V02_CHEAP_FAST_HIGH"
+    },
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 8,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.150722, "SPECIAL_TOKEN_SHARE_10_MIN": 0.296796, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.13775},
+      "special_cost_multiplier": 1.25, "special_functional_value_index": 1.35, "special_interval_multiplier": 2.2,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true}, "vector_id": "V03_CHEAP_SLOW_LOW"
+    },
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 8,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.295278, "SPECIAL_TOKEN_SHARE_10_MIN": 0.296796, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.139},
+      "special_cost_multiplier": 1.25, "special_functional_value_index": 1.65, "special_interval_multiplier": 2.2,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true}, "vector_id": "V04_CHEAP_SLOW_HIGH"
+    },
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 8,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.034444, "SPECIAL_TOKEN_SHARE_10_MIN": 0.18925, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.0325},
+      "special_cost_multiplier": 2.0, "special_functional_value_index": 1.35, "special_interval_multiplier": 1.45,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true}, "vector_id": "V05_EXPENSIVE_FAST_LOW"
+    },
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 8,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.073, "SPECIAL_TOKEN_SHARE_10_MIN": 0.18925, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.03575},
+      "special_cost_multiplier": 2.0, "special_functional_value_index": 1.65, "special_interval_multiplier": 1.45,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true}, "vector_id": "V06_EXPENSIVE_FAST_HIGH"
+    },
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 8,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.023639, "SPECIAL_TOKEN_SHARE_10_MIN": 0.18925, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.0065},
+      "special_cost_multiplier": 2.0, "special_functional_value_index": 1.35, "special_interval_multiplier": 2.2,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true}, "vector_id": "V07_EXPENSIVE_SLOW_LOW"
+    },
+    {
+      "failed_thresholds": ["SPECIAL_TOKEN_SHARE_BURST_MAX"], "passed_threshold_count": 8,
+      "primary_kpis": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": {"assassin": 1.0, "flying_unit": 1.0, "giant": 1.0, "mage": 1.0, "priest": 1.0}, "GENERAL_PATH_VALIDITY_RATE": 1.0, "MULTI_SPECIAL_DOMINANCE_RATE": 0.0, "REROLL_EXPECTED_VALUE_GAIN": 0.0, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": 0.0, "SPECIAL_OPTION_DOMINANCE_RATE": 0.046694, "SPECIAL_TOKEN_SHARE_10_MIN": 0.18925, "SPECIAL_TOKEN_SHARE_BURST_MAX": 0.5, "WORST_SPECIAL_REGRET_RATE": 0.0065},
+      "special_cost_multiplier": 2.0, "special_functional_value_index": 1.65, "special_interval_multiplier": 2.2,
+      "threshold_pass": {"EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE": true, "GENERAL_PATH_VALIDITY_RATE": true, "MULTI_SPECIAL_DOMINANCE_RATE": true, "REROLL_EXPECTED_VALUE_GAIN": true, "SECOND_SPECIAL_MARGINAL_VALUE_RATIO": true, "SPECIAL_OPTION_DOMINANCE_RATE": true, "SPECIAL_TOKEN_SHARE_10_MIN": true, "SPECIAL_TOKEN_SHARE_BURST_MAX": false, "WORST_SPECIAL_REGRET_RATE": true}, "vector_id": "V08_EXPENSIVE_SLOW_HIGH"
+    }
+  ],
+  "parent_decision_id": "OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1",
+  "schema_version": "1.0",
+  "seed_count": 2000,
+  "selected_parameter_vector": null,
+  "status": "SMOKE_COMPLETED_CONDITIONAL_FAIL"
+}
