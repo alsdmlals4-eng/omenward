@@ -4,12 +4,13 @@
 updated_at: 2026-08-06
 current_planning_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 current_planning_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_7_OF_10
+approval_checkpoint: PARTIAL_APPROVAL_8_OF_10
 current_working_pr: 142
 current_child_decisions:
   - OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
   - OMW-DEC-20260806-PLANNING-UNIT-BUILDING-TIER-MATRIX-V1
   - OMW-DEC-20260806-PLANNING-STAGE2-FIRST-T2-CANDIDATES-AND-GOLD-RULES-V1
+  - OMW-DEC-20260806-PLANNING-SPECIAL-T1-RANDOM-SELECTION-AND-PREVIEW-TIMING-V1
 work_mode: TOTAL_PLANNING
 product_code_authority: NONE
 image_generation: NOT_AUTHORIZED / STOPPED_BY_USER
@@ -59,7 +60,7 @@ EXACT_NUMERICS = PENDING_SIMULATION
 ```text
 OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
 7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_7_OF_10
+PARTIAL_APPROVAL_8_OF_10
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
 STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
@@ -83,6 +84,10 @@ STAGE_2_REQUIRED_COST_RESERVE = ONE_FIRST_T2_UPGRADE
 STAGE_2_NON_CANDIDATE_SPENDING_BEFORE_CHOICE = BLOCKED
 STAGE_2_LEFTOVER_GOLD_AFTER_CHOICE = NORMAL_WALLET
 T2_UPGRADE_PREVIEW = REQUIRED
+SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
+SPECIAL_T1_RESULT_REVEAL = IMMEDIATELY_AFTER_CONSTRUCTION_COMMIT
+SPECIAL_T1_SELECTED_UNIT_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
+SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
 MANA_TOWER_T1_INCLUDED_IN_STAGE_1_SET = REQUIRED
 TACTICAL_RESEARCH_EXPLANATION_BEFORE_STAGE_3 = FORBIDDEN
 SEPARATE_TUTORIAL = FORBIDDEN
@@ -90,7 +95,7 @@ SCRIPTED_VICTORY = FORBIDDEN
 BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 ```
 
-Stage 1 필수 기반은 금고·농장·일반병 병영·방어탑·지휘소·마력탑 6종이다. 특수병 병영은 Stage 1 의무 건물이 아니다. Stage 2 첫 T2 후보는 방패병과 궁병으로 확정했으며 정확 비용·생산간격·토큰 가중치는 시뮬레이션 전 확정하지 않는다.
+Stage 1 필수 기반은 금고·농장·일반병 병영·방어탑·지휘소·마력탑 6종이다. 특수병 병영은 Stage 1 의무 건물이 아니다. Stage 2 첫 T2 후보는 방패병과 궁병으로 확정했다. 특수병 병영 T1은 건설 성공 시 병영별로 1종을 추첨하고 즉시 공개한 뒤 T1 동안 같은 병종을 반복 생산한다. 정확 비용·생산간격·가중치는 시뮬레이션 전 확정하지 않는다.
 
 ## 4. 건물 Tier 현행 계약
 
@@ -161,9 +166,37 @@ FIRST_STAGE2_HARD_COUNTER_REQUIREMENT = FORBIDDEN
 - `docs/reviews/ADVERSARIAL_STAGE2_FIRST_T2_CANDIDATES_AND_GOLD_RULES_REVIEW_2026-08-06.md`
 - `docs/superpowers/specs/2026-08-06-stage2-first-t2-candidates-gold-rules-design.md`
 
-다음 GrillMe는 특수병 병영 T1의 무작위 특수병 선정 시점과 결과 공개 시점이다.
+## 7. 특수병 병영 T1 선정·공개 계약
 
-## 7. 작업 방식
+```text
+OMW-DEC-20260806-PLANNING-SPECIAL-T1-RANDOM-SELECTION-AND-PREVIEW-TIMING-V1
+PARTIAL_APPROVAL_8_OF_10
+SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
+SPECIAL_T1_SELECTION_POOL = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
+SPECIAL_T1_SELECTION_COUNT = ONE
+SPECIAL_T1_SELECTION_SCOPE = PER_BUILDING_INDEPENDENT
+SPECIAL_T1_RESULT_REVEAL = IMMEDIATELY_AFTER_CONSTRUCTION_COMMIT
+SPECIAL_T1_PRECOMMIT_RESULT_PREVIEW = FORBIDDEN
+SPECIAL_T1_PRODUCTION_TIMER_START = AFTER_RESULT_REVEAL
+SPECIAL_T1_SELECTED_UNIT_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
+SPECIAL_T1_REPEATED_PRODUCTION = SELECTED_UNIT_ONLY
+SPECIAL_T1_TOKEN_SOURCE = NONE
+SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
+SPECIAL_T1_FREE_REROLL = FORBIDDEN
+SPECIAL_T2_SPECIALIZATION_OVERRIDES_T1_SELECTION = TRUE
+```
+
+건설 확정 전 결과를 공개하지 않는다. 확정 직후 이름·아이콘·역할·첫 생산 카운트다운을 공개한다. 저장·불러오기와 체크포인트 복구는 같은 결과를 유지하며, 결과 확인 뒤 무료 취소·전액 환급을 통한 재추첨을 금지한다. T2에서는 T1 결과와 무관하게 원하는 특수병 계열을 선택하고 해당 TokenSource를 해금한다.
+
+책임 원본:
+
+- `docs/design/APPROVED_OMENWARD_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_2026-08-06.md`
+- `docs/reviews/ADVERSARIAL_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_REVIEW_2026-08-06.md`
+- `docs/superpowers/specs/2026-08-06-special-t1-random-selection-preview-timing-design.md`
+
+다음 GrillMe는 벨루의 온보딩 개입 수준과 실패·재시도·스킵 규칙이다.
+
+## 8. 작업 방식
 
 ```text
 BENCHMARK_REQUIRED
@@ -182,13 +215,13 @@ DIRECT_MAIN_WRITE = FORBIDDEN
 - 정확 수치·좌표·가중치·비용을 자동 확정하지 않는다.
 - PR 병합 전 최신 main 동기화, 테스트, Sheet read-back, 리뷰 thread와 차단 표식을 확인한다.
 
-## 8. 역할 분리
+## 9. 역할 분리
 
 - GPT: 핵심 재미·콘텐츠·플레이어 경험·UX·아트 방향·기획 정본 동기화.
 - Codex: 자료구조·알고리즘·좌표·경로·성능·제품 코드·제품 테스트.
 - Google Sheet: GitHub Decision의 운영 미러이며 독립 권위가 아니다.
 
-## 9. 플랫폼 출시·에셋 권리
+## 10. 플랫폼 출시·에셋 권리
 
 플랫폼 운영 Decision은 `OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1`이다.
 
@@ -209,7 +242,7 @@ MOBILE_RELEASE_GATE = NOT_RUN
 
 한 플랫폼의 PASS를 다른 플랫폼에 전이하지 않는다. 필수 권리·약관·설문·build/store 일치·플랫폼별 구현과 검증 중 하나라도 미확인이면 `RELEASE_BLOCKED_UNVERIFIED`다.
 
-## 10. PC·Android 공용 코어·어댑터 설계
+## 11. PC·Android 공용 코어·어댑터 설계
 
 ```text
 OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
@@ -226,7 +259,7 @@ PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
 
 공용 domain/core는 `Node`, SceneTree lookup, `Input`, `DisplayServer`, `FileAccess`, Steam·STOVE·Google Play SDK를 직접 참조하지 않는다. 입력·표시·저장·수명주기·성능·상점은 계약과 PC/Android 어댑터로 분리한다. 이 Decision은 기획 GrillMe 카운터에 포함되지 않는 `NON_COUNTER` 병렬 설계다.
 
-## 11. Phase 0 무료 로컬 기준선
+## 12. Phase 0 무료 로컬 기준선
 
 ```text
 OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
