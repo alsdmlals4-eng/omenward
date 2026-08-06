@@ -1,7 +1,7 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "decision_id": "OMW-DEC-20260806-TOOLS-HIGODOT-GUT-AUTHORITY-AND-WORK-ENTRY-GATE-V1",
-  "observed_at": "2026-08-06T22:15:00+09:00",
+  "observed_at": "2026-08-06T22:37:00+09:00",
   "repository_main_sha": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
   "base_main_sha": "4f98f968a377f7b6a11aafa4fc94d11bddbebedc",
   "gate_status": "BLOCKED",
@@ -12,9 +12,16 @@
     "pending_decisions_path": "docs/DECISIONS_PENDING.md",
     "pending_decisions_blob_sha": "4e061274a0b2bac99d2132df0bdd08973f30ff8e",
     "pending_decisions_status": "STALE_RELATIVE_TO_PR154_4_OF_10",
-    "sheet_latest_decision": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
-    "sheet_latest_status": "APPROVED_4_OF_10_CONDITIONAL_FAIL",
-    "sheet_pr_head": "b8bd5f63414332748458d98a077dd7e089f75efa"
+    "latest_counted_planning_decision": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
+    "latest_counted_planning_status": "APPROVED_4_OF_10_CONDITIONAL_FAIL",
+    "latest_counted_planning_pr_head": "b8bd5f63414332748458d98a077dd7e089f75efa",
+    "latest_non_counter_decision": "OMW-DEC-20260806-TOOLS-HIGODOT-GUT-AUTHORITY-AND-WORK-ENTRY-GATE-V1",
+    "latest_non_counter_status": "DESIGN_APPROVED_ACTIVATION_BLOCKED_DRAFT_PR155",
+    "sheet_sync_ranges": [
+      "02_현재_확정결정!A84:M84",
+      "04_누락_충돌_감사!A575:H575",
+      "99_변경이력!A102:H102"
+    ]
   },
   "image_review_readback": {
     "sheet": "72_이미지검수_승인로그",
@@ -39,6 +46,32 @@
     ],
     "classification": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
   },
+  "bootstrap_exception": {
+    "status": "OPEN_FOR_PR155_ONLY",
+    "pr_number": 155,
+    "head_branch": "planning/gut-9-7-1-adoption-work-entry-gate-20260806",
+    "base_sha": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
+    "allowed_paths": [
+      ".github/workflows/validate-godot-authoring-test-authority.yml",
+      "AGENTS.md",
+      "docs/design/PROPOSED_OMENWARD_HIGODOT_GUT_AUTHORITY_AND_GUT_9_7_1_ADOPTION_2026-08-06.md",
+      "docs/operations/GUT_ADOPTION_RECORD.v1.json",
+      "docs/operations/OMENWARD_WORK_ENTRY_GATE_2026-08-06.md",
+      "docs/operations/WORK_ENTRY_GATE_STATE.v1.json",
+      "docs/reviews/ADVERSARIAL_GUT_ADOPTION_AND_WORK_ENTRY_GATE_REVIEW_2026-08-06.md",
+      "docs/superpowers/plans/2026-08-06-gut-adoption-and-work-entry-gate.md",
+      "tests/python/test_godot_authoring_test_authority.py",
+      "tools/validate_godot_authoring_test_authority.py"
+    ]
+  },
+  "remediation_authorization": {
+    "status": "NOT_AUTHORIZED",
+    "decision_id": null,
+    "pr_number": null,
+    "head_branch": null,
+    "base_sha": null,
+    "exact_paths": []
+  },
   "blockers": [
     "CANON_LEDGER_STALE",
     "PENDING_DECISIONS_STALE",
@@ -48,9 +81,9 @@
     "GUT_RUNTIME_NOT_RUN"
   ],
   "safe_next_actions": [
-    "Bootstrap or repair this gate contract",
-    "Reconcile central canon non-destructively against Sheet 4/10 and PR154 exact HEAD",
-    "Reconcile the vendored GUT tree against reviewed upstream commit",
+    "Complete exact-head review of PR155 without activating GUT",
+    "Create a separate exact-path authorization before any canon or vendor remediation PR",
+    "Reconcile the vendored GUT tree against the reviewed upstream commit",
     "Run exact Godot 4.7 import and GUT CLI canary through the approved authority boundary"
   ]
 }
