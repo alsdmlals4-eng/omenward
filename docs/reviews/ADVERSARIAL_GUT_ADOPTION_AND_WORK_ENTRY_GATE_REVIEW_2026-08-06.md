@@ -22,7 +22,20 @@ status: DRAFT_REVIEW / ACTIVATION_BLOCKED
 - **공격:** `IN_REVIEW`를 사실상 AWAITING으로 해석할 수 있다.
   - **방어:** 미생성 `IN_REVIEW`는 승인 대기 자산이 아니며 READY/AWAITING count 0을 계약으로 고정한다.
 - **공격:** Bootstrap 예외가 일반 작업 우회로가 될 수 있다.
-  - **방어:** exact allowlist와 remediation prefix 외 단일 파일이라도 포함되면 실패한다.
+  - **방어:** exact allowlist와 PR·branch·base SHA가 모두 일치하지 않으면 실패한다.
+
+## 수정 후 재공격 — PR155 self-bypass
+
+- bootstrap 예외를 PR #155·branch·base SHA에 고정하지 않으면 후속 PR이 validator 자체를 약화할 수 있음: **VALID_P1 / FIXED_BY_CONTEXT_BINDING**.
+- `addons/gut/**` 포괄 허용은 임의 plugin 변경 우회가 됨: **VALID_P1 / FIXED_BY_EXACT_PATH_AUTHORIZATION_ONLY**.
+- Godot authoring 파일과 GUT test 파일을 한 PR에 섞을 수 있음: **VALID_P1 / FIXED_BY_CHANGED_FILE_AUTHORITY_GATE**.
+- Sheet에 NON_COUNTER Decision이 추가된 뒤 `sheet_latest_decision=4/10` 표현이 낡음: **VALID_P1 / FIXED_BY_COUNTED_VS_NON_COUNTER_SPLIT**.
+
+```text
+BOOTSTRAP_EXCEPTION = PR155_ONLY
+BROAD_REMEDIATION_PREFIX = FORBIDDEN
+AUTHORING_AND_GUT_CHANGESET_OVERLAP = FORBIDDEN
+```
 
 ## 판정
 
@@ -30,6 +43,7 @@ status: DRAFT_REVIEW / ACTIVATION_BLOCKED
 SPEC_REVIEW = PASS_WITH_BLOCKERS
 ACTIVATION = FAIL
 NORMAL_WORK_ENTRY = FAIL
-BOOTSTRAP_AND_REMEDIATION_SCOPE = ALLOWED
+BOOTSTRAP_PR155_SCOPE = ALLOWED
+GENERAL_REMEDIATION = NOT_AUTHORIZED
 MERGE = BLOCKED_UNTIL_EXACT_HEAD_REVIEW_AND_REQUIRED_CHECKS
 ```
