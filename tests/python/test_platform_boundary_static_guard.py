@@ -72,7 +72,7 @@ class PlatformBoundaryStaticGuardTests(unittest.TestCase):
             self.assertIn("cancel", report.unapproved[0].code)
             self.assertEqual([], report.stale_allowances)
 
-    def test_current_repository_has_only_declared_legacy_exceptions(self) -> None:
+    def test_current_repository_has_no_legacy_exceptions(self) -> None:
         roots = [ROOT / "scripts/core"]
         domain_root = ROOT / "scripts/domain"
         if domain_root.exists():
@@ -88,7 +88,8 @@ class PlatformBoundaryStaticGuardTests(unittest.TestCase):
         self.assertGreater(report.scanned_files, 0)
         self.assertEqual([], report.unapproved)
         self.assertEqual([], report.stale_allowances)
-        self.assertEqual(3, len(report.allowed))
+        self.assertEqual(0, len(report.allowed))
+        self.assertEqual((), DEFAULT_LEGACY_ALLOWLIST)
 
 
 if __name__ == "__main__":
