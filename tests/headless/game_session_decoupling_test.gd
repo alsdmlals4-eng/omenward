@@ -254,5 +254,8 @@ func test_facade() -> void:
 	check(session.clock == app.clock and session.progression == app.progression, "facade should expose compatibility state")
 	check(session.start_stage(&"regular_stage") and counts["started"] == 1, "facade should delegate and forward stage start")
 	check(session.retry_stage() and app.retries == 1, "facade should delegate retry")
-	root.queue_free()
+	var loose_binder: Node = session.binder
+	root.free()
+	driver.free()
+	loose_binder.free()
 	await process_frame
