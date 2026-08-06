@@ -66,26 +66,7 @@ _RULES: tuple[_Rule, ...] = (
 )
 
 
-DEFAULT_LEGACY_ALLOWLIST: tuple[LegacyAllowance, ...] = (
-    LegacyAllowance(
-        path="scripts/core/game_session.gd",
-        rule_id="NODE_BASE_CLASS",
-        code="extends Node",
-        reason="Phase 0 records the existing Godot host before GameSession is split.",
-    ),
-    LegacyAllowance(
-        path="scripts/core/game_session.gd",
-        rule_id="SCENE_TREE_LOOKUP",
-        code='var battlefield := get_parent().get_node_or_null("Battlefield")',
-        reason="Existing Scene binding is isolated in Phase 2; expansion is forbidden.",
-    ),
-    LegacyAllowance(
-        path="scripts/core/game_session.gd",
-        rule_id="SCENE_TREE_LOOKUP",
-        code='var stage_hud := get_parent().get_node_or_null("UI/StageHud")',
-        reason="Existing HUD binding is isolated in Phase 2; expansion is forbidden.",
-    ),
-)
+DEFAULT_LEGACY_ALLOWLIST: tuple[LegacyAllowance, ...] = ()
 
 
 def scan_forbidden_references(
