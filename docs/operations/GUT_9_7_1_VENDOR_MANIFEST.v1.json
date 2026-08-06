@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260806-TOOLS-GUT-9-7-1-VENDOR-MANIFEST-RECONCILIATION-V1",
+  "observed_at": "2026-08-06T23:07:00+09:00",
+  "status": "VENDOR_DELTA_CLASSIFIED_ACTIVATION_BLOCKED",
+  "base_main_sha": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
+  "upstream": {
+    "repository": "bitwes/Gut",
+    "commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605",
+    "branch": "godot_4_7",
+    "version": "9.7.1",
+    "addons_gut_tree_sha": "5d6893836af4917ee62b1a395125a7530b1f239d",
+    "recursive_tree_truncated": false
+  },
+  "project": {
+    "repository": "alsdmlals4-eng/omenward",
+    "commit": "7588317f294d602cfad5f7f15bfebcf849b8a77b",
+    "addons_gut_tree_sha": "09d040309bbed0e07420ad72c4aa69cbd0e58190",
+    "recursive_tree_truncated": false
+  },
+  "path_set": {
+    "status": "MATCH",
+    "missing_paths": [],
+    "extra_paths": [],
+    "changed_path_count": 18
+  },
+  "invariants": {
+    "gdscript_blob_set": "IDENTICAL",
+    "uid_sidecar_blob_set": "IDENTICAL",
+    "plugin_cfg_blob": "IDENTICAL",
+    "license_blobs": "IDENTICAL",
+    "cli_blob_set": "IDENTICAL",
+    "image_and_font_source_blobs": "IDENTICAL_EXCEPT_SOURCE_CODE_PRO_FNT_RESOURCE"
+  },
+  "changed_paths": [
+    {"path":"GutScene.tscn","upstream_blob_sha":"82638cc5bd37f833d361842ecce77a35101a47ed","project_blob_sha":"7a2b52e78f0e3fab96b9e756a9ebc4ab797e2e52","upstream_size":673,"project_size":660,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"UserFileViewer.tscn","upstream_blob_sha":"15e2e86980b2c4400996ed4bbfc26f2c7e3ae362","project_blob_sha":"673d70f9ca083eefb2b2076240e8ee43e5198d3d","upstream_size":3433,"project_size":3420,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/GutControl.tscn","upstream_blob_sha":"58301a21aa08a3c86504c565e0bee87404990483","project_blob_sha":"0416ad04b719ad18698904b3c2488ee48d6cf84a","upstream_size":1777,"project_size":1764,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/GutLogo.tscn","upstream_blob_sha":"e73d259966f4ff2ecbc3ebf273eccc8fceab29ca","project_blob_sha":"e586b68dff851459e6055b45d83e7a8d6fe801ec","upstream_size":1269,"project_size":1256,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/GutRunner.tscn","upstream_blob_sha":"a4e966fc89d174006657b3f7ac619daee4e76cfe","project_blob_sha":"00dc4d606ac3a47535613e84f5e203f433954bdb","upstream_size":477,"project_size":464,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/GutSceneTheme.tres","upstream_blob_sha":"157320aa149011cedbcf39490430ea559da4f35f","project_blob_sha":"7924db9635238fd58cfc2ff5769191ded29e0d17","upstream_size":293,"project_size":280,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/MinGui.tscn","upstream_blob_sha":"f347e5c51413d864bcfda926f0b29baef9ec7cb9","project_blob_sha":"5ba41830fffe087af66987f21534a3f7909bbc1d","upstream_size":5218,"project_size":5205,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/NormalGui.tscn","upstream_blob_sha":"e729d0d741446a79741b4b12f5b153e0693e0476","project_blob_sha":"3ab609145025aeba334e42db252a88dfb56cca77","upstream_size":7392,"project_size":7379,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/OutputText.tscn","upstream_blob_sha":"b666c1537b1229ba4e6bb2fe203e025c72bdc760","project_blob_sha":"3319e8a81a50bb798ffa2423c4b255d4283033cc","upstream_size":4428,"project_size":4415,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/ResizeHandle.tscn","upstream_blob_sha":"b13d9e5aefaecf98fc3a5ebe0850537258b83e11","project_blob_sha":"69eab1a300462b6511730b1b2b62163cd15f3136","upstream_size":313,"project_size":300,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/RunAtCursor.tscn","upstream_blob_sha":"8fa5886d17fc0f2f55bf81f1de477229b04cb539","project_blob_sha":"4e1e56ff574bf8215dcf27b2a018bbd197a1f3c4","upstream_size":1884,"project_size":1871,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/RunExternally.tscn","upstream_blob_sha":"c72926d12ee664815f222e7097f453560e3186de","project_blob_sha":"f34ee2ac377b1342be553f631706af743d074b0d","upstream_size":1880,"project_size":1867,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/RunResults.tscn","upstream_blob_sha":"240016862c1180a3788f0e4e004bb79893e388e9","project_blob_sha":"21ef72f1b33255c982daa4ffae313613d94d48f1","upstream_size":3271,"project_size":3258,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/ShellOutOptions.tscn","upstream_blob_sha":"72442a5d2c453adf2788fb8e54e4d1fd6ba142a9","project_blob_sha":"2a36a255181e6f730ad42f5a6c9c62350f4238c6","upstream_size":1020,"project_size":1007,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/ShortcutButton.tscn","upstream_blob_sha":"896854a33f41eb320adf4ac5b058df2d40c869a6","project_blob_sha":"52b181e7dd2120148b55ae5582b0791f09e473c7","upstream_size":1681,"project_size":1668,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gui/run_from_editor.tscn","upstream_blob_sha":"a979090354c7780f9ceffb4f81689d39b2f36435","project_blob_sha":"efd9a910277ef71f08bccf56bac37c1cb4071866","upstream_size":250,"project_size":237,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"gut_loader_the_scene.tscn","upstream_blob_sha":"8fbd0101f023d749b5278d2490f3455b9cf80bbf","project_blob_sha":"f34ae177e14fb67e601aeffcea6e3ee57cbb2230","upstream_size":251,"project_size":238,"size_delta":-13,"classification":"HEADER_LOAD_STEPS_NORMALIZATION_CANDIDATE","content_diff_verification":"SAMPLED_ONLY"},
+    {"path":"source_code_pro.fnt","upstream_blob_sha":"eb6b9b859954c85bc878e93e6893d6f552b01a9e","project_blob_sha":"00deb8edaccae3a8a8c5764fae8c76f91bc586a1","upstream_size":42799,"project_size":42799,"size_delta":0,"classification":"UNCLASSIFIED_BINARY_DELTA","content_diff_verification":"NOT_DECODED"}
+  ],
+  "classification_summary": {"header_normalization_candidates":17,"unclassified_binary_deltas":1,"code_or_plugin_deltas":0,"missing_or_extra_paths":0},
+  "activation": {
+    "status": "BLOCKED",
+    "blockers": ["FULL_CONTENT_DIFF_NOT_COMPLETED_FOR_17_TEXT_RESOURCES","SOURCE_CODE_PRO_FNT_BINARY_DELTA_UNCLASSIFIED","EXACT_GODOT_4_7_IMPORT_NOT_RUN","GUT_CLI_CANARY_NOT_RUN","PROJECT_REGRESSION_NOT_RUN"],
+    "next_exact_scope": ["Decode and explain source_code_pro.fnt binary delta","Verify all 17 text resources differ only by load_steps header normalization","Run exact Godot 4.7 clean import through HiGodot authority","Run GUT CLI canary and JUnit generation without product mutation","Run existing project regression"]
+  }
+}
