@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "artifact_role": "OMENWARD_LOCAL_VERIFICATION_MATRIX",
+  "decision_id": "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1",
+  "entry_gate": "BLOCK",
+  "expected_head_policy": "EACH_LAUNCHER_READS_GIT_REV_PARSE_HEAD_AND_PASSES_IT_TO_THE_COMMON_RUNNER",
+  "receipt_directory": "artifacts/local-verification",
+  "environments": [
+    {"environment_id": "windows-py311", "host": "windows", "python": "3.11", "launcher": "py -3.11", "execution_status": "NOT_RUN_USER_LOCAL"},
+    {"environment_id": "windows-py312", "host": "windows", "python": "3.12", "launcher": "py -3.12", "execution_status": "NOT_RUN_USER_LOCAL"},
+    {"environment_id": "windows-py313", "host": "windows", "python": "3.13", "launcher": "py -3.13", "execution_status": "NOT_RUN_USER_LOCAL"},
+    {"environment_id": "wsl2-ubuntu-py312", "host": "wsl2-ubuntu", "python": "3.12", "launcher": "python3.12", "execution_status": "NOT_RUN_USER_LOCAL"}
+  ],
+  "success_rule": "ALL_COMMANDS_EXIT_0_AND_RECEIPT_HEAD_EQUALS_EXPECTED_HEAD",
+  "scope": "PROCESS_DOCS_PYTHON_CONTRACT_ONLY",
+  "excluded_scope": [
+    "GODOT_IMPORT_OR_RUNTIME",
+    "GUT_CLI_OR_JUNIT",
+    "WINDOWS_BUILD",
+    "ANDROID_BUILD_OR_DEVICE",
+    "PRODUCT_RUNTIME",
+    "ASSET_OR_AUDIO_IMPORT"
+  ]
+}
