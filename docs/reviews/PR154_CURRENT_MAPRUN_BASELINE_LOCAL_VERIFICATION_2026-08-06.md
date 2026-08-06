@@ -1,0 +1,64 @@
+# PR #154 Current MapRun Baseline Local Alternate Verification
+
+```yaml
+updated_at: 2026-08-06
+decision_id: OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1
+scope: BOUNDED_RECONSTRUCTED_CONTRACT_VERIFICATION
+```
+
+## RED
+
+```text
+RED_COMMIT = 5936a5cb2256ec5d4bba4ea0a4714a4304fb8eee
+RED_RESULT = FileNotFoundError
+RED_CAUSE = APPROVED_CURRENT_MAPRUN_BASELINE_AUTHORITY_MISSING
+RED_EXPECTATION = PASS
+```
+
+## GREEN
+
+The focused test and the marker set it consumes were reconstructed in an isolated directory. The machine JSON bytes match the content submitted to the branch and were parsed directly.
+
+```text
+COMMAND = python -m unittest tests.python.test_current_maprun_economy_pressure_baseline -v
+RESULT = 11_PASS / 0_FAILURE / 0_ERROR
+COMMAND = python -m py_compile tests/python/test_current_maprun_economy_pressure_baseline.py
+RESULT = EXIT_0
+JSON_PARSE = PASS
+BASELINE_JSON_BLOB = f012a7a70763c6c33e66c8fbb7de15431a10c9ab
+BASELINE_JSON_SHA256 = a8424ae1b5f22e86db3eca52b7942ff5b1f0e50a3c689ae57b9062550c066878
+BASELINE_JSON_BYTES = 5430
+```
+
+## Proven contract
+
+```text
+FOUNDATION_REQUIRED_COST_SUM = 250
+FOUNDATION_GRANT = 250
+FOUNDATION_SURPLUS = 0
+FIRST_SPIN_OPERATIONAL_GRANT = 20
+STAGE2_RESERVED_T2_GRANT = 50
+MAINTENANCE_PASSIVE_GOLD = OFF
+MAINTENANCE_AUTO_PRODUCTION = OFF
+MAINTENANCE_CONSTRUCTION_PROGRESS = ON
+FIRST_FIVE_EXPECTED_TOTAL = 830_SECONDS
+SIMULATION_RUNNABLE = TRUE_FOR_SMOKE_ONLY
+DECISION_SWEEP = BLOCKED_UNTIL_SMOKE_PASS
+```
+
+## Boundary
+
+```text
+FULL_PRIVATE_REPOSITORY_CHECKOUT = NOT_PERFORMED
+FULL_PYTHON_SUITE = NOT_RUN
+GITHUB_ACTIONS_GREEN = UNAVAILABLE_BILLING_PRE_START
+GODOT_TESTS = NOT_RUN
+SMOKE_SWEEP = READY_NOT_RUN
+RUNTIME = NOT_RUN
+HUMAN_QA = NOT_RUN
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+PRODUCT_CODE = UNCHANGED
+LOCAL_GODOT_PROJECT = UNCHANGED
+```
+
+This result proves the focused document and machine-input contract only. It does not prove gameplay balance, engine integration, or product readiness.
