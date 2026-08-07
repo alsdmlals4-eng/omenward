@@ -30,7 +30,7 @@
     "status": "ENTRY_STATE_RECONCILED_BUT_BLOCKERS_REMAIN",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_ON_BRANCH_PENDING_MERGE"
+      "status": "RECONCILED_BY_V4_4_DECISION"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
@@ -45,7 +45,6 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
-      "RECONCILIATION_DECISION_NOT_MERGED",
       "PR154_CONDITIONAL_FAIL_UNMERGED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "BASE_RECOVERY_PR159_DRAFT_INCOMPLETE",
@@ -56,8 +55,6 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "EXACT_HEAD_VALIDATION_OF_THIS_RECONCILIATION",
-      "SHEET_SYNC_WITH_SAME_DECISION_ID",
       "PR159_BASE_RECOVERY_COMPLETION",
       "PR154_CONDITIONAL_FAIL_REMEDIATION",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
@@ -120,7 +117,7 @@
   "github_actions": {
     "repository_visibility": "PUBLIC_CONFIRMED",
     "standard_hosted_runner": "PROVEN_ON_PR159_EXACT_HEAD_06C1169",
-    "current_reconciliation_head": "NOT_YET_VALIDATED"
+    "reconciliation_validation_policy": "EXACT_PR_HEAD_GREEN_REQUIRED_BEFORE_MERGE"
   },
   "review_authority": {
     "model": "GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY",
