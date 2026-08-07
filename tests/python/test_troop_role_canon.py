@@ -8,6 +8,9 @@ DECISION_ID = "OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1"
 SPEC = ROOT / "docs/superpowers/specs/2026-08-05-troop-roles-synergies-counters-design.md"
 CANON = ROOT / "docs/design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_TROOP_ROLE_SYNERGY_AND_COUNTER_REVIEW_2026-08-05.md"
+CURRENT_BUILDING = ROOT / "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md"
+LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
 
 TROOPS = (
     "방패수호병",
@@ -22,17 +25,7 @@ TROOPS = (
     "거인",
 )
 PRESSURES = ("MASS", "ARMORED", "FLYING", "INFILTRATION", "SIEGE")
-CENTRAL_FILES = (
-    ROOT / "README.md",
-    ROOT / "AGENTS.md",
-    ROOT / "docs/PROJECT_CORE.md",
-    ROOT / "docs/ACTIVE_CONTEXT.md",
-    ROOT / "docs/DOCUMENTATION_MAP.md",
-    ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
-    ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md",
-    ROOT / "docs/DECISIONS_PENDING.md",
-    ROOT / "docs/OMENWARD_ROADMAP.md",
-)
+LINEAGE_FILES = (LIFECYCLE, ROADMAP)
 
 
 def read(path: pathlib.Path) -> str:
@@ -41,7 +34,7 @@ def read(path: pathlib.Path) -> str:
 
 class TroopRoleCanonTests(unittest.TestCase):
     def test_authority_files_exist(self) -> None:
-        for path in (SPEC, CANON, REVIEW):
+        for path in (SPEC, CANON, REVIEW, CURRENT_BUILDING, LIFECYCLE):
             self.assertTrue(path.is_file(), f"missing authority file: {path.relative_to(ROOT)}")
 
     def test_roster_baseline_and_resize_gate_are_explicit(self) -> None:
@@ -62,17 +55,25 @@ class TroopRoleCanonTests(unittest.TestCase):
         self.assertIn("압력별 최소 두 병종 대응 경로", text)
         self.assertIn("단일 하드키 병종 금지", text)
 
-    def test_synergy_and_barracks_rules_preserve_flexible_composition(self) -> None:
-        text = read(CANON)
+    def test_action_synergy_and_current_barracks_authority_preserve_flexible_composition(self) -> None:
+        troop_text = read(CANON)
         for marker in (
             "행동 기반 시너지",
             "단순 세트 보너스: FORBIDDEN",
-            "전열 병영 가중 계열",
-            "기동 병영 가중 계열",
             "공통 지원 계열",
             "반대 계열 영구 삭제: FORBIDDEN",
         ):
-            self.assertIn(marker, text)
+            self.assertIn(marker, troop_text)
+
+        building_text = read(CURRENT_BUILDING)
+        for marker in (
+            "일반병 병영",
+            "특수병 병영",
+            "GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT",
+            "SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT",
+            "전열 병영 가중 / 기동 병영 가중` 배치 규칙은 이 정본으로 대체",
+        ):
+            self.assertIn(marker, building_text)
 
     def test_tier_route_layer_and_asset_boundaries_are_explicit(self) -> None:
         text = read(CANON)
@@ -87,14 +88,14 @@ class TroopRoleCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_central_authority_routes_decision_four_of_ten(self) -> None:
-        for path in CENTRAL_FILES:
+    def test_lineage_routes_decision_four_of_ten(self) -> None:
+        for path in LINEAGE_FILES:
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("4_OF_10", text, str(path.relative_to(ROOT)))
 
     def test_legacy_prototype_unit_data_is_not_current_product_authority(self) -> None:
-        text = read(ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md")
+        text = read(LIFECYCLE)
         self.assertIn("data/units/*.tres", text)
         self.assertIn("[증거]", text)
         self.assertIn("LEGACY_PROTOTYPE_UNIT_DATA", text)
