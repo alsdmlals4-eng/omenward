@@ -1,126 +1,89 @@
-# [현행 제안] OMENWARD 통합 작업지시문 v4.3 활성 바인딩
+# [현행] OMENWARD 통합 작업지시문 v4.4 활성 바인딩
 
 ```yaml
-decision_id: OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1
+decision_id: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION
-contract_version: "4.3"
+contract_version: "4.4"
 contract_status: ACTIVE_INTEGRATED_AUDIT_IMPLEMENTATION_DELIVERY_CONTRACT
 binding_status: ACTIVE
 counter: NON_COUNTER
 activation_authority: USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION
-repository_main: 7588317f294d602cfad5f7f15bfebcf849b8a77b
-base_main: 4f98f968a377f7b6a11aafa4fc94d11bddbebedc
+source_repository_main: 7b41923628b68c7c1477b286584973d8516eab6d
+base_main: fa69a77a14f923a756064f6ae151d34cadb374f7
+reconciliation_branch: process/v4-4-entry-reconciliation-20260808
 entry_gate: BLOCK
 ```
 
 ## 1. 활성 계약
 
-사용자가 제공하고 현재 대화에서 활성 계약으로 지정한 `PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.3.md`를 OMENWARD의 현재 작업 운영 계약으로 바인딩한다.
+사용자가 제공한 `PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4.md`를 현재 OMENWARD 운영 계약으로 바인딩한다. 프로젝트 입력은 현재 대화에서 사용자가 지정한 OMENWARD 저장소와 `C:/Users/user/Documents/GitHub/Ninza/omenward` 경로로 해석한다.
 
-- v4.3: `ACTIVE`
-- v4.2: `HISTORICAL_COMPARISON_ONLY`
-- 과거 대화의 `[이미지 완료]`: v4.3의 `[이미지·오디오 완료]` 호환 표기로만 해석
+- v4.4: `ACTIVE`
+- v4.3 / v4.2: `HISTORICAL_COMPARISON_ONLY`
+- 계약 활성화는 제품 구현 진입 허가와 다르다.
 
-계약 활성화는 작업 진입 허가와 다르다.
+## 2. 이번 재조정에서 확인한 현재 사실
 
-```text
-APPLICATION_BINDING = ACTIVE
-ENTRY_STATE_RECONCILIATION = BLOCKED
-PRODUCT_IMPLEMENTATION = FORBIDDEN
-GODOT_AUTHORING = FORBIDDEN
-FORMAL_GUT_EXECUTION = FORBIDDEN
-MERGE_PR155_OR_PR156 = FORBIDDEN
-```
+- Base `main`: `fa69a77a14f923a756064f6ae151d34cadb374f7`
+- OMENWARD source `main`: `7b41923628b68c7c1477b286584973d8516eab6d`
+- 온보딩 기획: `APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT`
+- 다음 기획 Gate: 병영 경제·생산·TokenSource 시뮬레이션 계열
+- 이미지 Sheet: `READY=0`, `AWAITING=0`, `IN_REVIEW_NOT_GENERATED=1`, mismatch reject 6
+- PR #154: Draft / 2,000-seed smoke conditional fail 계열
+- PR #155: Draft / GUT 9.7.1 adoption spec not merged
+- PR #159: Draft / public hosted Actions exact-head Green이나 Base recovery incomplete
+- local Windows checkout / local Godot / shared audio vault: 현재 agent 환경에서 접근 불가
 
-## 2. v4.3 권위와 역할
+## 3. 2026-08-07 이후 직접 main 변경
 
-```text
-GPT 기획 역할
-→ GPT 검토 역할
-→ 사용자 결정권
-→ Codex script/data/test/CI 구현
-→ HiGodot 단일 Godot 저작
-→ GUT 9.7.1 테스트 실행·assert
-→ CI exact-HEAD 객관 검증
-```
+`5d9b507...` 이후 두 direct-main 커밋이 Sheet 기준선에 반영되지 않았다.
 
-- 검토 모델은 `GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY`다.
-- 1인 개발 환경에서 별도 외부 독립 리뷰어가 존재한다고 가장하지 않는다.
-- HiGodot만 Scene·Node·Resource·Theme·Animation·signal·project settings를 저작한다.
-- GUT은 production Scene·Resource·`project.godot`을 수정하지 않는다.
-- 현재 Python 검증은 GUT 명세 병합 전 운영 계약을 지키기 위한 `BOOTSTRAP_CONTRACT_TEST_ONLY_NOT_FORMAL_GUT`이다.
+1. `37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6`: Hera Agent Godot 파일 유입.
+2. `7b41923628b68c7c1477b286584973d8516eab6d`: `.asset-vault/`를 `.gitignore`에 추가.
 
-## 3. 작업 진입 재판정
+이 재조정은 두 변경을 소급 승인하지 않는다. Hera 파일은 현재 저장소에 존재하지만 `project.godot`의 editor plugin에는 활성화되어 있지 않으므로 `NOT_VERIFIED_INSTALLED_UNUSED`로 판정한다. Existing Solution First 절차로 provenance, exact version, license, 소비 경로, HiGodot/GUT과의 비중첩을 별도 검증해야 한다.
 
-실제 readback:
+## 4. 역할 경계
 
 ```text
-Decision Ledger = STALE_CANON_CONFLICT
-DECISIONS_PENDING = STALE_RELATIVE_TO_PR154_4_OF_10
-image READY = 0
-image AWAITING = 0
-image IN_REVIEW_NOT_GENERATED = 1
-image REJECTED_PROJECT_MISMATCH = 6
-PR154 = CONDITIONAL_FAIL / UNMERGED
+HiGodot = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY
+GUT 9.7.1 = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED
+Hera = LIVE_QA_AND_OBSERVABILITY_ONLY
+Hera persistent source mutation = FORBIDDEN
+role overlap = FORBIDDEN
 ```
 
-따라서 v4.3의 `ENTRY_STATE_RECONCILIATION_BLOCKING_GATE`는 `BLOCK`이다.
+현재 HiGodot exact source/version은 미검증이다. GUT adoption spec PR #155는 미병합이고 formal GUT 실행은 차단한다. Hera는 저장소 존재만 확인됐으며 adoption은 검증되지 않았다.
 
-## 4. PR #155·#156 전환
+## 5. Entry Gate
 
-### PR #155
+정본 원장과 Sheet 기준선을 이 Decision으로 재조정해도 다음 독립 차단 조건 때문에 Entry Gate는 `BLOCK`을 유지한다.
 
-- GUT 9.7.1 채택 의도와 HiGodot/GUT 비중첩 계약은 v4.3 방향과 일치한다.
-- 다만 작업 진입 Gate와 GUT 채택 명세가 한 PR에 결합돼 있어 v4.3의 설계 명세 전용 Draft PR 원칙에 대한 범위 재검토가 필요하다.
-- 병합 전 `docs/testing/GUT_9_7_1_ADOPTION_SPEC.md` 수준의 필수 항목 충족 여부를 다시 검사한다.
-- `DRAFT_SCOPE_ALIGNMENT_REQUIRED_UNDER_V4_3 / MERGE_BLOCKED`로 유지한다.
+- PR #154 conditional fail / unmerged
+- GUT adoption spec PR #155 not merged
+- Base recovery PR #159 incomplete
+- HiGodot exact source/version unverified
+- Hera direct-main import disposition not closed
+- local Godot / shared audio vault unavailable
+- historical secret scan unproven accepted risk
 
-### PR #156
+따라서 제품 구현, Godot 저작 mutation, formal GUT, Hera live-QA 완료 주장, 이미지 생성, audio import, local-main/Godot runtime 완료 주장은 금지한다.
 
-- `addons/gut/**`와 Godot 저작 파일을 변경하지 않는 provenance evidence Draft라는 점은 안전하다.
-- 그러나 GUT 채택 명세가 merged main에 존재하기 전에는 정식 설치·실행·활성화·병합 순서로 승격할 수 없다.
-- `DRAFT_EVIDENCE_ONLY_SEQUENCE_BLOCKED / MERGE_BLOCKED`로 유지한다.
+## 6. Sheet 동기화
 
-## 5. 공유 사운드 Vault
-
-원문 경로를 수정하지 않는다.
+동일 Decision ID를 다음 Surface에 사용한다.
 
 ```text
-C:/Users/user/Documents/GitHub/shered audio vault
+OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 ```
 
-현재 에이전트 환경에서는 해당 Windows 경로를 읽을 수 없다.
+- `02_현재_확정결정`
+- `04_누락_충돌_감사`
+- `00_프로젝트_허브`
+- `99_변경이력`
 
-```text
-AUDIO_VAULT_PATH_UNVERIFIED
-AUDIO_RIGHTS_UNVERIFIED
-AUDIO_IMPORT_NOT_AUTHORIZED
-ABSOLUTE_RUNTIME_REFERENCE_FORBIDDEN
-```
+PR exact-head와 병합 결과는 Sheet의 PR/변경이력 surface에서 추적하며, 이 활성 바인딩 정본에는 병합 직후 stale해지는 임시 HEAD 상태를 고정하지 않는다.
 
-접근이 증명된 뒤에도 원본 Vault는 읽기 전용이며, 승인된 파일만 권리·hash·출처를 기록해 `res://` 아래로 복사하고 HiGodot으로 연결한다.
+## 7. v4.3 역사
 
-## 6. 허용되는 다음 작업
-
-1. 이 계약 바인딩의 exact-head 검증과 Sheet 동기화.
-2. Base 전체 tracked-file·Skill·Workflow 지도 복원.
-3. PR #155의 v4.3 설계 명세 전용 범위 재검토와 필요 시 분리.
-4. PR #156의 Draft provenance 증거 검토. `addons/gut` 또는 Godot 파일 mutation은 금지.
-5. 별도 Decision·정확한 경로 목록을 사용한 중앙 정본의 비파괴 정합성 교정.
-
-## 7. 완료 오해 방지
-
-이 Decision은 다음을 증명하지 않는다.
-
-```text
-BASE_WHOLE_REPOSITORY_AND_SKILL_RECOVERY_COMPLETE
-ENTRY_GATE_PASS
-GUT_ADOPTION_SPEC_MERGED_MAIN_VERIFIED
-HIGODOT_SOURCE_OR_VERSION_VERIFIED
-EXACT_GODOT_4_7_X_VERIFIED
-GUT_TEST_DISCOVERY_OR_JUNIT_VERIFIED
-AUDIO_VAULT_INVENTORIED
-WINDOWS_OR_ANDROID_VALIDATED
-LOCAL_MAIN_SYNCED
-GODOT_RUN_VALIDATED
-```
+`OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1`은 당시 계약 활성화와 fail-closed Gate를 증명하는 역사 자료로 보존한다. v4.4가 그 이후의 현재 운영 바인딩을 승계한다.
