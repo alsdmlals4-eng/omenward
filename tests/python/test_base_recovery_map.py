@@ -104,10 +104,28 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertEqual(set(self.state["workflow_files"]), EXPECTED_WORKFLOWS)
         self.assertEqual(self.state["workflow_count"], len(EXPECTED_WORKFLOWS))
 
+    def test_v43_recovery_scope_is_inventory_plus_relevant_full_text(self) -> None:
+        contract = self.state["recovery_contract"]
+        self.assertEqual(contract["authority"], "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.3#4.1")
+        self.assertEqual(contract["tracked_file_requirement"], "WHOLE_TRACKED_FILE_INVENTORY_AND_CLASSIFICATION")
+        self.assertEqual(contract["full_text_requirement"], "PROJECT_RELEVANT_TEXT_ONLY")
+        self.assertEqual(contract["non_relevant_text_policy"], "INDEX_AND_CLASSIFY_WITHOUT_BLIND_FULL_LOAD")
+        self.assertTrue(contract["record_unread_or_unverified"])
+
+    def test_completed_surfaces_are_not_left_as_unread_blockers(self) -> None:
+        completed = {row["path"]: row for row in self.state["completed_recovery_surfaces"]}
+        self.assertEqual(completed["Base root authority files"]["status"], "FULL_TEXT_READ")
+        self.assertEqual(completed["[수정제안서]/**"]["status"], "FULL_TEXT_READ")
+        self.assertEqual(completed["skills/SKILL_REGISTRY.json"]["status"], "FULL_TEXT_READ")
+        blocked_paths = {row["path"] for row in self.state["unread_or_partially_read_surfaces"]}
+        self.assertNotIn("AGENTS.md and remaining root authority files", blocked_paths)
+        self.assertNotIn("[수정제안서]/**", blocked_paths)
+        self.assertNotIn("skills/SKILL_REGISTRY.json", blocked_paths)
+
     def test_unread_surfaces_are_explicit_and_blocking(self) -> None:
         unread = self.state["unread_or_partially_read_surfaces"]
         self.assertGreater(len(unread), 0)
-        self.assertTrue(all(row["status"] in {"NOT_READ", "PARTIAL_READ"} for row in unread))
+        self.assertTrue(all(row["status"] in {"NOT_READ", "PARTIAL_READ", "INVENTORY_OR_CLASSIFICATION_INCOMPLETE"} for row in unread))
         self.assertTrue(all(row["gate_effect"] == "BLOCKED" for row in unread))
 
     def test_existing_actions_workflow_is_the_only_validation_path(self) -> None:
