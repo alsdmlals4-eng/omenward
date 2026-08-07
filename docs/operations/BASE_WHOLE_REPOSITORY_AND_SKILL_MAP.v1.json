@@ -233,8 +233,10 @@
     ],
     "godot_version": "4.7.1",
     "local_verification_pack": "REMOVED",
-    "repository_visibility_observed": "private",
-    "public_unlimited_policy_applicable": false,
-    "cost_guarantee": "NOT_ASSERTED_FOR_PRIVATE_REPOSITORY"
+    "repository_visibility_observed": "public",
+    "visibility_decision_id": "OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1",
+    "public_unlimited_policy_applicable": true,
+    "billing_block_status": "CLEARED_BY_PUBLIC_TRANSITION",
+    "cost_guarantee": "STANDARD_GITHUB_HOSTED_PUBLIC_REPOSITORY_PATH"
   }
 }
