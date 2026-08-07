@@ -11,6 +11,14 @@
   "recovery_status": "INCOMPLETE",
   "base_recovery_blocker_cleared": false,
   "entry_gate": "BLOCK",
+  "recovery_contract": {
+    "authority": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.3#4.1",
+    "tracked_file_requirement": "WHOLE_TRACKED_FILE_INVENTORY_AND_CLASSIFICATION",
+    "full_text_requirement": "PROJECT_RELEVANT_TEXT_ONLY",
+    "non_relevant_text_policy": "INDEX_AND_CLASSIFY_WITHOUT_BLIND_FULL_LOAD",
+    "record_unread_or_unverified": true,
+    "base_cold_start_alignment": "START_HERE_AND_OPERATING_MODEL_CONFIRM_SELECTIVE_PROGRESSIVE_LOADING"
+  },
   "root_inventory_count": 29,
   "root_inventory": [
     ".codex-plugin",
@@ -52,37 +60,37 @@
     {
       "path": ".github",
       "tree_sha": "62d6ff1a219b2c271b7485b1210a6e8b87b73d73",
-      "index_status": "READ_INDEX_COMPLETE"
+      "index_status": "READ_INDEX_COMPLETE_CONTENT_PARTIAL"
     },
     {
       "path": "[수정제안서]",
       "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781",
-      "index_status": "NOT_READ"
+      "index_status": "READ_INDEX_AND_FULL_TEXT_COMPLETE"
     },
     {
       "path": "docs",
       "tree_sha": "a65ee14fcc71c3ed36ea64a813506c9b12d079a8",
-      "index_status": "PARTIAL_READ"
+      "index_status": "PARTIAL_READ_PROJECT_RELEVANT_AUTHORITIES_IN_PROGRESS"
     },
     {
       "path": "examples",
       "tree_sha": "718bf968d83da9e9ecc57198b3b7adc547ec749b",
-      "index_status": "NOT_READ"
+      "index_status": "READ_INDEX_COMPLETE_CLASSIFICATION_PENDING"
     },
     {
       "path": "schemas",
       "tree_sha": "a2b018fb486b73ef3ede4341134d2044fc105637",
-      "index_status": "NOT_READ"
+      "index_status": "READ_INDEX_COMPLETE_CLASSIFICATION_PENDING"
     },
     {
       "path": "skills",
       "tree_sha": "b2bc6bbd497fd5103b671e875d0463eabfe4026a",
-      "index_status": "READ_INDEX_COMPLETE_CONTENT_PARTIAL"
+      "index_status": "READ_INDEX_COMPLETE_REGISTRY_FULL_TEXT_RELEVANT_BODIES_PARTIAL"
     },
     {
       "path": "templates",
       "tree_sha": "83ecc90935465d3e1e5cfc8346b6566dc0c25bb4",
-      "index_status": "NOT_READ"
+      "index_status": "READ_INDEX_COMPLETE_CLASSIFICATION_AND_RELEVANT_CONTENT_PENDING"
     },
     {
       "path": "tests",
@@ -95,10 +103,100 @@
       "index_status": "READ_INDEX_COMPLETE_CONTENT_PARTIAL"
     }
   ],
+  "completed_recovery_surfaces": [
+    {
+      "path": "Base root authority files",
+      "status": "FULL_TEXT_READ",
+      "scope": [
+        "START_HERE.md",
+        "AGENTS.md",
+        "README.md",
+        "SECURITY.md",
+        "LICENSE",
+        ".gitattributes",
+        ".gitignore",
+        ".codex-plugin/plugin.json",
+        "base.lock.json",
+        "base-v9.1.lock.json",
+        "base-v9.2.lock.json",
+        "base-v9.3.lock.json",
+        "base-v9.4.lock.json",
+        "base-v9.4.1.lock.json",
+        "base-v9.4.2.lock.json",
+        "base-v9.4.3.lock.json",
+        "package.json",
+        "pnpm-workspace.yaml",
+        "requirements-publication.txt"
+      ],
+      "note": "pnpm-lock.yaml is a generated dependency lock and was inspected but is not counted as a current authority full-text requirement."
+    },
+    {
+      "path": "[수정제안서]/**",
+      "status": "FULL_TEXT_READ",
+      "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781",
+      "blob_count": 13,
+      "lifecycle_result": "BCP_001_002_SUBMITTED_AND_NOT_ACTIVE_EXECUTION_AUTHORITY__BCP_003_007_IMPLEMENTED_HISTORY_WITH_PROJECT_RUNTIME_LIMITS_PRESERVED"
+    },
+    {
+      "path": "skills/SKILL_REGISTRY.json",
+      "status": "FULL_TEXT_READ",
+      "blob_sha": "5ca054e70725f396f286c3b4a315e2a922e1cad5",
+      "result": "29_CURRENT_SKILLS_AND_AUTOMATIC_TRIGGER_ROUTING_RECOVERED"
+    },
+    {
+      "path": "Base cold-start core authorities",
+      "status": "FULL_TEXT_READ",
+      "scope": [
+        "docs/OPERATING_MODEL.md",
+        "docs/WORK_MODE_AND_SKILL_ROUTING.md",
+        "docs/DOCUMENTATION_MAP.md"
+      ],
+      "result": "WHOLE_INVENTORY_DOES_NOT_MEAN_BLIND_FULL_TEXT_LOAD__RELEVANT_AUTHORITY_AND_IMPACT_FILES_ARE_SELECTED_PROGRESSIVELY"
+    },
+    {
+      "path": "OMENWARD-relevant Base policy authorities",
+      "status": "FULL_TEXT_READ",
+      "scope": [
+        "docs/PROJECT_GDD_GOOGLE_SHEETS_POLICY.md",
+        "docs/knowledge/godot/HIGODOT_SINGLE_AUTHORITY_AND_SAFE_OPERATION.md"
+      ],
+      "result": "SHEET_IS_USER_FACING_WORKSPACE_NOT_GITHUB_REPLACEMENT__HIGODOT_IS_SOLE_GODOT_AUTHORING_AUTHORITY_WITH_PROJECT_ADOPTION_EVIDENCE_REQUIRED"
+    }
+  ],
   "read_evidence": [
     {
       "path": "START_HERE.md",
       "blob_sha": "bd0bee0fb413f739924ac1495e82305ce9066f97",
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "AGENTS.md",
+      "blob_sha": "add48c1f12b37b622f88c0e5dc06e5c68b970bf8",
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "docs/OPERATING_MODEL.md",
+      "blob_sha": "df30f68eb22e8b5557c480c1c6073f3e2a6a1789",
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "docs/WORK_MODE_AND_SKILL_ROUTING.md",
+      "blob_sha": "875860cebfaeb637bd66540e4978fb060902b7d2",
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "docs/DOCUMENTATION_MAP.md",
+      "blob_sha": "874b88cfaca04a7af3b22bf2bb36574448e19c51",
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "docs/PROJECT_GDD_GOOGLE_SHEETS_POLICY.md",
+      "blob_sha": "eee5439305a7b03ab1209dd39f2ff99ee20f3a01",
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "docs/knowledge/godot/HIGODOT_SINGLE_AUTHORITY_AND_SAFE_OPERATION.md",
+      "blob_sha": "286a38f92ecc3fb3ebf6c0d7882ea0d8548067c2",
       "status": "FULL_TEXT_READ"
     },
     {
@@ -114,7 +212,12 @@
     {
       "path": "skills/SKILL_REGISTRY.json",
       "blob_sha": "5ca054e70725f396f286c3b4a315e2a922e1cad5",
-      "status": "PARTIAL_TEXT_READ"
+      "status": "FULL_TEXT_READ"
+    },
+    {
+      "path": "[수정제안서]/**",
+      "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781",
+      "status": "FULL_TEXT_READ_13_BLOBS"
     }
   ],
   "skill_entrypoint_count": 29,
@@ -163,52 +266,43 @@
   ],
   "unread_or_partially_read_surfaces": [
     {
-      "path": "AGENTS.md and remaining root authority files",
-      "status": "NOT_READ",
-      "gate_effect": "BLOCKED"
+      "path": "Base tracked-file inventory/classification manifest beyond root and known subtree indexes",
+      "status": "INVENTORY_OR_CLASSIFICATION_INCOMPLETE",
+      "gate_effect": "BLOCKED",
+      "required_result": "EVERY_TRACKED_FILE_CLASSIFIED_AS_SKILL_ROUTER_WORKFLOW_TEMPLATE_POLICY_TEST_SCRIPT_REGISTRY_ARCHIVE_GENERATED_OR_BINARY"
     },
     {
-      "path": "[수정제안서]/**",
-      "status": "NOT_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "docs/** except selected entrypoints",
+      "path": ".github/** relevant workflow and policy contents",
       "status": "PARTIAL_READ",
       "gate_effect": "BLOCKED"
     },
     {
-      "path": "examples/**",
-      "status": "NOT_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "schemas/**",
-      "status": "NOT_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "skills/** bodies and references except indexed paths/registry excerpt",
+      "path": "docs/** project-relevant authority set beyond recovered cold-start GDD and HiGodot authorities",
       "status": "PARTIAL_READ",
       "gate_effect": "BLOCKED"
     },
     {
-      "path": "templates/**",
-      "status": "NOT_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "tests/** full content",
+      "path": "skills/** project-relevant Skill bodies and references for recovery validation Godot adoption and continuity",
       "status": "PARTIAL_READ",
       "gate_effect": "BLOCKED"
     },
     {
-      "path": "tools/** full content except run_local_validation.py",
+      "path": "templates/** project-relevant adoption verification and execution-report templates",
       "status": "PARTIAL_READ",
+      "gate_effect": "BLOCKED"
+    },
+    {
+      "path": "tests/** and tools/** relevant validators and consumers for recovered routes",
+      "status": "PARTIAL_READ",
+      "gate_effect": "BLOCKED"
+    },
+    {
+      "path": "OMENWARD Base adapter snapshot router and adoption delta versus Base 4f98f968 main",
+      "status": "INVENTORY_OR_CLASSIFICATION_INCOMPLETE",
       "gate_effect": "BLOCKED"
     }
   ],
-  "next_required_gate": "CONTINUE_EXACT_PATH_BASE_CONTENT_RECOVERY_AND_ZERO_UNREAD_BLOCKERS",
+  "next_required_gate": "COMPLETE_TRACKED_FILE_INVENTORY_CLASSIFICATION_AND_PROJECT_RELEVANT_AUTHORITY_SKILL_CONSUMER_RECOVERY",
   "prohibited_claims": [
     "BASE_RECOVERY_COMPLETE",
     "ENTRY_READY",
