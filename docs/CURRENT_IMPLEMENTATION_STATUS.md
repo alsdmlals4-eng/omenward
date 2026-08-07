@@ -60,6 +60,16 @@ REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 
 Phase 0~2의 과거 local-pass 증거는 플랫폼 경계 구현만 증명하며 온보딩 제품 구현이나 출시 준비 완료를 뜻하지 않는다.
 
+## 과거 C1 자동 검증 증거
+
+```text
+C1_ROULETTE_CORE_REMOTE_PROVEN
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+C1 최종 검증 run: `29926598807`
+```
+
+이 증거는 과거 C1 룰렛 핵심 계약의 원격 검증·병합 사실만 보존하며, 현재 10/10 온보딩 기획이나 후속 제품 구현 완료를 의미하지 않는다.
+
 ## PR #142 검증 경계
 
 ```text
