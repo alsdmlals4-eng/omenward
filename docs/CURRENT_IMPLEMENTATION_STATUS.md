@@ -17,6 +17,19 @@ local_godot_project: UNCHANGED
 
 공통 운영 규칙은 Base 책임 원본에서 관리한다. 이 문서는 OMENWARD의 프로젝트별 기획·구현·검증 상태만 기록한다.
 
+현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
+
+최신 버티컬 슬라이스 구현: `NOT_STARTED`
+
+```text
+VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
+LATEST_AUTOMATED_CONTRACTS_NOT_RUN
+HUMAN_QA_NOT_RUN
+CORE_LOCK_NOT_ALLOWED
+LEGACY_C1_C2_C3_PROVEN
+LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
+```
+
 ## 기획과 제품 상태
 
 ```text
@@ -68,7 +81,7 @@ C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 C1 최종 검증 run: `29926598807`
 ```
 
-이 증거는 과거 C1 룰렛 핵심 계약의 원격 검증·병합 사실만 보존하며, 현재 10/10 온보딩 기획이나 후속 제품 구현 완료를 의미하지 않는다.
+이 C1 증거는 과거 계약 검증 사실만 보존하며 V2 구현 완료를 뜻하지 않는다. 현재 10/10 온보딩 기획이나 후속 제품 구현 완료를 의미하지도 않는다.
 
 ## PR #142 검증 경계
 
