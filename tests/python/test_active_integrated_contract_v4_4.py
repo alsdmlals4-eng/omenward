@@ -38,6 +38,15 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         mutated["entry_gate"]["decision"] = "PASS"
         self.assertIn("entry gate must remain BLOCK", self.validator.validate_state(mutated))
 
+    def test_reconciled_state_is_durable_after_merge(self) -> None:
+        gate = self.state["entry_gate"]
+        self.assertEqual(
+            gate["decision_ledger_readback"]["status"],
+            "RECONCILED_BY_V4_4_DECISION",
+        )
+        self.assertNotIn("RECONCILIATION_DECISION_NOT_MERGED", gate["blocking_reasons"])
+        self.assertNotIn("current_reconciliation_head", self.state["github_actions"])
+
     def test_sheet_readback_has_no_ready_or_awaiting_images(self) -> None:
         image = self.state["entry_gate"]["image_review_sheet_readback"]
         self.assertEqual(image["ready_count"], 0)
