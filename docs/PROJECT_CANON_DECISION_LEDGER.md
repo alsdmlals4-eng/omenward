@@ -6,6 +6,9 @@ status: CURRENT_DECISION_LEDGER
 source_main_observed: 7b41923628b68c7c1477b286584973d8516eab6d
 base_main_observed: fa69a77a14f923a756064f6ae151d34cadb374f7
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
+last_gate_update_decision: OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1
+base_recovery_merge: c6f8babe1dbb31f436eac45fa2056242baa445b1
+base_recovery_status: COMPLETE
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 current_simulation_batch: APPROVED_4_OF_10_CONDITIONAL_FAIL
@@ -74,14 +77,28 @@ OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-S
 
 v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
 
+### Base recovery post-merge 상태
+
+```text
+PR159 = MERGED
+merge = c6f8babe1dbb31f436eac45fa2056242baa445b1
+Base exact commit = fa69a77a14f923a756064f6ae151d34cadb374f7
+Base root tree = 913b69460649fe717294a27246e0b833958e70e4
+tracked-file classification = ZERO_UNCLASSIFIED
+project-relevant full-text recovery = CLOSED
+BASE_RECOVERY_BLOCKER = CLEARED
+```
+
+Base recovery 과정에서 `skills/PROJECT_BASE_ADAPTER.json`의 GDD sync/protected baseline freshness 문제가 별도 finding으로 분리됐다. 이 finding은 Base recovery 완료를 되돌리지 않지만 shared-route/project operating integrity를 계속 fail-closed로 유지한다.
+
 ## 5. 2026-08-08 repository drift 판정
 
-Sheet의 마지막 정본 기준 이후 actual `main`에는 다음 direct-main 변경이 존재한다.
+Sheet의 과거 기준 이후 actual `main`에는 다음 direct-main 변경이 존재했다.
 
 - `37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6`: Hera Agent Godot 파일 유입.
 - `7b41923628b68c7c1477b286584973d8516eab6d`: `.asset-vault/` ignore 추가.
 
-두 변경은 저장소에 존재하는 사실은 인정하지만, 대응 Decision linkage가 현 원장·Sheet에서 발견되지 않았으므로 이 Decision이 소급 승인하지 않는다.
+두 변경은 저장소에 존재하는 사실은 인정하지만, 대응 Decision linkage가 현 원장·Sheet에서 발견되지 않았으므로 소급 승인하지 않는다.
 
 Hera 판정:
 
@@ -102,13 +119,15 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
+- `PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED`
 - PR #154 conditional fail / unmerged
 - PR #155 GUT adoption spec not merged
-- PR #159 Base recovery incomplete
 - HiGodot exact source/version unverified
 - Hera direct-main import disposition not closed
 - local Godot / shared audio vault `BLOCKED_UNVERIFIED`
 - historical secret scan unproven accepted risk
+
+PR #159 Base recovery incomplete는 더 이상 blocker가 아니다.
 
 금지:
 
@@ -124,7 +143,7 @@ LOCAL_OR_RUNTIME_COMPLETION_CLAIM
 
 ## 7. 다음 작업
 
-1. PR #159 Base recovery의 남은 unread/partial surface를 0으로 축소.
+1. `PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION`: PR161 이후 stale한 `gdd_sheet` sync status와 `protected_baseline`을 bounded repair하고 Base adapter validator로 검증.
 2. PR #154 4/10 conditional fail의 capability proxy / multi-special token burst remediation.
 3. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
 4. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
