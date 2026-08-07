@@ -11,6 +11,7 @@ STATE_PATH = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 DECISION_ID = "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1"
 BASE_SHA = "fa69a77a14f923a756064f6ae151d34cadb374f7"
 SOURCE_MAIN_SHA = "7b41923628b68c7c1477b286584973d8516eab6d"
+RECONCILIATION_BRANCH = "process/v4-4-entry-reconciliation-20260808"
 
 REQUIRED_BLOCKERS = {
     "PR154_CONDITIONAL_FAIL_UNMERGED",
@@ -35,6 +36,10 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("source main SHA mismatch")
     if data.get("base_repository_main_sha") != BASE_SHA:
         errors.append("Base main SHA mismatch")
+    if "working_branch" in data:
+        errors.append("working_branch must not persist in durable active state")
+    if data.get("reconciliation_branch") != RECONCILIATION_BRANCH:
+        errors.append("reconciliation branch provenance mismatch")
 
     active = data.get("active_contract", {})
     if active.get("version") != "4.4":
