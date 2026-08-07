@@ -164,7 +164,7 @@ class BaseRecoveryMapContract(unittest.TestCase):
         ).strip()
         self.assertEqual(head, BASE_SHA)
         tracked = subprocess.check_output(
-            ["git", "-C", str(BASE_CHECKOUT), "ls-files"], text=True
+            ["git", "-C", str(BASE_CHECKOUT), "-c", "core.quotepath=false", "ls-files"], text=True
         ).splitlines()
         self.assertGreater(len(tracked), 0)
         classified = {path: classify_base_path(path) for path in tracked}
