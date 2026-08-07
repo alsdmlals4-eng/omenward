@@ -102,7 +102,6 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
-- 이 v4.4 재조정 Decision이 아직 main에 병합되지 않음
 - PR #154 conditional fail / unmerged
 - PR #155 GUT adoption spec not merged
 - PR #159 Base recovery incomplete
@@ -125,10 +124,9 @@ LOCAL_OR_RUNTIME_COMPLETION_CLAIM
 
 ## 7. 다음 작업
 
-1. 이 재조정 PR exact-head 검증과 Sheet 동일 Decision ID readback.
-2. PR #159 Base recovery의 남은 unread/partial surface를 0으로 축소.
-3. PR #154 4/10 conditional fail의 capability proxy / multi-special token burst remediation.
-4. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
-5. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
+1. PR #159 Base recovery의 남은 unread/partial surface를 0으로 축소.
+2. PR #154 4/10 conditional fail의 capability proxy / multi-special token burst remediation.
+3. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
+4. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
 
 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.
