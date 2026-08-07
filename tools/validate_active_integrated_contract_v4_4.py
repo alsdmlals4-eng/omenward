@@ -47,8 +47,10 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     gate = data.get("entry_gate", {})
     if gate.get("decision") != "BLOCK":
         errors.append("entry gate must remain BLOCK")
-    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_ON_BRANCH_PENDING_MERGE":
+    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_DECISION":
         errors.append("Decision Ledger reconciliation status mismatch")
+    if "RECONCILIATION_DECISION_NOT_MERGED" in set(gate.get("blocking_reasons", [])):
+        errors.append("self-stale reconciliation merge blocker must not persist")
     if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_10_OF_10_NEXT_SIMULATION_GATE":
         errors.append("unresolved list current status mismatch")
     image = gate.get("image_review_sheet_readback", {})
@@ -56,6 +58,12 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("image READY/AWAITING counts must remain zero")
     if not REQUIRED_BLOCKERS.issubset(set(gate.get("blocking_reasons", []))):
         errors.append("entry blockers incomplete")
+
+    actions = data.get("github_actions", {})
+    if "current_reconciliation_head" in actions:
+        errors.append("self-stale exact-head status must not persist in active state")
+    if actions.get("repository_visibility") != "PUBLIC_CONFIRMED":
+        errors.append("repository visibility status mismatch")
 
     tools = data.get("tool_authority", {})
     if tools.get("higodot", {}).get("authority") != "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY":
