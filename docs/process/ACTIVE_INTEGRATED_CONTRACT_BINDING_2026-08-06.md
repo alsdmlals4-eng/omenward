@@ -10,7 +10,7 @@ counter: NON_COUNTER
 activation_authority: USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION
 source_repository_main: 7b41923628b68c7c1477b286584973d8516eab6d
 base_main: fa69a77a14f923a756064f6ae151d34cadb374f7
-working_branch: process/v4-4-entry-reconciliation-20260808
+reconciliation_branch: process/v4-4-entry-reconciliation-20260808
 entry_gate: BLOCK
 ```
 
@@ -57,9 +57,8 @@ role overlap = FORBIDDEN
 
 ## 5. Entry Gate
 
-정본 원장과 Sheet 기준선은 이번 Decision으로 재조정하지만, 다음 차단 조건 때문에 Entry Gate는 `BLOCK`을 유지한다.
+정본 원장과 Sheet 기준선을 이 Decision으로 재조정해도 다음 독립 차단 조건 때문에 Entry Gate는 `BLOCK`을 유지한다.
 
-- 이 재조정 Decision 자체가 아직 main에 병합되지 않음
 - PR #154 conditional fail / unmerged
 - GUT adoption spec PR #155 not merged
 - Base recovery PR #159 incomplete
@@ -82,6 +81,8 @@ OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-S
 - `04_누락_충돌_감사`
 - `00_프로젝트_허브`
 - `99_변경이력`
+
+PR exact-head와 병합 결과는 Sheet의 PR/변경이력 surface에서 추적하며, 이 활성 바인딩 정본에는 병합 직후 stale해지는 임시 HEAD 상태를 고정하지 않는다.
 
 ## 7. v4.3 역사
 
