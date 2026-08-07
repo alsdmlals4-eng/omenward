@@ -1,63 +1,92 @@
 # Base recovery map and existing Actions validation simplification
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
 
-**Goal:** Preserve the fail-closed Base recovery map while removing the local verification pack and reusing the existing Full validation workflow.
+**Decision:** `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`
 
-**Architecture:** `validate-omenward-core.yml` is the single full-validation entrypoint. Its manual-dispatch matrix covers standard Ubuntu and Windows GitHub-hosted runners with Python 3.11, 3.12, and 3.13, while the existing Godot 4.7.1 job remains unchanged. Base recovery evidence stays separate and incomplete.
+**Goal:** Maintain one simple public Actions validation path while proving the current Base recovery contract: every tracked Base path is classified, OMENWARD-relevant authority/Skill/consumer text is recovered, and the project adoption delta is explicit.
 
-**Tech Stack:** GitHub Actions, Python `unittest`, Godot 4.7.1, Google Sheets decision ledger.
+**Architecture:** `.github/workflows/validate-omenward-core.yml` remains the validation entrypoint. It checks out OMENWARD plus an exact public Base pin into `_base_recovery`. `tests/python/test_base_recovery_map.py` classifies live `git ls-files` from that Base checkout and verifies the current recovery map. No new local Windows/WSL launcher or receipt framework is introduced.
 
-## Global Constraints
+**Current baselines:**
 
-- Decision ID remains `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`.
-- The original repository-visibility preservation clause is superseded by `OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1`.
-- Repository visibility is public and standard GitHub-hosted runners are the approved validation path.
-- `RECOVERY_STATUS=INCOMPLETE`.
-- `BASE_RECOVERY_BLOCKER_CLEARED=FALSE`.
-- `ENTRY_GATE=BLOCK`.
-- Do not authorize product, Godot authoring, GUT activation, audio import, Ready, or merge merely because Actions are Green.
+```text
+Base main = fa69a77a14f923a756064f6ae151d34cadb374f7
+Base root tree = 913b69460649fe717294a27246e0b833958e70e4
+OMENWARD starting main = c3efdba7c288f391f492fd5313d80ad5b824de3b
+active integrated contract = v4.4
+```
 
----
+## Constraints
 
-### Task 1: Strengthen the existing CI usage contract
+- Keep the same Decision ID.
+- Keep unique PR scope in the existing eight process/docs/test/validator paths.
+- Do not touch product scripts, data, scenes, resources, assets, addons, or `project.godot`.
+- Do not automatically migrate OMENWARD from released Base v9.4.3 to current Base main.
+- Clearing the Base recovery blocker does not clear the global Entry Gate.
+- User Windows checkout, local Godot, audio vault, HiGodot exact pin, GUT formal adoption, and Hera adoption remain separately evidenced.
 
-**Files:**
-- Modify: `tests/python/test_ci_usage_contract.py`
-- Modify: `tools/validate_ci_usage_contract.py`
-- Modify: `.github/workflows/validate-omenward-core.yml`
+## Completed historical simplification
 
-- [x] Write failing assertions for manual dispatch, standard runner labels, and Python 3.11/3.12/3.13.
-- [x] Observe RED against the former Python 3.12/3.13 matrix.
-- [x] Add Python 3.11 and reject `self-hosted`.
-- [x] Preserve the historical C2 3.12/3.13 proof marker while extending the actual matrix.
-- [x] Run the focused CI usage suite to GREEN.
+The prior PR159 work already:
 
-### Task 2: Remove the local verification pack
+- removed the dedicated local verification pack;
+- reused standard public GitHub-hosted Actions;
+- kept the full Ubuntu/Windows × Python 3.11/3.12/3.13 validation matrix;
+- kept Godot 4.7.1 import, headless contracts, and runtime smoke;
+- proved the older exact-head candidate Green while correctly leaving Base recovery incomplete at that time.
 
-**Files:**
-- Create: `tests/python/test_base_recovery_map.py`
-- Modify: `docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP.v1.json`
-- Modify: `docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP_2026-08-07.md`
-- Delete: dedicated local workflow, matrix, launchers, receipt runner, validator, and local-pack regression tests
+## Current completion package
 
-- [x] Write a failing test requiring the existing Actions workflow as the only validation path.
-- [x] Observe RED while local pack files and old state remain.
-- [x] Add `validation_strategy` and remove all local pack paths.
-- [x] Align the map with the later public-repository validation decision.
-- [x] Run the Base recovery map contract to GREEN.
+### 1. Rebase recovery authority
 
-### Task 3: Synchronize authority records
+- Pin recovery to current Base `fa69a77...` and root tree `913b6946...`.
+- Pin the project comparison baseline to current OMENWARD main `c3efdba7...`.
+- Replace v4.3 recovery authority with active v4.4 §4.1.
 
-**Files:**
-- Modify: this plan and adversarial review
-- Update: PR #159 title/body
-- Update: Google Sheet rows under the same Decision ID
+### 2. Prove whole tracked-file classification
 
-- [x] Record the final changed-path allowlist in PR metadata and the Sheet ledger.
-- [x] Merge repaired `main` from PR #160 into the validation branch without expanding the unique eight-file diff.
-- [x] Prove public standard runner allocation, C1·C2·C3/CI contracts, Godot 4.7.1 headless tests, and runtime smoke on the exact PR head.
-- [x] Read back GitHub and Sheet values.
-- [x] Leave the PR Draft and merge blocked because Base recovery and the global entry gate remain incomplete.
+- Add a second public `actions/checkout@v4` for `alsdmlals4-eng/Base` at the exact current Base pin.
+- Enumerate `git ls-files` from `_base_recovery`.
+- Classify every path into the bounded recovery taxonomy.
+- Fail if any tracked path is unclassified or if the checkout HEAD differs from the exact Base pin.
 
-The exact final SHA and run IDs are intentionally recorded in PR metadata and the Sheet rather than embedded in this file, which would create a self-referential commit loop.
+### 3. Close project-relevant full-text recovery
+
+Recover the current cold-start and OMENWARD operating path, including:
+
+- Base START_HERE / AGENTS / Operating Model / Work Mode routing / Documentation Map;
+- current Skill Registry and generated active view;
+- GDD Google Sheets policy;
+- Base shared adapter contract;
+- project operating-system Skill and adapter routing reference;
+- change-validation and adversarial-review Skills;
+- HiGodot/GUT/Hera authority policy;
+- adapter schema/template/workflow/validator consumer path.
+
+No blind full-text load of unrelated Base files is required.
+
+### 4. Record the OMENWARD adoption delta
+
+- Confirm project `PROJECT_BASE_ADAPTER.json` remains a valid released v9.4.3 pin.
+- Record current Base main as a post-release routing/policy delta.
+- Do not auto-migrate the release pin.
+- Separate current project adapter freshness defects into a follow-up gate.
+
+### 5. Verify without self-referential evidence
+
+The exact PR HEAD, run IDs, review status, merge SHA, and Sheet readback are intentionally stored in PR/Sheet evidence, not hard-coded into this plan. This avoids changing the document merely to record the SHA that contains the document.
+
+The merge gate is:
+
+```text
+current main synchronized into PR branch
++ unique changed paths remain the allowed eight
++ exact-head public workflows Green
++ Base live classification zero unclassified
++ unresolved review threads 0
++ adversarial review has no unresolved P0/P1 within this scope
+→ Ready / merge under repository policy
+```
+
+After merge, re-read main and Sheet. Remove only the Base recovery blocker from the global blocker list; all independent blockers remain fail-closed.
