@@ -1,8 +1,8 @@
 # Base whole-repository and Skill recovery map
 
-Decision: `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`  
-Base exact commit: `4f98f968a377f7b6a11aafa4fc94d11bddbebedc`  
-OMENWARD starting main: `93c388ad1c50581671f8ea059357c863d8d8e0f7`  
+Decision: `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`
+Base exact commit: `4f98f968a377f7b6a11aafa4fc94d11bddbebedc`
+OMENWARD starting main: `93c388ad1c50581671f8ea059357c863d8d8e0f7`
 Status: `INCOMPLETE / ENTRY_GATE_BLOCK`
 
 ## Confirmed inventory
@@ -47,4 +47,4 @@ The Full validation job uses only standard GitHub-hosted labels:
 - Python: `3.11`, `3.12`, `3.13`
 - Godot: `4.7.1` headless import, contract tests, and runtime smoke
 
-The repository was observed as `private` during this decision. No visibility change is included. Therefore this decision does not claim that public-repository free-and-unlimited billing policy currently applies, and it does not claim Actions Green until an exact-head workflow run completes successfully.
+The repository was observed as `private` when this recovery decision was first drafted. The later decision `OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1` superseded only that visibility-preservation clause, and the repository is now public. Standard hosted runner execution, Godot 4.7.1 validation, and the repaired C1·C2·C3 authority contracts are proven on public Actions; Base recovery itself remains incomplete and the entry gate remains blocked.
