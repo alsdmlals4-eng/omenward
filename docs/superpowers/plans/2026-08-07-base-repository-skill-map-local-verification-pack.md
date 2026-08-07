@@ -11,12 +11,12 @@
 ## Global Constraints
 
 - Decision ID remains `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`.
-- Repository visibility is not changed.
+- The original repository-visibility preservation clause is superseded by `OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1`.
+- Repository visibility is public and standard GitHub-hosted runners are the approved validation path.
 - `RECOVERY_STATUS=INCOMPLETE`.
 - `BASE_RECOVERY_BLOCKER_CLEARED=FALSE`.
 - `ENTRY_GATE=BLOCK`.
-- Do not claim `ACTIONS_GREEN` without an exact-head successful run.
-- Do not authorize product, Godot authoring, GUT activation, audio import, Ready, or merge.
+- Do not authorize product, Godot authoring, GUT activation, audio import, Ready, or merge merely because Actions are Green.
 
 ---
 
@@ -30,6 +30,7 @@
 - [x] Write failing assertions for manual dispatch, standard runner labels, and Python 3.11/3.12/3.13.
 - [x] Observe RED against the former Python 3.12/3.13 matrix.
 - [x] Add Python 3.11 and reject `self-hosted`.
+- [x] Preserve the historical C2 3.12/3.13 proof marker while extending the actual matrix.
 - [x] Run the focused CI usage suite to GREEN.
 
 ### Task 2: Remove the local verification pack
@@ -43,6 +44,7 @@
 - [x] Write a failing test requiring the existing Actions workflow as the only validation path.
 - [x] Observe RED while local pack files and old state remain.
 - [x] Add `validation_strategy` and remove all local pack paths.
+- [x] Align the map with the later public-repository validation decision.
 - [x] Run the Base recovery map contract to GREEN.
 
 ### Task 3: Synchronize authority records
@@ -52,8 +54,10 @@
 - Update: PR #159 title/body
 - Update: Google Sheet rows under the same Decision ID
 
-- [x] Record the final PR head and eight-file changed-path allowlist in PR metadata and the Sheet ledger.
+- [x] Record the final changed-path allowlist in PR metadata and the Sheet ledger.
+- [x] Merge repaired `main` from PR #160 into the validation branch without expanding the unique eight-file diff.
+- [x] Prove public standard runner allocation, C1·C2·C3/CI contracts, Godot 4.7.1 headless tests, and runtime smoke on the exact PR head.
 - [x] Read back GitHub and Sheet values.
-- [x] Leave the PR Draft and merge blocked until exact-head Actions Green.
+- [x] Leave the PR Draft and merge blocked because Base recovery and the global entry gate remain incomplete.
 
-The exact final SHA is intentionally recorded in PR metadata and the Sheet rather than embedded in this file, which would create a self-referential commit loop.
+The exact final SHA and run IDs are intentionally recorded in PR metadata and the Sheet rather than embedded in this file, which would create a self-referential commit loop.
