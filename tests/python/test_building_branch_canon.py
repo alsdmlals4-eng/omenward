@@ -4,14 +4,17 @@ import pathlib
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-DECISION_ID = "OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1"
+LEGACY_DECISION_ID = "OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1"
+CURRENT_DECISION_ID = "OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1"
 SPEC = ROOT / "docs/superpowers/specs/2026-08-05-six-building-t2-t3-branches-design.md"
-CANON = ROOT / "docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md"
+LEGACY_CANON = ROOT / "docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md"
+CURRENT_CANON = ROOT / "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_BUILDING_BRANCH_COUNTER_AND_OPPORTUNITY_COST_REVIEW_2026-08-05.md"
 PROCESS_TOMBSTONE = ROOT / "docs/process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md"
+LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
 
-BUILDINGS = ("금고", "농장", "병영", "방어탑", "지휘소", "마력탑")
-PRESSURES = ("MASS", "ARMORED", "FLYING", "INFILTRATION", "SIEGE")
+CURRENT_BUILDINGS = ("금고", "농장", "일반병 병영", "특수병 병영", "방어탑", "지휘소", "마력탑")
 LOCAL_COMMON_POLICY_MARKERS = (
     "BENCHMARK_REQUIRED",
     "INDUSTRY_COMPARISON_REQUIRED",
@@ -20,17 +23,7 @@ LOCAL_COMMON_POLICY_MARKERS = (
     "EXPLICIT_BRANCH_REQUIRED_FOR_GITHUB_MUTATION",
     "DIRECT_MAIN_WRITE: FORBIDDEN",
 )
-CENTRAL_FILES = (
-    ROOT / "README.md",
-    ROOT / "AGENTS.md",
-    ROOT / "docs/PROJECT_CORE.md",
-    ROOT / "docs/ACTIVE_CONTEXT.md",
-    ROOT / "docs/DOCUMENTATION_MAP.md",
-    ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
-    ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md",
-    ROOT / "docs/DECISIONS_PENDING.md",
-    ROOT / "docs/OMENWARD_ROADMAP.md",
-)
+LINEAGE_FILES = (LIFECYCLE, ROADMAP)
 
 
 def read(path: pathlib.Path) -> str:
@@ -38,46 +31,53 @@ def read(path: pathlib.Path) -> str:
 
 
 class BuildingBranchCanonTests(unittest.TestCase):
-    def test_building_branch_authority_files_exist(self) -> None:
-        for path in (SPEC, CANON, REVIEW):
+    def test_building_authority_and_lineage_files_exist(self) -> None:
+        for path in (SPEC, LEGACY_CANON, CURRENT_CANON, REVIEW, PROCESS_TOMBSTONE, LIFECYCLE):
             self.assertTrue(path.is_file(), f"missing authority file: {path.relative_to(ROOT)}")
 
-    def test_common_branch_grammar_and_tradeoffs_are_explicit(self) -> None:
-        text = read(CANON)
-        self.assertIn(DECISION_ID, text)
-        self.assertIn("T1 → T2 A → T3 A", text)
-        self.assertIn("T1 → T2 B → T3 B", text)
-        self.assertIn("CROSS_BRANCH: FORBIDDEN", text)
-        self.assertIn("DUAL_T3: FORBIDDEN", text)
-        self.assertIn("MAPRUN_PERMANENT_CHOICE", text)
-        self.assertGreaterEqual(text.count("얻는 것"), 12)
-        self.assertGreaterEqual(text.count("포기하는 것"), 12)
-        self.assertGreaterEqual(text.count("T3 —"), 12)
-
-    def test_all_six_buildings_and_five_pressures_are_covered(self) -> None:
-        text = read(CANON)
-        for building in BUILDINGS:
-            self.assertIn(building, text)
-        for pressure in PRESSURES:
-            self.assertIn(pressure, text)
-        self.assertIn("압력별 최소 두 대응 경로", text)
-        self.assertIn("단일 만능 분기 금지", text)
-
-    def test_failure_boundaries_preserve_current_core(self) -> None:
-        text = read(CANON)
+    def test_legacy_universal_branch_document_is_superseded(self) -> None:
+        text = read(LEGACY_CANON)
         for marker in (
-            "정확 수치: PENDING_SIMULATION",
-            "FREE_RECALL: FORBIDDEN",
-            "FREE_CROSS_LANE_MOVE: FORBIDDEN",
-            "AUTO_TACTICAL_CAST: FORBIDDEN",
-            "INFINITE_GOLD_OR_MANA: FORBIDDEN",
-            "T3_ROULETTE_TOKEN: FORBIDDEN",
-            "HIDDEN_COUNTER_CHANGE: FORBIDDEN",
+            "# [대체됨]",
+            LEGACY_DECISION_ID,
+            "SUPERSEDED / HISTORICAL_EVIDENCE_ONLY / IMPLEMENTATION_INPUT_FORBIDDEN",
+            CURRENT_DECISION_ID,
+            "APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
+            "모든 6종 건물 공통 A/B 분기 = 사용 금지",
+        ):
+            self.assertIn(marker, text)
+
+    def test_current_building_tier_structure_is_explicit(self) -> None:
+        text = read(CURRENT_CANON)
+        self.assertIn("# [현행]", text)
+        self.assertIn(CURRENT_DECISION_ID, text)
+        for building in CURRENT_BUILDINGS:
+            self.assertIn(building, text)
+        for marker in (
+            "FOUNDATION_REQUIRED_T1_COUNT = 6",
+            "SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE",
+            "GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT",
+            "SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT",
+            "LINEAR_TIER_BUILDINGS = VAULT / FARM / COMMAND_POST / MANA_TOWER",
+            "LINEAR_T2_BRANCHING = FORBIDDEN",
+        ):
+            self.assertIn(marker, text)
+
+    def test_current_building_safety_boundaries_are_explicit(self) -> None:
+        text = read(CURRENT_CANON)
+        for marker in (
+            "UNIVERSAL_AB_BRANCH_GRAMMAR = FORBIDDEN",
+            "UNAPPROVED_LINEAR_BUILDING_BRANCH = FORBIDDEN",
+            "PREMATURE_T3_FIXATION = FORBIDDEN",
+            "PRODUCT_CODE = UNCHANGED",
+            "EXACT_NUMERICS = PENDING_SIMULATION",
+            "SIMULATION = NOT_RUN",
+            "RUNTIME = NOT_RUN",
+            "HUMAN_QA = NOT_RUN",
         ):
             self.assertIn(marker, text)
 
     def test_common_process_authority_is_base_only(self) -> None:
-        self.assertTrue(PROCESS_TOMBSTONE.is_file())
         tombstone = read(PROCESS_TOMBSTONE)
         self.assertIn("SUPERSEDED_BY_BASE_COMMON_AUTHORITY", tombstone)
         self.assertIn("alsdmlals4-eng/Base/AGENTS.md", tombstone)
@@ -88,13 +88,17 @@ class BuildingBranchCanonTests(unittest.TestCase):
             self.assertNotIn(marker, read(ROOT / "README.md"))
             self.assertNotIn(marker, read(ROOT / "AGENTS.md"))
 
-    def test_central_authority_routes_decision_three_of_ten(self) -> None:
-        for path in CENTRAL_FILES:
+    def test_lineage_routes_decision_three_of_ten_without_reactivating_it(self) -> None:
+        for path in LINEAGE_FILES:
             text = read(path)
-            self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
+            self.assertIn(LEGACY_DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("3_OF_10", text, str(path.relative_to(ROOT)))
+        lifecycle = read(LIFECYCLE)
+        self.assertIn("LEGACY_UNIVERSAL_BUILDING_BRANCHES", lifecycle)
+        self.assertIn("SUPERSEDED_BY_BUILDING_TIER_REALIGNMENT", lifecycle)
+        self.assertIn(CURRENT_DECISION_ID, lifecycle)
 
-    def test_review_closes_known_design_risks_without_authorizing_product(self) -> None:
+    def test_review_preserves_historical_risk_evidence_without_authorizing_product(self) -> None:
         text = read(REVIEW)
         for marker in (
             "OMW-AUD-398",

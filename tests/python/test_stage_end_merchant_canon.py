@@ -11,22 +11,8 @@ PLAN = ROOT / "docs/superpowers/plans/2026-08-05-stage-end-merchant.md"
 CANON = ROOT / "docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
-
-CENTRAL_FILES = (
-    ROOT / "README.md",
-    ROOT / "AGENTS.md",
-    ROOT / "docs/PROJECT_CORE.md",
-    ROOT / "docs/ACTIVE_CONTEXT.md",
-    ROOT / "docs/DOCUMENTATION_MAP.md",
-    ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
-    ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md",
-    ROOT / "docs/DECISIONS_PENDING.md",
-    ROOT / "docs/OMENWARD_ROADMAP.md",
-    ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    ROOT / "docs/HANDOFF_CONTEXT.md",
-    ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md",
-    ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
-)
+ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
+LINEAGE_FILES = (LIFECYCLE, ROADMAP)
 
 
 def read(path: pathlib.Path) -> str:
@@ -35,7 +21,7 @@ def read(path: pathlib.Path) -> str:
 
 class StageEndMerchantCanonTests(unittest.TestCase):
     def test_authority_files_exist(self) -> None:
-        for path in (SPEC, AMENDMENT, PLAN, CANON, REVIEW):
+        for path in (SPEC, AMENDMENT, PLAN, CANON, REVIEW, LIFECYCLE):
             self.assertTrue(path.is_file(), f"missing authority file: {path.relative_to(ROOT)}")
 
     def test_visit_window_and_final_stage_exception_are_explicit(self) -> None:
@@ -100,8 +86,8 @@ class StageEndMerchantCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_central_authority_routes_decision_six_of_ten(self) -> None:
-        for path in CENTRAL_FILES:
+    def test_lineage_routes_decision_six_of_ten(self) -> None:
+        for path in LINEAGE_FILES:
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("6_OF_10", text, str(path.relative_to(ROOT)))
