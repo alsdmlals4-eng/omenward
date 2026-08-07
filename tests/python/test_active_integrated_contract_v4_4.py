@@ -46,6 +46,11 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         )
         self.assertNotIn("RECONCILIATION_DECISION_NOT_MERGED", gate["blocking_reasons"])
         self.assertNotIn("current_reconciliation_head", self.state["github_actions"])
+        self.assertNotIn("working_branch", self.state)
+        self.assertEqual(
+            self.state["reconciliation_branch"],
+            "process/v4-4-entry-reconciliation-20260808",
+        )
 
     def test_sheet_readback_has_no_ready_or_awaiting_images(self) -> None:
         image = self.state["entry_gate"]["image_review_sheet_readback"]
