@@ -1,47 +1,88 @@
-# Adversarial review — Base recovery map and Actions simplification
+# Adversarial review — Base recovery map and Actions validation
 
 Decision: `OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1`
 
-## Findings
+Review baseline:
 
-### P0 — False completion from a top-level map
+```text
+Base main = fa69a77a14f923a756064f6ae151d34cadb374f7
+OMENWARD main before PR159 completion = c3efdba7c288f391f492fd5313d80ad5b824de3b
+active contract = v4.4
+```
 
-**Risk:** A root inventory and Skill index could be presented as full-content recovery.
+## Attack → validated findings
 
-**Control:** `recovery_status=INCOMPLETE`, `base_recovery_blocker_cleared=false`, explicit unread rows, and `ENTRY_GATE=BLOCK`.
+### MUST_FIX — Recovery map pinned an obsolete Base/main baseline
 
-### P0 — Public billing policy applied before visibility changed
+The draft still described Base `4f98f968...`, OMENWARD pre-PR161 state, and v4.3 recovery authority. Current Base is `fa69a77...` and current OMENWARD main is `c3efdba7...`.
 
-**Risk:** Standard hosted runners could be described as free and unlimited while the repository was still private.
+**Validated:** yes. The old pin would make any `COMPLETE` claim false even if its older unread list were closed.
 
-**Control:** Preserve the original private observation as historical evidence, then supersede only the visibility clause through `OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1`. Require repository API `public` readback and assigned-runner execution before accepting the public hosted path.
+**Refinement:** re-pin the recovery map and tests to current Base/root tree and v4.4; preserve old SHAs only as history.
 
-### P1 — Local verification machinery becomes the work
+### MUST_FIX — “Whole repository recovered” had no machine proof for every tracked path
 
-**Risk:** Shell boundaries, launchers, receipts, and exact-head collection create more operational complexity than the validation they protect.
+A top-level/root/subtree map does not prove every tracked file was classified.
 
-**Control:** Remove the dedicated local pack and reuse the existing `Validate Omenward Core` workflow through `workflow_dispatch`.
+**Validated:** yes. Connector response clamping makes a large search/tree response insufficient as sole proof.
 
-### P1 — Runtime coverage silently narrows
+**Refinement:** public CI performs a second exact Base checkout, enumerates `git ls-files`, classifies every path into the bounded recovery taxonomy, and requires zero unclassified paths. Full-text reading remains selective and project-relevant.
 
-**Risk:** Removing the local pack could drop Python 3.11 or platform coverage.
+### MUST_FIX — Generic partial-read blockers were too coarse to close
 
-**Control:** The Full matrix is contractually fixed to `ubuntu-latest` and `windows-latest` with Python 3.11, 3.12, and 3.13. The historical C2 3.12/3.13 proof marker remains documented without narrowing the actual matrix. Godot 4.7.1 headless validation remains in the same workflow.
+The prior map left entire `.github`, `docs`, `skills`, `templates`, `tests`, and `tools` trees as `PARTIAL_READ`, even though Base itself forbids blind full loading and requires impact-driven selection.
 
-### P1 — Workflow presence confused with Green
+**Validated:** yes. This made completion structurally unreachable without violating Base cold-start guidance.
 
-**Risk:** A valid workflow definition could be reported as successful without a completed exact-head run.
+**Refinement:** replace subtree-wide partial placeholders with exact whole-tree classification plus named full-text authority/Skill/template/validator/consumer evidence for the OMENWARD route.
 
-**Control:** Require public standard runner allocation and exact-head success for Project Core Documentation, GDD Sheet Adoption, Base v9 adoption, Omenward Core contracts, Godot import/headless tests, and runtime smoke. Record exact SHAs and run IDs outside this self-referential document.
+### MUST_FIX — Base release adoption and current Base main were conflated
 
-### P1 — Green Actions confused with Base recovery completion
+OMENWARD pins the released v9.4.3 adapter line, while Base main has post-release routing/policy changes.
 
-**Risk:** Successful CI could be used to clear the broader Base recovery or product entry gate.
+**Validated:** yes. `docs/BASE_RULES_VERSION.md` still identifies v9.4.3 as the latest released compatible line, while current Registry/routing can evolve independently.
 
-**Control:** Keep `RECOVERY_STATUS=INCOMPLETE`, `BASE_RECOVERY_BLOCKER_CLEARED=FALSE`, and `ENTRY_GATE=BLOCK` even after exact-head Actions Green. Product, GUT, audio, Ready, and merge authorization remain separate decisions.
+**Refinement:** classify the project pin as `VALID_RELEASE_PIN`, record `PRESENT_POST_RELEASE` main delta, and forbid automatic migration.
+
+### MUST_FIX — Adapter delta recovery exposed a separate project freshness defect
+
+OMENWARD `skills/PROJECT_BASE_ADAPTER.json` still reports Sheet conflict/blocked and an old protected baseline although PR161 reconciled the current canon.
+
+**Validated:** yes. This is not evidence that Base recovery itself is incomplete; it is a current project adapter freshness failure.
+
+**Refinement:** record it as `REQUIRED_SEPARATE_FIX` and keep shared-route/project operating integrity fail-closed until repaired.
+
+### REJECTED_CRITIQUE — Base recovery completion should open the product Entry Gate
+
+This would conflate one process blocker with unrelated product/tool/runtime blockers.
+
+**Rejected:** Base recovery completion only removes `BASE_RECOVERY_PR159_DRAFT_INCOMPLETE`. PR154, PR155, HiGodot, Hera, adapter freshness, local Godot/audio, and other v4.4 blockers remain independent.
+
+### PRESERVED — Public Actions and Godot validation path
+
+The prior simplification remains useful: no new local launcher/receipt framework is introduced. Existing public GitHub-hosted Actions remain the execution authority for this recovery contract, with Godot 4.7.1 coverage preserved.
+
+## Regression boundaries
+
+The completion change is process/docs/test/workflow only. It must not change:
+
+- product scripts/data/scenes/resources/assets/addons/project.godot;
+- current gameplay canon;
+- GUT adoption state;
+- HiGodot exact-pin state;
+- Hera adoption state;
+- local Windows/Godot/audio evidence.
+
+The exact PR-head diff, Actions results, review threads, and merge evidence are recorded in PR/Sheet surfaces rather than embedded here.
 
 ## Verdict
 
-`ACCEPTABLE_AS_VALIDATED_DRAFT_PROCESS_EVIDENCE`
+```text
+BASE_RECOVERY_DESIGN = ACCEPTABLE_IF_EXACT_HEAD_GREEN
+BASE_RECOVERY_BLOCKER_TARGET = CLEAR
+GLOBAL_ENTRY_GATE = BLOCK
+PROJECT_BASE_ADAPTER_FRESHNESS = SEPARATE_MUST_FIX
+PRODUCT_IMPLEMENTATION = FORBIDDEN
+```
 
-The public standard-hosted validation path is proven, the local pack is removed, and exact-head automated contracts are Green. The Base recovery blocker and global entry gate remain open, so PR #159 stays Draft and unmerged.
+The earlier “Green Actions but recovery incomplete” conclusion is superseded only after the new exact-Base classification and current-authority tests pass. A Green recovery PR does not by itself authorize product work.
