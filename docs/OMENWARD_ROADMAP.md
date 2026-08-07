@@ -130,6 +130,16 @@ MOBILE_RELEASE_GATE = NOT_RUN
 RELEASE_BLOCKED_UNVERIFIED
 ```
 
+## 과거 C1·C2·C3 자동 검증 증거
+
+기존 기술 기준선·C1·C2·C3 자동 증거 확보
+
+C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
+
+상태: **REMOTE_PROVEN**
+
+이 증거는 과거 C1·C2·C3 계약 검증 사실만 보존하며 현재 온보딩 기획 또는 최신 제품 구현 완료를 의미하지 않는다.
+
 ## 완료 Decision 계보
 
 ```text

@@ -10,6 +10,8 @@ PLAN = ROOT / "docs/superpowers/plans/2026-08-05-tactical-skills-and-mana.md"
 CANON = ROOT / "docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md"
 REVIEW = ROOT / "docs/reviews/ADVERSARIAL_TACTICAL_SKILLS_MANA_AND_RESEARCH_REVIEW_2026-08-05.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
+CURRENT_GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
 
 TACTICAL_SKILLS = (
     "속박진",
@@ -30,15 +32,17 @@ CENTRAL_FILES = (
     ROOT / "docs/PROJECT_CORE.md",
     ROOT / "docs/ACTIVE_CONTEXT.md",
     ROOT / "docs/DOCUMENTATION_MAP.md",
-    ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
-    ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    LIFECYCLE,
+    CURRENT_GDD,
     ROOT / "docs/DECISIONS_PENDING.md",
-    ROOT / "docs/OMENWARD_ROADMAP.md",
+    ROADMAP,
     ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     ROOT / "docs/HANDOFF_CONTEXT.md",
     ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md",
     ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
 )
+MANA_AUTHORITY_FILES = (CANON, LIFECYCLE, CURRENT_GDD)
+LINEAGE_FILES = (LIFECYCLE, ROADMAP)
 
 
 def read(path: pathlib.Path) -> str:
@@ -47,7 +51,7 @@ def read(path: pathlib.Path) -> str:
 
 class TacticalSkillManaCanonTests(unittest.TestCase):
     def test_authority_files_exist(self) -> None:
-        for path in (SPEC, PLAN, CANON, REVIEW):
+        for path in (SPEC, PLAN, CANON, REVIEW, LIFECYCLE, CURRENT_GDD):
             self.assertTrue(path.is_file(), f"missing authority file: {path.relative_to(ROOT)}")
 
     def test_mana_tower_is_single_linear_research_authority(self) -> None:
@@ -95,11 +99,11 @@ class TacticalSkillManaCanonTests(unittest.TestCase):
         self.assertIn("각 압력은 병종·건물·전술 중 최소 두 계층의 대응 경로", text)
         self.assertIn("전술스킬은 병종·건물의 지속 역할을 대체하지 않는다", text)
 
-    def test_current_central_authority_uses_mana_not_legacy_masok(self) -> None:
+    def test_current_authority_rejects_legacy_masok_and_routes_mana(self) -> None:
         for path in CENTRAL_FILES:
-            text = read(path)
-            self.assertNotIn("마석", text, str(path.relative_to(ROOT)))
-            self.assertIn("마력", text, str(path.relative_to(ROOT)))
+            self.assertNotIn("마석", read(path), str(path.relative_to(ROOT)))
+        for path in MANA_AUTHORITY_FILES:
+            self.assertIn("마력", read(path), str(path.relative_to(ROOT)))
 
     def test_legacy_building_branch_and_term_are_superseded_by_precedence(self) -> None:
         canon = read(CANON)
@@ -118,8 +122,8 @@ class TacticalSkillManaCanonTests(unittest.TestCase):
         ):
             self.assertIn(marker, lifecycle)
 
-    def test_central_authority_routes_decision_five_of_ten(self) -> None:
-        for path in CENTRAL_FILES:
+    def test_lineage_routes_decision_five_of_ten(self) -> None:
+        for path in LINEAGE_FILES:
             text = read(path)
             self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
             self.assertIn("5_OF_10", text, str(path.relative_to(ROOT)))

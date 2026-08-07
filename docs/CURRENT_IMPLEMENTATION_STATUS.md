@@ -17,6 +17,21 @@ local_godot_project: UNCHANGED
 
 공통 운영 규칙은 Base 책임 원본에서 관리한다. 이 문서는 OMENWARD의 프로젝트별 기획·구현·검증 상태만 기록한다.
 
+현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
+
+최신 버티컬 슬라이스 구현: `NOT_STARTED`
+
+```text
+VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
+LATEST_AUTOMATED_CONTRACTS_NOT_RUN
+HUMAN_QA_NOT_RUN
+CORE_LOCK_NOT_ALLOWED
+LEGACY_C1_C2_C3_PROVEN
+LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
+LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
+LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
+```
+
 ## 기획과 제품 상태
 
 ```text
@@ -59,6 +74,19 @@ REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 ```
 
 Phase 0~2의 과거 local-pass 증거는 플랫폼 경계 구현만 증명하며 온보딩 제품 구현이나 출시 준비 완료를 뜻하지 않는다.
+
+## 과거 C1·C2·C3 자동 검증 증거
+
+```text
+C1_ROULETTE_CORE_REMOTE_PROVEN
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+C1 최종 검증 run: `29926598807`
+C2 최종 검증 run: `29938742864`
+C3 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`
+C3 최종 검증 run: `29965348284`
+```
+
+이 C1·C2·C3 증거는 과거 계약 검증 사실만 보존하며 V2 구현 완료를 뜻하지 않는다. 현재 10/10 온보딩 기획이나 후속 제품 구현 완료를 의미하지도 않는다.
 
 ## PR #142 검증 경계
 
