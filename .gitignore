@@ -41,3 +41,6 @@ __pycache__/
 
 # Godot editor cache and local build output
 .godot/
+
+# Local asset vault
+.asset-vault/

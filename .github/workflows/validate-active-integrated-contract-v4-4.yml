@@ -1,14 +1,16 @@
-name: Validate active integrated contract v4.3
+name: Validate active integrated contract v4.4
 
 on:
   pull_request:
     paths:
+      - ".github/workflows/validate-active-integrated-contract-v4-4.yml"
       - ".github/workflows/validate-active-integrated-contract-v4-3.yml"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
-      - "docs/reviews/ADVERSARIAL_INTEGRATED_CONTRACT_V4_3_ACTIVATION_REVIEW_2026-08-06.md"
-      - "docs/superpowers/plans/2026-08-06-activate-integrated-contract-v4-3.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_active_integrated_contract_v4_3.py"
+      - "tools/validate_active_integrated_contract_v4_4.py"
       - "tools/validate_active_integrated_contract_v4_3.py"
   workflow_dispatch:
 
@@ -27,7 +29,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Enforce exact contract-binding scope
+      - name: Enforce process-only scope
         if: github.event_name == 'pull_request'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -38,12 +40,14 @@ jobs:
           import subprocess
 
           allowed = {
+              ".github/workflows/validate-active-integrated-contract-v4-4.yml",
               ".github/workflows/validate-active-integrated-contract-v4-3.yml",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
-              "docs/reviews/ADVERSARIAL_INTEGRATED_CONTRACT_V4_3_ACTIVATION_REVIEW_2026-08-06.md",
-              "docs/superpowers/plans/2026-08-06-activate-integrated-contract-v4-3.md",
+              "docs/PROJECT_CANON_DECISION_LEDGER.md",
+              "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_active_integrated_contract_v4_3.py",
+              "tools/validate_active_integrated_contract_v4_4.py",
               "tools/validate_active_integrated_contract_v4_3.py",
           }
           changed = set(
@@ -53,20 +57,19 @@ jobs:
               ).splitlines()
           )
           unexpected = sorted(changed - allowed)
-          missing = sorted(allowed - changed)
-          if unexpected or missing:
-              raise SystemExit(f"scope mismatch unexpected={unexpected} missing={missing}")
-          print("contract binding scope=PASS files=7")
+          if unexpected:
+              raise SystemExit(f"scope mismatch unexpected={unexpected}")
+          print(f"v4.4 process scope=PASS files={len(changed)}")
           PY
 
-      - name: Compile validator and focused test
+      - name: Compile v4.4 validator and focused test
         run: |
           python -m py_compile \
-            tools/validate_active_integrated_contract_v4_3.py \
-            tests/python/test_active_integrated_contract_v4_3.py
+            tools/validate_active_integrated_contract_v4_4.py \
+            tests/python/test_active_integrated_contract_v4_4.py
 
-      - name: Run bootstrap contract tests
-        run: python -m unittest tests.python.test_active_integrated_contract_v4_3
+      - name: Run v4.4 bootstrap contract tests
+        run: python -m unittest tests.python.test_active_integrated_contract_v4_4
 
-      - name: Validate v4.3 active binding
-        run: python tools/validate_active_integrated_contract_v4_3.py --contract
+      - name: Validate v4.4 active binding
+        run: python tools/validate_active_integrated_contract_v4_4.py
