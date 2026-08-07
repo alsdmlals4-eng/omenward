@@ -9,6 +9,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 VALIDATOR_PATH = ROOT / "tools/validate_active_integrated_contract_v4_4.py"
 STATE_PATH = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+BASE_RECOVERY_DECISION = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
 
 
 def load_validator():
@@ -51,6 +52,16 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
             self.state["reconciliation_branch"],
             "process/v4-4-entry-reconciliation-20260808",
         )
+
+    def test_pr159_base_recovery_completion_is_propagated(self) -> None:
+        gate = self.state["entry_gate"]
+        blockers = set(gate["blocking_reasons"])
+        allowed = set(gate["allowed_next_actions"])
+        self.assertEqual(self.state["last_gate_update_decision"], BASE_RECOVERY_DECISION)
+        self.assertNotIn("BASE_RECOVERY_PR159_DRAFT_INCOMPLETE", blockers)
+        self.assertNotIn("PR159_BASE_RECOVERY_COMPLETION", allowed)
+        self.assertIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
+        self.assertIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", allowed)
 
     def test_sheet_readback_has_no_ready_or_awaiting_images(self) -> None:
         image = self.state["entry_gate"]["image_review_sheet_readback"]
