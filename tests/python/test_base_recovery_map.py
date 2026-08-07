@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP.v1.json"
 
 DECISION_ID = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
+PUBLIC_DECISION_ID = "OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1"
 BASE_SHA = "4f98f968a377f7b6a11aafa4fc94d11bddbebedc"
 BASE_TREE_SHA = "4bc8d45d4bb88649eb5041f16478b862801b3901"
 OMENWARD_SHA = "93c388ad1c50581671f8ea059357c863d8d8e0f7"
@@ -117,6 +118,11 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertEqual(strategy["operating_systems"], ["ubuntu-latest", "windows-latest"])
         self.assertEqual(strategy["python_versions"], ["3.11", "3.12", "3.13"])
         self.assertEqual(strategy["local_verification_pack"], "REMOVED")
+        self.assertEqual(strategy["repository_visibility_observed"], "public")
+        self.assertEqual(strategy["visibility_decision_id"], PUBLIC_DECISION_ID)
+        self.assertTrue(strategy["public_unlimited_policy_applicable"])
+        self.assertEqual(strategy["billing_block_status"], "CLEARED_BY_PUBLIC_TRANSITION")
+        self.assertEqual(strategy["cost_guarantee"], "STANDARD_GITHUB_HOSTED_PUBLIC_REPOSITORY_PATH")
 
     def test_local_verification_pack_is_absent(self) -> None:
         for relative_path in REMOVED_LOCAL_PACK_PATHS:
