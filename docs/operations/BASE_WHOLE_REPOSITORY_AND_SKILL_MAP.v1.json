@@ -1,23 +1,24 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "artifact_role": "BASE_WHOLE_REPOSITORY_AND_SKILL_RECOVERY_MAP",
   "decision_id": "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1",
   "decision_class": "NON_COUNTER",
   "base_repository": "alsdmlals4-eng/Base",
-  "base_repository_commit": "4f98f968a377f7b6a11aafa4fc94d11bddbebedc",
-  "base_root_tree_sha": "4bc8d45d4bb88649eb5041f16478b862801b3901",
+  "base_repository_commit": "fa69a77a14f923a756064f6ae151d34cadb374f7",
+  "base_root_tree_sha": "913b69460649fe717294a27246e0b833958e70e4",
   "omenward_repository": "alsdmlals4-eng/omenward",
-  "omenward_repository_base_commit": "93c388ad1c50581671f8ea059357c863d8d8e0f7",
-  "recovery_status": "INCOMPLETE",
-  "base_recovery_blocker_cleared": false,
+  "omenward_repository_base_commit": "c3efdba7c288f391f492fd5313d80ad5b824de3b",
+  "recovery_status": "COMPLETE",
+  "base_recovery_blocker_cleared": true,
   "entry_gate": "BLOCK",
+  "entry_gate_note": "Base recovery blocker only is cleared. PR154, PR155, HiGodot, Hera, local Godot/audio and other v4.4 blockers remain independent.",
   "recovery_contract": {
-    "authority": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.3#4.1",
+    "authority": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4#4.1",
     "tracked_file_requirement": "WHOLE_TRACKED_FILE_INVENTORY_AND_CLASSIFICATION",
     "full_text_requirement": "PROJECT_RELEVANT_TEXT_ONLY",
     "non_relevant_text_policy": "INDEX_AND_CLASSIFY_WITHOUT_BLIND_FULL_LOAD",
     "record_unread_or_unverified": true,
-    "base_cold_start_alignment": "START_HERE_AND_OPERATING_MODEL_CONFIRM_SELECTIVE_PROGRESSIVE_LOADING"
+    "base_cold_start_alignment": "START_HERE_OPERATING_MODEL_DOCUMENTATION_MAP_AND_REGISTRY_SELECTIVE_PROGRESSIVE_LOADING"
   },
   "root_inventory_count": 29,
   "root_inventory": [
@@ -52,174 +53,25 @@
     "tools"
   ],
   "root_subtrees": [
-    {
-      "path": ".codex-plugin",
-      "tree_sha": "2ef6b98d5fe7399178af51ddfe90e7a6b9496888",
-      "index_status": "READ_INDEX_COMPLETE"
-    },
-    {
-      "path": ".github",
-      "tree_sha": "62d6ff1a219b2c271b7485b1210a6e8b87b73d73",
-      "index_status": "READ_INDEX_COMPLETE_CONTENT_PARTIAL"
-    },
-    {
-      "path": "[수정제안서]",
-      "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781",
-      "index_status": "READ_INDEX_AND_FULL_TEXT_COMPLETE"
-    },
-    {
-      "path": "docs",
-      "tree_sha": "a65ee14fcc71c3ed36ea64a813506c9b12d079a8",
-      "index_status": "PARTIAL_READ_PROJECT_RELEVANT_AUTHORITIES_IN_PROGRESS"
-    },
-    {
-      "path": "examples",
-      "tree_sha": "718bf968d83da9e9ecc57198b3b7adc547ec749b",
-      "index_status": "READ_INDEX_COMPLETE_CLASSIFICATION_PENDING"
-    },
-    {
-      "path": "schemas",
-      "tree_sha": "a2b018fb486b73ef3ede4341134d2044fc105637",
-      "index_status": "READ_INDEX_COMPLETE_CLASSIFICATION_PENDING"
-    },
-    {
-      "path": "skills",
-      "tree_sha": "b2bc6bbd497fd5103b671e875d0463eabfe4026a",
-      "index_status": "READ_INDEX_COMPLETE_REGISTRY_FULL_TEXT_RELEVANT_BODIES_PARTIAL"
-    },
-    {
-      "path": "templates",
-      "tree_sha": "83ecc90935465d3e1e5cfc8346b6566dc0c25bb4",
-      "index_status": "READ_INDEX_COMPLETE_CLASSIFICATION_AND_RELEVANT_CONTENT_PENDING"
-    },
-    {
-      "path": "tests",
-      "tree_sha": "e9493be6fc2041ac47aef34822b6313763172a3a",
-      "index_status": "READ_INDEX_RESPONSE_CLAMPED_CONTENT_PARTIAL"
-    },
-    {
-      "path": "tools",
-      "tree_sha": "30ce6c15221b2ab9984a0ab8a0df87b5962de3c4",
-      "index_status": "READ_INDEX_COMPLETE_CONTENT_PARTIAL"
-    }
+    {"path": ".codex-plugin", "tree_sha": "2ef6b98d5fe7399178af51ddfe90e7a6b9496888", "index_status": "CLASSIFIED"},
+    {"path": ".github", "tree_sha": "94c9f687fd7ca6a6009b7a9748bc6d9dd42eff5f", "index_status": "CLASSIFIED_RELEVANT_CONTENT_READ"},
+    {"path": "[수정제안서]", "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781", "index_status": "CLASSIFIED_HISTORY"},
+    {"path": "docs", "tree_sha": "ad145c00456e4a05fcae6783fe967f0e27c8435f", "index_status": "CLASSIFIED_RELEVANT_AUTHORITIES_READ"},
+    {"path": "examples", "tree_sha": "718bf968d83da9e9ecc57198b3b7adc547ec749b", "index_status": "CLASSIFIED"},
+    {"path": "schemas", "tree_sha": "a2b018fb486b73ef3ede4341134d2044fc105637", "index_status": "CLASSIFIED_RELEVANT_SCHEMA_READ"},
+    {"path": "skills", "tree_sha": "61c013d651e1eb8b3e3e15b0c9edbc121994cc08", "index_status": "CLASSIFIED_REGISTRY_AND_RELEVANT_BODIES_READ"},
+    {"path": "templates", "tree_sha": "d8e6ae9cf955f267b6c6d73a8d1b7f6f3941ef82", "index_status": "CLASSIFIED_RELEVANT_TEMPLATES_READ"},
+    {"path": "tests", "tree_sha": "0e285704ac084380108c4f4c8673311465cceaa6", "index_status": "CLASSIFIED_RELEVANT_VALIDATORS_TRACED"},
+    {"path": "tools", "tree_sha": "9e1906dfb12a1a950828ba82563cfc22b363865d", "index_status": "CLASSIFIED_RELEVANT_VALIDATORS_TRACED"}
   ],
-  "completed_recovery_surfaces": [
-    {
-      "path": "Base root authority files",
-      "status": "FULL_TEXT_READ",
-      "scope": [
-        "START_HERE.md",
-        "AGENTS.md",
-        "README.md",
-        "SECURITY.md",
-        "LICENSE",
-        ".gitattributes",
-        ".gitignore",
-        ".codex-plugin/plugin.json",
-        "base.lock.json",
-        "base-v9.1.lock.json",
-        "base-v9.2.lock.json",
-        "base-v9.3.lock.json",
-        "base-v9.4.lock.json",
-        "base-v9.4.1.lock.json",
-        "base-v9.4.2.lock.json",
-        "base-v9.4.3.lock.json",
-        "package.json",
-        "pnpm-workspace.yaml",
-        "requirements-publication.txt"
-      ],
-      "note": "pnpm-lock.yaml is a generated dependency lock and was inspected but is not counted as a current authority full-text requirement."
-    },
-    {
-      "path": "[수정제안서]/**",
-      "status": "FULL_TEXT_READ",
-      "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781",
-      "blob_count": 13,
-      "lifecycle_result": "BCP_001_002_SUBMITTED_AND_NOT_ACTIVE_EXECUTION_AUTHORITY__BCP_003_007_IMPLEMENTED_HISTORY_WITH_PROJECT_RUNTIME_LIMITS_PRESERVED"
-    },
-    {
-      "path": "skills/SKILL_REGISTRY.json",
-      "status": "FULL_TEXT_READ",
-      "blob_sha": "5ca054e70725f396f286c3b4a315e2a922e1cad5",
-      "result": "29_CURRENT_SKILLS_AND_AUTOMATIC_TRIGGER_ROUTING_RECOVERED"
-    },
-    {
-      "path": "Base cold-start core authorities",
-      "status": "FULL_TEXT_READ",
-      "scope": [
-        "docs/OPERATING_MODEL.md",
-        "docs/WORK_MODE_AND_SKILL_ROUTING.md",
-        "docs/DOCUMENTATION_MAP.md"
-      ],
-      "result": "WHOLE_INVENTORY_DOES_NOT_MEAN_BLIND_FULL_TEXT_LOAD__RELEVANT_AUTHORITY_AND_IMPACT_FILES_ARE_SELECTED_PROGRESSIVELY"
-    },
-    {
-      "path": "OMENWARD-relevant Base policy authorities",
-      "status": "FULL_TEXT_READ",
-      "scope": [
-        "docs/PROJECT_GDD_GOOGLE_SHEETS_POLICY.md",
-        "docs/knowledge/godot/HIGODOT_SINGLE_AUTHORITY_AND_SAFE_OPERATION.md"
-      ],
-      "result": "SHEET_IS_USER_FACING_WORKSPACE_NOT_GITHUB_REPLACEMENT__HIGODOT_IS_SOLE_GODOT_AUTHORING_AUTHORITY_WITH_PROJECT_ADOPTION_EVIDENCE_REQUIRED"
-    }
-  ],
-  "read_evidence": [
-    {
-      "path": "START_HERE.md",
-      "blob_sha": "bd0bee0fb413f739924ac1495e82305ce9066f97",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "AGENTS.md",
-      "blob_sha": "add48c1f12b37b622f88c0e5dc06e5c68b970bf8",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "docs/OPERATING_MODEL.md",
-      "blob_sha": "df30f68eb22e8b5557c480c1c6073f3e2a6a1789",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "docs/WORK_MODE_AND_SKILL_ROUTING.md",
-      "blob_sha": "875860cebfaeb637bd66540e4978fb060902b7d2",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "docs/DOCUMENTATION_MAP.md",
-      "blob_sha": "874b88cfaca04a7af3b22bf2bb36574448e19c51",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "docs/PROJECT_GDD_GOOGLE_SHEETS_POLICY.md",
-      "blob_sha": "eee5439305a7b03ab1209dd39f2ff99ee20f3a01",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "docs/knowledge/godot/HIGODOT_SINGLE_AUTHORITY_AND_SAFE_OPERATION.md",
-      "blob_sha": "286a38f92ecc3fb3ebf6c0d7882ea0d8548067c2",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "base-v9.4.3.lock.json",
-      "blob_sha": "0bd470bbbc7d7b48ffc6b39e2ef2b06752c619b1",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "tools/run_local_validation.py",
-      "blob_sha": "283226fc70818cb8f35b2ed7304c5491ef1c31f2",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "skills/SKILL_REGISTRY.json",
-      "blob_sha": "5ca054e70725f396f286c3b4a315e2a922e1cad5",
-      "status": "FULL_TEXT_READ"
-    },
-    {
-      "path": "[수정제안서]/**",
-      "tree_sha": "b40748b461c1df90c9404b307d7cf582f0cf7781",
-      "status": "FULL_TEXT_READ_13_BLOBS"
-    }
-  ],
+  "tracked_file_classification": {
+    "allowed_classes": ["SKILL", "ROUTER", "WORKFLOW", "TEMPLATE", "POLICY", "TEST", "SCRIPT", "REGISTRY", "ARCHIVE", "GENERATED", "BINARY"],
+    "source": "git -C _base_recovery ls-files",
+    "exact_base_checkout": "fa69a77a14f923a756064f6ae151d34cadb374f7",
+    "unclassified_count": 0,
+    "validation": "CI_GIT_LS_FILES_ZERO_UNCLASSIFIED",
+    "policy": "Every tracked path receives exactly one bounded role class; non-project-relevant text is not blindly full-loaded."
+  },
   "skill_entrypoint_count": 29,
   "skill_entrypoints": [
     "analyzing-and-refining-game-concepts",
@@ -252,6 +104,13 @@
     "simplifying-skill-bodies",
     "synchronizing-local-and-github-state"
   ],
+  "current_registry_view": {
+    "source": "skills/SKILL_REGISTRY.json",
+    "active_skill_count": 29,
+    "generated_view": "docs/generated/BASE_ACTIVE_SKILLS.md",
+    "generated_view_registry_sha256": "ba36a0ae0a7f32ed84cfecaacdbd2357c133584e4944500e567cdb98355b8570",
+    "status": "CURRENT_ROUTING_AUTHORITY_RECOVERED"
+  },
   "workflow_count": 9,
   "workflow_files": [
     "dependency-review.yml",
@@ -264,73 +123,95 @@
     "validate-integrated-vertical-slice-prompt.yml",
     "validate-skill-behavior-evidence.yml"
   ],
-  "unread_or_partially_read_surfaces": [
-    {
-      "path": "Base tracked-file inventory/classification manifest beyond root and known subtree indexes",
-      "status": "INVENTORY_OR_CLASSIFICATION_INCOMPLETE",
-      "gate_effect": "BLOCKED",
-      "required_result": "EVERY_TRACKED_FILE_CLASSIFIED_AS_SKILL_ROUTER_WORKFLOW_TEMPLATE_POLICY_TEST_SCRIPT_REGISTRY_ARCHIVE_GENERATED_OR_BINARY"
-    },
-    {
-      "path": ".github/** relevant workflow and policy contents",
-      "status": "PARTIAL_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "docs/** project-relevant authority set beyond recovered cold-start GDD and HiGodot authorities",
-      "status": "PARTIAL_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "skills/** project-relevant Skill bodies and references for recovery validation Godot adoption and continuity",
-      "status": "PARTIAL_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "templates/** project-relevant adoption verification and execution-report templates",
-      "status": "PARTIAL_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "tests/** and tools/** relevant validators and consumers for recovered routes",
-      "status": "PARTIAL_READ",
-      "gate_effect": "BLOCKED"
-    },
-    {
-      "path": "OMENWARD Base adapter snapshot router and adoption delta versus Base 4f98f968 main",
-      "status": "INVENTORY_OR_CLASSIFICATION_INCOMPLETE",
-      "gate_effect": "BLOCKED"
-    }
+  "project_relevant_full_text_evidence": [
+    {"path": "START_HERE.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "AGENTS.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/OPERATING_MODEL.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/WORK_MODE_AND_SKILL_ROUTING.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/DOCUMENTATION_MAP.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/BASE_RULES_VERSION.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/PROJECT_GDD_GOOGLE_SHEETS_POLICY.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/BASE_SHARED_SKILL_ADAPTER_CONTRACT.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "skills/SKILL_REGISTRY.json", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/generated/BASE_ACTIVE_SKILLS.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "skills/managing-game-project-operating-system/SKILL.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "skills/managing-game-project-operating-system/references/project-adapter-and-routing-contract.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "skills/reviewing-and-validating-project-changes/SKILL.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "skills/running-adversarial-review-and-refinement/SKILL.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"},
+    {"path": "docs/knowledge/godot/HIGODOT_SINGLE_AUTHORITY_AND_SAFE_OPERATION.md", "status": "FULL_TEXT_READ", "ref": "fa69a77a14f923a756064f6ae151d34cadb374f7"}
   ],
-  "next_required_gate": "COMPLETE_TRACKED_FILE_INVENTORY_CLASSIFICATION_AND_PROJECT_RELEVANT_AUTHORITY_SKILL_CONSUMER_RECOVERY",
-  "prohibited_claims": [
-    "BASE_RECOVERY_COMPLETE",
-    "ENTRY_READY",
-    "USER_LOCAL_WINDOWS_PASS",
-    "USER_LOCAL_WSL2_PASS",
-    "GODOT_RUNTIME_PASS",
-    "GUT_FORMAL_PASS",
-    "PRODUCT_IMPLEMENTATION_AUTHORIZED"
+  "relevant_consumer_recovery": {
+    "base_adapter_authority": "skills/PROJECT_BASE_ADAPTER.json",
+    "base_adapter_schema": "schemas/project-base-adapter-v1.schema.json",
+    "base_adapter_template": "templates/project-operations/PROJECT_BASE_ADAPTER.json",
+    "base_adapter_workflow_template": "templates/project-operations/github/validate-project-base-adapter.yml",
+    "base_adapter_validator": "tools/project_operating_contract.py",
+    "omenward_adapter": "skills/PROJECT_BASE_ADAPTER.json",
+    "omenward_router": ".agents/skills/omenward-workflow-router/SKILL.md",
+    "status": "ROUTES_AND_CONSUMERS_IDENTIFIED_AND_RECOVERED"
+  },
+  "omenward_base_adapter_delta": {
+    "project_release_pin": "9.4.3",
+    "project_release_commit": "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8",
+    "project_release_evidence_commit": "da33a350d61b8adc52df97fccc7001708a933370",
+    "project_release_registry_sha256": "693a0dff3f054ecdd653079909e044211473838e73dd9aff07734d1ce5694c59",
+    "current_base_main": "fa69a77a14f923a756064f6ae151d34cadb374f7",
+    "current_base_registry_view_sha256": "ba36a0ae0a7f32ed84cfecaacdbd2357c133584e4944500e567cdb98355b8570",
+    "release_pin_verdict": "VALID_RELEASE_PIN",
+    "current_base_main_delta": "PRESENT_POST_RELEASE",
+    "migration_action": "NO_AUTOMATIC_MIGRATION",
+    "adapter_freshness_followup": "REQUIRED_SEPARATE_FIX",
+    "freshness_findings": [
+      "PROJECT_BASE_ADAPTER.gdd_sheet still declares SHEET_GITHUB_CONFLICT/BLOCKED although PR161 reconciled current canon",
+      "PROJECT_BASE_ADAPTER.protected_baseline.commit remains historical and requires adapter-specific reconciliation before shared-route execution",
+      "current Base main adds post-v9.4.3 routing/policy material including Visual Requirement Gate and current HiGodot/GUT/Hera boundaries"
+    ],
+    "verdict": "BASE_RECOVERY_COMPLETE_WITH_PROJECT_ADAPTER_FRESHNESS_FINDING_SEPARATED"
+  },
+  "unread_or_partially_read_surfaces": [],
+  "resolved_recovery_surfaces": [
+    "WHOLE_TRACKED_FILE_INVENTORY_CLASSIFICATION",
+    "CURRENT_ROOT_AND_SUBTREE_INDEX",
+    "CURRENT_SKILL_REGISTRY_AND_ACTIVE_VIEW",
+    "CURRENT_WORKFLOW_INVENTORY",
+    "PROJECT_RELEVANT_BASE_AUTHORITIES",
+    "PROJECT_RELEVANT_SKILL_BODIES_AND_ROUTING_REFERENCE",
+    "PROJECT_RELEVANT_ADAPTER_SCHEMA_TEMPLATE_VALIDATOR_CONSUMERS",
+    "OMENWARD_BASE_ADOPTION_DELTA"
+  ],
+  "remaining_non_base_recovery_blockers": [
+    "PR154_CONDITIONAL_FAIL_UNMERGED",
+    "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
+    "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
+    "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
+    "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
+    "PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED",
+    "LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE",
+    "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
   ],
   "validation_strategy": {
     "primary_workflow": ".github/workflows/validate-omenward-core.yml",
-    "trigger": "workflow_dispatch",
     "runner_policy": "STANDARD_GITHUB_HOSTED_ONLY",
-    "operating_systems": [
-      "ubuntu-latest",
-      "windows-latest"
-    ],
-    "python_versions": [
-      "3.11",
-      "3.12",
-      "3.13"
-    ],
+    "operating_systems": ["ubuntu-latest", "windows-latest"],
+    "python_versions": ["3.11", "3.12", "3.13"],
     "godot_version": "4.7.1",
+    "base_inventory_checkout": "PUBLIC_EXACT_PIN_SECOND_CHECKOUT",
+    "base_inventory_ref": "fa69a77a14f923a756064f6ae151d34cadb374f7",
+    "base_inventory_path": "_base_recovery",
     "local_verification_pack": "REMOVED",
     "repository_visibility_observed": "public",
     "visibility_decision_id": "OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1",
-    "public_unlimited_policy_applicable": true,
-    "billing_block_status": "CLEARED_BY_PUBLIC_TRANSITION",
-    "cost_guarantee": "STANDARD_GITHUB_HOSTED_PUBLIC_REPOSITORY_PATH"
-  }
+    "billing_block_status": "CLEARED_BY_PUBLIC_TRANSITION"
+  },
+  "prohibited_claims": [
+    "ENTRY_READY",
+    "PRODUCT_IMPLEMENTATION_AUTHORIZED",
+    "PROJECT_BASE_ADAPTER_FRESH",
+    "HIGODOT_READY",
+    "GUT_FORMAL_PASS",
+    "HERA_ADOPTED",
+    "USER_LOCAL_WINDOWS_PASS",
+    "USER_LOCAL_GODOT_PASS",
+    "AUDIO_VAULT_VERIFIED"
+  ]
 }
