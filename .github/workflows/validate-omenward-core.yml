@@ -55,6 +55,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout exact Base recovery source
+        uses: actions/checkout@v4
+        with:
+          repository: alsdmlals4-eng/Base
+          ref: fa69a77a14f923a756064f6ae151d34cadb374f7
+          path: _base_recovery
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -86,6 +93,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Checkout exact Base recovery source
+        uses: actions/checkout@v4
+        with:
+          repository: alsdmlals4-eng/Base
+          ref: fa69a77a14f923a756064f6ae151d34cadb374f7
+          path: _base_recovery
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
