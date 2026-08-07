@@ -3,7 +3,7 @@
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
   "observed_at": "2026-08-08T07:49:00+09:00",
   "source_repository_main_sha": "7b41923628b68c7c1477b286584973d8516eab6d",
-  "working_branch": "process/v4-4-entry-reconciliation-20260808",
+  "reconciliation_branch": "process/v4-4-entry-reconciliation-20260808",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
   "active_contract": {
     "name": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
