@@ -43,7 +43,7 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         gate = self.state["entry_gate"]
         self.assertEqual(
             gate["decision_ledger_readback"]["status"],
-            "RECONCILED_BY_V4_4_DECISION",
+            "RECONCILED_BY_V4_4_DECISION_AND_PR159_GATE_UPDATE",
         )
         self.assertNotIn("RECONCILIATION_DECISION_NOT_MERGED", gate["blocking_reasons"])
         self.assertNotIn("current_reconciliation_head", self.state["github_actions"])
@@ -57,11 +57,16 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         allowed = set(gate["allowed_next_actions"])
+        recovery = self.state["base_recovery"]
         self.assertEqual(self.state["last_gate_update_decision"], BASE_RECOVERY_DECISION)
         self.assertNotIn("BASE_RECOVERY_PR159_DRAFT_INCOMPLETE", blockers)
         self.assertNotIn("PR159_BASE_RECOVERY_COMPLETION", allowed)
         self.assertIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
         self.assertIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", allowed)
+        self.assertEqual(recovery["decision_id"], BASE_RECOVERY_DECISION)
+        self.assertEqual(recovery["status"], "COMPLETE")
+        self.assertTrue(recovery["blocker_cleared"])
+        self.assertEqual(recovery["tracked_file_classification"], "ZERO_UNCLASSIFIED")
 
     def test_sheet_readback_has_no_ready_or_awaiting_images(self) -> None:
         image = self.state["entry_gate"]["image_review_sheet_readback"]
