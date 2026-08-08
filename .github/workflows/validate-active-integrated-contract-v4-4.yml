@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".github/workflows/validate-active-integrated-contract-v4-4.yml"
+      - ".github/workflows/validate-tool-state-user-approval-remote-sync.yml"
       - ".github/workflows/validate-barracks-conditional-fail-remediation.yml"
       - ".github/workflows/validate-barracks-10000-decision-sweep-review.yml"
       - ".github/workflows/validate-barracks-parameter-selection-observables.yml"
@@ -23,11 +24,13 @@ on:
       - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md"
+      - "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md"
       - "docs/superpowers/specs/2026-08-09-barracks-functional-value-measurement-scenarios-design.md"
       - "docs/superpowers/plans/2026-08-09-barracks-functional-value-measurement-scenarios.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "tests/python/test_active_integrated_contract_v4_4.py"
+      - "tests/python/test_tool_state_user_approval_remote_sync.py"
       - "tests/python/test_barracks_conditional_fail_remediation.py"
       - "tests/python/test_barracks_remediation_smoke.py"
       - "tests/python/test_barracks_10000_decision_sweep_review.py"
@@ -70,18 +73,14 @@ jobs:
 
           allowed = {
               ".github/workflows/validate-active-integrated-contract-v4-4.yml",
-              ".github/workflows/validate-barracks-functional-value-measurement-scenarios.yml",
+              ".github/workflows/validate-tool-state-user-approval-remote-sync.yml",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/DECISIONS_PENDING.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md",
-              "docs/superpowers/specs/2026-08-09-barracks-functional-value-measurement-scenarios-design.md",
-              "docs/superpowers/plans/2026-08-09-barracks-functional-value-measurement-scenarios.md",
+              "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "tests/python/test_active_integrated_contract_v4_4.py",
-              "tests/python/test_barracks_parameter_selection_observables.py",
-              "tests/python/test_barracks_functional_value_combat_numerics_review.py",
-              "tests/python/test_barracks_functional_value_measurement_scenarios.py",
+              "tests/python/test_tool_state_user_approval_remote_sync.py",
               "tools/validate_active_integrated_contract_v4_4.py",
           }
           changed = set(subprocess.check_output(["git", "diff", "--name-only", os.environ["BASE_SHA"], os.environ["HEAD_SHA"]], text=True).splitlines())
@@ -95,11 +94,12 @@ jobs:
           print(f"v4.4 bounded planning scope=PASS files={len(changed)} protected_product_paths=0")
           PY
 
-      - name: Compile v4.4 and barracks focused contracts
+      - name: Compile v4.4 and focused contracts
         run: |
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
             tests/python/test_active_integrated_contract_v4_4.py \
+            tests/python/test_tool_state_user_approval_remote_sync.py \
             tests/python/test_barracks_conditional_fail_remediation.py \
             tests/python/test_barracks_10000_decision_sweep_review.py \
             tests/python/test_barracks_parameter_selection_observables.py \
@@ -113,6 +113,7 @@ jobs:
         run: |
           python -m unittest \
             tests.python.test_active_integrated_contract_v4_4 \
+            tests.python.test_tool_state_user_approval_remote_sync \
             tests.python.test_barracks_conditional_fail_remediation \
             tests.python.test_barracks_10000_decision_sweep_review \
             tests.python.test_barracks_parameter_selection_observables \
