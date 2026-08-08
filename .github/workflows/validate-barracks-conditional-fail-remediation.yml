@@ -10,6 +10,7 @@ on:
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "tests/python/test_barracks_conditional_fail_remediation.py"
+      - "tests/python/test_barracks_remediation_smoke.py"
   workflow_dispatch:
 
 permissions:
@@ -23,7 +24,32 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Compile focused contract
-        run: python -m py_compile tests/python/test_barracks_conditional_fail_remediation.py
+      - name: Install deterministic smoke dependency
+        run: python -m pip install numpy==2.3.2
+      - name: Compile remediation analysis and tests
+        run: |
+          python -m py_compile \
+            docs/analysis/barracks_simulation/smoke_common.py \
+            docs/analysis/barracks_simulation/smoke_analysis.py \
+            docs/analysis/barracks_simulation/smoke_simulator.py \
+            docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py \
+            tests/python/test_barracks_conditional_fail_remediation.py \
+            tests/python/test_barracks_remediation_smoke.py
+      - name: Run engine and determinism tests
+        run: python -m unittest tests.python.test_barracks_remediation_smoke -v
+      - name: Run exact 2,000-seed remediation smoke
+        run: |
+          rm -rf artifacts/barracks-remediation
+          python docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py \
+            --root . \
+            --seeds 2000 \
+            --output-dir artifacts/barracks-remediation
       - name: Run focused remediation contract
         run: python -m unittest tests.python.test_barracks_conditional_fail_remediation -v
+      - name: Upload exact smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: barracks-remediation-smoke-2000
+          path: artifacts/barracks-remediation/
+          if-no-files-found: warn
