@@ -9,6 +9,7 @@ on:
       - "skills/PROJECT_SKILL_SNAPSHOT.json"
       - "docs/PROJECT_OPERATING_DASHBOARD.html"
       - "docs/PROJECT_OPERATING_HEALTH.json"
+      - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
@@ -62,10 +63,13 @@ jobs:
           PROTECTED_BASE_SHA="$PR_BASE_SHA"
           python -c 'import re, sys; value = sys.argv[1]; raise SystemExit(0 if re.fullmatch(r"[0-9a-f]{40}", value) else 1)' "$PROTECTED_BASE_SHA"
           git cat-file -e "$PROTECTED_BASE_SHA^{commit}"
-          BASELINE_POLICY_SHA="$(git show "$PROTECTED_BASE_SHA:$ADAPTER_PATH" | sha256sum | awk '{print $1}')"
+          BASELINE_POLICY_SHA="$(
+            git show "$PROTECTED_BASE_SHA:$ADAPTER_PATH" |
+            python -c 'import hashlib,json,sys; data=json.load(sys.stdin); raw=(json.dumps(data["protected_paths"],ensure_ascii=False,indent=2,sort_keys=True)+"\n").encode(); print(hashlib.sha256(raw).hexdigest())'
+          )"
           printf 'PROTECTED_BASE_SHA=%s\n' "$PROTECTED_BASE_SHA" >> "$GITHUB_ENV"
           printf 'BASELINE_POLICY_SHA=%s\n' "$BASELINE_POLICY_SHA" >> "$GITHUB_ENV"
-          printf 'baseline_adapter_sha256=%s\n' "$BASELINE_POLICY_SHA"
+          printf 'protected_policy_sha256=%s\n' "$BASELINE_POLICY_SHA"
 
       - name: Materialize target adapter in CI workspace
         run: |
@@ -106,23 +110,17 @@ jobs:
             --protected-base "$PROTECTED_BASE_SHA" \
             --check
 
-      - name: Emit generated outputs for commit
-        run: |
-          python - <<'PY'
-          import base64
-          from pathlib import Path
-          for item in [
-              "skills/PROJECT_BASE_ADAPTER.json",
-              "skills/PROJECT_SKILL_SNAPSHOT.json",
-              "docs/PROJECT_OPERATING_DASHBOARD.html",
-              "skills/BASE_V9_ADAPTER.json",
-              "skills/PROJECT_BASE_SKILL_ADAPTER.json",
-          ]:
-              raw = Path(item).read_bytes()
-              print(f"BEGIN_BASE64 {item}")
-              print(base64.b64encode(raw).decode("ascii"))
-              print(f"END_BASE64 {item}")
-          PY
+      - name: Upload generated adapter outputs
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: project-base-adapter-generated-${{ github.event.pull_request.head.sha }}
+          path: |
+            skills/PROJECT_BASE_ADAPTER.json
+            skills/PROJECT_SKILL_SNAPSHOT.json
+            docs/PROJECT_OPERATING_DASHBOARD.html
+            skills/BASE_V9_ADAPTER.json
+            skills/PROJECT_BASE_SKILL_ADAPTER.json
+          if-no-files-found: error
 
       - name: Enforce project adapter freshness contract
         run: python -m unittest tests.python.test_project_base_adapter_freshness -v
