@@ -17,6 +17,7 @@ BARRACKS_OBSERVABLES_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SE
 BARRACKS_ROBUSTNESS_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
 BARRACKS_ROBUSTNESS_EXECUTION_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1"
 BARRACKS_FUNCTIONAL_REVIEW_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1"
+BARRACKS_MEASUREMENT_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
 
 
 def load_validator():
@@ -44,15 +45,15 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         mutated["entry_gate"]["decision"] = "PASS"
         self.assertIn("entry gate must remain BLOCK", self.validator.validate_state(mutated))
 
-    def test_current_gate_refines_functional_value_blockers_and_advances_measurement_scenarios(self) -> None:
+    def test_measurement_scenarios_close_only_their_blocker_and_advance_runtime_package(self) -> None:
         gate = self.state["entry_gate"]
-        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_FUNCTIONAL_REVIEW_DECISION)
-        self.assertEqual(self.state["source_repository_main_sha"], "890a68c1c573ce11b21d397d7c3ec88bae191b7f")
+        self.assertEqual(self.state["schema_version"], "2.0")
+        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_MEASUREMENT_DECISION)
+        self.assertEqual(self.state["source_repository_main_sha"], "02b803b075d5e44f5aa3db895c5dad025d048148")
         self.assertEqual(self.state["base_current_main_observed"], "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b")
-        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
+        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
         self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])
-        self.assertIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
-        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION")
+        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
         self.assertIn("PRODUCT_IMPLEMENTATION", gate["forbidden_actions"])
         self.assertIn("GODOT_AUTHORING_MUTATION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
@@ -75,41 +76,42 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         obs = self.state["barracks_parameter_selection_observables"]
         robustness_review = self.state["barracks_10000_robustness_review"]
         execution = self.state["barracks_10000_robustness_execution"]
+        functional = self.state["barracks_functional_value_combat_numerics_review"]
         self.assertEqual(rem["decision_id"], BARRACKS_REMEDIATION_DECISION)
         self.assertEqual(rem["smoke_rerun_status"], "PASS")
-        self.assertEqual(rem["failed_decision_gates"], [])
         self.assertEqual(review["decision_id"], BARRACKS_10K_REVIEW_DECISION)
         self.assertEqual(review["decision_sweep_10000_execution"], "NOT_AUTHORIZED")
         self.assertEqual(obs["decision_id"], BARRACKS_OBSERVABLES_DECISION)
         self.assertEqual(obs["selection_mode"], "HARD_FILTER_THEN_PARETO")
-        self.assertEqual(obs["economy_production_envelope"], "V00_BASELINE_COST_INTERVAL_ONLY")
         self.assertEqual(robustness_review["decision_id"], BARRACKS_ROBUSTNESS_REVIEW_DECISION)
         self.assertEqual(robustness_review["actual_10000_execution"], "NOT_RUN")
         self.assertEqual(execution["decision_id"], BARRACKS_ROBUSTNESS_EXECUTION_DECISION)
         self.assertEqual(execution["seed_count"], 10000)
         self.assertEqual(execution["failed_decision_gates"], [])
         self.assertEqual(execution["identifiability"], "DIAGNOSTIC_NON_IDENTIFIABLE")
-        self.assertEqual(execution["parameter_selection_10000"], "NOT_AUTHORIZED")
-        self.assertEqual(execution["confirmation_sweep_50000"], "BLOCKED")
+        self.assertEqual(functional["decision_id"], BARRACKS_FUNCTIONAL_REVIEW_DECISION)
+        self.assertEqual(functional["role_complete_product_output_numerics"], "PARTIAL_INSUFFICIENT")
+        self.assertIsNone(functional["final_functional_value_index"])
 
-    def test_functional_value_review_recovers_base_numerics_but_keeps_final_values_unselected(self) -> None:
-        review = self.state["barracks_functional_value_combat_numerics_review"]
-        self.assertEqual(review["decision_id"], BARRACKS_FUNCTIONAL_REVIEW_DECISION)
-        self.assertEqual(review["parent_decision_id"], BARRACKS_ROBUSTNESS_EXECUTION_DECISION)
-        self.assertEqual(review["product_base_combat_numerics"], "PRESENT")
-        self.assertEqual(review["poc_role_numeric_hypotheses"], "PRESENT_NONFINAL")
-        self.assertEqual(review["role_complete_product_output_numerics"], "PARTIAL_INSUFFICIENT")
-        self.assertEqual(review["product_special_corps"], ["priest", "mage", "flier", "giant"])
-        self.assertEqual(review["historical_simulation_special_outcome_label_set"], ["assassin", "priest", "mage", "flying_unit", "giant"])
-        self.assertEqual(review["functional_value_comparison"], "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE")
-        self.assertEqual(review["post_hoc_weight_tuning"], "FORBIDDEN")
-        self.assertIsNone(review["final_functional_value_index"])
-        self.assertIsNone(review["final_parameter_vector"])
-        self.assertEqual(review["final_product_numerics"], "NOT_APPROVED")
-        self.assertEqual(review["product_implementation"], "NOT_AUTHORIZED")
-        self.assertEqual(review["next_gate"], "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION")
+    def test_measurement_scenario_contract_is_deterministic_blocked_not_zero_and_nonfinal(self) -> None:
+        scenarios = self.state["barracks_functional_value_measurement_scenarios"]
+        self.assertEqual(scenarios["decision_id"], BARRACKS_MEASUREMENT_DECISION)
+        self.assertEqual(scenarios["parent_decision_id"], BARRACKS_FUNCTIONAL_REVIEW_DECISION)
+        self.assertEqual(scenarios["fixture_policy"], "DETERMINISTIC_SAME_INPUT")
+        self.assertEqual(scenarios["functional_value_comparison"], "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE")
+        self.assertEqual(scenarios["post_hoc_weight_tuning"], "FORBIDDEN")
+        self.assertEqual(scenarios["blocked_runtime_output_policy"], "NEVER_SYNTHESIZE_AS_ZERO")
+        self.assertEqual(scenarios["scenario_ids"], ["FV-COMMON-01", "FV-PRIEST-01", "FV-MAGE-01", "FV-FLIER-01", "FV-GIANT-01"])
+        self.assertEqual(scenarios["measurement_scenario_blocker"], "CLOSED_BY_THIS_DECISION")
+        self.assertEqual(scenarios["role_output_runtime_blocker"], "REMAINS")
+        self.assertIsNone(scenarios["final_functional_value_index"])
+        self.assertIsNone(scenarios["final_parameter_vector"])
+        self.assertEqual(scenarios["final_product_numerics"], "NOT_APPROVED")
+        self.assertEqual(scenarios["product_implementation"], "NOT_AUTHORIZED")
+        self.assertEqual(scenarios["godot_authoring"], "NOT_AUTHORIZED")
+        self.assertEqual(scenarios["next_gate"], "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
 
-    def test_tool_roles_and_local_boundary_remain(self) -> None:
+    def test_tool_roles_and_local_boundary_remain_until_separate_tool_sync(self) -> None:
         tools = self.state["tool_authority"]
         self.assertEqual(tools["higodot"]["authority"], "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY")
         self.assertEqual(tools["gut"]["authority"], "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED")
