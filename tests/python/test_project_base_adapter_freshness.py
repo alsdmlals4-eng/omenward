@@ -50,12 +50,12 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
 
-    def test_adapter_freshness_remains_closed_across_later_planning_gates(self) -> None:
+    def test_adapter_freshness_remains_closed_across_later_planning_and_tool_gates(self) -> None:
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
         self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
-        self.assertIn("GUT_ADOPTION_SPEC_PR155_NOT_MERGED", blockers)
+        self.assertNotIn("GUT_ADOPTION_SPEC_PR155_NOT_MERGED", blockers)
         self.assertEqual(gate["decision"], "BLOCK")
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", gate["allowed_next_actions"])
         adapter_state = self.state["project_base_adapter"]
