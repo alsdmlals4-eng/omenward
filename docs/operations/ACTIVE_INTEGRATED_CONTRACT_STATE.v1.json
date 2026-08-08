@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.5",
+  "schema_version": "1.6",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1",
-  "observed_at": "2026-08-08T20:45:00+09:00",
-  "source_repository_main_sha": "def5e845c56088424753e6070e22aa7fca8e4e85",
-  "reconciliation_branch": "planning/barracks-10000-decision-sweep-review-20260808",
+  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1",
+  "observed_at": "2026-08-08T21:15:00+09:00",
+  "source_repository_main_sha": "25c4a5953d57acce450c93db1a8b5f0281937586",
+  "reconciliation_branch": "planning/barracks-parameter-selection-observables-20260808-final",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
-  "base_current_main_observed": "eee98a930219065e30b4d7d14d99d5ac7db44c60",
+  "base_current_main_observed": "a912cc001ff4d4e3415fb4b4931723c49eb08d9a",
   "active_contract": {
     "name": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
     "version": "4.4",
@@ -17,26 +17,19 @@
     "counter": "NON_COUNTER"
   },
   "superseded_contracts": [
-    {
-      "version": "4.3",
-      "status": "HISTORICAL_COMPARISON_ONLY",
-      "decision_id": "OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1"
-    },
-    {
-      "version": "4.2",
-      "status": "HISTORICAL_COMPARISON_ONLY"
-    }
+    {"version": "4.3", "status": "HISTORICAL_COMPARISON_ONLY", "decision_id": "OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1"},
+    {"version": "4.2", "status": "HISTORICAL_COMPARISON_ONLY"}
   ],
   "entry_gate": {
     "decision": "BLOCK",
     "status": "ENTRY_STATE_RECONCILED_BUT_BLOCKERS_REMAIN",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_PR159_ADAPTER_BARRACKS_5_OF_10_AND_10K_REVIEW"
+      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_7_OF_10_OBSERVABLES"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_PARAMETER_SELECTION_IDENTIFIABILITY_GATE"
+      "status": "CURRENT_ROBUSTNESS_REVIEW_AND_FUNCTIONAL_VALUE_DEFERRED_GATE"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -47,7 +40,7 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
-      "BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED",
+      "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
       "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
@@ -56,7 +49,7 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION",
+      "BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
     ],
@@ -120,11 +113,7 @@
     "smoke_rerun_seeds": 2000,
     "smoke_rerun_status": "PASS",
     "failed_decision_gates": [],
-    "raw_diagnostic_failures": [
-      "GENERAL_PATH_VALIDITY_RATE",
-      "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE",
-      "WORST_SPECIAL_REGRET_RATE"
-    ],
+    "raw_diagnostic_failures": ["GENERAL_PATH_VALIDITY_RATE", "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE", "WORST_SPECIAL_REGRET_RATE"],
     "result_json": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json",
     "result_json_sha256": "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2",
     "result_csv": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
@@ -144,12 +133,7 @@
     "base_current_main_observed": "eee98a930219065e30b4d7d14d99d5ac7db44c60",
     "source_result_csv": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
     "source_result_csv_sha256": "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560",
-    "decision_eligible_metrics": [
-      "SPECIAL_TOKEN_SHARE_10_MIN",
-      "SPECIAL_TOKEN_SHARE_BURST_MAX",
-      "SECOND_SPECIAL_MARGINAL_VALUE_RATIO",
-      "REROLL_EXPECTED_VALUE_GAIN"
-    ],
+    "decision_eligible_metrics": ["SPECIAL_TOKEN_SHARE_10_MIN", "SPECIAL_TOKEN_SHARE_BURST_MAX", "SECOND_SPECIAL_MARGINAL_VALUE_RATIO", "REROLL_EXPECTED_VALUE_GAIN"],
     "tied_vector_groups": [
       ["V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH"],
       ["V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH", "V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"]
@@ -162,45 +146,40 @@
     "next_gate": "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION",
     "status": "REVIEW_COMPLETE_EXECUTION_NOT_AUTHORIZED"
   },
+  "barracks_parameter_selection_observables": {
+    "decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1",
+    "parent_decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1",
+    "baseline_main": "25c4a5953d57acce450c93db1a8b5f0281937586",
+    "base_current_main_observed": "a912cc001ff4d4e3415fb4b4931723c49eb08d9a",
+    "comparison_form": "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE",
+    "selection_mode": "HARD_FILTER_THEN_PARETO",
+    "special_interval_canon_gate": "STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL",
+    "relevant_general_interval_max_seconds": 65.0,
+    "excluded_vectors_interval_fail": ["V01_CHEAP_FAST_LOW", "V02_CHEAP_FAST_HIGH", "V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH"],
+    "pareto_dominated_vectors": ["V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"],
+    "pareto_nondominated_economy_production_candidates": ["V00_BASELINE", "V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH"],
+    "baseline_preservation_tiebreak": "IF_CURRENT_APPROVED_BASELINE_IS_HARD_GATE_PASS_AND_PARETO_NONDOMINATED_KEEP_BASELINE",
+    "economy_production_envelope": "V00_BASELINE_COST_INTERVAL_ONLY",
+    "robustness_special_barracks_cost_gold": 60.0,
+    "robustness_special_interval_multiplier": 1.70,
+    "special_functional_value_index": "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS",
+    "final_parameter_vector": null,
+    "robustness_only_10000": "READY_FOR_SEPARATE_APPROVAL",
+    "parameter_selection_10000": "NOT_AUTHORIZED",
+    "confirmation_sweep_50000": "BLOCKED",
+    "next_gate": "BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW",
+    "status": "OBSERVABLES_DEFINED_ENVELOPE_IDENTIFIED_EXECUTION_NOT_AUTHORIZED"
+  },
   "tool_authority": {
-    "higodot": {
-      "canonical_repository": "hi-godot/godot-ai",
-      "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY",
-      "pinned_version_or_commit": null,
-      "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"
-    },
-    "gut": {
-      "canonical_repository": "bitwes/Gut",
-      "version": "9.7.1",
-      "source_branch": "godot_4_7",
-      "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605",
-      "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED",
-      "adoption_spec_pr": 155,
-      "adoption_spec_merge_status": "NOT_MERGED",
-      "formal_execution_status": "BLOCKED_BY_GUT_ADOPTION_SPEC"
-    },
-    "hera": {
-      "repository_files_present": true,
-      "observed_addon_readme_baseline": "v0.9.0",
-      "editor_plugin_enabled_in_project_godot": false,
-      "role": "LIVE_QA_AND_OBSERVABILITY_ONLY",
-      "persistent_source_mutation": "FORBIDDEN",
-      "adoption_status": "NOT_VERIFIED_INSTALLED_UNUSED"
-    },
+    "higodot": {"canonical_repository": "hi-godot/godot-ai", "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY", "pinned_version_or_commit": null, "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"},
+    "gut": {"canonical_repository": "bitwes/Gut", "version": "9.7.1", "source_branch": "godot_4_7", "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605", "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED", "adoption_spec_pr": 155, "adoption_spec_merge_status": "NOT_MERGED", "formal_execution_status": "BLOCKED_BY_GUT_ADOPTION_SPEC"},
+    "hera": {"repository_files_present": true, "observed_addon_readme_baseline": "v0.9.0", "editor_plugin_enabled_in_project_godot": false, "role": "LIVE_QA_AND_OBSERVABILITY_ONLY", "persistent_source_mutation": "FORBIDDEN", "adoption_status": "NOT_VERIFIED_INSTALLED_UNUSED"},
     "role_overlap": "FORBIDDEN"
   },
   "repository_drift_readback": {
     "after_last_sheet_baseline": [
-      {
-        "sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6",
-        "summary": "direct main import including Hera Agent Godot files",
-        "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"
-      },
-      {
-        "sha": "7b41923628b68c7c1477b286584973d8516eab6d",
-        "summary": "add .asset-vault to .gitignore",
-        "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"
-      }
+      {"sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6", "summary": "direct main import including Hera Agent Godot files", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"},
+      {"sha": "7b41923628b68c7c1477b286584973d8516eab6d", "summary": "add .asset-vault to .gitignore", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"}
     ],
     "status": "RECORDED_FOR_DISPOSITION_NOT_RETROACTIVELY_APPROVED"
   },
@@ -212,20 +191,7 @@
     "barracks_remediation_smoke_evidence": "RUN_31254624591_EXACT_2000_SEED_PASS",
     "reconciliation_validation_policy": "EXACT_PR_HEAD_GREEN_REQUIRED_BEFORE_MERGE"
   },
-  "review_authority": {
-    "model": "GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY",
-    "external_independent_reviewer": "NOT_PLANNED_SOLO_DEVELOPMENT"
-  },
-  "audio_vault": {
-    "path": "C:/Users/user/Documents/GitHub/shered audio vault",
-    "access_policy": "READ_ONLY_SOURCE_LIBRARY",
-    "runtime_reference_policy": "COPY_APPROVED_ASSETS_INTO_RES_NOT_ABSOLUTE_PATH",
-    "status": "BLOCKED_UNVERIFIED"
-  },
-  "local_delivery": {
-    "project_local_path": "C:/Users/user/Documents/GitHub/Ninza/omenward",
-    "godot_project_path": "C:/Users/user/Documents/GitHub/Ninza/omenward",
-    "status": "BLOCKED_UNVERIFIED",
-    "reason": "USER_WINDOWS_C_DRIVE_NOT_ACCESSIBLE_FROM_CURRENT_AGENT_ENVIRONMENT"
-  }
+  "review_authority": {"model": "GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY", "external_independent_reviewer": "NOT_PLANNED_SOLO_DEVELOPMENT"},
+  "audio_vault": {"path": "C:/Users/user/Documents/GitHub/shered audio vault", "access_policy": "READ_ONLY_SOURCE_LIBRARY", "runtime_reference_policy": "COPY_APPROVED_ASSETS_INTO_RES_NOT_ABSOLUTE_PATH", "status": "BLOCKED_UNVERIFIED"},
+  "local_delivery": {"project_local_path": "C:/Users/user/Documents/GitHub/Ninza/omenward", "godot_project_path": "C:/Users/user/Documents/GitHub/Ninza/omenward", "status": "BLOCKED_UNVERIFIED", "reason": "USER_WINDOWS_C_DRIVE_NOT_ACCESSIBLE_FROM_CURRENT_AGENT_ENVIRONMENT"}
 }
