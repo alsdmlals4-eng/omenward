@@ -14,6 +14,7 @@ on:
       - ".github/workflows/validate-barracks-functional-value-measurement-scenarios.yml"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/DECISIONS_PENDING.md"
+      - "docs/PROJECT_OPERATING_DASHBOARD.html"
       - "docs/analysis/barracks_simulation/**"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md"
@@ -27,6 +28,10 @@ on:
       - "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
+      - "skills/PROJECT_BASE_ADAPTER.json"
+      - "skills/PROJECT_SKILL_SNAPSHOT.json"
+      - "skills/BASE_V9_ADAPTER.json"
+      - "skills/PROJECT_BASE_SKILL_ADAPTER.json"
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_tool_state_user_approval_remote_sync.py"
       - "tests/python/test_barracks_conditional_fail_remediation.py"
@@ -71,9 +76,14 @@ jobs:
               ".github/workflows/validate-tool-state-user-approval-remote-sync.yml",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/DECISIONS_PENDING.md",
+              "docs/PROJECT_OPERATING_DASHBOARD.html",
               "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
+              "skills/PROJECT_BASE_ADAPTER.json",
+              "skills/PROJECT_SKILL_SNAPSHOT.json",
+              "skills/BASE_V9_ADAPTER.json",
+              "skills/PROJECT_BASE_SKILL_ADAPTER.json",
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_tool_state_user_approval_remote_sync.py",
               "tests/python/test_barracks_functional_value_measurement_scenarios.py",
