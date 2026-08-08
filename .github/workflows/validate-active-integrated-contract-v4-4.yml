@@ -4,26 +4,17 @@ on:
   pull_request:
     paths:
       - ".github/workflows/validate-active-integrated-contract-v4-4.yml"
-      - ".github/workflows/validate-active-integrated-contract-v4-3.yml"
-      - ".github/workflows/validate-project-base-adapter.yml"
-      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
-      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
-      - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
+      - ".github/workflows/validate-barracks-conditional-fail-remediation.yml"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
-      - "docs/PROJECT_OPERATING_DASHBOARD.html"
-      - "docs/PROJECT_OPERATING_HEALTH.json"
-      - "skills/PROJECT_BASE_ADAPTER.json"
-      - "skills/PROJECT_SKILL_SNAPSHOT.json"
-      - "skills/BASE_V9_ADAPTER.json"
-      - "skills/PROJECT_BASE_SKILL_ADAPTER.json"
+      - "docs/analysis/barracks_simulation/**"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "tests/python/test_active_integrated_contract_v4_4.py"
-      - "tests/python/test_active_integrated_contract_v4_3.py"
-      - "tests/python/test_project_base_adapter_freshness.py"
-      - "tests/python/test_adversarial_review_contract.py"
-      - "tests/test_base_v9_adoption.py"
-      - "tests/test_base_v942_planning_first_adoption.py"
+      - "tests/python/test_barracks_conditional_fail_remediation.py"
+      - "tests/python/test_barracks_remediation_smoke.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
-      - "tools/validate_active_integrated_contract_v4_3.py"
   workflow_dispatch:
 
 permissions:
@@ -41,7 +32,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Enforce process-only scope
+      - name: Enforce bounded non-product planning scope
         if: github.event_name == 'pull_request'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
@@ -53,26 +44,25 @@ jobs:
 
           allowed = {
               ".github/workflows/validate-active-integrated-contract-v4-4.yml",
-              ".github/workflows/validate-active-integrated-contract-v4-3.yml",
-              ".github/workflows/validate-project-base-adapter.yml",
-              "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
-              "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
-              "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json",
+              ".github/workflows/validate-barracks-conditional-fail-remediation.yml",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
-              "docs/PROJECT_OPERATING_DASHBOARD.html",
-              "docs/PROJECT_OPERATING_HEALTH.json",
-              "skills/PROJECT_BASE_ADAPTER.json",
-              "skills/PROJECT_SKILL_SNAPSHOT.json",
-              "skills/BASE_V9_ADAPTER.json",
-              "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+              "docs/analysis/barracks_simulation/current_maprun_economy_pressure_baseline.v1.json",
+              "docs/analysis/barracks_simulation/remediation_model.v1.json",
+              "docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py",
+              "docs/analysis/barracks_simulation/smoke_analysis.py",
+              "docs/analysis/barracks_simulation/smoke_common.py",
+              "docs/analysis/barracks_simulation/smoke_model_assumptions.v1.json",
+              "docs/analysis/barracks_simulation/smoke_simulator.py",
+              "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
+              "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json",
+              "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md",
+              "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md",
+              "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md",
+              "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "tests/python/test_active_integrated_contract_v4_4.py",
-              "tests/python/test_active_integrated_contract_v4_3.py",
-              "tests/python/test_project_base_adapter_freshness.py",
-              "tests/python/test_adversarial_review_contract.py",
-              "tests/test_base_v9_adoption.py",
-              "tests/test_base_v942_planning_first_adoption.py",
+              "tests/python/test_barracks_conditional_fail_remediation.py",
+              "tests/python/test_barracks_remediation_smoke.py",
               "tools/validate_active_integrated_contract_v4_4.py",
-              "tools/validate_active_integrated_contract_v4_3.py",
           }
           changed = set(
               subprocess.check_output(
@@ -83,19 +73,25 @@ jobs:
           unexpected = sorted(changed - allowed)
           if unexpected:
               raise SystemExit(f"scope mismatch unexpected={unexpected}")
-          print(f"v4.4 process scope=PASS files={len(changed)}")
+          protected_prefixes = ("data/", "scripts/", "scenes/", "assets/", "addons/")
+          protected = sorted(
+              path for path in changed
+              if path == "project.godot" or path.startswith(protected_prefixes)
+          )
+          if protected:
+              raise SystemExit(f"protected product paths changed={protected}")
+          print(f"v4.4 bounded planning scope=PASS files={len(changed)} protected_product_paths=0")
           PY
 
-      - name: Compile v4.4 validator and focused tests
+      - name: Compile v4.4 and barracks focused contracts
         run: |
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
             tests/python/test_active_integrated_contract_v4_4.py \
-            tests/python/test_project_base_adapter_freshness.py \
-            tests/python/test_adversarial_review_contract.py
+            tests/python/test_barracks_conditional_fail_remediation.py
 
-      - name: Run v4.4 bootstrap contract tests
-        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_project_base_adapter_freshness tests.python.test_adversarial_review_contract
+      - name: Run v4.4 and barracks durable-state tests
+        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_barracks_conditional_fail_remediation
 
       - name: Validate v4.4 active binding
         run: python tools/validate_active_integrated_contract_v4_4.py
