@@ -1,10 +1,10 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "2.1",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1",
-  "observed_at": "2026-08-09T07:45:00+09:00",
-  "source_repository_main_sha": "02b803b075d5e44f5aa3db895c5dad025d048148",
-  "reconciliation_branch": "planning/barracks-functional-value-measurement-scenarios-20260809",
+  "last_gate_update_decision": "OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1",
+  "observed_at": "2026-08-09T07:56:00+09:00",
+  "source_repository_main_sha": "615a7fbe818b18a8ca916a66a2891f49a8e0c0df",
+  "reconciliation_branch": "tools/godot-ai-3-1-3-hera-gut-approval-sync-20260809",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
   "base_current_main_observed": "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b",
   "active_contract": {
@@ -22,14 +22,14 @@
   ],
   "entry_gate": {
     "decision": "BLOCK",
-    "status": "FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINED_ROLE_OUTPUT_RUNTIME_REMAINS_BLOCKED",
+    "status": "TOOL_USER_APPROVAL_RECOGNIZED_REMOTE_SYNC_REQUIRED_ROLE_OUTPUT_RUNTIME_BLOCKED",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS"
+      "status": "RECONCILED_BY_V4_4_THROUGH_TOOL_USER_APPROVAL_REMOTE_SYNC_STATE"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_GATE"
+      "status": "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_WITH_TOOL_REMOTE_SYNC_REQUIRED"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -41,23 +41,21 @@
     },
     "blocking_reasons": [
       "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
-      "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
-      "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
-      "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
-      "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
+      "GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED",
+      "GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED",
+      "HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED",
       "LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE",
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
       "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE",
-      "PR155_GUT_ADOPTION_SPEC_REVIEW",
-      "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
+      "TOOL_REMOTE_SYNC_USING_HIGODOT_WHEN_EXECUTOR_AVAILABLE",
+      "PR155_PR156_SUPERSEDED_STATUS_CLEANUP"
     ],
     "forbidden_actions": [
       "PRODUCT_IMPLEMENTATION",
-      "GODOT_AUTHORING_MUTATION",
-      "FORMAL_GUT_EXECUTION",
-      "GUT_PLUGIN_ENABLEMENT",
+      "GODOT_AUTHORING_MUTATION_WITHOUT_HIGODOT",
+      "FORMAL_GUT_EXECUTION_BEFORE_REMOTE_SYNC_VERIFICATION",
       "HERA_LIVE_QA_COMPLETION_CLAIM",
       "IMAGE_GENERATION",
       "AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE",
@@ -254,16 +252,7 @@
     "historical_simulation_special_outcome_label_set": ["assassin", "priest", "mage", "flying_unit", "giant"],
     "taxonomy_reconciliation": "HISTORICAL_MODEL_LABEL_SET_PRESERVED_AS_POINT_IN_TIME_ANALYSIS_LABELS_NOT_PRODUCT_MEMBERSHIP",
     "runtime_implemented_role_outputs": ["ASSASSIN_BYPASS_PARTIAL", "GIANT_SIEGE_OBJECTIVE_DAMAGE", "CAPTURE_POWER"],
-    "runtime_missing_role_outputs": [
-      "PRIEST_HEAL_EFFECTIVE_HP",
-      "PRIEST_BUFF_UPTIME",
-      "MAGE_AOE_DAMAGE_AND_TARGET_COUNT",
-      "MAGE_CONTROL_TARGET_SECONDS",
-      "FLIER_MOVEMENT_LAYER_BYPASS",
-      "FLIER_AIR_TARGETABILITY",
-      "GIANT_SLAM_MULTI_TARGET_OUTPUT",
-      "GIANT_ROLE_SPECIFIC_POC_STRUCTURE_MULTIPLIER"
-    ],
+    "runtime_missing_role_outputs": ["PRIEST_HEAL_EFFECTIVE_HP", "PRIEST_BUFF_UPTIME", "MAGE_AOE_DAMAGE_AND_TARGET_COUNT", "MAGE_CONTROL_TARGET_SECONDS", "FLIER_MOVEMENT_LAYER_BYPASS", "FLIER_AIR_TARGETABILITY", "GIANT_SLAM_MULTI_TARGET_OUTPUT", "GIANT_ROLE_SPECIFIC_POC_STRUCTURE_MULTIPLIER"],
     "runtime_schema_gaps": ["MOVEMENT_LAYER", "PASSIVE_IDS", "SKILL_IDS", "TARGETING_PROFILE_ID", "THREAT_COST"],
     "runtime_behavior_gaps": ["TARGET_PRIORITY_TAGS_NOT_CONSUMED_BY_NORMAL_TARGETING", "MAGIC_RESISTANCE_NOT_USED_BY_RECEIVE_DAMAGE", "ATTACK_PROFILE_TIMING_DEFAULTS_NOT_ROLE_SPECIFIC"],
     "functional_value_comparison": "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE",
@@ -294,23 +283,8 @@
     "scenario_ids": ["FV-COMMON-01", "FV-PRIEST-01", "FV-MAGE-01", "FV-FLIER-01", "FV-GIANT-01"],
     "fixture_archetype_ids": ["shield_guard", "greatsword_warrior", "archer", "assassin", "priest", "mage", "flier", "giant"],
     "output_availability_classes": ["MEASURABLE_CURRENT_RUNTIME", "PARTIAL_RUNTIME_OUTPUT", "BLOCKED_RUNTIME_OUTPUT", "DIAGNOSTIC_ONLY"],
-    "role_relationships": [
-      "ARCHER_SUSTAINED_SINGLE_TARGET_DPS_GT_MAGE",
-      "ASSASSIN_SINGLE_TARGET_BURST_GT_FLIER",
-      "FLIER_BACKLINE_PRESSURE_DURATION_GT_ASSASSIN",
-      "GIANT_SURVIVAL_AOE_SIEGE_ADVANTAGE_OVER_GREATSWORD_ROLE_SURFACE",
-      "PRIEST_VALUE_REQUIRES_SUPPORT_OUTPUT_NOT_DAMAGE_SCALAR"
-    ],
-    "blocked_primary_outputs": [
-      "PRIEST_EFFECTIVE_HEALING_HP",
-      "PRIEST_BUFF_UPTIME",
-      "MAGE_COLLATERAL_AOE_DAMAGE",
-      "MAGE_CONTROL_TARGET_SECONDS",
-      "FLIER_TIME_TO_BACKLINE_CONTACT",
-      "FLIER_AIR_TARGETABILITY_EXPOSURE",
-      "GIANT_SLAM_TARGETS_HIT",
-      "GIANT_SLAM_TOTAL_DAMAGE"
-    ],
+    "role_relationships": ["ARCHER_SUSTAINED_SINGLE_TARGET_DPS_GT_MAGE", "ASSASSIN_SINGLE_TARGET_BURST_GT_FLIER", "FLIER_BACKLINE_PRESSURE_DURATION_GT_ASSASSIN", "GIANT_SURVIVAL_AOE_SIEGE_ADVANTAGE_OVER_GREATSWORD_ROLE_SURFACE", "PRIEST_VALUE_REQUIRES_SUPPORT_OUTPUT_NOT_DAMAGE_SCALAR"],
+    "blocked_primary_outputs": ["PRIEST_EFFECTIVE_HEALING_HP", "PRIEST_BUFF_UPTIME", "MAGE_COLLATERAL_AOE_DAMAGE", "MAGE_CONTROL_TARGET_SECONDS", "FLIER_TIME_TO_BACKLINE_CONTACT", "FLIER_AIR_TARGETABILITY_EXPOSURE", "GIANT_SLAM_TARGETS_HIT", "GIANT_SLAM_TOTAL_DAMAGE"],
     "measurement_scenario_blocker": "CLOSED_BY_THIS_DECISION",
     "role_output_runtime_blocker": "REMAINS",
     "final_functional_value_index": null,
@@ -324,17 +298,60 @@
     "status": "SCENARIOS_DEFINED_ROLE_OUTPUT_RUNTIME_BLOCKED_FINAL_FUNCTIONAL_VALUE_NOT_SELECTED"
   },
   "tool_authority": {
-    "higodot": {"canonical_repository": "hi-godot/godot-ai", "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY", "pinned_version_or_commit": null, "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"},
-    "gut": {"canonical_repository": "bitwes/Gut", "version": "9.7.1", "source_branch": "godot_4_7", "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605", "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED", "adoption_spec_pr": 155, "adoption_spec_merge_status": "NOT_MERGED", "formal_execution_status": "BLOCKED_BY_GUT_ADOPTION_SPEC"},
-    "hera": {"repository_files_present": true, "observed_addon_readme_baseline": "v0.9.0", "editor_plugin_enabled_in_project_godot": false, "role": "LIVE_QA_AND_OBSERVABILITY_ONLY", "persistent_source_mutation": "FORBIDDEN", "adoption_status": "NOT_VERIFIED_INSTALLED_UNUSED"},
+    "higodot": {
+      "canonical_repository": "hi-godot/godot-ai",
+      "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY",
+      "approved_version": "3.1.3",
+      "upstream_release": "v3.1.3",
+      "upstream_plugin_zip_sha256": "10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7",
+      "user_approval": "APPROVED",
+      "user_reported_local_enablement": "ENABLED_NOT_HOST_VERIFIED",
+      "remote_version_observed": "3.1.2",
+      "remote_editor_plugin_enabled": true,
+      "remote_sync_status": "REQUIRED",
+      "status": "USER_APPROVED_3_1_3_REMOTE_MAIN_STALE_3_1_2"
+    },
+    "gut": {
+      "canonical_repository": "bitwes/Gut",
+      "version": "9.7.1",
+      "upstream_release": "v9.7.1",
+      "source_branch": "godot_4_7",
+      "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605",
+      "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED",
+      "user_approval": "APPROVED",
+      "user_reported_local_enablement": "ENABLED_NOT_HOST_VERIFIED",
+      "remote_editor_plugin_enabled": false,
+      "remote_sync_status": "REQUIRED",
+      "adoption_spec_pr": 155,
+      "adoption_spec_status": "SUPERSEDED_AS_APPROVAL_BLOCKER_BY_USER_DIRECT_APPROVAL",
+      "formal_execution_status": "NOT_RUN_IN_CURRENT_HOSTED_SESSION",
+      "status": "USER_APPROVED_REMOTE_ENABLEMENT_SYNC_REQUIRED"
+    },
+    "hera": {
+      "canonical_repository": "NotNull92/hera-agent-godot",
+      "approved_version": "1.0.0",
+      "upstream_release": "v1.0.0",
+      "project_plugin_version": "1.0.0",
+      "bundled_readme_version": "0.9.0_STALE_METADATA",
+      "license": "MIT",
+      "role": "LIVE_QA_AND_OBSERVABILITY_ONLY",
+      "persistent_source_mutation": "FORBIDDEN",
+      "existing_solution_disposition": "REUSE_APPROVED_BY_USER",
+      "user_approval": "APPROVED",
+      "user_reported_local_enablement": "ENABLED_NOT_HOST_VERIFIED",
+      "remote_editor_plugin_enabled": false,
+      "remote_sync_status": "REQUIRED",
+      "live_qa_completion_status": "NOT_RUN_IN_CURRENT_HOSTED_SESSION",
+      "status": "USER_APPROVED_REMOTE_ENABLEMENT_SYNC_REQUIRED"
+    },
     "role_overlap": "FORBIDDEN"
   },
   "repository_drift_readback": {
     "after_last_sheet_baseline": [
-      {"sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6", "summary": "direct main import including Hera Agent Godot files", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"},
-      {"sha": "7b41923628b68c7c1477b286584973d8516eab6d", "summary": "add .asset-vault to .gitignore", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"}
+      {"sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6", "summary": "historical direct main import including Hera Agent Godot files", "decision_linkage": "ACCEPTED_AS_CURRENT_REUSE_BASELINE_BY_20260809_USER_APPROVAL"},
+      {"sha": "7b41923628b68c7c1477b286584973d8516eab6d", "summary": "add .asset-vault to .gitignore", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"
     ],
-    "status": "RECORDED_FOR_DISPOSITION_NOT_RETROACTIVELY_APPROVED"
+    "status": "HERA_DISPOSITION_CLOSED_OTHER_HISTORICAL_DRIFT_RECORDED"
   },
   "github_actions": {
     "repository_visibility": "PUBLIC_CONFIRMED",
