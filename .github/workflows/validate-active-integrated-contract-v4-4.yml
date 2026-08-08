@@ -25,8 +25,6 @@ on:
       - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md"
       - "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md"
-      - "docs/superpowers/specs/2026-08-09-barracks-functional-value-measurement-scenarios-design.md"
-      - "docs/superpowers/plans/2026-08-09-barracks-functional-value-measurement-scenarios.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "tests/python/test_active_integrated_contract_v4_4.py"
@@ -63,9 +61,6 @@ jobs:
 
       - name: Enforce bounded non-product planning scope
         if: github.event_name == 'pull_request'
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           python - <<'PY'
           import os
@@ -81,9 +76,13 @@ jobs:
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_tool_state_user_approval_remote_sync.py",
+              "tests/python/test_barracks_functional_value_measurement_scenarios.py",
+              "tests/python/test_project_base_adapter_freshness.py",
               "tools/validate_active_integrated_contract_v4_4.py",
           }
-          changed = set(subprocess.check_output(["git", "diff", "--name-only", os.environ["BASE_SHA"], os.environ["HEAD_SHA"]], text=True).splitlines())
+          base_ref = os.environ.get("GITHUB_BASE_REF", "main")
+          base = f"origin/{base_ref}"
+          changed = set(subprocess.check_output(["git", "diff", "--name-only", f"{base}...HEAD"], text=True).splitlines())
           unexpected = sorted(changed - allowed)
           if unexpected:
               raise SystemExit(f"scope mismatch unexpected={unexpected}")
