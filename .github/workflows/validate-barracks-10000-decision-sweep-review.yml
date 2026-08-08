@@ -1,0 +1,28 @@
+name: Validate Barracks 10000 Decision Sweep Review
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-10000-decision-sweep-review.yml"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md"
+      - "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/DECISIONS_PENDING.md"
+      - "tests/python/test_barracks_10000_decision_sweep_review.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile review contract
+        run: python -m py_compile tests/python/test_barracks_10000_decision_sweep_review.py
+      - name: Run review contract
+        run: python -m unittest tests.python.test_barracks_10000_decision_sweep_review -v

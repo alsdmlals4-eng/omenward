@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
+REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1"
 SPEC = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
 RESULT_AUTHORITY = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md"
 MODEL = ROOT / "docs/analysis/barracks_simulation/remediation_model.v1.json"
@@ -70,17 +71,23 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertIn(json_hash, authority)
         self.assertIn(csv_hash, authority)
 
-    def test_durable_gate_moves_to_10k_review_not_product_work(self) -> None:
+    def test_remediation_pass_remains_durable_after_later_review_gate(self) -> None:
         ledger = LEDGER.read_text(encoding="utf-8")
         state = json.loads(STATE.read_text(encoding="utf-8"))
+        barracks = state["barracks_remediation"]
         self.assertIn(DECISION, ledger)
-        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW", ledger)
-        self.assertNotIn("PR #154 conditional fail / unmerged", ledger)
-        self.assertEqual(DECISION, state["last_gate_update_decision"])
-        self.assertEqual("APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS", state["barracks_remediation"]["status"])
-        self.assertEqual("PASS", state["barracks_remediation"]["smoke_rerun_status"])
-        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", state["entry_gate"]["blocking_reasons"])
-        self.assertEqual("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW", state["entry_gate"]["allowed_next_actions"][0])
+        self.assertIn(REVIEW_DECISION, ledger)
+        self.assertEqual("APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS", barracks["status"])
+        self.assertEqual("PASS", barracks["smoke_rerun_status"])
+        self.assertEqual([], barracks["failed_decision_gates"])
+        self.assertEqual("STRUCTURAL_CHANNEL_VECTOR", barracks["capability_proxy"])
+        self.assertEqual("FORBIDDEN", barracks["combat_power_scalar"])
+        self.assertAlmostEqual(0.333333, barracks["observed_baseline_special_token_share_burst_max"], places=6)
+        self.assertEqual("NOT_AUTHORIZED", barracks["product_implementation"])
+        self.assertEqual(REVIEW_DECISION, state["last_gate_update_decision"])
+        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", state["entry_gate"]["blocking_reasons"])
+        self.assertIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", state["entry_gate"]["blocking_reasons"])
+        self.assertEqual("BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION", state["entry_gate"]["allowed_next_actions"][0])
         self.assertIn("PRODUCT_IMPLEMENTATION", state["entry_gate"]["forbidden_actions"])
 
 

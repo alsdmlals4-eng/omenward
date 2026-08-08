@@ -3,16 +3,16 @@
 ```yaml
 updated_at: 2026-08-08
 status: CURRENT_DECISION_LEDGER
-source_main_observed: b28533cba722e293fdbfc1d1b43478dd8ded380d
-base_main_observed: fa69a77a14f923a756064f6ae151d34cadb374f7
+source_main_observed: def5e845c56088424753e6070e22aa7fca8e4e85
+base_main_observed: eee98a930219065e30b4d7d14d99d5ac7db44c60
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
+last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
 base_recovery_status: COMPLETE
 project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
-current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 10000_REVIEW_REQUIRED
-current_simulation_pr: 164
+current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED
+current_simulation_pr: 165
 product_code_authority: NONE
 entry_gate: BLOCK
 image_generation: STOPPED / NOT_AUTHORIZED
@@ -52,18 +52,10 @@ product_implementation = NOT_STARTED
 | 2/10 | 승인 / input provenance | `OMW-DEC-20260806-PLANNING-BARRACKS-SIMULATION-INPUT-PROVENANCE-AND-ROULETTE-AXIS-CORRECTION-V1` |
 | 3/10 | 승인 / smoke input only | `OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1` |
 | 4/10 | 역사 증거 복구 / `CONDITIONAL_FAIL` | `OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1` |
-| 5/10 | 승인 / remediation 2,000-seed `SMOKE_RERUN_PASS` / 10k review required | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
+| 5/10 | 승인 / remediation 2,000-seed `SMOKE_RERUN_PASS` | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
+| 6/10 review | 승인 / 10k 실행 전 식별성 검토 완료 / parameter selection 실행 미승인 | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` |
 
-### 4/10 역사 차단
-
-```text
-MODEL_IDENTIFIABILITY_FAIL
-SPECIAL_TOKEN_SHARE_BURST_MAX = 0.50 > 0.45
-```
-
-4/10 책임 원본과 재현 입력은 역사 PR154에 고립돼 있었으므로 PR164 current-main lineage에 최소 복구했다. PR154의 38-file 역사 diff 전체는 merge input으로 사용하지 않는다.
-
-### 5/10 remediation
+### 5/10 remediation 유지
 
 ```text
 PLAYER_CAPABILITY_PROXY = STRUCTURAL_CHANNEL_VECTOR
@@ -78,8 +70,6 @@ FRACTIONAL_TOKEN_WEIGHT_WORKAROUND = FORBIDDEN
 Exact 2,000-seed evidence:
 
 ```text
-run = 31254624591
-job = 93096088531
 status = SMOKE_RERUN_PASS
 failed_decision_gates = []
 SPECIAL_TOKEN_SHARE_10_MIN = 0.296259
@@ -97,23 +87,44 @@ EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE = 0.0 for all 5 outcomes
 WORST_SPECIAL_REGRET_RATE = 1.0
 ```
 
-These metrics require role/counter/combat output that current product canon does not numerically define. They are not silently treated as PASS; they remain `DIAGNOSTIC_NON_IDENTIFIABLE` and cannot be used as product balance claims.
+### 6/10 review 결과
 
-10,000-seed decision sweep is **not automatically authorized** by the smoke PASS.
+현재 decision-eligible output만으로는 9개 passing 벡터 중 하나를 최종 선택할 목적함수와 식별성이 없다. 2,000-seed CSV에서 다음 벡터들이 동일한 decision signature를 가진다.
 
 ```text
-BARRACKS_10000_SEED_DECISION_SWEEP = READY_FOR_USER_REVIEW / NOT_AUTHORIZED_TO_RUN_YET
+V03_CHEAP_SLOW_LOW = V04_CHEAP_SLOW_HIGH
+V05_EXPENSIVE_FAST_LOW = V06_EXPENSIVE_FAST_HIGH = V07_EXPENSIVE_SLOW_LOW = V08_EXPENSIVE_SLOW_HIGH
+```
+
+동일 서명에 사용한 축:
+
+```text
+SPECIAL_TOKEN_SHARE_10_MIN
+SPECIAL_TOKEN_SHARE_BURST_MAX
+SECOND_SPECIAL_MARGINAL_VALUE_RATIO
+REROLL_EXPECTED_VALUE_GAIN = 0.0 by contract
+```
+
+따라서 seed 수를 10,000으로 늘리면 Monte Carlo 오차는 줄일 수 있지만 현재 모델에 없는 선택 목적함수·tie-break·관측량을 만들 수 없다.
+
+```text
+DECISION_SWEEP_10000_PARAMETER_SELECTION = NOT_AUTHORIZED
+PARAMETER_SELECTION = NOT_IDENTIFIABLE_WITH_CURRENT_DECISION_METRICS
+ROBUSTNESS_ONLY_10000 = OPTIONAL_AFTER_SEPARATE_APPROVAL
 CONFIRMATION_SWEEP_50000 = BLOCKED
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
+NEXT_GATE = BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION
 ```
+
+다음 Gate는 각 선택 차원을 구분하는 canon-backed observable 또는 명시적 차원 보류와, 9개 벡터가 모두 통과할 때 사용할 사전 목적함수/Pareto/tie-break를 정의해야 한다. 결과 확인 후 규칙을 바꾸는 post-hoc optimization은 금지한다.
 
 Current detailed responsibility sources:
 
-- `docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv`
 
@@ -130,6 +141,7 @@ OMW-DEC-20260807-TESTS-CURRENT-CANON-LIFECYCLE-RECONCILIATION-V1
 OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
+OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
 ```
 
 v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
@@ -137,41 +149,30 @@ v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
 ### Base recovery 및 Project Base Adapter 상태
 
 ```text
-PR159 = MERGED
+Base current main observed = eee98a930219065e30b4d7d14d99d5ac7db44c60
+Base recovery exact commit = fa69a77a14f923a756064f6ae151d34cadb374f7
+Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
 Base recovery = COMPLETE
-Base exact commit = fa69a77a14f923a756064f6ae151d34cadb374f7
 tracked-file classification = ZERO_UNCLASSIFIED
 project-relevant full-text recovery = CLOSED
-BASE_RECOVERY_BLOCKER = CLEARED
-
-PROJECT_BASE_ADAPTER base release = 9.4.3 / NO_AUTOMATIC_MIGRATION
-GDD sheet sync = CURRENT / SHEET_GITHUB_SYNCED
+GDD Sheet = CURRENT / SHEET_GITHUB_SYNCED
 protected baseline commit = 1f23981fdfc3e965ff46c8866e978c4701eb3d4e
 protected policy source = CANONICAL_ADAPTER_SOURCE
 protected policy SHA256 = 1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52
-Sheet evidence = docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json
 generated compatibility views = BASE_GENERATOR_VALIDATED
-PROJECT_BASE_ADAPTER_FRESHNESS_BLOCKER = CLEARED
 ```
 
-## 5. 2026-08-08 repository drift 판정
+현재 Base main의 post-`fa69a77` 변화는 serial-fiction BCP proposal/registry 영역으로 분류됐고 OMENWARD routing/adapter/validator 계약을 자동 이행하지 않는다.
 
-과거 Sheet 기준 이후 actual `main`에는 다음 direct-main 변경이 존재했다.
+## 5. repository drift 및 도구 역할
 
-- `37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6`: Hera Agent Godot 파일 유입.
-- `7b41923628b68c7c1477b286584973d8516eab6d`: `.asset-vault/` ignore 추가.
-
-두 변경은 저장소에 존재하는 사실은 인정하지만 대응 Decision linkage가 현 원장·Sheet에서 발견되지 않았으므로 소급 승인하지 않는다.
-
-Hera 판정:
+Hera direct-main 유입은 현재 저장소에 존재하지만 소급 승인되지 않았다.
 
 ```text
-FILES_PRESENT = TRUE
-PROJECT_GODOT_EDITOR_PLUGIN_ENABLED = FALSE
-ADOPTION = NOT_VERIFIED_INSTALLED_UNUSED
-ROLE_IF_ADOPTED = LIVE_QA_AND_OBSERVABILITY_ONLY
-PERSISTENT_SOURCE_MUTATION = FORBIDDEN
-NEXT = EXISTING_SOLUTION_FIRST_DISPOSITION
+HIGODOT = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY / EXACT_SOURCE_OR_VERSION_UNVERIFIED
+GUT = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED / PR155_NOT_MERGED
+HERA = NOT_VERIFIED_INSTALLED_UNUSED / LIVE_QA_AND_OBSERVABILITY_ONLY_IF_ADOPTED
+HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 ```
 
 ## 6. Entry Gate
@@ -182,14 +183,12 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
-- `BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED`
+- `BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED`
 - PR #155 GUT adoption spec not merged
 - HiGodot exact source/version unverified
 - Hera direct-main import disposition not closed
 - local Godot / shared audio vault `BLOCKED_UNVERIFIED`
 - historical secret scan unproven accepted risk
-
-PR #154 conditional fail은 5/10 remediation smoke PASS로 현재 Gate blocker에서 제거한다. PR154는 PR164 merge 후 historical/superseded PR로 닫는다.
 
 금지:
 
@@ -201,13 +200,14 @@ HERA_LIVE_QA_COMPLETION_CLAIM
 IMAGE_GENERATION
 AUDIO_ASSET_IMPORT
 LOCAL_OR_RUNTIME_COMPLETION_CLAIM
-AUTOMATIC_10000_SEED_EXECUTION
+BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION
+BARRACKS_50000_SEED_CONFIRMATION
 ```
 
 ## 7. 다음 작업
 
-1. `BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW`: 실행 범위·판정 KPI를 사용자 검토 후 별도 승인.
-2. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
-3. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
+1. `BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION`
+2. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토
+3. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정
 
-제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.
+10k robustness-only 실행은 별도 승인 후 가능하지만 최종 parameter selection 권한을 갖지 않는다. 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.
