@@ -2,17 +2,17 @@
 
 ```yaml
 decision_id: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
+last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
 contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION
 contract_version: "4.4"
 contract_status: ACTIVE_INTEGRATED_AUDIT_IMPLEMENTATION_DELIVERY_CONTRACT
 binding_status: ACTIVE
 counter: NON_COUNTER
 activation_authority: USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION
-source_repository_main: 25c4a5953d57acce450c93db1a8b5f0281937586
+source_repository_main: 4da8ed64baaa66b15d110490f1b15fd9be20aee0
 base_recovery_exact_commit: fa69a77a14f923a756064f6ae151d34cadb374f7
-base_current_main_observed: a912cc001ff4d4e3415fb4b4931723c49eb08d9a
-reconciliation_branch: planning/barracks-parameter-selection-observables-20260808-final
+base_current_main_observed: cf4c7a60c5b31b042043f91b268f381372fec69a
+reconciliation_branch: planning/barracks-10000-robustness-review-20260808
 entry_gate: BLOCK
 ```
 
@@ -26,18 +26,20 @@ entry_gate: BLOCK
 
 ## 2. 현재 재조정 사실
 
-- Base current `main`: `a912cc001ff4d4e3415fb4b4931723c49eb08d9a`
+- Base current `main`: `cf4c7a60c5b31b042043f91b268f381372fec69a`
 - Base recovery/validator exact baseline: `fa69a77a14f923a756064f6ae151d34cadb374f7`
-- OMENWARD gate baseline main: `25c4a5953d57acce450c93db1a8b5f0281937586`
+- OMENWARD gate baseline main: `4da8ed64baaa66b15d110490f1b15fd9be20aee0`
 - 온보딩 기획: `APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT`
 - 병영 5/10: `APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS`
 - 병영 6/10 review: `REVIEW_COMPLETE / PARAMETER_SELECTION_NOT_IDENTIFIABLE / EXECUTION_NOT_AUTHORIZED`
-- 병영 7/10: `OBSERVABLES_DEFINED / ECONOMY_PRODUCTION_ENVELOPE_IDENTIFIED / FUNCTIONAL_VALUE_DEFERRED / 10K_NOT_RUN`
+- 병영 7/10: `OBSERVABLES_DEFINED / ECONOMY_PRODUCTION_ENVELOPE_IDENTIFIED / FUNCTIONAL_VALUE_DEFERRED`
+- 병영 8/10 review: `ROBUSTNESS_REVIEW_COMPLETE / DEDICATED_RUNNER_REQUIRED / USER_APPROVAL_REQUIRED / 10K_NOT_RUN`
 - PR #155: Draft / GUT 9.7.1 adoption spec not merged
 - PR #159: `MERGED` / Base recovery `COMPLETE`
 - PR #163: `MERGED` / Project Base Adapter freshness `RECONCILED`
 - PR #164: `MERGED` / exact 2,000-seed remediation smoke `PASS`
-- PR #165: `MERGED` / 10k execution pre-review complete
+- PR #165: `MERGED` / 10k parameter-selection pre-review complete
+- PR #166: `MERGED` / parameter-selection observables defined
 - local Windows checkout / local Godot / shared audio vault: 현재 agent 환경에서 접근 불가
 
 ### Base·Project Base Adapter
@@ -45,14 +47,17 @@ entry_gate: BLOCK
 ```text
 Base release pin = 9.4.3 / PRESERVED
 Base current main automatic migration = FORBIDDEN
-Base a912cc delta = SERIAL_FICTION_SKILL_ROUTING_ONLY / NO_PROJECT_BASE_ADAPTER_SCHEMA_GENERATOR_VALIDATOR_DELTA
-GDD Sheet = CURRENT / SHEET_GITHUB_SYNCED
+Base 8ea80e85→cf4c7a60 delta = CONTINUOUS_WORK_EXECUTION_TRIGGER_PROCESS_ROUTING_ONLY
+Project Base Adapter schema/generator/validator delta = NONE_OBSERVED
+OMENWARD Godot/barracks contract delta = NONE_OBSERVED
+GDD Sheet = CURRENT after this Gate sync
 protected baseline = 1f23981fdfc3e965ff46c8866e978c4701eb3d4e
 protected policy source = CANONICAL_ADAPTER_SOURCE
 protected policy hash = 1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52
 generated views = BASE_GENERATOR_VALIDATED
-PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED = CLEARED
 ```
+
+Base 최신 delta는 `AGENTS.md`, 운영/Work Mode/intake Skill, continuous-work reference/plan/spec/tests 및 BCP registry에 국한된다. released Base pin과 protected adapter baseline을 자동 변경하지 않는다.
 
 ### Barracks 5/10 remediation
 
@@ -82,8 +87,6 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 
 ### Barracks 7/10 observable 계약
 
-`OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1`은 현재 정본과 승인 simulation baseline에서 선택 가능한 축만 사전 등록한다.
-
 ```text
 SPECIAL_INTERVAL_CANON_GATE = STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL
 RELEVANT_GENERAL_INTERVAL_MAX_SECONDS = 65
@@ -98,13 +101,38 @@ ROBUSTNESS_SPECIAL_BARRACKS_COST_GOLD = 60
 ROBUSTNESS_SPECIAL_INTERVAL_MULTIPLIER = 1.70
 SPECIAL_FUNCTIONAL_VALUE_INDEX = DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
-ROBUSTNESS_ONLY_10000 = READY_FOR_SEPARATE_APPROVAL / NOT_RUN
-PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
-CONFIRMATION_SWEEP_50000 = BLOCKED
-NEXT_GATE = BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW
 ```
 
-기능가치를 구분하기 위해 `COMBAT_POWER_SCALAR` 또는 `SUPPORT_TU`를 재도입하지 않는다. 단일 weighted opportunity score도 도입하지 않는다.
+### Barracks 8/10 robustness-only review
+
+`OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1`은 실제 10k 실행 전 실행 가치·범위·evidence provenance를 검토한다.
+
+현행 runner는 seed count를 받을 수 있지만 다음 durable identity를 5/10 2k에 고정한다.
+
+```text
+RUNNER = docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py
+OUTPUT_STEM = smoke_sweep_2000.v2
+DEFAULT_OUTPUT_DIRECTORY = docs/analysis/barracks_simulation
+RESULT_DECISION_ID = 5_OF_10_REMEDIATION_DECISION
+CURRENT_RUNNER_FOR_DURABLE_10K = UNSAFE_EVIDENCE_PROVENANCE
+```
+
+따라서 현재 runner의 기본 출력으로 10k를 실행하지 않는다. 기존 2k evidence overwrite와 10k evidence의 2k/5-of-10 오표기를 구조적으로 막는 dedicated execution contract가 필요하다.
+
+```text
+ROBUSTNESS_10000 = RECOMMENDED_AFTER_DEDICATED_EXECUTION_CONTRACT_AND_USER_APPROVAL
+EXECUTION_CONTRACT = DEDICATED_RUNNER_REQUIRED
+EXECUTION_USER_APPROVAL = REQUIRED
+ACTUAL_10000_EXECUTION = NOT_RUN
+PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
+CONFIRMATION_SWEEP_50000 = BLOCKED
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
+CONTINUOUS_WORK_AFTER_REVIEW = STOPPED_USER_DECISION
+```
+
+`COMBAT_POWER_SCALAR`, `SUPPORT_TU`, 단일 weighted opportunity score를 재도입하지 않는다. dedicated package는 unique Decision/output stem, 2k overwrite 방지, seed count assertion, input hashes, V00 envelope, diagnostic-only combat boundary, result hashes를 갖춰야 한다.
 
 ## 3. 직접 main 변경 provenance
 
@@ -130,6 +158,8 @@ ENTRY_GATE = BLOCK
 
 현재 독립 차단 조건:
 
+- `BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED`
+- `BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED`
 - `BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED`
 - GUT adoption spec PR #155 not merged
 - HiGodot exact source/version unverified
@@ -137,15 +167,15 @@ ENTRY_GATE = BLOCK
 - local Godot / shared audio vault unavailable
 - historical secret scan unproven accepted risk
 
-따라서 제품 구현, Godot 저작 mutation, formal GUT, Hera live-QA 완료 주장, 이미지 생성, audio import, local-main/Godot runtime 완료 주장, 10k parameter-selection 실행, 50k confirmation은 금지한다.
+따라서 제품 구현, Godot 저작 mutation, formal GUT, Hera live-QA 완료 주장, 이미지 생성, audio import, local-main/Godot runtime 완료 주장, robustness 10k 실행, parameter-selection 10k 실행, 50k confirmation은 금지한다.
 
 ## 6. 다음 허용 작업
 
-1. `BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW`
+1. `BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL`
 2. PR #155 GUT adoption-spec review
 3. Hera Existing Solution First disposition
 
-10k robustness-only sweep는 **별도 승인 전 실행하지 않는다**. 승인되더라도 economy/production/physical-token invariant 확인용이며 final functional-value 또는 final parameter selection 권한을 갖지 않는다.
+Base continuous-work 계약상 `[연속작업] 진행해`는 새 승인 자체를 만들지 않는다. 7/10 authority의 별도 실행 승인 요구가 유지되므로 연속작업은 1번 사용자 결정에서 중지한다.
 
 ## 7. Sheet 동기화
 
@@ -158,10 +188,10 @@ OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-S
 현재 Gate 변경은 다음 Decision ID로 GitHub와 Sheet에 함께 기록한다.
 
 ```text
-OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
+OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
 ```
 
-PR exact-head와 병합 결과는 Sheet의 PR/변경이력 surface에서 추적한다. 새 seed 실행이 없으므로 `47_병영_Smoke_결과`에는 새 실행 행을 만들지 않는다.
+PR exact-head와 병합 결과는 Sheet의 PR/변경이력 surface에서 추적한다. 실제 10k seed run이 없으므로 `47_병영_Smoke_결과`에는 신규 실행 행을 만들지 않는다.
 
 ## 8. v4.3 역사
 
