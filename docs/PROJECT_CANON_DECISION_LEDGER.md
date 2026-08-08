@@ -39,6 +39,20 @@ FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
+### Durable Decision lineage
+
+| 단계 | Decision | 상태 |
+|---|---|---|
+| 5/10 remediation | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` | exact 2,000-seed smoke PASS |
+| 6/10 review | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` | review complete; parameter-selection execution not authorized |
+| 7/10 observables | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` | observables defined; V00 cost+interval envelope non-final |
+| 8/10 review | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1` | robustness execution review complete |
+| 9/10 robustness | `OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1` | exact 10,000-seed robustness PASS |
+| functional-value review | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1` | product base numerics present; role output runtime partial |
+| measurement scenarios | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1` | deterministic role scenarios defined; blocked outputs stay non-zero-synthesized |
+
+Historical lower-Gate Decisions remain indexed even when they no longer own `last_gate_update_decision` or the current next action.
+
 ## 2. Tool user-approval + remote-sync Decision
 
 Current tool Decision:
