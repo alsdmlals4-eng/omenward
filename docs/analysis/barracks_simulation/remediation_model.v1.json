@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1",
+  "parent_decision_id": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
+  "approval_count": "5_OF_10_REMEDIATION_CONTRACT",
+  "scope": {
+    "analysis_only": true,
+    "product_numerics": "NOT_FINAL",
+    "product_implementation": "NOT_AUTHORIZED",
+    "godot_authoring": "NOT_AUTHORIZED"
+  },
+  "player_capability_proxy": {
+    "mode": "STRUCTURAL_CHANNEL_VECTOR",
+    "combat_power_scalar": "FORBIDDEN",
+    "support_tu_numeric_injection": "FORBIDDEN",
+    "channels": ["DEFENSE_TOWER", "COMMAND_AURA", "MANA_TACTIC", "FRONTLINE_STATE"],
+    "stage_channels": {
+      "1": {"DEFENSE_TOWER": "PRESENT", "COMMAND_AURA": "PRESENT", "MANA_TACTIC": "LOCKED_BY_ONBOARDING", "FRONTLINE_STATE": "PRESENT"},
+      "2": {"DEFENSE_TOWER": "PRESENT", "COMMAND_AURA": "PRESENT", "MANA_TACTIC": "LOCKED_BY_ONBOARDING", "FRONTLINE_STATE": "PRESENT"},
+      "3": {"DEFENSE_TOWER": "PRESENT", "COMMAND_AURA": "PRESENT", "MANA_TACTIC": "AVAILABLE_AFTER_RESEARCH", "FRONTLINE_STATE": "PRESENT"},
+      "4": {"DEFENSE_TOWER": "PRESENT", "COMMAND_AURA": "PRESENT", "MANA_TACTIC": "AVAILABLE_AFTER_RESEARCH", "FRONTLINE_STATE": "PRESENT"},
+      "5": {"DEFENSE_TOWER": "PRESENT", "COMMAND_AURA": "PRESENT", "MANA_TACTIC": "AVAILABLE_AFTER_RESEARCH", "FRONTLINE_STATE": "PRESENT"}
+    },
+    "general_path_validity_rate": "DIAGNOSTIC_NON_IDENTIFIABLE",
+    "each_special_outcome_path_validity_rate": "DIAGNOSTIC_NON_IDENTIFIABLE",
+    "identifiability_policy": "NO_WIN_RATE_OR_COMBAT_SUCCESS_GATE_WITHOUT_PRODUCT_COMBAT_NUMERICS",
+    "numeric_simulation_support_contribution": 0.0
+  },
+  "multi_special_token_source": {
+    "probability_axis": "PHYSICAL_TOKEN_INSTANCES_PER_REEL",
+    "tokens_per_active_source_per_reel": 1,
+    "first_special_activation": "ACTIVE_ON_BUILD_COMMIT",
+    "second_special_activation": "DEFERRED_WHILE_GUARD_FALSE",
+    "second_special_min_non_special_active_sources": 3,
+    "guard_evaluation": "CONTINUOUS_AT_TOKEN_STATE_READ",
+    "auto_production_when_token_source_deferred": "ALLOWED_UNCHANGED",
+    "max_approved_burst_share": 0.45,
+    "max_special_share_when_two_special_sources_active": 0.40,
+    "fractional_token_weight_workaround": "FORBIDDEN"
+  },
+  "smoke_rerun": {
+    "seed_count": 2000,
+    "common_random_numbers": true,
+    "historical_parameter_vectors_reused": 9,
+    "combat_validity_metrics": "DIAGNOSTIC_ONLY",
+    "decision_sweep_10000": "BLOCKED_UNTIL_RERUN_PASS",
+    "confirmation_sweep_50000": "BLOCKED",
+    "selected_parameter_vector": null
+  }
+}
