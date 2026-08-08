@@ -79,6 +79,8 @@ jobs:
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "tests/python/test_active_integrated_contract_v4_4.py",
+              "tests/python/test_barracks_parameter_selection_observables.py",
+              "tests/python/test_barracks_functional_value_combat_numerics_review.py",
               "tests/python/test_barracks_functional_value_measurement_scenarios.py",
               "tools/validate_active_integrated_contract_v4_4.py",
           }
