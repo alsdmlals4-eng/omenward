@@ -11,7 +11,7 @@ ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 
 DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
-BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
+BASELINE_MAIN = "f1bf8939208a864bce1f99eea0555f05369dc9d6"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
@@ -61,6 +61,7 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
         self.assertEqual(adapter_state["protected_baseline_commit"], BASELINE_MAIN)
+        self.assertEqual(adapter_state["protected_baseline_advance_decision"], "OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1")
         self.assertEqual(adapter_state["protected_policy_sha256"], PROTECTED_POLICY_SHA)
         self.assertEqual(adapter_state["gdd_sheet_sync_status"], "CURRENT")
         self.assertEqual(adapter_state["status"], "FRESHNESS_RECONCILED")
