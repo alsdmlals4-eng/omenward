@@ -3,187 +3,137 @@
 ```yaml
 updated_at: 2026-08-09
 status: CURRENT_DECISION_LEDGER
-source_main_observed: 890a68c1c573ce11b21d397d7c3ec88bae191b7f
+source_main_observed: 02b803b075d5e44f5aa3db895c5dad025d048148
 base_main_observed: 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1
+last_gate_update_decision: OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1
 base_recovery_status: COMPLETE
 project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
-current_simulation_batch: 5_OF_10_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 9_OF_10_ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_COMBAT_NUMERICS_REVIEW_COMPLETE
-current_simulation_pr: 169
+current_simulation_batch: 5_OF_10_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 9_OF_10_ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_REVIEW_COMPLETE / MEASUREMENT_SCENARIOS_DEFINED
+current_simulation_pr: 170
 product_code_authority: NONE
 entry_gate: BLOCK
 ```
 
-이 원장은 현재 Decision 색인과 충돌 해소 우선순위를 책임진다. 상세 수치는 개별 승인 문서와 evidence에 남긴다.
+이 원장은 current Decision 색인과 충돌 해소 우선순위를 책임진다. Google Sheet는 동일 Decision ID와 exact-head/merge evidence를 기록하지만 제품 정본을 단독 대체하지 않는다.
 
-## 1. 현재 권위 우선순위
-
-1. `docs/PROJECT_CORE.md`
-2. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-3. `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-4. `docs/DECISIONS_PENDING.md`
-5. 현행 개별 승인 설계 문서
-6. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-7. 이 Decision 원장
-8. 과거 PR·commit·Sheet 역사 행
-
-Google Sheet는 동일 Decision ID와 PR/exact-head/merge evidence를 기록하지만 제품 정본을 단독 대체하지 않는다.
-
-## 2. 병영 Decision lineage
+## 1. 병영 Decision lineage
 
 | 단계 | 상태 | Decision |
 |---|---|---|
 | 5/10 | exact 2,000-seed remediation smoke PASS | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
-| 6/10 review | parameter-selection pre-review complete / selection execution unauthorized | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` |
-| 7/10 | canon-backed observables / V00 cost+interval non-final envelope | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` |
-| 8/10 review | robustness-only execution review / 당시 10k NOT_RUN | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1` |
+| 6/10 review | parameter-selection pre-review complete | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` |
+| 7/10 | observables / V00 cost+interval non-final envelope | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` |
+| 8/10 review | robustness execution review / 당시 10k NOT_RUN | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1` |
 | 9/10 | dedicated exact 10,000-seed V00 robustness PASS | `OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1` |
-| functional-value review | base numerics recovered / role-complete outputs partial / measurement scenario next | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1` |
+| functional-value review | base numerics present / role output runtime partial | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1` |
+| measurement scenarios | deterministic same-input role vectors defined / missing outputs blocked | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1` |
 
-9/10 exact robustness evidence remains:
+9/10 evidence remains exact:
 
 ```text
-SPECIAL_TOKEN_SHARE_10_MIN = 0.296265 <= 0.35
-SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333 <= 0.45
-REROLL_EXPECTED_VALUE_GAIN = 0.0
-SECOND_SPECIAL_DEFERRED_OBSERVATIONS = 82181
+SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
 10K_JSON_SHA256 = 1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3
 10K_CSV_SHA256 = e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b
 ```
 
-Combat diagnostics remain `DIAGNOSTIC_NON_IDENTIFIABLE`; 9/10 PASS는 economy/production/physical-token robustness만 의미한다.
-
-## 3. Functional-value combat numerics review
-
-기존 broad blocker:
+## 2. Functional-value measurement scenarios
 
 ```text
-BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED
-```
-
-은 회수 결과 너무 넓었다.
-
-```text
-PRODUCT_BASE_COMBAT_NUMERICS = PRESENT
-POC_ROLE_NUMERIC_HYPOTHESES = PRESENT_NONFINAL
-ROLE_COMPLETE_PRODUCT_OUTPUT_NUMERICS = PARTIAL_INSUFFICIENT
+FIXTURE_POLICY = DETERMINISTIC_SAME_INPUT
 FUNCTIONAL_VALUE_COMPARISON = ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE
 POST_HOC_WEIGHT_TUNING = FORBIDDEN
-FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
+BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
+MONTE_CARLO_ROLE_VALUE = NOT_AUTHORIZED_BEFORE_ROLE_OUTPUT_RUNTIME_EXISTS
 ```
 
-제품 taxonomy:
+Approved scenarios:
 
 ```text
-PRODUCT_BASIC_BARRACKS = SHIELD / GREATSWORD / ASSASSIN / SPEAR / ARCHER / CAVALRY
-PRODUCT_SPECIAL_CORPS = PRIEST / MAGE / FLIER / GIANT
+FV-COMMON-01 = common single-target contact
+FV-PRIEST-01 = support attrition
+FV-MAGE-01 = cluster versus Archer
+FV-FLIER-01 = backline pressure versus Assassin
+FV-GIANT-01 = siege/frontline versus Greatsword
 ```
 
-역사 smoke model label set:
+Role relationships:
 
 ```text
-HISTORICAL_SIMULATION_SPECIAL_OUTCOME_LABEL_SET = ASSASSIN / PRIEST / MAGE / FLYING_UNIT / GIANT
+ARCHER_SUSTAINED_SINGLE_TARGET_DPS > MAGE
+ASSASSIN_SINGLE_TARGET_BURST > FLIER
+FLIER_BACKLINE_PRESSURE_DURATION > ASSASSIN
+GIANT_VALUE_REQUIRES_SURVIVAL_AOE_SIEGE_ADVANTAGE
+PRIEST_VALUE_REQUIRES_SUPPORT_OUTPUT_NOT_DAMAGE_SCALAR
 ```
 
-따라서 `assassin` 역사 simulation label을 제품 special-corps membership으로 해석하지 않는다. 역사 evidence는 point-in-time analysis provenance로 보존한다.
+Missing role-defining outputs remain blockers, not zero observations.
 
-현재 runtime에서 recover된 구현 surface:
+## 3. Blocker transition
 
-```text
-ASSASSIN_BYPASS = PARTIAL
-GIANT_SIEGE_OBJECTIVE_DAMAGE = IMPLEMENTED
-CAPTURE_POWER = IMPLEMENTED
-```
-
-현재 role-complete output gap:
+Closed by the current Decision:
 
 ```text
-PRIEST_HEAL_AND_BUFF_OUTPUT
-MAGE_AOE_AND_CONTROL_OUTPUT
-FLIER_MOVEMENT_LAYER_AND_AIR_TARGETABILITY_OUTPUT
-GIANT_SLAM_MULTI_TARGET_OUTPUT
-TARGET_PRIORITY_TAG_CONSUMPTION
-MAGIC_RESISTANCE_DAMAGE_PIPELINE
-ROLE_SPECIFIC_ATTACK_TIMINGS
-```
-
-승인 PoC lineage에는 Priest heal, Mage AoE, Flier dive, Giant slam/siege numeric hypothesis가 존재하지만 문서가 명시적으로 **첫 PoC 가설**로 분류하므로 final product numerics로 승격하지 않는다.
-
-## 4. 정제된 blockers와 다음 작업
-
-현재 병영 blocker:
-
-```text
-BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
 BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED
 ```
 
-첫 허용 next action:
+Current barracks blocker:
 
 ```text
-BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION
+BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
 ```
 
-이 planning Gate는 제품 mutation 없이 role-specific 측정 scenario와 output vector를 사전등록한다. runtime에 없는 output은 `BLOCKED_RUNTIME_OUTPUT`로 표시한다.
+First next action:
 
-그 다음 persistent Godot mutation이 필요해지면 HiGodot sole-authoring authority 경로를 따른다.
+```text
+BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
+```
+
+That package is a planning/implementation-contract Gate. Persistent Godot mutation remains separately gated by tool state and authoring authority.
+
+## 4. Product taxonomy and historical analysis taxonomy
+
+Current product taxonomy:
+
+```text
+PRODUCT_SPECIAL_CORPS = PRIEST / MAGE / FLIER / GIANT
+ASSASSIN = BASIC_BARRACKS_SPECIALIZATION
+```
+
+Historical smoke model `ASSASSIN / PRIEST / MAGE / FLYING / GIANT` remains point-in-time analysis labels and is not product membership authority.
 
 ## 5. Base freshness
 
 ```text
 Base current main = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
-previous Sheet/Base observation = cf4c7a60c5b31b042043f91b268f381372fec69a
-classification = CONTINUOUS_WORK_BLOCKER_RECOVERY_ROUTING_ONLY / NO_PROJECT_BASE_ADAPTER_SCHEMA_GENERATOR_VALIDATOR_DELTA / NO_OMENWARD_COMBAT_OR_BARRACKS_SEMANTICS_DELTA
 Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
+Base delta classification = CONTINUOUS_WORK_BLOCKER_RECOVERY_ROUTING_ONLY
+Project Base Adapter schema/generator/validator delta = NONE_OBSERVED
 ```
 
-## 6. Tool / Entry Gate
+## 6. Tool / Entry Gate current remote evidence
+
+Current repository evidence at this Gate baseline still shows:
 
 ```text
-HIGODOT = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY / EXACT_SOURCE_OR_VERSION_UNVERIFIED
-GUT = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED / PR155_NOT_MERGED
-HERA = NOT_VERIFIED_INSTALLED_UNUSED / LIVE_QA_AND_OBSERVABILITY_ONLY_IF_ADOPTED
-ENTRY_GATE = BLOCK
+project.godot editor plugin enablement = Godot AI only
+addons/godot_ai/plugin.cfg = 3.1.2
+addons/gut/plugin.cfg = 9.7.1
+addons/hera_agent_godot/plugin.cfg = 1.0.0
 ```
 
-현재 독립 blockers:
+User subsequently declared Godot AI 3.1.3 and Hera/GUT plugin enablement+approval. That user-approved state will be reconciled under a separate tool-state Decision so this PR stays planning-only and does not falsely claim remote sync.
 
-- `BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED`
-- `BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED`
-- `GUT_ADOPTION_SPEC_PR155_NOT_MERGED`
-- `HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED`
-- `HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED`
-- `DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED`
-- `LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE`
-- historical secret-scan accepted risk
-
-금지:
-
-```text
-PRODUCT_IMPLEMENTATION
-GODOT_AUTHORING_MUTATION
-FORMAL_GUT_EXECUTION
-GUT_PLUGIN_ENABLEMENT
-HERA_LIVE_QA_COMPLETION_CLAIM
-IMAGE_GENERATION
-AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE
-LOCAL_OR_RUNTIME_COMPLETION_CLAIM
-BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION
-BARRACKS_50000_SEED_CONFIRMATION
-```
+Entry Gate remains `BLOCK` pending runtime-output implementation and current remote/tool synchronization.
 
 ## 7. Current responsibility sources
 
+- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
-- `docs/design/APPROVED_BARRACKS_AND_SPECIAL_CORPS_UNIT_TREE_V5.md`
-- `docs/design/APPROVED_PLAYER_TEN_UNIT_LINEAGES_POC_V1.md`
-- `docs/design/APPROVED_PRIEST_HEAL_AND_COMMAND_SUPPORT_CLASS_V1.md`
-- `docs/design/APPROVED_SHARED_UNIT_ARCHETYPE_AND_FACTION_VISUAL_DATA_V1.md`
-- `docs/design/APPROVED_COMBAT_KEYWORDS_STATUS_EFFECTS_AND_FLIGHT.md`
-- `docs/design/APPROVED_SPECIAL_CORPS_BUILDING_AND_GIANT_CLASS_V3.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json`
