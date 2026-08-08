@@ -3,17 +3,16 @@
 ```yaml
 updated_at: 2026-08-08
 status: CURRENT_DECISION_LEDGER
-source_main_observed: 7b41923628b68c7c1477b286584973d8516eab6d
+source_main_observed: b28533cba722e293fdbfc1d1b43478dd8ded380d
 base_main_observed: fa69a77a14f923a756064f6ae151d34cadb374f7
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
-base_recovery_merge: c6f8babe1dbb31f436eac45fa2056242baa445b1
+last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
 base_recovery_status: COMPLETE
 project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
-current_simulation_batch: APPROVED_4_OF_10_CONDITIONAL_FAIL
-current_simulation_pr: 154
+current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 10000_REVIEW_REQUIRED
+current_simulation_pr: 164
 product_code_authority: NONE
 entry_gate: BLOCK
 image_generation: STOPPED / NOT_AUTHORIZED
@@ -52,16 +51,71 @@ product_implementation = NOT_STARTED
 | 1/10 | 승인 / simulation contract only | `OMW-DEC-20260806-PLANNING-BARRACKS-ECONOMY-PRODUCTION-TOKEN-SOURCE-SIMULATION-CONTRACT-V1` |
 | 2/10 | 승인 / input provenance | `OMW-DEC-20260806-PLANNING-BARRACKS-SIMULATION-INPUT-PROVENANCE-AND-ROULETTE-AXIS-CORRECTION-V1` |
 | 3/10 | 승인 / smoke input only | `OMW-DEC-20260806-PLANNING-CURRENT-MAPRUN-ECONOMY-AND-PRESSURE-BASELINE-V1` |
-| 4/10 | `CONDITIONAL_FAIL` | `OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1` |
+| 4/10 | 역사 증거 복구 / `CONDITIONAL_FAIL` | `OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1` |
+| 5/10 | 승인 / remediation 2,000-seed `SMOKE_RERUN_PASS` / 10k review required | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
 
-4/10의 현재 차단은 다음 두 핵심 finding을 포함한다.
+### 4/10 역사 차단
 
 ```text
 MODEL_IDENTIFIABILITY_FAIL
 SPECIAL_TOKEN_SHARE_BURST_MAX = 0.50 > 0.45
 ```
 
-10,000 decision sweep, 50,000 confirmation sweep, 최종 수치 확정, 제품 구현은 이 차단이 해소되기 전 진행하지 않는다.
+4/10 책임 원본과 재현 입력은 역사 PR154에 고립돼 있었으므로 PR164 current-main lineage에 최소 복구했다. PR154의 38-file 역사 diff 전체는 merge input으로 사용하지 않는다.
+
+### 5/10 remediation
+
+```text
+PLAYER_CAPABILITY_PROXY = STRUCTURAL_CHANNEL_VECTOR
+COMBAT_POWER_SCALAR = FORBIDDEN
+SUPPORT_TU_NUMERIC_INJECTION = FORBIDDEN
+COMBAT_VALIDITY_METRICS = DIAGNOSTIC_NON_IDENTIFIABLE
+SECOND_SPECIAL_TOKEN_SOURCE = DEFERRED_UNTIL_3_NON_SPECIAL_ACTIVE_SOURCES
+AUTO_PRODUCTION_WHILE_TOKEN_SOURCE_DEFERRED = ALLOWED_UNCHANGED
+FRACTIONAL_TOKEN_WEIGHT_WORKAROUND = FORBIDDEN
+```
+
+Exact 2,000-seed evidence:
+
+```text
+run = 31254624591
+job = 93096088531
+status = SMOKE_RERUN_PASS
+failed_decision_gates = []
+SPECIAL_TOKEN_SHARE_10_MIN = 0.296259
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333 <= 0.45
+THEORETICAL_TWO_SPECIAL_ACTIVE_MAX = 0.40
+JSON_SHA256 = a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2
+CSV_SHA256 = 3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560
+```
+
+Raw diagnostic failures are intentionally preserved:
+
+```text
+GENERAL_PATH_VALIDITY_RATE = 0.0
+EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE = 0.0 for all 5 outcomes
+WORST_SPECIAL_REGRET_RATE = 1.0
+```
+
+These metrics require role/counter/combat output that current product canon does not numerically define. They are not silently treated as PASS; they remain `DIAGNOSTIC_NON_IDENTIFIABLE` and cannot be used as product balance claims.
+
+10,000-seed decision sweep is **not automatically authorized** by the smoke PASS.
+
+```text
+BARRACKS_10000_SEED_DECISION_SWEEP = READY_FOR_USER_REVIEW / NOT_AUTHORIZED_TO_RUN_YET
+CONFIRMATION_SWEEP_50000 = BLOCKED
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
+```
+
+Current detailed responsibility sources:
+
+- `docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md`
+- `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json`
+- `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv`
 
 ## 4. 현재 운영·도구 Decision
 
@@ -75,6 +129,7 @@ OMW-DEC-20260807-DOCS-C1-REMOTE-PROVEN-AUTHORITY-RESTORATION-V1
 OMW-DEC-20260807-TESTS-CURRENT-CANON-LIFECYCLE-RECONCILIATION-V1
 OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
+OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
 ```
 
 v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
@@ -99,8 +154,6 @@ generated compatibility views = BASE_GENERATOR_VALIDATED
 PROJECT_BASE_ADAPTER_FRESHNESS_BLOCKER = CLEARED
 ```
 
-Adapter reconciliation은 current Base `main`을 release pin으로 자동 승격하지 않는다. released v9.4.3 pin을 유지하면서 현재 PR base를 protected baseline으로 고정하고 Base 공식 generator/validator로 canonical adapter와 파생 뷰의 일치를 검증한다.
-
 ## 5. 2026-08-08 repository drift 판정
 
 과거 Sheet 기준 이후 actual `main`에는 다음 direct-main 변경이 존재했다.
@@ -108,7 +161,7 @@ Adapter reconciliation은 current Base `main`을 release pin으로 자동 승격
 - `37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6`: Hera Agent Godot 파일 유입.
 - `7b41923628b68c7c1477b286584973d8516eab6d`: `.asset-vault/` ignore 추가.
 
-두 변경은 저장소에 존재하는 사실은 인정하지만, 대응 Decision linkage가 현 원장·Sheet에서 발견되지 않았으므로 소급 승인하지 않는다.
+두 변경은 저장소에 존재하는 사실은 인정하지만 대응 Decision linkage가 현 원장·Sheet에서 발견되지 않았으므로 소급 승인하지 않는다.
 
 Hera 판정:
 
@@ -129,14 +182,14 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
-- PR #154 conditional fail / unmerged
+- `BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED`
 - PR #155 GUT adoption spec not merged
 - HiGodot exact source/version unverified
 - Hera direct-main import disposition not closed
 - local Godot / shared audio vault `BLOCKED_UNVERIFIED`
 - historical secret scan unproven accepted risk
 
-PR #159 Base recovery와 `PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED`는 더 이상 blocker가 아니다.
+PR #154 conditional fail은 5/10 remediation smoke PASS로 현재 Gate blocker에서 제거한다. PR154는 PR164 merge 후 historical/superseded PR로 닫는다.
 
 금지:
 
@@ -148,11 +201,12 @@ HERA_LIVE_QA_COMPLETION_CLAIM
 IMAGE_GENERATION
 AUDIO_ASSET_IMPORT
 LOCAL_OR_RUNTIME_COMPLETION_CLAIM
+AUTOMATIC_10000_SEED_EXECUTION
 ```
 
 ## 7. 다음 작업
 
-1. PR #154 4/10 conditional fail의 capability proxy / multi-special token burst remediation.
+1. `BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW`: 실행 범위·판정 KPI를 사용자 검토 후 별도 승인.
 2. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
 3. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
 
