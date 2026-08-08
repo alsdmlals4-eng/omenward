@@ -11,6 +11,7 @@ COMBAT_DEPENDENT_DIAGNOSTICS = {
     "SPECIAL_OPTION_DOMINANCE_RATE",
     "GENERAL_PATH_VALIDITY_RATE",
     "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE",
+    "WORST_SPECIAL_REGRET_RATE",
     "MULTI_SPECIAL_DOMINANCE_RATE",
 }
 
@@ -75,7 +76,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
     outcome_total = 0
     regret_count = 0
     for path in simulator.model["scenario_matrix"]["stage2_paths"]:
-        production_scores = []
+        role_blind_scores = []
         for special_name in SPECIAL_TYPES:
             result = simulator.simulate_batch_numpy(
                 vector,
@@ -87,8 +88,9 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 fixed_special=special_name,
             )
             outcome_valid_counts[special_name] += int(result["valid"].sum())
-            production_scores.append(result["unit_equivalent_15_min"])
-        score_matrix = np.stack(production_scores, axis=1)
+            # Retained for diagnostics only: role/counter utility is not identifiable without combat numerics.
+            role_blind_scores.append(result["unit_equivalent_15_min"])
+        score_matrix = np.stack(role_blind_scores, axis=1)
         middle = np.median(score_matrix, axis=1)
         worst = score_matrix.min(axis=1)
         regret = np.maximum(0.0, (middle - worst) / np.maximum(np.abs(middle), 1e-9))
@@ -110,6 +112,10 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
         "REROLL_EXPECTED_VALUE_GAIN": 0.0,
     }
     passed = threshold_pass(kpis, simulator.model["thresholds"])
+    diagnostic_failed = [
+        name for name, is_pass in passed.items()
+        if name in COMBAT_DEPENDENT_DIAGNOSTICS and not is_pass
+    ]
     decision_failed = [
         name for name, is_pass in passed.items()
         if name not in COMBAT_DEPENDENT_DIAGNOSTICS and not is_pass
@@ -122,8 +128,9 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
         "primary_kpis": kpis,
         "raw_threshold_pass": passed,
         "diagnostic_only_thresholds": sorted(COMBAT_DEPENDENT_DIAGNOSTICS),
+        "diagnostic_failed_thresholds": diagnostic_failed,
         "decision_failed_thresholds": decision_failed,
         "decision_threshold_pass": not decision_failed,
-        "outcome_regret_basis": "UNIT_EQUIVALENT_STAGE5_END_CENSORED_830S_NO_COMBAT_SUPPORT_SCALAR",
+        "outcome_regret_basis": "ROLE_BLIND_UNIT_EQUIVALENT_STAGE5_END_DIAGNOSTIC_ONLY",
         "deferred_second_special_token_source_observations": deferred_second_source_count,
     }
