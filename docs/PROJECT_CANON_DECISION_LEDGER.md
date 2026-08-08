@@ -3,22 +3,22 @@
 ```yaml
 updated_at: 2026-08-08
 status: CURRENT_DECISION_LEDGER
-source_main_observed: def5e845c56088424753e6070e22aa7fca8e4e85
-base_main_observed: eee98a930219065e30b4d7d14d99d5ac7db44c60
+source_main_observed: 25c4a5953d57acce450c93db1a8b5f0281937586
+base_main_observed: a912cc001ff4d4e3415fb4b4931723c49eb08d9a
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
+last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
 base_recovery_status: COMPLETE
 project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
-current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED
-current_simulation_pr: 165
+current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 10K_NOT_RUN
+current_simulation_pr: 166
 product_code_authority: NONE
 entry_gate: BLOCK
 image_generation: STOPPED / NOT_AUTHORIZED
 ```
 
-이 문서는 현재 Decision의 색인과 충돌 해소 우선순위를 책임진다. 상세 설계 내용은 개별 승인 책임 원본에 남기고, 과거 버전의 이 원장에 있던 superseded 상세 문구는 Git history의 역사 증거로만 사용한다.
+이 문서는 현재 Decision의 색인과 충돌 해소 우선순위를 책임진다. 상세 설계 내용은 개별 승인 책임 원본에 남기고, 과거 버전의 superseded 상세 문구는 Git history의 역사 증거로만 사용한다.
 
 ## 1. 현재 권위 우선순위
 
@@ -31,7 +31,7 @@ image_generation: STOPPED / NOT_AUTHORIZED
 7. 이 Decision 원장
 8. 과거 PR·commit·Sheet 역사 행
 
-Google Sheet는 동일 Decision ID와 exact branch/PR 상태를 기록하되, 제품 정본을 단독으로 대체하지 않는다.
+Google Sheet는 동일 Decision ID와 exact branch/PR 상태를 기록하되 제품 정본을 단독으로 대체하지 않는다.
 
 ## 2. 완료된 온보딩 기획
 
@@ -42,7 +42,7 @@ latest_amendment = OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-
 product_implementation = NOT_STARTED
 ```
 
-현행 상세 우선순위는 `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`가 소유한다. 특히 `SPECIAL_T1_TOKEN_SOURCE = NONE`은 superseded 역사 문구이며 구현 입력으로 사용할 수 없다.
+현행 상세 우선순위는 `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`가 소유한다. `SPECIAL_T1_TOKEN_SOURCE = NONE`은 superseded 역사 문구이며 구현 입력으로 사용할 수 없다.
 
 ## 3. 현재 병영 수치·시뮬레이션 배치
 
@@ -54,6 +54,7 @@ product_implementation = NOT_STARTED
 | 4/10 | 역사 증거 복구 / `CONDITIONAL_FAIL` | `OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1` |
 | 5/10 | 승인 / remediation 2,000-seed `SMOKE_RERUN_PASS` | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
 | 6/10 review | 승인 / 10k 실행 전 식별성 검토 완료 / parameter selection 실행 미승인 | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` |
+| 7/10 | 승인 / canon-backed observables 정의 / economy-production envelope 식별 / 10k 미실행 | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` |
 
 ### 5/10 remediation 유지
 
@@ -79,52 +80,61 @@ JSON_SHA256 = a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2
 CSV_SHA256 = 3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560
 ```
 
-Raw diagnostic failures are intentionally preserved:
+Raw combat metrics remain diagnostic-only and do not become selection scores.
 
-```text
-GENERAL_PATH_VALIDITY_RATE = 0.0
-EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE = 0.0 for all 5 outcomes
-WORST_SPECIAL_REGRET_RATE = 1.0
-```
+### 6/10 review 유지
 
-### 6/10 review 결과
-
-현재 decision-eligible output만으로는 9개 passing 벡터 중 하나를 최종 선택할 목적함수와 식별성이 없다. 2,000-seed CSV에서 다음 벡터들이 동일한 decision signature를 가진다.
+2,000-seed persisted decision surface contains ties, so 10k seed count alone cannot create a missing objective or tie-break.
 
 ```text
 V03_CHEAP_SLOW_LOW = V04_CHEAP_SLOW_HIGH
 V05_EXPENSIVE_FAST_LOW = V06_EXPENSIVE_FAST_HIGH = V07_EXPENSIVE_SLOW_LOW = V08_EXPENSIVE_SLOW_HIGH
-```
-
-동일 서명에 사용한 축:
-
-```text
-SPECIAL_TOKEN_SHARE_10_MIN
-SPECIAL_TOKEN_SHARE_BURST_MAX
-SECOND_SPECIAL_MARGINAL_VALUE_RATIO
-REROLL_EXPECTED_VALUE_GAIN = 0.0 by contract
-```
-
-따라서 seed 수를 10,000으로 늘리면 Monte Carlo 오차는 줄일 수 있지만 현재 모델에 없는 선택 목적함수·tie-break·관측량을 만들 수 없다.
-
-```text
 DECISION_SWEEP_10000_PARAMETER_SELECTION = NOT_AUTHORIZED
-PARAMETER_SELECTION = NOT_IDENTIFIABLE_WITH_CURRENT_DECISION_METRICS
 ROBUSTNESS_ONLY_10000 = OPTIONAL_AFTER_SEPARATE_APPROVAL
-CONFIRMATION_SWEEP_50000 = BLOCKED
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
-FINAL_PRODUCT_NUMERICS = NOT_APPROVED
-PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
-NEXT_GATE = BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION
 ```
 
-다음 Gate는 각 선택 차원을 구분하는 canon-backed observable 또는 명시적 차원 보류와, 9개 벡터가 모두 통과할 때 사용할 사전 목적함수/Pareto/tie-break를 정의해야 한다. 결과 확인 후 규칙을 바꾸는 post-hoc optimization은 금지한다.
+### 7/10 observable 정의
+
+현행 정본은 `SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT`를 요구하며 MapRun baseline의 관련 일반 생산간격 최대는 65초다.
+
+```text
+SPECIAL_INTERVAL_CANON_GATE = STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL
+INTERVAL_MULTIPLIER_1.45_ASSASSIN_SECONDS = 63.970588 / FAIL
+INTERVAL_MULTIPLIER_1.70_ASSASSIN_SECONDS = 75.000000 / PASS
+INTERVAL_MULTIPLIER_2.20_ASSASSIN_SECONDS = 97.058824 / PASS
+EXCLUDED = V01 / V02 / V05 / V06
+```
+
+Opportunity-cost 비교는 승인 baseline을 그대로 쓴다.
+
+```text
+COMPARISON_FORM = VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE
+SELECTION_MODE = HARD_FILTER_THEN_PARETO
+SINGLE_WEIGHTED_SCORE = FORBIDDEN
+```
+
+Hard filter 뒤 V07/V08은 V03/V04와 같은 slow interval에서 비용만 높아 Pareto dominated다. V00과 V03/V04는 비용/시간 trade-off로 서로 지배하지 않는다. 새 증거 없이 기존 승인 baseline을 바꾸지 않는 pre-registered tie-break를 적용한다.
+
+```text
+BASELINE_PRESERVATION_TIEBREAK = KEEP_APPROVED_BASELINE_IF_HARD_GATE_PASS_AND_PARETO_NONDOMINATED
+ECONOMY_PRODUCTION_ENVELOPE = V00_BASELINE_COST_INTERVAL_ONLY
+ROBUSTNESS_SPECIAL_BARRACKS_COST_GOLD = 60
+ROBUSTNESS_SPECIAL_INTERVAL_MULTIPLIER = 1.70
+SPECIAL_FUNCTIONAL_VALUE_INDEX = DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+ROBUSTNESS_ONLY_10000 = READY_FOR_SEPARATE_APPROVAL / NOT_RUN
+PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
+CONFIRMATION_SWEEP_50000 = BLOCKED
+NEXT_GATE = BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW
+```
 
 Current detailed responsibility sources:
 
 - `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv`
 
@@ -136,12 +146,13 @@ OMW-DEC-20260806-TOOLS-GUT-9-7-1-VENDOR-MANIFEST-RECONCILIATION-V1
 OMW-DEC-20260807-PROCESS-ACTIONS-BUDGET-LOCAL-EXACT-HEAD-FALLBACK-V1
 OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1
 OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1
-OMW-DEC-20260807-DOCS-C1-REMOTE-PROVEN-AUTHORITY-RESTORATION-V1
+OMW-DEC-202607-DOCS-C1-REMOTE-PROVEN-AUTHORITY-RESTORATION-V1
 OMW-DEC-20260807-TESTS-CURRENT-CANON-LIFECYCLE-RECONCILIATION-V1
 OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
+OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
 ```
 
 v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
@@ -149,7 +160,7 @@ v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
 ### Base recovery 및 Project Base Adapter 상태
 
 ```text
-Base current main observed = eee98a930219065e30b4d7d14d99d5ac7db44c60
+Base current main observed = a912cc001ff4d4e3415fb4b4931723c49eb08d9a
 Base recovery exact commit = fa69a77a14f923a756064f6ae151d34cadb374f7
 Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
 Base recovery = COMPLETE
@@ -162,11 +173,11 @@ protected policy SHA256 = 1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffd
 generated compatibility views = BASE_GENERATOR_VALIDATED
 ```
 
-현재 Base main의 post-`fa69a77` 변화는 serial-fiction BCP proposal/registry 영역으로 분류됐고 OMENWARD routing/adapter/validator 계약을 자동 이행하지 않는다.
+Base `a912cc...`의 post-release 변화는 serial-fiction skill/routing/reference-freshness 영역이며 Project Base Adapter schema/generator/validator 및 OMENWARD 병영 계약을 변경하지 않는다.
 
 ## 5. repository drift 및 도구 역할
 
-Hera direct-main 유입은 현재 저장소에 존재하지만 소급 승인되지 않았다.
+Hera direct-main 유입은 저장소 존재 사실만 인정하며 소급 승인되지 않았다.
 
 ```text
 HIGODOT = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY / EXACT_SOURCE_OR_VERSION_UNVERIFIED
@@ -183,7 +194,7 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
-- `BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED`
+- `BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED`
 - PR #155 GUT adoption spec not merged
 - HiGodot exact source/version unverified
 - Hera direct-main import disposition not closed
@@ -206,8 +217,8 @@ BARRACKS_50000_SEED_CONFIRMATION
 
 ## 7. 다음 작업
 
-1. `BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION`
+1. `BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW`
 2. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토
 3. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정
 
-10k robustness-only 실행은 별도 승인 후 가능하지만 최종 parameter selection 권한을 갖지 않는다. 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.
+10k robustness-only 실행은 별도 승인 후 가능하며 final parameter selection 권한을 갖지 않는다. 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.
