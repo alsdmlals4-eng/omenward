@@ -1,0 +1,2 @@
+vector_id,special_cost_multiplier,special_interval_multiplier,special_functional_value_index,decision_failed_thresholds,special_option_dominance_rate,general_path_validity_rate,worst_special_regret_rate,special_token_share_10_min,special_token_share_burst_max,multi_special_dominance_rate,second_special_marginal_value_ratio,minimum_special_outcome_validity_rate
+V00_BASELINE,1.5,1.7,1.5,,0.0,0.0,1.0,0.296265,0.333333,0.0,0.0,0.0
