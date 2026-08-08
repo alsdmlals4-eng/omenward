@@ -20,6 +20,7 @@ ATTACK_PROFILE = ROOT / "scripts/data/attack_profile.gd"
 BOOTSTRAP = ROOT / "data/bootstrap_catalog.tres"
 
 DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1"
+MEASUREMENT_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
 SPECIAL_CORPS = ("priest", "mage", "flier", "giant")
 
 
@@ -63,33 +64,23 @@ class BarracksFunctionalValueCombatNumericsReviewTest(unittest.TestCase):
         attack = ATTACK_PROFILE.read_text(encoding="utf-8")
         bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
         battle = BATTLE.read_text(encoding="utf-8")
-
-        # Approved conceptual data contract names these surfaces, but current Resource schema does not expose them.
         for approved_field in ("movement_layer", "passive_ids", "skill_ids", "targeting_profile_id", "threat_cost"):
             self.assertIn(approved_field, shared)
             self.assertNotIn(f"var {approved_field}", profile)
-
-        # Target-priority tags exist in data but normal lane targeting is nearest-only.
         self.assertIn("target_priority_tags", profile)
         self.assertNotIn("target_priority_tags", lane)
         self.assertIn("attacker.distance_to(left)", lane)
-
-        # magic_resistance exists in unit data but current receive_damage mitigation uses armor only.
         self.assertIn("magic_resistance", unit_resource("mage"))
         receive_damage = re.search(r"func receive_damage\(.*?\n\n", unit, flags=re.S)
         self.assertIsNotNone(receive_damage)
         self.assertIn('get("armor"', receive_damage.group(0))
         self.assertNotIn("magic_resistance", receive_damage.group(0))
-
-        # All attack profiles inherit the same 100/100/100 defaults unless overridden; bootstrap only binds profile ids.
         self.assertIn("preparation_ms: int = 100", attack)
         self.assertIn("hit_ms: int = 100", attack)
         self.assertIn("recovery_ms: int = 100", attack)
         self.assertNotIn("preparation_ms =", bootstrap)
         self.assertNotIn("hit_ms =", bootstrap)
         self.assertNotIn("recovery_ms =", bootstrap)
-
-        # Assassin bypass and generic siege/objective damage are implemented, but heal/AoE/air-layer role outputs are not present in this core loop.
         self.assertIn("request_assassin_bypass", battle)
         self.assertIn("unit.is_siege_damage()", battle)
         self.assertNotIn("healing", battle.lower())
@@ -111,21 +102,24 @@ class BarracksFunctionalValueCombatNumericsReviewTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_durable_state_advances_to_refined_role_output_blockers(self) -> None:
+    def test_review_state_remains_durable_after_measurement_scenario_gate(self) -> None:
         state = json.loads(STATE.read_text(encoding="utf-8"))
-        self.assertEqual(state["last_gate_update_decision"], DECISION)
         gate = state["entry_gate"]
-        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
-        self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])
-        self.assertIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
-        self.assertEqual(gate["decision"], "BLOCK")
         review = state["barracks_functional_value_combat_numerics_review"]
+        scenarios = state["barracks_functional_value_measurement_scenarios"]
+        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
+        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
+        self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])
+        self.assertEqual(gate["decision"], "BLOCK")
         self.assertEqual(review["decision_id"], DECISION)
         self.assertEqual(review["product_base_combat_numerics"], "PRESENT")
         self.assertEqual(review["role_complete_product_output_numerics"], "PARTIAL_INSUFFICIENT")
         self.assertEqual(review["product_special_corps"], ["priest", "mage", "flier", "giant"])
         self.assertIsNone(review["final_functional_value_index"])
         self.assertIsNone(review["final_parameter_vector"])
+        self.assertEqual(scenarios["decision_id"], MEASUREMENT_DECISION)
+        self.assertEqual(scenarios["measurement_scenario_blocker"], "CLOSED_BY_THIS_DECISION")
+        self.assertEqual(scenarios["role_output_runtime_blocker"], "REMAINS")
 
 
 if __name__ == "__main__":

@@ -2,25 +2,21 @@
 
 ```yaml
 decision_id: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1
+last_gate_update_decision: OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1
 contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION
 contract_version: "4.4"
 contract_status: ACTIVE_INTEGRATED_AUDIT_IMPLEMENTATION_DELIVERY_CONTRACT
 binding_status: ACTIVE
 counter: NON_COUNTER
 activation_authority: USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION
-source_repository_main: 890a68c1c573ce11b21d397d7c3ec88bae191b7f
+source_repository_main: 02b803b075d5e44f5aa3db895c5dad025d048148
 base_recovery_exact_commit: fa69a77a14f923a756064f6ae151d34cadb374f7
 base_current_main_observed: 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
-reconciliation_branch: planning/barracks-functional-value-combat-numerics-review-20260809
+reconciliation_branch: planning/barracks-functional-value-measurement-scenarios-20260809
 entry_gate: BLOCK
 ```
 
-## 1. 활성 계약
-
-v4.4가 현재 운영 계약이다. v4.3/v4.2는 역사 비교 전용이며 계약 활성화는 제품 구현 허가가 아니다.
-
-## 2. 현재 병영 상태
+## 1. 현재 병영 lineage
 
 ```text
 5/10 = exact 2,000-seed remediation smoke PASS
@@ -29,127 +25,108 @@ v4.4가 현재 운영 계약이다. v4.3/v4.2는 역사 비교 전용이며 계�
 8/10 = robustness execution review complete / 당시 10k NOT_RUN
 9/10 = dedicated exact 10,000-seed V00 robustness PASS
 FUNCTIONAL_VALUE_COMBAT_NUMERICS_REVIEW = COMPLETE
+FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS = DEFINED
 ```
 
-9/10 robustness 결과는 유지한다.
+9/10 evidence remains unchanged.
 
 ```text
-SPECIAL_TOKEN_SHARE_10_MIN = 0.296265 <= 0.35
-SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333 <= 0.45
-REROLL_EXPECTED_VALUE_GAIN = 0.0
-SECOND_SPECIAL_DEFERRED_OBSERVATIONS = 82181
+SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
 10K_JSON_SHA256 = 1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3
 10K_CSV_SHA256 = e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b
 ```
 
-Combat diagnostics remain `DIAGNOSTIC_NON_IDENTIFIABLE` and are not balance PASS evidence.
-
-## 3. Functional-value blocker refinement
-
-현재 제품에는 실제 base combat stats가 있고 승인 PoC 문서에도 역할별 numeric hypothesis가 존재한다.
+## 2. Functional-value measurement contract
 
 ```text
-PRODUCT_BASE_COMBAT_NUMERICS = PRESENT
-POC_ROLE_NUMERIC_HYPOTHESES = PRESENT_NONFINAL
-ROLE_COMPLETE_PRODUCT_OUTPUT_NUMERICS = PARTIAL_INSUFFICIENT
+FIXTURE_POLICY = DETERMINISTIC_SAME_INPUT
 FUNCTIONAL_VALUE_COMPARISON = ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE
-FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
+POST_HOC_WEIGHT_TUNING = FORBIDDEN
+BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
+MONTE_CARLO_ROLE_VALUE = NOT_AUTHORIZED_BEFORE_ROLE_OUTPUT_RUNTIME_EXISTS
 ```
 
-제품 taxonomy:
+Scenario IDs:
 
 ```text
-PRODUCT_SPECIAL_CORPS = PRIEST / MAGE / FLIER / GIANT
-ASSASSIN = BASIC_BARRACKS_SPECIALIZATION
+FV-COMMON-01
+FV-PRIEST-01
+FV-MAGE-01
+FV-FLIER-01
+FV-GIANT-01
 ```
 
-역사 smoke model의 `ASSASSIN / PRIEST / MAGE / FLYING / GIANT` label set은 point-in-time simulation labels이며 제품 membership 정본이 아니다.
+Role-defining missing outputs remain explicitly blocked. No final functional-value scalar is selected.
 
-현재 role-output gap:
+## 3. Blocker transition
 
-```text
-PRIEST_HEAL_AND_BUFF_OUTPUT = MISSING
-MAGE_AOE_AND_CONTROL_OUTPUT = MISSING
-FLIER_MOVEMENT_LAYER_AND_AIR_TARGETABILITY_OUTPUT = MISSING
-GIANT_SLAM_MULTI_TARGET_OUTPUT = MISSING
-TARGET_PRIORITY_TAG_CONSUMPTION = MISSING
-MAGIC_RESISTANCE_DAMAGE_PIPELINE = MISSING
-ROLE_SPECIFIC_ATTACK_TIMINGS = MISSING
-```
-
-따라서 broad blocker `BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED`는 다음으로 supersede한다.
+Closed:
 
 ```text
-BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
 BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED
 ```
 
-## 4. 다음 허용 작업
-
-1. `BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION`
-2. `BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE`
-3. PR #155 GUT adoption-spec review
-4. Hera Existing Solution First disposition
-
-첫 Gate는 제품 mutation 없이 scenario와 role-specific output vector를 사전등록한다. runtime에 없는 output은 `BLOCKED_RUNTIME_OUTPUT`로 표시한다.
-
-## 5. 역할/도구 경계
+Still blocking:
 
 ```text
-HiGodot = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY / EXACT_SOURCE_OR_VERSION_UNVERIFIED
-GUT 9.7.1 = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED / PR155_NOT_MERGED
-Hera = NOT_VERIFIED_INSTALLED_UNUSED / LIVE_QA_AND_OBSERVABILITY_ONLY_IF_ADOPTED
-Hera persistent source mutation = FORBIDDEN
+BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
 ```
 
-## 6. Entry Gate
+First allowed next action:
+
+```text
+BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
+```
+
+This next Gate defines the runtime schema/behavior/instrumentation/test package. It does not itself authorize persistent Godot mutation.
+
+## 4. Tool-state boundary
+
+Current repository baseline still records Godot AI 3.1.2 enabled, with GUT 9.7.1 and Hera 1.0.0 files present but not enabled in remote `project.godot`.
+
+The user has explicitly declared:
+
+```text
+GODOT_AI_APPROVED_VERSION = 3.1.3
+HERA_PLUGIN = ENABLED_AND_USER_APPROVED
+GUT_PLUGIN = ENABLED_AND_USER_APPROVED
+```
+
+This approval is recognized, but remote synchronization is not claimed inside this planning-only Decision. A separate tool-state reconciliation Decision will replace stale approval blockers with remote-sync verification blockers.
+
+## 5. Entry Gate
 
 ```text
 ENTRY_GATE = BLOCK
 ```
 
-현재 blockers:
-
+Current planning/runtime blocker:
 - `BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED`
-- `BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED`
+
+Current remote/tool blockers remain until separate reconciliation:
 - `GUT_ADOPTION_SPEC_PR155_NOT_MERGED`
 - `HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED`
 - `HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED`
 - `DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED`
-- `LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE`
+- local Godot/audio unavailable
 - historical secret-scan accepted risk
 
-계속 금지:
+Continue to forbid:
 
 ```text
 PRODUCT_IMPLEMENTATION
 GODOT_AUTHORING_MUTATION
-FORMAL_GUT_EXECUTION
-GUT_PLUGIN_ENABLEMENT
-HERA_LIVE_QA_COMPLETION_CLAIM
-IMAGE_GENERATION
-AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE
-LOCAL_MAIN_SYNC_CLAIM
-GODOT_RUNTIME_CLAIM
 BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION
 BARRACKS_50000_SEED_CONFIRMATION
+FINAL_FUNCTIONAL_VALUE_INDEX_SELECTION
+FINAL_PARAMETER_VECTOR_SELECTION
 ```
 
-## 7. Base freshness
+## 6. Sheet sync
 
-```text
-Base current main = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
-Base delta since prior cf4c7a60 observation = CONTINUOUS_WORK_BLOCKER_RECOVERY_ROUTING_ONLY
-Project Base Adapter schema/generator/validator delta = NONE_OBSERVED
-OMENWARD combat/barracks semantic delta = NONE_OBSERVED
-Base release pin = 9.4.3 / PRESERVED
-```
+Same Decision ID is recorded in GitHub and Sheet:
 
-## 8. Sheet sync
+`OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1`
 
-현재 Gate Decision을 GitHub와 Sheet에 같은 ID로 기록한다.
-
-`OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1`
-
-새 seed run이 없으므로 `47_병영_Smoke_결과`에는 새 행을 만들지 않는다.
+No seed run occurs in this Gate, so `47_병영_Smoke_결과` remains unchanged.
