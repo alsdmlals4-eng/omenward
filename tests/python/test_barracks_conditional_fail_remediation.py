@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import unittest
 from pathlib import Path
@@ -7,8 +8,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
 SPEC = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
+RESULT_AUTHORITY = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md"
 MODEL = ROOT / "docs/analysis/barracks_simulation/remediation_model.v1.json"
 SMOKE_EVIDENCE = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md"
+RESULT_JSON = ROOT / "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json"
+RESULT_CSV = ROOT / "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv"
 LEDGER = ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md"
 STATE = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 
@@ -31,6 +35,8 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertEqual("DIAGNOSTIC_NON_IDENTIFIABLE", proxy["general_path_validity_rate"])
         self.assertEqual("DIAGNOSTIC_NON_IDENTIFIABLE", proxy["each_special_outcome_path_validity_rate"])
         self.assertEqual(["DEFENSE_TOWER", "COMMAND_AURA", "MANA_TACTIC", "FRONTLINE_STATE"], proxy["channels"])
+        diagnostics = set(data["screening_semantics"]["diagnostic_only_combat_metrics"])
+        self.assertIn("WORST_SPECIAL_REGRET_RATE", diagnostics)
 
     def test_second_special_token_source_obeys_physical_reel_cap(self) -> None:
         data = json.loads(MODEL.read_text(encoding="utf-8"))
@@ -49,14 +55,32 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertIn("MODEL_IDENTIFIABILITY_FAIL", text)
         self.assertIn("SPECIAL_TOKEN_SHARE_BURST_MAX = 0.500000", text)
 
-    def test_durable_gate_moves_to_smoke_rerun_not_product_work(self) -> None:
+    def test_exact_2k_result_is_persisted_and_hash_bound(self) -> None:
+        result = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
+        authority = RESULT_AUTHORITY.read_text(encoding="utf-8")
+        self.assertEqual(DECISION, result["decision_id"])
+        self.assertEqual("SMOKE_RERUN_PASS", result["status"])
+        self.assertEqual([], result["failed_gates"])
+        self.assertEqual(2000, result["seed_count"])
+        self.assertAlmostEqual(0.333333, result["baseline_vector"]["primary_kpis"]["SPECIAL_TOKEN_SHARE_BURST_MAX"], places=6)
+        json_hash = hashlib.sha256(RESULT_JSON.read_bytes()).hexdigest()
+        csv_hash = hashlib.sha256(RESULT_CSV.read_bytes()).hexdigest()
+        self.assertEqual("a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2", json_hash)
+        self.assertEqual("3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560", csv_hash)
+        self.assertIn(json_hash, authority)
+        self.assertIn(csv_hash, authority)
+
+    def test_durable_gate_moves_to_10k_review_not_product_work(self) -> None:
         ledger = LEDGER.read_text(encoding="utf-8")
         state = json.loads(STATE.read_text(encoding="utf-8"))
         self.assertIn(DECISION, ledger)
-        self.assertIn("BARRACKS_2000_SEED_SMOKE_RERUN", ledger)
+        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW", ledger)
         self.assertNotIn("PR #154 conditional fail / unmerged", ledger)
         self.assertEqual(DECISION, state["last_gate_update_decision"])
-        self.assertIn("BARRACKS_2000_SEED_SMOKE_RERUN", state["entry_gate"]["allowed_next_actions"])
+        self.assertEqual("APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS", state["barracks_remediation"]["status"])
+        self.assertEqual("PASS", state["barracks_remediation"]["smoke_rerun_status"])
+        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", state["entry_gate"]["blocking_reasons"])
+        self.assertEqual("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW", state["entry_gate"]["allowed_next_actions"][0])
         self.assertIn("PRODUCT_IMPLEMENTATION", state["entry_gate"]["forbidden_actions"])
 
 
