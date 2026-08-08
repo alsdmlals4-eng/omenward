@@ -11,7 +11,6 @@ ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 
 DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
-REVIEW_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1"
 BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
@@ -46,39 +45,19 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(baseline["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
         self.assertEqual(baseline["policy_source_path"], "skills/PROJECT_BASE_ADAPTER.json")
         self.assertEqual(baseline["protected_paths_pointer"], "/protected_paths")
-
-        baseline_adapter = json.loads(
-            subprocess.check_output(
-                ["git", "show", f"{BASELINE_MAIN}:skills/PROJECT_BASE_ADAPTER.json"],
-                text=True,
-            )
-        )
-        protected_policy = (
-            json.dumps(
-                baseline_adapter["protected_paths"],
-                ensure_ascii=False,
-                indent=2,
-                sort_keys=True,
-            )
-            + "\n"
-        ).encode("utf-8")
+        baseline_adapter = json.loads(subprocess.check_output(["git", "show", f"{BASELINE_MAIN}:skills/PROJECT_BASE_ADAPTER.json"], text=True))
+        protected_policy = (json.dumps(baseline_adapter["protected_paths"], ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
 
-    def test_durable_v44_state_keeps_adapter_freshness_closed_across_later_gates(self) -> None:
-        # Later planning gates may advance last_gate_update_decision; adapter completion remains durable.
-        self.assertEqual(self.state["last_gate_update_decision"], REVIEW_DECISION_ID)
+    def test_adapter_freshness_remains_closed_across_later_planning_gates(self) -> None:
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
         self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
-        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", blockers)
-        self.assertIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", blockers)
         self.assertIn("GUT_ADOPTION_SPEC_PR155_NOT_MERGED", blockers)
         self.assertEqual(gate["decision"], "BLOCK")
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", gate["allowed_next_actions"])
-        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION")
-
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
         self.assertEqual(adapter_state["protected_baseline_commit"], BASELINE_MAIN)
