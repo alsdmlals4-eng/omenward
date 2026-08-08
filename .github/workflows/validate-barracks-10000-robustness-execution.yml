@@ -40,9 +40,10 @@ jobs:
             tests/python/test_barracks_10000_robustness_execution.py
 
       - name: Execute approved exact 10000-seed robustness in isolated path
+        env:
+          ROBUSTNESS_OUT: ${{ runner.temp }}/barracks-10000-evidence
         run: |
-          tmp="$(mktemp -d)"
-          export ROBUSTNESS_TMP="$tmp"
+          mkdir -p "$ROBUSTNESS_OUT"
           python - <<'PY'
           import json
           import os
@@ -53,7 +54,7 @@ jobs:
           sys.path.insert(0, str(analysis))
           from run_barracks_robustness_10000 import run_robustness_10000
 
-          out = Path(os.environ["ROBUSTNESS_TMP"])
+          out = Path(os.environ["ROBUSTNESS_OUT"])
           json_path, csv_path = run_robustness_10000(Path("."), out)
           result = json.loads(json_path.read_text(encoding="utf-8"))
           print(f"ACTUAL_10000_STATUS={result['status']}")
@@ -63,10 +64,15 @@ jobs:
           PY
           test "$(sha256sum docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json | awk '{print $1}')" = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
           test "$(sha256sum docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv | awk '{print $1}')" = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
-          echo "ACTUAL_10000_JSON_SHA256=$(sha256sum "$tmp/robustness_sweep_10000.v1.json" | awk '{print $1}')"
-          echo "ACTUAL_10000_CSV_SHA256=$(sha256sum "$tmp/robustness_sweep_10000.v1.csv" | awk '{print $1}')"
-          echo "ACTUAL_10000_JSON_B64=$(base64 -w0 "$tmp/robustness_sweep_10000.v1.json")"
-          echo "ACTUAL_10000_CSV_B64=$(base64 -w0 "$tmp/robustness_sweep_10000.v1.csv")"
+          sha256sum "$ROBUSTNESS_OUT/robustness_sweep_10000.v1.json" "$ROBUSTNESS_OUT/robustness_sweep_10000.v1.csv"
+
+      - name: Upload exact 10000-seed evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: barracks-10000-robustness-evidence
+          path: ${{ runner.temp }}/barracks-10000-evidence/
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Run dedicated execution contract tests
         run: python -m unittest tests.python.test_barracks_10000_robustness_execution
