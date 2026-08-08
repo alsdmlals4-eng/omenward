@@ -1,17 +1,17 @@
 # [현행] 오멘워드 미확정 결정 목록
 
 ```yaml
-updated_at: 2026-08-08
+updated_at: 2026-08-09
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 latest_amendment: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
-current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE
-last_review_decision: OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
-review_status: ROBUSTNESS_REVIEW_COMPLETE / DEDICATED_RUNNER_REQUIRED / USER_APPROVAL_REQUIRED / 10000_NOT_RUN
-next_gate: BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL
+current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 9_OF_10_ROBUSTNESS_10000_PASS
+last_review_decision: OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1
+review_status: ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_DEFERRED / FINAL_VECTOR_NOT_SELECTED / ENTRY_GATE_BLOCK
+next_gate: BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW
 product_code_authority: NONE
 ```
 
-첫 10~15분 온보딩 기획은 완료됐으며 제품에는 아직 구현되지 않았다. 병영 수치·시뮬레이션은 5/10 exact 2,000-seed remediation smoke PASS, 6/10 10k 실행 전 식별성 검토, 7/10 parameter-selection observable 정의, 8/10 robustness-only 실행 검토까지 완료됐다. **실제 10,000-seed 실행은 아직 수행하지 않았다.**
+첫 10~15분 온보딩 기획은 완료됐으며 제품에는 아직 구현되지 않았다. 병영 수치·시뮬레이션은 5/10 exact 2,000-seed remediation smoke PASS, 6/10 실행 전 식별성 검토, 7/10 parameter-selection observable 정의, 8/10 robustness-only 실행 검토, 9/10 **전용 V00-only exact 10,000-seed robustness PASS**까지 진행됐다.
 
 ## 현행 확정 사항
 
@@ -46,9 +46,10 @@ SECOND_SPECIAL_TOKEN_SOURCE = DEFERRED_UNTIL_3_NON_SPECIAL_ACTIVE_SOURCES
 6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
 7_OF_10 = PARAMETER_SELECTION_OBSERVABLES_DEFINED
 8_OF_10_REVIEW = ROBUSTNESS_ONLY_10000_EXECUTION_REVIEW_COMPLETE
+9_OF_10 = ROBUSTNESS_ONLY_10000_PASS
 ```
 
-5/10 exact 2,000-seed 결과는 유지한다.
+### 5/10 exact 2,000-seed evidence 유지
 
 ```text
 FAILED_DECISION_GATES = []
@@ -59,7 +60,7 @@ JSON_SHA256 = a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2
 CSV_SHA256 = 3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560
 ```
 
-7/10 observable 계약:
+### 7/10 non-final envelope 유지
 
 ```text
 SPECIAL_INTERVAL_CANON_GATE = STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL
@@ -72,41 +73,65 @@ ROBUSTNESS_SPECIAL_INTERVAL_MULTIPLIER = 1.70
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
-현재 grid에서 interval multiplier `1.45`는 암살자 생산간격을 약 `63.970588s`로 만들어 관련 일반 T2 최대 `65s`보다 짧아지므로 V01/V02/V05/V06은 canon fail로 제외한다. V07/V08은 같은 slow interval에서 V03/V04보다 비용만 높아 Pareto dominated다. V00과 cheap-slow는 비용/시간 trade-off이며 단일 가중 점수는 금지되어 있어, 기존 승인 baseline을 보존하는 V00 비용·간격을 non-final robustness envelope로 유지한다.
+interval multiplier `1.45`를 쓰는 V01/V02/V05/V06은 관련 일반 T2 최대 `65s`보다 암살자 생산간격이 짧아 canon fail이다. V07/V08은 동일 slow interval에서 V03/V04보다 비용만 높아 Pareto dominated다. V00 비용·간격은 **최종 3차원 벡터가 아닌 robustness envelope**다.
 
-## 8/10 robustness-only review 결과
+## 8/10 review 역사 사실
 
-현행 `run_barracks_remediation_smoke.py`는 임의 seed count를 받을 수 있지만 durable output provenance가 2k remediation에 고정돼 있다.
-
-```text
-CURRENT_RUNNER_FOR_DURABLE_10K = UNSAFE_EVIDENCE_PROVENANCE
-OUTPUT_STEM = smoke_sweep_2000.v2
-DEFAULT_OUTPUT = docs/analysis/barracks_simulation
-RESULT_DECISION_ID = 5_OF_10_REMEDIATION_DECISION
-```
-
-따라서 기본 출력으로 `--seeds 10000`을 실행하면 기존 2k evidence overwrite 또는 10k evidence의 2k/5-of-10 오표기 위험이 있다. 실제 10k 전에 dedicated execution contract가 필요하다.
+8/10 시점에는 기존 2k runner가 durable 10k evidence writer로 부적합하다고 판정했고 실제 10k는 `NOT_RUN`이었다. 이 point-in-time 사실은 역사 정본으로 유지한다.
 
 ```text
-ROBUSTNESS_10000 = RECOMMENDED_AFTER_DEDICATED_EXECUTION_CONTRACT_AND_USER_APPROVAL
-EXECUTION_CONTRACT = DEDICATED_RUNNER_REQUIRED
-EXECUTION_USER_APPROVAL = REQUIRED
-ACTUAL_10000_EXECUTION = NOT_RUN
-PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
-CONFIRMATION_SWEEP_50000 = BLOCKED
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
-FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+CURRENT_2K_RUNNER_FOR_DURABLE_10K = UNSAFE_EVIDENCE_PROVENANCE
+8_OF_10_ACTUAL_10000_EXECUTION = NOT_RUN
+8_OF_10_EXECUTION_CONTRACT = DEDICATED_RUNNER_REQUIRED
+8_OF_10_EXECUTION_USER_APPROVAL = REQUIRED
 ```
 
-전용 package는 unique Decision ID/output stem, 2k overwrite 방지, seed_count=10000 assertion, input hash binding, V00 cost/interval envelope assertion, diagnostic-only combat boundary, JSON/CSV hash를 갖춰야 한다. 실제 10k가 실행되기 전 `47_병영_Smoke_결과`에 신규 행을 추가하지 않는다.
+## 9/10 exact 10,000-seed robustness 결과
+
+사용자 명시 승인 후 별도 runner/output identity로 V00 하나만 실행했다.
+
+```text
+DECISION = OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1
+RUNNER = run_barracks_robustness_10000.py
+OUTPUT_STEM = robustness_sweep_10000.v1
+SEEDS = 10000
+PARAMETER_VECTOR_COUNT = 1
+COMMON_RANDOM_NUMBERS = TRUE
+STATUS = ROBUSTNESS_PASS
+ROBUSTNESS_FAILED_GATES = []
+SPECIAL_TOKEN_SHARE_10_MIN = 0.296265 <= 0.35
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333 <= 0.45
+REROLL_EXPECTED_VALUE_GAIN = 0.0
+SECOND_SPECIAL_GUARD_MIN_NON_SPECIAL_SOURCES = 3
+SECOND_SPECIAL_GUARD_DEFERRED_OBSERVATIONS = 82181
+RESULT_JSON_SHA256 = 1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3
+RESULT_CSV_SHA256 = e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b
+```
+
+기존 2k hashes는 실행 전후 동일하다. 10k PASS는 economy/production/physical TokenSource robustness에 한정한다.
+
+Raw combat/role diagnostics는 계속 비식별이다.
+
+```text
+GENERAL_PATH_VALIDITY_RATE = 0.0 / DIAGNOSTIC_FAIL
+EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE = 0.0 / DIAGNOSTIC_FAIL
+WORST_SPECIAL_REGRET_RATE = 1.0 / DIAGNOSTIC_FAIL
+SECOND_SPECIAL_MARGINAL_VALUE_RATIO = 0.0 / DIAGNOSTIC_NON_SELECTION_FOR_THIS_ROBUSTNESS_RUN
+IDENTIFIABILITY = DIAGNOSTIC_NON_IDENTIFIABLE
+COMBAT_POWER_SCALAR = FORBIDDEN
+SUPPORT_TU_NUMERIC_INJECTION = FORBIDDEN
+```
+
+따라서 simulator의 역사 functional-value input `1.5`는 `NON_DECISION_LEGACY_INPUT_ONLY`이며 제품 기능가치 숫자로 승인하지 않는다.
 
 ## 다음 수치·시뮬레이션 결정
 
 ```text
-BARRACKS_10000_ROBUSTNESS_EXECUTION_PACKAGE = USER_APPROVAL_REQUIRED
-BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER = REQUIRED_AFTER_APPROVAL
+BARRACKS_10000_ROBUSTNESS_EXECUTION_PACKAGE = COMPLETE
+BARRACKS_10000_ROBUSTNESS = PASS
 BARRACKS_10000_PARAMETER_SELECTION = NOT_AUTHORIZED
 BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS = REQUIRED_BEFORE_FUNCTIONAL_VALUE_SELECTION
+NEXT_GATE = BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW
 CONFIRMATION_SWEEP_50000 = BLOCKED
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
@@ -119,7 +144,7 @@ T2_EXACT_COSTS = PENDING_FINAL_NUMERICS
 EXACT_ONBOARDING_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
-`[연속작업] 진행해`는 현재 승인 계약의 연속 수행 flag이며 새 실행 승인을 만들지 않는다. 7/10 authority가 실제 robustness 10k에 별도 승인을 요구하므로, 8/10 review 완료 뒤 연속 루프는 이 사용자 결정 Gate에서 중지한다.
+다음 Gate는 기능가치를 식별할 실제 제품 전투·역할 output numerics의 정본/측정 surface를 검토한다. 이 Gate 전에는 기능가치 숫자, 최종 parameter vector, 50k confirmation, 제품 구현을 승인하지 않는다.
 
 ## 남은 설계 결정
 
@@ -137,8 +162,7 @@ SAVE_CHECKPOINT_SCHEMA_FOR_ONBOARDING = PENDING_IMPLEMENTATION_PLAN
 
 ```text
 PRODUCT_IMPLEMENTATION = NOT_STARTED
-DECISION_SWEEP_10000 = NOT_RUN / PARAMETER_SELECTION_NOT_AUTHORIZED
-ROBUSTNESS_ONLY_10000 = NOT_RUN / USER_APPROVAL_REQUIRED
+PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
 CONFIRMATION_SWEEP_50000 = BLOCKED
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
@@ -158,9 +182,12 @@ LOCAL_GODOT_AND_AUDIO_VAULT = BLOCKED_UNVERIFIED
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv`
+- `docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json`
+- `docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv`
 
 ## 제품 경계
 
-별도 승인 전 제품 코드·Scene·Resource·Data 및 로컬 Godot 프로젝트를 수정하지 않는다. 10k robustness execution package 작성·실행, 10k parameter-selection, 50k, 최종 수치, 제품 구현은 각각의 후속 Gate를 통과하기 전 진행하지 않는다.
+Entry Gate는 계속 `BLOCK`이다. 별도 Gate 전 제품 코드·Scene·Resource·Data 및 로컬 Godot 프로젝트를 수정하지 않는다. 10k parameter-selection, 50k, 최종 수치, 제품 구현은 후속 Gate 전 진행하지 않는다.

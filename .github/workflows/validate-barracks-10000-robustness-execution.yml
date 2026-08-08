@@ -1,0 +1,91 @@
+name: Validate Barracks 10000 Robustness Execution
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-10000-robustness-execution.yml"
+      - "docs/analysis/barracks_simulation/**"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/DECISIONS_PENDING.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
+      - "tests/python/test_barracks_10000_robustness_execution.py"
+      - "tests/python/test_active_integrated_contract_v4_4.py"
+      - "tools/validate_active_integrated_contract_v4_4.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  robustness-execution-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install simulator dependency
+        run: python -m pip install --disable-pip-version-check numpy
+
+      - name: Compile dedicated execution contract
+        run: |
+          python -m py_compile \
+            docs/analysis/barracks_simulation/run_barracks_robustness_10000.py \
+            tests/python/test_barracks_10000_robustness_execution.py
+
+      - name: Execute approved exact 10000-seed robustness in isolated path
+        env:
+          ROBUSTNESS_OUT: ${{ runner.temp }}/barracks-10000-evidence
+        run: |
+          mkdir -p "$ROBUSTNESS_OUT"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+
+          analysis = Path("docs/analysis/barracks_simulation").resolve()
+          sys.path.insert(0, str(analysis))
+          from run_barracks_robustness_10000 import run_robustness_10000
+
+          out = Path(os.environ["ROBUSTNESS_OUT"])
+          json_path, csv_path = run_robustness_10000(Path("."), out)
+          result = json.loads(json_path.read_text(encoding="utf-8"))
+          print(f"ACTUAL_10000_STATUS={result['status']}")
+          print(f"ACTUAL_10000_FAILED_GATES={result['failed_gates']}")
+          print(f"ACTUAL_10000_BASELINE_KPIS={result['baseline_vector']['primary_kpis']}")
+          print(f"ACTUAL_10000_SECOND_SPECIAL_GUARD={result['second_special_token_source_guard']}")
+          PY
+          test "$(sha256sum docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json | awk '{print $1}')" = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
+          test "$(sha256sum docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv | awk '{print $1}')" = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
+          sha256sum "$ROBUSTNESS_OUT/robustness_sweep_10000.v1.json" "$ROBUSTNESS_OUT/robustness_sweep_10000.v1.csv"
+
+      - name: Upload exact 10000-seed evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: barracks-10000-robustness-evidence
+          path: ${{ runner.temp }}/barracks-10000-evidence/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Run dedicated execution contract tests
+        run: python -m unittest tests.python.test_barracks_10000_robustness_execution
+
+      - name: Re-run exact 10000-seed robustness evidence
+        if: success()
+        run: |
+          tmp="$(mktemp -d)"
+          python docs/analysis/barracks_simulation/run_barracks_robustness_10000.py --root . --output-dir "$tmp"
+          cmp "$tmp/robustness_sweep_10000.v1.json" docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json
+          cmp "$tmp/robustness_sweep_10000.v1.csv" docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv
+          sha256sum \
+            docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json \
+            docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv \
+            docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json \
+            docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv

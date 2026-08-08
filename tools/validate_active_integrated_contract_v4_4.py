@@ -15,26 +15,31 @@ BARRACKS_REMEDIATION_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-P
 BARRACKS_10K_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1"
 BARRACKS_OBSERVABLES_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1"
 BARRACKS_ROBUSTNESS_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
+BARRACKS_ROBUSTNESS_EXECUTION_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1"
 BASE_RECOVERY_SHA = "fa69a77a14f923a756064f6ae151d34cadb374f7"
-CURRENT_SOURCE_MAIN_SHA = "4da8ed64baaa66b15d110490f1b15fd9be20aee0"
+CURRENT_SOURCE_MAIN_SHA = "02260589e1aa374c19005d19e47ba1f3b27332bd"
 CURRENT_BASE_MAIN_OBSERVED = "cf4c7a60c5b31b042043f91b268f381372fec69a"
-OBSERVABLES_BASELINE_MAIN = "25c4a5953d57acce450c93db1a8b5f0281937586"
-OBSERVABLES_BASE_MAIN_OBSERVED = "a912cc001ff4d4e3415fb4b4931723c49eb08d9a"
 ADAPTER_BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-RECONCILIATION_BRANCH = "planning/barracks-10000-robustness-review-20260808"
-RESULT_JSON_SHA = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
-RESULT_CSV_SHA = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
+RECONCILIATION_BRANCH = "planning/barracks-10000-robustness-execution-20260809"
+SOURCE_2K_JSON_SHA = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
+SOURCE_2K_CSV_SHA = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
+ROBUSTNESS_10K_JSON_SHA = "1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3"
+ROBUSTNESS_10K_CSV_SHA = "e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b"
 
 REQUIRED_BLOCKERS = {
-    "BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED",
-    "BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED",
     "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED",
     "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
     "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
     "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
     "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
     "LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE",
+}
+COMPLETED_BLOCKERS = {
+    "BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED",
+    "BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED",
+    "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED",
+    "BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED",
 }
 
 
@@ -46,7 +51,7 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if data.get("decision_id") != DECISION_ID:
         errors.append("Decision ID mismatch")
-    if data.get("last_gate_update_decision") != BARRACKS_ROBUSTNESS_REVIEW_DECISION:
+    if data.get("last_gate_update_decision") != BARRACKS_ROBUSTNESS_EXECUTION_DECISION:
         errors.append("last gate update Decision mismatch")
     if data.get("source_repository_main_sha") != CURRENT_SOURCE_MAIN_SHA:
         errors.append("source main SHA mismatch")
@@ -68,32 +73,30 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     gate = data.get("entry_gate", {})
     if gate.get("decision") != "BLOCK":
         errors.append("entry gate must remain BLOCK")
-    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_THROUGH_BARRACKS_8_OF_10_ROBUSTNESS_REVIEW":
+    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_THROUGH_BARRACKS_9_OF_10_ROBUSTNESS_EXECUTION":
         errors.append("Decision Ledger reconciliation status mismatch")
-    if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_ROBUSTNESS_EXECUTION_APPROVAL_AND_FUNCTIONAL_VALUE_DEFERRED_GATE":
+    if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_GATE":
         errors.append("unresolved list current status mismatch")
     blockers = set(gate.get("blocking_reasons", []))
     if not REQUIRED_BLOCKERS.issubset(blockers):
         errors.append("entry blockers incomplete")
-    for stale in (
-        "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED",
-        "BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED",
-    ):
+    for stale in COMPLETED_BLOCKERS:
         if stale in blockers:
             errors.append(f"completed barracks blocker must not persist: {stale}")
     allowed = gate.get("allowed_next_actions", [])
-    if not allowed or allowed[0] != "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL":
-        errors.append("robustness execution package user approval must be first next action")
+    if not allowed or allowed[0] != "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW":
+        errors.append("functional-value combat-numerics review must be first next action")
     forbidden = set(gate.get("forbidden_actions", []))
     for required in (
         "PRODUCT_IMPLEMENTATION",
         "GODOT_AUTHORING_MUTATION",
-        "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION",
         "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION",
         "BARRACKS_50000_SEED_CONFIRMATION",
     ):
         if required not in forbidden:
             errors.append(f"required forbidden action missing: {required}")
+    if "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION" in forbidden:
+        errors.append("completed robustness execution must not remain forbidden")
     image = gate.get("image_review_sheet_readback", {})
     if image.get("ready_count") != 0 or image.get("awaiting_count") != 0:
         errors.append("image READY/AWAITING counts must remain zero")
@@ -117,72 +120,70 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("barracks remediation Decision mismatch")
     if barracks.get("smoke_rerun_status") != "PASS" or barracks.get("failed_decision_gates") != []:
         errors.append("barracks 2k remediation PASS must remain propagated")
-    if float(barracks.get("observed_baseline_special_token_share_burst_max", 1.0)) > 0.45:
-        errors.append("barracks token burst exceeds approved cap")
-    if barracks.get("result_json_sha256") != RESULT_JSON_SHA or barracks.get("result_csv_sha256") != RESULT_CSV_SHA:
-        errors.append("barracks evidence hash mismatch")
-    if barracks.get("confirmation_sweep_50000") != "BLOCKED" or barracks.get("selected_parameter_vector") is not None:
-        errors.append("barracks final selection boundary mismatch")
-    if barracks.get("product_implementation") != "NOT_AUTHORIZED":
-        errors.append("product implementation must remain unauthorized")
+    if barracks.get("result_json_sha256") != SOURCE_2K_JSON_SHA or barracks.get("result_csv_sha256") != SOURCE_2K_CSV_SHA:
+        errors.append("barracks 2k evidence hash mismatch")
 
     review = data.get("barracks_10000_review", {})
     if review.get("decision_id") != BARRACKS_10K_REVIEW_DECISION or review.get("parent_decision_id") != BARRACKS_REMEDIATION_DECISION:
         errors.append("10k review Decision lineage mismatch")
     if review.get("decision_sweep_10000_execution") != "NOT_AUTHORIZED" or review.get("confirmation_sweep_50000") != "BLOCKED":
         errors.append("10k review execution boundary mismatch")
-    if review.get("final_parameter_vector") is not None:
-        errors.append("10k review must not select final parameter vector")
 
     obs = data.get("barracks_parameter_selection_observables", {})
     if obs.get("decision_id") != BARRACKS_OBSERVABLES_DECISION or obs.get("parent_decision_id") != BARRACKS_10K_REVIEW_DECISION:
         errors.append("observables Decision lineage mismatch")
-    if obs.get("baseline_main") != OBSERVABLES_BASELINE_MAIN or obs.get("base_current_main_observed") != OBSERVABLES_BASE_MAIN_OBSERVED:
-        errors.append("observables provenance mismatch")
-    if obs.get("comparison_form") != "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE":
-        errors.append("observables comparison form mismatch")
-    if obs.get("selection_mode") != "HARD_FILTER_THEN_PARETO":
-        errors.append("observables selection mode mismatch")
-    if obs.get("special_interval_canon_gate") != "STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL":
-        errors.append("special interval canon gate mismatch")
-    if obs.get("excluded_vectors_interval_fail") != ["V01_CHEAP_FAST_LOW", "V02_CHEAP_FAST_HIGH", "V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH"]:
-        errors.append("interval-fail exclusion set mismatch")
-    if obs.get("pareto_dominated_vectors") != ["V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"]:
-        errors.append("Pareto dominated vector set mismatch")
+    if obs.get("comparison_form") != "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE" or obs.get("selection_mode") != "HARD_FILTER_THEN_PARETO":
+        errors.append("observables comparison/selection contract mismatch")
     if obs.get("economy_production_envelope") != "V00_BASELINE_COST_INTERVAL_ONLY":
         errors.append("economy-production envelope mismatch")
-    if float(obs.get("robustness_special_barracks_cost_gold", 0)) != 60.0 or float(obs.get("robustness_special_interval_multiplier", 0)) != 1.70:
-        errors.append("robustness envelope numeric mismatch")
-    if obs.get("special_functional_value_index") != "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS":
-        errors.append("functional value must remain deferred")
-    if obs.get("final_parameter_vector") is not None:
-        errors.append("observables gate must not select final 3D vector")
-    if obs.get("parameter_selection_10000") != "NOT_AUTHORIZED" or obs.get("confirmation_sweep_50000") != "BLOCKED":
-        errors.append("post-observables execution boundary mismatch")
+    if obs.get("special_functional_value_index") != "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS" or obs.get("final_parameter_vector") is not None:
+        errors.append("observables functional/final boundary mismatch")
 
-    robustness = data.get("barracks_10000_robustness_review", {})
-    if robustness.get("decision_id") != BARRACKS_ROBUSTNESS_REVIEW_DECISION or robustness.get("parent_decision_id") != BARRACKS_OBSERVABLES_DECISION:
+    robustness_review = data.get("barracks_10000_robustness_review", {})
+    if robustness_review.get("decision_id") != BARRACKS_ROBUSTNESS_REVIEW_DECISION or robustness_review.get("parent_decision_id") != BARRACKS_OBSERVABLES_DECISION:
         errors.append("robustness review Decision lineage mismatch")
-    if robustness.get("baseline_main") != CURRENT_SOURCE_MAIN_SHA or robustness.get("base_current_main_observed") != CURRENT_BASE_MAIN_OBSERVED:
-        errors.append("robustness review provenance mismatch")
-    if robustness.get("current_runner_for_durable_10k") != "UNSAFE_EVIDENCE_PROVENANCE":
-        errors.append("current 10k runner provenance risk must remain explicit")
-    if robustness.get("robustness_envelope") != "V00_BASELINE_COST_INTERVAL_ONLY":
-        errors.append("robustness review envelope mismatch")
-    if float(robustness.get("robustness_special_barracks_cost_gold", 0)) != 60.0 or float(robustness.get("robustness_special_interval_multiplier", 0)) != 1.70:
-        errors.append("robustness review numeric envelope mismatch")
-    if robustness.get("special_functional_value_index") != "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS":
-        errors.append("robustness review must keep functional value deferred")
-    if robustness.get("execution_contract") != "DEDICATED_RUNNER_REQUIRED" or robustness.get("execution_user_approval") != "REQUIRED":
-        errors.append("robustness execution prerequisite mismatch")
-    if robustness.get("actual_10000_execution") != "NOT_RUN":
-        errors.append("10k robustness execution must remain NOT_RUN")
-    if robustness.get("parameter_selection_10000") != "NOT_AUTHORIZED" or robustness.get("confirmation_sweep_50000") != "BLOCKED":
-        errors.append("robustness review execution boundary mismatch")
-    if robustness.get("final_parameter_vector") is not None:
-        errors.append("robustness review must not select final parameter vector")
-    if robustness.get("continuous_work_state_after_review") != "STOPPED_USER_DECISION":
-        errors.append("continuous work must stop at separate 10k execution approval")
+    if robustness_review.get("actual_10000_execution") != "NOT_RUN":
+        errors.append("8-of-10 point-in-time review must retain NOT_RUN")
+    if robustness_review.get("execution_contract") != "DEDICATED_RUNNER_REQUIRED" or robustness_review.get("execution_user_approval") != "REQUIRED":
+        errors.append("8-of-10 review prerequisites must remain durable")
+
+    execution = data.get("barracks_10000_robustness_execution", {})
+    if execution.get("decision_id") != BARRACKS_ROBUSTNESS_EXECUTION_DECISION or execution.get("parent_decision_id") != BARRACKS_ROBUSTNESS_REVIEW_DECISION:
+        errors.append("robustness execution Decision lineage mismatch")
+    if execution.get("baseline_main") != CURRENT_SOURCE_MAIN_SHA or execution.get("base_current_main_observed") != CURRENT_BASE_MAIN_OBSERVED:
+        errors.append("robustness execution provenance mismatch")
+    if execution.get("runner") != "docs/analysis/barracks_simulation/run_barracks_robustness_10000.py" or execution.get("output_stem") != "robustness_sweep_10000.v1":
+        errors.append("dedicated 10k runner/output identity mismatch")
+    if execution.get("seed_count") != 10000 or execution.get("parameter_vector_count") != 1 or execution.get("common_random_numbers") is not True:
+        errors.append("10k execution seed/vector/random-number contract mismatch")
+    if execution.get("robustness_envelope") != "V00_BASELINE_COST_INTERVAL_ONLY":
+        errors.append("10k robustness envelope mismatch")
+    if float(execution.get("robustness_special_barracks_cost_gold", 0)) != 60.0 or float(execution.get("robustness_special_interval_multiplier", 0)) != 1.70:
+        errors.append("10k robustness envelope numerics mismatch")
+    if execution.get("special_functional_value_index") != "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS":
+        errors.append("10k execution must keep functional value deferred")
+    if execution.get("result_json_sha256") != ROBUSTNESS_10K_JSON_SHA or execution.get("result_csv_sha256") != ROBUSTNESS_10K_CSV_SHA:
+        errors.append("10k evidence hash mismatch")
+    if execution.get("source_2k_json_sha256") != SOURCE_2K_JSON_SHA or execution.get("source_2k_csv_sha256") != SOURCE_2K_CSV_SHA:
+        errors.append("10k execution source 2k evidence mismatch")
+    if execution.get("failed_decision_gates") != []:
+        errors.append("10k robustness decision gates must pass")
+    if float(execution.get("special_token_share_10_min", 1.0)) > 0.35 or float(execution.get("special_token_share_burst_max", 1.0)) > 0.45:
+        errors.append("10k token-share robustness cap exceeded")
+    if execution.get("second_special_token_source_guard", {}).get("minimum_non_special_active_sources") != 3:
+        errors.append("second-special guard mismatch")
+    if execution.get("second_special_token_source_guard", {}).get("status") != "PRESERVED_AND_OBSERVED":
+        errors.append("second-special guard was not observed")
+    if execution.get("identifiability") != "DIAGNOSTIC_NON_IDENTIFIABLE":
+        errors.append("combat diagnostics must remain non-identifiable")
+    if execution.get("parameter_selection_10000") != "NOT_AUTHORIZED" or execution.get("confirmation_sweep_50000") != "BLOCKED":
+        errors.append("post-10k parameter-selection/50k boundary mismatch")
+    if execution.get("final_parameter_vector") is not None or execution.get("final_product_numerics") != "NOT_APPROVED":
+        errors.append("10k robustness must not finalize product numerics")
+    if execution.get("product_implementation") != "NOT_AUTHORIZED" or execution.get("godot_authoring") != "NOT_AUTHORIZED":
+        errors.append("product/Godot implementation must remain unauthorized")
+    if execution.get("status") != "APPROVED_9_OF_10_ROBUSTNESS_10000_PASS":
+        errors.append("10k robustness execution status mismatch")
 
     tools = data.get("tool_authority", {})
     if tools.get("higodot", {}).get("authority") != "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY":
@@ -208,7 +209,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("active_contract_v4_4=PASS application_binding=ACTIVE entry_gate=BLOCK barracks_5_of_10=SMOKE_PASS review_6_of_10=COMPLETE observables_7_of_10=DEFINED robustness_8_of_10=REVIEW_COMPLETE next=USER_APPROVAL_FOR_DEDICATED_10K_PACKAGE")
+    print("active_contract_v4_4=PASS application_binding=ACTIVE entry_gate=BLOCK barracks_5_of_10=SMOKE_PASS review_6_of_10=COMPLETE observables_7_of_10=DEFINED robustness_review_8_of_10=COMPLETE robustness_execution_9_of_10=PASS next=FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW")
     return 0
 
 

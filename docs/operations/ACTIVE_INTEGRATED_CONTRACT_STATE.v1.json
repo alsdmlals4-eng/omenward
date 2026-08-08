@@ -1,10 +1,10 @@
 {
-  "schema_version": "1.7",
+  "schema_version": "1.8",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1",
-  "observed_at": "2026-08-08T22:13:00+09:00",
-  "source_repository_main_sha": "4da8ed64baaa66b15d110490f1b15fd9be20aee0",
-  "reconciliation_branch": "planning/barracks-10000-robustness-review-20260808",
+  "last_gate_update_decision": "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1",
+  "observed_at": "2026-08-09T06:31:41+09:00",
+  "source_repository_main_sha": "02260589e1aa374c19005d19e47ba1f3b27332bd",
+  "reconciliation_branch": "planning/barracks-10000-robustness-execution-20260809",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
   "base_current_main_observed": "cf4c7a60c5b31b042043f91b268f381372fec69a",
   "active_contract": {
@@ -17,19 +17,26 @@
     "counter": "NON_COUNTER"
   },
   "superseded_contracts": [
-    {"version": "4.3", "status": "HISTORICAL_COMPARISON_ONLY", "decision_id": "OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1"},
-    {"version": "4.2", "status": "HISTORICAL_COMPARISON_ONLY"}
+    {
+      "version": "4.3",
+      "status": "HISTORICAL_COMPARISON_ONLY",
+      "decision_id": "OMW-DEC-20260806-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-3-V1"
+    },
+    {
+      "version": "4.2",
+      "status": "HISTORICAL_COMPARISON_ONLY"
+    }
   ],
   "entry_gate": {
     "decision": "BLOCK",
-    "status": "ROBUSTNESS_REVIEW_COMPLETE_EXECUTION_USER_DECISION_REQUIRED",
+    "status": "ROBUSTNESS_10000_PASS_FUNCTIONAL_VALUE_NUMERICS_REQUIRED",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_8_OF_10_ROBUSTNESS_REVIEW"
+      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_9_OF_10_ROBUSTNESS_EXECUTION"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_ROBUSTNESS_EXECUTION_APPROVAL_AND_FUNCTIONAL_VALUE_DEFERRED_GATE"
+      "status": "CURRENT_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_GATE"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -40,8 +47,6 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
-      "BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED",
-      "BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED",
       "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
@@ -51,7 +56,7 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL",
+      "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
     ],
@@ -65,7 +70,6 @@
       "AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE",
       "LOCAL_MAIN_SYNC_CLAIM",
       "GODOT_RUNTIME_CLAIM",
-      "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION",
       "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION",
       "BARRACKS_50000_SEED_CONFIRMATION"
     ]
@@ -116,7 +120,11 @@
     "smoke_rerun_seeds": 2000,
     "smoke_rerun_status": "PASS",
     "failed_decision_gates": [],
-    "raw_diagnostic_failures": ["GENERAL_PATH_VALIDITY_RATE", "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE", "WORST_SPECIAL_REGRET_RATE"],
+    "raw_diagnostic_failures": [
+      "GENERAL_PATH_VALIDITY_RATE",
+      "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE",
+      "WORST_SPECIAL_REGRET_RATE"
+    ],
     "result_json": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json",
     "result_json_sha256": "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2",
     "result_csv": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
@@ -136,10 +144,23 @@
     "base_current_main_observed": "eee98a930219065e30b4d7d14d99d5ac7db44c60",
     "source_result_csv": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
     "source_result_csv_sha256": "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560",
-    "decision_eligible_metrics": ["SPECIAL_TOKEN_SHARE_10_MIN", "SPECIAL_TOKEN_SHARE_BURST_MAX", "SECOND_SPECIAL_MARGINAL_VALUE_RATIO", "REROLL_EXPECTED_VALUE_GAIN"],
+    "decision_eligible_metrics": [
+      "SPECIAL_TOKEN_SHARE_10_MIN",
+      "SPECIAL_TOKEN_SHARE_BURST_MAX",
+      "SECOND_SPECIAL_MARGINAL_VALUE_RATIO",
+      "REROLL_EXPECTED_VALUE_GAIN"
+    ],
     "tied_vector_groups": [
-      ["V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH"],
-      ["V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH", "V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"]
+      [
+        "V03_CHEAP_SLOW_LOW",
+        "V04_CHEAP_SLOW_HIGH"
+      ],
+      [
+        "V05_EXPENSIVE_FAST_LOW",
+        "V06_EXPENSIVE_FAST_HIGH",
+        "V07_EXPENSIVE_SLOW_LOW",
+        "V08_EXPENSIVE_SLOW_HIGH"
+      ]
     ],
     "parameter_selection": "NOT_IDENTIFIABLE_WITH_CURRENT_DECISION_METRICS",
     "decision_sweep_10000_execution": "NOT_AUTHORIZED",
@@ -158,13 +179,25 @@
     "selection_mode": "HARD_FILTER_THEN_PARETO",
     "special_interval_canon_gate": "STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL",
     "relevant_general_interval_max_seconds": 65.0,
-    "excluded_vectors_interval_fail": ["V01_CHEAP_FAST_LOW", "V02_CHEAP_FAST_HIGH", "V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH"],
-    "pareto_dominated_vectors": ["V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"],
-    "pareto_nondominated_economy_production_candidates": ["V00_BASELINE", "V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH"],
+    "excluded_vectors_interval_fail": [
+      "V01_CHEAP_FAST_LOW",
+      "V02_CHEAP_FAST_HIGH",
+      "V05_EXPENSIVE_FAST_LOW",
+      "V06_EXPENSIVE_FAST_HIGH"
+    ],
+    "pareto_dominated_vectors": [
+      "V07_EXPENSIVE_SLOW_LOW",
+      "V08_EXPENSIVE_SLOW_HIGH"
+    ],
+    "pareto_nondominated_economy_production_candidates": [
+      "V00_BASELINE",
+      "V03_CHEAP_SLOW_LOW",
+      "V04_CHEAP_SLOW_HIGH"
+    ],
     "baseline_preservation_tiebreak": "IF_CURRENT_APPROVED_BASELINE_IS_HARD_GATE_PASS_AND_PARETO_NONDOMINATED_KEEP_BASELINE",
     "economy_production_envelope": "V00_BASELINE_COST_INTERVAL_ONLY",
     "robustness_special_barracks_cost_gold": 60.0,
-    "robustness_special_interval_multiplier": 1.70,
+    "robustness_special_interval_multiplier": 1.7,
     "special_functional_value_index": "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS",
     "final_parameter_vector": null,
     "robustness_only_10000": "READY_FOR_SEPARATE_APPROVAL",
@@ -193,7 +226,7 @@
     "source_seed_count": 2000,
     "robustness_envelope": "V00_BASELINE_COST_INTERVAL_ONLY",
     "robustness_special_barracks_cost_gold": 60.0,
-    "robustness_special_interval_multiplier": 1.70,
+    "robustness_special_interval_multiplier": 1.7,
     "special_functional_value_index": "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS",
     "robustness_may_validate": [
       "ECONOMY_STABILITY",
@@ -220,16 +253,110 @@
     "next_required_decision": "APPROVE_DEDICATED_10000_ROBUSTNESS_EXECUTION_PACKAGE",
     "status": "REVIEW_COMPLETE_EXECUTION_CONTRACT_AND_USER_APPROVAL_REQUIRED"
   },
+  "barracks_10000_robustness_execution": {
+    "decision_id": "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1",
+    "parent_decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1",
+    "baseline_main": "02260589e1aa374c19005d19e47ba1f3b27332bd",
+    "base_current_main_observed": "cf4c7a60c5b31b042043f91b268f381372fec69a",
+    "runner": "docs/analysis/barracks_simulation/run_barracks_robustness_10000.py",
+    "output_stem": "robustness_sweep_10000.v1",
+    "seed_count": 10000,
+    "common_random_numbers": true,
+    "parameter_vector_count": 1,
+    "robustness_envelope": "V00_BASELINE_COST_INTERVAL_ONLY",
+    "robustness_special_barracks_cost_gold": 60.0,
+    "robustness_special_interval_multiplier": 1.7,
+    "special_functional_value_index": "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS",
+    "result_json": "docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json",
+    "result_json_sha256": "1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3",
+    "result_csv": "docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv",
+    "result_csv_sha256": "e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b",
+    "source_2k_json_sha256": "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2",
+    "source_2k_csv_sha256": "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560",
+    "input_hashes": {
+      "baseline_sha256": "a8424ae1b5f22e86db3eca52b7942ff5b1f0e50a3c689ae57b9062550c066878",
+      "historical_smoke_model_sha256": "9fd10ad3ad131c4dbfcf2700144e61449e890324a861892e470004a5bfdc627a",
+      "remediation_model_sha256": "2be4edd633e809a65f6c512ce4d4808cc9a875919977d5907cf7ee7d6a29eb3a"
+    },
+    "robustness_gate_metrics": [
+      "SPECIAL_TOKEN_SHARE_10_MIN",
+      "SPECIAL_TOKEN_SHARE_BURST_MAX",
+      "REROLL_EXPECTED_VALUE_GAIN"
+    ],
+    "failed_decision_gates": [],
+    "special_token_share_10_min": 0.296265,
+    "special_token_share_burst_max": 0.333333,
+    "reroll_expected_value_gain": 0.0,
+    "second_special_token_source_guard": {
+      "minimum_non_special_active_sources": 3,
+      "deferred_observations": 82181,
+      "status": "PRESERVED_AND_OBSERVED"
+    },
+    "raw_diagnostics": {
+      "general_path_validity_rate": 0.0,
+      "each_special_outcome_path_validity_rate": {
+        "assassin": 0.0,
+        "priest": 0.0,
+        "mage": 0.0,
+        "flying_unit": 0.0,
+        "giant": 0.0
+      },
+      "worst_special_regret_rate": 1.0,
+      "second_special_marginal_value_ratio": 0.0
+    },
+    "identifiability": "DIAGNOSTIC_NON_IDENTIFIABLE",
+    "actual_execution_workflow_run": 31279360146,
+    "actual_execution_job": 93158069806,
+    "artifact_preservation_workflow_run": 31279508897,
+    "artifact_id": 9027996435,
+    "parameter_selection_10000": "NOT_AUTHORIZED",
+    "confirmation_sweep_50000": "BLOCKED",
+    "final_parameter_vector": null,
+    "final_product_numerics": "NOT_APPROVED",
+    "product_implementation": "NOT_AUTHORIZED",
+    "godot_authoring": "NOT_AUTHORIZED",
+    "next_gate": "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW",
+    "status": "APPROVED_9_OF_10_ROBUSTNESS_10000_PASS"
+  },
   "tool_authority": {
-    "higodot": {"canonical_repository": "hi-godot/godot-ai", "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY", "pinned_version_or_commit": null, "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"},
-    "gut": {"canonical_repository": "bitwes/Gut", "version": "9.7.1", "source_branch": "godot_4_7", "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605", "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED", "adoption_spec_pr": 155, "adoption_spec_merge_status": "NOT_MERGED", "formal_execution_status": "BLOCKED_BY_GUT_ADOPTION_SPEC"},
-    "hera": {"repository_files_present": true, "observed_addon_readme_baseline": "v0.9.0", "editor_plugin_enabled_in_project_godot": false, "role": "LIVE_QA_AND_OBSERVABILITY_ONLY", "persistent_source_mutation": "FORBIDDEN", "adoption_status": "NOT_VERIFIED_INSTALLED_UNUSED"},
+    "higodot": {
+      "canonical_repository": "hi-godot/godot-ai",
+      "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY",
+      "pinned_version_or_commit": null,
+      "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"
+    },
+    "gut": {
+      "canonical_repository": "bitwes/Gut",
+      "version": "9.7.1",
+      "source_branch": "godot_4_7",
+      "reviewed_commit": "aeb5d4f3f7f0a6c9b5e178876d6c99b791fda605",
+      "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED",
+      "adoption_spec_pr": 155,
+      "adoption_spec_merge_status": "NOT_MERGED",
+      "formal_execution_status": "BLOCKED_BY_GUT_ADOPTION_SPEC"
+    },
+    "hera": {
+      "repository_files_present": true,
+      "observed_addon_readme_baseline": "v0.9.0",
+      "editor_plugin_enabled_in_project_godot": false,
+      "role": "LIVE_QA_AND_OBSERVABILITY_ONLY",
+      "persistent_source_mutation": "FORBIDDEN",
+      "adoption_status": "NOT_VERIFIED_INSTALLED_UNUSED"
+    },
     "role_overlap": "FORBIDDEN"
   },
   "repository_drift_readback": {
     "after_last_sheet_baseline": [
-      {"sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6", "summary": "direct main import including Hera Agent Godot files", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"},
-      {"sha": "7b41923628b68c7c1477b286584973d8516eab6d", "summary": "add .asset-vault to .gitignore", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"}
+      {
+        "sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6",
+        "summary": "direct main import including Hera Agent Godot files",
+        "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"
+      },
+      {
+        "sha": "7b41923628b68c7c1477b286584973d8516eab6d",
+        "summary": "add .asset-vault to .gitignore",
+        "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"
+      }
     ],
     "status": "RECORDED_FOR_DISPOSITION_NOT_RETROACTIVELY_APPROVED"
   },
@@ -239,9 +366,24 @@
     "base_recovery_exact_head_validation": "PR159_00AF947C_ALL_REQUIRED_PR_WORKFLOWS_SUCCESS",
     "project_base_adapter_validation_policy": "BASE_GENERATOR_VALIDATOR_AND_FOCUSED_TEST_EXACT_PR_HEAD_GREEN_REQUIRED",
     "barracks_remediation_smoke_evidence": "RUN_31254624591_EXACT_2000_SEED_PASS",
+    "barracks_robustness_10000_initial_execution": "RUN_31279360146_JOB_93158069806_ROBUSTNESS_PASS",
+    "barracks_robustness_10000_artifact": "RUN_31279508897_ARTIFACT_9027996435",
     "reconciliation_validation_policy": "EXACT_PR_HEAD_GREEN_REQUIRED_BEFORE_MERGE"
   },
-  "review_authority": {"model": "GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY", "external_independent_reviewer": "NOT_PLANNED_SOLO_DEVELOPMENT"},
-  "audio_vault": {"path": "C:/Users/user/Documents/GitHub/shered audio vault", "access_policy": "READ_ONLY_SOURCE_LIBRARY", "runtime_reference_policy": "COPY_APPROVED_ASSETS_INTO_RES_NOT_ABSOLUTE_PATH", "status": "BLOCKED_UNVERIFIED"},
-  "local_delivery": {"project_local_path": "C:/Users/user/Documents/GitHub/Ninza/omenward", "godot_project_path": "C:/Users/user/Documents/GitHub/Ninza/omenward", "status": "BLOCKED_UNVERIFIED", "reason": "USER_WINDOWS_C_DRIVE_NOT_ACCESSIBLE_FROM_CURRENT_AGENT_ENVIRONMENT"}
+  "review_authority": {
+    "model": "GPT_ROLE_SEPARATED_PLUS_USER_DECISION_AUTHORITY",
+    "external_independent_reviewer": "NOT_PLANNED_SOLO_DEVELOPMENT"
+  },
+  "audio_vault": {
+    "path": "C:/Users/user/Documents/GitHub/shered audio vault",
+    "access_policy": "READ_ONLY_SOURCE_LIBRARY",
+    "runtime_reference_policy": "COPY_APPROVED_ASSETS_INTO_RES_NOT_ABSOLUTE_PATH",
+    "status": "BLOCKED_UNVERIFIED"
+  },
+  "local_delivery": {
+    "project_local_path": "C:/Users/user/Documents/GitHub/Ninza/omenward",
+    "godot_project_path": "C:/Users/user/Documents/GitHub/Ninza/omenward",
+    "status": "BLOCKED_UNVERIFIED",
+    "reason": "USER_WINDOWS_C_DRIVE_NOT_ACCESSIBLE_FROM_CURRENT_AGENT_ENVIRONMENT"
+  }
 }
