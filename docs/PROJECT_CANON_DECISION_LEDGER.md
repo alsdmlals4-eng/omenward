@@ -3,16 +3,16 @@
 ```yaml
 updated_at: 2026-08-08
 status: CURRENT_DECISION_LEDGER
-source_main_observed: 25c4a5953d57acce450c93db1a8b5f0281937586
-base_main_observed: a912cc001ff4d4e3415fb4b4931723c49eb08d9a
+source_main_observed: 4da8ed64baaa66b15d110490f1b15fd9be20aee0
+base_main_observed: cf4c7a60c5b31b042043f91b268f381372fec69a
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
+last_gate_update_decision: OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
 base_recovery_status: COMPLETE
 project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
-current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 10K_NOT_RUN
-current_simulation_pr: 166
+current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 10K_NOT_RUN
+current_simulation_pr: 167
 product_code_authority: NONE
 entry_gate: BLOCK
 image_generation: STOPPED / NOT_AUTHORIZED
@@ -55,6 +55,7 @@ product_implementation = NOT_STARTED
 | 5/10 | 승인 / remediation 2,000-seed `SMOKE_RERUN_PASS` | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
 | 6/10 review | 승인 / 10k 실행 전 식별성 검토 완료 / parameter selection 실행 미승인 | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` |
 | 7/10 | 승인 / canon-backed observables 정의 / economy-production envelope 식별 / 10k 미실행 | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` |
+| 8/10 review | 승인 / robustness-only 실행 가치·범위 검토 / dedicated runner+사용자 승인 필요 / 10k 미실행 | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1` |
 
 ### 5/10 remediation 유지
 
@@ -87,47 +88,55 @@ Raw combat metrics remain diagnostic-only and do not become selection scores.
 2,000-seed persisted decision surface contains ties, so 10k seed count alone cannot create a missing objective or tie-break.
 
 ```text
-V03_CHEAP_SLOW_LOW = V04_CHEAP_SLOW_HIGH
-V05_EXPENSIVE_FAST_LOW = V06_EXPENSIVE_FAST_HIGH = V07_EXPENSIVE_SLOW_LOW = V08_EXPENSIVE_SLOW_HIGH
 DECISION_SWEEP_10000_PARAMETER_SELECTION = NOT_AUTHORIZED
 ROBUSTNESS_ONLY_10000 = OPTIONAL_AFTER_SEPARATE_APPROVAL
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
-### 7/10 observable 정의
-
-현행 정본은 `SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT`를 요구하며 MapRun baseline의 관련 일반 생산간격 최대는 65초다.
+### 7/10 observable 정의 유지
 
 ```text
 SPECIAL_INTERVAL_CANON_GATE = STRICTLY_LONGER_THAN_RELEVANT_GENERAL_INTERVAL
 INTERVAL_MULTIPLIER_1.45_ASSASSIN_SECONDS = 63.970588 / FAIL
-INTERVAL_MULTIPLIER_1.70_ASSASSIN_SECONDS = 75.000000 / PASS
-INTERVAL_MULTIPLIER_2.20_ASSASSIN_SECONDS = 97.058824 / PASS
 EXCLUDED = V01 / V02 / V05 / V06
-```
-
-Opportunity-cost 비교는 승인 baseline을 그대로 쓴다.
-
-```text
 COMPARISON_FORM = VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE
 SELECTION_MODE = HARD_FILTER_THEN_PARETO
-SINGLE_WEIGHTED_SCORE = FORBIDDEN
-```
-
-Hard filter 뒤 V07/V08은 V03/V04와 같은 slow interval에서 비용만 높아 Pareto dominated다. V00과 V03/V04는 비용/시간 trade-off로 서로 지배하지 않는다. 새 증거 없이 기존 승인 baseline을 바꾸지 않는 pre-registered tie-break를 적용한다.
-
-```text
 BASELINE_PRESERVATION_TIEBREAK = KEEP_APPROVED_BASELINE_IF_HARD_GATE_PASS_AND_PARETO_NONDOMINATED
 ECONOMY_PRODUCTION_ENVELOPE = V00_BASELINE_COST_INTERVAL_ONLY
 ROBUSTNESS_SPECIAL_BARRACKS_COST_GOLD = 60
 ROBUSTNESS_SPECIAL_INTERVAL_MULTIPLIER = 1.70
 SPECIAL_FUNCTIONAL_VALUE_INDEX = DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
-ROBUSTNESS_ONLY_10000 = READY_FOR_SEPARATE_APPROVAL / NOT_RUN
+```
+
+### 8/10 robustness-only review
+
+현행 runner는 seed 수를 받을 수 있지만 durable evidence identity가 5/10의 2k 결과에 고정돼 있다.
+
+```text
+CURRENT_RUNNER = docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py
+CURRENT_RUNNER_FOR_DURABLE_10K = UNSAFE_EVIDENCE_PROVENANCE
+OUTPUT_STEM = smoke_sweep_2000.v2
+DEFAULT_OUTPUT_DIRECTORY = docs/analysis/barracks_simulation
+RESULT_DECISION_ID = OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
+```
+
+따라서 현재 runner의 기본 출력으로 10k를 실행하면 2k evidence overwrite 또는 10k의 2k/5-of-10 오표기 위험이 있다. 이 Gate에서는 runner나 simulation을 수정·실행하지 않고 전용 execution contract 요구사항을 정본화한다.
+
+```text
+ROBUSTNESS_10000 = RECOMMENDED_AFTER_DEDICATED_EXECUTION_CONTRACT_AND_USER_APPROVAL
+EXECUTION_CONTRACT = DEDICATED_RUNNER_REQUIRED
+EXECUTION_USER_APPROVAL = REQUIRED
+ACTUAL_10000_EXECUTION = NOT_RUN
 PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
 CONFIRMATION_SWEEP_50000 = BLOCKED
-NEXT_GATE = BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
+CONTINUOUS_WORK_AFTER_REVIEW = STOPPED_USER_DECISION
 ```
+
+Dedicated package는 unique Decision ID/output stem, 2k overwrite 방지, seed_count=10000 assertion, input hash binding, V00 cost/interval assertion, functional-value 미선택, diagnostic-only combat boundary, output hash를 갖춰야 한다.
 
 Current detailed responsibility sources:
 
@@ -135,6 +144,7 @@ Current detailed responsibility sources:
 - `docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json`
 - `docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv`
 
@@ -153,6 +163,7 @@ OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
+OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
 ```
 
 v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
@@ -160,7 +171,7 @@ v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
 ### Base recovery 및 Project Base Adapter 상태
 
 ```text
-Base current main observed = a912cc001ff4d4e3415fb4b4931723c49eb08d9a
+Base current main observed = cf4c7a60c5b31b042043f91b268f381372fec69a
 Base recovery exact commit = fa69a77a14f923a756064f6ae151d34cadb374f7
 Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
 Base recovery = COMPLETE
@@ -173,7 +184,7 @@ protected policy SHA256 = 1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffd
 generated compatibility views = BASE_GENERATOR_VALIDATED
 ```
 
-Base `a912cc...`의 post-release 변화는 serial-fiction skill/routing/reference-freshness 영역이며 Project Base Adapter schema/generator/validator 및 OMENWARD 병영 계약을 변경하지 않는다.
+Base `8ea80e85... → cf4c7a60...` delta는 BCP-2026-010 continuous-work execution trigger의 운영/Work Mode/intake Skill/reference/plan/spec/test 구현이다. Project Base Adapter schema/generator/validator, OMENWARD Godot 또는 병영 simulation 계약 변화는 관찰되지 않았다. released Base pin과 protected adapter baseline은 자동 변경하지 않는다.
 
 ## 5. repository drift 및 도구 역할
 
@@ -194,6 +205,8 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
+- `BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED`
+- `BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED`
 - `BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED`
 - PR #155 GUT adoption spec not merged
 - HiGodot exact source/version unverified
@@ -211,14 +224,15 @@ HERA_LIVE_QA_COMPLETION_CLAIM
 IMAGE_GENERATION
 AUDIO_ASSET_IMPORT
 LOCAL_OR_RUNTIME_COMPLETION_CLAIM
+BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION
 BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION
 BARRACKS_50000_SEED_CONFIRMATION
 ```
 
 ## 7. 다음 작업
 
-1. `BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW`
-2. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토
-3. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정
+1. `BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL`
+2. PR #155 GUT adoption spec review
+3. Hera direct-main `REUSE / ABSORB / REFACTOR / ARCHIVE` disposition
 
-10k robustness-only 실행은 별도 승인 후 가능하며 final parameter selection 권한을 갖지 않는다. 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.
+`[연속작업] 진행해`는 새 승인 자체를 만들지 않으므로 1번의 별도 사용자 결정에서 연속 루프를 중지한다. 승인 전 실제 10k runner package 작성·실행은 시작하지 않는다. 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.

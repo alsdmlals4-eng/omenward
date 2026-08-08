@@ -11,6 +11,7 @@ STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json
 SPEC = ROOT / "docs" / "design" / "APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md"
 
 DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1"
+ROBUSTNESS_REVIEW_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
 
 
 class BarracksParameterSelectionObservablesTest(unittest.TestCase):
@@ -80,14 +81,19 @@ class BarracksParameterSelectionObservablesTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_durable_gate_advances_without_authorizing_10k(self) -> None:
-        self.assertEqual(self.state["last_gate_update_decision"], DECISION_ID)
+    def test_observables_gate_remains_durable_after_later_robustness_review(self) -> None:
+        obs = self.state["barracks_parameter_selection_observables"]
         gate = self.state["entry_gate"]
+        self.assertEqual(obs["decision_id"], DECISION_ID)
+        self.assertEqual(obs["economy_production_envelope"], "V00_BASELINE_COST_INTERVAL_ONLY")
+        self.assertEqual(obs["special_functional_value_index"], "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS")
+        self.assertIsNone(obs["final_parameter_vector"])
+        self.assertEqual(obs["parameter_selection_10000"], "NOT_AUTHORIZED")
         self.assertNotIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", gate["blocking_reasons"])
         self.assertIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
-        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW")
         self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_50000_SEED_CONFIRMATION", gate["forbidden_actions"])
+        self.assertEqual(self.state["barracks_10000_robustness_review"]["decision_id"], ROBUSTNESS_REVIEW_DECISION_ID)
 
 
 if __name__ == "__main__":
