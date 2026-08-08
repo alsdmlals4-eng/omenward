@@ -9,7 +9,7 @@ contract_status: ACTIVE_INTEGRATED_AUDIT_IMPLEMENTATION_DELIVERY_CONTRACT
 binding_status: ACTIVE
 counter: NON_COUNTER
 activation_authority: USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION
-source_repository_main: 615a7fbe818b18a8ca916a66a2891f49a8e0c0df
+source_repository_main: f1bf8939208a864bce1f99eea0555f05369dc9d6
 base_recovery_exact_commit: fa69a77a14f923a756064f6ae151d34cadb374f7
 base_current_main_observed: 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
 reconciliation_branch: tools/godot-ai-3-1-3-hera-gut-approval-sync-20260809
@@ -29,8 +29,6 @@ NEXT_GATE = BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
 9/10 evidence and final-value boundaries remain unchanged.
 
 ## 2. User-approved tool state
-
-The user directly approved:
 
 ```text
 GODOT_AI_APPROVED_VERSION = 3.1.3
@@ -68,33 +66,29 @@ HERA_LICENSE = MIT
 HERA_BUNDLED_README_VERSION = 0.9.0_STALE_METADATA_NONBLOCKING
 ```
 
-The historical direct-main Hera import is no longer an unresolved adoption/disposition blocker. It remains historical provenance, now accepted as the current reuse baseline by user approval.
+The historical direct-main Hera import is no longer an unresolved adoption/disposition blocker.
 
-## 4. Remote synchronization drift
+## 4. Remote synchronization readback
 
-At current remote main:
+Current remote main:
 
 ```text
-project.godot enabled plugins = Godot AI only
-REMOTE_GODOT_AI_VERSION = 3.1.2
-REMOTE_GUT_VERSION = 9.7.1 / not enabled in project.godot
-REMOTE_HERA_VERSION = 1.0.0 / not enabled in project.godot
+REMOTE_SYNC_MAIN = f1bf8939208a864bce1f99eea0555f05369dc9d6
+REMOTE_GODOT_AI_VERSION = 3.1.3
+REMOTE_PROJECT_GODOT_GODOT_AI_ENABLED = TRUE
+REMOTE_PROJECT_GODOT_GUT_ENABLED = TRUE
+REMOTE_PROJECT_GODOT_HERA_ENABLED = TRUE
+REMOTE_HERA_GAME_INSPECTOR_AUTOLOAD = PRESENT
+REMOTE_SYNC_COMPLETION = VERIFIED
 ```
 
-Therefore user approval and remote state are both recorded without conflation.
-
-Closed approval/provenance blockers:
+Closed approval/provenance/sync blockers:
 
 ```text
 HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
 GUT_ADOPTION_SPEC_PR155_NOT_MERGED
 HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED
 DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
-```
-
-Current remote-sync blockers:
-
-```text
 GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
 GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
 HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
@@ -109,21 +103,18 @@ ENTRY_GATE = BLOCK
 Current blockers:
 
 - `BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED`
-- `GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED`
-- `GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED`
-- `HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED`
 - `LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE`
 - historical secret-scan accepted risk
 
-Allowed planning actions include `BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE` and remote-sync work when the authorized Godot AI/HiGodot executor is available.
+Allowed planning action is `BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE`.
 
 Continue to forbid unverified completion claims and unauthorized mutation:
 
 ```text
 PRODUCT_IMPLEMENTATION
 GODOT_AUTHORING_MUTATION_WITHOUT_HIGODOT
-FORMAL_GUT_EXECUTION_BEFORE_REMOTE_SYNC_VERIFICATION
-HERA_LIVE_QA_COMPLETION_CLAIM
+HERA_PERSISTENT_SOURCE_MUTATION
+HERA_LIVE_QA_COMPLETION_CLAIM_WITHOUT_RUN
 LOCAL_MAIN_SYNC_CLAIM
 GODOT_RUNTIME_CLAIM
 BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION
@@ -132,7 +123,7 @@ BARRACKS_50000_SEED_CONFIRMATION
 
 ## 6. Hosted/local boundary
 
-The user's local plugin enablement report is accepted as a user fact. This hosted session cannot inspect the Windows editor directly, so it does not claim local editor/runtime verification or remote repository synchronization.
+The user's local plugin enablement report is accepted as a user fact and the same configuration is now present on remote main. This hosted session still cannot inspect the Windows editor/runtime directly, so local editor/runtime verification remains unclaimed.
 
 ## 7. Sheet sync
 
