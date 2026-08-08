@@ -37,7 +37,6 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 general_valid += int(general["valid"].sum())
                 comparison_count += simulator.seed_count
 
-                # Retained only for historical comparison; these depend on combat-success proxy state.
                 special_dom = special["valid"] & (
                     (~general["valid"])
                     | (
@@ -88,8 +87,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 fixed_special=special_name,
             )
             outcome_valid_counts[special_name] += int(result["valid"].sum())
-            # Outcome regret is deliberately independent of the removed combat-support scalar.
-            production_scores.append(result["unit_equivalent_10_min"])
+            production_scores.append(result["unit_equivalent_15_min"])
         score_matrix = np.stack(production_scores, axis=1)
         middle = np.median(score_matrix, axis=1)
         worst = score_matrix.min(axis=1)
@@ -126,6 +124,6 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
         "diagnostic_only_thresholds": sorted(COMBAT_DEPENDENT_DIAGNOSTICS),
         "decision_failed_thresholds": decision_failed,
         "decision_threshold_pass": not decision_failed,
-        "outcome_regret_basis": "UNIT_EQUIVALENT_10_MIN_NO_COMBAT_SUPPORT_SCALAR",
+        "outcome_regret_basis": "UNIT_EQUIVALENT_STAGE5_END_CENSORED_830S_NO_COMBAT_SUPPORT_SCALAR",
         "deferred_second_special_token_source_observations": deferred_second_source_count,
     }
