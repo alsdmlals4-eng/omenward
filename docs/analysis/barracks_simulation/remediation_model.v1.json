@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1",
   "parent_decision_id": "OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1",
   "approval_count": "5_OF_10_REMEDIATION_CONTRACT",
@@ -25,6 +25,18 @@
     "each_special_outcome_path_validity_rate": "DIAGNOSTIC_NON_IDENTIFIABLE",
     "identifiability_policy": "NO_WIN_RATE_OR_COMBAT_SUCCESS_GATE_WITHOUT_PRODUCT_COMBAT_NUMERICS",
     "numeric_simulation_support_contribution": 0.0
+  },
+  "screening_semantics": {
+    "diagnostic_only_combat_metrics": [
+      "SPECIAL_OPTION_DOMINANCE_RATE",
+      "GENERAL_PATH_VALIDITY_RATE",
+      "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE",
+      "MULTI_SPECIAL_DOMINANCE_RATE"
+    ],
+    "outcome_regret_basis": "UNIT_EQUIVALENT_10_MIN_NO_COMBAT_SUPPORT_SCALAR",
+    "outcome_regret_threshold": 0.15,
+    "relative_unit_equivalent_is_product_stat": false,
+    "purpose": "DIMENSIONLESS_SCREENING_ONLY"
   },
   "multi_special_token_source": {
     "probability_axis": "PHYSICAL_TOKEN_INSTANCES_PER_REEL",
