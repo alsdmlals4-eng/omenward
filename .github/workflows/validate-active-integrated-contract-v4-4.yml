@@ -15,6 +15,7 @@ on:
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_barracks_conditional_fail_remediation.py"
       - "tests/python/test_barracks_remediation_smoke.py"
+      - "tests/python/test_project_base_adapter_freshness.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
   workflow_dispatch:
 
@@ -64,6 +65,7 @@ jobs:
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_barracks_conditional_fail_remediation.py",
               "tests/python/test_barracks_remediation_smoke.py",
+              "tests/python/test_project_base_adapter_freshness.py",
               "tools/validate_active_integrated_contract_v4_4.py",
           }
           changed = set(
@@ -90,10 +92,11 @@ jobs:
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
             tests/python/test_active_integrated_contract_v4_4.py \
-            tests/python/test_barracks_conditional_fail_remediation.py
+            tests/python/test_barracks_conditional_fail_remediation.py \
+            tests/python/test_project_base_adapter_freshness.py
 
-      - name: Run v4.4 and barracks durable-state tests
-        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_barracks_conditional_fail_remediation
+      - name: Run v4.4 and durable-gate tests
+        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_barracks_conditional_fail_remediation tests.python.test_project_base_adapter_freshness
 
       - name: Validate v4.4 active binding
         run: python tools/validate_active_integrated_contract_v4_4.py
