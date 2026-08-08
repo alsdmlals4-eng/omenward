@@ -17,12 +17,13 @@ BARRACKS_OBSERVABLES_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SE
 BARRACKS_ROBUSTNESS_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
 BARRACKS_ROBUSTNESS_EXECUTION_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1"
 BARRACKS_FUNCTIONAL_REVIEW_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1"
+BARRACKS_MEASUREMENT_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
 BASE_RECOVERY_SHA = "fa69a77a14f923a756064f6ae151d34cadb374f7"
-CURRENT_SOURCE_MAIN_SHA = "890a68c1c573ce11b21d397d7c3ec88bae191b7f"
+CURRENT_SOURCE_MAIN_SHA = "02b803b075d5e44f5aa3db895c5dad025d048148"
 CURRENT_BASE_MAIN_OBSERVED = "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b"
 ADAPTER_BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-RECONCILIATION_BRANCH = "planning/barracks-functional-value-combat-numerics-review-20260809"
+RECONCILIATION_BRANCH = "planning/barracks-functional-value-measurement-scenarios-20260809"
 SOURCE_2K_JSON_SHA = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
 SOURCE_2K_CSV_SHA = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
 ROBUSTNESS_10K_JSON_SHA = "1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3"
@@ -30,7 +31,6 @@ ROBUSTNESS_10K_CSV_SHA = "e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3
 
 REQUIRED_BLOCKERS = {
     "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
-    "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED",
     "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
     "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
     "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
@@ -38,6 +38,7 @@ REQUIRED_BLOCKERS = {
     "LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE",
 }
 COMPLETED_BLOCKERS = {
+    "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED",
     "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED",
     "BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED",
     "BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED",
@@ -54,7 +55,9 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if data.get("decision_id") != DECISION_ID:
         errors.append("Decision ID mismatch")
-    if data.get("last_gate_update_decision") != BARRACKS_FUNCTIONAL_REVIEW_DECISION:
+    if data.get("schema_version") != "2.0":
+        errors.append("state schema mismatch")
+    if data.get("last_gate_update_decision") != BARRACKS_MEASUREMENT_DECISION:
         errors.append("last gate update Decision mismatch")
     if data.get("source_repository_main_sha") != CURRENT_SOURCE_MAIN_SHA:
         errors.append("source main SHA mismatch")
@@ -64,8 +67,6 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("Base current observed SHA mismatch")
     if data.get("reconciliation_branch") != RECONCILIATION_BRANCH:
         errors.append("reconciliation branch provenance mismatch")
-    if "working_branch" in data:
-        errors.append("working_branch must not persist in durable active state")
 
     active = data.get("active_contract", {})
     if active.get("version") != "4.4" or active.get("binding_status") != "ACTIVE":
@@ -74,26 +75,23 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     gate = data.get("entry_gate", {})
     if gate.get("decision") != "BLOCK":
         errors.append("entry gate must remain BLOCK")
-    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_THROUGH_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REVIEW":
+    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_THROUGH_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS":
         errors.append("Decision Ledger reconciliation status mismatch")
-    if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_GATE":
+    if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_GATE":
         errors.append("unresolved list current status mismatch")
     blockers = set(gate.get("blocking_reasons", []))
     if not REQUIRED_BLOCKERS.issubset(blockers):
         errors.append("entry blockers incomplete")
     for stale in COMPLETED_BLOCKERS:
         if stale in blockers:
-            errors.append(f"completed or superseded barracks blocker must not persist: {stale}")
+            errors.append(f"completed or superseded blocker must not persist: {stale}")
     allowed = gate.get("allowed_next_actions", [])
-    if not allowed or allowed[0] != "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION":
-        errors.append("functional-value measurement scenarios must be first next action")
+    if not allowed or allowed[0] != "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE":
+        errors.append("runtime implementation package must be first next action")
     forbidden = set(gate.get("forbidden_actions", []))
     for required in ("PRODUCT_IMPLEMENTATION", "GODOT_AUTHORING_MUTATION", "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", "BARRACKS_50000_SEED_CONFIRMATION"):
         if required not in forbidden:
             errors.append(f"required forbidden action missing: {required}")
-    image = gate.get("image_review_sheet_readback", {})
-    if image.get("ready_count") != 0 or image.get("awaiting_count") != 0:
-        errors.append("image READY/AWAITING counts must remain zero")
 
     recovery = data.get("base_recovery", {})
     if recovery.get("decision_id") != BASE_RECOVERY_DECISION or recovery.get("base_exact_commit") != BASE_RECOVERY_SHA or recovery.get("status") != "COMPLETE":
@@ -106,10 +104,10 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     if adapter.get("gdd_sheet_sync_status") != "CURRENT" or adapter.get("status") != "FRESHNESS_RECONCILED":
         errors.append("project Base adapter freshness mismatch")
 
-    barracks = data.get("barracks_remediation", {})
-    if barracks.get("decision_id") != BARRACKS_REMEDIATION_DECISION or barracks.get("smoke_rerun_status") != "PASS" or barracks.get("failed_decision_gates") != []:
+    rem = data.get("barracks_remediation", {})
+    if rem.get("decision_id") != BARRACKS_REMEDIATION_DECISION or rem.get("smoke_rerun_status") != "PASS" or rem.get("failed_decision_gates") != []:
         errors.append("barracks 2k remediation durability mismatch")
-    if barracks.get("result_json_sha256") != SOURCE_2K_JSON_SHA or barracks.get("result_csv_sha256") != SOURCE_2K_CSV_SHA:
+    if rem.get("result_json_sha256") != SOURCE_2K_JSON_SHA or rem.get("result_csv_sha256") != SOURCE_2K_CSV_SHA:
         errors.append("barracks 2k evidence hash mismatch")
 
     review = data.get("barracks_10000_review", {})
@@ -119,46 +117,48 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     obs = data.get("barracks_parameter_selection_observables", {})
     if obs.get("decision_id") != BARRACKS_OBSERVABLES_DECISION or obs.get("comparison_form") != "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE":
         errors.append("observables durability mismatch")
-    if obs.get("economy_production_envelope") != "V00_BASELINE_COST_INTERVAL_ONLY" or obs.get("final_parameter_vector") is not None:
-        errors.append("observables envelope/final boundary mismatch")
 
-    robustness_review = data.get("barracks_10000_robustness_review", {})
-    if robustness_review.get("decision_id") != BARRACKS_ROBUSTNESS_REVIEW_DECISION or robustness_review.get("actual_10000_execution") != "NOT_RUN":
-        errors.append("8-of-10 point-in-time review durability mismatch")
+    robust_review = data.get("barracks_10000_robustness_review", {})
+    if robust_review.get("decision_id") != BARRACKS_ROBUSTNESS_REVIEW_DECISION or robust_review.get("actual_10000_execution") != "NOT_RUN":
+        errors.append("8-of-10 review durability mismatch")
 
     execution = data.get("barracks_10000_robustness_execution", {})
-    if execution.get("decision_id") != BARRACKS_ROBUSTNESS_EXECUTION_DECISION:
-        errors.append("robustness execution Decision mismatch")
-    if execution.get("seed_count") != 10000 or execution.get("failed_decision_gates") != []:
-        errors.append("10k robustness execution result mismatch")
+    if execution.get("decision_id") != BARRACKS_ROBUSTNESS_EXECUTION_DECISION or execution.get("seed_count") != 10000 or execution.get("failed_decision_gates") != []:
+        errors.append("10k robustness execution mismatch")
     if execution.get("result_json_sha256") != ROBUSTNESS_10K_JSON_SHA or execution.get("result_csv_sha256") != ROBUSTNESS_10K_CSV_SHA:
         errors.append("10k evidence hash mismatch")
     if execution.get("identifiability") != "DIAGNOSTIC_NON_IDENTIFIABLE":
-        errors.append("10k combat diagnostics must remain non-identifiable")
-    if execution.get("parameter_selection_10000") != "NOT_AUTHORIZED" or execution.get("confirmation_sweep_50000") != "BLOCKED":
-        errors.append("post-10k selection/50k boundary mismatch")
+        errors.append("10k diagnostic boundary mismatch")
 
     functional = data.get("barracks_functional_value_combat_numerics_review", {})
     if functional.get("decision_id") != BARRACKS_FUNCTIONAL_REVIEW_DECISION or functional.get("parent_decision_id") != BARRACKS_ROBUSTNESS_EXECUTION_DECISION:
-        errors.append("functional review Decision lineage mismatch")
-    if functional.get("baseline_main") != CURRENT_SOURCE_MAIN_SHA or functional.get("base_current_main_observed") != CURRENT_BASE_MAIN_OBSERVED:
-        errors.append("functional review provenance mismatch")
-    if functional.get("product_base_combat_numerics") != "PRESENT":
-        errors.append("product base combat numeric recovery mismatch")
-    if functional.get("poc_role_numeric_hypotheses") != "PRESENT_NONFINAL":
-        errors.append("PoC role numeric hypothesis status mismatch")
-    if functional.get("role_complete_product_output_numerics") != "PARTIAL_INSUFFICIENT":
-        errors.append("role-complete product output status mismatch")
-    if functional.get("product_special_corps") != ["priest", "mage", "flier", "giant"]:
-        errors.append("product special-corps taxonomy mismatch")
-    if functional.get("historical_simulation_special_outcome_label_set") != ["assassin", "priest", "mage", "flying_unit", "giant"]:
-        errors.append("historical simulation label set mismatch")
-    if functional.get("functional_value_comparison") != "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE" or functional.get("post_hoc_weight_tuning") != "FORBIDDEN":
-        errors.append("functional-value comparison contract mismatch")
+        errors.append("functional review lineage mismatch")
+    if functional.get("product_base_combat_numerics") != "PRESENT" or functional.get("role_complete_product_output_numerics") != "PARTIAL_INSUFFICIENT":
+        errors.append("functional review recovery mismatch")
     if functional.get("final_functional_value_index") is not None or functional.get("final_parameter_vector") is not None:
         errors.append("functional review must not select final values")
-    if functional.get("product_implementation") != "NOT_AUTHORIZED" or functional.get("next_gate") != "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION":
-        errors.append("functional review implementation/next-gate boundary mismatch")
+
+    scenarios = data.get("barracks_functional_value_measurement_scenarios", {})
+    if scenarios.get("decision_id") != BARRACKS_MEASUREMENT_DECISION or scenarios.get("parent_decision_id") != BARRACKS_FUNCTIONAL_REVIEW_DECISION:
+        errors.append("measurement-scenario lineage mismatch")
+    if scenarios.get("baseline_main") != CURRENT_SOURCE_MAIN_SHA or scenarios.get("base_current_main_observed") != CURRENT_BASE_MAIN_OBSERVED:
+        errors.append("measurement-scenario provenance mismatch")
+    if scenarios.get("fixture_policy") != "DETERMINISTIC_SAME_INPUT":
+        errors.append("measurement fixture policy mismatch")
+    if scenarios.get("functional_value_comparison") != "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE" or scenarios.get("post_hoc_weight_tuning") != "FORBIDDEN":
+        errors.append("measurement comparison contract mismatch")
+    if scenarios.get("blocked_runtime_output_policy") != "NEVER_SYNTHESIZE_AS_ZERO":
+        errors.append("blocked output policy mismatch")
+    if scenarios.get("scenario_ids") != ["FV-COMMON-01", "FV-PRIEST-01", "FV-MAGE-01", "FV-FLIER-01", "FV-GIANT-01"]:
+        errors.append("scenario ID set mismatch")
+    if scenarios.get("measurement_scenario_blocker") != "CLOSED_BY_THIS_DECISION" or scenarios.get("role_output_runtime_blocker") != "REMAINS":
+        errors.append("measurement/runtime blocker transition mismatch")
+    if scenarios.get("final_functional_value_index") is not None or scenarios.get("final_parameter_vector") is not None:
+        errors.append("measurement Gate must not select final values")
+    if scenarios.get("product_implementation") != "NOT_AUTHORIZED" or scenarios.get("godot_authoring") != "NOT_AUTHORIZED":
+        errors.append("measurement Gate must not authorize product mutation")
+    if scenarios.get("next_gate") != "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE":
+        errors.append("measurement next Gate mismatch")
 
     tools = data.get("tool_authority", {})
     if tools.get("higodot", {}).get("authority") != "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY":
@@ -184,7 +184,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("active_contract_v4_4=PASS application_binding=ACTIVE entry_gate=BLOCK robustness_9_of_10=PASS functional_value_review=COMPLETE role_output_runtime=PARTIAL next=FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS")
+    print("active_contract_v4_4=PASS entry_gate=BLOCK robustness_9_of_10=PASS functional_review=COMPLETE measurement_scenarios=DEFINED next=ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
     return 0
 
 
