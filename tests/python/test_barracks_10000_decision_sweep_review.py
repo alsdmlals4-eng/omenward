@@ -28,10 +28,7 @@ class Barracks10000DecisionSweepReviewTest(unittest.TestCase):
             signatures.setdefault(signature, []).append(row["vector_id"])
         tied_groups = sorted(group for group in signatures.values() if len(group) > 1)
         self.assertIn(["V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH"], tied_groups)
-        self.assertIn(
-            ["V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH", "V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"],
-            tied_groups,
-        )
+        self.assertIn(["V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH", "V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"], tied_groups)
 
     def test_review_authority_blocks_false_parameter_selection_precision(self) -> None:
         text = REVIEW.read_text(encoding="utf-8")
@@ -42,23 +39,24 @@ class Barracks10000DecisionSweepReviewTest(unittest.TestCase):
         self.assertIn("ROBUSTNESS_ONLY_10000 = OPTIONAL_AFTER_SEPARATE_APPROVAL", text)
         self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", text)
 
-    def test_durable_gate_moves_from_review_to_identifiability_definition(self) -> None:
+    def test_review_completion_remains_durable_when_later_gates_advance(self) -> None:
         state = json.loads(STATE.read_text(encoding="utf-8"))
         gate = state["entry_gate"]
-        self.assertEqual(state["last_gate_update_decision"], DECISION)
-        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", gate["blocking_reasons"])
-        self.assertIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", gate["blocking_reasons"])
-        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION")
         review = state["barracks_10000_review"]
+        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", gate["blocking_reasons"])
         self.assertEqual(review["decision_id"], DECISION)
         self.assertEqual(review["status"], "REVIEW_COMPLETE_EXECUTION_NOT_AUTHORIZED")
         self.assertEqual(review["parameter_selection"], "NOT_IDENTIFIABLE_WITH_CURRENT_DECISION_METRICS")
+        self.assertEqual(review["decision_sweep_10000_execution"], "NOT_AUTHORIZED")
+        self.assertEqual(review["confirmation_sweep_50000"], "BLOCKED")
+        self.assertIsNone(review["final_parameter_vector"])
+        self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
 
-    def test_pending_decisions_is_current_to_5_of_10_review_outcome(self) -> None:
+    def test_pending_decisions_preserves_review_history_without_stale_zero_of_ten(self) -> None:
         text = PENDING.read_text(encoding="utf-8")
-        self.assertIn("current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS", text)
-        self.assertIn("last_review_decision: " + DECISION, text)
-        self.assertIn("next_gate: BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION", text)
+        self.assertIn("5_OF_10 = REMEDIATION_SMOKE_PASS", text)
+        self.assertIn("6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE", text)
+        self.assertIn(DECISION, (ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md").read_text(encoding="utf-8"))
         self.assertNotIn("current_grill_me_count: 0_OF_10", text)
         self.assertNotIn("next_gate: BARRACKS_ECONOMY_PRODUCTION_AND_TOKEN_SOURCE_SIMULATION_CONTRACT", text)
 

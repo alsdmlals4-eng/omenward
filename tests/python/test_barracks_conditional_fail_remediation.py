@@ -36,8 +36,7 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertEqual("DIAGNOSTIC_NON_IDENTIFIABLE", proxy["general_path_validity_rate"])
         self.assertEqual("DIAGNOSTIC_NON_IDENTIFIABLE", proxy["each_special_outcome_path_validity_rate"])
         self.assertEqual(["DEFENSE_TOWER", "COMMAND_AURA", "MANA_TACTIC", "FRONTLINE_STATE"], proxy["channels"])
-        diagnostics = set(data["screening_semantics"]["diagnostic_only_combat_metrics"])
-        self.assertIn("WORST_SPECIAL_REGRET_RATE", diagnostics)
+        self.assertIn("WORST_SPECIAL_REGRET_RATE", set(data["screening_semantics"]["diagnostic_only_combat_metrics"]))
 
     def test_second_special_token_source_obeys_physical_reel_cap(self) -> None:
         data = json.loads(MODEL.read_text(encoding="utf-8"))
@@ -46,7 +45,6 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertEqual(1, rule["tokens_per_active_source_per_reel"])
         self.assertEqual(3, rule["second_special_min_non_special_active_sources"])
         self.assertEqual("DEFERRED_WHILE_GUARD_FALSE", rule["second_special_activation"])
-        self.assertLessEqual(float(rule["max_special_share_when_two_special_sources_active"]), 0.45)
         self.assertAlmostEqual(0.40, float(rule["max_special_share_when_two_special_sources_active"]), places=9)
         self.assertEqual("FORBIDDEN", rule["fractional_token_weight_workaround"])
 
@@ -71,7 +69,7 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertIn(json_hash, authority)
         self.assertIn(csv_hash, authority)
 
-    def test_remediation_pass_remains_durable_after_later_review_gate(self) -> None:
+    def test_remediation_pass_remains_durable_across_later_gates(self) -> None:
         ledger = LEDGER.read_text(encoding="utf-8")
         state = json.loads(STATE.read_text(encoding="utf-8"))
         barracks = state["barracks_remediation"]
@@ -84,11 +82,11 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertEqual("FORBIDDEN", barracks["combat_power_scalar"])
         self.assertAlmostEqual(0.333333, barracks["observed_baseline_special_token_share_burst_max"], places=6)
         self.assertEqual("NOT_AUTHORIZED", barracks["product_implementation"])
-        self.assertEqual(REVIEW_DECISION, state["last_gate_update_decision"])
-        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", state["entry_gate"]["blocking_reasons"])
-        self.assertIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", state["entry_gate"]["blocking_reasons"])
-        self.assertEqual("BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION", state["entry_gate"]["allowed_next_actions"][0])
-        self.assertIn("PRODUCT_IMPLEMENTATION", state["entry_gate"]["forbidden_actions"])
+        gate = state["entry_gate"]
+        self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", gate["blocking_reasons"])
+        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", gate["blocking_reasons"])
+        self.assertIn("PRODUCT_IMPLEMENTATION", gate["forbidden_actions"])
+        self.assertEqual("BLOCK", gate["decision"])
 
 
 if __name__ == "__main__":

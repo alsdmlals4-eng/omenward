@@ -1,0 +1,27 @@
+name: Validate Barracks Parameter Selection Observables
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-parameter-selection-observables.yml"
+      - "docs/analysis/barracks_simulation/**"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "tests/python/test_barracks_parameter_selection_observables.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  observable-contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile observable contract
+        run: python -m py_compile tests/python/test_barracks_parameter_selection_observables.py
+      - name: Run observable contract
+        run: python -m unittest tests.python.test_barracks_parameter_selection_observables
