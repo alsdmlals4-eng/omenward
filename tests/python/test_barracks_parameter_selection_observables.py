@@ -12,6 +12,7 @@ SPEC = ROOT / "docs" / "design" / "APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTIO
 
 DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1"
 ROBUSTNESS_REVIEW_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
+MEASUREMENT_DECISION_ID = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
 
 
 class BarracksParameterSelectionObservablesTest(unittest.TestCase):
@@ -36,32 +37,12 @@ class BarracksParameterSelectionObservablesTest(unittest.TestCase):
             scale = float(vector["special_interval_multiplier"]) / 1.70
             min_special = min(value * scale for value in special_base)
             (passed if min_special > general_max else failed).append(vector["vector_id"])
-        self.assertEqual(
-            failed,
-            [
-                "V01_CHEAP_FAST_LOW",
-                "V02_CHEAP_FAST_HIGH",
-                "V05_EXPENSIVE_FAST_LOW",
-                "V06_EXPENSIVE_FAST_HIGH",
-            ],
-        )
-        self.assertEqual(
-            passed,
-            [
-                "V00_BASELINE",
-                "V03_CHEAP_SLOW_LOW",
-                "V04_CHEAP_SLOW_HIGH",
-                "V07_EXPENSIVE_SLOW_LOW",
-                "V08_EXPENSIVE_SLOW_HIGH",
-            ],
-        )
+        self.assertEqual(failed, ["V01_CHEAP_FAST_LOW", "V02_CHEAP_FAST_HIGH", "V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH"])
+        self.assertEqual(passed, ["V00_BASELINE", "V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH", "V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"])
 
     def test_approved_baseline_forbids_single_weighted_opportunity_score(self) -> None:
         opportunity = self.baseline["opportunity_cost"]
-        self.assertEqual(
-            opportunity["comparison_form"],
-            "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE",
-        )
+        self.assertEqual(opportunity["comparison_form"], "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE")
         self.assertEqual(opportunity["gold_equivalent_formula"], "investment_gold / 40")
         self.assertEqual(opportunity["time_equivalent_formula"], "first_unit_wait_active_combat_seconds / 50")
         self.assertEqual(opportunity["food_equivalent_formula"], "unit_food_cost / 6")
@@ -81,7 +62,7 @@ class BarracksParameterSelectionObservablesTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_observables_gate_remains_durable_after_later_blocker_refinement(self) -> None:
+    def test_observables_gate_remains_durable_after_later_gates(self) -> None:
         obs = self.state["barracks_parameter_selection_observables"]
         gate = self.state["entry_gate"]
         self.assertEqual(obs["decision_id"], DECISION_ID)
@@ -91,12 +72,13 @@ class BarracksParameterSelectionObservablesTest(unittest.TestCase):
         self.assertEqual(obs["parameter_selection_10000"], "NOT_AUTHORIZED")
         self.assertNotIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", gate["blocking_reasons"])
         self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
+        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
         self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])
-        self.assertIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
         self.assertEqual(gate["decision"], "BLOCK")
         self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_50000_SEED_CONFIRMATION", gate["forbidden_actions"])
         self.assertEqual(self.state["barracks_10000_robustness_review"]["decision_id"], ROBUSTNESS_REVIEW_DECISION_ID)
+        self.assertEqual(self.state["barracks_functional_value_measurement_scenarios"]["decision_id"], MEASUREMENT_DECISION_ID)
 
 
 if __name__ == "__main__":
