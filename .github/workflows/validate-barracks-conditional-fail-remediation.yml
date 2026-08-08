@@ -1,0 +1,29 @@
+name: Validate Barracks Conditional-Fail Remediation
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-conditional-fail-remediation.yml"
+      - "docs/analysis/barracks_simulation/**"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "tests/python/test_barracks_conditional_fail_remediation.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remediation-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile focused contract
+        run: python -m py_compile tests/python/test_barracks_conditional_fail_remediation.py
+      - name: Run focused remediation contract
+        run: python -m unittest tests.python.test_barracks_conditional_fail_remediation -v
