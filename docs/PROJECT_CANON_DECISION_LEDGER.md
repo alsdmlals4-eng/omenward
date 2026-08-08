@@ -3,7 +3,7 @@
 ```yaml
 updated_at: 2026-08-09
 status: CURRENT_DECISION_LEDGER
-source_main_observed: 615a7fbe818b18a8ca916a66a2891f49a8e0c0df
+source_main_observed: f1bf8939208a864bce1f99eea0555f05369dc9d6
 base_main_observed: 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 last_gate_update_decision: OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1
@@ -39,13 +39,13 @@ FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
-## 2. Tool user-approval Decision
+## 2. Tool user-approval + remote-sync Decision
 
 Current tool Decision:
 
 `OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1`
 
-The user directly approved the following state:
+User-approved state:
 
 ```text
 GODOT_AI_APPROVED_VERSION = 3.1.3
@@ -58,7 +58,8 @@ Hosted verification boundary:
 ```text
 USER_REPORTED_LOCAL_ENABLEMENT = ACCEPTED_AS_USER_FACT
 HOST_VERIFIED_LOCAL_EDITOR_ENABLEMENT = NO
-REMOTE_SYNC_COMPLETION = NOT_CLAIMED
+REMOTE_SYNC_COMPLETION = VERIFIED
+REMOTE_SYNC_MAIN = f1bf8939208a864bce1f99eea0555f05369dc9d6
 ```
 
 ### Godot AI / HiGodot
@@ -68,12 +69,10 @@ CANONICAL_REPOSITORY = hi-godot/godot-ai
 UPSTREAM_RELEASE = v3.1.3
 PLUGIN_ZIP_SHA256 = 10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7
 AUTHORITY = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY
-REMOTE_PROJECT_VERSION = 3.1.2
+REMOTE_PROJECT_VERSION = 3.1.3
 REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
-REMOTE_SYNC = REQUIRED
+REMOTE_SYNC = VERIFIED
 ```
-
-This closes `HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED` as an approval/provenance blocker.
 
 ### GUT
 
@@ -85,11 +84,11 @@ PROJECT_PLUGIN_VERSION = 9.7.1
 AUTHORITY = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
 USER_APPROVAL = APPROVED
 USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
-REMOTE_EDITOR_PLUGIN_ENABLED = FALSE
-REMOTE_SYNC = REQUIRED
+REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
+REMOTE_SYNC = VERIFIED
 ```
 
-PR #155/#156 may remain open for historical cleanup or vendor-detail review, but `GUT_ADOPTION_SPEC_PR155_NOT_MERGED` no longer negates the user's direct approval.
+PR #155/#156 may remain open for historical cleanup or vendor-detail review, but `GUT_ADOPTION_SPEC_PR155_NOT_MERGED` no longer negates the user's direct approval or current remote enablement.
 
 ### Hera
 
@@ -102,8 +101,9 @@ EXISTING_SOLUTION_DISPOSITION = REUSE_APPROVED_BY_USER
 ROLE = LIVE_QA_AND_OBSERVABILITY_ONLY
 PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
-REMOTE_EDITOR_PLUGIN_ENABLED = FALSE
-REMOTE_SYNC = REQUIRED
+REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
+REMOTE_HERA_GAME_INSPECTOR_AUTOLOAD = PRESENT
+REMOTE_SYNC = VERIFIED
 ```
 
 Bundled README says `v0.9.0` while `plugin.cfg` and upstream release say `1.0.0`; this is `NONBLOCKING_DOCUMENTATION_STALENESS` and must not be misreported as the plugin version.
@@ -117,11 +117,6 @@ HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
 GUT_ADOPTION_SPEC_PR155_NOT_MERGED
 HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED
 DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
-```
-
-Current tool-sync blockers:
-
-```text
 GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
 GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
 HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
@@ -145,20 +140,19 @@ HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 ROLE_OVERLAP = FORBIDDEN
 ```
 
-User approval does not collapse these roles.
+User approval and enablement do not collapse these roles.
 
-## 5. Remote evidence conflict
+## 5. Direct-main remote sync readback
 
-At baseline main `615a7fbe...`:
+Current main `f1bf8939208a864bce1f99eea0555f05369dc9d6` contains only the user-side tool sync delta relative to PR170 main:
 
 ```text
-project.godot enabled plugins = Godot AI only
-addons/godot_ai/plugin.cfg = 3.1.2
-addons/gut/plugin.cfg = 9.7.1
-addons/hera_agent_godot/plugin.cfg = 1.0.0
+addons/godot_ai/plugin.cfg = 3.1.3
+project.godot editor plugins = Godot AI + GUT + Hera
+project.godot HeraGameInspector autoload = present
 ```
 
-Therefore the user-approved state and remote repository are not yet synchronized. This is explicitly recorded as sync drift, not an approval failure.
+PR171 does not re-author those Godot files; it reconciles their already-present state into canon and Sheet.
 
 ## 6. Base freshness
 
