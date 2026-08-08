@@ -3,10 +3,10 @@
 ```yaml
 updated_at: 2026-08-09
 decision_id: OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1
-parent_main: 615a7fbe818b18a8ca916a66a2891f49a8e0c0df
-status: USER_APPROVAL_RECOGNIZED / UPSTREAM_VERSION_PROVENANCE_VERIFIED / REMOTE_SYNC_REQUIRED
+remote_sync_main: f1bf8939208a864bce1f99eea0555f05369dc9d6
+status: USER_APPROVAL_RECOGNIZED / UPSTREAM_VERSION_PROVENANCE_VERIFIED / REMOTE_SYNC_VERIFIED
 approval: USER_DIRECT_APPROVAL_IN_CURRENT_CONVERSATION
-scope: TOOL_STATE_RECONCILIATION_ONLY / NO_GODOT_MUTATION
+scope: TOOL_STATE_RECONCILIATION_ONLY / PR_DOES_NOT_AUTHOR_GODOT_FILES
 ```
 
 ## 1. 사용자 승인 입력
@@ -21,34 +21,24 @@ HERA_USER_APPROVAL = APPROVED
 HERA_USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
 ```
 
-`ENABLED_NOT_HOST_VERIFIED`는 사용자의 활성화 보고를 인정하면서 현재 hosted agent가 Windows 로컬 Godot editor를 직접 검증하지 못한다는 경계를 보존한다.
+`ENABLED_NOT_HOST_VERIFIED`는 사용자의 로컬 활성화 보고를 인정하면서 현재 hosted agent가 Windows 로컬 Godot editor/runtime을 직접 검증하지 못한다는 경계를 보존한다.
 
 ## 2. Godot AI / HiGodot upstream 및 remote 상태
-
-Canonical repository:
 
 ```text
 GODOT_AI_CANONICAL_REPOSITORY = hi-godot/godot-ai
 GODOT_AI_UPSTREAM_RELEASE = v3.1.3
 GODOT_AI_UPSTREAM_PUBLISHED_AT = 2026-08-07T18:37:36Z
 GODOT_AI_PLUGIN_ZIP_SHA256 = 10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7
-```
-
-따라서 기존 `HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED`는 닫는다.
-
-현재 OMENWARD remote main:
-
-```text
-REMOTE_GODOT_AI_VERSION = 3.1.2
+REMOTE_GODOT_AI_VERSION = 3.1.3
 REMOTE_PROJECT_GODOT_GODOT_AI_ENABLED = TRUE
-REMOTE_GODOT_AI_3_1_3_SYNC = REQUIRED
+REMOTE_SYNC_COMMIT = f1bf8939208a864bce1f99eea0555f05369dc9d6
+REMOTE_SYNC_COMPLETION = VERIFIED
 ```
 
-사용자 승인 버전과 remote main의 차이는 승인 실패가 아니라 repository synchronization drift다.
+기존 `HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED`와 `GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED`는 닫는다.
 
 ## 3. GUT 9.7.1 승인 및 remote 상태
-
-Upstream:
 
 ```text
 GUT_CANONICAL_REPOSITORY = bitwes/Gut
@@ -56,23 +46,14 @@ GUT_UPSTREAM_RELEASE = v9.7.1
 GUT_UPSTREAM_RELEASE_BRANCH = godot_4_7
 GUT_PROJECT_PLUGIN_VERSION = 9.7.1
 GUT_AUTHORITY = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
-```
-
-사용자 승인으로 기존 `GUT_ADOPTION_SPEC_PR155_NOT_MERGED`는 더 이상 **adoption approval blocker**가 아니다. PR #155와 #156은 역사/정리 대상으로 남을 수 있으나, 현재 승인 상태를 부정하는 blocker로 사용하지 않는다.
-
-현재 remote main:
-
-```text
-REMOTE_PROJECT_GODOT_GUT_ENABLED = FALSE
-GUT_REMOTE_ENABLEMENT_SYNC = REQUIRED
+REMOTE_PROJECT_GODOT_GUT_ENABLED = TRUE
+GUT_REMOTE_ENABLEMENT_SYNC = VERIFIED
 FORMAL_GUT_EXECUTION_IN_CURRENT_HOSTED_SESSION = NOT_RUN
 ```
 
-로컬 활성화 보고는 인정하지만 remote `project.godot` 동기화 완료 또는 현재 hosted 세션의 GUT 실행 완료를 주장하지 않는다.
+사용자 승인과 remote enablement가 모두 확인됐으므로 `GUT_ADOPTION_SPEC_PR155_NOT_MERGED`와 `GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED`는 현재 adoption/enablement blocker가 아니다. PR #155/#156은 역사적 설계·vendor 정리 후보로만 남는다.
 
 ## 4. Hera 1.0.0 승인 및 Existing Solution First disposition
-
-Bundled addon evidence:
 
 ```text
 HERA_CANONICAL_REPOSITORY = NotNull92/hera-agent-godot
@@ -82,24 +63,15 @@ HERA_LICENSE = MIT
 HERA_ROLE = LIVE_QA_AND_OBSERVABILITY_ONLY
 HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 HERA_EXISTING_SOLUTION_DISPOSITION = REUSE_APPROVED_BY_USER
+REMOTE_PROJECT_GODOT_HERA_ENABLED = TRUE
+REMOTE_HERA_GAME_INSPECTOR_AUTOLOAD = PRESENT
+HERA_REMOTE_ENABLEMENT_SYNC = VERIFIED
+REMOTE_SYNC_COMPLETION = VERIFIED
 ```
 
-따라서 다음 기존 blocker는 닫는다.
+따라서 `HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED`, `DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED`, `HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED`는 닫는다.
 
-```text
-HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED = CLOSED
-DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED = CLOSED_BY_REUSE_APPROVAL_AND_PROVENANCE_RECOVERY
-```
-
-현재 remote main:
-
-```text
-REMOTE_PROJECT_GODOT_HERA_ENABLED = FALSE
-HERA_REMOTE_ENABLEMENT_SYNC = REQUIRED
-REMOTE_SYNC_COMPLETION = NOT_CLAIMED
-```
-
-Bundled metadata drift도 기록한다.
+Bundled metadata drift는 남긴다.
 
 ```text
 HERA_PROJECT_PLUGIN_CFG_VERSION = 1.0.0
@@ -108,7 +80,7 @@ HERA_UPSTREAM_RELEASE_VERSION = 1.0.0
 HERA_README_METADATA_DRIFT = NONBLOCKING_DOCUMENTATION_STALENESS
 ```
 
-plugin manifest와 upstream release가 1.0.0으로 일치하므로 README의 v0.9.0 문구는 채택 차단이 아니라 정리 대상 metadata stale로 분류한다.
+plugin manifest와 upstream release가 1.0.0으로 일치하므로 README의 v0.9.0 문구는 채택 차단이 아니라 문서 정리 대상이다.
 
 ## 5. 역할 경계
 
@@ -121,9 +93,23 @@ MUTATION_AUTHORITY_OVERLAP = FORBIDDEN
 ROLE_OVERLAP = FORBIDDEN
 ```
 
-사용자 승인은 역할 분리를 해제하지 않는다.
+사용자 승인과 remote sync는 역할 분리를 해제하지 않는다.
 
-## 6. Blocker 전이
+## 6. Direct-main sync의 해석
+
+`f1bf8939208a864bce1f99eea0555f05369dc9d6`은 이 PR 밖에서 이미 `main`에 존재하는 사용자 측 sync다.
+
+변경 범위:
+
+```text
+addons/godot_ai/plugin.cfg: 3.1.2 -> 3.1.3
+project.godot: GUT + Hera editor plugin enablement
+project.godot: HeraGameInspector autoload
+```
+
+이 PR은 해당 Godot 파일을 다시 저작하지 않고 readback 증거로만 소비한다. 따라서 HiGodot sole-authoring 권위를 GitHub API 쓰기로 우회하지 않는다.
+
+## 7. Blocker 전이
 
 닫는 blocker:
 
@@ -132,11 +118,6 @@ HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
 GUT_ADOPTION_SPEC_PR155_NOT_MERGED
 HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED
 DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
-```
-
-새 remote-sync blocker:
-
-```text
 GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
 GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
 HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
@@ -150,27 +131,23 @@ LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE
 HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK
 ```
 
-## 7. 현재 세션 실행 경계
-
-이 Decision은 `project.godot`, addon 파일 또는 제품 코드를 직접 수정하지 않는다. 프로젝트 계약상 persistent Godot authoring은 Godot AI/HiGodot sole authority를 거쳐야 하며, 현재 ChatGPT 세션에는 그 editor-authoring executor가 노출되어 있지 않다.
-
-따라서:
+## 8. 현재 세션 검증 경계
 
 ```text
 USER_APPROVAL = RECORDED
+REMOTE_SYNC_COMPLETION = VERIFIED
 USER_REPORTED_LOCAL_ENABLEMENT = RECORDED_NOT_HOST_VERIFIED
-REMOTE_SYNC_COMPLETION = NOT_CLAIMED
 LOCAL_GODOT_RUNTIME_COMPLETION = NOT_CLAIMED
 HERA_LIVE_QA_COMPLETION = NOT_CLAIMED
 FORMAL_GUT_EXECUTION_COMPLETION = NOT_CLAIMED
 ```
 
-## 8. 다음 작업
+remote configuration readback과 실제 로컬 실행 검증을 동일시하지 않는다.
 
-병영 planning의 첫 next action은 유지한다.
+## 9. 다음 작업
 
 ```text
 NEXT_GATE = BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
 ```
 
-동시에 remote-sync 3건은 authorized Godot authoring executor가 사용 가능한 시점에 로컬/원격 상태를 맞추고 검증해야 한다. 이 sync는 사용자 재승인이 필요한 새 채택 결정이 아니라 이미 승인된 tool state의 repository 반영 작업이다.
+이 package는 필요한 runtime schema/behavior/instrumentation, GUT Red/Green acceptance, Hera live-QA acceptance와 HiGodot authoring manifest를 정의한다. 현재 세션에 HiGodot authoring executor가 노출되지 않았으므로 persistent product mutation 자체는 우회 실행하지 않는다.
