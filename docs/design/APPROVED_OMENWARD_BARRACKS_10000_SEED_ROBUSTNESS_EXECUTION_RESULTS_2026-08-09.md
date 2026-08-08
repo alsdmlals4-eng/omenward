@@ -1,0 +1,181 @@
+# [승인] OMENWARD 병영 10,000-seed Robustness-Only 실행 결과
+
+```yaml
+updated_at: 2026-08-09
+decision_id: OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1
+parent_decision_id: OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
+status: APPROVED_9_OF_10_ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_DEFERRED / FINAL_VECTOR_NOT_SELECTED
+approval: USER_EXPLICIT_RECOMMENDED_PLAN_APPROVAL
+scope: V00_COST_INTERVAL_ROBUSTNESS_ONLY
+product_code_authority: NONE
+```
+
+## 1. 실행 결론
+
+사용자 승인에 따라 전용 runner와 고유 evidence identity를 사용해 **정확히 10,000 seed**의 V00-only robustness sweep를 실행했다.
+
+```text
+ROBUSTNESS_10000 = PASS
+ACTUAL_10000_EXECUTION = COMPLETED
+SEED_COUNT = 10000
+COMMON_RANDOM_NUMBERS = TRUE
+PARAMETER_VECTOR_COUNT = 1
+ROBUSTNESS_ENVELOPE = V00_BASELINE_COST_INTERVAL_ONLY
+SPECIAL_BARRACKS_COST_GOLD = 60
+SPECIAL_INTERVAL_MULTIPLIER = 1.70
+SPECIAL_FUNCTIONAL_VALUE_INDEX = DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+PARAMETER_SELECTION_10000 = NOT_AUTHORIZED
+CONFIRMATION_SWEEP_50000 = BLOCKED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
+GODOT_AUTHORING = NOT_AUTHORIZED
+```
+
+이 PASS는 **경제·생산·물리 TokenSource robustness 범위**에만 적용한다. 전투 성능 또는 역할 가치가 식별됐다는 뜻이 아니다.
+
+## 2. 전용 실행 provenance
+
+```text
+RUNNER = docs/analysis/barracks_simulation/run_barracks_robustness_10000.py
+OUTPUT_STEM = robustness_sweep_10000.v1
+RESULT_JSON = docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json
+RESULT_JSON_SHA256 = 1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3
+RESULT_CSV = docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv
+RESULT_CSV_SHA256 = e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b
+INITIAL_ACTUAL_EXECUTION_WORKFLOW = 31279360146
+INITIAL_ACTUAL_EXECUTION_JOB = 93158069806
+ARTIFACT_PRESERVATION_WORKFLOW = 31279508897
+ARTIFACT_ID = 9027996435
+```
+
+전용 output stem은 기존 2k evidence와 경로·파일명이 다르며, runner는 2k source hashes를 fail-closed로 검증한다.
+
+## 3. 입력 hash binding
+
+```text
+CURRENT_MAPRUN_BASELINE_SHA256 = a8424ae1b5f22e86db3eca52b7942ff5b1f0e50a3c689ae57b9062550c066878
+HISTORICAL_SMOKE_MODEL_SHA256 = 9fd10ad3ad131c4dbfcf2700144e61449e890324a861892e470004a5bfdc627a
+REMEDIATION_MODEL_SHA256 = 2be4edd633e809a65f6c512ce4d4808cc9a875919977d5907cf7ee7d6a29eb3a
+```
+
+기존 canonical 2,000-seed evidence는 보존됐다.
+
+```text
+SOURCE_2K_JSON_SHA256 = a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2
+SOURCE_2K_CSV_SHA256 = 3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560
+SOURCE_2K_SEED_COUNT = 2000
+SOURCE_2K_PRESERVATION = UNCHANGED_REQUIRED
+```
+
+## 4. Robustness decision metrics
+
+이번 실행의 pass/fail에 사용한 metric은 사전 정의한 비전투 robustness surface로 제한한다.
+
+```text
+ROBUSTNESS_GATE_METRICS =
+- SPECIAL_TOKEN_SHARE_10_MIN
+- SPECIAL_TOKEN_SHARE_BURST_MAX
+- REROLL_EXPECTED_VALUE_GAIN
+
+SPECIAL_TOKEN_SHARE_10_MIN = 0.296265 <= 0.35 / PASS
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333 <= 0.45 / PASS
+REROLL_EXPECTED_VALUE_GAIN = 0.0 / PASS
+ROBUSTNESS_FAILED_GATES = []
+```
+
+5/10의 2k 값 `SPECIAL_TOKEN_SHARE_10_MIN=0.296259`, `BURST_MAX=0.333333`과 비교할 때 10k에서도 승인 한계 안에 유지된다. 이 비교는 precision/stability readback이며 새 parameter selection score가 아니다.
+
+## 5. second-special physical TokenSource guard
+
+```text
+SECOND_SPECIAL_MIN_NON_SPECIAL_ACTIVE_SOURCES = 3
+DEFERRED_SECOND_SPECIAL_TOKEN_SOURCE_OBSERVATIONS = 82181
+STATUS = PRESERVED_AND_OBSERVED
+```
+
+두 번째 special의 auto-production은 기존 계약대로 계속 가능하지만 물리 TokenSource는 non-special active source가 3개 미만인 동안 defer된다. fractional token weight workaround는 도입하지 않았다.
+
+## 6. 전투·역할 진단은 계속 비식별
+
+Raw simulator diagnostics:
+
+```text
+GENERAL_PATH_VALIDITY_RATE = 0.0
+EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE = 0.0 for assassin/priest/mage/flying_unit/giant
+WORST_SPECIAL_REGRET_RATE = 1.0
+SPECIAL_OPTION_DOMINANCE_RATE = 0.0
+MULTI_SPECIAL_DOMINANCE_RATE = 0.0
+SECOND_SPECIAL_MARGINAL_VALUE_RATIO = 0.0
+```
+
+다음 세 항목은 raw threshold 기준 실패를 계속 보존한다.
+
+```text
+GENERAL_PATH_VALIDITY_RATE = DIAGNOSTIC_FAIL
+EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE = DIAGNOSTIC_FAIL
+WORST_SPECIAL_REGRET_RATE = DIAGNOSTIC_FAIL
+```
+
+그러나 이는 이번 robustness PASS를 뒤집는 decision gate가 아니다.
+
+```text
+IDENTIFIABILITY = DIAGNOSTIC_NON_IDENTIFIABLE
+BALANCE_GATE = EXCLUDED_UNTIL_PRODUCT_COMBAT_NUMERICS_EXIST
+COMBAT_POWER_SCALAR = FORBIDDEN
+NUMERIC_SUPPORT_CONTRIBUTION = 0
+SECOND_SPECIAL_MARGINAL_VALUE_RATIO = DIAGNOSTIC_NON_SELECTION_FOR_THIS_ROBUSTNESS_RUN
+```
+
+따라서 `special_functional_value_index=1.5`라는 simulator의 역사 입력값은 `NON_DECISION_LEGACY_INPUT_ONLY`로 기록하며 제품 기능가치 수치로 승인하지 않는다.
+
+## 7. 9/10 이후 경계
+
+이번 Gate가 해소하는 것은 전용 10k runner/evidence provenance 및 승인된 robustness 실행뿐이다.
+
+해소:
+
+```text
+BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED = CLOSED_BY_THIS_DECISION
+BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED = CLOSED_BY_THIS_DECISION
+ROBUSTNESS_ONLY_10000_NOT_RUN = CLOSED_BY_EXACT_10000_EXECUTION
+```
+
+계속 차단:
+
+```text
+BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED
+PARAMETER_SELECTION_10000
+CONFIRMATION_SWEEP_50000
+FINAL_PARAMETER_VECTOR
+FINAL_PRODUCT_NUMERICS
+PRODUCT_IMPLEMENTATION
+GODOT_AUTHORING_MUTATION
+```
+
+10k robustness PASS만으로 기능가치나 최종 제품 수치를 추론하지 않는다.
+
+## 8. 다음 Gate
+
+현재 barracks 수치 의사결정의 다음 핵심 병목은 기능가치를 식별할 **제품 전투/역할 output numerics의 정본 부재**다.
+
+```text
+NEXT_GATE = BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW
+```
+
+이 다음 Gate는 전투/역할 수치를 어떤 제품 정본과 측정 surface로 정의할지 검토하는 계획 Gate다. 새 기능가치 숫자, 최종 3D parameter vector, 50k confirmation 또는 제품 구현을 자동 승인하지 않는다.
+
+독립 tooling Gate인 PR #155 GUT adoption-spec review와 Hera Existing Solution First disposition도 계속 별도 허용 작업으로 남는다.
+
+## 9. 제품 및 로컬 경계
+
+이번 변경은 분석 runner/evidence와 planning authority에 한정한다.
+
+```text
+PRODUCT_CODE = UNCHANGED
+SCENE_RESOURCE_DATA = UNCHANGED
+PROJECT_GODOT = UNCHANGED
+LOCAL_WINDOWS_GODOT = BLOCKED_UNVERIFIED
+AUDIO_VAULT = BLOCKED_UNVERIFIED
+ENTRY_GATE = BLOCK
+```
