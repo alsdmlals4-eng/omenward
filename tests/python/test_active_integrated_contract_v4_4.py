@@ -18,6 +18,8 @@ BARRACKS_ROBUSTNESS_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-
 BARRACKS_ROBUSTNESS_EXECUTION_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1"
 BARRACKS_FUNCTIONAL_REVIEW_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1"
 BARRACKS_MEASUREMENT_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
+TOOL_SYNC_DECISION = "OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1"
+CURRENT_SOURCE_MAIN_SHA = "f1bf8939208a864bce1f99eea0555f05369dc9d6"
 
 
 def load_validator():
@@ -45,17 +47,27 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         mutated["entry_gate"]["decision"] = "PASS"
         self.assertIn("entry gate must remain BLOCK", self.validator.validate_state(mutated))
 
-    def test_measurement_scenarios_close_only_their_blocker_and_advance_runtime_package(self) -> None:
+    def test_tool_sync_gate_is_current_and_runtime_package_remains_next(self) -> None:
         gate = self.state["entry_gate"]
-        self.assertEqual(self.state["schema_version"], "2.0")
-        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_MEASUREMENT_DECISION)
-        self.assertEqual(self.state["source_repository_main_sha"], "02b803b075d5e44f5aa3db895c5dad025d048148")
+        self.assertEqual(self.state["schema_version"], "2.1")
+        self.assertEqual(self.state["last_gate_update_decision"], TOOL_SYNC_DECISION)
+        self.assertEqual(self.state["source_repository_main_sha"], CURRENT_SOURCE_MAIN_SHA)
         self.assertEqual(self.state["base_current_main_observed"], "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b")
-        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
+        for closed in (
+            "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED",
+            "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
+            "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
+            "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
+            "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
+            "GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED",
+            "GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED",
+            "HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED",
+        ):
+            self.assertNotIn(closed, gate["blocking_reasons"])
         self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])
         self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
         self.assertIn("PRODUCT_IMPLEMENTATION", gate["forbidden_actions"])
-        self.assertIn("GODOT_AUTHORING_MUTATION", gate["forbidden_actions"])
+        self.assertIn("GODOT_AUTHORING_MUTATION_WITHOUT_HIGODOT", gate["forbidden_actions"])
         self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_50000_SEED_CONFIRMATION", gate["forbidden_actions"])
 
@@ -93,10 +105,11 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         self.assertEqual(functional["role_complete_product_output_numerics"], "PARTIAL_INSUFFICIENT")
         self.assertIsNone(functional["final_functional_value_index"])
 
-    def test_measurement_scenario_contract_is_deterministic_blocked_not_zero_and_nonfinal(self) -> None:
+    def test_measurement_scenario_contract_remains_deterministic_blocked_not_zero_and_nonfinal(self) -> None:
         scenarios = self.state["barracks_functional_value_measurement_scenarios"]
         self.assertEqual(scenarios["decision_id"], BARRACKS_MEASUREMENT_DECISION)
         self.assertEqual(scenarios["parent_decision_id"], BARRACKS_FUNCTIONAL_REVIEW_DECISION)
+        self.assertEqual(scenarios["baseline_main"], "02b803b075d5e44f5aa3db895c5dad025d048148")
         self.assertEqual(scenarios["fixture_policy"], "DETERMINISTIC_SAME_INPUT")
         self.assertEqual(scenarios["functional_value_comparison"], "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE")
         self.assertEqual(scenarios["post_hoc_weight_tuning"], "FORBIDDEN")
@@ -111,12 +124,20 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         self.assertEqual(scenarios["godot_authoring"], "NOT_AUTHORIZED")
         self.assertEqual(scenarios["next_gate"], "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
 
-    def test_tool_roles_and_local_boundary_remain_until_separate_tool_sync(self) -> None:
+    def test_tool_roles_remote_sync_and_local_boundary_are_separate(self) -> None:
         tools = self.state["tool_authority"]
         self.assertEqual(tools["higodot"]["authority"], "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY")
+        self.assertEqual(tools["higodot"]["approved_version"], "3.1.3")
+        self.assertEqual(tools["higodot"]["remote_version_observed"], "3.1.3")
+        self.assertEqual(tools["higodot"]["remote_sync_status"], "VERIFIED")
         self.assertEqual(tools["gut"]["authority"], "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED")
+        self.assertTrue(tools["gut"]["remote_editor_plugin_enabled"])
+        self.assertEqual(tools["gut"]["remote_sync_status"], "VERIFIED")
         self.assertEqual(tools["hera"]["role"], "LIVE_QA_AND_OBSERVABILITY_ONLY")
         self.assertEqual(tools["hera"]["persistent_source_mutation"], "FORBIDDEN")
+        self.assertTrue(tools["hera"]["remote_editor_plugin_enabled"])
+        self.assertTrue(tools["hera"]["remote_game_inspector_autoload"])
+        self.assertEqual(tools["hera"]["remote_sync_status"], "VERIFIED")
         self.assertEqual(self.state["local_delivery"]["status"], "BLOCKED_UNVERIFIED")
 
 
