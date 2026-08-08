@@ -128,8 +128,6 @@ class SmokeSimulator:
 
         def token_state() -> tuple[Any, Any, Any, Any]:
             symbol_counts = np.zeros((n, len(UNIT_TYPES) + 1), dtype=np.float64)
-            # Physical non-special TokenSources represented by the historical model:
-            # one vault/gold source and the main general-barracks source.
             symbol_counts[:, 0] = 1.0
             symbol_counts[:, 1 + UNIT_INDEX[main_symbol]] += 1.0
             symbol_counts[extra_active, 1 + UNIT_INDEX["basic_infantry"]] += 1.0
@@ -235,7 +233,6 @@ class SmokeSimulator:
             extra_progress[:] -= produced_extra * 50.0
             counts[:, UNIT_INDEX["basic_infantry"]] += produced_extra
 
-            # Auto-production uses building activity, not TokenSource guard activity.
             for slot in range(2):
                 active_rows = np.flatnonzero(special_active[:, slot])
                 if not active_rows.size:
@@ -316,6 +313,7 @@ class SmokeSimulator:
             "min_margin": min_margin,
             "mean_margin": margin_sum / 15.0,
             "unit_equivalent_10_min": snapshots[600]["unit_equivalent"],
+            "unit_equivalent_15_min": snapshots[900]["unit_equivalent"],
             "token_share_10_min": snapshots[600]["token_share"],
             "token_share_burst_max": token_share_max,
             "second_special_token_source_deferred_10_min": snapshots[600]["second_special_deferred"],
