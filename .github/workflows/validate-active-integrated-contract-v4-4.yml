@@ -19,6 +19,7 @@ on:
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_active_integrated_contract_v4_3.py"
       - "tests/python/test_project_base_adapter_freshness.py"
+      - "tests/python/test_adversarial_review_contract.py"
       - "tests/test_base_v9_adoption.py"
       - "tests/test_base_v942_planning_first_adoption.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
@@ -67,6 +68,7 @@ jobs:
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_active_integrated_contract_v4_3.py",
               "tests/python/test_project_base_adapter_freshness.py",
+              "tests/python/test_adversarial_review_contract.py",
               "tests/test_base_v9_adoption.py",
               "tests/test_base_v942_planning_first_adoption.py",
               "tools/validate_active_integrated_contract_v4_4.py",
@@ -89,10 +91,11 @@ jobs:
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
             tests/python/test_active_integrated_contract_v4_4.py \
-            tests/python/test_project_base_adapter_freshness.py
+            tests/python/test_project_base_adapter_freshness.py \
+            tests/python/test_adversarial_review_contract.py
 
       - name: Run v4.4 bootstrap contract tests
-        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_project_base_adapter_freshness
+        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_project_base_adapter_freshness tests.python.test_adversarial_review_contract
 
       - name: Validate v4.4 active binding
         run: python tools/validate_active_integrated_contract_v4_4.py
