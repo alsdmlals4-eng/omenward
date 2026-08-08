@@ -198,17 +198,17 @@
     },
     {
       "route_id": "omenward-core-design",
-      "skil_id": "omenward-core-design",
+      "skill_id": "omenward-core-design",
       "status": "ACTIVE"
     },
     {
       "route_id": "omenward-core-ux",
-      "skil_id": "omenward-core-ux",
+      "skill_id": "omenward-core-ux",
       "status": "ACTIVE"
     },
     {
       "route_id": "omenward-godot",
-      "skil_id": "omenward-godot",
+      "skill_id": "omenward-godot",
       "status": "ACTIVE"
     }
   ],
