@@ -1,0 +1,52 @@
+name: Validate Barracks 10000 Robustness Execution
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-10000-robustness-execution.yml"
+      - "docs/analysis/barracks_simulation/**"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/DECISIONS_PENDING.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
+      - "tests/python/test_barracks_10000_robustness_execution.py"
+      - "tests/python/test_active_integrated_contract_v4_4.py"
+      - "tools/validate_active_integrated_contract_v4_4.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  robustness-execution-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install simulator dependency
+        run: python -m pip install --disable-pip-version-check numpy
+
+      - name: Compile dedicated execution contract
+        run: python -m py_compile tests/python/test_barracks_10000_robustness_execution.py
+
+      - name: Run dedicated execution contract tests
+        run: python -m unittest tests.python.test_barracks_10000_robustness_execution
+
+      - name: Re-run exact 10000-seed robustness evidence
+        run: |
+          tmp="$(mktemp -d)"
+          python docs/analysis/barracks_simulation/run_barracks_robustness_10000.py --root . --output-dir "$tmp"
+          cmp "$tmp/robustness_sweep_10000.v1.json" docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json
+          cmp "$tmp/robustness_sweep_10000.v1.csv" docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv
+          sha256sum \
+            docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json \
+            docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv \
+            docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json \
+            docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv
