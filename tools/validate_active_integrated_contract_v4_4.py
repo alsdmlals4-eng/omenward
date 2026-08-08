@@ -11,14 +11,17 @@ STATE_PATH = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 DECISION_ID = "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1"
 BASE_RECOVERY_DECISION = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
 ADAPTER_FRESHNESS_DECISION = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
+BARRACKS_REMEDIATION_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
 BASE_SHA = "fa69a77a14f923a756064f6ae151d34cadb374f7"
-SOURCE_MAIN_SHA = "7b41923628b68c7c1477b286584973d8516eab6d"
+SOURCE_MAIN_SHA = "b28533cba722e293fdbfc1d1b43478dd8ded380d"
 ADAPTER_BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-RECONCILIATION_BRANCH = "process/v4-4-entry-reconciliation-20260808"
+RECONCILIATION_BRANCH = "planning/pr154-conditional-fail-remediation-20260808"
+RESULT_JSON_SHA = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
+RESULT_CSV_SHA = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
 
 REQUIRED_BLOCKERS = {
-    "PR154_CONDITIONAL_FAIL_UNMERGED",
+    "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED",
     "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
     "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
     "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
@@ -35,7 +38,7 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if data.get("decision_id") != DECISION_ID:
         errors.append("Decision ID mismatch")
-    if data.get("last_gate_update_decision") != ADAPTER_FRESHNESS_DECISION:
+    if data.get("last_gate_update_decision") != BARRACKS_REMEDIATION_DECISION:
         errors.append("last gate update Decision mismatch")
     if data.get("source_repository_main_sha") != SOURCE_MAIN_SHA:
         errors.append("source main SHA mismatch")
@@ -57,7 +60,7 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     gate = data.get("entry_gate", {})
     if gate.get("decision") != "BLOCK":
         errors.append("entry gate must remain BLOCK")
-    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_PR159_AND_ADAPTER_FRESHNESS":
+    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_PR159_ADAPTER_AND_BARRACKS_5_OF_10":
         errors.append("Decision Ledger reconciliation status mismatch")
     blockers = set(gate.get("blocking_reasons", []))
     allowed_list = gate.get("allowed_next_actions", [])
@@ -66,17 +69,20 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         "RECONCILIATION_DECISION_NOT_MERGED",
         "BASE_RECOVERY_PR159_DRAFT_INCOMPLETE",
         "PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED",
+        "PR154_CONDITIONAL_FAIL_UNMERGED",
     ):
         if stale in blockers:
             errors.append(f"completed blocker must not persist: {stale}")
     for completed in (
         "PR159_BASE_RECOVERY_COMPLETION",
         "PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION",
+        "PR154_CONDITIONAL_FAIL_REMEDIATION",
+        "BARRACKS_2000_SEED_SMOKE_RERUN",
     ):
         if completed in allowed:
             errors.append(f"completed action must not persist: {completed}")
-    if not allowed_list or allowed_list[0] != "PR154_CONDITIONAL_FAIL_REMEDIATION":
-        errors.append("PR154 remediation must be the first allowed next action")
+    if not allowed_list or allowed_list[0] != "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW":
+        errors.append("10k decision sweep review must be the first allowed next action")
     if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_10_OF_10_NEXT_SIMULATION_GATE":
         errors.append("unresolved list current status mismatch")
     image = gate.get("image_review_sheet_readback", {})
@@ -92,8 +98,6 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("Base recovery completion not propagated")
     if recovery.get("tracked_file_classification") != "ZERO_UNCLASSIFIED":
         errors.append("Base tracked-file classification status mismatch")
-    if recovery.get("followup") != "COMPLETED_PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION":
-        errors.append("Base recovery followup completion mismatch")
 
     adapter = data.get("project_base_adapter", {})
     if adapter.get("decision_id") != ADAPTER_FRESHNESS_DECISION:
@@ -110,6 +114,34 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("project Base adapter generated views are not validated")
     if adapter.get("status") != "FRESHNESS_RECONCILED" or adapter.get("blocker_cleared") is not True:
         errors.append("project Base adapter freshness completion not propagated")
+
+    barracks = data.get("barracks_remediation", {})
+    if barracks.get("decision_id") != BARRACKS_REMEDIATION_DECISION:
+        errors.append("barracks remediation Decision mismatch")
+    if barracks.get("baseline_main") != SOURCE_MAIN_SHA:
+        errors.append("barracks remediation baseline main mismatch")
+    if barracks.get("capability_proxy") != "STRUCTURAL_CHANNEL_VECTOR":
+        errors.append("barracks capability proxy mismatch")
+    if barracks.get("combat_power_scalar") != "FORBIDDEN":
+        errors.append("combat power scalar must remain forbidden")
+    if barracks.get("smoke_rerun_status") != "PASS":
+        errors.append("barracks 2k smoke rerun must be PASS")
+    if barracks.get("failed_decision_gates") != []:
+        errors.append("barracks decision gate failures must be empty")
+    if float(barracks.get("observed_baseline_special_token_share_burst_max", 1.0)) > 0.45:
+        errors.append("barracks token burst exceeds approved cap")
+    if barracks.get("result_json_sha256") != RESULT_JSON_SHA:
+        errors.append("barracks JSON evidence hash mismatch")
+    if barracks.get("result_csv_sha256") != RESULT_CSV_SHA:
+        errors.append("barracks CSV evidence hash mismatch")
+    if barracks.get("decision_sweep_10000") != "READY_FOR_USER_REVIEW_NOT_AUTHORIZED":
+        errors.append("10k sweep must remain review-ready but unauthorized")
+    if barracks.get("confirmation_sweep_50000") != "BLOCKED":
+        errors.append("50k confirmation sweep must remain blocked")
+    if barracks.get("selected_parameter_vector") is not None:
+        errors.append("final parameter vector must remain unselected")
+    if barracks.get("product_implementation") != "NOT_AUTHORIZED":
+        errors.append("product implementation must remain unauthorized")
 
     actions = data.get("github_actions", {})
     if "current_reconciliation_head" in actions:
@@ -145,7 +177,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("active_contract_v4_4=PASS application_binding=ACTIVE entry_gate=BLOCK base_recovery=COMPLETE adapter_freshness=RECONCILED")
+    print("active_contract_v4_4=PASS application_binding=ACTIVE entry_gate=BLOCK barracks_5_of_10=SMOKE_PASS next=10000_REVIEW")
     return 0
 
 

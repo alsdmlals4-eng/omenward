@@ -11,6 +11,7 @@ VALIDATOR_PATH = ROOT / "tools/validate_active_integrated_contract_v4_4.py"
 STATE_PATH = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 BASE_RECOVERY_DECISION = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
 ADAPTER_FRESHNESS_DECISION = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
+BARRACKS_REMEDIATION_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
 
 
 def load_validator():
@@ -40,18 +41,18 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         mutated["entry_gate"]["decision"] = "PASS"
         self.assertIn("entry gate must remain BLOCK", self.validator.validate_state(mutated))
 
-    def test_reconciled_state_is_durable_after_merge(self) -> None:
+    def test_reconciled_state_is_durable_after_barracks_gate(self) -> None:
         gate = self.state["entry_gate"]
         self.assertEqual(
             gate["decision_ledger_readback"]["status"],
-            "RECONCILED_BY_V4_4_PR159_AND_ADAPTER_FRESHNESS",
+            "RECONCILED_BY_V4_4_PR159_ADAPTER_AND_BARRACKS_5_OF_10",
         )
         self.assertNotIn("RECONCILIATION_DECISION_NOT_MERGED", gate["blocking_reasons"])
         self.assertNotIn("current_reconciliation_head", self.state["github_actions"])
         self.assertNotIn("working_branch", self.state)
         self.assertEqual(
             self.state["reconciliation_branch"],
-            "process/v4-4-entry-reconciliation-20260808",
+            "planning/pr154-conditional-fail-remediation-20260808",
         )
 
     def test_pr159_base_recovery_completion_remains_propagated(self) -> None:
@@ -66,20 +67,34 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         self.assertTrue(recovery["blocker_cleared"])
         self.assertEqual(recovery["tracked_file_classification"], "ZERO_UNCLASSIFIED")
 
-    def test_project_base_adapter_freshness_is_propagated(self) -> None:
+    def test_project_base_adapter_freshness_remains_propagated(self) -> None:
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         allowed = gate["allowed_next_actions"]
         adapter = self.state["project_base_adapter"]
-        self.assertEqual(self.state["last_gate_update_decision"], ADAPTER_FRESHNESS_DECISION)
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", allowed)
-        self.assertEqual(allowed[0], "PR154_CONDITIONAL_FAIL_REMEDIATION")
         self.assertEqual(adapter["decision_id"], ADAPTER_FRESHNESS_DECISION)
         self.assertEqual(adapter["gdd_sheet_sync_status"], "CURRENT")
         self.assertEqual(adapter["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
         self.assertEqual(adapter["status"], "FRESHNESS_RECONCILED")
         self.assertTrue(adapter["blocker_cleared"])
+
+    def test_barracks_remediation_smoke_pass_is_propagated_without_10k_authorization(self) -> None:
+        gate = self.state["entry_gate"]
+        blockers = set(gate["blocking_reasons"])
+        barracks = self.state["barracks_remediation"]
+        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_REMEDIATION_DECISION)
+        self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
+        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", blockers)
+        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW")
+        self.assertEqual(barracks["decision_id"], BARRACKS_REMEDIATION_DECISION)
+        self.assertEqual(barracks["smoke_rerun_status"], "PASS")
+        self.assertEqual(barracks["failed_decision_gates"], [])
+        self.assertEqual(barracks["decision_sweep_10000"], "READY_FOR_USER_REVIEW_NOT_AUTHORIZED")
+        self.assertEqual(barracks["confirmation_sweep_50000"], "BLOCKED")
+        self.assertIsNone(barracks["selected_parameter_vector"])
+        self.assertEqual(barracks["product_implementation"], "NOT_AUTHORIZED")
 
     def test_sheet_readback_has_no_ready_or_awaiting_images(self) -> None:
         image = self.state["entry_gate"]["image_review_sheet_readback"]

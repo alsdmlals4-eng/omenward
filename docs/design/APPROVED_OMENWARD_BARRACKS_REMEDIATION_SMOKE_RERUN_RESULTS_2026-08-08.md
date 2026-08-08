@@ -1,0 +1,137 @@
+# [승인] OMENWARD 병영 5/10 Remediation 2,000-seed Smoke 재실행 결과
+
+```yaml
+updated_at: 2026-08-08
+decision_id: OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
+parent_decision_id: OMW-DEC-20260806-PLANNING-BARRACKS-SMOKE-SWEEP-RESULTS-AND-IDENTIFIABILITY-GATE-V1
+status: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / DECISION_SWEEP_REVIEW_REQUIRED
+scope: ANALYSIS_AND_SIMULATION_EVIDENCE_ONLY
+product_code_authority: NONE
+```
+
+## 1. 결과
+
+PR164 current-main lineage에서 동일 9개 상대 파라미터 벡터와 2,000 common-random-number seeds를 재실행했다.
+
+```text
+SMOKE_RERUN = PASS
+FAILED_DECISION_GATES = []
+PARAMETER_VECTORS = 9
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+DECISION_SWEEP_10000 = READY_FOR_USER_REVIEW / NOT_AUTOMATICALLY_AUTHORIZED
+CONFIRMATION_SWEEP_50000 = BLOCKED
+PRODUCT_IMPLEMENTATION = NOT_AUTHORIZED
+GODOT_AUTHORING = NOT_AUTHORIZED
+```
+
+CI evidence:
+
+```text
+workflow = Validate Barracks Conditional-Fail Remediation
+run = 31254624591
+job = 93096088531
+engine_and_determinism_tests = PASS
+exact_2000_seed_smoke = PASS
+```
+
+## 2. 4/10 두 핵심 차단의 처리
+
+### 2.1 MODEL_IDENTIFIABILITY_FAIL
+
+비병영 기여를 LOW/MID/HIGH 단일 TU scalar로 주입하는 방식은 폐기한다.
+
+```text
+PLAYER_CAPABILITY_PROXY = STRUCTURAL_CHANNEL_VECTOR
+COMBAT_POWER_SCALAR = FORBIDDEN
+SUPPORT_TU_NUMERIC_INJECTION = FORBIDDEN
+IDENTIFIABILITY = DIAGNOSTIC_NON_IDENTIFIABLE
+```
+
+구조적 채널은 `DEFENSE_TOWER / COMMAND_AURA / MANA_TACTIC / FRONTLINE_STATE`의 존재·해금 상태만 기록한다. 제품 HP/DPS/방어탑 출력/지휘 오라 계수/전술 출력이 승인되기 전까지 전투 성공률·유효율을 balance pass/fail로 사용하지 않는다.
+
+### 2.2 SPECIAL_TOKEN_SHARE_BURST_MAX
+
+4/10:
+
+```text
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.500000
+APPROVED_MAX = 0.45
+RESULT = FAIL
+```
+
+5/10 재실행:
+
+```text
+SECOND_SPECIAL_TOKEN_SOURCE = DEFERRED_WHILE_NON_SPECIAL_ACTIVE_SOURCE_COUNT_LT_3
+AUTO_PRODUCTION_WHILE_TOKEN_SOURCE_DEFERRED = ALLOWED_UNCHANGED
+THEORETICAL_TWO_SPECIAL_ACTIVE_MAX = 2 / 5 = 0.40
+OBSERVED_BASELINE_SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
+APPROVED_MAX = 0.45
+RESULT = PASS
+```
+
+fractional token weight를 도입하거나 `SPECIAL_T1_TOKEN_SOURCE = NONE`으로 되돌리지 않았다.
+
+## 3. 기준 벡터 raw 결과
+
+`V00_BASELINE`:
+
+| KPI | Raw 결과 | 이번 Gate 사용 |
+|---|---:|---|
+| `SPECIAL_TOKEN_SHARE_10_MIN` | `0.296259` | decision gate / PASS |
+| `SPECIAL_TOKEN_SHARE_BURST_MAX` | `0.333333` | decision gate / PASS |
+| `SECOND_SPECIAL_MARGINAL_VALUE_RATIO` | `0.000000` | decision gate / PASS_WITH_CAVEAT |
+| `REROLL_EXPECTED_VALUE_GAIN` | `0.000000` | decision gate / PASS |
+| `GENERAL_PATH_VALIDITY_RATE` | `0.000000` | diagnostic only |
+| `EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE` | 5종 모두 `0.000000` | diagnostic only |
+| `WORST_SPECIAL_REGRET_RATE` | `1.000000` | diagnostic only |
+| `SPECIAL_OPTION_DOMINANCE_RATE` | `0.000000` | diagnostic only |
+| `MULTI_SPECIAL_DOMINANCE_RATE` | `0.000000` | diagnostic only |
+
+전투 관련 raw failure를 숨기지 않는다. `GENERAL_PATH_VALIDITY_RATE`, 특수병별 유효율, role-blind regret는 제품 전투/카운터 출력이 없는 상태에서 식별 불가능하므로 diagnostic으로만 보존한다.
+
+## 4. 재현성 artifact
+
+저장소에 CI가 생성한 exact 결과를 그대로 보존한다.
+
+```text
+docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json
+docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv
+```
+
+Hashes:
+
+```text
+JSON_SHA256 = a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2
+CSV_SHA256 = 3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560
+ACTIONS_ARTIFACT_ZIP_SHA256 = 6a24d4ad981dcb2a656318fc252f38da9b4e4c1a70fb137767b3be98921e9e4c
+```
+
+Input hashes recorded by the runner:
+
+```text
+BASELINE_SHA256 = a8424ae1b5f22e86db3eca52b7942ff5b1f0e50a3c689ae57b9062550c066878
+HISTORICAL_SMOKE_MODEL_SHA256 = 9fd10ad3ad131c4dbfcf2700144e61449e890324a861892e470004a5bfdc627a
+REMEDIATION_MODEL_SHA256 = 2be4edd633e809a65f6c512ce4d4808cc9a875919977d5907cf7ee7d6a29eb3a
+```
+
+## 5. 다음 Gate
+
+```text
+NEXT_GATE = BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW
+```
+
+2,000-seed Smoke PASS는 10,000-seed 실행을 자동 승인하지 않는다. 다음 단계에서 사용자가 10k decision sweep 실행 범위와 판정 지표를 검토·승인해야 한다.
+
+아래는 계속 금지된다.
+
+```text
+AUTOMATIC_10000_SEED_EXECUTION
+50000_CONFIRMATION_SWEEP
+FINAL_PARAMETER_VECTOR_SELECTION
+FINAL_PRODUCT_NUMERICS
+PRODUCT_IMPLEMENTATION
+GODOT_AUTHORING_MUTATION
+FORMAL_GUT_EXECUTION
+HERA_LIVE_QA_COMPLETION_CLAIM
+```
