@@ -11,6 +11,7 @@ on:
       - "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_barracks_conditional_fail_remediation.py"
       - "tests/python/test_barracks_remediation_smoke.py"
@@ -59,6 +60,7 @@ jobs:
               "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md",
               "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
+              "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_barracks_conditional_fail_remediation.py",
               "tests/python/test_barracks_remediation_smoke.py",
