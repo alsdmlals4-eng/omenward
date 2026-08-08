@@ -11,7 +11,7 @@ ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 
 DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
-BARRACKS_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
+REVIEW_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1"
 BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
@@ -66,17 +66,18 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
 
     def test_durable_v44_state_keeps_adapter_freshness_closed_across_later_gates(self) -> None:
-        # The active-state last gate is expected to advance; adapter completion must remain durable.
-        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_DECISION_ID)
+        # Later planning gates may advance last_gate_update_decision; adapter completion remains durable.
+        self.assertEqual(self.state["last_gate_update_decision"], REVIEW_DECISION_ID)
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
         self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
-        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", blockers)
+        self.assertNotIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", blockers)
+        self.assertIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", blockers)
         self.assertIn("GUT_ADOPTION_SPEC_PR155_NOT_MERGED", blockers)
         self.assertEqual(gate["decision"], "BLOCK")
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", gate["allowed_next_actions"])
-        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW")
+        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION")
 
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
