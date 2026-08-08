@@ -11,6 +11,7 @@ ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 
 DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
+BARRACKS_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
 BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
@@ -64,16 +65,18 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
 
-    def test_durable_v44_state_closes_adapter_freshness_blocker_only(self) -> None:
-        self.assertEqual(self.state["last_gate_update_decision"], DECISION_ID)
+    def test_durable_v44_state_keeps_adapter_freshness_closed_across_later_gates(self) -> None:
+        # The active-state last gate is expected to advance; adapter completion must remain durable.
+        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_DECISION_ID)
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
-        self.assertIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
+        self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
+        self.assertIn("BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED", blockers)
         self.assertIn("GUT_ADOPTION_SPEC_PR155_NOT_MERGED", blockers)
         self.assertEqual(gate["decision"], "BLOCK")
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", gate["allowed_next_actions"])
-        self.assertEqual(gate["allowed_next_actions"][0], "PR154_CONDITIONAL_FAIL_REMEDIATION")
+        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW")
 
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
