@@ -1,6 +1,7 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
+  "last_gate_update_decision": "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1",
   "observed_at": "2026-08-08T07:49:00+09:00",
   "source_repository_main_sha": "7b41923628b68c7c1477b286584973d8516eab6d",
   "reconciliation_branch": "process/v4-4-entry-reconciliation-20260808",
@@ -30,7 +31,7 @@
     "status": "ENTRY_STATE_RECONCILED_BUT_BLOCKERS_REMAIN",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_DECISION"
+      "status": "RECONCILED_BY_V4_4_DECISION_AND_PR159_GATE_UPDATE"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
@@ -45,9 +46,9 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
+      "PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED",
       "PR154_CONDITIONAL_FAIL_UNMERGED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
-      "BASE_RECOVERY_PR159_DRAFT_INCOMPLETE",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
       "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
       "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
@@ -55,7 +56,7 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "PR159_BASE_RECOVERY_COMPLETION",
+      "PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION",
       "PR154_CONDITIONAL_FAIL_REMEDIATION",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
@@ -71,6 +72,19 @@
       "LOCAL_MAIN_SYNC_CLAIM",
       "GODOT_RUNTIME_CLAIM"
     ]
+  },
+  "base_recovery": {
+    "decision_id": "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1",
+    "pr": 159,
+    "exact_head": "00af947c2018da452844111dc51711da321f8f72",
+    "merge_sha": "c6f8babe1dbb31f436eac45fa2056242baa445b1",
+    "base_exact_commit": "fa69a77a14f923a756064f6ae151d34cadb374f7",
+    "base_root_tree_sha": "913b69460649fe717294a27246e0b833958e70e4",
+    "tracked_file_classification": "ZERO_UNCLASSIFIED",
+    "project_relevant_full_text_recovery": "CLOSED",
+    "status": "COMPLETE",
+    "blocker_cleared": true,
+    "followup": "PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED"
   },
   "tool_authority": {
     "higodot": {
@@ -116,7 +130,8 @@
   },
   "github_actions": {
     "repository_visibility": "PUBLIC_CONFIRMED",
-    "standard_hosted_runner": "PROVEN_ON_PR159_EXACT_HEAD_06C1169",
+    "standard_hosted_runner": "PROVEN",
+    "base_recovery_exact_head_validation": "PR159_00AF947C_ALL_REQUIRED_PR_WORKFLOWS_SUCCESS",
     "reconciliation_validation_policy": "EXACT_PR_HEAD_GREEN_REQUIRED_BEFORE_MERGE"
   },
   "review_authority": {
