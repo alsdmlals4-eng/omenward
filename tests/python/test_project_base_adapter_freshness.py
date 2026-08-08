@@ -14,6 +14,7 @@ DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILI
 BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
+PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 
 
@@ -45,10 +46,23 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(baseline["policy_source_path"], "skills/PROJECT_BASE_ADAPTER.json")
         self.assertEqual(baseline["protected_paths_pointer"], "/protected_paths")
 
-        baseline_bytes = subprocess.check_output(
-            ["git", "show", f"{BASELINE_MAIN}:skills/PROJECT_BASE_ADAPTER.json"]
+        baseline_adapter = json.loads(
+            subprocess.check_output(
+                ["git", "show", f"{BASELINE_MAIN}:skills/PROJECT_BASE_ADAPTER.json"],
+                text=True,
+            )
         )
-        self.assertEqual(baseline["policy_sha256"], hashlib.sha256(baseline_bytes).hexdigest())
+        protected_policy = (
+            json.dumps(
+                baseline_adapter["protected_paths"],
+                ensure_ascii=False,
+                indent=2,
+                sort_keys=True,
+            )
+            + "\n"
+        ).encode("utf-8")
+        self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
+        self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
 
     def test_durable_v44_state_closes_adapter_freshness_blocker_only(self) -> None:
         self.assertEqual(self.state["last_gate_update_decision"], DECISION_ID)
@@ -64,6 +78,7 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
         self.assertEqual(adapter_state["protected_baseline_commit"], BASELINE_MAIN)
+        self.assertEqual(adapter_state["protected_policy_sha256"], PROTECTED_POLICY_SHA)
         self.assertEqual(adapter_state["gdd_sheet_sync_status"], "CURRENT")
         self.assertEqual(adapter_state["status"], "FRESHNESS_RECONCILED")
         self.assertTrue(adapter_state["blocker_cleared"])
