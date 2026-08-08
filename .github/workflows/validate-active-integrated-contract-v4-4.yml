@@ -48,6 +48,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install simulator dependency
+        run: python -m pip install --disable-pip-version-check numpy
+
       - name: Enforce bounded non-product planning scope
         if: github.event_name == 'pull_request'
         env:
