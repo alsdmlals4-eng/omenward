@@ -11,10 +11,12 @@ ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 
 DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
-BASELINE_MAIN = "f1bf8939208a864bce1f99eea0555f05369dc9d6"
+HISTORICAL_BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
+CURRENT_PROTECTED_BASELINE = "f1bf8939208a864bce1f99eea0555f05369dc9d6"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
+CURRENT_ADAPTER_SHA = "46b2a65f963618497a7775f6103b46cf63b0c8add4f2e5d642582229127eb5dc"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 
 
@@ -37,20 +39,21 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(sheet["declared_sync_status"], "SHEET_GITHUB_SYNCED")
         self.assertEqual(sheet["write_policy"], "NO_AUTOMATIC_OVERWRITE")
 
-    def test_protected_baseline_uses_current_main_canonical_adapter_source(self) -> None:
+    def test_current_protected_baseline_uses_user_approved_tool_sync_main(self) -> None:
         baseline = self.adapter["protected_baseline"]
-        self.assertEqual(baseline["commit"], BASELINE_MAIN)
+        self.assertEqual(baseline["commit"], CURRENT_PROTECTED_BASELINE)
         self.assertEqual(baseline["authority_kind"], "REMOTE_TRACKING_REF")
         self.assertEqual(baseline["authority_ref"], "refs/remotes/origin/main")
         self.assertEqual(baseline["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
         self.assertEqual(baseline["policy_source_path"], "skills/PROJECT_BASE_ADAPTER.json")
         self.assertEqual(baseline["protected_paths_pointer"], "/protected_paths")
-        baseline_adapter = json.loads(subprocess.check_output(["git", "show", f"{BASELINE_MAIN}:skills/PROJECT_BASE_ADAPTER.json"], text=True))
+        baseline_adapter = json.loads(subprocess.check_output(["git", "show", f"{CURRENT_PROTECTED_BASELINE}:skills/PROJECT_BASE_ADAPTER.json"], text=True))
         protected_policy = (json.dumps(baseline_adapter["protected_paths"], ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
+        self.assertEqual(hashlib.sha256(ADAPTER.read_bytes()).hexdigest(), CURRENT_ADAPTER_SHA)
 
-    def test_adapter_freshness_remains_closed_across_later_planning_and_tool_gates(self) -> None:
+    def test_historical_state_block_remains_point_in_time_while_current_adapter_advances(self) -> None:
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
@@ -60,8 +63,8 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", gate["allowed_next_actions"])
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
-        self.assertEqual(adapter_state["protected_baseline_commit"], BASELINE_MAIN)
-        self.assertEqual(adapter_state["protected_baseline_advance_decision"], "OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1")
+        self.assertEqual(adapter_state["protected_baseline_commit"], HISTORICAL_BASELINE_MAIN)
+        self.assertEqual(adapter_state["canonical_adapter_sha256"], "799b20aa009c3a90dcf433f965a1f8280de30a7dfdc36bfc7518e4f19ea6677c")
         self.assertEqual(adapter_state["protected_policy_sha256"], PROTECTED_POLICY_SHA)
         self.assertEqual(adapter_state["gdd_sheet_sync_status"], "CURRENT")
         self.assertEqual(adapter_state["status"], "FRESHNESS_RECONCILED")
