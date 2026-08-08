@@ -14,6 +14,7 @@ ADAPTER_FRESHNESS_DECISION = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRES
 BARRACKS_REMEDIATION_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
 BARRACKS_10K_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1"
 BARRACKS_OBSERVABLES_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1"
+BARRACKS_ROBUSTNESS_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
 
 
 def load_validator():
@@ -41,14 +42,16 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         mutated["entry_gate"]["decision"] = "PASS"
         self.assertIn("entry gate must remain BLOCK", self.validator.validate_state(mutated))
 
-    def test_current_gate_is_observables_with_robustness_review_next(self) -> None:
+    def test_current_gate_is_robustness_review_with_user_approval_next(self) -> None:
         gate = self.state["entry_gate"]
-        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_OBSERVABLES_DECISION)
-        self.assertEqual(self.state["source_repository_main_sha"], "25c4a5953d57acce450c93db1a8b5f0281937586")
-        self.assertEqual(self.state["base_current_main_observed"], "a912cc001ff4d4e3415fb4b4931723c49eb08d9a")
-        self.assertNotIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", gate["blocking_reasons"])
+        self.assertEqual(self.state["last_gate_update_decision"], BARRACKS_ROBUSTNESS_REVIEW_DECISION)
+        self.assertEqual(self.state["source_repository_main_sha"], "4da8ed64baaa66b15d110490f1b15fd9be20aee0")
+        self.assertEqual(self.state["base_current_main_observed"], "cf4c7a60c5b31b042043f91b268f381372fec69a")
+        self.assertIn("BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED", gate["blocking_reasons"])
+        self.assertIn("BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED", gate["blocking_reasons"])
         self.assertIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
-        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW")
+        self.assertEqual(gate["allowed_next_actions"][0], "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL")
+        self.assertIn("BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_50000_SEED_CONFIRMATION", gate["forbidden_actions"])
 
@@ -66,6 +69,7 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
     def test_barracks_lower_gates_remain_durable(self) -> None:
         rem = self.state["barracks_remediation"]
         review = self.state["barracks_10000_review"]
+        obs = self.state["barracks_parameter_selection_observables"]
         self.assertEqual(rem["decision_id"], BARRACKS_REMEDIATION_DECISION)
         self.assertEqual(rem["smoke_rerun_status"], "PASS")
         self.assertEqual(rem["failed_decision_gates"], [])
@@ -73,17 +77,26 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         self.assertEqual(review["decision_sweep_10000_execution"], "NOT_AUTHORIZED")
         self.assertEqual(review["confirmation_sweep_50000"], "BLOCKED")
         self.assertIsNone(review["final_parameter_vector"])
-
-    def test_observables_envelope_is_nonfinal(self) -> None:
-        obs = self.state["barracks_parameter_selection_observables"]
         self.assertEqual(obs["decision_id"], BARRACKS_OBSERVABLES_DECISION)
         self.assertEqual(obs["selection_mode"], "HARD_FILTER_THEN_PARETO")
-        self.assertEqual(obs["comparison_form"], "VECTOR_GOLD_TIME_FOOD_NODE_NO_SINGLE_WEIGHTED_SCORE")
         self.assertEqual(obs["economy_production_envelope"], "V00_BASELINE_COST_INTERVAL_ONLY")
         self.assertEqual(obs["special_functional_value_index"], "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS")
         self.assertIsNone(obs["final_parameter_vector"])
-        self.assertEqual(obs["robustness_only_10000"], "READY_FOR_SEPARATE_APPROVAL")
         self.assertEqual(obs["parameter_selection_10000"], "NOT_AUTHORIZED")
+
+    def test_robustness_review_is_nonexecuting_and_nonfinal(self) -> None:
+        review = self.state["barracks_10000_robustness_review"]
+        self.assertEqual(review["decision_id"], BARRACKS_ROBUSTNESS_REVIEW_DECISION)
+        self.assertEqual(review["parent_decision_id"], BARRACKS_OBSERVABLES_DECISION)
+        self.assertEqual(review["current_runner_for_durable_10k"], "UNSAFE_EVIDENCE_PROVENANCE")
+        self.assertEqual(review["robustness_envelope"], "V00_BASELINE_COST_INTERVAL_ONLY")
+        self.assertEqual(review["execution_contract"], "DEDICATED_RUNNER_REQUIRED")
+        self.assertEqual(review["execution_user_approval"], "REQUIRED")
+        self.assertEqual(review["actual_10000_execution"], "NOT_RUN")
+        self.assertEqual(review["parameter_selection_10000"], "NOT_AUTHORIZED")
+        self.assertEqual(review["confirmation_sweep_50000"], "BLOCKED")
+        self.assertIsNone(review["final_parameter_vector"])
+        self.assertEqual(review["continuous_work_state_after_review"], "STOPPED_USER_DECISION")
 
     def test_tool_roles_and_local_boundary_remain(self) -> None:
         tools = self.state["tool_authority"]
