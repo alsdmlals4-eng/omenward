@@ -1,10 +1,10 @@
 {
-  "schema_version": "1.9",
+  "schema_version": "2.0",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1",
-  "observed_at": "2026-08-09T07:12:00+09:00",
-  "source_repository_main_sha": "890a68c1c573ce11b21d397d7c3ec88bae191b7f",
-  "reconciliation_branch": "planning/barracks-functional-value-combat-numerics-review-20260809",
+  "last_gate_update_decision": "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1",
+  "observed_at": "2026-08-09T07:45:00+09:00",
+  "source_repository_main_sha": "02b803b075d5e44f5aa3db895c5dad025d048148",
+  "reconciliation_branch": "planning/barracks-functional-value-measurement-scenarios-20260809",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
   "base_current_main_observed": "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b",
   "active_contract": {
@@ -22,14 +22,14 @@
   ],
   "entry_gate": {
     "decision": "BLOCK",
-    "status": "FUNCTIONAL_VALUE_REVIEW_COMPLETE_ROLE_OUTPUT_AND_MEASUREMENT_BLOCKERS_REMAIN",
+    "status": "FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINED_ROLE_OUTPUT_RUNTIME_REMAINS_BLOCKED",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REVIEW"
+      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_GATE"
+      "status": "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_GATE"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -41,7 +41,6 @@
     },
     "blocking_reasons": [
       "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
-      "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
       "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
@@ -50,7 +49,6 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION",
       "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
@@ -282,6 +280,48 @@
     "product_implementation": "NOT_AUTHORIZED",
     "next_gate": "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_DEFINITION",
     "status": "REVIEW_COMPLETE_BASE_NUMERICS_PRESENT_ROLE_OUTPUT_RUNTIME_PARTIAL_FUNCTIONAL_VALUE_NOT_SELECTED"
+  },
+  "barracks_functional_value_measurement_scenarios": {
+    "decision_id": "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1",
+    "parent_decision_id": "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1",
+    "baseline_main": "02b803b075d5e44f5aa3db895c5dad025d048148",
+    "base_current_main_observed": "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b",
+    "fixture_policy": "DETERMINISTIC_SAME_INPUT",
+    "functional_value_comparison": "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE",
+    "post_hoc_weight_tuning": "FORBIDDEN",
+    "monte_carlo_role_value": "NOT_AUTHORIZED_BEFORE_ROLE_OUTPUT_RUNTIME_EXISTS",
+    "blocked_runtime_output_policy": "NEVER_SYNTHESIZE_AS_ZERO",
+    "scenario_ids": ["FV-COMMON-01", "FV-PRIEST-01", "FV-MAGE-01", "FV-FLIER-01", "FV-GIANT-01"],
+    "fixture_archetype_ids": ["shield_guard", "greatsword_warrior", "archer", "assassin", "priest", "mage", "flier", "giant"],
+    "output_availability_classes": ["MEASURABLE_CURRENT_RUNTIME", "PARTIAL_RUNTIME_OUTPUT", "BLOCKED_RUNTIME_OUTPUT", "DIAGNOSTIC_ONLY"],
+    "role_relationships": [
+      "ARCHER_SUSTAINED_SINGLE_TARGET_DPS_GT_MAGE",
+      "ASSASSIN_SINGLE_TARGET_BURST_GT_FLIER",
+      "FLIER_BACKLINE_PRESSURE_DURATION_GT_ASSASSIN",
+      "GIANT_SURVIVAL_AOE_SIEGE_ADVANTAGE_OVER_GREATSWORD_ROLE_SURFACE",
+      "PRIEST_VALUE_REQUIRES_SUPPORT_OUTPUT_NOT_DAMAGE_SCALAR"
+    ],
+    "blocked_primary_outputs": [
+      "PRIEST_EFFECTIVE_HEALING_HP",
+      "PRIEST_BUFF_UPTIME",
+      "MAGE_COLLATERAL_AOE_DAMAGE",
+      "MAGE_CONTROL_TARGET_SECONDS",
+      "FLIER_TIME_TO_BACKLINE_CONTACT",
+      "FLIER_AIR_TARGETABILITY_EXPOSURE",
+      "GIANT_SLAM_TARGETS_HIT",
+      "GIANT_SLAM_TOTAL_DAMAGE"
+    ],
+    "measurement_scenario_blocker": "CLOSED_BY_THIS_DECISION",
+    "role_output_runtime_blocker": "REMAINS",
+    "final_functional_value_index": null,
+    "final_parameter_vector": null,
+    "final_product_numerics": "NOT_APPROVED",
+    "parameter_selection_10000": "NOT_AUTHORIZED",
+    "confirmation_sweep_50000": "BLOCKED",
+    "product_implementation": "NOT_AUTHORIZED",
+    "godot_authoring": "NOT_AUTHORIZED",
+    "next_gate": "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE",
+    "status": "SCENARIOS_DEFINED_ROLE_OUTPUT_RUNTIME_BLOCKED_FINAL_FUNCTIONAL_VALUE_NOT_SELECTED"
   },
   "tool_authority": {
     "higodot": {"canonical_repository": "hi-godot/godot-ai", "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY", "pinned_version_or_commit": null, "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"},
