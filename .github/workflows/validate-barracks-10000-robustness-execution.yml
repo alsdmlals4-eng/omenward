@@ -34,12 +34,45 @@ jobs:
         run: python -m pip install --disable-pip-version-check numpy
 
       - name: Compile dedicated execution contract
-        run: python -m py_compile tests/python/test_barracks_10000_robustness_execution.py
+        run: |
+          python -m py_compile \
+            docs/analysis/barracks_simulation/run_barracks_robustness_10000.py \
+            tests/python/test_barracks_10000_robustness_execution.py
+
+      - name: Execute approved exact 10000-seed robustness in isolated path
+        run: |
+          tmp="$(mktemp -d)"
+          export ROBUSTNESS_TMP="$tmp"
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import sys
+
+          analysis = Path("docs/analysis/barracks_simulation").resolve()
+          sys.path.insert(0, str(analysis))
+          from run_barracks_robustness_10000 import run_robustness_10000
+
+          out = Path(os.environ["ROBUSTNESS_TMP"])
+          json_path, csv_path = run_robustness_10000(Path("."), out)
+          result = json.loads(json_path.read_text(encoding="utf-8"))
+          print(f"ACTUAL_10000_STATUS={result['status']}")
+          print(f"ACTUAL_10000_FAILED_GATES={result['failed_gates']}")
+          print(f"ACTUAL_10000_BASELINE_KPIS={result['baseline_vector']['primary_kpis']}")
+          print(f"ACTUAL_10000_SECOND_SPECIAL_GUARD={result['second_special_token_source_guard']}")
+          PY
+          test "$(sha256sum docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json | awk '{print $1}')" = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
+          test "$(sha256sum docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv | awk '{print $1}')" = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
+          echo "ACTUAL_10000_JSON_SHA256=$(sha256sum "$tmp/robustness_sweep_10000.v1.json" | awk '{print $1}')"
+          echo "ACTUAL_10000_CSV_SHA256=$(sha256sum "$tmp/robustness_sweep_10000.v1.csv" | awk '{print $1}')"
+          echo "ACTUAL_10000_JSON_B64=$(base64 -w0 "$tmp/robustness_sweep_10000.v1.json")"
+          echo "ACTUAL_10000_CSV_B64=$(base64 -w0 "$tmp/robustness_sweep_10000.v1.csv")"
 
       - name: Run dedicated execution contract tests
         run: python -m unittest tests.python.test_barracks_10000_robustness_execution
 
       - name: Re-run exact 10000-seed robustness evidence
+        if: success()
         run: |
           tmp="$(mktemp -d)"
           python docs/analysis/barracks_simulation/run_barracks_robustness_10000.py --root . --output-dir "$tmp"
