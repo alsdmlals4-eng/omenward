@@ -18,6 +18,8 @@ DECISION_ID = "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTIO
 PARENT_DECISION_ID = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1"
 SOURCE_JSON_SHA = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
 SOURCE_CSV_SHA = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
+RESULT_JSON_SHA = "1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3"
+RESULT_CSV_SHA = "e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b"
 
 
 def file_sha256(path: Path) -> str:
@@ -58,16 +60,21 @@ class Barracks10000RobustnessExecutionTest(unittest.TestCase):
         self.assertNotEqual(json_path, SOURCE_JSON)
         self.assertNotEqual(csv_path, SOURCE_CSV)
 
-    def test_committed_10k_result_is_v00_only_and_nonfinal(self) -> None:
-        self.assertTrue(RESULT_JSON.is_file(), f"missing 10k result: {RESULT_JSON.relative_to(ROOT)}")
-        self.assertTrue(RESULT_CSV.is_file(), f"missing 10k result: {RESULT_CSV.relative_to(ROOT)}")
+    def test_committed_10k_result_hashes_and_metrics_are_exact(self) -> None:
+        self.assertEqual(file_sha256(RESULT_JSON), RESULT_JSON_SHA)
+        self.assertEqual(file_sha256(RESULT_CSV), RESULT_CSV_SHA)
         result = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
         self.assertEqual(result["decision_id"], DECISION_ID)
         self.assertEqual(result["parent_decision_id"], PARENT_DECISION_ID)
+        self.assertEqual(result["status"], "ROBUSTNESS_PASS")
+        self.assertEqual(result["failed_gates"], [])
         self.assertEqual(result["seed_count"], 10000)
         self.assertTrue(result["common_random_numbers"])
         self.assertEqual(result["parameter_vector_count"], 1)
         self.assertEqual(result["baseline_vector"]["vector_id"], "V00_BASELINE")
+        self.assertAlmostEqual(result["baseline_vector"]["primary_kpis"]["SPECIAL_TOKEN_SHARE_10_MIN"], 0.296265)
+        self.assertAlmostEqual(result["baseline_vector"]["primary_kpis"]["SPECIAL_TOKEN_SHARE_BURST_MAX"], 0.333333)
+        self.assertEqual(result["second_special_token_source_guard"]["deferred_observations"], 82181)
         self.assertEqual(result["robustness_envelope"]["name"], "V00_BASELINE_COST_INTERVAL_ONLY")
         self.assertEqual(float(result["robustness_envelope"]["special_barracks_cost_gold"]), 60.0)
         self.assertEqual(float(result["robustness_envelope"]["special_interval_multiplier"]), 1.70)
@@ -78,12 +85,13 @@ class Barracks10000RobustnessExecutionTest(unittest.TestCase):
         self.assertEqual(result["gate"]["product_implementation"], "NOT_AUTHORIZED")
 
     def test_combat_diagnostics_remain_non_gate_and_inputs_are_bound(self) -> None:
-        self.assertTrue(RESULT_JSON.is_file(), f"missing 10k result: {RESULT_JSON.relative_to(ROOT)}")
         result = json.loads(RESULT_JSON.read_text(encoding="utf-8"))
         diagnostic = set(result["baseline_vector"]["diagnostic_only_thresholds"])
         decision_failed = set(result["baseline_vector"]["decision_failed_thresholds"])
         self.assertTrue(diagnostic)
         self.assertTrue(diagnostic.isdisjoint(decision_failed))
+        self.assertEqual(result["baseline_vector"]["primary_kpis"]["GENERAL_PATH_VALIDITY_RATE"], 0.0)
+        self.assertEqual(result["baseline_vector"]["primary_kpis"]["WORST_SPECIAL_REGRET_RATE"], 1.0)
         self.assertEqual(result["identifiability"]["status"], "DIAGNOSTIC_NON_IDENTIFIABLE")
         self.assertEqual(result["identifiability"]["balance_gate"], "EXCLUDED_UNTIL_PRODUCT_COMBAT_NUMERICS_EXIST")
         self.assertEqual(result["source_2k_evidence"]["json_sha256"], SOURCE_JSON_SHA)
