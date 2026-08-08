@@ -7,6 +7,13 @@ import numpy as np
 
 from smoke_common import SPECIAL_TYPES, rounded, threshold_pass
 
+COMBAT_DEPENDENT_DIAGNOSTICS = {
+    "SPECIAL_OPTION_DOMINANCE_RATE",
+    "GENERAL_PATH_VALIDITY_RATE",
+    "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE",
+    "MULTI_SPECIAL_DOMINANCE_RATE",
+}
+
 
 def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tuple[str, str, str], dict[str, Any]]) -> dict[str, Any]:
     special_dominance = 0
@@ -30,7 +37,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 general_valid += int(general["valid"].sum())
                 comparison_count += simulator.seed_count
 
-                # These legacy combat-success comparisons are retained as raw diagnostics only.
+                # Retained only for historical comparison; these depend on combat-success proxy state.
                 special_dom = special["valid"] & (
                     (~general["valid"])
                     | (
@@ -81,8 +88,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 fixed_special=special_name,
             )
             outcome_valid_counts[special_name] += int(result["valid"].sum())
-            # Remediation: outcome regret must not depend on the removed combat-support scalar.
-            # Use the already-approved dimensionless 10-minute unit-equivalent screening axis only.
+            # Outcome regret is deliberately independent of the removed combat-support scalar.
             production_scores.append(result["unit_equivalent_10_min"])
         score_matrix = np.stack(production_scores, axis=1)
         middle = np.median(score_matrix, axis=1)
@@ -106,8 +112,10 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
         "REROLL_EXPECTED_VALUE_GAIN": 0.0,
     }
     passed = threshold_pass(kpis, simulator.model["thresholds"])
-    diagnostic_only = {"GENERAL_PATH_VALIDITY_RATE", "EACH_SPECIAL_OUTCOME_PATH_VALIDITY_RATE"}
-    decision_failed = [name for name, is_pass in passed.items() if (name not in diagnostic_only and not is_pass)]
+    decision_failed = [
+        name for name, is_pass in passed.items()
+        if name not in COMBAT_DEPENDENT_DIAGNOSTICS and not is_pass
+    ]
     return {
         "vector_id": vector["vector_id"],
         "special_cost_multiplier": vector["special_cost_multiplier"],
@@ -115,7 +123,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
         "special_functional_value_index": vector["special_functional_value_index"],
         "primary_kpis": kpis,
         "raw_threshold_pass": passed,
-        "diagnostic_only_thresholds": sorted(diagnostic_only),
+        "diagnostic_only_thresholds": sorted(COMBAT_DEPENDENT_DIAGNOSTICS),
         "decision_failed_thresholds": decision_failed,
         "decision_threshold_pass": not decision_failed,
         "outcome_regret_basis": "UNIT_EQUIVALENT_10_MIN_NO_COMBAT_SUPPORT_SCALAR",
