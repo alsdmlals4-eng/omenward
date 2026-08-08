@@ -5,11 +5,22 @@ on:
     paths:
       - ".github/workflows/validate-active-integrated-contract-v4-4.yml"
       - ".github/workflows/validate-active-integrated-contract-v4-3.yml"
+      - ".github/workflows/validate-project-base-adapter.yml"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/PROJECT_OPERATING_DASHBOARD.html"
+      - "docs/PROJECT_OPERATING_HEALTH.json"
+      - "skills/PROJECT_BASE_ADAPTER.json"
+      - "skills/PROJECT_SKILL_SNAPSHOT.json"
+      - "skills/BASE_V9_ADAPTER.json"
+      - "skills/PROJECT_BASE_SKILL_ADAPTER.json"
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_active_integrated_contract_v4_3.py"
+      - "tests/python/test_project_base_adapter_freshness.py"
+      - "tests/test_base_v9_adoption.py"
+      - "tests/test_base_v942_planning_first_adoption.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
       - "tools/validate_active_integrated_contract_v4_3.py"
   workflow_dispatch:
@@ -42,11 +53,22 @@ jobs:
           allowed = {
               ".github/workflows/validate-active-integrated-contract-v4-4.yml",
               ".github/workflows/validate-active-integrated-contract-v4-3.yml",
+              ".github/workflows/validate-project-base-adapter.yml",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
+              "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
+              "docs/PROJECT_OPERATING_DASHBOARD.html",
+              "docs/PROJECT_OPERATING_HEALTH.json",
+              "skills/PROJECT_BASE_ADAPTER.json",
+              "skills/PROJECT_SKILL_SNAPSHOT.json",
+              "skills/BASE_V9_ADAPTER.json",
+              "skills/PROJECT_BASE_SKILL_ADAPTER.json",
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_active_integrated_contract_v4_3.py",
+              "tests/python/test_project_base_adapter_freshness.py",
+              "tests/test_base_v9_adoption.py",
+              "tests/test_base_v942_planning_first_adoption.py",
               "tools/validate_active_integrated_contract_v4_4.py",
               "tools/validate_active_integrated_contract_v4_3.py",
           }
@@ -62,14 +84,15 @@ jobs:
           print(f"v4.4 process scope=PASS files={len(changed)}")
           PY
 
-      - name: Compile v4.4 validator and focused test
+      - name: Compile v4.4 validator and focused tests
         run: |
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
-            tests/python/test_active_integrated_contract_v4_4.py
+            tests/python/test_active_integrated_contract_v4_4.py \
+            tests/python/test_project_base_adapter_freshness.py
 
       - name: Run v4.4 bootstrap contract tests
-        run: python -m unittest tests.python.test_active_integrated_contract_v4_4
+        run: python -m unittest tests.python.test_active_integrated_contract_v4_4 tests.python.test_project_base_adapter_freshness
 
       - name: Validate v4.4 active binding
         run: python tools/validate_active_integrated_contract_v4_4.py
