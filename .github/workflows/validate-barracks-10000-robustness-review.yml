@@ -1,0 +1,27 @@
+name: Validate Barracks 10000 Robustness Review
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-10000-robustness-review.yml"
+      - "docs/analysis/barracks_simulation/**"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "tests/python/test_barracks_10000_robustness_review.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  robustness-review-contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile robustness review contract
+        run: python -m py_compile tests/python/test_barracks_10000_robustness_review.py
+      - name: Run robustness review contract
+        run: python -m unittest tests.python.test_barracks_10000_robustness_review
