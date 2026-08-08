@@ -9,6 +9,7 @@ on:
       - ".github/workflows/validate-barracks-parameter-selection-observables.yml"
       - ".github/workflows/validate-barracks-10000-robustness-review.yml"
       - ".github/workflows/validate-barracks-10000-robustness-execution.yml"
+      - ".github/workflows/validate-barracks-functional-value-combat-numerics-review.yml"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/DECISIONS_PENDING.md"
       - "docs/analysis/barracks_simulation/**"
@@ -19,6 +20,7 @@ on:
       - "docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md"
       - "docs/superpowers/plans/2026-08-09-barracks-10000-robustness-execution.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
@@ -29,6 +31,7 @@ on:
       - "tests/python/test_barracks_parameter_selection_observables.py"
       - "tests/python/test_barracks_10000_robustness_review.py"
       - "tests/python/test_barracks_10000_robustness_execution.py"
+      - "tests/python/test_barracks_functional_value_combat_numerics_review.py"
       - "tests/python/test_project_base_adapter_freshness.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
   workflow_dispatch:
@@ -68,38 +71,14 @@ jobs:
               ".github/workflows/validate-barracks-parameter-selection-observables.yml",
               ".github/workflows/validate-barracks-10000-robustness-review.yml",
               ".github/workflows/validate-barracks-10000-robustness-execution.yml",
+              ".github/workflows/validate-barracks-functional-value-combat-numerics-review.yml",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/DECISIONS_PENDING.md",
-              "docs/analysis/barracks_simulation/current_maprun_economy_pressure_baseline.v1.json",
-              "docs/analysis/barracks_simulation/remediation_model.v1.json",
-              "docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py",
-              "docs/analysis/barracks_simulation/run_barracks_robustness_10000.py",
-              "docs/analysis/barracks_simulation/smoke_analysis.py",
-              "docs/analysis/barracks_simulation/smoke_common.py",
-              "docs/analysis/barracks_simulation/smoke_model_assumptions.v1.json",
-              "docs/analysis/barracks_simulation/smoke_simulator.py",
-              "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
-              "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json",
-              "docs/analysis/barracks_simulation/robustness_sweep_10000.v1.csv",
-              "docs/analysis/barracks_simulation/robustness_sweep_10000.v1.json",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md",
-              "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md",
-              "docs/superpowers/plans/2026-08-09-barracks-10000-robustness-execution.md",
+              "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "tests/python/test_active_integrated_contract_v4_4.py",
-              "tests/python/test_barracks_conditional_fail_remediation.py",
-              "tests/python/test_barracks_remediation_smoke.py",
-              "tests/python/test_barracks_10000_decision_sweep_review.py",
-              "tests/python/test_barracks_parameter_selection_observables.py",
-              "tests/python/test_barracks_10000_robustness_review.py",
-              "tests/python/test_barracks_10000_robustness_execution.py",
-              "tests/python/test_project_base_adapter_freshness.py",
+              "tests/python/test_barracks_functional_value_combat_numerics_review.py",
               "tools/validate_active_integrated_contract_v4_4.py",
           }
           changed = set(subprocess.check_output(["git", "diff", "--name-only", os.environ["BASE_SHA"], os.environ["HEAD_SHA"]], text=True).splitlines())
@@ -117,13 +96,13 @@ jobs:
         run: |
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
-            docs/analysis/barracks_simulation/run_barracks_robustness_10000.py \
             tests/python/test_active_integrated_contract_v4_4.py \
             tests/python/test_barracks_conditional_fail_remediation.py \
             tests/python/test_barracks_10000_decision_sweep_review.py \
             tests/python/test_barracks_parameter_selection_observables.py \
             tests/python/test_barracks_10000_robustness_review.py \
             tests/python/test_barracks_10000_robustness_execution.py \
+            tests/python/test_barracks_functional_value_combat_numerics_review.py \
             tests/python/test_project_base_adapter_freshness.py
 
       - name: Run v4.4 and durable-gate tests
@@ -135,6 +114,7 @@ jobs:
             tests.python.test_barracks_parameter_selection_observables \
             tests.python.test_barracks_10000_robustness_review \
             tests.python.test_barracks_10000_robustness_execution \
+            tests.python.test_barracks_functional_value_combat_numerics_review \
             tests.python.test_project_base_adapter_freshness
 
       - name: Validate v4.4 active binding
