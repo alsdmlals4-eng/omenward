@@ -30,6 +30,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 general_valid += int(general["valid"].sum())
                 comparison_count += simulator.seed_count
 
+                # These legacy combat-success comparisons are retained as raw diagnostics only.
                 special_dom = special["valid"] & (
                     (~general["valid"])
                     | (
@@ -68,7 +69,7 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
     outcome_total = 0
     regret_count = 0
     for path in simulator.model["scenario_matrix"]["stage2_paths"]:
-        scores = []
+        production_scores = []
         for special_name in SPECIAL_TYPES:
             result = simulator.simulate_batch_numpy(
                 vector,
@@ -80,8 +81,10 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
                 fixed_special=special_name,
             )
             outcome_valid_counts[special_name] += int(result["valid"].sum())
-            scores.append(result["mean_margin"] + 0.02 * result["unit_equivalent_10_min"])
-        score_matrix = np.stack(scores, axis=1)
+            # Remediation: outcome regret must not depend on the removed combat-support scalar.
+            # Use the already-approved dimensionless 10-minute unit-equivalent screening axis only.
+            production_scores.append(result["unit_equivalent_10_min"])
+        score_matrix = np.stack(production_scores, axis=1)
         middle = np.median(score_matrix, axis=1)
         worst = score_matrix.min(axis=1)
         regret = np.maximum(0.0, (middle - worst) / np.maximum(np.abs(middle), 1e-9))
@@ -115,5 +118,6 @@ def aggregate_vector(simulator, vector: dict[str, Any], general_cache: dict[tupl
         "diagnostic_only_thresholds": sorted(diagnostic_only),
         "decision_failed_thresholds": decision_failed,
         "decision_threshold_pass": not decision_failed,
+        "outcome_regret_basis": "UNIT_EQUIVALENT_10_MIN_NO_COMBAT_SUPPORT_SCALAR",
         "deferred_second_special_token_source_observations": deferred_second_source_count,
     }
