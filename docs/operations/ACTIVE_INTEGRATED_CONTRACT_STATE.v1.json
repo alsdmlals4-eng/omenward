@@ -1,12 +1,12 @@
 {
-  "schema_version": "1.6",
+  "schema_version": "1.7",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1",
-  "observed_at": "2026-08-08T21:15:00+09:00",
-  "source_repository_main_sha": "25c4a5953d57acce450c93db1a8b5f0281937586",
-  "reconciliation_branch": "planning/barracks-parameter-selection-observables-20260808-final",
+  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1",
+  "observed_at": "2026-08-08T22:13:00+09:00",
+  "source_repository_main_sha": "4da8ed64baaa66b15d110490f1b15fd9be20aee0",
+  "reconciliation_branch": "planning/barracks-10000-robustness-review-20260808",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
-  "base_current_main_observed": "a912cc001ff4d4e3415fb4b4931723c49eb08d9a",
+  "base_current_main_observed": "cf4c7a60c5b31b042043f91b268f381372fec69a",
   "active_contract": {
     "name": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
     "version": "4.4",
@@ -22,14 +22,14 @@
   ],
   "entry_gate": {
     "decision": "BLOCK",
-    "status": "ENTRY_STATE_RECONCILED_BUT_BLOCKERS_REMAIN",
+    "status": "ROBUSTNESS_REVIEW_COMPLETE_EXECUTION_USER_DECISION_REQUIRED",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_7_OF_10_OBSERVABLES"
+      "status": "RECONCILED_BY_V4_4_THROUGH_BARRACKS_8_OF_10_ROBUSTNESS_REVIEW"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_ROBUSTNESS_REVIEW_AND_FUNCTIONAL_VALUE_DEFERRED_GATE"
+      "status": "CURRENT_ROBUSTNESS_EXECUTION_APPROVAL_AND_FUNCTIONAL_VALUE_DEFERRED_GATE"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -40,6 +40,8 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
+      "BARRACKS_10000_ROBUSTNESS_EXECUTION_USER_APPROVAL_REQUIRED",
+      "BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED",
       "BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
@@ -49,7 +51,7 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW",
+      "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_PACKAGE_USER_APPROVAL",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
     ],
@@ -63,6 +65,7 @@
       "AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE",
       "LOCAL_MAIN_SYNC_CLAIM",
       "GODOT_RUNTIME_CLAIM",
+      "BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION",
       "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION",
       "BARRACKS_50000_SEED_CONFIRMATION"
     ]
@@ -169,6 +172,53 @@
     "confirmation_sweep_50000": "BLOCKED",
     "next_gate": "BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW",
     "status": "OBSERVABLES_DEFINED_ENVELOPE_IDENTIFIED_EXECUTION_NOT_AUTHORIZED"
+  },
+  "barracks_10000_robustness_review": {
+    "decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1",
+    "parent_decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1",
+    "baseline_main": "4da8ed64baaa66b15d110490f1b15fd9be20aee0",
+    "base_current_main_observed": "cf4c7a60c5b31b042043f91b268f381372fec69a",
+    "current_runner": "docs/analysis/barracks_simulation/run_barracks_remediation_smoke.py",
+    "current_runner_for_durable_10k": "UNSAFE_EVIDENCE_PROVENANCE",
+    "runner_risks": [
+      "HARDCODED_SMOKE_SWEEP_2000_OUTPUT_STEM",
+      "DEFAULT_CANONICAL_OUTPUT_DIRECTORY_CAN_OVERWRITE_2K",
+      "HARDCODED_5_OF_10_REMEDIATION_DECISION_ID",
+      "NO_DISTINCT_ROBUSTNESS_10K_METADATA_CONTRACT"
+    ],
+    "source_result_json": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.json",
+    "source_result_json_sha256": "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2",
+    "source_result_csv": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
+    "source_result_csv_sha256": "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560",
+    "source_seed_count": 2000,
+    "robustness_envelope": "V00_BASELINE_COST_INTERVAL_ONLY",
+    "robustness_special_barracks_cost_gold": 60.0,
+    "robustness_special_interval_multiplier": 1.70,
+    "special_functional_value_index": "DEFERRED_UNTIL_PRODUCT_COMBAT_NUMERICS",
+    "robustness_may_validate": [
+      "ECONOMY_STABILITY",
+      "PRODUCTION_STABILITY",
+      "PHYSICAL_TOKEN_SHARE_STABILITY",
+      "SPECIAL_TOKEN_SHARE_10_MIN_STABILITY",
+      "SPECIAL_TOKEN_SHARE_BURST_MAX_STABILITY",
+      "SECOND_SPECIAL_TOKEN_SOURCE_GUARD_STABILITY"
+    ],
+    "robustness_may_not_select": [
+      "SPECIAL_FUNCTIONAL_VALUE_INDEX",
+      "FINAL_PARAMETER_VECTOR",
+      "FINAL_PRODUCT_NUMERICS"
+    ],
+    "robustness_10000": "RECOMMENDED_AFTER_DEDICATED_EXECUTION_CONTRACT_AND_USER_APPROVAL",
+    "execution_contract": "DEDICATED_RUNNER_REQUIRED",
+    "execution_user_approval": "REQUIRED",
+    "actual_10000_execution": "NOT_RUN",
+    "parameter_selection_10000": "NOT_AUTHORIZED",
+    "confirmation_sweep_50000": "BLOCKED",
+    "final_parameter_vector": null,
+    "product_implementation": "NOT_AUTHORIZED",
+    "continuous_work_state_after_review": "STOPPED_USER_DECISION",
+    "next_required_decision": "APPROVE_DEDICATED_10000_ROBUSTNESS_EXECUTION_PACKAGE",
+    "status": "REVIEW_COMPLETE_EXECUTION_CONTRACT_AND_USER_APPROVAL_REQUIRED"
   },
   "tool_authority": {
     "higodot": {"canonical_repository": "hi-godot/godot-ai", "authority": "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY", "pinned_version_or_commit": null, "status": "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED"},
