@@ -3,33 +3,30 @@
 ```yaml
 updated_at: 2026-08-09
 status: CURRENT_DECISION_LEDGER
-source_main_observed: 02b803b075d5e44f5aa3db895c5dad025d048148
+source_main_observed: 615a7fbe818b18a8ca916a66a2891f49a8e0c0df
 base_main_observed: 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1
+last_gate_update_decision: OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1
 base_recovery_status: COMPLETE
 project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
-onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 current_simulation_batch: 5_OF_10_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 9_OF_10_ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_REVIEW_COMPLETE / MEASUREMENT_SCENARIOS_DEFINED
-current_simulation_pr: 170
+current_tool_pr: 171
 product_code_authority: NONE
 entry_gate: BLOCK
 ```
 
 이 원장은 current Decision 색인과 충돌 해소 우선순위를 책임진다. Google Sheet는 동일 Decision ID와 exact-head/merge evidence를 기록하지만 제품 정본을 단독 대체하지 않는다.
 
-## 1. 병영 Decision lineage
+## 1. 병영 current state
 
-| 단계 | 상태 | Decision |
-|---|---|---|
-| 5/10 | exact 2,000-seed remediation smoke PASS | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` |
-| 6/10 review | parameter-selection pre-review complete | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` |
-| 7/10 | observables / V00 cost+interval non-final envelope | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` |
-| 8/10 review | robustness execution review / 당시 10k NOT_RUN | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1` |
-| 9/10 | dedicated exact 10,000-seed V00 robustness PASS | `OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1` |
-| functional-value review | base numerics present / role output runtime partial | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1` |
-| measurement scenarios | deterministic same-input role vectors defined / missing outputs blocked | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1` |
+```text
+9_OF_10_ROBUSTNESS = PASS
+FUNCTIONAL_VALUE_COMBAT_NUMERICS_REVIEW = COMPLETE
+FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS = DEFINED
+BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED = OPEN
+NEXT_GATE = BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
+```
 
 9/10 evidence remains exact:
 
@@ -38,96 +35,138 @@ SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
 SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
 10K_JSON_SHA256 = 1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3
 10K_CSV_SHA256 = e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b
+FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
-## 2. Functional-value measurement scenarios
+## 2. Tool user-approval Decision
+
+Current tool Decision:
+
+`OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1`
+
+The user directly approved the following state:
 
 ```text
-FIXTURE_POLICY = DETERMINISTIC_SAME_INPUT
-FUNCTIONAL_VALUE_COMPARISON = ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE
-POST_HOC_WEIGHT_TUNING = FORBIDDEN
-BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
-MONTE_CARLO_ROLE_VALUE = NOT_AUTHORIZED_BEFORE_ROLE_OUTPUT_RUNTIME_EXISTS
+GODOT_AI_APPROVED_VERSION = 3.1.3
+GUT_9_7_1 = APPROVED / USER_REPORTED_LOCAL_ENABLEMENT
+HERA_1_0_0 = APPROVED / USER_REPORTED_LOCAL_ENABLEMENT
 ```
 
-Approved scenarios:
+Hosted verification boundary:
 
 ```text
-FV-COMMON-01 = common single-target contact
-FV-PRIEST-01 = support attrition
-FV-MAGE-01 = cluster versus Archer
-FV-FLIER-01 = backline pressure versus Assassin
-FV-GIANT-01 = siege/frontline versus Greatsword
+USER_REPORTED_LOCAL_ENABLEMENT = ACCEPTED_AS_USER_FACT
+HOST_VERIFIED_LOCAL_EDITOR_ENABLEMENT = NO
+REMOTE_SYNC_COMPLETION = NOT_CLAIMED
 ```
 
-Role relationships:
+### Godot AI / HiGodot
 
 ```text
-ARCHER_SUSTAINED_SINGLE_TARGET_DPS > MAGE
-ASSASSIN_SINGLE_TARGET_BURST > FLIER
-FLIER_BACKLINE_PRESSURE_DURATION > ASSASSIN
-GIANT_VALUE_REQUIRES_SURVIVAL_AOE_SIEGE_ADVANTAGE
-PRIEST_VALUE_REQUIRES_SUPPORT_OUTPUT_NOT_DAMAGE_SCALAR
+CANONICAL_REPOSITORY = hi-godot/godot-ai
+UPSTREAM_RELEASE = v3.1.3
+PLUGIN_ZIP_SHA256 = 10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7
+AUTHORITY = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY
+REMOTE_PROJECT_VERSION = 3.1.2
+REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
+REMOTE_SYNC = REQUIRED
 ```
 
-Missing role-defining outputs remain blockers, not zero observations.
+This closes `HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED` as an approval/provenance blocker.
+
+### GUT
+
+```text
+CANONICAL_REPOSITORY = bitwes/Gut
+UPSTREAM_RELEASE = v9.7.1
+SOURCE_BRANCH = godot_4_7
+PROJECT_PLUGIN_VERSION = 9.7.1
+AUTHORITY = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
+USER_APPROVAL = APPROVED
+USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
+REMOTE_EDITOR_PLUGIN_ENABLED = FALSE
+REMOTE_SYNC = REQUIRED
+```
+
+PR #155/#156 may remain open for historical cleanup or vendor-detail review, but `GUT_ADOPTION_SPEC_PR155_NOT_MERGED` no longer negates the user's direct approval.
+
+### Hera
+
+```text
+CANONICAL_REPOSITORY = NotNull92/hera-agent-godot
+UPSTREAM_RELEASE = v1.0.0
+PROJECT_PLUGIN_VERSION = 1.0.0
+LICENSE = MIT
+EXISTING_SOLUTION_DISPOSITION = REUSE_APPROVED_BY_USER
+ROLE = LIVE_QA_AND_OBSERVABILITY_ONLY
+PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
+REMOTE_EDITOR_PLUGIN_ENABLED = FALSE
+REMOTE_SYNC = REQUIRED
+```
+
+Bundled README says `v0.9.0` while `plugin.cfg` and upstream release say `1.0.0`; this is `NONBLOCKING_DOCUMENTATION_STALENESS` and must not be misreported as the plugin version.
 
 ## 3. Blocker transition
 
-Closed by the current Decision:
+Closed/superseded:
 
 ```text
-BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED
+HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
+GUT_ADOPTION_SPEC_PR155_NOT_MERGED
+HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED
+DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
 ```
 
-Current barracks blocker:
+Current tool-sync blockers:
+
+```text
+GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
+GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
+HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
+```
+
+Independent blockers:
 
 ```text
 BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
+LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE
+HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK
 ```
 
-First next action:
+## 4. Role separation
 
 ```text
-BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
+GODOT_AI_HIGODOT = PERSISTENT_GODOT_AUTHORING_ONLY
+GUT = DETERMINISTIC_TEST_AUTHORITY
+HERA = LIVE_QA_AND_OBSERVABILITY_ONLY
+HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+ROLE_OVERLAP = FORBIDDEN
 ```
 
-That package is a planning/implementation-contract Gate. Persistent Godot mutation remains separately gated by tool state and authoring authority.
+User approval does not collapse these roles.
 
-## 4. Product taxonomy and historical analysis taxonomy
+## 5. Remote evidence conflict
 
-Current product taxonomy:
-
-```text
-PRODUCT_SPECIAL_CORPS = PRIEST / MAGE / FLIER / GIANT
-ASSASSIN = BASIC_BARRACKS_SPECIALIZATION
-```
-
-Historical smoke model `ASSASSIN / PRIEST / MAGE / FLYING / GIANT` remains point-in-time analysis labels and is not product membership authority.
-
-## 5. Base freshness
+At baseline main `615a7fbe...`:
 
 ```text
-Base current main = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
-Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
-Base delta classification = CONTINUOUS_WORK_BLOCKER_RECOVERY_ROUTING_ONLY
-Project Base Adapter schema/generator/validator delta = NONE_OBSERVED
-```
-
-## 6. Tool / Entry Gate current remote evidence
-
-Current repository evidence at this Gate baseline still shows:
-
-```text
-project.godot editor plugin enablement = Godot AI only
+project.godot enabled plugins = Godot AI only
 addons/godot_ai/plugin.cfg = 3.1.2
 addons/gut/plugin.cfg = 9.7.1
 addons/hera_agent_godot/plugin.cfg = 1.0.0
 ```
 
-User subsequently declared Godot AI 3.1.3 and Hera/GUT plugin enablement+approval. That user-approved state will be reconciled under a separate tool-state Decision so this PR stays planning-only and does not falsely claim remote sync.
+Therefore the user-approved state and remote repository are not yet synchronized. This is explicitly recorded as sync drift, not an approval failure.
 
-Entry Gate remains `BLOCK` pending runtime-output implementation and current remote/tool synchronization.
+## 6. Base freshness
+
+```text
+Base current main = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
+Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
+Project Base Adapter schema/generator/validator delta = NONE_OBSERVED
+```
 
 ## 7. Current responsibility sources
 
@@ -136,4 +175,5 @@ Entry Gate remains `BLOCK` pending runtime-output implementation and current rem
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
+- `docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json`
