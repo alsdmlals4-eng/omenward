@@ -2,8 +2,8 @@
   "schema_version": "2.1",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
   "last_gate_update_decision": "OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1",
-  "observed_at": "2026-08-09T07:56:00+09:00",
-  "source_repository_main_sha": "615a7fbe818b18a8ca916a66a2891f49a8e0c0df",
+  "observed_at": "2026-08-09T08:04:00+09:00",
+  "source_repository_main_sha": "f1bf8939208a864bce1f99eea0555f05369dc9d6",
   "reconciliation_branch": "tools/godot-ai-3-1-3-hera-gut-approval-sync-20260809",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
   "base_current_main_observed": "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b",
@@ -22,14 +22,14 @@
   ],
   "entry_gate": {
     "decision": "BLOCK",
-    "status": "TOOL_USER_APPROVAL_RECOGNIZED_REMOTE_SYNC_REQUIRED_ROLE_OUTPUT_RUNTIME_BLOCKED",
+    "status": "TOOL_USER_APPROVAL_AND_REMOTE_SYNC_VERIFIED_ROLE_OUTPUT_RUNTIME_BLOCKED",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_THROUGH_TOOL_USER_APPROVAL_REMOTE_SYNC_STATE"
+      "status": "RECONCILED_BY_V4_4_THROUGH_TOOL_USER_APPROVAL_REMOTE_SYNC_VERIFIED"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_WITH_TOOL_REMOTE_SYNC_REQUIRED"
+      "status": "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_TOOL_REMOTE_SYNC_VERIFIED"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -41,22 +41,19 @@
     },
     "blocking_reasons": [
       "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
-      "GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED",
-      "GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED",
-      "HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED",
       "LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE",
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
       "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE",
-      "TOOL_REMOTE_SYNC_USING_HIGODOT_WHEN_EXECUTOR_AVAILABLE",
-      "PR155_PR156_SUPERSEDED_STATUS_CLEANUP"
+      "PR155_PR156_SUPERSEDED_STATUS_CLEANUP",
+      "HERA_README_METADATA_CLEANUP"
     ],
     "forbidden_actions": [
       "PRODUCT_IMPLEMENTATION",
       "GODOT_AUTHORING_MUTATION_WITHOUT_HIGODOT",
-      "FORMAL_GUT_EXECUTION_BEFORE_REMOTE_SYNC_VERIFICATION",
-      "HERA_LIVE_QA_COMPLETION_CLAIM",
+      "HERA_PERSISTENT_SOURCE_MUTATION",
+      "HERA_LIVE_QA_COMPLETION_CLAIM_WITHOUT_RUN",
       "IMAGE_GENERATION",
       "AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE",
       "LOCAL_MAIN_SYNC_CLAIM",
@@ -306,10 +303,11 @@
       "upstream_plugin_zip_sha256": "10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7",
       "user_approval": "APPROVED",
       "user_reported_local_enablement": "ENABLED_NOT_HOST_VERIFIED",
-      "remote_version_observed": "3.1.2",
+      "remote_version_observed": "3.1.3",
       "remote_editor_plugin_enabled": true,
-      "remote_sync_status": "REQUIRED",
-      "status": "USER_APPROVED_3_1_3_REMOTE_MAIN_STALE_3_1_2"
+      "remote_sync_status": "VERIFIED",
+      "remote_sync_commit": "f1bf8939208a864bce1f99eea0555f05369dc9d6",
+      "status": "USER_APPROVED_3_1_3_REMOTE_SYNC_VERIFIED"
     },
     "gut": {
       "canonical_repository": "bitwes/Gut",
@@ -320,12 +318,13 @@
       "authority": "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED",
       "user_approval": "APPROVED",
       "user_reported_local_enablement": "ENABLED_NOT_HOST_VERIFIED",
-      "remote_editor_plugin_enabled": false,
-      "remote_sync_status": "REQUIRED",
+      "remote_editor_plugin_enabled": true,
+      "remote_sync_status": "VERIFIED",
+      "remote_sync_commit": "f1bf8939208a864bce1f99eea0555f05369dc9d6",
       "adoption_spec_pr": 155,
       "adoption_spec_status": "SUPERSEDED_AS_APPROVAL_BLOCKER_BY_USER_DIRECT_APPROVAL",
       "formal_execution_status": "NOT_RUN_IN_CURRENT_HOSTED_SESSION",
-      "status": "USER_APPROVED_REMOTE_ENABLEMENT_SYNC_REQUIRED"
+      "status": "USER_APPROVED_REMOTE_ENABLEMENT_SYNC_VERIFIED"
     },
     "hera": {
       "canonical_repository": "NotNull92/hera-agent-godot",
@@ -339,19 +338,22 @@
       "existing_solution_disposition": "REUSE_APPROVED_BY_USER",
       "user_approval": "APPROVED",
       "user_reported_local_enablement": "ENABLED_NOT_HOST_VERIFIED",
-      "remote_editor_plugin_enabled": false,
-      "remote_sync_status": "REQUIRED",
+      "remote_editor_plugin_enabled": true,
+      "remote_game_inspector_autoload": true,
+      "remote_sync_status": "VERIFIED",
+      "remote_sync_commit": "f1bf8939208a864bce1f99eea0555f05369dc9d6",
       "live_qa_completion_status": "NOT_RUN_IN_CURRENT_HOSTED_SESSION",
-      "status": "USER_APPROVED_REMOTE_ENABLEMENT_SYNC_REQUIRED"
+      "status": "USER_APPROVED_REMOTE_ENABLEMENT_SYNC_VERIFIED"
     },
     "role_overlap": "FORBIDDEN"
   },
   "repository_drift_readback": {
     "after_last_sheet_baseline": [
       {"sha": "37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6", "summary": "historical direct main import including Hera Agent Godot files", "decision_linkage": "ACCEPTED_AS_CURRENT_REUSE_BASELINE_BY_20260809_USER_APPROVAL"},
-      {"sha": "7b41923628b68c7c1477b286584973d8516eab6d", "summary": "add .asset-vault to .gitignore", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"
+      {"sha": "7b41923628b68c7c1477b286584973d8516eab6d", "summary": "add .asset-vault to .gitignore", "decision_linkage": "NOT_FOUND_IN_CURRENT_LEDGER_OR_SHEET"},
+      {"sha": "f1bf8939208a864bce1f99eea0555f05369dc9d6", "summary": "user direct-main Godot AI 3.1.3 plus GUT/Hera enablement and HeraGameInspector autoload sync", "decision_linkage": "RECONCILED_BY_TOOL_USER_APPROVAL_REMOTE_SYNC_DECISION"}
     ],
-    "status": "HERA_DISPOSITION_CLOSED_OTHER_HISTORICAL_DRIFT_RECORDED"
+    "status": "USER_DIRECT_TOOL_SYNC_RECONCILED_HERA_README_METADATA_STALE_NONBLOCKING"
   },
   "github_actions": {
     "repository_visibility": "PUBLIC_CONFIRMED",
