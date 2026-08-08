@@ -1,0 +1,37 @@
+name: Validate Barracks Functional Value Combat Numerics Review
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-functional-value-combat-numerics-review.yml"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/DECISIONS_PENDING.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
+      - "docs/analysis/barracks_simulation/smoke_model_assumptions.v1.json"
+      - "data/units/**"
+      - "data/bootstrap_catalog.tres"
+      - "scripts/data/unit_archetype_profile.gd"
+      - "scripts/data/attack_profile.gd"
+      - "scripts/battle/unit_instance.gd"
+      - "scripts/battle/lane_state.gd"
+      - "scripts/battle/battle_simulator.gd"
+      - "tests/python/test_barracks_functional_value_combat_numerics_review.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  functional-value-review-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile focused review contract
+        run: python -m py_compile tests/python/test_barracks_functional_value_combat_numerics_review.py
+      - name: Run focused review contract
+        run: python -m unittest tests.python.test_barracks_functional_value_combat_numerics_review

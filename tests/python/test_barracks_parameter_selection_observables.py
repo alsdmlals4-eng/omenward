@@ -81,7 +81,7 @@ class BarracksParameterSelectionObservablesTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_observables_gate_remains_durable_after_later_robustness_review(self) -> None:
+    def test_observables_gate_remains_durable_after_later_blocker_refinement(self) -> None:
         obs = self.state["barracks_parameter_selection_observables"]
         gate = self.state["entry_gate"]
         self.assertEqual(obs["decision_id"], DECISION_ID)
@@ -90,7 +90,10 @@ class BarracksParameterSelectionObservablesTest(unittest.TestCase):
         self.assertIsNone(obs["final_parameter_vector"])
         self.assertEqual(obs["parameter_selection_10000"], "NOT_AUTHORIZED")
         self.assertNotIn("BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED", gate["blocking_reasons"])
-        self.assertIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
+        self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_REQUIRED", gate["blocking_reasons"])
+        self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])
+        self.assertIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
+        self.assertEqual(gate["decision"], "BLOCK")
         self.assertIn("BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", gate["forbidden_actions"])
         self.assertIn("BARRACKS_50000_SEED_CONFIRMATION", gate["forbidden_actions"])
         self.assertEqual(self.state["barracks_10000_robustness_review"]["decision_id"], ROBUSTNESS_REVIEW_DECISION_ID)
