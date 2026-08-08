@@ -1,7 +1,7 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1",
+  "last_gate_update_decision": "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1",
   "observed_at": "2026-08-08T07:49:00+09:00",
   "source_repository_main_sha": "7b41923628b68c7c1477b286584973d8516eab6d",
   "reconciliation_branch": "process/v4-4-entry-reconciliation-20260808",
@@ -31,7 +31,7 @@
     "status": "ENTRY_STATE_RECONCILED_BUT_BLOCKERS_REMAIN",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_DECISION_AND_PR159_GATE_UPDATE"
+      "status": "RECONCILED_BY_V4_4_PR159_AND_ADAPTER_FRESHNESS"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
@@ -46,7 +46,6 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
-      "PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED",
       "PR154_CONDITIONAL_FAIL_UNMERGED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
@@ -56,7 +55,6 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION",
       "PR154_CONDITIONAL_FAIL_REMEDIATION",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
@@ -84,7 +82,23 @@
     "project_relevant_full_text_recovery": "CLOSED",
     "status": "COMPLETE",
     "blocker_cleared": true,
-    "followup": "PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED"
+    "followup": "COMPLETED_PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION"
+  },
+  "project_base_adapter": {
+    "decision_id": "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1",
+    "baseline_main": "1f23981fdfc3e965ff46c8866e978c4701eb3d4e",
+    "protected_baseline_commit": "1f23981fdfc3e965ff46c8866e978c4701eb3d4e",
+    "protected_policy_sha256": "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52",
+    "policy_source_type": "CANONICAL_ADAPTER_SOURCE",
+    "canonical_adapter_sha256": "799b20aa009c3a90dcf433f965a1f8280de30a7dfdc36bfc7518e4f19ea6677c",
+    "base_release_version": "9.4.3",
+    "base_release_commit": "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8",
+    "base_validator_commit": "bfdc9e44d4a6920dc085eaa3f9d19d31b1acd2a1",
+    "gdd_sheet_sync_status": "CURRENT",
+    "sheet_evidence": "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json",
+    "generated_views": "BASE_GENERATOR_VALIDATED",
+    "status": "FRESHNESS_RECONCILED",
+    "blocker_cleared": true
   },
   "tool_authority": {
     "higodot": {
@@ -132,6 +146,7 @@
     "repository_visibility": "PUBLIC_CONFIRMED",
     "standard_hosted_runner": "PROVEN",
     "base_recovery_exact_head_validation": "PR159_00AF947C_ALL_REQUIRED_PR_WORKFLOWS_SUCCESS",
+    "project_base_adapter_validation_policy": "BASE_GENERATOR_VALIDATOR_AND_FOCUSED_TEST_EXACT_PR_HEAD_GREEN_REQUIRED",
     "reconciliation_validation_policy": "EXACT_PR_HEAD_GREEN_REQUIRED_BEFORE_MERGE"
   },
   "review_authority": {

@@ -2,7 +2,7 @@
 
 ```yaml
 decision_id: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1
+last_gate_update_decision: OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION
 contract_version: "4.4"
 contract_status: ACTIVE_INTEGRATED_AUDIT_IMPLEMENTATION_DELIVERY_CONTRACT
@@ -31,10 +31,25 @@ entry_gate: BLOCK
 - PR #154: Draft / 2,000-seed smoke conditional fail 계열
 - PR #155: Draft / GUT 9.7.1 adoption spec not merged
 - PR #159: `MERGED` / Base recovery `COMPLETE` / merge `c6f8babe1dbb31f436eac45fa2056242baa445b1`
-- PR159 exact Base recovery: tracked-file `ZERO_UNCLASSIFIED`, project-relevant full-text recovery `CLOSED`
 - local Windows checkout / local Godot / shared audio vault: 현재 agent 환경에서 접근 불가
 
-PR159 완료는 Base recovery blocker만 제거한다. 복원 과정에서 확인된 `PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED`는 별도 fail-closed finding으로 유지한다.
+### Project Base Adapter freshness
+
+`OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1`로 다음 bounded repair를 수행한다.
+
+```text
+Base release pin = 9.4.3 / PRESERVED
+Base main automatic migration = FORBIDDEN
+GDD Sheet = CURRENT / SHEET_GITHUB_SYNCED
+protected baseline = 1f23981fdfc3e965ff46c8866e978c4701eb3d4e
+protected policy source = CANONICAL_ADAPTER_SOURCE
+protected policy hash = 1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52
+Sheet evidence = docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json
+generated views = BASE_GENERATOR_VALIDATED
+PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED = CLEARED
+```
+
+이 repair는 adapter operating integrity만 복구하며 제품 구현을 허가하지 않는다.
 
 ## 3. 직접 main 변경의 provenance
 
@@ -59,9 +74,8 @@ role overlap = FORBIDDEN
 
 ## 5. Entry Gate
 
-PR159 Base recovery completion을 반영해도 다음 독립 차단 조건 때문에 Entry Gate는 `BLOCK`을 유지한다.
+Base recovery와 Project Base Adapter freshness를 닫아도 다음 독립 차단 조건 때문에 Entry Gate는 `BLOCK`을 유지한다.
 
-- `PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED`
 - PR #154 conditional fail / unmerged
 - GUT adoption spec PR #155 not merged
 - HiGodot exact source/version unverified
@@ -73,12 +87,11 @@ PR159 Base recovery completion을 반영해도 다음 독립 차단 조건 때�
 
 ## 6. 다음 허용 작업
 
-1. `PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION`
-2. PR #154 conditional-fail remediation
-3. PR #155 GUT adoption-spec review
-4. Hera Existing Solution First disposition
+1. PR #154 conditional-fail remediation
+2. PR #155 GUT adoption-spec review
+3. Hera Existing Solution First disposition
 
-Base recovery 완료 자체를 다시 수행하거나 PR159을 pending으로 취급하지 않는다.
+Base recovery와 adapter freshness를 다시 pending으로 취급하지 않는다.
 
 ## 7. Sheet 동기화
 
@@ -88,10 +101,10 @@ v4.4 활성 계약 Decision은 다음 ID를 유지한다.
 OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
 ```
 
-후속 Gate 변경은 해당 승인 Decision ID를 별도로 기록한다. PR159 Base recovery 완료 전파는 다음 ID를 사용한다.
+현재 adapter freshness Gate 변경은 다음 Decision ID로 GitHub와 Sheet에 함께 기록한다.
 
 ```text
-OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1
+OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 ```
 
 PR exact-head와 병합 결과는 Sheet의 PR/변경이력 surface에서 추적하며, 이 활성 바인딩 정본에는 병합 직후 stale해지는 임시 HEAD 상태를 현재값처럼 고정하지 않는다.

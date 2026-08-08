@@ -6,9 +6,10 @@ status: CURRENT_DECISION_LEDGER
 source_main_observed: 7b41923628b68c7c1477b286584973d8516eab6d
 base_main_observed: fa69a77a14f923a756064f6ae151d34cadb374f7
 current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1
+last_gate_update_decision: OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 base_recovery_merge: c6f8babe1dbb31f436eac45fa2056242baa445b1
 base_recovery_status: COMPLETE
+project_base_adapter_status: FRESHNESS_RECONCILED
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
 onboarding_planning_status: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 current_simulation_batch: APPROVED_4_OF_10_CONDITIONAL_FAIL
@@ -73,27 +74,36 @@ OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1
 OMW-DEC-20260807-DOCS-C1-REMOTE-PROVEN-AUTHORITY-RESTORATION-V1
 OMW-DEC-20260807-TESTS-CURRENT-CANON-LIFECYCLE-RECONCILIATION-V1
 OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
+OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1
 ```
 
 v4.3 활성화 Decision은 역사 비교 전용이다. 현재 계약은 v4.4다.
 
-### Base recovery post-merge 상태
+### Base recovery 및 Project Base Adapter 상태
 
 ```text
 PR159 = MERGED
-merge = c6f8babe1dbb31f436eac45fa2056242baa445b1
+Base recovery = COMPLETE
 Base exact commit = fa69a77a14f923a756064f6ae151d34cadb374f7
-Base root tree = 913b69460649fe717294a27246e0b833958e70e4
 tracked-file classification = ZERO_UNCLASSIFIED
 project-relevant full-text recovery = CLOSED
 BASE_RECOVERY_BLOCKER = CLEARED
+
+PROJECT_BASE_ADAPTER base release = 9.4.3 / NO_AUTOMATIC_MIGRATION
+GDD sheet sync = CURRENT / SHEET_GITHUB_SYNCED
+protected baseline commit = 1f23981fdfc3e965ff46c8866e978c4701eb3d4e
+protected policy source = CANONICAL_ADAPTER_SOURCE
+protected policy SHA256 = 1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52
+Sheet evidence = docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json
+generated compatibility views = BASE_GENERATOR_VALIDATED
+PROJECT_BASE_ADAPTER_FRESHNESS_BLOCKER = CLEARED
 ```
 
-Base recovery 과정에서 `skills/PROJECT_BASE_ADAPTER.json`의 GDD sync/protected baseline freshness 문제가 별도 finding으로 분리됐다. 이 finding은 Base recovery 완료를 되돌리지 않지만 shared-route/project operating integrity를 계속 fail-closed로 유지한다.
+Adapter reconciliation은 current Base `main`을 release pin으로 자동 승격하지 않는다. released v9.4.3 pin을 유지하면서 현재 PR base를 protected baseline으로 고정하고 Base 공식 generator/validator로 canonical adapter와 파생 뷰의 일치를 검증한다.
 
 ## 5. 2026-08-08 repository drift 판정
 
-Sheet의 과거 기준 이후 actual `main`에는 다음 direct-main 변경이 존재했다.
+과거 Sheet 기준 이후 actual `main`에는 다음 direct-main 변경이 존재했다.
 
 - `37f13c2ba4b76d59a300ce08d15c2dd4ab784ce6`: Hera Agent Godot 파일 유입.
 - `7b41923628b68c7c1477b286584973d8516eab6d`: `.asset-vault/` ignore 추가.
@@ -119,7 +129,6 @@ ENTRY_GATE = BLOCK
 
 현재 blocking reasons:
 
-- `PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED`
 - PR #154 conditional fail / unmerged
 - PR #155 GUT adoption spec not merged
 - HiGodot exact source/version unverified
@@ -127,7 +136,7 @@ ENTRY_GATE = BLOCK
 - local Godot / shared audio vault `BLOCKED_UNVERIFIED`
 - historical secret scan unproven accepted risk
 
-PR #159 Base recovery incomplete는 더 이상 blocker가 아니다.
+PR #159 Base recovery와 `PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED`는 더 이상 blocker가 아니다.
 
 금지:
 
@@ -143,9 +152,8 @@ LOCAL_OR_RUNTIME_COMPLETION_CLAIM
 
 ## 7. 다음 작업
 
-1. `PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION`: PR161 이후 stale한 `gdd_sheet` sync status와 `protected_baseline`을 bounded repair하고 Base adapter validator로 검증.
-2. PR #154 4/10 conditional fail의 capability proxy / multi-special token burst remediation.
-3. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
-4. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
+1. PR #154 4/10 conditional fail의 capability proxy / multi-special token burst remediation.
+2. PR #155 GUT adoption spec을 현재 v4.4 역할 계약에 맞춰 재검토.
+3. Hera direct-main 유입을 `REUSE / ABSORB / REFACTOR / ARCHIVE` 중 하나로 명시 판정.
 
 제품 구현은 Entry Gate가 PASS로 재판정될 때까지 시작하지 않는다.

@@ -15,6 +15,8 @@ LEGENDARY_PARENT_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_LEGENDARY_DEPL
 MAPRUN_POLICY = ROOT / "docs" / "design" / "APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
 TRANSACTION_FOUNDATION_POLICY = ROOT / "docs" / "design" / "APPROVED_V2_TRANSACTION_FOUNDATION_SEQUENCE_2026-07-26.md"
 INTEGRATED_LEDGER = ROOT / "docs" / "design" / "APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md"
+CURRENT_NO_PAUSE_MARKER = "TACTICAL_PLANNING_PAUSE = NOT_AUTHORIZED_BY_CURRENT_CANON"
+CURRENT_NO_PAUSE_RULE = "전투 중 수동 전술계획 정지의 존재·Clock 규칙은 현행 Stage 압력 정본이 승인하지 않는다"
 
 
 class AdversarialReviewContractTests(unittest.TestCase):
@@ -75,9 +77,8 @@ class AdversarialReviewContractTests(unittest.TestCase):
         maprun = MAPRUN_POLICY.read_text(encoding="utf-8")
         self.assertIn("PLAYER_ALIVE_LEGENDARY_BATTLEFIELD_CAP: 1", parent)
         self.assertIn("AUTO_DOWNGRADE_WITHOUT_CONSENT: FORBIDDEN", parent)
-        self.assertIn("TACTICAL_PLANNING", maprun)
-        self.assertIn("[전투 재개]", maprun)
-        self.assertIn("비용을 일괄 차감한 뒤 동시에 적용", maprun)
+        self.assertIn(CURRENT_NO_PAUSE_MARKER, maprun)
+        self.assertIn(CURRENT_NO_PAUSE_RULE, maprun)
 
     def test_danger_tick_legendary_contract_is_routed(self) -> None:
         self.assertTrue(DANGER_TICK_LEGENDARY_POLICY.is_file())
@@ -109,7 +110,8 @@ class AdversarialReviewContractTests(unittest.TestCase):
         maprun = MAPRUN_POLICY.read_text(encoding="utf-8")
         self.assertIn("실제 배치 transaction을 커밋하는 순간 생존 전설 수를 다시 검사", parent)
         self.assertIn("동일 `deployment_transaction_id` 재요청", parent)
-        self.assertIn("룰렛 회전·판독·이동·확정·보관·판매·배치 중에도 전투가 진행", maprun)
+        self.assertIn(CURRENT_NO_PAUSE_MARKER, maprun)
+        self.assertIn(CURRENT_NO_PAUSE_RULE, maprun)
         self.assertIn("MULTIPLE_NEW_LEGENDARY_COMMANDS_SAME_COMMIT_PHASE: REVIEW_PENDING", danger)
         self.assertIn("제품 코드 승인: `NO`", danger)
 
@@ -185,7 +187,8 @@ class AdversarialReviewContractTests(unittest.TestCase):
         self.assertIn("미확정 `SpinSession`은 닫고 재개할 수 있다", ledger)
         self.assertIn("건설·업그레이드·철거·새 회전은 금지", ledger)
         self.assertIn("SpinSession close", transaction)
-        self.assertIn("[전투 재개]", maprun)
+        self.assertIn(CURRENT_NO_PAUSE_MARKER, maprun)
+        self.assertIn(CURRENT_NO_PAUSE_RULE, maprun)
         self.assertIn("재검증 완료 전 전투 simulation이 재개되지 않음", gate)
         self.assertIn("재검증 실패 예약을 유지·취소할지, 전체 batch를 차단할지는 별도 검수 결정", gate)
         self.assertIn("PRODUCT_CODE_AUTHORIZED: NO", gate)
@@ -228,7 +231,8 @@ class AdversarialReviewContractTests(unittest.TestCase):
         maprun = MAPRUN_POLICY.read_text(encoding="utf-8")
         self.assertIn("POST_CLOSE_REVALIDATION_FAILURE_POLICY: REVIEW_PENDING", gate)
         self.assertIn("명시적으로 대체", policy)
-        self.assertIn("비용을 일괄 차감한 뒤 동시에 적용", maprun)
+        self.assertIn(CURRENT_NO_PAUSE_MARKER, maprun)
+        self.assertIn(CURRENT_NO_PAUSE_RULE, maprun)
         self.assertIn("실패 예약 자동 삭제", policy)
         self.assertIn("전체 예약 성공 + PlanningCommitReceipt", policy)
         self.assertIn("전체 상태 변경 0", policy)

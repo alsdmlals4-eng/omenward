@@ -37,7 +37,8 @@ class PlanningFirstCompatibilityTests(unittest.TestCase):
 
     def test_project_boundaries_remain_unchanged(self) -> None:
         data = load()
-        self.assertEqual("BLOCKED", data["gdd_sheet"]["sync_status"])
+        self.assertEqual("CURRENT", data["gdd_sheet"]["sync_status"])
+        self.assertEqual("SHEET_GITHUB_SYNCED", data["gdd_sheet"]["declared_sync_status"])
         self.assertEqual(["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"], data["protected_paths"])
         self.assertEqual("NOT_RUN", data["shared_overrides"]["orchestrating-deepseek-worktrees"]["actual_external_ai_worktree_execution"])
 

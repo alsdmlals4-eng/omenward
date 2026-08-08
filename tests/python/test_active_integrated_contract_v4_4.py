@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 VALIDATOR_PATH = ROOT / "tools/validate_active_integrated_contract_v4_4.py"
 STATE_PATH = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
 BASE_RECOVERY_DECISION = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
+ADAPTER_FRESHNESS_DECISION = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
 
 
 def load_validator():
@@ -43,7 +44,7 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
         gate = self.state["entry_gate"]
         self.assertEqual(
             gate["decision_ledger_readback"]["status"],
-            "RECONCILED_BY_V4_4_DECISION_AND_PR159_GATE_UPDATE",
+            "RECONCILED_BY_V4_4_PR159_AND_ADAPTER_FRESHNESS",
         )
         self.assertNotIn("RECONCILIATION_DECISION_NOT_MERGED", gate["blocking_reasons"])
         self.assertNotIn("current_reconciliation_head", self.state["github_actions"])
@@ -53,20 +54,32 @@ class ActiveIntegratedContractV44Test(unittest.TestCase):
             "process/v4-4-entry-reconciliation-20260808",
         )
 
-    def test_pr159_base_recovery_completion_is_propagated(self) -> None:
+    def test_pr159_base_recovery_completion_remains_propagated(self) -> None:
         gate = self.state["entry_gate"]
         blockers = set(gate["blocking_reasons"])
         allowed = set(gate["allowed_next_actions"])
         recovery = self.state["base_recovery"]
-        self.assertEqual(self.state["last_gate_update_decision"], BASE_RECOVERY_DECISION)
         self.assertNotIn("BASE_RECOVERY_PR159_DRAFT_INCOMPLETE", blockers)
         self.assertNotIn("PR159_BASE_RECOVERY_COMPLETION", allowed)
-        self.assertIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
-        self.assertIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", allowed)
         self.assertEqual(recovery["decision_id"], BASE_RECOVERY_DECISION)
         self.assertEqual(recovery["status"], "COMPLETE")
         self.assertTrue(recovery["blocker_cleared"])
         self.assertEqual(recovery["tracked_file_classification"], "ZERO_UNCLASSIFIED")
+
+    def test_project_base_adapter_freshness_is_propagated(self) -> None:
+        gate = self.state["entry_gate"]
+        blockers = set(gate["blocking_reasons"])
+        allowed = gate["allowed_next_actions"]
+        adapter = self.state["project_base_adapter"]
+        self.assertEqual(self.state["last_gate_update_decision"], ADAPTER_FRESHNESS_DECISION)
+        self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_FIX_REQUIRED", blockers)
+        self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", allowed)
+        self.assertEqual(allowed[0], "PR154_CONDITIONAL_FAIL_REMEDIATION")
+        self.assertEqual(adapter["decision_id"], ADAPTER_FRESHNESS_DECISION)
+        self.assertEqual(adapter["gdd_sheet_sync_status"], "CURRENT")
+        self.assertEqual(adapter["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
+        self.assertEqual(adapter["status"], "FRESHNESS_RECONCILED")
+        self.assertTrue(adapter["blocker_cleared"])
 
     def test_sheet_readback_has_no_ready_or_awaiting_images(self) -> None:
         image = self.state["entry_gate"]["image_review_sheet_readback"]
