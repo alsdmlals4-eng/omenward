@@ -6,7 +6,7 @@ planning_status: MAIN_CANONICAL_APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 latest_amendment: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
 current_simulation_batch: APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 9_OF_10_ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_REVIEW_COMPLETE / MEASUREMENT_SCENARIOS_DEFINED
 last_review_decision: OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1
-review_status: TOOL_USER_APPROVAL_RECOGNIZED / GODOT_AI_3_1_3_UPSTREAM_VERIFIED / HERA_GUT_APPROVED / REMOTE_SYNC_REQUIRED / ROLE_OUTPUT_RUNTIME_BLOCKED
+review_status: TOOL_USER_APPROVAL_RECOGNIZED / GODOT_AI_3_1_3_UPSTREAM_VERIFIED / HERA_GUT_APPROVED / REMOTE_SYNC_VERIFIED / ROLE_OUTPUT_RUNTIME_BLOCKED
 next_gate: BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
 product_code_authority: NONE
 ```
@@ -43,9 +43,7 @@ BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
 FV-COMMON-01 / FV-PRIEST-01 / FV-MAGE-01 / FV-FLIER-01 / FV-GIANT-01
 ```
 
-## Tool user approval — current authority
-
-The user directly approved the current tool state in this conversation.
+## Tool user approval and remote sync — current authority
 
 ```text
 GODOT_AI_USER_APPROVED_VERSION = 3.1.3
@@ -63,6 +61,18 @@ GUT = bitwes/Gut v9.7.1 / godot_4_7
 HERA = NotNull92/hera-agent-godot v1.0.0 / MIT
 ```
 
+Remote main sync readback:
+
+```text
+REMOTE_SYNC_MAIN = f1bf8939208a864bce1f99eea0555f05369dc9d6
+REMOTE_GODOT_AI_VERSION = 3.1.3
+REMOTE_PROJECT_GODOT_GODOT_AI_ENABLED = TRUE
+REMOTE_PROJECT_GODOT_GUT_ENABLED = TRUE
+REMOTE_PROJECT_GODOT_HERA_ENABLED = TRUE
+REMOTE_HERA_GAME_INSPECTOR_AUTOLOAD = PRESENT
+REMOTE_SYNC_COMPLETION = VERIFIED
+```
+
 Hera Existing Solution First disposition:
 
 ```text
@@ -72,36 +82,19 @@ HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 HERA_BUNDLED_README_VERSION = 0.9.0_STALE_METADATA_NONBLOCKING
 ```
 
-## Remote main drift
-
-Current remote main still differs from the user-approved local/editor state:
+Closed as current blockers:
 
 ```text
-REMOTE_PROJECT_GODOT_ENABLED = GODOT_AI_ONLY
-REMOTE_GODOT_AI_VERSION = 3.1.2
-REMOTE_GUT_PLUGIN_VERSION = 9.7.1 / NOT_ENABLED_IN_PROJECT_GODOT
-REMOTE_HERA_PLUGIN_VERSION = 1.0.0 / NOT_ENABLED_IN_PROJECT_GODOT
-REMOTE_SYNC_COMPLETION = NOT_CLAIMED
-```
-
-Therefore these old approval blockers are superseded:
-
-```text
-HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED = CLOSED
-GUT_ADOPTION_SPEC_PR155_NOT_MERGED = CLOSED_AS_APPROVAL_BLOCKER
-HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED = CLOSED
-DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED = CLOSED
-```
-
-Current sync blockers:
-
-```text
+HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
+GUT_ADOPTION_SPEC_PR155_NOT_MERGED
+HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED
+DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
 GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
 GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
 HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
 ```
 
-PR #155/#156 may remain open for historical cleanup/vendor-detail purposes, but they no longer negate the user's direct adoption approval.
+PR #155/#156 may remain open only as historical/vendor cleanup candidates; they do not negate current user approval or remote enablement.
 
 ## Current next Gate
 
@@ -109,7 +102,7 @@ PR #155/#156 may remain open for historical cleanup/vendor-detail purposes, but 
 NEXT_GATE = BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
 ```
 
-This remains a planning package. Actual persistent Godot mutation must use the Godot AI/HiGodot authoring authority. This hosted session does not claim local editor/runtime verification.
+The package defines runtime schema/behavior/instrumentation, GUT Red/Green acceptance, Hera live-QA acceptance and the HiGodot authoring manifest. Actual persistent Godot mutation remains restricted to HiGodot authority.
 
 ## Still not approved/completed
 
@@ -135,4 +128,4 @@ FORMAL_GUT_EXECUTION_COMPLETION = NOT_CLAIMED
 - `docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json`
 
-Entry Gate remains `BLOCK`.
+Entry Gate remains `BLOCK` only because the role-output runtime implementation is still required and local/runtime completion is not host-verified.
