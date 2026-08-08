@@ -1,11 +1,12 @@
 {
-  "schema_version": "1.4",
+  "schema_version": "1.5",
   "decision_id": "OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1",
-  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1",
-  "observed_at": "2026-08-08T20:18:00+09:00",
-  "source_repository_main_sha": "b28533cba722e293fdbfc1d1b43478dd8ded380d",
-  "reconciliation_branch": "planning/pr154-conditional-fail-remediation-20260808",
+  "last_gate_update_decision": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1",
+  "observed_at": "2026-08-08T20:45:00+09:00",
+  "source_repository_main_sha": "def5e845c56088424753e6070e22aa7fca8e4e85",
+  "reconciliation_branch": "planning/barracks-10000-decision-sweep-review-20260808",
   "base_repository_main_sha": "fa69a77a14f923a756064f6ae151d34cadb374f7",
+  "base_current_main_observed": "eee98a930219065e30b4d7d14d99d5ac7db44c60",
   "active_contract": {
     "name": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
     "version": "4.4",
@@ -31,11 +32,11 @@
     "status": "ENTRY_STATE_RECONCILED_BUT_BLOCKERS_REMAIN",
     "decision_ledger_readback": {
       "path": "docs/PROJECT_CANON_DECISION_LEDGER.md",
-      "status": "RECONCILED_BY_V4_4_PR159_ADAPTER_AND_BARRACKS_5_OF_10"
+      "status": "RECONCILED_BY_V4_4_PR159_ADAPTER_BARRACKS_5_OF_10_AND_10K_REVIEW"
     },
     "unresolved_list_readback": {
       "path": "docs/DECISIONS_PENDING.md",
-      "status": "CURRENT_10_OF_10_NEXT_SIMULATION_GATE"
+      "status": "CURRENT_PARAMETER_SELECTION_IDENTIFIABILITY_GATE"
     },
     "image_review_sheet_readback": {
       "sheet": "72_이미지검수_승인로그",
@@ -46,7 +47,7 @@
       "status": "NO_READY_OR_AWAITING_IMAGE_APPROVAL"
     },
     "blocking_reasons": [
-      "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED",
+      "BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED",
       "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
       "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
       "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
@@ -55,7 +56,7 @@
       "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK"
     ],
     "allowed_next_actions": [
-      "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW",
+      "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION",
       "PR155_GUT_ADOPTION_SPEC_REVIEW",
       "HERA_EXISTING_SOLUTION_FIRST_DISPOSITION"
     ],
@@ -68,7 +69,9 @@
       "IMAGE_GENERATION",
       "AUDIO_ASSET_IMPORT_OR_RUNTIME_REFERENCE",
       "LOCAL_MAIN_SYNC_CLAIM",
-      "GODOT_RUNTIME_CLAIM"
+      "GODOT_RUNTIME_CLAIM",
+      "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION",
+      "BARRACKS_50000_SEED_CONFIRMATION"
     ]
   },
   "base_recovery": {
@@ -128,11 +131,36 @@
     "result_csv_sha256": "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560",
     "evidence_workflow_run": 31254624591,
     "evidence_job": 93096088531,
-    "decision_sweep_10000": "READY_FOR_USER_REVIEW_NOT_AUTHORIZED",
+    "decision_sweep_10000": "REVIEW_COMPLETE_PARAMETER_SELECTION_NOT_IDENTIFIABLE_EXECUTION_NOT_AUTHORIZED",
     "confirmation_sweep_50000": "BLOCKED",
     "selected_parameter_vector": null,
     "product_implementation": "NOT_AUTHORIZED",
     "status": "APPROVED_5_OF_10_REMEDIATION_SMOKE_PASS"
+  },
+  "barracks_10000_review": {
+    "decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1",
+    "parent_decision_id": "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1",
+    "baseline_main": "def5e845c56088424753e6070e22aa7fca8e4e85",
+    "base_current_main_observed": "eee98a930219065e30b4d7d14d99d5ac7db44c60",
+    "source_result_csv": "docs/analysis/barracks_simulation/smoke_sweep_2000.v2.csv",
+    "source_result_csv_sha256": "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560",
+    "decision_eligible_metrics": [
+      "SPECIAL_TOKEN_SHARE_10_MIN",
+      "SPECIAL_TOKEN_SHARE_BURST_MAX",
+      "SECOND_SPECIAL_MARGINAL_VALUE_RATIO",
+      "REROLL_EXPECTED_VALUE_GAIN"
+    ],
+    "tied_vector_groups": [
+      ["V03_CHEAP_SLOW_LOW", "V04_CHEAP_SLOW_HIGH"],
+      ["V05_EXPENSIVE_FAST_LOW", "V06_EXPENSIVE_FAST_HIGH", "V07_EXPENSIVE_SLOW_LOW", "V08_EXPENSIVE_SLOW_HIGH"]
+    ],
+    "parameter_selection": "NOT_IDENTIFIABLE_WITH_CURRENT_DECISION_METRICS",
+    "decision_sweep_10000_execution": "NOT_AUTHORIZED",
+    "robustness_only_10000": "OPTIONAL_AFTER_SEPARATE_APPROVAL",
+    "confirmation_sweep_50000": "BLOCKED",
+    "final_parameter_vector": null,
+    "next_gate": "BARRACKS_PARAMETER_SELECTION_OBSERVABLES_DEFINITION",
+    "status": "REVIEW_COMPLETE_EXECUTION_NOT_AUTHORIZED"
   },
   "tool_authority": {
     "higodot": {
