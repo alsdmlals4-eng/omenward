@@ -7,6 +7,7 @@ on:
       - ".github/workflows/validate-barracks-conditional-fail-remediation.yml"
       - ".github/workflows/validate-barracks-10000-decision-sweep-review.yml"
       - ".github/workflows/validate-barracks-parameter-selection-observables.yml"
+      - ".github/workflows/validate-barracks-10000-robustness-review.yml"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/DECISIONS_PENDING.md"
       - "docs/analysis/barracks_simulation/**"
@@ -15,6 +16,7 @@ on:
       - "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "tests/python/test_active_integrated_contract_v4_4.py"
@@ -22,6 +24,7 @@ on:
       - "tests/python/test_barracks_remediation_smoke.py"
       - "tests/python/test_barracks_10000_decision_sweep_review.py"
       - "tests/python/test_barracks_parameter_selection_observables.py"
+      - "tests/python/test_barracks_10000_robustness_review.py"
       - "tests/python/test_project_base_adapter_freshness.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
   workflow_dispatch:
@@ -56,6 +59,7 @@ jobs:
               ".github/workflows/validate-barracks-conditional-fail-remediation.yml",
               ".github/workflows/validate-barracks-10000-decision-sweep-review.yml",
               ".github/workflows/validate-barracks-parameter-selection-observables.yml",
+              ".github/workflows/validate-barracks-10000-robustness-review.yml",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/DECISIONS_PENDING.md",
               "docs/analysis/barracks_simulation/current_maprun_economy_pressure_baseline.v1.json",
@@ -72,6 +76,7 @@ jobs:
               "docs/design/APPROVED_OMENWARD_BARRACKS_SMOKE_SWEEP_RESULTS_2026-08-06.md",
               "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_2026-08-08.md",
               "docs/design/APPROVED_OMENWARD_BARRACKS_PARAMETER_SELECTION_OBSERVABLES_2026-08-08.md",
+              "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_ONLY_REVIEW_2026-08-08.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
               "tests/python/test_active_integrated_contract_v4_4.py",
@@ -79,6 +84,7 @@ jobs:
               "tests/python/test_barracks_remediation_smoke.py",
               "tests/python/test_barracks_10000_decision_sweep_review.py",
               "tests/python/test_barracks_parameter_selection_observables.py",
+              "tests/python/test_barracks_10000_robustness_review.py",
               "tests/python/test_project_base_adapter_freshness.py",
               "tools/validate_active_integrated_contract_v4_4.py",
           }
@@ -101,6 +107,7 @@ jobs:
             tests/python/test_barracks_conditional_fail_remediation.py \
             tests/python/test_barracks_10000_decision_sweep_review.py \
             tests/python/test_barracks_parameter_selection_observables.py \
+            tests/python/test_barracks_10000_robustness_review.py \
             tests/python/test_project_base_adapter_freshness.py
 
       - name: Run v4.4 and durable-gate tests
@@ -110,6 +117,7 @@ jobs:
             tests.python.test_barracks_conditional_fail_remediation \
             tests.python.test_barracks_10000_decision_sweep_review \
             tests.python.test_barracks_parameter_selection_observables \
+            tests.python.test_barracks_10000_robustness_review \
             tests.python.test_project_base_adapter_freshness
 
       - name: Validate v4.4 active binding
