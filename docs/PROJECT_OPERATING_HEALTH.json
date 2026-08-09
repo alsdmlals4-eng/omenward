@@ -27,5 +27,6 @@
   },
   "integrity_verdict": "PASS_WITH_NOT_RUN_GATES",
   "operating_maturity": "OM-L0",
-  "product_evidence_maturity": "PE-0"
+  "product_evidence_maturity": "PE-0",
+  "schema_version": 1
 }
