@@ -83,9 +83,8 @@ class BarracksFunctionalValueMeasurementScenariosTest(unittest.TestCase):
             self.assertIn(blocked, text)
         self.assertNotIn("BLOCKED_RUNTIME_OUTPUT = 0", text)
 
-    def test_durable_state_closes_only_measurement_scenario_blocker(self) -> None:
+    def test_measurement_scenario_closure_remains_durable_after_later_gates(self) -> None:
         state = json.loads(STATE.read_text(encoding="utf-8"))
-        self.assertEqual(state["last_gate_update_decision"], DECISION)
         gate = state["entry_gate"]
         self.assertNotIn("BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED", gate["blocking_reasons"])
         self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", gate["blocking_reasons"])

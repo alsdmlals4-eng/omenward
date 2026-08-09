@@ -18,12 +18,13 @@ BARRACKS_ROBUSTNESS_REVIEW_DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-10000-
 BARRACKS_ROBUSTNESS_EXECUTION_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1"
 BARRACKS_FUNCTIONAL_REVIEW_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1"
 BARRACKS_MEASUREMENT_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
+TOOL_SYNC_DECISION = "OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1"
 BASE_RECOVERY_SHA = "fa69a77a14f923a756064f6ae151d34cadb374f7"
-CURRENT_SOURCE_MAIN_SHA = "02b803b075d5e44f5aa3db895c5dad025d048148"
+CURRENT_SOURCE_MAIN_SHA = "f1bf8939208a864bce1f99eea0555f05369dc9d6"
 CURRENT_BASE_MAIN_OBSERVED = "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b"
 ADAPTER_BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-RECONCILIATION_BRANCH = "planning/barracks-functional-value-measurement-scenarios-20260809"
+RECONCILIATION_BRANCH = "tools/godot-ai-3-1-3-hera-gut-approval-sync-20260809"
 SOURCE_2K_JSON_SHA = "a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2"
 SOURCE_2K_CSV_SHA = "3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560"
 ROBUSTNESS_10K_JSON_SHA = "1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3"
@@ -31,11 +32,8 @@ ROBUSTNESS_10K_CSV_SHA = "e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3
 
 REQUIRED_BLOCKERS = {
     "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
-    "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
-    "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
-    "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
-    "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
     "LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE",
+    "HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK",
 }
 COMPLETED_BLOCKERS = {
     "BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_REQUIRED",
@@ -44,6 +42,13 @@ COMPLETED_BLOCKERS = {
     "BARRACKS_10000_ROBUSTNESS_DEDICATED_RUNNER_REQUIRED",
     "BARRACKS_10000_SEED_DECISION_SWEEP_REVIEW_REQUIRED",
     "BARRACKS_PARAMETER_SELECTION_IDENTIFIABILITY_REQUIRED",
+    "GUT_ADOPTION_SPEC_PR155_NOT_MERGED",
+    "HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED",
+    "HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED",
+    "DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED",
+    "GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED",
+    "GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED",
+    "HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED",
 }
 
 
@@ -55,9 +60,9 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if data.get("decision_id") != DECISION_ID:
         errors.append("Decision ID mismatch")
-    if data.get("schema_version") != "2.0":
+    if data.get("schema_version") != "2.1":
         errors.append("state schema mismatch")
-    if data.get("last_gate_update_decision") != BARRACKS_MEASUREMENT_DECISION:
+    if data.get("last_gate_update_decision") != TOOL_SYNC_DECISION:
         errors.append("last gate update Decision mismatch")
     if data.get("source_repository_main_sha") != CURRENT_SOURCE_MAIN_SHA:
         errors.append("source main SHA mismatch")
@@ -75,9 +80,9 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     gate = data.get("entry_gate", {})
     if gate.get("decision") != "BLOCK":
         errors.append("entry gate must remain BLOCK")
-    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_THROUGH_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS":
+    if gate.get("decision_ledger_readback", {}).get("status") != "RECONCILED_BY_V4_4_THROUGH_TOOL_USER_APPROVAL_REMOTE_SYNC_VERIFIED":
         errors.append("Decision Ledger reconciliation status mismatch")
-    if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_GATE":
+    if gate.get("unresolved_list_readback", {}).get("status") != "CURRENT_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_TOOL_REMOTE_SYNC_VERIFIED":
         errors.append("unresolved list current status mismatch")
     blockers = set(gate.get("blocking_reasons", []))
     if not REQUIRED_BLOCKERS.issubset(blockers):
@@ -89,7 +94,13 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     if not allowed or allowed[0] != "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE":
         errors.append("runtime implementation package must be first next action")
     forbidden = set(gate.get("forbidden_actions", []))
-    for required in ("PRODUCT_IMPLEMENTATION", "GODOT_AUTHORING_MUTATION", "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION", "BARRACKS_50000_SEED_CONFIRMATION"):
+    for required in (
+        "PRODUCT_IMPLEMENTATION",
+        "GODOT_AUTHORING_MUTATION_WITHOUT_HIGODOT",
+        "HERA_PERSISTENT_SOURCE_MUTATION",
+        "BARRACKS_10000_SEED_PARAMETER_SELECTION_EXECUTION",
+        "BARRACKS_50000_SEED_CONFIRMATION",
+    ):
         if required not in forbidden:
             errors.append(f"required forbidden action missing: {required}")
 
@@ -141,8 +152,8 @@ def validate_state(data: dict[str, Any]) -> list[str]:
     scenarios = data.get("barracks_functional_value_measurement_scenarios", {})
     if scenarios.get("decision_id") != BARRACKS_MEASUREMENT_DECISION or scenarios.get("parent_decision_id") != BARRACKS_FUNCTIONAL_REVIEW_DECISION:
         errors.append("measurement-scenario lineage mismatch")
-    if scenarios.get("baseline_main") != CURRENT_SOURCE_MAIN_SHA or scenarios.get("base_current_main_observed") != CURRENT_BASE_MAIN_OBSERVED:
-        errors.append("measurement-scenario provenance mismatch")
+    if scenarios.get("baseline_main") != "02b803b075d5e44f5aa3db895c5dad025d048148" or scenarios.get("base_current_main_observed") != CURRENT_BASE_MAIN_OBSERVED:
+        errors.append("measurement-scenario historical provenance mismatch")
     if scenarios.get("fixture_policy") != "DETERMINISTIC_SAME_INPUT":
         errors.append("measurement fixture policy mismatch")
     if scenarios.get("functional_value_comparison") != "ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE" or scenarios.get("post_hoc_weight_tuning") != "FORBIDDEN":
@@ -161,12 +172,30 @@ def validate_state(data: dict[str, Any]) -> list[str]:
         errors.append("measurement next Gate mismatch")
 
     tools = data.get("tool_authority", {})
-    if tools.get("higodot", {}).get("authority") != "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY":
+    higodot = tools.get("higodot", {})
+    if higodot.get("authority") != "SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY":
         errors.append("HiGodot authority mismatch")
-    if tools.get("gut", {}).get("authority") != "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED":
+    if higodot.get("approved_version") != "3.1.3" or higodot.get("remote_version_observed") != "3.1.3" or higodot.get("remote_sync_status") != "VERIFIED":
+        errors.append("HiGodot approved/remote sync mismatch")
+    if not higodot.get("remote_editor_plugin_enabled"):
+        errors.append("HiGodot remote enablement mismatch")
+
+    gut = tools.get("gut", {})
+    if gut.get("authority") != "DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY_WHEN_ADOPTED":
         errors.append("GUT authority mismatch")
-    if tools.get("hera", {}).get("role") != "LIVE_QA_AND_OBSERVABILITY_ONLY" or tools.get("hera", {}).get("persistent_source_mutation") != "FORBIDDEN":
+    if gut.get("version") != "9.7.1" or gut.get("user_approval") != "APPROVED" or gut.get("remote_sync_status") != "VERIFIED" or not gut.get("remote_editor_plugin_enabled"):
+        errors.append("GUT approval/remote sync mismatch")
+
+    hera = tools.get("hera", {})
+    if hera.get("role") != "LIVE_QA_AND_OBSERVABILITY_ONLY" or hera.get("persistent_source_mutation") != "FORBIDDEN":
         errors.append("Hera role boundary mismatch")
+    if hera.get("approved_version") != "1.0.0" or hera.get("user_approval") != "APPROVED" or hera.get("remote_sync_status") != "VERIFIED" or not hera.get("remote_editor_plugin_enabled"):
+        errors.append("Hera approval/remote sync mismatch")
+    if not hera.get("remote_game_inspector_autoload"):
+        errors.append("Hera GameInspector remote autoload mismatch")
+    if tools.get("role_overlap") != "FORBIDDEN":
+        errors.append("tool role overlap boundary mismatch")
+
     if data.get("local_delivery", {}).get("status") != "BLOCKED_UNVERIFIED":
         errors.append("local delivery must remain BLOCKED_UNVERIFIED")
     return errors
@@ -184,7 +213,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("active_contract_v4_4=PASS entry_gate=BLOCK robustness_9_of_10=PASS functional_review=COMPLETE measurement_scenarios=DEFINED next=ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
+    print("active_contract_v4_4=PASS entry_gate=BLOCK tool_remote_sync=VERIFIED robustness_9_of_10=PASS measurement_scenarios=DEFINED next=ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
     return 0
 
 
