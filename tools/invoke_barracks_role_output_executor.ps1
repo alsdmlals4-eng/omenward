@@ -211,6 +211,16 @@ try {
         throw "BLOCKED_UNVERIFIED: Base project operating-contract validation failed after dependency recovery."
     }
 
+    # The generated router names repository-root skill artifacts, not paths relative
+    # to the router's own .agents/skills directory. Resolve and verify them once here.
+    $projectBaseAdapter = Join-Path $ProjectRoot "skills\PROJECT_BASE_ADAPTER.json"
+    $projectSkillSnapshot = Join-Path $ProjectRoot "skills\PROJECT_SKILL_SNAPSHOT.json"
+    foreach ($routingInput in @($projectBaseAdapter, $projectSkillSnapshot)) {
+        if (-not (Test-Path -LiteralPath $routingInput -PathType Leaf)) {
+            throw "BLOCKED_UNVERIFIED: required repository-root routing input is missing: $routingInput"
+        }
+    }
+
     $projectGodot = Join-Path $ProjectRoot "project.godot"
     $projectText = Get-Content -LiteralPath $projectGodot -Raw
     foreach ($plugin in @(
@@ -271,6 +281,8 @@ Fresh local facts at launch:
 - Base HEAD: $baseSha
 - Base validator Python: $pythonExecutable
 - Base validator Python directory granted to Codex sandbox: $pythonDirectory
+- Repository-root Project Base adapter: $projectBaseAdapter
+- Repository-root Project Skill snapshot: $projectSkillSnapshot
 - Base project operating-contract validation: PASS in PowerShell preflight
 - Godot AI MCP localhost:8000 is reachable
 
@@ -286,6 +298,7 @@ Hard boundaries:
 9. The Base operating-contract validator already passed in the PowerShell preflight using the exact executable shown as `Base validator Python`. The generated project workflow router still requires validation before selecting a route. If the project workflow router requires revalidation, use this exact validated Python executable and command:
    & '$pythonExecutable' '$baseValidator' --project-root '$ProjectRoot' --base-repository '$BaseRoot' --check
    The executor grants only the validated Python installation directory to the Codex sandbox via `--add-dir`; keep `workspace-write` and do not broaden to full-access. Do not invoke this executor recursively to recover validator dependencies inside Codex. The parent preflight already verified the Base-declared jsonschema requirement for this exact executable. If this exact revalidation command fails, stop as BLOCKED_UNVERIFIED and report the failure rather than substituting another Python or changing PowerShell ExecutionPolicy.
+10. After router validation, read exactly the repository-root routing inputs shown above. They are rooted at `ProjectRoot`; do not resolve them relative to .agents/skills/omenward-workflow-router and do not prepend `.agents\skills`. If either exact path cannot be read, stop BLOCKED_UNVERIFIED and report that exact path.
 
 GitHub Issue #$IssueNumber body follows:
 
