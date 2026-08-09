@@ -1,0 +1,30 @@
+name: Validate Barracks Role Output Runtime Implementation Package
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-barracks-role-output-runtime-implementation-package.yml"
+      - "tests/python/test_barracks_role_output_runtime_implementation_package.py"
+      - "docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md"
+      - "docs/superpowers/plans/2026-08-09-barracks-role-output-runtime-implementation-package.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/DECISIONS_PENDING.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile package contract
+        run: python -m py_compile tests/python/test_barracks_role_output_runtime_implementation_package.py
+      - name: Run package contract
+        run: python -m unittest tests.python.test_barracks_role_output_runtime_implementation_package
