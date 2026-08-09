@@ -104,6 +104,10 @@ if ([string]::IsNullOrWhiteSpace($script:PythonExecutable) -or -not (Test-Path -
     throw "Could not resolve the exact Python executable used for Base validation."
 }
 $pythonExecutable = $script:PythonExecutable
+$pythonDirectory = Split-Path -Parent $script:PythonExecutable
+if ([string]::IsNullOrWhiteSpace($pythonDirectory) -or -not (Test-Path -LiteralPath $pythonDirectory -PathType Container)) {
+    throw "Could not resolve the Python installation directory used for Base validation."
+}
 
 if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
     throw "Project root does not exist: $ProjectRoot"
@@ -266,6 +270,7 @@ Fresh local facts at launch:
 - Base root: $BaseRoot
 - Base HEAD: $baseSha
 - Base validator Python: $pythonExecutable
+- Base validator Python directory granted to Codex sandbox: $pythonDirectory
 - Base project operating-contract validation: PASS in PowerShell preflight
 - Godot AI MCP localhost:8000 is reachable
 
@@ -280,7 +285,7 @@ Hard boundaries:
 8. Do not discard unrelated work and do not re-add docs/analysis/barracks_simulation/*.csv.import or *.translation sidecars.
 9. The Base operating-contract validator already passed in the PowerShell preflight using the exact executable shown as `Base validator Python`. The generated project workflow router still requires validation before selecting a route. If the project workflow router requires revalidation, use this exact validated Python executable and command:
    & '$pythonExecutable' '$baseValidator' --project-root '$ProjectRoot' --base-repository '$BaseRoot' --check
-   Do not invoke this executor recursively to recover validator dependencies inside Codex. The parent preflight already verified the Base-declared jsonschema requirement for this exact executable. If this exact revalidation command fails, stop as BLOCKED_UNVERIFIED and report the failure rather than substituting another Python or changing PowerShell ExecutionPolicy.
+   The executor grants only the validated Python installation directory to the Codex sandbox via `--add-dir`; keep `workspace-write` and do not broaden to full-access. Do not invoke this executor recursively to recover validator dependencies inside Codex. The parent preflight already verified the Base-declared jsonschema requirement for this exact executable. If this exact revalidation command fails, stop as BLOCKED_UNVERIFIED and report the failure rather than substituting another Python or changing PowerShell ExecutionPolicy.
 
 GitHub Issue #$IssueNumber body follows:
 
@@ -292,13 +297,13 @@ $issueText
 
     if ($NonInteractive) {
         # Safe non-interactive mode: no approval bypass and workspace-write only.
-        # A command requiring broader privilege will fail rather than silently escalate.
-        $prompt | & codex exec -C $ProjectRoot --sandbox workspace-write -c 'approval_policy="never"' -
+        # Grant only the validated Python installation directory needed for router revalidation.
+        $prompt | & codex --add-dir $pythonDirectory exec -C $ProjectRoot --sandbox workspace-write -c 'approval_policy="never"' -
     }
     else {
         # Interactive by default so the operator can review shell/git actions while
         # Godot authoring itself remains delegated to HiGodot MCP.
-        & codex -C $ProjectRoot --sandbox workspace-write --ask-for-approval on-request $prompt
+        & codex --add-dir $pythonDirectory -C $ProjectRoot --sandbox workspace-write --ask-for-approval on-request $prompt
     }
 
     $codexExit = $LASTEXITCODE
