@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-08-09",
+  "user_confirmation": "LOCAL_GODOT_HIGODOT_NORMAL_OPERATION",
+  "remote_main_at_confirmation": "5df41ec281e76b0226eb6e9586788652d0cb782c",
+  "runtime_execution_gate": "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
+  "required_sequence": [
+    "GUT_RED",
+    "HIGODOT_PERSISTENT_AUTHORING",
+    "GODOT_IMPORT_PARSE",
+    "GUT_GREEN_AND_REGRESSION",
+    "HERA_LIVE_QA",
+    "TRACKED_SOURCE_DELTA_NONE"
+  ],
+  "assistant_callable_higodot_executor": false,
+  "local_executor_user_confirmed_available": true,
+  "completion_claim": "NOT_YET_RUN"
+}

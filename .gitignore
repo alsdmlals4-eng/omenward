@@ -44,3 +44,7 @@ __pycache__/
 
 # Local asset vault
 .asset-vault/
+
+# Godot CSV translation import sidecars generated from simulation evidence
+docs/analysis/barracks_simulation/*.csv.import
+docs/analysis/barracks_simulation/*.translation

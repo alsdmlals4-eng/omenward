@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-08-09",
+  "decision_id": "OMW-DEC-20260809-TOOLING-GODOT-CSV-IMPORT-ARTIFACT-HYGIENE-V1",
+  "baseline_main": "5df41ec281e76b0226eb6e9586788652d0cb782c",
+  "user_confirmed_local_godot_higodot": "OPERATIONAL",
+  "pollution_status": "RECOVERED_GENERATED_ARTIFACTS_REMOVED_AND_IGNORED",
+  "source_csv_policy": "PRESERVE_CANONICAL_CSV",
+  "generated_artifact_policy": "REMOVE_AND_IGNORE",
+  "runtime_implementation_blocker": "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED",
+  "runtime_execution_status": "NOT_YET_RUN"
+}

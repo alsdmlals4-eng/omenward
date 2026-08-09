@@ -5,6 +5,7 @@ on:
     paths:
       - ".github/workflows/validate-active-integrated-contract-v4-4.yml"
       - ".github/workflows/validate-tool-state-user-approval-remote-sync.yml"
+      - ".github/workflows/validate-godot-csv-import-artifact-hygiene.yml"
       - ".github/workflows/validate-barracks-conditional-fail-remediation.yml"
       - ".github/workflows/validate-barracks-10000-decision-sweep-review.yml"
       - ".github/workflows/validate-barracks-parameter-selection-observables.yml"
@@ -12,6 +13,7 @@ on:
       - ".github/workflows/validate-barracks-10000-robustness-execution.yml"
       - ".github/workflows/validate-barracks-functional-value-combat-numerics-review.yml"
       - ".github/workflows/validate-barracks-functional-value-measurement-scenarios.yml"
+      - ".gitignore"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/DECISIONS_PENDING.md"
       - "docs/PROJECT_OPERATING_DASHBOARD.html"
@@ -26,14 +28,20 @@ on:
       - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md"
       - "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md"
+      - "docs/process/APPROVED_OMENWARD_GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_2026-08-09.md"
+      - "docs/process/GODOT_LOCAL_EXECUTOR_HANDOFF_2026-08-09.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+      - "docs/operations/GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_STATE.v1.json"
+      - "docs/operations/GODOT_LOCAL_EXECUTOR_CHECKPOINT.v1.json"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
+      - "docs/superpowers/plans/2026-08-09-godot-csv-import-artifact-hygiene.md"
       - "skills/PROJECT_BASE_ADAPTER.json"
       - "skills/PROJECT_SKILL_SNAPSHOT.json"
       - "skills/BASE_V9_ADAPTER.json"
       - "skills/PROJECT_BASE_SKILL_ADAPTER.json"
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tests/python/test_tool_state_user_approval_remote_sync.py"
+      - "tests/python/test_godot_csv_import_artifact_hygiene.py"
       - "tests/python/test_barracks_conditional_fail_remediation.py"
       - "tests/python/test_barracks_remediation_smoke.py"
       - "tests/python/test_barracks_10000_decision_sweep_review.py"
@@ -74,18 +82,26 @@ jobs:
           allowed = {
               ".github/workflows/validate-active-integrated-contract-v4-4.yml",
               ".github/workflows/validate-tool-state-user-approval-remote-sync.yml",
+              ".github/workflows/validate-godot-csv-import-artifact-hygiene.yml",
+              ".gitignore",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/DECISIONS_PENDING.md",
               "docs/PROJECT_OPERATING_DASHBOARD.html",
               "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md",
+              "docs/process/APPROVED_OMENWARD_GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_2026-08-09.md",
+              "docs/process/GODOT_LOCAL_EXECUTOR_HANDOFF_2026-08-09.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
+              "docs/operations/GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_STATE.v1.json",
+              "docs/operations/GODOT_LOCAL_EXECUTOR_CHECKPOINT.v1.json",
               "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
+              "docs/superpowers/plans/2026-08-09-godot-csv-import-artifact-hygiene.md",
               "skills/PROJECT_BASE_ADAPTER.json",
               "skills/PROJECT_SKILL_SNAPSHOT.json",
               "skills/BASE_V9_ADAPTER.json",
               "skills/PROJECT_BASE_SKILL_ADAPTER.json",
               "tests/python/test_active_integrated_contract_v4_4.py",
               "tests/python/test_tool_state_user_approval_remote_sync.py",
+              "tests/python/test_godot_csv_import_artifact_hygiene.py",
               "tests/python/test_barracks_functional_value_measurement_scenarios.py",
               "tests/python/test_project_base_adapter_freshness.py",
               "tools/validate_active_integrated_contract_v4_4.py",
@@ -93,7 +109,12 @@ jobs:
           base_ref = os.environ.get("GITHUB_BASE_REF", "main")
           base = f"origin/{base_ref}"
           changed = set(subprocess.check_output(["git", "diff", "--name-only", f"{base}...HEAD"], text=True).splitlines())
-          unexpected = sorted(changed - allowed)
+          generated_hygiene = {
+              path for path in changed
+              if path.startswith("docs/analysis/barracks_simulation/")
+              and (path.endswith(".csv.import") or path.endswith(".translation"))
+          }
+          unexpected = sorted(changed - allowed - generated_hygiene)
           if unexpected:
               raise SystemExit(f"scope mismatch unexpected={unexpected}")
           protected_prefixes = ("data/", "scripts/", "scenes/", "assets/", "addons/")
@@ -109,6 +130,7 @@ jobs:
             tools/validate_active_integrated_contract_v4_4.py \
             tests/python/test_active_integrated_contract_v4_4.py \
             tests/python/test_tool_state_user_approval_remote_sync.py \
+            tests/python/test_godot_csv_import_artifact_hygiene.py \
             tests/python/test_barracks_conditional_fail_remediation.py \
             tests/python/test_barracks_10000_decision_sweep_review.py \
             tests/python/test_barracks_parameter_selection_observables.py \
@@ -123,6 +145,7 @@ jobs:
           python -m unittest \
             tests.python.test_active_integrated_contract_v4_4 \
             tests.python.test_tool_state_user_approval_remote_sync \
+            tests.python.test_godot_csv_import_artifact_hygiene \
             tests.python.test_barracks_conditional_fail_remediation \
             tests.python.test_barracks_10000_decision_sweep_review \
             tests.python.test_barracks_parameter_selection_observables \

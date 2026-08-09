@@ -1,0 +1,27 @@
+name: Validate Godot CSV Import Artifact Hygiene
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/validate-godot-csv-import-artifact-hygiene.yml"
+      - ".gitignore"
+      - "docs/analysis/barracks_simulation/**"
+      - "tests/python/test_godot_csv_import_artifact_hygiene.py"
+      - "docs/process/APPROVED_OMENWARD_GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_2026-08-09.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile hygiene contract
+        run: python -m py_compile tests/python/test_godot_csv_import_artifact_hygiene.py
+      - name: Run hygiene contract
+        run: python -m unittest tests.python.test_godot_csv_import_artifact_hygiene
