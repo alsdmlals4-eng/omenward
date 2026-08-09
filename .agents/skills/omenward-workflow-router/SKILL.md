@@ -12,9 +12,8 @@ not infer, repair, or execute a route.
 A verified parent executor preflight can satisfy this gate when the current
 executor prompt already records the exact project/Base roots and SHAs plus
 `Base project operating-contract validation: PASS in PowerShell preflight`.
-In that bounded child-executor case, do not rerun the validator and do not
-invoke the parent executor recursively. Continue by reading only
-`skills/PROJECT_BASE_ADAPTER.json` and the generated
+In that bounded child-executor case, do not rerun the validator and do not invoke the parent executor recursively.
+Continue by reading only `skills/PROJECT_BASE_ADAPTER.json` and the generated
 `skills/PROJECT_SKILL_SNAPSHOT.json`.
 
 Otherwise, after the validator passes, read only
