@@ -7,7 +7,7 @@
   "sheet_readback": [
     {
       "range": "00_프로젝트_허브!J2:L2",
-      "status": "BASE_ADAPTER_PREFLIGHT_RECONCILIATION_REQUIRED_RUNTIME_NOT_YET_RUN"
+      "status": "BASE_ADAPTER_PREFLIGHT_RECOVERY_WRAPPER_READY_RUNTIME_NOT_YET_RUN"
     },
     {
       "range": "02_현재_확정결정!A93:M93",
@@ -15,16 +15,16 @@
     },
     {
       "range": "04_누락_충돌_감사!A604:H604",
-      "status": "BOUNDED_MAINTENANCE_PROTECTED_DELTA_ZERO"
+      "status": "BOUNDED_MAINTENANCE_PROTECTED_DELTA_ZERO_RECOVERY_IN_PROGRESS"
     },
     {
-      "range": "99_변경이력!A150:H150",
-      "status": "PREFLIGHT_FRESHNESS_MAINTENANCE_STARTED"
+      "range": "99_변경이력!A151:H151",
+      "status": "PREFLIGHT_RECOVERY_WRAPPER_READY"
     }
   ],
   "spreadsheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
   "spreadsheet_timezone": "Asia/Seoul",
   "spreadsheet_title": "오멘워드(OMENWARD)",
   "verdict": "SHEET_GITHUB_CURRENT_RECONCILED_FOR_RUNTIME_PREFLIGHT",
-  "verified_at": "2026-08-09T20:53:00+09:00"
+  "verified_at": "2026-08-09T21:08:37+09:00"
 }
