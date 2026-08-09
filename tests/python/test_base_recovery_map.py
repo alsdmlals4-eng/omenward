@@ -274,6 +274,19 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("No live OMENWARD Godot AI editor session is registered", text)
         self.assertLess(text.index("$sessionProbeSchemaPath"), text.index("$issueBody ="))
 
+    def test_barracks_executor_preflights_exact_godot_471_and_pins_gut_entrypoint(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("godot_version", text)
+        self.assertIn("editor_pid", text)
+        self.assertIn("4.7.1-stable", text)
+        self.assertIn("HiGodot live session Godot version preflight PASS", text)
+        self.assertIn("Parent HiGodot Godot version:", text)
+        self.assertIn("Parent HiGodot editor PID:", text)
+        self.assertIn("-gtest=res://tests/gut/test_barracks_role_output.gd", text)
+        self.assertIn("Do not use -gdir=res://tests/gut for Issue #176", text)
+        self.assertIn("resolve the exact live editor executable from the parent-provided editor PID", text)
+        self.assertLess(text.index("4.7.1-stable"), text.index("$issueBody ="))
+
 
 if __name__ == "__main__":
     unittest.main()
