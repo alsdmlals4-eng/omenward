@@ -1,6 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$ProjectRoot = "C:\Users\user\Documents\GitHub\Ninza\omenward",
+    [string]$BaseRoot = "C:\Users\user\Documents\GitHub\Base",
     [string]$Repository = "alsdmlals4-eng/omenward",
     [int]$IssueNumber = 174,
     [string]$ExecutionBranch = "runtime/barracks-role-output-implementation-20260809",
@@ -16,19 +17,73 @@ function Assert-Command([string]$Name) {
     }
 }
 
-function Invoke-Native([scriptblock]$Command, [string]$FailureMessage) {
-    & $Command
-    if ($LASTEXITCODE -ne 0) {
-        throw "$FailureMessage (exit=$LASTEXITCODE)"
+function Get-ExactRequirement([string]$RequirementsPath, [string]$PackageName) {
+    if (-not (Test-Path -LiteralPath $RequirementsPath -PathType Leaf)) {
+        throw "Base requirements file is missing: $RequirementsPath"
     }
+    $pattern = "^\s*$([regex]::Escape($PackageName))=="
+    $line = Get-Content -LiteralPath $RequirementsPath | Where-Object { $_ -match $pattern } | Select-Object -First 1
+    if ([string]::IsNullOrWhiteSpace($line)) {
+        throw "Base does not declare an exact $PackageName requirement in $RequirementsPath"
+    }
+    return $line.Trim()
+}
+
+function Test-PythonRequirement([string]$Requirement) {
+    $parts = $Requirement -split "==", 2
+    if ($parts.Count -ne 2) {
+        return $false
+    }
+    $packageName = $parts[0]
+    $expectedVersion = $parts[1]
+    $probe = "import importlib.metadata as m, sys; sys.exit(0 if m.version('$packageName') == '$expectedVersion' else 1)"
+    & python -c $probe *> $null
+    return ($LASTEXITCODE -eq 0)
+}
+
+function Ensure-BaseValidatorDependency([string]$RequirementsPath) {
+    $requirement = Get-ExactRequirement $RequirementsPath "jsonschema"
+    if (Test-PythonRequirement $requirement) {
+        Write-Host "Base validator dependency OK: $requirement" -ForegroundColor Green
+        return
+    }
+
+    Write-Host "Recovering Base validator dependency from Base authority: $requirement" -ForegroundColor Yellow
+
+    & python -m pip --version *> $null
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "pip is unavailable; attempting Python ensurepip recovery." -ForegroundColor Yellow
+        & python -m ensurepip --upgrade
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not bootstrap pip for Base validator dependency recovery."
+        }
+    }
+
+    & python -m pip install $requirement
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Environment install failed; retrying user-site install." -ForegroundColor Yellow
+        & python -m pip install --user $requirement
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not install Base-authoritative dependency $requirement"
+        }
+    }
+
+    if (-not (Test-PythonRequirement $requirement)) {
+        throw "Installed dependency is still not visible to the active Python: $requirement"
+    }
+    Write-Host "Recovered Base validator dependency: $requirement" -ForegroundColor Green
 }
 
 Assert-Command git
 Assert-Command gh
 Assert-Command codex
+Assert-Command python
 
 if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
     throw "Project root does not exist: $ProjectRoot"
+}
+if (-not (Test-Path -LiteralPath $BaseRoot -PathType Container)) {
+    throw "Base repository does not exist: $BaseRoot"
 }
 
 Push-Location $ProjectRoot
@@ -85,6 +140,46 @@ try {
         throw "STALE_EXECUTION_BRANCH: origin/main=$mainSha is not an ancestor of HEAD=$headSha. Re-enter the OMENWARD Gate before authoring."
     }
 
+    # Freshen the local Base authority without discarding or rewriting unrelated Base work.
+    $baseInside = (& git -C $BaseRoot rev-parse --is-inside-work-tree 2>$null).Trim()
+    if ($baseInside -ne "true") {
+        throw "Base root is not a git worktree: $BaseRoot"
+    }
+    $baseDirty = @(& git -C $BaseRoot status --porcelain)
+    if ($baseDirty.Count -gt 0) {
+        Write-Host "Base worktree has local changes:" -ForegroundColor Yellow
+        $baseDirty | ForEach-Object { Write-Host "  $_" }
+        throw "Refusing to mutate a dirty Base worktree. Isolate Base changes before executor launch."
+    }
+    & git -C $BaseRoot fetch origin --prune
+    if ($LASTEXITCODE -ne 0) {
+        throw "Base git fetch origin failed."
+    }
+    $baseBranch = (& git -C $BaseRoot branch --show-current).Trim()
+    if ($baseBranch -ne "main") {
+        throw "Base must be on main for executor validation; current branch is '$baseBranch'."
+    }
+    $baseHead = (& git -C $BaseRoot rev-parse HEAD).Trim()
+    $baseRemoteMain = (& git -C $BaseRoot rev-parse origin/main).Trim()
+    if ($baseHead -ne $baseRemoteMain) {
+        & git -C $BaseRoot pull --ff-only origin main
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not fast-forward local Base main to origin/main."
+        }
+    }
+
+    # The Base operating-contract validator depends on the exact version declared
+    # by Base itself. Recover only that declared dependency; do not guess a version.
+    $baseRequirements = Join-Path $BaseRoot "requirements-publication.txt"
+    Ensure-BaseValidatorDependency $baseRequirements
+
+    $baseValidator = Join-Path $BaseRoot "tools\check_project_operating_contract.py"
+    Write-Host "Running Base project operating-contract validation before Codex launch..." -ForegroundColor Cyan
+    & python $baseValidator --project-root $ProjectRoot --base-repository $BaseRoot --check
+    if ($LASTEXITCODE -ne 0) {
+        throw "BLOCKED_UNVERIFIED: Base project operating-contract validation failed after dependency recovery."
+    }
+
     $projectGodot = Join-Path $ProjectRoot "project.godot"
     $projectText = Get-Content -LiteralPath $projectGodot -Raw
     foreach ($plugin in @(
@@ -128,6 +223,7 @@ try {
 
     $branchSha = (& git rev-parse HEAD).Trim()
     $mainSha = (& git rev-parse origin/main).Trim()
+    $baseSha = (& git -C $BaseRoot rev-parse HEAD).Trim()
 
     $prompt = @"
 You are the local OMENWARD runtime executor operating from PowerShell/Codex with the live Godot AI MCP connection.
@@ -140,6 +236,9 @@ Fresh local facts at launch:
 - execution branch: $ExecutionBranch
 - branch HEAD: $branchSha
 - origin/main: $mainSha
+- Base root: $BaseRoot
+- Base HEAD: $baseSha
+- Base project operating-contract validation: PASS in PowerShell preflight
 - Godot AI MCP localhost:8000 is reachable
 
 Hard boundaries:
@@ -151,6 +250,7 @@ Hard boundaries:
 6. Never serialize BLOCKED_RUNTIME_OUTPUT as numeric zero. Do not choose a final weighted functional-value index, final parameter vector, or final product numerics.
 7. Do not merge locally. If completion evidence is valid, push only the execution branch and report the exact HEAD/evidence. If a prerequisite conflicts with fresh project state, stop with BLOCKED_UNVERIFIED instead of inventing a workaround.
 8. Do not discard unrelated work and do not re-add docs/analysis/barracks_simulation/*.csv.import or *.translation sidecars.
+9. The Base operating-contract validator already passed in the PowerShell preflight. Do not stop merely because the earlier session lacked jsonschema; the active Python now has the Base-declared dependency and the preflight result is PASS. You may re-run the validator for confirmation.
 
 GitHub Issue #$IssueNumber body follows:
 
@@ -158,7 +258,7 @@ $issueText
 "@
 
     Write-Host "Launching Codex with Issue #$IssueNumber as the initial instruction..." -ForegroundColor Cyan
-    Write-Host "PowerShell -> Codex -> godot-ai MCP -> Godot Editor" -ForegroundColor Cyan
+    Write-Host "PowerShell -> Base preflight -> Codex -> godot-ai MCP -> Godot Editor" -ForegroundColor Cyan
 
     if ($NonInteractive) {
         # Safe non-interactive mode: no approval bypass and workspace-write only.
