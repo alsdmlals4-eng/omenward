@@ -13,7 +13,7 @@
     "version": "9.4.3"
   },
   "canonical_source": "skills/PROJECT_BASE_ADAPTER.json",
-  "canonical_source_sha256": "46b2a65f963618497a7775f6103b46cf63b0c8add4f2e5d642582229127eb5dc",
+  "canonical_source_sha256": "7c346d0f84d2a51181c064fe6f6c83e27d9164eeba8a97a605730916e59e0a97",
   "canonical_sources": [
     "docs/BASE_RULES_VERSION.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -40,7 +40,7 @@
     "skills/"
   ],
   "legacy_source": "docs/archive/base-v9-legacy-inputs/PROJECT_BASE_SKILL_ADAPTER.json",
-  "legacy_source_sha256": "855e0cf05ee6abf26947b39ec4885860bea4f14caedeeac53017190696f835fc",
+  "legacy_source_sha256": "b2f5bec2e13d6037f1706e734a4e9005c24805ae29cbacff4c1f5130271d6631",
   "license_record": "docs/technical/THIRD_PARTY_LICENSES.md",
   "lifecycle": "ONE_CYCLE",
   "project": {
