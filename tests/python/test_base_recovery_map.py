@@ -232,6 +232,14 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("codex --add-dir $pythonDirectory exec", text)
         self.assertIn("codex --add-dir $pythonDirectory -C", text)
 
+    def test_barracks_executor_resolves_router_inputs_from_repository_root(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn('$projectBaseAdapter = Join-Path $ProjectRoot "skills\\PROJECT_BASE_ADAPTER.json"', text)
+        self.assertIn('$projectSkillSnapshot = Join-Path $ProjectRoot "skills\\PROJECT_SKILL_SNAPSHOT.json"', text)
+        self.assertIn("Repository-root Project Base adapter: $projectBaseAdapter", text)
+        self.assertIn("Repository-root Project Skill snapshot: $projectSkillSnapshot", text)
+        self.assertIn("do not resolve them relative to .agents/skills/omenward-workflow-router", text)
+
 
 if __name__ == "__main__":
     unittest.main()
