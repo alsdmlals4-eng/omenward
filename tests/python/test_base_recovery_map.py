@@ -251,6 +251,16 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("& git commit", text)
         self.assertIn("& git push origin $ExecutionBranch", text)
 
+    def test_barracks_executor_writes_codex_schema_as_valid_bom_free_utf8_json(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("$resultSchemaObject = [ordered]@{", text)
+        self.assertIn("$resultSchemaJson = $resultSchemaObject | ConvertTo-Json -Depth 10", text)
+        self.assertIn("$utf8NoBom = New-Object System.Text.UTF8Encoding($false)", text)
+        self.assertIn("[System.IO.File]::WriteAllText($resultSchemaPath, $resultSchemaJson, $utf8NoBom)", text)
+        self.assertIn("$schemaProbe = Invoke-ExpectedNativeProbe", text)
+        self.assertIn("generated Codex output schema is not valid BOM-free UTF-8 JSON", text)
+        self.assertNotIn("Set-Content -LiteralPath $resultSchemaPath -Value $resultSchema -Encoding UTF8", text)
+
 
 if __name__ == "__main__":
     unittest.main()
