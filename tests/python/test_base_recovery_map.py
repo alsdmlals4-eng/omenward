@@ -240,6 +240,17 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("Repository-root Project Skill snapshot: $projectSkillSnapshot", text)
         self.assertIn("do not resolve them relative to .agents/skills/omenward-workflow-router", text)
 
+    def test_barracks_executor_uses_structured_parent_owned_git_handoff(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("$childIssueText = [regex]::Replace", text)
+        self.assertIn("Operator-only local executor re-entry instructions omitted from child packet", text)
+        self.assertIn("--output-schema $resultSchemaPath", text)
+        self.assertIn("--output-last-message $resultPath", text)
+        self.assertIn("READY_TO_COMMIT", text)
+        self.assertIn("Do not run git fetch, git switch, git pull, git commit, or git push inside child Codex", text)
+        self.assertIn("& git commit", text)
+        self.assertIn("& git push origin $ExecutionBranch", text)
+
 
 if __name__ == "__main__":
     unittest.main()
