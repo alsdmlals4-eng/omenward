@@ -261,6 +261,19 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("generated Codex output schema is not valid BOM-free UTF-8 JSON", text)
         self.assertNotIn("Set-Content -LiteralPath $resultSchemaPath -Value $resultSchema -Encoding UTF8", text)
 
+    def test_barracks_executor_preflights_live_omenward_higodot_session_before_full_child(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("$sessionProbeSchemaPath", text)
+        self.assertIn("$sessionProbeResultPath", text)
+        self.assertIn("Call only the godot-ai MCP session_manage tool with op=list", text)
+        self.assertIn("Do not read repository files or skills", text)
+        self.assertIn("--sandbox read-only", text)
+        self.assertIn("--skip-git-repo-check", text)
+        self.assertIn("--output-schema $sessionProbeSchemaPath", text)
+        self.assertIn("--output-last-message $sessionProbeResultPath", text)
+        self.assertIn("No live OMENWARD Godot AI editor session is registered", text)
+        self.assertLess(text.index("$sessionProbeSchemaPath"), text.index("$issueBody ="))
+
 
 if __name__ == "__main__":
     unittest.main()
