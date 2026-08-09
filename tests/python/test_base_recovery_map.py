@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP.v1.json"
 WORKFLOW = ROOT / ".github/workflows/validate-omenward-core.yml"
 BASE_CHECKOUT = ROOT / "_base_recovery"
+EXECUTOR = ROOT / "tools/invoke_barracks_role_output_executor.ps1"
 
 DECISION_ID = "OMW-DEC-20260807-PROCESS-BASE-REPOSITORY-SKILL-MAP-AND-LOCAL-VERIFICATION-PACK-V1"
 PUBLIC_DECISION_ID = "OMW-DEC-20260807-PROCESS-PUBLIC-REPOSITORY-STANDARD-HOSTED-ACTIONS-V1"
@@ -217,6 +218,13 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertEqual(strategy["local_verification_pack"], "REMOVED")
         self.assertEqual(strategy["repository_visibility_observed"], "public")
         self.assertEqual(strategy["visibility_decision_id"], PUBLIC_DECISION_ID)
+
+    def test_barracks_executor_pins_the_validated_python_for_child_router_revalidation(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("$script:PythonExecutable", text)
+        self.assertIn("Base validator Python: $pythonExecutable", text)
+        self.assertIn("use this exact validated Python executable", text)
+        self.assertIn("Do not invoke this executor recursively", text)
 
 
 if __name__ == "__main__":
