@@ -1,0 +1,30 @@
+{
+  "artifact_role": "PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE",
+  "base_main_observed": "2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b",
+  "decision_id": "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1",
+  "github_main_observed": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
+  "github_repository": "alsdmlals4-eng/omenward",
+  "sheet_readback": [
+    {
+      "range": "00_프로젝트_허브!J2:L2",
+      "status": "BASE_ADAPTER_PREFLIGHT_RECONCILIATION_REQUIRED_RUNTIME_NOT_YET_RUN"
+    },
+    {
+      "range": "02_현재_확정결정!A93:M93",
+      "status": "ADAPTER_FRESHNESS_DECISION_APPROVED_PR163_MERGED"
+    },
+    {
+      "range": "04_누락_충돌_감사!A604:H604",
+      "status": "BOUNDED_MAINTENANCE_PROTECTED_DELTA_ZERO"
+    },
+    {
+      "range": "99_변경이력!A150:H150",
+      "status": "PREFLIGHT_FRESHNESS_MAINTENANCE_STARTED"
+    }
+  ],
+  "spreadsheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
+  "spreadsheet_timezone": "Asia/Seoul",
+  "spreadsheet_title": "오멘워드(OMENWARD)",
+  "verdict": "SHEET_GITHUB_CURRENT_RECONCILED_FOR_RUNTIME_PREFLIGHT",
+  "verified_at": "2026-08-09T20:53:00+09:00"
+}
