@@ -256,6 +256,9 @@ try {
         }
     }
 
+    $verifiedGodotVersion = "NOT_PREFLIGHTED"
+    $verifiedEditorPid = 0
+
     if ($NonInteractive) {
         # Fail fast on the real editor-session boundary before loading the large
         # Issue packet. Run from a disposable non-repository directory so project
@@ -277,11 +280,13 @@ try {
                 matched_session_count = [ordered]@{ type = "integer"; minimum = 0 }
                 matched_project_root = [ordered]@{ type = "string" }
                 session_id = [ordered]@{ type = "string" }
+                godot_version = [ordered]@{ type = "string" }
+                editor_pid = [ordered]@{ type = "integer"; minimum = 0 }
                 blocker = [ordered]@{ type = "string" }
             }
             required = @(
                 "status", "total_session_count", "matched_session_count",
-                "matched_project_root", "session_id", "blocker"
+                "matched_project_root", "session_id", "godot_version", "editor_pid", "blocker"
             )
         }
         $sessionProbeSchemaJson = $sessionProbeSchemaObject | ConvertTo-Json -Depth 10
@@ -293,7 +298,7 @@ You are a HiGodot connection preflight. Do not read repository files or skills. 
 Call only the godot-ai MCP session_manage tool with op=list. The exact intended project root is:
 $ProjectRoot
 
-Normalize Windows path case and slash direction only for comparison. A match is valid only when the session's reported project path resolves to that exact project root. If exactly one matching session exists, call the godot-ai session_activate tool using that exact session according to the tool schema, then return SESSION_READY. Return the total session count, matched_session_count=1, the exact reported project path, and the exact session id. If there are zero matching sessions, zero total sessions, or multiple matching sessions, do not activate anything; return BLOCKED_UNVERIFIED with a concrete blocker. Do nothing else.
+Normalize Windows path case and slash direction only for comparison. A match is valid only when the session's reported project path resolves to that exact project root. If exactly one matching session exists, call the godot-ai session_activate tool using that exact session according to the tool schema, then return SESSION_READY. Return the total session count, matched_session_count=1, the exact reported project path, exact session id, exact godot_version, and exact editor_pid from that matched session. If there are zero matching sessions, zero total sessions, or multiple matching sessions, do not activate anything; return BLOCKED_UNVERIFIED with a concrete blocker. Do nothing else.
 "@
 
         Write-Host "Preflighting live OMENWARD HiGodot editor session before full Codex execution..." -ForegroundColor Cyan
@@ -328,7 +333,18 @@ Normalize Windows path case and slash direction only for comparison. A match is 
         if (-not $reportedProjectRoot.Equals($expectedProjectRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
             throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight matched the wrong project path: expected=$expectedProjectRoot reported=$reportedProjectRoot"
         }
+
+        $verifiedGodotVersion = [string]$sessionProbeResult.godot_version
+        $verifiedEditorPid = [int]$sessionProbeResult.editor_pid
+        if ([string]::IsNullOrWhiteSpace($verifiedGodotVersion) -or -not $verifiedGodotVersion.StartsWith("4.7.1-stable", [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "BLOCKED_UNVERIFIED: exact OMENWARD HiGodot session is running unsupported Godot version '$verifiedGodotVersion'; required 4.7.1-stable. Close that editor and reopen the exact OMENWARD project with Godot 4.7.1-stable, then rerun."
+        }
+        if ($verifiedEditorPid -le 0) {
+            throw "BLOCKED_UNVERIFIED: exact OMENWARD HiGodot session did not report a valid editor_pid. Reopen the project with Godot 4.7.1-stable and reconnect the Godot AI dock."
+        }
+
         Write-Host "HiGodot live session preflight PASS: $($sessionProbeResult.session_id) @ $reportedProjectRoot" -ForegroundColor Green
+        Write-Host "HiGodot live session Godot version preflight PASS: $verifiedGodotVersion (editor PID $verifiedEditorPid)" -ForegroundColor Green
     }
 
     $issueBody = (& gh issue view $IssueNumber --repo $Repository --json body --jq .body)
@@ -425,6 +441,8 @@ Fresh local facts at launch:
 - Godot AI MCP localhost:8000 is reachable
 - Parent git entry gate: fetch/switch/pull/clean-tree/main-ancestor checks already PASS
 - Parent HiGodot live-session preflight: PASS for exact ProjectRoot in NonInteractive mode
+- Parent HiGodot Godot version: $verifiedGodotVersion
+- Parent HiGodot editor PID: $verifiedEditorPid
 
 Hard boundaries:
 1. Persistent Godot/product authoring MUST go through the godot-ai MCP / HiGodot tools. Do not use shell redirection, generic text editors, apply_patch, or direct filesystem writes for scripts/, data/, scenes/, project.godot, addons/, or GDScript GUT test authoring.
@@ -440,6 +458,7 @@ Hard boundaries:
    The executor grants only the validated Python installation directory to the Codex sandbox via `--add-dir`; keep `workspace-write` and do not broaden to full-access. Use this exact validated Python executable. Do not invoke this executor recursively to recover validator dependencies inside Codex. The parent preflight already verified the Base-declared jsonschema requirement for this exact executable. If this exact revalidation command fails, return BLOCKED_UNVERIFIED rather than substituting another Python or changing PowerShell ExecutionPolicy.
 10. After router validation, read exactly the repository-root routing inputs shown above. They are rooted at `ProjectRoot`; do not resolve them relative to .agents/skills/omenward-workflow-router and do not prepend `.agents\skills`. If either exact path cannot be read, return BLOCKED_UNVERIFIED and report that exact path.
 11. Treat Issue sequence step 1 as already satisfied by the parent entry gate. Treat Issue sequence step 10 commit/push as delegated to the parent. Do not recursively execute any operator entry command. Reconfirm the exact HiGodot session before persistent writes even though the parent preflight passed. Your final answer MUST match the provided output schema. Return READY_TO_COMMIT only when GUT RED is PROVEN with >0 discovered tests, Godot import PASS, GUT GREEN PASS, existing headless regressions PASS, all 5 registered FV fixtures ran twice with identical raw outputs, Hera tracked-source delta is NONE, forbidden sidecars are NONE, final numeric selection is NONE, and the working tree contains the intended same-scope changes. Otherwise return BLOCKED_UNVERIFIED with a concrete blocker.
+12. For Issue #176, resolve the exact live editor executable from the parent-provided editor PID using read-only process inspection before any GUT execution. Verify that executable reports a version beginning with `4.7.1-stable`; do not substitute another Downloads/PATH Godot executable. Use that same verified executable for import, GUT, headless regression, and FV runs. For the role-output GUT RED/GREEN run, invoke `-s res://addons/gut/gut_cmdln.gd -gtest=res://tests/gut/test_barracks_role_output.gd -gexit`. Do not use -gdir=res://tests/gut for Issue #176. If the exact live editor executable cannot be resolved or its version differs, return BLOCKED_UNVERIFIED before persistent product authoring.
 
 GitHub Issue #$IssueNumber sanitized child body follows:
 
@@ -447,7 +466,7 @@ $childIssueText
 "@
 
     Write-Host "Launching Codex with Issue #$IssueNumber as the initial instruction..." -ForegroundColor Cyan
-    Write-Host "PowerShell -> Base preflight -> HiGodot session preflight -> Codex -> godot-ai MCP -> Godot Editor -> structured parent git handoff" -ForegroundColor Cyan
+    Write-Host "PowerShell -> Base preflight -> HiGodot session/version preflight -> Codex -> godot-ai MCP -> Godot Editor -> structured parent git handoff" -ForegroundColor Cyan
 
     if ($NonInteractive) {
         # Child authoring remains workspace-write. Git metadata stays protected; the
