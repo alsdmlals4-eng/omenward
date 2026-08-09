@@ -233,8 +233,8 @@ try {
         }
     }
 
-    # Godot AI exposes MCP on the local HTTP server. The editor/plugin should
-    # already be running before this PowerShell entrypoint is used.
+    # Port 8000 proves only that the Python MCP server is reachable. The live
+    # Godot editor is a separate WebSocket session and is validated below.
     $mcpReachable = Test-NetConnection 127.0.0.1 -Port 8000 -InformationLevel Quiet -WarningAction SilentlyContinue
     if (-not $mcpReachable) {
         throw "Godot AI MCP port 8000 is not reachable. Open OMENWARD in Godot, confirm the Godot AI dock is connected, then run this script again."
@@ -254,6 +254,81 @@ try {
         if ($LASTEXITCODE -ne 0) {
             throw "Could not configure Codex MCP server 'godot-ai'."
         }
+    }
+
+    if ($NonInteractive) {
+        # Fail fast on the real editor-session boundary before loading the large
+        # Issue packet. Run from a disposable non-repository directory so project
+        # instructions/skills are not loaded for this MCP-only readiness check.
+        $sessionProbeRoot = Join-Path $env:TEMP "omenward-higodot-session-probe"
+        New-Item -ItemType Directory -Force -Path $sessionProbeRoot | Out-Null
+        $sessionProbeSchemaPath = Join-Path $sessionProbeRoot "session-schema.json"
+        $sessionProbeResultPath = Join-Path $sessionProbeRoot "session-result.json"
+        if (Test-Path -LiteralPath $sessionProbeResultPath) {
+            Remove-Item -LiteralPath $sessionProbeResultPath -Force
+        }
+
+        $sessionProbeSchemaObject = [ordered]@{
+            type = "object"
+            additionalProperties = $false
+            properties = [ordered]@{
+                status = [ordered]@{ type = "string"; enum = @("SESSION_READY", "BLOCKED_UNVERIFIED") }
+                total_session_count = [ordered]@{ type = "integer"; minimum = 0 }
+                matched_session_count = [ordered]@{ type = "integer"; minimum = 0 }
+                matched_project_root = [ordered]@{ type = "string" }
+                session_id = [ordered]@{ type = "string" }
+                blocker = [ordered]@{ type = "string" }
+            }
+            required = @(
+                "status", "total_session_count", "matched_session_count",
+                "matched_project_root", "session_id", "blocker"
+            )
+        }
+        $sessionProbeSchemaJson = $sessionProbeSchemaObject | ConvertTo-Json -Depth 10
+        $sessionProbeUtf8 = New-Object System.Text.UTF8Encoding($false)
+        [System.IO.File]::WriteAllText($sessionProbeSchemaPath, $sessionProbeSchemaJson, $sessionProbeUtf8)
+
+        $sessionProbePrompt = @"
+You are a HiGodot connection preflight. Do not read repository files or skills. Do not run shell commands. Do not modify files.
+Call only the godot-ai MCP session_manage tool with op=list. The exact intended project root is:
+$ProjectRoot
+
+Normalize Windows path case and slash direction only for comparison. A match is valid only when the session's reported project path resolves to that exact project root. If exactly one matching session exists, call the godot-ai session_activate tool using that exact session according to the tool schema, then return SESSION_READY. Return the total session count, matched_session_count=1, the exact reported project path, and the exact session id. If there are zero matching sessions, zero total sessions, or multiple matching sessions, do not activate anything; return BLOCKED_UNVERIFIED with a concrete blocker. Do nothing else.
+"@
+
+        Write-Host "Preflighting live OMENWARD HiGodot editor session before full Codex execution..." -ForegroundColor Cyan
+        $sessionProbePrompt | & codex exec -C $sessionProbeRoot --sandbox read-only --skip-git-repo-check -c 'approval_policy="never"' --output-schema $sessionProbeSchemaPath --output-last-message $sessionProbeResultPath -
+        $sessionProbeExit = $LASTEXITCODE
+        if ($sessionProbeExit -ne 0) {
+            throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight Codex process exited with code $sessionProbeExit"
+        }
+        if (-not (Test-Path -LiteralPath $sessionProbeResultPath -PathType Leaf)) {
+            throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight did not produce a structured result."
+        }
+        try {
+            $sessionProbeResult = Get-Content -LiteralPath $sessionProbeResultPath -Raw | ConvertFrom-Json
+        }
+        catch {
+            throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight result was not valid JSON: $($_.Exception.Message)"
+        }
+        if ($sessionProbeResult.status -ne "SESSION_READY" -or [int]$sessionProbeResult.matched_session_count -ne 1) {
+            throw "BLOCKED_UNVERIFIED: No live OMENWARD Godot AI editor session is registered and uniquely matchable. total=$($sessionProbeResult.total_session_count) matched=$($sessionProbeResult.matched_session_count) blocker=$($sessionProbeResult.blocker). Open the exact OMENWARD project in Godot 4.7.1, ensure Project Settings > Plugins > Godot AI is enabled and the Godot AI dock shows connected, then rerun."
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$sessionProbeResult.session_id) -or [string]::IsNullOrWhiteSpace([string]$sessionProbeResult.matched_project_root)) {
+            throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight returned incomplete session identity."
+        }
+        $pathTrimChars = [char[]]@('\', '/')
+        $expectedProjectRoot = [System.IO.Path]::GetFullPath($ProjectRoot).TrimEnd($pathTrimChars)
+        try {
+            $reportedProjectRoot = [System.IO.Path]::GetFullPath([string]$sessionProbeResult.matched_project_root).TrimEnd($pathTrimChars)
+        }
+        catch {
+            throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight returned an invalid project path: $($sessionProbeResult.matched_project_root)"
+        }
+        if (-not $reportedProjectRoot.Equals($expectedProjectRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "BLOCKED_UNVERIFIED: HiGodot live-session preflight matched the wrong project path: expected=$expectedProjectRoot reported=$reportedProjectRoot"
+        }
+        Write-Host "HiGodot live session preflight PASS: $($sessionProbeResult.session_id) @ $reportedProjectRoot" -ForegroundColor Green
     }
 
     $issueBody = (& gh issue view $IssueNumber --repo $Repository --json body --jq .body)
@@ -349,6 +424,7 @@ Fresh local facts at launch:
 - Base project operating-contract validation: PASS in PowerShell preflight
 - Godot AI MCP localhost:8000 is reachable
 - Parent git entry gate: fetch/switch/pull/clean-tree/main-ancestor checks already PASS
+- Parent HiGodot live-session preflight: PASS for exact ProjectRoot in NonInteractive mode
 
 Hard boundaries:
 1. Persistent Godot/product authoring MUST go through the godot-ai MCP / HiGodot tools. Do not use shell redirection, generic text editors, apply_patch, or direct filesystem writes for scripts/, data/, scenes/, project.godot, addons/, or GDScript GUT test authoring.
@@ -363,7 +439,7 @@ Hard boundaries:
    & '$pythonExecutable' '$baseValidator' --project-root '$ProjectRoot' --base-repository '$BaseRoot' --check
    The executor grants only the validated Python installation directory to the Codex sandbox via `--add-dir`; keep `workspace-write` and do not broaden to full-access. Use this exact validated Python executable. Do not invoke this executor recursively to recover validator dependencies inside Codex. The parent preflight already verified the Base-declared jsonschema requirement for this exact executable. If this exact revalidation command fails, return BLOCKED_UNVERIFIED rather than substituting another Python or changing PowerShell ExecutionPolicy.
 10. After router validation, read exactly the repository-root routing inputs shown above. They are rooted at `ProjectRoot`; do not resolve them relative to .agents/skills/omenward-workflow-router and do not prepend `.agents\skills`. If either exact path cannot be read, return BLOCKED_UNVERIFIED and report that exact path.
-11. Treat Issue sequence step 1 as already satisfied by the parent entry gate. Treat Issue sequence step 10 commit/push as delegated to the parent. Do not recursively execute any operator entry command. Your final answer MUST match the provided output schema. Return READY_TO_COMMIT only when GUT RED is PROVEN with >0 discovered tests, Godot import PASS, GUT GREEN PASS, existing headless regressions PASS, all 5 registered FV fixtures ran twice with identical raw outputs, Hera tracked-source delta is NONE, forbidden sidecars are NONE, final numeric selection is NONE, and the working tree contains the intended same-scope changes. Otherwise return BLOCKED_UNVERIFIED with a concrete blocker.
+11. Treat Issue sequence step 1 as already satisfied by the parent entry gate. Treat Issue sequence step 10 commit/push as delegated to the parent. Do not recursively execute any operator entry command. Reconfirm the exact HiGodot session before persistent writes even though the parent preflight passed. Your final answer MUST match the provided output schema. Return READY_TO_COMMIT only when GUT RED is PROVEN with >0 discovered tests, Godot import PASS, GUT GREEN PASS, existing headless regressions PASS, all 5 registered FV fixtures ran twice with identical raw outputs, Hera tracked-source delta is NONE, forbidden sidecars are NONE, final numeric selection is NONE, and the working tree contains the intended same-scope changes. Otherwise return BLOCKED_UNVERIFIED with a concrete blocker.
 
 GitHub Issue #$IssueNumber sanitized child body follows:
 
@@ -371,7 +447,7 @@ $childIssueText
 "@
 
     Write-Host "Launching Codex with Issue #$IssueNumber as the initial instruction..." -ForegroundColor Cyan
-    Write-Host "PowerShell -> Base preflight -> Codex -> godot-ai MCP -> Godot Editor -> structured parent git handoff" -ForegroundColor Cyan
+    Write-Host "PowerShell -> Base preflight -> HiGodot session preflight -> Codex -> godot-ai MCP -> Godot Editor -> structured parent git handoff" -ForegroundColor Cyan
 
     if ($NonInteractive) {
         # Child authoring remains workspace-write. Git metadata stays protected; the
