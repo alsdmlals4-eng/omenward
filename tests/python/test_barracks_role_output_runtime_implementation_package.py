@@ -13,6 +13,8 @@ UNIT_INSTANCE = ROOT / "scripts/battle/unit_instance.gd"
 LANE_STATE = ROOT / "scripts/battle/lane_state.gd"
 SIMULATOR = ROOT / "scripts/battle/battle_simulator.gd"
 PROFILE = ROOT / "scripts/data/unit_archetype_profile.gd"
+PRIEST = ROOT / "data/units/priest.tres"
+MAGE = ROOT / "data/units/mage.tres"
 
 DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1"
 PARENT = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1"
@@ -24,7 +26,8 @@ class BarracksRoleOutputRuntimeImplementationPackageTest(unittest.TestCase):
         lane = LANE_STATE.read_text(encoding="utf-8")
         sim = SIMULATOR.read_text(encoding="utf-8")
         profile = PROFILE.read_text(encoding="utf-8")
-        self.assertIn("magic_resistance", profile)
+        resources = PRIEST.read_text(encoding="utf-8") + MAGE.read_text(encoding="utf-8")
+        self.assertIn('"magic_resistance"', resources)
         self.assertIn("target_priority_tags", profile)
         self.assertIn('func receive_damage(raw_damage: float)', unit)
         self.assertNotIn('magic_resistance', unit.split('func receive_damage(raw_damage: float)', 1)[1].split('\n\n', 1)[0])
