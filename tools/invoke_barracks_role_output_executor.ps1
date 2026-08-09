@@ -282,7 +282,7 @@ $issueText
     if ($NonInteractive) {
         # Safe non-interactive mode: no approval bypass and workspace-write only.
         # A command requiring broader privilege will fail rather than silently escalate.
-        $prompt | & codex exec -C $ProjectRoot --sandbox workspace-write --ask-for-approval never -
+        $prompt | & codex exec -C $ProjectRoot --sandbox workspace-write -c 'approval_policy="never"' -
     }
     else {
         # Interactive by default so the operator can review shell/git actions while
