@@ -286,36 +286,48 @@ try {
     if (Test-Path -LiteralPath $resultPath) {
         Remove-Item -LiteralPath $resultPath -Force
     }
-    $resultSchema = @'
-{
-  "type": "object",
-  "additionalProperties": false,
-  "properties": {
-    "status": {"type": "string", "enum": ["READY_TO_COMMIT", "BLOCKED_UNVERIFIED"]},
-    "summary": {"type": "string"},
-    "blocker": {"type": "string"},
-    "gut_red": {"type": "string", "enum": ["PROVEN", "NOT_RUN", "FAILED"]},
-    "gut_discovered_tests": {"type": "integer", "minimum": 0},
-    "godot_import": {"type": "string", "enum": ["PASS", "NOT_RUN", "FAILED"]},
-    "gut_green": {"type": "string", "enum": ["PASS", "NOT_RUN", "FAILED"]},
-    "headless_regressions": {"type": "string", "enum": ["PASS", "NOT_RUN", "FAILED"]},
-    "fv_repeat_identity": {"type": "string", "enum": ["PASS", "NOT_RUN", "FAILED"]},
-    "fv_registered_fixtures": {"type": "integer", "minimum": 0},
-    "fv_runs_per_fixture": {"type": "integer", "minimum": 0},
-    "hera_source_delta": {"type": "string", "enum": ["NONE", "NOT_RUN", "CHANGED"]},
-    "forbidden_sidecars": {"type": "string", "enum": ["NONE", "PRESENT"]},
-    "final_numeric_selection": {"type": "string", "enum": ["NONE", "PRESENT"]},
-    "changed_files": {"type": "array", "items": {"type": "string"}}
-  },
-  "required": [
-    "status", "summary", "blocker", "gut_red", "gut_discovered_tests",
-    "godot_import", "gut_green", "headless_regressions", "fv_repeat_identity",
-    "fv_registered_fixtures", "fv_runs_per_fixture", "hera_source_delta",
-    "forbidden_sidecars", "final_numeric_selection", "changed_files"
-  ]
-}
-'@
-    Set-Content -LiteralPath $resultSchemaPath -Value $resultSchema -Encoding UTF8
+
+    # Windows PowerShell 5.1 writes a UTF-8 BOM for Set-Content -Encoding UTF8.
+    # Codex requires the --output-schema file itself to be parseable JSON, so build
+    # it as data, serialize it, and write explicit BOM-free UTF-8 bytes instead.
+    $resultSchemaObject = [ordered]@{
+        type = "object"
+        additionalProperties = $false
+        properties = [ordered]@{
+            status = [ordered]@{ type = "string"; enum = @("READY_TO_COMMIT", "BLOCKED_UNVERIFIED") }
+            summary = [ordered]@{ type = "string" }
+            blocker = [ordered]@{ type = "string" }
+            gut_red = [ordered]@{ type = "string"; enum = @("PROVEN", "NOT_RUN", "FAILED") }
+            gut_discovered_tests = [ordered]@{ type = "integer"; minimum = 0 }
+            godot_import = [ordered]@{ type = "string"; enum = @("PASS", "NOT_RUN", "FAILED") }
+            gut_green = [ordered]@{ type = "string"; enum = @("PASS", "NOT_RUN", "FAILED") }
+            headless_regressions = [ordered]@{ type = "string"; enum = @("PASS", "NOT_RUN", "FAILED") }
+            fv_repeat_identity = [ordered]@{ type = "string"; enum = @("PASS", "NOT_RUN", "FAILED") }
+            fv_registered_fixtures = [ordered]@{ type = "integer"; minimum = 0 }
+            fv_runs_per_fixture = [ordered]@{ type = "integer"; minimum = 0 }
+            hera_source_delta = [ordered]@{ type = "string"; enum = @("NONE", "NOT_RUN", "CHANGED") }
+            forbidden_sidecars = [ordered]@{ type = "string"; enum = @("NONE", "PRESENT") }
+            final_numeric_selection = [ordered]@{ type = "string"; enum = @("NONE", "PRESENT") }
+            changed_files = [ordered]@{ type = "array"; items = [ordered]@{ type = "string" } }
+        }
+        required = @(
+            "status", "summary", "blocker", "gut_red", "gut_discovered_tests",
+            "godot_import", "gut_green", "headless_regressions", "fv_repeat_identity",
+            "fv_registered_fixtures", "fv_runs_per_fixture", "hera_source_delta",
+            "forbidden_sidecars", "final_numeric_selection", "changed_files"
+        )
+    }
+    $resultSchemaJson = $resultSchemaObject | ConvertTo-Json -Depth 10
+    $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
+    [System.IO.File]::WriteAllText($resultSchemaPath, $resultSchemaJson, $utf8NoBom)
+
+    # Fail in the parent before launching Codex if serialization ever regresses.
+    $schemaProbe = Invoke-ExpectedNativeProbe {
+        & $script:PythonExecutable -c "import json, pathlib, sys; json.loads(pathlib.Path(sys.argv[1]).read_text(encoding='utf-8'))" $resultSchemaPath
+    }
+    if ($schemaProbe -ne 0) {
+        throw "BLOCKED_UNVERIFIED: generated Codex output schema is not valid BOM-free UTF-8 JSON: $resultSchemaPath"
+    }
 
     $prompt = @"
 You are the local OMENWARD runtime executor operating from PowerShell/Codex with the live Godot AI MCP connection.
