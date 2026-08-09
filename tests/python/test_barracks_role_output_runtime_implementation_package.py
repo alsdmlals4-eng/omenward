@@ -7,7 +7,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 AUTHORITY = ROOT / "docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md"
 PLAN = ROOT / "docs/superpowers/plans/2026-08-09-barracks-role-output-runtime-implementation-package.md"
-STATE = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+ACTIVE_STATE = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
+PACKAGE_STATE = ROOT / "docs/operations/BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_STATE.v1.json"
 UNIT_INSTANCE = ROOT / "scripts/battle/unit_instance.gd"
 LANE_STATE = ROOT / "scripts/battle/lane_state.gd"
 SIMULATOR = ROOT / "scripts/battle/battle_simulator.gd"
@@ -70,20 +71,20 @@ class BarracksRoleOutputRuntimeImplementationPackageTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_state_advances_to_external_higodot_execution_without_authoring_claim(self) -> None:
-        state = json.loads(STATE.read_text(encoding="utf-8"))
-        self.assertEqual(state["last_gate_update_decision"], DECISION)
-        package = state["barracks_role_output_runtime_implementation_package"]
+    def test_package_state_defers_execution_without_falsely_closing_global_blocker(self) -> None:
+        package = json.loads(PACKAGE_STATE.read_text(encoding="utf-8"))
+        active = json.loads(ACTIVE_STATE.read_text(encoding="utf-8"))
         self.assertEqual(package["decision_id"], DECISION)
         self.assertEqual(package["parent_decision_id"], PARENT)
         self.assertEqual(package["package_mode"], "SPEC_ONLY_NO_PRODUCT_MUTATION")
         self.assertEqual(package["persistent_authoring_authority"], "HIGODOT_REQUIRED")
         self.assertEqual(package["execution_status"], "DEFERRED_EXTERNAL_EXECUTOR")
-        self.assertEqual(package["final_functional_value_index"], None)
-        self.assertEqual(package["final_parameter_vector"], None)
-        self.assertEqual(state["entry_gate"]["decision"], "BLOCK")
-        self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_EXECUTION_REQUIRED", state["entry_gate"]["blocking_reasons"])
-        self.assertNotIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", state["entry_gate"]["blocking_reasons"])
+        self.assertEqual(package["global_entry_gate_transition"], "NONE_UNTIL_ACTUAL_HIGODOT_GUT_HERA_RUNTIME_GREEN")
+        self.assertIsNone(package["final_functional_value_index"])
+        self.assertIsNone(package["final_parameter_vector"])
+        self.assertEqual(active["entry_gate"]["decision"], "BLOCK")
+        self.assertIn("BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED", active["entry_gate"]["blocking_reasons"])
+        self.assertEqual(active["entry_gate"]["allowed_next_actions"][0], "BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE")
 
 
 if __name__ == "__main__":
