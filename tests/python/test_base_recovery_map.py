@@ -226,6 +226,12 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("use this exact validated Python executable", text)
         self.assertIn("Do not invoke this executor recursively", text)
 
+    def test_barracks_executor_exposes_validated_python_directory_to_codex_sandbox(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("$pythonDirectory = Split-Path -Parent $script:PythonExecutable", text)
+        self.assertIn("codex --add-dir $pythonDirectory exec", text)
+        self.assertIn("codex --add-dir $pythonDirectory -C", text)
+
 
 if __name__ == "__main__":
     unittest.main()
