@@ -56,7 +56,7 @@ function Test-PythonRequirement([string]$Requirement) {
     # find_spec() avoids PackageNotFoundError traceback when the module is absent.
     # The metadata version check is evaluated only when the import is available.
     $probe = "import importlib.util as u, importlib.metadata as m, sys; sys.exit(0 if u.find_spec('$packageName') is not None and m.version('$packageName') == '$expectedVersion' else 1)"
-    $exitCode = Invoke-ExpectedNativeProbe { & python -c $probe }
+    $exitCode = Invoke-ExpectedNativeProbe { & $script:PythonExecutable -c $probe }
     return ($exitCode -eq 0)
 }
 
@@ -69,19 +69,19 @@ function Ensure-BaseValidatorDependency([string]$RequirementsPath) {
 
     Write-Host "Recovering Base validator dependency from Base authority: $requirement" -ForegroundColor Yellow
 
-    $pipProbe = Invoke-ExpectedNativeProbe { & python -m pip --version }
+    $pipProbe = Invoke-ExpectedNativeProbe { & $script:PythonExecutable -m pip --version }
     if ($pipProbe -ne 0) {
         Write-Host "pip is unavailable; attempting Python ensurepip recovery." -ForegroundColor Yellow
-        & python -m ensurepip --upgrade
+        & $script:PythonExecutable -m ensurepip --upgrade
         if ($LASTEXITCODE -ne 0) {
             throw "Could not bootstrap pip for Base validator dependency recovery."
         }
     }
 
-    & python -m pip install $requirement
+    & $script:PythonExecutable -m pip install $requirement
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Environment install failed; retrying user-site install." -ForegroundColor Yellow
-        & python -m pip install --user $requirement
+        & $script:PythonExecutable -m pip install --user $requirement
         if ($LASTEXITCODE -ne 0) {
             throw "Could not install Base-authoritative dependency $requirement"
         }
@@ -97,6 +97,13 @@ Assert-Command git
 Assert-Command gh
 Assert-Command codex
 Assert-Command python
+
+$pythonCommand = Get-Command python -CommandType Application -ErrorAction Stop | Select-Object -First 1
+$script:PythonExecutable = $pythonCommand.Source
+if ([string]::IsNullOrWhiteSpace($script:PythonExecutable) -or -not (Test-Path -LiteralPath $script:PythonExecutable -PathType Leaf)) {
+    throw "Could not resolve the exact Python executable used for Base validation."
+}
+$pythonExecutable = $script:PythonExecutable
 
 if (-not (Test-Path -LiteralPath $ProjectRoot -PathType Container)) {
     throw "Project root does not exist: $ProjectRoot"
@@ -188,13 +195,14 @@ try {
     }
 
     # The Base operating-contract validator depends on the exact version declared
-    # by Base itself. Recover only that declared dependency; do not guess a version.
+    # by Base itself. Recover only that declared dependency for the exact Python
+    # executable that is also handed to child Codex for router-mandated revalidation.
     $baseRequirements = Join-Path $BaseRoot "requirements-publication.txt"
     Ensure-BaseValidatorDependency $baseRequirements
 
     $baseValidator = Join-Path $BaseRoot "tools\check_project_operating_contract.py"
     Write-Host "Running Base project operating-contract validation before Codex launch..." -ForegroundColor Cyan
-    & python $baseValidator --project-root $ProjectRoot --base-repository $BaseRoot --check
+    & $script:PythonExecutable $baseValidator --project-root $ProjectRoot --base-repository $BaseRoot --check
     if ($LASTEXITCODE -ne 0) {
         throw "BLOCKED_UNVERIFIED: Base project operating-contract validation failed after dependency recovery."
     }
@@ -257,6 +265,7 @@ Fresh local facts at launch:
 - origin/main: $mainSha
 - Base root: $BaseRoot
 - Base HEAD: $baseSha
+- Base validator Python: $pythonExecutable
 - Base project operating-contract validation: PASS in PowerShell preflight
 - Godot AI MCP localhost:8000 is reachable
 
@@ -269,7 +278,9 @@ Hard boundaries:
 6. Never serialize BLOCKED_RUNTIME_OUTPUT as numeric zero. Do not choose a final weighted functional-value index, final parameter vector, or final product numerics.
 7. Do not merge locally. If completion evidence is valid, push only the execution branch and report the exact HEAD/evidence. If a prerequisite conflicts with fresh project state, stop with BLOCKED_UNVERIFIED instead of inventing a workaround.
 8. Do not discard unrelated work and do not re-add docs/analysis/barracks_simulation/*.csv.import or *.translation sidecars.
-9. The Base operating-contract validator already passed in the PowerShell preflight. Do not stop merely because the earlier session lacked jsonschema; the active Python now has the Base-declared dependency and the preflight result is PASS. You may re-run the validator for confirmation.
+9. The Base operating-contract validator already passed in the PowerShell preflight using the exact executable shown as `Base validator Python`. The generated project workflow router still requires validation before selecting a route. If the project workflow router requires revalidation, use this exact validated Python executable and command:
+   & '$pythonExecutable' '$baseValidator' --project-root '$ProjectRoot' --base-repository '$BaseRoot' --check
+   Do not invoke this executor recursively to recover validator dependencies inside Codex. The parent preflight already verified the Base-declared jsonschema requirement for this exact executable. If this exact revalidation command fails, stop as BLOCKED_UNVERIFIED and report the failure rather than substituting another Python or changing PowerShell ExecutionPolicy.
 
 GitHub Issue #$IssueNumber body follows:
 
