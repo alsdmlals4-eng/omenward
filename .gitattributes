@@ -1,0 +1,11 @@
+# Base project-operating contract artifacts are raw-byte hashed.
+# Keep deterministic LF bytes on Windows so local validation matches Git blobs/CI.
+skills/PROJECT_BASE_ADAPTER.json text eol=lf
+skills/PROJECT_SKILL_SNAPSHOT.json text eol=lf
+skills/BASE_V9_ADAPTER.json text eol=lf
+skills/PROJECT_BASE_SKILL_ADAPTER.json text eol=lf
+docs/PROJECT_OPERATING_HEALTH.json text eol=lf
+docs/PROJECT_OPERATING_DASHBOARD.html text eol=lf
+docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_*.json text eol=lf
+docs/archive/base-v9-legacy-inputs/*.json text eol=lf
+.agents/skills/omenward-workflow-router/SKILL.md text eol=lf
