@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1",
+  "parent_decision_id": "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1",
+  "baseline_main": "b77fb4dcf0bead75ab796cb287fa510dd7ec751e",
+  "package_mode": "SPEC_ONLY_NO_PRODUCT_MUTATION",
+  "persistent_authoring_authority": "HIGODOT_REQUIRED",
+  "test_authority": "GUT_9_7_1_REQUIRED",
+  "live_qa_authority": "HERA_LIVE_QA_SOURCE_DELTA_NONE",
+  "generic_ability_system": "DEFERRED_NOT_REQUIRED",
+  "target_priority_source": "EXISTING_TARGET_PRIORITY_TAGS",
+  "event_surface": "EXTEND_EXISTING_RECORD_EVENT_DRAIN_EVENTS",
+  "poc_numeric_status": "PROVISIONAL_POC_INPUT_NOT_FINAL_PRODUCT_AUTHORITY",
+  "execution_status": "DEFERRED_EXTERNAL_EXECUTOR",
+  "execution_block_reason": "CURRENT_CHATGPT_SESSION_HAS_NO_CALLABLE_HIGODOT_PERSISTENT_AUTHORING_EXECUTOR",
+  "expected_scenarios": [
+    "FV-COMMON-01",
+    "FV-PRIEST-01",
+    "FV-MAGE-01",
+    "FV-FLIER-01",
+    "FV-GIANT-01"
+  ],
+  "expected_role_outputs": {
+    "priest": ["EFFECTIVE_HEALING_HP", "OVERHEAL_WASTE", "SUPPORTED_TARGET_SECONDS", "BUFF_UPTIME"],
+    "mage": ["PRIMARY_TARGET_DAMAGE", "COLLATERAL_AOE_DAMAGE", "TARGETS_HIT_PER_CAST"],
+    "flier": ["TIME_TO_BACKLINE_CONTACT", "FRONTLINE_BYPASS_DISTANCE_OR_TIME", "DIVE_DAMAGE", "BACKLINE_PRESSURE_SECONDS"],
+    "giant": ["SLAM_TARGETS_HIT", "SLAM_TOTAL_DAMAGE", "FRONTLINE_SURVIVAL_TIME", "STRUCTURE_DAMAGE"]
+  },
+  "still_blocked_outputs": [
+    "MAGE_CONTROL_TARGET_SECONDS_UNTIL_REAL_CONTROL_BEHAVIOR",
+    "FLIER_AIR_TARGETABILITY_EXPOSURE_UNTIL_REAL_ANTI_AIR_EXPOSURE_CONTRACT"
+  ],
+  "final_functional_value_index": null,
+  "final_parameter_vector": null,
+  "final_product_numerics": "NOT_APPROVED",
+  "parameter_selection_10000": "NOT_AUTHORIZED",
+  "confirmation_sweep_50000": "BLOCKED",
+  "global_entry_gate_transition": "NONE_UNTIL_ACTUAL_HIGODOT_GUT_HERA_RUNTIME_GREEN",
+  "status": "PACKAGE_SPEC_APPROVED_EXECUTION_DEFERRED_EXTERNAL_EXECUTOR"
+}
