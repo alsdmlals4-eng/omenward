@@ -32,8 +32,8 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 
 현재 main `b77fb4dc...`에서 확인한 사실:
 
-- `UnitArchetypeProfile`에는 `magic_resistance`, `target_priority_tags`, `attack_profile_id`가 이미 있다.
-- `UnitInstance.receive_damage(raw_damage)`는 armor만 적용하며 magic resistance를 소비하지 않는다.
+- `UnitArchetypeProfile`에는 `target_priority_tags`, `attack_profile_id`, `base_stats`가 있고, 각 unit Resource의 `base_stats`가 `magic_resistance`를 선언한다.
+- `UnitInstance.receive_damage(raw_damage)`는 armor만 적용하며 unit Resource의 magic resistance를 소비하지 않는다.
 - `LaneState.find_target(attacker)`는 기존 `target_priority_tags`를 소비하지 않는다.
 - `BattleSimulator` 일반 교전은 `lane.find_target(unit)` 뒤 단일 대상 damage만 전달한다.
 - `BattleSimulator`에는 이미 `_record_event()`와 `drain_events()`가 있으므로 별도 telemetry subsystem을 만들 필요가 없다.
@@ -49,7 +49,7 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 
 ```text
 REUSE role
-REUSE magic_resistance
+REUSE base_stats.magic_resistance
 REUSE target_priority_tags
 REUSE attack_profile_id
 REUSE structure_damage_tags
@@ -83,7 +83,7 @@ Mage/Priest PoC가 magic damage를 선언하지만 현 runtime damage API에는 
 ```text
 DAMAGE_CHANNEL = PHYSICAL | MAGIC
 PHYSICAL -> armor
-MAGIC -> magic_resistance
+MAGIC -> base_stats.magic_resistance
 UNKNOWN -> fail closed in test / no silent weighted conversion
 ```
 
