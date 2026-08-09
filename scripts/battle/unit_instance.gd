@@ -103,12 +103,31 @@ func advance_attack(delta: float) -> float:
 
 
 func receive_damage(raw_damage: float) -> float:
-	var mitigated := raw_damage * 100.0 / (100.0 + float(_stats.get("armor", 0.0)))
+	return receive_damage_with_channel(raw_damage, &"physical")
+
+
+func receive_damage_with_channel(raw_damage: float, channel: StringName) -> float:
+	var resistance_key := "armor" if channel == &"physical" else "magic_resistance" if channel == &"magic" else ""
+	if resistance_key.is_empty():
+		push_error("unknown damage channel: %s" % channel)
+		return 0.0
+	var mitigated := raw_damage * 100.0 / (100.0 + float(_stats.get(resistance_key, 0.0)))
 	health = maxf(0.0, health - mitigated)
 	if health <= 0.0:
 		state = "dead"
 		target_unit_id = -1
 	return mitigated
+
+
+func receive_heal(raw_heal: float) -> Dictionary:
+	var maximum := float(_stats.get("max_health", 0.0))
+	var effective := minf(maxf(0.0, raw_heal), maxf(0.0, maximum - health))
+	health += effective
+	return {
+		"raw_heal": maxf(0.0, raw_heal),
+		"effective_heal": effective,
+		"overheal": maxf(0.0, raw_heal) - effective,
+	}
 
 
 func is_siege_damage() -> bool:

@@ -17,6 +17,19 @@ const LUMERN_VICTORY := &"lumern_victory"
 const VEIL_VICTORY := &"veil_victory"
 const MUTUAL_DESTRUCTION := &"mutual_destruction"
 
+const BLOCKED_RUNTIME_OUTPUT := "BLOCKED_RUNTIME_OUTPUT"
+const PRIEST_COOLDOWN_SECONDS := 8.0
+const PRIEST_BUFF_SECONDS := 5.0
+const MAGE_COOLDOWN_SECONDS := 7.0
+const MAGE_PRIMARY_DAMAGE := 60.0
+const MAGE_COLLATERAL_DAMAGE := 45.0
+const MAGE_AOE_RADIUS := 3.0
+const MAGE_MAX_TARGETS := 5
+const FLIER_DIVE_DAMAGE := 70.0
+const GIANT_MAX_SLAM_TARGETS := 6
+const GIANT_OUTER_SLAM_MULTIPLIER := 0.75
+const GIANT_SLAM_RADIUS := 3.0
+
 # Deterministic simulation coordinates only. They are not visual world-scale values.
 const BASE_POSITIONS := {&"lumern": 0.0, &"veil": 100.0}
 const GATE_POSITIONS := {&"lumern": 15.0, &"veil": 85.0}
@@ -40,6 +53,28 @@ var _accumulator := 0.0
 var _tick := 0
 var _next_unit_id := 1
 var _events: Array[Dictionary] = []
+var _elapsed_seconds := 0.0
+var _role_ready_at: Dictionary = {}
+var _active_buffs: Dictionary = {}
+var _flier_contacted: Dictionary = {}
+var _flier_route_targets: Dictionary = {}
+var _role_metrics: Dictionary = {
+	"EFFECTIVE_HEALING_HP": 0.0,
+	"OVERHEAL_WASTE": 0.0,
+	"SUPPORTED_TARGET_SECONDS": 0.0,
+	"BUFF_UPTIME": 0.0,
+	"PRIMARY_TARGET_DAMAGE": 0.0,
+	"COLLATERAL_AOE_DAMAGE": 0.0,
+	"TARGETS_HIT_PER_CAST": 0.0,
+	"TIME_TO_BACKLINE_CONTACT": 0.0,
+	"FRONTLINE_BYPASS_DISTANCE_OR_TIME": 0.0,
+	"DIVE_DAMAGE": 0.0,
+	"BACKLINE_PRESSURE_SECONDS": 0.0,
+	"SLAM_TARGETS_HIT": 0.0,
+	"SLAM_TOTAL_DAMAGE": 0.0,
+	"CONTROL_TARGET_SECONDS": BLOCKED_RUNTIME_OUTPUT,
+	"AIR_TARGETABILITY_EXPOSURE": BLOCKED_RUNTIME_OUTPUT,
+}
 
 
 func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health: float = 0.0) -> void:
@@ -149,6 +184,10 @@ func drain_events() -> Array[Dictionary]:
 	return result
 
 
+func role_output_metrics() -> Dictionary:
+	return _role_metrics.duplicate(true)
+
+
 func snapshot() -> Dictionary:
 	var lane_snapshots: Array = []
 	var unit_snapshots: Array = []
@@ -189,16 +228,34 @@ func snapshot() -> Dictionary:
 
 func _advance_fixed_step() -> void:
 	_tick += 1
+	_elapsed_seconds += FIXED_STEP_SECONDS
+	_update_active_buffs()
 	_advance_bypasses(FIXED_STEP_SECONDS)
 	for lane_id in LANE_IDS:
 		var lane: LaneState = lanes[lane_id]
 		for unit in lane.ordered_units():
 			if not unit.is_alive():
 				continue
+			if unit.role == "support":
+				_advance_priest(unit, lane)
+				continue
 			var target: Variant = lane.find_target(unit)
+			if unit.archetype_id == &"flier":
+				if not _flier_route_targets.has(unit.unit_id) and target != null:
+					_flier_route_targets[unit.unit_id] = target.unit_id
+				elif _flier_route_targets.has(unit.unit_id):
+					var route_target: Variant = get_unit_by_id(int(_flier_route_targets[unit.unit_id]))
+					target = route_target if route_target != null and route_target.is_alive() else target
 			unit.target_unit_id = target.unit_id if target != null else -1
 			if target != null:
-				_advance_unit_combat(unit, target, FIXED_STEP_SECONDS)
+				if unit.archetype_id == &"mage":
+					_advance_mage(unit, target, lane, FIXED_STEP_SECONDS)
+				elif unit.archetype_id == &"flier":
+					_advance_flier(unit, target, FIXED_STEP_SECONDS)
+				elif unit.archetype_id == &"giant":
+					_advance_giant(unit, target, lane, FIXED_STEP_SECONDS)
+				else:
+					_advance_unit_combat(unit, target, FIXED_STEP_SECONDS)
 			elif objectives_enabled and result_state == RUNNING:
 				_advance_unit_objective(unit, FIXED_STEP_SECONDS)
 			else:
@@ -350,6 +407,155 @@ func _check_base_result() -> void:
 
 func _enemy_team(team_id: StringName) -> StringName:
 	return &"veil" if team_id == &"lumern" else &"lumern"
+
+
+func _advance_priest(unit: UnitInstance, lane: LaneState) -> void:
+	if _elapsed_seconds < float(_role_ready_at.get(unit.unit_id, 0.0)):
+		return
+	var heal_target: Variant = lane.find_lowest_health_ally(unit)
+	if heal_target != null:
+		var raw_heal: float = float(heal_target.combat_stats().get("max_health", 0.0)) * 0.10 + 40.0
+		var healing: Dictionary = heal_target.receive_heal(raw_heal)
+		_role_metrics["EFFECTIVE_HEALING_HP"] = float(_role_metrics["EFFECTIVE_HEALING_HP"]) + float(healing["effective_heal"])
+		_role_metrics["OVERHEAL_WASTE"] = float(_role_metrics["OVERHEAL_WASTE"]) + float(healing["overheal"])
+		_record_event(&"role_heal", {
+			"source": unit.unit_id,
+			"target": heal_target.unit_id,
+			"raw_heal": healing["raw_heal"],
+			"effective_heal": healing["effective_heal"],
+			"overheal": healing["overheal"],
+		})
+	else:
+		var buff_target: Variant = _first_support_ally(unit, lane)
+		if buff_target != null:
+			_active_buffs[unit.unit_id] = {
+				"target": buff_target.unit_id,
+				"buff_id": "priest_encouragement",
+				"ends_at": _elapsed_seconds + PRIEST_BUFF_SECONDS,
+			}
+			_record_event(&"role_buff_start", {
+				"source": unit.unit_id,
+				"target": buff_target.unit_id,
+				"buff_id": "priest_encouragement",
+				"duration": PRIEST_BUFF_SECONDS,
+			})
+	_role_ready_at[unit.unit_id] = _elapsed_seconds + PRIEST_COOLDOWN_SECONDS
+
+
+func _advance_mage(unit: UnitInstance, target: UnitInstance, lane: LaneState, delta: float) -> void:
+	if unit.distance_to(target) > float(unit.combat_stats().get("attack_range", 0.0)):
+		unit.move_toward(target, delta)
+		return
+	if _elapsed_seconds < float(_role_ready_at.get(unit.unit_id, 0.0)):
+		return
+	var attack_marker: float = unit.advance_attack(delta)
+	if attack_marker <= 0.0:
+		return
+	var primary_damage: float = target.receive_damage_with_channel(MAGE_PRIMARY_DAMAGE, &"magic")
+	var affected_ids: Array[int] = [target.unit_id]
+	var collateral_total := 0.0
+	for candidate in lane.ordered_units():
+		if affected_ids.size() >= MAGE_MAX_TARGETS:
+			break
+		if not candidate.is_alive() or candidate.owner_team_id == unit.owner_team_id or candidate == target:
+			continue
+		if target.distance_to(candidate) > MAGE_AOE_RADIUS:
+			continue
+		var applied: float = candidate.receive_damage_with_channel(MAGE_COLLATERAL_DAMAGE, &"magic")
+		affected_ids.append(candidate.unit_id)
+		collateral_total += applied
+	_role_metrics["PRIMARY_TARGET_DAMAGE"] = float(_role_metrics["PRIMARY_TARGET_DAMAGE"]) + primary_damage
+	_role_metrics["COLLATERAL_AOE_DAMAGE"] = float(_role_metrics["COLLATERAL_AOE_DAMAGE"]) + collateral_total
+	_role_metrics["TARGETS_HIT_PER_CAST"] = float(_role_metrics["TARGETS_HIT_PER_CAST"]) + float(affected_ids.size())
+	_record_event(&"role_aoe_hit", {
+		"source": unit.unit_id,
+		"primary_target": target.unit_id,
+		"affected_unit_ids": affected_ids,
+		"primary_damage": primary_damage,
+		"collateral_damage": collateral_total,
+	})
+	_role_ready_at[unit.unit_id] = _elapsed_seconds + MAGE_COOLDOWN_SECONDS
+
+
+func _update_active_buffs() -> void:
+	var expired_sources: Array = []
+	for source_id in _active_buffs:
+		var buff: Dictionary = _active_buffs[source_id]
+		if _elapsed_seconds >= float(buff["ends_at"]):
+			_record_event(&"role_buff_end", {
+				"source": source_id,
+				"target": buff["target"],
+				"buff_id": buff["buff_id"],
+			})
+			expired_sources.append(source_id)
+			continue
+		_role_metrics["BUFF_UPTIME"] = float(_role_metrics["BUFF_UPTIME"]) + FIXED_STEP_SECONDS
+		_role_metrics["SUPPORTED_TARGET_SECONDS"] = float(_role_metrics["SUPPORTED_TARGET_SECONDS"]) + FIXED_STEP_SECONDS
+	for source_id in expired_sources:
+		_active_buffs.erase(source_id)
+
+
+func _first_support_ally(unit: UnitInstance, lane: LaneState) -> Variant:
+	for candidate in lane.ordered_units():
+		if candidate.is_alive() and candidate.owner_team_id == unit.owner_team_id and candidate != unit:
+			return candidate
+	return null
+
+
+func _advance_flier(unit: UnitInstance, target: UnitInstance, delta: float) -> void:
+	if unit.distance_to(target) > float(unit.combat_stats().get("attack_range", 0.0)):
+		unit.move_toward(target, delta)
+		return
+	if not _flier_contacted.has(unit.unit_id):
+		_flier_contacted[unit.unit_id] = true
+		_role_metrics["TIME_TO_BACKLINE_CONTACT"] = _elapsed_seconds
+		_role_metrics["FRONTLINE_BYPASS_DISTANCE_OR_TIME"] = _elapsed_seconds
+		_record_event(&"role_backline_contact", {
+			"source": unit.unit_id,
+			"target": target.unit_id,
+			"time_to_contact": _elapsed_seconds,
+		})
+		var dive_damage: float = target.receive_damage_with_channel(FLIER_DIVE_DAMAGE, &"physical")
+		_role_metrics["DIVE_DAMAGE"] = float(_role_metrics["DIVE_DAMAGE"]) + dive_damage
+		_record_event(&"role_dive", {"source": unit.unit_id, "target": target.unit_id, "damage": dive_damage})
+	_role_metrics["BACKLINE_PRESSURE_SECONDS"] = float(_role_metrics["BACKLINE_PRESSURE_SECONDS"]) + delta
+	var damage: float = unit.advance_attack(delta)
+	if damage > 0.0:
+		target.receive_damage_with_channel(damage, &"physical")
+
+
+func _advance_giant(unit: UnitInstance, target: UnitInstance, lane: LaneState, delta: float) -> void:
+	if unit.distance_to(target) > float(unit.combat_stats().get("attack_range", 0.0)):
+		unit.move_toward(target, delta)
+		return
+	var center_damage: float = unit.advance_attack(delta)
+	if center_damage <= 0.0 or target.role == "air":
+		return
+	var affected_ids: Array[int] = []
+	var damage_by_target: Dictionary = {}
+	for candidate in lane.ordered_units():
+		if affected_ids.size() >= GIANT_MAX_SLAM_TARGETS:
+			break
+		if not candidate.is_alive() or candidate.owner_team_id == unit.owner_team_id or candidate.role == "air":
+			continue
+		if target.distance_to(candidate) > GIANT_SLAM_RADIUS:
+			continue
+		var raw_damage: float = center_damage if candidate == target else center_damage * GIANT_OUTER_SLAM_MULTIPLIER
+		var applied: float = candidate.receive_damage_with_channel(raw_damage, &"physical")
+		affected_ids.append(candidate.unit_id)
+		damage_by_target[str(candidate.unit_id)] = applied
+	if affected_ids.is_empty():
+		return
+	var total_damage := 0.0
+	for applied_damage in damage_by_target.values():
+		total_damage += float(applied_damage)
+	_role_metrics["SLAM_TARGETS_HIT"] = float(_role_metrics["SLAM_TARGETS_HIT"]) + float(affected_ids.size())
+	_role_metrics["SLAM_TOTAL_DAMAGE"] = float(_role_metrics["SLAM_TOTAL_DAMAGE"]) + total_damage
+	_record_event(&"role_slam", {
+		"source": unit.unit_id,
+		"affected_unit_ids": affected_ids,
+		"damage_by_target": damage_by_target,
+	})
 
 
 func _record_event(event_type: StringName, payload: Dictionary) -> void:
