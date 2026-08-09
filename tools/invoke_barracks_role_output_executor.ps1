@@ -17,6 +17,22 @@ function Assert-Command([string]$Name) {
     }
 }
 
+function Invoke-ExpectedNativeProbe([scriptblock]$Command) {
+    # Windows PowerShell 5.1 can surface native stderr as NativeCommandError when
+    # $ErrorActionPreference is Stop. Expected probes are allowed to return
+    # nonzero, so temporarily make native stderr non-terminating and return only
+    # the exit code to the caller.
+    $savedPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        & $Command 1>$null 2>$null
+        return $LASTEXITCODE
+    }
+    finally {
+        $ErrorActionPreference = $savedPreference
+    }
+}
+
 function Get-ExactRequirement([string]$RequirementsPath, [string]$PackageName) {
     if (-not (Test-Path -LiteralPath $RequirementsPath -PathType Leaf)) {
         throw "Base requirements file is missing: $RequirementsPath"
@@ -36,9 +52,12 @@ function Test-PythonRequirement([string]$Requirement) {
     }
     $packageName = $parts[0]
     $expectedVersion = $parts[1]
-    $probe = "import importlib.metadata as m, sys; sys.exit(0 if m.version('$packageName') == '$expectedVersion' else 1)"
-    & python -c $probe *> $null
-    return ($LASTEXITCODE -eq 0)
+
+    # find_spec() avoids PackageNotFoundError traceback when the module is absent.
+    # The metadata version check is evaluated only when the import is available.
+    $probe = "import importlib.util as u, importlib.metadata as m, sys; sys.exit(0 if u.find_spec('$packageName') is not None and m.version('$packageName') == '$expectedVersion' else 1)"
+    $exitCode = Invoke-ExpectedNativeProbe { & python -c $probe }
+    return ($exitCode -eq 0)
 }
 
 function Ensure-BaseValidatorDependency([string]$RequirementsPath) {
@@ -50,8 +69,8 @@ function Ensure-BaseValidatorDependency([string]$RequirementsPath) {
 
     Write-Host "Recovering Base validator dependency from Base authority: $requirement" -ForegroundColor Yellow
 
-    & python -m pip --version *> $null
-    if ($LASTEXITCODE -ne 0) {
+    $pipProbe = Invoke-ExpectedNativeProbe { & python -m pip --version }
+    if ($pipProbe -ne 0) {
         Write-Host "pip is unavailable; attempting Python ensurepip recovery." -ForegroundColor Yellow
         & python -m ensurepip --upgrade
         if ($LASTEXITCODE -ne 0) {
@@ -110,13 +129,13 @@ try {
         throw "Refusing to discard or mix existing local work. Isolate/stash it intentionally, then run again."
     }
 
-    & git show-ref --verify --quiet "refs/remotes/origin/$ExecutionBranch"
-    if ($LASTEXITCODE -ne 0) {
+    $remoteBranchProbe = Invoke-ExpectedNativeProbe { & git show-ref --verify --quiet "refs/remotes/origin/$ExecutionBranch" }
+    if ($remoteBranchProbe -ne 0) {
         throw "Remote execution branch is missing: origin/$ExecutionBranch"
     }
 
-    & git show-ref --verify --quiet "refs/heads/$ExecutionBranch"
-    if ($LASTEXITCODE -eq 0) {
+    $localBranchProbe = Invoke-ExpectedNativeProbe { & git show-ref --verify --quiet "refs/heads/$ExecutionBranch" }
+    if ($localBranchProbe -eq 0) {
         & git switch $ExecutionBranch
     }
     else {
@@ -133,8 +152,8 @@ try {
 
     # The executor must be based on fresh main. If main moved beyond this branch,
     # stop instead of silently authoring against stale project state.
-    & git merge-base --is-ancestor origin/main HEAD
-    if ($LASTEXITCODE -ne 0) {
+    $ancestorProbe = Invoke-ExpectedNativeProbe { & git merge-base --is-ancestor origin/main HEAD }
+    if ($ancestorProbe -ne 0) {
         $mainSha = (& git rev-parse origin/main).Trim()
         $headSha = (& git rev-parse HEAD).Trim()
         throw "STALE_EXECUTION_BRANCH: origin/main=$mainSha is not an ancestor of HEAD=$headSha. Re-enter the OMENWARD Gate before authoring."
@@ -206,8 +225,8 @@ try {
 
     # Preserve a working dock-generated configuration. Only add the documented
     # streamable-HTTP fallback when the godot-ai entry does not exist at all.
-    & codex mcp get godot-ai --json *> $null
-    if ($LASTEXITCODE -ne 0) {
+    $mcpProbe = Invoke-ExpectedNativeProbe { & codex mcp get godot-ai --json }
+    if ($mcpProbe -ne 0) {
         Write-Host "Codex MCP entry 'godot-ai' is missing; adding local HTTP fallback." -ForegroundColor Yellow
         & codex mcp add godot-ai --url "http://127.0.0.1:8000/mcp"
         if ($LASTEXITCODE -ne 0) {
