@@ -19,14 +19,13 @@
     "product": [],
     "sheet": [
       {
-        "id": "OMW-SHEET-SYNC-20260808-ADAPTER-FRESHNESS-V1",
-        "sha256": "4bbf946a67559adde2360a05a0858e093f42da1281de81ca82816eece531b734",
-        "source": "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
+        "id": "OMW-SHEET-SYNC-20260809-ADAPTER-FRESHNESS-MAINTENANCE-V1",
+        "sha256": "540426e93f854f820ae2f671f35bbebf405097d4bca3c45376d0ce037dee8a85",
+        "source": "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-09.json"
       }
     ]
   },
   "integrity_verdict": "PASS_WITH_NOT_RUN_GATES",
   "operating_maturity": "OM-L0",
-  "product_evidence_maturity": "PE-0",
-  "schema_version": 1
+  "product_evidence_maturity": "PE-0"
 }
