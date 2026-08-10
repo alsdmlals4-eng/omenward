@@ -1,33 +1,21 @@
 {
-  "schema_version": "2.0",
+  "schema_version": "3.0",
   "decision_id": "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1",
   "activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
   "spreadsheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
   "sheet_title": "오멘워드(OMENWARD)",
   "observed_time_zone": "Asia/Seoul",
-  "write_stage": "POSTMERGE_RECONCILIATION_PROPOSED",
+  "write_stage": "FINAL_MERGED_CANON_TECHNICAL_CLOSURE",
   "sync_result": "PASS",
   "reread_result": "PASS",
   "base_main_observed": "315c66eea9614c284b9c11c4d522141065dfa4b0",
   "project_activation_baseline_main": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
-  "project_current_main": "84e68bf7199854b6a3f125cb20052cfcac37f156",
-  "source_pr": 179,
-  "source_head_at_activation_sheet_write": "e69c3664a73424cbec5c6fae45f946e295be7ae4",
+  "validated_technical_main": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
   "canonical_instruction": {
     "path": "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md",
     "blob_sha": "45cc0859fbd0b6b46d46924592169164ff133a2e",
+    "status": "MERGED_VERIFIED",
     "source_normalization": "USER_SUPPLIED_R2_BODY_PRESERVED_EXCEPT_3_PROJECT_PATHS_RECONCILED_TO_CURRENT_OMENWARD_INPUT"
-  },
-  "runtime_pr": {
-    "number": 175,
-    "head": "bde85549560fca90f7aa25fc4842bc0a3afb92e7",
-    "state": "OPEN_DRAFT",
-    "approved_runtime_gap_count": 7
-  },
-  "handoff_pr": {
-    "number": 177,
-    "head": "7654beced2cc5580ecc60a3a1d01c5767712c8b9",
-    "disposition": "REFERENCE_ONLY_DO_NOT_MERGE"
   },
   "ranges": [
     "00_프로젝트_허브!A2:L2",
@@ -38,26 +26,80 @@
     "15_조작_게임규칙!A47:J47",
     "99_변경이력!A180:H180",
     "00_프로젝트_허브!E2:L2",
-    "02_현재_확정결정!E104:M104",
-    "02_현재_확정결정!A105:M105",
-    "04_누락_충돌_감사!A633:H633",
-    "99_변경이력!A182:H182"
+    "02_현재_확정결정!E104:M105",
+    "04_누락_충돌_감사!A636:H636",
+    "99_변경이력!E182:H182"
+  ],
+  "sheet_ranges": [
+    "00_프로젝트_허브!E2:L2",
+    "02_현재_확정결정!E104:M105",
+    "04_누락_충돌_감사!A636:H636",
+    "99_변경이력!E182:H182"
   ],
   "reread_assertions": {
     "hub_current_phase": "PHASE_A_GPT_CHAT_PLANNING",
     "hub_phase_c_gate": "PHASE_C_BLOCK",
-    "hub_pr179_in_progress": true,
     "decision_id_present": true,
-    "decision_status": "PROPOSED_SHEET_CHANGE",
     "activation_decision_id_present": true,
-    "activation_decision_status": "PROPOSED_SHEET_CHANGE",
-    "prior_audit_id": "OMW-AUD-632",
-    "activation_audit_id": "OMW-AUD-633",
+    "activation_decision_status": "MERGED_CANON",
+    "technical_closure": "PASS",
+    "validated_main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
+    "main_full_python_matrix": "6_OF_6_SUCCESS",
+    "godot": "SUCCESS",
+    "latest_audit_id": "OMW-AUD-636",
     "active_gdd_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
     "current_rule_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
     "historical_building_tier_row_overwritten": false,
-    "activation_history_row": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
     "canonical_blob_recorded": "45cc0859fbd0b6b46d46924592169164ff133a2e"
+  },
+  "sheet_reread_assertions": {
+    "activation_decision_status": "MERGED_CANON",
+    "technical_closure": "PASS",
+    "hub_current_phase": "PHASE_A_GPT_CHAT_PLANNING",
+    "hub_phase_c_gate": "PHASE_C_BLOCK",
+    "validated_main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
+    "main_full_python_matrix": "6_OF_6_SUCCESS",
+    "godot": "SUCCESS",
+    "latest_audit_id": "OMW-AUD-636",
+    "canonical_blob_recorded": "45cc0859fbd0b6b46d46924592169164ff133a2e"
+  },
+  "technical_validation": {
+    "workflow": "Validate Omenward Core",
+    "run_id": 31441986515,
+    "main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
+    "jobs": {
+      "ubuntu_3_11": {"job_id": 93628429387, "result": "SUCCESS"},
+      "ubuntu_3_12": {"job_id": 93628429382, "result": "SUCCESS"},
+      "ubuntu_3_13": {"job_id": 93628429352, "result": "SUCCESS"},
+      "windows_3_11": {"job_id": 93628429380, "result": "SUCCESS"},
+      "windows_3_12": {"job_id": 93628429364, "result": "SUCCESS"},
+      "windows_3_13": {"job_id": 93628429327, "result": "SUCCESS"},
+      "godot": {"job_id": 93628429247, "result": "SUCCESS"}
+    }
+  },
+  "tdd_and_debugging_lineage": {
+    "v45_r2_missing_canon_red_run": 31438607778,
+    "pr179_merge_sha": "747a21a788738b3fafc0b3e6631666f84d2c578d",
+    "pr179_main_push_environment_failure_run": 31440079570,
+    "pr180_merge_sha": "ea929a8c468819406b1164b4111cff074d96eba8",
+    "windows_portability_failure_run": 31440824997,
+    "exact_head_cross_os_diagnostic_run": 31441699160,
+    "exact_head_cross_os_diagnostic_result": "6_OF_6_SUCCESS",
+    "pr181_merge_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
+    "final_main_validation_run": 31441986515,
+    "final_main_validation_result": "6_OF_6_FULL_PYTHON_SUCCESS_PLUS_GODOT_SUCCESS"
+  },
+  "runtime_pr": {
+    "number": 175,
+    "head": "bde85549560fca90f7aa25fc4842bc0a3afb92e7",
+    "state": "OPEN_DRAFT",
+    "approved_runtime_gap_count": 7,
+    "phase_c_execution": "BLOCKED"
+  },
+  "handoff_pr": {
+    "number": 177,
+    "head": "7654beced2cc5580ecc60a3a1d01c5767712c8b9",
+    "disposition": "REFERENCE_ONLY_DO_NOT_MERGE"
   },
   "current_special_t1_contract": {
     "selection_trigger": "SUCCESSFUL_CONSTRUCTION_COMMIT",
@@ -76,16 +118,11 @@
     "product_mutation": "NONE",
     "godot_persistent_mutation": "NONE"
   },
-  "red_evidence": {
-    "canon_freshness_initial_workflow_run": 31433522187,
-    "v45_r2_repo_canon_workflow_run": 31438607778,
-    "v45_r2_repo_canon_result": "EXPECTED_FAILURE_MISSING_CANONICAL_FILE",
-    "v45_r2_repo_canon_routing_tests": "8_PASS_1_FAIL"
-  },
   "post_merge_required": {
-    "update_activation_decision_to": "MERGED_CANON",
-    "record_pr179_merge_sha": true,
-    "bounded_reread": true,
-    "verify_omenward_core_full_python_push_matrix": true
-  }
+    "additional_product_fix": false,
+    "additional_godot_fix": false,
+    "local_fetch_pull": "USER_LOCAL_ONLY_NOT_RUN",
+    "local_godot_project_play": "USER_LOCAL_ONLY_NOT_RUN"
+  },
+  "closure_result": "PASS"
 }
