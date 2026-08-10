@@ -1,57 +1,60 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-10T11:57:00+09:00
+updated_at: 2026-08-10T12:33:00+09:00
 project: OMENWARD / 오멘워드
 main_sha: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
 active_runtime_head: b014a8445423fc9a485fb413429a8127991143e4
 active_pr: 175
 active_issue: 176
+handoff_pr: 177
 handoff_branch: docs/handoff-pr175-issue176-pause-20260810
 work_mode: RUNTIME_IMPLEMENTATION_TRANSITION
 current_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 approval_reuse: SAME_APPROVED_SCOPE_NO_REAPPROVAL
 planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
-runtime_package_status: USER_DEFERRED_FOR_HANDOFF
-current_blocker: RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
+runtime_package_status: RESUMED_ORCHESTRATION_BLOCKED_EXTERNAL_HIGODOT_OBSERVABILITY
+last_known_runtime_blocker: RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
+current_execution_route_blocker: BLOCKED_UNVERIFIED_LOCAL_HIGODOT_SAME_SNAPSHOT_DIAGNOSTIC_UNAVAILABLE
 product_mutation_after_b014: NONE
 human_qa_after_b014: NOT_RUN
 full_issue176_child_after_b014: NOT_RUN
 ```
 
-## 현재 작업 기준
+## 현재 권위
 
-사용자가 2026-08-10 11:57 KST에 Issue #176의 HiGodot 진단부터 이후 runtime 실행을 나중에 다시 하기로 하고 인수인계 전환을 요청했다. 이 중지는 제품 방향 변경이 아니며 기존 Decision과 승인 범위를 그대로 보존한다.
+- OMENWARD `main`은 `87339f87949c8faea0dfe1482c5d0887a04d94f4`로 유지된다.
+- 승인된 runtime 구현 권위는 Draft PR #175 / Issue #176이다. PR #175 head `b014a8445423fc9a485fb413429a8127991143e4`는 handoff/Base-learning bookkeeping 때문에 변경하지 않는다.
+- PR #177은 continuation locator이며 `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`다. 병합하면 `main`이 전진하여 보존 중인 PR #175 exact head가 behind가 되므로 현재 병합하지 않는다.
+- `HANDOFF_CONTEXT.md`의 11:57 KST checkpoint는 당시 사실을 보존하는 handoff snapshot/locator로 읽고, 이 `ACTIVE_CONTEXT.md`를 현재 live continuation router로 사용한다.
 
-현재 제품/runtime 작업의 권위는 Draft PR #175와 follow-up Issue #176이다. PR #175의 runtime head `b014a8445423fc9a485fb413429a8127991143e4`는 인수인계 작업에서 수정하지 않는다. 이 문서 동기화는 별도 docs-only branch에서만 수행한다.
-
-## 완료·진행·차단 분류
+## 진행 상태
 
 ```text
 COMPLETED_VERIFIED
-- executor content-identical dirty gate recovery at b014a844
-- fast contracts_pr 69/69 at b014a844
+- PR175 executor content-identical dirty gate recovery at b014a844
+- contracts_pr 69/69 PASS at b014a844
+- whitespace PASS at b014a844
 - Godot 4.7.1 import PASS at b014a844
-- headless contract tests PASS at b014a844
+- headless contracts PASS at b014a844
 - runtime smoke PASS at b014a844
 
-COMPLETED_NOT_MERGED
-- PR #175 remains Draft and open
-- last completed runtime evidence at 621ae7ce80f24b1e5a9d13ba4fc1962bec42dd96 is evidence only, not merge-complete
-
 IN_PROGRESS
-- Issue #176 approved seven runtime/fixture gaps remain to be closed through HiGodot
+- Issue #176의 승인된 7개 runtime/fixture gap
 
-BLOCKED
-- RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
-- latest session_manage(op=list) returned only GRIMOIRE task7 `task7-circuit-placement-screen@63aa`, Godot 4.7.1, editor PID 16652, ready/active
-- no OMENWARD session was present
-- immediately prior reproduction had OMENWARD GUI PID 29616 alive on exact project root with ESTABLISHED WS9500
-- those proofs were minutes apart, so SAME_SERVER_HANDSHAKE_REGISTRATION_FAILURE is not yet claimed
+BLOCKED_UNVERIFIED
+- current agent environment cannot inspect the user's Windows Godot PID/socket/Godot-AI registry or invoke the required HiGodot persistent-authoring route
+- therefore the mandatory same-snapshot local diagnostic cannot be truthfully executed here
 
-READY_NEXT_WHEN_RESUMED
-- one combined read-only same-snapshot process + WS9500 + Godot-AI connection log + immediate session_manage list diagnostic
+LAST_KNOWN_LOCAL_TECHNICAL_BOUNDARY
+- exact OMENWARD GUI PID29616 + console PID10512 were recently proven live on the exact project root
+- PID29616 had ESTABLISHED WS9500
+- a later session_manage(op=list) returned only GRIMOIRE task7 PID16652 and omitted OMENWARD
+- evidence was separated by minutes, so SAME_SERVER_HANDSHAKE_REGISTRATION_FAILURE is not proven
+
+READY_NEXT_WHEN_HIGODOT_LOCAL_OBSERVABILITY_IS_AVAILABLE
+- same-snapshot process + WS9500 + Godot-AI handshake/auth/reconnect log + immediate session_manage list
 ```
 
 ## Issue #176 승인된 7개 gap
@@ -64,56 +67,45 @@ READY_NEXT_WHEN_RESUMED
 6. Registered deterministic fixtures: FV-PRIEST/MAGE/FLIER/GIANT/COMMON.
 7. True `TARGETS_HIT_PER_CAST` semantics with multi-cast coverage.
 
-## 검증 경계
+## Base current / concurrency
 
-```text
-PR175_HEAD = b014a8445423fc9a485fb413429a8127991143e4
-PR175_STATE = OPEN_DRAFT_PR_REVISE
-EXACT_HEAD_ACTIONS = 7_SUCCESS_4_FAILURE
-CONTRACTS_PR = 69_OF_69_PASS
-GODOT_4_7_1_IMPORT = PASS
-HEADLESS_CONTRACTS = PASS
-RUNTIME_SMOKE = PASS
-LAST_COMPLETED_RUNTIME_EVIDENCE_HEAD = 621ae7ce80f24b1e5a9d13ba4fc1962bec42dd96
-HERA_TRACKED_SOURCE_DELTA_AT_621AE7CE = NONE
-REGISTERED_ISSUE176_FIXTURE_RUN = NOT_RUN
-HUMAN_QA = NOT_RUN
-FINAL_WEIGHTED_FV_NUMERICS = FORBIDDEN_NOT_SELECTED
-BLOCKED_METRICS = KEEP_LITERAL_BLOCKED_RUNTIME_OUTPUT
+```yaml
+base_main_seen: 49f6190b9b5a535ceb7986755c1b68b221754cf5
+base_latest_merged_proposal: BCP-2026-012-serial-fiction-canon-migration-debt
+base_open_same_goal_proposal_pr: 235
+base_open_same_goal_proposal_id: BCP-2026-013-post-merge-continuation-state-reconciliation
+base_same_goal_state: CONCURRENT_SAME_GOAL
+base_existing_solution_verdict: ABSORB / REUSE_EXISTING_BCP
+new_base_bcp_from_omenward: NO
+base_proposal_branch_owned_by_other_project: PRESERVE_READ_ONLY
+base_implementation_authority_in_this_stage: NOT_GRANTED_IN_THIS_STAGE
+other_project_changes_preserved: true
 ```
 
-네 개의 exact-head transition failures는 historical combat-numerics incompleteness assertion, Base v9 protected-path transition gate, stale/generated Project Base Adapter transition, integrated v4.4 planning-only gate다. 이 인수인계 작업은 그 네 failure를 수정하지 않는다.
+Base PR #235는 Ninja Survival 출처의 proposal-only PR이며 live continuation state의 post-merge reconciliation을 기존 `maintaining-project-context-and-handoff` owner에 흡수하는 같은 공용 Goal을 이미 다룬다. OMENWARD는 중복 BCP를 만들거나 다른 프로젝트의 #235 branch/PR을 수정·병합하지 않는다.
 
-## Base 현재 상태
+OMENWARD가 추가로 제공하는 reusable evidence는 다음 use-condition이다: continuation locator PR 자체를 병합하면 active exact-head implementation PR이 stale/behind가 되는 경우, locator를 `REFERENCE_ONLY / DO_NOT_MERGE`로 유지하고 fresh GitHub truth를 우선한다. 이 증거는 프로젝트 Sheet/Handoff에 연결하고 BCP #235의 향후 검토 근거로만 보존한다.
 
-```text
-BASE_MAIN = 637dad32c773c56a27d44d847518580848dee493
-BCP_011_PR231 = MERGED
-BCP_011_PR232 = MERGED
-BCP_011 = IMPLEMENTED
-BASE_OPEN_RELEVANT_TO_CURRENT_HANDOFF = NONE_IDENTIFIED
-BASE_OPEN_OTHER = PR137_DRAFT / PR136_READY / dependency PR backlog
-```
+## Base / Sheet 충돌
 
-Base 최신 BCP-011 변경은 OMENWARD Issue #176의 승인된 runtime 범위와 충돌하지 않는다.
+Google Sheet의 12:06 KST handoff checkpoint는 Base main을 `637dad32...`로 기록하고 있으나 fresh Base `main`은 `49f6190...`로 전진했다. OMENWARD runtime SHA/PR 상태는 Sheet와 일치한다. 따라서 이번 checkpoint에서 Sheet의 Base baseline/concurrency locator만 최신화해야 한다.
 
 ## 재개 시 첫 실행
 
-1. GitHub에서 OMENWARD `main`, PR #175 head/state, Issue #176, Base `main`을 fresh-read한다.
-2. Google Sheet `00_프로젝트_허브!J2:L2`, 최신 `04_누락_충돌_감사`, 최신 `99_변경이력`을 fresh-read한다.
-3. 이 문서와 `HANDOFF_CONTEXT.md`의 저장 SHA가 current GitHub truth와 다르면 먼저 stale state를 교정한다.
-4. full executor를 먼저 실행하지 않는다.
-5. PID 29616의 현재 존재/정확 command line, PID 29616의 ESTABLISHED WS9500, Godot-AI connection/handshake/auth/reconnect 로그, 즉시 `session_manage(op=list)`를 한 스냅샷으로 확인한다.
-6. exact OMENWARD session이 나타나면 Issue #176 NonInteractive executor를 재개한다.
-7. PID 29616 live + WS9500 established + registry omission이 동시에 확인되면 `RECOVERABLE_HIGODOT_SAME_SERVER_HANDSHAKE_REGISTRATION_BLOCKER`로 확정하고 handshake/auth/registration 경계만 진단한다.
-8. process 또는 WS가 사라졌다면 해당 process/transport blocker로 재분류한다.
+1. OMENWARD `main`, PR #175, PR #177, Issue #176을 fresh-read한다.
+2. Base `main`, open proposal PR, Proposal Registry를 fresh-read한다.
+3. Google Sheet hub/latest audit/latest history/Base candidate row를 fresh-read한다.
+4. full executor보다 먼저 한 시점에서 exact OMENWARD process/command line + ESTABLISHED WS9500 + Godot-AI connection/handshake/auth/4003/reconnect/session log + immediate `session_manage(op=list)`를 확인한다.
+5. exact OMENWARD session present → Issue #176 NonInteractive executor 재개.
+6. live exact OMENWARD + WS9500 + registry omission → `RECOVERABLE_HIGODOT_SAME_SERVER_HANDSHAKE_REGISTRATION_BLOCKER`로 확정하고 handshake/registration만 진단.
+7. process/WS missing → current process/transport blocker로 재분류하고 사유는 검증 전 추정하지 않는다.
 
 ## 보호 경계
 
 - shared Godot-AI server나 다른 프로젝트 editor를 OMENWARD 복구 목적으로 종료하지 않는다.
-- executor/session matching logic을 증거 없이 패치하지 않는다.
-- `core.autocrlf`, `.gitattributes`, PowerShell ExecutionPolicy, sandbox/permission, version gate 우회를 변경하지 않는다.
-- persistent Godot/GDScript/GUT authoring은 HiGodot/Godot AI MCP를 통해서만 수행한다.
+- root-cause evidence 전에 executor/session-selection logic을 패치하지 않는다.
+- `core.autocrlf`, `.gitattributes`, PowerShell ExecutionPolicy, sandbox/permission, Godot version gate를 변경/우회하지 않는다.
+- persistent Godot/GDScript/GUT authoring은 HiGodot/Godot AI MCP만 사용한다.
 - GUT RED→GREEN 뒤에만 Hera live QA를 실행하고 tracked-source delta NONE을 요구한다.
 - FV 최종 weighted scalar/vector/product numerics를 선택하지 않는다.
 - unavailable metric은 숫자 0이 아니라 literal `BLOCKED_RUNTIME_OUTPUT`을 유지한다.
