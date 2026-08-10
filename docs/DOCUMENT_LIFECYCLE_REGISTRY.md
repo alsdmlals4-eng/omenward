@@ -6,8 +6,10 @@ policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 common_process_authority: alsdmlals4-eng/Base/AGENTS.md
 status: CURRENT_LIFECYCLE_AUTHORITY
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+current_instruction_activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 contract_version: 4.5
+contract_revision: 2026-08-11-r2
 current_phase: PHASE_A_GPT_CHAT_PLANNING
 ```
 
@@ -26,6 +28,7 @@ current_phase: PHASE_A_GPT_CHAT_PLANNING
 - `DOCUMENTATION_MAP.md`
 - `PROJECT_CANON_DECISION_LEDGER.md`
 - `PROJECT_GOOGLE_SHEET_WORKBOOK.md`
+- `process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md` — full GitHub canonical instruction; activation Decision `OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1`
 - `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`
 - `process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
 - `process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
@@ -217,13 +220,14 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 1. Base current main/open PR을 fresh-read한다.
 2. `PROJECT_CORE.md`, `ACTIVE_CONTEXT.md`, `DOCUMENTATION_MAP.md`, `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`를 읽는다.
-3. 대상 파일이 `[현행]`인지 이 Registry에서 확인한다.
-4. 건물 작업은 Tier 재정렬과 병영 TokenSource 정정 문서를 함께 읽고 후속 정정을 우선한다.
-5. 상인 작업은 6/10 책임 원본과 최신 onboarding owner를 함께 확인한다.
-6. 정확 수치는 해당 최신 simulation/runtime Decision의 승인 상태를 다시 확인한다.
-7. 현재 v4.5 phase가 `PHASE_A_GPT_CHAT_PLANNING`이고 Phase C가 BLOCK인지 확인한다.
-8. PR175/Issue176을 읽더라도 사용자의 명시적 `기획 완료` 전 persistent runtime authoring을 시작하지 않는다.
-9. 같은 Decision ID의 GitHub canon과 Google Sheet가 일치하는지 확인한다.
+3. `process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md`가 current full instruction canon인지 확인한다.
+4. 대상 파일이 `[현행]`인지 이 Registry에서 확인한다.
+5. 건물 작업은 Tier 재정렬과 병영 TokenSource 정정 문서를 함께 읽고 후속 정정을 우선한다.
+6. 상인 작업은 6/10 책임 원본과 최신 onboarding owner를 함께 확인한다.
+7. 정확 수치는 해당 최신 simulation/runtime Decision의 승인 상태를 다시 확인한다.
+8. 현재 v4.5 phase가 `PHASE_A_GPT_CHAT_PLANNING`이고 Phase C가 BLOCK인지 확인한다.
+9. PR175/Issue176을 읽더라도 사용자의 명시적 `기획 완료` 전 persistent runtime authoring을 시작하지 않는다.
+10. 같은 Decision ID의 GitHub canon과 Google Sheet가 일치하는지 확인한다.
 
 ## 8. 완료 이력
 
@@ -233,5 +237,6 @@ OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 / 4_OF_10
 OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 / 5_OF_10
 OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 / 6_OF_10
 OMW-DEC-20260806-PLANNING-PR142-LATEST-MAIN-INTEGRATION-V3 / APPROVED_10_OF_10
+OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1 / FULL_GITHUB_CANON_ACTIVATION / PHASE_A
 LEGACY_C1_C2_C3_PROVEN
 ```
