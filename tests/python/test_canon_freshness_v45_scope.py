@@ -6,6 +6,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 TOOL = ROOT / "tools/validate_canon_freshness_v45_scope.py"
+CANONICAL_V45_R2 = "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md"
 
 APPROVED = {
     ".github/workflows/validate-active-integrated-contract-v4-4.yml",
@@ -17,13 +18,16 @@ APPROVED = {
     "docs/DOCUMENTATION_MAP.md",
     "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
     "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
     "docs/PROJECT_CANON_DECISION_LEDGER.md",
     "docs/PROJECT_CORE.md",
     "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
+    "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
     "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
     "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json",
     "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md",
     "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md",
+    CANONICAL_V45_R2,
     "docs/superpowers/plans/2026-08-11-canon-freshness-v45-routing.md",
     "tests/python/test_canon_freshness_v45_routing.py",
     "tests/python/test_canon_freshness_v45_scope.py",
@@ -75,6 +79,13 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         module = load_module()
         without_binding = APPROVED - {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"}
         errors = module.validate_canon_freshness_scope(without_binding)
+        self.assertTrue(any("missing required v4.5 anchors" in error for error in errors), errors)
+
+    def test_repo_canonical_v45_r2_is_required_anchor(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        without_canonical = APPROVED - {CANONICAL_V45_R2}
+        errors = module.validate_canon_freshness_scope(without_canonical)
         self.assertTrue(any("missing required v4.5 anchors" in error for error in errors), errors)
 
 

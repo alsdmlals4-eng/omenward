@@ -20,7 +20,7 @@ local_godot_project: UNCHANGED
 7. `docs/design/APPROVED_OMENWARD_BELU_INTERVENTION_FAILURE_RETRY_SKIP_RULES_2026-08-06.md`
 8. `docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
 
-충돌 시 목록의 앞 문서가 뒤 문서보다 우선한다. 특히 기존 문서의 `SPECIAL_T1_TOKEN_SOURCE = NONE`과 T2에서 처음 TokenSource를 해금한다는 문구는 역사 증거이며 현행 구현 입력으로 사용할 수 없다.
+충돌 시 목록의 앞 문서가 뒤 문서보다 우선한다. 특히 기존 문서의 **특수 T1 TokenSource 미제공 조항**과 T2에서 처음 TokenSource를 해금한다는 문구는 역사 증거이며 현행 구현 입력으로 사용할 수 없다.
 
 ## 현행 병영 요약
 

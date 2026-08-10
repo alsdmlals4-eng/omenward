@@ -125,6 +125,7 @@ SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
 방어탑은 세 가지 T2 역할로 전문화한다.
 
 ```text
+DEFENSE_TOWER_T2 = ARTILLERY / DEFENSE_ENHANCEMENT / SNIPER
 방어탑 T1
 ├─ T2 포격탑 = 범위 공격
 ├─ T2 방어탑(방어 강화형) = 방어력·내구 강화

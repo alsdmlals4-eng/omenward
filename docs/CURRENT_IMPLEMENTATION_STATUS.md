@@ -79,6 +79,7 @@ PHASE_C_BLOCKED
 ## 4. PC·Android 공용 코어
 
 ```text
+ARCHITECTURE_DECISION = OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
 ARCHITECTURE_STATUS = MAIN_CANONICAL
 PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
 PHASE1_COMMAND_EVENT_CONTRACTS = MAIN_CANONICAL_LOCAL_PASS
@@ -101,6 +102,14 @@ MOBILE_RELEASE_GATE = NOT_RUN
 EXPORT_PRESETS = ABSENT
 REPRESENTATIVE_PC_BUILD = NOT_RUN
 REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
+```
+
+원 아키텍처 Decision의 경계는 별도 compatibility anchor로 유지한다. 이후 Phase0~2 증거가 생겼어도 그 아키텍처 승인 자체를 전체 플랫폼 구현 완료 주장으로 바꾸지 않는다.
+
+```text
+ARCHITECTURE_DECISION_BASELINE = APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
 ```
 
 Phase 0~2의 과거 local-pass는 플랫폼 경계만 증명하며 현재 gameplay runtime package 완료나 출시 readiness를 뜻하지 않는다.
@@ -134,14 +143,16 @@ HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 ## 7. 현재 planning/canon PR
 
 ```text
-PR178 = DRAFT
+PR178 = MERGED
+PR178_MERGE_SHA = 84e68bf7199854b6a3f125cb20052cfcac37f156
+POSTMERGE_RECONCILIATION_PR = 179
 DECISION = OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-PURPOSE = CANON_FRESHNESS + V4_5_THIN_ADAPTER + SHEET_SYNC
+PURPOSE = CANON_FRESHNESS + V4_5_THIN_ADAPTER + SHEET_SYNC + POSTMERGE_FULL_SUITE_RECONCILIATION
 PRODUCT_MUTATION = NONE
 GODOT_MUTATION = NONE
 ```
 
-TDD RED는 새 v4.5 authority artifact 부재와 active GDD/Workbook/cold-start drift를 실패로 고정한다. Green/merge 완료는 exact-head 검증과 Sheet bounded reread 후에만 기록한다.
+PR178 exact-head는 15/15 Green이었지만 merge push Omenward Core full Python discovery가 실패해 closure를 보류했다. PR179는 그 merge-only full-suite 회귀를 같은 Decision ID로 진단·수정하며, 완료 주장 전 follow-up push 검증이 필요하다.
 
 ## 8. Durable Vertical Slice implementation evidence
 
@@ -183,14 +194,15 @@ FIRST_TIME_HUMAN_QA = NOT_RUN
 현재 Decision 안에서:
 
 ```text
-canon repair
-→ same Decision Sheet proposed sync
-→ bounded reread
-→ exact-head CI
+postmerge failing module reconciliation
+→ remove diagnostic workflow
+→ same Decision Sheet MERGED_CANON reconciliation
+→ PR179 exact-head full CI
 → adversarial review
 → race check
-→ eligible planning merge
-→ merged-main + Sheet MERGED_CANON readback
+→ PR179 merge
+→ follow-up merge push full Python matrix Green
+→ final merged-main + Sheet readback
 ```
 
 그 다음에도 Phase C는 자동 시작하지 않는다. 사용자의 `기획 완료` 선언 후 Phase B 최종 planning review가 다음 단계다.
