@@ -43,6 +43,7 @@ class CiUsageContractTests(unittest.TestCase):
         text = self._read("validate-omenward-core.yml")
         pr_section = self._section(text, "  contracts_pr:", "  contracts_full:")
         full_section = self._section(text, "  contracts_full:", "  godot:")
+        project_checkout = self._section(full_section, "    steps:\n", "      - name: Checkout exact Base recovery source")
         self.assertIn("contracts_pr:", text)
         self.assertIn("contracts_full:", text)
         self.assertIn("github.event_name == 'pull_request'", text)
@@ -56,6 +57,12 @@ class CiUsageContractTests(unittest.TestCase):
         self.assertNotIn('- "README.md"', text)
         self.assertNotIn("unittest discover", pr_section)
         self.assertIn("unittest discover", full_section)
+        self.assertIn("fetch-depth: 0", project_checkout)
+        self.assertIn("python -m pip install --disable-pip-version-check numpy", full_section)
+        self.assertLess(
+            full_section.index("python -m pip install --disable-pip-version-check numpy"),
+            full_section.index("python -m unittest discover -s tests/python -v"),
+        )
         for test_name in (
             "tests.python.test_c1_roulette_contract",
             "tests.python.test_c2_battle_objective_contract",
@@ -206,6 +213,37 @@ class CiUsageValidatorMutationTests(unittest.TestCase):
             )
             errors = validate(temp_root)
             self.assertTrue(any("standard GitHub-hosted runners" in error for error in errors))
+
+    def test_core_full_history_regression_is_rejected(self) -> None:
+        validate = self._load_validator()
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_workflows(temp_root)
+            workflow = temp_root / ".github" / "workflows" / "validate-omenward-core.yml"
+            text = workflow.read_text(encoding="utf-8")
+            full_start = text.index("  contracts_full:")
+            full_end = text.index("  godot:", full_start)
+            full_section = text[full_start:full_end].replace("fetch-depth: 0", "fetch-depth: 1", 1)
+            workflow.write_text(text[:full_start] + full_section + text[full_end:], encoding="utf-8")
+            errors = validate(temp_root)
+            self.assertTrue(any("full matrix must fetch project history" in error for error in errors))
+
+    def test_core_full_numpy_dependency_regression_is_rejected(self) -> None:
+        validate = self._load_validator()
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_workflows(temp_root)
+            workflow = temp_root / ".github" / "workflows" / "validate-omenward-core.yml"
+            workflow.write_text(
+                workflow.read_text(encoding="utf-8").replace(
+                    "      - name: Install full-suite Python dependency\n        run: python -m pip install --disable-pip-version-check numpy\n",
+                    "",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            errors = validate(temp_root)
+            self.assertTrue(any("full matrix must install numpy" in error for error in errors))
 
     def test_skill_ci_contract_omission_is_rejected(self) -> None:
         validate = self._load_validator()
