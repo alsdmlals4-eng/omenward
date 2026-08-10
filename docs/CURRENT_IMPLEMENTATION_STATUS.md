@@ -16,6 +16,10 @@ human_validation: HUMAN_QA_NOT_RUN
 
 공통 운영 규칙은 Base current authority가 책임지고, 이 문서는 OMENWARD의 현재 기획·구현·검증 상태만 기록한다.
 
+현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
+
+최신 버티컬 슬라이스 구현: `NOT_STARTED`
+
 ## 1. Planning canon
 
 ```text
@@ -139,7 +143,42 @@ GODOT_MUTATION = NONE
 
 TDD RED는 새 v4.5 authority artifact 부재와 active GDD/Workbook/cold-start drift를 실패로 고정한다. Green/merge 완료는 exact-head 검증과 Sheet bounded reread 후에만 기록한다.
 
-## 8. 다음 순서
+## 8. Durable Vertical Slice implementation evidence
+
+아래는 기존 project-core validator와 historical C1/C2/C3 검증이 소비하는 durability block이다. 현재 v4.5 Phase A를 과거 시점으로 되돌리는 것이 아니라 **구현 미완료 경계와 과거 검증 사실을 보존**한다.
+
+```text
+VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
+LATEST_AUTOMATED_CONTRACTS_NOT_RUN
+HUMAN_QA_NOT_RUN
+CORE_LOCK_NOT_ALLOWED
+LEGACY_C1_C2_C3_PROVEN
+LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
+LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
+LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
+```
+
+Historical exact evidence:
+
+```text
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+C1 최종 검증 run: `29926598807`
+C2 최종 검증 run: `29938742864`
+C3 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`
+C3 최종 검증 run: `29965348284`
+```
+
+```text
+GAMEPLAY_PRODUCT_IMPLEMENTATION = NOT_STARTED
+SCENE_RESOURCE_DATA_CHANGE_BY_PR142 = NONE
+EXACT_NUMERICS = PENDING_SIMULATION_OR_LATER_CURRENT_OWNER
+TWELVE_SCENARIO_QA = NOT_RUN
+FIRST_TIME_HUMAN_QA = NOT_RUN
+```
+
+이 C1·C2·C3와 PR142 계보는 과거 계약 검증 사실만 보존하며 PR175 runtime package 완료를 뜻하지 않는다.
+
+## 9. 다음 순서
 
 현재 Decision 안에서:
 
