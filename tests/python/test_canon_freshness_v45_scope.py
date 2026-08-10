@@ -7,8 +7,9 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 TOOL = ROOT / "tools/validate_canon_freshness_v45_scope.py"
 CANONICAL_V45_R2 = "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md"
+CORE_WORKFLOW = ".github/workflows/validate-omenward-core.yml"
 
-APPROVED = {
+ACTIVATION = {
     ".github/workflows/validate-active-integrated-contract-v4-4.yml",
     ".github/workflows/validate-canon-freshness-v4-5.yml",
     "AGENTS.md",
@@ -34,6 +35,19 @@ APPROVED = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
+POSTMERGE_CI_REMEDIATION = {
+    CORE_WORKFLOW,
+    "tests/python/test_ci_usage_contract.py",
+    "tools/validate_ci_usage_contract.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
+POSTMERGE_EVIDENCE_CLOSURE = {
+    "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
+    "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json",
+}
+
 
 def load_module():
     if not TOOL.is_file():
@@ -46,28 +60,38 @@ def load_module():
 
 
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
-    def test_approved_planning_surface_passes(self) -> None:
+    def test_activation_surface_passes(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        self.assertEqual(module.validate_canon_freshness_scope(APPROVED), [])
+        self.assertEqual(module.validate_canon_freshness_scope(ACTIVATION), [])
+
+    def test_postmerge_ci_remediation_surface_passes(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(POSTMERGE_CI_REMEDIATION), [])
+
+    def test_postmerge_evidence_closure_surface_passes(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(POSTMERGE_EVIDENCE_CLOSURE), [])
 
     def test_product_path_is_rejected(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        errors = module.validate_canon_freshness_scope(APPROVED | {"scripts/battle/lane_state.gd"})
+        errors = module.validate_canon_freshness_scope(ACTIVATION | {"scripts/battle/lane_state.gd"})
         self.assertTrue(any("protected product" in error for error in errors), errors)
 
     def test_unrelated_file_is_rejected(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        errors = module.validate_canon_freshness_scope(APPROVED | {"README.md"})
+        errors = module.validate_canon_freshness_scope(ACTIVATION | {"README.md"})
         self.assertTrue(any("unapproved files" in error for error in errors), errors)
 
     def test_historical_v44_authority_mutation_is_rejected(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(
-            APPROVED | {
+            ACTIVATION | {
                 "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
                 "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
             }
@@ -77,16 +101,24 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_missing_v45_anchor_is_rejected(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        without_binding = APPROVED - {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"}
+        without_binding = ACTIVATION - {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"}
         errors = module.validate_canon_freshness_scope(without_binding)
-        self.assertTrue(any("missing required v4.5 anchors" in error for error in errors), errors)
+        self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
 
-    def test_repo_canonical_v45_r2_is_required_anchor(self) -> None:
+    def test_repo_canonical_v45_r2_is_required_activation_anchor(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        without_canonical = APPROVED - {CANONICAL_V45_R2}
+        without_canonical = ACTIVATION - {CANONICAL_V45_R2}
         errors = module.validate_canon_freshness_scope(without_canonical)
-        self.assertTrue(any("missing required v4.5 anchors" in error for error in errors), errors)
+        self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
+
+    def test_partial_postmerge_closure_is_rejected(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        errors = module.validate_canon_freshness_scope(
+            {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"}
+        )
+        self.assertTrue(any("missing required v4.5 postmerge evidence anchors" in error for error in errors), errors)
 
 
 if __name__ == "__main__":
