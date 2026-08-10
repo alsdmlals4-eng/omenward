@@ -40,7 +40,7 @@
     "skills/"
   ],
   "legacy_source": "docs/archive/base-v9-legacy-inputs/PROJECT_BASE_SKILL_ADAPTER.json",
-  "legacy_source_sha256": "b2f5bec2e13d6037f1706e734a4e9005c24805ae29cbacff4c1f5130271d6631",
+  "legacy_source_sha256": "855e0cf05ee6abf26947b39ec4885860bea4f14caedeeac53017190696f835fc",
   "license_record": "docs/technical/THIRD_PARTY_LICENSES.md",
   "lifecycle": "ONE_CYCLE",
   "project": {
