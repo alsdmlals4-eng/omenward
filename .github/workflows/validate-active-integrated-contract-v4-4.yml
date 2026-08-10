@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/validate-active-integrated-contract-v4-4.yml"
+      - ".github/workflows/validate-base-v9-adoption.yml"
+      - ".github/workflows/validate-project-base-adapter.yml"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
       - ".github/workflows/validate-tool-state-user-approval-remote-sync.yml"
       - ".github/workflows/validate-godot-csv-import-artifact-hygiene.yml"
@@ -67,8 +69,10 @@ on:
       - "tests/python/test_barracks_functional_value_combat_numerics_review.py"
       - "tests/python/test_barracks_functional_value_measurement_scenarios.py"
       - "tests/python/test_project_base_adapter_freshness.py"
+      - "tests/python/test_runtime_transition_scope.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
       - "tools/validate_canon_freshness_v45_scope.py"
+      - "tools/validate_runtime_transition_scope.py"
   workflow_dispatch:
 
 permissions:
@@ -89,13 +93,20 @@ jobs:
       - name: Install simulator dependency
         run: python -m pip install --disable-pip-version-check numpy
 
-      - name: Enforce bounded non-product planning scope
+      - name: Enforce bounded non-product planning or approved runtime scope
         if: github.event_name == 'pull_request'
         run: |
           if python tools/validate_canon_freshness_v45_scope.py \
             --base "origin/${GITHUB_BASE_REF}" \
             --head HEAD; then
             echo "v4.5 bounded canon freshness transition scope=PASS"
+            exit 0
+          fi
+
+          if python tools/validate_runtime_transition_scope.py \
+            --base "origin/${GITHUB_BASE_REF}" \
+            --head HEAD; then
+            echo "approved barracks runtime transition scope=PASS"
             exit 0
           fi
 
@@ -153,9 +164,11 @@ jobs:
           python -m py_compile \
             tools/validate_active_integrated_contract_v4_4.py \
             tools/validate_canon_freshness_v45_scope.py \
+            tools/validate_runtime_transition_scope.py \
             tests/python/test_active_integrated_contract_v4_4.py \
             tests/python/test_canon_freshness_v45_routing.py \
             tests/python/test_canon_freshness_v45_scope.py \
+            tests/python/test_runtime_transition_scope.py \
             tests/python/test_tool_state_user_approval_remote_sync.py \
             tests/python/test_godot_csv_import_artifact_hygiene.py \
             tests/python/test_barracks_conditional_fail_remediation.py \
@@ -173,6 +186,7 @@ jobs:
             tests.python.test_active_integrated_contract_v4_4 \
             tests.python.test_canon_freshness_v45_routing \
             tests.python.test_canon_freshness_v45_scope \
+            tests.python.test_runtime_transition_scope \
             tests.python.test_tool_state_user_approval_remote_sync \
             tests.python.test_godot_csv_import_artifact_hygiene \
             tests.python.test_barracks_conditional_fail_remediation \
