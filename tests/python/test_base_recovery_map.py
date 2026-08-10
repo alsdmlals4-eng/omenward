@@ -287,6 +287,16 @@ class BaseRecoveryMapContract(unittest.TestCase):
         self.assertIn("resolve the exact live editor executable from the parent-provided editor PID", text)
         self.assertLess(text.index("4.7.1-stable"), text.index("$issueBody ="))
 
+    def test_barracks_executor_dirty_tree_gate_uses_actual_content_deltas(self) -> None:
+        text = EXECUTOR.read_text(encoding="utf-8")
+        self.assertIn("$stagedDirtyProbe = Invoke-ExpectedNativeProbe", text)
+        self.assertIn("$unstagedDirtyProbe = Invoke-ExpectedNativeProbe", text)
+        self.assertIn("git diff --cached --quiet --ignore-submodules --", text)
+        self.assertIn("git diff --quiet --ignore-submodules --", text)
+        self.assertIn("git ls-files --others --exclude-standard", text)
+        self.assertIn("actual staged/unstaged content changes or untracked files", text)
+        self.assertNotIn("$dirty = @(& git status --porcelain)", text)
+
 
 if __name__ == "__main__":
     unittest.main()
