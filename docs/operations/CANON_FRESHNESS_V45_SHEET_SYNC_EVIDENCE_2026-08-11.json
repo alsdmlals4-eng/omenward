@@ -1,16 +1,22 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "decision_id": "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1",
+  "activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
   "spreadsheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
   "sheet_title": "오멘워드(OMENWARD)",
   "observed_time_zone": "Asia/Seoul",
-  "write_stage": "PROPOSED_SHEET_CHANGE",
+  "write_stage": "POSTMERGE_RECONCILIATION_PROPOSED",
   "sync_result": "PASS",
   "reread_result": "PASS",
   "base_main_observed": "315c66eea9614c284b9c11c4d522141065dfa4b0",
-  "project_activation_baseline_main": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
-  "source_pr": 178,
-  "source_head_at_proposed_sheet_write": "1754f0b2afe67e8d01fe07517f6f49066d76a297",
+  "project_current_main": "84e68bf7199854b6a3f125cb20052cfcac37f156",
+  "source_pr": 179,
+  "source_head_at_activation_sheet_write": "e69c3664a73424cbec5c6fae45f946e295be7ae4",
+  "canonical_instruction": {
+    "path": "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md",
+    "blob_sha": "45cc0859fbd0b6b46d46924592169164ff133a2e",
+    "source_normalization": "USER_SUPPLIED_R2_BODY_PRESERVED_EXCEPT_3_PROJECT_PATHS_RECONCILED_TO_CURRENT_OMENWARD_INPUT"
+  },
   "runtime_pr": {
     "number": 175,
     "head": "bde85549560fca90f7aa25fc4842bc0a3afb92e7",
@@ -23,25 +29,21 @@
     "disposition": "REFERENCE_ONLY_DO_NOT_MERGE"
   },
   "ranges": [
-    "00_프로젝트_허브!A2:L2",
-    "01_작업순서!A67:N67",
-    "02_현재_확정결정!A104:M104",
-    "04_누락_충돌_감사!A632:H632",
-    "05_GDD_요약!A26:J26",
-    "15_조작_게임규칙!A47:J47",
-    "99_변경이력!A180:H180"
+    "00_프로젝트_허브!E2:L2",
+    "02_현재_확정결정!E104:M104",
+    "02_현재_확정결정!A105:M105",
+    "04_누락_충돌_감사!A633:H633",
+    "99_변경이력!A182:H182"
   ],
   "reread_assertions": {
     "hub_current_phase": "PHASE_A_GPT_CHAT_PLANNING",
     "hub_phase_c_gate": "PHASE_C_BLOCK",
-    "hub_base_main": "315c66eea9614c284b9c11c4d522141065dfa4b0",
-    "decision_id_present": true,
-    "decision_status": "PROPOSED_SHEET_CHANGE",
-    "audit_id": "OMW-AUD-632",
-    "active_gdd_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
-    "current_rule_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
-    "historical_building_tier_row_overwritten": false,
-    "history_row": "OMW-SYNC-20260811-CANON-FRESHNESS-V45-PROPOSED-V1"
+    "hub_pr179_in_progress": true,
+    "activation_decision_id_present": true,
+    "activation_decision_status": "PROPOSED_SHEET_CHANGE",
+    "audit_id": "OMW-AUD-633",
+    "history_row": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
+    "canonical_blob_recorded": "45cc0859fbd0b6b46d46924592169164ff133a2e"
   },
   "current_special_t1_contract": {
     "selection_trigger": "SUCCESSFUL_CONSTRUCTION_COMMIT",
@@ -61,18 +63,15 @@
     "godot_persistent_mutation": "NONE"
   },
   "red_evidence": {
-    "workflow_run": 31433522187,
-    "job": 93602326789,
-    "result": "EXPECTED_FAILURE",
-    "test_count": 8,
-    "failures": 5,
-    "errors": 3,
-    "existing_omenward_core_same_red_head": "SUCCESS",
-    "existing_base_v9_adoption_same_red_head": "SUCCESS"
+    "canon_freshness_initial_workflow_run": 31433522187,
+    "v45_r2_repo_canon_workflow_run": 31438607778,
+    "v45_r2_repo_canon_result": "EXPECTED_FAILURE_MISSING_CANONICAL_FILE",
+    "v45_r2_repo_canon_routing_tests": "8_PASS_1_FAIL"
   },
   "post_merge_required": {
-    "update_same_decision_to": "MERGED_CANON",
-    "record_merge_sha": true,
-    "bounded_reread": true
+    "update_activation_decision_to": "MERGED_CANON",
+    "record_pr179_merge_sha": true,
+    "bounded_reread": true,
+    "verify_omenward_core_full_python_push_matrix": true
   }
 }
