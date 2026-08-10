@@ -1,5 +1,5 @@
 {
-  "schema_version": "3.1",
+  "schema_version": "3.0",
   "decision_id": "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1",
   "activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
   "observed_at": "2026-08-11T07:24:00+09:00",
