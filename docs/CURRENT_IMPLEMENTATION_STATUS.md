@@ -1,7 +1,7 @@
 # [현행] 오멘워드 현재 구현 상태
 
 ```yaml
-updated_at: 2026-08-10T14:08:00+09:00
+updated_at: 2026-08-10T14:47:00+09:00
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
 current_runtime_authority: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
@@ -14,12 +14,15 @@ runtime_blocker: RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
 execution_route_blocker: BLOCKED_UNVERIFIED_LOCAL_HIGODOT_SAME_SNAPSHOT_DIAGNOSTIC_UNAVAILABLE
 human_validation: NOT_RUN
 final_weighted_fv_numerics: NOT_SELECTED
-base_main_seen: 59aadec796260ae200e776af35954174fc5bda46
-base_omenward_evidence: BCP - OMENWARD
-base_omenward_evidence_pr: 243
-base_omenward_evidence_state: MERGED_PROPOSAL_EVIDENCE_ONLY
-base_omenward_evidence_merge_sha: 59aadec796260ae200e776af35954174fc5bda46
+base_main_seen: 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+base_omenward_proposal: BCP - OMENWARD
+base_omenward_proposal_id: BCP-2026-015-external-runtime-session-same-snapshot-recovery
+base_omenward_proposal_pr: 246
+base_omenward_proposal_state: MERGED_PROPOSAL_ONLY
+base_omenward_proposal_merge_sha: 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
 base_omenward_post_merge_ci: SUCCESS
+base_omenward_post_merge_run: 31359540698
+base_active_rule_change: NONE
 ```
 
 공통 운영 규칙은 Base 책임 원본에서 관리한다. 이 문서는 OMENWARD의 프로젝트별 기획·구현·검증 상태만 기록한다. planning canon은 유지되며, 승인된 bounded runtime package가 Draft PR #175 / Issue #176에서 같은 승인 범위로 진행 중이다.
@@ -97,7 +100,7 @@ CURRENT_AGENT_ROUTE = BLOCKED_UNVERIFIED_LOCAL_HIGODOT_SAME_SNAPSHOT_DIAGNOSTIC_
 
 2026-08-10 11:57 KST 사용자는 당시 HiGodot 진단부터 이후 작업을 나중에 다시 진행하고 먼저 인수인계 작업으로 전환하도록 요청했다. 이 사실은 `HANDOFF_CONTEXT.md`의 historical snapshot에 그대로 보존한다.
 
-이후 orchestration을 재개했고, 로컬 HiGodot 작업이 막힌 동안 독립적으로 가능한 transition CI reconciliation, Base project evidence 병합, Sheet/handoff 상태 정합화를 진행했다.
+이후 orchestration을 재개했고, 로컬 HiGodot 작업이 막힌 동안 독립적으로 가능한 transition CI reconciliation, Base 프로젝트 출처형 수정제안서 정정·병합, Sheet/handoff 상태 정합화를 진행했다.
 
 ```text
 11:57 HANDOFF_SNAPSHOT = VALID_HISTORY
@@ -110,35 +113,51 @@ PR177 = REFERENCE_ONLY_HANDOFF_DO_NOT_MERGE_NOW
 
 ## Base project learning 상태
 
-Fresh Base truth after `BCP - OMENWARD` integration:
+Base 활성 규칙은 이번 작업에서 수정하지 않는다. 프로젝트에서 실제 검증된 개선점은 별도 프로젝트 출처형 수정제안서로 저장한다.
 
 ```text
-BASE_MAIN = 59aadec796260ae200e776af35954174fc5bda46
-BCP013 = BCP-2026-013-post-merge-continuation-state-reconciliation
-BCP013_PR235 = MERGED_PROPOSAL_ONLY
-BCP013_MERGE_SHA = 3ff790116bc08f49e126cd286ec453bf6e46376e
-EXISTING_SOLUTION_VERDICT = REUSE_BCP_2026_013
-PROJECT_EVIDENCE_NAME = BCP - OMENWARD
-BASE_EVIDENCE_PR243 = MERGED_PROPOSAL_EVIDENCE_ONLY
-BASE_EVIDENCE_PREMERGE_HEAD = f4f42c45342b88072852baa36a65b643890d72a7
-BASE_EVIDENCE_MERGE_SHA = 59aadec796260ae200e776af35954174fc5bda46
-BASE_EVIDENCE_CHANGED_FILES = 1
-BASE_EVIDENCE_PREMERGE_VALIDATION = SUCCESS
-BASE_EVIDENCE_POST_MERGE_RUN = 31357359735
-BASE_EVIDENCE_POST_MERGE_VALIDATION = SUCCESS
-PROPOSAL_REGISTRY_CHANGE = NONE
-ACTIVE_BASE_IMPLEMENTATION = NOT_AUTHORIZED_BY_THIS_STAGE
+Base active rules unchanged
+→ [수정제안서]/BCP-<id>/PROPOSAL.md
+→ display title: BCP - [프로젝트명]
+→ project-verified evidence
+→ PROPOSAL_REGISTRY.json registration
+→ proposal-only PR
+→ exact-head validation
+→ merge
+→ post-merge readback/CI
 ```
 
-사용자의 `BCP - 프로젝트 이름` 규칙을 적용해 OMENWARD evidence는 `BCP - OMENWARD`로 기록했다. 새 canonical BCP는 만들지 않고 기존 BCP-013을 재사용한다.
+OMENWARD 적용 결과:
 
-Base `main`에 병합된 정확한 파일은 다음 하나다.
+```text
+BASE_MAIN = 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+PROJECT_SOURCE_PROPOSAL = BCP - OMENWARD
+PROJECT_SOURCE_PROPOSAL_ID = BCP-2026-015-external-runtime-session-same-snapshot-recovery
+BASE_PROPOSAL_PR246 = MERGED_PROPOSAL_ONLY
+BASE_PROPOSAL_PREMERGE_HEAD = fdb45ecfd3badac0389261d3f61e31de2f277263
+BASE_PROPOSAL_MERGE_SHA = 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+BASE_PROPOSAL_PREMERGE_VALIDATION = SUCCESS
+BASE_PROPOSAL_POST_MERGE_RUN = 31359540698
+BASE_PROPOSAL_POST_MERGE_VALIDATION = SUCCESS
+PROPOSAL_REGISTRY_CHANGE = ADD_BCP_2026_015_ONLY
+ACTIVE_BASE_RULE_CHANGE = NONE
+ACTIVE_BASE_IMPLEMENTATION = NOT_AUTHORIZED_BY_THIS_STAGE
+BCP013_WRONG_OMENWARD_EVIDENCE = REMOVED
+BCP013_PROPOSAL_BLOB_SHA = 647b3033881d62f8a0cbcb1fdc3f00e3acc41a7d
+BCP013_OTHER_PROJECT_EVIDENCE = PRESERVED
+```
 
-`[수정제안서]/BCP-2026-013-post-merge-continuation-state-reconciliation/evidence/BCP-OMENWARD.md`
+별도 canonical proposal:
 
-병합 직전 Base main은 PR #245의 Switchy Express BCP-013 evidence까지 포함한 `16af66ff...`였다. PR #245의 파일은 `BCP-Switchy-Express-Cargo-Puzzle.md`, OMENWARD PR #243의 파일은 `BCP-OMENWARD.md`로 비중첩이었다. 최신 main을 PR #243 branch에 통합한 뒤 exact-head validation을 통과했고, expected-head 고정 squash merge로 `59aadec...`가 생성됐다. main readback에서 `# BCP - OMENWARD` 파일 존재를 확인했고 post-merge push run `31357359735`의 classify/docs/ubuntu/publication/windows/ci-gate가 모두 SUCCESS다.
+`[수정제안서]/BCP-2026-015-external-runtime-session-same-snapshot-recovery/PROPOSAL.md`
 
-이 병합은 proposal evidence 저장만 의미한다. `PROPOSAL_REGISTRY.json`과 Base active Skill/Method/Template/Test/Workflow 동작은 OMENWARD evidence로 변경하지 않았으며, BCP-013 active 구현은 별도 `APPROVED_FOR_IMPLEMENTATION`과 approval ref가 필요하다.
+프로젝트에서 실제 관찰·검증한 evidence:
+
+`[수정제안서]/BCP-2026-015-external-runtime-session-same-snapshot-recovery/evidence/OMENWARD_RUNTIME_SESSION_RECOVERY_EVIDENCE.md`
+
+이 제안은 외부 Editor/MCP session에서 current exact process identity, live transport ownership, bounded server handshake/session log, immediate registry read를 같은 짧은 관측창에 묶는 recovery classification을 제안한다. 한 target session omission만으로 shared server나 다른 프로젝트 Editor를 종료하지 않고, 과거 PID/session id를 current mutation authority로 재사용하지 않는 경계도 포함한다.
+
+이전 PR #243의 `BCP-013/evidence/BCP-OMENWARD.md` 배치는 잘못된 소유 위치였으므로 PR #246에서 그 파일만 제거했다. BCP-013 `PROPOSAL.md`는 blob SHA `647b3033881d62f8a0cbcb1fdc3f00e3acc41a7d`로 보존되며 Switchy Express evidence도 유지된다.
 
 ## 보존되는 planning canon 상태
 
@@ -157,7 +176,7 @@ PR142_HUMAN_QA = NOT_RUN
 EXACT_BUILD_AND_ECONOMY_NUMERICS = PENDING_SIMULATION_UNLESS_SUPERSEDED_BY_APPROVED_RUNTIME_MEASUREMENT_CONTRACT
 ```
 
-기존 특수병 T1 자동생산·TokenSource 정정과 온보딩 10/10 canon은 이번 runtime role-output package, transition CI reconciliation, handoff 또는 Base evidence 병합으로 폐기되지 않는다. 상세 제품 정본은 `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md` 및 관련 approved design 문서를 따른다.
+기존 특수병 T1 자동생산·TokenSource 정정과 온보딩 10/10 canon은 이번 runtime role-output package, transition CI reconciliation, handoff 또는 Base proposal 병합으로 폐기되지 않는다. 상세 제품 정본은 `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md` 및 관련 approved design 문서를 따른다.
 
 ## 보존되는 PC·Android 공용 코어 상태
 
