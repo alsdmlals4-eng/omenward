@@ -13,7 +13,7 @@ phase_c_gate: BLOCK
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 ```
 
-이 Ledger는 현재 Decision과 결정 계보를 찾는 진입점이다. 각 분야의 세부 규칙은 Lifecycle Registry가 `[현행]`으로 지정한 책임 원본이 소유한다. 완료된 PR/CI/SHA는 역사 증거이며 fresh current 사실을 대체하지 않는다.
+이 Ledger는 현재 Decision과 결정 계보를 찾는 진입점이다. 각 분야의 세부 규칙은 Lifecycle Registry가 `[현행]`으로 지정한 책임 원본이 소유한다. 완료된 PR/CI/SHA는 역사 증거이며 fresh current 사실을 대체하지 않는다. 2026-08-09까지의 상세 tool·runtime evidence는 이 파일 하단에 history block으로 보존한다.
 
 ## 1. 현재 운영 Decision
 
@@ -139,26 +139,155 @@ PR175_MERGE = FORBIDDEN
 
 이 runtime package는 승인돼 있으나 v4.5 `PHASE_C_BLOCKED` 동안 persistent implementation을 수행하지 않는다.
 
+Durable Decision lineage:
+
+| 단계 | Decision | 상태 |
+|---|---|---|
+| 5/10 remediation | `OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1` | exact 2,000-seed smoke PASS |
+| 6/10 review | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1` | review complete; parameter-selection execution not authorized |
+| 7/10 observables | `OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1` | observables defined; V00 cost+interval envelope non-final |
+| 8/10 review | `OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1` | robustness execution review complete |
+| 9/10 robustness | `OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1` | exact 10,000-seed robustness PASS |
+| functional-value review | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1` | product base numerics present; role output runtime partial |
+| measurement scenarios | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1` | deterministic role scenarios defined; blocked outputs stay non-zero-synthesized |
+
 ## 4. Tool authority lineage
 
-### OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1
+Current tool Decision:
+
+`OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1`
+
+User-approved state:
 
 ```text
-GODOT_AI = 3.1.3
-GUT = 9.7.1
-HERA = 1.0.0
-HERA_ROLE = LIVE_QA_AND_OBSERVABILITY_ONLY
+GODOT_AI_APPROVED_VERSION = 3.1.3
+GUT_9_7_1 = APPROVED / USER_REPORTED_LOCAL_ENABLEMENT
+HERA_1_0_0 = APPROVED / USER_REPORTED_LOCAL_ENABLEMENT
+```
+
+Hosted verification boundary:
+
+```text
+USER_REPORTED_LOCAL_ENABLEMENT = ACCEPTED_AS_USER_FACT
+HOST_VERIFIED_LOCAL_EDITOR_ENABLEMENT = NO
+REMOTE_SYNC_COMPLETION = VERIFIED
+REMOTE_SYNC_MAIN = f1bf8939208a864bce1f99eea0555f05369dc9d6
+```
+
+### Godot AI / HiGodot
+
+```text
+CANONICAL_REPOSITORY = hi-godot/godot-ai
+UPSTREAM_RELEASE = v3.1.3
+PLUGIN_ZIP_SHA256 = 10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7
+AUTHORITY = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY
+REMOTE_PROJECT_VERSION = 3.1.3
+REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
+REMOTE_SYNC = VERIFIED
+```
+
+### GUT
+
+```text
+CANONICAL_REPOSITORY = bitwes/Gut
+UPSTREAM_RELEASE = v9.7.1
+SOURCE_BRANCH = godot_4_7
+PROJECT_PLUGIN_VERSION = 9.7.1
+AUTHORITY = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
+USER_APPROVAL = APPROVED
+USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
+REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
+REMOTE_SYNC = VERIFIED
+```
+
+PR #155/#156 may remain open for historical cleanup or vendor-detail review, but `GUT_ADOPTION_SPEC_PR155_NOT_MERGED` no longer negates the user's direct approval or current remote enablement.
+
+### Hera
+
+```text
+CANONICAL_REPOSITORY = NotNull92/hera-agent-godot
+UPSTREAM_RELEASE = v1.0.0
+PROJECT_PLUGIN_VERSION = 1.0.0
+LICENSE = MIT
+EXISTING_SOLUTION_DISPOSITION = REUSE_APPROVED_BY_USER
+ROLE = LIVE_QA_AND_OBSERVABILITY_ONLY
+PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
+REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
+REMOTE_HERA_GAME_INSPECTOR_AUTOLOAD = PRESENT
+REMOTE_SYNC = VERIFIED
+```
+
+Bundled README says `v0.9.0` while `plugin.cfg` and upstream release say `1.0.0`; this is `NONBLOCKING_DOCUMENTATION_STALENESS` and must not be misreported as the plugin version.
+
+### Tool blocker transition history
+
+Closed/superseded at the 2026-08-09 checkpoint:
+
+```text
+HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
+GUT_ADOPTION_SPEC_PR155_NOT_MERGED
+HERA_PRESENT_BUT_ADOPTION_NOT_VERIFIED
+DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
+GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
+GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
+HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
+```
+
+Independent blockers recorded at that checkpoint:
+
+```text
+BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
+LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE
+HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK
+```
+
+Current runtime/blocker truth must be re-read from PR175/Issue176/current state rather than treating those historical blocker strings as fresh.
+
+Role separation remains:
+
+```text
+GODOT_AI_HIGODOT = PERSISTENT_GODOT_AUTHORING_ONLY
+GUT = DETERMINISTIC_TEST_AUTHORITY
+HERA = LIVE_QA_AND_OBSERVABILITY_ONLY
 HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+ROLE_OVERLAP = FORBIDDEN
 ```
 
-### OMW-DEC-20260809-TOOLING-GODOT-CSV-IMPORT-ARTIFACT-HYGIENE-V1
+User approval and enablement do not collapse these roles.
+
+## 5. Direct-main remote sync history
+
+2026-08-09 checkpoint main `f1bf8939208a864bce1f99eea0555f05369dc9d6` contained the user-side tool sync delta relative to its preceding planning state:
 
 ```text
-CANONICAL_SIMULATION_CSV = PRESERVED
-GODOT_GENERATED_TRANSLATION_SIDECARS = REMOVED_AND_BOUNDED_IGNORED
+addons/godot_ai/plugin.cfg = 3.1.3
+project.godot editor plugins = Godot AI + GUT + Hera
+project.godot HeraGameInspector autoload = present
 ```
 
-## 5. Platform lineage
+That checkpoint is historical evidence; current repository truth comes from fresh main/PR reads.
+
+## 6. Base freshness lineage
+
+Historical project adapter pin/evidence:
+
+```text
+Base checkpoint observed on 2026-08-09 = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
+Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
+Project Base Adapter schema/generator/validator delta = NONE_OBSERVED_AT_THAT_CHECKPOINT
+```
+
+Current Base observation for this Decision:
+
+```text
+Base current main = 315c66eea9614c284b9c11c4d522141065dfa4b0
+Base open PRs at activation snapshot = 0
+```
+
+Historical Base SHA is not replaced in history evidence; current routing uses the fresh value.
+
+## 7. Platform lineage
 
 ```text
 OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1 = APPROVED_DUAL_PLATFORM
@@ -172,7 +301,7 @@ PC_RELEASE_GATE = NOT_RUN
 MOBILE_RELEASE_GATE = NOT_RUN
 ```
 
-## 6. v4.4 history
+## 8. v4.4 history
 
 ```text
 OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
@@ -183,7 +312,19 @@ state = docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json
 
 v4.4의 당시 source SHA·Base SHA·entry status는 역사 검증 대상으로 보존하며 current v4.5 값으로 소급 덮어쓰지 않는다.
 
-## 7. Current open PR inventory
+## 9. Current responsibility sources
+
+- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
+- `docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
+- `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
+- `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+
+## 10. Current open PR inventory
 
 ```text
 PR175 = runtime package / Draft / 7 gaps / do not merge
@@ -193,7 +334,7 @@ PR178 = canon freshness + v4.5 Thin Adapter / Draft planning PR
 
 Open PR inventory는 매 작업 시작·병합 직전에 fresh-read한다.
 
-## 8. Current unresolved Gate
+## 11. Current unresolved Gate
 
 ```text
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
