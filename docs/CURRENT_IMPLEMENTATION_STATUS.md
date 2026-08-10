@@ -1,127 +1,141 @@
 # [현행] 오멘워드 현재 구현 상태
 
 ```yaml
-updated_at: 2026-08-06
+updated_at: 2026-08-10T11:57:00+09:00
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-current_planning_authority: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
-onboarding_planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-pr142_merge: 1c646c2d764d0df43545e00b914189ed46cf1bd4
-vertical_slice_implementation: NOT_STARTED
-product_code_authority: NONE
-platform_contract_code_authority: PHASE2_SESSION_DECOUPLING
-simulation: NOT_RUN
-runtime: NOT_RUN
+planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
+current_runtime_authority: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+active_pr: 175
+active_issue: 176
+active_runtime_branch: runtime/barracks-role-output-implementation-20260809
+active_runtime_head: b014a8445423fc9a485fb413429a8127991143e4
+runtime_package_status: IN_PROGRESS_USER_DEFERRED_FOR_HANDOFF
+runtime_blocker: RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
 human_validation: NOT_RUN
-local_godot_project: UNCHANGED
+final_weighted_fv_numerics: NOT_SELECTED
 ```
 
-공통 운영 규칙은 Base 책임 원본에서 관리한다. 이 문서는 OMENWARD의 프로젝트별 기획·구현·검증 상태만 기록한다.
+공통 운영 규칙은 Base 책임 원본에서 관리한다. 이 문서는 OMENWARD의 프로젝트별 기획·구현·검증 상태만 기록한다. 2026-08-10 현재 planning canon은 유지되며, 승인된 bounded runtime package가 Draft PR #175 / Issue #176에서 별도 execution lane으로 진행 중이다.
 
-현재 시스템 연결 기준선은 `APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`다.
-
-최신 버티컬 슬라이스 구현: `NOT_STARTED`
+## 현재 runtime implementation package
 
 ```text
-VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
-LATEST_AUTOMATED_CONTRACTS_NOT_RUN
-HUMAN_QA_NOT_RUN
-CORE_LOCK_NOT_ALLOWED
-LEGACY_C1_C2_C3_PROVEN
-LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
+DECISION = OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+PR175 = OPEN_DRAFT_PR_REVISE
+ISSUE176 = OPEN
+RUNTIME_BRANCH = runtime/barracks-role-output-implementation-20260809
+CURRENT_HEAD = b014a8445423fc9a485fb413429a8127991143e4
+SAME_APPROVED_SCOPE_NO_REAPPROVAL
 ```
 
-## 기획과 제품 상태
+### Current exact-head evidence at `b014a844...`
 
 ```text
-FIRST_10_15_MINUTES_PLANNING = MAIN_CANONICAL_APPROVED_10_OF_10
-BARRACKS_TOKEN_SOURCE_AMENDMENT = MAIN_CANONICAL
-GAMEPLAY_PRODUCT_IMPLEMENTATION = NOT_STARTED
-SCENE_RESOURCE_DATA_CHANGE_BY_PR142 = NONE
-EXACT_NUMERICS = PENDING_SIMULATION
-TWELVE_SCENARIO_QA = NOT_RUN
-FIRST_TIME_HUMAN_QA = NOT_RUN
+contracts_pr = 69/69 PASS
+whitespace = PASS
+Godot 4.7.1 import = PASS
+headless contract tests = PASS
+runtime smoke = PASS
+exact-head Actions = 7 SUCCESS / 4 FAILURE
 ```
 
-현행 특수병 T1은 건설 확정 시 선정된 같은 병종을 반복 자동생산하고 같은 병종 TokenSource를 별도 획득 경로로 공급한다. 기존 `SPECIAL_T1_TOKEN_SOURCE = NONE`은 역사 증거이며 구현 입력 금지다.
+네 failure는 durable transition blockers다.
 
-## PC·Android 공용 코어 상태
+1. historical Barracks FV Combat Numerics Review가 runtime incompleteness를 계속 주장한다.
+2. Base v9 protected-path gate가 이미 승인된 runtime transition을 막는다.
+3. Project Base Adapter가 stale/generated-view transition 상태다.
+4. active integrated v4.4 planning-only gate가 남아 있다.
+
+이 네 항목은 handoff 작업에서 수정하지 않는다.
+
+## Last completed runtime evidence
+
+`621ae7ce80f24b1e5a9d13ba4fc1962bec42dd96`:
 
 ```text
-ARCHITECTURE_STATUS = MAIN_CANONICAL
-PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
-PHASE1_COMMAND_EVENT_CONTRACTS = MAIN_CANONICAL_LOCAL_PASS
-PHASE2_GAME_SESSION_DECOUPLING = MAIN_CANONICAL_LOCAL_PASS
-GAME_COMMAND = IMPLEMENTED
-GAME_EVENT = IMPLEMENTED
-SEVEN_PLATFORM_CONTRACTS = IMPLEMENTED
-GAME_APPLICATION = IMPLEMENTED
-SESSION_DRIVER = IMPLEMENTED
-SCENE_BINDER = IMPLEMENTED
-PLATFORM_BOOTSTRAP = IMPLEMENTED_IDEMPOTENT
-GAME_SESSION_COMPATIBILITY_FACADE = IMPLEMENTED
-SHARED_SAVE_SCHEMA = NOT_STARTED
-PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
-ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
-STORE_SDK_INTEGRATION = NOT_STARTED
-COMMON_PLATFORM_GATE = NOT_RUN
-PC_RELEASE_GATE = NOT_RUN
-MOBILE_RELEASE_GATE = NOT_RUN
-EXPORT_PRESETS = ABSENT
-REPRESENTATIVE_PC_BUILD = NOT_RUN
-REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
+GUT RED = 10 discovered / 1 pass / 9 intended fail
+Godot 4.7.1 import = PASS
+GUT GREEN = 10/10 / 52 assertions
+existing headless regressions = 13/13 PASS
+five FV-labelled smoke scenarios x2 = identical raw outputs
+CONTROL_TARGET_SECONDS = BLOCKED_RUNTIME_OUTPUT
+AIR_TARGETABILITY_EXPOSURE = BLOCKED_RUNTIME_OUTPUT
+Hera tracked-source delta = NONE
+simulation sidecars = NONE
+final weighted FV scalar/vector/product numerics = NOT_SELECTED
 ```
 
-Phase 0~2의 과거 local-pass 증거는 플랫폼 경계 구현만 증명하며 온보딩 제품 구현이나 출시 준비 완료를 뜻하지 않는다.
+Adversarial review가 아래 일곱 package-completeness gap을 발견했으므로 이 evidence는 merge-complete가 아니다.
 
-## 과거 C1·C2·C3 자동 검증 증거
+## Issue #176 남은 승인 gap
+
+1. Priest encouragement: 5s attack-speed +8%, start/end events, support uptime, timing regression.
+2. support-role deterministic fallback 보존.
+3. `flying` priority와 target permission boundary 분리.
+4. `cluster` tie-break를 lane order/unit-id semantics로 수정.
+5. Giant `FRONTLINE_SURVIVAL_TIME`, `STRUCTURE_DAMAGE` collector.
+6. registered deterministic FV-PRIEST/MAGE/FLIER/GIANT/COMMON fixtures.
+7. true `TARGETS_HIT_PER_CAST`와 multi-cast coverage.
+
+## 현재 local/HiGodot precondition 상태
+
+가장 최근 `session_manage(op=list)`는 GRIMOIRE task7 session 하나만 반환했고 OMENWARD session은 없었다.
 
 ```text
-C1_ROULETTE_CORE_REMOTE_PROVEN
-C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-C1 최종 검증 run: `29926598807`
-C2 최종 검증 run: `29938742864`
-C3 검증 head: `1976c5355124b2ce7d7ef77b8835df0c95710038`
-C3 최종 검증 run: `29965348284`
+LATEST_REGISTERED_SESSION = task7-circuit-placement-screen@63aa
+LATEST_REGISTERED_EDITOR_PID = 16652
+LATEST_REGISTERED_READINESS = ready
+OMENWARD_SESSION = ABSENT
 ```
 
-이 C1·C2·C3 증거는 과거 계약 검증 사실만 보존하며 V2 구현 완료를 뜻하지 않는다. 현재 10/10 온보딩 기획이나 후속 제품 구현 완료를 의미하지도 않는다.
-
-## PR #142 검증 경계
+직전 재현은 exact OMENWARD GUI PID `29616` + console PID `10512` 생존과 GUI PID `29616`의 ESTABLISHED WS9500을 확인했다. 두 evidence가 동일 시점이 아니므로 현재 판정은:
 
 ```text
-PR142_MERGED = TRUE
-MERGE_SHA = 1c646c2d764d0df43545e00b914189ed46cf1bd4
-PRODUCT_PATHS_CHANGED = 0
-DELETED_FILES = 0
-REVIEW_THREADS = 0
-SHEET_BOUNDED_READBACK = PASS
-BOUNDED_CANON_TESTS = PASS_AS_RECORDED
-FULL_PRIVATE_REPOSITORY_CHECKOUT = UNAVAILABLE_IN_EXECUTION_ENVIRONMENT
-FULL_PYTHON_SUITE = NOT_RUN
-GITHUB_ACTIONS_GREEN = NOT_PROVEN
-GITHUB_ACTIONS = BLOCKED_BEFORE_JOB_START_BY_BILLING
-GODOT_TESTS_FOR_PR142 = NOT_RUN
-SIMULATION = NOT_RUN
-RUNTIME = NOT_RUN
-HUMAN_QA = NOT_RUN
+RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
+SAME_SERVER_HANDSHAKE_REGISTRATION_FAILURE = BLOCKED_UNVERIFIED
 ```
 
-## 다음 제품·검증 순서
+## 사용자 요청에 따른 현재 중지 상태
 
-1. 병영 건설비·생산 간격·TokenSource 수량·가중치의 시뮬레이션 계약 작성.
-2. 일반병·특수병 병영의 가치와 필수화 위험 비교.
-3. 5개 특수병 결과 저장·복구·재추첨 방지 QA 설계.
-4. 승인된 수치 후 Codex 구현 계획과 RED 테스트 작성.
-5. 제품 구현 후 12개 온보딩 시나리오와 20명 사람 검증 실행.
+2026-08-10 11:57 KST 사용자가 이 HiGodot 진단부터 이후 작업을 나중에 다시 진행하고 현재는 인수인계 작업으로 전환하도록 요청했다.
 
-책임 원본:
+```text
+RUNTIME_EXECUTION = PAUSED_BY_USER
+FULL_ISSUE176_CHILD_AFTER_PAUSE = NOT_RUN
+PRODUCT_MUTATION_AFTER_PAUSE = NONE
+RUNTIME_BRANCH_MUTATION_BY_HANDOFF = NONE
+```
 
-- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
-- `docs/design/APPROVED_OMENWARD_ONBOARDING_COMPLETION_MINIMUM_VALID_PATHS_AND_HUMAN_STOP_SHIP_2026-08-06.md`
-- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
-- `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
-- `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
-- `docs/APPROVED_PC_ANDROID_PHASE2_GAME_SESSION_DECOUPLING_2026-08-06.md`
+## 재개 시 next executable step
+
+full executor보다 먼저 하나의 same-snapshot read-only 진단을 실행한다.
+
+1. PID `29616` current process + exact OMENWARD command line.
+2. PID `29616` current ESTABLISHED WS9500.
+3. Godot-AI connection/handshake/auth/4003/reconnect/session log lines.
+4. 즉시 `session_manage(op=list)`.
+
+```text
+LIVE_EXACT_OMENWARD + WS9500 + REGISTRY_OMISSION
+=> RECOVERABLE_HIGODOT_SAME_SERVER_HANDSHAKE_REGISTRATION_BLOCKER
+
+PROCESS_OR_WS_MISSING
+=> current process/transport blocker로 재분류
+
+EXACT_OMENWARD_SESSION_PRESENT
+=> Issue176 NonInteractive executor 재개
+```
+
+## 보호 경계
+
+- shared Godot-AI server와 다른 프로젝트 editor를 종료하지 않는다.
+- root-cause 증거 전에 executor/session-selection logic을 패치하지 않는다.
+- `core.autocrlf`, `.gitattributes`, PowerShell ExecutionPolicy, sandbox/permission, Godot version gate를 변경/우회하지 않는다.
+- persistent Godot/GDScript/GUT authoring은 HiGodot/Godot AI MCP만 사용한다.
+- GUT RED→GREEN 이후에 Hera live QA를 실행하고 tracked-source delta NONE을 요구한다.
+- unavailable metric은 literal `BLOCKED_RUNTIME_OUTPUT`을 유지한다.
+- final weighted FV scalar/vector/product numerics를 선택하지 않는다.
+
+## 플랫폼·출시 경계
+
+기존 Phase 0~2 platform-contract evidence와 planning canon은 이 runtime package/handoff로 변경되지 않는다. 대표 PC/Android build, export, store integration, human QA는 별도 증거가 없는 한 `NOT_RUN` 상태를 유지한다.
