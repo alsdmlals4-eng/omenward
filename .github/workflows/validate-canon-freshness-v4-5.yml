@@ -71,6 +71,7 @@ jobs:
       - name: Compile canon freshness contracts
         run: |
           python -m py_compile \
+            tools/validate_canon_freshness_v45_scope.py \
             tests/python/test_canon_freshness_v45_routing.py \
             tests/python/test_canon_freshness_v45_scope.py
 
@@ -79,6 +80,13 @@ jobs:
 
       - name: Run fail-closed canon scope contract
         run: python -m unittest tests.python.test_canon_freshness_v45_scope -v
+
+      - name: Validate exact PR file surface
+        if: github.event_name == 'pull_request'
+        run: |
+          python tools/validate_canon_freshness_v45_scope.py \
+            --base "origin/${GITHUB_BASE_REF}" \
+            --head HEAD
 
       - name: Check whitespace
         run: git diff --check
