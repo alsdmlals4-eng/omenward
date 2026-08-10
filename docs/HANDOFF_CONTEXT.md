@@ -1,108 +1,195 @@
 # [현행] OMENWARD 프로젝트 인수인계 컨텍스트
 
 ```yaml
-updated_at: 2026-08-06
+updated_at: 2026-08-10T11:57:00+09:00
 project: OMENWARD / 오멘워드
-work_mode: TOTAL_PLANNING
-phase: POST_ONBOARDING_SIMULATION_PLANNING
-current_planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-latest_amendment: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
-pr142_merge: 1c646c2d764d0df43545e00b914189ed46cf1bd4
-current_grill_me_count: 0_OF_10
-next_gate: BARRACKS_ECONOMY_PRODUCTION_AND_TOKEN_SOURCE_SIMULATION_CONTRACT
-product_code_authority: NONE
-simulation: NOT_RUN
-runtime: NOT_RUN
-human_qa: NOT_RUN
-local_godot_project: UNCHANGED
+handoff_reason: USER_REQUESTED_DEFER_RUNTIME_DIAGNOSIS_AND_RESUME_LATER
+main_sha: 87339f87949c8faea0dfe1482c5d0887a04d94f4
+active_runtime_branch: runtime/barracks-role-output-implementation-20260809
+active_runtime_head: b014a8445423fc9a485fb413429a8127991143e4
+active_pr: 175
+active_issue: 176
+handoff_branch: docs/handoff-pr175-issue176-pause-20260810
+current_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+approval_state: SAME_APPROVED_SCOPE_NO_REAPPROVAL
+planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
+runtime_status: PAUSED_BY_USER_FOR_HANDOFF
+blocker: RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
+next_executable_step: SAME_SNAPSHOT_HIGODOT_PROCESS_WS_REGISTRY_DIAGNOSTIC
+user_decision_needed: NO_FOR_SAME_APPROVED_SCOPE
 ```
 
-## 먼저 읽을 문서
+## 먼저 읽을 순서
 
-1. `PROJECT_CORE.md`
-2. `ACTIVE_CONTEXT.md`
-3. `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-4. `CURRENT_IMPLEMENTATION_STATUS.md`
-5. `PROJECT_CANON_DECISION_LEDGER.md`
-6. `DECISIONS_PENDING.md`
-7. `design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
-8. `design/APPROVED_OMENWARD_ONBOARDING_COMPLETION_MINIMUM_VALID_PATHS_AND_HUMAN_STOP_SHIP_2026-08-06.md`
+새 세션에서는 이 문서를 과거 사실의 locator로 사용하되 GitHub/Sheet보다 높은 정본으로 취급하지 않는다.
 
-충돌 시 `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`의 우선순위를 따른다.
+1. OMENWARD repository default branch와 최신 `main` SHA
+2. open PR 전체, 특히 Draft PR #175
+3. Issue #176 본문과 최신 댓글
+4. Base repository root/current `main`/open PR
+5. 프로젝트 Google Sheet `00_프로젝트_허브!J2:L2`, 최신 `04_누락_충돌_감사`, 최신 `99_변경이력`
+6. `PROJECT_CORE.md`
+7. `ACTIVE_CONTEXT.md`
+8. `DOCUMENT_LIFECYCLE_REGISTRY.md`
+9. `CURRENT_IMPLEMENTATION_STATUS.md`
+10. PR #175 changed files/CI/review state가 필요할 때만 추가 확인
 
-## 핵심 재미
+저장된 SHA나 PID가 current truth와 다르면 먼저 stale state를 교정하고 과거 명령을 그대로 재실행하지 않는다.
 
-> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
+## 현재 baseline
 
 ```text
-예고된 압력
-→ T1 기초 구축·T2 발전 선택
-→ 자동생산·TokenSource·연구 선택
-→ 룰렛 결과와 비가역 전선 커밋
-→ 마력 기반 수동 전술
-→ 설명 가능한 결과·다음 설계
+OMENWARD_MAIN = 87339f87949c8faea0dfe1482c5d0887a04d94f4
+OMENWARD_DEFAULT_BRANCH = main
+ACTIVE_RUNTIME_BRANCH = runtime/barracks-role-output-implementation-20260809
+ACTIVE_RUNTIME_HEAD = b014a8445423fc9a485fb413429a8127991143e4
+PR175 = OPEN / DRAFT / PR_REVISE
+ISSUE176 = OPEN
+BASE_MAIN = 637dad32c773c56a27d44d847518580848dee493
+BASE_BCP011 = IMPLEMENTED / PR231+PR232 MERGED
 ```
 
-## 현행 병영 구조
+현재 OMENWARD open PR은 #175 하나다. Base의 현재 open backlog에는 #137 Draft, #136 Ready 및 dependency PR들이 있으며 현재 Issue #176 handoff와 직접 같은 Goal의 Base open PR은 확인되지 않았다.
+
+## 승인·권위
 
 ```text
-GENERAL_T1 = BASIC_INFANTRY_AUTO_PRODUCTION + BASIC_INFANTRY_TOKEN_SOURCE
-GENERAL_T2 = SELECTED_GENERAL_UNIT_AUTO_PRODUCTION + SELECTED_GENERAL_UNIT_TOKEN_SOURCE
-GENERAL_T2_BRANCHES = SHIELD / GREATSWORD / SPEAR / ARCHER / CAVALRY
-
-SPECIAL_T1_SELECTION = ONE_RANDOM_RESULT_ON_SUCCESSFUL_CONSTRUCTION_COMMIT
-SPECIAL_T1_REVEAL = IMMEDIATE
-SPECIAL_T1_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
-SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_PATHS = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS
-SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
-SPECIAL_T1_FREE_REROLL = FORBIDDEN
-SPECIAL_T2 = SELECTED_SPECIAL_UNIT_AUTO_PRODUCTION + SELECTED_SPECIAL_UNIT_TOKEN_SOURCE
-SPECIAL_T2_BRANCHES = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
+DECISION = OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+PARENT_EXECUTOR = #174
+FOLLOW_UP_PACKET = #176
+IMPLEMENTATION_PR = #175
+SAME_APPROVED_SCOPE = REUSE_APPROVAL
+NEW_PRODUCT_DECISION = NONE
 ```
 
-기존 `SPECIAL_T1_TOKEN_SOURCE = NONE` 문구는 역사 증거이며 구현 입력 금지다.
+Issue #176의 일곱 runtime/fixture gap은 이미 승인된 동일 package다. 재개할 때 같은 범위에 대해 재승인을 요청하지 않는다.
 
-## 첫 10~15분 완료 정본
+## 지금까지 완료된 검증
+
+### Current tooling/executor head `b014a844...`
 
 ```text
-STATUS = MAIN_CANONICAL_APPROVED_10_OF_10
-FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
-STAGE_1 = SIX_REQUIRED_T1_AND_FIRST_IRREVERSIBLE_DEPLOYMENT
-STAGE_2 = SHIELD_OR_ARCHER_T2_AND_ROULETTE_CONTROL
-STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
-STAGE_4 = FIRST_DANGER_INTEGRATION
-STAGE_5 = FIRST_BOSS_MASTERY_CHECK
-MINIMUM_VALID_PATHS = SHIELD_NO_SPECIAL / ARCHER_NO_SPECIAL
-INTERNAL_QA_MATRIX = 12_SCENARIOS
-FIRST_TIME_HUMAN_SAMPLE = MINIMUM_20
-PRODUCT_IMPLEMENTATION = NOT_STARTED
+contracts_pr = 69/69 PASS
+whitespace = PASS
+Godot 4.7.1 import = PASS
+headless contract tests = PASS
+runtime smoke = PASS
+exact-head Actions = 7 SUCCESS / 4 FAILURE
+product/Godot-path delta from c30935df to b014a844 = NONE
 ```
 
-완료 판정은 Stage 1~5 필수 행동, 실제 Boss 처치, 결과 인과 요약 확인, 완료 플래그·첫 보상·표준 Run·전체 스킵의 원자 저장을 모두 요구한다.
+네 failure는 현재 승인된 runtime 전환을 막는 durable transition gate이며 이 handoff에서 수정하지 않는다.
 
-## 미구현·미검증 경계
+### Last completed runtime evidence head `621ae7ce...`
 
 ```text
-EXACT_BUILD_COSTS = PENDING_SIMULATION
-GENERAL_AND_SPECIAL_PRODUCTION_INTERVALS = PENDING_SIMULATION
-TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
-SPECIAL_T1_SELECTION_WEIGHTS = PENDING_SIMULATION
-DEFENSE_TOWER_T3_DETAILS = PENDING_DESIGN
-FULL_PYTHON_SUITE = NOT_RUN
-GODOT_TESTS_FOR_PR142 = NOT_RUN
-TWELVE_SCENARIO_QA = NOT_RUN
-FIRST_TIME_HUMAN_QA = NOT_RUN
-GITHUB_ACTIONS_GREEN = NOT_PROVEN
+GUT RED = 10 discovered / 1 pass / 9 intended fail
+Godot 4.7.1 import = PASS
+GUT GREEN = 10/10 / 52 assertions
+existing headless regressions = 13/13 PASS
+five FV-labelled smoke scenarios x2 = identical raw outputs
+blocked metrics = literal BLOCKED_RUNTIME_OUTPUT
+Hera tracked-source delta = NONE
+simulation sidecars = NONE
+final weighted FV scalar/vector/product numerics = NOT_SELECTED
 ```
 
-## 다음 작업
+이 evidence는 `621ae7ce80f24b1e5a9d13ba4fc1962bec42dd96`에 대한 과거 evidence이며 adversarial review에서 일곱 package-completeness gap이 발견되었으므로 merge-complete 증거가 아니다.
 
-병영 수치 시뮬레이션 계약을 작성한다. 일반병·특수병 건설비, 자동생산 간격, TokenSource 공급 수량·가중치, 특수병 기능 우위의 비용·시간 보정을 함께 검증한다. 특수병 병영이 자동생산·룰렛 공급·병종 전문성을 동시에 독점하는 필수 건물이 되면 Stop-ship이다.
+## 남은 승인된 7개 runtime/fixture gap
 
-## 변경 금지 경계
+1. Priest encouragement: provisional 5s attack-speed +8%, start/end events, support uptime, timing regression.
+2. deterministic fallback 보존; 모든 support-role을 일괄 intercept하지 않는다.
+3. `flying`은 priority이며 universal permission boundary가 아니다.
+4. `cluster` density tie-break는 lane order/unit-id를 사용한다.
+5. Giant collector에 `FRONTLINE_SURVIVAL_TIME`, `STRUCTURE_DAMAGE`; unavailable을 fake-zero로 만들지 않는다.
+6. registered fixtures FV-PRIEST/MAGE/FLIER/GIANT/COMMON.
+7. true `TARGETS_HIT_PER_CAST` + multi-cast coverage.
 
-- 별도 승인 전 GDScript·Scene·Resource·Data를 수정하지 않는다.
-- `C:/Users/user/Documents/GitHub/Ninza/omenward` 로컬 프로젝트를 이 문서 작업에서 수정하지 않는다.
-- bounded 문서 계약 PASS를 전체 제품 Green으로 확대하지 않는다.
+## 현재 HiGodot blocker까지의 사실
+
+가장 최근 lightweight `session_manage(op=list)` 결과:
+
+```text
+session = task7-circuit-placement-screen@63aa
+project = C:/Users/user/Documents/GitHub/Ninza/GRIMOIRE-/.worktrees/task7-circuit-placement-screen/
+Godot = 4.7.1-stable (official)
+editor_pid = 16652
+readiness = ready
+is_active = true
+OMENWARD_SESSION = ABSENT
+```
+
+그 직전 exact OMENWARD 재현에서는 GUI PID `29616`과 console PID `10512`가 15초 이상 살아 있었고 exact OMENWARD project root를 대상으로 했으며 GUI PID `29616`에 ESTABLISHED WS9500 연결이 확인됐다. Godot stdout에는 Godot AI/GUT/OMENWARD resource loading이 보였고 stderr tail은 비어 있었다.
+
+두 증거가 몇 분 떨어져 있으므로 현재 판정은 다음이다.
+
+```text
+RECOVERABLE_HIGODOT_REGISTRY_OMISSION_AFTER_RECENT_LIVE_WS
+SAME_SERVER_HANDSHAKE_REGISTRATION_FAILURE = NOT_YET_CONFIRMED
+```
+
+## 재개 시 첫 실행 — full executor보다 먼저
+
+한 시점에서 다음 네 가지를 묶어 read-only로 확인한다.
+
+1. PID `29616`이 여전히 존재하는지와 exact OMENWARD `--editor --path` command line.
+2. PID `29616`이 WS9500 ESTABLISHED connection을 소유하는지.
+3. 최근 Godot-AI connection/handshake/auth/4003/reconnect/session 로그.
+4. 즉시 `godot-ai session_manage(op=list)` 전체 결과.
+
+판정:
+
+```text
+PID29616 live + exact root + WS9500 established + OMENWARD registry absent
+=> RECOVERABLE_HIGODOT_SAME_SERVER_HANDSHAKE_REGISTRATION_BLOCKER
+
+PID29616 missing or WS9500 absent
+=> current process/transport blocker로 재분류
+
+exact OMENWARD root + PID29616 + Godot4.7.1 session present
+=> blocker self-recovered; Issue176 NonInteractive executor 재개
+```
+
+## 재개 후 runtime 실행 순서
+
+세션 blocker가 해소된 경우에만:
+
+```text
+Issue176 NonInteractive executor
+→ exact-project HiGodot/Godot4.7.1 preflight
+→ actual GUT RED (>0 tests)
+→ HiGodot-only persistent runtime/GUT fixes
+→ GUT GREEN
+→ existing regressions
+→ registered FV fixtures x2 identical raw outputs
+→ Hera live QA with tracked-source delta NONE
+→ structured READY_TO_COMMIT
+→ parent commit/push on runtime branch
+```
+
+## 변경 금지·보호 경계
+
+- shared Godot-AI server를 OMENWARD 복구 목적으로 종료하지 않는다.
+- 다른 live Godot/GRIMOIRE/urban-legend editor를 OMENWARD 복구 목적으로 종료하지 않는다.
+- root-cause evidence 전에 executor/session-selection/product logic을 패치하지 않는다.
+- `core.autocrlf`, `.gitattributes`, PowerShell ExecutionPolicy, sandbox/permission, Base worktree gate, Godot version gate를 우회하지 않는다.
+- persistent Godot/GDScript/GUT authoring은 HiGodot/Godot AI MCP만 사용한다.
+- Hera는 Green 이후 live QA에만 사용하고 tracked-source delta NONE을 요구한다.
+- final weighted FV scalar/vector/product numerics를 선택하지 않는다.
+- unavailable metric은 숫자 0 대신 literal `BLOCKED_RUNTIME_OUTPUT`을 유지한다.
+- simulation CSV `.csv.import`/`.translation` sidecar를 만들지 않는다.
+
+## 현재 중단 사유와 종료 상태
+
+```text
+USER_REQUEST = 이 부분부터는 나중에 다시 작업하고 지금은 인수인계 진행
+TECHNICAL_WORK_AFTER_REQUEST = STOPPED
+RUNTIME_BRANCH_MUTATION_BY_HANDOFF = NONE
+PRODUCT_MUTATION_BY_HANDOFF = NONE
+HANDOFF_DOCS = SEPARATE_DOCS_ONLY_BRANCH
+FULL_EXECUTOR_AFTER_HANDOFF = NOT_RUN
+HUMAN_QA = NOT_RUN
+```
+
+다음 세션은 사용자가 이전 진단 내용을 다시 설명하도록 요구하지 말고 위 fresh-read 순서로 현재 truth를 재구성한 뒤, 새 사용자 Decision이 없다면 승인된 동일 범위의 first executable diagnostic부터 이어서 진행한다.
