@@ -1,7 +1,7 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-10T13:11:00+09:00
+updated_at: 2026-08-10T13:15:00+09:00
 project: OMENWARD / 오멘워드
 main_sha: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
@@ -110,11 +110,11 @@ base_existing_solution_verdict: REUSE_BCP_2026_013
 project_named_evidence_title: BCP - OMENWARD
 project_named_evidence_pr: 243
 project_named_evidence_pr_state: OPEN_DRAFT
-project_named_evidence_branch_base: c14e4e841171a98e2471cbe7ff94afe4d55501fb
-project_named_evidence_head: 0aa98a4bbab16ab97aaa6566bdaeff7b08ff4922
+project_named_evidence_branch_creation_base: c14e4e841171a98e2471cbe7ff94afe4d55501fb
+project_named_evidence_refreshed_base: d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
+project_named_evidence_head: 0fc5c6d193c26f1cc6145e29b5dbfe1141c9ded8
 project_named_evidence_scope: ONE_FILE_PROPOSAL_ONLY
 project_named_evidence_validation: SUCCESS
-base_race_after_pr243_creation: d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
 base_race_change: PR244_BCP014_WORDING_PROPOSAL_ONLY_NONOVERLAP
 new_canonical_bcp_from_omenward: NO
 proposal_registry_change_from_omenward: NONE
@@ -124,11 +124,11 @@ other_project_changes_preserved: true
 
 Base PR #235의 BCP-013은 이미 proposal-only로 main에 병합되었다. 사용자 규칙에 따라 OMENWARD의 human/project evidence는 `BCP - OMENWARD`로 이름 붙였고, 새 canonical BCP를 만들지 않고 기존 BCP-013 evidence에 연결했다.
 
-Base Draft PR #243의 정확한 delta는 다음 한 파일뿐이다.
+Base Draft PR #243의 정확한 diff는 다음 한 파일뿐이다.
 
 `[수정제안서]/BCP-2026-013-post-merge-continuation-state-reconciliation/evidence/BCP-OMENWARD.md`
 
-PR #243 생성 직후 Base main은 `c14e4e84...`에서 `d5cfcfa9...`로 전진했다. 새 main 변화는 PR #244의 `[수정제안서]/BCP-2026-014-handoff-machine-consumer-compatibility-closeout/PROPOSAL.md` 한 파일 proposal-only 문구 정정이며 PR #243의 BCP-013 evidence 파일과 경로가 겹치지 않는다. 따라서 다른 프로젝트 변경을 보존하고 PR #243을 Draft evidence-only로 유지한다.
+PR #243 생성 직후 Base main은 `c14e4e84...`에서 `d5cfcfa9...`로 전진했다. 새 main 변화는 PR #244의 `[수정제안서]/BCP-2026-014-handoff-machine-consumer-compatibility-closeout/PROPOSAL.md` 한 파일 proposal-only 문구 정정이며 PR #243의 BCP-013 evidence 파일과 경로가 겹치지 않았다. 현재 main을 PR #243 branch에 비충돌 통합한 뒤에도 diff는 BCP-OMENWARD evidence 한 파일이고 exact-head Base validation은 SUCCESS다.
 
 OMENWARD가 추가로 제공하는 reusable use-condition은 다음이다: continuation locator 자체를 병합하면 active exact-head implementation PR이 불필요하게 stale/behind가 되는 경우 locator를 `REFERENCE_ONLY / DO_NOT_MERGE`로 유지하고, live router는 fresh repository truth에서 reconcile할 수 있다.
 
