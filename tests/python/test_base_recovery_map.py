@@ -5,6 +5,8 @@ import subprocess
 import unittest
 from pathlib import Path
 
+from tools.git_canonical_evidence import git_tracked_paths_utf8
+
 ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / "docs/operations/BASE_WHOLE_REPOSITORY_AND_SKILL_MAP.v1.json"
 WORKFLOW = ROOT / ".github/workflows/validate-omenward-core.yml"
@@ -163,9 +165,7 @@ class BaseRecoveryMapContract(unittest.TestCase):
             ["git", "-C", str(BASE_CHECKOUT), "rev-parse", "HEAD"], text=True
         ).strip()
         self.assertEqual(head, BASE_SHA)
-        tracked = subprocess.check_output(
-            ["git", "-C", str(BASE_CHECKOUT), "-c", "core.quotepath=false", "ls-files"], text=True
-        ).splitlines()
+        tracked = git_tracked_paths_utf8(BASE_CHECKOUT)
         self.assertGreater(len(tracked), 0)
         classified = {path: classify_base_path(path) for path in tracked}
         unclassified = [path for path, category in classified.items() if category is None]

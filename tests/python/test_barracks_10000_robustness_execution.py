@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-import hashlib
 import importlib.util
 import json
 from pathlib import Path
 import unittest
+
+from tools.git_canonical_evidence import git_blob_sha256
 
 ROOT = Path(__file__).resolve().parents[2]
 ANALYSIS = ROOT / "docs" / "analysis" / "barracks_simulation"
@@ -23,7 +24,7 @@ RESULT_CSV_SHA = "e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e
 
 
 def file_sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return git_blob_sha256(ROOT, path)
 
 
 def load_runner():

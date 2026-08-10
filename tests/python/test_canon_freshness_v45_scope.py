@@ -43,6 +43,17 @@ POSTMERGE_CI_REMEDIATION = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
+WINDOWS_CANONICAL_EVIDENCE_PORTABILITY = {
+    "tests/python/test_barracks_10000_robustness_execution.py",
+    "tests/python/test_barracks_conditional_fail_remediation.py",
+    "tests/python/test_base_recovery_map.py",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_git_canonical_evidence.py",
+    "tools/git_canonical_evidence.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
 POSTMERGE_EVIDENCE_CLOSURE = {
     "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
     "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json",
@@ -69,6 +80,11 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(POSTMERGE_CI_REMEDIATION), [])
+
+    def test_windows_canonical_evidence_portability_surface_passes(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(WINDOWS_CANONICAL_EVIDENCE_PORTABILITY), [])
 
     def test_postmerge_evidence_closure_surface_passes(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
@@ -111,6 +127,14 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         without_canonical = ACTIVATION - {CANONICAL_V45_R2}
         errors = module.validate_canon_freshness_scope(without_canonical)
         self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
+
+    def test_partial_windows_portability_scope_is_rejected(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        errors = module.validate_canon_freshness_scope(
+            WINDOWS_CANONICAL_EVIDENCE_PORTABILITY - {"tests/python/test_base_recovery_map.py"}
+        )
+        self.assertTrue(any("missing required v4.5 Windows canonical evidence portability anchors" in error for error in errors), errors)
 
     def test_partial_postmerge_closure_is_rejected(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
