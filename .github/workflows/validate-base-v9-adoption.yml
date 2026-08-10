@@ -7,14 +7,18 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
-      - run: python -m unittest tests.test_base_v9_adoption
+      - run: |
+          python -m unittest tests.test_base_v9_adoption
+          python -m unittest tests.python.test_runtime_transition_scope
   adversarial-gate:
     needs: ci-gate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
-      - run: |
-          git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" > changed.txt
-          if grep -E '^(scripts/|scenes/|data/|assets/|addons/|project\.godot$)' changed.txt; then exit 1; fi
+      - name: Enforce approved runtime transition scope
+        run: |
+          python tools/validate_runtime_transition_scope.py \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}"
           test -f skills/BASE_V9_ADAPTER.json
