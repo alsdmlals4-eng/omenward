@@ -3,12 +3,14 @@
 ```yaml
 updated_at: 2026-08-11
 decision_id: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+instruction_canon_activation_decision_id: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION
 contract_version: "4.5"
 contract_revision: 2026-08-11-r2
 contract_status: ACTIVE_BASE_CURRENT_MAIN_THIN_ADAPTER_GODOT_DELIVERY_CONTRACT
 binding_status: ACTIVE
 adapter_policy: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
+canonical_instruction_source: docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md
 common_work_authority: alsdmlals4-eng/Base@315c66eea9614c284b9c11c4d522141065dfa4b0
 project_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 project_local_path: C:/Users/user/Documents/GitHub/Ninza/omenward
@@ -31,9 +33,20 @@ Base 공통 운영 절차·Skill·검증 규칙
 OMENWARD 고유 경로·Decision·게임 정본·Sheet·보호 경계
 → OMENWARD current canon
 
-사용자 제공 v4.5 r2
+GitHub full canonical v4.5 r2
+→ docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md
 → 프로젝트 단계·Thin Adapter·승인/동기화/Phase Gate
 ```
+
+업로드된 v4.5 r2 원문의 조직·용어·세부 계약을 GitHub full canonical source로 보존한다. 원문에 남아 있던 Switchy Express 프로젝트 경로 3곳은 사용자의 최신 OMENWARD 프로젝트 입력과 충돌했으므로 다음 값으로만 교정했다.
+
+```text
+project_local_path = C:/Users/user/Documents/GitHub/Ninza/omenward
+canonical_local_checkout = C:/Users/user/Documents/GitHub/Ninza/omenward
+godot_project_path = C:/Users/user/Documents/GitHub/Ninza/omenward
+```
+
+이 교정의 승인 Decision은 `OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1`이다.
 
 Base와 충돌하는 공통 절차는 Base current가 우선한다. OMENWARD 고유 값과 사용자 승인 범위는 이 바인딩과 프로젝트 정본이 우선한다.
 
@@ -109,6 +122,10 @@ tests/python/test_active_integrated_contract_v4_4.py
 v4.5 activation은 이들의 과거 SHA·Gate를 소급 수정하지 않는다.
 
 ## 6. Current state owner
+
+Full instruction canon:
+
+`docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md`
 
 Machine-readable current routing:
 
