@@ -1,7 +1,7 @@
 # [현행] 오멘워드 현재 구현 상태
 
 ```yaml
-updated_at: 2026-08-10T13:06:00+09:00
+updated_at: 2026-08-10T13:11:00+09:00
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
 current_runtime_authority: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
@@ -122,15 +122,18 @@ NON_GODOT_TRANSITION_CI_RECONCILIATION = COMPLETE
 Fresh Base truth:
 
 ```text
-BASE_MAIN = c14e4e841171a98e2471cbe7ff94afe4d55501fb
+BASE_MAIN = d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
 BCP013 = BCP-2026-013-post-merge-continuation-state-reconciliation
 BCP013_PR235 = MERGED_PROPOSAL_ONLY
 BCP013_MERGE_SHA = 3ff790116bc08f49e126cd286ec453bf6e46376e
 EXISTING_SOLUTION_VERDICT = REUSE_BCP_2026_013
 PROJECT_EVIDENCE_NAME = BCP - OMENWARD
 BASE_EVIDENCE_PR243 = OPEN_DRAFT
+BASE_EVIDENCE_BRANCH_BASE = c14e4e841171a98e2471cbe7ff94afe4d55501fb
 BASE_EVIDENCE_HEAD = 0aa98a4bbab16ab97aaa6566bdaeff7b08ff4922
 BASE_EVIDENCE_CHANGED_FILES = 1
+BASE_EVIDENCE_VALIDATION = SUCCESS
+BASE_RACE_AFTER_PR243_CREATION = PR244_BCP014_WORDING_PROPOSAL_ONLY_NONOVERLAP
 PROPOSAL_REGISTRY_CHANGE = NONE
 ACTIVE_BASE_IMPLEMENTATION = NOT_AUTHORIZED_BY_THIS_STAGE
 ```
@@ -140,6 +143,8 @@ ACTIVE_BASE_IMPLEMENTATION = NOT_AUTHORIZED_BY_THIS_STAGE
 Base Draft PR #243의 정확한 파일은 다음 하나다.
 
 `[수정제안서]/BCP-2026-013-post-merge-continuation-state-reconciliation/evidence/BCP-OMENWARD.md`
+
+PR #243 생성 이후 Base main이 `d5cfcfa9...`로 전진했지만, 새 변화는 다른 프로젝트 BCP-014의 proposal-only 문구 정정 한 파일이며 PR #243의 BCP-013 evidence와 겹치지 않는다. 따라서 다른 프로젝트의 변경을 보존하고 PR #243은 evidence-only Draft로 유지한다.
 
 다른 프로젝트의 open proposal PR과 `PROPOSAL_REGISTRY.json`은 변경하지 않는다. Base active Skill/Method/Template/Test/Workflow 구현은 별도 승인 단계다.
 
