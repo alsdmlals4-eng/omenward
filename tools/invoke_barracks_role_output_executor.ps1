@@ -133,10 +133,15 @@ try {
         throw "git fetch origin failed."
     }
 
-    $dirty = @(& git status --porcelain)
-    if ($dirty.Count -gt 0) {
-        Write-Host "Working tree has unrelated/local changes:" -ForegroundColor Yellow
-        $dirty | ForEach-Object { Write-Host "  $_" }
+    # Protect real local work by testing Git's content deltas instead of relying on
+    # porcelain/stat state alone. Windows core.autocrlf can leave a tracked file
+    # reported as modified even when its filtered worktree blob is identical to HEAD.
+    $stagedDirtyProbe = Invoke-ExpectedNativeProbe { & git diff --cached --quiet --ignore-submodules -- }
+    $unstagedDirtyProbe = Invoke-ExpectedNativeProbe { & git diff --quiet --ignore-submodules -- }
+    $untrackedDirty = @(& git ls-files --others --exclude-standard)
+    if ($stagedDirtyProbe -ne 0 -or $unstagedDirtyProbe -ne 0 -or $untrackedDirty.Count -gt 0) {
+        Write-Host "Working tree has actual staged/unstaged content changes or untracked files:" -ForegroundColor Yellow
+        & git status --short
         throw "Refusing to discard or mix existing local work. Isolate/stash it intentionally, then run again."
     }
 
