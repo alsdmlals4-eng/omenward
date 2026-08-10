@@ -1,7 +1,7 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-10T13:06:00+09:00
+updated_at: 2026-08-10T13:11:00+09:00
 project: OMENWARD / 오멘워드
 main_sha: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
@@ -61,7 +61,7 @@ LAST_KNOWN_LOCAL_TECHNICAL_BOUNDARY
 - evidence was separated by minutes, so SAME_SERVER_HANDSHAKE_REGISTRATION_FAILURE is not proven
 
 READY_NEXT_WHEN_HIGODOT_LOCAL_OBSERVABILITY_IS_AVAILABLE
-- same-snapshot process + WS9500 + Godot-AI handshake/auth/reconnect log + immediate session_manage list
+- same-snapshot current exact process + WS9500 + Godot-AI handshake/auth/reconnect log + immediate session_manage list
 ```
 
 ## b014 → bde transition CI reconciliation
@@ -101,7 +101,7 @@ CI Green은 Issue #176 runtime 구현 완료를 뜻하지 않는다. 실제 제�
 ## Base current / project-named BCP evidence
 
 ```yaml
-base_main_seen: c14e4e841171a98e2471cbe7ff94afe4d55501fb
+base_main_seen: d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
 base_existing_solution: BCP-2026-013-post-merge-continuation-state-reconciliation
 base_existing_solution_pr: 235
 base_existing_solution_pr_state: MERGED_PROPOSAL_ONLY
@@ -110,8 +110,12 @@ base_existing_solution_verdict: REUSE_BCP_2026_013
 project_named_evidence_title: BCP - OMENWARD
 project_named_evidence_pr: 243
 project_named_evidence_pr_state: OPEN_DRAFT
+project_named_evidence_branch_base: c14e4e841171a98e2471cbe7ff94afe4d55501fb
 project_named_evidence_head: 0aa98a4bbab16ab97aaa6566bdaeff7b08ff4922
 project_named_evidence_scope: ONE_FILE_PROPOSAL_ONLY
+project_named_evidence_validation: SUCCESS
+base_race_after_pr243_creation: d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
+base_race_change: PR244_BCP014_WORDING_PROPOSAL_ONLY_NONOVERLAP
 new_canonical_bcp_from_omenward: NO
 proposal_registry_change_from_omenward: NONE
 base_implementation_authority_in_this_stage: NOT_GRANTED_IN_THIS_STAGE
@@ -120,20 +124,22 @@ other_project_changes_preserved: true
 
 Base PR #235의 BCP-013은 이미 proposal-only로 main에 병합되었다. 사용자 규칙에 따라 OMENWARD의 human/project evidence는 `BCP - OMENWARD`로 이름 붙였고, 새 canonical BCP를 만들지 않고 기존 BCP-013 evidence에 연결했다.
 
-Base Draft PR #243의 정확한 intended delta는 다음 한 파일뿐이다.
+Base Draft PR #243의 정확한 delta는 다음 한 파일뿐이다.
 
 `[수정제안서]/BCP-2026-013-post-merge-continuation-state-reconciliation/evidence/BCP-OMENWARD.md`
 
+PR #243 생성 직후 Base main은 `c14e4e84...`에서 `d5cfcfa9...`로 전진했다. 새 main 변화는 PR #244의 `[수정제안서]/BCP-2026-014-handoff-machine-consumer-compatibility-closeout/PROPOSAL.md` 한 파일 proposal-only 문구 정정이며 PR #243의 BCP-013 evidence 파일과 경로가 겹치지 않는다. 따라서 다른 프로젝트 변경을 보존하고 PR #243을 Draft evidence-only로 유지한다.
+
 OMENWARD가 추가로 제공하는 reusable use-condition은 다음이다: continuation locator 자체를 병합하면 active exact-head implementation PR이 불필요하게 stale/behind가 되는 경우 locator를 `REFERENCE_ONLY / DO_NOT_MERGE`로 유지하고, live router는 fresh repository truth에서 reconcile할 수 있다.
 
-Base PR #243은 active Base implementation을 승인하거나 수행하지 않는다. 다른 프로젝트의 open proposal PR/Registry를 수정·병합하지 않는다.
+Base PR #243은 active Base implementation을 승인하거나 수행하지 않는다. 다른 프로젝트의 proposal PR/Registry를 수정·병합하지 않는다.
 
 ## 재개 시 첫 실행
 
 1. OMENWARD `main`, PR #175, PR #177, Issue #176을 fresh-read한다.
 2. Base `main`, BCP-013 상태, open proposal PR, `BCP - OMENWARD` PR #243을 fresh-read한다.
 3. Google Sheet hub/latest audit/latest history/Base candidate row를 fresh-read한다.
-4. full executor보다 먼저 한 시점에서 exact OMENWARD process/command line + ESTABLISHED WS9500 + Godot-AI connection/handshake/auth/4003/reconnect/session log + immediate `session_manage(op=list)`를 확인한다.
+4. full executor보다 먼저 한 시점에서 current exact OMENWARD process/command line + ESTABLISHED WS9500 + Godot-AI connection/handshake/auth/4003/reconnect/session log + immediate `session_manage(op=list)`를 확인한다.
 5. exact OMENWARD session present → Issue #176 NonInteractive executor 재개.
 6. live exact OMENWARD + WS9500 + registry omission → `RECOVERABLE_HIGODOT_SAME_SERVER_HANDSHAKE_REGISTRATION_BLOCKER`로 확정하고 handshake/registration만 진단.
 7. process/WS missing → current process/transport blocker로 재분류하고 사유는 검증 전 추정하지 않는다.
