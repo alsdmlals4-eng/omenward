@@ -48,6 +48,15 @@ jobs:
         with:
           show-progress: false
 
+      - name: Check out historical Base recovery fixture
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: alsdmlals4-eng/Base
+          ref: fa69a77a14f923a756064f6ae151d34cadb374f7
+          path: _base_recovery
+          fetch-depth: 1
+          show-progress: false
+
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
