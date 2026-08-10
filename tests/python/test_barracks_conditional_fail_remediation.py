@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-import hashlib
 import json
 import unittest
 from pathlib import Path
+
+from tools.git_canonical_evidence import git_blob_sha256
 
 ROOT = Path(__file__).resolve().parents[2]
 DECISION = "OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1"
@@ -62,8 +63,8 @@ class BarracksConditionalFailRemediationTests(unittest.TestCase):
         self.assertEqual([], result["failed_gates"])
         self.assertEqual(2000, result["seed_count"])
         self.assertAlmostEqual(0.333333, result["baseline_vector"]["primary_kpis"]["SPECIAL_TOKEN_SHARE_BURST_MAX"], places=6)
-        json_hash = hashlib.sha256(RESULT_JSON.read_bytes()).hexdigest()
-        csv_hash = hashlib.sha256(RESULT_CSV.read_bytes()).hexdigest()
+        json_hash = git_blob_sha256(ROOT, RESULT_JSON)
+        csv_hash = git_blob_sha256(ROOT, RESULT_CSV)
         self.assertEqual("a02c4e0bad6a7113937fbd23f4521c364d109944c7f05c94eb5839b9119d00e2", json_hash)
         self.assertEqual("3b6a164a4ca847d29b82d73b3841100f246cdc36b9b86f30198bfcfe586f6560", csv_hash)
         self.assertIn(json_hash, authority)
