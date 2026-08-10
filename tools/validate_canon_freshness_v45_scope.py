@@ -55,13 +55,30 @@ POSTMERGE_CI_ALLOWED_FILES = {
 }
 POSTMERGE_CI_REQUIRED_ANCHORS = set(POSTMERGE_CI_ALLOWED_FILES)
 
+WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES = {
+    "tests/python/test_barracks_10000_robustness_execution.py",
+    "tests/python/test_barracks_conditional_fail_remediation.py",
+    "tests/python/test_base_recovery_map.py",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_git_canonical_evidence.py",
+    "tools/git_canonical_evidence.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS = set(WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES)
+
 POSTMERGE_EVIDENCE_ALLOWED_FILES = {
     "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
     "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json",
 }
 POSTMERGE_EVIDENCE_REQUIRED_ANCHORS = set(POSTMERGE_EVIDENCE_ALLOWED_FILES)
 
-APPROVED_FILES = ACTIVATION_ALLOWED_FILES | POSTMERGE_CI_ALLOWED_FILES | POSTMERGE_EVIDENCE_ALLOWED_FILES
+APPROVED_FILES = (
+    ACTIVATION_ALLOWED_FILES
+    | POSTMERGE_CI_ALLOWED_FILES
+    | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
+    | POSTMERGE_EVIDENCE_ALLOWED_FILES
+)
 
 
 def _normalize(paths: Iterable[str]) -> set[str]:
@@ -110,6 +127,13 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
             changed,
             POSTMERGE_CI_REQUIRED_ANCHORS,
             "postmerge CI remediation",
+        )
+
+    if changed <= WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES:
+        return _validate_required(
+            changed,
+            WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS,
+            "Windows canonical evidence portability",
         )
 
     if changed <= ACTIVATION_ALLOWED_FILES:
