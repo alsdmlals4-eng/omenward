@@ -83,6 +83,7 @@ def validate(root: pathlib.Path) -> list[str]:
         _reject(core, "validate_skill_system.py", "core workflow must not duplicate Skill validation", errors)
         pr_section = _section(core, "  contracts_pr:", "  contracts_full:")
         full_section = _section(core, "  contracts_full:", "  godot:")
+        project_checkout = _section(full_section, "    steps:\n", "      - name: Checkout exact Base recovery source")
         _reject(pr_section, "unittest discover", "core PR job must not run the full Python suite", errors)
         for test_name in (
             "tests.python.test_c1_roulette_contract",
@@ -94,6 +95,13 @@ def validate(root: pathlib.Path) -> list[str]:
             _require(pr_section, test_name, f"core PR job must run {test_name}", errors)
         _require(pr_section, "python tools/validate_ci_usage_contract.py", "core PR job must validate the CI usage contract", errors)
         _require(full_section, "unittest discover", "core full matrix must retain the full Python suite", errors)
+        _require(project_checkout, "fetch-depth: 0", "core full matrix must fetch project history", errors)
+        _require(
+            full_section,
+            "python -m pip install --disable-pip-version-check numpy",
+            "core full matrix must install numpy",
+            errors,
+        )
 
     if skill:
         _require(skill, "runs-on: ubuntu-latest", "Skill workflow must use ubuntu-latest", errors)

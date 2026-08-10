@@ -93,6 +93,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Checkout exact Base recovery source
         uses: actions/checkout@v4
         with:
@@ -103,6 +105,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install full-suite Python dependency
+        run: python -m pip install --disable-pip-version-check numpy
       - name: Compile Python contracts
         run: python -m py_compile tools/validate_c1_roulette.py tools/validate_c2_battle_objective.py tools/validate_c3_core_ux.py tools/validate_ci_usage_contract.py tests/python/test_c1_roulette_contract.py tests/python/test_c2_battle_objective_contract.py tests/python/test_c3_core_ux_contract.py tests/python/test_ci_usage_contract.py tests/python/test_base_recovery_map.py
       - name: Validate C1 roulette contract

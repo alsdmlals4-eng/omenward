@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the exact bounded file surface for the approved v4.5 canon-freshness transition."""
+"""Validate bounded activation and postmerge surfaces for the approved v4.5 canon transition."""
 from __future__ import annotations
 
 import argparse
@@ -11,7 +11,8 @@ HISTORICAL_V44_AUTHORITY = {
     "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
     "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
 }
-APPROVED_FILES = {
+
+ACTIVATION_ALLOWED_FILES = {
     ".github/workflows/validate-active-integrated-contract-v4-4.yml",
     ".github/workflows/validate-canon-freshness-v4-5.yml",
     "AGENTS.md",
@@ -36,7 +37,7 @@ APPROVED_FILES = {
     "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
-REQUIRED_ANCHORS = {
+ACTIVATION_REQUIRED_ANCHORS = {
     "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md",
     "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
     "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md",
@@ -45,6 +46,23 @@ REQUIRED_ANCHORS = {
     "tests/python/test_canon_freshness_v45_scope.py",
 }
 
+POSTMERGE_CI_ALLOWED_FILES = {
+    ".github/workflows/validate-omenward-core.yml",
+    "tests/python/test_ci_usage_contract.py",
+    "tools/validate_ci_usage_contract.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+POSTMERGE_CI_REQUIRED_ANCHORS = set(POSTMERGE_CI_ALLOWED_FILES)
+
+POSTMERGE_EVIDENCE_ALLOWED_FILES = {
+    "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
+    "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json",
+}
+POSTMERGE_EVIDENCE_REQUIRED_ANCHORS = set(POSTMERGE_EVIDENCE_ALLOWED_FILES)
+
+APPROVED_FILES = ACTIVATION_ALLOWED_FILES | POSTMERGE_CI_ALLOWED_FILES | POSTMERGE_EVIDENCE_ALLOWED_FILES
+
 
 def _normalize(paths: Iterable[str]) -> set[str]:
     return {path.strip().replace("\\", "/") for path in paths if path.strip()}
@@ -52,6 +70,13 @@ def _normalize(paths: Iterable[str]) -> set[str]:
 
 def _is_protected_product(path: str) -> bool:
     return path == "project.godot" or path.startswith(PROTECTED_PREFIXES)
+
+
+def _validate_required(changed: set[str], required: set[str], label: str) -> list[str]:
+    missing = sorted(required - changed)
+    if not missing:
+        return []
+    return [f"missing required v4.5 {label} anchors: {missing}"]
 
 
 def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
@@ -70,11 +95,31 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if unexpected:
         errors.append(f"v4.5 canon freshness transition contains unapproved files: {unexpected}")
 
-    missing = sorted(REQUIRED_ANCHORS - changed)
-    if missing:
-        errors.append(f"missing required v4.5 anchors: {missing}")
+    if errors:
+        return errors
 
-    return errors
+    if changed <= POSTMERGE_EVIDENCE_ALLOWED_FILES:
+        return _validate_required(
+            changed,
+            POSTMERGE_EVIDENCE_REQUIRED_ANCHORS,
+            "postmerge evidence",
+        )
+
+    if changed <= POSTMERGE_CI_ALLOWED_FILES:
+        return _validate_required(
+            changed,
+            POSTMERGE_CI_REQUIRED_ANCHORS,
+            "postmerge CI remediation",
+        )
+
+    if changed <= ACTIVATION_ALLOWED_FILES:
+        return _validate_required(
+            changed,
+            ACTIVATION_REQUIRED_ANCHORS,
+            "activation",
+        )
+
+    return ["v4.5 canon freshness transition did not match a recognized fail-closed scope mode"]
 
 
 def changed_files_from_git(base: str, head: str) -> list[str]:
