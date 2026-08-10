@@ -1,7 +1,7 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-10T14:08:00+09:00
+updated_at: 2026-08-10T14:47:00+09:00
 project: OMENWARD / 오멘워드
 main_sha: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
@@ -23,13 +23,17 @@ non_godot_ci_tool_test_reconciliation_after_b014: COMPLETE
 exact_head_actions_bde85549: 11_SUCCESS_0_FAILURE
 human_qa_after_bde85549: NOT_RUN
 full_issue176_child_after_bde85549: NOT_RUN
-base_main_seen: 59aadec796260ae200e776af35954174fc5bda46
-base_project_evidence: BCP - OMENWARD
-base_project_evidence_pr: 243
-base_project_evidence_pr_state: MERGED_PROPOSAL_EVIDENCE_ONLY
-base_project_evidence_merge_sha: 59aadec796260ae200e776af35954174fc5bda46
-base_project_evidence_post_merge_ci: SUCCESS
-base_project_evidence_post_merge_run: 31357359735
+base_main_seen: 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+base_project_source_proposal: BCP - OMENWARD
+base_project_source_proposal_id: BCP-2026-015-external-runtime-session-same-snapshot-recovery
+base_project_source_proposal_pr: 246
+base_project_source_proposal_state: MERGED_PROPOSAL_ONLY
+base_project_source_proposal_merge_sha: 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+base_project_source_proposal_post_merge_ci: SUCCESS
+base_project_source_proposal_post_merge_run: 31359540698
+base_bcp013_wrong_omenward_evidence: REMOVED
+base_bcp013_proposal_blob_preserved: 647b3033881d62f8a0cbcb1fdc3f00e3acc41a7d
+base_proposal_registry_change: ADD_BCP_2026_015_ONLY
 base_active_implementation_authority: NOT_GRANTED_IN_THIS_STAGE
 ```
 
@@ -39,7 +43,7 @@ base_active_implementation_authority: NOT_GRANTED_IN_THIS_STAGE
 - 승인된 runtime 구현 권위는 Draft PR #175 / Issue #176이다. 현재 PR #175 exact head는 `bde85549560fca90f7aa25fc4842bc0a3afb92e7`이다.
 - PR #177은 continuation locator이며 `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`다. 이 PR의 자체 head SHA는 문서에 고정하지 않고 fresh GitHub truth를 사용한다.
 - `HANDOFF_CONTEXT.md`의 2026-08-10 11:57 KST checkpoint는 당시 사실을 보존하는 historical snapshot이다. 이 `ACTIVE_CONTEXT.md`가 mutable live continuation router다.
-- Base project evidence `BCP - OMENWARD`는 Base PR #243으로 `main`에 proposal-evidence-only로 병합되었다. 이것은 BCP-013 active 구현 승인이나 Base active behavior 변경을 뜻하지 않는다.
+- Base에는 별도 프로젝트 출처형 수정제안서 `BCP - OMENWARD`가 BCP-2026-015로 PR #246을 통해 proposal-only 병합되었다. 이전 PR #243에서 BCP-013 evidence 아래 잘못 배치했던 OMENWARD 파일은 제거되었고, BCP-013 본문과 다른 프로젝트 evidence는 보존되었다. 이 병합은 Base active behavior 구현 승인이 아니다.
 
 ## 진행 상태
 
@@ -56,10 +60,13 @@ COMPLETED_VERIFIED
 - bde85549 Project Base Adapter generated-view/runtime-transition mismatch CLEARED
 - bde85549 active integrated v4.4 planning-only transition mismatch CLEARED
 - bde85549 exact-head GitHub Actions 11 SUCCESS / 0 FAILURE
-- Base PR243 BCP - OMENWARD exact-head validation SUCCESS
-- Base PR243 squash merge SUCCESS -> 59aadec796260ae200e776af35954174fc5bda46
-- Base post-merge push run 31357359735 SUCCESS
-- Base main readback contains BCP-OMENWARD.md
+- Base PR246 separate BCP - OMENWARD exact-head validation SUCCESS
+- Base PR246 squash merge SUCCESS -> 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+- Base post-merge push run 31359540698 SUCCESS
+- Base main readback contains [수정제안서]/BCP-2026-015-external-runtime-session-same-snapshot-recovery/PROPOSAL.md
+- BCP-013 PROPOSAL.md blob preserved at 647b3033881d62f8a0cbcb1fdc3f00e3acc41a7d
+- misplaced BCP-013/evidence/BCP-OMENWARD.md removed
+- Switchy Express BCP-013 evidence preserved
 
 IN_PROGRESS
 - Issue #176의 승인된 7개 runtime/fixture gap
@@ -112,39 +119,54 @@ CI Green은 Issue #176 runtime 구현 완료를 뜻하지 않는다. 실제 제�
 
 ## Base current / `BCP - OMENWARD`
 
-```yaml
-base_main_seen: 59aadec796260ae200e776af35954174fc5bda46
-base_existing_solution: BCP-2026-013-post-merge-continuation-state-reconciliation
-base_existing_solution_pr: 235
-base_existing_solution_pr_state: MERGED_PROPOSAL_ONLY
-base_existing_solution_merge_sha: 3ff790116bc08f49e126cd286ec453bf6e46376e
-base_existing_solution_verdict: REUSE_BCP_2026_013
-project_named_evidence_title: BCP - OMENWARD
-project_named_evidence_pr: 243
-project_named_evidence_pr_state: MERGED_PROPOSAL_EVIDENCE_ONLY
-project_named_evidence_premerge_head: f4f42c45342b88072852baa36a65b643890d72a7
-project_named_evidence_merge_sha: 59aadec796260ae200e776af35954174fc5bda46
-project_named_evidence_scope: ONE_FILE_PROPOSAL_ONLY
-project_named_evidence_premerge_validation: SUCCESS
-project_named_evidence_post_merge_validation: SUCCESS
-project_named_evidence_post_merge_run: 31357359735
-proposal_registry_change_from_omenward: NONE
-new_canonical_bcp_from_omenward: NO
-base_implementation_authority_in_this_stage: NOT_GRANTED_IN_THIS_STAGE
+앞으로 프로젝트에서 검증된 Base 개선점은 다음 절차로만 처리한다.
+
+```text
+Base active rules unchanged
+→ [수정제안서]/BCP-<id>/PROPOSAL.md with display title BCP - [프로젝트명]
+→ project-verified evidence under that proposal
+→ PROPOSAL_REGISTRY.json registration
+→ proposal-only PR
+→ exact-head validation
+→ merge
+→ post-merge readback/CI
 ```
 
-`BCP - OMENWARD`는 새 canonical BCP가 아니라 기존 BCP-013의 프로젝트명 corroborating evidence다. 병합된 정확한 경로는 다음이다.
+현재 OMENWARD 적용 결과:
 
-`[수정제안서]/BCP-2026-013-post-merge-continuation-state-reconciliation/evidence/BCP-OMENWARD.md`
+```yaml
+base_main_seen: 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+project_source_proposal_id: BCP-2026-015-external-runtime-session-same-snapshot-recovery
+project_source_proposal_title: BCP - OMENWARD
+project_source_proposal_pr: 246
+project_source_proposal_pr_state: MERGED_PROPOSAL_ONLY
+project_source_proposal_premerge_head: fdb45ecfd3badac0389261d3f61e31de2f277263
+project_source_proposal_merge_sha: 0a7c4a4286b1107b1bfa03dc4b4e4ce88fbbd5b8
+project_source_proposal_premerge_validation: SUCCESS
+project_source_proposal_post_merge_validation: SUCCESS
+project_source_proposal_post_merge_run: 31359540698
+proposal_registry_change: ADD_BCP_2026_015_ONLY
+active_base_rule_change: NONE
+base_implementation_authority_in_this_stage: NOT_GRANTED_IN_THIS_STAGE
+bcp013_omenward_wrong_evidence: REMOVED
+bcp013_proposal_blob_sha: 647b3033881d62f8a0cbcb1fdc3f00e3acc41a7d
+bcp013_other_project_evidence_preserved: YES
+```
 
-PR #243은 최신 Base main `16af66ff...`까지 비충돌 동기화한 뒤 exact-head validation을 통과했고, expected-head 고정 squash merge로 `59aadec...`가 되었다. post-merge push run `31357359735`도 SUCCESS이며 main readback에서 파일 존재를 확인했다.
+별도 제안서의 canonical 경로는 다음이다.
 
-`PROPOSAL_REGISTRY.json`과 Base active Skill/Method/Template/Test/Workflow는 이 OMENWARD evidence 병합으로 변경되지 않았다. BCP-013 active implementation은 별도 `APPROVED_FOR_IMPLEMENTATION`과 approval ref가 필요하다.
+`[수정제안서]/BCP-2026-015-external-runtime-session-same-snapshot-recovery/PROPOSAL.md`
+
+실제 검증된 OMENWARD runtime-session recovery evidence는 다음에 보존한다.
+
+`[수정제안서]/BCP-2026-015-external-runtime-session-same-snapshot-recovery/evidence/OMENWARD_RUNTIME_SESSION_RECOVERY_EVIDENCE.md`
+
+이 제안은 same-snapshot process/transport/log/registry recovery classification, shared automation server 보호, stale PID/session identity 거부를 제안한다. Base active Skill/Method/Template/Test/Workflow는 이번 단계에서 변경하지 않았다.
 
 ## 재개 시 첫 실행
 
 1. OMENWARD `main`, PR #175, PR #177, Issue #176을 fresh-read한다.
-2. Base `main`, BCP-013 상태, open proposal PR, `BCP - OMENWARD` main evidence를 fresh-read한다.
+2. Base `main`, open proposal PR, `BCP - OMENWARD` BCP-2026-015 상태를 fresh-read한다.
 3. Google Sheet hub/latest audit/latest history/Base candidate row를 fresh-read한다.
 4. full executor보다 먼저 한 시점에서 current exact OMENWARD process/command line + ESTABLISHED WS9500 + Godot-AI connection/handshake/auth/4003/reconnect/session log + immediate `session_manage(op=list)`를 확인한다.
 5. exact OMENWARD session present → Issue #176 NonInteractive executor 재개.
