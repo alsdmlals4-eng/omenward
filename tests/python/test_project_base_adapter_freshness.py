@@ -6,6 +6,8 @@ import pathlib
 import subprocess
 import unittest
 
+from tools.git_canonical_evidence import git_blob_sha256
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
@@ -47,11 +49,15 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(baseline["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
         self.assertEqual(baseline["policy_source_path"], "skills/PROJECT_BASE_ADAPTER.json")
         self.assertEqual(baseline["protected_paths_pointer"], "/protected_paths")
-        baseline_adapter = json.loads(subprocess.check_output(["git", "show", f"{CURRENT_PROTECTED_BASELINE}:skills/PROJECT_BASE_ADAPTER.json"], text=True))
+        baseline_adapter = json.loads(
+            subprocess.check_output(
+                ["git", "show", f"{CURRENT_PROTECTED_BASELINE}:skills/PROJECT_BASE_ADAPTER.json"]
+            ).decode("utf-8")
+        )
         protected_policy = (json.dumps(baseline_adapter["protected_paths"], ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
-        self.assertEqual(hashlib.sha256(ADAPTER.read_bytes()).hexdigest(), CURRENT_ADAPTER_SHA)
+        self.assertEqual(git_blob_sha256(ROOT, ADAPTER), CURRENT_ADAPTER_SHA)
 
     def test_historical_state_block_remains_point_in_time_while_current_adapter_advances(self) -> None:
         gate = self.state["entry_gate"]
