@@ -176,7 +176,7 @@ TWELVE_SCENARIO_QA = NOT_RUN
 FIRST_TIME_HUMAN_QA = NOT_RUN
 ```
 
-이 C1·C2·C3와 PR142 계보는 과거 계약 검증 사실만 보존하며 PR175 runtime package 완료를 뜻하지 않는다.
+이 C1·C2·C3 증거는 과거 계약 검증 사실만 보존하며 **V2 구현 완료를 뜻하지 않는다**. 또한 현재 PR175 runtime package 완료나 v4.5 Phase C 진입을 뜻하지 않는다.
 
 ## 9. 다음 순서
 
