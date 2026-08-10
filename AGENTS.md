@@ -183,6 +183,14 @@ MOBILE_RELEASE_GATE = NOT_RUN
 EXPORT_PRESETS = ABSENT
 ```
 
+아래는 원 아키텍처 Decision의 **제품 경계 compatibility anchor**다. 이후 Phase0~2 구현 증거가 생겼어도 이 아키텍처 문서 자체를 전체 플랫폼 구현 완료 주장으로 승격하지 않는다.
+
+```text
+ARCHITECTURE_DECISION_BASELINE = APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
+```
+
 제품 구조 책임 원본:
 
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
