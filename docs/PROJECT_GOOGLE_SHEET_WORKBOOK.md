@@ -15,7 +15,7 @@ project_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 
 Google Sheet는 GitHub 책임 원본을 운영·탐색 목적으로 미러링하는 `USER_FACING_GDD_WORKSPACE`다. Sheet 단독 변경은 프로젝트 canon 변경이 아니며 Draft PR 단계의 쓰기는 `PROPOSED_SHEET_CHANGE`, 병합 뒤 같은 Decision row의 상태는 `MERGED_CANON`이다.
 
-## 1. 같은 Decision ID 동기화
+## 1. 같은 Decision ID current 동기화
 
 현재 동기화 Decision:
 
@@ -35,7 +35,44 @@ Google Sheet는 GitHub 책임 원본을 운영·탐색 목적으로 미러링하
 
 과거 완료 Decision·PR·CI·runtime 진단 행을 덮어쓰지 않는다. 같은 질문의 현재값이 바뀌면 새 corrective row를 추가하고 active summary row만 직접 정정한다.
 
-## 2. 현행 병영 Tier 동기화 값
+## 2. 체크포인트 6 historical 동기화 상세 보존
+
+다음 블록은 2026-08-06 당시 7/10 체크포인트 6의 Sheet 계약을 보존한다. **현재 상태를 선언하는 블록이 아니며**, 현행 planning state·후속 amendment와 충돌하면 이 문서의 current section 및 최신 GitHub owner가 우선한다.
+
+```text
+HISTORICAL_PARENT_DECISION_ID = OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+HISTORICAL_CHILD_DECISION_ID = OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+HISTORICAL_PLANNING_COUNTER = 7_OF_10_IN_PROGRESS
+HISTORICAL_APPROVAL_CHECKPOINT = PARTIAL_APPROVAL_6_OF_10
+STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
+STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
+SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
+STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
+STAGE_1_BUILD_CURRENCY = REAL_GOLD
+T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
+T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
+T1_PLACEMENT_POLICY = CATEGORY_COMPATIBLE_SAFE_NODES
+T1_BUILD_ORDER = PLAYER_SELECTED
+FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION
+FOUNDATION_SETUP_CONFIRMATION = REQUIRED
+POST_CONFIRMATION_PLACEMENT_RULES = STANDARD_RUN_RULES
+FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
+STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS
+STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED
+STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE
+FOUNDATION_GRANT_SURPLUS = FORBIDDEN
+T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+EXACT_T1_COSTS = PENDING_SIMULATION_AT_CHECKPOINT
+FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
+FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
+STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
+STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
+HISTORICAL_AUDIT_RANGE = OMW-AUD-492~541
+HISTORICAL_PRODUCT_CODE_IMAGE_ANIMATION_HX = NOT_AUTHORIZED
+```
+
+## 3. 현행 병영 Tier 동기화 값
 
 ### 일반병 병영
 
@@ -68,7 +105,7 @@ SPECIAL_UNIT_FUNCTIONAL_POWER = STRONGER_THAN_GENERAL_UNIT
 SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT
 ```
 
-구형 “특수 T1 TokenSource 없음”은 `OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1` 당시 history로만 남긴다. current-facing Sheet row는 final amendment를 명시해야 한다.
+2026-08-06 building-tier checkpoint의 “Special T1 no TokenSource” 표현은 history로만 보존하고 current-facing Sheet row에서는 final amendment를 사용한다.
 
 ### 방어탑·직선 강화
 
@@ -78,7 +115,77 @@ LINEAR_TIER_BUILDINGS = VAULT / FARM / COMMAND_POST / MANA_TOWER
 LINEAR_T2_BRANCHING = FORBIDDEN
 ```
 
-## 3. Planning·runtime 상태 동기화
+## 4. 대체된 건물 분기 — historical protection
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+status = SUPERSEDED / HISTORICAL_EVIDENCE_ONLY / IMPLEMENTATION_INPUT_FORBIDDEN
+superseded_by = OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+```
+
+Sheet에는 다음 구형 분기를 현행 결정으로 표시하지 않는다.
+
+```text
+안정 금고 / 행운 금고
+징집 농장 / 예비 농장
+전열 병영 / 기동 병영
+연사탑 / 포격탑 2분기
+돌격 지휘소 / 수비 지휘소
+모든 6종 건물 공통 A/B 분기
+```
+
+## 5. Historical pending scope와 current recheck rule
+
+다음은 2026-08-06 checkpoint에서 미승인이었던 항목이다. 현재 사용 시 반드시 최신 onboarding/simulation/runtime owner에서 상태를 다시 확인한다.
+
+```text
+T1_EXACT_NODE_COORDINATES = HISTORICAL_PENDING_LEVEL_LAYOUT
+FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = HISTORICAL_PENDING_GRILLME
+FIRST_STAGE2_T2_CANDIDATES = HISTORICAL_PENDING_GRILLME
+STAGE_2_LEFTOVER_GOLD_POLICY = HISTORICAL_PENDING_GRILLME
+MINIMUM_VALID_PATHS = HISTORICAL_PENDING_GRILLME
+BELU_INTERVENTION_LEVEL = HISTORICAL_PENDING_GRILLME
+DANGER_EXACT_PRESSURE = HISTORICAL_PENDING_GRILLME
+BOSS_EXACT_PATTERN = HISTORICAL_PENDING_GRILLME
+FAILURE_RETRY_SKIP_RULES = HISTORICAL_PENDING_GRILLME
+HUMAN_VALIDATION_STOP_SHIP = HISTORICAL_PENDING_GRILLME
+GENERAL_AND_SPECIAL_EXACT_PRODUCTION_INTERVALS = PENDING_SIMULATION_UNLESS_LATER_OWNER_OVERRIDES
+SPECIAL_T1_RANDOM_SELECTION_TIMING = SUPERSEDED_BY_SUCCESSFUL_CONSTRUCTION_COMMIT_AMENDMENT
+SPECIAL_T1_RESULT_PREVIEW = HISTORICAL_PENDING_GRILLME
+TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
+T2_EXACT_COSTS = PENDING_SIMULATION_UNLESS_LATER_OWNER_OVERRIDES
+T3_IDENTITIES_AND_EFFECTS = HISTORICAL_PENDING_GRILLME
+DEFENSE_BRANCH_FINAL_DISPLAY_NAME = HISTORICAL_PENDING_NAMING
+EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
+```
+
+Sheet 행은 history의 `PENDING`을 current approval로 승격하지 않는다.
+
+## 6. 병렬 플랫폼 Decision 보존
+
+과거 1~6/10 완료 행과 플랫폼 행을 수정하거나 삭제하지 않는다.
+
+```text
+OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
+APPROVED_DUAL_PLATFORM
+HISTORICAL_MAIN = f5e4bcee7f8459fcfeb492f1ebc19ff932a352f0
+```
+
+플랫폼 Decision이 기록된 historical Sheet row와 변경 이력을 current canon sync 때문에 덮어쓰지 않는다. 플랫폼 current truth는 fresh GitHub owner에서 다시 확인한다.
+
+## 7. 수명주기 보호
+
+```text
+SUPERSEDED_PREBUILT_T1_START = IMPLEMENTATION_INPUT_FORBIDDEN
+LEGACY_LONG_T1_BUILDING_EXPLANATION = IMPLEMENTATION_INPUT_FORBIDDEN
+UNSAFE_UNRESERVED_STAGE1_SPENDING = IMPLEMENTATION_INPUT_FORBIDDEN
+FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
+PARTIAL_BUILD_TRANSACTION_COMMIT = FORBIDDEN
+UNIVERSAL_AB_BUILDING_BRANCH_GRAMMAR = IMPLEMENTATION_INPUT_FORBIDDEN
+HISTORICAL_SPECIAL_T1_NO_TOKEN_SOURCE = SUPERSEDED_BY_FINAL_AMENDMENT
+```
+
+## 8. Planning·runtime current 상태 동기화
 
 ```text
 PLANNING_CANON = MAIN_CANONICAL_APPROVED_10_OF_10
@@ -88,13 +195,14 @@ PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN
 PHASE_C = BLOCKED
 PR175 = OPEN_DRAFT
 PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
+PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
 ```
 
 PR175의 기존 11/11 Actions는 과거 exact-head/base 증거이며 current canon PR merge 뒤 strict up-to-date runtime Green으로 표시하지 않는다.
 
-## 4. Current Hub
+## 9. Current Hub
 
 `00_프로젝트_허브!A2:L2`는 최소 다음을 한 행에서 보여준다.
 
@@ -112,7 +220,7 @@ handoff PR = 177 / reference only
 Phase C blocker = explicit planning-complete declaration + Phase B
 ```
 
-## 5. Current Decision row
+## 10. Current Decision row
 
 `02_현재_확정결정`에는 과거 1~10/10·platform·analysis·runtime package 행을 삭제하지 않고 다음 새 Decision row를 추가한다.
 
@@ -126,7 +234,7 @@ special T1 TokenSource = SELECTED_RANDOM_SPECIAL_UNIT
 v4.4 binding/state = HISTORICAL_V4_4_BINDING
 ```
 
-## 6. Audit row
+## 11. Audit row
 
 `04_누락_충돌_감사`에는 다음 finding을 같은 Decision으로 기록한다.
 
@@ -135,8 +243,9 @@ v4.4 binding/state = HISTORICAL_V4_4_BINDING
 - live Base SHA가 stale.
 - v4.4 current binding과 사용자 승인 v4.5 단계 계약이 충돌.
 - 수정은 current consumer propagation만 수행하고 historical design/runtime evidence는 보존.
+- 적대적 검토 중 canonical detail 과삭제 P1을 발견했으며 merge 전 baseline detail을 history/current owner 경계로 복원한다.
 
-## 7. 15_조작_게임규칙 처리
+## 12. 15_조작_게임규칙 처리
 
 과거 `OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1` row는 history로 보존한다. 그 row를 소급 수정하지 않는다.
 
@@ -152,7 +261,7 @@ FREE_REROLL = forbidden
 
 를 명시한다.
 
-## 8. 05_GDD_요약 처리
+## 13. 05_GDD_요약 처리
 
 `05_GDD_요약`의 current 핵심 게임플레이 row는 history가 아니라 사용자용 현재 요약이므로 직접 고친다.
 
@@ -160,7 +269,22 @@ FREE_REROLL = forbidden
 특수 T1 = 건설 확정 시 무작위 선정 → 선정 병종 자동생산 + 같은 병종 TokenSource 별도 공급
 ```
 
-## 9. 쓰기 규칙
+## 14. 기록 탭 책임
+
+- `00_프로젝트_허브`: current Decision·phase·Base/main·PR 상태.
+- `01_작업순서`: current canon-freshness 작업과 과거 단계 실행 계보.
+- `02_현재_확정결정`: 과거 결정 보존 + current v4.5 Decision 새 row.
+- `03_근거_라이브러리`: 사용자 승인·정본·Review·TDD·Lifecycle 근거.
+- `04_누락_충돌_감사`: 과거 audit 보존 + `OMW-AUD-632` current finding.
+- `05_GDD_요약`: 사용자용 current gameplay summary; final amendment 반영.
+- `12_핵심루프`: 기초 구축→자동생산·룰렛→배치→T2 발전→결과 복기.
+- `15_조작_게임규칙`: 과거 no-token row history 보존 + current corrective row.
+- `40_핵심시스템_메인콘텐츠`: 병영 5+5 분기, 방어탑 3분기, 4개 직선 강화 및 후속 정정 owner 확인.
+- `50_메인콘텐츠`: 과거 pending과 current owner를 구분.
+- `60_UX_UI_접근성`: 과거 naming/공개 방식 pending을 history로 보존하고 최신 owner 확인.
+- `99_변경이력`: exact HEAD·PR·read-back·CI·merge 상태.
+
+## 15. 쓰기 규칙
 
 1. GitHub 책임 원본과 Decision ID를 먼저 고정한다.
 2. Draft PR exact head를 기록한다.
@@ -170,7 +294,45 @@ FREE_REROLL = forbidden
 6. Draft 단계 `PROPOSED_SHEET_CHANGE`, merge 뒤 `MERGED_CANON`.
 7. Sheet와 GitHub가 충돌하면 GitHub 책임 원본을 수정하기 전에 어떤 surface가 stale인지 먼저 판정한다.
 
-## 10. v4.5 단계 경계
+## 16. Historical TDD·검증 checkpoint 보존
+
+다음은 2026-08-06 Sheet/checkpoint 이력이며 current CI 상태가 아니다.
+
+```text
+HISTORICAL_MAIN_REBASE_COMMIT = 8e0c10f312929b5bb69f3ae8850eaf7afa48ee91
+HISTORICAL_CHECKPOINT_5_RED_COMMIT = 09c7b7766a1a20be41960f80e4b58bd40f57bef0
+HISTORICAL_CHECKPOINT_6_RED_COMMITS = a6170cba850007de47d7063417e02ce1da747246 / 51e8204f6638d4344c88accefc2c05944bdac625
+HISTORICAL_AUTOMATED_GREEN = NOT_PROVEN
+HISTORICAL_GITHUB_ACTIONS = BLOCKED_BY_BILLING
+HISTORICAL_CONNECTOR_BOUNDED_READBACK = REQUIRED
+```
+
+Current v4.5 RED/Sheet evidence는 `docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`이 담당한다.
+
+## 17. 제품 경계
+
+```text
+PRODUCT_MUTATION_BY_CURRENT_DECISION = NONE
+GODOT_PERSISTENT_MUTATION_BY_CURRENT_DECISION = NONE
+DATA_MIGRATION = NOT_AUTHORIZED_BY_CURRENT_DECISION
+FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+IMAGE_GENERATION = STOPPED_BY_USER
+ANIMATION_HX_BY_CURRENT_DECISION = NOT_AUTHORIZED
+```
+
+## 18. 완료 이력
+
+```text
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 / 6_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 / 5_OF_10
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 / 4_OF_10
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 / 3_OF_10 / SUPERSEDED_BY_BUILDING_TIER_REALIGNMENT
+LEGACY_C1_C2_C3_PROVEN
+```
+
+## 19. v4.5 단계 경계
 
 ```text
 PHASE_A_GPT_CHAT_PLANNING
@@ -183,7 +345,7 @@ PHASE_A_GPT_CHAT_PLANNING
 
 Sheet sync 완료는 Phase C 시작 승인이 아니다.
 
-## 11. 검증 증거
+## 20. 검증 증거
 
 현재 Decision의 proposed write/readback 결과는 다음 파일에 보존한다.
 
