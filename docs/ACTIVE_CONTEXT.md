@@ -1,37 +1,82 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-06
+updated_at: 2026-08-11T06:14:00+09:00
+project: OMENWARD / 오멘워드
 current_branch: main
-working_branch: sync/pr142-post-merge-20260806
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-work_mode: TOTAL_PLANNING
-current_decision: OMW-DEC-20260806-PLANNING-ONBOARDING-COMPLETION-MINIMUM-VALID-PATHS-HUMAN-STOP-SHIP-V1
-latest_amendment: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
+main_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
+base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
+working_branch: planning/canon-freshness-v45-20260811
+current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+contract_version: 4.5
+work_phase: PHASE_A_GPT_CHAT_PLANNING
+continuous_work: ACTIVE_WITHIN_APPROVED_CANON_SCOPE
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-pr142_merge: 1c646c2d764d0df43545e00b914189ed46cf1bd4
-current_grill_me_count: 0_OF_10
-next_gate: BARRACKS_ECONOMY_PRODUCTION_AND_TOKEN_SOURCE_SIMULATION_CONTRACT
+planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
+current_planning_pr: 178
 product_code_authority: NONE
-simulation: NOT_RUN
-runtime: NOT_RUN
-human_validation: NOT_RUN
-local_godot_project: UNCHANGED
+runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+active_runtime_branch: runtime/barracks-role-output-implementation-20260809
+active_runtime_head: bde85549560fca90f7aa25fc4842bc0a3afb92e7
+active_runtime_pr: 175
+active_runtime_issue: 176
+runtime_status: PR175_DRAFT_7_RUNTIME_GAPS_OPEN
+handoff_pr: 177
+handoff_disposition: REFERENCE_ONLY_DO_NOT_MERGE
+phase_c_gate: BLOCK
+product_mutation_this_decision: NONE
+godot_persistent_mutation_this_decision: NONE
 ```
+
+`current_branch/current_main/context_baseline_commit`은 기존 consumer가 fresh default-branch truth를 다시 resolve하도록 유지하는 dynamic locator다. `main_activation_baseline`은 이 Decision을 시작할 때 고정한 역사 비교 SHA이며 current main resolver를 대체하지 않는다.
 
 ## 현재 작업 기준
 
-첫 10~15분 온보딩 기획과 병영 자동생산·TokenSource 정정은 PR #142를 통해 main 정본으로 병합됐다. 다음 작업은 제품 구현이 아니라 병영 경제·자동생산·TokenSource 수치 시뮬레이션 계약이다.
+이 context의 우선 작업은 제품 runtime 구현이 아니라 **정본 최신성 복구와 v4.5 Thin Adapter 활성화**다.
 
-## 현행 병영 계약
+사용자 승인 Decision:
+
+`OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1`
+
+현재 실행 순서:
 
 ```text
-GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
-GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
-GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT
-GENERAL_T2_TOKEN_SOURCE = SELECTED_GENERAL_UNIT
+fresh Base / OMENWARD / Sheet
+→ TDD RED
+→ current canon propagation repair
+→ same Decision Sheet proposed sync + bounded reread
+→ exact-head CI
+→ adversarial review
+→ eligible planning merge
+→ merged-main + Sheet MERGED_CANON readback
+```
 
+## v4.5 단계 Gate
+
+```text
+PHASE_A_GPT_CHAT_PLANNING
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
+PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
+PHASE_C_BLOCKED
+```
+
+사용자의 `[연속작업 진행해]`는 현재 승인된 canon/planning scope를 연속 수행하라는 뜻이다. 이것은 `기획 완료` 선언이 아니다.
+
+따라서 현재 금지:
+
+```text
+PERSISTENT_POWERSHELL_CODEX_BUILD
+PERSISTENT_HIGODOT_GODOT_AUTHORING
+ISSUE176_RUNTIME_GAP_IMPLEMENTATION
+PR175_MERGE
+PR177_MERGE
+```
+
+## 현행 병영 TokenSource
+
+```text
 SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
 SPECIAL_T1_SELECTED_UNIT_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
 SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
@@ -39,57 +84,47 @@ SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
 SPECIAL_T1_AUTO_PRODUCTION_AND_TOKEN_SOURCE = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS
 SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
 SPECIAL_T1_FREE_REROLL = FORBIDDEN
-
-SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
-SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
-TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
 ```
 
-기존 `SPECIAL_T1_TOKEN_SOURCE = NONE`과 `T2에서 처음 TokenSource 해금` 문구는 역사 증거이며 구현 입력으로 사용할 수 없다.
+기존 `SPECIAL_T1_TOKEN_SOURCE = NONE`은 history/superseded evidence이며 current implementation input이 아니다.
 
-## 온보딩 완료 정본
+## PR #175 현재 의미
 
 ```text
-ONBOARDING_STATUS = APPROVED_10_OF_10
-ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
-FIRST_SESSION = REAL_MAPRUN
-STAGE_1 = SIX_REQUIRED_T1_AND_FIRST_IRREVERSIBLE_DEPLOYMENT
-STAGE_2 = SHIELD_OR_ARCHER_T2_AND_ROULETTE_CONTROL
-STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC
-STAGE_4 = FIRST_DANGER_INTEGRATION
-STAGE_5 = FIRST_BOSS_MASTERY_CHECK
-MINIMUM_VALID_PATHS = SHIELD_NO_SPECIAL / ARCHER_NO_SPECIAL
-INTERNAL_QA_MATRIX = 12_SCENARIOS
-FIRST_TIME_HUMAN_SAMPLE = MINIMUM_20
-PRODUCT_IMPLEMENTATION = NOT_STARTED_BY_PR142
+PR175 = OPEN_DRAFT
+HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
+HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+ISSUE176_GAPS = 7
+MERGE = FORBIDDEN
 ```
 
-## 책임 원본 우선순위
+7개 gap:
 
-1. `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-2. `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
-3. `docs/design/APPROVED_OMENWARD_ONBOARDING_COMPLETION_MINIMUM_VALID_PATHS_AND_HUMAN_STOP_SHIP_2026-08-06.md`
-4. `docs/design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
-5. `docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md`
-6. `docs/design/APPROVED_OMENWARD_STAGE2_FIRST_T2_CANDIDATES_AND_GOLD_RULES_2026-08-06.md`
-7. `docs/design/APPROVED_OMENWARD_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_2026-08-06.md`
-8. `docs/design/APPROVED_OMENWARD_BELU_INTERVENTION_FAILURE_RETRY_SKIP_RULES_2026-08-06.md`
-9. `docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
+1. Priest 5s +8% attack-speed encouragement + start/end/support uptime/timing regression.
+2. Support-role units가 prior deterministic fallback을 전부 가로채지 않도록 보존.
+3. `flying`은 priority이며 universal permission boundary가 아님.
+4. `cluster` density tie는 lane order/unit-id semantics 사용.
+5. Giant `FRONTLINE_SURVIVAL_TIME` + `STRUCTURE_DAMAGE` collector.
+6. Registered deterministic FV-PRIEST/MAGE/FLIER/GIANT/COMMON fixtures.
+7. multi-cast를 포함한 true per-cast `TARGETS_HIT_PER_CAST`.
 
-## 검증 경계
+이 planning/canon PR이 `main`을 전진시키면 기존 11/11을 새 base의 strict up-to-date Green으로 부르지 않는다.
+
+## PR #177
+
+PR177은 `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`다. `HANDOFF_CONTEXT`는 역사 snapshot이고, current truth는 fresh repository/Sheet + 이 Active Context + v2 machine state가 소유한다.
+
+## 다음 Gate
+
+현재 planning/canon Decision의 종료 Gate:
 
 ```text
-PR142_MERGED = TRUE
-SHEET_BOUNDED_READBACK = PASS
-BOUNDED_CANON_TESTS = PASS_AS_RECORDED
-FULL_PRIVATE_REPOSITORY_CHECKOUT = UNAVAILABLE_IN_EXECUTION_ENVIRONMENT
-FULL_PYTHON_SUITE = NOT_RUN
-GITHUB_ACTIONS_GREEN = NOT_PROVEN
-GITHUB_ACTIONS = BLOCKED_BEFORE_JOB_START_BY_BILLING
-GODOT_TESTS_FOR_PR142 = NOT_RUN
-SIMULATION = NOT_RUN
-RUNTIME = NOT_RUN
-HUMAN_QA = NOT_RUN
-PRODUCT_CODE = UNCHANGED_BY_PR142
-LOCAL_GODOT_PROJECT = UNCHANGED
+SHEET_SAME_DECISION_SYNC_AND_REREAD
+EXACT_HEAD_GREEN
+ADVERSARIAL_P0_P1_0
+UNRESOLVED_THREADS_0
+BASE_AND_PROJECT_RACE_RECHECK
+MERGED_MAIN_READBACK
 ```
+
+그 이후에도 Phase C는 열리지 않는다. 다음 단계 전환은 사용자의 명시적 `기획 완료` 선언부터 시작한다.

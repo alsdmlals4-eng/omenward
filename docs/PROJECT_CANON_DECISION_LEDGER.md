@@ -1,45 +1,145 @@
-# [현행] 오멘워드 기획·운영 정본 결정 원장
+# [현행] OMENWARD Canon Decision Ledger
 
 ```yaml
-updated_at: 2026-08-09
-status: CURRENT_DECISION_LEDGER
-source_main_observed: f1bf8939208a864bce1f99eea0555f05369dc9d6
-base_main_observed: 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
-current_process_decision: OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
-last_gate_update_decision: OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1
-base_recovery_status: COMPLETE
-project_base_adapter_status: FRESHNESS_RECONCILED
-active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.4
-current_simulation_batch: 5_OF_10_SMOKE_PASS / 6_OF_10_REVIEW_COMPLETE / 7_OF_10_OBSERVABLES_DEFINED / 8_OF_10_ROBUSTNESS_REVIEW_COMPLETE / 9_OF_10_ROBUSTNESS_10000_PASS / FUNCTIONAL_VALUE_REVIEW_COMPLETE / MEASUREMENT_SCENARIOS_DEFINED
-current_tool_pr: 171
-product_code_authority: NONE
-entry_gate: BLOCK
+updated_at: 2026-08-11
+source_repository_default_branch: main
+activation_baseline_main: 87339f87949c8faea0dfe1482c5d0887a04d94f4
+base_current_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
+current_process_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5
+contract_revision: 2026-08-11-r2
+current_phase: PHASE_A_GPT_CHAT_PLANNING
+phase_c_gate: BLOCK
+planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 ```
 
-이 원장은 current Decision 색인과 충돌 해소 우선순위를 책임진다. Google Sheet는 동일 Decision ID와 exact-head/merge evidence를 기록하지만 제품 정본을 단독 대체하지 않는다.
+이 Ledger는 현재 Decision과 결정 계보를 찾는 진입점이다. 각 분야의 세부 규칙은 Lifecycle Registry가 `[현행]`으로 지정한 책임 원본이 소유한다. 완료된 PR/CI/SHA는 역사 증거이며 fresh current 사실을 대체하지 않는다. 2026-08-09까지의 상세 tool·runtime evidence는 이 파일 하단에 history block으로 보존한다.
 
-## 1. 병영 current state
+## 1. 현재 운영 Decision
+
+### OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 
 ```text
-9_OF_10_ROBUSTNESS = PASS
-FUNCTIONAL_VALUE_COMBAT_NUMERICS_REVIEW = COMPLETE
-FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS = DEFINED
-BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED = OPEN
-NEXT_GATE = BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE
+approval = USER_APPROVED_RECOMMENDED_OPTION_A
+scope = CANON_FRESHNESS + V4_5_THIN_ADAPTER + SAME_DECISION_SHEET_SYNC
+product_mutation = NONE
+godot_persistent_mutation = NONE
+Base current observed = 315c66eea9614c284b9c11c4d522141065dfa4b0
+OMENWARD activation baseline = 87339f87949c8faea0dfe1482c5d0887a04d94f4
+planning PR = 178
+current phase = PHASE_A_GPT_CHAT_PLANNING
+phase C = BLOCK
+planning completion trigger = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
 ```
 
-9/10 evidence remains exact:
+승인 내용:
+
+1. active GDD/Workbook/Sheet의 superseded Special T1 no-TokenSource current 표현을 final amendment에 맞춘다.
+2. cold-start docs의 6/10·7/10·10/10 drift를 `MAIN_CANONICAL_APPROVED_10_OF_10`으로 정리한다.
+3. 사용자 제공 v4.5 r2를 Base 복제 없이 OMENWARD Thin Adapter로 바인딩한다.
+4. OMENWARD path는 `C:/Users/user/Documents/GitHub/Ninza/omenward`만 사용한다.
+5. v4.4 binding/state/test/workflow는 당시 runtime-transition history로 보존한다.
+6. PR175는 7개 gap이 남은 Draft, PR177은 reference-only로 유지한다.
+7. 같은 Decision ID를 Google Sheet current surfaces에 즉시 동기화하고 bounded reread한다.
+8. 이 planning/canon 병합은 Phase C 시작 승인이 아니다.
+
+책임 원본:
+
+- `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
+- `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
+- `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+- `docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`
+
+## 2. 현행 gameplay planning
 
 ```text
+PLANNING_CANON = MAIN_CANONICAL_APPROVED_10_OF_10
+LATEST_GAMEPLAY_AMENDMENT = OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
+SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
+SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
+SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
+SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
+SPECIAL_T1_FREE_REROLL = FORBIDDEN
+```
+
+Owner:
+
+`docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
+
+## 3. Barracks analysis·runtime lineage
+
+### OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
+
+```text
+5_OF_10 = REMEDIATION_SMOKE_PASS
+SPECIAL_FUNCTIONAL_VALUE_INDEX = DEFERRED
+```
+
+### OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
+
+```text
+6_OF_10_REVIEW = COMPLETE
+PARAMETER_SELECTION = NOT_IDENTIFIABLE_WITH_CURRENT_DECISION_METRICS
+```
+
+### OMW-DEC-20260808-PLANNING-BARRACKS-PARAMETER-SELECTION-OBSERVABLES-DEFINITION-V1
+
+```text
+7_OF_10 = OBSERVABLES_DEFINED
+V00_BASELINE_COST_INTERVAL_ONLY = NONFINAL_ROBUSTNESS_ENVELOPE
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+```
+
+### OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-ONLY-REVIEW-V1
+
+```text
+8_OF_10_REVIEW = COMPLETE
+DEDICATED_RUNNER_REQUIRED = HISTORICAL_REVIEW_RESULT
+```
+
+### OMW-DEC-20260809-PLANNING-BARRACKS-10000-SEED-ROBUSTNESS-EXECUTION-V1
+
+```text
+9_OF_10 = ROBUSTNESS_10000_PASS
 SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
 SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
 10K_JSON_SHA256 = 1675d5068d6299c618df2f5b27cca4cf6fb06990729d622cedf9c36282c8d3c3
 10K_CSV_SHA256 = e7324cb7a46cdab3d765011890d38a234c541c9e28741a2e6af6d3bf2bbc0e8b
-FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_VECTOR = NOT_SELECTED
 ```
 
-### Durable Decision lineage
+### OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1
+
+```text
+BASE_NUMERICS_PRESENT
+ROLE_OUTPUT_RUNTIME_PARTIAL_INSUFFICIENT
+FINAL_FUNCTIONAL_VALUE_NOT_SELECTED
+```
+
+### OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1
+
+```text
+FIXTURE_POLICY = DETERMINISTIC_SAME_INPUT
+FUNCTIONAL_VALUE_COMPARISON = ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE
+BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
+FV-COMMON-01 / FV-PRIEST-01 / FV-MAGE-01 / FV-FLIER-01 / FV-GIANT-01
+```
+
+### OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+
+```text
+PACKAGE_SPEC_APPROVED
+PR175 = OPEN_DRAFT
+PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
+PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+ISSUE176 = OPEN
+ISSUE176_APPROVED_RUNTIME_GAPS = 7
+PR175_MERGE = FORBIDDEN
+```
+
+이 runtime package는 승인돼 있으나 v4.5 `PHASE_C_BLOCKED` 동안 persistent implementation을 수행하지 않는다.
+
+Durable Decision lineage:
 
 | 단계 | Decision | 상태 |
 |---|---|---|
@@ -51,9 +151,7 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 | functional-value review | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-COMBAT-NUMERICS-DEFINITION-REVIEW-V1` | product base numerics present; role output runtime partial |
 | measurement scenarios | `OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENARIOS-DEFINITION-V1` | deterministic role scenarios defined; blocked outputs stay non-zero-synthesized |
 
-Historical lower-Gate Decisions remain indexed even when they no longer own `last_gate_update_decision` or the current next action.
-
-## 2. Tool user-approval + remote-sync Decision
+## 4. Tool authority lineage
 
 Current tool Decision:
 
@@ -122,9 +220,9 @@ REMOTE_SYNC = VERIFIED
 
 Bundled README says `v0.9.0` while `plugin.cfg` and upstream release say `1.0.0`; this is `NONBLOCKING_DOCUMENTATION_STALENESS` and must not be misreported as the plugin version.
 
-## 3. Blocker transition
+### Tool blocker transition history
 
-Closed/superseded:
+Closed/superseded at the 2026-08-09 checkpoint:
 
 ```text
 HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
@@ -136,7 +234,7 @@ GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
 HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
 ```
 
-Independent blockers:
+Independent blockers recorded at that checkpoint:
 
 ```text
 BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
@@ -144,7 +242,9 @@ LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE
 HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK
 ```
 
-## 4. Role separation
+Current runtime/blocker truth must be re-read from PR175/Issue176/current state rather than treating those historical blocker strings as fresh.
+
+Role separation remains:
 
 ```text
 GODOT_AI_HIGODOT = PERSISTENT_GODOT_AUTHORING_ONLY
@@ -156,9 +256,9 @@ ROLE_OVERLAP = FORBIDDEN
 
 User approval and enablement do not collapse these roles.
 
-## 5. Direct-main remote sync readback
+## 5. Direct-main remote sync history
 
-Current main `f1bf8939208a864bce1f99eea0555f05369dc9d6` contains only the user-side tool sync delta relative to PR170 main:
+2026-08-09 checkpoint main `f1bf8939208a864bce1f99eea0555f05369dc9d6` contained the user-side tool sync delta relative to its preceding planning state:
 
 ```text
 addons/godot_ai/plugin.cfg = 3.1.3
@@ -166,22 +266,82 @@ project.godot editor plugins = Godot AI + GUT + Hera
 project.godot HeraGameInspector autoload = present
 ```
 
-PR171 does not re-author those Godot files; it reconciles their already-present state into canon and Sheet.
+That checkpoint is historical evidence; current repository truth comes from fresh main/PR reads.
 
-## 6. Base freshness
+## 6. Base freshness lineage
+
+Historical project adapter pin/evidence:
 
 ```text
-Base current main = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
+Base checkpoint observed on 2026-08-09 = 2a6ced23f6d6de1fb6e0a281c7138beb03f1a13b
 Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
-Project Base Adapter schema/generator/validator delta = NONE_OBSERVED
+Project Base Adapter schema/generator/validator delta = NONE_OBSERVED_AT_THAT_CHECKPOINT
 ```
 
-## 7. Current responsibility sources
+Current Base observation for this Decision:
+
+```text
+Base current main = 315c66eea9614c284b9c11c4d522141065dfa4b0
+Base open PRs at activation snapshot = 0
+```
+
+Historical Base SHA is not replaced in history evidence; current routing uses the fresh value.
+
+## 7. Platform lineage
+
+```text
+OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1 = APPROVED_DUAL_PLATFORM
+OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1 = MAIN_CANONICAL
+OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1 = MAIN_CANONICAL_LOCAL_PASS
+OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1 = MAIN_CANONICAL_LOCAL_PASS
+OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1 = MAIN_CANONICAL_LOCAL_PASS
+SHARED_SAVE_SCHEMA = NOT_STARTED
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+```
+
+## 8. v4.4 history
+
+```text
+OMW-DEC-20260808-PROCESS-ACTIVATE-INTEGRATED-CONTRACT-V4-4-AND-RECONCILE-ENTRY-STATE-V1
+status = HISTORICAL_V4_4_BINDING
+binding = docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
+state = docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json
+```
+
+v4.4의 당시 source SHA·Base SHA·entry status는 역사 검증 대상으로 보존하며 current v4.5 값으로 소급 덮어쓰지 않는다.
+
+## 9. Current responsibility sources
 
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
 - `docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
-- `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json`
+- `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
+- `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+
+## 10. Current open PR inventory
+
+```text
+PR175 = runtime package / Draft / 7 gaps / do not merge
+PR177 = reference-only handoff / Draft / do not merge
+PR178 = canon freshness + v4.5 Thin Adapter / Draft planning PR
+```
+
+Open PR inventory는 매 작업 시작·병합 직전에 fresh-read한다.
+
+## 11. Current unresolved Gate
+
+```text
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
+PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
+PHASE_C_BLOCKED
+ISSUE176_7_RUNTIME_GAPS_OPEN
+FINAL_FUNCTIONAL_VALUE_INDEX_NOT_SELECTED
+FINAL_PARAMETER_VECTOR_NOT_SELECTED
+FINAL_PRODUCT_NUMERICS_NOT_APPROVED
+```

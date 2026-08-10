@@ -1,25 +1,49 @@
 # [현행] OMENWARD Google Sheet 정본 동기화 계약
 
 ```yaml
-updated_at: 2026-08-06
+updated_at: 2026-08-11
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 status: PROJECT_SHEET_CONFIGURED / USER_FACING_GDD_WORKSPACE / PROPOSED_SHEET_CHANGE
-current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-latest_child_decision: OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
-current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_6_OF_10
-current_working_pr: 142
+current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
+contract_version: 4.5
+work_phase: PHASE_A_GPT_CHAT_PLANNING
+current_working_pr: 178
+base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
+project_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 ```
 
-Google Sheet는 GitHub 정본을 운영·탐색 목적으로 미러링하는 `USER_FACING_GDD_WORKSPACE`다. Sheet 단독 변경은 정본 변경이 아니며, PR 병합 전 쓰기는 `PROPOSED_SHEET_CHANGE` 상태로 취급한다.
+Google Sheet는 GitHub 책임 원본을 운영·탐색 목적으로 미러링하는 `USER_FACING_GDD_WORKSPACE`다. Sheet 단독 변경은 프로젝트 canon 변경이 아니며 Draft PR 단계의 쓰기는 `PROPOSED_SHEET_CHANGE`, 병합 뒤 같은 Decision row의 상태는 `MERGED_CANON`이다.
 
-## 1. 체크포인트 6 동기화 대상
+## 1. 같은 Decision ID current 동기화
+
+현재 동기화 Decision:
+
+`OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1`
+
+최소 current-facing surface:
 
 ```text
-Parent Decision ID = OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-Child Decision ID = OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
-Planning counter = 7_OF_10_IN_PROGRESS
-Approval checkpoint = PARTIAL_APPROVAL_6_OF_10
+00_프로젝트_허브
+01_작업순서
+02_현재_확정결정
+04_누락_충돌_감사
+05_GDD_요약
+15_조작_게임규칙
+99_변경이력
+```
+
+과거 완료 Decision·PR·CI·runtime 진단 행을 덮어쓰지 않는다. 같은 질문의 현재값이 바뀌면 새 corrective row를 추가하고 active summary row만 직접 정정한다.
+
+## 2. 체크포인트 6 historical 동기화 상세 보존
+
+다음 블록은 2026-08-06 당시 7/10 체크포인트 6의 Sheet 계약을 보존한다. **현재 상태를 선언하는 블록이 아니며**, 현행 planning state·후속 amendment와 충돌하면 이 문서의 current section 및 최신 GitHub owner가 우선한다.
+
+```text
+HISTORICAL_PARENT_DECISION_ID = OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
+HISTORICAL_CHILD_DECISION_ID = OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+HISTORICAL_PLANNING_COUNTER = 7_OF_10_IN_PROGRESS
+HISTORICAL_APPROVAL_CHECKPOINT = PARTIAL_APPROVAL_6_OF_10
 STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
 STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
 SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
@@ -39,16 +63,18 @@ STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE
 FOUNDATION_GRANT_SURPLUS = FORBIDDEN
 T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
 FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
-EXACT_T1_COSTS = PENDING_SIMULATION
+EXACT_T1_COSTS = PENDING_SIMULATION_AT_CHECKPOINT
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
 FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
 STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
 STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
-OMW-AUD-492~541
-Product code / image / animation HX = NOT_AUTHORIZED
+HISTORICAL_AUDIT_RANGE = OMW-AUD-492~541
+HISTORICAL_PRODUCT_CODE_IMAGE_ANIMATION_HX = NOT_AUTHORIZED
 ```
 
-## 2. 건물 Tier 동기화 대상
+## 3. 현행 병영 Tier 동기화 값
+
+### 일반병 병영
 
 ```text
 GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
@@ -56,21 +82,40 @@ GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
 GENERAL_T2_BRANCHES = SHIELD / GREATSWORD / SPEAR / ARCHER / CAVALRY
 GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT
 GENERAL_T2_TOKEN_SOURCE = SELECTED_GENERAL_UNIT
+```
 
-SPECIAL_T1_AUTO_PRODUCTION = RANDOM_SPECIAL_UNIT
-SPECIAL_T1_TOKEN_SOURCE = NONE
+### 특수병 병영
+
+최종 owner:
+
+`docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
+
+```text
+SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
+SPECIAL_T1_SELECTED_UNIT_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
+SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
+SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
+SPECIAL_T1_AUTO_PRODUCTION_AND_TOKEN_SOURCE = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS
+SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
+SPECIAL_T1_FREE_REROLL = FORBIDDEN
 SPECIAL_T2_BRANCHES = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
 SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
 SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
 SPECIAL_UNIT_FUNCTIONAL_POWER = STRONGER_THAN_GENERAL_UNIT
 SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT
+```
 
+2026-08-06 building-tier checkpoint의 “Special T1 no TokenSource” 표현은 history로만 보존하고 current-facing Sheet row에서는 final amendment를 사용한다.
+
+### 방어탑·직선 강화
+
+```text
 DEFENSE_TOWER_T2 = ARTILLERY / DEFENSE_ENHANCEMENT / SNIPER
 LINEAR_TIER_BUILDINGS = VAULT / FARM / COMMAND_POST / MANA_TOWER
 LINEAR_T2_BRANCHING = FORBIDDEN
 ```
 
-## 3. 대체된 건물 분기
+## 4. 대체된 건물 분기 — historical protection
 
 ```text
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
@@ -89,44 +134,46 @@ Sheet에는 다음 구형 분기를 현행 결정으로 표시하지 않는다.
 모든 6종 건물 공통 A/B 분기
 ```
 
-## 4. 미승인 범위
+## 5. Historical pending scope와 current recheck rule
+
+다음은 2026-08-06 checkpoint에서 미승인이었던 항목이다. 현재 사용 시 반드시 최신 onboarding/simulation/runtime owner에서 상태를 다시 확인한다.
 
 ```text
-T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
-FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
-FIRST_STAGE2_T2_CANDIDATES = PENDING_GRILLME
-STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
-MINIMUM_VALID_PATHS = PENDING_GRILLME
-BELU_INTERVENTION_LEVEL = PENDING_GRILLME
-DANGER_EXACT_PRESSURE = PENDING_GRILLME
-BOSS_EXACT_PATTERN = PENDING_GRILLME
-FAILURE_RETRY_SKIP_RULES = PENDING_GRILLME
-HUMAN_VALIDATION_STOP_SHIP = PENDING_GRILLME
-GENERAL_AND_SPECIAL_EXACT_PRODUCTION_INTERVALS = PENDING_SIMULATION
-SPECIAL_T1_RANDOM_SELECTION_TIMING = PENDING_GRILLME
-SPECIAL_T1_RESULT_PREVIEW = PENDING_GRILLME
+T1_EXACT_NODE_COORDINATES = HISTORICAL_PENDING_LEVEL_LAYOUT
+FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = HISTORICAL_PENDING_GRILLME
+FIRST_STAGE2_T2_CANDIDATES = HISTORICAL_PENDING_GRILLME
+STAGE_2_LEFTOVER_GOLD_POLICY = HISTORICAL_PENDING_GRILLME
+MINIMUM_VALID_PATHS = HISTORICAL_PENDING_GRILLME
+BELU_INTERVENTION_LEVEL = HISTORICAL_PENDING_GRILLME
+DANGER_EXACT_PRESSURE = HISTORICAL_PENDING_GRILLME
+BOSS_EXACT_PATTERN = HISTORICAL_PENDING_GRILLME
+FAILURE_RETRY_SKIP_RULES = HISTORICAL_PENDING_GRILLME
+HUMAN_VALIDATION_STOP_SHIP = HISTORICAL_PENDING_GRILLME
+GENERAL_AND_SPECIAL_EXACT_PRODUCTION_INTERVALS = PENDING_SIMULATION_UNLESS_LATER_OWNER_OVERRIDES
+SPECIAL_T1_RANDOM_SELECTION_TIMING = SUPERSEDED_BY_SUCCESSFUL_CONSTRUCTION_COMMIT_AMENDMENT
+SPECIAL_T1_RESULT_PREVIEW = HISTORICAL_PENDING_GRILLME
 TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
-T2_EXACT_COSTS = PENDING_SIMULATION
-T3_IDENTITIES_AND_EFFECTS = PENDING_GRILLME
-DEFENSE_BRANCH_FINAL_DISPLAY_NAME = PENDING_NAMING
+T2_EXACT_COSTS = PENDING_SIMULATION_UNLESS_LATER_OWNER_OVERRIDES
+T3_IDENTITIES_AND_EFFECTS = HISTORICAL_PENDING_GRILLME
+DEFENSE_BRANCH_FINAL_DISPLAY_NAME = HISTORICAL_PENDING_NAMING
 EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
-Sheet 행은 위 항목을 승인 완료처럼 표시하지 않는다.
+Sheet 행은 history의 `PENDING`을 current approval로 승격하지 않는다.
 
-## 5. 병렬 결정 보존
+## 6. 병렬 플랫폼 Decision 보존
 
 과거 1~6/10 완료 행과 플랫폼 행을 수정하거나 삭제하지 않는다.
 
 ```text
 OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
 APPROVED_DUAL_PLATFORM
-MAIN = f5e4bcee7f8459fcfeb492f1ebc19ff932a352f0
+HISTORICAL_MAIN = f5e4bcee7f8459fcfeb492f1ebc19ff932a352f0
 ```
 
-플랫폼 Decision이 기록된 `02_현재_확정결정!A68:M68`과 `99_변경이력!A80:H80`은 덮어쓰지 않는다. 체크포인트 5 행도 역사로 보존하고 체크포인트 6은 다음 빈 행에 추가한다.
+플랫폼 Decision이 기록된 historical Sheet row와 변경 이력을 current canon sync 때문에 덮어쓰지 않는다. 플랫폼 current truth는 fresh GitHub owner에서 다시 확인한다.
 
-## 6. 수명주기
+## 7. 수명주기 보호
 
 ```text
 SUPERSEDED_PREBUILT_T1_START = IMPLEMENTATION_INPUT_FORBIDDEN
@@ -135,55 +182,147 @@ UNSAFE_UNRESERVED_STAGE1_SPENDING = IMPLEMENTATION_INPUT_FORBIDDEN
 FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
 PARTIAL_BUILD_TRANSACTION_COMMIT = FORBIDDEN
 UNIVERSAL_AB_BUILDING_BRANCH_GRAMMAR = IMPLEMENTATION_INPUT_FORBIDDEN
-SPECIAL_T1_TOKEN_SOURCE = NONE
+HISTORICAL_SPECIAL_T1_NO_TOKEN_SOURCE = SUPERSEDED_BY_FINAL_AMENDMENT
 ```
 
-## 7. 기록 탭
+## 8. Planning·runtime current 상태 동기화
 
-- `00_프로젝트_허브`: 현재 Parent/Child Decision·counter·approval checkpoint·exact HEAD·상태.
-- `01_작업순서`: 7/10 체크포인트 6 범위·다음 GrillMe·TDD 증거.
-- `02_현재_확정결정`: 건물 Tier 재정렬 계약.
+```text
+PLANNING_CANON = MAIN_CANONICAL_APPROVED_10_OF_10
+V4_5_PHASE = PHASE_A_GPT_CHAT_PLANNING
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = REQUIRED
+PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN
+PHASE_C = BLOCKED
+PR175 = OPEN_DRAFT
+PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
+PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+ISSUE176_APPROVED_RUNTIME_GAPS = 7
+PR177 = REFERENCE_ONLY_DO_NOT_MERGE
+```
+
+PR175의 기존 11/11 Actions는 과거 exact-head/base 증거이며 current canon PR merge 뒤 strict up-to-date runtime Green으로 표시하지 않는다.
+
+## 9. Current Hub
+
+`00_프로젝트_허브!A2:L2`는 최소 다음을 한 행에서 보여준다.
+
+```text
+project = OMENWARD
+stage = PHASE_A_GPT_CHAT_PLANNING
+mode = CANON_FRESHNESS_V45_THIN_ADAPTER
+planning = MAIN_CANONICAL_APPROVED_10_OF_10
+Base = 315c66eea9614c284b9c11c4d522141065dfa4b0
+OMENWARD baseline main = 87339f87949c8faea0dfe1482c5d0887a04d94f4
+Decision = OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+planning PR = 178
+runtime PR = 175 / 7 gaps / Draft
+handoff PR = 177 / reference only
+Phase C blocker = explicit planning-complete declaration + Phase B
+```
+
+## 10. Current Decision row
+
+`02_현재_확정결정`에는 과거 1~10/10·platform·analysis·runtime package 행을 삭제하지 않고 다음 새 Decision row를 추가한다.
+
+```text
+Decision = OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+scope = canon freshness + v4.5 Thin Adapter + Sheet sync
+product mutation = NONE
+current phase = PHASE_A_GPT_CHAT_PLANNING
+phase C = BLOCKED
+special T1 TokenSource = SELECTED_RANDOM_SPECIAL_UNIT
+v4.4 binding/state = HISTORICAL_V4_4_BINDING
+```
+
+## 11. Audit row
+
+`04_누락_충돌_감사`에는 다음 finding을 같은 Decision으로 기록한다.
+
+- active GDD와 Workbook/Sheet가 superseded Special T1 no-TokenSource 표현을 current처럼 재발행.
+- cold-start docs가 6/10·7/10·10/10 및 다른 runtime 시점으로 갈라짐.
+- live Base SHA가 stale.
+- v4.4 current binding과 사용자 승인 v4.5 단계 계약이 충돌.
+- 수정은 current consumer propagation만 수행하고 historical design/runtime evidence는 보존.
+- 적대적 검토 중 canonical detail 과삭제 P1을 발견했으며 merge 전 baseline detail을 history/current owner 경계로 복원한다.
+
+## 12. 15_조작_게임규칙 처리
+
+과거 `OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1` row는 history로 보존한다. 그 row를 소급 수정하지 않는다.
+
+그 대신 같은 current tab에 새 corrective row를 추가해:
+
+```text
+SPECIAL_T1 = successful construction commit selects one special unit
+AUTO_PRODUCTION = selected unit
+TOKEN_SOURCE = same selected unit / separate acquisition path
+SAVE_RELOAD_RESELECT = forbidden
+FREE_REROLL = forbidden
+```
+
+를 명시한다.
+
+## 13. 05_GDD_요약 처리
+
+`05_GDD_요약`의 current 핵심 게임플레이 row는 history가 아니라 사용자용 현재 요약이므로 직접 고친다.
+
+```text
+특수 T1 = 건설 확정 시 무작위 선정 → 선정 병종 자동생산 + 같은 병종 TokenSource 별도 공급
+```
+
+## 14. 기록 탭 책임
+
+- `00_프로젝트_허브`: current Decision·phase·Base/main·PR 상태.
+- `01_작업순서`: current canon-freshness 작업과 과거 단계 실행 계보.
+- `02_현재_확정결정`: 과거 결정 보존 + current v4.5 Decision 새 row.
 - `03_근거_라이브러리`: 사용자 승인·정본·Review·TDD·Lifecycle 근거.
-- `04_누락_충돌_감사`: `OMW-AUD-530~541`과 이전 온보딩 감사 계보.
-- `05_GDD_요약`: 일반/특수 병영·방어탑 3분기·직선 강화 건물.
+- `04_누락_충돌_감사`: 과거 audit 보존 + `OMW-AUD-632` current finding.
+- `05_GDD_요약`: 사용자용 current gameplay summary; final amendment 반영.
 - `12_핵심루프`: 기초 구축→자동생산·룰렛→배치→T2 발전→결과 복기.
-- `15_조작_게임규칙`: 특수병 T1 TokenSource 금지, 자동생산과 TokenSource 분리.
-- `40_핵심시스템_메인콘텐츠`: 병영 5+5 분기, 방어탑 3분기, 4개 직선 강화.
-- `50_메인콘텐츠`: Stage 2 후보·T3·특수병 무작위 공개 시점은 `PENDING_GRILLME`.
-- `60_UX_UI_접근성`: 방어 강화형 이름 충돌과 특수병 무작위 공개 방식은 후속 결정.
-- `99_변경이력`: exact HEAD·PR·read-back·CI 상태.
+- `15_조작_게임규칙`: 과거 no-token row history 보존 + current corrective row.
+- `40_핵심시스템_메인콘텐츠`: 병영 5+5 분기, 방어탑 3분기, 4개 직선 강화 및 후속 정정 owner 확인.
+- `50_메인콘텐츠`: 과거 pending과 current owner를 구분.
+- `60_UX_UI_접근성`: 과거 naming/공개 방식 pending을 history로 보존하고 최신 owner 확인.
+- `99_변경이력`: exact HEAD·PR·read-back·CI·merge 상태.
 
-## 8. 쓰기 규칙
+## 15. 쓰기 규칙
 
-1. GitHub 책임 원본과 Decision ID를 먼저 확정한다.
-2. exact PR HEAD를 기록한다.
-3. 과거 완료 Decision과 병렬 플랫폼 행을 덮어쓰지 않는다.
-4. 쓰기 직후 같은 bounded range를 다시 읽는다.
-5. Decision ID·HEAD·counter·approval checkpoint·감사 범위 불일치는 blocker다.
-6. Draft PR 단계에는 `PROPOSED_SHEET_CHANGE`, 병합 뒤에만 `MERGED_CANON`을 사용한다.
+1. GitHub 책임 원본과 Decision ID를 먼저 고정한다.
+2. Draft PR exact head를 기록한다.
+3. 과거 완료 Decision·audit·history 행을 덮어쓰지 않는다.
+4. write 직후 같은 bounded range를 다시 읽는다.
+5. Decision ID·PR head·Base SHA·phase·TokenSource 불일치는 blocker다.
+6. Draft 단계 `PROPOSED_SHEET_CHANGE`, merge 뒤 `MERGED_CANON`.
+7. Sheet와 GitHub가 충돌하면 GitHub 책임 원본을 수정하기 전에 어떤 surface가 stale인지 먼저 판정한다.
 
-## 9. TDD·검증 상태
+## 16. Historical TDD·검증 checkpoint 보존
 
-```text
-MAIN_REBASE_COMMIT = 8e0c10f312929b5bb69f3ae8850eaf7afa48ee91
-CHECKPOINT_5_RED_COMMIT = 09c7b7766a1a20be41960f80e4b58bd40f57bef0
-CHECKPOINT_6_RED_COMMITS = a6170cba850007de47d7063417e02ce1da747246 / 51e8204f6638d4344c88accefc2c05944bdac625
-AUTOMATED_GREEN = NOT_PROVEN
-GITHUB_ACTIONS = BLOCKED_BY_BILLING
-CONNECTOR_BOUNDED_READBACK = REQUIRED
-```
-
-## 10. 제품 경계
+다음은 2026-08-06 Sheet/checkpoint 이력이며 current CI 상태가 아니다.
 
 ```text
-PRODUCT_CODE = UNCHANGED
-DATA_MIGRATION = NOT_AUTHORIZED
-EXACT_NUMERICS = PENDING_SIMULATION
-IMAGE_GENERATION = NOT_AUTHORIZED
-ANIMATION_HX = NOT_AUTHORIZED
+HISTORICAL_MAIN_REBASE_COMMIT = 8e0c10f312929b5bb69f3ae8850eaf7afa48ee91
+HISTORICAL_CHECKPOINT_5_RED_COMMIT = 09c7b7766a1a20be41960f80e4b58bd40f57bef0
+HISTORICAL_CHECKPOINT_6_RED_COMMITS = a6170cba850007de47d7063417e02ce1da747246 / 51e8204f6638d4344c88accefc2c05944bdac625
+HISTORICAL_AUTOMATED_GREEN = NOT_PROVEN
+HISTORICAL_GITHUB_ACTIONS = BLOCKED_BY_BILLING
+HISTORICAL_CONNECTOR_BOUNDED_READBACK = REQUIRED
 ```
 
-## 11. 완료 이력
+Current v4.5 RED/Sheet evidence는 `docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`이 담당한다.
+
+## 17. 제품 경계
+
+```text
+PRODUCT_MUTATION_BY_CURRENT_DECISION = NONE
+GODOT_PERSISTENT_MUTATION_BY_CURRENT_DECISION = NONE
+DATA_MIGRATION = NOT_AUTHORIZED_BY_CURRENT_DECISION
+FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+IMAGE_GENERATION = STOPPED_BY_USER
+ANIMATION_HX_BY_CURRENT_DECISION = NOT_AUTHORIZED
+```
+
+## 18. 완료 이력
 
 ```text
 OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 / 6_OF_10
@@ -192,3 +331,24 @@ OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 / 4_OF_10
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 / 3_OF_10 / SUPERSEDED_BY_BUILDING_TIER_REALIGNMENT
 LEGACY_C1_C2_C3_PROVEN
 ```
+
+## 19. v4.5 단계 경계
+
+```text
+PHASE_A_GPT_CHAT_PLANNING
+→ 같은 Decision canon + Sheet sync
+→ planning PR review/merge
+→ USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
+→ PHASE_B
+→ PHASE_C
+```
+
+Sheet sync 완료는 Phase C 시작 승인이 아니다.
+
+## 20. 검증 증거
+
+현재 Decision의 proposed write/readback 결과는 다음 파일에 보존한다.
+
+`docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`
+
+병합 뒤 같은 Decision ID와 최종 merge SHA로 Sheet 상태를 다시 갱신하고 bounded reread한다.

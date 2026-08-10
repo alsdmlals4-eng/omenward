@@ -1,16 +1,17 @@
 # [현행] OMENWARD 문서 수명주기 레지스트리
 
 ```yaml
-updated_at: 2026-08-07
+updated_at: 2026-08-11
 policy: OMW-PROC-20260804-DYNAMIC-CURRENT-MAIN-AND-DOCUMENT-LIFECYCLE-V1
 common_process_authority: alsdmlals4-eng/Base/AGENTS.md
 status: CURRENT_LIFECYCLE_AUTHORITY
-current_decision: OMW-DEC-20260806-PLANNING-PR142-LATEST-MAIN-INTEGRATION-V3
-latest_amendment: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
-current_count: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
+current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
+contract_version: 4.5
+current_phase: PHASE_A_GPT_CHAT_PLANNING
 ```
 
-이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않는다. 재사용 가능한 공통 작업 규칙은 Base에서만 관리하며 이 레지스트리는 OMENWARD 문서 상태만 판정한다.
+이 레지스트리는 파일명·과거 YAML·부분 문구보다 우선한다. `[대체됨]`, `[보류]`, `[폐기]`, history/evidence 문서는 신규 구현 입력으로 사용하지 않는다. 공통 운영 규칙은 Base current authority가 소유하며 이 Registry는 OMENWARD 문서 상태만 판정한다.
 
 ## 1. [현행]
 
@@ -23,15 +24,23 @@ current_count: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 - `CURRENT_IMPLEMENTATION_STATUS.md`
 - `DECISIONS_PENDING.md`
 - `DOCUMENTATION_MAP.md`
+- `PROJECT_CANON_DECISION_LEDGER.md`
+- `PROJECT_GOOGLE_SHEET_WORKBOOK.md`
 - `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`
+- `process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
+- `process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
+- `operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+- `operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`
 
 외부 공통 운영 권위:
 
 - `alsdmlals4-eng/Base/AGENTS.md`
+- `alsdmlals4-eng/Base/START_HERE.md`
 - `alsdmlals4-eng/Base/docs/OPERATING_MODEL.md`
 - `alsdmlals4-eng/Base/docs/WORK_MODE_AND_SKILL_ROUTING.md`
+- `alsdmlals4-eng/Base/skills/SKILL_REGISTRY.json`
 
-### Planning Batch와 후속 정정
+### Planning 1~10/10과 후속 정정
 
 - 1/10 `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
 - 2/10 `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
@@ -56,7 +65,41 @@ current_count: APPROVED_10_OF_10_WITH_TOKEN_SOURCE_AMENDMENT
 - `APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`: Phase 1 계약.
 - `APPROVED_PC_ANDROID_PHASE2_GAME_SESSION_DECOUPLING_2026-08-06.md`: Phase 2 구현·검증 증거.
 
-## 2. [대체됨]
+### 현행 runtime planning
+
+- `design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
+- `design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
+- `design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
+- `design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
+- `process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
+
+현재 runtime package는 승인 범위이지만 v4.5 `PHASE_C_BLOCKED` 때문에 persistent implementation은 아직 실행하지 않는다.
+
+## 2. [역사 / compatibility evidence]
+
+```text
+path = process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
+status = HISTORICAL_V4_4_BINDING
+replacement_for_current_routing = process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md
+retention = HISTORICAL_RUNTIME_TRANSITION_AND_CONTRACT_EVIDENCE
+IMPLEMENTATION_INPUT_FOR_CURRENT_PHASE = FORBIDDEN
+```
+
+```text
+path = operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json
+status = HISTORICAL_V4_4_BINDING
+replacement_for_current_routing = operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json
+retention = HISTORICAL_RUNTIME_TRANSITION_AND_VALIDATOR_COMPATIBILITY
+IMPLEMENTATION_INPUT_FOR_CURRENT_PHASE = FORBIDDEN
+```
+
+연결된 v4.4 validator/test/workflow는 당시 contract를 검증하는 regression evidence로 보존한다.
+
+- `tools/validate_active_integrated_contract_v4_4.py`
+- `tests/python/test_active_integrated_contract_v4_4.py`
+- `.github/workflows/validate-active-integrated-contract-v4-4.yml`
+
+## 3. [대체됨]
 
 ```text
 LOCAL_COMMON_PROCESS_POLICY
@@ -124,14 +167,17 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 - `design/APPROVED_15_WAVE_STAGE_CLOCK_AND_OVERTIME_V2.md`: 20 Stage 정본으로 대체.
 - 과거 post-merge Sync 문서: 당시 증거만 보존.
 
-## 3. [보류]
+## 4. [보류]
 
 - Hero·Legendary 문서군: 후속 재조정 전 구현 입력 금지.
 - Meta·Hub 문서군: 후속 재조정 전 구현 입력 금지.
-- 정확 경제·생산·TokenSource 수치: 시뮬레이션 전 확정 금지.
+- 정확 경제·생산·TokenSource 수치: final 승인·시뮬레이션 전 확정 금지.
+- final functional-value scalar/vector/parameter vector/product numerics: 미선택/미승인.
 - 구형 구현 계획: 재실행 금지, 과거 결정·검증 증거로만 사용.
+- PR #175 runtime implementation: 승인 범위지만 v4.5 Phase C 전환 전 persistent execution 보류.
+- PR #177: reference-only handoff, merge 금지.
 
-## 4. [폐기]
+## 5. [폐기]
 
 - 식량을 현행 핵심 HUD 자원으로 사용.
 - 기본 건물 5종.
@@ -151,7 +197,7 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 - 상시 접근 상점·무한 재고·무한 새로고침·할인 중첩.
 - 상인의 병종·전술·마력·분기 직접 판매.
 
-## 5. [증거]
+## 6. [증거]
 
 ```text
 [증거] data/units/*.tres
@@ -167,16 +213,19 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 
 `[증거]`는 과거 사실을 증명하지만 현재 규칙을 자동 변경하지 않는다.
 
-## 6. 신규 작업자용 프로젝트 확인
+## 7. 신규 작업자용 프로젝트 확인
 
-1. `PROJECT_CORE.md`, `DOCUMENTATION_MAP.md`, `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`를 먼저 읽는다.
-2. 대상 파일이 `[현행]`인지 확인한다.
-3. 건물 작업은 Tier 재정렬과 병영 TokenSource 정정 문서를 함께 읽고 앞선 정정을 우선한다.
-4. 상인 작업은 6/10 책임 원본을 우선한다.
-5. 정확 수치는 시뮬레이션·Codex 계획·제품 RED 테스트 뒤에만 확정한다.
-6. 공통 작업 절차는 프로젝트 내부 과거 정책이 아니라 Base 책임 원본을 따른다.
+1. Base current main/open PR을 fresh-read한다.
+2. `PROJECT_CORE.md`, `ACTIVE_CONTEXT.md`, `DOCUMENTATION_MAP.md`, `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`를 읽는다.
+3. 대상 파일이 `[현행]`인지 이 Registry에서 확인한다.
+4. 건물 작업은 Tier 재정렬과 병영 TokenSource 정정 문서를 함께 읽고 후속 정정을 우선한다.
+5. 상인 작업은 6/10 책임 원본과 최신 onboarding owner를 함께 확인한다.
+6. 정확 수치는 해당 최신 simulation/runtime Decision의 승인 상태를 다시 확인한다.
+7. 현재 v4.5 phase가 `PHASE_A_GPT_CHAT_PLANNING`이고 Phase C가 BLOCK인지 확인한다.
+8. PR175/Issue176을 읽더라도 사용자의 명시적 `기획 완료` 전 persistent runtime authoring을 시작하지 않는다.
+9. 같은 Decision ID의 GitHub canon과 Google Sheet가 일치하는지 확인한다.
 
-## 7. 완료 이력
+## 8. 완료 이력
 
 ```text
 OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 / 3_OF_10 / SUPERSEDED_LINEAGE

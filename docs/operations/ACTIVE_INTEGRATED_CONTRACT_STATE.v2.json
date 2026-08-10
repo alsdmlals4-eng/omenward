@@ -1,0 +1,78 @@
+{
+  "schema_version": "3.0",
+  "decision_id": "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1",
+  "observed_at": "2026-08-11T06:14:00+09:00",
+  "activation_baseline_main_sha": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
+  "base_current_main_observed": "315c66eea9614c284b9c11c4d522141065dfa4b0",
+  "active_contract": {
+    "name": "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
+    "version": "4.5",
+    "revision": "2026-08-11-r2",
+    "status": "ACTIVE_BASE_CURRENT_MAIN_THIN_ADAPTER_GODOT_DELIVERY_CONTRACT",
+    "binding_status": "ACTIVE",
+    "adapter_policy": "THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON",
+    "source": "USER_SUPPLIED_PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md"
+  },
+  "project_paths": {
+    "project_local_path": "C:/Users/user/Documents/GitHub/Ninza/omenward",
+    "godot_project_path": "C:/Users/user/Documents/GitHub/Ninza/omenward"
+  },
+  "planning_phase": {
+    "status": "PHASE_A_GPT_CHAT_PLANNING",
+    "planning_canon": "MAIN_CANONICAL_APPROVED_10_OF_10",
+    "continuous_work": "ACTIVE_WITHIN_APPROVED_CANON_SCOPE",
+    "completion_trigger": "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION",
+    "completion_declared": false,
+    "phase_b_status": "NOT_STARTED",
+    "phase_c_status": "PHASE_C_BLOCKED"
+  },
+  "phase_c_gate": "BLOCK",
+  "blocking_reasons": [
+    "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED",
+    "PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN",
+    "ISSUE176_7_RUNTIME_GAPS_OPEN"
+  ],
+  "canon_freshness": {
+    "special_t1_token_source_current": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "special_t1_none_status": "SUPERSEDED_IMPLEMENTATION_INPUT_FORBIDDEN",
+    "active_consumer_reconciliation": "IN_PROGRESS",
+    "sheet_sync": "PENDING_PROPOSED_WRITE_AND_REREAD"
+  },
+  "runtime_pr": {
+    "number": 175,
+    "state": "OPEN_DRAFT",
+    "head_sha": "bde85549560fca90f7aa25fc4842bc0a3afb92e7",
+    "issue": 176,
+    "approved_runtime_gap_count": 7,
+    "historical_exact_head_actions": "11_SUCCESS_0_FAILURE",
+    "strict_up_to_date_after_canon_merge": "NOT_YET_REVALIDATED",
+    "merge": "FORBIDDEN",
+    "phase_c_execution": "PAUSED_BY_V4_5_PHASE_GATE"
+  },
+  "handoff_pr": {
+    "number": 177,
+    "state": "OPEN_DRAFT",
+    "head_sha": "7654beced2cc5580ecc60a3a1d01c5767712c8b9",
+    "disposition": "REFERENCE_ONLY_DO_NOT_MERGE"
+  },
+  "historical_v4_4": {
+    "binding": "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md",
+    "state": "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
+    "validator": "tools/validate_active_integrated_contract_v4_4.py",
+    "test": "tests/python/test_active_integrated_contract_v4_4.py",
+    "status": "HISTORICAL_V4_4_BINDING"
+  },
+  "product_boundary": {
+    "product_code_mutation_by_this_decision": "NONE",
+    "godot_persistent_mutation_by_this_decision": "NONE",
+    "final_functional_value_index": null,
+    "final_parameter_vector": null,
+    "final_product_numerics": "NOT_APPROVED"
+  },
+  "sheet": {
+    "spreadsheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
+    "required_same_decision_sync": true,
+    "draft_status": "PROPOSED_SHEET_CHANGE",
+    "merged_status": "MERGED_CANON"
+  }
+}
