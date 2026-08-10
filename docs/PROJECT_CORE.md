@@ -258,3 +258,16 @@ NEXT_USER_GATE = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
 THEN = PHASE_B_FINAL_PLANNING_REVIEW
 PHASE_C = BLOCKED_UNTIL_PHASE_A_AND_B_COMPLETE
 ```
+
+## 11. Durable Vertical Slice compatibility evidence
+
+아래 literal은 기존 project-core validator와 과거 Vertical Slice 계약의 **compatibility/evidence anchor**다. 현행 v4.5 phase를 planning-only profile로 되돌리는 선언이 아니며, 기존 소비자가 역사·구현 경계를 계속 찾을 수 있도록 보존한다.
+
+```text
+PLANNING_ONLY_PROFILE
+제품 코드: `NOT_AUTHORIZED`
+VERTICAL_SLICE_NOT_IMPLEMENTED
+금고 / 농장 / 병영 / 방어탑 / 지휘소 / 마력탑
+```
+
+현재 건물 정본은 `일반병 병영 / 특수병 병영` 분리를 사용한다. 위 `병영` literal은 구형 validator compatibility anchor이며 current roster를 축약하는 권위가 아니다.
