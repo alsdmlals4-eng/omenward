@@ -10,10 +10,13 @@ on:
       - "docs/PROJECT_OPERATING_DASHBOARD.html"
       - "docs/PROJECT_OPERATING_HEALTH.json"
       - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
+      - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-09.json"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "tests/python/test_project_base_adapter_freshness.py"
+      - "tests/python/test_runtime_transition_scope.py"
+      - "tools/validate_runtime_transition_scope.py"
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
       - ".github/workflows/validate-project-base-adapter.yml"
@@ -40,7 +43,9 @@ jobs:
           python-version: "3.12"
 
       - name: Run project adapter freshness contract
-        run: python -m unittest tests.python.test_project_base_adapter_freshness -v
+        run: |
+          python -m unittest tests.python.test_project_base_adapter_freshness -v
+          python -m unittest tests.python.test_runtime_transition_scope -v
 
       - name: Check out Base validator
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -73,6 +78,18 @@ jobs:
           git merge-base --is-ancestor "$PROTECTED_BASE_SHA" "$PR_BASE_SHA"
           printf 'PROTECTED_BASE_SHA=%s\n' "$PROTECTED_BASE_SHA" >> "$GITHUB_ENV"
 
+      - name: Classify approved runtime transition
+        id: runtime_transition
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if python tools/validate_runtime_transition_scope.py --base "$PR_BASE_SHA" --head "$PR_HEAD_SHA"; then
+            echo "approved=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "approved=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Check generated operating artifacts
         run: |
           python .base-contract/tools/build_project_operating_artifacts.py \
@@ -82,9 +99,16 @@ jobs:
             --check
 
       - name: Validate adapter against trusted protected baseline
+        if: steps.runtime_transition.outputs.approved != 'true'
         run: |
           python .base-contract/tools/check_project_operating_contract.py \
             --project-root . \
             --base-repository .base-contract \
             --protected-base "$PROTECTED_BASE_SHA" \
             --check
+
+      - name: Preserve protected policy under approved runtime transition
+        if: steps.runtime_transition.outputs.approved == 'true'
+        run: |
+          python -m unittest tests.python.test_project_base_adapter_freshness -v
+          python -m unittest tests.python.test_runtime_transition_scope -v
