@@ -5,12 +5,15 @@ updated_at: 2026-08-11T06:14:00+09:00
 project: OMENWARD / 오멘워드
 main_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
+working_branch: planning/canon-freshness-v45-20260811
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
 continuous_work: ACTIVE_WITHIN_APPROVED_CANON_SCOPE
+planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
 current_planning_pr: 178
+product_code_authority: NONE
 runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
 active_runtime_head: bde85549560fca90f7aa25fc4842bc0a3afb92e7
