@@ -1,7 +1,7 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-10T13:15:00+09:00
+updated_at: 2026-08-10T14:08:00+09:00
 project: OMENWARD / 오멘워드
 main_sha: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
@@ -10,6 +10,7 @@ active_pr: 175
 active_issue: 176
 handoff_pr: 177
 handoff_branch: docs/handoff-pr175-issue176-pause-20260810
+handoff_disposition: REFERENCE_ONLY_HANDOFF_DO_NOT_MERGE_NOW
 work_mode: RUNTIME_IMPLEMENTATION_TRANSITION
 current_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 approval_reuse: SAME_APPROVED_SCOPE_NO_REAPPROVAL
@@ -22,14 +23,23 @@ non_godot_ci_tool_test_reconciliation_after_b014: COMPLETE
 exact_head_actions_bde85549: 11_SUCCESS_0_FAILURE
 human_qa_after_bde85549: NOT_RUN
 full_issue176_child_after_bde85549: NOT_RUN
+base_main_seen: 59aadec796260ae200e776af35954174fc5bda46
+base_project_evidence: BCP - OMENWARD
+base_project_evidence_pr: 243
+base_project_evidence_pr_state: MERGED_PROPOSAL_EVIDENCE_ONLY
+base_project_evidence_merge_sha: 59aadec796260ae200e776af35954174fc5bda46
+base_project_evidence_post_merge_ci: SUCCESS
+base_project_evidence_post_merge_run: 31357359735
+base_active_implementation_authority: NOT_GRANTED_IN_THIS_STAGE
 ```
 
 ## 현재 권위
 
-- OMENWARD `main`은 `87339f87949c8faea0dfe1482c5d0887a04d94f4`로 유지된다.
+- OMENWARD `main`은 `87339f87949c8faea0dfe1482c5d0887a04d94f4`다.
 - 승인된 runtime 구현 권위는 Draft PR #175 / Issue #176이다. 현재 PR #175 exact head는 `bde85549560fca90f7aa25fc4842bc0a3afb92e7`이다.
-- PR #177은 continuation locator이며 `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`다. 이 PR은 fresh GitHub/Sheet truth보다 높은 권위가 아니다.
-- `HANDOFF_CONTEXT.md`의 2026-08-10 11:57 KST checkpoint는 당시 사실을 보존하는 historical handoff snapshot이다. 이 `ACTIVE_CONTEXT.md`는 현재 live continuation router다.
+- PR #177은 continuation locator이며 `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`다. 이 PR의 자체 head SHA는 문서에 고정하지 않고 fresh GitHub truth를 사용한다.
+- `HANDOFF_CONTEXT.md`의 2026-08-10 11:57 KST checkpoint는 당시 사실을 보존하는 historical snapshot이다. 이 `ACTIVE_CONTEXT.md`가 mutable live continuation router다.
+- Base project evidence `BCP - OMENWARD`는 Base PR #243으로 `main`에 proposal-evidence-only로 병합되었다. 이것은 BCP-013 active 구현 승인이나 Base active behavior 변경을 뜻하지 않는다.
 
 ## 진행 상태
 
@@ -46,13 +56,17 @@ COMPLETED_VERIFIED
 - bde85549 Project Base Adapter generated-view/runtime-transition mismatch CLEARED
 - bde85549 active integrated v4.4 planning-only transition mismatch CLEARED
 - bde85549 exact-head GitHub Actions 11 SUCCESS / 0 FAILURE
+- Base PR243 BCP - OMENWARD exact-head validation SUCCESS
+- Base PR243 squash merge SUCCESS -> 59aadec796260ae200e776af35954174fc5bda46
+- Base post-merge push run 31357359735 SUCCESS
+- Base main readback contains BCP-OMENWARD.md
 
 IN_PROGRESS
 - Issue #176의 승인된 7개 runtime/fixture gap
 
 BLOCKED_UNVERIFIED
 - current agent environment cannot inspect the user's Windows Godot PID/socket/Godot-AI registry or invoke the required HiGodot persistent-authoring route
-- therefore the mandatory same-snapshot local diagnostic and persistent Godot/GDScript/GUT authoring cannot be truthfully executed here
+- therefore mandatory same-snapshot local diagnostic and persistent Godot/GDScript/GUT authoring remain unavailable here
 
 LAST_KNOWN_LOCAL_TECHNICAL_BOUNDARY
 - exact OMENWARD GUI PID29616 + console PID10512 were recently proven live on the exact project root
@@ -70,12 +84,10 @@ PR #175의 이전 exact head `b014a844...`에서는 GitHub Actions가 7 SUCCESS 
 
 같은 승인 범위 안에서 non-Godot CI/tool/test 보수만 수행했다.
 
-- `tests/python/test_barracks_functional_value_combat_numerics_review.py`: runtime을 전체 미구현으로 주장하던 historical assertion을 현재 partial runtime transition에 맞게 보수.
+- `tests/python/test_barracks_functional_value_combat_numerics_review.py`: runtime을 전체 미구현으로 주장하던 historical assertion을 current partial runtime transition에 맞게 보수.
 - `tools/validate_runtime_transition_scope.py` + `tests/python/test_runtime_transition_scope.py`: 승인된 barracks runtime protected-path surface만 fail-closed로 허용하는 전환 판정 추가.
 - Base v9 / Project Base Adapter / active v4.4 workflow는 이 판정을 사용해 해당 승인 runtime transition만 통과시키고, 다른 protected/unrelated delta는 계속 실패시킨다.
 - generated compatibility view의 변경되지 않은 legacy source hash 두 개를 검증값으로 복원했다.
-
-결과:
 
 ```text
 PR175_HEAD = bde85549560fca90f7aa25fc4842bc0a3afb92e7
@@ -98,10 +110,10 @@ CI Green은 Issue #176 runtime 구현 완료를 뜻하지 않는다. 실제 제�
 6. Registered deterministic fixtures: FV-PRIEST/MAGE/FLIER/GIANT/COMMON.
 7. True `TARGETS_HIT_PER_CAST` semantics with multi-cast coverage.
 
-## Base current / project-named BCP evidence
+## Base current / `BCP - OMENWARD`
 
 ```yaml
-base_main_seen: d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
+base_main_seen: 59aadec796260ae200e776af35954174fc5bda46
 base_existing_solution: BCP-2026-013-post-merge-continuation-state-reconciliation
 base_existing_solution_pr: 235
 base_existing_solution_pr_state: MERGED_PROPOSAL_ONLY
@@ -109,35 +121,30 @@ base_existing_solution_merge_sha: 3ff790116bc08f49e126cd286ec453bf6e46376e
 base_existing_solution_verdict: REUSE_BCP_2026_013
 project_named_evidence_title: BCP - OMENWARD
 project_named_evidence_pr: 243
-project_named_evidence_pr_state: OPEN_DRAFT
-project_named_evidence_branch_creation_base: c14e4e841171a98e2471cbe7ff94afe4d55501fb
-project_named_evidence_refreshed_base: d5cfcfa96fcf33bf7e01dc617d7f68e8d5bbbeaf
-project_named_evidence_head: 0fc5c6d193c26f1cc6145e29b5dbfe1141c9ded8
+project_named_evidence_pr_state: MERGED_PROPOSAL_EVIDENCE_ONLY
+project_named_evidence_premerge_head: f4f42c45342b88072852baa36a65b643890d72a7
+project_named_evidence_merge_sha: 59aadec796260ae200e776af35954174fc5bda46
 project_named_evidence_scope: ONE_FILE_PROPOSAL_ONLY
-project_named_evidence_validation: SUCCESS
-base_race_change: PR244_BCP014_WORDING_PROPOSAL_ONLY_NONOVERLAP
-new_canonical_bcp_from_omenward: NO
+project_named_evidence_premerge_validation: SUCCESS
+project_named_evidence_post_merge_validation: SUCCESS
+project_named_evidence_post_merge_run: 31357359735
 proposal_registry_change_from_omenward: NONE
+new_canonical_bcp_from_omenward: NO
 base_implementation_authority_in_this_stage: NOT_GRANTED_IN_THIS_STAGE
-other_project_changes_preserved: true
 ```
 
-Base PR #235의 BCP-013은 이미 proposal-only로 main에 병합되었다. 사용자 규칙에 따라 OMENWARD의 human/project evidence는 `BCP - OMENWARD`로 이름 붙였고, 새 canonical BCP를 만들지 않고 기존 BCP-013 evidence에 연결했다.
-
-Base Draft PR #243의 정확한 diff는 다음 한 파일뿐이다.
+`BCP - OMENWARD`는 새 canonical BCP가 아니라 기존 BCP-013의 프로젝트명 corroborating evidence다. 병합된 정확한 경로는 다음이다.
 
 `[수정제안서]/BCP-2026-013-post-merge-continuation-state-reconciliation/evidence/BCP-OMENWARD.md`
 
-PR #243 생성 직후 Base main은 `c14e4e84...`에서 `d5cfcfa9...`로 전진했다. 새 main 변화는 PR #244의 `[수정제안서]/BCP-2026-014-handoff-machine-consumer-compatibility-closeout/PROPOSAL.md` 한 파일 proposal-only 문구 정정이며 PR #243의 BCP-013 evidence 파일과 경로가 겹치지 않았다. 현재 main을 PR #243 branch에 비충돌 통합한 뒤에도 diff는 BCP-OMENWARD evidence 한 파일이고 exact-head Base validation은 SUCCESS다.
+PR #243은 최신 Base main `16af66ff...`까지 비충돌 동기화한 뒤 exact-head validation을 통과했고, expected-head 고정 squash merge로 `59aadec...`가 되었다. post-merge push run `31357359735`도 SUCCESS이며 main readback에서 파일 존재를 확인했다.
 
-OMENWARD가 추가로 제공하는 reusable use-condition은 다음이다: continuation locator 자체를 병합하면 active exact-head implementation PR이 불필요하게 stale/behind가 되는 경우 locator를 `REFERENCE_ONLY / DO_NOT_MERGE`로 유지하고, live router는 fresh repository truth에서 reconcile할 수 있다.
-
-Base PR #243은 active Base implementation을 승인하거나 수행하지 않는다. 다른 프로젝트의 proposal PR/Registry를 수정·병합하지 않는다.
+`PROPOSAL_REGISTRY.json`과 Base active Skill/Method/Template/Test/Workflow는 이 OMENWARD evidence 병합으로 변경되지 않았다. BCP-013 active implementation은 별도 `APPROVED_FOR_IMPLEMENTATION`과 approval ref가 필요하다.
 
 ## 재개 시 첫 실행
 
 1. OMENWARD `main`, PR #175, PR #177, Issue #176을 fresh-read한다.
-2. Base `main`, BCP-013 상태, open proposal PR, `BCP - OMENWARD` PR #243을 fresh-read한다.
+2. Base `main`, BCP-013 상태, open proposal PR, `BCP - OMENWARD` main evidence를 fresh-read한다.
 3. Google Sheet hub/latest audit/latest history/Base candidate row를 fresh-read한다.
 4. full executor보다 먼저 한 시점에서 current exact OMENWARD process/command line + ESTABLISHED WS9500 + Godot-AI connection/handshake/auth/4003/reconnect/session log + immediate `session_manage(op=list)`를 확인한다.
 5. exact OMENWARD session present → Issue #176 NonInteractive executor 재개.
