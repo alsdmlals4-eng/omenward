@@ -1,0 +1,74 @@
+name: Validate Canon Freshness v4.5 Routing
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "AGENTS.md"
+      - "docs/ACTIVE_CONTEXT.md"
+      - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+      - "docs/DOCUMENTATION_MAP.md"
+      - "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+      - "docs/OMENWARD_GDD_CURRENT_CANON.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/PROJECT_CORE.md"
+      - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
+      - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
+      - "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"
+      - "tests/python/test_canon_freshness_v45_routing.py"
+      - ".github/workflows/validate-canon-freshness-v4-5.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "AGENTS.md"
+      - "docs/ACTIVE_CONTEXT.md"
+      - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+      - "docs/DOCUMENTATION_MAP.md"
+      - "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+      - "docs/OMENWARD_GDD_CURRENT_CANON.md"
+      - "docs/PROJECT_CANON_DECISION_LEDGER.md"
+      - "docs/PROJECT_CORE.md"
+      - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
+      - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
+      - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
+      - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
+      - "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"
+      - "tests/python/test_canon_freshness_v45_routing.py"
+      - ".github/workflows/validate-canon-freshness-v4-5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: canon-v45-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  canon-v45:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out exact project head
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          show-progress: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Compile canon freshness contract
+        run: python -m py_compile tests/python/test_canon_freshness_v45_routing.py
+
+      - name: Run canon freshness contract
+        run: python -m unittest tests.python.test_canon_freshness_v45_routing -v
+
+      - name: Check whitespace
+        run: git diff --check
