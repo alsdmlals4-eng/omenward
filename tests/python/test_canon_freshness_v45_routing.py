@@ -7,6 +7,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
 DECISION = "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1"
+ACTIVATION_DECISION = "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1"
 BASE_MAIN = "315c66eea9614c284b9c11c4d522141065dfa4b0"
 PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
@@ -14,6 +15,7 @@ SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 BINDING = ROOT / "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
 STATE = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
 DECISION_DOC = ROOT / "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
+CANONICAL_V45_R2 = ROOT / "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md"
 SHEET_EVIDENCE = ROOT / "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"
 GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
 WORKBOOK = ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
@@ -30,6 +32,30 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
     def test_v45_authority_files_exist(self) -> None:
         for path in (BINDING, STATE, DECISION_DOC, SHEET_EVIDENCE):
             self.assertTrue(path.is_file(), f"missing current v4.5 authority artifact: {path.relative_to(ROOT)}")
+
+    def test_v45_r2_full_instruction_is_repo_canonical_source(self) -> None:
+        self.assertTrue(CANONICAL_V45_R2.is_file(), f"missing repo canonical instruction: {CANONICAL_V45_R2.relative_to(ROOT)}")
+        text = CANONICAL_V45_R2.read_text(encoding="utf-8")
+        for marker in (
+            "contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION",
+            "contract_version: '4.5'",
+            "status: ACTIVE_BASE_CURRENT_MAIN_THIN_ADAPTER_GODOT_DELIVERY_CONTRACT",
+            "revision: '2026-08-11-r2'",
+            "adapter_policy: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON",
+            'project_local_path: "C:/Users/user/Documents/GitHub/Ninza/omenward"',
+            'canonical_local_checkout: "C:/Users/user/Documents/GitHub/Ninza/omenward"',
+            'godot_project_path: "C:/Users/user/Documents/GitHub/Ninza/omenward"',
+        ):
+            self.assertIn(marker, text)
+        self.assertNotIn("Switchy-Express-Cargo-Puzzle", text)
+
+        binding = BINDING.read_text(encoding="utf-8")
+        self.assertIn(ACTIVATION_DECISION, binding)
+        self.assertIn(str(CANONICAL_V45_R2.relative_to(ROOT)).replace("\\", "/"), binding)
+
+        state = json.loads(STATE.read_text(encoding="utf-8"))
+        self.assertEqual(state["active_contract"]["source"], str(CANONICAL_V45_R2.relative_to(ROOT)).replace("\\", "/"))
+        self.assertEqual(state["active_contract"]["activation_decision_id"], ACTIVATION_DECISION)
 
     def test_v45_binding_is_thin_adapter_and_phase_c_is_blocked(self) -> None:
         text = BINDING.read_text(encoding="utf-8")
