@@ -3,6 +3,9 @@
 ```yaml
 updated_at: 2026-08-11T06:14:00+09:00
 project: OMENWARD / 오멘워드
+current_branch: main
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 main_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
 working_branch: planning/canon-freshness-v45-20260811
@@ -26,6 +29,8 @@ phase_c_gate: BLOCK
 product_mutation_this_decision: NONE
 godot_persistent_mutation_this_decision: NONE
 ```
+
+`current_branch/current_main/context_baseline_commit`은 기존 consumer가 fresh default-branch truth를 다시 resolve하도록 유지하는 dynamic locator다. `main_activation_baseline`은 이 Decision을 시작할 때 고정한 역사 비교 SHA이며 current main resolver를 대체하지 않는다.
 
 ## 현재 작업 기준
 
