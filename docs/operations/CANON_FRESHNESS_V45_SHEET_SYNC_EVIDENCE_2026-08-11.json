@@ -17,12 +17,41 @@
     "status": "MERGED_VERIFIED",
     "source_normalization": "USER_SUPPLIED_R2_BODY_PRESERVED_EXCEPT_3_PROJECT_PATHS_RECONCILED_TO_CURRENT_OMENWARD_INPUT"
   },
+  "ranges": [
+    "00_프로젝트_허브!A2:L2",
+    "01_작업순서!A67:N67",
+    "02_현재_확정결정!A104:M104",
+    "04_누락_충돌_감사!A632:H632",
+    "05_GDD_요약!A26:J26",
+    "15_조작_게임규칙!A47:J47",
+    "99_변경이력!A180:H180",
+    "00_프로젝트_허브!E2:L2",
+    "02_현재_확정결정!E104:M105",
+    "04_누락_충돌_감사!A636:H636",
+    "99_변경이력!E182:H182"
+  ],
   "sheet_ranges": [
     "00_프로젝트_허브!E2:L2",
     "02_현재_확정결정!E104:M105",
     "04_누락_충돌_감사!A636:H636",
     "99_변경이력!E182:H182"
   ],
+  "reread_assertions": {
+    "hub_current_phase": "PHASE_A_GPT_CHAT_PLANNING",
+    "hub_phase_c_gate": "PHASE_C_BLOCK",
+    "decision_id_present": true,
+    "activation_decision_id_present": true,
+    "activation_decision_status": "MERGED_CANON",
+    "technical_closure": "PASS",
+    "validated_main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
+    "main_full_python_matrix": "6_OF_6_SUCCESS",
+    "godot": "SUCCESS",
+    "latest_audit_id": "OMW-AUD-636",
+    "active_gdd_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "current_rule_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "historical_building_tier_row_overwritten": false,
+    "canonical_blob_recorded": "45cc0859fbd0b6b46d46924592169164ff133a2e"
+  },
   "sheet_reread_assertions": {
     "activation_decision_status": "MERGED_CANON",
     "technical_closure": "PASS",
@@ -39,34 +68,13 @@
     "run_id": 31441986515,
     "main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
     "jobs": {
-      "ubuntu_3_11": {
-        "job_id": 93628429387,
-        "result": "SUCCESS"
-      },
-      "ubuntu_3_12": {
-        "job_id": 93628429382,
-        "result": "SUCCESS"
-      },
-      "ubuntu_3_13": {
-        "job_id": 93628429352,
-        "result": "SUCCESS"
-      },
-      "windows_3_11": {
-        "job_id": 93628429380,
-        "result": "SUCCESS"
-      },
-      "windows_3_12": {
-        "job_id": 93628429364,
-        "result": "SUCCESS"
-      },
-      "windows_3_13": {
-        "job_id": 93628429327,
-        "result": "SUCCESS"
-      },
-      "godot": {
-        "job_id": 93628429247,
-        "result": "SUCCESS"
-      }
+      "ubuntu_3_11": {"job_id": 93628429387, "result": "SUCCESS"},
+      "ubuntu_3_12": {"job_id": 93628429382, "result": "SUCCESS"},
+      "ubuntu_3_13": {"job_id": 93628429352, "result": "SUCCESS"},
+      "windows_3_11": {"job_id": 93628429380, "result": "SUCCESS"},
+      "windows_3_12": {"job_id": 93628429364, "result": "SUCCESS"},
+      "windows_3_13": {"job_id": 93628429327, "result": "SUCCESS"},
+      "godot": {"job_id": 93628429247, "result": "SUCCESS"}
     }
   },
   "tdd_and_debugging_lineage": {
