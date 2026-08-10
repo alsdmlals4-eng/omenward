@@ -11,12 +11,16 @@ planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 work_phase: PHASE_A_GPT_CHAT_PLANNING
 phase_c_gate: BLOCK
 product_code_authority: NONE
+image_generation: STOPPED_BY_USER
 runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 runtime_pr: 175
 runtime_issue: 176
 runtime_gap_count: 7
 handoff_pr: 177
 handoff_disposition: REFERENCE_ONLY_DO_NOT_MERGE
+parallel_platform_architecture: OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+parallel_platform_phase2: OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
+platform_phase2_status: MAIN_CANONICAL
 ```
 
 공통 작업·검증·TDD·벤치마킹·PR·적대적 검토·승인 배치·Base 개선 절차는 **fresh `alsdmlals4-eng/Base` current authority**를 따른다. 이 파일은 Base 절차를 복제하지 않고 OMENWARD 고유의 읽기 순서, 현재 Decision, 제품 경계와 단계 Gate만 책임진다.
@@ -119,19 +123,56 @@ godot_project_path = C:/Users/user/Documents/GitHub/Ninza/omenward
 
 - planning canon은 `MAIN_CANONICAL_APPROVED_10_OF_10`이다.
 - 정확 final functional-value scalar/vector/parameter vector/product numerics는 아직 승인되지 않았다.
-- 승인되지 않은 자동화·하드카운터·직접 핵심 보상 판매를 추가하지 않는다.
+- 승인되지 않은 자동화·편성·하드카운터·직접 핵심 보상 판매를 추가하지 않는다.
 - 이미지 생성은 사용자 지시에 따라 중단 상태다.
+- 정확 수치는 해당 최신 simulation/runtime Decision의 승인 상태를 다시 확인한다.
+- 병렬 플랫폼 작업은 Planning Batch 카운터에 포함되지 않는 `NON_COUNTER`다.
 - PR177은 현재 정본보다 높은 권위를 갖지 않는다.
 - historical v4.4 binding/state/test/workflow는 당시 사실 증거로 보존한다.
 - Google Sheet는 사용자 GDD workspace/mirror이며 GitHub 권위 문서와 같은 Decision ID로 동기화한다.
 
-## 7. PC·Android 공용 코어 상태
+## 7. 플랫폼 출시·에셋 증거
+
+출시 플랫폼과 프로젝트별 자산 증거는 다음 파일을 읽는다.
+
+- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
+- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
+- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
+- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
+
+플랫폼 운영 Decision은 `OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1`이다.
 
 ```text
+platform_decision = APPROVED_DUAL_PLATFORM
+release_strategy = STAGED_CROSS_PLATFORM
+PC = COMMITTED
+Steam = COMMITTED_PRIMARY_STORE
+STOVE = SECONDARY_RELEASE_CANDIDATE
+Android = COMMITTED
+Google Play = COMMITTED_PRIMARY_STORE
+iOS = NOT_CURRENT_SCOPE
+simultaneous release = NOT_COMMITTED
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+RELEASE_BLOCKED_UNVERIFIED
+```
+
+자산 감사, 상점 제출, 최종 등급, 법률 검토는 각 책임 원본의 fresh 상태를 다시 확인하며, 과거 `NOT_RUN / NOT_ASSIGNED` 기록만으로 현재 완료를 주장하지 않는다.
+
+## 8. PC·Android 공용 코어·어댑터 상태
+
+```text
+ARCHITECTURE_DECISION = OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+PHASE0_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE0-FREE-LOCAL-V1
+PHASE1_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE1-CONTRACTS-V1
+PHASE2_DECISION = OMW-DEC-20260806-PC-ANDROID-PHASE2-GAME-SESSION-DECOUPLING-V1
+PHASE2_MAIN = 04e53660387a3bb6d51edd746950cbb6cad8b745
 ARCHITECTURE_STATUS = MAIN_CANONICAL
-PHASE0_STATIC_GUARD = MAIN_CANONICAL_LOCAL_PASS
-PHASE1_COMMAND_EVENT_CONTRACTS = MAIN_CANONICAL_LOCAL_PASS
-PHASE2_GAME_SESSION_DECOUPLING = MAIN_CANONICAL_LOCAL_PASS
+PHASE0_STATUS = MAIN_CANONICAL_LOCAL_PASS
+PHASE1_STATUS = MAIN_CANONICAL_LOCAL_PASS
+PHASE2_STATUS = MAIN_CANONICAL_LOCAL_PASS
+PHASE0_LEGACY_ALLOWLIST = 0
 SHARED_SAVE_SCHEMA = NOT_STARTED
 PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
 ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
@@ -142,4 +183,24 @@ MOBILE_RELEASE_GATE = NOT_RUN
 EXPORT_PRESETS = ABSENT
 ```
 
-플랫폼 Phase 0~2의 과거 local-pass는 해당 구조 경계만 증명하며 현재 gameplay runtime package 완료나 출시 준비를 뜻하지 않는다.
+제품 구조 책임 원본:
+
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
+- `docs/APPROVED_PC_ANDROID_PHASE2_GAME_SESSION_DECOUPLING_2026-08-06.md`
+- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+
+공용 domain/core의 실제 검사 대상과 실행 명령은 `scripts/platform/README.md`에 기록한다. 과거 Phase 0~2 local-pass는 해당 구조 경계만 증명하며 현재 gameplay runtime package 완료나 출시 준비를 뜻하지 않는다.
+
+## 9. Planning lineage 보존
+
+다음 값은 history/index이며 현재 6/10 상태를 다시 선언하지 않는다.
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 = 3_OF_10 / SUPERSEDED_LINEAGE
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 = 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 = 5_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 = 6_OF_10
+LEGACY_C1_C2_C3_PROVEN
+```
