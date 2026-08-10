@@ -5,8 +5,10 @@ updated_at: 2026-08-11
 status: CURRENT_DOCUMENTATION_MAP
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+current_instruction_activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 contract_version: 4.5
+contract_revision: 2026-08-11-r2
 work_phase: PHASE_A_GPT_CHAT_PLANNING
 runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 ```
@@ -18,15 +20,18 @@ runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMEN
 3. `DOCUMENT_LIFECYCLE_REGISTRY.md`
 4. `OMENWARD_GDD_CURRENT_CANON.md`
 5. `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-6. 현재 Decision 책임 원본
-7. `DECISIONS_PENDING.md`
-8. `CURRENT_IMPLEMENTATION_STATUS.md`
-9. 연결 Google Sheet의 current Decision·audit·관련 시스템 탭
+6. `process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md`
+7. `process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
+8. 현재 Decision 책임 원본
+9. `DECISIONS_PENDING.md`
+10. `CURRENT_IMPLEMENTATION_STATUS.md`
+11. 연결 Google Sheet의 current Decision·audit·관련 시스템 탭
 
-공통 Work Mode·Skill·검증 절차는 fresh Base current authority가 책임진다.
+공통 Work Mode·Skill·검증 절차는 fresh Base current authority가 책임진다. v4.5 r2 full instruction은 프로젝트 단계·경로·승인·Sheet·Phase Gate를 소유하는 OMENWARD 정본이며 Base 공통 canon을 복제하는 권위가 아니다.
 
 ## 2. 현재 운영·단계 owner
 
+- `process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md` — full repo canonical instruction, activation Decision `OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1`
 - `process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
 - `process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
 - `operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
@@ -94,6 +99,7 @@ PR175의 이전 11/11 Actions는 당시 exact-head/base 역사 증거다. v4.5 p
 
 - 공통 작업·검증·TDD·PR·승인 배치·Sheet 동기화 규칙: fresh `alsdmlals4-eng/Base` current authority.
 - `DOCUMENT_LIFECYCLE_REGISTRY.md`: `[현행]/[대체됨]/[보류]/[폐기]/[증거]/history` 최종 라우터.
+- `process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md`: OMENWARD full work-instruction canon. 원문 r2를 보존하고 사용자 최신 프로젝트 경로 3곳만 OMENWARD로 정합화했다.
 - `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`: OMENWARD 문서 수명주기 고유 정책.
 - `process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md`: Base로 대체된 과거 경로 표식이며 활성 공통 권위가 아니다.
 - `PROJECT_CANON_DECISION_LEDGER.md`: current Decision + detailed lineage/evidence index.
