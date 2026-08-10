@@ -56,7 +56,7 @@ class BarracksFunctionalValueCombatNumericsReviewTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_runtime_is_not_role_complete_for_functional_value_measurement(self) -> None:
+    def test_runtime_is_partially_role_complete_and_remaining_gaps_stay_explicit(self) -> None:
         profile = ARCHETYPE_PROFILE.read_text(encoding="utf-8")
         shared = SHARED.read_text(encoding="utf-8")
         lane = LANE_STATE.read_text(encoding="utf-8")
@@ -64,26 +64,36 @@ class BarracksFunctionalValueCombatNumericsReviewTest(unittest.TestCase):
         attack = ATTACK_PROFILE.read_text(encoding="utf-8")
         bootstrap = BOOTSTRAP.read_text(encoding="utf-8")
         battle = BATTLE.read_text(encoding="utf-8")
+
         for approved_field in ("movement_layer", "passive_ids", "skill_ids", "targeting_profile_id", "threat_cost"):
             self.assertIn(approved_field, shared)
             self.assertNotIn(f"var {approved_field}", profile)
+
         self.assertIn("target_priority_tags", profile)
-        self.assertNotIn("target_priority_tags", lane)
+        self.assertIn("target_priority_tags", lane)
+        self.assertIn("_select_priority", lane)
         self.assertIn("attacker.distance_to(left)", lane)
+
         self.assertIn("magic_resistance", unit_resource("mage"))
-        receive_damage = re.search(r"func receive_damage\(.*?\n\n", unit, flags=re.S)
+        receive_damage = re.search(r"func receive_damage_with_channel\(.*?\n\n", unit, flags=re.S)
         self.assertIsNotNone(receive_damage)
-        self.assertIn('get("armor"', receive_damage.group(0))
-        self.assertNotIn("magic_resistance", receive_damage.group(0))
+        self.assertIn('"armor"', receive_damage.group(0))
+        self.assertIn('"magic_resistance"', receive_damage.group(0))
+
         self.assertIn("preparation_ms: int = 100", attack)
         self.assertIn("hit_ms: int = 100", attack)
         self.assertIn("recovery_ms: int = 100", attack)
         self.assertNotIn("preparation_ms =", bootstrap)
         self.assertNotIn("hit_ms =", bootstrap)
         self.assertNotIn("recovery_ms =", bootstrap)
+
         self.assertIn("request_assassin_bypass", battle)
         self.assertIn("unit.is_siege_damage()", battle)
-        self.assertNotIn("healing", battle.lower())
+        self.assertIn("_advance_priest", battle)
+        self.assertIn("role_heal", battle)
+        self.assertIn("role_aoe_hit", battle)
+        self.assertIn("role_backline_contact", battle)
+        self.assertIn("BLOCKED_RUNTIME_OUTPUT", battle)
         self.assertNotIn("movement_layer", battle)
         self.assertNotIn("target_layers", battle)
 
