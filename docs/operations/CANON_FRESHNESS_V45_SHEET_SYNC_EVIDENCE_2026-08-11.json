@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1",
+  "spreadsheet_id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
+  "sheet_title": "오멘워드(OMENWARD)",
+  "observed_time_zone": "Asia/Seoul",
+  "write_stage": "PROPOSED_SHEET_CHANGE",
+  "sync_result": "PASS",
+  "reread_result": "PASS",
+  "base_main_observed": "315c66eea9614c284b9c11c4d522141065dfa4b0",
+  "project_activation_baseline_main": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
+  "source_pr": 178,
+  "source_head_at_proposed_sheet_write": "1754f0b2afe67e8d01fe07517f6f49066d76a297",
+  "runtime_pr": {
+    "number": 175,
+    "head": "bde85549560fca90f7aa25fc4842bc0a3afb92e7",
+    "state": "OPEN_DRAFT",
+    "approved_runtime_gap_count": 7
+  },
+  "handoff_pr": {
+    "number": 177,
+    "head": "7654beced2cc5580ecc60a3a1d01c5767712c8b9",
+    "disposition": "REFERENCE_ONLY_DO_NOT_MERGE"
+  },
+  "ranges": [
+    "00_프로젝트_허브!A2:L2",
+    "01_작업순서!A67:N67",
+    "02_현재_확정결정!A104:M104",
+    "04_누락_충돌_감사!A632:H632",
+    "05_GDD_요약!A26:J26",
+    "15_조작_게임규칙!A47:J47",
+    "99_변경이력!A180:H180"
+  ],
+  "reread_assertions": {
+    "hub_current_phase": "PHASE_A_GPT_CHAT_PLANNING",
+    "hub_phase_c_gate": "PHASE_C_BLOCK",
+    "hub_base_main": "315c66eea9614c284b9c11c4d522141065dfa4b0",
+    "decision_id_present": true,
+    "decision_status": "PROPOSED_SHEET_CHANGE",
+    "audit_id": "OMW-AUD-632",
+    "active_gdd_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "current_rule_special_t1_token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "historical_building_tier_row_overwritten": false,
+    "history_row": "OMW-SYNC-20260811-CANON-FRESHNESS-V45-PROPOSED-V1"
+  },
+  "current_special_t1_contract": {
+    "selection_trigger": "SUCCESSFUL_CONSTRUCTION_COMMIT",
+    "selected_unit_persistence": "FIXED_WHILE_BUILDING_REMAINS_T1",
+    "auto_production": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "token_source": "SELECTED_RANDOM_SPECIAL_UNIT",
+    "acquisition_relation": "SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS",
+    "save_reload_reselect": "FORBIDDEN",
+    "free_reroll": "FORBIDDEN"
+  },
+  "phase_gate": {
+    "current_phase": "PHASE_A_GPT_CHAT_PLANNING",
+    "planning_completion_trigger": "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION",
+    "phase_b": "NOT_RUN",
+    "phase_c": "BLOCK",
+    "product_mutation": "NONE",
+    "godot_persistent_mutation": "NONE"
+  },
+  "red_evidence": {
+    "workflow_run": 31433522187,
+    "job": 93602326789,
+    "result": "EXPECTED_FAILURE",
+    "test_count": 8,
+    "failures": 5,
+    "errors": 3,
+    "existing_omenward_core_same_red_head": "SUCCESS",
+    "existing_base_v9_adoption_same_red_head": "SUCCESS"
+  },
+  "post_merge_required": {
+    "update_same_decision_to": "MERGED_CANON",
+    "record_merge_sha": true,
+    "bounded_reread": true
+  }
+}
