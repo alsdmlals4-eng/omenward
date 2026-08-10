@@ -51,6 +51,7 @@ Planning 1~10/10의 최종 온보딩 우선순위와 후속 정정은 `ONBOARDIN
 
 주요 current owner:
 
+- `design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
 - `design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`
 - `design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md`
@@ -65,9 +66,11 @@ Planning 1~10/10의 최종 온보딩 우선순위와 후속 정정은 `ONBOARDIN
 
 ## 4. 현재 runtime package owner
 
+- `design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
 - `design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
 - `design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
 - `design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
+- `process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
 - PR #175: runtime implementation Draft
 - Issue #176: seven approved runtime/fixture gaps
 - PR #177: `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`
@@ -76,6 +79,7 @@ PR175의 이전 11/11 Actions는 당시 exact-head/base 역사 증거다. v4.5 p
 
 ## 5. 플랫폼 owner
 
+- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
 - `design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
 - `APPROVED_PC_ANDROID_PHASE0_FREE_LOCAL_BASELINE_2026-08-06.md`
 - `APPROVED_PC_ANDROID_PHASE1_CONTRACTS_2026-08-06.md`
@@ -86,19 +90,57 @@ PR175의 이전 11/11 Actions는 당시 exact-head/base 역사 증거다. v4.5 p
 
 플랫폼 Phase 0~2 증거는 gameplay runtime 완료 또는 출시 준비 완료를 뜻하지 않는다.
 
-## 6. 역사·대체 owner
+## 6. 운영·수명주기 owner
 
-문서 상태 최종 판정은 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 담당한다.
+- 공통 작업·검증·TDD·PR·승인 배치·Sheet 동기화 규칙: fresh `alsdmlals4-eng/Base` current authority.
+- `DOCUMENT_LIFECYCLE_REGISTRY.md`: `[현행]/[대체됨]/[보류]/[폐기]/[증거]/history` 최종 라우터.
+- `process/APPROVED_DYNAMIC_CURRENT_MAIN_AND_DOCUMENT_LIFECYCLE_POLICY_2026-08-04.md`: OMENWARD 문서 수명주기 고유 정책.
+- `process/APPROVED_BENCHMARK_TDD_AND_APPROVAL_BATCH_POLICY_2026-08-05.md`: Base로 대체된 과거 경로 표식이며 활성 공통 권위가 아니다.
+- `PROJECT_CANON_DECISION_LEDGER.md`: current Decision + detailed lineage/evidence index.
+- `PROJECT_GOOGLE_SHEET_WORKBOOK.md`: GitHub↔Sheet current/history 동기화 계약.
 
-대표 history:
+## 7. 역사·대체 owner와 발견 경로
+
+문서 상태 최종 판정은 `DOCUMENT_LIFECYCLE_REGISTRY.md`가 담당한다. 과거 책임 문서를 current 구현 입력으로 승격하지 않되, audit/review/spec discovery를 잃지 않도록 경로는 보존한다.
+
+### v4.4 history
 
 - `process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md` = `HISTORICAL_V4_4_BINDING`
 - `operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json` = v4.4 historical machine state
-- `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md` = superseded building lineage
-- `OMENWARD_GAME_DESIGN.md` = superseded GDD
-- `reviews/**`, `archive/**`, completed PR/CI/Sheet rows = evidence/history
+- `tools/validate_active_integrated_contract_v4_4.py`, 관련 test/workflow = historical regression evidence
 
-## 7. 현재 보호 경계
+### Building / onboarding lineage
+
+- `design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md` = superseded building lineage
+- `reviews/ADVERSARIAL_BUILDING_TIER_REALIGNMENT_REVIEW_2026-08-06.md` = Tier realignment adversarial evidence
+- `reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md` = 6/10 merchant review evidence
+- `superpowers/specs/2026-08-05-stage-end-merchant-design.md` = 6/10 design spec evidence
+- `superpowers/specs/2026-08-05-stage-end-merchant-design-amendment.md` = amendment evidence
+- `superpowers/plans/2026-08-05-stage-end-merchant.md` = historical execution plan
+- `reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md` = vertical-slice review evidence
+- `reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md` = core/legacy conflict review evidence
+
+### General history/evidence
+
+- `benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md` = `PILOT_RECOMMENDATION / NOT_CANON`
+- `OMENWARD_GAME_DESIGN.md` = superseded GDD
+- `reviews/**`, `benchmarks/**`, `archive/**`, completed PR/CI/Sheet rows = evidence/history
+- `LEGACY_C1_C2_C3_PROVEN` = historical automated evidence only
+
+## 8. Planning lineage index
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 = 3_OF_10 / SUPERSEDED_LINEAGE
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 = 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 = 5_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 = 6_OF_10
+OMW-DEC-20260806-PLANNING-PR142-LATEST-MAIN-INTEGRATION-V3 = APPROVED_10_OF_10 lineage
+LEGACY_C1_C2_C3_PROVEN
+```
+
+이 index는 현재 planning phase를 3~6/10으로 되돌리지 않는다. current state는 top YAML과 `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`가 책임진다.
+
+## 9. 현재 보호 경계
 
 ```text
 PRODUCT_RUNTIME_PHASE_C = BLOCKED
