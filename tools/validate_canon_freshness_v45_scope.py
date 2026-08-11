@@ -83,12 +83,27 @@ CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES = {
 }
 CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS = set(CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES)
 
+PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES = {
+    "AGENTS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
+    "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
+    "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md",
+    "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md",
+    "tests/python/test_phase_a_readiness_dependency_classification.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+PHASE_A_READINESS_CLASSIFICATION_REQUIRED_ANCHORS = set(PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | POSTMERGE_CI_ALLOWED_FILES
     | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
     | POSTMERGE_EVIDENCE_ALLOWED_FILES
     | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES
+    | PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES
 )
 
 
@@ -152,6 +167,13 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
             changed,
             CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS,
             "current consumer reconciliation",
+        )
+
+    if changed <= PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES:
+        return _validate_required(
+            changed,
+            PHASE_A_READINESS_CLASSIFICATION_REQUIRED_ANCHORS,
+            "Phase A readiness classification",
         )
 
     if changed <= ACTIVATION_ALLOWED_FILES:
