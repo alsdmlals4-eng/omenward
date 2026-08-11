@@ -76,6 +76,17 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         ):
             self.assertIn(marker, combined)
 
+    def test_current_responsibility_sources_preserve_existing_active_owners(self) -> None:
+        text = PENDING.read_text(encoding="utf-8")
+        for source in (
+            "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
+            "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md",
+            "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md",
+            "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md",
+            "docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md",
+        ):
+            self.assertIn(source, text, f"current responsibility source was dropped: {source}")
+
     def test_v45_workflow_executes_focused_contract(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("tests/python/test_content_closure_benchmark_first.py", workflow)
