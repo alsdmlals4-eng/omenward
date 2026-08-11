@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate bounded activation, planning, Phase B, and CI remediation surfaces for v4.5."""
+"""Validate bounded activation, planning, Phase B, Phase C C0, and CI remediation surfaces for v4.5."""
 from __future__ import annotations
 
 import argparse
@@ -25,6 +25,17 @@ PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 PHASE_B_POSTMERGE_FULL_SUITE_REQUIRED_ANCHORS = set(PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES)
+PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES = {
+    ".github/workflows/validate-omenward-core.yml",
+    "docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md",
+    "docs/superpowers/plans/2026-08-11-phase-c-c0-toolchain-ci-gate.md",
+    "tests/python/test_phase_c_c0_toolchain_ci_gate.py",
+    "tests/python/test_tool_state_user_approval_remote_sync.py",
+    "tools/validate_ci_usage_contract.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+PHASE_C_C0_TOOLCHAIN_GATE_REQUIRED_ANCHORS = set(PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES)
 WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES = {"tests/python/test_barracks_10000_robustness_execution.py", "tests/python/test_barracks_conditional_fail_remediation.py", "tests/python/test_base_recovery_map.py", "tests/python/test_project_base_adapter_freshness.py", "tests/python/test_git_canonical_evidence.py", "tools/git_canonical_evidence.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS = set(WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES)
 POSTMERGE_EVIDENCE_ALLOWED_FILES = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json", "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"}
@@ -79,6 +90,7 @@ PHASE_B_FINAL_PLANNING_REVIEW_REQUIRED_ANCHORS = set(PHASE_B_FINAL_PLANNING_REVI
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
+    | PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES
     | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
     | POSTMERGE_EVIDENCE_ALLOWED_FILES
     | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES
@@ -118,6 +130,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         return errors
     modes = (
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
+        (PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES, PHASE_C_C0_TOOLCHAIN_GATE_REQUIRED_ANCHORS, "Phase C C0 toolchain gate"),
         (PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES, PHASE_B_POSTMERGE_FULL_SUITE_REQUIRED_ANCHORS, "Phase B postmerge full-suite remediation"),
         (WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES, WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS, "Windows canonical evidence portability"),
         (CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES, CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS, "current consumer reconciliation"),
