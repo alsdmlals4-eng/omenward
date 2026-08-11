@@ -22,15 +22,14 @@ CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES = {"docs/ACTIVE_CONTEXT.md", "docs
 CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS = set(CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES)
 PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES = {".github/workflows/validate-canon-freshness-v4-5.yml", "AGENTS.md", "docs/DECISIONS_PENDING.md", "docs/OMENWARD_GDD_CURRENT_CANON.md", "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md", "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md", "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md", "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md", "tests/python/test_phase_a_readiness_dependency_classification.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 PHASE_A_READINESS_CLASSIFICATION_REQUIRED_ANCHORS = set(PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES)
-PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_ALLOWED_FILES = {".github/workflows/validate-canon-freshness-v4-5.yml", "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/CURRENT_IMPLEMENTATION_STATUS.md", "docs/DECISIONS_PENDING.md", "docs/PROJECT_CORE.md", "docs/reviews/PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_INVENTORY_2026-08-11.md", "docs/superpowers/plans/2026-08-11-phase-a-whole-project-open-content-inventory.md", "tests/python/test_phase_a_whole_project_open_content_inventory.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
+PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_ALLOWED_FILES = {".github/workflows/validate-canon-freshness-v4-5.yml", "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/DECISIONS_PENDING.md", "docs/reviews/PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_INVENTORY_2026-08-11.md", "docs/superpowers/plans/2026-08-11-phase-a-whole-project-open-content-inventory.md", "tests/python/test_phase_a_whole_project_open_content_inventory.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_REQUIRED_ANCHORS = set(PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_ALLOWED_FILES)
 APPROVED_FILES = ACTIVATION_ALLOWED_FILES | POSTMERGE_CI_ALLOWED_FILES | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES | POSTMERGE_EVIDENCE_ALLOWED_FILES | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES | PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES | PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_ALLOWED_FILES
 
 def _normalize(paths: Iterable[str]) -> set[str]: return {p.strip().replace("\\", "/") for p in paths if p.strip()}
 def _is_protected_product(path: str) -> bool: return path == "project.godot" or path.startswith(PROTECTED_PREFIXES)
 def _validate_required(changed: set[str], required: set[str], label: str) -> list[str]:
-    missing = sorted(required - changed)
-    return [] if not missing else [f"missing required v4.5 {label} anchors: {missing}"]
+    missing = sorted(required - changed); return [] if not missing else [f"missing required v4.5 {label} anchors: {missing}"]
 
 def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     changed = _normalize(changed_files); errors: list[str] = []
