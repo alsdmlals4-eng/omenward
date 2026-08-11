@@ -163,6 +163,7 @@ PAID_SPIN = FORBIDDEN
 Release work remains deferred for PR175, but current agents must preserve the committed platform/rights owners:
 
 - `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
 - `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
 - `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
 - `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
@@ -170,8 +171,14 @@ Release work remains deferred for PR175, but current agents must preserve the co
 ```text
 OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
 APPROVED_DUAL_PLATFORM
+OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
+ARCHITECTURE_STATUS = APPROVED_DESIGN_NOT_IMPLEMENTED
+PRODUCT_CODE_AUTHORITY = NONE
+PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
 PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
 ```
+
+The adapter architecture is approved design authority only. Phase C gameplay work does not silently authorize platform adapter product code.
 
 ## 9. Project paths and protection
 

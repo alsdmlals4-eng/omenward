@@ -22,7 +22,15 @@ ACTIVATION = {
     "tests/python/test_canon_freshness_v45_routing.py", "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
-POSTMERGE_CI_REMEDIATION = {CORE_WORKFLOW, "tests/python/test_ci_usage_contract.py", "tools/validate_ci_usage_contract.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
+PHASE_B_POSTMERGE_FULL_SUITE_REMEDIATION = {
+    CORE_WORKFLOW,
+    "AGENTS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "tests/python/test_ci_usage_contract.py",
+    "tools/validate_ci_usage_contract.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
 WINDOWS_CANONICAL_EVIDENCE_PORTABILITY = {"tests/python/test_barracks_10000_robustness_execution.py", "tests/python/test_barracks_conditional_fail_remediation.py", "tests/python/test_base_recovery_map.py", "tests/python/test_project_base_adapter_freshness.py", "tests/python/test_git_canonical_evidence.py", "tools/git_canonical_evidence.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 POSTMERGE_EVIDENCE_CLOSURE = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json", "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"}
 CURRENT_CONSUMER_RECONCILIATION = {"docs/ACTIVE_CONTEXT.md", "docs/CURRENT_IMPLEMENTATION_STATUS.md", "docs/DECISIONS_PENDING.md", "tests/python/test_canon_freshness_v45_routing.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
@@ -83,7 +91,7 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         module = load_module()
         for surface in (
             ACTIVATION,
-            POSTMERGE_CI_REMEDIATION,
+            PHASE_B_POSTMERGE_FULL_SUITE_REMEDIATION,
             WINDOWS_CANONICAL_EVIDENCE_PORTABILITY,
             POSTMERGE_EVIDENCE_CLOSURE,
             CURRENT_CONSUMER_RECONCILIATION,
@@ -92,6 +100,15 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE,
         ):
             self.assertEqual(module.validate_canon_freshness_scope(surface), [])
+
+    def test_phase_b_postmerge_full_suite_exact_surface_passes(self) -> None:
+        self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_B_POSTMERGE_FULL_SUITE_REMEDIATION), [])
+
+    def test_partial_phase_b_postmerge_full_suite_surface_is_rejected(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            PHASE_B_POSTMERGE_FULL_SUITE_REMEDIATION - {"tools/validate_ci_usage_contract.py"}
+        )
+        self.assertTrue(any("missing required v4.5 Phase B postmerge full-suite remediation anchors" in error for error in errors), errors)
 
     def test_phase_b_final_review_exact_surface_passes(self) -> None:
         self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW), [])
