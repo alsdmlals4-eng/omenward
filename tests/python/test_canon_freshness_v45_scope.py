@@ -36,6 +36,7 @@ CONTENT_CLOSURE_BENCHMARK_FIRST = {
     "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md",
     "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md",
     "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_phase_a_readiness_dependency_classification.py",
     "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
