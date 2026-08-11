@@ -94,6 +94,16 @@ CORE_LOCK_NOT_ALLOWED
 
 They do not mean that all repository runtime code is absent; they preserve the named Vertical Slice contract's own completion boundary.
 
+Historical C1 evidence required by durable GDD/Sheet adoption validation:
+
+```text
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+C1 최종 검증 run: `29926598807`
+V2 구현 완료를 뜻하지 않는다
+```
+
+These are provenance only and do not override the current PR175/runtime state.
+
 ## 7. Platform / release state
 
 ```text
