@@ -248,14 +248,15 @@ class CiUsageValidatorMutationTests(unittest.TestCase):
             temp_root = pathlib.Path(directory)
             self._copy_workflows(temp_root)
             workflow = temp_root / ".github" / "workflows" / "validate-omenward-core.yml"
-            workflow.write_text(
-                workflow.read_text(encoding="utf-8").replace(
-                    "      - name: Install full-suite Python dependency\n        run: python -m pip install --disable-pip-version-check numpy\n",
-                    "",
-                    1,
-                ),
-                encoding="utf-8",
+            text = workflow.read_text(encoding="utf-8")
+            full_start = text.index("  contracts_full:")
+            full_end = text.index("  godot:", full_start)
+            full_section = text[full_start:full_end].replace(
+                "      - name: Install full-suite Python dependency\n        run: python -m pip install --disable-pip-version-check numpy\n",
+                "",
+                1,
             )
+            workflow.write_text(text[:full_start] + full_section + text[full_end:], encoding="utf-8")
             errors = validate(temp_root)
             self.assertTrue(any("full matrix must install numpy" in error for error in errors))
 
