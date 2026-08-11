@@ -5,6 +5,7 @@ updated_at: 2026-08-11
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 base_main_observed_at_phase_b: 069f0c9654a6cde7cea6f3343dd2fa81c6248d5d
 current_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+benchmark_process_decision: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 contract_version: 4.5
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
@@ -30,6 +31,7 @@ handoff_disposition: REFERENCE_ONLY_DO_NOT_MERGE
 6. 과거 채팅·Handoff·오래된 SHA를 current truth로 사용하지 않는다.
 
 ```text
+OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
 COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
 ```
