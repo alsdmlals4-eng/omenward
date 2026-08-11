@@ -58,7 +58,7 @@ BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
 FV-COMMON-01 / FV-PRIEST-01 / FV-MAGE-01 / FV-FLIER-01 / FV-GIANT-01
 ```
 
-## 3. 현행 Special T1 TokenSource
+## 3. 현행 Special T1 TokenSource와 물리 릴 문법
 
 ```text
 SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
@@ -68,9 +68,13 @@ SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
 SPECIAL_T1_AUTO_PRODUCTION_AND_TOKEN_SOURCE = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS
 SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
 SPECIAL_T1_FREE_REROLL = FORBIDDEN
+TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
+TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
+FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
+SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-구형 “Special T1 TokenSource 없음”은 final amendment로 대체됐으며 미확정 항목이 아니다.
+구형 “Special T1 TokenSource 없음”은 final amendment로 대체됐으며 미확정 항목이 아니다. 물리 TokenInstance 수량도 후속 burst-remediation이 닫았으므로 blanket `weight/count pending`으로 재발행하지 않는다. 다만 특수병 5종의 final 선정 분포는 아직 고르지 않는다.
 
 ## 4. Runtime package — 승인됐지만 현재 실행 보류
 
@@ -81,6 +85,7 @@ PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
 PR175_STRICT_UP_TO_DATE_AGAINST_CURRENT_MAIN = NOT_REVALIDATED_DUE_PHASE_C_BLOCK
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
+ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
 PR175_MERGE = FORBIDDEN
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
 ```
@@ -97,18 +102,20 @@ Issue176의 7개 gap:
 
 현재 approved runtime package, approved measurement scenarios, Issue176을 교차 추적하면 이 7개는 **새 product Decision이 필요한 항목이 아니라 기존 승인 범위의 implementation-completeness gap**이다. 그러나 이 판정은 Phase C 실행 권한이나 `기획 완료` 선언을 대신하지 않는다.
 
-## 5. Final value·numeric pending
+## 5. Final value·numeric pending — runtime 이후 evidence tuning
 
 ```text
 FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
 FINAL_WEIGHTED_SCORE = FORBIDDEN_WITHOUT_NEW_APPROVAL
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
+FINAL_PRODUCT_NUMERICS_CLASSIFICATION = POST_RUNTIME_EVIDENCE_TUNING
 PARAMETER_SELECTION_10000 = NOT_AUTHORIZED_AS_FINAL_SELECTION
 CONFIRMATION_SWEEP_50000 = BLOCKED
 ```
 
-기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다. Phase A planning-readiness 검토에서는 이 항목들이 **현재 구현 패키지 진입 전에 반드시 확정해야 하는 값인지, 또는 승인된 provisional/tuning contract에 따라 후속 simulation으로 의도적으로 지연 가능한 값인지**를 구분한다.
+기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다. 승인 dependency는 `ROLE_OUTPUT_RUNTIME → DETERMINISTIC_MEASUREMENT → FUNCTIONAL_VALUE_COMPARISON → FINAL_TUNING`이다. 따라서 final FV·parameter vector·product numerics를 PR175 runtime의 선행 입력으로 요구하지 않는다.
 
 ## 6. Tool·runtime pending
 
@@ -121,51 +128,71 @@ HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 
 과거 HiGodot session/process/socket 진단은 historical evidence다. Phase C 진입 시 local process/session truth를 fresh-read한다.
 
-## 7. Platform pending
+## 7. Platform pending — PR175와 출시 readiness 분리
 
 ```text
 SHARED_SAVE_SCHEMA = NOT_STARTED
 PC_ADAPTER_IMPLEMENTATION = NOT_STARTED
 ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
 STORE_SDK_INTEGRATION = NOT_STARTED
+EXPORT_PRESETS = ABSENT
 COMMON_PLATFORM_GATE = NOT_RUN
 PC_RELEASE_GATE = NOT_RUN
 MOBILE_RELEASE_GATE = NOT_RUN
 REPRESENTATIVE_PC_BUILD = NOT_RUN
 REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
+PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
 ```
 
-이 항목들도 현재 PR175 runtime package의 Definition of Ready와 제품 전체 출시 readiness를 분리해서 판단한다. 미구현이라는 사실만으로 현재 Phase-A runtime package 기획이 자동 미완성인 것은 아니다.
+이 항목들은 완료가 아니다. 승인된 PC·Android architecture의 후속 Phase 3~7 및 release gate로 남아 있다. 다만 role-output runtime package의 product-semantic Definition of Ready와 전체 출시 readiness를 섞지 않는다.
 
-## 8. Current responsibility sources
+## 8. T3·이름·전체 제품 범위
+
+```text
+T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
+ARCHER_T3_LATER_APPROVED_DETAIL = CROSSBOW_ARCHER / RAPID_FIRE_ARCHER
+DEFENSE_TOWER_T3_DETAILS = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
+DEFENSE_BRANCH_FINAL_DISPLAY_NAME = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
+```
+
+궁병 T3는 후속 승인 문서가 석궁병/연사궁병 두 분기로 닫았으므로 다시 미정으로 돌리지 않는다. 반면 방어탑 T3 상세, 일부 다른 T3/영웅 exact identity, 최종 display naming처럼 최신 owner가 닫지 않은 전체 제품 내용은 별도 Phase A inventory에 남긴다. 이 review에서 새 content나 이름을 만들지 않는다.
+
+## 9. Current responsibility sources
 
 현재 Gate를 판단할 때 다음 책임 원본을 함께 읽는다.
 
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+- `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
+- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
+- `docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
 - `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+- `docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md`
 
-## 9. Current Phase A planning-readiness work
+## 10. Current Phase A planning-readiness work
 
 ```text
 V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
 V45_R2_CLOSURE_MAIN_OBSERVED = 3213b12a9614c755157953aa64a1d4e1666b48ed
 PR175_PHASE_A_READINESS_REVIEW = ACTIVE
+SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
+PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
+T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
 ```
 
-현재 먼저 확인할 것은 새로운 implementation이 아니라 다음 두 질문이다.
+현재까지의 분류:
 
-1. Issue176 7개 gap에 아직 미확정 product semantics가 남아 있는가?
-2. 프로젝트 전체의 다른 pending 항목 중 PR175/현재 planned build의 Definition of Ready를 실제로 막는 것이 있는가, 아니면 의도적으로 후속 simulation/release 단계로 미뤄진 것인가?
+1. `NO_NEW_PRODUCT_DECISION_REQUIRED_FOR_ISSUE176_7_GAPS`.
+2. final FV/numerics는 PR175 runtime 이후 evidence tuning.
+3. platform/save/export/store는 미완료지만 PR175의 선행 product-semantic blocker가 아님.
+4. T3/이름의 genuine open content는 전체 제품 Phase A inventory에 남되 current runtime package blocker로 오분류하지 않음.
 
-현재까지 1번은 `NO_NEW_PRODUCT_DECISION_REQUIRED_FOR_ISSUE176_7_GAPS`로 분류된다. 2번은 whole-project current canon을 대상으로 계속 adversarial audit한다.
-
-## 10. 다음 사용자 Gate
+## 11. 다음 사용자 Gate
 
 ```text
 NEXT_USER_GATE = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
