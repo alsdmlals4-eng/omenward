@@ -112,6 +112,8 @@ CORE_LOCK_NOT_ALLOWED
 C1 historical evidence retained for the GDD Sheet adoption consumer:
 
 C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+C1 최종 검증 run: `29926598807`
+V2 구현 완료를 뜻하지 않는다
 
 Current Vertical Slice authority locator remains:
 `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
