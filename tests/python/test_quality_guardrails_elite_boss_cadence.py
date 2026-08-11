@@ -48,9 +48,10 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             "LEGACY_DANGER_CADENCE_AUTHORITY = NONE",
             "ELITE_EXACT_COUNT = POST_RUNTIME_EVIDENCE_TUNING",
             "ELITE_EXACT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING",
+            "SUPERSEDED_FOR_STAGE_TYPE_AND_CADENCE",
+            "IMPLEMENTATION_INPUT_FOR_CURRENT_PHASE = FORBIDDEN",
         ):
             self.assertIn(marker, text)
-        self.assertNotIn("DANGER_STAGES = 4 / 9 / 14 / 19", text)
 
     def test_current_consumers_route_conflicts_to_new_decisions(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
