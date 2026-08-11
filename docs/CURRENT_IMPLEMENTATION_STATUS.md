@@ -87,6 +87,7 @@ APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
 VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
 LEGACY_C1_C2_C3_PROVEN
 LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
+LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
 LATEST_AUTOMATED_CONTRACTS_NOT_RUN
 HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
@@ -94,11 +95,12 @@ CORE_LOCK_NOT_ALLOWED
 
 They do not mean that all repository runtime code is absent; they preserve the named Vertical Slice contract's own completion boundary.
 
-Historical C1 evidence required by durable GDD/Sheet adoption validation:
+Historical C1/C2 evidence required by durable core validation:
 
 ```text
 C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 C1 최종 검증 run: `29926598807`
+C2 최종 검증 run: `29938742864`
 V2 구현 완료를 뜻하지 않는다
 ```
 
