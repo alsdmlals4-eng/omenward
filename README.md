@@ -94,6 +94,12 @@ GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
 
 Actual local plugin/server/session truth is verified during Phase C C0 before persistent Godot authoring.
 
-## Historical boundary
+## Historical Vertical Slice evidence boundary
 
-`LEGACY_C1_C2_C3_PROVEN` and older planning checkpoints remain evidence only. They do not lower the current planning state or override the latest product owners.
+```text
+V2_SPEC_APPROVED
+LEGACY_C1_C2_C3_PROVEN
+HUMAN_QA_NOT_RUN
+```
+
+These durable proof markers preserve the previously validated Vertical Slice C1/C2/C3 evidence. They do not assert that the current PR175 package or full product implementation is complete.
