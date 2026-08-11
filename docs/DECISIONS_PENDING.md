@@ -119,6 +119,7 @@ These do not block PR175 gameplay implementation readiness.
 
 ## 7. Responsibility sources that remain current
 
+- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
@@ -130,7 +131,18 @@ These do not block PR175 gameplay implementation readiness.
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
 
-## 8. Reference-only handoff
+## 8. Historical durable planning evidence
+
+These markers are retained because existing durable review contracts use them to prove the transition lineage; they do not reopen planning.
+
+```text
+5_OF_10 = REMEDIATION_SMOKE_PASS
+6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
+```
+
+They are historical checkpoints only. Current planning truth remains `MAIN_CANONICAL_APPROVED_10_OF_10` and Phase B PASS.
+
+## 9. Reference-only handoff
 
 ```text
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
