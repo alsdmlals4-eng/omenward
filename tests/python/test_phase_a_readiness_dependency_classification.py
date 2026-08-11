@@ -11,11 +11,13 @@ GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
 ONBOARDING = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
 WORKBOOK = ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
 REVIEW = ROOT / "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
+PRODUCT_CLOSURE = ROOT / "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md"
 WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 CURRENT_CONSUMERS = (AGENTS, GDD, ONBOARDING, WORKBOOK)
 
 ACTIVATION_DECISION = "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1"
+PRODUCT_CLOSURE_DECISION = "OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1"
 PHYSICAL_TOKEN_MARKERS = (
     "TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1",
     "TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3",
@@ -86,13 +88,26 @@ class PhaseAReadinessDependencyClassificationTest(unittest.TestCase):
         self.assertIn("RELEASE_PHASE_DEFERRED", review)
         self.assertNotIn("PLATFORM_SAVE_EXPORT_STORE = COMPLETE", review)
 
-    def test_open_full_product_content_is_not_silently_resolved(self) -> None:
-        for path in (PENDING, REVIEW):
-            text = path.read_text(encoding="utf-8")
-            self.assertIn("T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER", text)
+    def test_approved_content_closure_supersedes_open_t3_marker_without_selecting_final_numerics(self) -> None:
+        pending = PENDING.read_text(encoding="utf-8")
+        product = PRODUCT_CLOSURE.read_text(encoding="utf-8")
         review = REVIEW.read_text(encoding="utf-8")
+
+        self.assertIn(PRODUCT_CLOSURE_DECISION, pending)
+        self.assertIn(PRODUCT_CLOSURE_DECISION, product)
+        self.assertIn("T3_CONTENT_AND_FINAL_NAMES = RESOLVED_AT_PRODUCT_GRAMMAR_LEVEL", pending)
+        self.assertIn("WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0", pending)
+        self.assertNotIn("T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER", pending)
+
+        # Preserve the PR184-era open-state evidence in its historical readiness review.
+        self.assertIn("T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER", review)
         self.assertIn("ARCHER_T3_LATER_APPROVED_DETAIL = CROSSBOW_ARCHER / RAPID_FIRE_ARCHER", review)
         self.assertIn("DEFENSE_TOWER_T3_DETAILS = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER", review)
+
+        # Product grammar is closed, but balance/numeric evidence remains downstream.
+        self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", pending)
+        self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", pending)
+        self.assertIn("정확 수치와 일부 역할별 세부 scalar는 runtime/balance evidence에서 확정한다.", product)
 
     def test_phase_gate_remains_closed(self) -> None:
         for path in (AGENTS, PENDING, GDD, ONBOARDING, WORKBOOK, REVIEW):
