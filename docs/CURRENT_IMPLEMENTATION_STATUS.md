@@ -111,20 +111,34 @@ HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
 C1_ROULETTE_CORE_REMOTE_PROVEN
 LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
+LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
+LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
 ```
 
-C1 historical evidence retained for the GDD Sheet adoption consumer:
+Historical remote evidence retained for compatibility consumers:
 
+```text
 C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
 C1 최종 검증 run: `29926598807`
+C2 최종 검증 run: `29938742864`
 V2 구현 완료를 뜻하지 않는다
+```
 
 Current Vertical Slice authority locator remains:
 `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 
 These identifiers are history/compatibility evidence, not proof that current Issue #176 runtime acceptance is complete.
 
-## 6. Durable runtime/evidence boundary
+## 6. Phase B Godot-AI provenance retained
+
+The following Phase B provenance markers are intentionally preserved for the historical review consumer. They describe what was known **at Phase B**, before C0 fresh verification; they do not override the verified C0 toolchain state below.
+
+```text
+USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
+GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
+```
+
+## 7. Durable runtime/evidence boundary
 
 ```text
 ROBUSTNESS_10000 = APPROVED_GATE_PASS_FOR_ECONOMY_PRODUCTION
@@ -140,7 +154,7 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-## 7. Godot/HiGodot/GUT/Hera authority
+## 8. Godot/HiGodot/GUT/Hera authority
 
 ```text
 GODOT_VERSION = 4.7.1-stable
@@ -159,7 +173,7 @@ HERA_TRACKED_SOURCE_DELTA_REQUIRED = NONE
 
 Historical PID/session evidence is not a future selector.
 
-## 8. Existing product/cadence truth retained
+## 9. Existing product/cadence truth retained
 
 ```text
 OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
@@ -171,7 +185,7 @@ BOSS_STAGES = 5 / 10 / 15 / 20
 BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
 
-## 9. Platform/release boundary
+## 10. Platform/release boundary
 
 ```text
 OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
@@ -183,7 +197,7 @@ EXPORT_PRESETS = ABSENT
 
 This is not the current runtime blocker.
 
-## 10. Resume-first handoff locator
+## 11. Resume-first handoff locator
 
 Current continuation consumers are:
 
