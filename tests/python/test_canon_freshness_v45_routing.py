@@ -9,6 +9,7 @@ DECISION = "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1"
 ACTIVATION_DECISION = "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1"
 PHASE_B_DECISION = "OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1"
 C0_LOCAL_DECISION = "OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1"
+RUNTIME_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1"
 BASE_MAIN = "069f0c9654a6cde7cea6f3343dd2fa81c6248d5d"
 PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
@@ -22,6 +23,7 @@ WORKBOOK = ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
 ACTIVE_CONTEXT = ROOT / "docs/ACTIVE_CONTEXT.md"
 CURRENT_STATUS = ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
+HANDOFF = ROOT / "docs/HANDOFF_CONTEXT.md"
 AGENTS = ROOT / "AGENTS.md"
 README = ROOT / "README.md"
 PROJECT_CORE = ROOT / "docs/PROJECT_CORE.md"
@@ -119,6 +121,18 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             for marker in markers:
                 self.assertIn(marker, text, f"{path.relative_to(ROOT)} missing {marker}")
+
+    def test_issue176_boot_blocker_routes_through_current_handoff_consumers(self) -> None:
+        markers = (
+            RUNTIME_DECISION,
+            "CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY",
+            "DISPOSABLE_AUTOLOAD_AB_ISOLATION",
+            "PR175_DRAFT_7_RUNTIME_GAPS_OPEN",
+        )
+        for path in (ACTIVE_CONTEXT, CURRENT_STATUS, PENDING, HANDOFF):
+            text = path.read_text(encoding="utf-8")
+            for marker in markers:
+                self.assertIn(marker, text, f"{path.relative_to(ROOT)} missing current runtime handoff marker {marker}")
 
     def test_current_execution_routers_advance_through_c0_local_pass(self) -> None:
         current_routers = (AGENTS, README, PROJECT_CORE, PENDING, ROADMAP)

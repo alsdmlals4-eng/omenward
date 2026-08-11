@@ -1,55 +1,120 @@
 # [현행] OMENWARD 프로젝트 인수인계 컨텍스트
 
 ```yaml
-updated_at: 2026-08-06
+updated_at: 2026-08-12
 project: OMENWARD / 오멘워드
-work_mode: TOTAL_PLANNING
-phase: POST_ONBOARDING_SIMULATION_PLANNING
+work_mode: BUILD_BLOCKED_ROOT_CAUSE_ISOLATION
+phase: PHASE_C_ISSUE176_PROJECT_BOOT_SIGNAL11_ISOLATION
 current_planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-latest_amendment: OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1
-pr142_merge: 1c646c2d764d0df43545e00b914189ed46cf1bd4
-current_grill_me_count: 0_OF_10
-next_gate: BARRACKS_ECONOMY_PRODUCTION_AND_TOKEN_SOURCE_SIMULATION_CONTRACT
-product_code_authority: NONE
-simulation: NOT_RUN
-runtime: NOT_RUN
-human_qa: NOT_RUN
-local_godot_project: UNCHANGED
+current_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+current_blocker: CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
+next_gate: DISPOSABLE_AUTOLOAD_AB_ISOLATION
+product_completion: false
+new_product_decision_required: false
+resume_rule: FETCH_LATEST_MAIN_AND_PR175_BEFORE_USE
 ```
+
+이 파일은 재개 locator다. 저장된 SHA/PID/session/PR 상태는 관찰점이며 GitHub·Sheet·현재 local state보다 높은 정본이 아니다.
 
 ## 먼저 읽을 문서
 
 1. `PROJECT_CORE.md`
 2. `ACTIVE_CONTEXT.md`
-3. `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-4. `CURRENT_IMPLEMENTATION_STATUS.md`
-5. `PROJECT_CANON_DECISION_LEDGER.md`
-6. `DECISIONS_PENDING.md`
-7. `design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
-8. `design/APPROVED_OMENWARD_ONBOARDING_COMPLETION_MINIMUM_VALID_PATHS_AND_HUMAN_STOP_SHIP_2026-08-06.md`
+3. `CURRENT_IMPLEMENTATION_STATUS.md`
+4. `DECISIONS_PENDING.md`
+5. `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+6. `PROJECT_CANON_DECISION_LEDGER.md`
+7. PR #175 / Issue #176 fresh GitHub state
+8. Google Sheet current project hub row
 
-충돌 시 `ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`의 우선순위를 따른다.
-
-## 핵심 재미
-
-> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
+## Current runtime continuation
 
 ```text
-예고된 압력
-→ T1 기초 구축·T2 발전 선택
-→ 자동생산·TokenSource·연구 선택
-→ 룰렛 결과와 비가역 전선 커밋
-→ 마력 기반 수동 전술
-→ 설명 가능한 결과·다음 설계
+OMENWARD_MAIN_OBSERVED = 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
+PR175 = OPEN_DRAFT
+PR175_DRAFT_7_RUNTIME_GAPS_OPEN
+PR175_HEAD_OBSERVED = 83cf816a11f732e2cd285461865cf9c5ed404802
+PR175_CHANGED_FILES_OBSERVED = 19
+ISSUE176 = OPEN
+ISSUE176_APPROVED_RUNTIME_GAPS = 7
+ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
+PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
+PR177 = REFERENCE_ONLY_DO_NOT_MERGE
+PHASE_C_GATE = OPEN
+CURRENT_RUNTIME_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
+NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION
 ```
 
-## 현행 병영 구조
+The clean exact-head archive diagnostic established:
+
+```text
+TEMP_INITIAL_GIT = ABSENT
+TEMP_INITIAL_GODOT = ABSENT
+TEMP_IMPORT = PASS_NO_SIGNAL11_MARKERS
+TEMP_NORMAL_HEADLESS_BOOT = CRASH_SIGNAL11_EXIT_NEG1073741819
+ACTIVE_PROJECT_FILES_CHANGED_BY_DIAGNOSTIC = NONE
+ACTIVE_TEST_HASHES_PRESERVED_AT_DIAGNOSTIC_SNAPSHOT = TRUE
+```
+
+Therefore the active local `.godot` cache and the user's uncommitted Issue #176 two-test delta are not required for the earliest reproduced crash. This does not yet identify a specific startup component.
+
+Exact committed autoload boundary at the observed PR head:
+
+```text
+HeraGameInspector="*uid://c4ug7a211oav8"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+```
+
+Next root-cause experiment must use independent fresh exact-head TEMP variants:
+
+```text
+BASELINE = BOTH_ON_CRASH_ALREADY_PROVEN
+A = HeraGameInspector off only
+B = _mcp_game_helper off only
+C = both off only if A and B both still crash
+```
+
+Do not sequentially edit one TEMP project. Do not modify the active `project.godot`, autoloads, plugins, main scene, GDScript, resources, imports, or active `.godot` during this diagnostic.
+
+## Approved runtime continuation after blocker recovery
+
+The seven Issue #176 runtime gaps remain approved; the same scope does not require reapproval.
+
+```text
+PROJECT_BOOT_BLOCKER_CLEARED
+→ single-file GUT semantic RED with TESTS_DISCOVERED > 0
+→ HiGodot-only seven-gap implementation
+→ parse/import
+→ same single-file GUT GREEN
+→ relevant regressions
+→ five registered FV fixtures x2 deterministic
+→ Hera live QA/observability
+→ HERA_TRACKED_SOURCE_DELTA = NONE
+→ adversarial review
+→ commit/push/exact-head CI
+→ PR175 merge gate review
+```
+
+Tool authority:
+
+```text
+PERSISTENT_GODOT_GDSCRIPT_GUT_AUTHORING = HIGODOT_ONLY
+GUT = DETERMINISTIC_TEST_AUTHORITY
+HERA = POST_GREEN_LIVE_QA_OBSERVABILITY_ONLY
+HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+SESSION_PID_AND_SESSION_ID = FRESH_READ_EACH_EXECUTION_BLOCK
+```
+
+Historical PID/session values must never be reused as current mutation selectors.
+
+## Current product grammar retained
+
+> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
 ```text
 GENERAL_T1 = BASIC_INFANTRY_AUTO_PRODUCTION + BASIC_INFANTRY_TOKEN_SOURCE
 GENERAL_T2 = SELECTED_GENERAL_UNIT_AUTO_PRODUCTION + SELECTED_GENERAL_UNIT_TOKEN_SOURCE
 GENERAL_T2_BRANCHES = SHIELD / GREATSWORD / SPEAR / ARCHER / CAVALRY
-
 SPECIAL_T1_SELECTION = ONE_RANDOM_RESULT_ON_SUCCESSFUL_CONSTRUCTION_COMMIT
 SPECIAL_T1_REVEAL = IMMEDIATE
 SPECIAL_T1_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
@@ -64,7 +129,7 @@ SPECIAL_T2_BRANCHES = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
 
 기존 `SPECIAL_T1_TOKEN_SOURCE = NONE` 문구는 역사 증거이며 구현 입력 금지다.
 
-## 첫 10~15분 완료 정본
+## First-run historical planning context retained
 
 ```text
 STATUS = MAIN_CANONICAL_APPROVED_10_OF_10
@@ -77,32 +142,72 @@ STAGE_5 = FIRST_BOSS_MASTERY_CHECK
 MINIMUM_VALID_PATHS = SHIELD_NO_SPECIAL / ARCHER_NO_SPECIAL
 INTERNAL_QA_MATRIX = 12_SCENARIOS
 FIRST_TIME_HUMAN_SAMPLE = MINIMUM_20
-PRODUCT_IMPLEMENTATION = NOT_STARTED
 ```
 
-완료 판정은 Stage 1~5 필수 행동, 실제 Boss 처치, 결과 인과 요약 확인, 완료 플래그·첫 보상·표준 Run·전체 스킵의 원자 저장을 모두 요구한다.
+The historical August-6 planning state is retained as lineage only. It does not override the current Issue #176 blocker or current runtime continuation above.
 
-## 미구현·미검증 경계
+## Local working-tree protection
+
+The latest local reports had uncommitted content changes only in:
 
 ```text
-EXACT_BUILD_COSTS = PENDING_SIMULATION
-GENERAL_AND_SPECIAL_PRODUCTION_INTERVALS = PENDING_SIMULATION
-TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
-SPECIAL_T1_SELECTION_WEIGHTS = PENDING_SIMULATION
-DEFENSE_TOWER_T3_DETAILS = PENDING_DESIGN
-FULL_PYTHON_SUITE = NOT_RUN
-GODOT_TESTS_FOR_PR142 = NOT_RUN
-TWELVE_SCENARIO_QA = NOT_RUN
-FIRST_TIME_HUMAN_QA = NOT_RUN
-GITHUB_ACTIONS_GREEN = NOT_PROVEN
+tests/gut/test_barracks_role_output.gd
+tests/headless/barracks_role_output_fv_test.gd
 ```
 
-## 다음 작업
+This handoff does not assert they still exist. Fresh-read local Git state on resume. If they exist, preserve them; do not reset/restore/clean/stage/overwrite them merely because this file mentions them.
 
-병영 수치 시뮬레이션 계약을 작성한다. 일반병·특수병 건설비, 자동생산 간격, TokenSource 공급 수량·가중치, 특수병 기능 우위의 비용·시간 보정을 함께 검증한다. 특수병 병영이 자동생산·룰렛 공급·병종 전문성을 동시에 독점하는 필수 건물이 되면 Stop-ship이다.
+## Base learning candidate
 
-## 변경 금지 경계
+```yaml
+learning_id: OMW-LRN-20260812-DISPOSABLE-EXACT-HEAD-STARTUP-ISOLATION
+classification: BASE_CANDIDATE
+project_application: CURRENT_HANDOFF_CONSUMER_ROUTING_AND_FAIL_CLOSED_SCOPE
+base_proposal_id: RESOLVE_AT_BASE_SUBMISSION_FROM_LATEST_BASE_SCHEMA
+base_active_implementation_authority: NOT_GRANTED_IN_THIS_STAGE
+```
 
-- 별도 승인 전 GDScript·Scene·Resource·Data를 수정하지 않는다.
-- `C:/Users/user/Documents/GitHub/Ninza/omenward` 로컬 프로젝트를 이 문서 작업에서 수정하지 않는다.
-- bounded 문서 계약 PASS를 전체 제품 Green으로 확대하지 않는다.
+Generic candidate principle:
+
+```text
+trusted exact source identity
+→ disposable committed-tree materialization
+→ fresh derived/cache state
+→ earliest reproducible runtime boundary
+→ independent one-variable variants
+→ active fix only after isolation
+```
+
+Base proposal work may write only `[수정제안서]/**` and must fresh-read Base main, Registry, and open proposal PRs before write/merge.
+
+## Recent applicable lessons
+
+- Past PID/session values are historical evidence, not current mutation selectors.
+- A sandbox failure to create `git worktree` metadata is an execution-route failure, not a Godot failure; exact `git archive` TEMP materialization is suitable when Git metadata is unnecessary.
+- Godot `--import` success and normal game-boot success are separate gates.
+- One-variable startup isolation must use independent clean variants; do not reuse one mutated TEMP tree for A/B.
+- A handoff/current-state edit is not complete until its machine consumers and scope validator are updated and Green on the same exact head.
+
+## Stop conditions
+
+Stop before product mutation when:
+
+- PR175/main authority moved and is not reconciled;
+- exact current HiGodot session cannot be proven;
+- normal project boot still crashes;
+- a proposed A/B comparison changes more than one variable;
+- tooling/sandbox/transport fails before the intended Godot probe actually runs;
+- GUT discovers zero tests or fails for parser/tooling instead of approved semantic gaps.
+
+## Continuation checkpoint
+
+```yaml
+state_observed_at_main: 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
+work_merge_main_sha: null
+closure_pr: 196
+closure_head_sha: RESOLVE_FROM_GITHUB_BEFORE_MERGE
+self_merge_sha_required_in_file: false
+resume_rule: FETCH_LATEST_MAIN_BEFORE_USE
+```
+
+Do not create another Handoff PR only to write PR #196's own merge SHA into this file.

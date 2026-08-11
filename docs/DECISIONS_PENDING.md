@@ -1,8 +1,9 @@
 # [현행] 오멘워드 미확정 결정·Gate 목록
 
 ```yaml
-updated_at: 2026-08-11
-current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+updated_at: 2026-08-12
+current_phase_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
+preceding_c0_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
 preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 phase_b: PASS
@@ -19,17 +20,27 @@ WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
 WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
 PHASE_B_FINAL_PLANNING_REVIEW = PASS
+OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 NEW_PRODUCT_DECISION_REQUIRED = FALSE
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
 PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
 PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
 PHASE_C_C0_OVERALL = PASS
-PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
-PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_DRAFT_7_RUNTIME_GAPS_OPEN
+CURRENT_EXECUTION_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
+NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION
 ```
 
-C0는 더 이상 pending gate가 아니다. 현재 첫 pending execution gate는 PR175 current-main rebase/update + exact-head revalidation이다.
+C0와 PR175 current-main reconciliation은 완료된 이전 gate다. 기존 current-router consumer와의 역사 compatibility를 위해 아래 locator는 보존하지만 현재 next gate를 뜻하지 않는다.
+
+```text
+PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_COMPLETED_GATE_LOCATOR
+```
+
+현재 첫 pending execution gate는 **정상 headless project boot signal-11의 disposable autoload A/B isolation**이다. 이 blocker가 해소되기 전에는 Issue #176 production mutation 또는 semantic GUT RED 완료를 주장하지 않는다.
 
 ## 2. Current product owners
 
@@ -54,21 +65,25 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-## 3. PR175 — implementation completeness
+## 3. PR175 — implementation completeness and current blocker
 
 ```text
 PR175 = OPEN_DRAFT
-PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
+PR175_DRAFT_7_RUNTIME_GAPS_OPEN
+PR175_HEAD_OBSERVED = 83cf816a11f732e2cd285461865cf9c5ed404802
+PR175_BASE_OBSERVED = 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
+PR175_CHANGED_FILES_OBSERVED = 19
 PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
-PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = TRUE
+PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = FALSE_AT_OBSERVED_SNAPSHOT
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
 PR175_PHASE_A_READINESS_REVIEW = COMPLETE_IMPLEMENTATION_COMPLETENESS_NO_NEW_PRODUCT_DECISION
 PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
+CURRENT_RUNTIME_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
 ```
 
-Seven gaps:
+Seven gaps remain approved and unchanged:
 
 1. Priest encouragement provisional 5s / attack speed +8%, start/end events, uptime/timing regression.
 2. support role preserves deterministic fallback instead of intercepting all units.
@@ -81,10 +96,45 @@ Seven gaps:
 Dependency:
 
 ```text
-ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON -> FINAL_TUNING
+PROJECT_BOOT_BLOCKER_CLEARED
+-> SEMANTIC_GUT_RED_GT_0
+-> ROLE_OUTPUT_RUNTIME
+-> DETERMINISTIC_MEASUREMENT
+-> FUNCTIONAL_VALUE_COMPARISON
+-> HERA_POST_GREEN_LIVE_QA
+-> FINAL_TUNING
 ```
 
-## 4. Physical token grammar — not pending
+## 4. Current crash-isolation evidence
+
+```text
+EXACT_PR175_ARCHIVE_TO_DISPOSABLE_TEMP = PASS
+TEMP_INITIAL_GIT = ABSENT
+TEMP_INITIAL_GODOT = ABSENT
+TEMP_IMPORT = PASS_NO_SIGNAL11_MARKERS
+TEMP_NORMAL_HEADLESS_BOOT = CRASH_SIGNAL11_EXIT_NEG1073741819
+ACTIVE_PROJECT_FILES_CHANGED_BY_DIAGNOSTIC = NONE
+ACTIVE_TEST_HASHES_PRESERVED_AT_DIAGNOSTIC_SNAPSHOT = TRUE
+```
+
+Current exact committed autoload boundary at the observed PR head:
+
+```text
+HeraGameInspector="*uid://c4ug7a211oav8"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+```
+
+Next one-variable experiment:
+
+```text
+A = independent fresh exact-head TEMP; HeraGameInspector off only
+B = independent fresh exact-head TEMP; _mcp_game_helper off only
+C = both off only if A and B both crash
+```
+
+No active-project startup fix is authorized by the current evidence alone.
+
+## 5. Physical token grammar — not pending
 
 ```text
 SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
@@ -98,7 +148,7 @@ SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 
 Physical count is settled; only final special-unit selection distribution remains evidence tuning.
 
-## 5. Phase C C0 — completed execution route
+## 6. Phase C C0 — completed execution route
 
 Phase B 당시 provenance는 보존한다.
 
@@ -121,11 +171,13 @@ CODEX_INSTALLATION = SHARED
 OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
 PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
 SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
+GUT_AUTHORITY = DETERMINISTIC_GDSCRIPT_TESTS
+HERA_AUTHORITY = POST_GREEN_LIVE_QA_OBSERVABILITY_ONLY
 ```
 
-C0 closure의 exact session ID/PID는 evidence-only다. Persistent authoring 직전에는 현재 `session_manage(op=list)`에서 exact OMENWARD project path를 다시 확인한다. `godot_ai/keep_server_on_exit=true`는 closure 중 관측된 lifecycle follow-up이며 clean future execution block의 default는 false로 정리한다.
+Historical C0 session ID/PID is evidence-only. Persistent authoring 직전에는 현재 `session_manage(op=list)`에서 exact OMENWARD project path를 다시 확인한다.
 
-## 6. Platform / release-deferred
+## 7. Platform / release-deferred
 
 ```text
 PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
@@ -138,7 +190,7 @@ MOBILE_RELEASE_GATE = NOT_RUN
 
 These do not block PR175 gameplay implementation readiness.
 
-## 7. Responsibility sources that remain current
+## 8. Responsibility sources that remain current
 
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
@@ -153,7 +205,7 @@ These do not block PR175 gameplay implementation readiness.
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
 - `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
-## 8. Historical durable planning evidence
+## 9. Historical durable planning evidence
 
 These markers are retained because existing durable review contracts use them to prove the transition lineage; they do not reopen planning.
 
@@ -165,10 +217,11 @@ OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 
 They are historical checkpoints only. Current planning/execution truth is `MAIN_CANONICAL_APPROVED_10_OF_10` + Phase B PASS + C0 PASS.
 
-## 9. Reference-only handoff
+## 10. Reference-only handoff and resume
 
 ```text
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
+RESUME_RULE = FETCH_LATEST_MAIN_AND_PR175_BEFORE_USE
 ```
 
-PR177 is a continuation locator and never overrides fresh main/Sheet truth.
+Current continuation consumers are `ACTIVE_CONTEXT.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, this file, and `HANDOFF_CONTEXT.md`. PR177 remains a reference-only locator and never overrides fresh main/Sheet truth.

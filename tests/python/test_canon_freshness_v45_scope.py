@@ -83,7 +83,15 @@ POST_C0_TRANSIENT_OPS_STATE_DECOUPLING = {
 }
 WINDOWS_CANONICAL_EVIDENCE_PORTABILITY = {"tests/python/test_barracks_10000_robustness_execution.py", "tests/python/test_barracks_conditional_fail_remediation.py", "tests/python/test_base_recovery_map.py", "tests/python/test_project_base_adapter_freshness.py", "tests/python/test_git_canonical_evidence.py", "tools/git_canonical_evidence.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 POSTMERGE_EVIDENCE_CLOSURE = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json", "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"}
-CURRENT_CONSUMER_RECONCILIATION = {"docs/ACTIVE_CONTEXT.md", "docs/CURRENT_IMPLEMENTATION_STATUS.md", "docs/DECISIONS_PENDING.md", "tests/python/test_canon_freshness_v45_routing.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
+CURRENT_CONSUMER_RECONCILIATION = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
 PHASE_A_READINESS_CLASSIFICATION = {CANON_V45_WORKFLOW, "AGENTS.md", "docs/DECISIONS_PENDING.md", "docs/OMENWARD_GDD_CURRENT_CANON.md", "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md", "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md", "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md", "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md", "tests/python/test_phase_a_readiness_dependency_classification.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 CONTENT_CLOSURE_BENCHMARK_FIRST = {
     CANON_V45_WORKFLOW, "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/DECISIONS_PENDING.md",
@@ -150,6 +158,12 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE,
         ):
             self.assertEqual(module.validate_canon_freshness_scope(surface), [])
+
+    def test_current_consumer_reconciliation_requires_handoff(self) -> None:
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(CURRENT_CONSUMER_RECONCILIATION), [])
+        errors = module.validate_canon_freshness_scope(CURRENT_CONSUMER_RECONCILIATION - {"docs/HANDOFF_CONTEXT.md"})
+        self.assertTrue(any("missing required v4.5 current consumer reconciliation anchors" in error for error in errors), errors)
 
     def test_phase_c_c0_toolchain_gate_exact_surface_passes(self) -> None:
         self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_C_C0_TOOLCHAIN_GATE), [])
