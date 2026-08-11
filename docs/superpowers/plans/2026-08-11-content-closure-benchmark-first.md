@@ -22,6 +22,36 @@
 - Every future non-trivial work item must run fresh benchmarking/industry research before design/canon/implementation changes.
 - Benchmark findings are classified `ADOPT / ADAPT / AVOID / TEST / IGNORE`; competitor behavior never overrides OMENWARD canon automatically.
 
+## Execution variance — adversarial Thin Adapter refinement
+
+The initial task list below proposed direct edits to GDD/Lifecycle. During adversarial review this was rejected as unnecessary duplication and a repeat risk of prior large-canon rewrite regressions. The approved product semantics are instead owned by one new design Decision, the operating rule by one new process Decision, and only current entry/status routers are updated.
+
+Final GitHub surface is **11 files**:
+
+```text
+.github/workflows/validate-canon-freshness-v4-5.yml
+AGENTS.md
+docs/ACTIVE_CONTEXT.md
+docs/DECISIONS_PENDING.md
+docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md
+docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md
+docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md
+tests/python/test_canon_freshness_v45_scope.py
+tests/python/test_content_closure_benchmark_first.py
+tests/python/test_phase_a_readiness_dependency_classification.py
+tools/validate_canon_freshness_v45_scope.py
+```
+
+```text
+DIRECT_GDD_DUPLICATION = NOT_USED
+DIRECT_LIFECYCLE_DUPLICATION = NOT_USED
+PR184_READINESS_TEST = TRANSITION_AWARE_AFTER_USER_APPROVAL
+CURRENT_RESPONSIBILITY_SOURCE_LINKS = PRESERVED_BY_REGRESSION_TEST
+PRODUCT_GODOT_PATHS = NONE
+```
+
+The older readiness review remains historical evidence that T3/Hero/Meta were open **before** this user approval; current routers and the new Decision own the post-approval state.
+
 ---
 
 ### Task 1: TDD contract for approved content closure and benchmark-first gate
@@ -36,7 +66,7 @@
 - Consumes: current v4.5 phase markers and fail-closed scope validator.
 - Produces: exact planning-only scope mode `CONTENT_CLOSURE_BENCHMARK_FIRST` and a workflow-executed regression contract.
 
-- [ ] **Step 1: Write failing content tests**
+- [x] **Step 1: Write failing content tests**
 
 Assert the approved Decision documents do not exist yet and require these exact product literals:
 
@@ -65,34 +95,35 @@ WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARAT
 PHASE_C_BLOCKED
 ```
 
-- [ ] **Step 2: Run/observe server RED**
+- [x] **Step 2: Run/observe server RED**
 
-Expected: existing v4.5 routing stays Green while the new content-closure contract fails because the new approved documents/current markers do not yet exist.
+Observed semantic RED: v4.5 run `31449860775`; existing routing/scope/readiness Green, new content-closure/benchmark-first contract Red before canonical Decision documents/current markers landed.
 
-- [ ] **Step 3: Add exact fail-closed surface mode**
+- [x] **Step 3: Add exact fail-closed surface mode**
 
-Allow only the files listed by this plan; reject missing anchors, unrelated files, historical v4.4 authority mutation, and protected product paths.
+Allow only the final 11-file Thin Adapter surface; reject missing anchors, unrelated files, historical v4.4 authority mutation, and protected product paths.
 
-- [ ] **Step 4: Route the focused test through v4.5 workflow**
+- [x] **Step 4: Route the focused test through v4.5 workflow**
 
 Compile and execute `tests.python.test_content_closure_benchmark_first` in `validate-canon-freshness-v4-5.yml` and include every intended changed path in the workflow trigger.
 
-- [ ] **Step 5: Verify scope Green/content RED separation**
+- [x] **Step 5: Verify scope Green/content RED separation**
 
-Expected: routing and scope Green, new semantic content test still RED until Task 2/3 documents land.
+Verified during the RED lineage. A later adversarial regression test also reproduced missing current responsibility sources as a focused Red before their restoration.
 
 ### Task 2: Canonicalize the approved nine product decisions and genre classification
 
-**Files:**
+**Initial proposed files:**
 - Create: `docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`
-- Modify: `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- Modify: `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+- Initially considered: direct `docs/OMENWARD_GDD_CURRENT_CANON.md` / `docs/DOCUMENT_LIFECYCLE_REGISTRY.md` edits
+
+**Final Thin Adapter execution:** product semantics are owned by the new Decision; direct GDD/Lifecycle duplication was intentionally not performed.
 
 **Interfaces:**
 - Consumes: user's explicit approval, current building-tier/Hero/Legendary/Meta owners, benchmark evidence.
 - Produces: canonical product Decision `OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1`.
 
-- [ ] **Step 1: Record benchmark-derived genre classification**
+- [x] **Step 1: Record benchmark-derived genre classification**
 
 Use:
 
@@ -111,17 +142,17 @@ Benchmark mapping:
 - Backpack Battles: `ADAPT` — pre-combat build/arrangement agency.
 - CloverPit: `TEST/AVOID` — probability manipulation is relevant, but gambling/horror identity and unrestricted snowball are not OMENWARD's positioning.
 
-- [ ] **Step 2: Record all nine approved decisions without inventing final numerics**
+- [x] **Step 2: Record all nine approved decisions without inventing final numerics**
 
 Preserve Archer T3 later owner `CROSSBOW_ARCHER / RAPID_FIRE_ARCHER`; leave role-specific exact capstone numerics to later runtime/balance evidence.
 
-- [ ] **Step 3: Reclassify held owners**
+- [x] **Step 3: Preserve held-owner boundary**
 
-Lifecycle must state that prior Hero/Legendary and Meta/Hub detailed held documents remain historical/reference lineage; current high-level product authority is the new closure Decision. Do not silently reactivate old exact kits or old exact meta values.
+Prior Hero/Legendary and Meta/Hub detailed held documents remain historical/reference lineage. The new closure Decision is current high-level product authority; old exact kits or exact meta power values are not silently reactivated.
 
-- [ ] **Step 4: Update GDD summary minimally**
+- [x] **Step 4: Route current status through Thin Adapter owners**
 
-Add the new T3 grammar, `요새탑`, Hero commitment, Legendary sidegrade, Meta/Hub philosophy, and genre label. Preserve historical blocks and existing TokenSource/runtime dependency contracts.
+`AGENTS.md`, `ACTIVE_CONTEXT.md`, and `DECISIONS_PENDING.md` point to the new product Decision. No direct large GDD/Lifecycle rewrite was required.
 
 ### Task 3: Canonicalize benchmark-first operating policy
 
@@ -135,7 +166,7 @@ Add the new T3 grammar, `요새탑`, Hero commitment, Legendary sidegrade, Meta/
 - Consumes: Base `analyzing-and-refining-game-concepts` benchmark workflow and user's standing project instruction.
 - Produces: project process Decision `OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1`.
 
-- [ ] **Step 1: Define mandatory pre-work sequence**
+- [x] **Step 1: Define mandatory pre-work sequence**
 
 ```text
 FRESH_BASE_PROJECT_SHEET_READ
@@ -146,17 +177,17 @@ FRESH_BASE_PROJECT_SHEET_READ
 → DESIGN_CANON_IMPLEMENTATION_WORK
 ```
 
-- [ ] **Step 2: Define bounded exceptions**
+- [x] **Step 2: Define bounded exceptions**
 
-Trivial same-work-item readback/status synchronization may reuse the benchmark packet from the same work item. Urgent correctness/security remediation may use a minimal targeted industry/primary-source verification first; it does not waive fresh authority reads or later evidence recording.
+Trivial same-work-item readback/status synchronization may reuse the benchmark packet from the same work item. Urgent correctness/security remediation may use a minimal targeted industry/primary-source verification first; it does not waive fresh authority reads or evidence recording in the same work item.
 
-- [ ] **Step 3: Update entry router**
+- [x] **Step 3: Update entry router**
 
-`AGENTS.md` must require the benchmark gate before non-trivial work and point to the process Decision rather than duplicating detailed procedure.
+`AGENTS.md` requires the benchmark gate before non-trivial work and points to the process Decision rather than duplicating all detailed procedure.
 
-- [ ] **Step 4: Close Phase-A semantic inventory without opening Phase B/C**
+- [x] **Step 4: Close Phase-A semantic inventory without opening Phase B/C**
 
-Current state becomes:
+Current state:
 
 ```text
 WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
@@ -184,9 +215,9 @@ Final FV/numerics, Issue176 implementation completeness, and platform/release de
 - Consumes: final exact GitHub PR head and both Decision IDs.
 - Produces: history-safe corrective Sheet state with bounded reread evidence.
 
-- [ ] **Step 1: Correct PR185 false merge claim**
+- [x] **Step 1: Correct PR185 false merge claim**
 
-Append corrective history/audit stating:
+Corrective evidence records:
 
 ```text
 PR185 = CLOSED_UNMERGED_SUPERSEDED
@@ -196,46 +227,44 @@ PR185_ACTIVE_V44 = FAILURE
 SHEET_PRIOR_PR185_MERGED_CLAIM = CORRECTED
 ```
 
-Do not delete the erroneous historical row; mark it superseded via a new corrective row.
+The erroneous historical row was preserved rather than deleted.
 
-- [ ] **Step 2: Add approved product Decision row**
+- [x] **Step 2: Add approved product Decision row**
 
-Include the nine approved semantics, genre classification, no final numerics, and Phase C blocked.
+The nine approved semantics, genre classification, no-final-numerics boundary, and Phase C block are present as `PROPOSED_SHEET_CHANGE` while PR186 is Draft.
 
-- [ ] **Step 3: Add benchmark-first process Decision row**
+- [x] **Step 3: Add benchmark-first process Decision row**
 
-Include mandatory pre-work research, disposition taxonomy, current-source preference, and no competitor-copy authority.
+The mandatory pre-work research, disposition taxonomy, current-source preference, and no-competitor-copy authority are present as `PROPOSED_SHEET_CHANGE`.
 
-- [ ] **Step 4: Add current system notes**
+- [x] **Step 4: Add current system notes**
 
 `42`: Hero one-per-run commitment and troop T3 role preservation.
 `43`: single-capstone T3 grammar and `포격탑 / 요새탑 / 저격탑`.
 `50`: contextual-amplifier Hero, constrained-sidegrade Legendary, horizontal/contextual Meta/Hub.
 
-- [ ] **Step 5: Bounded reread every changed range**
+- [x] **Step 5: Bounded reread every changed range**
 
-Expected: both Decision IDs exactly match GitHub canon and no `PR185_MERGED` remains in current-facing rows.
+The proposed Sheet ranges were read back and matched. Final `MERGED_CANON` promotion remains blocked until the GitHub merge/readback gate.
 
 ### Task 5: Adversarial verification and merge
 
-**Files:** all Task 1–3 GitHub files; Sheet evidence from Task 4.
+**Files:** final 11-file GitHub surface above; Sheet evidence from Task 4.
 
 - [ ] **Step 1: Exact-head CI**
 
 Require every triggered workflow Green, including v4.5, active v4.4 compatibility, Base adoption, GDD Sheet adoption, Project Core, and Omenward Core when triggered.
 
-- [ ] **Step 2: Adversarial diff review**
+- [x] **Step 2: Adversarial diff review — pre-final-head findings**
 
-Reject if any of these occurred:
-- old Hero exact kits silently reactivated;
-- old Meta exact power values silently reactivated;
-- role-specific T3 final numerics invented;
-- final FV/product numerics selected;
-- competitor design copied as authority;
-- benchmark gate weakens fresh canon reads;
-- product/Godot paths changed;
-- `PHASE_B` or `PHASE_C` opened;
-- historical evidence deleted.
+Validated findings already refined:
+- stale PR184 “T3 must remain open” test was transitioned rather than weakening/removing the test;
+- current responsibility source links removed during simplification received a dedicated regression test and were restored;
+- no old Hero exact kits or Meta exact power values were reactivated;
+- no role-specific T3 final numerics or final FV/product numerics were selected;
+- no competitor behavior was elevated to automatic authority;
+- no product/Godot path is in the PR surface;
+- Phase B/C remain closed.
 
 - [ ] **Step 3: Fresh race check**
 
@@ -249,9 +278,7 @@ Use exact PR head protection.
 
 Promote proposed Sheet rows to `MERGED_CANON` only after GitHub merge and merged-main verification.
 
-- [ ] **Step 6: Preserve the user gate**
-
-Stop at:
+- [x] **Step 6: Preserve the user gate**
 
 ```text
 WHOLE_PROJECT_CONTENT_DECISIONS_CLOSED
