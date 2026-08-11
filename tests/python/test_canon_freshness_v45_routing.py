@@ -27,6 +27,8 @@ PROJECT_CORE = ROOT / "docs/PROJECT_CORE.md"
 ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
 DOCUMENTATION_MAP = ROOT / "docs/DOCUMENTATION_MAP.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+ONBOARDING = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
+LEDGER = ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md"
 PHASE_B_REVIEW = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 
 
@@ -128,6 +130,31 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
                 text,
                 f"{path.relative_to(ROOT)} still defers already-verified Godot AI authority",
             )
+
+    def test_all_remaining_current_consumers_close_c0(self) -> None:
+        remaining_current = (
+            DOCUMENTATION_MAP,
+            WORKBOOK,
+            LIFECYCLE,
+            ONBOARDING,
+            GDD,
+            BINDING,
+            LEDGER,
+        )
+        for path in remaining_current:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(C0_LOCAL_DECISION, text, f"{path.relative_to(ROOT)} missing current C0 Decision")
+            self.assertIn("PHASE_C_C0_OVERALL = PASS", text, f"{path.relative_to(ROOT)} missing C0 PASS")
+            self.assertIn("PR175_CURRENT_MAIN_REVALIDATION_NEXT", text, f"{path.relative_to(ROOT)} missing current next gate")
+
+        state = json.loads(STATE.read_text(encoding="utf-8"))
+        self.assertEqual(state.get("current_execution_decision_id"), C0_LOCAL_DECISION)
+        self.assertEqual(state.get("phase_c_c0"), "PASS")
+        self.assertEqual(state.get("current_next_gate"), "PR175_CURRENT_MAIN_REVALIDATION_NEXT")
+        self.assertEqual(state["godot_ai"].get("c0_status"), "VERIFIED_PLUGIN_SERVER_SESSION")
+        self.assertEqual(state["godot_ai"].get("http_port"), 8002)
+        self.assertEqual(state["godot_ai"].get("ws_port"), 9502)
+        self.assertEqual(state["godot_ai"].get("session_resolution"), "FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK")
 
     def test_lifecycle_routes_v45_current_phase_b_and_v44_history(self) -> None:
         text = LIFECYCLE.read_text(encoding="utf-8")
