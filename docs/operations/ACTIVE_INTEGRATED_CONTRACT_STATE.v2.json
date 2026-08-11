@@ -3,6 +3,10 @@
   "decision_id": "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1",
   "phase_b_decision_id": "OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1",
   "activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
+  "current_execution_decision_id": "OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1",
+  "phase_c_c0": "PASS",
+  "current_next_gate": "PR175_CURRENT_MAIN_REVALIDATION_NEXT",
+  "current_routing_precedence": "TOP_LEVEL_CURRENT_EXECUTION_FIELDS_SUPERSEDE_HISTORICAL_PHASE_B_TRANSITION_SNAPSHOT",
   "observed_at": "2026-08-11T12:01:00+09:00",
   "activation_baseline_main_sha": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
   "validated_technical_main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
@@ -26,6 +30,7 @@
     "godot_project_path": "C:/Users/user/Documents/GitHub/Ninza/omenward"
   },
   "planning_phase": {
+    "snapshot_semantics": "HISTORICAL_PHASE_B_TRANSITION",
     "status": "PHASE_B_FINAL_PLANNING_REVIEW_PASS",
     "planning_canon": "MAIN_CANONICAL_APPROVED_10_OF_10",
     "continuous_work": "ACTIVE_WITHIN_APPROVED_CANON_SCOPE",
@@ -52,8 +57,8 @@
     "instruction_repo_canonicalization": "MERGED_VERIFIED",
     "postmerge_full_python_reconciliation": "PASS",
     "windows_canonical_evidence_portability": "PASS",
-    "active_consumer_reconciliation": "PHASE_B_PASS",
-    "sheet_sync": "PHASE_B_PREMERGE_SYNC_REREAD_PASS",
+    "active_consumer_reconciliation": "C0_FULL_CURRENT_CONSUMER_CLOSURE_PR193_IN_PROGRESS",
+    "sheet_sync": "C0_LOCAL_PASS_VALID_PR193_RED_SYNC",
     "technical_closure": "PASS"
   },
   "technical_validation": {
@@ -102,6 +107,18 @@
     "pr187": {
       "merge_sha": "113f00bbddb22033bfadd2086ff8b5661815fb86",
       "role": "QUALITY_GUARDRAILS_AND_ELITE_BOSS_CADENCE"
+    },
+    "pr190": {
+      "merge_sha": "8301cbb0868890a43d05926a48a65e38e8b3ebc3",
+      "role": "PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE"
+    },
+    "pr191": {
+      "merge_sha": "ec9244fea8025bc83439622016ba7234217b9030",
+      "role": "PHASE_C_C0_LOCAL_HIGODOT_GATE"
+    },
+    "pr192": {
+      "merge_sha": "9dc1c82c83db9b07c2f4056ee9507eb54a3795dd",
+      "role": "POST_C0_CURRENT_ROUTER_RECONCILIATION"
     }
   },
   "runtime_pr": {
@@ -111,14 +128,21 @@
     "issue": 176,
     "approved_runtime_gap_count": 7,
     "historical_exact_head_actions": "11_SUCCESS_0_FAILURE",
-    "strict_up_to_date_after_canon_merge": "REVALIDATION_REQUIRED_AT_PHASE_C_C0",
+    "strict_up_to_date_after_canon_merge": "REVALIDATION_REQUIRED_AGAINST_CURRENT_MAIN",
     "merge": "FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE",
-    "phase_c_execution": "READY_FOR_C0_PRECHECK"
+    "phase_c_execution": "PR175_CURRENT_MAIN_REVALIDATION_NEXT"
   },
   "godot_ai": {
     "user_reported_current_version": "3.1.4",
-    "exact_upstream_verification": "NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK",
-    "authority_reconciliation": "DEFER_TO_PHASE_C_FRESH_VERIFY"
+    "historical_phase_b_exact_upstream_verification": "NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK",
+    "c0_status": "VERIFIED_PLUGIN_SERVER_SESSION",
+    "plugin_version": "3.1.4",
+    "server_version": "3.1.4",
+    "godot_version": "4.7.1-stable",
+    "http_port": 8002,
+    "ws_port": 9502,
+    "session_resolution": "FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK",
+    "persistent_authoring_authority": "HIGODOT_ONLY"
   },
   "handoff_pr": {
     "number": 177,
@@ -145,8 +169,9 @@
     "required_same_decision_sync": true,
     "current_activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
     "phase_b_decision_id": "OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1",
-    "status": "PHASE_B_PREMERGE_SYNC_REREAD_PASS",
-    "latest_audit_id": "OMW-AUD-642"
+    "current_execution_decision_id": "OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1",
+    "status": "C0_LOCAL_PASS_VALID_PR193_RED_SYNC",
+    "latest_audit_id": "OMW-AUD-647"
   },
-  "evidence_closure": "PHASE_B_PREMERGE_EVIDENCE_COMPLETE_PENDING_FINAL_EXACT_HEAD_AND_MERGE"
+  "evidence_closure": "C0_LOCAL_PASS_VALID_FULL_CURRENT_CONSUMER_CLOSURE_PR193_IN_PROGRESS"
 }
