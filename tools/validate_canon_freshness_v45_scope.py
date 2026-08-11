@@ -36,6 +36,14 @@ PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 PHASE_C_C0_TOOLCHAIN_GATE_REQUIRED_ANCHORS = set(PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES)
+PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_ALLOWED_FILES = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_REQUIRED_ANCHORS = set(PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_ALLOWED_FILES)
 WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES = {"tests/python/test_barracks_10000_robustness_execution.py", "tests/python/test_barracks_conditional_fail_remediation.py", "tests/python/test_base_recovery_map.py", "tests/python/test_project_base_adapter_freshness.py", "tests/python/test_git_canonical_evidence.py", "tools/git_canonical_evidence.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS = set(WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES)
 POSTMERGE_EVIDENCE_ALLOWED_FILES = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json", "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"}
@@ -91,6 +99,7 @@ APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
     | PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES
+    | PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_ALLOWED_FILES
     | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
     | POSTMERGE_EVIDENCE_ALLOWED_FILES
     | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES
@@ -130,6 +139,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         return errors
     modes = (
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
+        (PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_ALLOWED_FILES, PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_REQUIRED_ANCHORS, "Phase C C0 local HiGodot closure"),
         (PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES, PHASE_C_C0_TOOLCHAIN_GATE_REQUIRED_ANCHORS, "Phase C C0 toolchain gate"),
         (PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES, PHASE_B_POSTMERGE_FULL_SUITE_REQUIRED_ANCHORS, "Phase B postmerge full-suite remediation"),
         (WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES, WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS, "Windows canonical evidence portability"),

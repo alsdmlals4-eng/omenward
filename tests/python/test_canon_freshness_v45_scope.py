@@ -41,6 +41,13 @@ PHASE_C_C0_TOOLCHAIN_GATE = {
     "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
+PHASE_C_C0_LOCAL_HIGODOT_CLOSURE = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
 WINDOWS_CANONICAL_EVIDENCE_PORTABILITY = {"tests/python/test_barracks_10000_robustness_execution.py", "tests/python/test_barracks_conditional_fail_remediation.py", "tests/python/test_base_recovery_map.py", "tests/python/test_project_base_adapter_freshness.py", "tests/python/test_git_canonical_evidence.py", "tools/git_canonical_evidence.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 POSTMERGE_EVIDENCE_CLOSURE = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json", "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"}
 CURRENT_CONSUMER_RECONCILIATION = {"docs/ACTIVE_CONTEXT.md", "docs/CURRENT_IMPLEMENTATION_STATUS.md", "docs/DECISIONS_PENDING.md", "tests/python/test_canon_freshness_v45_routing.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
@@ -120,6 +127,15 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         )
         self.assertTrue(any("missing required v4.5 Phase C C0 toolchain gate anchors" in error for error in errors), errors)
 
+    def test_phase_c_c0_local_higodot_closure_exact_surface_passes(self) -> None:
+        self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_C_C0_LOCAL_HIGODOT_CLOSURE), [])
+
+    def test_partial_phase_c_c0_local_higodot_closure_is_rejected(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            PHASE_C_C0_LOCAL_HIGODOT_CLOSURE - {"docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md"}
+        )
+        self.assertTrue(any("missing required v4.5 Phase C C0 local HiGodot closure anchors" in error for error in errors), errors)
+
     def test_phase_b_postmerge_full_suite_exact_surface_passes(self) -> None:
         self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_B_POSTMERGE_FULL_SUITE_REMEDIATION), [])
 
@@ -145,11 +161,11 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(any("missing required v4.5 content closure benchmark-first anchors" in error for error in errors), errors)
 
     def test_product_path_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(PHASE_C_C0_TOOLCHAIN_GATE | {"scripts/battle/lane_state.gd"})
+        errors = load_module().validate_canon_freshness_scope(PHASE_C_C0_LOCAL_HIGODOT_CLOSURE | {"scripts/battle/lane_state.gd"})
         self.assertTrue(any("protected product" in error for error in errors), errors)
 
     def test_unrelated_file_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(PHASE_C_C0_TOOLCHAIN_GATE | {"docs/UNRELATED.md"})
+        errors = load_module().validate_canon_freshness_scope(PHASE_C_C0_LOCAL_HIGODOT_CLOSURE | {"docs/UNRELATED.md"})
         self.assertTrue(any("unapproved files" in error for error in errors), errors)
 
     def test_historical_v44_authority_mutation_is_rejected(self) -> None:
