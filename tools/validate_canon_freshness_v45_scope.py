@@ -70,6 +70,16 @@ POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_ALLOWED_FILES = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_REQUIRED_ANCHORS = set(POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_ALLOWED_FILES)
+POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_ALLOWED_FILES = {
+    "docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md",
+    "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
+    "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_REQUIRED_ANCHORS = set(POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_ALLOWED_FILES)
 WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES = {"tests/python/test_barracks_10000_robustness_execution.py", "tests/python/test_barracks_conditional_fail_remediation.py", "tests/python/test_base_recovery_map.py", "tests/python/test_project_base_adapter_freshness.py", "tests/python/test_git_canonical_evidence.py", "tools/git_canonical_evidence.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS = set(WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES)
 POSTMERGE_EVIDENCE_ALLOWED_FILES = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json", "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"}
@@ -128,6 +138,7 @@ APPROVED_FILES = (
     | PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_ALLOWED_FILES
     | POST_C0_CURRENT_ROUTER_RECONCILIATION_ALLOWED_FILES
     | POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_ALLOWED_FILES
+    | POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_ALLOWED_FILES
     | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
     | POSTMERGE_EVIDENCE_ALLOWED_FILES
     | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES
@@ -167,6 +178,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         return errors
     modes = (
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
+        (POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_ALLOWED_FILES, POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_REQUIRED_ANCHORS, "post-C0 transient ops-state decoupling"),
         (POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_ALLOWED_FILES, POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_REQUIRED_ANCHORS, "post-C0 full current-consumer closure"),
         (POST_C0_CURRENT_ROUTER_RECONCILIATION_ALLOWED_FILES, POST_C0_CURRENT_ROUTER_RECONCILIATION_REQUIRED_ANCHORS, "post-C0 current-router reconciliation"),
         (PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_ALLOWED_FILES, PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_REQUIRED_ANCHORS, "Phase C C0 local HiGodot closure"),
