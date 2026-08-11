@@ -2,15 +2,17 @@
 
 ```yaml
 updated_at: 2026-08-11
-current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 phase_b: PASS
+phase_c_c0: PASS
 phase_c_gate: OPEN
 ```
 
-이 문서는 **새 제품 기획 backlog가 아니라**, Phase B 이후 구현·측정·출시 의존성을 분류한다.
+이 문서는 **새 제품 기획 backlog가 아니라**, Phase B/C0 이후 구현·측정·출시 의존성을 분류한다.
 
-## 1. Planning gate
+## 1. Planning / execution gate
 
 ```text
 WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
@@ -20,8 +22,14 @@ PHASE_B_FINAL_PLANNING_REVIEW = PASS
 NEW_PRODUCT_DECISION_REQUIRED = FALSE
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
-PHASE_C_STATUS = READY_TO_ENTER
+PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
+PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
+PHASE_C_C0_OVERALL = PASS
+PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
+
+C0는 더 이상 pending gate가 아니다. 현재 첫 pending execution gate는 PR175 current-main rebase/update + exact-head revalidation이다.
 
 ## 2. Current product owners
 
@@ -52,6 +60,7 @@ SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 PR175 = OPEN_DRAFT
 PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = TRUE
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
@@ -89,20 +98,32 @@ SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 
 Physical count is settled; only final special-unit selection distribution remains evidence tuning.
 
-## 5. Phase C C0 preflight
+## 5. Phase C C0 — completed execution route
+
+Phase B 당시 provenance는 보존한다.
 
 ```text
 USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
 ```
 
-Before persistent authoring:
-- fresh Base/project/Sheet read,
-- fresh tool/industry verification,
-- revalidate PR175 against current main,
-- verify local Godot 4.7.1, exact Godot AI plugin/server/launcher/session/transport,
-- do not kill unrelated editors/shared server before root-cause evidence.
+C0 current truth:
+
+```text
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_PLUGIN_VERSION = 3.1.4
+GODOT_AI_SERVER_VERSION = 3.1.4
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
+OMENWARD_GODOT_AI_HTTP_PORT = 8002
+OMENWARD_GODOT_AI_WS_PORT = 9502
+CODEX_INSTALLATION = SHARED
+OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
+```
+
+C0 closure의 exact session ID/PID는 evidence-only다. Persistent authoring 직전에는 현재 `session_manage(op=list)`에서 exact OMENWARD project path를 다시 확인한다. `godot_ai/keep_server_on_exit=true`는 closure 중 관측된 lifecycle follow-up이며 clean future execution block의 default는 false로 정리한다.
 
 ## 6. Platform / release-deferred
 
@@ -130,17 +151,19 @@ These do not block PR175 gameplay implementation readiness.
 - `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
 ## 8. Historical durable planning evidence
 
 These markers are retained because existing durable review contracts use them to prove the transition lineage; they do not reopen planning.
 
 ```text
+OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 5_OF_10 = REMEDIATION_SMOKE_PASS
 6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
 ```
 
-They are historical checkpoints only. Current planning truth remains `MAIN_CANONICAL_APPROVED_10_OF_10` and Phase B PASS.
+They are historical checkpoints only. Current planning/execution truth is `MAIN_CANONICAL_APPROVED_10_OF_10` + Phase B PASS + C0 PASS.
 
 ## 9. Reference-only handoff
 

@@ -144,3 +144,32 @@ The auxiliary Codex `agentmemory` MCP failed startup in the observed terminal, b
 ```
 
 Base `23d5b292...` adds a post-change adversarial monitoring loop, so successful implementation is not complete until that post-change monitoring requirement is satisfied.
+
+## 8. Post-change adversarial monitor finding
+
+PR #191 merged this local C0 closure to main `ec9244fea8025bc83439622016ba7234217b9030`. Its exact head `617a6acf9193d7b8a0065b4debe55d60798a4598` passed all 6 triggered workflows with review threads 0; the merge-main push then passed Project Core, Canon v4.5, and Omenward Core, including Godot plus the full Ubuntu/Windows Python matrix.
+
+The required Base `POST_CHANGE_MONITOR_LOOP` then attacked same-goal PRs, untouched consumers, and current routing. Historical C0 preflight/plan documents correctly retained `WS9500` / `LOCAL_LIVE_SESSION_UNVERIFIED` as historical evidence, but five **current** routers still treated C0 as a future gate:
+
+```text
+AGENTS.md
+README.md
+docs/PROJECT_CORE.md
+docs/DECISIONS_PENDING.md
+docs/OMENWARD_ROADMAP.md
+```
+
+Classification:
+
+```text
+POST_CHANGE_MONITOR_FINDING = CURRENT_ROUTER_OMISSION
+FINDING_CLASS = OMISSION / CONFLICT
+PRODUCT_SEMANTIC_CHANGE = NONE
+HISTORICAL_C0_EVIDENCE_REWRITE = FORBIDDEN
+FOLLOWUP_OWNER = PR192
+FOLLOWUP_DECISION_ID = OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+```
+
+TDD RED was established on PR #192 head `30e9a92c565a984c51e2fccd5fea6a7cbc146a64`: the new current-router regression failed specifically because `AGENTS.md` lacked the current C0 Decision while the pre-existing routing tests remained Green.
+
+The bounded remediation advances only current routers, preserves Phase B provenance, adds an exact fail-closed v4.5 scope for the follow-up, and keeps all product/Godot/GDScript/GUT source untouched. Completion requires PR #192 exact-head validation, merge/main readback, and a post-merge recheck that reaches either another explicit material finding or `NO_MATERIAL_FOLLOWUP`.

@@ -4,12 +4,13 @@
 updated_at: 2026-08-11
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 base_main_observed_at_phase_b: 069f0c9654a6cde7cea6f3343dd2fa81c6248d5d
-current_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+current_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 benchmark_process_decision: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 contract_version: 4.5
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-work_phase: PHASE_B_FINAL_PLANNING_REVIEW_PASS
+work_phase: PHASE_C_C0_PASS_PR175_CURRENT_MAIN_REVALIDATION_NEXT
 phase_c_gate: OPEN
 runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 runtime_pr: 175
@@ -34,6 +35,7 @@ handoff_disposition: REFERENCE_ONLY_DO_NOT_MERGE
 OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
 COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
+POST_CHANGE_ADVERSARIAL_MONITORING = REQUIRED
 ```
 
 운영 owner:
@@ -47,6 +49,7 @@ COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
 Stage cadence latest override:
 
@@ -60,7 +63,7 @@ LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
 
 ## 3. Phase transition
 
-사용자의 literal `기획 완료` 선언을 수신했고 Phase B 최종 검토가 통과했다.
+사용자의 literal `기획 완료` 선언을 수신했고 Phase B 최종 검토와 Phase C C0 repository/local gate가 모두 통과했다.
 
 ```text
 WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
@@ -69,31 +72,41 @@ USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
 PHASE_B_FINAL_PLANNING_REVIEW = PASS
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
-PHASE_C_STATUS = READY_TO_ENTER
+PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
+PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
+PHASE_C_C0_OVERALL = PASS
+PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
-`PHASE_C_GATE = OPEN`은 구현 완료가 아니다. 다음 작업은 Phase C C0 preflight부터 시작한다.
+`PHASE_C_GATE = OPEN`과 C0 PASS는 gameplay 구현 완료를 뜻하지 않는다. 현재 다음 gate는 PR175를 fresh current main에 맞춰 rebase/update하고 exact-head 검증을 다시 수행하는 것이다.
 
-## 4. Phase C C0 preflight
+## 4. Current Godot AI / HiGodot execution route
 
-Phase C의 첫 비사소 작업은 반드시:
-
-- fresh Base/project/Sheet read,
-- concrete runtime benchmark/tool verification,
-- current main against PR175 revalidation/rebase 필요성 확인,
-- local Godot 4.7.1 / Godot AI exact installed version / server / session / transport 확인,
-- protected-path / TDD / exact-head acceptance 확인
-순으로 시작한다.
-
-사용자 제보:
+Phase B 당시 provenance는 보존한다.
 
 ```text
 USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
 ```
 
-실제 local/plugin truth 확인 전 3.1.4를 자동 tool authority로 가정하지 않는다.
+C0에서 확인된 current execution truth:
+
+```text
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_PLUGIN_VERSION = 3.1.4
+GODOT_AI_SERVER_VERSION = 3.1.4
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
+OMENWARD_GODOT_AI_HTTP_PORT = 8002
+OMENWARD_GODOT_AI_WS_PORT = 9502
+CODEX_INSTALLATION = SHARED
+OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
+```
+
+C0 closure에서 `omenward@7f90` / editor PID `28564`가 exact project path로 증명됐지만 이는 **evidence only**다. 새 mutation block마다 `session_manage(op=list)`를 다시 호출하고 `C:/Users/user/Documents/GitHub/Ninza/omenward/`를 exact-match한다. session ID를 추측하거나 과거 값을 selector로 재사용하지 않는다.
 
 ## 5. Current TokenSource / physical reel contract
 
@@ -125,6 +138,7 @@ SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 PR175 = OPEN_DRAFT
 PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = TRUE
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
@@ -132,7 +146,7 @@ PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
 ```
 
-Issue176 일곱 gap은 새 product Decision이 아니다. 구현 순서는 `GUT RED -> HiGodot/Godot AI authoring -> parse/import -> GUT GREEN -> regressions -> deterministic FV -> Hera live QA`다.
+Issue176 일곱 gap은 새 product Decision이 아니다. PR175 current-main revalidation을 먼저 통과한 뒤 구현 순서는 `GUT RED -> HiGodot/Godot AI authoring -> parse/import -> GUT GREEN -> regressions -> deterministic FV -> Hera live QA`다.
 
 ```text
 ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON -> FINAL_TUNING
@@ -193,3 +207,4 @@ godot_project_path = C:/Users/user/Documents/GitHub/Ninza/omenward
 - Google Sheet는 같은 Decision ID로 동기화한다.
 - historical v4.4 / old cadence / old planning checkpoint는 삭제하지 않고 history로만 보존한다.
 - 출시용 shared save/export/store는 PR175 prebuild blocker가 아닌 release-phase deferred다.
+- retained change/merge 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`를 수행하고 `NO_MATERIAL_FOLLOWUP` 또는 명시적 follow-up owner까지 확인한다.
