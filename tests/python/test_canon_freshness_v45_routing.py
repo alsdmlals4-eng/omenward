@@ -12,6 +12,7 @@ C0_LOCAL_DECISION = "OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V
 BASE_MAIN = "069f0c9654a6cde7cea6f3343dd2fa81c6248d5d"
 PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
+PR193_MERGE = "7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0"
 
 BINDING = ROOT / "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
 STATE = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
@@ -29,6 +30,7 @@ DOCUMENTATION_MAP = ROOT / "docs/DOCUMENTATION_MAP.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
 ONBOARDING = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
 LEDGER = ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md"
+C0_REVIEW = ROOT / "docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md"
 PHASE_B_REVIEW = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 
 
@@ -155,6 +157,30 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertEqual(state["godot_ai"].get("http_port"), 8002)
         self.assertEqual(state["godot_ai"].get("ws_port"), 9502)
         self.assertEqual(state["godot_ai"].get("session_resolution"), "FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK")
+
+    def test_transient_ops_pr_state_is_not_durable_current_routing(self) -> None:
+        durable_current_docs = (C0_REVIEW, WORKBOOK, LEDGER)
+        for path in durable_current_docs:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(
+                "TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON",
+                text,
+                f"{path.relative_to(ROOT)} still persists transient ops PR state as durable canon",
+            )
+            self.assertIn("PR175_CURRENT_MAIN_REVALIDATION_NEXT", text)
+            self.assertNotIn("PR193_CURRENT_STATUS = RED_FIRST_FULL_CURRENT_CONSUMER_CLOSURE", text)
+            self.assertNotIn("FOLLOWUP_OWNER = PR192", text)
+            self.assertNotIn("PR193 = full current-consumer C0 closure / Draft / RED-first remediation", text)
+
+        state = json.loads(STATE.read_text(encoding="utf-8"))
+        self.assertEqual(state["canon_freshness"].get("active_consumer_reconciliation"), "C0_CURRENT_ROUTING_AUTHORITATIVE")
+        self.assertEqual(state["canon_freshness"].get("sheet_sync"), "SAME_DECISION_REREAD_REQUIRED_BEFORE_RUNTIME_MUTATION")
+        self.assertEqual(state["sheet"].get("status"), "SAME_DECISION_REREAD_REQUIRED_BEFORE_RUNTIME_MUTATION")
+        self.assertEqual(state.get("evidence_closure"), "C0_LOCAL_PASS_CURRENT_ROUTING_AUTHORITATIVE")
+        self.assertEqual(state["closure_lineage"]["pr193"]["merge_sha"], PR193_MERGE)
+        encoded = json.dumps(state, sort_keys=True)
+        self.assertNotIn("PR193_IN_PROGRESS", encoded)
+        self.assertNotIn("PR193_RED_SYNC", encoded)
 
     def test_lifecycle_routes_v45_current_phase_b_and_v44_history(self) -> None:
         text = LIFECYCLE.read_text(encoding="utf-8")
