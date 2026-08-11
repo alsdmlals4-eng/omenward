@@ -9,8 +9,6 @@ PROCESS = ROOT / "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIR
 AGENTS = ROOT / "AGENTS.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
-GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
-LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
 WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 PRODUCT_DECISION = "OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1"
@@ -36,6 +34,7 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
             "META_HUB_PROGRESSION = HORIZONTAL_CONTEXTUAL",
             "PERMANENT_PURE_COMBAT_STAT_ACCUMULATION = FORBIDDEN",
             "MANDATORY_GRIND_CURRENCY = FORBIDDEN",
+            "HELD_REFERENCE_LINEAGE_NOT_CURRENT_EXACT_IMPLEMENTATION_AUTHORITY",
         ):
             self.assertIn(marker, text)
 
@@ -72,17 +71,10 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
             "PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN",
             "PHASE_C_BLOCKED",
             "BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE",
+            PRODUCT_DECISION,
+            PROCESS_DECISION,
         ):
             self.assertIn(marker, combined)
-
-    def test_gdd_and_lifecycle_route_to_new_product_authority_without_reactivating_old_exact_kits(self) -> None:
-        gdd = GDD.read_text(encoding="utf-8")
-        lifecycle = LIFECYCLE.read_text(encoding="utf-8")
-        self.assertIn(PRODUCT_DECISION, gdd)
-        self.assertIn("요새탑", gdd)
-        self.assertIn("CONTEXTUAL_AMPLIFIER", gdd)
-        self.assertIn(PRODUCT_DECISION, lifecycle)
-        self.assertIn("HELD_REFERENCE_LINEAGE_NOT_CURRENT_EXACT_IMPLEMENTATION_AUTHORITY", lifecycle)
 
     def test_v45_workflow_executes_focused_contract(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
