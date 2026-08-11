@@ -77,6 +77,7 @@ def validate(root: pathlib.Path) -> list[str]:
         _require(core, "workflow_dispatch:", "core workflow must support manual dispatch", errors)
         _reject(core, "self-hosted", "core full matrix must use standard GitHub-hosted runners", errors)
         _require(core, "push:", "core workflow must run full regression on main pushes", errors)
+        _require_count(core, '- "addons/**"', 2, "core workflow must trigger for addons/** on PR and push", errors)
         _reject(core, '- "docs/**"', "core workflow must not trigger on docs/**", errors)
         _reject(core, '- "README.md"', "core workflow must not trigger on README.md", errors)
         _reject(core, "validate_project_core_docs.py", "core workflow must not duplicate project-core document validation", errors)

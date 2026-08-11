@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "project.godot"
+      - "addons/**"
       - "scripts/**"
       - "scenes/**"
       - "data/**"
@@ -25,6 +26,7 @@ on:
       - main
     paths:
       - "project.godot"
+      - "addons/**"
       - "scripts/**"
       - "scenes/**"
       - "data/**"
