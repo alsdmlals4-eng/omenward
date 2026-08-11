@@ -7,14 +7,15 @@ ROOT = Path(__file__).resolve().parents[2]
 WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 REVIEW = ROOT / "docs/reviews/PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_INVENTORY_2026-08-11.md"
 
+# Keep phase-state propagation in actual phase/current routers. The gameplay GDD and
+# Sheet contract remain source/consumer documents and do not need duplicate phase-state
+# literals merely to satisfy this review.
 CURRENT_ROUTERS = (
     ROOT / "AGENTS.md",
     ROOT / "docs/ACTIVE_CONTEXT.md",
     ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     ROOT / "docs/DECISIONS_PENDING.md",
-    ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md",
     ROOT / "docs/PROJECT_CORE.md",
-    ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
 )
 
 STATE_MARKERS = (
