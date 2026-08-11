@@ -2,8 +2,7 @@ name: Validate Canon Freshness v4.5 Routing
 
 on:
   pull_request:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "AGENTS.md"
       - "docs/ACTIVE_CONTEXT.md"
@@ -16,8 +15,11 @@ on:
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/PROJECT_CORE.md"
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
+      - "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md"
+      - "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md"
       - "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
       - "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md"
+      - "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
@@ -25,11 +27,11 @@ on:
       - "tests/python/test_canon_freshness_v45_routing.py"
       - "tests/python/test_canon_freshness_v45_scope.py"
       - "tests/python/test_phase_a_readiness_dependency_classification.py"
+      - "tests/python/test_content_closure_benchmark_first.py"
       - "tools/validate_canon_freshness_v45_scope.py"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - "AGENTS.md"
       - "docs/ACTIVE_CONTEXT.md"
@@ -42,8 +44,11 @@ on:
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/PROJECT_CORE.md"
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
+      - "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md"
+      - "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md"
       - "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
       - "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md"
+      - "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
@@ -51,6 +56,7 @@ on:
       - "tests/python/test_canon_freshness_v45_routing.py"
       - "tests/python/test_canon_freshness_v45_scope.py"
       - "tests/python/test_phase_a_readiness_dependency_classification.py"
+      - "tests/python/test_content_closure_benchmark_first.py"
       - "tools/validate_canon_freshness_v45_scope.py"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
   workflow_dispatch:
@@ -84,7 +90,8 @@ jobs:
             tools/validate_canon_freshness_v45_scope.py \
             tests/python/test_canon_freshness_v45_routing.py \
             tests/python/test_canon_freshness_v45_scope.py \
-            tests/python/test_phase_a_readiness_dependency_classification.py
+            tests/python/test_phase_a_readiness_dependency_classification.py \
+            tests/python/test_content_closure_benchmark_first.py
 
       - name: Run canon freshness routing contract
         run: python -m unittest tests.python.test_canon_freshness_v45_routing -v
@@ -94,6 +101,9 @@ jobs:
 
       - name: Run Phase A readiness dependency contract
         run: python -m unittest tests.python.test_phase_a_readiness_dependency_classification -v
+
+      - name: Run approved content closure and benchmark-first contract
+        run: python -m unittest tests.python.test_content_closure_benchmark_first -v
 
       - name: Validate exact PR file surface
         if: github.event_name == 'pull_request'
