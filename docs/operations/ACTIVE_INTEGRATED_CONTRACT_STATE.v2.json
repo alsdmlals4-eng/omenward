@@ -52,8 +52,8 @@
     "instruction_repo_canonicalization": "MERGED_VERIFIED",
     "postmerge_full_python_reconciliation": "PASS",
     "windows_canonical_evidence_portability": "PASS",
-    "active_consumer_reconciliation": "PHASE_B_TRANSITION_IN_REVIEW",
-    "sheet_sync": "PHASE_B_PREMERGE_SYNC_PENDING",
+    "active_consumer_reconciliation": "PHASE_B_PASS",
+    "sheet_sync": "PHASE_B_PREMERGE_SYNC_REREAD_PASS",
     "technical_closure": "PASS"
   },
   "technical_validation": {
@@ -71,6 +71,16 @@
     "godot": "SUCCESS",
     "product_mutation": "NONE",
     "godot_persistent_mutation": "NONE"
+  },
+  "phase_b_premerge_evidence": {
+    "pre_sheet_sync_exact_head": "b468de04065bc181ec4300f1bfe52bc63c4b0ffd",
+    "pre_sheet_sync_exact_head_actions": "13_OF_13_SUCCESS",
+    "review_threads": 0,
+    "changed_files": 22,
+    "protected_product_paths": 0,
+    "sheet_sync": "PASS",
+    "sheet_reread": "PASS",
+    "sheet_audit_id": "OMW-AUD-642"
   },
   "closure_lineage": {
     "pr178": {
@@ -135,8 +145,8 @@
     "required_same_decision_sync": true,
     "current_activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
     "phase_b_decision_id": "OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1",
-    "status": "PHASE_B_PREMERGE_SYNC_PENDING",
-    "latest_audit_id": "OMW-AUD-641"
+    "status": "PHASE_B_PREMERGE_SYNC_REREAD_PASS",
+    "latest_audit_id": "OMW-AUD-642"
   },
-  "evidence_closure": "PHASE_B_REVIEW_PENDING_EXACT_HEAD_AND_SHEET_SYNC"
+  "evidence_closure": "PHASE_B_PREMERGE_EVIDENCE_COMPLETE_PENDING_FINAL_EXACT_HEAD_AND_MERGE"
 }
