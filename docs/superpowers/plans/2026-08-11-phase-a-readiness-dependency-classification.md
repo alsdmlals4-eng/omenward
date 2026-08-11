@@ -4,7 +4,7 @@
 
 **Goal:** Separate true pre-build planning blockers from approved provisional inputs, post-runtime tuning outputs, and platform/release-deferred work, while repairing stale TokenSource pending propagation without choosing new product content.
 
-**Architecture:** Treat current approved GitHub owners as source of truth and add one review-only classification artifact. Current-facing routers may summarize only source-supported dependency status; historical design documents remain untouched. A fail-closed v4.5 scope mode limits this work to planning/test/tool files and forbids product/Godot mutation.
+**Architecture:** Treat current approved GitHub owners as source of truth and add one review-only classification artifact. Current-facing routers may summarize only source-supported dependency status; historical design documents remain untouched. A fail-closed v4.5 scope mode limits this work to planning/test/tool/workflow files and forbids product/Godot mutation.
 
 **Tech Stack:** Markdown canon/review artifacts, Python `unittest` contract tests, GitHub Actions v4.5 routing gate, Google Sheets bounded current-surface sync.
 
@@ -20,46 +20,22 @@
 - Fresh OMENWARD main at plan creation: `a57e533c30c47cb3b31766bae27bcf0d7eed5bc6`.
 - Runtime PR #175 remains Draft with seven Issue #176 implementation-completeness gaps; PR #177 remains reference-only.
 
----
+## Execution evidence amendment
 
-### Task 1: Add fail-closed readiness classification contracts
+Adversarial CI-route review found that creating a new readiness unit test was insufficient because the existing v4.5 workflow did not compile or execute it. The approved planning-only surface therefore expanded by exactly one CI file, `.github/workflows/validate-canon-freshness-v4-5.yml`, while preserving full-SHA action pins and all existing validation steps.
 
-**Files:**
-- Create: `tests/python/test_phase_a_readiness_dependency_classification.py`
-- Modify: `tests/python/test_canon_freshness_v45_scope.py`
-- Modify: `tools/validate_canon_freshness_v45_scope.py`
-
-**Interfaces:**
-- Consumes: approved physical-token contract, runtime-package dependency chain, platform/release owners.
-- Produces: `PHASE_A_READINESS_CLASSIFICATION` exact-file scope mode and regression checks for current-facing dependency markers.
-
-- [ ] **Step 1: Write the failing readiness test**
-
-```python
-def test_physical_token_count_is_not_republished_as_pending():
-    for path in CURRENT_CONSUMERS:
-        text = path.read_text(encoding="utf-8")
-        assert "TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION" not in text
-        assert "TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1" in text
-        assert "FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN" in text
-```
-
-Also require the review artifact to classify:
+Observed RED lineage:
 
 ```text
-ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS / NO_NEW_PRODUCT_DECISION
-FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
-SPECIAL_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
-PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
-T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_PR175_BLOCKER
-PHASE_C = BLOCKED
+31446118758 = initial new readiness scope rejected while existing routing stayed Green
+31446268878 = workflow-added surface rejected because classifier had not yet admitted the workflow
+31446353990 = routing Green + scope Green + readiness content-only RED
 ```
 
-- [ ] **Step 2: Write the failing scope-mode test**
-
-Require exactly this proposed surface to pass while partial or extra-file variants fail:
+Final exact readiness surface is 11 files:
 
 ```text
+.github/workflows/validate-canon-freshness-v4-5.yml
 AGENTS.md
 docs/DECISIONS_PENDING.md
 docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -72,17 +48,43 @@ tests/python/test_canon_freshness_v45_scope.py
 tools/validate_canon_freshness_v45_scope.py
 ```
 
-- [ ] **Step 3: Run server CI and verify RED**
+---
 
-Expected: existing routing tests remain Green; new readiness/scope assertions fail because the review artifact and new scope mode do not exist and current consumers still republish ambiguous pending state.
+### Task 1: Add fail-closed readiness classification contracts
 
-- [ ] **Step 4: Implement only the new fail-closed scope mode**
+**Files:**
+- Modify: `.github/workflows/validate-canon-freshness-v4-5.yml`
+- Create: `tests/python/test_phase_a_readiness_dependency_classification.py`
+- Modify: `tests/python/test_canon_freshness_v45_scope.py`
+- Modify: `tools/validate_canon_freshness_v45_scope.py`
 
-Add `PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES` and identical required anchors. Preserve all existing activation/postmerge/Windows/evidence/current-consumer modes unchanged.
+**Interfaces:**
+- Consumes: approved physical-token contract, runtime-package dependency chain, platform/release owners.
+- Produces: `PHASE_A_READINESS_CLASSIFICATION` exact-file scope mode and regression checks for current-facing dependency markers.
 
-- [ ] **Step 5: Re-run focused scope tests**
+- [x] **Step 1: Write the failing readiness test**
 
-Expected: scope mode passes; readiness content test still fails until Task 2.
+The test requires current-facing consumers to distinguish resolved physical TokenInstance grammar from final special selection distribution.
+
+- [x] **Step 2: Write the failing scope-mode test**
+
+The test requires exactly the 11-file surface above and rejects partial/extra-file variants.
+
+- [x] **Step 3: Run server CI and verify RED**
+
+Observed: existing routing remained Green while new scope/readiness requirements failed.
+
+- [x] **Step 4: Implement only the new fail-closed scope mode**
+
+`PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES` uses identical required anchors. Existing activation/postmerge/Windows/evidence/current-consumer modes remain unchanged.
+
+- [x] **Step 5: Wire CI to the new readiness contract**
+
+The v4.5 workflow now path-triggers, compiles, and runs `tests/python/test_phase_a_readiness_dependency_classification.py` while preserving immutable action SHAs.
+
+- [x] **Step 6: Re-run focused infrastructure contracts**
+
+Observed at run `31446353990`: routing Green, scope Green, readiness content-only RED.
 
 ### Task 2: Classify existing dependencies without inventing product decisions
 
@@ -98,9 +100,7 @@ Expected: scope mode passes; readiness content test still fails until Task 2.
 - Consumes: approved source hierarchy and later child Decisions.
 - Produces: one explicit taxonomy used by Phase A and current-facing routers.
 
-- [ ] **Step 1: Record the source-derived taxonomy**
-
-Use exactly these categories:
+- [x] **Step 1: Record the source-derived taxonomy**
 
 ```text
 IMPLEMENTATION_COMPLETENESS
@@ -112,43 +112,42 @@ RELEASE_PHASE_DEFERRED
 HISTORICAL_OR_SUPERSEDED
 ```
 
-- [ ] **Step 2: Resolve the ambiguous TokenSource pending phrase**
+- [x] **Step 2: Resolve the ambiguous TokenSource pending phrase**
 
-Current physical reel mechanics must say:
+Current-facing normalized physical reel mechanics:
 
 ```text
 TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
 TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
 FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
+SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-Do **not** claim final special-unit selection probabilities are fixed. Classify those separately as `POST_RUNTIME_EVIDENCE_TUNING` because functional-value evidence is required before final distribution tuning.
+These markers summarize the later approved physical TokenInstance grammar; they do not select final special-unit probabilities.
 
-- [ ] **Step 3: Preserve runtime-before-final-FV dependency direction**
-
-Record:
+- [x] **Step 3: Preserve runtime-before-final-FV dependency direction**
 
 ```text
 ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON -> FINAL_TUNING
 ```
 
-Therefore `FINAL_FUNCTIONAL_VALUE_INDEX`, final weighted/vector selection, final cost/interval vector, and final product numerics are not pre-PR175 inputs. They remain unselected and must not be synthesized.
+`FINAL_FUNCTIONAL_VALUE_INDEX`, weighted/vector selection, final cost/interval vector, and final product numerics remain unselected and must not be synthesized.
 
-- [ ] **Step 4: Separate platform/release work from PR175 DoR**
+- [x] **Step 4: Separate platform/release work from PR175 DoR**
 
-Record save schema, PC/Android adapters, export presets, store SDKs, and release gates as later architecture/release phases. Do not mark them complete.
+Save schema, PC/Android adapters, export presets, store SDKs, and release gates remain incomplete but are classified as later architecture/release work for PR175 dependency purposes.
 
-- [ ] **Step 5: Preserve genuinely open full-product content**
+- [x] **Step 5: Preserve genuinely open full-product content**
 
-Do not resolve T3 content identities/effects or final display naming here. Mark them `FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER` where later owners have not closed them. Preserve later approved unit-lineage corrections where they exist.
+No new T3 identity/effect or display name is selected. Later-approved Archer T3 correction remains current; unclosed tower/T3/name detail remains full-product planning work outside PR175's role-output blocker set.
 
-- [ ] **Step 6: Correct stale workbook routing metadata**
+- [x] **Step 6: Correct stale workbook routing metadata**
 
-Replace PR178-era `current_working_pr` with a fresh-state resolver/current Phase-A focus so the workbook does not hard-code a closed planning PR.
+Closed PR178 routing is removed; workbook current focus is `PR175_PHASE_A_READINESS_REVIEW` with merged Sheet readback status.
 
 - [ ] **Step 7: Run readiness and routing tests**
 
-Expected: new readiness test Green; all existing canon freshness routing tests Green.
+Expected: readiness, scope, routing, exact surface, and whitespace Green at one exact head.
 
 ### Task 3: Validate, synchronize Sheet, and close the planning-only PR
 
@@ -160,9 +159,9 @@ Expected: new readiness test Green; all existing canon freshness routing tests G
 - Consumes: exact GitHub PR head and same activation Decision.
 - Produces: bounded GitHub/Sheet evidence for the readiness classification.
 
-- [ ] **Step 1: Open Draft PR from the isolated branch**
+- [x] **Step 1: Open Draft PR from the isolated branch**
 
-Record RED run IDs, source-derived classifications, exact changed-file surface, and `PHASE_C_BLOCKED`.
+PR #184 records Phase C block and the source-derived scope.
 
 - [ ] **Step 2: Verify exact-head CI**
 
@@ -170,11 +169,11 @@ Require all triggered workflows Green, no unresolved review threads, exact scope
 
 - [ ] **Step 3: Sync Google Sheet with the same Decision ID**
 
-Update current hub/decision text and the current `43_건물_Tier_효과` TokenSource wording; append a new work-order row, audit row, and history row. Preserve historical rows and do not claim final special selection weights are selected.
+Update current hub/decision text and current `43_건물_Tier_효과` TokenSource wording; append work-order/audit/history rows. Preserve historical rows and do not claim final special selection weights are selected.
 
 - [ ] **Step 4: Bounded reread Sheet**
 
-Verify every modified range and the new audit/history IDs before merge.
+Verify every modified range and new audit/history IDs before merge.
 
 - [ ] **Step 5: Adversarial review**
 
@@ -194,6 +193,6 @@ Record merge SHA and push results, then continue Phase A inventory. Do not infer
 
 ## Self-review
 
-- Spec coverage: dependency classification, stale current propagation, Sheet conflict, external benchmark boundary, TDD, fail-closed scope, merge/readback all covered.
+- Spec coverage: dependency classification, stale current propagation, Sheet conflict, TDD, fail-closed scope, CI execution route, merge/readback all covered.
 - Placeholder scan: no implementation placeholders are used as instructions; intentionally open product values are explicitly protected rather than assigned.
-- Type/name consistency: taxonomy labels and exact physical-token markers are identical across tests and planned docs.
+- Type/name consistency: taxonomy labels and exact physical-token markers are identical across tests and current-facing docs.
