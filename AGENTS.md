@@ -5,6 +5,8 @@ updated_at: 2026-08-11
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+quality_guardrails_decision: OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
+elite_boss_cadence_decision: OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
 contract_version: 4.5
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
@@ -38,6 +40,19 @@ platform_phase2_status: MAIN_CANONICAL
 9. 연결 Google Sheet의 현재 Decision·감사·관련 시스템 탭
 
 과거 채팅·Handoff·업로드 파일·오래된 SHA를 current truth로 사용하지 않는다. 대상 파일이 `[현행]`인지 Lifecycle Registry로 확인한다.
+
+2026-08-11 사용자 승인으로 아래 두 owner가 Stage cadence와 횡단 quality guardrail의 **latest current amendment**다. 과거 문서의 `Danger 4/9/14/19`와 충돌하면 아래 sibling Decision을 우선한다.
+
+- `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
+- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
+
+```text
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+BOSS_STAGES = 5 / 10 / 15 / 20
+BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
+LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
+```
 
 ## 2. v4.5 현재 단계
 
@@ -118,6 +133,8 @@ PR177 = REFERENCE_ONLY_DO_NOT_MERGE
 ```
 
 PR175의 일곱 gap은 승인된 동일 runtime package 범위지만, v4.5 Phase C가 열리기 전에는 구현하지 않는다. 이 planning/canon 변경으로 `main`이 전진하면 기존 11/11은 새 base에 대한 strict up-to-date 증거로 간주하지 않는다.
+
+2026-08-11 사용자는 Godot AI가 3.1.4로 업데이트됐다고 알렸다. 이 사용자 사실은 `ACTIVE_CONTEXT`/`DECISIONS_PENDING`에 `USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4`로 기록하되, 기존 3.1.3 tool-authority Decision을 이 제품 기획 작업에서 자동 대체하지 않는다. Phase C 진입 시 upstream/local/plugin authority를 fresh-verify한다.
 
 ## 5. 프로젝트 경로
 
@@ -232,8 +249,15 @@ LEGACY_C1_C2_C3_PROVEN
 
 `docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md`
 
+추가 Quality/Cadence owners:
+
+- `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
+- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
+
 ```text
 OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
+OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
+OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
 OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
 WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARATION
