@@ -51,6 +51,15 @@ BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 
 Stage 1–4 are normal Stage cadence with a final-wave Elite learning check; Stage 5 is the first Boss + Elite synthesis check. The same 5-Stage Boss rhythm continues through Stage 20.
 
+## Historical C1 remote-proven evidence
+
+```text
+C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
+**REMOTE_PROVEN**
+```
+
+This preserves the durable C1 roulette proof. It does not mean the current PR175 runtime package or full V2 product is complete.
+
 ## Release-deferred
 
 ```text
