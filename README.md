@@ -7,7 +7,9 @@ updated_at: 2026-08-11
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 phase_b: PASS
 phase_c_gate: OPEN
-current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+phase_c_c0: PASS
+current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 ```
 
 ## Current product loop
@@ -37,7 +39,7 @@ LEGACY_DANGER_CADENCE_AUTHORITY = NONE
 
 ## Current planning / implementation gate
 
-사용자가 literal `기획 완료`를 선언했고 Phase B final planning review를 통과했다.
+사용자가 literal `기획 완료`를 선언했고 Phase B final planning review와 Phase C C0 repository/local gate를 통과했다.
 
 ```text
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
@@ -45,15 +47,20 @@ PHASE_B_FINAL_PLANNING_REVIEW = PASS
 NEW_PRODUCT_DECISION_REQUIRED = FALSE
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
-PHASE_C_STATUS = READY_TO_ENTER
+PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
+PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
+PHASE_C_C0_OVERALL = PASS
+PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
-Gate open은 gameplay implementation 완료를 뜻하지 않는다. 다음 작업은 Phase C C0 fresh execution preflight부터 시작한다.
+Gate open과 C0 PASS는 gameplay implementation 완료를 뜻하지 않는다. 현재 다음 작업은 PR175를 fresh current main에 rebase/update하고 exact-head 검증을 다시 수행하는 것이다.
 
 ## Runtime package
 
 ```text
 PR175 = OPEN_DRAFT
+PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = TRUE
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
@@ -73,6 +80,7 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 - [Quality guardrails](docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md)
 - [Elite/Boss cadence](docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md)
 - [Phase B final planning review](docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md)
+- [Phase C C0 local HiGodot closure](docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md)
 - [Vertical Slice foundation](docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md)
 
 ## Work-entry rule
@@ -82,17 +90,34 @@ Every non-trivial task starts with fresh Base/project/Sheet recovery, targeted c
 ```text
 BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
 COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
+POST_CHANGE_ADVERSARIAL_MONITORING = REQUIRED
 ```
 
 ## Godot AI note
 
+Phase B historical provenance:
+
 ```text
 USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
 ```
 
-Actual local plugin/server/session truth is verified during Phase C C0 before persistent Godot authoring.
+C0 current execution truth:
+
+```text
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_PLUGIN_VERSION = 3.1.4
+GODOT_AI_SERVER_VERSION = 3.1.4
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
+OMENWARD_GODOT_AI_HTTP_PORT = 8002
+OMENWARD_GODOT_AI_WS_PORT = 9502
+CODEX_INSTALLATION = SHARED
+OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
+SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
+```
+
+C0 closure의 session ID/PID는 증거일 뿐 future selector가 아니다. persistent Godot authoring 전에는 exact OMENWARD project path로 세션을 fresh-resolve한다.
 
 ## Historical Vertical Slice evidence boundary
 
