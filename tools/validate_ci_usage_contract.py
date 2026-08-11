@@ -83,8 +83,17 @@ def validate(root: pathlib.Path) -> list[str]:
         _reject(core, "validate_skill_system.py", "core workflow must not duplicate Skill validation", errors)
         pr_section = _section(core, "  contracts_pr:", "  contracts_full:")
         full_section = _section(core, "  contracts_full:", "  godot:")
+        pr_checkout = _section(pr_section, "    steps:\n", "      - name: Checkout exact Base recovery source")
         project_checkout = _section(full_section, "    steps:\n", "      - name: Checkout exact Base recovery source")
-        _reject(pr_section, "unittest discover", "core PR job must not run the full Python suite", errors)
+        _require(pr_section, "python -m unittest discover -s tests/python -v", "core PR job must run the full Python suite", errors)
+        _require(pr_section, "::error title=Python repository test failure::", "core PR full suite must emit failing unittest annotations", errors)
+        _require(pr_checkout, "fetch-depth: 0", "core PR job must fetch project history", errors)
+        _require(
+            pr_section,
+            "python -m pip install --disable-pip-version-check numpy",
+            "core PR job must install numpy for full-suite parity",
+            errors,
+        )
         for test_name in (
             "tests.python.test_c1_roulette_contract",
             "tests.python.test_c2_battle_objective_contract",
