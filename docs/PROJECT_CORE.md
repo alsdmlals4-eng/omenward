@@ -3,9 +3,11 @@
 ```yaml
 updated_at: 2026-08-11
 status: CURRENT_PROJECT_CORE
-current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 phase_b: PASS
+phase_c_c0: PASS
 phase_c_gate: OPEN
 ```
 
@@ -32,6 +34,7 @@ MECHANICAL_SUBGENRE = ROULETTE_PROBABILITY_BUILDER
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
 Vertical Slice 원 계약의 compatibility boundary는 계속 보존한다.
 
@@ -44,7 +47,7 @@ LEGACY_C1_C2_C3_PROVEN
 HUMAN_QA_NOT_RUN
 ```
 
-이는 Phase B가 통과해 Phase C Gate가 열렸다는 사실과 충돌하지 않는다. 위 marker는 해당 historical/current vertical-slice 계약의 증거 경계를 뜻하며 구현 완료를 뜻하지 않는다.
+이는 Phase B/C0가 통과해 Phase C runtime continuation gate가 열린 사실과 충돌하지 않는다. 위 marker는 해당 historical/current vertical-slice 계약의 증거 경계를 뜻하며 구현 완료를 뜻하지 않는다.
 
 ## 3. MapRun / Stage current cadence
 
@@ -130,7 +133,7 @@ GAMBLING_FANTASY_POSITIONING = FORBIDDEN
 PAID_SPIN = FORBIDDEN
 ```
 
-## 7. Phase B result / Phase C boundary
+## 7. Phase B result / Phase C current boundary
 
 ```text
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
@@ -138,16 +141,21 @@ PHASE_B_FINAL_PLANNING_REVIEW = PASS
 NEW_PRODUCT_DECISION_REQUIRED = FALSE
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
-PHASE_C_STATUS = READY_TO_ENTER
+PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
+PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
+PHASE_C_C0_OVERALL = PASS
+PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
-Phase C의 첫 작업은 C0 execution preflight다. Gate open을 제품 구현 완료로 해석하지 않는다.
+C0는 완료됐다. 현재 첫 runtime continuation gate는 PR175 current-main rebase/update + exact-head revalidation이다. Gate open/C0 PASS를 제품 구현 완료로 해석하지 않는다.
 
 Runtime package:
 
 ```text
 BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE = APPROVED_SCOPE
 PR175 = OPEN_DRAFT
+PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = TRUE
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
@@ -165,13 +173,30 @@ ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON 
 
 ## 8. Godot AI execution note
 
+Phase B historical provenance:
+
 ```text
 USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
 ```
 
-Phase C C0에서 실제 local plugin/server/session을 확인한다.
+C0 current truth:
+
+```text
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_PLUGIN_VERSION = 3.1.4
+GODOT_AI_SERVER_VERSION = 3.1.4
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
+OMENWARD_GODOT_AI_HTTP_PORT = 8002
+OMENWARD_GODOT_AI_WS_PORT = 9502
+CODEX_INSTALLATION = SHARED
+OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
+```
+
+C0 closure에서 증명된 session ID/PID는 provenance일 뿐 durable selector가 아니다. 매 execution block마다 exact OMENWARD project path로 session registry를 fresh-resolve한다.
 
 ## 9. Platform/release boundary
 
@@ -193,4 +218,4 @@ PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
 LEGACY_C1_C2_C3_PROVEN
 ```
 
-과거 3/10, 4/10, 5/10, 6/10, 7/10 문서는 provenance로 남기되 현재 planning status를 다시 낮추지 않는다. current truth는 `MAIN_CANONICAL_APPROVED_10_OF_10` + Phase B PASS다.
+과거 3/10, 4/10, 5/10, 6/10, 7/10 문서는 provenance로 남기되 현재 planning status를 다시 낮추지 않는다. current truth는 `MAIN_CANONICAL_APPROVED_10_OF_10` + Phase B PASS + C0 PASS다.
