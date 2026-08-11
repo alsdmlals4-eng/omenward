@@ -39,7 +39,7 @@ class CiUsageContractTests(unittest.TestCase):
         self.assertNotIn('.github/workflows/validate-omenward-core.yml', text)
         self.assertNotIn('.github/workflows/validate-skill-system.yml', text)
 
-    def test_core_pr_uses_fast_jobs_but_main_keeps_full_matrix(self) -> None:
+    def test_core_pr_runs_full_suite_before_merge_and_main_keeps_full_matrix(self) -> None:
         text = self._read("validate-omenward-core.yml")
         pr_section = self._section(text, "  contracts_pr:", "  contracts_full:")
         full_section = self._section(text, "  contracts_full:", "  godot:")
@@ -55,14 +55,13 @@ class CiUsageContractTests(unittest.TestCase):
         self.assertNotIn("self-hosted", full_section)
         self.assertNotIn('- "docs/**"', text)
         self.assertNotIn('- "README.md"', text)
-        self.assertNotIn("unittest discover", pr_section)
-        self.assertIn("unittest discover", full_section)
+        self.assertIn("python -m unittest discover -s tests/python -v", pr_section)
+        self.assertIn("python -m unittest discover -s tests/python -v", full_section)
+        self.assertIn("fetch-depth: 0", pr_section)
         self.assertIn("fetch-depth: 0", project_checkout)
+        self.assertIn("python -m pip install --disable-pip-version-check numpy", pr_section)
         self.assertIn("python -m pip install --disable-pip-version-check numpy", full_section)
-        self.assertLess(
-            full_section.index("python -m pip install --disable-pip-version-check numpy"),
-            full_section.index("python -m unittest discover -s tests/python -v"),
-        )
+        self.assertIn("::error title=Python repository test failure::", pr_section)
         for test_name in (
             "tests.python.test_c1_roulette_contract",
             "tests.python.test_c2_battle_objective_contract",
@@ -163,7 +162,7 @@ class CiUsageValidatorMutationTests(unittest.TestCase):
             errors = validate(temp_root)
             self.assertTrue(any("core workflow must not trigger on docs/**" in error for error in errors))
 
-    def test_core_pr_full_suite_regression_is_rejected(self) -> None:
+    def test_core_pr_full_suite_omission_is_rejected(self) -> None:
         validate = self._load_validator()
         with tempfile.TemporaryDirectory() as directory:
             temp_root = pathlib.Path(directory)
@@ -173,12 +172,27 @@ class CiUsageValidatorMutationTests(unittest.TestCase):
             pr_start = text.index("  contracts_pr:")
             full_start = text.index("  contracts_full:")
             pr_section = text[pr_start:full_start].replace(
-                "python -m unittest tests.python.test_c1_roulette_contract tests.python.test_c2_battle_objective_contract tests.python.test_c3_core_ux_contract tests.python.test_ci_usage_contract tests.python.test_base_recovery_map -v",
                 "python -m unittest discover -s tests/python -v",
+                "python -m unittest tests.python.test_c1_roulette_contract tests.python.test_c2_battle_objective_contract tests.python.test_c3_core_ux_contract tests.python.test_ci_usage_contract tests.python.test_base_recovery_map -v",
+                1,
             )
             workflow.write_text(text[:pr_start] + pr_section + text[full_start:], encoding="utf-8")
             errors = validate(temp_root)
-            self.assertTrue(any("core PR job must not run the full Python suite" in error for error in errors))
+            self.assertTrue(any("core PR job must run the full Python suite" in error for error in errors))
+
+    def test_core_pr_shallow_checkout_regression_is_rejected(self) -> None:
+        validate = self._load_validator()
+        with tempfile.TemporaryDirectory() as directory:
+            temp_root = pathlib.Path(directory)
+            self._copy_workflows(temp_root)
+            workflow = temp_root / ".github" / "workflows" / "validate-omenward-core.yml"
+            text = workflow.read_text(encoding="utf-8")
+            pr_start = text.index("  contracts_pr:")
+            full_start = text.index("  contracts_full:")
+            pr_section = text[pr_start:full_start].replace("fetch-depth: 0", "fetch-depth: 1", 1)
+            workflow.write_text(text[:pr_start] + pr_section + text[full_start:], encoding="utf-8")
+            errors = validate(temp_root)
+            self.assertTrue(any("core PR job must fetch project history" in error for error in errors))
 
     def test_core_python_311_regression_is_rejected(self) -> None:
         validate = self._load_validator()
