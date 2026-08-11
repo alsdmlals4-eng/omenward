@@ -8,18 +8,23 @@ on:
       - "AGENTS.md"
       - "docs/ACTIVE_CONTEXT.md"
       - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+      - "docs/DECISIONS_PENDING.md"
       - "docs/DOCUMENTATION_MAP.md"
       - "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
       - "docs/OMENWARD_GDD_CURRENT_CANON.md"
+      - "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/PROJECT_CORE.md"
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
+      - "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
+      - "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
       - "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"
       - "tests/python/test_canon_freshness_v45_routing.py"
       - "tests/python/test_canon_freshness_v45_scope.py"
+      - "tests/python/test_phase_a_readiness_dependency_classification.py"
       - "tools/validate_canon_freshness_v45_scope.py"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
   push:
@@ -29,18 +34,23 @@ on:
       - "AGENTS.md"
       - "docs/ACTIVE_CONTEXT.md"
       - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+      - "docs/DECISIONS_PENDING.md"
       - "docs/DOCUMENTATION_MAP.md"
       - "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
       - "docs/OMENWARD_GDD_CURRENT_CANON.md"
+      - "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/PROJECT_CORE.md"
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
+      - "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
+      - "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
       - "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json"
       - "tests/python/test_canon_freshness_v45_routing.py"
       - "tests/python/test_canon_freshness_v45_scope.py"
+      - "tests/python/test_phase_a_readiness_dependency_classification.py"
       - "tools/validate_canon_freshness_v45_scope.py"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
   workflow_dispatch:
@@ -73,13 +83,17 @@ jobs:
           python -m py_compile \
             tools/validate_canon_freshness_v45_scope.py \
             tests/python/test_canon_freshness_v45_routing.py \
-            tests/python/test_canon_freshness_v45_scope.py
+            tests/python/test_canon_freshness_v45_scope.py \
+            tests/python/test_phase_a_readiness_dependency_classification.py
 
       - name: Run canon freshness routing contract
         run: python -m unittest tests.python.test_canon_freshness_v45_routing -v
 
       - name: Run fail-closed canon scope contract
         run: python -m unittest tests.python.test_canon_freshness_v45_scope -v
+
+      - name: Run Phase A readiness dependency contract
+        run: python -m unittest tests.python.test_phase_a_readiness_dependency_classification -v
 
       - name: Validate exact PR file surface
         if: github.event_name == 'pull_request'
