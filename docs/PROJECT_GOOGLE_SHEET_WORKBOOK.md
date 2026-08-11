@@ -9,6 +9,16 @@ sheet_sync_status: PHASE_B_PREMERGE_SYNC_PENDING
 current_phase_focus: PHASE_B_FINAL_PLANNING_REVIEW
 ```
 
+Compatibility/workspace identity:
+
+```text
+PROJECT_SHEET_CONFIGURED
+USER_FACING_GDD_WORKSPACE
+PROPOSED_SHEET_CHANGE
+```
+
+These markers identify the connected Sheet as the user-facing GDD workspace and preserve the existing change-proposal contract; approved truth still requires same-Decision-ID synchronization and readback.
+
 ## Rule
 
 GitHub authority owner와 Google Sheet mirror는 승인된 결정에 대해 같은 Decision ID를 사용한다. 충돌하면 GitHub current lifecycle/Decision owner를 우선 확인하고 Sheet에 correction/audit/history를 남긴다. 과거 행을 현재 사실처럼 덮어쓰지 않는다.
