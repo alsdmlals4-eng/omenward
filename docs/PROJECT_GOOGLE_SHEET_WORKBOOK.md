@@ -5,7 +5,7 @@ updated_at: 2026-08-11
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 canon_freshness_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-sheet_sync_status: PHASE_B_PREMERGE_SYNC_PENDING
+sheet_sync_status: PHASE_B_PREMERGE_SYNC_REREAD_PASS
 current_phase_focus: PHASE_B_FINAL_PLANNING_REVIEW
 ```
 
@@ -89,15 +89,33 @@ GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
 GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
 ```
 
-## Phase B Sheet surfaces
+## Phase B pre-merge Sheet evidence
 
-After exact-head review passes, sync at minimum:
+The same operational Decision ID was written and bounded-read back from:
 
-- `00_프로젝트_허브` current status/gate/main/PR
-- `01_작업순서` Phase B close and next Phase C C0
-- `02_현재_확정결정` same operational Decision ID
-- `04_누락_충돌_감사` stale Danger/current-phase drift resolution
-- `50_메인콘텐츠` current cadence if needed
-- `99_변경이력` Phase B history
+- `00_프로젝트_허브!E2:L2`
+- `01_작업순서!A73:N73`
+- `02_현재_확정결정!A110:M110`
+- `04_누락_충돌_감사!A642:H642`
+- `50_메인콘텐츠!G302` and `J303`
+- `99_변경이력!A191:H191`
 
-Then bounded reread and record `SHEET_FINAL_REREAD_PASS` only after actual readback.
+```text
+PHASE_B_PREMERGE_SHEET_SYNC = PASS
+PHASE_B_PREMERGE_SHEET_REREAD = PASS
+SHEET_AUDIT_ID = OMW-AUD-642
+SHEET_CURRENT_DECISION_ID = OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+PRE_SHEET_SYNC_EXACT_HEAD = b468de04065bc181ec4300f1bfe52bc63c4b0ffd
+PRE_SHEET_SYNC_EXACT_HEAD_ACTIONS = 13_OF_13_SUCCESS
+```
+
+The GitHub evidence update itself changes the PR head, so exact-head CI must run again after this record. Only the later exact head may be used for the expected-head merge.
+
+## Final merge sync
+
+After PR188 merges and main-push checks pass:
+
+- update current Sheet surfaces to `MERGED_CANON`,
+- store merge/main SHA and main-push result,
+- bounded reread,
+- only then mark final `SHEET_FINAL_REREAD_PASS`.
