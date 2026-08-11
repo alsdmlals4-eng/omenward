@@ -83,6 +83,22 @@ PHASE_A_READINESS_CLASSIFICATION = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
+PHASE_A_WHOLE_PROJECT_OPEN_CONTENT = {
+    CANON_V45_WORKFLOW,
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/PROJECT_CORE.md",
+    "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
+    "docs/reviews/PHASE_A_WHOLE_PROJECT_OPEN_CONTENT_INVENTORY_2026-08-11.md",
+    "docs/superpowers/plans/2026-08-11-phase-a-whole-project-open-content-inventory.md",
+    "tests/python/test_phase_a_whole_project_open_content_inventory.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
 
 def load_module():
     if not TOOL.is_file():
@@ -96,49 +112,44 @@ def load_module():
 
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_activation_surface_passes(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(ACTIVATION), [])
 
     def test_postmerge_ci_remediation_surface_passes(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(POSTMERGE_CI_REMEDIATION), [])
 
     def test_windows_canonical_evidence_portability_surface_passes(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(WINDOWS_CANONICAL_EVIDENCE_PORTABILITY), [])
 
     def test_postmerge_evidence_closure_surface_passes(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(POSTMERGE_EVIDENCE_CLOSURE), [])
 
     def test_current_consumer_reconciliation_surface_passes(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(CURRENT_CONSUMER_RECONCILIATION), [])
 
     def test_phase_a_readiness_classification_surface_passes(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(PHASE_A_READINESS_CLASSIFICATION), [])
 
+    def test_phase_a_whole_project_open_content_surface_passes(self) -> None:
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(PHASE_A_WHOLE_PROJECT_OPEN_CONTENT), [])
+
     def test_product_path_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(ACTIVATION | {"scripts/battle/lane_state.gd"})
         self.assertTrue(any("protected product" in error for error in errors), errors)
 
     def test_unrelated_file_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(ACTIVATION | {"README.md"})
         self.assertTrue(any("unapproved files" in error for error in errors), errors)
 
     def test_historical_v44_authority_mutation_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(
             ACTIVATION | {
@@ -149,21 +160,17 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(any("historical v4.4" in error for error in errors), errors)
 
     def test_missing_v45_anchor_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         without_binding = ACTIVATION - {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"}
         errors = module.validate_canon_freshness_scope(without_binding)
         self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
 
     def test_repo_canonical_v45_r2_is_required_activation_anchor(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        without_canonical = ACTIVATION - {CANONICAL_V45_R2}
-        errors = module.validate_canon_freshness_scope(without_canonical)
+        errors = module.validate_canon_freshness_scope(ACTIVATION - {CANONICAL_V45_R2})
         self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
 
     def test_partial_windows_portability_scope_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(
             WINDOWS_CANONICAL_EVIDENCE_PORTABILITY - {"tests/python/test_base_recovery_map.py"}
@@ -171,15 +178,11 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(any("missing required v4.5 Windows canonical evidence portability anchors" in error for error in errors), errors)
 
     def test_partial_postmerge_closure_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
-        errors = module.validate_canon_freshness_scope(
-            {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"}
-        )
+        errors = module.validate_canon_freshness_scope({"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"})
         self.assertTrue(any("missing required v4.5 postmerge evidence anchors" in error for error in errors), errors)
 
     def test_partial_current_consumer_reconciliation_scope_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(
             CURRENT_CONSUMER_RECONCILIATION - {"tests/python/test_canon_freshness_v45_routing.py"}
@@ -187,12 +190,18 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(any("missing required v4.5 current consumer reconciliation anchors" in error for error in errors), errors)
 
     def test_partial_phase_a_readiness_classification_scope_is_rejected(self) -> None:
-        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         errors = module.validate_canon_freshness_scope(
             PHASE_A_READINESS_CLASSIFICATION - {"tests/python/test_phase_a_readiness_dependency_classification.py"}
         )
         self.assertTrue(any("missing required v4.5 Phase A readiness classification anchors" in error for error in errors), errors)
+
+    def test_partial_phase_a_whole_project_open_content_scope_is_rejected(self) -> None:
+        module = load_module()
+        errors = module.validate_canon_freshness_scope(
+            PHASE_A_WHOLE_PROJECT_OPEN_CONTENT - {"tests/python/test_phase_a_whole_project_open_content_inventory.py"}
+        )
+        self.assertTrue(any("missing required v4.5 Phase A whole-project open-content anchors" in error for error in errors), errors)
 
 
 if __name__ == "__main__":
