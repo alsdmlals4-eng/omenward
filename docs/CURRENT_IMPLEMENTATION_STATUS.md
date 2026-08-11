@@ -33,6 +33,7 @@ Current local C0 evidence owner remains:
 
 ```text
 PR175 = OPEN_DRAFT
+PR175_DRAFT_7_RUNTIME_GAPS_OPEN
 PR175_HEAD_OBSERVED = 83cf816a11f732e2cd285461865cf9c5ed404802
 PR175_BASE_OBSERVED = 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
 PR175_CHANGED_FILES_OBSERVED = 19
@@ -91,6 +92,7 @@ BASELINE = BOTH_ON_CRASH_ALREADY_PROVEN
 A = independent fresh exact-head TEMP with HeraGameInspector off only
 B = separate fresh exact-head TEMP with _mcp_game_helper off only
 C = both off only if A and B both still crash
+NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION
 ```
 
 No active `project.godot`, autoload, plugin, main scene, GDScript, resource, import, or `.godot` mutation belongs to this diagnostic.
@@ -107,6 +109,8 @@ VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
 LATEST_AUTOMATED_CONTRACTS_NOT_RUN
 HUMAN_QA_NOT_RUN
 CORE_LOCK_NOT_ALLOWED
+C1_ROULETTE_CORE_REMOTE_PROVEN
+LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
 ```
 
 C1 historical evidence retained for the GDD Sheet adoption consumer:
@@ -181,12 +185,11 @@ This is not the current runtime blocker.
 
 ## 10. Resume-first handoff locator
 
-For the paused runtime diagnostic, resume from fresh GitHub/Sheet truth plus:
+Current continuation consumers are:
 
 1. `docs/ACTIVE_CONTEXT.md`;
 2. this `CURRENT_IMPLEMENTATION_STATUS.md`;
-3. PR #175 / Issue #176 current discussion and latest local diagnostic output.
+3. `docs/DECISIONS_PENDING.md`;
+4. `docs/HANDOFF_CONTEXT.md`.
 
-`docs/HANDOFF_CONTEXT.md` remains an older planning snapshot and must not override the current Issue #176 state recorded here.
-
-Stop before product mutation if project boot still crashes, if current PR/session identity is unverified, or if the disposable A/B comparison changes more than one variable.
+Fresh GitHub/Sheet truth remains higher authority than stored observation SHAs. Stop before product mutation if project boot still crashes, if current PR/session identity is unverified, or if the disposable A/B comparison changes more than one variable.
