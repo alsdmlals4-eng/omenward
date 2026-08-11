@@ -40,6 +40,19 @@ CONTENT_CLOSURE_BENCHMARK_FIRST = {
     "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
+QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE = {
+    CANON_V45_WORKFLOW,
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md",
+    "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md",
+    "docs/superpowers/specs/2026-08-11-quality-guardrails-elite-boss-cadence-design.md",
+    "docs/superpowers/plans/2026-08-11-quality-guardrails-elite-boss-cadence.md",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
 
 
 def load_module():
@@ -71,6 +84,13 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
 
     def test_content_closure_benchmark_first_surface_passes(self) -> None:
         self.assertEqual(load_module().validate_canon_freshness_scope(CONTENT_CLOSURE_BENCHMARK_FIRST), [])
+
+    def test_quality_guardrails_elite_boss_cadence_surface_passes(self) -> None:
+        self.assertEqual(load_module().validate_canon_freshness_scope(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE), [])
+
+    def test_partial_quality_guardrails_elite_boss_cadence_scope_is_rejected(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE - {"AGENTS.md"})
+        self.assertTrue(any("missing required v4.5 quality guardrails elite boss cadence anchors" in error for error in errors), errors)
 
     def test_partial_content_closure_benchmark_first_scope_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(CONTENT_CLOSURE_BENCHMARK_FIRST - {"AGENTS.md"})
