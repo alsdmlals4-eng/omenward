@@ -15,6 +15,9 @@ implementation_status: ISSUE176_CANONICAL_EXACT_HEAD_PROJECT_BOOT_SIGNAL11_BLOCK
 ```text
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
 PHASE_B_FINAL_PLANNING_REVIEW = PASS
+OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
+PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
 PHASE_C_C0_OVERALL = PASS
 NEW_PRODUCT_DECISION_REQUIRED = FALSE
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
@@ -23,8 +26,8 @@ PRODUCT_IMPLEMENTATION_COMPLETION = FALSE
 CURRENT_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
 ```
 
-Current crash-isolation evidence owner:
-`docs/operations/ISSUE176_SIGNAL11_CRASH_ISOLATION_HANDOFF_2026-08-12.md`
+Current local C0 evidence owner remains:
+`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
 ## 2. Runtime PR current boundary
 
@@ -40,7 +43,7 @@ PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
 ```
 
-PR #175 metadata and repository truth must be fresh-read before resume. The SHA values above are the observation point for this handoff, not permanent pins.
+These SHA values are observation points for this handoff and must be fresh-read before resume.
 
 ## 3. Current runtime diagnostic boundary
 
@@ -68,9 +71,9 @@ CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
 Therefore:
 
 - active local `.godot` is not required to reproduce the earliest crash;
-- the active user's uncommitted two-test delta is not required to reproduce the earliest crash;
-- GUT, Issue #176 semantic RED, FV execution, and Hera live QA are downstream and remain blocked until project boot is healthy;
-- no active-project startup fix is justified until disposable one-variable isolation identifies the responsible component/interaction.
+- the user's uncommitted two-test delta is not required to reproduce the earliest crash;
+- GUT, Issue #176 semantic RED, FV execution, and Hera live QA remain downstream and blocked until normal project boot is healthy;
+- no active startup fix is justified until disposable one-variable isolation identifies the responsible component or interaction.
 
 ## 4. Next executable diagnostic
 
@@ -85,14 +88,37 @@ Next step:
 
 ```text
 BASELINE = BOTH_ON_CRASH_ALREADY_PROVEN
-A = fresh exact-head TEMP with HeraGameInspector off only
+A = independent fresh exact-head TEMP with HeraGameInspector off only
 B = separate fresh exact-head TEMP with _mcp_game_helper off only
 C = both off only if A and B both still crash
 ```
 
-A and B must be independent fresh extractions. Do not sequentially edit one TEMP project. No active `project.godot`, autoload, plugin, main-scene, script, resource, import, or `.godot` mutation is part of this diagnostic.
+No active `project.godot`, autoload, plugin, main scene, GDScript, resource, import, or `.godot` mutation belongs to this diagnostic.
 
-## 5. Durable runtime/evidence boundary
+## 5. Historical vertical-slice compatibility boundary
+
+The following identifiers remain intentionally present because current documentation/canon validators consume them as historical implementation-boundary compatibility markers. They do not override the current Issue #176 boot blocker above.
+
+```text
+APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
+최신 버티컬 슬라이스 구현: `NOT_STARTED`
+LEGACY_C1_C2_C3_PROVEN
+VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
+LATEST_AUTOMATED_CONTRACTS_NOT_RUN
+HUMAN_QA_NOT_RUN
+CORE_LOCK_NOT_ALLOWED
+```
+
+C1 historical evidence retained for the GDD Sheet adoption consumer:
+
+C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
+
+Current Vertical Slice authority locator remains:
+`docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+
+These identifiers are history/compatibility evidence, not proof that current Issue #176 runtime acceptance is complete.
+
+## 6. Durable runtime/evidence boundary
 
 ```text
 ROBUSTNESS_10000 = APPROVED_GATE_PASS_FOR_ECONOMY_PRODUCTION
@@ -108,7 +134,7 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-## 6. Godot/HiGodot/GUT/Hera authority
+## 7. Godot/HiGodot/GUT/Hera authority
 
 ```text
 GODOT_VERSION = 4.7.1-stable
@@ -127,7 +153,7 @@ HERA_TRACKED_SOURCE_DELTA_REQUIRED = NONE
 
 Historical PID/session evidence is not a future selector.
 
-## 7. Existing product/cadence truth retained
+## 8. Existing product/cadence truth retained
 
 ```text
 OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
@@ -139,7 +165,7 @@ BOSS_STAGES = 5 / 10 / 15 / 20
 BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
 
-## 8. Platform/release boundary
+## 9. Platform/release boundary
 
 ```text
 OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
@@ -151,12 +177,14 @@ EXPORT_PRESETS = ABSENT
 
 This is not the current runtime blocker.
 
-## 9. Current authority links
+## 10. Resume-first handoff locator
 
-- `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
-- `docs/ACTIVE_CONTEXT.md`
-- `docs/HANDOFF_CONTEXT.md`
-- `docs/operations/ISSUE176_SIGNAL11_CRASH_ISOLATION_HANDOFF_2026-08-12.md`
-- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
-- PR #175 and Issue #176 fresh GitHub state
-- Google Sheet project hub fresh state
+For the paused runtime diagnostic, resume from fresh GitHub/Sheet truth plus:
+
+1. `docs/ACTIVE_CONTEXT.md`;
+2. this `CURRENT_IMPLEMENTATION_STATUS.md`;
+3. PR #175 / Issue #176 current discussion and latest local diagnostic output.
+
+`docs/HANDOFF_CONTEXT.md` remains an older planning snapshot and must not override the current Issue #176 state recorded here.
+
+Stop before product mutation if project boot still crashes, if current PR/session identity is unverified, or if the disposable A/B comparison changes more than one variable.
