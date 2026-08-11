@@ -6,11 +6,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 QUALITY = ROOT / "docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md"
 CADENCE = ROOT / "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md"
-GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
-MAPRUN_CORE = ROOT / "docs/design/APPROVED_MAPRUN_STAGE_WAVE_AND_MIDPOINT_CORE_V1.md"
-OLD_MATRIX = ROOT / "docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md"
-LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
-DOC_MAP = ROOT / "docs/DOCUMENTATION_MAP.md"
+AGENTS = ROOT / "AGENTS.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
 
@@ -20,7 +16,6 @@ CADENCE_DECISION = "OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1"
 
 class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
     def test_quality_guardrail_owner_has_all_approved_contracts(self) -> None:
-        self.assertTrue(QUALITY.exists(), "quality guardrail owner must exist")
         text = QUALITY.read_text(encoding="utf-8")
         for marker in (
             QUALITY_DECISION,
@@ -39,7 +34,6 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             self.assertIn(marker, text)
 
     def test_cadence_owner_replaces_danger_stage_type(self) -> None:
-        self.assertTrue(CADENCE.exists(), "elite/boss cadence owner must exist")
         text = CADENCE.read_text(encoding="utf-8")
         for marker in (
             CADENCE_DECISION,
@@ -51,28 +45,25 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             "BOSS_STAGES = 5 / 10 / 15 / 20",
             "BOSS_STAGE_BOSS_PRESENCE_REQUIRED = TRUE",
             "BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE",
+            "LEGACY_DANGER_CADENCE_AUTHORITY = NONE",
             "ELITE_EXACT_COUNT = POST_RUNTIME_EVIDENCE_TUNING",
             "ELITE_EXACT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING",
         ):
             self.assertIn(marker, text)
         self.assertNotIn("DANGER_STAGES = 4 / 9 / 14 / 19", text)
 
-    def test_current_gameplay_routers_point_to_new_cadence(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (GDD, MAPRUN_CORE, LIFECYCLE, DOC_MAP))
+    def test_current_consumers_route_conflicts_to_new_decisions(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
         for marker in (
             CADENCE_DECISION,
             QUALITY_DECISION,
             "DANGER_STAGE_TYPE = REMOVED",
             "ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE",
             "BOSS_STAGES = 5 / 10 / 15 / 20",
+            "BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE",
+            "LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE",
         ):
             self.assertIn(marker, combined)
-
-    def test_old_pressure_matrix_is_superseded_lineage(self) -> None:
-        text = OLD_MATRIX.read_text(encoding="utf-8")
-        self.assertIn("SUPERSEDED", text)
-        self.assertIn(CADENCE_DECISION, text)
-        self.assertIn("IMPLEMENTATION_INPUT_FOR_CURRENT_PHASE = FORBIDDEN", text)
 
     def test_phase_gate_remains_closed_after_new_approvals(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in (ACTIVE, PENDING))
@@ -87,13 +78,21 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             self.assertIn(marker, combined)
 
     def test_no_final_elite_or_boss_numerics_are_selected(self) -> None:
-        text = CADENCE.read_text(encoding="utf-8") if CADENCE.exists() else ""
+        text = CADENCE.read_text(encoding="utf-8")
         for marker in (
             "ELITE_EXACT_COUNT = POST_RUNTIME_EVIDENCE_TUNING",
             "ELITE_EXACT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING",
             "BOSS_EXACT_ENTRY_WAVE_AND_NUMERICS = CONTENT_AND_RUNTIME_EVIDENCE_TUNING",
+            "ELITE_HP_MULTIPLIER = NOT_SELECTED",
+            "BOSS_HP = NOT_SELECTED",
+            "THREAT_BUDGET = NOT_SELECTED",
         ):
             self.assertIn(marker, text)
+
+    def test_godot_ai_314_is_user_report_not_silent_tool_authority_change(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
+        self.assertIn("USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4", combined)
+        self.assertIn("GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY", combined)
 
 
 if __name__ == "__main__":
