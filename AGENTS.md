@@ -156,7 +156,22 @@ PAID_SPIN = FORBIDDEN
 
 장르 shorthand는 `ROGUELITE_STRATEGY_AUTO_BATTLER + ROULETTE_PROBABILITY_BUILDER`, 사용자용 표현은 **“룰렛을 설계해 군대를 만드는 로그라이트 전략 오토배틀러”**다.
 
-## 8. Project paths and protection
+## 8. Platform / release authority routing
+
+Release work remains deferred for PR175, but current agents must preserve the committed platform/rights owners:
+
+- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
+- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
+- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
+- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
+
+```text
+OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
+APPROVED_DUAL_PLATFORM
+PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
+```
+
+## 9. Project paths and protection
 
 ```text
 project_local_path = C:/Users/user/Documents/GitHub/Ninza/omenward
