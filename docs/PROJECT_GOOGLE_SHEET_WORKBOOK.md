@@ -3,10 +3,10 @@
 ```yaml
 updated_at: 2026-08-11
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
 canon_freshness_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-sheet_sync_status: PHASE_B_PREMERGE_SYNC_REREAD_PASS
-current_phase_focus: PHASE_B_FINAL_PLANNING_REVIEW
+sheet_sync_status: C0_LOCAL_PASS_VALID_PR193_FULL_CURRENT_CONSUMER_CLOSURE_IN_PROGRESS
+current_phase_focus: PHASE_C_POST_C0_CURRENT_CONSUMER_CLOSURE
 ```
 
 Compatibility/workspace identity:
@@ -30,10 +30,17 @@ USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
 PHASE_B_FINAL_PLANNING_REVIEW = PASS
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
-PHASE_C_STATUS = READY_TO_ENTER
+PHASE_C_C0_OVERALL = PASS
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
-Phase B GitHub owner:
+Current execution Decision:
+`OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1`
+
+Current C0 owner:
+`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
+
+Historical/preceding Phase B GitHub owner:
 `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
 
 ## Current product mirror
@@ -73,6 +80,7 @@ SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 PR175 = OPEN_DRAFT
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
@@ -85,11 +93,15 @@ EXPORT_PRESETS = ABSENT
 
 ```text
 USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+GODOT_AI_HTTP_PORT = 8002
+GODOT_AI_WS_PORT = 9502
+GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
 ```
 
-## Phase B pre-merge Sheet evidence
+Exact session IDs and editor PIDs are evidence only. They must not be reused as durable selectors.
+
+## Historical Phase B pre-merge Sheet evidence
 
 The same operational Decision ID was written and bounded-read back from:
 
@@ -104,18 +116,33 @@ The same operational Decision ID was written and bounded-read back from:
 PHASE_B_PREMERGE_SHEET_SYNC = PASS
 PHASE_B_PREMERGE_SHEET_REREAD = PASS
 SHEET_AUDIT_ID = OMW-AUD-642
-SHEET_CURRENT_DECISION_ID = OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+SHEET_CURRENT_DECISION_ID_AT_THAT_CHECKPOINT = OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 PRE_SHEET_SYNC_EXACT_HEAD = b468de04065bc181ec4300f1bfe52bc63c4b0ffd
 PRE_SHEET_SYNC_EXACT_HEAD_ACTIONS = 13_OF_13_SUCCESS
 ```
 
-The GitHub evidence update itself changes the PR head, so exact-head CI must run again after this record. Only the later exact head may be used for the expected-head merge.
+This block is historical evidence, not current execution routing.
 
-## Final merge sync
+## Current C0 Sheet evidence
 
-After PR188 merges and main-push checks pass:
+Current Sheet truth preserves historical rows and supersedes them with the same current execution Decision:
 
-- update current Sheet surfaces to `MERGED_CANON`,
-- store merge/main SHA and main-push result,
-- bounded reread,
-- only then mark final `SHEET_FINAL_REREAD_PASS`.
+```text
+CURRENT_EXECUTION_DECISION = OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+PHASE_C_C0_OVERALL = PASS
+HTTP_PORT = 8002
+WS_PORT = 9502
+SHEET_AUDIT_LINEAGE = OMW-AUD-645 / OMW-AUD-646 / OMW-AUD-647
+CURRENT_HISTORY_LINEAGE = 99 row194 / row195 / row196
+PR193_CURRENT_STATUS = RED_FIRST_FULL_CURRENT_CONSUMER_CLOSURE
+```
+
+## Current merge sync rule
+
+For PR193 and later current-routing closures:
+
+- keep the historical rows unchanged,
+- update current Sheet surfaces with the same Decision ID,
+- store exact PR head/merge/main evidence,
+- bounded reread after each durable state transition,
+- only mark `SHEET_FINAL_REREAD_PASS` after merge/main readback and required post-merge validation.

@@ -6,6 +6,9 @@ status: CURRENT_ONBOARDING_AUTHORITY
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 phase_b: PASS
 phase_c_gate: OPEN
+phase_c_c0: PASS
+current_execution_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+current_next_gate: PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
 ## Current precedence
@@ -17,12 +20,15 @@ Current onboarding combines the approved first-10–15-minute lineage with later
 - `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
-- `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md` — historical/preceding planning completion owner
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md` — current execution-route owner
 
 ```text
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
 PHASE_B_FINAL_PLANNING_REVIEW = PASS
 PHASE_C_GATE = OPEN
+PHASE_C_C0_OVERALL = PASS
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
 ## First-session flow
@@ -119,5 +125,10 @@ These are downstream evidence/tuning dependencies, not missing high-level planni
 
 ```text
 USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+GODOT_AI_HTTP_PORT = 8002
+GODOT_AI_WS_PORT = 9502
+GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
 ```
+
+The Phase B defer-to-C0 wording is historical only. Current onboarding/runtime work uses the completed C0 route and must fresh-resolve the exact OMENWARD session before persistent HiGodot mutation.

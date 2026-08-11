@@ -4,51 +4,65 @@
 updated_at: 2026-08-11
 source_repository_default_branch: main
 activation_baseline_main: 87339f87949c8faea0dfe1482c5d0887a04d94f4
-base_current_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
-current_process_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+base_current_main_observed: 23d5b292f619022cdd8ab7a33fb1debc2d294861
+current_process_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+preceding_canon_freshness_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 active_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5
 contract_revision: 2026-08-11-r2
-current_phase: PHASE_A_GPT_CHAT_PLANNING
-phase_c_gate: BLOCK
+current_phase: PHASE_C_POST_C0_RUNTIME_REVALIDATION
+phase_c_gate: OPEN
+phase_c_c0: PASS
+current_next_gate: PR175_CURRENT_MAIN_REVALIDATION_NEXT
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 ```
 
-이 Ledger는 현재 Decision과 결정 계보를 찾는 진입점이다. 각 분야의 세부 규칙은 Lifecycle Registry가 `[현행]`으로 지정한 책임 원본이 소유한다. 완료된 PR/CI/SHA는 역사 증거이며 fresh current 사실을 대체하지 않는다. 2026-08-09까지의 상세 tool·runtime evidence는 이 파일 하단에 history block으로 보존한다.
+이 Ledger는 현재 Decision과 결정 계보를 찾는 진입점이다. 각 분야의 세부 규칙은 Lifecycle Registry가 `[현행]`으로 지정한 책임 원본이 소유한다. 완료된 PR/CI/SHA는 역사 증거이며 fresh current 사실을 대체하지 않는다. 2026-08-09까지의 상세 tool·runtime evidence와 activation/Phase-B 전환은 history lineage로 보존한다.
 
 ## 1. 현재 운영 Decision
 
-### OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+### OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
 
 ```text
-approval = USER_APPROVED_RECOMMENDED_OPTION_A
-scope = CANON_FRESHNESS + V4_5_THIN_ADAPTER + SAME_DECISION_SHEET_SYNC
+scope = PHASE_C_C0_LOCAL_HIGODOT_CLOSURE + PROJECT_ISOLATED_EDITOR_TRANSPORT + CURRENT_ROUTING
 product_mutation = NONE
-godot_persistent_mutation = NONE
-Base current observed = 315c66eea9614c284b9c11c4d522141065dfa4b0
-OMENWARD activation baseline = 87339f87949c8faea0dfe1482c5d0887a04d94f4
-planning PR = 178
-current phase = PHASE_A_GPT_CHAT_PLANNING
-phase C = BLOCK
-planning completion trigger = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
+godot_persistent_mutation_by_decision = NONE
+Base current observed = 23d5b292f619022cdd8ab7a33fb1debc2d294861
+PHASE_C_GATE = OPEN
+PHASE_C_C0_OVERALL = PASS
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_PLUGIN_VERSION = 3.1.4
+GODOT_AI_SERVER_VERSION = 3.1.4
+GODOT_AI_HTTP_PORT = 8002
+GODOT_AI_WS_PORT = 9502
+GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
-승인 내용:
+현재 승인 내용:
 
-1. active GDD/Workbook/Sheet의 superseded Special T1 no-TokenSource current 표현을 final amendment에 맞춘다.
-2. cold-start docs의 6/10·7/10·10/10 drift를 `MAIN_CANONICAL_APPROVED_10_OF_10`으로 정리한다.
-3. 사용자 제공 v4.5 r2를 Base 복제 없이 OMENWARD Thin Adapter로 바인딩한다.
-4. OMENWARD path는 `C:/Users/user/Documents/GitHub/Ninza/omenward`만 사용한다.
-5. v4.4 binding/state/test/workflow는 당시 runtime-transition history로 보존한다.
-6. PR175는 7개 gap이 남은 Draft, PR177은 reference-only로 유지한다.
-7. 같은 Decision ID를 Google Sheet current surfaces에 즉시 동기화하고 bounded reread한다.
-8. 이 planning/canon 병합은 Phase C 시작 승인이 아니다.
+1. OMENWARD는 self-contained Godot editor profile을 사용하고 Godot-AI transport는 HTTP8002/WS9502를 사용한다.
+2. Codex 설치는 공유할 수 있으나 OMENWARD 전용 `CODEX_HOME`을 사용한다.
+3. exact session id와 editor PID는 증거일 뿐 영구 selector가 아니다. persistent HiGodot mutation 직전 `session_manage(op=list)`로 exact project session을 다시 resolve한다.
+4. C0 local gate는 PASS지만 PR175 merge는 여전히 금지다.
+5. 다음 gate는 PR175를 fresh current main에 대해 rebase/revalidation하는 것이다.
+6. Issue176의 7개 runtime gap은 기존 승인 package 안에서 RED → HiGodot implementation → GREEN으로 닫는다.
+7. Hera는 post-Green live QA/observability 전용이며 tracked source mutation은 금지다.
+8. final weighted FV scalar/vector/product numerics는 runtime evidence 전 선택하지 않는다.
 
-책임 원본:
+Current execution owners:
 
-- `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 - `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
-- `docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`
+- `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+- `docs/ACTIVE_CONTEXT.md`
+- `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+
+### Historical/preceding operational lineage
+
+`OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1`은 v4.5 Thin Adapter 활성화와 정본 최신성 복구를 소유한 선행 Decision이다. 당시 `PHASE_A_GPT_CHAT_PLANNING / PHASE_C_BLOCKED`는 그 시점 사실이며 현재 실행 Gate가 아니다.
+
+`OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1`은 사용자의 기획 완료 선언 이후 Phase B PASS를 소유한 선행 Decision이다.
 
 ## 2. 현행 gameplay planning
 
@@ -135,9 +149,10 @@ PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 PR175_MERGE = FORBIDDEN
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
-이 runtime package는 승인돼 있으나 v4.5 `PHASE_C_BLOCKED` 동안 persistent implementation을 수행하지 않는다.
+이 runtime package는 승인돼 있고 C0는 PASS했다. 그러나 current-main revalidation과 Issue176 7개 gap acceptance 전에는 PR175 merge가 금지된다.
 
 Durable Decision lineage:
 
@@ -153,38 +168,40 @@ Durable Decision lineage:
 
 ## 4. Tool authority lineage
 
-Current tool Decision:
+### Current Godot AI / HiGodot execution truth
 
+```text
+CURRENT_EXECUTION_DECISION = OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+GODOT_AI_VERSION = 3.1.4
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_HTTP_PORT = 8002
+GODOT_AI_WS_PORT = 9502
+GODOT_AI_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
+GODOT_AI_HIGODOT = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY
+GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
+GUT = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
+HERA = LIVE_QA_AND_OBSERVABILITY_ONLY
+HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+ROLE_OVERLAP = FORBIDDEN
+```
+
+### Historical 2026-08-09 tool checkpoint
+
+Decision:
 `OMW-DEC-20260809-TOOLS-GODOT-AI-3-1-3-HERA-GUT-USER-APPROVAL-REMOTE-SYNC-RECONCILIATION-V1`
-
-User-approved state:
 
 ```text
 GODOT_AI_APPROVED_VERSION = 3.1.3
-GUT_9_7_1 = APPROVED / USER_REPORTED_LOCAL_ENABLEMENT
-HERA_1_0_0 = APPROVED / USER_REPORTED_LOCAL_ENABLEMENT
-```
-
-Hosted verification boundary:
-
-```text
-USER_REPORTED_LOCAL_ENABLEMENT = ACCEPTED_AS_USER_FACT
-HOST_VERIFIED_LOCAL_EDITOR_ENABLEMENT = NO
-REMOTE_SYNC_COMPLETION = VERIFIED
-REMOTE_SYNC_MAIN = f1bf8939208a864bce1f99eea0555f05369dc9d6
-```
-
-### Godot AI / HiGodot
-
-```text
 CANONICAL_REPOSITORY = hi-godot/godot-ai
 UPSTREAM_RELEASE = v3.1.3
 PLUGIN_ZIP_SHA256 = 10fac40e7f4900e788d79f8ee57228e355e02ee01008d8e7093da2bb1580a4c7
-AUTHORITY = SOLE_PERSISTENT_GODOT_AUTHORING_AUTHORITY
 REMOTE_PROJECT_VERSION = 3.1.3
 REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
 REMOTE_SYNC = VERIFIED
+REMOTE_SYNC_MAIN = f1bf8939208a864bce1f99eea0555f05369dc9d6
 ```
+
+이 3.1.3 block은 당시 승인/remote-sync history이며 현재 3.1.4 C0 execution truth를 덮지 않는다.
 
 ### GUT
 
@@ -195,12 +212,11 @@ SOURCE_BRANCH = godot_4_7
 PROJECT_PLUGIN_VERSION = 9.7.1
 AUTHORITY = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
 USER_APPROVAL = APPROVED
-USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
 REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
 REMOTE_SYNC = VERIFIED
 ```
 
-PR #155/#156 may remain open for historical cleanup or vendor-detail review, but `GUT_ADOPTION_SPEC_PR155_NOT_MERGED` no longer negates the user's direct approval or current remote enablement.
+PR #155/#156의 역사 정리 여부는 현재 GUT authority를 무효화하지 않는다.
 
 ### Hera
 
@@ -212,17 +228,16 @@ LICENSE = MIT
 EXISTING_SOLUTION_DISPOSITION = REUSE_APPROVED_BY_USER
 ROLE = LIVE_QA_AND_OBSERVABILITY_ONLY
 PERSISTENT_SOURCE_MUTATION = FORBIDDEN
-USER_REPORTED_LOCAL_ENABLEMENT = ENABLED_NOT_HOST_VERIFIED
 REMOTE_EDITOR_PLUGIN_ENABLED = TRUE
 REMOTE_HERA_GAME_INSPECTOR_AUTOLOAD = PRESENT
 REMOTE_SYNC = VERIFIED
 ```
 
-Bundled README says `v0.9.0` while `plugin.cfg` and upstream release say `1.0.0`; this is `NONBLOCKING_DOCUMENTATION_STALENESS` and must not be misreported as the plugin version.
+Bundled README의 `v0.9.0` 표기는 `plugin.cfg`/current project truth와 충돌하는 nonblocking documentation staleness로 취급한다.
 
 ### Tool blocker transition history
 
-Closed/superseded at the 2026-08-09 checkpoint:
+2026-08-09 checkpoint의 다음 blocker들은 history다:
 
 ```text
 HIGODOT_EXACT_SOURCE_OR_VERSION_UNVERIFIED
@@ -232,33 +247,14 @@ DIRECT_MAIN_HERA_IMPORT_NOT_YET_DISPOSITIONED
 GODOT_AI_3_1_3_REMOTE_SYNC_REQUIRED
 GUT_REMOTE_ENABLEMENT_SYNC_REQUIRED
 HERA_REMOTE_ENABLEMENT_SYNC_REQUIRED
-```
-
-Independent blockers recorded at that checkpoint:
-
-```text
-BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_REQUIRED
 LOCAL_GODOT_AND_AUDIO_VAULT_UNAVAILABLE
-HISTORICAL_SECRET_SCAN_UNPROVEN_ACCEPTED_RISK
 ```
 
-Current runtime/blocker truth must be re-read from PR175/Issue176/current state rather than treating those historical blocker strings as fresh.
-
-Role separation remains:
-
-```text
-GODOT_AI_HIGODOT = PERSISTENT_GODOT_AUTHORING_ONLY
-GUT = DETERMINISTIC_TEST_AUTHORITY
-HERA = LIVE_QA_AND_OBSERVABILITY_ONLY
-HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
-ROLE_OVERLAP = FORBIDDEN
-```
-
-User approval and enablement do not collapse these roles.
+Current blocker truth는 PR175/Issue176/current state에서 fresh-read한다.
 
 ## 5. Direct-main remote sync history
 
-2026-08-09 checkpoint main `f1bf8939208a864bce1f99eea0555f05369dc9d6` contained the user-side tool sync delta relative to its preceding planning state:
+2026-08-09 checkpoint main `f1bf8939208a864bce1f99eea0555f05369dc9d6` contained:
 
 ```text
 addons/godot_ai/plugin.cfg = 3.1.3
@@ -266,7 +262,7 @@ project.godot editor plugins = Godot AI + GUT + Hera
 project.godot HeraGameInspector autoload = present
 ```
 
-That checkpoint is historical evidence; current repository truth comes from fresh main/PR reads.
+That checkpoint is historical evidence; current repository/tool truth comes from fresh main/C0 reads.
 
 ## 6. Base freshness lineage
 
@@ -278,14 +274,15 @@ Base release pin = 9.4.3 / NO_AUTOMATIC_MIGRATION
 Project Base Adapter schema/generator/validator delta = NONE_OBSERVED_AT_THAT_CHECKPOINT
 ```
 
-Current Base observation for this Decision:
+Fresh current Base observation for this execution block:
 
 ```text
-Base current main = 315c66eea9614c284b9c11c4d522141065dfa4b0
-Base open PRs at activation snapshot = 0
+Base current main = 23d5b292f619022cdd8ab7a33fb1debc2d294861
+Base open PRs = 0
+POST_CHANGE_ADVERSARIAL_MONITOR_LOOP = REQUIRED
 ```
 
-Historical Base SHA is not replaced in history evidence; current routing uses the fresh value.
+Historical Base SHAs are not rewritten; current routing uses the fresh value.
 
 ## 7. Platform lineage
 
@@ -320,16 +317,24 @@ v4.4의 당시 source SHA·Base SHA·entry status는 역사 검증 대상으로 
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
+- `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
+- `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+
+Historical responsibility sources retained for provenance:
+
 - `docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md`
 - `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
-- `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+- `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
 
 ## 10. Current open PR inventory
 
+Fresh read at this execution block:
+
 ```text
+PR193 = full current-consumer C0 closure / Draft / RED-first remediation
 PR175 = runtime package / Draft / 7 gaps / do not merge
 PR177 = reference-only handoff / Draft / do not merge
-PR178 = canon freshness + v4.5 Thin Adapter / Draft planning PR
 ```
 
 Open PR inventory는 매 작업 시작·병합 직전에 fresh-read한다.
@@ -337,10 +342,10 @@ Open PR inventory는 매 작업 시작·병합 직전에 fresh-read한다.
 ## 11. Current unresolved Gate
 
 ```text
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
-PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
-PHASE_C_BLOCKED
+PHASE_C_C0_OVERALL = PASS
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ISSUE176_7_RUNTIME_GAPS_OPEN
+PR175_MERGE_FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 FINAL_FUNCTIONAL_VALUE_INDEX_NOT_SELECTED
 FINAL_PARAMETER_VECTOR_NOT_SELECTED
 FINAL_PRODUCT_NUMERICS_NOT_APPROVED

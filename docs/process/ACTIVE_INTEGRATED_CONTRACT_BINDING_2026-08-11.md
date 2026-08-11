@@ -2,8 +2,10 @@
 
 ```yaml
 updated_at: 2026-08-11
-decision_id: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+decision_id: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
+canon_freshness_decision_id: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 instruction_canon_activation_decision_id: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
+phase_b_decision_id: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 contract_name: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION
 contract_version: "4.5"
 contract_revision: 2026-08-11-r2
@@ -11,14 +13,15 @@ contract_status: ACTIVE_BASE_CURRENT_MAIN_THIN_ADAPTER_GODOT_DELIVERY_CONTRACT
 binding_status: ACTIVE
 adapter_policy: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
 canonical_instruction_source: docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md
-common_work_authority: alsdmlals4-eng/Base@315c66eea9614c284b9c11c4d522141065dfa4b0
+common_work_authority: alsdmlals4-eng/Base@23d5b292f619022cdd8ab7a33fb1debc2d294861
 project_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 project_local_path: C:/Users/user/Documents/GitHub/Ninza/omenward
 godot_project_path: C:/Users/user/Documents/GitHub/Ninza/omenward
-current_phase: PHASE_A_GPT_CHAT_PLANNING
+current_phase: PHASE_C_POST_C0_RUNTIME_REVALIDATION
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 completion_trigger: USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
-phase_c_status: PHASE_C_BLOCKED
+phase_c_status: C0_PASS
+current_next_gate: PR175_CURRENT_MAIN_REVALIDATION_NEXT
 continuous_work: ACTIVE_WITHIN_APPROVED_CANON_SCOPE
 ```
 
@@ -52,29 +55,34 @@ Base와 충돌하는 공통 절차는 Base current가 우선한다. OMENWARD 고
 
 ## 2. 현재 단계
 
-```text
-PHASE_A_GPT_CHAT_PLANNING
-→ current canon freshness repair
-→ same Decision GitHub + Sheet sync
-→ planning PR exact-head validation
-→ adversarial review
-→ eligible planning merge
-→ remaining planning closure
-→ USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
-→ PHASE_B_FINAL_PLANNING_REVIEW
-→ PHASE_C only after Phase B DoR closes
-```
-
-현재 사용자의 `[연속작업 진행해]`는 승인된 canon/planning 작업을 중간 승인 대기 없이 계속하라는 실행 flag다. 이것은 `기획 완료` 선언이 아니다.
-
-따라서 다음 표면은 현재 금지한다.
+현재 실행 routing은 Phase B와 C0를 통과했다. activation 당시의 Phase-A/Phase-B gate는 역사 provenance로만 유지한다.
 
 ```text
-PHASE_C_BLOCKED
-PERSISTENT_POWERSHELL_CODEX_BUILD = FORBIDDEN
-PERSISTENT_HIGODOT_GODOT_AUTHORING = FORBIDDEN
-PRODUCT_RUNTIME_GAP_IMPLEMENTATION = PAUSED_BY_PHASE_GATE
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
+PHASE_B_FINAL_PLANNING_REVIEW = PASS
+IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
+PHASE_C_GATE = OPEN
+PHASE_C_C0_OVERALL = PASS
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
+
+Current execution Decision:
+
+`OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1`
+
+C0 execution route:
+
+```text
+GODOT_AI_PLUGIN_SERVER = 3.1.4 / 3.1.4
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_HTTP_PORT = 8002
+GODOT_AI_WS_PORT = 9502
+GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
+PERSISTENT_HIGODOT_GODOT_AUTHORING = ALLOWED_ONLY_AFTER_FRESH_EXACT_SESSION_RESOLUTION
+HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
+```
+
+C0 PASS는 PR175 merge 허가가 아니다. 먼저 current main 기준 rebase/revalidation을 수행하고, Issue176의 7개 runtime gap을 기존 승인 범위 안에서 RED → HiGodot implementation → GREEN 순서로 닫아야 한다.
 
 ## 3. 현재 제품·runtime owner
 
@@ -86,12 +94,13 @@ runtime_pr_head = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 runtime_issue = 176
 approved_runtime_gap_count = 7
 runtime_pr_merge = FORBIDDEN
+runtime_next_gate = PR175_CURRENT_MAIN_REVALIDATION_NEXT
 handoff_pr = 177
 handoff_pr_role = REFERENCE_ONLY_HANDOFF
 handoff_pr_merge = DO_NOT_MERGE_NOW
 ```
 
-PR175의 11/11 Actions SUCCESS는 당시 exact-head/base에 대한 역사 증거다. 이 planning/canon Decision이 `main`을 전진시키면 새 base 기준 strict up-to-date 검증으로 승격하지 않는다.
+PR175의 11/11 Actions SUCCESS는 당시 exact-head/base에 대한 역사 증거다. 현재 main에 대한 strict up-to-date 검증으로 승격하지 않는다.
 
 ## 4. 현행 병영 TokenSource 정정
 
@@ -107,9 +116,9 @@ SPECIAL_T1_FREE_REROLL = FORBIDDEN
 
 `SPECIAL_T1_TOKEN_SOURCE = NONE`은 historical/superseded 문맥 외에는 구현 입력 금지다.
 
-## 5. v4.4 역사 경계
+## 5. 역사 경계
 
-다음 v4.4 표면은 당시 사실을 검증하는 history/compatibility evidence이며 current binding이 아니다.
+v4.4 표면은 당시 사실을 검증하는 history/compatibility evidence이며 current binding이 아니다.
 
 ```text
 docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
@@ -119,7 +128,7 @@ tests/python/test_active_integrated_contract_v4_4.py
 .github/workflows/validate-active-integrated-contract-v4-4.yml
 ```
 
-v4.5 activation은 이들의 과거 SHA·Gate를 소급 수정하지 않는다.
+또한 이 v4.5 binding의 과거 `PHASE_A_GPT_CHAT_PLANNING / PHASE_C_BLOCKED` 상태는 activation 시점 provenance이며 current execution input이 아니다. 그 당시 결정 자체는 `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`에 보존한다.
 
 ## 6. Current state owner
 
@@ -131,22 +140,27 @@ Machine-readable current routing:
 
 `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
 
-Decision rationale:
+Current C0 closure evidence:
+
+`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
+
+Historical activation rationale:
 
 `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
 
-Sheet sync evidence:
+Sheet current sync contract:
 
-`docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`
+`docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
 
 ## 7. 현재 Gate
 
 ```text
-ENTRY_GATE = BLOCK
-PHASE_C_GATE = BLOCK
-BLOCKER = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
-BLOCKER = PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
+ENTRY_GATE = OPEN_WITH_APPROVED_RUNTIME_SCOPE
+PHASE_C_GATE = OPEN
+PHASE_C_C0_OVERALL = PASS
+CURRENT_GATE = PR175_CURRENT_MAIN_REVALIDATION_NEXT
 BLOCKER = ISSUE176_7_RUNTIME_GAPS_OPEN
+PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 ```
 
-이 바인딩의 승인·병합은 기획 정본화를 닫는 것이며 Godot BUILD 시작 승인이 아니다.
+이 바인딩은 persistent authoring authority를 HiGodot에만 부여하며, current-main revalidation과 runtime acceptance를 우회하지 않는다.
