@@ -73,11 +73,22 @@ POSTMERGE_EVIDENCE_ALLOWED_FILES = {
 }
 POSTMERGE_EVIDENCE_REQUIRED_ANCHORS = set(POSTMERGE_EVIDENCE_ALLOWED_FILES)
 
+CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS = set(CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | POSTMERGE_CI_ALLOWED_FILES
     | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
     | POSTMERGE_EVIDENCE_ALLOWED_FILES
+    | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES
 )
 
 
@@ -134,6 +145,13 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
             changed,
             WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS,
             "Windows canonical evidence portability",
+        )
+
+    if changed <= CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES:
+        return _validate_required(
+            changed,
+            CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS,
+            "current consumer reconciliation",
         )
 
     if changed <= ACTIVATION_ALLOWED_FILES:

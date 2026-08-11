@@ -1,21 +1,24 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-11T06:14:00+09:00
+updated_at: 2026-08-11T08:56:00+09:00
 project: OMENWARD / 오멘워드
 current_branch: main
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 main_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
+v45_r2_closure_main_observed: 3213b12a9614c755157953aa64a1d4e1666b48ed
 base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
-working_branch: planning/canon-freshness-v45-20260811
+working_branch: RESOLVE_FROM_CURRENT_WORKTREE_OR_DEFAULT_BRANCH
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
 continuous_work: ACTIVE_WITHIN_APPROVED_CANON_SCOPE
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 planning_canon: MAIN_CANONICAL_APPROVED_10_OF_10
-current_planning_pr: 178
+current_planning_pr: NONE_AFTER_V45_R2_ACTIVATION_CLOSURE
+current_phase_a_focus: PR175_PHASE_A_READINESS_REVIEW
 product_code_authority: NONE
 runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 active_runtime_branch: runtime/barracks-role-output-implementation-20260809
@@ -30,27 +33,29 @@ product_mutation_this_decision: NONE
 godot_persistent_mutation_this_decision: NONE
 ```
 
-`current_branch/current_main/context_baseline_commit`은 기존 consumer가 fresh default-branch truth를 다시 resolve하도록 유지하는 dynamic locator다. `main_activation_baseline`은 이 Decision을 시작할 때 고정한 역사 비교 SHA이며 current main resolver를 대체하지 않는다.
+`current_branch/current_main/context_baseline_commit`은 consumer가 fresh default-branch truth를 다시 resolve하도록 유지하는 dynamic locator다. `main_activation_baseline`과 `v45_r2_closure_main_observed`는 각각 activation 시작점과 evidence-closure 시점의 역사 비교 SHA이며 current main resolver를 대체하지 않는다.
 
 ## 현재 작업 기준
 
-이 context의 우선 작업은 제품 runtime 구현이 아니라 **정본 최신성 복구와 v4.5 Thin Adapter 활성화**다.
+v4.5 r2 full canon activation과 machine-evidence closure는 종료됐다.
 
-사용자 승인 Decision:
+```text
+V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
+ACTIVATION_DECISION = OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
+CLOSURE_MAIN_OBSERVED = 3213b12a9614c755157953aa64a1d4e1666b48ed
+CANONICAL_V45_R2_BLOB = 45cc0859fbd0b6b46d46924592169164ff133a2e
+PR178 / PR179 / PR180 / PR181 / PR182 = MERGED
+```
 
-`OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1`
-
-현재 실행 순서:
+현재 Phase A의 다음 승인 작업은 제품 구현이 아니라 **PR175_PHASE_A_READINESS_REVIEW**다. 이미 승인된 runtime package와 Issue176의 7개 gap이 새 product Decision을 요구하는지, 아니면 구현 completeness만 남았는지 current canon 전체에서 재검토한다.
 
 ```text
 fresh Base / OMENWARD / Sheet
-→ TDD RED
-→ current canon propagation repair
-→ same Decision Sheet proposed sync + bounded reread
-→ exact-head CI
-→ adversarial review
-→ eligible planning merge
-→ merged-main + Sheet MERGED_CANON readback
+→ current-owner freshness reconciliation
+→ PR175 approved package + Issue176 traceability review
+→ unresolved product-planning inventory
+→ adversarial Phase-A readiness review
+→ explicit user planning-complete gate remains required
 ```
 
 ## v4.5 단계 Gate
@@ -62,7 +67,7 @@ PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
 PHASE_C_BLOCKED
 ```
 
-사용자의 `[연속작업 진행해]`는 현재 승인된 canon/planning scope를 연속 수행하라는 뜻이다. 이것은 `기획 완료` 선언이 아니다.
+사용자의 `[연속작업 진행해]`는 현재 승인된 planning scope를 연속 수행하라는 뜻이다. 이것은 `기획 완료` 선언이 아니다.
 
 따라서 현재 금지:
 
@@ -94,6 +99,7 @@ SPECIAL_T1_FREE_REROLL = FORBIDDEN
 PR175 = OPEN_DRAFT
 HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+STRICT_UP_TO_DATE_AGAINST_CURRENT_MAIN = NOT_REVALIDATED_DUE_PHASE_C_BLOCK
 ISSUE176_GAPS = 7
 MERGE = FORBIDDEN
 ```
@@ -108,7 +114,7 @@ MERGE = FORBIDDEN
 6. Registered deterministic FV-PRIEST/MAGE/FLIER/GIANT/COMMON fixtures.
 7. multi-cast를 포함한 true per-cast `TARGETS_HIT_PER_CAST`.
 
-이 planning/canon PR이 `main`을 전진시키면 기존 11/11을 새 base의 strict up-to-date Green으로 부르지 않는다.
+현재 승인 문서와 Issue176 기준으로 이 7개는 구현 completeness gap으로 추적한다. 이 문장은 Phase C 실행 권한을 부여하지 않는다.
 
 ## PR #177
 
@@ -116,15 +122,13 @@ PR177은 `REFERENCE_ONLY_HANDOFF / DO_NOT_MERGE_NOW`다. `HANDOFF_CONTEXT`는 �
 
 ## 다음 Gate
 
-현재 planning/canon Decision의 종료 Gate:
+현재 Phase A Gate:
 
 ```text
-SHEET_SAME_DECISION_SYNC_AND_REREAD
-EXACT_HEAD_GREEN
-ADVERSARIAL_P0_P1_0
-UNRESOLVED_THREADS_0
-BASE_AND_PROJECT_RACE_RECHECK
-MERGED_MAIN_READBACK
+PR175_PHASE_A_READINESS_REVIEW
+UNRESOLVED_PRODUCT_PLANNING_INVENTORY
+ADVERSARIAL_P0_P1_0_FOR_PLANNING_READINESS
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
 ```
 
-그 이후에도 Phase C는 열리지 않는다. 다음 단계 전환은 사용자의 명시적 `기획 완료` 선언부터 시작한다.
+사용자가 명시적으로 `기획 완료`를 선언하기 전에는 Phase B로 전환하지 않으며, Phase C는 계속 차단된다.

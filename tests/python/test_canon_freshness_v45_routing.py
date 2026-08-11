@@ -10,6 +10,7 @@ DECISION = "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1"
 ACTIVATION_DECISION = "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1"
 BASE_MAIN = "315c66eea9614c284b9c11c4d522141065dfa4b0"
 PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
+CLOSURE_MAIN = "3213b12a9614c755157953aa64a1d4e1666b48ed"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 
 BINDING = ROOT / "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
@@ -21,6 +22,7 @@ GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
 WORKBOOK = ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
 ACTIVE_CONTEXT = ROOT / "docs/ACTIVE_CONTEXT.md"
 CURRENT_STATUS = ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+PENDING = ROOT / "docs/DECISIONS_PENDING.md"
 LEDGER = ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md"
 AGENTS = ROOT / "AGENTS.md"
 PROJECT_CORE = ROOT / "docs/PROJECT_CORE.md"
@@ -120,6 +122,23 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             for marker in markers:
                 self.assertIn(marker, text, f"{path.relative_to(ROOT)} missing {marker}")
+
+    def test_current_consumers_route_after_v45_r2_closure(self) -> None:
+        active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
+        status = CURRENT_STATUS.read_text(encoding="utf-8")
+        pending = PENDING.read_text(encoding="utf-8")
+
+        for text in (active, status, pending):
+            self.assertIn(ACTIVATION_DECISION, text)
+            self.assertIn("V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED", text)
+            self.assertIn("PR175_PHASE_A_READINESS_REVIEW", text)
+            self.assertIn("PHASE_C_BLOCKED", text)
+
+        self.assertIn(CLOSURE_MAIN, active)
+        self.assertIn(CLOSURE_MAIN, status)
+        self.assertNotIn("current_planning_pr: 178", active)
+        self.assertNotIn("POSTMERGE_RECONCILIATION_PR = 179", status)
+        self.assertNotIn("현재 먼저 닫아야 하는 것은 product implementation이 아니라", pending)
 
     def test_lifecycle_routes_v45_as_current_and_v44_as_history(self) -> None:
         text = LIFECYCLE.read_text(encoding="utf-8")

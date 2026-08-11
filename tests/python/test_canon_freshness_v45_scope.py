@@ -59,6 +59,15 @@ POSTMERGE_EVIDENCE_CLOSURE = {
     "docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json",
 }
 
+CURRENT_CONSUMER_RECONCILIATION = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
 
 def load_module():
     if not TOOL.is_file():
@@ -90,6 +99,11 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(POSTMERGE_EVIDENCE_CLOSURE), [])
+
+    def test_current_consumer_reconciliation_surface_passes(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(CURRENT_CONSUMER_RECONCILIATION), [])
 
     def test_product_path_is_rejected(self) -> None:
         self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
@@ -143,6 +157,14 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"}
         )
         self.assertTrue(any("missing required v4.5 postmerge evidence anchors" in error for error in errors), errors)
+
+    def test_partial_current_consumer_reconciliation_scope_is_rejected(self) -> None:
+        self.assertTrue(TOOL.is_file(), "v4.5 scope classifier must exist")
+        module = load_module()
+        errors = module.validate_canon_freshness_scope(
+            CURRENT_CONSUMER_RECONCILIATION - {"tests/python/test_canon_freshness_v45_routing.py"}
+        )
+        self.assertTrue(any("missing required v4.5 current consumer reconciliation anchors" in error for error in errors), errors)
 
 
 if __name__ == "__main__":

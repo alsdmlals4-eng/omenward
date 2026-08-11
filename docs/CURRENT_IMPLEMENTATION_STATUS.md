@@ -4,10 +4,13 @@
 updated_at: 2026-08-11
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
+v45_r2_closure_main_observed: 3213b12a9614c755157953aa64a1d4e1666b48ed
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 contract_version: 4.5
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 work_phase: PHASE_A_GPT_CHAT_PLANNING
+phase_a_focus: PR175_PHASE_A_READINESS_REVIEW
 runtime_status: PR175_DRAFT_7_RUNTIME_GAPS_OPEN
 phase_c_gate: BLOCK
 product_code_authority: NONE_FOR_THIS_DECISION
@@ -47,6 +50,7 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 PR175 = OPEN_DRAFT
 PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+PR175_STRICT_UP_TO_DATE_AGAINST_CURRENT_MAIN = NOT_REVALIDATED_DUE_PHASE_C_BLOCK
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 PR175_MERGE = FORBIDDEN
@@ -63,16 +67,19 @@ PR175에서 transition CI 4개 불일치는 해소됐지만 아래 7개 runtime/
 6. Registered deterministic fixtures `FV-PRIEST/MAGE/FLIER/GIANT/COMMON`.
 7. true per-cast `TARGETS_HIT_PER_CAST` with multi-cast coverage.
 
+현재 approved runtime package와 Issue176의 명시 계약상 이 7개는 **새 product Decision이 아니라 구현 completeness gap**으로 분류된다. 이 분류는 구현 권한 부여가 아니다.
+
 ## 3. v4.5 current phase
 
 ```text
 PHASE_A_GPT_CHAT_PLANNING
+PR175_PHASE_A_READINESS_REVIEW
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
 PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
 PHASE_C_BLOCKED
 ```
 
-현재 canon-freshness Decision은 planning/docs/Sheet 변경만 승인한다. Persistent PowerShell/Codex/Godot authoring과 Issue176 runtime 구현은 이 Decision에서 수행하지 않는다.
+Persistent PowerShell/Codex/Godot authoring과 Issue176 runtime 구현은 현재 수행하지 않는다.
 
 `[연속작업 진행해]`는 현재 승인 범위 연속 수행 flag이며 `기획 완료` 선언이 아니다.
 
@@ -140,19 +147,22 @@ HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 
 과거 local HiGodot session 진단은 history evidence다. v4.5 Phase C가 열릴 때 fresh local process/session truth를 다시 읽는다.
 
-## 7. 현재 planning/canon PR
+## 7. v4.5 r2 activation closure
 
 ```text
-PR178 = MERGED
+V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
+ACTIVATION_DECISION = OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 PR178_MERGE_SHA = 84e68bf7199854b6a3f125cb20052cfcac37f156
-POSTMERGE_RECONCILIATION_PR = 179
-DECISION = OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-PURPOSE = CANON_FRESHNESS + V4_5_THIN_ADAPTER + SHEET_SYNC + POSTMERGE_FULL_SUITE_RECONCILIATION
+PR179_MERGE_SHA = 747a21a788738b3fafc0b3e6631666f84d2c578d
+PR180_MERGE_SHA = ea929a8c468819406b1164b4111cff074d96eba8
+PR181_MERGE_SHA = 5541712a5a6cee88b64b25eb5a13a46ef866c9a2
+PR182_MERGE_SHA = 3213b12a9614c755157953aa64a1d4e1666b48ed
+V45_R2_CANONICAL_BLOB = 45cc0859fbd0b6b46d46924592169164ff133a2e
 PRODUCT_MUTATION = NONE
 GODOT_MUTATION = NONE
 ```
 
-PR178 exact-head는 15/15 Green이었지만 merge push Omenward Core full Python discovery가 실패해 closure를 보류했다. PR179는 그 merge-only full-suite 회귀를 같은 Decision ID로 진단·수정하며, 완료 주장 전 follow-up push 검증이 필요하다.
+Technical validation lineage는 `5541712a5a6cee88b64b25eb5a13a46ef866c9a2`의 `Validate Omenward Core` run `31441986515`에서 Ubuntu/Windows Python 3.11·3.12·3.13 6/6와 Godot가 Green이었다. 그 뒤 PR182는 machine-evidence closure를 병합해 main을 `3213b12a...`로 전진시켰다. Technical-validation SHA와 current/closure SHA는 역할이 다르므로 서로 덮어쓰지 않는다.
 
 ## 8. Durable Vertical Slice implementation evidence
 
@@ -191,18 +201,14 @@ FIRST_TIME_HUMAN_QA = NOT_RUN
 
 ## 9. 다음 순서
 
-현재 Decision 안에서:
+현재 Phase A에서:
 
 ```text
-postmerge failing module reconciliation
-→ remove diagnostic workflow
-→ same Decision Sheet MERGED_CANON reconciliation
-→ PR179 exact-head full CI
-→ adversarial review
-→ race check
-→ PR179 merge
-→ follow-up merge push full Python matrix Green
-→ final merged-main + Sheet readback
+PR175_PHASE_A_READINESS_REVIEW
+→ approved package / Issue176 7-gap traceability
+→ whole-project unresolved product-planning inventory
+→ adversarial planning-readiness review
+→ user explicit `기획 완료` declaration gate
 ```
 
-그 다음에도 Phase C는 자동 시작하지 않는다. 사용자의 `기획 완료` 선언 후 Phase B 최종 planning review가 다음 단계다.
+v4.5 r2 activation/evidence closure는 이미 끝났으며 다시 pending 작업으로 취급하지 않는다. 사용자의 `기획 완료` 선언 전에는 Phase B를 시작하지 않고, Phase C는 계속 차단한다.
