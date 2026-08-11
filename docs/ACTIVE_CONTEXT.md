@@ -1,7 +1,7 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-11T10:27:00+09:00
+updated_at: 2026-08-11T11:21:00+09:00
 project: OMENWARD / 오멘워드
 current_branch: main
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
@@ -13,6 +13,8 @@ working_branch: RESOLVE_FROM_CURRENT_WORKTREE_OR_DEFAULT_BRANCH
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 content_closure_decision: OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
+quality_guardrails_decision: OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
+elite_boss_cadence_decision: OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
 benchmark_first_decision: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
@@ -51,7 +53,7 @@ PR185 = CLOSED_UNMERGED_SUPERSEDED
 PR175_PHASE_A_READINESS_REVIEW = COMPLETE_IMPLEMENTATION_COMPLETENESS_NO_NEW_PRODUCT_DECISION
 ```
 
-PR175 Phase-A readiness와 whole-project semantic inventory 검토 결과, Issue176의 7개 gap은 구현 completeness이고, final FV/numerics는 runtime 후 evidence tuning이며, platform/save/export/store는 후속 release 단계다. 사용자가 Building T3 / Hero·Legendary / Meta·Hub의 권장 9건을 승인하여 genuine semantic open group은 닫혔다.
+PR175 Phase-A readiness와 whole-project semantic inventory 검토 결과, Issue176의 7개 gap은 구현 completeness이고, final FV/numerics는 runtime 후 evidence tuning이며, platform/save/export/store는 후속 release 단계다. 사용자가 Building T3 / Hero·Legendary / Meta·Hub의 권장 9건을 승인하여 기존 semantic open group은 닫혔다.
 
 ```text
 WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
@@ -59,6 +61,41 @@ WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARAT
 CONTENT_CLOSURE_AUTHORITY = docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md
 BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
 BENCHMARK_PROCESS_AUTHORITY = docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md
+```
+
+## 2026-08-11 Quality Guardrails + Elite/Boss cadence current override
+
+사용자는 benchmark-first 검토 뒤 Quality Guardrail 6개를 승인했고, 이어 Stage cadence를 직접 변경 승인했다. 아래 sibling Decision이 충돌하는 과거 Stage cadence보다 우선한다.
+
+- `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
+- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
+
+```text
+OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
+OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
+QUALITY_GUARDRAILS = APPROVED
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+ELITE_PRESENCE_REQUIRED = TRUE
+BOSS_STAGES = 5 / 10 / 15 / 20
+BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
+LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
+ELITE_EXACT_COUNT = POST_RUNTIME_EVIDENCE_TUNING
+ELITE_EXACT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING
+```
+
+과거 `APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md`의 세부 pressure/Route 아이디어는 historical authored lineage로 보존할 수 있으나 `Danger Stage = 4/9/14/19`는 current implementation input이 아니다. 다섯 pressure taxonomy는 유지한다.
+
+Quality Guardrail 핵심:
+
+```text
+RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
+FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
+SOFT_SYNERGY_DISCOVERY = PREFERRED
+POST_STAGE_CAUSAL_REVIEW = FORECAST -> KEY_EVENTS -> PLAYER_RESPONSE_OUTCOME
+HORIZONTAL_CHALLENGE_EXPANSION = ALLOWED
+ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
+GAMBLING_FANTASY_POSITIONING = FORBIDDEN
 ```
 
 ## v4.5 단계 Gate
@@ -72,7 +109,7 @@ PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
 PHASE_C_BLOCKED
 ```
 
-사용자의 `[연속작업 진행해]` 및 이번 9건 승인 모두 승인된 Phase A 작업의 연속 수행/개별 제품 Decision 승인이다. 별도 literal `기획 완료` 선언이 아니다.
+사용자의 `[연속작업 진행해]`, 개별 제품 승인, 이번 Quality/Cadence 승인 모두 Phase A 제품 Decision 승인이다. 별도 literal `기획 완료` 선언이 아니다.
 
 따라서 현재 금지:
 
@@ -117,6 +154,16 @@ SPECIAL_T1_FREE_REROLL = FORBIDDEN
 ```
 
 기존 `SPECIAL_T1_TOKEN_SOURCE = NONE`은 history/superseded evidence이며 current implementation input이 아니다.
+
+## Tool version note
+
+```text
+USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
+GODOT_AI_3_1_4_HOST_VERIFICATION = NOT_RUN
+GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+```
+
+2026-08-11 사용자가 Godot AI가 3.1.4로 업데이트됐다고 직접 알렸다. 이 사용자 사실은 현재 작업 컨텍스트에 기록하되, 이번 Phase A 제품 Decision이 tool-authority Decision을 자동 변경하거나 Phase C 실행 권한을 부여하지 않는다.
 
 ## PR #175 현재 의미
 

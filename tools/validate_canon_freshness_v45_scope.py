@@ -26,7 +26,21 @@ CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES = {
     ".github/workflows/validate-canon-freshness-v4-5.yml", "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/DECISIONS_PENDING.md", "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md", "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md", "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md", "tests/python/test_content_closure_benchmark_first.py", "tests/python/test_phase_a_readiness_dependency_classification.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py",
 }
 CONTENT_CLOSURE_BENCHMARK_FIRST_REQUIRED_ANCHORS = set(CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES)
-APPROVED_FILES = ACTIVATION_ALLOWED_FILES | POSTMERGE_CI_ALLOWED_FILES | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES | POSTMERGE_EVIDENCE_ALLOWED_FILES | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES | PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES | CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES
+QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES = {
+    ".github/workflows/validate-canon-freshness-v4-5.yml",
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md",
+    "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md",
+    "docs/superpowers/specs/2026-08-11-quality-guardrails-elite-boss-cadence-design.md",
+    "docs/superpowers/plans/2026-08-11-quality-guardrails-elite-boss-cadence.md",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_REQUIRED_ANCHORS = set(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES)
+APPROVED_FILES = ACTIVATION_ALLOWED_FILES | POSTMERGE_CI_ALLOWED_FILES | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES | POSTMERGE_EVIDENCE_ALLOWED_FILES | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES | PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES | CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES | QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES
 
 
 def _normalize(paths: Iterable[str]) -> set[str]:
@@ -59,6 +73,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES, CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS, "current consumer reconciliation"),
         (PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES, PHASE_A_READINESS_CLASSIFICATION_REQUIRED_ANCHORS, "Phase A readiness classification"),
         (CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES, CONTENT_CLOSURE_BENCHMARK_FIRST_REQUIRED_ANCHORS, "content closure benchmark-first"),
+        (QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES, QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_REQUIRED_ANCHORS, "quality guardrails elite boss cadence"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),
     )
     for allowed, required, label in modes:

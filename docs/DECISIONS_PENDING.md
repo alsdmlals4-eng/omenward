@@ -6,6 +6,8 @@ planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 current_process_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 content_closure_decision: OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
+quality_guardrails_decision: OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
+elite_boss_cadence_decision: OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
 benchmark_first_decision: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
@@ -34,7 +36,44 @@ v4.5 r2 activation/evidence closure와 whole-project semantic content Decision�
 
 따라서 이 파일의 runtime/release/tuning pending 항목은 **승인 범위가 존재하더라도 Phase C가 열릴 때까지 persistent implementation을 시작하지 않는다.**
 
-## 2. Durable 병영 분석 상태
+## 2. 2026-08-11 추가 제품 품질·Stage cadence — 해결됨
+
+현행 owners:
+
+- `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
+- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
+
+```text
+OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
+OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
+QUALITY_GUARDRAILS = APPROVED
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+ELITE_PRESENCE_REQUIRED = TRUE
+BOSS_STAGES = 5 / 10 / 15 / 20
+BOSS_STAGE_BOSS_PRESENCE_REQUIRED = TRUE
+BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
+LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
+RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
+FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
+SOFT_SYNERGY_DISCOVERY = PREFERRED
+POST_STAGE_CAUSAL_REVIEW = FORECAST -> KEY_EVENTS -> PLAYER_RESPONSE_OUTCOME
+HORIZONTAL_CHALLENGE_EXPANSION = ALLOWED
+ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
+```
+
+정확 Elite 수·HP·피해·modifier pool, Boss HP·피해·정확 entry wave/second, Threat Budget은 이번 승인으로 선택하지 않는다.
+
+```text
+ELITE_EXACT_COUNT = POST_RUNTIME_EVIDENCE_TUNING
+ELITE_EXACT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING
+BOSS_EXACT_ENTRY_WAVE_AND_NUMERICS = CONTENT_AND_RUNTIME_EVIDENCE_TUNING
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+```
+
+2026-08-04 pressure matrix의 4/9/14/19 Danger cadence는 current implementation input이 아니다. 해당 문서의 pressure/Route 아이디어는 역사 계보 또는 일반 Stage authored variation 참고로만 남는다.
+
+## 3. Durable 병영 분석 상태
 
 ```text
 5_OF_10 = REMEDIATION_SMOKE_PASS
@@ -65,7 +104,7 @@ BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
 FV-COMMON-01 / FV-PRIEST-01 / FV-MAGE-01 / FV-FLIER-01 / FV-GIANT-01
 ```
 
-## 3. 현행 Special T1 TokenSource와 물리 릴 문법
+## 4. 현행 Special T1 TokenSource와 물리 릴 문법
 
 ```text
 SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
@@ -83,7 +122,7 @@ SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 
 구형 “Special T1 TokenSource 없음”은 final amendment로 대체됐으며 미확정 항목이 아니다. 물리 TokenInstance 수량도 후속 burst-remediation이 닫았으므로 blanket `weight/count pending`으로 재발행하지 않는다. 특수병 5종의 final 선정 분포는 runtime evidence tuning이다.
 
-## 4. Runtime package — 승인됐지만 현재 실행 보류
+## 5. Runtime package — 승인됐지만 현재 실행 보류
 
 ```text
 PR175 = OPEN_DRAFT
@@ -110,7 +149,7 @@ Issue176의 7개 gap:
 
 이 7개는 새 product Decision이 아니라 기존 승인 범위의 implementation-completeness gap이다. 이 분류는 Phase C 실행 권한이나 `기획 완료` 선언을 대신하지 않는다.
 
-## 5. Final value·numeric pending — runtime 이후 evidence tuning
+## 6. Final value·numeric pending — runtime 이후 evidence tuning
 
 ```text
 FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
@@ -125,18 +164,25 @@ CONFIRMATION_SWEEP_50000 = BLOCKED
 
 기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다. dependency는 `ROLE_OUTPUT_RUNTIME → DETERMINISTIC_MEASUREMENT → FUNCTIONAL_VALUE_COMPARISON → FINAL_TUNING`이다.
 
-## 6. Tool·runtime pending
+## 7. Tool·runtime pending
+
+기존 tool authority 문서는 Godot AI 3.1.3을 소유하고 있으나 2026-08-11 사용자가 현재 Godot AI가 3.1.4로 업데이트됐다고 직접 알렸다.
 
 ```text
-GODOT_AI = 3.1.3 / approved authority when Phase C is active
+GODOT_AI_CANON_AUTHORITY_CURRENTLY_DOCUMENTED = 3.1.3
+USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
+GODOT_AI_3_1_4_HOST_VERIFICATION = NOT_RUN
+GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
 GUT = 9.7.1
 HERA = 1.0.0 / LIVE_QA_AND_OBSERVABILITY_ONLY
 HERA_PERSISTENT_SOURCE_MUTATION = FORBIDDEN
 ```
 
+이번 Phase A 제품 Decision은 tool authority를 자동 변경하지 않는다. Phase C 진입 시 upstream/local plugin/source/session을 fresh-read하고 3.1.4 authority를 별도 정합화한다.
+
 과거 HiGodot session/process/socket 진단은 historical evidence다. Phase C 진입 시 local process/session truth를 fresh-read한다.
 
-## 7. Platform pending — PR175와 출시 readiness 분리
+## 8. Platform pending — PR175와 출시 readiness 분리
 
 ```text
 SHARED_SAVE_SCHEMA = NOT_STARTED
@@ -154,7 +200,7 @@ PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
 
 이 항목들은 완료가 아니며 승인된 PC·Android architecture의 후속 Phase 3~7 및 release gate로 남아 있다. 다만 role-output runtime package의 product-semantic Definition of Ready와 전체 출시 readiness를 섞지 않는다.
 
-## 8. Whole-project semantic content — 해결됨
+## 9. Whole-project semantic content — 해결됨
 
 현행 owner:
 
@@ -175,7 +221,7 @@ WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
 
 정확 T3 전투 scalar·final FV·과거 Hero exact kit·과거 Meta exact power 값을 이 승인으로 자동 선택하지 않는다. 과거 HELD 상세는 reference lineage이며 current exact implementation authority가 아니다.
 
-## 9. 작업 전 benchmark-first process
+## 10. 작업 전 benchmark-first process
 
 현행 owner:
 
@@ -190,7 +236,7 @@ COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
 
 모든 비사소 작업은 fresh Base/project/Sheet 확인 뒤 관련 benchmark·현업조사를 먼저 수행하고, 결과가 현재 Decision을 어떻게 바꾸거나 유지하는지 기록한다.
 
-## 10. Current responsibility sources
+## 11. Current responsibility sources
 
 - `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
@@ -201,13 +247,15 @@ COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
 - `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
 - `docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`
+- `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
+- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 - `docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md`
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
 - `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
 - `docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md`
 
-## 11. 다음 사용자 Gate
+## 12. 다음 사용자 Gate
 
 ```text
 WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARATION

@@ -16,8 +16,12 @@ on:
       - "docs/PROJECT_CORE.md"
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
       - "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md"
+      - "docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md"
+      - "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md"
       - "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
+      - "docs/superpowers/specs/2026-08-11-quality-guardrails-elite-boss-cadence-design.md"
+      - "docs/superpowers/plans/2026-08-11-quality-guardrails-elite-boss-cadence.md"
       - "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md"
       - "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
@@ -28,6 +32,7 @@ on:
       - "tests/python/test_canon_freshness_v45_scope.py"
       - "tests/python/test_phase_a_readiness_dependency_classification.py"
       - "tests/python/test_content_closure_benchmark_first.py"
+      - "tests/python/test_quality_guardrails_elite_boss_cadence.py"
       - "tools/validate_canon_freshness_v45_scope.py"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
   push:
@@ -45,8 +50,12 @@ on:
       - "docs/PROJECT_CORE.md"
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
       - "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md"
+      - "docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md"
+      - "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md"
       - "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
+      - "docs/superpowers/specs/2026-08-11-quality-guardrails-elite-boss-cadence-design.md"
+      - "docs/superpowers/plans/2026-08-11-quality-guardrails-elite-boss-cadence.md"
       - "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md"
       - "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
@@ -57,6 +66,7 @@ on:
       - "tests/python/test_canon_freshness_v45_scope.py"
       - "tests/python/test_phase_a_readiness_dependency_classification.py"
       - "tests/python/test_content_closure_benchmark_first.py"
+      - "tests/python/test_quality_guardrails_elite_boss_cadence.py"
       - "tools/validate_canon_freshness_v45_scope.py"
       - ".github/workflows/validate-canon-freshness-v4-5.yml"
   workflow_dispatch:
@@ -91,7 +101,8 @@ jobs:
             tests/python/test_canon_freshness_v45_routing.py \
             tests/python/test_canon_freshness_v45_scope.py \
             tests/python/test_phase_a_readiness_dependency_classification.py \
-            tests/python/test_content_closure_benchmark_first.py
+            tests/python/test_content_closure_benchmark_first.py \
+            tests/python/test_quality_guardrails_elite_boss_cadence.py
 
       - name: Run canon freshness routing contract
         run: python -m unittest tests.python.test_canon_freshness_v45_routing -v
@@ -104,6 +115,9 @@ jobs:
 
       - name: Run approved content closure and benchmark-first contract
         run: python -m unittest tests.python.test_content_closure_benchmark_first -v
+
+      - name: Run quality guardrails and elite boss cadence contract
+        run: python -m unittest tests.python.test_quality_guardrails_elite_boss_cadence -v
 
       - name: Validate exact PR file surface
         if: github.event_name == 'pull_request'
