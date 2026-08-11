@@ -7,6 +7,28 @@ from tools.validate_runtime_transition_scope import (
     validate_runtime_transition,
 )
 
+EXPECTED_CURRENT_RUNTIME_FILES = {
+    ".gitattributes",
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    ".github/workflows/validate-base-v9-adoption.yml",
+    ".github/workflows/validate-project-base-adapter.yml",
+    "scripts/battle/battle_simulator.gd",
+    "scripts/battle/lane_state.gd",
+    "scripts/battle/unit_instance.gd",
+    "tests/gut/test_barracks_role_output.gd",
+    "tests/gut/test_barracks_role_output.gd.uid",
+    "tests/headless/barracks_role_output_fv_test.gd",
+    "tests/headless/barracks_role_output_fv_test.gd.uid",
+    "tests/python/test_barracks_functional_value_combat_numerics_review.py",
+    "tests/python/test_barracks_godot_471_preflight.py",
+    "tests/python/test_barracks_role_output_runtime_implementation_package.py",
+    "tests/python/test_base_recovery_map.py",
+    "tests/python/test_runtime_transition_scope.py",
+    "tools/invoke_barracks_role_output_executor.ps1",
+    "tools/reconcile_and_invoke_barracks_role_output_executor.ps1",
+    "tools/validate_runtime_transition_scope.py",
+}
+
 
 def approved_state() -> dict:
     return {
@@ -17,11 +39,26 @@ def approved_state() -> dict:
 
 
 class RuntimeTransitionScopeTest(unittest.TestCase):
-    def test_current_approved_runtime_surface_passes(self) -> None:
+    def test_current_approved_runtime_surface_is_exact(self) -> None:
+        self.assertEqual(APPROVED_RUNTIME_FILES, EXPECTED_CURRENT_RUNTIME_FILES)
+        self.assertEqual(len(APPROVED_RUNTIME_FILES), 19)
         self.assertEqual(
             validate_runtime_transition(approved_state(), APPROVED_RUNTIME_FILES),
             [],
         )
+
+    def test_stale_adapter_generated_views_are_not_runtime_scope(self) -> None:
+        stale = {
+            "docs/PROJECT_OPERATING_DASHBOARD.html",
+            "docs/PROJECT_OPERATING_HEALTH.json",
+            "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-09.json",
+            "skills/BASE_V9_ADAPTER.json",
+            "skills/PROJECT_BASE_ADAPTER.json",
+            "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+            "skills/PROJECT_SKILL_SNAPSHOT.json",
+            "tests/python/test_project_base_adapter_freshness.py",
+        }
+        self.assertTrue(stale.isdisjoint(APPROVED_RUNTIME_FILES))
 
     def test_missing_active_authorization_fails_closed(self) -> None:
         errors = validate_runtime_transition(

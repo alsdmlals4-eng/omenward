@@ -10,7 +10,6 @@ on:
       - "docs/PROJECT_OPERATING_DASHBOARD.html"
       - "docs/PROJECT_OPERATING_HEALTH.json"
       - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
-      - "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-09.json"
       - "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
       - "docs/PROJECT_CANON_DECISION_LEDGER.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"

@@ -19,9 +19,9 @@
     "product": [],
     "sheet": [
       {
-        "id": "OMW-SHEET-SYNC-20260809-ADAPTER-FRESHNESS-MAINTENANCE-V1",
-        "sha256": "6b89d5aec023e9d83f3b86be39440fb285731b5962b70f829456f01a2173aeca",
-        "source": "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-09.json"
+        "id": "OMW-SHEET-SYNC-20260808-ADAPTER-FRESHNESS-V1",
+        "sha256": "4bbf946a67559adde2360a05a0858e093f42da1281de81ca82816eece531b734",
+        "source": "docs/operations/PROJECT_BASE_ADAPTER_SHEET_SYNC_EVIDENCE_2026-08-08.json"
       }
     ]
   },

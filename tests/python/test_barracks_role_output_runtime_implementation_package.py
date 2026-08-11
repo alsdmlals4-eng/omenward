@@ -21,20 +21,30 @@ PARENT = "OMW-DEC-20260809-PLANNING-BARRACKS-FUNCTIONAL-VALUE-MEASUREMENT-SCENAR
 
 
 class BarracksRoleOutputRuntimeImplementationPackageTest(unittest.TestCase):
-    def test_current_runtime_gap_is_reproducible(self) -> None:
+    def test_partial_runtime_is_present_and_remaining_targeting_gap_is_reproducible(self) -> None:
         unit = UNIT_INSTANCE.read_text(encoding="utf-8")
         lane = LANE_STATE.read_text(encoding="utf-8")
         sim = SIMULATOR.read_text(encoding="utf-8")
         profile = PROFILE.read_text(encoding="utf-8")
         resources = PRIEST.read_text(encoding="utf-8") + MAGE.read_text(encoding="utf-8")
+
+        # The runtime transition is real and must not be regressed back to the old
+        # SPEC_ONLY assumption.
         self.assertIn('"magic_resistance"', resources)
         self.assertIn("target_priority_tags", profile)
-        self.assertIn('func receive_damage(raw_damage: float)', unit)
-        self.assertNotIn('magic_resistance', unit.split('func receive_damage(raw_damage: float)', 1)[1].split('\n\n', 1)[0])
+        self.assertIn("func receive_damage_with_channel", unit)
+        self.assertIn('"magic_resistance"', unit)
         self.assertIn("func find_target(attacker", lane)
-        self.assertNotIn("target_priority_tags", lane)
+        self.assertIn("target_priority_tags", lane)
         self.assertIn("func drain_events()", sim)
         self.assertIn("func _record_event(event_type", sim)
+
+        # Issue #176 remains open. In particular, flying is still acting as a
+        # universal target-permission filter instead of priority-only semantics.
+        self.assertIn(
+            'if unit.role == "air" and not attacker.target_priority_tags.has("flying"):',
+            lane,
+        )
 
     def test_package_authority_exists_and_freezes_minimal_scope(self) -> None:
         self.assertTrue(AUTHORITY.is_file(), f"missing authority: {AUTHORITY.relative_to(ROOT)}")
