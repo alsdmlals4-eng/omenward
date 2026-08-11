@@ -2,11 +2,12 @@
 
 ```yaml
 updated_at: 2026-08-11
-current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 phase_b: PASS
+phase_c_c0: PASS
 phase_c_gate: OPEN
-implementation_status: READY_TO_ENTER_PHASE_C_NOT_COMPLETE
+implementation_status: PR175_CURRENT_MAIN_REVALIDATION_NEXT_NOT_COMPLETE
 ```
 
 ## 1. Phase state
@@ -14,12 +15,18 @@ implementation_status: READY_TO_ENTER_PHASE_C_NOT_COMPLETE
 ```text
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
 PHASE_B_FINAL_PLANNING_REVIEW = PASS
+PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
+PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
+PHASE_C_C0_OVERALL = PASS
 NEW_PRODUCT_DECISION_REQUIRED = FALSE
 IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
-PHASE_C_STATUS = READY_TO_ENTER
+PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
 PRODUCT_IMPLEMENTATION_COMPLETION = FALSE
 ```
+
+Current local C0 evidence owner:
+`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
 ## 2. Runtime PR current boundary
 
@@ -32,11 +39,12 @@ ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
 PR175_PHASE_A_READINESS_REVIEW = COMPLETE_IMPLEMENTATION_COMPLETENESS_NO_NEW_PRODUCT_DECISION
+PR175_RUNTIME_RESUME = AUTHORIZED_AFTER_CURRENT_MAIN_REBASE_REVALIDATION
 PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 PR177 = REFERENCE_ONLY_DO_NOT_MERGE
 ```
 
-Old PR175 exact-head Green is historical evidence. Current main advancement requires fresh C0 revalidation before resuming persistent runtime authoring.
+Old PR175 exact-head Green remains historical evidence. Current main advancement requires rebase/update plus fresh exact-head validation before persistent runtime authoring resumes.
 
 ## 3. Durable runtime/evidence boundary
 
@@ -67,15 +75,40 @@ BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
 ```
 
-## 5. Godot AI preflight status
+## 5. Godot AI / HiGodot C0 closure
 
 ```text
-USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
-GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+GODOT_VERSION = 4.7.1-stable
+GODOT_AI_PLUGIN_VERSION = 3.1.4
+GODOT_AI_SERVER_VERSION = 3.1.4
+OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
+OMENWARD_GODOT_AI_HTTP_PORT = 8002
+OMENWARD_GODOT_AI_WS_PORT = 9502
+CODEX_INSTALLATION = SHARED
+OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
+LOCAL_SESSION_COUNT = 1
+LOCAL_SESSION_ID_EVIDENCE = omenward@7f90
+LOCAL_SESSION_PROJECT_PATH = C:/Users/user/Documents/GitHub/Ninza/omenward/
+LOCAL_SESSION_EDITOR_PID_EVIDENCE = 28564
+LOCAL_SESSION_READINESS = ready
+LOCAL_SESSION_IS_ACTIVE = true
+LOCAL_CURRENT_SCENE = res://scenes/main/main.tscn
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
 ```
 
-No Phase B document asserts the local plugin/server is already 3.1.4. Phase C C0 verifies it.
+The session ID and PID are closure evidence only. They are not durable future selectors and must be fresh-resolved before every new mutation block.
+
+Observed lifecycle follow-up:
+
+```text
+GODOT_AI_KEEP_SERVER_ON_EXIT_OBSERVED = true
+DESIRED_CLEAN_EXECUTION_BLOCK_DEFAULT = false
+```
+
+This follow-up does not invalidate the exact current C0 local session proof. Future clean teardown should use `false` unless explicitly approved otherwise.
+
+The observed Codex terminal also reported an `agentmemory` MCP startup failure. `godot-ai` itself initialized and executed `session_manage` successfully, so that auxiliary MCP warning is non-blocking for the HiGodot C0 gate.
 
 ## 6. Vertical Slice compatibility evidence
 
@@ -136,6 +169,8 @@ This is an approved design boundary, not implementation permission. PR175 gamepl
 - `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`
+- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 
 Historical activation closure remains:
 
