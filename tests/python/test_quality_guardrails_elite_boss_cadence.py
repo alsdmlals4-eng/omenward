@@ -9,6 +9,7 @@ CADENCE = ROOT / "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026
 AGENTS = ROOT / "AGENTS.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
+PHASE_B = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 
 QUALITY_DECISION = "OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1"
 CADENCE_DECISION = "OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1"
@@ -53,7 +54,7 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_current_consumers_route_conflicts_to_new_decisions(self) -> None:
+    def test_current_consumers_route_new_cadence(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
         for marker in (
             CADENCE_DECISION,
@@ -66,17 +67,18 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
         ):
             self.assertIn(marker, combined)
 
-    def test_phase_gate_remains_closed_after_new_approvals(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (ACTIVE, PENDING))
+    def test_phase_gate_advances_without_mutating_product_decisions(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in (ACTIVE, PENDING, PHASE_B))
         for marker in (
             "WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0",
-            "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = NOT_RECEIVED",
-            "PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN",
-            "PHASE_C_BLOCKED",
+            "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED",
+            "PHASE_B_FINAL_PLANNING_REVIEW = PASS",
+            "PHASE_C_GATE = OPEN",
             QUALITY_DECISION,
             CADENCE_DECISION,
         ):
             self.assertIn(marker, combined)
+        self.assertIn("NEW_PRODUCT_DECISION_REQUIRED = FALSE", PHASE_B.read_text(encoding="utf-8"))
 
     def test_no_final_elite_or_boss_numerics_are_selected(self) -> None:
         text = CADENCE.read_text(encoding="utf-8")
@@ -89,11 +91,14 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             "THREAT_BUDGET = NOT_SELECTED",
         ):
             self.assertIn(marker, text)
+        self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", PENDING.read_text(encoding="utf-8"))
+        self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", PENDING.read_text(encoding="utf-8"))
 
-    def test_godot_ai_314_is_user_report_not_silent_tool_authority_change(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
+    def test_godot_ai_314_stays_user_report_pending_phase_c_verification(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING, PHASE_B))
         self.assertIn("USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4", combined)
         self.assertIn("GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY", combined)
+        self.assertIn("GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK", combined)
 
 
 if __name__ == "__main__":
