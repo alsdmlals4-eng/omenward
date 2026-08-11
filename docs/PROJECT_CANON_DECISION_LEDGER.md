@@ -13,10 +13,17 @@ current_phase: PHASE_C_POST_C0_RUNTIME_REVALIDATION
 phase_c_gate: OPEN
 phase_c_c0: PASS
 current_next_gate: PR175_CURRENT_MAIN_REVALIDATION_NEXT
+transient_ops_pr_state: FRESH_READ_ONLY_NOT_DURABLE_CANON
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 ```
 
 이 Ledger는 현재 Decision과 결정 계보를 찾는 진입점이다. 각 분야의 세부 규칙은 Lifecycle Registry가 `[현행]`으로 지정한 책임 원본이 소유한다. 완료된 PR/CI/SHA는 역사 증거이며 fresh current 사실을 대체하지 않는다. 2026-08-09까지의 상세 tool·runtime evidence와 activation/Phase-B 전환은 history lineage로 보존한다.
+
+```text
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
+```
+
+운영 보정 PR의 open/draft/in-progress 상태는 GitHub에서 fresh-read하며 이 Ledger의 durable current gate로 저장하지 않는다.
 
 ## 1. 현재 운영 Decision
 
@@ -36,6 +43,7 @@ GODOT_AI_HTTP_PORT = 8002
 GODOT_AI_WS_PORT = 9502
 GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
 PR175_CURRENT_MAIN_REVALIDATION_NEXT
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
 ```
 
 현재 승인 내용:
@@ -327,17 +335,24 @@ Historical responsibility sources retained for provenance:
 - `docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
 
-## 10. Current open PR inventory
-
-Fresh read at this execution block:
+## 10. Runtime PR inventory policy
 
 ```text
-PR193 = full current-consumer C0 closure / Draft / RED-first remediation
-PR175 = runtime package / Draft / 7 gaps / do not merge
-PR177 = reference-only handoff / Draft / do not merge
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
+TRANSIENT_OPS_PR_INVENTORY = RESOLVE_FROM_FRESH_GITHUB
+PR175 = runtime package / OPEN_DRAFT / 7 gaps / DO_NOT_MERGE_UNTIL_RUNTIME_ACCEPTANCE
+PR177 = reference-only handoff / OPEN_DRAFT / DO_NOT_MERGE
 ```
 
-Open PR inventory는 매 작업 시작·병합 직전에 fresh-read한다.
+Operations/canon remediation PRs are historical evidence after merge and are not stored as durable current-open inventory. Current open PR state is always resolved from GitHub at work entry and immediately before merge/rebase decisions.
+
+Historical C0 remediation lineage:
+
+```text
+PR191_MERGE = ec9244fea8025bc83439622016ba7234217b9030
+PR192_MERGE = 9dc1c82c83db9b07c2f4056ee9507eb54a3795dd
+PR193_MERGE = 7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0
+```
 
 ## 11. Current unresolved Gate
 

@@ -7,6 +7,7 @@
   "phase_c_c0": "PASS",
   "current_next_gate": "PR175_CURRENT_MAIN_REVALIDATION_NEXT",
   "current_routing_precedence": "TOP_LEVEL_CURRENT_EXECUTION_FIELDS_SUPERSEDE_HISTORICAL_PHASE_B_TRANSITION_SNAPSHOT",
+  "transient_ops_pr_state": "FRESH_READ_ONLY_NOT_DURABLE_CANON",
   "observed_at": "2026-08-11T12:01:00+09:00",
   "activation_baseline_main_sha": "87339f87949c8faea0dfe1482c5d0887a04d94f4",
   "validated_technical_main_sha": "5541712a5a6cee88b64b25eb5a13a46ef866c9a2",
@@ -57,8 +58,8 @@
     "instruction_repo_canonicalization": "MERGED_VERIFIED",
     "postmerge_full_python_reconciliation": "PASS",
     "windows_canonical_evidence_portability": "PASS",
-    "active_consumer_reconciliation": "C0_FULL_CURRENT_CONSUMER_CLOSURE_PR193_IN_PROGRESS",
-    "sheet_sync": "C0_LOCAL_PASS_VALID_PR193_RED_SYNC",
+    "active_consumer_reconciliation": "C0_CURRENT_ROUTING_AUTHORITATIVE",
+    "sheet_sync": "SAME_DECISION_REREAD_REQUIRED_BEFORE_RUNTIME_MUTATION",
     "technical_closure": "PASS"
   },
   "technical_validation": {
@@ -119,6 +120,10 @@
     "pr192": {
       "merge_sha": "9dc1c82c83db9b07c2f4056ee9507eb54a3795dd",
       "role": "POST_C0_CURRENT_ROUTER_RECONCILIATION"
+    },
+    "pr193": {
+      "merge_sha": "7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0",
+      "role": "POST_C0_FULL_CURRENT_CONSUMER_CLOSURE"
     }
   },
   "runtime_pr": {
@@ -170,8 +175,8 @@
     "current_activation_decision_id": "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1",
     "phase_b_decision_id": "OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1",
     "current_execution_decision_id": "OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1",
-    "status": "C0_LOCAL_PASS_VALID_PR193_RED_SYNC",
-    "latest_audit_id": "OMW-AUD-647"
+    "status": "SAME_DECISION_REREAD_REQUIRED_BEFORE_RUNTIME_MUTATION",
+    "latest_audit_id": "RESOLVE_FROM_SHEET_CURRENT_STATE"
   },
-  "evidence_closure": "C0_LOCAL_PASS_VALID_FULL_CURRENT_CONSUMER_CLOSURE_PR193_IN_PROGRESS"
+  "evidence_closure": "C0_LOCAL_PASS_CURRENT_ROUTING_AUTHORITATIVE"
 }

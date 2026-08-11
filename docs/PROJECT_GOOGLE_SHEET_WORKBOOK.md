@@ -5,8 +5,8 @@ updated_at: 2026-08-11
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
 current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
 canon_freshness_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-sheet_sync_status: C0_LOCAL_PASS_VALID_PR193_FULL_CURRENT_CONSUMER_CLOSURE_IN_PROGRESS
-current_phase_focus: PHASE_C_POST_C0_CURRENT_CONSUMER_CLOSURE
+sheet_sync_status: SAME_DECISION_REREAD_REQUIRED_BEFORE_RUNTIME_MUTATION
+current_phase_focus: PR175_CURRENT_MAIN_REVALIDATION_NEXT
 ```
 
 Compatibility/workspace identity:
@@ -15,6 +15,7 @@ Compatibility/workspace identity:
 PROJECT_SHEET_CONFIGURED
 USER_FACING_GDD_WORKSPACE
 PROPOSED_SHEET_CHANGE
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
 ```
 
 These markers identify the connected Sheet as the user-facing GDD workspace and preserve the existing change-proposal contract; approved truth still requires same-Decision-ID synchronization and readback.
@@ -22,6 +23,8 @@ These markers identify the connected Sheet as the user-facing GDD workspace and 
 ## Rule
 
 GitHub authority owner와 Google Sheet mirror는 승인된 결정에 대해 같은 Decision ID를 사용한다. 충돌하면 GitHub current lifecycle/Decision owner를 우선 확인하고 Sheet에 correction/audit/history를 남긴다. 과거 행을 현재 사실처럼 덮어쓰지 않는다.
+
+Transient operations PR numbers/status are not durable current canon. They are fresh-read from GitHub when needed and may be recorded only as historical evidence after the fact.
 
 ## Current phase target
 
@@ -32,6 +35,7 @@ IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
 PHASE_C_GATE = OPEN
 PHASE_C_C0_OVERALL = PASS
 PR175_CURRENT_MAIN_REVALIDATION_NEXT
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
 ```
 
 Current execution Decision:
@@ -123,7 +127,7 @@ PRE_SHEET_SYNC_EXACT_HEAD_ACTIONS = 13_OF_13_SUCCESS
 
 This block is historical evidence, not current execution routing.
 
-## Current C0 Sheet evidence
+## C0 / post-change Sheet evidence lineage
 
 Current Sheet truth preserves historical rows and supersedes them with the same current execution Decision:
 
@@ -132,17 +136,20 @@ CURRENT_EXECUTION_DECISION = OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITO
 PHASE_C_C0_OVERALL = PASS
 HTTP_PORT = 8002
 WS_PORT = 9502
-SHEET_AUDIT_LINEAGE = OMW-AUD-645 / OMW-AUD-646 / OMW-AUD-647
-CURRENT_HISTORY_LINEAGE = 99 row194 / row195 / row196
-PR193_CURRENT_STATUS = RED_FIRST_FULL_CURRENT_CONSUMER_CLOSURE
+SHEET_AUDIT_LINEAGE = OMW-AUD-645 / OMW-AUD-646 / OMW-AUD-647 / OMW-AUD-648
+CURRENT_HISTORY_LINEAGE = 99 row194 / row195 / row196 / row197
+PR193_MERGE_EVIDENCE = 7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
 ```
 
-## Current merge sync rule
+`PR193_MERGE_EVIDENCE` is historical closure lineage only. The current Sheet state must be bounded-reread immediately before runtime mutation; this document does not persist a transient operations PR as the current gate.
 
-For PR193 and later current-routing closures:
+## Current sync rule
 
-- keep the historical rows unchanged,
-- update current Sheet surfaces with the same Decision ID,
-- store exact PR head/merge/main evidence,
-- bounded reread after each durable state transition,
-- only mark `SHEET_FINAL_REREAD_PASS` after merge/main readback and required post-merge validation.
+For current and later routing closures:
+
+- keep historical rows unchanged,
+- use the same approved Decision ID for current Sheet synchronization,
+- resolve transient operations PR state from fresh GitHub rather than durable canon,
+- bounded reread before every durable runtime transition,
+- record merge/post-merge evidence in audit/history instead of turning temporary PR state into current routing.

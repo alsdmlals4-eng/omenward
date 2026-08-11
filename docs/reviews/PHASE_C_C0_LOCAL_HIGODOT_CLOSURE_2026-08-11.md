@@ -13,14 +13,14 @@ persistent_authoring_authority: HIGODOT_ONLY
 ```text
 BASE_MAIN = 23d5b292f619022cdd8ab7a33fb1debc2d294861
 BASE_CHANGE = docs: enforce post-change adversarial monitoring loop (#285)
-OMENWARD_MAIN = 8301cbb0868890a43d05926a48a65e38e8b3ebc3
+OMENWARD_MAIN_AT_LOCAL_C0_CLOSURE = 8301cbb0868890a43d05926a48a65e38e8b3ebc3
 PR175 = OPEN_DRAFT
 PR175_HEAD = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 PR177 = OPEN_DRAFT_REFERENCE_ONLY_DO_NOT_MERGE
 PR177_HEAD = 7654beced2cc5580ecc60a3a1d01c5767712c8b9
 ```
 
-The Google Sheet still described the local gate as `LOCAL_LIVE_SESSION_UNVERIFIED` and routed the diagnostic through shared `WS9500`. That is stale current-facing routing, not historical evidence to rewrite. This Decision supersedes that live routing while preserving the earlier C0 row/audit/history as historical evidence.
+The Google Sheet still described the local gate as `LOCAL_LIVE_SESSION_UNVERIFIED` and routed the diagnostic through shared `WS9500`. That was stale current-facing routing, not historical evidence to rewrite. This Decision supersedes that live routing while preserving the earlier C0 row/audit/history as historical evidence.
 
 ## 2. Why project isolation was required
 
@@ -100,10 +100,13 @@ C0_LOCAL_DEDICATED_TRANSPORT_GATE = PASS
 C0_LOCAL_SESSION_REGISTRY_GATE = PASS
 C0_LOCAL_HIGODOT_GATE = PASS
 C0_OVERALL = PASS
+PHASE_C_C0_OVERALL = PASS
 PR175_RUNTIME_RESUME = AUTHORIZED_AFTER_CURRENT_MAIN_REBASE_REVALIDATION
+PR175_CURRENT_MAIN_REVALIDATION_NEXT
 PR175_MERGE = STILL_FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
 ISSUE176_7_GAPS = STILL_OPEN
 FINAL_PRODUCT_NUMERICS = NOT_SELECTED
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
 ```
 
 This Decision changes execution routing only. It changes no gameplay semantics and grants no direct GitHub mutation authority for persistent Godot/GDScript/GUT product source.
@@ -121,6 +124,7 @@ OMENWARD_GODOT_AI_HTTP = 8002
 OMENWARD_GODOT_AI_WS = 9502
 SHARED_9500_ROUTING = SUPERSEDED_FOR_OMENWARD_CURRENT_EXECUTION
 SESSION_ID_REUSE_WITHOUT_FRESH_LIST = FORBIDDEN
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
 ```
 
 One lifecycle follow-up remains visible: `godot_ai/keep_server_on_exit = true` was observed during the isolation work. It does not invalidate the exact current session proof, but the OMENWARD isolated editor should use `keep_server_on_exit = false` for clean future execution-block teardown unless a later approved operation explicitly requires persistence.
@@ -145,31 +149,20 @@ The auxiliary Codex `agentmemory` MCP failed startup in the observed terminal, b
 
 Base `23d5b292...` adds a post-change adversarial monitoring loop, so successful implementation is not complete until that post-change monitoring requirement is satisfied.
 
-## 8. Post-change adversarial monitor finding
+## 8. Post-change adversarial monitor lineage
 
-PR #191 merged this local C0 closure to main `ec9244fea8025bc83439622016ba7234217b9030`. Its exact head `617a6acf9193d7b8a0065b4debe55d60798a4598` passed all 6 triggered workflows with review threads 0; the merge-main push then passed Project Core, Canon v4.5, and Omenward Core, including Godot plus the full Ubuntu/Windows Python matrix.
-
-The required Base `POST_CHANGE_MONITOR_LOOP` then attacked same-goal PRs, untouched consumers, and current routing. Historical C0 preflight/plan documents correctly retained `WS9500` / `LOCAL_LIVE_SESSION_UNVERIFIED` as historical evidence, but five **current** routers still treated C0 as a future gate:
+The C0 closure produced a sequence of bounded non-product remediation PRs. Those PR numbers, their draft state, and their in-progress state are **historical evidence only**, never durable current routing.
 
 ```text
-AGENTS.md
-README.md
-docs/PROJECT_CORE.md
-docs/DECISIONS_PENDING.md
-docs/OMENWARD_ROADMAP.md
-```
-
-Classification:
-
-```text
-POST_CHANGE_MONITOR_FINDING = CURRENT_ROUTER_OMISSION
-FINDING_CLASS = OMISSION / CONFLICT
+PR191_MERGE = ec9244fea8025bc83439622016ba7234217b9030
+PR192_MERGE = 9dc1c82c83db9b07c2f4056ee9507eb54a3795dd
+PR193_MERGE = 7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0
+TRANSIENT_OPS_PR_STATE = FRESH_READ_ONLY_NOT_DURABLE_CANON
+CURRENT_RUNTIME_GATE = PR175_CURRENT_MAIN_REVALIDATION_NEXT
 PRODUCT_SEMANTIC_CHANGE = NONE
 HISTORICAL_C0_EVIDENCE_REWRITE = FORBIDDEN
-FOLLOWUP_OWNER = PR192
-FOLLOWUP_DECISION_ID = OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
 ```
 
-TDD RED was established on PR #192 head `30e9a92c565a984c51e2fccd5fea6a7cbc146a64`: the new current-router regression failed specifically because `AGENTS.md` lacked the current C0 Decision while the pre-existing routing tests remained Green.
+PR191 first closed the local C0 evidence. The first Base-required post-change attack found five stale current routers and led to PR192. The next attack found eight additional current-authority consumers and led to PR193. PR193 merged after RED-first regression, exact fail-closed non-product scope, exact-head Green, and post-merge Green including Godot plus the full Ubuntu/Windows Python matrix.
 
-The bounded remediation advances only current routers, preserves Phase B provenance, adds an exact fail-closed v4.5 scope for the follow-up, and keeps all product/Godot/GDScript/GUT source untouched. Completion requires PR #192 exact-head validation, merge/main readback, and a post-merge recheck that reaches either another explicit material finding or `NO_MATERIAL_FOLLOWUP`.
+The durable lesson is structural: current authority stores the stable C0 execution state and next runtime gate, while any temporary operations PR status is resolved from fresh GitHub state when needed. A future post-change monitor result may be recorded in review comments/Sheet audit/history, but it must not replace durable routing with a new transient PR-in-progress marker.
