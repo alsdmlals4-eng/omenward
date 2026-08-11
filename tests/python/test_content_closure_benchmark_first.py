@@ -9,6 +9,7 @@ PROCESS = ROOT / "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIR
 AGENTS = ROOT / "AGENTS.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
+PHASE_B = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 PRODUCT_DECISION = "OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1"
@@ -62,19 +63,19 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_current_routers_close_semantic_groups_but_keep_phase_c_blocked(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
+    def test_current_routers_keep_closure_and_advance_to_phase_b_pass(self) -> None:
+        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING, PHASE_B))
         for marker in (
             "WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0",
-            "WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARATION",
-            "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = NOT_RECEIVED",
-            "PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN",
-            "PHASE_C_BLOCKED",
+            "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED",
+            "PHASE_B_FINAL_PLANNING_REVIEW = PASS",
+            "PHASE_C_GATE = OPEN",
             "BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE",
             PRODUCT_DECISION,
             PROCESS_DECISION,
         ):
             self.assertIn(marker, combined)
+        self.assertIn("NEW_PRODUCT_DECISION_REQUIRED = FALSE", PHASE_B.read_text(encoding="utf-8"))
 
     def test_current_responsibility_sources_preserve_existing_active_owners(self) -> None:
         text = PENDING.read_text(encoding="utf-8")
@@ -86,6 +87,13 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
             "docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md",
         ):
             self.assertIn(source, text, f"current responsibility source was dropped: {source}")
+
+    def test_final_numerics_remain_downstream(self) -> None:
+        pending = PENDING.read_text(encoding="utf-8")
+        phase_b = PHASE_B.read_text(encoding="utf-8")
+        self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", pending)
+        self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", pending)
+        self.assertIn("FINAL_PRODUCT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING", phase_b)
 
     def test_v45_workflow_executes_focused_contract(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
