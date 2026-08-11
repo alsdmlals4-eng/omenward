@@ -5,9 +5,11 @@ updated_at: 2026-08-11
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 current_process_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
 activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
+content_closure_decision: OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
+benchmark_first_decision: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
-current_phase_a_focus: PR175_PHASE_A_READINESS_REVIEW
+current_phase_a_focus: WAITING_USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
 current_runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 runtime_status: PR175_DRAFT_7_RUNTIME_GAPS_OPEN
 phase_c_gate: BLOCK
@@ -18,14 +20,19 @@ product_code_authority: NONE_FOR_CURRENT_DECISION
 
 ```text
 V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
+WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
+WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARATION
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = NOT_RECEIVED
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
+PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN
 PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
 PHASE_C_BLOCKED
+BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
 ```
 
-v4.5 r2 activation/evidence closure는 더 이상 pending이 아니다. 사용자의 `[연속작업 진행해]`는 현재 승인된 Phase A planning scope의 연속 수행 flag이며 `기획 완료` 선언이 아니다.
+v4.5 r2 activation/evidence closure와 whole-project semantic content Decision은 닫혔다. 사용자의 `[연속작업 진행해]`와 개별 제품 권장안 승인은 별도 literal `기획 완료` 선언이 아니다.
 
-따라서 이 파일의 runtime pending 항목은 **승인 범위가 존재하더라도 현재 Phase C가 열릴 때까지 persistent implementation을 시작하지 않는다.**
+따라서 이 파일의 runtime/release/tuning pending 항목은 **승인 범위가 존재하더라도 Phase C가 열릴 때까지 persistent implementation을 시작하지 않는다.**
 
 ## 2. Durable 병영 분석 상태
 
@@ -74,7 +81,7 @@ FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-구형 “Special T1 TokenSource 없음”은 final amendment로 대체됐으며 미확정 항목이 아니다. 물리 TokenInstance 수량도 후속 burst-remediation이 닫았으므로 blanket `weight/count pending`으로 재발행하지 않는다. 다만 특수병 5종의 final 선정 분포는 아직 고르지 않는다.
+구형 “Special T1 TokenSource 없음”은 final amendment로 대체됐으며 미확정 항목이 아니다. 물리 TokenInstance 수량도 후속 burst-remediation이 닫았으므로 blanket `weight/count pending`으로 재발행하지 않는다. 특수병 5종의 final 선정 분포는 runtime evidence tuning이다.
 
 ## 4. Runtime package — 승인됐지만 현재 실행 보류
 
@@ -100,7 +107,7 @@ Issue176의 7개 gap:
 6. Registered deterministic FV-PRIEST/MAGE/FLIER/GIANT/COMMON fixtures.
 7. true per-cast `TARGETS_HIT_PER_CAST` with multi-cast coverage.
 
-현재 approved runtime package, approved measurement scenarios, Issue176을 교차 추적하면 이 7개는 **새 product Decision이 필요한 항목이 아니라 기존 승인 범위의 implementation-completeness gap**이다. 그러나 이 판정은 Phase C 실행 권한이나 `기획 완료` 선언을 대신하지 않는다.
+이 7개는 새 product Decision이 아니라 기존 승인 범위의 implementation-completeness gap이다. 이 분류는 Phase C 실행 권한이나 `기획 완료` 선언을 대신하지 않는다.
 
 ## 5. Final value·numeric pending — runtime 이후 evidence tuning
 
@@ -115,7 +122,7 @@ PARAMETER_SELECTION_10000 = NOT_AUTHORIZED_AS_FINAL_SELECTION
 CONFIRMATION_SWEEP_50000 = BLOCKED
 ```
 
-기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다. 승인 dependency는 `ROLE_OUTPUT_RUNTIME → DETERMINISTIC_MEASUREMENT → FUNCTIONAL_VALUE_COMPARISON → FINAL_TUNING`이다. 따라서 final FV·parameter vector·product numerics를 PR175 runtime의 선행 입력으로 요구하지 않는다.
+기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다. dependency는 `ROLE_OUTPUT_RUNTIME → DETERMINISTIC_MEASUREMENT → FUNCTIONAL_VALUE_COMPARISON → FINAL_TUNING`이다.
 
 ## 6. Tool·runtime pending
 
@@ -144,58 +151,62 @@ REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
 ```
 
-이 항목들은 완료가 아니다. 승인된 PC·Android architecture의 후속 Phase 3~7 및 release gate로 남아 있다. 다만 role-output runtime package의 product-semantic Definition of Ready와 전체 출시 readiness를 섞지 않는다.
+이 항목들은 완료가 아니며 승인된 PC·Android architecture의 후속 Phase 3~7 및 release gate로 남아 있다. 다만 role-output runtime package의 product-semantic Definition of Ready와 전체 출시 readiness를 섞지 않는다.
 
-## 8. T3·이름·전체 제품 범위
+## 8. Whole-project semantic content — 해결됨
+
+현행 owner:
+
+`docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`
 
 ```text
-T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
+T3_CONTENT_AND_FINAL_NAMES = RESOLVED_AT_PRODUCT_GRAMMAR_LEVEL
+BUILDING_T3_GRAMMAR = SINGLE_CAPSTONE_DEEPENS_SELECTED_T2_IDENTITY
+BUILDING_T3_REBRANCH = FORBIDDEN
 ARCHER_T3_LATER_APPROVED_DETAIL = CROSSBOW_ARCHER / RAPID_FIRE_ARCHER
-DEFENSE_TOWER_T3_DETAILS = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
-DEFENSE_BRANCH_FINAL_DISPLAY_NAME = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
+DEFENSE_BRANCH_FINAL_DISPLAY_NAME = 요새탑
+HERO_STRATEGIC_ROLE = CONTEXTUAL_AMPLIFIER
+HERO_SELECTION_PER_MAPRUN = 1
+LEGENDARY_GRAMMAR = RARE_CONSTRAINED_SIDEGRADE
+META_HUB_PROGRESSION = HORIZONTAL_CONTEXTUAL
+WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
 ```
 
-궁병 T3는 후속 승인 문서가 석궁병/연사궁병 두 분기로 닫았으므로 다시 미정으로 돌리지 않는다. 반면 방어탑 T3 상세, 일부 다른 T3/영웅 exact identity, 최종 display naming처럼 최신 owner가 닫지 않은 전체 제품 내용은 별도 Phase A inventory에 남긴다. 이 review에서 새 content나 이름을 만들지 않는다.
+정확 T3 전투 scalar·final FV·과거 Hero exact kit·과거 Meta exact power 값을 이 승인으로 자동 선택하지 않는다. 과거 HELD 상세는 reference lineage이며 current exact implementation authority가 아니다.
 
-## 9. Current responsibility sources
+## 9. 작업 전 benchmark-first process
 
-현재 Gate를 판단할 때 다음 책임 원본을 함께 읽는다.
+현행 owner:
 
-- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
+`docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md`
+
+```text
+OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
+BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
+BENCHMARK_DISPOSITION = ADOPT / ADAPT / AVOID / TEST / IGNORE
+COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
+```
+
+모든 비사소 작업은 fresh Base/project/Sheet 확인 뒤 관련 benchmark·현업조사를 먼저 수행하고, 결과가 현재 Decision을 어떻게 바꾸거나 유지하는지 기록한다.
+
+## 10. Current responsibility sources
+
+- `docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`
+- `docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
 - `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
-- `docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
 - `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
 - `docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md`
 
-## 10. Current Phase A planning-readiness work
-
-```text
-V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
-V45_R2_CLOSURE_MAIN_OBSERVED = 3213b12a9614c755157953aa64a1d4e1666b48ed
-PR175_PHASE_A_READINESS_REVIEW = ACTIVE
-SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
-PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
-T3_CONTENT_AND_FINAL_NAMES = FULL_PRODUCT_PLANNING_OPEN_NOT_CURRENT_BUILD_BLOCKER
-```
-
-현재까지의 분류:
-
-1. `NO_NEW_PRODUCT_DECISION_REQUIRED_FOR_ISSUE176_7_GAPS`.
-2. final FV/numerics는 PR175 runtime 이후 evidence tuning.
-3. platform/save/export/store는 미완료지만 PR175의 선행 product-semantic blocker가 아님.
-4. T3/이름의 genuine open content는 전체 제품 Phase A inventory에 남되 current runtime package blocker로 오분류하지 않음.
-
 ## 11. 다음 사용자 Gate
 
 ```text
+WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED_PENDING_USER_PLANNING_COMPLETE_DECLARATION
 NEXT_USER_GATE = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
+PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN
+PHASE_C_BLOCKED
 ```
 
-현재 Phase A의 미확정 planning inventory가 닫히더라도 사용자가 명시적으로 `기획 완료`를 선언해야 Phase B 전체 기획 최종 검토·기능 분해·벤치마킹·의존성·보호범위·Definition of Ready를 시작한다. 그 뒤에만 Phase C를 검토한다.
+사용자가 명시적으로 `기획 완료`를 선언해야 Phase B 전체 기획 최종 검토를 시작한다. 그 뒤에만 Phase C를 검토한다.
