@@ -8,10 +8,11 @@ ROOT = Path(__file__).resolve().parents[2]
 TOOL = ROOT / "tools/validate_canon_freshness_v45_scope.py"
 CANONICAL_V45_R2 = "docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md"
 CORE_WORKFLOW = ".github/workflows/validate-omenward-core.yml"
+CANON_V45_WORKFLOW = ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 ACTIVATION = {
     ".github/workflows/validate-active-integrated-contract-v4-4.yml",
-    ".github/workflows/validate-canon-freshness-v4-5.yml",
+    CANON_V45_WORKFLOW,
     "AGENTS.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
@@ -69,6 +70,7 @@ CURRENT_CONSUMER_RECONCILIATION = {
 }
 
 PHASE_A_READINESS_CLASSIFICATION = {
+    CANON_V45_WORKFLOW,
     "AGENTS.md",
     "docs/DECISIONS_PENDING.md",
     "docs/OMENWARD_GDD_CURRENT_CANON.md",
