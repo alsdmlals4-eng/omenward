@@ -4,8 +4,10 @@
 updated_at: 2026-08-11
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 current_process_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
+current_phase_a_focus: PR175_PHASE_A_READINESS_REVIEW
 current_runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
 runtime_status: PR175_DRAFT_7_RUNTIME_GAPS_OPEN
 phase_c_gate: BLOCK
@@ -15,12 +17,13 @@ product_code_authority: NONE_FOR_CURRENT_DECISION
 ## 1. 현재 단계 blocker
 
 ```text
+V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION_REQUIRED
 PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN
 PHASE_C_BLOCKED
 ```
 
-사용자의 `[연속작업 진행해]`는 현재 승인된 planning/canon scope의 연속 수행 flag이며 `기획 완료` 선언이 아니다.
+v4.5 r2 activation/evidence closure는 더 이상 pending이 아니다. 사용자의 `[연속작업 진행해]`는 현재 승인된 Phase A planning scope의 연속 수행 flag이며 `기획 완료` 선언이 아니다.
 
 따라서 이 파일의 runtime pending 항목은 **승인 범위가 존재하더라도 현재 Phase C가 열릴 때까지 persistent implementation을 시작하지 않는다.**
 
@@ -75,6 +78,7 @@ SPECIAL_T1_FREE_REROLL = FORBIDDEN
 PR175 = OPEN_DRAFT
 PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
+PR175_STRICT_UP_TO_DATE_AGAINST_CURRENT_MAIN = NOT_REVALIDATED_DUE_PHASE_C_BLOCK
 ISSUE176 = OPEN
 ISSUE176_APPROVED_RUNTIME_GAPS = 7
 PR175_MERGE = FORBIDDEN
@@ -91,7 +95,7 @@ Issue176의 7개 gap:
 6. Registered deterministic FV-PRIEST/MAGE/FLIER/GIANT/COMMON fixtures.
 7. true per-cast `TARGETS_HIT_PER_CAST` with multi-cast coverage.
 
-이 7개는 새 product Decision이 필요한 항목이 아니라 기존 approved runtime package completeness gap이다. 하지만 현재 v4.5 Phase Gate 때문에 아직 구현 단계가 아니다.
+현재 approved runtime package, approved measurement scenarios, Issue176을 교차 추적하면 이 7개는 **새 product Decision이 필요한 항목이 아니라 기존 승인 범위의 implementation-completeness gap**이다. 그러나 이 판정은 Phase C 실행 권한이나 `기획 완료` 선언을 대신하지 않는다.
 
 ## 5. Final value·numeric pending
 
@@ -104,7 +108,7 @@ PARAMETER_SELECTION_10000 = NOT_AUTHORIZED_AS_FINAL_SELECTION
 CONFIRMATION_SWEEP_50000 = BLOCKED
 ```
 
-기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다.
+기존 10k robustness는 economy/production/physical-token robustness evidence이지 final product numeric selection이 아니다. Phase A planning-readiness 검토에서는 이 항목들이 **현재 구현 패키지 진입 전에 반드시 확정해야 하는 값인지, 또는 승인된 provisional/tuning contract에 따라 후속 simulation으로 의도적으로 지연 가능한 값인지**를 구분한다.
 
 ## 6. Tool·runtime pending
 
@@ -131,6 +135,8 @@ REPRESENTATIVE_PC_BUILD = NOT_RUN
 REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 ```
 
+이 항목들도 현재 PR175 runtime package의 Definition of Ready와 제품 전체 출시 readiness를 분리해서 판단한다. 미구현이라는 사실만으로 현재 Phase-A runtime package 기획이 자동 미완성인 것은 아니다.
+
 ## 8. Current responsibility sources
 
 현재 Gate를 판단할 때 다음 책임 원본을 함께 읽는다.
@@ -144,28 +150,25 @@ REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
 - `docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
 - `docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
 
-## 9. Current planning/canon closure
-
-현재 먼저 닫아야 하는 것은 product implementation이 아니라 `OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1`이다.
+## 9. Current Phase A planning-readiness work
 
 ```text
-GitHub current canon propagation
-→ Google Sheet same-Decision proposed sync
-→ bounded reread
-→ exact-head CI
-→ adversarial review
-→ Base/project race check
-→ planning merge when eligible
-→ merged-main readback
-→ Sheet MERGED_CANON readback
+V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
+V45_R2_CLOSURE_MAIN_OBSERVED = 3213b12a9614c755157953aa64a1d4e1666b48ed
+PR175_PHASE_A_READINESS_REVIEW = ACTIVE
 ```
 
-## 10. 다음 사용자 Gate
+현재 먼저 확인할 것은 새로운 implementation이 아니라 다음 두 질문이다.
 
-현재 Decision이 검증·병합되더라도 다음 제품 단계는 자동으로 시작하지 않는다.
+1. Issue176 7개 gap에 아직 미확정 product semantics가 남아 있는가?
+2. 프로젝트 전체의 다른 pending 항목 중 PR175/현재 planned build의 Definition of Ready를 실제로 막는 것이 있는가, 아니면 의도적으로 후속 simulation/release 단계로 미뤄진 것인가?
+
+현재까지 1번은 `NO_NEW_PRODUCT_DECISION_REQUIRED_FOR_ISSUE176_7_GAPS`로 분류된다. 2번은 whole-project current canon을 대상으로 계속 adversarial audit한다.
+
+## 10. 다음 사용자 Gate
 
 ```text
 NEXT_USER_GATE = USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION
 ```
 
-사용자가 명시적으로 `기획 완료`를 선언하면 fresh-read 후 Phase B 전체 기획 최종 검토·기능 분해·벤치마킹·의존성·보호범위·Definition of Ready를 닫는다. 그 뒤에만 Phase C를 검토한다.
+현재 Phase A의 미확정 planning inventory가 닫히더라도 사용자가 명시적으로 `기획 완료`를 선언해야 Phase B 전체 기획 최종 검토·기능 분해·벤치마킹·의존성·보호범위·Definition of Ready를 시작한다. 그 뒤에만 Phase C를 검토한다.
