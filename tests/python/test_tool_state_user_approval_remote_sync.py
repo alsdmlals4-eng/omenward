@@ -19,13 +19,13 @@ SYNC_MAIN = "f1bf8939208a864bce1f99eea0555f05369dc9d6"
 
 
 class ToolStateUserApprovalRemoteSyncTest(unittest.TestCase):
-    def test_remote_main_evidence_matches_user_approved_state(self) -> None:
+    def test_current_project_keeps_tools_enabled_with_current_godot_ai_source(self) -> None:
         project = PROJECT.read_text(encoding="utf-8")
         self.assertIn('res://addons/godot_ai/plugin.cfg', project)
         self.assertIn('res://addons/gut/plugin.cfg', project)
         self.assertIn('res://addons/hera_agent_godot/plugin.cfg', project)
         self.assertIn('HeraGameInspector=', project)
-        self.assertIn('version="3.1.3"', GODOT_AI.read_text(encoding="utf-8"))
+        self.assertIn('version="3.1.4"', GODOT_AI.read_text(encoding="utf-8"))
         self.assertIn('version="9.7.1"', GUT.read_text(encoding="utf-8"))
         self.assertIn('version="1.0.0"', HERA.read_text(encoding="utf-8"))
 
