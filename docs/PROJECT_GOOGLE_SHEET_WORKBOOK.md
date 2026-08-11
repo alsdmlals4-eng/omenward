@@ -3,12 +3,14 @@
 ```yaml
 updated_at: 2026-08-11
 spreadsheet_id: 1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw
-status: PROJECT_SHEET_CONFIGURED / USER_FACING_GDD_WORKSPACE / PROPOSED_SHEET_CHANGE
+status: PROJECT_SHEET_CONFIGURED / USER_FACING_GDD_WORKSPACE / MERGED_CANON
 current_decision: OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
+activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
 planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
 contract_version: 4.5
 work_phase: PHASE_A_GPT_CHAT_PLANNING
-current_working_pr: 178
+current_phase_a_focus: PR175_PHASE_A_READINESS_REVIEW
+sheet_sync_status: MERGED_CANON_BOUNDED_REREAD_PASS
 base_main_observed: 315c66eea9614c284b9c11c4d522141065dfa4b0
 project_activation_baseline: 87339f87949c8faea0dfe1482c5d0887a04d94f4
 ```
@@ -19,7 +21,7 @@ Google Sheet는 GitHub 책임 원본을 운영·탐색 목적으로 미러링하
 
 현재 동기화 Decision:
 
-`OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1`
+`OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1`
 
 최소 current-facing surface:
 
@@ -30,6 +32,8 @@ Google Sheet는 GitHub 책임 원본을 운영·탐색 목적으로 미러링하
 04_누락_충돌_감사
 05_GDD_요약
 15_조작_게임규칙
+43_건물_Tier_효과
+45_병영_입력_출처
 99_변경이력
 ```
 
@@ -86,9 +90,13 @@ GENERAL_T2_TOKEN_SOURCE = SELECTED_GENERAL_UNIT
 
 ### 특수병 병영
 
-최종 owner:
+최종 T1 획득 경로 owner:
 
 `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
+
+물리 릴 TokenInstance 문법의 후속 owner:
+
+`docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 
 ```text
 SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
@@ -103,9 +111,13 @@ SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
 SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
 SPECIAL_UNIT_FUNCTIONAL_POWER = STRONGER_THAN_GENERAL_UNIT
 SPECIAL_AUTO_PRODUCTION_INTERVAL = LONGER_THAN_GENERAL_UNIT
+TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
+TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
+FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
+SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-2026-08-06 building-tier checkpoint의 “Special T1 no TokenSource” 표현은 history로만 보존하고 current-facing Sheet row에서는 final amendment를 사용한다.
+2026-08-06 building-tier checkpoint의 “Special T1 no TokenSource” 표현은 history로만 보존하고 current-facing Sheet row에서는 final amendment를 사용한다. Physical TokenInstance 수량과 특수병 final 선정 분포를 하나의 weight/count pending으로 합치지 않는다.
 
 ### 방어탑·직선 강화
 
@@ -152,14 +164,14 @@ HUMAN_VALIDATION_STOP_SHIP = HISTORICAL_PENDING_GRILLME
 GENERAL_AND_SPECIAL_EXACT_PRODUCTION_INTERVALS = PENDING_SIMULATION_UNLESS_LATER_OWNER_OVERRIDES
 SPECIAL_T1_RANDOM_SELECTION_TIMING = SUPERSEDED_BY_SUCCESSFUL_CONSTRUCTION_COMMIT_AMENDMENT
 SPECIAL_T1_RESULT_PREVIEW = HISTORICAL_PENDING_GRILLME
-TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION
+TOKEN_SOURCE_PHYSICAL_WEIGHT_AND_COUNT_AT_CHECKPOINT = HISTORICAL_PENDING_SUPERSEDED_BY_PHYSICAL_TOKEN_INSTANCE_REMEDIATION
 T2_EXACT_COSTS = PENDING_SIMULATION_UNLESS_LATER_OWNER_OVERRIDES
 T3_IDENTITIES_AND_EFFECTS = HISTORICAL_PENDING_GRILLME
 DEFENSE_BRANCH_FINAL_DISPLAY_NAME = HISTORICAL_PENDING_NAMING
 EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 ```
 
-Sheet 행은 history의 `PENDING`을 current approval로 승격하지 않는다.
+Sheet 행은 history의 `PENDING`을 current approval로 승격하지 않는다. 후속 owner가 닫은 항목은 current-facing 값으로 별도 기록한다.
 
 ## 6. 병렬 플랫폼 Decision 보존
 
@@ -193,6 +205,8 @@ V4_5_PHASE = PHASE_A_GPT_CHAT_PLANNING
 USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = REQUIRED
 PHASE_B_FINAL_PLANNING_REVIEW = NOT_RUN
 PHASE_C = BLOCKED
+PHASE_C_BLOCKED
+PR175_PHASE_A_READINESS_REVIEW = ACTIVE
 PR175 = OPEN_DRAFT
 PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
 PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
@@ -209,12 +223,12 @@ PR175의 기존 11/11 Actions는 과거 exact-head/base 증거이며 current can
 ```text
 project = OMENWARD
 stage = PHASE_A_GPT_CHAT_PLANNING
-mode = CANON_FRESHNESS_V45_THIN_ADAPTER
+mode = V45_R2_THIN_ADAPTER / PHASE_A_READINESS
 planning = MAIN_CANONICAL_APPROVED_10_OF_10
-Base = 315c66eea9614c284b9c11c4d522141065dfa4b0
-OMENWARD baseline main = 87339f87949c8faea0dfe1482c5d0887a04d94f4
-Decision = OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-planning PR = 178
+Base = RESOLVE_FROM_FRESH_BASE_MAIN
+OMENWARD main = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+Decision = OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
+current Phase-A focus = PR175_PHASE_A_READINESS_REVIEW
 runtime PR = 175 / 7 gaps / Draft
 handoff PR = 177 / reference only
 Phase C blocker = explicit planning-complete declaration + Phase B
@@ -222,34 +236,35 @@ Phase C blocker = explicit planning-complete declaration + Phase B
 
 ## 10. Current Decision row
 
-`02_현재_확정결정`에는 과거 1~10/10·platform·analysis·runtime package 행을 삭제하지 않고 다음 새 Decision row를 추가한다.
+`02_현재_확정결정`에는 과거 1~10/10·platform·analysis·runtime package 행을 삭제하지 않고 current v4.5 activation Decision 상태를 유지한다.
 
 ```text
-Decision = OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1
-scope = canon freshness + v4.5 Thin Adapter + Sheet sync
+Decision = OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
+scope = v4.5 r2 activation + current Phase-A readiness propagation
 product mutation = NONE
 current phase = PHASE_A_GPT_CHAT_PLANNING
 phase C = BLOCKED
 special T1 TokenSource = SELECTED_RANDOM_SPECIAL_UNIT
+physical TokenInstance count = RESOLVED_BY_LATER_REMEDIATION
+special selection distribution = POST_RUNTIME_EVIDENCE_TUNING
 v4.4 binding/state = HISTORICAL_V4_4_BINDING
 ```
 
 ## 11. Audit row
 
-`04_누락_충돌_감사`에는 다음 finding을 같은 Decision으로 기록한다.
+`04_누락_충돌_감사`는 새 finding을 같은 activation Decision으로 append한다.
 
-- active GDD와 Workbook/Sheet가 superseded Special T1 no-TokenSource 표현을 current처럼 재발행.
-- cold-start docs가 6/10·7/10·10/10 및 다른 runtime 시점으로 갈라짐.
-- live Base SHA가 stale.
-- v4.4 current binding과 사용자 승인 v4.5 단계 계약이 충돌.
-- 수정은 current consumer propagation만 수행하고 historical design/runtime evidence는 보존.
-- 적대적 검토 중 canonical detail 과삭제 P1을 발견했으며 merge 전 baseline detail을 history/current owner 경계로 복원한다.
+- historical/current pending이 섞여 후속 owner가 닫은 물리 TokenSource count까지 미정처럼 재발행되는지 검사한다.
+- final FV/numerics는 runtime measurement 뒤 tuning인지, pre-build input인지 의존성을 구분한다.
+- platform/save/export/store 미구현 상태를 PR175의 product-semantic blocker와 분리한다.
+- T3/이름의 genuine open content는 별도 full-product planning inventory에 남긴다.
+- 수정은 current consumer propagation만 수행하고 historical design/runtime evidence는 보존한다.
 
 ## 12. 15_조작_게임규칙 처리
 
 과거 `OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1` row는 history로 보존한다. 그 row를 소급 수정하지 않는다.
 
-그 대신 같은 current tab에 새 corrective row를 추가해:
+그 대신 같은 current tab의 corrective row는:
 
 ```text
 SPECIAL_T1 = successful construction commit selects one special unit
@@ -259,11 +274,11 @@ SAVE_RELOAD_RESELECT = forbidden
 FREE_REROLL = forbidden
 ```
 
-를 명시한다.
+를 유지한다.
 
 ## 13. 05_GDD_요약 처리
 
-`05_GDD_요약`의 current 핵심 게임플레이 row는 history가 아니라 사용자용 현재 요약이므로 직접 고친다.
+`05_GDD_요약`의 current 핵심 게임플레이 row는 사용자용 현재 요약이므로 final amendment를 유지한다.
 
 ```text
 특수 T1 = 건설 확정 시 무작위 선정 → 선정 병종 자동생산 + 같은 병종 TokenSource 별도 공급
@@ -272,14 +287,16 @@ FREE_REROLL = forbidden
 ## 14. 기록 탭 책임
 
 - `00_프로젝트_허브`: current Decision·phase·Base/main·PR 상태.
-- `01_작업순서`: current canon-freshness 작업과 과거 단계 실행 계보.
-- `02_현재_확정결정`: 과거 결정 보존 + current v4.5 Decision 새 row.
+- `01_작업순서`: current Phase-A readiness 작업과 과거 단계 실행 계보.
+- `02_현재_확정결정`: 과거 결정 보존 + current v4.5 activation Decision.
 - `03_근거_라이브러리`: 사용자 승인·정본·Review·TDD·Lifecycle 근거.
-- `04_누락_충돌_감사`: 과거 audit 보존 + `OMW-AUD-632` current finding.
+- `04_누락_충돌_감사`: 과거 audit 보존 + current dependency-classification finding.
 - `05_GDD_요약`: 사용자용 current gameplay summary; final amendment 반영.
 - `12_핵심루프`: 기초 구축→자동생산·룰렛→배치→T2 발전→결과 복기.
 - `15_조작_게임규칙`: 과거 no-token row history 보존 + current corrective row.
 - `40_핵심시스템_메인콘텐츠`: 병영 5+5 분기, 방어탑 3분기, 4개 직선 강화 및 후속 정정 owner 확인.
+- `43_건물_Tier_효과`: physical TokenInstance count는 later remediation, final selection distribution/cost/interval은 tuning으로 분리.
+- `45_병영_입력_출처`: source당 릴 1개 / 세 릴 총 3개 / fractional weight 금지 current-ready contract.
 - `50_메인콘텐츠`: 과거 pending과 current owner를 구분.
 - `60_UX_UI_접근성`: 과거 naming/공개 방식 pending을 history로 보존하고 최신 owner 확인.
 - `99_변경이력`: exact HEAD·PR·read-back·CI·merge 상태.
@@ -347,8 +364,6 @@ Sheet sync 완료는 Phase C 시작 승인이 아니다.
 
 ## 20. 검증 증거
 
-현재 Decision의 proposed write/readback 결과는 다음 파일에 보존한다.
+현재 activation Decision의 merged/write/readback 증거는 `docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`과 current Sheet row가 담당한다.
 
-`docs/operations/CANON_FRESHNESS_V45_SHEET_SYNC_EVIDENCE_2026-08-11.json`
-
-병합 뒤 같은 Decision ID와 최종 merge SHA로 Sheet 상태를 다시 갱신하고 bounded reread한다.
+Phase-A readiness classification은 `docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md`를 책임 review로 사용한다. Planning PR 병합 뒤 같은 Decision ID와 최종 merge SHA로 Sheet 상태를 다시 갱신하고 bounded reread한다.
