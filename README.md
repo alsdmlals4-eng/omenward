@@ -1,105 +1,105 @@
 # OMENWARD / 오멘워드
 
-**오멘워드**는 예고된 세 전선 공세를 읽고, 건물로 세 원형 릴의 미래 결과를 설계한 뒤, 룰렛에서 얻은 병력을 한 전선에 비가역 배치해 전황을 뒤집는 판타지 전략 오토배틀 게임입니다.
-
-> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
+**룰렛을 설계해 군대를 만드는 로그라이트 전략 오토배틀러.**
 
 ```yaml
-updated_at: 2026-08-06
-current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-work_mode: TOTAL_PLANNING
-current_planning_decision: OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
-current_planning: STAGE_END_MERCHANT / NOT_IMPLEMENTED
-current_grill_me_count: 6_OF_10
-product_code_authority: NONE
-art_asset_production_authority: NONE
-image_generation: STOPPED_BY_USER
-human_validation: HUMAN_QA_NOT_RUN
-platform_phase2: MAIN_CANONICAL
+updated_at: 2026-08-11
+planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
+phase_b: PASS
+phase_c_gate: OPEN
+current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 ```
 
-공통 작업·검증·PR·승인 배치 규칙은 Base에서만 관리한다. 이 README는 OMENWARD의 제품 정본과 프로젝트별 구현·검증 경계만 요약한다.
-
-## 핵심 루프
+## Current product loop
 
 ```text
-Stage 압력·Wave 순서 확인
-→ 건설·TokenSource·연구 방향 설계
-→ 세 원형 릴 회전과 결과 조작
-→ 병력 보관·판매·비가역 전선 배치
-→ 해금 전술을 마력으로 수동 시전
-→ Stage 종료 정비시간의 제한 상인 선택
-→ 결과 원인 복기와 다음 Stage 설계
+예고된 압력
+→ 건물 / TokenSource / 룰렛 확률 설계
+→ 병력 획득
+→ 비가역 전선 배치
+→ 수동 전술 타이밍
+→ 설명 가능한 결과 / 다음 설계
 ```
 
-## 현재 정본
-
-- Stage: 20 Stage, 기본 3 Wave Beat, Danger `4/9/14/19`, Boss `5/10/15/20`.
-- 압력: `MASS / ARMORED / FLYING / INFILTRATION / SIEGE`.
-- 자원: 골드·마력·배치 병력/병력 한도·룰렛 이동권.
-- 건물: 금고·농장·병영·방어탑·지휘소·마력탑.
-- 마력탑: MapRun당 1개, 분기 없는 `T1 → T2 → T3`, Tier 상승 시 마력 수급·연구 Tier 상승.
-- 전술 연구: 골드+시간, 동시 연구 1개, 현재 MapRun 동안 해금.
-- 전술 시전: 수동 대상 지정, 시전 확정 시 마력 소비, 자동 시전 금지.
-- 상인: Stage 1~19 종료 정비시간에만 방문, Stage 20 뒤에는 최종 정산.
-- 상인 재고: 룰렛 제어·복구·성장 보조·가변 기회의 유한 4칸.
-- 상인은 병종·전술·마력·건물 분기를 직접 판매하지 않는다.
-- 전술 기준선: T1 4종·T2 3종·T3 3종, 총 10종.
-- 병종 기준선: 10종이지만 역할 근거와 별도 승인에 따라 증감 가능.
-- 룰렛 자산: 실제 T1/T2 병종 이미지를 재사용하고 T3 병종 토큰은 금지.
-
-## 먼저 읽을 문서
-
-1. `AGENTS.md`
-2. `docs/PROJECT_CORE.md`
-3. `docs/ACTIVE_CONTEXT.md`
-4. `docs/DOCUMENTATION_MAP.md`
-5. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-6. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-7. `docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-8. `docs/reviews/ADVERSARIAL_STAGE_END_MERCHANT_ECONOMY_AND_INVENTORY_REVIEW_2026-08-05.md`
-9. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-
-`[대체됨]`, `[보류]`, `[폐기]` 문서는 신규 기획·Codex 구현·아트 제작 입력으로 사용하지 않습니다.
-
-## Planning Batch
+## Current Stage cadence
 
 ```text
-[완료 1/10] 핵심 재미·콘텐츠 가드레일
-[완료 2/10] Stage·Wave·Danger·Boss 압력
-[완료 3/10] 건물 분기·카운터
-[완료 4/10] 병종 역할·시너지·카운터
-[완료 5/10] 전술스킬·마력
-[현행 6/10] Stage 종료 상인
-[다음 7/10] 첫 10~15분 흐름
+MAPRUN_STAGE_COUNT = 20
+BASELINE_WAVE_BEATS = 3
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+BOSS_STAGES = 5 / 10 / 15 / 20
+BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
+LEGACY_DANGER_CADENCE_AUTHORITY = NONE
 ```
 
-완료 이력:
+모든 Stage 마지막 Wave에는 Elite가 존재한다. 5/10/15/20은 Boss Stage이며 Boss + final-wave Elite 규칙이 함께 적용된다. 예전 별도 Danger Stage cadence는 current implementation input이 아니다.
+
+## Current planning / implementation gate
+
+사용자가 literal `기획 완료`를 선언했고 Phase B final planning review를 통과했다.
 
 ```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
-3_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
-4_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
-5_OF_10
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
+PHASE_B_FINAL_PLANNING_REVIEW = PASS
+NEW_PRODUCT_DECISION_REQUIRED = FALSE
+IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
+PHASE_C_GATE = OPEN
+PHASE_C_STATUS = READY_TO_ENTER
 ```
 
-## 구현·검증 경계
+Gate open은 gameplay implementation 완료를 뜻하지 않는다. 다음 작업은 Phase C C0 fresh execution preflight부터 시작한다.
+
+## Runtime package
+
+```text
+PR175 = OPEN_DRAFT
+ISSUE176 = OPEN
+ISSUE176_APPROVED_RUNTIME_GAPS = 7
+ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
+PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
+PR177 = REFERENCE_ONLY_DO_NOT_MERGE
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+```
+
+## Current owners
+
+- [Project Core](docs/PROJECT_CORE.md)
+- [Current GDD](docs/OMENWARD_GDD_CURRENT_CANON.md)
+- [Documentation Map](docs/DOCUMENTATION_MAP.md)
+- [Lifecycle Registry](docs/DOCUMENT_LIFECYCLE_REGISTRY.md)
+- [Whole-project content closure](docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md)
+- [Quality guardrails](docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md)
+- [Elite/Boss cadence](docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md)
+- [Phase B final planning review](docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md)
+- [Vertical Slice foundation](docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md)
+
+## Work-entry rule
+
+Every non-trivial task starts with fresh Base/project/Sheet recovery, targeted current benchmark/industry/tool research, `ADOPT / ADAPT / AVOID / TEST / IGNORE` classification, then canon-conflict check.
+
+```text
+BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
+COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
+```
+
+## Godot AI note
+
+```text
+USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
+GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK
+GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY
+```
+
+Actual local plugin/server/session truth is verified during Phase C C0 before persistent Godot authoring.
+
+## Historical Vertical Slice evidence boundary
 
 ```text
 V2_SPEC_APPROVED
 LEGACY_C1_C2_C3_PROVEN
-PLATFORM_PHASE0_MAIN_CANONICAL_LOCAL_PASS
-PLATFORM_PHASE1_MAIN_CANONICAL_LOCAL_PASS
-PLATFORM_PHASE2_MAIN_CANONICAL_LOCAL_PASS
-FULL_PROJECT_RUNTIME = NOT_RUN
-REPRESENTATIVE_PC_BUILD = NOT_RUN
-REPRESENTATIVE_ANDROID_BUILD = NOT_RUN
-COMMON_PLATFORM_GATE = NOT_RUN
-PC_RELEASE_GATE = NOT_RUN
-MOBILE_RELEASE_GATE = NOT_RUN
+HUMAN_QA_NOT_RUN
 ```
 
-제품 코드·런타임·수치 데이터·실제 아트 자산은 별도 승인 전 변경하지 않습니다.
+These durable proof markers preserve the previously validated Vertical Slice C1/C2/C3 evidence. They do not assert that the current PR175 package or full product implementation is complete.

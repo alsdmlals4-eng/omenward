@@ -1,151 +1,86 @@
 # [현행] 오멘워드 로드맵
 
 ```yaml
-updated_at: 2026-08-06
-current_decision: OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-current_count: 7_OF_10_IN_PROGRESS
-approval_checkpoint: PARTIAL_APPROVAL_5_OF_10
-current_working_pr: 142
-product_code_authority: NONE
+updated_at: 2026-08-11
+planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
+phase_b: PASS
+phase_c_gate: OPEN
+current_phase_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
 ```
 
-## Planning Batch
+## Current milestone
 
 ```text
-[완료 1/10] 핵심 재미·콘텐츠 가드레일
-[완료 2/10] Stage·Wave·Danger·Boss 압력 매트릭스
-[완료 3/10] 건물 6종 분기·카운터
-[완료 4/10] 병종 역할·시너지·카운터
-[완료 5/10] 전술스킬·마력
-[완료 6/10] Stage 종료 상인
-[진행 7/10] 첫 10~15분 흐름 — PARTIAL_APPROVAL_5_OF_10
-[8/10] Hero·Legendary 재조정
-[9/10] Meta·Hub 재조정
-[10/10] 전체 Run 콘텐츠·UX·아트 종합 검토
+PHASE_A_GPT_CHAT_PLANNING = COMPLETE_BY_USER_DECLARATION
+USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
+PHASE_B_FINAL_PLANNING_REVIEW = PASS
+IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
+PHASE_C_GATE = OPEN
+PHASE_C_STATUS = READY_TO_ENTER
 ```
 
-## 7/10 승인된 체크포인트 5
+## Phase C order
+
+### C0 — fresh execution preflight
+- Base/project/Sheet current truth
+- concrete runtime benchmark/tool verification
+- PR175 against current main revalidation/rebase
+- Godot 4.7.1 + exact local Godot AI/plugin/server/session verification
+- protected scope and TDD setup
+
+### C1 — Issue176 implementation completeness
+Seven approved runtime gaps via GUT RED → HiGodot/Godot AI authoring → parse/import → GUT Green → existing regressions.
+
+### C2 — deterministic FV evidence
+`FV-PRIEST / FV-MAGE / FV-FLIER / FV-GIANT / FV-COMMON`, repeat determinism, raw output preservation.
+
+### C3 — functional-value review / live QA
+Role-specific vectors, Hera after Green only, tracked-source delta NONE, human-readable causal review.
+
+### C4 — evidence-based tuning
+Only after runtime evidence propose final parameter vectors/scalars/numerics.
+
+## Current Stage roadmap
 
 ```text
-OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1
-7_OF_10_IN_PROGRESS
-PARTIAL_APPROVAL_5_OF_10
-ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
-FIRST_SESSION = REAL_MAPRUN
-SYSTEM_EXPOSURE_ORDER = APPROVED_FOUNDATION_THEN_BRANCH_CHOICE
-STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
-STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
-STAGE_1_BUILD_CURRENCY = REAL_GOLD
-T1_BUILDING_EXPLANATION = BRIEF_ROLE_LABELS
-T1_BUILDING_PLACEMENT = PLAYER_EXECUTED
-T1_PLACEMENT_POLICY = CATEGORY_COMPATIBLE_SAFE_NODES
-T1_BUILD_ORDER = PLAYER_SELECTED
-FOUNDATION_SETUP_RELOCATION = FREE_BEFORE_CONFIRMATION
-FOUNDATION_SETUP_CONFIRMATION = REQUIRED
-POST_CONFIRMATION_PLACEMENT_RULES = STANDARD_RUN_RULES
-FREE_RELOCATION_AFTER_CONFIRMATION = FORBIDDEN
-STAGE_1_REQUIRED_COST_RESERVE = SUM_OF_UNBUILT_REQUIRED_T1_COSTS
-STAGE_1_NON_T1_SPENDING_BEFORE_REQUIRED_SET_COMPLETE = BLOCKED
-STAGE_1_LEFTOVER_GOLD_POLICY = NORMAL_WALLET_AFTER_REQUIRED_SET_COMPLETE
-FOUNDATION_GRANT_SURPLUS = FORBIDDEN
-T1_INVALID_PLACEMENT_TRANSACTION = ATOMIC_ROLLBACK_FULL_REFUND
-FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
-EXACT_T1_COSTS = PENDING_SIMULATION
-FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
-FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
-STAGE_2_T2_CANDIDATES = TWO_RELEVANT_VALID_OPTIONS
-STAGE_2_T2_UPGRADE_BUDGET = GUARANTEED_SUFFICIENT_FOR_ONE_CANDIDATE
-T2_UPGRADE_PREVIEW = REQUIRED
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+BOSS_STAGES = 5 / 10 / 15 / 20
+BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
 
-Stage 1은 실제 골드로 여섯 T1을 직접 설치한다. 건물 유형에 맞고 첫 전투 진행을 보장하는 안전 노드를 제시하며, 설치 순서는 자유다. 세팅 확인 전에는 안전 노드 간 무료 이동·교환을 허용하지만 확인 뒤에는 표준 Run 규칙으로 전환한다.
+Stage 1–4 are normal Stage cadence with a final-wave Elite learning check; Stage 5 is the first Boss + Elite synthesis check. The same 5-Stage Boss rhythm continues through Stage 20.
 
-아직 설치하지 않은 필수 T1의 실제 비용 합계를 지갑에 예약하고, 필수 세트 완료 전 비필수 소비를 차단한다. 잘못된 건설 거래는 생성·노드 점유·골드 차감 전체를 원자적으로 취소하고 전액 복구한다. 여섯 T1과 세팅 확인 전에는 첫 룰렛을 열지 않는다.
-
-## 7/10 남은 목표
-
-- Stage 2의 정확한 첫 T2 후보 두 개와 후보 유효성 규칙.
-- Stage 2 지급 골드·후보 비용·잔여 골드 처리.
-- 초반 전체 최소 유효 경로 수.
-- 벨루 개입 범위.
-- Stage 4 Danger와 Stage 5 Boss의 정확 압력·패턴.
-- 실패·재시도·스킵·재학습 규칙.
-- 사람 플레이 검증 시나리오와 Stop-ship 기준.
+## Historical Vertical Slice automated evidence
 
 ```text
-T1_EXACT_NODE_COORDINATES = PENDING_LEVEL_LAYOUT
-FIRST_T2_UPGRADE_CANDIDATE_IDENTITIES = PENDING_GRILLME
-STAGE_2_LEFTOVER_GOLD_POLICY = PENDING_GRILLME
-MINIMUM_VALID_PATHS = PENDING_GRILLME
-BELU_INTERVENTION_LEVEL = PENDING_GRILLME
-DANGER_EXACT_PRESSURE = PENDING_GRILLME
-BOSS_EXACT_PATTERN = PENDING_GRILLME
-FAILURE_RETRY_SKIP_RULES = PENDING_GRILLME
-EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
-```
-
-## 구현 순서
-
-```text
-7/10 남은 GrillMe 완료
-→ 7/10 적대적 검토·사람 QA 계획 완료
-→ Hero·Legendary / Meta·Hub 재조정
-→ 전체 Run 종합 검토
-→ 필요한 이미지·애니메이션·HX 승인 및 제작
-→ 경제·수치 시뮬레이션
-→ PC·모바일 공용 코어와 플랫폼 어댑터 구현 계획
-→ 제품 RED 테스트
-→ 최소 구현
-→ COMMON / PC / MOBILE 런타임 Gate
-→ 사람 QA
-```
-
-제품 코드·Scene·Resource·게임 데이터·실제 아트 자산은 별도 승인 전 변경하지 않는다.
-
-제품 구현: `NOT_STARTED`
-
-## 7/10 TDD 상태
-
-```text
-CHECKPOINT_1_RED_RUN = 1009
-CHECKPOINT_1_GREEN_RUNS = 1016 / 719 / 190 / 705
-CHECKPOINT_2_RED_RUN = 1022
-CHECKPOINT_2_GREEN_RUNS = 1040 / 742 / 214 / 728 / 9
-CHECKPOINT_3_RED_RUN = 1041
-CHECKPOINT_3_CI_LIMITATION = CI_BLOCKED_BY_GITHUB_ACTIONS_BILLING
-CHECKPOINT_4_RED_COMMIT = 7de523b3555ceec8e8a2f5eec38007995b66b40a
-CHECKPOINT_5_REBASE_COMMIT = 8e0c10f312929b5bb69f3ae8850eaf7afa48ee91
-CHECKPOINT_5_RED_COMMIT = 09c7b7766a1a20be41960f80e4b58bd40f57bef0
-CHECKPOINT_5_AUTOMATED_GREEN = NOT_PROVEN
-```
-
-## 플랫폼 병렬 계보
-
-```text
-OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
-APPROVED_DUAL_PLATFORM
-COMMON_PLATFORM_GATE = NOT_RUN
-PC_RELEASE_GATE = NOT_RUN
-MOBILE_RELEASE_GATE = NOT_RUN
-RELEASE_BLOCKED_UNVERIFIED
-```
-
-## 과거 C1·C2·C3 자동 검증 증거
-
 기존 기술 기준선·C1·C2·C3 자동 증거 확보
-
 C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
+**REMOTE_PROVEN**
+제품 구현: `NOT_STARTED`
+```
 
-상태: **REMOTE_PROVEN**
+These markers preserve the durable historical C1/C2/C3 proof and the Vertical Slice's own implementation boundary. They do not mean the current PR175 runtime package or full product is complete.
 
-이 증거는 과거 C1·C2·C3 계약 검증 사실만 보존하며 현재 온보딩 기획 또는 최신 제품 구현 완료를 의미하지 않는다.
-
-## 완료 Decision 계보
+## Release-deferred
 
 ```text
-OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 / 6_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 / 5_OF_10
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 / 4_OF_10
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 / 3_OF_10
-LEGACY_C1_C2_C3_PROVEN
+PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
+SHARED_SAVE_SCHEMA = NOT_STARTED
+EXPORT_PRESETS = ABSENT
 ```
+
+## Planning lineage — historical checkpoints only
+
+These markers preserve provenance; they are not the current planning percentage.
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 = 3_OF_10 / SUPERSEDED_LINEAGE
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 = 4_OF_10
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 = 5_OF_10
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 = 6_OF_10
+OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1 = 7_OF_10_LINEAGE
+```
+
+Current whole-project product closure owner:
+`docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`.

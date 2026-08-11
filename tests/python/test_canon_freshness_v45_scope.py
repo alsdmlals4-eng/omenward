@@ -28,29 +28,44 @@ POSTMERGE_EVIDENCE_CLOSURE = {"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.
 CURRENT_CONSUMER_RECONCILIATION = {"docs/ACTIVE_CONTEXT.md", "docs/CURRENT_IMPLEMENTATION_STATUS.md", "docs/DECISIONS_PENDING.md", "tests/python/test_canon_freshness_v45_routing.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 PHASE_A_READINESS_CLASSIFICATION = {CANON_V45_WORKFLOW, "AGENTS.md", "docs/DECISIONS_PENDING.md", "docs/OMENWARD_GDD_CURRENT_CANON.md", "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md", "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md", "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md", "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md", "tests/python/test_phase_a_readiness_dependency_classification.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 CONTENT_CLOSURE_BENCHMARK_FIRST = {
-    CANON_V45_WORKFLOW,
-    "AGENTS.md",
-    "docs/ACTIVE_CONTEXT.md",
-    "docs/DECISIONS_PENDING.md",
+    CANON_V45_WORKFLOW, "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/DECISIONS_PENDING.md",
     "docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md",
     "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md",
     "docs/superpowers/plans/2026-08-11-content-closure-benchmark-first.md",
-    "tests/python/test_content_closure_benchmark_first.py",
-    "tests/python/test_phase_a_readiness_dependency_classification.py",
-    "tests/python/test_canon_freshness_v45_scope.py",
-    "tools/validate_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py", "tests/python/test_phase_a_readiness_dependency_classification.py",
+    "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py",
 }
 QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE = {
-    CANON_V45_WORKFLOW,
-    "AGENTS.md",
-    "docs/ACTIVE_CONTEXT.md",
-    "docs/DECISIONS_PENDING.md",
+    CANON_V45_WORKFLOW, "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/DECISIONS_PENDING.md",
     "docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md",
     "docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md",
     "docs/superpowers/specs/2026-08-11-quality-guardrails-elite-boss-cadence-design.md",
     "docs/superpowers/plans/2026-08-11-quality-guardrails-elite-boss-cadence.md",
-    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py", "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+PHASE_B_FINAL_PLANNING_REVIEW = {
+    CANON_V45_WORKFLOW,
+    "README.md",
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
+    "docs/PROJECT_CORE.md",
+    "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
+    "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json",
+    "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
     "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_phase_a_readiness_dependency_classification.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tests/python/test_phase_b_final_planning_review.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
@@ -64,55 +79,48 @@ def load_module():
 
 
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
-    def test_activation_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(ACTIVATION), [])
+    def test_known_historical_modes_still_pass(self) -> None:
+        module = load_module()
+        for surface in (
+            ACTIVATION,
+            POSTMERGE_CI_REMEDIATION,
+            WINDOWS_CANONICAL_EVIDENCE_PORTABILITY,
+            POSTMERGE_EVIDENCE_CLOSURE,
+            CURRENT_CONSUMER_RECONCILIATION,
+            PHASE_A_READINESS_CLASSIFICATION,
+            CONTENT_CLOSURE_BENCHMARK_FIRST,
+            QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE,
+        ):
+            self.assertEqual(module.validate_canon_freshness_scope(surface), [])
 
-    def test_postmerge_ci_remediation_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(POSTMERGE_CI_REMEDIATION), [])
+    def test_phase_b_final_review_exact_surface_passes(self) -> None:
+        self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW), [])
 
-    def test_windows_canonical_evidence_portability_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(WINDOWS_CANONICAL_EVIDENCE_PORTABILITY), [])
+    def test_partial_phase_b_surface_is_rejected(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW - {"docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"})
+        self.assertTrue(any("missing required v4.5 Phase B final planning review anchors" in error for error in errors), errors)
 
-    def test_postmerge_evidence_closure_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(POSTMERGE_EVIDENCE_CLOSURE), [])
-
-    def test_current_consumer_reconciliation_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(CURRENT_CONSUMER_RECONCILIATION), [])
-
-    def test_phase_a_readiness_classification_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(PHASE_A_READINESS_CLASSIFICATION), [])
-
-    def test_content_closure_benchmark_first_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(CONTENT_CLOSURE_BENCHMARK_FIRST), [])
-
-    def test_quality_guardrails_elite_boss_cadence_surface_passes(self) -> None:
-        self.assertEqual(load_module().validate_canon_freshness_scope(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE), [])
-
-    def test_partial_quality_guardrails_elite_boss_cadence_scope_is_rejected(self) -> None:
+    def test_partial_quality_surface_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE - {"AGENTS.md"})
         self.assertTrue(any("missing required v4.5 quality guardrails elite boss cadence anchors" in error for error in errors), errors)
 
-    def test_partial_content_closure_benchmark_first_scope_is_rejected(self) -> None:
+    def test_partial_content_closure_surface_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(CONTENT_CLOSURE_BENCHMARK_FIRST - {"AGENTS.md"})
         self.assertTrue(any("missing required v4.5 content closure benchmark-first anchors" in error for error in errors), errors)
 
     def test_product_path_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(ACTIVATION | {"scripts/battle/lane_state.gd"})
+        errors = load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW | {"scripts/battle/lane_state.gd"})
         self.assertTrue(any("protected product" in error for error in errors), errors)
 
     def test_unrelated_file_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(ACTIVATION | {"README.md"})
+        errors = load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW | {"docs/UNRELATED.md"})
         self.assertTrue(any("unapproved files" in error for error in errors), errors)
 
     def test_historical_v44_authority_mutation_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(ACTIVATION | {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md", "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"})
+        errors = load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW | {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"})
         self.assertTrue(any("historical v4.4" in error for error in errors), errors)
 
-    def test_missing_v45_anchor_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(ACTIVATION - {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"})
-        self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
-
-    def test_repo_canonical_v45_r2_is_required_activation_anchor(self) -> None:
+    def test_missing_activation_anchor_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(ACTIVATION - {CANONICAL_V45_R2})
         self.assertTrue(any("missing required v4.5 activation anchors" in error for error in errors), errors)
 
@@ -123,14 +131,6 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_partial_postmerge_closure_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope({"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"})
         self.assertTrue(any("missing required v4.5 postmerge evidence anchors" in error for error in errors), errors)
-
-    def test_partial_current_consumer_reconciliation_scope_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(CURRENT_CONSUMER_RECONCILIATION - {"tests/python/test_canon_freshness_v45_routing.py"})
-        self.assertTrue(any("missing required v4.5 current consumer reconciliation anchors" in error for error in errors), errors)
-
-    def test_partial_phase_a_readiness_classification_scope_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(PHASE_A_READINESS_CLASSIFICATION - {"tests/python/test_phase_a_readiness_dependency_classification.py"})
-        self.assertTrue(any("missing required v4.5 Phase A readiness classification anchors" in error for error in errors), errors)
 
 
 if __name__ == "__main__":
