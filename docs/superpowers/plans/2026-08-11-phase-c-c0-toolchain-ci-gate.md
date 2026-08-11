@@ -1,137 +1,100 @@
 # Phase C C0 Toolchain CI Gate Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: use superpowers TDD, systematic debugging, and verification-before-completion while executing this plan.
 
-**Goal:** Re-establish a fail-closed Phase C C0 validation path after the direct main Godot AI 3.1.4 update by making every `addons/**` change trigger the full Omenward Core PR/main validation and recording the current toolchain/race state without changing gameplay product code.
+**Decision:** `OMW-DEC-20260811-OPS-PHASE-C-C0-PREFLIGHT-V1`
 
-**Architecture:** Extend the existing `Validate Omenward Core` path filter instead of creating a new workflow. Enforce that trigger through the existing CI usage validator and mutation tests, then add a distinct v4.5 fail-closed C0 scope that contains only the workflow, its tests/validators, this plan, and the C0 review owner. The PR itself becomes the current-main validation vehicle because it is based directly on `14b0d942e071dc6e823f48c29ac79f0978477d85`.
+**Goal:** Re-establish a fail-closed Phase C C0 validation path after the direct-main Godot AI 3.1.4 update, validate the current repository/toolchain baseline, reconcile stale historical-vs-current tool tests, and leave PR175 blocked from runtime continuation until current-main revalidation plus live local HiGodot session evidence exists.
 
-**Tech Stack:** GitHub Actions YAML, Python `unittest`, Godot 4.7.1 headless CI, GUT 9.7.1 vendored plugin, Godot AI 3.1.4 vendored plugin, v4.5 Thin Adapter scope validator.
+## C0 entry truth
 
-## Global Constraints
+```text
+BASE_MAIN_AT_C0_ENTRY = 8e7d85b1b1272002a8086c502a41073888cb3318
+OMENWARD_MAIN_AT_C0_ENTRY = 14b0d942e071dc6e823f48c29ac79f0978477d85
+VALIDATED_PHASE_B_PARENT = 91f4aa98c0dea5307c2482aa0f403ce7dd115e40
+DIRECT_MAIN_GODOT_AI_UPDATE = TRUE
+DIRECT_MAIN_PUSH_WORKFLOW_RUNS = 0
+DIRECT_MAIN_COMMIT_STATUSES = 0
+GODOT_AI_PROJECT_VERSION = 3.1.4
+GODOT_AI_UPSTREAM_LATEST_RELEASE = v3.1.4
+GUT_PROJECT_VERSION = 9.7.1
+GODOT_PROJECT_FEATURE_LINE = 4.7
+LOCAL_LIVE_GODOT_AI_SESSION = UNVERIFIED_IN_THIS_ENVIRONMENT
+PR175 = OPEN_DRAFT
+PR175_MERGE_BASE = 87339f87949c8faea0dfe1482c5d0887a04d94f4
+PR175_AHEAD_CURRENT_MAIN = 43
+PR175_BEHIND_CURRENT_MAIN = 14
+```
 
-- Decision: `OMW-DEC-20260811-OPS-PHASE-C-C0-PREFLIGHT-V1`.
-- Base observed at C0 entry: `8e7d85b1b1272002a8086c502a41073888cb3318`.
-- OMENWARD main observed at C0 entry: `14b0d942e071dc6e823f48c29ac79f0978477d85`.
-- Parent validated Phase B main: `91f4aa98c0dea5307c2482aa0f403ce7dd115e40`.
-- `14b0d942...` is a direct main commit with no push workflow runs/status checks; preserve this as audit evidence rather than rewriting history.
-- Current repo source truth: Godot AI `3.1.4`, GUT `9.7.1`, Godot project feature line `4.7`; live local Godot-AI session/WS9500 state remains unverified in this environment.
-- PR175 remains Draft and diverged from current main; do not treat historical PR175 Green as current evidence.
-- No gameplay `scripts/`, `scenes/`, `data/`, `resources/`, or `project.godot` mutation in this C0 gate change.
-- Do not select final FV, parameter vector, or product numerics.
+The prior `3.1.3` approval/sync owner remains historical evidence for that exact sync. It is not rewritten. Current project source and upstream release truth are separately validated as 3.1.4.
 
----
+## Protection boundary
 
-### Task 1: Add a failing regression for addon-trigger coverage
+- No gameplay `scripts/`, `scenes/`, `data/`, `assets/`, `addons/`, `resources/`, or `project.godot` mutation in PR190.
+- Workflow path text may reference `addons/**`; the PR itself must not mutate an addon file.
+- No final FV, parameter vector, or product numerics.
+- No PR175 merge or runtime-resume claim from repository CI alone.
 
-**Files:**
-- Modify: `tests/python/test_ci_usage_contract.py`
+## Exact C0 GitHub surface
 
-**Interfaces:**
-- Consumes: `.github/workflows/validate-omenward-core.yml` trigger text.
-- Produces: a regression that requires `- "addons/**"` in both pull-request and main-push path filters.
+The final fail-closed C0 surface is exactly eight files:
 
-- [ ] **Step 1: Write the failing test**
+1. `.github/workflows/validate-omenward-core.yml`
+2. `docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`
+3. `docs/superpowers/plans/2026-08-11-phase-c-c0-toolchain-ci-gate.md`
+4. `tests/python/test_phase_c_c0_toolchain_ci_gate.py`
+5. `tests/python/test_tool_state_user_approval_remote_sync.py`
+6. `tools/validate_ci_usage_contract.py`
+7. `tests/python/test_canon_freshness_v45_scope.py`
+8. `tools/validate_canon_freshness_v45_scope.py`
 
-Add `test_core_workflow_triggers_for_active_addons_on_pr_and_push`, asserting `text.count('- "addons/**"') == 2`.
+## Task 1 — TDD addon-trigger regression
 
-Add a mutation test `test_core_addons_trigger_regression_is_rejected` that removes one `addons/**` trigger from a temporary workflow copy and expects the validator error `core workflow must trigger for addons/** on PR and push`.
+- [x] Create dedicated `tests/python/test_phase_c_c0_toolchain_ci_gate.py`.
+- [x] Require exactly two `- "addons/**"` path entries: PR + main push.
+- [x] Require validator mutation failure if one addon trigger is missing.
+- [x] Verify RED on PR190: both addon-trigger tests failed on the pre-fix workflow.
+- [x] Confirm same RED run's Godot 4.7.1 import/headless/runtime smoke was Green.
 
-- [ ] **Step 2: Verify RED**
+The RED full suite also exposed one pre-existing current-state regression: a durable test incorrectly required the live plugin file to remain 3.1.3 after main had moved to 3.1.4.
 
-Open a Draft PR with only the plan plus test change. Expected: Omenward Core/CI usage test fails because the current workflow has zero `addons/**` path entries.
+## Task 2 — Minimal addon trigger + tool-state reconciliation
 
-### Task 2: Enforce addon-trigger coverage in the validator and workflow
+- [x] Add `addons/**` once to `pull_request.paths` and once to `push.paths` in Omenward Core.
+- [x] Require the two entries in `tools/validate_ci_usage_contract.py`.
+- [x] Preserve the 2026-08-09 3.1.3 authority/state assertions as historical exact-sync evidence.
+- [x] Change only the current-file assertion to Godot AI 3.1.4; keep GUT 9.7.1 and Hera 1.0.0.
+- [x] Verify Omenward Core full PR Python suite Green after the fix.
+- [x] Verify Tool State User Approval Remote Sync workflow Green after the split.
 
-**Files:**
-- Modify: `.github/workflows/validate-omenward-core.yml`
-- Modify: `tools/validate_ci_usage_contract.py`
+## Task 3 — TDD v4.5 C0 exact scope
 
-**Interfaces:**
-- Consumes: regression contract from Task 1.
-- Produces: both PR and main push validation whenever any `addons/**` file changes.
+- [x] Add C0 exact-surface and missing-anchor tests first.
+- [x] Verify RED: v4.5 rejected the new C0 paths as unapproved.
+- [x] Register `PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES` and exact required anchors in the v4.5 scope validator.
+- [ ] Create the C0 review owner.
+- [ ] Require the complete eight-file branch diff to pass the v4.5 scope validator.
+- [ ] Confirm active v4.4 accepts the C0 transition by consuming the v4.5 PASS, without widening its historical fallback allowlist.
 
-- [ ] **Step 1: Implement minimal validator rule**
+## Task 4 — Review, Sheet sync, merge gate
 
-In `validate()`, require exactly two occurrences of `- "addons/**"` with the error `core workflow must trigger for addons/** on PR and push`.
+- [ ] Record fresh Base, OMENWARD, Sheet, benchmark/tool evidence in `docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`.
+- [ ] Verify PR190 exact eight-file surface, protected product paths = 0, review threads = 0.
+- [ ] Re-read Base/main/open PRs immediately before merge and report races.
+- [ ] Sync Google Sheet current hub/work order/current decision/audit/history under the same C0 Decision ID.
+- [ ] Bounded Sheet reread must PASS.
+- [ ] Require all exact-head PR workflows Green, including Omenward Core full Python suite and Godot 4.7.1 import/headless/runtime smoke.
+- [ ] Use expected-head merge only.
+- [ ] On merged main, require Omenward Core Ubuntu/Windows × Python 3.11/3.12/3.13 full matrix plus Godot success.
+- [ ] Final repository-side classification, absent live local session evidence: `C0_PARTIAL_PASS_REPOSITORY_TOOLCHAIN_VERIFIED_LOCAL_LIVE_SESSION_UNVERIFIED`.
 
-- [ ] **Step 2: Implement minimal workflow change**
+## Next executor boundary
 
-Add `- "addons/**"` once under `pull_request.paths` and once under `push.paths` in `validate-omenward-core.yml`.
+Repository-side C0 completion does not itself resume PR175. The next runtime executor must first obtain same-snapshot local evidence for:
 
-- [ ] **Step 3: Verify focused GREEN**
+1. exact OMENWARD Godot process and command line;
+2. that process's ESTABLISHED WS9500 connection;
+3. current Godot AI connection/handshake/auth/4003/reconnect logs;
+4. immediate session registry/list result.
 
-Require `tests.python.test_ci_usage_contract` and `python tools/validate_ci_usage_contract.py` to pass on the PR exact head.
-
-- [ ] **Step 4: Verify full current-main baseline**
-
-Require the PR Omenward Core job to run the full Python repository suite and Godot 4.7.1 import/headless/runtime smoke against this branch based on `14b0d942...`.
-
-### Task 3: Fail-close the Phase C C0 scope and record findings
-
-**Files:**
-- Create: `docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`
-- Modify: `tests/python/test_canon_freshness_v45_scope.py`
-- Modify: `tools/validate_canon_freshness_v45_scope.py`
-
-**Interfaces:**
-- Consumes: Decision `OMW-DEC-20260811-OPS-PHASE-C-C0-PREFLIGHT-V1` and verified C0 evidence.
-- Produces: a distinct exact C0 non-product surface and durable review owner.
-
-- [ ] **Step 1: Add scope RED**
-
-Define the exact C0 surface as these seven files:
-`docs/superpowers/plans/2026-08-11-phase-c-c0-toolchain-ci-gate.md`,
-`docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`,
-`.github/workflows/validate-omenward-core.yml`,
-`tests/python/test_ci_usage_contract.py`,
-`tools/validate_ci_usage_contract.py`,
-`tests/python/test_canon_freshness_v45_scope.py`,
-`tools/validate_canon_freshness_v45_scope.py`.
-
-Test exact-surface PASS and missing-anchor rejection with message `missing required v4.5 Phase C C0 toolchain gate anchors`.
-
-- [ ] **Step 2: Add minimal scope implementation**
-
-Register `PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES` and matching required anchors; preserve all historical modes and protected-path rejection.
-
-- [ ] **Step 3: Write C0 review owner**
-
-Record:
-- Base `8e7d85b1...`, OMENWARD `14b0d942...`, Sheet drift from older SHAs;
-- direct main Godot AI update has no workflow/status evidence;
-- repo source versions Godot AI 3.1.4, GUT 9.7.1, Godot 4.7;
-- upstream public 3.1.4 release not verified, so vendored source is project-local source truth only;
-- PR175 diverged: merge-base `87339f87...`, PR175 ahead 43 / behind 14;
-- local live PID/WS9500/session registry is unverified in this ChatGPT environment;
-- C0 cannot authorize PR175 merge; after this CI gate is Green, next step is current-main PR175 rebase/revalidation plus local same-snapshot HiGodot diagnostic.
-
-### Task 4: Adversarial review, Sheet sync, and merge gate
-
-**Files:**
-- No additional GitHub files unless a discovered compatibility regression requires an explicitly bounded amendment.
-- Google Sheet: current hub, work order, current decision, audit, history under the same C0 Decision ID.
-
-**Interfaces:**
-- Consumes: exact-head GitHub CI and review state.
-- Produces: authoritative C0 status and next executor boundary.
-
-- [ ] **Step 1: Adversarial review**
-
-Verify exact seven-file surface, product-path mutation = 0, unresolved review threads = 0, current main has not moved, and Base changes do not conflict with OMENWARD.
-
-- [ ] **Step 2: Sync Sheet**
-
-Write Base `8e7d85b1...`, OMENWARD `14b0d942...`, Godot AI 3.1.4 repo source truth, GUT 9.7.1, C0 CI status, PR175 divergence, and live-session unverified state using Decision `OMW-DEC-20260811-OPS-PHASE-C-C0-PREFLIGHT-V1`.
-
-- [ ] **Step 3: Bounded reread**
-
-Require Sheet readback to match GitHub/current C0 evidence.
-
-- [ ] **Step 4: Merge only if exact-head gates are Green**
-
-Use expected-head protection. After merge, require main-push Omenward Core full matrix plus Godot success because the workflow itself changed.
-
-- [ ] **Step 5: Final C0 classification**
-
-If CI is Green but no live HiGodot session evidence exists, classify `C0_PARTIAL_PASS_REPOSITORY_TOOLCHAIN_VERIFIED_LOCAL_LIVE_SESSION_UNVERIFIED`. Do not claim PR175 runtime execution has resumed until the same-snapshot local process/WS9500/session diagnostic is actually available.
+Then PR175 must be rebased/revalidated against current main before the seven Issue176 runtime gaps are implemented through the approved HiGodot/GUT/Hera route.
