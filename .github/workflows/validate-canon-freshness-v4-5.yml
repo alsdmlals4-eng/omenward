@@ -131,6 +131,21 @@ jobs:
       - name: Run Phase B final planning review contract
         run: python -m unittest tests.python.test_phase_b_final_planning_review -v
 
+      - name: Diagnose Project Core document contract
+        run: python -m unittest tests.python.test_project_core_docs -v
+
+      - name: Diagnose building branch lineage contract
+        run: python -m unittest tests.python.test_building_branch_canon -v
+
+      - name: Diagnose troop role lineage contract
+        run: python -m unittest tests.python.test_troop_role_canon -v
+
+      - name: Diagnose tactical skill and mana lineage contract
+        run: python -m unittest tests.python.test_tactical_skill_mana_canon -v
+
+      - name: Diagnose stage-end merchant lineage contract
+        run: python -m unittest tests.python.test_stage_end_merchant_canon -v
+
       - name: Validate exact PR file surface
         if: github.event_name == 'pull_request'
         run: |
