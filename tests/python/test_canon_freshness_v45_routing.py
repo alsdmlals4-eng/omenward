@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DECISION = "OMW-DEC-20260811-OPS-CANON-FRESHNESS-V45-ROUTING-V1"
 ACTIVATION_DECISION = "OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1"
 PHASE_B_DECISION = "OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1"
+C0_LOCAL_DECISION = "OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1"
 BASE_MAIN = "069f0c9654a6cde7cea6f3343dd2fa81c6248d5d"
 PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
@@ -21,7 +22,9 @@ ACTIVE_CONTEXT = ROOT / "docs/ACTIVE_CONTEXT.md"
 CURRENT_STATUS = ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
 AGENTS = ROOT / "AGENTS.md"
+README = ROOT / "README.md"
 PROJECT_CORE = ROOT / "docs/PROJECT_CORE.md"
+ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
 DOCUMENTATION_MAP = ROOT / "docs/DOCUMENTATION_MAP.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
 PHASE_B_REVIEW = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
@@ -112,6 +115,19 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
             text = path.read_text(encoding="utf-8")
             for marker in markers:
                 self.assertIn(marker, text, f"{path.relative_to(ROOT)} missing {marker}")
+
+    def test_current_execution_routers_advance_through_c0_local_pass(self) -> None:
+        current_routers = (AGENTS, README, PROJECT_CORE, PENDING, ROADMAP)
+        for path in current_routers:
+            text = path.read_text(encoding="utf-8")
+            self.assertIn(C0_LOCAL_DECISION, text, f"{path.relative_to(ROOT)} missing current C0 Decision")
+            self.assertIn("PHASE_C_C0_OVERALL = PASS", text, f"{path.relative_to(ROOT)} missing C0 PASS")
+            self.assertIn("PR175_CURRENT_MAIN_REVALIDATION_NEXT", text, f"{path.relative_to(ROOT)} missing current next gate")
+            self.assertNotIn(
+                "GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY",
+                text,
+                f"{path.relative_to(ROOT)} still defers already-verified Godot AI authority",
+            )
 
     def test_lifecycle_routes_v45_current_phase_b_and_v44_history(self) -> None:
         text = LIFECYCLE.read_text(encoding="utf-8")
