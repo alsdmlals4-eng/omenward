@@ -11,6 +11,7 @@ GDD = ROOT / "docs/OMENWARD_GDD_CURRENT_CANON.md"
 ONBOARDING = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
 WORKBOOK = ROOT / "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
 REVIEW = ROOT / "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md"
+WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 CURRENT_CONSUMERS = (AGENTS, GDD, ONBOARDING, WORKBOOK)
 
@@ -32,6 +33,15 @@ TAXONOMY = (
 
 
 class PhaseAReadinessDependencyClassificationTest(unittest.TestCase):
+    def test_v45_workflow_executes_readiness_contract(self) -> None:
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn('"tests/python/test_phase_a_readiness_dependency_classification.py"', text)
+        self.assertIn("tests/python/test_phase_a_readiness_dependency_classification.py", text)
+        self.assertIn(
+            "python -m unittest tests.python.test_phase_a_readiness_dependency_classification -v",
+            text,
+        )
+
     def test_review_artifact_exists_and_uses_same_activation_decision(self) -> None:
         self.assertTrue(REVIEW.is_file(), f"missing readiness review: {REVIEW.relative_to(ROOT)}")
         text = REVIEW.read_text(encoding="utf-8")
