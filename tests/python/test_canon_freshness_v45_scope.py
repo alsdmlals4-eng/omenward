@@ -24,6 +24,8 @@ ACTIVATION = {
 }
 PHASE_B_POSTMERGE_FULL_SUITE_REMEDIATION = {
     CORE_WORKFLOW,
+    "AGENTS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     "tests/python/test_ci_usage_contract.py",
     "tools/validate_ci_usage_contract.py",
     "tests/python/test_canon_freshness_v45_scope.py",
