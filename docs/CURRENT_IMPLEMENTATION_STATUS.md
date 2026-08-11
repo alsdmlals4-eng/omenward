@@ -31,6 +31,15 @@ Current local C0 evidence owner:
 Preceding Phase B completion owner remains:
 `OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1`
 
+Historical Phase B tool-state provenance remains:
+
+```text
+USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
+GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
+```
+
+This provenance marker records what Phase B knew at that time; it does not override the verified C0 plugin/server/session evidence below.
+
 ## 2. Runtime PR current boundary
 
 ```text
@@ -84,6 +93,7 @@ LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
 GODOT_VERSION = 4.7.1-stable
 GODOT_AI_PLUGIN_VERSION = 3.1.4
 GODOT_AI_SERVER_VERSION = 3.1.4
+GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
 OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
 OMENWARD_GODOT_AI_HTTP_PORT = 8002
 OMENWARD_GODOT_AI_WS_PORT = 9502
