@@ -57,10 +57,12 @@ class PhaseAReadinessDependencyClassificationTest(unittest.TestCase):
                 self.assertIn(marker, text, f"{path.relative_to(ROOT)} missing {marker}")
             self.assertNotIn("TOKEN_SOURCE_WEIGHT_AND_COUNT = PENDING_SIMULATION", text)
 
-    def test_special_selection_distribution_stays_tuning(self) -> None:
-        for path in (AGENTS, PENDING, GDD, ONBOARDING, REVIEW, PHASE_B):
+    def test_special_selection_distribution_stays_tuning_in_current_owners(self) -> None:
+        for path in (AGENTS, PENDING, GDD, ONBOARDING, REVIEW):
             text = path.read_text(encoding="utf-8")
             self.assertIn("SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING", text)
+        phase_b = PHASE_B.read_text(encoding="utf-8")
+        self.assertIn("FINAL_PRODUCT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING", phase_b)
 
     def test_runtime_dependency_direction_is_preserved(self) -> None:
         for path in (REVIEW, PHASE_B, PENDING, GDD):
@@ -70,11 +72,14 @@ class PhaseAReadinessDependencyClassificationTest(unittest.TestCase):
         self.assertIn("FINAL_PRODUCT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING", PHASE_B.read_text(encoding="utf-8"))
 
     def test_platform_save_export_store_remains_release_deferred(self) -> None:
-        for path in (PENDING, PHASE_B):
-            text = path.read_text(encoding="utf-8")
-            self.assertIn("PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175", text)
-            self.assertIn("SHARED_SAVE_SCHEMA = NOT_STARTED", text)
-            self.assertIn("EXPORT_PRESETS = ABSENT", text)
+        pending = PENDING.read_text(encoding="utf-8")
+        for marker in (
+            "PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175",
+            "SHARED_SAVE_SCHEMA = NOT_STARTED",
+            "EXPORT_PRESETS = ABSENT",
+        ):
+            self.assertIn(marker, pending)
+        self.assertIn("RELEASE_PHASE_DEFERRED", PHASE_B.read_text(encoding="utf-8"))
 
     def test_product_closure_remains_closed_without_fake_final_numerics(self) -> None:
         pending = PENDING.read_text(encoding="utf-8")
