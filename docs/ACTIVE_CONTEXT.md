@@ -50,6 +50,7 @@ V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
 
 ```text
 PR175 = OPEN_DRAFT
+PR175_DRAFT_7_RUNTIME_GAPS_OPEN
 PR175_HEAD_OBSERVED = 83cf816a11f732e2cd285461865cf9c5ed404802
 PR175_BASE_OBSERVED = 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
 PR175_CHANGED_FILES_OBSERVED = 19
@@ -166,7 +167,7 @@ LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
 
 ## Resume-first handoff locator
 
-This Active Context is the current resume router for the paused runtime diagnostic. `docs/HANDOFF_CONTEXT.md` remains an older planning snapshot and must not override this file or fresh GitHub/Sheet truth for Issue #176 continuation.
+The current handoff/current-state consumer set is `ACTIVE_CONTEXT.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, `DECISIONS_PENDING.md`, and `HANDOFF_CONTEXT.md`. Fresh GitHub/Sheet truth remains higher authority than any stored observation SHA.
 
 Resume read order:
 
@@ -175,8 +176,9 @@ Resume read order:
 3. Google Sheet project hub;
 4. this `ACTIVE_CONTEXT.md`;
 5. `CURRENT_IMPLEMENTATION_STATUS.md`;
-6. PR #175 / Issue #176 latest discussion and local diagnostic output;
-7. fresh local Git/HiGodot identity only when local execution resumes.
+6. `DECISIONS_PENDING.md` and `HANDOFF_CONTEXT.md`;
+7. PR #175 / Issue #176 latest discussion and local diagnostic output;
+8. fresh local Git/HiGodot identity only when local execution resumes.
 
 ## Release-deferred items
 
