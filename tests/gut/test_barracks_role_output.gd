@@ -167,6 +167,115 @@ func test_identical_role_fixture_keeps_event_order_identical() -> void:
 	assert_eq(JSON.stringify(first_events), JSON.stringify(second_events), "Identical deterministic input preserves event ordering.")
 
 
+func test_priest_encouragement_changes_attack_rate_for_five_seconds_then_reverts_after_expiry() -> void:
+	var encouraged := _battle(1161)
+	encouraged.objectives_enabled = false
+	var priest = encouraged.spawn_unit(_spawn(&"lumern", &"top", &"priest"))
+	var encouraged_ally = encouraged.spawn_unit(_spawn(&"lumern", &"top", &"shield_guard"))
+	var encouraged_enemy = encouraged.spawn_unit(_spawn(&"veil", &"top", &"shield_guard"))
+	encouraged_ally.lane_position = 50.0
+	encouraged_enemy.lane_position = 51.0
+	_advance(encouraged, 4.0)
+	var first_window_events = encouraged.drain_events()
+	assert_not_null(_first_event(first_window_events, "role_buff_start"), "Priest encouragement starts when its ally is healthy.")
+	var control := _battle(1161)
+	control.objectives_enabled = false
+	var control_ally = control.spawn_unit(_spawn(&"lumern", &"top", &"shield_guard"))
+	var control_enemy = control.spawn_unit(_spawn(&"veil", &"top", &"shield_guard"))
+	control_ally.lane_position = 50.0
+	control_enemy.lane_position = 51.0
+	_advance(control, 4.0)
+	var encouraged_damage: float = float(encouraged_enemy.combat_stats()["max_health"]) - float(encouraged_enemy.health)
+	var control_damage: float = float(control_enemy.combat_stats()["max_health"]) - float(control_enemy.health)
+	assert_gt(encouraged_damage, control_damage, "Encouragement increases the ally attack rate during its five-second uptime.")
+	_advance(encouraged, 1.2)
+	assert_not_null(_first_event(encouraged.drain_events(), "role_buff_end"), "Priest encouragement emits an end event at expiry.")
+	_advance(control, 1.2)
+	encouraged_ally.state = "idle"
+	encouraged_ally.cooldown_remaining = 0.0
+	control_ally.state = "idle"
+	control_ally.cooldown_remaining = 0.0
+	var encouraged_health_at_expiry: float = float(encouraged_enemy.health)
+	var control_health_at_expiry: float = float(control_enemy.health)
+	_advance(encouraged, 1.5)
+	_advance(control, 1.5)
+	assert_almost_eq(encouraged_health_at_expiry - encouraged_enemy.health, control_health_at_expiry - control_enemy.health, 0.001, "Attack timing returns to the unbuffed rate after encouragement expires.")
+
+
+func test_support_without_priest_special_action_uses_existing_objective_fallback() -> void:
+	var battle := _battle(1162)
+	var priest = battle.spawn_unit(_spawn(&"lumern", &"top", &"priest"))
+	var starting_position: float = float(priest.lane_position)
+	_advance(battle, 1.0)
+	assert_gt(priest.lane_position, starting_position, "A support unit with no heal or encouragement target keeps deterministic objective movement.")
+
+
+func test_untagged_attacker_retains_legal_air_candidate_while_archer_priority_remains_flying_first() -> void:
+	var battle := _battle(1163)
+	battle.objectives_enabled = false
+	var attacker = battle.spawn_unit(_spawn(&"lumern", &"top", &"greatsword_warrior"))
+	var flier = battle.spawn_unit(_spawn(&"veil", &"top", &"flier"))
+	attacker.lane_position = 50.0
+	flier.lane_position = 51.0
+	var target = battle.lanes[&"top"].find_target(attacker)
+	assert_not_null(target, "A legal air enemy remains a candidate even without an explicit flying-priority tag.")
+	if target != null:
+		assert_eq(target.unit_id, flier.unit_id, "The only legal enemy is selected.")
+
+
+func test_mage_cluster_density_tie_uses_lane_order_unit_id_not_nearest_distance() -> void:
+	var battle := _battle(1164)
+	var mage = battle.spawn_unit(_spawn(&"lumern", &"middle", &"mage"))
+	mage.lane_position = 0.0
+	var first_lane_order = battle.spawn_unit(_spawn(&"veil", &"middle", &"shield_guard"))
+	first_lane_order.lane_position = 20.0
+	var first_neighbor = battle.spawn_unit(_spawn(&"veil", &"middle", &"shield_guard"))
+	first_neighbor.lane_position = 21.0
+	var nearer_cluster = battle.spawn_unit(_spawn(&"veil", &"middle", &"shield_guard"))
+	nearer_cluster.lane_position = 10.0
+	var nearer_neighbor = battle.spawn_unit(_spawn(&"veil", &"middle", &"shield_guard"))
+	nearer_neighbor.lane_position = 11.0
+	var target = battle.lanes[&"middle"].find_target(mage)
+	assert_not_null(target, "Mage receives a tied-density cluster target.")
+	if target != null:
+		assert_eq(target.unit_id, first_lane_order.unit_id, "Equal-density clusters resolve by lane order and unit id rather than distance order.")
+
+
+func test_giant_reports_frontline_survival_and_structure_damage_without_fake_zeroes() -> void:
+	var battle := _giant_slam_battle(1165)
+	_advance(battle, 2.0)
+	var metrics := _role_metrics(battle)
+	assert_true(metrics.has("FRONTLINE_SURVIVAL_TIME"), "Giant exposes FRONTLINE_SURVIVAL_TIME as a measured or explicitly blocked output.")
+	assert_true(metrics.has("STRUCTURE_DAMAGE"), "Giant exposes STRUCTURE_DAMAGE as a measured or explicitly blocked output.")
+	if metrics.has("FRONTLINE_SURVIVAL_TIME"):
+		assert_ne(metrics["FRONTLINE_SURVIVAL_TIME"], 0.0, "Unavailable Giant frontline survival is never falsified as numeric zero.")
+	if metrics.has("STRUCTURE_DAMAGE"):
+		assert_ne(metrics["STRUCTURE_DAMAGE"], 0.0, "Unavailable Giant structure damage is never falsified as numeric zero.")
+
+
+func test_targets_hit_per_cast_is_not_a_running_total_across_multiple_mage_casts() -> void:
+	var battle := _mage_cluster_battle(1166)
+	for unit in battle.lanes[&"middle"].units:
+		if unit.owner_team_id == &"veil":
+			unit.health = 1000.0
+	_advance(battle, 10.0)
+	var casts := _events_of_type(battle.drain_events(), "role_aoe_hit")
+	assert_gte(casts.size(), 2, "Fixture produces multiple Mage casts.")
+	if casts.size() < 2:
+		return
+	var metrics := _role_metrics(battle)
+	var last_cast: Dictionary = casts[casts.size() - 1]
+	assert_eq(float(metrics["TARGETS_HIT_PER_CAST"]), float((last_cast["affected_unit_ids"] as Array).size()), "TARGETS_HIT_PER_CAST reports the current cast cardinality, not a running total.")
+
+
+func _events_of_type(events: Array, event_type: String) -> Array:
+	var matched: Array = []
+	for event in events:
+		if event.get("event_type") == event_type:
+			matched.append(event)
+	return matched
+
+
 func _battle(seed: int) -> BattleSimulator:
 	return BattleSimulator.new(_registry(), seed)
 

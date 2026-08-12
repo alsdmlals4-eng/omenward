@@ -6,6 +6,13 @@ const BattleSimulator = preload("res://scripts/battle/battle_simulator.gd")
 const UnitSpawnDefinition = preload("res://scripts/data/unit_spawn_definition.gd")
 
 const BOOTSTRAP_CATALOG_PATH := "res://data/bootstrap_catalog.tres"
+const FV_SCENARIO_CONTRACTS := {
+	"FV-COMMON-01": {"greatsword_warrior": 1, "shield_guard": 1, "events": []},
+	"FV-PRIEST-01": {"priest": 1, "shield_guard": 1, "events": ["role_buff_start", "role_buff_end"]},
+	"FV-MAGE-01": {"mage": 1, "shield_guard": 3, "events": ["role_aoe_hit"]},
+	"FV-FLIER-01": {"flier": 1, "archer": 1, "shield_guard": 1, "events": ["role_backline_contact", "role_dive"]},
+	"FV-GIANT-01": {"giant": 1, "flier": 1, "shield_guard": 7, "events": ["role_slam"]},
+}
 
 
 func _init() -> void:
@@ -19,12 +26,33 @@ func _init() -> void:
 
 func _emit(scenario_id: String, battle: BattleSimulator) -> void:
 	var events := battle.drain_events()
+	var snapshot := battle.snapshot()
+	_assert_fixture_contract(scenario_id, snapshot, events)
 	print(JSON.stringify({
 		"scenario_id": scenario_id,
 		"role_metrics": battle.role_output_metrics(),
 		"raw_events": events,
-		"snapshot": battle.snapshot(),
+		"snapshot": snapshot,
 	}))
+
+
+func _assert_fixture_contract(scenario_id: String, snapshot: Dictionary, events: Array) -> void:
+	var contract: Dictionary = FV_SCENARIO_CONTRACTS.get(scenario_id, {})
+	if contract.is_empty():
+		push_error("Unregistered FV scenario: %s" % scenario_id)
+		return
+	var counts := {}
+	for unit in snapshot.get("units", []):
+		var archetype_id := str(unit.get("archetype_id", ""))
+		counts[archetype_id] = int(counts.get(archetype_id, 0)) + 1
+	for archetype_id in contract:
+		if archetype_id == "events":
+			continue
+		if int(counts.get(archetype_id, 0)) != int(contract[archetype_id]):
+			push_error("%s fixture structure mismatch for %s" % [scenario_id, archetype_id])
+	for required_event in contract["events"]:
+		if not events.any(func(event: Dictionary) -> bool: return event.get("event_type") == required_event):
+			push_error("%s fixture missing runtime event %s" % [scenario_id, required_event])
 
 
 func _common_battle() -> BattleSimulator:
@@ -43,8 +71,7 @@ func _priest_battle() -> BattleSimulator:
 	battle.objectives_enabled = false
 	var priest = battle.spawn_unit(_spawn(&"lumern", &"top", &"priest"))
 	var ally = battle.spawn_unit(_spawn(&"lumern", &"top", &"shield_guard"))
-	ally.health = ally.combat_stats()["max_health"] - 5.0
-	_advance(battle, 1.0)
+	_advance(battle, 5.2)
 	return battle
 
 
