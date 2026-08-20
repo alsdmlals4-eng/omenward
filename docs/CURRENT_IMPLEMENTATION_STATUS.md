@@ -1,211 +1,164 @@
 # [현행] 오멘워드 현재 구현 상태
 
 ```yaml
-updated_at: 2026-08-12
-current_phase_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
-planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-phase_b: PASS
-phase_c_c0: PASS
-phase_c_gate: OPEN_BLOCKED_RUNTIME_BOOT
-implementation_status: ISSUE176_CANONICAL_EXACT_HEAD_PROJECT_BOOT_SIGNAL11_BLOCKED
+updated_at: 2026-08-20
+status: CURRENT_IMPLEMENTATION_STATUS
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_status: REOPENED_REVIEW_IN_PROGRESS
+implementation_authorized: false
+current_runtime_status: NOT_RUN
+human_player_evidence: NOT_RUN
 ```
 
-## 1. Phase state
+## 1. Current high-level state
+
+2026-08-20 재기획 채팅에서는 current `main`의 Godot/Windows runtime을 실행하지 않았다. 따라서 과거 signal11 진단을 현재 blocker로 재주장하지 않는다.
 
 ```text
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
-PHASE_B_FINAL_PLANNING_REVIEW = PASS
-OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
-PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
-PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
-PHASE_C_C0_OVERALL = PASS
-NEW_PRODUCT_DECISION_REQUIRED = FALSE
-IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
-PHASE_C_GATE = OPEN
 PRODUCT_IMPLEMENTATION_COMPLETION = FALSE
-CURRENT_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_WINDOWS_RUNTIME = NOT_RUN
+CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
+CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+CURRENT_RUNTIME_BLOCKER = UNVERIFIED_UNTIL_FRESH_EXECUTION
 ```
 
-Current local C0 evidence owner remains:
-`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
+## 2. Existing main foundations
 
-## 2. Runtime PR current boundary
+Repository `main`에는 다음 계열의 foundation이 존재한다.
 
 ```text
-PR175 = OPEN_DRAFT
-PR175_DRAFT_7_RUNTIME_GAPS_OPEN
-PR175_HEAD_OBSERVED = 83cf816a11f732e2cd285461865cf9c5ed404802
-PR175_BASE_OBSERVED = 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
-PR175_CHANGED_FILES_OBSERVED = 19
-ISSUE176 = OPEN
-ISSUE176_APPROVED_RUNTIME_GAPS = 7
-ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
-PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
-PR177 = REFERENCE_ONLY_DO_NOT_MERGE
+roulette service / three-reel probability flow
+battle simulator / lane + gate + base + clash state
+building / economy / production foundations
+stage HUD / stage select prototype UI
+data / domain / presentation / wave / tactical structure
 ```
 
-These SHA values are observation points for this handoff and must be fresh-read before resume.
+이 존재 사실은 기능 완성·재미·현재 runtime PASS를 뜻하지 않는다.
 
-## 3. Current runtime diagnostic boundary
+## 3. Current GitHub work-item truth
 
-Latest validated diagnostic sequence:
+2026-08-20 fresh readback:
 
 ```text
-fresh exact OMENWARD HiGodot receipt = PASS at diagnostic snapshot
-exact PR175 git archive to disposable TEMP = PASS
-TEMP initial .git = absent
-TEMP initial .godot = absent
-TEMP Godot --import = no signal11 crash markers
-TEMP normal headless boot --quit-after 2 = CRASH
-Windows exit = -1073741819
-crash markers = CrashHandlerException + Program crashed with signal 11 + END OF C++ BACKTRACE
-active project files changed by diagnostic = NONE
-active test hashes preserved = YES at diagnostic snapshot
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
+PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 ```
 
-Classification:
+### PR #175
+
+- closed 2026-08-18
+- merged = false
+- 47 commits / 19 changed files의 historical runtime/evidence work
+- unmerged 변경은 current `main` 제품 truth가 아니다.
+
+### PR #177
+
+- closed 2026-08-18
+- merged = false
+- historical handoff/reference only.
+
+### Issue #176
+
+과거 PR175 package의 7개 role-output/FV gap을 기록한다. parent PR이 closed-unmerged이고 프로젝트 기획이 다시 열렸으므로 미래 구현 때 그대로 실행하지 않는다.
+
+Future rule:
 
 ```text
-CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
+fresh current main
++ current confirmed planning Decisions
++ actual current runtime
++ current implementation scope
+→ reconcile Issue176
+→ keep / rewrite / close / supersede
 ```
 
-Therefore:
+### PR #197
 
-- active local `.godot` is not required to reproduce the earliest crash;
-- the user's uncommitted two-test delta is not required to reproduce the earliest crash;
-- GUT, Issue #176 semantic RED, FV execution, and Hera live QA remain downstream and blocked until normal project boot is healthy;
-- no active startup fix is justified until disposable one-variable isolation identifies the responsible component or interaction.
+- OPEN / DRAFT
+- reusable candidate draft engine sidecar pilot
+- 현재 채팅의 다른 workstream이므로 read-only.
+- 수정·retarget·merge·unmerged 내용의 product-canon 승격 금지.
 
-## 4. Next executable diagnostic
+## 4. Historical runtime evidence
 
-Exact committed `project.godot` autoloads at the observed PR head:
+2026-08-11~12에는 PR175 exact-head / disposable archive / HiGodot 관련 signal11 진단이 기록됐다. 해당 기록은 **HISTORICAL_EVIDENCE**로 보존한다.
 
 ```text
-HeraGameInspector="*uid://c4ug7a211oav8"
-_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+HISTORICAL_SIGNAL11_DIAGNOSTIC = RETAINED
+HISTORICAL_HIGODOT_C0_EVIDENCE = RETAINED
+HISTORICAL_GUT_AND_FV_EVIDENCE = RETAINED
+CURRENT_CRASH_REPRODUCTION = NOT_RUN
 ```
 
-Next step:
+과거 원인 가설이나 A/B autoload isolation 계획은 새 current-main 실행 없이 current next step으로 사용하지 않는다.
+
+## 5. Current planning/implementation boundary
+
+현재는 GPT-first planning 단계다.
 
 ```text
-BASELINE = BOTH_ON_CRASH_ALREADY_PROVEN
-A = independent fresh exact-head TEMP with HeraGameInspector off only
-B = separate fresh exact-head TEMP with _mcp_game_helper off only
-C = both off only if A and B both still crash
-NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION
+CURRENT_CONFIRMED_REPLAN_DECISIONS = 6
+ADVERSARIAL_REVIEW_AND_CANON_RECONCILIATION = IN_PROGRESS
+WORLD_STORY_CORE = NEXT_PRODUCT_DECISION
+20_STAGE_CONTENT_AND_BOSS_STRUCTURE = AFTER_WORLD_STORY
+BALANCE_BUDGET = AFTER_CONTENT_STRUCTURE
+TEXT_UX_SPEC = AFTER_BALANCE_BUDGET
+VISUAL_WORK = PAUSED_PENDING_USER_REFERENCE_FILES
+IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
-No active `project.godot`, autoload, plugin, main scene, GDScript, resource, import, or `.godot` mutation belongs to this diagnostic.
-
-## 5. Historical vertical-slice compatibility boundary
-
-The following identifiers remain intentionally present because current documentation/canon validators consume them as historical implementation-boundary compatibility markers. They do not override the current Issue #176 boot blocker above.
+## 6. Durable product/evidence boundaries
 
 ```text
-APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
-최신 버티컬 슬라이스 구현: `NOT_STARTED`
-LEGACY_C1_C2_C3_PROVEN
-VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED
-LATEST_AUTOMATED_CONTRACTS_NOT_RUN
-HUMAN_QA_NOT_RUN
-CORE_LOCK_NOT_ALLOWED
-C1_ROULETTE_CORE_REMOTE_PROVEN
-LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN
-LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN
-LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN
-```
-
-Historical remote evidence retained for compatibility consumers:
-
-```text
-C1 구현 검증 head: `19f1a4ff75ac393c09aff5d9c1154fed04ccc4f9`
-C1 최종 검증 run: `29926598807`
-C2 최종 검증 run: `29938742864`
-V2 구현 완료를 뜻하지 않는다
-```
-
-Current Vertical Slice authority locator remains:
-`docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-
-These identifiers are history/compatibility evidence, not proof that current Issue #176 runtime acceptance is complete.
-
-## 6. Phase B Godot-AI provenance retained
-
-The following Phase B provenance markers are intentionally preserved for the historical review consumer. They describe what was known **at Phase B**, before C0 fresh verification; they do not override the verified C0 toolchain state below.
-
-```text
-USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
-```
-
-## 7. Durable runtime/evidence boundary
-
-```text
-ROBUSTNESS_10000 = APPROVED_GATE_PASS_FOR_ECONOMY_PRODUCTION
-SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
-SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
-IDENTIFIABILITY = DIAGNOSTIC_NON_IDENTIFIABLE
-FUNCTIONAL_VALUE_COMPARISON = ROLE_SPECIFIC_VECTOR_NO_SINGLE_WEIGHTED_SCORE
-BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
-ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON -> FINAL_TUNING
 FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
+BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
 ```
 
-## 8. Godot/HiGodot/GUT/Hera authority
+기존 10,000-seed robustness 등 과거 evidence는 해당 실험 범위에서만 유효하다. 새로운 재기획 의미나 현재 runtime을 자동 PASS시키지 않는다.
+
+## 7. Platform/release boundary
 
 ```text
-GODOT_VERSION = 4.7.1-stable
-GODOT_AI_PLUGIN_VERSION = 3.1.4
-GODOT_AI_SERVER_VERSION = 3.1.4
-OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
-OMENWARD_GODOT_AI_HTTP_PORT = 8002
-OMENWARD_GODOT_AI_WS_PORT = 9502
-OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
-PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
-SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
-GUT_ENTRYPOINT_AFTER_BOOT_RECOVERY = SINGLE_FILE_GTEST_ONLY
-HERA = POST_GREEN_LIVE_QA_OBSERVABILITY_ONLY
-HERA_TRACKED_SOURCE_DELTA_REQUIRED = NONE
-```
-
-Historical PID/session evidence is not a future selector.
-
-## 9. Existing product/cadence truth retained
-
-```text
-OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
-OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
-OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
-DANGER_STAGE_TYPE = REMOVED
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-BOSS_STAGES = 5 / 10 / 15 / 20
-BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
-```
-
-## 10. Platform/release boundary
-
-```text
-OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
-ARCHITECTURE_STATUS = APPROVED_DESIGN_NOT_IMPLEMENTED
-PRODUCT_CODE_AUTHORITY = NONE
-PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
-PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
+PC / Steam = PRIMARY_PLANNING_AND_VALIDATION_TARGET
+Android / Google Play = COMMITTED_RELEASE_TARGET_EXECUTION_DEFERRED_RELEASE_NEAR
 SHARED_SAVE_SCHEMA = NOT_STARTED
 EXPORT_PRESETS = ABSENT
 ```
 
-This is not the current runtime blocker.
+## 8. Resume order for implementation work
 
-## 11. Resume-first handoff locator
+실제 구현이 다시 열릴 때:
 
-Current continuation consumers are:
+1. fresh Base current authority.
+2. fresh OMENWARD main/open PR inventory.
+3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
+4. `docs/ACTIVE_CONTEXT.md`.
+5. current GDD/Project Core.
+6. PR197 보호 여부 재확인.
+7. fresh local Godot/runtime execution.
+8. 그 뒤에만 historical Issue176/PR175 evidence와 비교.
 
-1. `docs/ACTIVE_CONTEXT.md`;
-2. this `CURRENT_IMPLEMENTATION_STATUS.md`;
-3. `docs/DECISIONS_PENDING.md`;
-4. `docs/HANDOFF_CONTEXT.md`.
+## 9. Historical compatibility markers
 
-Fresh GitHub/Sheet truth remains higher authority than stored observation SHAs. Stop before product mutation if project boot still crashes, if current PR/session identity is unverified, or if the disposable A/B comparison changes more than one variable.
+아래는 과거 validator/lineage를 위한 `ALLOWED_LEGACY`이며 current state가 아니다.
+
+```text
+MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
+PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
+PHASE_C_C0_OVERALL = HISTORICAL_PASS
+PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
+PR175_DRAFT_7_RUNTIME_GAPS_OPEN = HISTORICAL_LABEL_ONLY
+PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
+CURRENT_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY = HISTORICAL_LABEL_ONLY
+NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION = HISTORICAL_LABEL_ONLY
+LEGACY_C1_C2_C3_PROVEN
+HUMAN_QA_NOT_RUN
+```
