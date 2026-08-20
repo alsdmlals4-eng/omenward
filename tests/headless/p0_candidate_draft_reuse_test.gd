@@ -1,7 +1,7 @@
 extends SceneTree
 
-const ENGINE_PATH := "res://scripts/reuse/candidate_draft_weight_engine.gd"
-const ADAPTER_PATH := "res://scripts/reuse/omenward_candidate_draft_adapter.gd"
+const ENGINE_PATH := "res://vendor/base-reuse/candidate_draft_weight_engine.gd"
+const ADAPTER_PATH := "res://vendor/base-reuse/omenward_candidate_draft_adapter.gd"
 
 
 func _init() -> void:
