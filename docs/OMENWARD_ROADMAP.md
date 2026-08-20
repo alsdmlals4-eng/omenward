@@ -4,7 +4,7 @@
 updated_at: 2026-08-20
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: WORLD_CONFLICT_AND_CORE_STORY
+current_next_gate: BALANCE_BUDGET
 implementation_authorized: false
 visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ```
@@ -14,64 +14,39 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ```text
 PROJECT_STATE_RECOVERED
 → DECISION_1_TO_6_CONFIRMED
-→ VISUAL_REQUIREMENT_INVENTORY_COMPLETE_PROPOSED
-→ FIRST_VISUAL_CANDIDATE_REJECTED_NOT_CANON
-→ VISUAL_WORK_PAUSED_FOR_USER_REFERENCES
-→ 5_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
-→ WORLD_CONFLICT_AND_CORE_STORY = CURRENT_NEXT
+→ 6_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
+→ WORLD_CONFLICT_AND_CORE_STORY_CONFIRMED
+→ 20_STAGE_CONTENT_AND_BOSS_STRUCTURE_CONFIRMED
+→ BALANCE_BUDGET = CURRENT_NEXT
 ```
+
+Visual work is paused independently and does not block non-image planning.
 
 ## Current planning order
 
-### P0 — world conflict / core story — CURRENT NEXT
+### P0 — Balance Budget — CURRENT NEXT
 
-Close:
-
-```text
-CAUSE_OF_OMEN_CYCLE
-HIGH_LEVEL_ENEMY_OR_VEIL_IDENTITY
-STAGE_20_NARRATIVE_RESOLUTION
-INTER_RUN_WORLD_PROGRESS_MEANING
-```
-
-Protect already approved:
+Define target ranges, ratios, pacing constraints and comparison metrics before final product numerics.
 
 ```text
-PLAYER_ROLE = Omen Warden
-ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-PRESSURE = 5 OMEN_SIGNATURES
-```
-
-### P0 — 20 Stage / Boss content structure
-
-After world-story approval:
-
-```text
-Stage 1~20 escalation grammar
-Boss 5 / 10 / 15 / 20 teaching and mastery roles
-Elite variation budget
-Pressure combination budget
-Stage 20 final mastery structure
-```
-
-### P0 — Balance Budget
-
-Set target ranges and comparison metrics before final numerics:
-
-```text
-Gold / build spend
-Auto-production value
-TokenSource probability impact
-Troop limit / lane commitment pressure
+Stage / Wave Threat Budget
+Pressure Cost
+Elite / Boss Budget
+Gold income and spend pacing
+Build / Upgrade affordability
+Roulette spend pacing
+Merchant spend pacing
+Troop limit progression
 Mana research / cast economy
-Merchant spend
-Stage 1~5 forgiveness
-Stage 20 mastery target
+Stage 1~5 forgiveness envelope
+Stage 20 mastery envelope
 ```
+
+Final absolute values remain simulation/runtime/human-evidence dependent.
 
 ### P1 — Text UX / state transitions
 
-Specify player-facing information/copy for:
+Specify player-facing information/copy and transitions for:
 
 ```text
 PREPARE
@@ -79,6 +54,7 @@ COMMIT
 BATTLE
 REVIEW
 FTUE Stage 1~5
+Forecast hierarchy
 block reasons / errors
 Debug vs player surfaces
 ```
@@ -95,36 +71,87 @@ Resume only after the user supplies existing local mockup/reference files.
 
 ### Final planning review
 
-After world/story + content + balance + text UX and later visual-reference reconciliation:
+After Balance + Text UX + later visual-reference reconciliation:
 
 ```text
-5x adversarial review minimum / until clean
+minimum 5 full adversarial loops / until clean
 Notion/GitHub sync
-implementation DoR
-explicit user authority
+implementation Definition of Ready
+explicit user implementation authority
 ```
 
 Only then open implementation handoff.
 
-## Current Stage product grammar
+## Current world / content authority
+
+```text
+PLAYER_ROLE = Omen Warden
+VEIL = hostile boundary phenomenon, not one enemy race
+ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
+RUN_HISTORY_RESET = FALSE
+```
+
+20 Stage learning spine:
+
+```text
+Stage 1~5   = PRESSURE LITERACY
+Stage 6~10  = COMBINATION
+Stage 11~15 = OPPORTUNITY COST
+Stage 16~20 = SYNTHESIS
+```
+
+Boss function:
+
+```text
+Stage 5  = PRIORITY
+Stage 10 = ROUTE
+Stage 15 = STANCE
+Stage 20 = SEQUENTIAL_SYNTHESIS
+```
+
+Cadence:
 
 ```text
 MAPRUN_STAGE_COUNT = 20
+BASELINE_WAVE_BEATS = 3
 DANGER_STAGE_TYPE = REMOVED
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 BOSS_STAGES = 5 / 10 / 15 / 20
 BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
 
-First 5 learning ladder:
+Legacy 4/9/14/19 ideas are normal-stage authored variations only:
 
 ```text
-Stage 1 = causal understanding
-Stage 2 = future distribution modification
-Stage 3 = tactical intervention
-Stage 4 = application / no new core system
-Stage 5 = first Boss + build review
+4  = REVEALED_BYPASS_ROUTE
+9  = REVEALED_WAVE_OVERLAP_TIMETABLE
+14 = REVEALED_PRIMARY_LANE_ROTATION
+19 = REVEALED_ROUTE_CONVERGENCE
 ```
+
+Current content owner:
+`docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md`
+
+Current story owner:
+`docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`
+
+## Bounded variation roadmap
+
+Vertical Slice uses stable authored stages for reproducible evaluation.
+
+Long-term repeat runs may vary:
+
+```text
+lane assignment
+allowed secondary Signature
+Route variant
+Elite identity
+Escort package
+limited overlap timing
+faction/cosmetic presentation
+```
+
+Do not randomize the Stage learning role, Boss landmarks, forecasted lethal threat, or existence of a valid response.
 
 ## Current GitHub work-item routing
 
@@ -135,7 +162,7 @@ ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
 PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 ```
 
-PR175/177 unmerged work is historical evidence, not current main implementation. PR197 is protected from this workstream.
+PR197 is protected from this planning workstream.
 
 ## Current runtime/evidence gate
 
@@ -149,7 +176,7 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-No old signal11 diagnosis is promoted as a current blocker without fresh execution.
+No historical crash diagnosis is promoted as current without fresh execution.
 
 ## Platform / release deferred
 
@@ -162,16 +189,4 @@ EXPORT_PRESETS = ABSENT
 
 ## Historical Phase C roadmap
 
-2026-08-11 Phase B/C0 → PR175 path is retained as historical execution lineage only:
-
-```text
-MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
-PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
-PHASE_C_C0_OVERALL = HISTORICAL_PASS
-PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
-C1_ISSUE176 = HISTORICAL_PLANNED_EXECUTION
-C2_FV = HISTORICAL_PLANNED_EXECUTION
-C3_LIVE_QA = HISTORICAL_PLANNED_EXECUTION
-```
-
-These records do not override the reopened 2026-08-20 planning roadmap.
+2026-08-11 Phase B/C0 → PR175 path remains historical execution lineage only and does not override the reopened 2026-08-20 planning roadmap.
