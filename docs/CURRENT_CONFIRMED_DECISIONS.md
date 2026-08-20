@@ -33,6 +33,7 @@ visual_generation: USER_REQUEST_ONLY
 | `OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01` | 캐릭터/유닛 = Anime Pixel Art, 전장/배경 = Clean Pixel Art. 전장 메인/하단 보조, 3×3 룰렛+행·열 화살표, 병종/Gold Token을 보호한다. | `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01` | 유닛 크기에서 길 폭을 역산해 2~3열 교전이 읽히는 넓은 길과 full-three-lane 기본 카메라를 사용한다. | `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md` + `docs/analysis/visual/current_battlefield_scale_readability.v1.json` | CONFIRMED |
 | `OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01` | 낮은 하단에서 `3×3 + 각 열 상·하 + 각 행 좌·우` 직접 화살표 작업대를 사용한다. Hover/focus는 preview, 실행은 이동권 소비 후 즉시 확정이며 중앙 가로줄 판정과 기존 line reward를 보존한다. | `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_3x3_roulette_component.v1.json` | CONFIRMED |
+| `OMW-PLAN-20260820-TOKEN-COMPONENT-01` | 실제 Anime Pixel 병종 아트를 재사용하고 작은 타일에서는 역할 앵커가 먼저 읽히게 crop한다. T1/T2 token art만 사용하고 reward rarity와 token tier를 분리하며 Gold/X도 같은 tile grammar를 사용한다. | `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_token_component.v1.json` | CONFIRMED |
 
 ## 보호되는 제품 정체성
 
@@ -106,6 +107,20 @@ UNDO_AFTER_MOVE = FORBIDDEN
 PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
 ```
 
+Token planning contract:
+
+```text
+SOURCE_ART = ACTUAL_GAME_UNIT_ART
+TOKEN_TILE = 32~34 px exploration
+INNER_SAFE_ART = 26~29 px exploration
+READ_ORDER = ROLE_ANCHOR → SILHOUETTE → FACE → TIER → DECORATION
+T1_T2_TOKEN_ART = ALLOWED
+T3_TOKEN_ART = FORBIDDEN
+TOKEN_RARITY_FRAME = FORBIDDEN
+GOLD_TOKEN_USES_GAME_GOLD_ART = TRUE
+X_TOKEN = CLEAR_EMPTY_NON_REWARD
+```
+
 이 값들은 North Star/Vertical Slice 검증용 planning envelope이며 런타임 최종 수치가 아니다.
 
 ## Balance open reconciliation
@@ -122,8 +137,8 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```text
 COMPLETED = BATTLEFIELD_SCALE_AND_ROAD_WIDTH_PLANNING_CONTRACT
 COMPLETED = 3X3_ROULETTE_COMPONENT_SPEC
-CURRENT_NEXT = TOKEN_COMPONENT_SPEC
-THEN = LOWER_CONTROL_DECK_SPEC
+COMPLETED = TOKEN_COMPONENT_SPEC
+CURRENT_NEXT = LOWER_CONTROL_DECK_SPEC
 THEN = ROULETTE_DDD_FEEDBACK_SPEC
 THEN = NEW_NORTH_STAR_ONE_IMAGE
 THEN = COMPONENT_SHEET
@@ -145,7 +160,7 @@ PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 1. fresh `main`과 이 인덱스를 먼저 읽는다.
 2. 기존 CONFIRMED Decision은 같은 질문을 다시 묻지 않는다.
 3. `docs/ACTIVE_CONTEXT.md`를 읽는다.
-4. Visual 작업 시 visual style/component + battlefield scale + 3×3 roulette owner를 함께 읽는다.
+4. Visual 작업 시 visual style/component + battlefield scale + 3×3 roulette + Token owner를 함께 읽는다.
 5. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
 6. runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
 7. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 재대조한다.
