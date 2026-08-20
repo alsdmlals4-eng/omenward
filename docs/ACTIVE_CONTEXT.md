@@ -10,10 +10,10 @@ current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_review: CLEAN_REVIEW_EXIT_FOR_DECISIONS_1_TO_6_AND_ROUTING
 current_review_full_loop_count: 6
-current_review_owner: docs/reviews/ADVERSARIAL_REPLAN_DECISIONS_1_TO_6_AND_CANON_RECONCILIATION_2026-08-20.md
 current_world_story_decision: OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01
-current_world_story_owner: docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md
-current_next_gate: 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
+current_content_decision: OMW-PLAN-20260820-CONTENT-BOSS-ARC-01
+current_content_owner: docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md
+current_next_gate: BALANCE_BUDGET
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -23,9 +23,7 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ## Current planning state
 
 ```text
-PROJECT_STATE_RECOVERED = TRUE
-PLANNING_REOPENED_BY_USER = TRUE
-CURRENT_APPROVED_REPLAN_DECISIONS = 7
+CURRENT_APPROVED_REPLAN_DECISIONS = 8
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -33,13 +31,10 @@ MOBILIZATION_REGISTRY_WORLD_MEANING = CONFIRMED
 FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
 RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
 WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
+20_STAGE_CONTENT_AND_BOSS_STRUCTURE = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
-CANON_RECONCILIATION = COMPLETE_FOR_ACTIVE_GITHUB_AND_NOTION_ROUTING_SCOPE
-VISUAL_REQUIREMENT_INVENTORY = COMPLETE_PROPOSED
-VISUAL_NORTH_STAR_DIRECTION_A = APPROVED_DIRECTION_ONLY
-FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
 VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-CURRENT_NEXT = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
+CURRENT_NEXT = BALANCE_BUDGET
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -59,8 +54,6 @@ Player role: `징조수호관(Omen Warden)`
 
 Run meaning: `one Ward Citadel + one 20 Stage Omen Cycle`
 
-Pressure language: `MASS / ARMORED / FLYING / INFILTRATION / SIEGE = Omen Signature, not enemy race/faction`
-
 Run shell: `PREPARE → COMMIT → BATTLE → REVIEW`
 
 World conflict:
@@ -68,110 +61,139 @@ World conflict:
 ```text
 VEIL = 현실과 겹쳐지는 적대적 경계현상 / 단일 종족 아님
 OMEN = 실제 공세 전에 나타나는 Pre-Echo
-OMEN_CYCLE = Veil 겹침이 20 Stage에 걸쳐 심화되는 수렴기
 STAGE_20 = 해당 수호성의 수렴핵/정박체 파괴 결산
 RUN_HISTORY_RESET = FALSE
 ```
 
-## Adversarial review result
+## Current 20 Stage spine
 
 ```text
-FULL_LOOP_COUNT = 6
-MINIMUM_FULL_LOOPS_SATISFIED = TRUE
-DECISION_1_TO_6_REGRESSION = NONE_FOUND
-CURRENT_GITHUB_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
-CURRENT_NOTION_ROUTING_CONFLICT = NONE_FOUND_AFTER_LOOP_6_FIX
-CURRENT_RUNTIME_PASS_CLAIM = NONE
-HUMAN_PASS_CLAIM = NONE
-PR197_MUTATION = NONE
-CLEAN_REVIEW_EXIT = PASS_FOR_DECISIONS_1_TO_6_AND_CURRENT_ROUTING_SCOPE
-WHOLE_PROJECT_PLANNING_COMPLETE = FALSE
+Stage 1~5   = PRESSURE LITERACY
+Stage 6~10  = COMBINATION
+Stage 11~15 = OPPORTUNITY COST
+Stage 16~20 = SYNTHESIS
 ```
 
-## Current world/story truth
+Boss function:
 
 ```text
-VEIL_IS_SINGLE_ENEMY_RACE = FALSE
-VEIL_IS_SINGLE_PRESSURE = FALSE
-OMEN_IS_ACTIONABLE_PRE_ECHO = TRUE
-WORLD_HAS_MULTIPLE_WARD_CITADELS = TRUE
-ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-STAGE_20_ENDS_LOCAL_CYCLE_NOT_WORLD = TRUE
-RUN_RESULTS_REMAIN_WORLD_HISTORY = TRUE
-TIME_LOOP_DEFAULT = FALSE
+Stage 5  = PRIORITY
+Stage 10 = ROUTE
+Stage 15 = STANCE
+Stage 20 = SEQUENTIAL_SYNTHESIS
 ```
 
-의도적으로 미확정:
+Global cadence:
 
 ```text
-VEIL_HAS_SENTIENT_WILL
-VEIL_ORIGIN
-WHO_FIRST_DISCOVERED_OR_CREATED_OMEN_WHEELS
-FINAL_WORLD_ENDING
+BASELINE_WAVE_BEATS = 3
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+BOSS_STAGES = 5 / 10 / 15 / 20
+DANGER_STAGE_TYPE = REMOVED
 ```
 
-## Current first-session truth
+Former Danger ideas are only normal-stage authored variations:
 
 ```text
-FIRST_SESSION = REAL_MAPRUN
-STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
-SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
-FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
-STAGE_1 = CAUSAL_UNDERSTANDING
-STAGE_2 = FUTURE_DISTRIBUTION_MODIFICATION
-STAGE_3 = TACTICAL_INTERVENTION
-STAGE_4 = APPLICATION_WITH_NO_NEW_CORE_SYSTEM
-STAGE_5 = FIRST_BOSS_AND_BUILD_REVIEW
+Stage 4  = REVEALED_BYPASS_ROUTE
+Stage 9  = REVEALED_WAVE_OVERLAP_TIMETABLE
+Stage 14 = REVEALED_PRIMARY_LANE_ROTATION
+Stage 19 = REVEALED_ROUTE_CONVERGENCE
 ```
 
-6개 필수 T1은 현재 유지하지만 `생존 기반 → 군사 기반 → 지휘 기반` 세 묶음으로 순차 학습한다. release-near Vertical Slice 사람 플레이에서 과부하가 실제 관측되면 필수 건물 축소안을 최우선 재검토한다.
+Stage 20 Final Boss:
 
-## Current GitHub work-item truth
+```text
+Pattern I   = MASS + FLYING
+Pattern II  = ARMORED + SIEGE
+Pattern III = INFILTRATION + prior residual pressure
+NEXT_PATTERN_FORECAST = REQUIRED
+ALL_PRESSURES_SIMULTANEOUS_SPAM = FORBIDDEN
+```
+
+## Bounded variation
+
+Vertical Slice / first validation uses a stable authored spine.
+
+Long-term allowed variation:
+
+```text
+primary lane
+secondary lane
+allowed secondary Signature
+Route variant
+Elite identity
+Escort package
+limited Wave overlap timing
+faction/cosmetic presentation
+```
+
+Not allowed:
+
+```text
+random replacement of Stage learning role
+moving Boss landmarks
+removing final-wave Elite cadence
+unforecast lethal Route/Pressure swap
+a seed that removes all valid responses
+```
+
+## Current Balance gap
+
+Balance Budget must define **targets and ranges**, not final production numerics.
+
+```text
+STAGE_THREAT_BUDGET
+WAVE_THREAT_BUDGET
+PRESSURE_COST
+ELITE_BUDGET
+BOSS_BUDGET
+GOLD_INCOME_CURVE
+MANA_INCOME_CURVE
+TROOP_LIMIT_CURVE
+BUILD_AND_UPGRADE_SPEND_TARGETS
+ROULETTE_SPEND_TARGETS
+MERCHANT_SPEND_TARGETS
+```
+
+Final values remain evidence-dependent.
+
+## Runtime / work-item boundary
 
 ```text
 PR175 = CLOSED_UNMERGED_HISTORICAL
 PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
 ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
 PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
-```
-
-- PR175/177 unmerged 변경은 current main 제품 truth가 아니다.
-- Issue176은 미래 구현 전에 current main/Decision/actual runtime과 재대조한다.
-- PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
-
-## Runtime / evidence boundary
-
-```text
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
-CURRENT_UI_EVIDENCE = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-2026-08-11~12 signal11/HiGodot 진단은 historical evidence다. current crash reproduction은 `NOT_RUN`이다.
+PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 
-## Current visual boundary
+## Visual boundary
 
 ```text
 STYLE = 클린 전술 픽셀 + 미니어처 치비 픽셀 + 제한된 고급 조명
-VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
+VISUAL_NORTH_STAR_DIRECTION_A = APPROVED_DIRECTION_ONLY
 FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
+VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
 ```
 
-사용자가 집에 보유한 시안/레퍼런스 파일을 보내기 전까지 새 이미지 생성·수정을 하지 않는다. 이미지 보류는 다른 기획을 막지 않는다.
+사용자 보유 시안/레퍼런스 파일 수신 전에는 이미지 생성·수정을 재개하지 않는다.
 
 ## Current non-image planning order
 
 ```text
-1. 20 Stage content / boss structure
-2. balance budget
-3. text UX / state-transition spec
-4. resume visual work only after user reference files arrive
-5. final planning review
-6. implementation handoff only after user authority
+1. Balance Budget
+2. PREPARE / COMMIT / BATTLE / REVIEW text UX + state-transition spec
+3. resume visual work only after user reference files arrive
+4. final planning review
+5. implementation handoff only after user authority
 ```
 
 ## Protected mechanics
@@ -189,6 +211,7 @@ THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
 IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
 BOSS_STAGES = 5 / 10 / 15 / 20
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+DANGER_STAGE_TYPE = REMOVED
 PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 VEIL_IS_SINGLE_ENEMY_RACE = FALSE
 TIME_LOOP_DEFAULT = FALSE
@@ -199,19 +222,9 @@ TIME_LOOP_DEFAULT = FALSE
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`.
-5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md`.
-6. Project Notion Home + `09 · 세계관 · 핵심 스토리` + relevant 08/03/02 pages.
-7. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
-8. actual code/data/scene/test only when implementation scope opens.
-9. fresh current runtime only when execution is explicitly resumed.
-
-## Historical compatibility markers
-
-```text
-MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
-PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
-PHASE_C_C0_OVERALL = HISTORICAL_PASS
-PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
-PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
-```
+4. `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md`.
+5. `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`.
+6. current GDD/Project Core.
+7. Project Notion Home + `09 · 세계관 · 핵심 스토리` + `10 · 20 Stage · Boss 구조` + relevant `08/03/02`.
+8. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
+9. fresh runtime only when execution is explicitly resumed.
