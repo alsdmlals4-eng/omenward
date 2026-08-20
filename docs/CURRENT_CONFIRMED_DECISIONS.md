@@ -32,6 +32,7 @@ visual_generation: USER_REQUEST_ONLY
 | `OMW-PLAN-20260820-TEXT-UX-STATE-01` | 각 Mode는 하나의 질문/Primary CTA를 우선하고 COMMIT은 staged plan 후 atomic irreversible confirm을 사용한다. | `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md` + `docs/analysis/ui/current_text_ux_state_contract.v1.json` | CONFIRMED |
 | `OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01` | 캐릭터/유닛 = Anime Pixel Art, 전장/배경 = Clean Pixel Art. 전장 메인/하단 보조, 3×3 룰렛+행·열 화살표, 병종/Gold Token을 보호한다. | `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01` | 유닛 크기에서 길 폭을 역산해 2~3열 교전이 읽히는 넓은 길과 full-three-lane 기본 카메라를 사용한다. | `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md` + `docs/analysis/visual/current_battlefield_scale_readability.v1.json` | CONFIRMED |
+| `OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01` | 낮은 하단에서 `3×3 + 각 열 상·하 + 각 행 좌·우` 직접 화살표 작업대를 사용한다. Hover/focus는 preview, 실행은 이동권 소비 후 즉시 확정이며 중앙 가로줄 판정과 기존 line reward를 보존한다. | `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_3x3_roulette_component.v1.json` | CONFIRMED |
 
 ## 보호되는 제품 정체성
 
@@ -91,7 +92,21 @@ CLASH_NODE = 78~96 px exploration
 DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 ```
 
-이 값은 North Star/Vertical Slice 검증용 planning envelope이며 런타임 최종 수치가 아니다.
+3×3 roulette component planning envelope:
+
+```text
+ROULETTE_FOCUS_LOWER_DECK = 28~32%
+TOKEN_TILE = 32~34 px exploration
+BOARD_ONLY = 100~108 px exploration
+BOARD_PLUS_ARROWS_HEIGHT = 146~154 px exploration
+ARROWS = 12 direct target/direction controls
+PREVIEW = hover/focus without spend
+EXECUTE = immediate spend + committed move
+UNDO_AFTER_MOVE = FORBIDDEN
+PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
+```
+
+이 값들은 North Star/Vertical Slice 검증용 planning envelope이며 런타임 최종 수치가 아니다.
 
 ## Balance open reconciliation
 
@@ -106,8 +121,8 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 
 ```text
 COMPLETED = BATTLEFIELD_SCALE_AND_ROAD_WIDTH_PLANNING_CONTRACT
-CURRENT_NEXT = 3X3_ROULETTE_COMPONENT_SPEC
-THEN = TOKEN_COMPONENT_SPEC
+COMPLETED = 3X3_ROULETTE_COMPONENT_SPEC
+CURRENT_NEXT = TOKEN_COMPONENT_SPEC
 THEN = LOWER_CONTROL_DECK_SPEC
 THEN = ROULETTE_DDD_FEEDBACK_SPEC
 THEN = NEW_NORTH_STAR_ONE_IMAGE
@@ -130,7 +145,7 @@ PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 1. fresh `main`과 이 인덱스를 먼저 읽는다.
 2. 기존 CONFIRMED Decision은 같은 질문을 다시 묻지 않는다.
 3. `docs/ACTIVE_CONTEXT.md`를 읽는다.
-4. Visual 작업 시 visual style/component + battlefield scale owner를 함께 읽는다.
+4. Visual 작업 시 visual style/component + battlefield scale + 3×3 roulette owner를 함께 읽는다.
 5. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
 6. runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
 7. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 재대조한다.
