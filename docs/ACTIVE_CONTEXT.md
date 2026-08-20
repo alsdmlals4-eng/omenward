@@ -16,9 +16,10 @@ current_battlefield_scale_decision: OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABIL
 current_roulette_component_decision: OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01
 current_token_component_decision: OMW-PLAN-20260820-TOKEN-COMPONENT-01
 current_lower_control_deck_decision: OMW-PLAN-20260820-LOWER-CONTROL-DECK-01
-current_lower_control_deck_owner: docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md
-current_lower_control_deck_machine_owner: docs/analysis/ui/current_lower_control_deck.v1.json
-current_next_gate: ROULETTE_DDD_FEEDBACK_SPEC
+current_roulette_ddd_decision: OMW-PLAN-20260820-ROULETTE-DDD-FEEDBACK-01
+current_roulette_ddd_owner: docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md
+current_roulette_ddd_machine_owner: docs/analysis/ui/current_roulette_ddd_feedback.v1.json
+current_next_gate: REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -28,7 +29,7 @@ visual_generation: USER_REQUEST_ONLY
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 15
+CURRENT_APPROVED_REPLAN_DECISIONS = 16
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -44,8 +45,9 @@ BATTLEFIELD_SCALE_AND_COMBAT_READABILITY = CONFIRMED
 ROULETTE_3X3_COMPONENT = CONFIRMED
 TOKEN_COMPONENT = CONFIRMED
 LOWER_CONTROL_DECK = CONFIRMED
+ROULETTE_DDD_FEEDBACK = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
-CURRENT_NEXT = ROULETTE_DDD_FEEDBACK_SPEC
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -77,7 +79,6 @@ DUPLICATE_RESOURCE_DISPLAY_IN_LOWER_DECK = FORBIDDEN
 ```
 
 Battlefield planning envelope:
-
 ```text
 REFERENCE_RESOLUTION = 960×540
 BATTLEFIELD_HEIGHT = 68~75%
@@ -88,15 +89,13 @@ COMMON_FOOTPRINT_WIDTH = 18~22 px exploration
 ROAD_USABLE_WIDTH = 60~72 px exploration
 ROAD_TO_FOOTPRINT = 2.75~3.25×
 LATERAL_RANK_TARGET = 2~3
-LOCAL_ENGAGEMENT_READABILITY = 8~12 combatants per immediate cluster, not a gameplay cap
 LANE_CENTER_SPACING = 105~125 px exploration
 CLASH_NODE = 78~96 px exploration
 DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 AUTO_ZOOM_HIDING_OTHER_LANES = FORBIDDEN
 ```
 
-3×3 roulette component:
-
+3×3 Roulette:
 ```text
 ROULETTE_EXPOSURE = 3×3
 ROULETTE_FOCUS_LOWER_DECK = 28~32%
@@ -109,8 +108,7 @@ UNDO_AFTER_MOVE = FORBIDDEN
 PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
 ```
 
-Token component:
-
+Token:
 ```text
 SOURCE_ART = ACTUAL_GAME_UNIT_ART
 INNER_SAFE_ART = 26~29 px exploration
@@ -123,7 +121,6 @@ X_TOKEN = CLEAR_EMPTY_NON_REWARD
 ```
 
 Lower Control Deck:
-
 ```text
 ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE
 GLOBAL_LOWER_DECK = 25~32% exploration
@@ -135,7 +132,33 @@ TABS = ROULETTE / STORAGE / BUILD / TACTICAL
 BELLU = CONTEXT_GUIDE_NOT_FIFTH_MANAGEMENT_MENU
 ```
 
-These are North Star / Vertical Slice planning ranges, not final runtime numerics.
+## Current Roulette DDD
+
+```text
+DIRECTION = AGENCY_FIRST_TACTICAL_CRESCENDO
+BUILD/PROBABILITY DESIGN
+→ ANTICIPATION
+→ SPIN
+→ HONEST NATURAL STOP
+→ PLAYER ROW/COLUMN MANIPULATION
+→ CENTER LINE LOCK
+→ COMPLETED LINE CASCADE
+→ RESULT REVEAL
+→ STORAGE / COMMIT QUEUE
+→ LATER COMMIT CONFIRM
+→ BATTLEFIELD DEPLOYMENT FEEDBACK
+```
+
+Protection:
+```text
+FAKE_NEAR_MISS = FORBIDDEN
+CASINO_JACKPOT_LANGUAGE = FORBIDDEN
+ROULETTE_RESULT_AUTO_LANE_DEPLOYMENT = FORBIDDEN
+PLAYER_MOVE_FEEDBACK_PRIORITY = HIGHEST
+BATTLEFIELD_AUTO_ZOOM_FOR_ROULETTE = FORBIDDEN
+```
+
+DDD timing values in the owner are prototype exploration ranges, not final runtime timings.
 
 ## Current Text UX contract
 
@@ -159,43 +182,22 @@ Stage 1~5   = PRESSURE LITERACY
 Stage 6~10  = COMBINATION
 Stage 11~15 = OPPORTUNITY COST
 Stage 16~20 = SYNTHESIS
-
-Boss 5  = PRIORITY
-Boss 10 = ROUTE
-Boss 15 = STANCE
-Boss 20 = SEQUENTIAL_SYNTHESIS
-
+Boss 5/10/15/20 = PRIORITY / ROUTE / STANCE / SEQUENTIAL_SYNTHESIS
 DANGER_STAGE_TYPE = REMOVED
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 ```
 
-## Current normalized Balance envelope
+## Balance / runtime boundary
 
 ```text
-SE = current 20 Gold Spin anchor
-ME = current 50 Gold first-T2-class anchor = 2.5 SE
-TU = simulation-only relative threat unit
-THREAT_VECTOR = Raw TU + Active Lanes + Signature Count + Route Complexity + Wave Overlap + Elite/Boss Complexity
-```
-
-Economy drift remains open and final product numerics remain unapproved.
-
-## Runtime / work-item boundary
-
-```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
+ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
-FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
-
-PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 
 ## Current work order
 
@@ -204,12 +206,11 @@ PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 2. COMPLETE — compact direct-arrow 3×3 Roulette
 3. COMPLETE — Token component
 4. COMPLETE — Focus-adaptive Lower Control Deck
-5. CURRENT — Roulette DDD feedback / anticipation-payoff spec
-6. NEXT — one rebuilt North Star image after component contracts
-7. NEXT — component sheet / reusable asset breakup
-8. NEXT — final full planning adversarial review
-9. NEXT — GitHub/Notion final sync
-10. NEXT — implementation handoff only after explicit user authority
+5. COMPLETE — Agency-first Roulette DDD feedback
+6. CURRENT GATE — rebuilt North Star, only on explicit user image request
+7. AFTER APPROVED NORTH STAR — component sheet / reusable asset breakup
+8. FINAL — minimum 5 full adversarial planning loops + GitHub/Notion drift check
+9. IMPLEMENTATION — only after explicit user authority
 ```
 
 ## Resume order
@@ -217,8 +218,9 @@ PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. visual style + battlefield + 3×3 + Token + Lower Deck owners/machine envelopes.
-5. Text UX + Balance + Content/Story owner docs.
-6. Project Notion Home + `02/03/08/09/10/11/12/13/14/15/16/17` relevant pages.
-7. open/draft PR inventory; PR197 read-only.
-8. actual runtime only when execution is explicitly resumed.
+4. visual style + battlefield + 3×3 + Token + Lower Deck + DDD owners/machine envelopes.
+5. Text UX + Balance + Content/Story owners.
+6. Project Notion Home + `02/03/08/09/10/11/12/13/14/15/16/17/18` relevant pages.
+7. PR197 stays read-only.
+8. image generation only after explicit user request.
+9. runtime only when execution is explicitly resumed.
