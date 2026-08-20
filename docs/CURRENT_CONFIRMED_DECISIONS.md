@@ -7,6 +7,7 @@ planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTIO
 planning_reopened_at: 2026-08-20
 current_planning_track: WORLD_STORY_CONTENT_BALANCE_TEXT_UX_REPLAN
 adversarial_review_decisions_1_to_6: CLEAN_REVIEW_EXIT
+adversarial_review_full_loop_count: 6
 adversarial_review_owner: docs/reviews/ADVERSARIAL_REPLAN_DECISIONS_1_TO_6_AND_CANON_RECONCILIATION_2026-08-20.md
 runtime_evidence_ceiling: NOT_CHANGED_BY_THIS_INDEX
 human_play_evidence: NOT_RUN
@@ -28,12 +29,14 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 
 ## Adversarial review result
 
-2026-08-20 Decision 1~6과 현행 routing을 Base `running-adversarial-review-and-refinement` 규칙으로 5회의 full-scope loop로 다시 공격했다.
+2026-08-20 Decision 1~6과 현행 GitHub/Notion routing을 Base `running-adversarial-review-and-refinement` 규칙으로 **6회의 full-scope loop**로 다시 공격했다. 최소 5회 이후 post-change readback에서 발견한 Project Home의 `COMMIT/REVIEW` 요약 누락까지 6회차에서 수정했다.
 
 ```text
-FULL_LOOP_COUNT = 5
+FULL_LOOP_COUNT = 6
+MINIMUM_FULL_LOOPS_SATISFIED = TRUE
 DECISION_1_TO_6_REGRESSION = NONE_FOUND
-CURRENT_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
+CURRENT_GITHUB_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
+CURRENT_NOTION_ROUTING_CONFLICT = NONE_FOUND_AFTER_LOOP_6_FIX
 CURRENT_RUNTIME_PASS_CLAIM = NONE
 HUMAN_PASS_CLAIM = NONE
 PR197_MUTATION = NONE
