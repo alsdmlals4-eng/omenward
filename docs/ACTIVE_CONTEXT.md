@@ -10,22 +10,21 @@ current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_review: CLEAN_REVIEW_EXIT_FOR_DECISIONS_1_TO_6_AND_ROUTING
 current_review_full_loop_count: 6
-current_world_story_decision: OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01
-current_content_decision: OMW-PLAN-20260820-CONTENT-BOSS-ARC-01
-current_balance_decision: OMW-PLAN-20260820-BALANCE-BUDGET-01
-current_balance_owner: docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md
-current_balance_machine_owner: docs/analysis/balance/current_normalized_balance_budget.v1.json
-current_next_gate: TEXT_UX_AND_STATE_TRANSITION_SPEC
+current_text_ux_decision: OMW-PLAN-20260820-TEXT-UX-STATE-01
+current_text_ux_owner: docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md
+current_text_ux_machine_owner: docs/analysis/ui/current_text_ux_state_contract.v1.json
+current_visual_reference_owner: docs/design/REFERENCE_OMENWARD_USER_MOCKUP_INTAKE_2026-08-20.md
+current_next_gate: VISUAL_REFERENCE_RECONCILIATION
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
-visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
+visual_generation: PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
 ```
 
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 9
+CURRENT_APPROVED_REPLAN_DECISIONS = 10
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -35,9 +34,10 @@ RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
 WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
 20_STAGE_CONTENT_AND_BOSS_STRUCTURE = CONFIRMED
 BALANCE_BUDGET = CONFIRMED
+TEXT_UX_AND_STATE_TRANSITION = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
-VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-CURRENT_NEXT = TEXT_UX_AND_STATE_TRANSITION_SPEC
+USER_VISUAL_REFERENCES = RECEIVED_REFERENCE_ONLY_NOT_CANON
+CURRENT_NEXT = VISUAL_REFERENCE_RECONCILIATION
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -55,134 +55,136 @@ IMPLEMENTATION_START = NOT_AUTHORIZED
 
 Player role: `징조수호관(Omen Warden)`
 
-Run meaning: `one Ward Citadel + one 20 Stage Omen Cycle`
-
 Run shell: `PREPARE → COMMIT → BATTLE → REVIEW`
 
-World conflict:
+## Current Text UX contract
 
 ```text
-VEIL = 현실과 겹쳐지는 적대적 경계현상 / 단일 종족 아님
-OMEN = 실제 공세 전에 나타나는 Pre-Echo
-STAGE_20 = 해당 수호성의 수렴핵/정박체 파괴 결산
-RUN_HISTORY_RESET = FALSE
+PREPARE = 다가오는 문제를 보고 무엇을 바꿀 것인가?
+COMMIT = 얻은 병력을 어느 전선에 확정할 것인가?
+BATTLE = 지금 직접 개입해야 하는가?
+REVIEW = 왜 이런 결과가 나왔는가?
 ```
 
-## Current 20 Stage spine
+State flow:
 
 ```text
+STAGE_ENTER
+→ PREPARE
+→ COMMIT
+→ BATTLE
+→ REVIEW.RESULT
+→ REVIEW.MAINTENANCE
+→ NEXT PREPARE
+```
+
+Stage 20:
+
+```text
+BATTLE → REVIEW.FINAL → MAPRUN_FINAL_SETTLEMENT
+```
+
+COMMIT:
+
+```text
+PENDING_COMMIT = editable plan only
+FINAL_CONFIRM = atomic irreversible deployment
+POST_CONFIRM_RECALL = FORBIDDEN
+POST_CONFIRM_SELL = FORBIDDEN
+POST_CONFIRM_CROSS_LANE_MOVE = FORBIDDEN
+```
+
+Player UI는 raw reason code를 노출하지 않고 부족 자원/미준비 조건/대상 조건/비가역 결과를 직접 설명한다. REVIEW는 사실과 인과만 설명하고 다음 정답 빌드를 명령하지 않는다.
+
+## Current world / content spine
+
+```text
+VEIL = hostile boundary phenomenon, not one enemy race
+ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
+RUN_HISTORY_RESET = FALSE
+
 Stage 1~5   = PRESSURE LITERACY
 Stage 6~10  = COMBINATION
 Stage 11~15 = OPPORTUNITY COST
 Stage 16~20 = SYNTHESIS
-```
 
-Boss function:
+Boss 5  = PRIORITY
+Boss 10 = ROUTE
+Boss 15 = STANCE
+Boss 20 = SEQUENTIAL_SYNTHESIS
 
-```text
-Stage 5  = PRIORITY
-Stage 10 = ROUTE
-Stage 15 = STANCE
-Stage 20 = SEQUENTIAL_SYNTHESIS
-```
-
-Global cadence:
-
-```text
-BASELINE_WAVE_BEATS = 3
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-BOSS_STAGES = 5 / 10 / 15 / 20
 DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 ```
 
 ## Current normalized Balance envelope
 
-Calibration anchor:
-
 ```text
-SE = 20 Gold current Spin anchor
-ME = 50 Gold current first-T2-class anchor = 2.5 SE
+SE = current 20 Gold Spin anchor
+ME = current 50 Gold first-T2-class anchor = 2.5 SE
 TU = simulation-only relative threat unit
+THREAT_VECTOR = Raw TU + Active Lanes + Signature Count + Route Complexity + Wave Overlap + Elite/Boss Complexity
 ```
-
-Threat is a vector rather than one power score:
-
-```text
-RAW_TU
-ACTIVE_LANES
-SIGNATURE_COUNT
-ROUTE_COMPLEXITY
-WAVE_OVERLAP
-ELITE/BOSS_COMPLEXITY
-```
-
-Search envelope:
 
 ```text
 Act I   = 1.00 reference
 Act II  = 1.15~1.35
 Act III = 1.40~1.65
 Act IV  = 1.70~2.05
-
-Wave 1 = 20~30%
-Wave 2 = 25~35%
-Final Wave = 40~50% including Elite
-Boss raw TU = same-Act normal median × 1.25~1.45 exploration range
+Wave 1  = 20~30%
+Wave 2  = 25~35%
+Final   = 40~50% including Elite
 ```
 
-Mana / capacity target:
+Economy drift remains open:
 
 ```text
-Normal Stage T1 tactical opportunities = 1~2
-Mana cap exploration = 2~3 T1-cast equivalents
-Normal pre-commit troop headroom = 15~30%
-Late/Boss prep occupancy = 80~95%
-```
-
-## Open Balance reconciliation
-
-Do not treat either side as final without fresh comparison.
-
-```text
-analysis baseline:
-  base income = 3 / 20s
-  Vault = 3 / 20s
-  foundation Gold = 250
-
-current main observation:
-  StageEconomy base = 5 / 20s
-  control = 4 / 60s
-  outpost = 2 / 30s
-  StageDefinition default starting_gold = 160
-
+analysis = base 3/20s + Vault 3/20s + foundation 250
+current main observed = base 5/20s + control 4/60s + outpost 2/30s + default starting_gold 160
 ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-Existing 10k robustness remains scoped evidence only:
+## Visual reference state
+
+사용자가 제공한 6개 시안은 예시이며 아직 확정이 아니다.
 
 ```text
-SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
-SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
-ROBUSTNESS_10000 = PASS_FOR_APPROVED_NONCOMBAT_GATES
-FUNCTIONAL_VALUE = NOT_IDENTIFIED
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
+USER_REFERENCE_FILES_RECEIVED = TRUE
+REFERENCE_COUNT = 6
+REFERENCE_STATUS = REFERENCE_ONLY_NOT_CANON
+FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
+VISUAL_DIRECTION_FINAL = NOT_SELECTED
+IMAGE_GENERATION = PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
 ```
 
-## Current Text UX gap
-
-Next Decision must turn the approved Run shell into explicit player-facing information and transitions.
+Reference에서 가치가 높은 요소:
 
 ```text
-PREPARE_COPY_AND_INFORMATION_HIERARCHY
-COMMIT_CONFIRMATION_AND_IRREVERSIBILITY_COPY
-BATTLE_TACTICAL_STATE_AND_BLOCK_REASONS
-REVIEW_CAUSAL_SUMMARY
-FTUE_STAGE1_TO_5_PROMPTS
-MODE_TRANSITION_RULES
-ERROR_AND_DISABLED_REASON_LANGUAGE
-DEBUG_VS_PLAYER_SURFACE_BOUNDARY
+3-lane left-to-right battlefield grammar
+allied ivory/blue/gold vs Veil violet/crimson contrast
+2.5~3-head SD role silhouettes and tier evolution
+navy/charcoal UI + restrained gold trim
 ```
+
+Rework required:
+
+```text
+square 3x3/gacha-like reward emphasis -> current triple Omen Wheel military grammar에 맞게 재해석
+all-panels-always-visible density -> Focus Mode hierarchy 적용
+painterly-only rendering -> user-requested stronger pixel/dot direction과 재조정
+style-board option 1 recommendation -> NOT_CANON
+```
+
+Visual reconciliation candidates:
+
+```text
+A = PIXEL_ILLUSTRATION_HYBRID
+B = FULL_TACTICAL_PIXEL
+C = WATERCOLOR_ILLUSTRATION_WITH_PIXEL_UI_ACCENTS
+```
+
+아직 선택하지 않는다.
 
 ## Runtime / work-item boundary
 
@@ -195,52 +197,22 @@ CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+STAGED_COMMIT_USABILITY = NOT_RUN
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
 PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 
-## Visual boundary
+## Current planning order
 
 ```text
-STYLE = 클린 전술 픽셀 + 미니어처 치비 픽셀 + 제한된 고급 조명
-VISUAL_NORTH_STAR_DIRECTION_A = APPROVED_DIRECTION_ONLY
-FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
-VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-```
-
-사용자 보유 시안/레퍼런스 파일 수신 전에는 이미지 생성·수정을 재개하지 않는다.
-
-## Current non-image planning order
-
-```text
-1. PREPARE / COMMIT / BATTLE / REVIEW text UX + state-transition spec
-2. resume visual work only after user reference files arrive
-3. final planning review
-4. implementation handoff only after user authority
-```
-
-## Protected mechanics
-
-```text
-ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
-GAMBLING_FANTASY_POSITIONING = FORBIDDEN
-PAID_SPIN = FORBIDDEN
-FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
-RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
-AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
-TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
-TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
-THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
-IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
-BOSS_STAGES = 5 / 10 / 15 / 20
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-DANGER_STAGE_TYPE = REMOVED
-PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
-VEIL_IS_SINGLE_ENEMY_RACE = FALSE
-TIME_LOOP_DEFAULT = FALSE
-FINAL_NUMERICS_BEFORE_EVIDENCE = FORBIDDEN
+1. Visual reference reconciliation + final visual direction decision
+2. if approved, exactly one new North Star image generation
+3. user review of generated result; rejected result stays non-canon
+4. final full planning adversarial review
+5. Notion/GitHub final sync
+6. implementation handoff only after explicit user authority
 ```
 
 ## Resume order
@@ -248,8 +220,8 @@ FINAL_NUMERICS_BEFORE_EVIDENCE = FORBIDDEN
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md` + machine envelope.
-5. current content/story owners.
-6. Project Notion Home + `09` + `10` + `11 · Balance Budget` + relevant `08/03/02`.
-7. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
-8. fresh runtime only when execution is explicitly resumed.
+4. Text UX + Balance + Content/Story owner docs.
+5. `docs/design/REFERENCE_OMENWARD_USER_MOCKUP_INTAKE_2026-08-20.md`.
+6. Project Notion Home + `02/03/08/09/10/11/12` pages.
+7. open/draft PR inventory; PR197 read-only.
+8. actual runtime only when execution is explicitly resumed.
