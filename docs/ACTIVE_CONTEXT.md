@@ -11,7 +11,9 @@ current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_review: CLEAN_REVIEW_EXIT_FOR_DECISIONS_1_TO_6_AND_ROUTING
 current_review_full_loop_count: 6
 current_review_owner: docs/reviews/ADVERSARIAL_REPLAN_DECISIONS_1_TO_6_AND_CANON_RECONCILIATION_2026-08-20.md
-current_next_gate: WORLD_CONFLICT_AND_CORE_STORY
+current_world_story_decision: OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01
+current_world_story_owner: docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md
+current_next_gate: 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -23,20 +25,21 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ```text
 PROJECT_STATE_RECOVERED = TRUE
 PLANNING_REOPENED_BY_USER = TRUE
-CURRENT_APPROVED_REPLAN_DECISIONS = 6
+CURRENT_APPROVED_REPLAN_DECISIONS = 7
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
 MOBILIZATION_REGISTRY_WORLD_MEANING = CONFIRMED
 FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
 RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
+WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
 CANON_RECONCILIATION = COMPLETE_FOR_ACTIVE_GITHUB_AND_NOTION_ROUTING_SCOPE
 VISUAL_REQUIREMENT_INVENTORY = COMPLETE_PROPOSED
 VISUAL_NORTH_STAR_DIRECTION_A = APPROVED_DIRECTION_ONLY
 FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
 VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-WORLD_STORY_CORE = NEXT_PRODUCT_DECISION
+CURRENT_NEXT = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -60,6 +63,16 @@ Pressure language: `MASS / ARMORED / FLYING / INFILTRATION / SIEGE = Omen Signat
 
 Run shell: `PREPARE → COMMIT → BATTLE → REVIEW`
 
+World conflict:
+
+```text
+VEIL = 현실과 겹쳐지는 적대적 경계현상 / 단일 종족 아님
+OMEN = 실제 공세 전에 나타나는 Pre-Echo
+OMEN_CYCLE = Veil 겹침이 20 Stage에 걸쳐 심화되는 수렴기
+STAGE_20 = 해당 수호성의 수렴핵/정박체 파괴 결산
+RUN_HISTORY_RESET = FALSE
+```
+
 ## Adversarial review result
 
 ```text
@@ -75,16 +88,27 @@ CLEAN_REVIEW_EXIT = PASS_FOR_DECISIONS_1_TO_6_AND_CURRENT_ROUTING_SCOPE
 WHOLE_PROJECT_PLANNING_COMPLETE = FALSE
 ```
 
-## Current world/story gap
+## Current world/story truth
 
 ```text
-CAUSE_OF_OMEN_CYCLE
-HIGH_LEVEL_ENEMY_OR_VEIL_IDENTITY
-STAGE_20_NARRATIVE_RESOLUTION
-INTER_RUN_WORLD_PROGRESS_MEANING
+VEIL_IS_SINGLE_ENEMY_RACE = FALSE
+VEIL_IS_SINGLE_PRESSURE = FALSE
+OMEN_IS_ACTIONABLE_PRE_ECHO = TRUE
+WORLD_HAS_MULTIPLE_WARD_CITADELS = TRUE
+ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
+STAGE_20_ENDS_LOCAL_CYCLE_NOT_WORLD = TRUE
+RUN_RESULTS_REMAIN_WORLD_HISTORY = TRUE
+TIME_LOOP_DEFAULT = FALSE
 ```
 
-이 범위가 현재 다음 Decision이다.
+의도적으로 미확정:
+
+```text
+VEIL_HAS_SENTIENT_WILL
+VEIL_ORIGIN
+WHO_FIRST_DISCOVERED_OR_CREATED_OMEN_WHEELS
+FINAL_WORLD_ENDING
+```
 
 ## Current first-session truth
 
@@ -142,13 +166,12 @@ FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
 ## Current non-image planning order
 
 ```text
-1. world conflict / core story
-2. 20 Stage content / boss structure
-3. balance budget
-4. text UX / state-transition spec
-5. resume visual work only after user reference files arrive
-6. final planning review
-7. implementation handoff only after user authority
+1. 20 Stage content / boss structure
+2. balance budget
+3. text UX / state-transition spec
+4. resume visual work only after user reference files arrive
+5. final planning review
+6. implementation handoff only after user authority
 ```
 
 ## Protected mechanics
@@ -167,6 +190,8 @@ IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
 BOSS_STAGES = 5 / 10 / 15 / 20
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
+VEIL_IS_SINGLE_ENEMY_RACE = FALSE
+TIME_LOOP_DEFAULT = FALSE
 ```
 
 ## Resume order
@@ -174,11 +199,12 @@ PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md`.
-5. Project Notion Home + relevant 08/03/02 pages.
-6. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
-7. actual code/data/scene/test only when implementation scope opens.
-8. fresh current runtime only when execution is explicitly resumed.
+4. `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`.
+5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md`.
+6. Project Notion Home + `09 · 세계관 · 핵심 스토리` + relevant 08/03/02 pages.
+7. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
+8. actual code/data/scene/test only when implementation scope opens.
+9. fresh current runtime only when execution is explicitly resumed.
 
 ## Historical compatibility markers
 
