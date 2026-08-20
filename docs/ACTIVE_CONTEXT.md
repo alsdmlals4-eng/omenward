@@ -13,9 +13,10 @@ current_review_full_loop_count: 6
 current_text_ux_decision: OMW-PLAN-20260820-TEXT-UX-STATE-01
 current_visual_style_decision: OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01
 current_battlefield_scale_decision: OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01
-current_battlefield_owner: docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md
-current_battlefield_machine_owner: docs/analysis/visual/current_battlefield_scale_readability.v1.json
-current_next_gate: 3X3_ROULETTE_COMPONENT_SPEC
+current_roulette_component_decision: OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01
+current_roulette_component_owner: docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md
+current_roulette_component_machine_owner: docs/analysis/ui/current_3x3_roulette_component.v1.json
+current_next_gate: TOKEN_COMPONENT_SPEC
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -25,7 +26,7 @@ visual_generation: USER_REQUEST_ONLY
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 12
+CURRENT_APPROVED_REPLAN_DECISIONS = 13
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -38,8 +39,9 @@ BALANCE_BUDGET = CONFIRMED
 TEXT_UX_AND_STATE_TRANSITION = CONFIRMED
 VISUAL_STYLE_AND_COMPONENT_DIRECTION = CONFIRMED
 BATTLEFIELD_SCALE_AND_COMBAT_READABILITY = CONFIRMED
+ROULETTE_3X3_COMPONENT = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
-CURRENT_NEXT = 3X3_ROULETTE_COMPONENT_SPEC
+CURRENT_NEXT = TOKEN_COMPONENT_SPEC
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -66,8 +68,6 @@ BATTLEFIELD_BACKGROUND = CLEAN_PIXEL_ART
 UI = DARK_NAVY_CHARCOAL + RESTRAINED_GOLD
 PRIMARY_VISUAL_MASS = BATTLEFIELD
 SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
-ROULETTE = 3×3 EXPOSURE WINDOW
-ROW_COLUMN_ARROWS = PROMINENT
 GOLD_TOKEN = SUPPORTED
 DUPLICATE_RESOURCE_DISPLAY_IN_LOWER_DECK = FORBIDDEN
 ```
@@ -91,7 +91,30 @@ DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 AUTO_ZOOM_HIDING_OTHER_LANES = FORBIDDEN
 ```
 
-These are North Star / Vertical Slice validation ranges, not final runtime numerics.
+3×3 roulette component contract:
+
+```text
+ROULETTE_EXPOSURE = 3×3
+ROULETTE_FOCUS_LOWER_DECK = 28~32%
+TOKEN_TILE = 32~34 px exploration
+BOARD_ONLY = 100~108 px exploration
+BOARD_PLUS_ARROWS_HEIGHT = 146~154 px exploration
+ARROW_CONTROLS = 12 direct row/column controls
+HOVER_OR_FOCUS = preview without spend
+EXECUTE = spend + immediate committed move
+UNDO_AFTER_MOVE = FORBIDDEN
+PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
+```
+
+Current SpinSession visual states:
+
+```text
+READY → SPINNING → STOPPED_MANIPULATE → CONFIRMED
+```
+
+Lucky free move is session-only, stored move ticket cap is 3, and Lucky is consumed first.
+
+These are North Star / Vertical Slice planning ranges, not final runtime numerics.
 
 ## Current Text UX contract
 
@@ -157,8 +180,8 @@ PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 
 ```text
 1. COMPLETE — battlefield scale / road width / unit readability planning contract
-2. CURRENT — 3×3 Roulette component spec
-3. NEXT — Token component spec
+2. COMPLETE — compact direct-arrow 3×3 Roulette component spec
+3. CURRENT — Token component spec
 4. NEXT — Lower Control Deck spec
 5. NEXT — Roulette DDD feedback spec
 6. NEXT — one rebuilt North Star image after component contracts
@@ -173,8 +196,8 @@ PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. visual style/component owner + battlefield scale owner/machine envelope.
+4. visual style/component + battlefield scale + 3×3 roulette owners/machine envelopes.
 5. Text UX + Balance + Content/Story owner docs.
-6. Project Notion Home + `02/03/08/09/10/11/12/13/14` relevant pages.
+6. Project Notion Home + `02/03/08/09/10/11/12/13/14/15` relevant pages.
 7. open/draft PR inventory; PR197 read-only.
 8. actual runtime only when execution is explicitly resumed.
