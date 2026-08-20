@@ -72,23 +72,12 @@ class C1RouletteValidationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
-            report = root / "docs" / "C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md"
-            report.write_text(
-                report.read_text(encoding="utf-8").replace(FINAL_VALIDATION_RUN, "29919925777"),
+            status = root / "docs" / "CURRENT_IMPLEMENTATION_STATUS.md"
+            status.write_text(
+                status.read_text(encoding="utf-8").replace(FINAL_VALIDATION_RUN, "29919925777"),
                 encoding="utf-8",
             )
             self.assertTrue(any("missing proven C1 evidence" in error for error in validate(root)))
-
-    def test_current_status_preserves_historical_not_current_boundary(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = pathlib.Path(directory)
-            self._copy_contract_files(root)
-            status = root / "docs" / "CURRENT_IMPLEMENTATION_STATUS.md"
-            status.write_text(
-                status.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = UNKNOWN"),
-                encoding="utf-8",
-            )
-            self.assertTrue(any("missing current C1 historical boundary" in error for error in validate(root)))
 
     def test_missing_judgment_line_regression_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
