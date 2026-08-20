@@ -8,7 +8,8 @@ planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTIO
 planning_status: REOPENED_REVIEW_IN_PROGRESS
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
-current_review: FIVE_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
+current_review: CLEAN_REVIEW_EXIT_FOR_DECISIONS_1_TO_6_AND_ROUTING
+current_review_owner: docs/reviews/ADVERSARIAL_REPLAN_DECISIONS_1_TO_6_AND_CANON_RECONCILIATION_2026-08-20.md
 current_next_gate: WORLD_CONFLICT_AND_CORE_STORY
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
@@ -28,6 +29,8 @@ PRESSURE_LANGUAGE = CONFIRMED
 MOBILIZATION_REGISTRY_WORLD_MEANING = CONFIRMED
 FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
 RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
+DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
+CANON_RECONCILIATION = COMPLETE_FOR_ACTIVE_ROUTING_SCOPE
 VISUAL_REQUIREMENT_INVENTORY = COMPLETE_PROPOSED
 VISUAL_NORTH_STAR_DIRECTION_A = APPROVED_DIRECTION_ONLY
 FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
@@ -48,25 +51,29 @@ IMPLEMENTATION_START = NOT_AUTHORIZED
 → 다음 설계
 ```
 
-Player role:
+Player role: `징조수호관(Omen Warden)`
 
-`징조수호관(Omen Warden)`
+Run meaning: `one Ward Citadel + one 20 Stage Omen Cycle`
 
-Run meaning:
+Pressure language: `MASS / ARMORED / FLYING / INFILTRATION / SIEGE = Omen Signature, not enemy race/faction`
 
-`one Ward Citadel + one 20 Stage Omen Cycle`
+Run shell: `PREPARE → COMMIT → BATTLE → REVIEW`
 
-Pressure language:
+## Adversarial review result
 
-`MASS / ARMORED / FLYING / INFILTRATION / SIEGE = Omen Signature, not enemy race/faction`
-
-Run shell:
-
-`PREPARE → COMMIT → BATTLE → REVIEW`
+```text
+FULL_LOOP_COUNT = 5
+MINIMUM_FULL_LOOPS_SATISFIED = TRUE
+DECISION_1_TO_6_REGRESSION = NONE_FOUND
+CURRENT_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
+CURRENT_RUNTIME_PASS_CLAIM = NONE
+HUMAN_PASS_CLAIM = NONE
+PR197_MUTATION = NONE
+CLEAN_REVIEW_EXIT = PASS_FOR_DECISIONS_1_TO_6_AND_CURRENT_ROUTING_SCOPE
+WHOLE_PROJECT_PLANNING_COMPLETE = FALSE
+```
 
 ## Current world/story gap
-
-다음은 아직 승인되지 않았다.
 
 ```text
 CAUSE_OF_OMEN_CYCLE
@@ -133,14 +140,13 @@ FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
 ## Current non-image planning order
 
 ```text
-1. 5 full adversarial loops + canon reconciliation
-2. world conflict / core story
-3. 20 Stage content / boss structure
-4. balance budget
-5. text UX / state-transition spec
-6. resume visual work only after user reference files arrive
-7. final planning review
-8. implementation handoff only after user authority
+1. world conflict / core story
+2. 20 Stage content / boss structure
+3. balance budget
+4. text UX / state-transition spec
+5. resume visual work only after user reference files arrive
+6. final planning review
+7. implementation handoff only after user authority
 ```
 
 ## Protected mechanics
