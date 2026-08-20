@@ -1,0 +1,10 @@
+{
+  "style": "ANIME_PIXEL_ART",
+  "camera": "TOP_DOWN_STRATEGY_VIEW",
+  "read_order": ["role", "weapon", "scale", "color", "tier", "decoration"],
+  "normal_combat": "silhouette_first",
+  "hero_boss_reveal": "enhanced_character_detail",
+  "t1_t2_token_priority": true,
+  "t3_token_priority": false,
+  "runtime_final": false
+}
