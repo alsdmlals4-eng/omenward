@@ -1,35 +1,31 @@
 # OMENWARD 현재 온보딩 기획 권위
 
 ```yaml
-updated_at: 2026-08-11
+updated_at: 2026-08-20
 status: CURRENT_ONBOARDING_AUTHORITY
-planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-phase_b: PASS
-phase_c_gate: OPEN
-phase_c_c0: PASS
-current_execution_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
-current_next_gate: PR175_CURRENT_MAIN_REVALIDATION_NEXT
+planning_status: REOPENED_CURRENT_REPLAN
+current_planning_decision: OMW-PLAN-20260820-FIRST5-FTUE-01
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+runtime_mutation: NONE
+balance_mutation: NONE
 ```
 
 ## Current precedence
 
 Current onboarding combines the approved first-10–15-minute lineage with later amendments. When an older checkpoint conflicts with a later Decision, the later owner wins.
 
-- `docs/design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md`
+- `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md` — current first-5-stage learning/emotion owner
+- `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md` — current building/TokenSource/world-meaning owner
+- `docs/design/APPROVED_OMENWARD_PRESSURE_LANGUAGE_AND_OMEN_SIGNATURES_2026-08-20.md` — current forecast/pressure language owner
+- `docs/design/APPROVED_OMENWARD_OMEN_CYCLE_MAPRUN_WORLD_2026-08-20.md` — current MapRun world meaning owner
+- `docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md` — current player-role owner
+- `docs/design/APPROVED_OMENWARD_FIRST_10_15_MINUTES_FLOW_2026-08-05.md` — preceding first-session lineage
 - `docs/design/APPROVED_OMENWARD_SPECIAL_T1_RANDOM_SELECTION_AND_PREVIEW_TIMING_2026-08-06.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
 - `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
-- `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md` — historical/preceding planning completion owner
-- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md` — current execution-route owner
 
-```text
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
-PHASE_B_FINAL_PLANNING_REVIEW = PASS
-PHASE_C_GATE = OPEN
-PHASE_C_C0_OVERALL = PASS
-PR175_CURRENT_MAIN_REVALIDATION_NEXT
-```
+The earlier Phase B/C and PR175 routing recorded before 2026-08-20 is historical execution lineage. This file currently owns onboarding planning only; runtime continuation must be fresh-read from current GitHub state before any implementation work.
 
 ## First-session flow
 
@@ -63,25 +59,108 @@ SCRIPTED_VICTORY = FORBIDDEN
 BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
 ```
 
-## Current Stage 1–5 teaching cadence
+## Stage 1 disclosure groups
+
+Stage 1 still requires all six approved T1 buildings before the first roulette, but their meaning is disclosed in three purpose groups rather than as one equal-weight system dump.
+
+```text
+GROUP_1_SURVIVAL = VAULT + FARM
+→ 지속 기반
+
+GROUP_2_MILITARY = GENERAL_BARRACKS + DEFENSE_TOWER
+→ 현재 병력 생산 + 전선 방어
+→ GENERAL_BARRACKS build feedback must distinguish AUTO_PRODUCTION from TOKEN_SOURCE / mobilization-seal contribution
+
+GROUP_3_COMMAND = COMMAND_POST + MANA_TOWER
+→ 이후 지휘/전술 확장 기반
+→ detailed Mana research teaching deferred to Stage 3
+```
+
+Stage 1 comprehension target:
+
+```text
+Forecast / Omen Signature
+→ build
+→ future mobilization distribution changes
+→ triple Omen Wheels produce troops
+→ player chooses a lane
+→ irreversible deployment
+→ battle result
+```
+
+The player does not need to memorize all six building names as the primary learning objective. The primary objective is causal understanding of **build → future distribution → obtained troop → lane commitment → result**.
+
+## Current Stage 1–5 mastery ladder
 
 ```text
 DANGER_STAGE_TYPE = REMOVED
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 BOSS_STAGES = 5 / 10 / 15 / 20
-STAGE_1 = FOUNDATION + FIRST_ROULETTE + IRREVERSIBLE_DEPLOYMENT + FINAL_WAVE_ELITE_CHECK
-STAGE_2 = FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL + FINAL_WAVE_ELITE_CHECK
-STAGE_3 = MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC + FINAL_WAVE_ELITE_CHECK
-STAGE_4 = NORMAL_STAGE_WITH_FINAL_WAVE_ELITE_CHECK
-STAGE_5 = FIRST_BOSS_PLUS_FINAL_WAVE_ELITE_MASTERY_CHECK
+
+STAGE_1 = CAUSALITY_UNDERSTANDING
+  FOUNDATION + FIRST_ROULETTE + IRREVERSIBLE_DEPLOYMENT + FINAL_WAVE_ELITE_CHECK
+
+STAGE_2 = FUTURE_DISTRIBUTION_EDIT
+  FIRST_T2_UPGRADE_CHOICE_AND_ROULETTE_CONTROL + FINAL_WAVE_ELITE_CHECK
+
+STAGE_3 = MANUAL_TACTICAL_INTERVENTION
+  MANA_TOWER_RESEARCH_AND_MANUAL_TACTIC + FINAL_WAVE_ELITE_CHECK
+
+STAGE_4 = APPLICATION_TEST_NO_NEW_CORE_SYSTEM
+  NORMAL_STAGE_WITH_FINAL_WAVE_ELITE_CHECK
+
+STAGE_5 = FIRST_BUILD_RECKONING
+  FIRST_BOSS_PLUS_FINAL_WAVE_ELITE_MASTERY_CHECK
 ```
 
-No separate Stage-4 Danger type exists.
+### Stage 2 preview requirement
+
+The T2 upgrade preview should communicate, before confirmation:
+
+```text
+current mobilization structure
+→ candidate upgrade
+→ direct-production role change if applicable
+→ mobilization-seal / future-distribution direction change
+→ expected relative direction
+```
+
+Final absolute probability/cost/interval values remain downstream evidence/tuning subjects.
+
+### Stage 3 teaching scope
+
+Stage 3 teaches the causal role of manual tactics, not the memorization of all tactical skills.
+
+```text
+persistent preparation via buildings / troops / probability design
+→ auto battle
+→ manual mana intervention at a meaningful moment
+```
+
+Tactics must not replace structural preparation.
+
+### Stage 4 protection
+
+Stage 4 intentionally introduces **no new core system**. It is a cognitive rest and independent application check using Forecast, construction/probability design, lane commitment, and tactics against the final-wave Elite.
+
+### Stage 5 review
+
+Stage 5 is the first whole-build reckoning. Boss-critical threats remain forecastable through Omen Signature. Post-stage review follows:
+
+```text
+forecast
+→ mobilization structure
+→ key lane commitments
+→ decisive events
+→ player response
+→ outcome
+```
+
+Prescriptive next-build commands remain forbidden.
 
 ## Barracks acquisition truth
 
 ```text
-APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT
 GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
 GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
 GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT
@@ -99,12 +178,20 @@ SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
 
 이전 no-TokenSource clause는 **역사 증거이며 현행 구현 입력으로 사용할 수 없다**.
 
+World-facing interpretation:
+
+```text
+AUTO_PRODUCTION = facility-local direct training / formation
+TOKEN_SOURCE = same troop type registered to the Mobilization Registry as one seal per Omen Wheel
+```
+
 Physical reel grammar:
 
 ```text
 TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
 TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
 FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
+THREE_REELS_ARE_NOT_THREE_LANES = TRUE
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
@@ -117,18 +204,15 @@ GENERAL_AND_SPECIAL_EXACT_PRODUCTION_INTERVALS = PENDING_SIMULATION_UNLESS_LATER
 EXACT_TIMINGS = PENDING_SIMULATION_AND_HUMAN_QA
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+UI_EVIDENCE = NOT_RUN
+HUMAN_USABILITY_EVIDENCE = NOT_RUN
+PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 ```
 
 These are downstream evidence/tuning dependencies, not missing high-level planning decisions.
 
-## Godot AI Phase C note
+## Revisit condition · Stage 1 building count
 
-```text
-USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
-GODOT_AI_HTTP_PORT = 8002
-GODOT_AI_WS_PORT = 9502
-GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
-```
+The current decision preserves all six Stage-1 T1 buildings. The strongest fallback is to reduce or stagger required building count across later stages, but that option is not activated now.
 
-The Phase B defer-to-C0 wording is historical only. Current onboarding/runtime work uses the completed C0 route and must fresh-resolve the exact OMENWARD session before persistent HiGodot mutation.
+Reopen it first if release-near Vertical Slice human play shows repeated failure to understand the core causality before the first roulette, or repeated confusion/abandonment caused by the six-building setup.
