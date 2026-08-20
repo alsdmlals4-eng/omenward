@@ -111,36 +111,25 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         if stale in gdd:
             errors.append(f"GDD retains stale implementation state: {stale}")
 
-    proven_requirements = {
+    requirements = {
         "docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md": (
             "C1_ROULETTE_CORE_REMOTE_PROVEN",
             f"구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
             f"GitHub Actions run: `{FINAL_VALIDATION_RUN}`",
         ),
+        "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
+            "C1_ROULETTE_CORE_REMOTE_PROVEN",
+            f"C1 구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
+            f"C1 최종 검증 run: `{FINAL_VALIDATION_RUN}`",
+        ),
+        "docs/OMENWARD_ROADMAP.md": ("C1 승인 룰렛 핵심 계약 원격 검증·병합 완료", "**REMOTE_PROVEN**"),
         "docs/design/APPROVED_ROULETTE_CORE_RULES.md": ("C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",),
     }
-    for relative, phrases in proven_requirements.items():
+    for relative, phrases in requirements.items():
         text = (root / relative).read_text(encoding="utf-8")
         for phrase in phrases:
             if phrase not in text:
                 errors.append(f"{relative} missing proven C1 evidence: {phrase}")
-
-    current_boundary_requirements = {
-        "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-            "LEGACY_C1_C2_C3_PROVEN",
-            "HISTORICAL_EVIDENCE",
-            "CURRENT_GODOT_RUNTIME = NOT_RUN",
-        ),
-        "docs/OMENWARD_ROADMAP.md": (
-            "Historical Phase C roadmap",
-            "CURRENT_GODOT_RUNTIME = NOT_RUN",
-        ),
-    }
-    for relative, phrases in current_boundary_requirements.items():
-        text = (root / relative).read_text(encoding="utf-8")
-        for phrase in phrases:
-            if phrase not in text:
-                errors.append(f"{relative} missing current C1 historical boundary: {phrase}")
 
     baseline = (root / "docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md").read_text(encoding="utf-8")
     if "Phase 0 Plan Mode 대기 / 구현 전" in baseline:
