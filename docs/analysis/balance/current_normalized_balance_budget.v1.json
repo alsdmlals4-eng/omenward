@@ -1,0 +1,170 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-PLAN-20260820-BALANCE-BUDGET-01",
+  "status": "APPROVED_PLANNING_ENVELOPE_NOT_RUNTIME_DATA",
+  "updated_at": "2026-08-20",
+  "evidence_ceiling": {
+    "simulation_for_this_decision": "NOT_RUN",
+    "runtime": "NOT_RUN",
+    "human_validation": "NOT_RUN",
+    "final_product_numerics": "NOT_APPROVED"
+  },
+  "calibration_anchors": {
+    "stage1_required_t1_total_gold": 250,
+    "maprun_starting_foundation_gold": 250,
+    "stage1_operational_gold_after_foundation": 20,
+    "base_spin_cost_gold": 20,
+    "stage2_first_t2_cost_class_gold": 50,
+    "starting_food_cap": 12,
+    "farm_t1_food_cap_bonus": 6,
+    "anchors_are_final_product_values": false
+  },
+  "normalized_units": {
+    "spin_equivalent": {
+      "id": "SE",
+      "current_gold_anchor": 20,
+      "meaning": "one current baseline roulette spin",
+      "recalibrate_if_spin_price_changes": true
+    },
+    "major_choice_equivalent": {
+      "id": "ME",
+      "current_gold_anchor": 50,
+      "spin_equivalent": 2.5,
+      "meaning": "one current first-T2-class major development choice",
+      "recalibrate_if_major_choice_anchor_changes": true
+    },
+    "threat_unit": {
+      "id": "TU",
+      "meaning": "simulation-only relative threat unit; not product stats",
+      "role_costs": {
+        "light_ground": 1.0,
+        "armored_anchor": 2.5,
+        "flying_raider": 1.5,
+        "infiltrator": 1.5,
+        "siege_unit": 3.0,
+        "stage5_boss_core": 12.0
+      }
+    }
+  },
+  "known_drift": {
+    "status": "OPEN_RECONCILIATION_BEFORE_IMPLEMENTATION",
+    "analysis_baseline": {
+      "base_income_gold": 3,
+      "base_income_interval_active_combat_seconds": 20,
+      "vault_t1_income_gold": 3,
+      "vault_t1_income_interval_active_combat_seconds": 20,
+      "foundation_gold": 250
+    },
+    "current_main_observation": {
+      "stage_economy_base_income_gold": 5,
+      "stage_economy_base_income_interval_seconds": 20,
+      "stage_economy_control_income_gold_per_point": 4,
+      "stage_economy_control_income_interval_seconds": 60,
+      "stage_economy_outpost_income_gold_per_outpost": 2,
+      "stage_economy_outpost_income_interval_seconds": 30,
+      "stage_definition_default_starting_gold": 160
+    },
+    "promote_either_side_to_final_without_retest": false
+  },
+  "economy_targets": {
+    "stage1_required_foundation_coverage_ratio": 1.0,
+    "stage1_post_foundation_operational_se_anchor": 1.0,
+    "normal_checkpoint": {
+      "at_least_one_meaningful_affordable_action": true,
+      "optional_spins_if_prioritized": [1, 2],
+      "all_major_options_affordable_by_default": false
+    },
+    "boss_recovery_checkpoint": {
+      "optional_spins_if_prioritized_exploration_target": [2, 3],
+      "full_build_reset_by_gold": false
+    }
+  },
+  "threat_vector": {
+    "dimensions": [
+      "raw_tu",
+      "active_lane_count",
+      "signature_count",
+      "route_complexity",
+      "wave_overlap",
+      "elite_presence",
+      "boss_presence_and_mechanic_complexity"
+    ],
+    "single_scalar_power_score_required": false
+  },
+  "act_raw_threat_search_envelope": {
+    "act_1_pressure_literacy": [1.0, 1.0],
+    "act_2_combination": [1.15, 1.35],
+    "act_3_opportunity_cost": [1.4, 1.65],
+    "act_4_synthesis": [1.7, 2.05],
+    "reference": "act_1_authored_baseline_equals_1.0",
+    "product_multiplier": false
+  },
+  "wave_budget_search_envelope": {
+    "wave_1_share": [0.2, 0.3],
+    "wave_2_share": [0.25, 0.35],
+    "final_wave_share_including_elite": [0.4, 0.5],
+    "normalize_selected_shares_to_one": true
+  },
+  "boss_budget_search_envelope": {
+    "raw_tu_relative_to_same_act_normal_median": [1.25, 1.45],
+    "reduce_raw_tu_when_route_or_stance_complexity_is_high": true,
+    "unreadable_boss_plus_elite_burst_forbidden": true
+  },
+  "complexity_guardrails": {
+    "minimum_response_axes_per_forecasted_pressure": 2,
+    "stage_1_to_5_prioritize_single_signature_literacy": true,
+    "default_max_simultaneously_read_core_signatures_late_game": 3,
+    "stage_20_all_five_signatures_simultaneous_equal_weight": false,
+    "stage_20_uses_sequential_patterns": true
+  },
+  "mana_targets": {
+    "normal_stage_meaningful_t1_cast_opportunities": [1, 2],
+    "mana_cap_t1_cast_equivalent_exploration_target": [2, 3],
+    "stage_transition_reset": false,
+    "t3_spam_allowed": false,
+    "tactics_replace_bad_army_structure": false
+  },
+  "troop_limit_targets": {
+    "normal_pre_commit_headroom_ratio": [0.15, 0.3],
+    "late_or_boss_prep_occupancy_ratio": [0.8, 0.95],
+    "permanent_always_full_state_is_desired": false
+  },
+  "merchant_targets": {
+    "slots": 4,
+    "currency": "gold_only",
+    "at_least_one_valid_purchase_normally_affordable": true,
+    "buy_all_four_as_default": false,
+    "total_stock_price_greater_than_average_discretionary_gold": true,
+    "infinite_reroll": false,
+    "direct_core_power_sale": false
+  },
+  "stage_1_to_5_forgiveness": {
+    "hidden_hard_counter": false,
+    "rng_can_remove_all_valid_responses": false,
+    "stage1_foundation_gold_shortfall": false,
+    "human_win_rate_target": "NOT_SELECTED"
+  },
+  "stage_20_mastery": {
+    "pattern_1": ["MASS", "FLYING"],
+    "pattern_2": ["ARMORED", "SIEGE"],
+    "pattern_3": ["INFILTRATION", "RESIDUAL_PRESSURE"],
+    "next_pattern_forecast_required": true,
+    "single_extreme_specialization_auto_solves_all_patterns": false,
+    "single_specific_unit_or_building_missing_auto_loses": false
+  },
+  "robustness_lineage": {
+    "seed_count": 10000,
+    "special_token_share_10_min": 0.296265,
+    "special_token_share_burst_max": 0.333333,
+    "status": "PASS_FOR_APPROVED_NONCOMBAT_ROBUSTNESS_GATES",
+    "functional_value_identified": false,
+    "final_parameter_vector_selected": false
+  },
+  "implementation_gate": {
+    "balance_runtime_mutation_authorized": false,
+    "economy_drift_reconciliation_required": true,
+    "fresh_simulation_required_before_final_numerics": true,
+    "fresh_runtime_required_before_runtime_claims": true,
+    "human_validation_required_for_player_experience_claims": true
+  }
+}
