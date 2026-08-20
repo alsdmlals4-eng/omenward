@@ -50,7 +50,7 @@ STARTING_FOOD_CAP = 12
 FARM_T1_FOOD_CAP_BONUS = 6
 ```
 
-현재 `main`의 `RouletteService.SPINE_COST`는 20 Gold이므로 현재 calibration에서:
+현재 `main`의 `RouletteService.SPIN_COST`는 20 Gold이므로 현재 calibration에서:
 
 ```text
 1 SE = 20 Gold
