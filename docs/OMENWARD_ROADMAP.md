@@ -1,122 +1,177 @@
 # [현행] 오멘워드 로드맵
 
 ```yaml
-updated_at: 2026-08-11
-planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-phase_b: PASS
-phase_c_c0: PASS
-phase_c_gate: OPEN
-current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
-preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
+updated_at: 2026-08-20
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_status: REOPENED_REVIEW_IN_PROGRESS
+current_next_gate: WORLD_CONFLICT_AND_CORE_STORY
+implementation_authorized: false
+visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ```
 
 ## Current milestone
 
 ```text
-PHASE_A_GPT_CHAT_PLANNING = COMPLETE_BY_USER_DECLARATION
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
-PHASE_B_FINAL_PLANNING_REVIEW = PASS
-IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
-PHASE_C_GATE = OPEN
-PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
-PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
-PHASE_C_C0_OVERALL = PASS
-PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
-PR175_CURRENT_MAIN_REVALIDATION_NEXT
+PROJECT_STATE_RECOVERED
+→ DECISION_1_TO_6_CONFIRMED
+→ VISUAL_REQUIREMENT_INVENTORY_COMPLETE_PROPOSED
+→ FIRST_VISUAL_CANDIDATE_REJECTED_NOT_CANON
+→ VISUAL_WORK_PAUSED_FOR_USER_REFERENCES
+→ 5_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
+→ WORLD_CONFLICT_AND_CORE_STORY = CURRENT_NEXT
 ```
 
-## Phase C order
+## Current planning order
 
-### C0 — fresh execution preflight — COMPLETE
-- Base/project/Sheet current truth: verified and synchronized
-- Godot 4.7.1 + Godot AI plugin/server 3.1.4: verified
-- self-contained OMENWARD editor + HTTP8002/WS9502: verified
-- shared Codex + project-specific `CODEX_HOME`: verified
-- exact OMENWARD session registry: verified at closure; future session fresh-resolve required
-- repository/toolchain and local HiGodot C0 gates: PASS
+### P0 — world conflict / core story — CURRENT NEXT
 
-### Current transition — PR175 current-main revalidation
-Before C1 persistent authoring, rebase/update PR175 against fresh current main and re-run exact-head validation. Historical PR175 Green is not current evidence.
-
-### C1 — Issue176 implementation completeness
-Seven approved runtime gaps via GUT RED → HiGodot/Godot AI authoring → parse/import → GUT Green → existing regressions.
-
-### C2 — deterministic FV evidence
-`FV-PRIEST / FV-MAGE / FV-FLIER / FV-GIANT / FV-COMMON`, repeat determinism, raw output preservation.
-
-### C3 — functional-value review / live QA
-Role-specific vectors, Hera after Green only, tracked-source delta NONE, human-readable causal review.
-
-### C4 — evidence-based tuning
-Only after runtime evidence propose final parameter vectors/scalars/numerics.
-
-## Current Godot AI execution route
-
-Phase B historical provenance:
+Close:
 
 ```text
-USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
+CAUSE_OF_OMEN_CYCLE
+HIGH_LEVEL_ENEMY_OR_VEIL_IDENTITY
+STAGE_20_NARRATIVE_RESOLUTION
+INTER_RUN_WORLD_PROGRESS_MEANING
 ```
 
-Current verified route:
+Protect already approved:
 
 ```text
-GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
-OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
-OMENWARD_GODOT_AI_HTTP_PORT = 8002
-OMENWARD_GODOT_AI_WS_PORT = 9502
-OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
-SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
+PLAYER_ROLE = Omen Warden
+ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
+PRESSURE = 5 OMEN_SIGNATURES
 ```
 
-C0 closure session/PID values are evidence only and are never reused as future selectors.
+### P0 — 20 Stage / Boss content structure
 
-## Current Stage roadmap
+After world-story approval:
 
 ```text
+Stage 1~20 escalation grammar
+Boss 5 / 10 / 15 / 20 teaching and mastery roles
+Elite variation budget
+Pressure combination budget
+Stage 20 final mastery structure
+```
+
+### P0 — Balance Budget
+
+Set target ranges and comparison metrics before final numerics:
+
+```text
+Gold / build spend
+Auto-production value
+TokenSource probability impact
+Troop limit / lane commitment pressure
+Mana research / cast economy
+Merchant spend
+Stage 1~5 forgiveness
+Stage 20 mastery target
+```
+
+### P1 — Text UX / state transitions
+
+Specify player-facing information/copy for:
+
+```text
+PREPARE
+COMMIT
+BATTLE
+REVIEW
+FTUE Stage 1~5
+block reasons / errors
+Debug vs player surfaces
+```
+
+### Visual — PAUSED
+
+```text
+A_DIRECTION = Stage 2 PREPARE · Omen Wheels Focus
+FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
+VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
+```
+
+Resume only after the user supplies existing local mockup/reference files.
+
+### Final planning review
+
+After world/story + content + balance + text UX and later visual-reference reconciliation:
+
+```text
+5x adversarial review minimum / until clean
+Notion/GitHub sync
+implementation DoR
+explicit user authority
+```
+
+Only then open implementation handoff.
+
+## Current Stage product grammar
+
+```text
+MAPRUN_STAGE_COUNT = 20
 DANGER_STAGE_TYPE = REMOVED
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 BOSS_STAGES = 5 / 10 / 15 / 20
 BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
 
-Stage 1–4 are normal Stage cadence with a final-wave Elite learning check; Stage 5 is the first Boss + Elite synthesis check. The same 5-Stage Boss rhythm continues through Stage 20.
-
-## Historical Vertical Slice automated evidence
+First 5 learning ladder:
 
 ```text
-기존 기술 기준선·C1·C2·C3 자동 증거 확보
-C1 승인 룰렛 핵심 계약 원격 검증·병합 완료
-**REMOTE_PROVEN**
-제품 구현: `NOT_STARTED`
+Stage 1 = causal understanding
+Stage 2 = future distribution modification
+Stage 3 = tactical intervention
+Stage 4 = application / no new core system
+Stage 5 = first Boss + build review
 ```
 
-These markers preserve the durable historical C1/C2/C3 proof and the Vertical Slice's own implementation boundary. They do not mean the current PR175 runtime package or full product is complete.
-
-## Release-deferred
+## Current GitHub work-item routing
 
 ```text
-PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
+PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
+```
+
+PR175/177 unmerged work is historical evidence, not current main implementation. PR197 is protected from this workstream.
+
+## Current runtime/evidence gate
+
+```text
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_WINDOWS_RUNTIME = NOT_RUN
+CURRENT_RUNTIME_BLOCKER = UNVERIFIED_UNTIL_FRESH_EXECUTION
+CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
+CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+```
+
+No old signal11 diagnosis is promoted as a current blocker without fresh execution.
+
+## Platform / release deferred
+
+```text
+PC / Steam = PRIMARY_PLANNING_AND_VALIDATION_TARGET
+Android / Google Play = COMMITTED_RELEASE_TARGET_EXECUTION_DEFERRED_RELEASE_NEAR
 SHARED_SAVE_SCHEMA = NOT_STARTED
 EXPORT_PRESETS = ABSENT
 ```
 
-## Planning lineage — historical checkpoints only
+## Historical Phase C roadmap
 
-These markers preserve provenance; they are not the current planning percentage.
+2026-08-11 Phase B/C0 → PR175 path is retained as historical execution lineage only:
 
 ```text
-OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 = 3_OF_10 / SUPERSEDED_LINEAGE
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 = 4_OF_10
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 = 5_OF_10
-OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 = 6_OF_10
-OMW-DEC-20260805-PLANNING-FIRST-10-15-MINUTES-FLOW-V1 = 7_OF_10_LINEAGE
+MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
+PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
+PHASE_C_C0_OVERALL = HISTORICAL_PASS
+PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
+C1_ISSUE176 = HISTORICAL_PLANNED_EXECUTION
+C2_FV = HISTORICAL_PLANNED_EXECUTION
+C3_LIVE_QA = HISTORICAL_PLANNED_EXECUTION
 ```
 
-Current whole-project product closure owner:
-`docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`.
-
-Current C0 execution closure owner:
-`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`.
+These records do not override the reopened 2026-08-20 planning roadmap.
