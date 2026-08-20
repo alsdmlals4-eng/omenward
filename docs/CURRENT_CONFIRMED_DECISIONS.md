@@ -35,6 +35,7 @@ visual_generation: USER_REQUEST_ONLY
 | `OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01` | 낮은 하단에서 `3×3 + 각 열 상·하 + 각 행 좌·우` 직접 화살표 작업대를 사용한다. Hover/focus는 preview, 실행은 이동권 소비 후 즉시 확정이며 중앙 가로줄 판정과 기존 line reward를 보존한다. | `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_3x3_roulette_component.v1.json` | CONFIRMED |
 | `OMW-PLAN-20260820-TOKEN-COMPONENT-01` | 실제 Anime Pixel 병종 아트를 재사용하고 작은 타일에서는 역할 앵커가 먼저 읽히게 crop한다. T1/T2 token art만 사용하고 reward rarity와 token tier를 분리하며 Gold/X도 같은 tile grammar를 사용한다. | `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_token_component.v1.json` | CONFIRMED |
 | `OMW-PLAN-20260820-LOWER-CONTROL-DECK-01` | 하단은 Focus-adaptive Compact Deck로 운영하고 한 번에 하나의 작업면만 전개한다. 상단이 자원 총량을 단독 소유하며 Roulette/Build/Commit/Battle/Review별 Primary CTA와 필요한 정보만 하단에 표시한다. | `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md` + `docs/analysis/ui/current_lower_control_deck.v1.json` | CONFIRMED |
+| `OMW-PLAN-20260820-ROULETTE-DDD-FEEDBACK-01` | 룰렛 DDD는 Agency-First Tactical Crescendo를 사용한다. 정직한 자연 정지 → 플레이어 행/열 조작 → 중앙 판정선 lock → 완성선 cascade → 실제 병력 획득을 피크로 삼고, 룰렛 획득과 lane 배치를 시각적으로 분리한다. | `docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md` + `docs/analysis/ui/current_roulette_ddd_feedback.v1.json` | CONFIRMED |
 
 ## 보호되는 제품 정체성
 
@@ -54,8 +55,10 @@ visual_generation: USER_REQUEST_ONLY
 - `ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE`
 - `GAMBLING_FANTASY_POSITIONING = FORBIDDEN`
 - `PAID_SPIN = FORBIDDEN`
+- `SCRIPTED_FAKE_NEAR_MISS = FORBIDDEN`
 - 자동생산과 TokenSource 별도 경로.
 - 세 릴 ↔ 세 전선 고정 대응 금지.
+- Roulette result ≠ automatic lane deployment.
 - 최종 commit 이후 recall/sell/cross-lane 이동 금지.
 - `Veil ≠ Pressure ≠ 단일 적 종족`.
 - Boss Stage = 5/10/15/20.
@@ -80,57 +83,16 @@ GOLD_TOKEN = SUPPORTED
 DUPLICATE_LOWER_RESOURCE_DISPLAY = FORBIDDEN
 ```
 
-Battlefield planning envelope:
+Component planning summaries:
 ```text
-REFERENCE = 960×540
-COMMON_UNIT_VISUAL_HEIGHT = 30~36 px exploration
-COMMON_FOOTPRINT_WIDTH = 18~22 px exploration
-ROAD_USABLE_WIDTH = 60~72 px exploration = 2.75~3.25× footprint
-LATERAL_RANK_TARGET = 2~3
-LANE_CENTER_SPACING = 105~125 px exploration
-CLASH_NODE = 78~96 px exploration
-DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+Battlefield: common unit 30~36 px; road 60~72 px; 2~3 lateral ranks; full-three-lane camera.
+3×3: token 32~34 px; 12 direct arrows; preview without spend; executed move is committed; center row judging line.
+Token: actual game unit art; role-anchor crop; T1/T2 only; no token rarity frame; Gold actual art; X clear empty.
+Lower Deck: one active work surface; top HUD owns resource totals; Roulette/Storage/Build/Tactical; Bellu contextual.
+DDD: anticipation → spin → honest stop → player manipulation → center lock → line cascade → result → storage/commit queue; later Commit owns battlefield deployment.
 ```
 
-3×3 roulette component planning envelope:
-```text
-ROULETTE_FOCUS_LOWER_DECK = 28~32%
-TOKEN_TILE = 32~34 px exploration
-BOARD_ONLY = 100~108 px exploration
-BOARD_PLUS_ARROWS_HEIGHT = 146~154 px exploration
-ARROWS = 12 direct target/direction controls
-PREVIEW = hover/focus without spend
-EXECUTE = immediate spend + committed move
-UNDO_AFTER_MOVE = FORBIDDEN
-PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
-```
-
-Token planning contract:
-```text
-SOURCE_ART = ACTUAL_GAME_UNIT_ART
-TOKEN_TILE = 32~34 px exploration
-INNER_SAFE_ART = 26~29 px exploration
-READ_ORDER = ROLE_ANCHOR → SILHOUETTE → FACE → TIER → DECORATION
-T1_T2_TOKEN_ART = ALLOWED
-T3_TOKEN_ART = FORBIDDEN
-TOKEN_RARITY_FRAME = FORBIDDEN
-GOLD_TOKEN_USES_GAME_GOLD_ART = TRUE
-X_TOKEN = CLEAR_EMPTY_NON_REWARD
-```
-
-Lower Control Deck contract:
-```text
-ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE
-GLOBAL_LOWER_DECK = 25~32% exploration
-ROULETTE_FOCUS = 28~32%
-OTHER_FOCUS = 25~28%
-TOP_HUD_OWNS_RESOURCE_TOTALS = TRUE
-LOCAL_ACTION_COST_IN_LOWER_DECK = ALLOWED
-TABS = ROULETTE / STORAGE / BUILD / TACTICAL
-BELLU = CONTEXT_GUIDE_NOT_FIFTH_MANAGEMENT_MENU
-```
-
-이 값들은 North Star/Vertical Slice 검증용 planning envelope이며 런타임 최종 수치가 아니다.
+DDD timing values in the owner document are prototype exploration ranges, not final runtime timings.
 
 ## Balance open reconciliation
 
@@ -148,8 +110,8 @@ COMPLETED = BATTLEFIELD_SCALE_AND_ROAD_WIDTH_PLANNING_CONTRACT
 COMPLETED = 3X3_ROULETTE_COMPONENT_SPEC
 COMPLETED = TOKEN_COMPONENT_SPEC
 COMPLETED = LOWER_CONTROL_DECK_SPEC
-CURRENT_NEXT = ROULETTE_DDD_FEEDBACK_SPEC
-THEN = NEW_NORTH_STAR_ONE_IMAGE
+COMPLETED = ROULETTE_DDD_FEEDBACK_SPEC
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
 THEN = COMPONENT_SHEET
 THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
 THEN = IMPLEMENTATION_HANDOFF_AFTER_EXPLICIT_USER_AUTHORITY
@@ -169,7 +131,8 @@ PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 1. fresh `main`과 이 인덱스를 먼저 읽는다.
 2. 기존 CONFIRMED Decision은 같은 질문을 다시 묻지 않는다.
 3. `docs/ACTIVE_CONTEXT.md`를 읽는다.
-4. Visual 작업 시 visual style/component + battlefield scale + 3×3 roulette + Token + Lower Deck owner를 함께 읽는다.
-5. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
-6. runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
-7. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 재대조한다.
+4. Visual 작업 시 visual style + battlefield + 3×3 + Token + Lower Deck + DDD owner를 함께 읽는다.
+5. 이미지 생성은 사용자 명시 요청이 있을 때만 수행한다.
+6. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
+7. runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
+8. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 재대조한다.
