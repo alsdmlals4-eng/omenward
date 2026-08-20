@@ -14,9 +14,11 @@ current_text_ux_decision: OMW-PLAN-20260820-TEXT-UX-STATE-01
 current_visual_style_decision: OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01
 current_battlefield_scale_decision: OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01
 current_roulette_component_decision: OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01
-current_roulette_component_owner: docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md
-current_roulette_component_machine_owner: docs/analysis/ui/current_3x3_roulette_component.v1.json
-current_next_gate: TOKEN_COMPONENT_SPEC
+current_token_component_decision: OMW-PLAN-20260820-TOKEN-COMPONENT-01
+current_lower_control_deck_decision: OMW-PLAN-20260820-LOWER-CONTROL-DECK-01
+current_lower_control_deck_owner: docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md
+current_lower_control_deck_machine_owner: docs/analysis/ui/current_lower_control_deck.v1.json
+current_next_gate: ROULETTE_DDD_FEEDBACK_SPEC
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -26,7 +28,7 @@ visual_generation: USER_REQUEST_ONLY
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 13
+CURRENT_APPROVED_REPLAN_DECISIONS = 15
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -40,8 +42,10 @@ TEXT_UX_AND_STATE_TRANSITION = CONFIRMED
 VISUAL_STYLE_AND_COMPONENT_DIRECTION = CONFIRMED
 BATTLEFIELD_SCALE_AND_COMBAT_READABILITY = CONFIRMED
 ROULETTE_3X3_COMPONENT = CONFIRMED
+TOKEN_COMPONENT = CONFIRMED
+LOWER_CONTROL_DECK = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
-CURRENT_NEXT = TOKEN_COMPONENT_SPEC
+CURRENT_NEXT = ROULETTE_DDD_FEEDBACK_SPEC
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -60,7 +64,7 @@ IMPLEMENTATION_START = NOT_AUTHORIZED
 Player role: `징조수호관(Omen Warden)`
 Run shell: `PREPARE → COMMIT → BATTLE → REVIEW`
 
-## Current Visual contract
+## Current Visual / component contract
 
 ```text
 CHARACTERS_UNITS = ANIME_PIXEL_ART
@@ -91,13 +95,12 @@ DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 AUTO_ZOOM_HIDING_OTHER_LANES = FORBIDDEN
 ```
 
-3×3 roulette component contract:
+3×3 roulette component:
 
 ```text
 ROULETTE_EXPOSURE = 3×3
 ROULETTE_FOCUS_LOWER_DECK = 28~32%
 TOKEN_TILE = 32~34 px exploration
-BOARD_ONLY = 100~108 px exploration
 BOARD_PLUS_ARROWS_HEIGHT = 146~154 px exploration
 ARROW_CONTROLS = 12 direct row/column controls
 HOVER_OR_FOCUS = preview without spend
@@ -106,13 +109,31 @@ UNDO_AFTER_MOVE = FORBIDDEN
 PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
 ```
 
-Current SpinSession visual states:
+Token component:
 
 ```text
-READY → SPINNING → STOPPED_MANIPULATE → CONFIRMED
+SOURCE_ART = ACTUAL_GAME_UNIT_ART
+INNER_SAFE_ART = 26~29 px exploration
+ROLE_ANCHOR_FIRST = TRUE
+T1_T2_TOKEN_ART = ALLOWED
+T3_TOKEN_ART = FORBIDDEN
+TOKEN_RARITY_FRAME = FORBIDDEN
+GOLD_TOKEN_USES_GAME_GOLD_ART = TRUE
+X_TOKEN = CLEAR_EMPTY_NON_REWARD
 ```
 
-Lucky free move is session-only, stored move ticket cap is 3, and Lucky is consumed first.
+Lower Control Deck:
+
+```text
+ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE
+GLOBAL_LOWER_DECK = 25~32% exploration
+ROULETTE_FOCUS = 28~32%
+OTHER_FOCUS = 25~28%
+TOP_HUD_OWNS_RESOURCE_TOTALS = TRUE
+LOCAL_ACTION_COST_IN_LOWER_DECK = ALLOWED
+TABS = ROULETTE / STORAGE / BUILD / TACTICAL
+BELLU = CONTEXT_GUIDE_NOT_FIFTH_MANAGEMENT_MENU
+```
 
 These are North Star / Vertical Slice planning ranges, not final runtime numerics.
 
@@ -179,11 +200,11 @@ PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 ## Current work order
 
 ```text
-1. COMPLETE — battlefield scale / road width / unit readability planning contract
-2. COMPLETE — compact direct-arrow 3×3 Roulette component spec
-3. CURRENT — Token component spec
-4. NEXT — Lower Control Deck spec
-5. NEXT — Roulette DDD feedback spec
+1. COMPLETE — battlefield scale / road width / unit readability
+2. COMPLETE — compact direct-arrow 3×3 Roulette
+3. COMPLETE — Token component
+4. COMPLETE — Focus-adaptive Lower Control Deck
+5. CURRENT — Roulette DDD feedback / anticipation-payoff spec
 6. NEXT — one rebuilt North Star image after component contracts
 7. NEXT — component sheet / reusable asset breakup
 8. NEXT — final full planning adversarial review
@@ -196,8 +217,8 @@ PR197은 이 채팅에서 수정·retarget·merge하지 않는다.
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. visual style/component + battlefield scale + 3×3 roulette owners/machine envelopes.
+4. visual style + battlefield + 3×3 + Token + Lower Deck owners/machine envelopes.
 5. Text UX + Balance + Content/Story owner docs.
-6. Project Notion Home + `02/03/08/09/10/11/12/13/14/15` relevant pages.
+6. Project Notion Home + `02/03/08/09/10/11/12/13/14/15/16/17` relevant pages.
 7. open/draft PR inventory; PR197 read-only.
 8. actual runtime only when execution is explicitly resumed.
