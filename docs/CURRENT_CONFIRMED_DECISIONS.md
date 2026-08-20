@@ -26,6 +26,7 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 | `OMW-PLAN-20260820-MOBILIZATION-REGISTRY-01` | 자동생산은 직접 훈련, TokenSource는 동원 인장 등록. 세 징조륜은 세 전선과 1:1 대응하지 않는다. | `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md` | Project Home + `자동생산 ≠ TokenSource` + `세 원형 릴` + `08` | CONFIRMED |
 | `OMW-PLAN-20260820-FIRST5-FTUE-01` | Stage 1~5를 `인과 이해 → 미래 수정 → 순간 개입 → 응용 시험 → 첫 결산`의 숙련 사다리로 운영한다. | `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md` + `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md` | Project Home + `03 · UI · 게임플레이 Flow Map` + `08` | CONFIRMED |
 | `OMW-PLAN-20260820-RUN-COMMAND-SHELL-01` | 하나의 Run Command Screen에서 `PREPARE → COMMIT → BATTLE → REVIEW` Focus Mode를 사용하고 debug/raw 정보는 player HUD에서 분리한다. | `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md` | Project Home + `03 · UI · 게임플레이 Flow Map` + `08` | CONFIRMED |
+| `OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01` | `Veil`은 적 종족이 아니라 현실과 겹쳐지는 적대적 경계현상이다. Omen은 공세 전조이며, 20 Stage는 Veil 수렴기, Stage 20은 해당 수호성의 수렴핵/정박체를 파괴하는 결산이다. Run 결과는 시간 리셋이 아니라 실제 전쟁 기록으로 남는다. | `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md` | Project Home + `09 · 세계관 · 핵심 스토리` | CONFIRMED |
 
 ## Adversarial review result
 
@@ -73,6 +74,8 @@ Review owner:
 - Stage 5/10/15/20 Boss cadence
 - every-stage final-wave Elite
 - Stage 1 필수 T1 6종은 현재 유지; 실제 FTUE 과부하 관측 시 축소안을 재검토
+- `Veil`은 Pressure 또는 단일 적 종족과 동일하지 않음
+- 시간 루프는 기본 Run 반복 설명으로 사용하지 않음
 - player-experience PASS는 release-near Vertical Slice 사람 플레이 전까지 금지
 
 ## Visual status
@@ -90,8 +93,8 @@ VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
 
 ```text
 CURRENT_REVIEW = COMPLETE_CLEAN_FOR_DECISION_1_TO_6_AND_ROUTING
-CURRENT_NEXT_PRODUCT_DECISION = WORLD_CONFLICT_AND_CORE_STORY
-AFTER_WORLD_STORY = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
+WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
+CURRENT_NEXT_PRODUCT_DECISION = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
 AFTER_CONTENT = BALANCE_BUDGET
 AFTER_BALANCE = TEXT_UX_AND_STATE_TRANSITION_SPEC
 IMPLEMENTATION_START = NOT_AUTHORIZED
@@ -99,14 +102,16 @@ CURRENT_GODOT_RUNTIME = NOT_RUN
 OPEN_DRAFT_PR_197 = READ_ONLY_OTHER_WORKSTREAM
 ```
 
-World/story 미확정:
+World/story에서 의도적으로 미확정으로 남긴 항목:
 
 ```text
-CAUSE_OF_OMEN_CYCLE
-HIGH_LEVEL_ENEMY_OR_VEIL_IDENTITY
-STAGE_20_NARRATIVE_RESOLUTION
-INTER_RUN_WORLD_PROGRESS_MEANING
+VEIL_HAS_SENTIENT_WILL = UNRESOLVED
+VEIL_ORIGIN = UNRESOLVED
+WHO_FIRST_DISCOVERED_OR_CREATED_OMEN_WHEELS = UNRESOLVED
+FINAL_WORLD_ENDING = UNRESOLVED
 ```
+
+이 항목들은 현재 20 Stage/Vertical Slice 진행을 막지 않는다.
 
 ## Current GitHub work-item truth
 
