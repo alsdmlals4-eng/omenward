@@ -10,9 +10,8 @@ adversarial_review_decisions_1_to_6: CLEAN_REVIEW_EXIT
 adversarial_review_full_loop_count: 6
 runtime_evidence_ceiling: NOT_CHANGED_BY_THIS_INDEX
 human_play_evidence: NOT_RUN
-visual_reference_files_received: true
-visual_reference_status: REFERENCE_ONLY_NOT_CANON
-visual_generation: PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
+visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
+visual_generation: USER_REQUEST_ONLY
 ```
 
 이 문서는 현재 승인 Decision을 새 채팅에서 빠르게 복원하기 위한 인덱스다. 상세 규칙은 각 Decision owner가 책임지고, Notion은 사람용 전체 그림/Flow/비교표를 책임진다. code/data/scene/test/runtime evidence는 repository truth가 책임진다.
@@ -30,7 +29,9 @@ visual_generation: PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
 | `OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01` | Veil은 적 종족이 아닌 적대적 경계현상이며 20 Stage는 지역 수렴기다. | `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-CONTENT-BOSS-ARC-01` | 20 Stage = 4×5 authored spine; Boss 5/10/15/20 = Priority/Route/Stance/Sequential Synthesis. | `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-BALANCE-BUDGET-01` | 최종 숫자보다 `SE / ME / TU + Threat Vector` normalized envelope를 먼저 사용한다. | `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md` + `docs/analysis/balance/current_normalized_balance_budget.v1.json` | CONFIRMED |
-| `OMW-PLAN-20260820-TEXT-UX-STATE-01` | 각 Mode는 하나의 질문/Primary CTA를 우선하고, COMMIT은 staged plan 후 한 번의 atomic irreversible confirm을 사용한다. raw debug reason은 player UI에서 분리한다. | `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md` + `docs/analysis/ui/current_text_ux_state_contract.v1.json` | CONFIRMED |
+| `OMW-PLAN-20260820-TEXT-UX-STATE-01` | 각 Mode는 하나의 질문/Primary CTA를 우선하고 COMMIT은 staged plan 후 atomic irreversible confirm을 사용한다. | `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md` + `docs/analysis/ui/current_text_ux_state_contract.v1.json` | CONFIRMED |
+| `OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01` | 캐릭터/유닛 = Anime Pixel Art, 전장/배경 = Clean Pixel Art. 전장 메인/하단 보조, 3×3 룰렛+행·열 화살표, 병종/Gold Token을 보호한다. | `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md` | CONFIRMED |
+| `OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01` | 유닛 크기에서 길 폭을 역산해 2~3열 교전이 읽히는 넓은 길과 full-three-lane 기본 카메라를 사용한다. | `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md` + `docs/analysis/visual/current_battlefield_scale_readability.v1.json` | CONFIRMED |
 
 ## 보호되는 제품 정체성
 
@@ -58,22 +59,39 @@ visual_generation: PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
 - Boss Stage = 5/10/15/20.
 - 모든 Stage final-wave Elite.
 - `DANGER_STAGE_TYPE = REMOVED`.
-- Final Boss 다섯 Pressure 동시 난사 금지.
-- Forecast가 정답 빌드를 지시하지 않음.
-- REVIEW가 prescriptive next-build를 지시하지 않음.
+- Forecast/REVIEW가 정답 빌드를 지시하지 않음.
 - 최종 제품 수치는 simulation/runtime/human evidence 전 승인하지 않음.
 - player-experience PASS는 release-near Vertical Slice 사람 플레이 전까지 금지.
 
-## Text UX current contract
+## Visual current contract
 
 ```text
-PREPARE = problem / change
-COMMIT = staged assignment / atomic irreversible confirm
-BATTLE = tactical intervention only
-REVIEW = causal explanation
+CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
+BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
+PRIMARY_VISUAL_MASS = BATTLEFIELD
+SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
+BATTLEFIELD_HEIGHT_EXPLORATION = 68~75%
+LOWER_DECK_HEIGHT_EXPLORATION = 25~32%
+ROULETTE_EXPOSURE = 3×3
+ROW_COLUMN_ARROWS = PROMINENT
+GOLD_TOKEN = SUPPORTED
+DUPLICATE_LOWER_RESOURCE_DISPLAY = FORBIDDEN
 ```
 
-`REVIEW.RESULT / REVIEW.MAINTENANCE`는 REVIEW 내부 substate이며 다섯 번째 top-level mode가 아니다.
+Battlefield planning envelope:
+
+```text
+REFERENCE = 960×540
+COMMON_UNIT_VISUAL_HEIGHT = 30~36 px exploration
+COMMON_FOOTPRINT_WIDTH = 18~22 px exploration
+ROAD_USABLE_WIDTH = 60~72 px exploration = 2.75~3.25× footprint
+LATERAL_RANK_TARGET = 2~3
+LANE_CENTER_SPACING = 105~125 px exploration
+CLASH_NODE = 78~96 px exploration
+DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+```
+
+이 값은 North Star/Vertical Slice 검증용 planning envelope이며 런타임 최종 수치가 아니다.
 
 ## Balance open reconciliation
 
@@ -84,43 +102,19 @@ ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-## Visual reference intake
-
-사용자가 2026-08-20 제공한 6개 시안은 **예시이며 미확정**이다.
+## Current work order
 
 ```text
-USER_REFERENCE_FILES_RECEIVED = TRUE
-REFERENCE_COUNT = 6
-REFERENCE_STATUS = REFERENCE_ONLY_NOT_CANON
-REFERENCE_OWNER = docs/design/REFERENCE_OMENWARD_USER_MOCKUP_INTAKE_2026-08-20.md
-FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
-VISUAL_DIRECTION_FINAL = NOT_SELECTED
-IMAGE_GENERATION = PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
+COMPLETED = BATTLEFIELD_SCALE_AND_ROAD_WIDTH_PLANNING_CONTRACT
+CURRENT_NEXT = 3X3_ROULETTE_COMPONENT_SPEC
+THEN = TOKEN_COMPONENT_SPEC
+THEN = LOWER_CONTROL_DECK_SPEC
+THEN = ROULETTE_DDD_FEEDBACK_SPEC
+THEN = NEW_NORTH_STAR_ONE_IMAGE
+THEN = COMPONENT_SHEET
+THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
+THEN = IMPLEMENTATION_HANDOFF_AFTER_EXPLICIT_USER_AUTHORITY
 ```
-
-현재 reference에서 재사용 후보로 본 것은 3전선 좌→우 공간 문법, blue/ivory/gold vs violet/crimson 진영 대비, SD 실루엣/Tier 진화, dark navy+gold UI frame이다. 3×3 grid/gacha-like reward emphasis, 높은 동시 HUD 밀도, painterly-only rendering은 current canon으로 승격하지 않는다.
-
-## Current next Decision
-
-```text
-CURRENT_NEXT_PRODUCT_DECISION = VISUAL_REFERENCE_RECONCILIATION
-AFTER_VISUAL_DIRECTION = EXACTLY_ONE_NEW_NORTH_STAR_IF_USER_APPROVES_GENERATION
-AFTER_VISUAL_APPROVAL = FINAL_PLANNING_ADVERSARIAL_REVIEW
-IMPLEMENTATION_START = NOT_AUTHORIZED
-CURRENT_GODOT_RUNTIME = NOT_RUN
-HUMAN_PLAYER_EVIDENCE = NOT_RUN
-OPEN_DRAFT_PR_197 = READ_ONLY_OTHER_WORKSTREAM
-```
-
-Visual reconciliation에서 최소 3안을 비교한다.
-
-```text
-A = PIXEL_ILLUSTRATION_HYBRID
-B = FULL_TACTICAL_PIXEL
-C = WATERCOLOR_ILLUSTRATION_WITH_PIXEL_UI_ACCENTS
-```
-
-아직 어느 안도 확정하지 않는다.
 
 ## Current GitHub work-item truth
 
@@ -136,7 +130,7 @@ PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 1. fresh `main`과 이 인덱스를 먼저 읽는다.
 2. 기존 CONFIRMED Decision은 같은 질문을 다시 묻지 않는다.
 3. `docs/ACTIVE_CONTEXT.md`를 읽는다.
-4. Visual 작업 시 `REFERENCE_OMENWARD_USER_MOCKUP_INTAKE_2026-08-20.md`를 읽되 reference를 canon으로 오인하지 않는다.
+4. Visual 작업 시 visual style/component + battlefield scale owner를 함께 읽는다.
 5. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
 6. runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
 7. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 재대조한다.
