@@ -40,21 +40,19 @@ class BaseV9AdoptionTests(unittest.TestCase):
         self.assertIn("ci-gate", workflow)
         self.assertIn("adversarial-gate", workflow)
 
-    def test_candidate_draft_reuse_manifest_and_scope_allowlist(self) -> None:
+    def test_candidate_draft_reuse_is_isolated_outside_product_paths(self) -> None:
         manifest = json.loads((ROOT / "docs/base-reuse-adoption.json").read_text(encoding="utf-8"))
         self.assertEqual("8553678f70e22f193a2336b591f677dcfa5a8965", manifest["base_source_commit"])
         self.assertEqual("enabled", manifest["modules"]["RM-SYS-003"]["state"])
-        self.assertEqual(
-            "scripts/reuse/candidate_draft_weight_engine.gd",
-            manifest["modules"]["RM-SYS-003"]["destination"],
-        )
+        destination = manifest["modules"]["RM-SYS-003"]["destination"]
+        self.assertEqual("vendor/base-reuse/candidate_draft_weight_engine.gd", destination)
+        self.assertTrue((ROOT / destination).is_file())
+        self.assertTrue((ROOT / "vendor/base-reuse/omenward_candidate_draft_adapter.gd").is_file())
 
         workflow = (ROOT / ".github/workflows/validate-base-v9-adoption.yml").read_text(encoding="utf-8")
-        self.assertIn("scripts/reuse/candidate_draft_weight_engine\\.gd", workflow)
-        self.assertIn("scripts/reuse/omenward_candidate_draft_adapter\\.gd", workflow)
-        self.assertIn("changed-protected.txt", workflow)
         for protected_prefix in ("scripts/", "scenes/", "data/", "assets/", "addons/", "project\\.godot"):
             self.assertIn(protected_prefix, workflow)
+        self.assertNotIn("vendor/base-reuse", workflow)
 
 
 if __name__ == "__main__": unittest.main()
