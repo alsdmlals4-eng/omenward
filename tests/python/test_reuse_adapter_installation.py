@@ -39,11 +39,12 @@ class ReuseAdapterInstallationTests(unittest.TestCase):
         ):
             self.assertIn(token, adapter)
 
-    def test_core_workflow_watches_vendor_changes_and_runs_headless_suite(self) -> None:
-        workflow = (ROOT / ".github/workflows/validate-omenward-core.yml").read_text(encoding="utf-8")
+    def test_dedicated_workflow_watches_and_executes_adapter_verification(self) -> None:
+        workflow = (ROOT / ".github/workflows/validate-reuse-adapter.yml").read_text(encoding="utf-8")
         self.assertGreaterEqual(workflow.count('"vendor/base-reuse/**"'), 2)
-        self.assertIn("for test_file in tests/headless/*_test.gd", workflow)
-        self.assertIn("Install Godot 4.7.1 Standard", workflow)
+        self.assertIn("python -m unittest tests.python.test_reuse_adapter_installation -v", workflow)
+        self.assertIn("Godot_v4.7.1-stable_linux.x86_64", workflow)
+        self.assertIn("res://tests/headless/p0_candidate_draft_reuse_test.gd", workflow)
         self.assertIn("Runtime smoke", workflow)
 
 
