@@ -28,6 +28,7 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 | `OMW-PLAN-20260820-RUN-COMMAND-SHELL-01` | 하나의 Run Command Screen에서 `PREPARE → COMMIT → BATTLE → REVIEW` Focus Mode를 사용한다. | `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md` | Project Home + `03` + `08` | CONFIRMED |
 | `OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01` | `Veil`은 적 종족이 아니라 적대적 경계현상. 20 Stage는 Veil 수렴기이며 Stage 20 승리는 해당 수호성의 수렴을 끝낸 실제 전쟁 기록이다. | `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md` | Project Home + `09 · 세계관 · 핵심 스토리` | CONFIRMED |
 | `OMW-PLAN-20260820-CONTENT-BOSS-ARC-01` | 20 Stage를 `징조 문해 → 복합 징조 → 대가와 선택 → 대수렴`의 4×5 authored spine으로 운영한다. Boss 5/10/15/20은 Priority/Route/Stance/Sequential Synthesis를 시험한다. Danger Stage는 없고 옛 4/9/14/19 아이디어는 공개 일반 Stage variation으로만 재사용한다. | `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md` | Project Home + `10 · 20 Stage · Boss 구조` | CONFIRMED |
+| `OMW-PLAN-20260820-BALANCE-BUDGET-01` | 최종 숫자보다 `SE / ME / TU + Threat Vector`의 정규화된 예산을 먼저 승인한다. 기존 Foundation 250, Spin 20, 첫 T2 약 50, Stage 1~5 TU, 10k robustness는 calibration anchor이며 current runtime과의 economy drift는 구현 전 reconciliation 필수다. | `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md` + `docs/analysis/balance/current_normalized_balance_budget.v1.json` | Project Home + `11 · Balance Budget` | CONFIRMED |
 
 ## Adversarial review result
 
@@ -71,6 +72,8 @@ WHOLE_PROJECT_PLANNING_COMPLETE = FALSE
 - `DANGER_STAGE_TYPE = REMOVED`
 - Final Boss 다섯 Pressure 동시 난사 금지; 순차 Pattern 사용
 - Forecast는 대응 가능한 정보를 주되 정답 카운터를 직접 지시하지 않음
+- Balance complexity와 Raw TU를 동시에 무제한 증폭하지 않음
+- 최종 제품 수치는 simulation/runtime/human evidence 전 승인하지 않음
 - 시간 루프는 기본 Run 반복 설명으로 사용하지 않음
 - player-experience PASS는 release-near Vertical Slice 사람 플레이 전까지 금지
 
@@ -90,6 +93,37 @@ Boss 20 = SEQUENTIAL_SYNTHESIS
 
 Vertical Slice는 안정적인 authored spine을 우선하며, 장기 반복성은 Stage 역할을 보존한 bounded variation으로 확장한다.
 
+## Current normalized Balance envelope
+
+```text
+SE = current 20 Gold Spin anchor
+ME = current 50 Gold first-T2-class anchor = 2.5 SE
+TU = simulation-only relative threat unit
+THREAT_VECTOR = Raw TU + Lanes + Signatures + Route + Overlap + Elite/Boss complexity
+```
+
+Search envelope:
+
+```text
+Act I   = 1.00 reference
+Act II  = 1.15~1.35
+Act III = 1.40~1.65
+Act IV  = 1.70~2.05
+
+Wave 1 = 20~30%
+Wave 2 = 25~35%
+Final  = 40~50% including Elite
+Boss raw TU search = same-Act normal median × 1.25~1.45, reducible for mechanic complexity
+```
+
+Current economy drift requiring implementation reconciliation:
+
+```text
+analysis baseline = base 3/20s + Vault 3/20s + foundation 250
+current main observation = base 5/20s + control 4/60s + outpost 2/30s + StageDefinition default 160
+ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
+```
+
 ## Visual status
 
 ```text
@@ -106,27 +140,26 @@ VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
 ```text
 WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
 20_STAGE_CONTENT_AND_BOSS_STRUCTURE = CONFIRMED
-CURRENT_NEXT_PRODUCT_DECISION = BALANCE_BUDGET
-AFTER_BALANCE = TEXT_UX_AND_STATE_TRANSITION_SPEC
+BALANCE_BUDGET = CONFIRMED
+CURRENT_NEXT_PRODUCT_DECISION = TEXT_UX_AND_STATE_TRANSITION_SPEC
+AFTER_TEXT_UX = VISUAL_REFERENCE_RECONCILIATION_WHEN_USER_FILES_ARRIVE
 IMPLEMENTATION_START = NOT_AUTHORIZED
 CURRENT_GODOT_RUNTIME = NOT_RUN
 HUMAN_PLAYER_EVIDENCE = NOT_RUN
 OPEN_DRAFT_PR_197 = READ_ONLY_OTHER_WORKSTREAM
 ```
 
-Balance에서 다음을 닫는다.
+Text UX에서 다음을 닫는다.
 
 ```text
-STAGE_THREAT_BUDGET
-WAVE_THREAT_BUDGET
-PRESSURE_COST
-ELITE_BUDGET
-BOSS_BUDGET
-GOLD_INCOME_CURVE
-MANA_INCOME_CURVE
-TROOP_LIMIT_CURVE
-BUILD_AND_UPGRADE_SPEND_TARGETS
-ROULETTE_SPEND_TARGETS
+PREPARE_COPY_AND_INFORMATION_HIERARCHY
+COMMIT_CONFIRMATION_AND_IRREVERSIBILITY_COPY
+BATTLE_TACTICAL_STATE_AND_BLOCK_REASONS
+REVIEW_CAUSAL_SUMMARY
+FTUE_STAGE1_TO_5_PROMPTS
+MODE_TRANSITION_RULES
+ERROR_AND_DISABLED_REASON_LANGUAGE
+DEBUG_VS_PLAYER_SURFACE_BOUNDARY
 ```
 
 ## Current GitHub work-item truth
@@ -147,3 +180,4 @@ PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 5. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
 6. 실제 runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
 7. historical Phase B/C0/PR175 및 구형 Danger Stage 문서는 current state로 해석하지 않는다.
+8. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 다시 대조한다.
