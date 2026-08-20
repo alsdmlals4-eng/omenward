@@ -4,11 +4,10 @@
 updated_at: 2026-08-20
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: VISUAL_REFERENCE_RECONCILIATION
+current_next_gate: 3X3_ROULETTE_COMPONENT_SPEC
 implementation_authorized: false
-visual_reference_files_received: true
-visual_reference_status: REFERENCE_ONLY_NOT_CANON
-visual_generation: PAUSED_UNTIL_VISUAL_DIRECTION_REAPPROVAL
+visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
+visual_generation: USER_REQUEST_ONLY
 ```
 
 ## Current milestone
@@ -21,115 +20,123 @@ PROJECT_STATE_RECOVERED
 → 20_STAGE_CONTENT_AND_BOSS_STRUCTURE_CONFIRMED
 → NORMALIZED_BALANCE_BUDGET_CONFIRMED
 → TEXT_UX_AND_STATE_TRANSITION_CONFIRMED
-→ USER_VISUAL_REFERENCES_RECEIVED_REFERENCE_ONLY
-→ VISUAL_REFERENCE_RECONCILIATION = CURRENT_NEXT
+→ VISUAL_STYLE_AND_COMPONENT_DIRECTION_CONFIRMED
+→ BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_CONFIRMED
+→ 3X3_ROULETTE_COMPONENT_SPEC = CURRENT_NEXT
 ```
 
 ## Current planning order
 
-### P0 — Visual reference reconciliation — CURRENT NEXT
+### P0 — 3×3 Roulette component spec — CURRENT NEXT
 
-사용자가 제공한 6개 시안은 예시이며 아직 확정이 아니다. 최종 스타일로 승격하지 않고 최소 3개의 실질 대안을 비교한다.
-
-```text
-A = PIXEL_ILLUSTRATION_HYBRID
-B = FULL_TACTICAL_PIXEL
-C = WATERCOLOR_ILLUSTRATION_WITH_PIXEL_UI_ACCENTS
-```
-
-평가축:
+Define the exact player-facing structure of the protected 3×3 roulette interaction without changing its core semantics.
 
 ```text
-AI-look reduction
-pixel/dot identity strength
-3-lane battlefield readability
-small-unit silhouette readability
-world/core-system fit
-UI density at 960x540 internal target
-reusable layer/asset production feasibility
-long-term faction/biome expansion
+3×3 exposure window geometry
+row arrows / column arrows
+move-ticket state
+spin entry / manipulation / confirm sequence
+result preview and line readability
+gold token + unit token coexistence
+player-built probability feedback
+triple Omen Wheel world meaning vs 3×3 player-facing control
 ```
 
-User reference owner:
-`docs/design/REFERENCE_OMENWARD_USER_MOCKUP_INTAKE_2026-08-20.md`
+### P0 — Token component spec — NEXT
 
-이미지 생성은 이 방향 Decision 승인 전 재개하지 않는다.
+Define the common tile, unit-role silhouette hierarchy, faction/Tier/rarity layers, Gold Token and small-size readability.
 
-### Visual North Star — AFTER DIRECTION APPROVAL
+### P0 — Lower Control Deck — NEXT
 
-승인된 방향으로 **정확히 1장**만 생성한다.
+Fit the 3×3 roulette and current-focus controls inside the approved `25~32%` lower-deck exploration envelope without duplicating top HUD resources.
 
-우선 후보는 기존 A-direction lineage인 `Stage 2 PREPARE · Omen Wheels Focus`를 유지하되, 새 reference reconciliation 결과에 따라 rendering/UI composition을 수정한다.
+### P0 — Roulette DDD feedback — NEXT
 
-생성 결과는 자동 정본이 아니다. 사용자 결과 승인이 있어야 Notion 승인 visual reference로 승격한다.
+Design the anticipation/payoff chain:
+
+```text
+probability setup
+→ spin buildup
+→ row/column manipulation
+→ line/omen lock
+→ result snap/reveal
+→ storage/commit transfer
+→ battlefield reinforcement link
+```
+
+Casino/jackpot/paid-spin fantasy remains forbidden.
+
+### Visual North Star — AFTER COMPONENT CONTRACTS
+
+Create exactly one rebuilt North Star only after the above component contracts are coherent.
+
+Required visual contract:
+
+```text
+ANIME_PIXEL_ART_UNITS
+CLEAN_PIXEL_BATTLEFIELD
+FULL_THREE_LANES
+WIDE_COMBAT_ROADS
+BATTLEFIELD_PRIMARY / LOWER_DECK_SECONDARY
+3×3 ROULETTE
+PROMINENT ROW/COLUMN ARROWS
+ROLE-READABLE UNIT TOKENS
+GOLD TOKEN
+NO DUPLICATE LOWER RESOURCES
+```
 
 ### Final planning review
 
-Visual direction/result reconciliation 후:
+After component contracts and rebuilt North Star result approval:
 
 ```text
 minimum 5 full adversarial loops / until clean
-Decision 1~10 + Visual contract regression review
-Notion/GitHub sync
+Decision 1~12 + visual/component regression review
+Notion/GitHub drift check
 implementation Definition of Ready
 explicit user implementation authority
 ```
 
 Only then open implementation handoff.
 
-## Current Text UX authority
+## Current Battlefield authority
 
 Owners:
 
-- `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md`
-- `docs/analysis/ui/current_text_ux_state_contract.v1.json`
+- `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md`
+- `docs/analysis/visual/current_battlefield_scale_readability.v1.json`
+
+Planning envelope:
 
 ```text
-PREPARE = problem/change
-COMMIT = staged assignment + atomic irreversible confirm
-BATTLE = tactical timing
-REVIEW = causal explanation
+reference = 960×540
+battlefield height = 68~75%
+lower deck = 25~32%
+common unit = 30~36 px visual height
+common footprint = 18~22 px
+usable road = 60~72 px / 2.75~3.25× footprint
+lateral ranks = 2~3
+lane center spacing = 105~125 px
+clash node = 78~96 px
+default camera = full three lanes
 ```
 
-`REVIEW.RESULT / REVIEW.MAINTENANCE`는 REVIEW substate다.
+These are validation ranges, not final runtime geometry.
 
-Player UI는 raw internal reason/code를 숨기고 `무엇이 부족한지 / 무엇이 준비되지 않았는지 / 어떤 조건이 맞지 않는지 / 무엇이 비가역인지`를 직접 설명한다.
+## Current Visual authority
 
-## Current normalized Balance authority
-
-Owners:
-
-- `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md`
-- `docs/analysis/balance/current_normalized_balance_budget.v1.json`
+Owner:
+`docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
 
 ```text
-SE = current 20 Gold Spin anchor
-ME = current 50 Gold first-T2-class anchor = 2.5 SE
-TU = simulation-only relative threat unit
-```
-
-Economy drift remains intentionally unresolved until implementation reconciliation.
-
-## Current world / content authority
-
-```text
-PLAYER_ROLE = Omen Warden
-VEIL = hostile boundary phenomenon, not one enemy race
-ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-RUN_HISTORY_RESET = FALSE
-
-Stage 1~5   = PRESSURE LITERACY
-Stage 6~10  = COMBINATION
-Stage 11~15 = OPPORTUNITY COST
-Stage 16~20 = SYNTHESIS
-
-Boss 5  = PRIORITY
-Boss 10 = ROUTE
-Boss 15 = STANCE
-Boss 20 = SEQUENTIAL_SYNTHESIS
-
-DANGER_STAGE_TYPE = REMOVED
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
+BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
+PRIMARY_VISUAL_MASS = BATTLEFIELD
+SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
+ROULETTE_EXPOSURE = 3×3
+ROW_COLUMN_ARROWS = PROMINENT
+GOLD_TOKEN = SUPPORTED
+DUPLICATE_RESOURCE_DISPLAY_IN_LOWER_DECK = FORBIDDEN
 ```
 
 ## Current GitHub work-item routing
@@ -150,12 +157,9 @@ CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
-STAGED_COMMIT_USABILITY = NOT_RUN
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
-
-No historical runtime diagnosis is promoted as current without fresh execution.
 
 ## Platform / release deferred
 
