@@ -34,6 +34,7 @@ visual_generation: USER_REQUEST_ONLY
 | `OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01` | 유닛 크기에서 길 폭을 역산해 2~3열 교전이 읽히는 넓은 길과 full-three-lane 기본 카메라를 사용한다. | `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md` + `docs/analysis/visual/current_battlefield_scale_readability.v1.json` | CONFIRMED |
 | `OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01` | 낮은 하단에서 `3×3 + 각 열 상·하 + 각 행 좌·우` 직접 화살표 작업대를 사용한다. Hover/focus는 preview, 실행은 이동권 소비 후 즉시 확정이며 중앙 가로줄 판정과 기존 line reward를 보존한다. | `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_3x3_roulette_component.v1.json` | CONFIRMED |
 | `OMW-PLAN-20260820-TOKEN-COMPONENT-01` | 실제 Anime Pixel 병종 아트를 재사용하고 작은 타일에서는 역할 앵커가 먼저 읽히게 crop한다. T1/T2 token art만 사용하고 reward rarity와 token tier를 분리하며 Gold/X도 같은 tile grammar를 사용한다. | `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md` + `docs/analysis/ui/current_token_component.v1.json` | CONFIRMED |
+| `OMW-PLAN-20260820-LOWER-CONTROL-DECK-01` | 하단은 Focus-adaptive Compact Deck로 운영하고 한 번에 하나의 작업면만 전개한다. 상단이 자원 총량을 단독 소유하며 Roulette/Build/Commit/Battle/Review별 Primary CTA와 필요한 정보만 하단에 표시한다. | `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md` + `docs/analysis/ui/current_lower_control_deck.v1.json` | CONFIRMED |
 
 ## 보호되는 제품 정체성
 
@@ -50,7 +51,6 @@ visual_generation: USER_REQUEST_ONLY
 ```
 
 보호:
-
 - `ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE`
 - `GAMBLING_FANTASY_POSITIONING = FORBIDDEN`
 - `PAID_SPIN = FORBIDDEN`
@@ -81,7 +81,6 @@ DUPLICATE_LOWER_RESOURCE_DISPLAY = FORBIDDEN
 ```
 
 Battlefield planning envelope:
-
 ```text
 REFERENCE = 960×540
 COMMON_UNIT_VISUAL_HEIGHT = 30~36 px exploration
@@ -94,7 +93,6 @@ DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 ```
 
 3×3 roulette component planning envelope:
-
 ```text
 ROULETTE_FOCUS_LOWER_DECK = 28~32%
 TOKEN_TILE = 32~34 px exploration
@@ -108,7 +106,6 @@ PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
 ```
 
 Token planning contract:
-
 ```text
 SOURCE_ART = ACTUAL_GAME_UNIT_ART
 TOKEN_TILE = 32~34 px exploration
@@ -119,6 +116,18 @@ T3_TOKEN_ART = FORBIDDEN
 TOKEN_RARITY_FRAME = FORBIDDEN
 GOLD_TOKEN_USES_GAME_GOLD_ART = TRUE
 X_TOKEN = CLEAR_EMPTY_NON_REWARD
+```
+
+Lower Control Deck contract:
+```text
+ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE
+GLOBAL_LOWER_DECK = 25~32% exploration
+ROULETTE_FOCUS = 28~32%
+OTHER_FOCUS = 25~28%
+TOP_HUD_OWNS_RESOURCE_TOTALS = TRUE
+LOCAL_ACTION_COST_IN_LOWER_DECK = ALLOWED
+TABS = ROULETTE / STORAGE / BUILD / TACTICAL
+BELLU = CONTEXT_GUIDE_NOT_FIFTH_MANAGEMENT_MENU
 ```
 
 이 값들은 North Star/Vertical Slice 검증용 planning envelope이며 런타임 최종 수치가 아니다.
@@ -138,8 +147,8 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 COMPLETED = BATTLEFIELD_SCALE_AND_ROAD_WIDTH_PLANNING_CONTRACT
 COMPLETED = 3X3_ROULETTE_COMPONENT_SPEC
 COMPLETED = TOKEN_COMPONENT_SPEC
-CURRENT_NEXT = LOWER_CONTROL_DECK_SPEC
-THEN = ROULETTE_DDD_FEEDBACK_SPEC
+COMPLETED = LOWER_CONTROL_DECK_SPEC
+CURRENT_NEXT = ROULETTE_DDD_FEEDBACK_SPEC
 THEN = NEW_NORTH_STAR_ONE_IMAGE
 THEN = COMPONENT_SHEET
 THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
@@ -160,7 +169,7 @@ PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 1. fresh `main`과 이 인덱스를 먼저 읽는다.
 2. 기존 CONFIRMED Decision은 같은 질문을 다시 묻지 않는다.
 3. `docs/ACTIVE_CONTEXT.md`를 읽는다.
-4. Visual 작업 시 visual style/component + battlefield scale + 3×3 roulette + Token owner를 함께 읽는다.
+4. Visual 작업 시 visual style/component + battlefield scale + 3×3 roulette + Token + Lower Deck owner를 함께 읽는다.
 5. 진행 중 open/draft PR은 별도 workstream으로 읽기 전용 처리한다.
 6. runtime/사람 검증을 수행하지 않은 항목은 `NOT_RUN / UNVERIFIED`를 유지한다.
 7. Balance 구현 전에 economy drift를 fresh main/runtime 대상으로 재대조한다.
