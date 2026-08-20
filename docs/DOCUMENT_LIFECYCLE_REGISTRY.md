@@ -1,64 +1,49 @@
 # [현행] OMENWARD 문서 수명주기 레지스트리
 
 ```yaml
-updated_at: 2026-08-11
-current_phase_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
-phase_b: PASS
-phase_c_gate: OPEN
-phase_c_c0: PASS
-current_next_gate: PR175_CURRENT_MAIN_REVALIDATION_NEXT
+updated_at: 2026-08-20
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_status: REOPENED_REVIEW_IN_PROGRESS
+current_next_gate: WORLD_CONFLICT_AND_CORE_STORY
+implementation_authorized: false
+visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ```
 
 ## Lifecycle labels
 
-- `[현행]` — current authority / router
-- `[대체됨]` — superseded implementation authority, provenance retained
-- `[보류]` — not selected / evidence-dependent
-- `[폐기]` — not to be reused
-- `[증거]` — historical evidence only
-
-## Current phase
-
-```text
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
-PHASE_B_FINAL_PLANNING_REVIEW = PASS
-IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
-PHASE_C_GATE = OPEN
-PHASE_C_C0_OVERALL = PASS
-PR175_CURRENT_MAIN_REVALIDATION_NEXT
-```
-
-- `[현행] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
-- `[증거] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md — PRECEDING_PHASE_B_COMPLETION_OWNER`
-- `[증거] docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md — REPOSITORY_TOOLCHAIN_PREFLIGHT_HISTORY`
-- `[증거] docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md`
+- `[현행]` — current authority / router.
+- `[대체됨]` — superseded authority, provenance retained.
+- `[보류]` — not selected / evidence-dependent / intentionally paused.
+- `[폐기]` — not to be reused.
+- `[증거]` — historical evidence only.
+- `[호환]` — current semantic authority는 없지만 validator/legacy consumer 때문에 marker를 유지.
 
 ## Current entry / state
 
 - `[현행] README.md`
 - `[현행] AGENTS.md`
-- `[현행] docs/PROJECT_CORE.md`
+- `[현행] docs/CURRENT_CONFIRMED_DECISIONS.md`
 - `[현행] docs/ACTIVE_CONTEXT.md`
-- `[현행] docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- `[현행] docs/OMENWARD_GDD_CURRENT_CANON.md`
+- `[현행] docs/PROJECT_CORE.md`
 - `[현행] docs/DECISIONS_PENDING.md`
+- `[현행] docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - `[현행] docs/DOCUMENTATION_MAP.md`
 - `[현행] docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-- `[현행] docs/OMENWARD_GDD_CURRENT_CANON.md`
 - `[현행] docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-- `[현행] docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
 
-## Current process authority
+## Current 2026-08-20 Decision authority
 
-- `[현행] docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md`
-- `[현행] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
-- `[현행] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
-- `[증거] docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md — ACTIVATION_DECISION_HISTORY`
-- `[현행] docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md`
-- `[증거] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md — HISTORICAL_V4_4_BINDING`
+- `[현행] docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md`
+- `[현행] docs/design/APPROVED_OMENWARD_OMEN_CYCLE_MAPRUN_WORLD_2026-08-20.md`
+- `[현행] docs/design/APPROVED_OMENWARD_PRESSURE_LANGUAGE_AND_OMEN_SIGNATURES_2026-08-20.md`
+- `[현행] docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md`
+- `[현행] docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md`
+- `[현행] docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
 
-The active v4.5 binding and machine state are current mutable routing owners. The activation Decision document records the conditions under which v4.5 was activated and remains historical provenance after later Phase B/C0 transitions.
+## Durable detailed system authority retained
 
-## Current product authority
+다음은 2026-08-20 Decision과 충돌하지 않는 범위에서 계속 세부 owner다.
 
 - `[현행] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
 - `[현행] docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
@@ -67,105 +52,80 @@ The active v4.5 binding and machine state are current mutable routing owners. Th
 - `[현행] docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
 - `[현행] docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md`
 - `[현행] docs/design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
-- `[현행] docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md — OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 / 5_OF_10 lineage`
+- `[현행] docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
 - `[현행] docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-- `[현행] docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
-- `[현행] docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`
-- `[현행] docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
 - `[현행] docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
 
-## Stage cadence precedence
+충돌 시 2026-08-20 newer Decision owner가 우선한다.
+
+## Current visual authority
+
+- `[현행] docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md — INVENTORY / NO APPROVED ASSET YET`
+- `[보류] first generated North Star candidate — REJECTED_NOT_CANON`
+- `[보류] image generation/editing — PAUSED_PENDING_USER_REFERENCE_FILES`
+- `[현행] 기존 승인 art/UI guide — style/reference contract only`
+
+## Current process authority
+
+- `[현행] fresh alsdmlals4-eng/Base current authority`
+- `[현행] PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7 supplied by user`
+- `[현행] docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md — project-specific benchmark-first principle`
+
+과거 v4.5 binding/state는 current process owner가 아니다.
+
+- `[증거] docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md`
+- `[증거] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
+- `[증거] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json`
+- `[증거] docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md`
+
+## Current GitHub work-item lifecycle
 
 ```text
-DANGER_STAGE_TYPE = REMOVED
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-BOSS_STAGES = 5 / 10 / 15 / 20
-BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
-LEGACY_DANGER_CADENCE_AUTHORITY = NONE
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
+PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 ```
 
-- `[대체됨] docs/design/APPROVED_OMENWARD_STAGE_WAVE_DANGER_BOSS_PRESSURE_MATRIX_2026-08-04.md — SUPERSEDED_FOR_STAGE_TYPE_AND_CADENCE`
-- `[증거] old 4/9/14/19 Danger cadence — IMPLEMENTATION_INPUT_FORBIDDEN`
+- PR175/177 contents are `[증거]` unless separately merged to main elsewhere.
+- Issue176 is `[보류]` as a future reconciliation input, not current execution queue.
+- PR197 is `[보류/보호]` from this chat: read-only other workstream.
 
-Old pressure concepts may be reused only as normal-stage authored variation when compatible with the new cadence; they do not restore a Danger Stage type.
+## Historical review / runtime evidence
 
-## Building / resource lineage
+- `[증거] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `[증거] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
+- `[증거] docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`
+- `[증거] old PR175 exact-head / GUT / FV / signal11 records`
+
+이 문서들의 당시 `10/10`, `PR175 OPEN`, `PR175_CURRENT_MAIN_REVALIDATION_NEXT`, signal11 next-step 표현을 current state로 재사용하지 않는다.
+
+## Google Sheet lifecycle
+
+- `[증거/이관] docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md`
+- Google Sheet는 current human-facing canon이 아니다.
+- 사람용 전체 그림/Flow/Story/Visual은 Notion이 우선한다.
+
+## Current pending lifecycle
 
 ```text
-OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1 = 3_OF_10 / HISTORICAL_SUPERSEDED
-LEGACY_UNIVERSAL_BUILDING_BRANCHES = SUPERSEDED_BY_BUILDING_TIER_REALIGNMENT
-OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1 = CURRENT
-LEGACY_MANA_TOWER_BRANCHES = IMPLEMENTATION_INPUT_FORBIDDEN
-LEGACY_TERM_MASOK = IMPLEMENTATION_INPUT_FORBIDDEN
+CURRENT_REVIEW = FIVE_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
+NEXT_PRODUCT_DECISION = WORLD_CONFLICT_AND_CORE_STORY
+THEN = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
+THEN = BALANCE_BUDGET
+THEN = TEXT_UX_AND_STATE_TRANSITION_SPEC
+VISUAL_RESUME = AFTER_USER_REFERENCE_FILES
+IMPLEMENTATION = AFTER_FINAL_PLANNING_AND_USER_AUTHORITY
 ```
 
-- `[대체됨] docs/design/APPROVED_OMENWARD_SIX_BUILDING_T2_T3_BRANCHES_AND_COUNTERS_2026-08-05.md`
-- `[현행] OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1`
-- `[현행] OMW-DEC-20260806-PLANNING-BARRACKS-AUTO-PRODUCTION-AND-TOKEN-SOURCE-AMENDMENT-V1`
-- `[현행] OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1`
+## Historical compatibility markers
 
-## Troop-role lineage
+아래 문자열은 `[호환]`이다.
 
 ```text
-OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1 = 4_OF_10 / HISTORICAL_LINEAGE
-LEGACY_PROTOTYPE_UNIT_DATA = IMPLEMENTATION_INPUT_FORBIDDEN
+MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
+PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
+PHASE_C_C0_OVERALL = HISTORICAL_PASS
+PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
+PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
 ```
-
-- `[증거] data/units/*.tres — LEGACY_PROTOTYPE_UNIT_DATA / IMPLEMENTATION_INPUT_FORBIDDEN`
-- `[현행] docs/design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
-
-## Tactical lineage
-
-```text
-OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1 = 5_OF_10 / CURRENT_LINEAGE
-CURRENT_TACTICAL_RESOURCE = 마력
-LEGACY_MANA_TOWER_BRANCHES = IMPLEMENTATION_INPUT_FORBIDDEN
-LEGACY_TERM_MASOK = IMPLEMENTATION_INPUT_FORBIDDEN
-```
-
-## Merchant lineage
-
-```text
-OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1 = 6_OF_10 / CURRENT_LINEAGE
-LEGACY_ALWAYS_AVAILABLE_SHOP = IMPLEMENTATION_INPUT_FORBIDDEN
-LEGACY_INFINITE_MERCHANT_STOCK = IMPLEMENTATION_INPUT_FORBIDDEN
-LEGACY_DIRECT_CORE_REWARD_SALES = IMPLEMENTATION_INPUT_FORBIDDEN
-```
-
-- `[현행] docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-
-## Runtime / evidence lifecycle
-
-```text
-PR175 = OPEN_DRAFT
-ISSUE176_APPROVED_RUNTIME_GAPS = 7
-ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
-PR175_CURRENT_MAIN_REVALIDATION_NEXT
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
-FINAL_PRODUCT_NUMERICS = NOT_APPROVED
-SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
-```
-
-- `[현행] docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md`
-- `[현행] docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md`
-- `[현행] docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_MEASUREMENT_SCENARIOS_2026-08-09.md`
-- `[증거] PR175 historical 11/11 exact-head CI — must be revalidated against fresh main in Phase C`
-- `[증거] PR177 — REFERENCE_ONLY_DO_NOT_MERGE`
-
-## Evidence / pilot
-
-- `[증거] docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md — PILOT_RECOMMENDATION / NOT_CANON`
-- `[증거] docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
-- `[증거] docs/reviews/ADVERSARIAL_CORE_FUN_CANON_AND_LEGACY_CONFLICT_REVIEW_2026-08-04.md`
-
-## Godot AI execution note
-
-```text
-USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
-GODOT_AI_HTTP_PORT = 8002
-GODOT_AI_WS_PORT = 9502
-GODOT_AI_SESSION_RESOLUTION = FRESH_EXACT_PROJECT_EACH_EXECUTION_BLOCK
-```
-
-The Phase B `NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK` and defer-to-C0 wording is preserved only in historical Phase B/activation evidence. Current execution routing uses the completed C0 local evidence and always resolves a fresh exact project session before persistent HiGodot mutation.
