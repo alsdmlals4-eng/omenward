@@ -1,210 +1,169 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-11
+updated_at: 2026-08-20
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-base_main_observed_at_phase_b: 069f0c9654a6cde7cea6f3343dd2fa81c6248d5d
-current_decision: OMW-DEC-20260811-OPS-HIGODOT-PROJECT-ISOLATED-EDITOR-PORT-V1
-preceding_phase_b_decision: OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
-benchmark_process_decision: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
-contract_version: 4.5
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
-planning_status: MAIN_CANONICAL_APPROVED_10_OF_10
-work_phase: PHASE_C_C0_PASS_PR175_CURRENT_MAIN_REVALIDATION_NEXT
-phase_c_gate: OPEN
-runtime_package: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
-runtime_pr: 175
-runtime_issue: 176
-runtime_gap_count: 7
-handoff_pr: 177
-handoff_disposition: REFERENCE_ONLY_DO_NOT_MERGE
+planning_status: REOPENED_REVIEW_IN_PROGRESS
+current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
+current_context: docs/ACTIVE_CONTEXT.md
+current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
+implementation_authorized: false
+visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
+current_chat_runtime: NOT_RUN
 ```
 
-공통 작업·TDD·벤치마킹·PR·적대적 검토는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 current routing과 보호 경계만 소유한다.
+공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 current routing과 보호 경계만 소유한다.
 
-## 1. 매 작업 시작
+## 1. 매 작업 시작 read order
 
-1. Base current `START_HERE.md` / `AGENTS.md` / main / open PR을 fresh-read한다.
-2. OMENWARD default branch, latest commit, open PR, target files를 fresh-read한다.
-3. Google Sheet current hub / Decision / audit / 관련 탭을 fresh-read한다.
-4. 관련 benchmark·현업 자료를 current source에서 확인하고 `ADOPT / ADAPT / AVOID / TEST / IGNORE`로 분류한다.
-5. project canon 충돌을 먼저 검사한다.
-6. 과거 채팅·Handoff·오래된 SHA를 current truth로 사용하지 않는다.
+1. fresh Base `START_HERE.md` / `AGENTS.md` / relevant Skill / main.
+2. fresh OMENWARD `main`, open/draft PR, target files.
+3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
+4. `docs/ACTIVE_CONTEXT.md`.
+5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + relevant detailed owner.
+6. Project Notion Home + relevant human-facing page.
+7. runtime/code/data/scene/test는 실제 구현/검증 scope가 열렸을 때만 current evidence로 판정한다.
+
+과거 채팅·Handoff·오래된 SHA·closed-unmerged PR을 current product truth로 사용하지 않는다.
+
+## 2. Current planning truth
+
+2026-08-20 사용자가 프로젝트 기획을 다시 열었다. 현재 승인된 재기획 Decision 6개는 `docs/CURRENT_CONFIRMED_DECISIONS.md`가 복원 인덱스를 소유한다.
 
 ```text
-OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
-BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
-COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
-POST_CHANGE_ADVERSARIAL_MONITORING = REQUIRED
+OMW-PLAN-20260820-WORLD-ROLE-01
+OMW-PLAN-20260820-MAPRUN-WORLD-01
+OMW-PLAN-20260820-PRESSURE-LANGUAGE-01
+OMW-PLAN-20260820-MOBILIZATION-REGISTRY-01
+OMW-PLAN-20260820-FIRST5-FTUE-01
+OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
 ```
 
-운영 owner:
-`docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md`
+현재 이미지 workstream은 사용자가 보유한 시안/레퍼런스 파일을 받을 때까지 보류한다. 이미지 보류는 다른 기획 작업을 막지 않는다.
 
-## 2. Current product owners
-
-- `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- `docs/design/APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md`
-- `docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md`
-- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_ROLE_OUTPUT_RUNTIME_IMPLEMENTATION_PACKAGE_2026-08-09.md`
-- `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
-- `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
-
-Stage cadence latest override:
+현재 비이미지 기획 순서:
 
 ```text
-DANGER_STAGE_TYPE = REMOVED
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-BOSS_STAGES = 5 / 10 / 15 / 20
-BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
-LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
+ADVERSARIAL_REVIEW_AND_CANON_RECONCILIATION
+→ WORLD_CONFLICT_AND_CORE_STORY
+→ 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
+→ BALANCE_BUDGET
+→ TEXT_UX_AND_STATE_TRANSITION_SPEC
 ```
 
-## 3. Phase transition
-
-사용자의 literal `기획 완료` 선언을 수신했고 Phase B 최종 검토와 Phase C C0 repository/local gate가 모두 통과했다.
+## 3. Protected product identity
 
 ```text
-WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
-WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
-PHASE_B_FINAL_PLANNING_REVIEW = PASS
-IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
-PHASE_C_GATE = OPEN
-PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
-PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
-PHASE_C_C0_OVERALL = PASS
-PHASE_C_STATUS = PR175_CURRENT_MAIN_REVALIDATION_NEXT
-PR175_CURRENT_MAIN_REVALIDATION_NEXT
-```
-
-`PHASE_C_GATE = OPEN`과 C0 PASS는 gameplay 구현 완료를 뜻하지 않는다. 현재 다음 gate는 PR175를 fresh current main에 맞춰 rebase/update하고 exact-head 검증을 다시 수행하는 것이다.
-
-## 4. Current Godot AI / HiGodot execution route
-
-Phase B 당시 provenance는 보존한다.
-
-```text
-USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4
-GODOT_AI_3_1_4_PHASE_B_STATUS = USER_REPORTED_PENDING_C0_FRESH_VERIFY
-```
-
-C0에서 확인된 current execution truth:
-
-```text
-GODOT_VERSION = 4.7.1-stable
-GODOT_AI_PLUGIN_VERSION = 3.1.4
-GODOT_AI_SERVER_VERSION = 3.1.4
-GODOT_AI_3_1_4_C0_STATUS = VERIFIED_PLUGIN_SERVER_SESSION
-OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
-OMENWARD_GODOT_AI_HTTP_PORT = 8002
-OMENWARD_GODOT_AI_WS_PORT = 9502
-CODEX_INSTALLATION = SHARED
-OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
-PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
-SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
-```
-
-C0 closure에서 `omenward@7f90` / editor PID `28564`가 exact project path로 증명됐지만 이는 **evidence only**다. 새 mutation block마다 `session_manage(op=list)`를 다시 호출하고 `C:/Users/user/Documents/GitHub/Ninza/omenward/`를 exact-match한다. session ID를 추측하거나 과거 값을 selector로 재사용하지 않는다.
-
-## 5. Current TokenSource / physical reel contract
-
-```text
-GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
-GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
-GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT
-GENERAL_T2_TOKEN_SOURCE = SELECTED_GENERAL_UNIT
-SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
-SPECIAL_T1_SELECTED_UNIT_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
-SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_AUTO_PRODUCTION_AND_TOKEN_SOURCE = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS
-SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
-SPECIAL_T1_FREE_REROLL = FORBIDDEN
-SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
-SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
+ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
+GAMBLING_FANTASY_POSITIONING = FORBIDDEN
+PAID_SPIN = FORBIDDEN
+RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
+FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
+AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
 TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
 TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
-FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
-SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
+THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
+IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
+BOSS_STAGES = 5 / 10 / 15 / 20
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 ```
 
-과거 no-TokenSource 표현은 current implementation input이 아니다.
-
-## 6. Runtime package boundary
+Player-facing core:
 
 ```text
-PR175 = OPEN_DRAFT
-PR175_HEAD_OBSERVED = bde85549560fca90f7aa25fc4842bc0a3afb92e7
-PR175_HISTORICAL_EXACT_HEAD_ACTIONS = 11_SUCCESS_0_FAILURE
-PR175_CURRENT_MAIN_REBASE_REVALIDATION_REQUIRED = TRUE
-ISSUE176 = OPEN
-ISSUE176_APPROVED_RUNTIME_GAPS = 7
-ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
-PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
-PR177 = REFERENCE_ONLY_DO_NOT_MERGE
+징조 관측
+→ 건설 / 동원 인장 / 미래 병력 분포 설계
+→ 세 징조륜에서 병력 획득
+→ 세 전선 중 하나에 비가역 커밋
+→ 자동전투 + 제한된 수동 전술
+→ 인과 복기
 ```
 
-Issue176 일곱 gap은 새 product Decision이 아니다. PR175 current-main revalidation을 먼저 통과한 뒤 구현 순서는 `GUT RED -> HiGodot/Godot AI authoring -> parse/import -> GUT GREEN -> regressions -> deterministic FV -> Hera live QA`다.
+## 4. World / MapRun current truth
 
 ```text
-ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON -> FINAL_TUNING
-FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
+PLAYER_ROLE = Omen Warden / 징조수호관
+WORLD_HAS_MULTIPLE_WARD_CITADELS = TRUE
+ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
+PRESSURE_LANGUAGE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
+PRESSURE_IS_ENEMY_RACE_OR_FACTION = FALSE
+MULTI_SIGNATURE_ENEMY_OR_WAVE = ALLOWED
+```
+
+세계 갈등의 원인, 적 세력의 상위 정체, Stage 20의 서사적 결산은 아직 새 재기획에서 확정되지 않았으며 다음 주요 Decision 대상이다.
+
+## 5. First-session / UI current truth
+
+```text
+FIRST_SESSION = REAL_MAPRUN
+STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
+SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+STAGE_1 = CAUSAL_UNDERSTANDING
+STAGE_2 = FUTURE_DISTRIBUTION_MODIFICATION
+STAGE_3 = TACTICAL_INTERVENTION
+STAGE_4 = APPLICATION_WITH_NO_NEW_CORE_SYSTEM
+STAGE_5 = FIRST_BOSS_AND_BUILD_REVIEW
+RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
+```
+
+Stage 1의 6개 필수 T1은 현재 유지하되 `생존 기반 / 군사 기반 / 지휘 기반` 세 묶음으로 순차 노출한다. 사람 플레이에서 과부하가 실제 관측되면 축소안을 재검토한다.
+
+## 6. Current GitHub work-item boundary
+
+Fresh current truth를 매번 다시 읽는다. 2026-08-20 기준 routing:
+
+```text
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
+PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
+```
+
+- PR175/177의 unmerged 변경을 current main product truth로 사용하지 않는다.
+- Issue176을 미래 구현 packet으로 쓰기 전 current main + current planning Decisions와 재대조한다.
+- PR197은 현재 채팅에서 수정·retarget·merge 금지.
+- 사용자가 진행 중 PR을 별도 workstream으로 선언한 경우 현재 작업에서 건드리지 않는다.
+
+## 7. Runtime / evidence ceiling
+
+2026-08-20 재기획 채팅은 current Godot runtime을 실행하지 않았다.
+
+```text
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_WINDOWS_RUNTIME = NOT_RUN
+CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
+CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-## 7. Product quality guardrails
+2026-08-11~12 signal11 / HiGodot / GUT / Hera 기록은 historical evidence다. 현재 crash가 재현된다고 주장하지 않는다.
+
+실제 구현/런타임 작업이 다시 열리면 fresh current-main 실행과 current tool/session identity로 새 truth를 만든다.
+
+## 8. Notion / GitHub authority
+
+- Notion: 사람용 전체 그림, Flow, 비교표, Visual/Story/Work Plan.
+- GitHub: Markdown/JSON/code/data/scene/resource/test/runtime evidence와 구조화 계약.
+- 의미 변경 Decision은 두 surface가 같은 Decision ID와 의미를 갖도록 동기화한다.
+- Google Sheets는 current human authority가 아니며 migration/history 용도로만 취급한다.
+
+## 9. Historical compatibility markers
+
+아래는 과거 validator/문서 lineage를 위한 `ALLOWED_LEGACY` 문자열이다. current routing으로 해석하지 않는다.
 
 ```text
-RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
-FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
-SOFT_SYNERGY_DISCOVERY = PREFERRED
-POST_STAGE_CAUSAL_REVIEW = FORECAST -> KEY_EVENTS -> PLAYER_RESPONSE_OUTCOME
-PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
-HORIZONTAL_CHALLENGE_EXPANSION = ALLOWED
-SEEDED_RUN = ALLOWED
-ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
-GAMBLING_FANTASY_POSITIONING = FORBIDDEN
-PAID_SPIN = FORBIDDEN
+MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
+PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
+PHASE_C_C0_OVERALL = HISTORICAL_PASS
+PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
+PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
+PR177 = REFERENCE_ONLY_DO_NOT_MERGE = HISTORICAL_LABEL_ONLY
 ```
 
-장르 shorthand는 `ROGUELITE_STRATEGY_AUTO_BATTLER + ROULETTE_PROBABILITY_BUILDER`, 사용자용 표현은 **“룰렛을 설계해 군대를 만드는 로그라이트 전략 오토배틀러”**다.
-
-## 8. Platform / release authority routing
-
-Release work remains deferred for PR175, but current agents must preserve the committed platform/rights owners:
-
-- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
-- `docs/design/APPROVED_PC_ANDROID_CORE_ADAPTER_ARCHITECTURE_2026-08-06.md`
-- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
-- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
-- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
-
-```text
-OMW-DEC-20260805-PLATFORM-PC-ANDROID-V1
-APPROVED_DUAL_PLATFORM
-OMW-DEC-20260806-PC-ANDROID-CORE-ADAPTER-ARCHITECTURE-V1
-ARCHITECTURE_STATUS = APPROVED_DESIGN_NOT_IMPLEMENTED
-PRODUCT_CODE_AUTHORITY = NONE
-PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED
-PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
-```
-
-The adapter architecture is approved design authority only. Phase C gameplay work does not silently authorize platform adapter product code.
-
-## 9. Project paths and protection
-
-```text
-project_local_path = C:/Users/user/Documents/GitHub/Ninza/omenward
-godot_project_path = C:/Users/user/Documents/GitHub/Ninza/omenward
-```
-
-- final 수치를 Phase B 문서만으로 선택하지 않는다.
-- PR175 old Green은 current main에 대한 strict up-to-date 증거가 아니다.
-- PR177은 reference-only다.
-- Google Sheet는 같은 Decision ID로 동기화한다.
-- historical v4.4 / old cadence / old planning checkpoint는 삭제하지 않고 history로만 보존한다.
-- 출시용 shared save/export/store는 PR175 prebuild blocker가 아닌 release-phase deferred다.
-- retained change/merge 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`를 수행하고 `NO_MATERIAL_FOLLOWUP` 또는 명시적 follow-up owner까지 확인한다.
+retained repository change 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`를 수행하고, 최소 5회의 full-scope adversarial review가 요구되는 범위에서는 `CLEAN_REVIEW_EXIT` 조건을 만족하기 전 완료 선언하지 않는다.
