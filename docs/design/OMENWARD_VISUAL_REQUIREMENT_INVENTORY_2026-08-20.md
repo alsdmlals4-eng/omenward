@@ -1,7 +1,7 @@
 # OMENWARD Visual Requirement Inventory · 2026-08-20
 
 ```yaml
-status: PROPOSED_CURRENT / AWAITING_VISUAL_GENERATION_APPROVAL
+status: ON_HOLD_PENDING_USER_REFERENCE_FILES
 inventory_id: OMW-VISINV-20260820-01
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 source_decisions:
@@ -12,12 +12,20 @@ source_decisions:
   - OMW-PLAN-20260820-FIRST5-FTUE-01
   - OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
 first_generation_decision: OMW-PLAN-20260820-VISUAL-NORTH-STAR-01
-visual_asset_generated: false
+first_generation_option: OPTION_A_APPROVED
+visual_asset_generated: true
 visual_asset_approved: false
+generated_candidate_disposition: REJECTED_NOT_CANON
+visual_generation_paused: true
+pause_reason: USER_WILL_PROVIDE_LOCAL_MOCKUP_REFERENCE_FILES
 runtime_mutation: NONE
 ```
 
-이 문서는 구현용 자산 승인이 아니라 **어떤 시각 자료가 먼저 있어야 기획·UX·전장·세계관을 검증할 수 있는지**를 정리한 Inventory다. 실제 첫 이미지는 사용자 생성 승인을 받은 뒤 정확히 한 장부터 제작한다.
+이 문서는 구현용 자산 승인이 아니라 **어떤 시각 자료가 먼저 있어야 기획·UX·전장·세계관을 검증할 수 있는지**를 정리한 Inventory다.
+
+2026-08-20 첫 North Star A안 생성 시도는 사용자가 요구한 **더 강한 도트·픽셀감이 실질적으로 반영되지 않았다고 판단하여 미승인/비정본 처리**한다. 해당 결과는 Visual Bible, Asset Library, 구현 reference로 승격하지 않는다.
+
+현재 이미지 관련 작업은 사용자가 집에 보유한 기존 시안/레퍼런스 파일을 제공할 때까지 보류한다. 파일을 받기 전에는 새 이미지 생성·수정·대체 시안을 진행하지 않는다.
 
 ## 1. 기존 시각 불변 조건
 
@@ -42,6 +50,7 @@ WORLD_CORE_SYSTEM_FIT = REQUIRED
 - 금장·광택·발광을 모든 UI와 일반 유닛에 상시 사용하지 않는다.
 - 픽셀 그리드 위에 매끈한 생성형 명암만 얹은 형태를 피한다.
 - 최종 자산은 1280x720 축소에서도 핵심 전선·병종·위협을 읽을 수 있어야 한다.
+- 사용자가 제공할 기존 시안의 **도트 밀도, 픽셀 경계, 색군, UI 프레임, 전장 배치**를 먼저 분석한 뒤 현재 규칙과 충돌 여부를 판단한다.
 
 ## 2. Visual Requirement Inventory
 
@@ -49,11 +58,11 @@ WORLD_CORE_SYSTEM_FIT = REQUIRED
 
 | Asset ID | 시각 자료 | 검증 목적 | 상태 |
 |---|---|---|---|
-| `OMW-VIS-001` | Run Command Screen · PREPARE North Star | 세계·3전선·Forecast·건물·동원 인장·Omen Wheel·정보 계층을 한 장에서 검증 | FIRST CANDIDATE |
-| `OMW-VIS-002` | COMMIT Focus Mode | 획득 병력과 세 전선의 공간적 비가역 배치 가독성 | REQUIRED AFTER 001 |
-| `OMW-VIS-003` | BATTLE Focus Mode | 세 라인 전황·병종 실루엣·Signature·마력 전술의 전투 중 가독성 | REQUIRED AFTER 002 |
-| `OMW-VIS-004` | REVIEW Focus Mode | Forecast→준비→배치→사건→대응→결과 인과 설명 | REQUIRED AFTER 003 |
-| `OMW-VIS-005` | Ward Citadel / 3-lane battlefield clean plate | UI 없는 전장 구조·건물 위치·게이트·중간거점·접전지·우회로 기본 시각 | REQUIRED |
+| `OMW-VIS-001` | Run Command Screen · PREPARE North Star | 세계·3전선·Forecast·건물·동원 인장·Omen Wheel·정보 계층을 한 장에서 검증 | OPTION A APPROVED / GENERATION PAUSED |
+| `OMW-VIS-002` | COMMIT Focus Mode | 획득 병력과 세 전선의 공간적 비가역 배치 가독성 | DEFERRED AFTER 001 |
+| `OMW-VIS-003` | BATTLE Focus Mode | 세 라인 전황·병종 실루엣·Signature·마력 전술의 전투 중 가독성 | DEFERRED AFTER 002 |
+| `OMW-VIS-004` | REVIEW Focus Mode | Forecast→준비→배치→사건→대응→결과 인과 설명 | DEFERRED AFTER 003 |
+| `OMW-VIS-005` | Ward Citadel / 3-lane battlefield clean plate | UI 없는 전장 구조·건물 위치·게이트·중간거점·접전지·우회로 기본 시각 | DEFERRED |
 
 ### P0 · Core mechanic visual language
 
@@ -83,7 +92,7 @@ WORLD_CORE_SYSTEM_FIT = REQUIRED
 
 ## 3. 첫 생성 후보 · OMW-PLAN-20260820-VISUAL-NORTH-STAR-01
 
-### A · 권장 — `OMW-VIS-001 Stage 2 PREPARE · Omen Wheels Focus`
+### A · 승인 — `OMW-VIS-001 Stage 2 PREPARE · Omen Wheels Focus`
 
 한 장에서 가장 많은 핵심 가설을 검증한다.
 
@@ -109,11 +118,14 @@ Stage 2 PREPARE
 6. 항상 표시 / 현재 Focus / 상세 정보의 위계가 읽히는가?
 7. 1280x720 축소에서도 무엇을 해야 하는지 남는가?
 
-왜 Stage 2인가:
+첫 생성 시도 결과:
 
-- Stage 1보다 시스템이 완전히 연결돼 있고,
-- 첫 T2가 `룰렛을 내가 설계한다`는 정체성을 가장 직접적으로 보여주며,
-- Battle보다 UI/전장/세계관/확률설계 모두를 한 장에서 검증할 수 있다.
+```text
+RESULT = REJECTED_NOT_CANON
+USER_FEEDBACK = stronger dot + pixel feeling was requested but the visible result was effectively unchanged
+PROMOTION = FORBIDDEN
+RETRY_NOW = FORBIDDEN_UNTIL_USER_REFERENCE_FILES
+```
 
 ### B · `OMW-VIS-003 BATTLE Focus North Star`
 
@@ -135,7 +147,23 @@ Stage 2 PREPARE
 - 전장·배치·자동전투가 보이지 않아 게임 전체 North Star가 되기 어렵다.
 - 메타 장치나 별도 미니게임처럼 오해될 위험이 있다.
 
-## 4. 권장 A의 화면 구성 가이드
+## 4. 사용자 시안 수신 후 재개 절차
+
+```text
+USER_LOCAL_REFERENCE_FILES
+→ 파일 자체를 요청 근거로 검토
+→ 현재 A안 구조와 공통점/충돌점 비교
+→ 도트 크기 / 픽셀 밀도 / 팔레트 / 윤곽 / UI 프레임 / 전장 구성 / 룰렛 형태 언어 추출
+→ 재사용 가능한 요소와 프로젝트 전용 요소 분리
+→ 필요한 경우 A안 구성 가이드 수정
+→ 사용자 명시 요청 후 이미지 생성/편집 재개
+→ 정확히 한 장씩 결과 승인
+→ 승인 결과만 Notion Visual Bible + Asset Library + Flow에 등록
+```
+
+사용자 파일에 없는 요소는 임의로 그 파일의 특징이라고 가정하지 않는다. 기존 시안과 현재 정본이 충돌하면 충돌을 먼저 보고하고 결정한다.
+
+## 5. 권장 A의 화면 구성 가이드
 
 ```text
 TOP STRIP
@@ -159,9 +187,9 @@ ON-DEMAND ONLY
 → raw target/cause debug text
 ```
 
-정확한 패널 위치·카메라 투영·아이콘 형태는 첫 이미지에서 검증할 CHANGEABLE 항목이다.
+정확한 패널 위치·카메라 투영·아이콘 형태는 사용자 시안 검토 후 조정할 CHANGEABLE 항목이다.
 
-## 5. Art / UI generation guardrails
+## 6. Art / UI generation guardrails
 
 ### Pixel / rendering
 
@@ -171,6 +199,7 @@ ON-DEMAND ONLY
 - no painterly blur / no soft AI airbrush
 - no mixed pixel density inside the same asset family
 - atmospheric light only where it improves hierarchy
+- **user-requested stronger dot/pixel impression must be visibly distinguishable, not merely stated in the prompt**
 
 ### Friendly faction
 
@@ -205,7 +234,7 @@ AVOID:
 - no glassmorphism or excessive glossy gradients
 - generated text should be minimal; use short stable labels/icons to avoid fake UI noise
 
-## 6. Benchmark disposition
+## 7. Benchmark disposition
 
 `Mechabellum — ADAPT`
 - use the principle that preparation/formation must remain spatially legible before automated combat.
@@ -223,12 +252,17 @@ AVOID:
 - use the principle that economy/production and army preparation live in one coherent operating context.
 - do not copy gaze mechanics or its exact pixel UI.
 
-## 7. Generation / approval pipeline
+## 8. Generation / approval pipeline
 
 ```text
 Visual Requirement Inventory
-→ user selects/approves first candidate
-→ generate EXACTLY ONE image
+→ Option A approved
+→ first generated candidate rejected as NOT_CANON
+→ image work PAUSED
+→ user supplies local mockup/reference files
+→ source-grounded review
+→ user explicitly resumes generation/editing
+→ generate/edit EXACTLY ONE image
 → user reviews image
 → APPROVE / REVISE / REJECT
 → approved image only: Notion Visual Bible + Asset Library + relevant Flow surface
@@ -236,12 +270,11 @@ Visual Requirement Inventory
 → next visual one at a time
 ```
 
-No image has been generated or approved by this Inventory.
-
-## 8. Revisit conditions
+## 9. Revisit conditions
 
 Reopen the first North Star selection if:
 
+- user-provided mockups establish a stronger existing layout that outperforms A;
 - PREPARE screen cannot keep the three-lane battlefield readable while Omen Wheel focus is open;
 - generated screen reads as generic mobile castle defense or casino roulette;
 - pixel UI and battlefield art look like separate visual systems;
