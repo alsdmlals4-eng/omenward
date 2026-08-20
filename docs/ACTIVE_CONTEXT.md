@@ -12,8 +12,10 @@ current_review: CLEAN_REVIEW_EXIT_FOR_DECISIONS_1_TO_6_AND_ROUTING
 current_review_full_loop_count: 6
 current_world_story_decision: OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01
 current_content_decision: OMW-PLAN-20260820-CONTENT-BOSS-ARC-01
-current_content_owner: docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md
-current_next_gate: BALANCE_BUDGET
+current_balance_decision: OMW-PLAN-20260820-BALANCE-BUDGET-01
+current_balance_owner: docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md
+current_balance_machine_owner: docs/analysis/balance/current_normalized_balance_budget.v1.json
+current_next_gate: TEXT_UX_AND_STATE_TRANSITION_SPEC
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -23,7 +25,7 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 8
+CURRENT_APPROVED_REPLAN_DECISIONS = 9
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -32,9 +34,10 @@ FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
 RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
 WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
 20_STAGE_CONTENT_AND_BOSS_STRUCTURE = CONFIRMED
+BALANCE_BUDGET = CONFIRMED
 DECISION_1_TO_6_ADVERSARIAL_REVIEW = CLEAN_REVIEW_EXIT
 VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-CURRENT_NEXT = BALANCE_BUDGET
+CURRENT_NEXT = TEXT_UX_AND_STATE_TRANSITION_SPEC
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -92,71 +95,94 @@ BOSS_STAGES = 5 / 10 / 15 / 20
 DANGER_STAGE_TYPE = REMOVED
 ```
 
-Former Danger ideas are only normal-stage authored variations:
+## Current normalized Balance envelope
+
+Calibration anchor:
 
 ```text
-Stage 4  = REVEALED_BYPASS_ROUTE
-Stage 9  = REVEALED_WAVE_OVERLAP_TIMETABLE
-Stage 14 = REVEALED_PRIMARY_LANE_ROTATION
-Stage 19 = REVEALED_ROUTE_CONVERGENCE
+SE = 20 Gold current Spin anchor
+ME = 50 Gold current first-T2-class anchor = 2.5 SE
+TU = simulation-only relative threat unit
 ```
 
-Stage 20 Final Boss:
+Threat is a vector rather than one power score:
 
 ```text
-Pattern I   = MASS + FLYING
-Pattern II  = ARMORED + SIEGE
-Pattern III = INFILTRATION + prior residual pressure
-NEXT_PATTERN_FORECAST = REQUIRED
-ALL_PRESSURES_SIMULTANEOUS_SPAM = FORBIDDEN
+RAW_TU
+ACTIVE_LANES
+SIGNATURE_COUNT
+ROUTE_COMPLEXITY
+WAVE_OVERLAP
+ELITE/BOSS_COMPLEXITY
 ```
 
-## Bounded variation
-
-Vertical Slice / first validation uses a stable authored spine.
-
-Long-term allowed variation:
+Search envelope:
 
 ```text
-primary lane
-secondary lane
-allowed secondary Signature
-Route variant
-Elite identity
-Escort package
-limited Wave overlap timing
-faction/cosmetic presentation
+Act I   = 1.00 reference
+Act II  = 1.15~1.35
+Act III = 1.40~1.65
+Act IV  = 1.70~2.05
+
+Wave 1 = 20~30%
+Wave 2 = 25~35%
+Final Wave = 40~50% including Elite
+Boss raw TU = same-Act normal median × 1.25~1.45 exploration range
 ```
 
-Not allowed:
+Mana / capacity target:
 
 ```text
-random replacement of Stage learning role
-moving Boss landmarks
-removing final-wave Elite cadence
-unforecast lethal Route/Pressure swap
-a seed that removes all valid responses
+Normal Stage T1 tactical opportunities = 1~2
+Mana cap exploration = 2~3 T1-cast equivalents
+Normal pre-commit troop headroom = 15~30%
+Late/Boss prep occupancy = 80~95%
 ```
 
-## Current Balance gap
+## Open Balance reconciliation
 
-Balance Budget must define **targets and ranges**, not final production numerics.
+Do not treat either side as final without fresh comparison.
 
 ```text
-STAGE_THREAT_BUDGET
-WAVE_THREAT_BUDGET
-PRESSURE_COST
-ELITE_BUDGET
-BOSS_BUDGET
-GOLD_INCOME_CURVE
-MANA_INCOME_CURVE
-TROOP_LIMIT_CURVE
-BUILD_AND_UPGRADE_SPEND_TARGETS
-ROULETTE_SPEND_TARGETS
-MERCHANT_SPEND_TARGETS
+analysis baseline:
+  base income = 3 / 20s
+  Vault = 3 / 20s
+  foundation Gold = 250
+
+current main observation:
+  StageEconomy base = 5 / 20s
+  control = 4 / 60s
+  outpost = 2 / 30s
+  StageDefinition default starting_gold = 160
+
+ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-Final values remain evidence-dependent.
+Existing 10k robustness remains scoped evidence only:
+
+```text
+SPECIAL_TOKEN_SHARE_10_MIN = 0.296265
+SPECIAL_TOKEN_SHARE_BURST_MAX = 0.333333
+ROBUSTNESS_10000 = PASS_FOR_APPROVED_NONCOMBAT_GATES
+FUNCTIONAL_VALUE = NOT_IDENTIFIED
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+```
+
+## Current Text UX gap
+
+Next Decision must turn the approved Run shell into explicit player-facing information and transitions.
+
+```text
+PREPARE_COPY_AND_INFORMATION_HIERARCHY
+COMMIT_CONFIRMATION_AND_IRREVERSIBILITY_COPY
+BATTLE_TACTICAL_STATE_AND_BLOCK_REASONS
+REVIEW_CAUSAL_SUMMARY
+FTUE_STAGE1_TO_5_PROMPTS
+MODE_TRANSITION_RULES
+ERROR_AND_DISABLED_REASON_LANGUAGE
+DEBUG_VS_PLAYER_SURFACE_BOUNDARY
+```
 
 ## Runtime / work-item boundary
 
@@ -189,11 +215,10 @@ VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
 ## Current non-image planning order
 
 ```text
-1. Balance Budget
-2. PREPARE / COMMIT / BATTLE / REVIEW text UX + state-transition spec
-3. resume visual work only after user reference files arrive
-4. final planning review
-5. implementation handoff only after user authority
+1. PREPARE / COMMIT / BATTLE / REVIEW text UX + state-transition spec
+2. resume visual work only after user reference files arrive
+3. final planning review
+4. implementation handoff only after user authority
 ```
 
 ## Protected mechanics
@@ -215,6 +240,7 @@ DANGER_STAGE_TYPE = REMOVED
 PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 VEIL_IS_SINGLE_ENEMY_RACE = FALSE
 TIME_LOOP_DEFAULT = FALSE
+FINAL_NUMERICS_BEFORE_EVIDENCE = FORBIDDEN
 ```
 
 ## Resume order
@@ -222,9 +248,8 @@ TIME_LOOP_DEFAULT = FALSE
 1. fresh OMENWARD main.
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 3. this `docs/ACTIVE_CONTEXT.md`.
-4. `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md`.
-5. `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`.
-6. current GDD/Project Core.
-7. Project Notion Home + `09 · 세계관 · 핵심 스토리` + `10 · 20 Stage · Boss 구조` + relevant `08/03/02`.
-8. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
-9. fresh runtime only when execution is explicitly resumed.
+4. `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md` + machine envelope.
+5. current content/story owners.
+6. Project Notion Home + `09` + `10` + `11 · Balance Budget` + relevant `08/03/02`.
+7. open/draft PR inventory; PR197 read-only unless its own workstream resumes.
+8. fresh runtime only when execution is explicitly resumed.
