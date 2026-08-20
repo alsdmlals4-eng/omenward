@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "state": "RED_EXPECTED_PENDING_WORKFLOW_TRIGGER",
+  "module": "RM-SYS-003",
+  "installation_commit": "67487c932cc883db95da7bc852f4eb33883f0052",
+  "base_source_commit": "8553678f70e22f193a2336b591f677dcfa5a8965",
+  "paths": {
+    "engine": "vendor/base-reuse/candidate_draft_weight_engine.gd",
+    "adapter": "vendor/base-reuse/omenward_candidate_draft_adapter.gd",
+    "headless_test": "tests/headless/p0_candidate_draft_reuse_test.gd"
+  },
+  "protected_semantics": [
+    "EXACTLY_THREE_CANDIDATES",
+    "POSITIVE_INTEGER_WEIGHTS_ONLY",
+    "DISTINCT_CANDIDATE_IDS",
+    "NO_FREE_REROLL",
+    "EXISTING_ROULETTE_AUTHORITY_UNCHANGED"
+  ],
+  "verification": {
+    "current_main": "c6f07c2e24b7c9b24b95c80c2e4327c621064533",
+    "python_regression": "PENDING",
+    "godot_4_7_1_import": "PENDING",
+    "headless_contract_suite": "PENDING",
+    "runtime_smoke": "PENDING"
+  },
+  "evidence_ceiling": [
+    "ADAPTER_INSTALLED_IS_NOT_PRODUCT_INTEGRATION",
+    "HEADLESS_PASS_IS_NOT_HUMAN_PLAYER_EXPERIENCE_PASS"
+  ]
+}
