@@ -6,12 +6,11 @@ status: CLEAN_REVIEW_EXIT_FOR_REVIEWED_SCOPE
 reviewed_at: 2026-08-20
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 skill: running-adversarial-review-and-refinement
-full_loop_count: 5
+full_loop_count: 6
 minimum_full_loops: 5
 review_scope:
   - approved replan Decisions 1 through 6
-  - active project entry/routing canon
-  - Notion/GitHub routing meaning
+  - active GitHub + Notion project entry/routing canon
   - current PR/runtime/evidence boundary
   - visual pause state
 not_in_scope_as_completed:
@@ -24,8 +23,6 @@ not_in_scope_as_completed:
 
 ## 1. Review input
 
-Approved 2026-08-20 Decisions:
-
 ```text
 OMW-PLAN-20260820-WORLD-ROLE-01
 OMW-PLAN-20260820-MAPRUN-WORLD-01
@@ -35,7 +32,7 @@ OMW-PLAN-20260820-FIRST5-FTUE-01
 OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
 ```
 
-Protected user/workstream boundaries:
+Protected boundaries:
 
 ```text
 IMAGE_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
@@ -44,7 +41,7 @@ CURRENT_RUNTIME = NOT_RUN
 HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ```
 
-Fresh GitHub work-item truth used by the review:
+Fresh work-item truth:
 
 ```text
 PR175 = CLOSED_UNMERGED_HISTORICAL
@@ -53,185 +50,153 @@ ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
 PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 ```
 
-## 2. Full loop 1
+## 2. Full loop 1 · next-gate / fresh-state attack
 
 ```yaml
 loop_index: 1
 input_state_or_head: 5ed18714b2cf9bd0c07670519cb5f50973d00c79
-evidence_delta:
-  - visual generation was paused after user rejected the first generated candidate
-  - CURRENT_CONFIRMED_DECISIONS still routed NEXT to Visual Requirement Inventory
-  - fresh PR175/177 state no longer matched several active documents
 full_scope_findings:
-  - current Decision index had a stale next gate
-  - active routing could send a future agent back into completed visual-inventory work
-  - old Phase C/PR175 state was capable of overriding reopened planning in practice
+  - CURRENT_CONFIRMED_DECISIONS still routed to already-completed Visual Requirement Inventory
+  - active current-state docs no longer matched fresh PR175/177 truth
 validated_findings:
-  - MUST_FIX / CONFLICT: current next gate drift
-  - MUST_FIX / CONFLICT: active current-state documents still treated historical PR175 state as current
-changes_applied:
-  - rerouted planning toward non-image work and world/story after review
-  - preserved visual A direction but marked first generated candidate REJECTED_NOT_CANON and generation paused
-verification:
-  - fresh current Decision/Active Context readback
-better_alternative_result:
-  - rejected deleting all historical Phase B/C0/PR175 evidence; explicit history labels preserve provenance with lower compatibility risk
-long_term_fit:
-  - current routing becomes resumable without losing old evidence
-unresolved:
-  - world conflict/core story remains genuinely undecided
+  - MUST_FIX: stale next gate
+  - MUST_FIX: historical PR state exposed as current
+changes:
+  - visual A direction retained but generation paused; first candidate REJECTED_NOT_CANON
+  - planning routed to non-image work/world-story
+better_alternative:
+  - preserve historical evidence with explicit labels rather than delete it
 clean_exit_candidate: false
 ```
 
-## 3. Full loop 2
+## 3. Full loop 2 · primary active-entry attack
 
 ```yaml
 loop_index: 2
-input_state_or_head: active entry docs before 2026-08-20 reconciliation
-evidence_delta:
-  - README, AGENTS, GDD, PROJECT_CORE, CURRENT_IMPLEMENTATION_STATUS, DECISIONS_PENDING still exposed MAIN_CANONICAL_APPROVED_10_OF_10 and/or PR175 OPEN as current
 full_scope_findings:
-  - user-facing and agent-facing entrypoints contradicted fresh GitHub truth
-  - GDD and Project Core mixed correct mechanics with obsolete operational state
-  - runtime status promoted old signal11 diagnosis to current blocker despite current runtime NOT_RUN
+  - README / AGENTS / GDD / PROJECT_CORE / CURRENT_IMPLEMENTATION_STATUS / DECISIONS_PENDING still exposed old 10/10, Phase C, PR175 OPEN state
+  - old signal11 diagnosis was presented as current blocker despite current runtime NOT_RUN
 validated_findings:
-  - MUST_FIX / CONFLICT: stale active entrypoint state
-  - MUST_FIX / EVIDENCE_CEILING: historical runtime blocker stated as current
-changes_applied:
-  - refreshed README.md
-  - refreshed AGENTS.md
-  - rebuilt OMENWARD_GDD_CURRENT_CANON.md around Decisions 1~6 and current evidence ceiling
-  - refreshed PROJECT_CORE.md
-  - refreshed CURRENT_IMPLEMENTATION_STATUS.md
-  - refreshed DECISIONS_PENDING.md
-verification:
-  - current docs explicitly say PR175/177 closed-unmerged, Issue176 historical-reconcile, PR197 read-only, current runtime NOT_RUN
-better_alternative_result:
-  - selected thin current summaries plus links to detailed historical owners instead of copying old runtime packets forward
-long_term_fit:
-  - reduces accidental reactivation of closed work while preserving detailed evidence for later reconciliation
-unresolved:
-  - broader router documents had not yet been rechecked
+  - MUST_FIX / CONFLICT: active entrypoint state drift
+  - MUST_FIX / EVIDENCE_CEILING: historical runtime state promoted to current
+changes:
+  - refreshed six primary active documents
+  - current runtime reset to NOT_RUN / blocker UNVERIFIED until fresh execution
+better_alternative:
+  - thin current summaries + historical owner links instead of copying old execution packets forward
 clean_exit_candidate: false
 ```
 
-## 4. Full loop 3
+## 4. Full loop 3 · mechanic / FTUE / UX re-attack
 
 ```yaml
 loop_index: 3
-input_state_or_head: reconciled core entry docs
-evidence_delta:
-  - Decision 1~6 semantics re-attacked against core mechanics and current UI/prototype lineage
 full_scope_findings:
-  - potential confusion between three Omen Wheels and three lanes
+  - potential wheel↔lane 1:1 confusion
   - plausible Stage 1 overload from six mandatory T1 buildings
-  - rejected visual candidate itself incorrectly suggested lane-linked wheels but is non-canon
-  - world conflict / cause of Omen Cycle / Stage 20 meaning still absent
+  - world conflict/Omen Cycle cause/Stage20 meaning still absent
 validated_findings:
-  - REJECTED_CRITIQUE for changing the three-wheel mechanic: current Decision explicitly forbids wheel-lane fixed mapping
-  - DEFER/REVISIT for reducing Stage 1 buildings: overload is plausible but no human evidence exists; progressive three-group disclosure is lower-risk current solution
-  - USER_DECISION_REQUIRED: world/story gap is real and is not solved by Decisions 1~6
-changes_applied:
-  - protected THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN across current owners
-  - preserved six T1 FTUE with explicit human-test revisit condition
-  - made world/story gap explicit in GDD, Project Core, Pending Decisions
-verification:
-  - current GDD/Project Core/Decision index agree on protected mechanics and pending story scope
-better_alternative_result:
-  - no stronger evidence-supported alternative justified reopening Decisions 1~6
-long_term_fit:
-  - modular Pressure language + world-independent mechanics support future factions/regions without reworking counters
-unresolved:
-  - world/story Decision intentionally remains next
+  - REJECTED_CRITIQUE: do not change wheel grammar; current Decision already forbids fixed mapping
+  - DEFER/REVISIT: do not reduce Stage1 buildings without human evidence; keep three-group progressive disclosure
+  - USER_DECISION_REQUIRED: world/story gap is real
+changes:
+  - protected THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
+  - exposed world/story gap in current owners
+better_alternative:
+  - no evidence-supported alternative justified reopening Decisions 1~6
 clean_exit_candidate: false
 ```
 
-## 5. Full loop 4
+## 5. Full loop 4 · broader routing / evidence / workstream attack
 
 ```yaml
 loop_index: 4
-input_state_or_head: core docs corrected; broader repository routing re-attacked
-evidence_delta:
-  - DOCUMENTATION_MAP and DOCUMENT_LIFECYCLE_REGISTRY still routed to v4.5/Phase C/PR175
-  - current GitHub workstream and evidence boundaries were rechecked
 full_scope_findings:
-  - active documentation routing remained stale even after primary entry docs were corrected
-  - old Google Sheet routing was still described as current human source in legacy process docs
-  - PR197 protection and runtime NOT_RUN needed to remain fail-closed
+  - DOCUMENTATION_MAP and DOCUMENT_LIFECYCLE_REGISTRY still routed to v4.5 / Phase C / PR175
+  - Google Sheet was described by old process lineage as current human source
 validated_findings:
-  - MUST_FIX / OMISSION+CONFLICT: current router/lifecycle consumers not updated
-  - NO_CHANGE: PR197 remains read-only; no scope expansion justified
-  - NO_CHANGE: historical signal11/GUT/FV records remain evidence, not deletion candidates
-changes_applied:
-  - refreshed DOCUMENTATION_MAP.md
-  - refreshed DOCUMENT_LIFECYCLE_REGISTRY.md
-  - marked v4.5 binding/C0 materials historical evidence
-  - routed current human-facing canon to Notion and structured/runtime canon to GitHub
-verification:
-  - current entry order starts at README/AGENTS/CURRENT_CONFIRMED_DECISIONS/ACTIVE_CONTEXT/GDD
-better_alternative_result:
-  - explicit lifecycle labels are safer than mass-deleting old evidence and test-consumed markers
-long_term_fit:
-  - future agents can distinguish CURRENT, EVIDENCE, PAUSED, and compatibility markers
-unresolved:
-  - Decision Ledger and Roadmap still required re-attack
+  - MUST_FIX: router/lifecycle omissions and conflicts
+  - NO_CHANGE: PR197 remains read-only
+  - NO_CHANGE: old signal11/GUT/FV evidence remains history, not deletion target
+changes:
+  - refreshed DOCUMENTATION_MAP and DOCUMENT_LIFECYCLE_REGISTRY
+  - current human-facing authority routed to Notion; structured/runtime authority to GitHub
+better_alternative:
+  - lifecycle labels CURRENT/EVIDENCE/PAUSED/COMPATIBILITY are safer than mass deletion
 clean_exit_candidate: false
 ```
 
-## 6. Full loop 5
+## 6. Full loop 5 · remaining active-router attack
 
 ```yaml
 loop_index: 5
-input_state_or_head: broad routing mostly reconciled
-evidence_delta:
-  - PROJECT_CANON_DECISION_LEDGER and OMENWARD_ROADMAP were fresh-read
-  - both still exposed v4.5/Phase C/PR175 as current routing
 full_scope_findings:
-  - two remaining active routers could resurrect obsolete execution direction
+  - PROJECT_CANON_DECISION_LEDGER still treated v4.5/Phase C as current
+  - OMENWARD_ROADMAP still treated PR175 as current milestone
 validated_findings:
-  - MUST_FIX / CONFLICT: Decision Ledger stale current phase
-  - MUST_FIX / CONFLICT: Roadmap stale current milestone
-changes_applied:
-  - refreshed PROJECT_CANON_DECISION_LEDGER.md
-  - refreshed OMENWARD_ROADMAP.md
-  - current next product decision is world conflict/core story
-  - current implementation remains unauthorized and runtime NOT_RUN
+  - MUST_FIX: two active router conflicts
+changes:
+  - refreshed Decision Ledger
+  - refreshed Roadmap
+  - next product Decision = WORLD_CONFLICT_AND_CORE_STORY
+better_alternative:
+  - keep settled mechanics and close the missing story layer rather than churn the six approved Decisions
+clean_exit_candidate: provisional
+```
+
+## 7. Full loop 6 · post-change GitHub + Notion readback
+
+Loop 5 뒤 post-change monitor에서 Notion Project Home의 상단 핵심 흐름을 다시 공격했다.
+
+```yaml
+loop_index: 6
+input_state_or_head: GitHub main 1bf4200192d89881f2dd684f96e22928cb6868ef + current Notion Project Home
+full_scope_findings:
+  - GitHub active routing was aligned
+  - Notion Project Home top summary still said Lobby → Prepare → Battle/Tactical → Reward/Growth and omitted approved COMMIT/REVIEW Focus phases
+validated_findings:
+  - MUST_FIX / HUMAN_FACING_CANON_DRIFT: top-level Notion flow summary lagged Decision 6
+changes:
+  - Project Home summary corrected to Lobby → PREPARE → COMMIT → BATTLE/Tactical → REVIEW/Reward/Growth → next Stage
+  - Project Home Repo Main SHA readback synchronized to current main
 verification:
-  - fresh main readback after router changes
-  - remaining old PR175/10-of-10 strings are classified as historical/compatibility material or explicitly labeled historical in current docs
-better_alternative_result:
-  - current six Decisions survive without mechanic reversal; best next improvement is to close the missing story layer rather than churn settled mechanics
+  - Notion Project Home readback after update
+  - no Decision 1~6 mechanic change required
+  - no runtime/human PASS synthesized
+  - PR197 untouched
+better_alternative:
+  - keep detailed phase flow in 03 Flow Map and only a concise synchronized summary in Project Home
 long_term_fit:
-  - current architecture separates reusable mechanics from expandable world/faction/content layers
-unresolved:
-  - world/story/content/balance/text UX are planned next scope, not blockers to CLEAN exit for Decision 1~6 + routing review
+  - prevents human-facing workspace from drifting behind structured Decision canon
 clean_exit_candidate: true
 ```
 
-## 7. Finding disposition
+## 8. Finding disposition
 
 | Finding | Class | Decision |
 |---|---|---|
 | stale Visual Inventory next gate | CONFLICT | MUST_FIX · fixed |
-| README/AGENTS/GDD/Core old Phase C state | CONFLICT | MUST_FIX · fixed |
-| old signal11 presented as current blocker | EVIDENCE_CEILING | MUST_FIX · fixed to NOT_RUN/UNVERIFIED |
+| primary current docs old Phase C/PR175 state | CONFLICT | MUST_FIX · fixed |
+| old signal11 as current blocker | EVIDENCE_CEILING | MUST_FIX · fixed to NOT_RUN/UNVERIFIED |
 | Documentation Map/Lifecycle stale routing | OMISSION / CONFLICT | MUST_FIX · fixed |
 | Decision Ledger/Roadmap stale routing | CONFLICT | MUST_FIX · fixed |
+| Notion Project Home omitted COMMIT/REVIEW | HUMAN_FACING_CANON_DRIFT | MUST_FIX · fixed in loop 6 |
 | wheel ↔ lane 1:1 confusion | regression risk | already protected; no mechanic change |
 | Stage1 six-building overload | usability hypothesis | DEFER / human-test revisit |
-| PR197 | DUPLICATE/other workstream risk | READ_ONLY · untouched |
+| PR197 | other workstream risk | READ_ONLY · untouched |
 | PR175/177 history | legacy evidence | ALLOWED_LEGACY / do not revive |
 | Issue176 | historical follow-up | DEFER until implementation reconciliation |
 | world conflict/story missing | product decision gap | USER_DECISION_REQUIRED · next scope |
 
-## 8. CLEAN_REVIEW_EXIT
+## 9. CLEAN_REVIEW_EXIT
 
 ```text
-FULL_LOOP_COUNT = 5
+FULL_LOOP_COUNT = 6
 MINIMUM_FULL_LOOPS_SATISFIED = TRUE
-NEW_MUST_FIX_IN_REVIEWED_SCOPE_AFTER_LOOP_5 = 0
+NEW_MUST_FIX_AFTER_FINAL_LOOP = 0
 DECISION_1_TO_6_REGRESSION = NONE_FOUND
-CURRENT_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
+CURRENT_GITHUB_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
+CURRENT_NOTION_ROUTING_CONFLICT = NONE_FOUND_AFTER_LOOP_6_FIX
 CURRENT_RUNTIME_PASS_CLAIM = NONE
 HUMAN_PASS_CLAIM = NONE
 PR197_MUTATION = NONE
@@ -241,4 +206,4 @@ WHOLE_PROJECT_PLANNING_COMPLETE = FALSE
 NEXT_PRODUCT_DECISION = WORLD_CONFLICT_AND_CORE_STORY
 ```
 
-Clean exit here means the **reviewed scope** is clean enough to proceed. It does not mean OMENWARD planning, implementation, runtime validation, visual validation, or human play validation is complete.
+Clean exit means only the reviewed scope is clean enough to proceed. OMENWARD 전체 기획, 구현, runtime, visual, human validation 완료를 뜻하지 않는다.
