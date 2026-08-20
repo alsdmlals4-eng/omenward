@@ -1,0 +1,67 @@
+name: Validate reusable candidate draft adapter
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "vendor/base-reuse/**"
+      - "docs/base-reuse-adoption.json"
+      - "tests/headless/p0_candidate_draft_reuse_test.gd"
+      - "tests/python/test_reuse_adapter_installation.py"
+      - ".github/workflows/validate-reuse-adapter.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "vendor/base-reuse/**"
+      - "docs/base-reuse-adoption.json"
+      - "tests/headless/p0_candidate_draft_reuse_test.gd"
+      - "tests/python/test_reuse_adapter_installation.py"
+      - ".github/workflows/validate-reuse-adapter.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile reusable adapter contract
+        run: python -m py_compile tests/python/test_reuse_adapter_installation.py
+      - name: Validate reusable adapter installation
+        run: python -m unittest tests.python.test_reuse_adapter_installation -v
+      - name: Check whitespace
+        run: git diff --check
+
+  godot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Godot 4.7.1 Standard
+        shell: bash
+        run: |
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.7.1-stable_linux.x86_64
+          ./Godot_v4.7.1-stable_linux.x86_64 --version
+      - name: Import project
+        shell: bash
+        run: timeout 120s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
+      - name: Run candidate draft adapter contract
+        shell: bash
+        run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s res://tests/headless/p0_candidate_draft_reuse_test.gd
+      - name: Runtime smoke
+        shell: bash
+        run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
