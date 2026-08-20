@@ -4,7 +4,7 @@
 updated_at: 2026-08-20
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: BALANCE_BUDGET
+current_next_gate: TEXT_UX_AND_STATE_TRANSITION_SPEC
 implementation_authorized: false
 visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 ```
@@ -17,36 +17,17 @@ PROJECT_STATE_RECOVERED
 → 6_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
 → WORLD_CONFLICT_AND_CORE_STORY_CONFIRMED
 → 20_STAGE_CONTENT_AND_BOSS_STRUCTURE_CONFIRMED
-→ BALANCE_BUDGET = CURRENT_NEXT
+→ NORMALIZED_BALANCE_BUDGET_CONFIRMED
+→ TEXT_UX_AND_STATE_TRANSITION_SPEC = CURRENT_NEXT
 ```
 
 Visual work is paused independently and does not block non-image planning.
 
 ## Current planning order
 
-### P0 — Balance Budget — CURRENT NEXT
+### P1 — Text UX / state transitions — CURRENT NEXT
 
-Define target ranges, ratios, pacing constraints and comparison metrics before final product numerics.
-
-```text
-Stage / Wave Threat Budget
-Pressure Cost
-Elite / Boss Budget
-Gold income and spend pacing
-Build / Upgrade affordability
-Roulette spend pacing
-Merchant spend pacing
-Troop limit progression
-Mana research / cast economy
-Stage 1~5 forgiveness envelope
-Stage 20 mastery envelope
-```
-
-Final absolute values remain simulation/runtime/human-evidence dependent.
-
-### P1 — Text UX / state transitions
-
-Specify player-facing information/copy and transitions for:
+Specify player-facing information, copy, block reasons and transitions for:
 
 ```text
 PREPARE
@@ -55,9 +36,12 @@ BATTLE
 REVIEW
 FTUE Stage 1~5
 Forecast hierarchy
+irreversible confirmation
 block reasons / errors
 Debug vs player surfaces
 ```
+
+Goal: the player should always understand `what changed / what is required / what becomes irreversible / why an action is blocked / what caused the result` without exposing raw debug state or prescribing one correct build.
 
 ### Visual — PAUSED
 
@@ -71,7 +55,7 @@ Resume only after the user supplies existing local mockup/reference files.
 
 ### Final planning review
 
-After Balance + Text UX + later visual-reference reconciliation:
+After Text UX and later visual-reference reconciliation:
 
 ```text
 minimum 5 full adversarial loops / until clean
@@ -81,6 +65,54 @@ explicit user implementation authority
 ```
 
 Only then open implementation handoff.
+
+## Current normalized Balance authority
+
+Owner:
+
+`docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md`
+
+Machine planning envelope:
+
+`docs/analysis/balance/current_normalized_balance_budget.v1.json`
+
+```text
+SE = current 20 Gold Spin anchor
+ME = current 50 Gold first-T2-class anchor = 2.5 SE
+TU = simulation-only relative threat unit
+```
+
+Threat vector:
+
+```text
+RAW_TU
+ACTIVE_LANES
+SIGNATURE_COUNT
+ROUTE_COMPLEXITY
+WAVE_OVERLAP
+ELITE/BOSS_COMPLEXITY
+```
+
+Search envelope:
+
+```text
+Act I   = 1.00 reference
+Act II  = 1.15~1.35
+Act III = 1.40~1.65
+Act IV  = 1.70~2.05
+Wave 1 = 20~30%
+Wave 2 = 25~35%
+Final = 40~50%
+Boss raw TU = same-Act normal median × 1.25~1.45 exploration target
+```
+
+Current economy drift is intentionally unresolved until implementation reconciliation:
+
+```text
+analysis = base 3/20s + Vault 3/20s + foundation 250
+current main observed = base 5/20s + control 4/60s + outpost 2/30s + default start 160
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+```
 
 ## Current world / content authority
 
@@ -119,21 +151,6 @@ ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 BOSS_STAGES = 5 / 10 / 15 / 20
 BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
-
-Legacy 4/9/14/19 ideas are normal-stage authored variations only:
-
-```text
-4  = REVEALED_BYPASS_ROUTE
-9  = REVEALED_WAVE_OVERLAP_TIMETABLE
-14 = REVEALED_PRIMARY_LANE_ROTATION
-19 = REVEALED_ROUTE_CONVERGENCE
-```
-
-Current content owner:
-`docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md`
-
-Current story owner:
-`docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`
 
 ## Bounded variation roadmap
 
