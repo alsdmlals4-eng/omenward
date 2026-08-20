@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "decision_id": "OMW-PLAN-20260820-TEXT-UX-STATE-01",
+  "status": "APPROVED_PLANNING_CONTRACT_NOT_IMPLEMENTED",
+  "top_level_modes": ["PREPARE", "COMMIT", "BATTLE", "REVIEW"],
+  "mode_questions": {
+    "PREPARE": "다가오는 문제를 보고 무엇을 바꿀 것인가?",
+    "COMMIT": "얻은 병력을 어느 전선에 확정할 것인가?",
+    "BATTLE": "지금 직접 개입해야 하는가?",
+    "REVIEW": "왜 이런 결과가 나왔는가?"
+  },
+  "transitions": [
+    {"from": "STAGE_ENTER", "to": "PREPARE", "trigger": "stage_ready"},
+    {"from": "PREPARE", "to": "COMMIT", "trigger": "enter_commit"},
+    {"from": "COMMIT", "to": "BATTLE", "trigger": "atomic_commit_and_start_battle"},
+    {"from": "BATTLE", "to": "REVIEW.RESULT", "trigger": "battle_resolved"},
+    {"from": "REVIEW.RESULT", "to": "REVIEW.MAINTENANCE", "trigger": "continue", "stages": "1-19"},
+    {"from": "REVIEW.MAINTENANCE", "to": "PREPARE", "trigger": "start_next_stage", "stages": "1-19"},
+    {"from": "REVIEW.FINAL", "to": "MAPRUN_FINAL_SETTLEMENT", "trigger": "continue", "stages": "20"}
+  ],
+  "commit_contract": {
+    "planning_state": "PENDING_COMMIT",
+    "editable_before_confirm": true,
+    "atomic_on_confirm": true,
+    "primary_cta_with_pending": "배치 확정 · 전투 시작",
+    "primary_cta_without_pending": "현재 배치로 전투 시작",
+    "post_commit_recall": false,
+    "post_commit_sell": false,
+    "post_commit_cross_lane_move": false,
+    "repeat_modal_per_unit": false,
+    "first_stage_first_commit_extra_explanation": true
+  },
+  "prepare_information": [
+    "primary_signature",
+    "secondary_signature",
+    "severity",
+    "route_clue",
+    "gold",
+    "mana",
+    "troop_capacity",
+    "current_mobilization_distribution",
+    "before_after_direction"
+  ],
+  "battle_information": [
+    "lane_state",
+    "current_major_threat",
+    "boss_elite_forecast_summary",
+    "mana",
+    "available_tactics",
+    "cooldown",
+    "target_validity",
+    "player_facing_block_reason"
+  ],
+  "review_blocks": ["forecast", "preparation", "commit", "key_events", "result"],
+  "review_prescriptive_next_build": false,
+  "review_maintenance_is_top_level_mode": false,
+  "player_surface_forbidden": [
+    "raw_token_ledger_weights",
+    "source_building_ids",
+    "reward_archetype_ids",
+    "unit_ids",
+    "raw_target_ids",
+    "internal_cause_codes",
+    "internal_failure_reason_codes",
+    "exact_diagnostic_counters"
+  ],
+  "player_block_reason_requirements": [
+    "state_what_is_missing",
+    "state_what_is_not_ready",
+    "state_which_condition_failed",
+    "state_what_is_irreversible_when_relevant"
+  ],
+  "validation": {
+    "runtime": "NOT_RUN",
+    "human": "NOT_RUN",
+    "staged_commit_usability": "NOT_RUN",
+    "copy_readability": "NOT_RUN"
+  }
+}
