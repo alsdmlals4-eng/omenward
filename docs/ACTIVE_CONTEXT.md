@@ -5,11 +5,12 @@ updated_at: 2026-08-20
 current_branch: main
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
-work_phase: PHASE_A_GPT_CHAT_REPLANNING_VISUAL_REQUIREMENTS
+work_phase: PHASE_A_GPT_CHAT_REPLANNING_VISUAL_NORTH_STAR
 planning_status: REOPENED_REVIEW_IN_PROGRESS
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_decision: OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
-current_next_gate: VISUAL_REQUIREMENT_INVENTORY
+current_visual_inventory: docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md
+current_next_gate: VISUAL_NORTH_STAR_GENERATION_APPROVAL
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -29,7 +30,8 @@ PRESSURE_LANGUAGE = CONFIRMED
 MOBILIZATION_REGISTRY_WORLD_MEANING = CONFIRMED
 FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
 RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
-VISUAL_REQUIREMENT_INVENTORY = NEXT
+VISUAL_REQUIREMENT_INVENTORY = COMPLETE_PROPOSED
+VISUAL_NORTH_STAR_SELECTION = AWAITING_USER_GENERATION_APPROVAL
 VISUAL_NORTH_STAR_ASSET = NOT_CREATED
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
@@ -47,6 +49,10 @@ Current Decision owners:
 - `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
 - `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+
+Current Visual planning owner:
+
+- `docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md`
 
 ## Current product promise
 
@@ -169,9 +175,25 @@ PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 
 ## Current visual planning gate
 
-Next work is **Visual Requirement Inventory**, not implementation.
+Visual Requirement Inventory is complete as a proposal. The current next step is **user approval to generate the first North Star candidate**, not implementation.
 
-Inventory must cover at minimum:
+Recommended first candidate:
+
+```text
+OMW-PLAN-20260820-VISUAL-NORTH-STAR-01
+OPTION_A_RECOMMENDED = OMW-VIS-001
+SCENE = Stage 2 PREPARE · Omen Wheels Focus
+GOAL = validate battlefield + 3-lane Forecast + buildings + mobilization distribution + Triple Omen Wheels + information hierarchy in one image
+```
+
+Alternative candidates retained:
+
+```text
+OPTION_B = BATTLE Focus North Star
+OPTION_C = Triple Omen Wheels / Command Sanctum close-up
+```
+
+Inventory coverage:
 
 ```text
 1. Run Command Screen North Star
@@ -186,7 +208,14 @@ Inventory must cover at minimum:
 10. first-five-stage teaching visual cues
 ```
 
-The first generated visual requires user generation approval. Generate exactly one candidate first, review it, then promote only an approved result into Notion Visual Bible / Asset Library / Flow surface.
+Generation contract:
+
+```text
+USER_GENERATION_APPROVAL_REQUIRED = TRUE
+GENERATE_EXACTLY_ONE_FIRST = TRUE
+APPROVED_RESULT_ONLY_TO_NOTION_ASSET_LIBRARY = TRUE
+STRUCTURE_LAYER_REUSABLE_CLASSIFICATION_AFTER_APPROVAL = TRUE
+```
 
 ## Work-entry process
 
@@ -207,10 +236,11 @@ Resume order:
 1. fresh OMENWARD main;
 2. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
 3. this `docs/ACTIVE_CONTEXT.md`;
-4. Project Notion Home + `02 · 비주얼 바이블` + `03 · UI · 게임플레이 Flow Map` + `08 · 핵심 시스템 · 상세`;
-5. related open/draft PR inventory, with PR #197 protected/read-only unless its own workstream explicitly resumes;
-6. actual code/data/scene/test truth only when implementation scope opens;
-7. fresh current runtime evidence only when execution is explicitly resumed.
+4. `docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md`;
+5. Project Notion Home + `02 · 비주얼 바이블` + `03 · UI · 게임플레이 Flow Map` + `08 · 핵심 시스템 · 상세`;
+6. related open/draft PR inventory, with PR #197 protected/read-only unless its own workstream explicitly resumes;
+7. actual code/data/scene/test truth only when implementation scope opens;
+8. fresh current runtime evidence only when execution is explicitly resumed.
 
 ## Release-deferred items
 
