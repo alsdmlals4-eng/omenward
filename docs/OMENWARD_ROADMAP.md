@@ -4,7 +4,7 @@
 updated_at: 2026-08-20
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: 3X3_ROULETTE_COMPONENT_SPEC
+current_next_gate: TOKEN_COMPONENT_SPEC
 implementation_authorized: false
 visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
 visual_generation: USER_REQUEST_ONLY
@@ -22,33 +22,30 @@ PROJECT_STATE_RECOVERED
 → TEXT_UX_AND_STATE_TRANSITION_CONFIRMED
 → VISUAL_STYLE_AND_COMPONENT_DIRECTION_CONFIRMED
 → BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_CONFIRMED
-→ 3X3_ROULETTE_COMPONENT_SPEC = CURRENT_NEXT
+→ 3X3_ROULETTE_COMPONENT_SPEC_CONFIRMED
+→ TOKEN_COMPONENT_SPEC = CURRENT_NEXT
 ```
 
 ## Current planning order
 
-### P0 — 3×3 Roulette component spec — CURRENT NEXT
+### P0 — Token component spec — CURRENT NEXT
 
-Define the exact player-facing structure of the protected 3×3 roulette interaction without changing its core semantics.
+Define the common 3×3 tile and actual unit-art crop rules so each unit type is readable at small size.
 
 ```text
-3×3 exposure window geometry
-row arrows / column arrows
-move-ticket state
-spin entry / manipulation / confirm sequence
-result preview and line readability
-gold token + unit token coexistence
-player-built probability feedback
-triple Omen Wheel world meaning vs 3×3 player-facing control
+common token tile frame
+T1/T2 unit-art reuse
+role silhouette priority
+face / weapon / body crop hierarchy
+faction/Tier/rarity overlay priority
+Gold Token using actual game gold art
+X token readability
+small-size validation
 ```
-
-### P0 — Token component spec — NEXT
-
-Define the common tile, unit-role silhouette hierarchy, faction/Tier/rarity layers, Gold Token and small-size readability.
 
 ### P0 — Lower Control Deck — NEXT
 
-Fit the 3×3 roulette and current-focus controls inside the approved `25~32%` lower-deck exploration envelope without duplicating top HUD resources.
+Fit the approved 3×3 board, 12 direct arrows, move resources, Spin/Confirm and focus tabs inside the `25~32%` lower-deck envelope without duplicating top-HUD resources.
 
 ### P0 — Roulette DDD feedback — NEXT
 
@@ -58,8 +55,9 @@ Design the anticipation/payoff chain:
 probability setup
 → spin buildup
 → row/column manipulation
-→ line/omen lock
-→ result snap/reveal
+→ center-line lock
+→ completed-line reveal
+→ result snap
 → storage/commit transfer
 → battlefield reinforcement link
 ```
@@ -68,7 +66,7 @@ Casino/jackpot/paid-spin fantasy remains forbidden.
 
 ### Visual North Star — AFTER COMPONENT CONTRACTS
 
-Create exactly one rebuilt North Star only after the above component contracts are coherent.
+Create exactly one rebuilt North Star only after Token + Lower Deck + DDD contracts are coherent.
 
 Required visual contract:
 
@@ -91,13 +89,30 @@ After component contracts and rebuilt North Star result approval:
 
 ```text
 minimum 5 full adversarial loops / until clean
-Decision 1~12 + visual/component regression review
+Decision 1~13 + visual/component regression review
 Notion/GitHub drift check
 implementation Definition of Ready
 explicit user implementation authority
 ```
 
 Only then open implementation handoff.
+
+## Current 3×3 Roulette authority
+
+Owners:
+
+- `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
+- `docs/analysis/ui/current_3x3_roulette_component.v1.json`
+
+```text
+3×3 exposure window
+12 direct arrows
+hover/focus preview without spend
+execute = move resource spend + immediate committed move
+undo/reset after move = forbidden
+center horizontal row = primary judging line
+Lucky free move first / stored tickets cap 3
+```
 
 ## Current Battlefield authority
 
