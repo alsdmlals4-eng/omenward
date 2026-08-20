@@ -6,6 +6,8 @@ status: CURRENT_DECISION_RECOVERY_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_reopened_at: 2026-08-20
 current_planning_track: WORLD_STORY_CONTENT_BALANCE_TEXT_UX_REPLAN
+adversarial_review_decisions_1_to_6: CLEAN_REVIEW_EXIT
+adversarial_review_owner: docs/reviews/ADVERSARIAL_REPLAN_DECISIONS_1_TO_6_AND_CANON_RECONCILIATION_2026-08-20.md
 runtime_evidence_ceiling: NOT_CHANGED_BY_THIS_INDEX
 human_play_evidence: NOT_RUN
 visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
@@ -23,6 +25,24 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 | `OMW-PLAN-20260820-MOBILIZATION-REGISTRY-01` | 자동생산은 직접 훈련, TokenSource는 동원 인장 등록. 세 징조륜은 세 전선과 1:1 대응하지 않는다. | `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md` | Project Home + `자동생산 ≠ TokenSource` + `세 원형 릴` + `08` | CONFIRMED |
 | `OMW-PLAN-20260820-FIRST5-FTUE-01` | Stage 1~5를 `인과 이해 → 미래 수정 → 순간 개입 → 응용 시험 → 첫 결산`의 숙련 사다리로 운영한다. | `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md` + `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md` | Project Home + `03 · UI · 게임플레이 Flow Map` + `08` | CONFIRMED |
 | `OMW-PLAN-20260820-RUN-COMMAND-SHELL-01` | 하나의 Run Command Screen에서 `PREPARE → COMMIT → BATTLE → REVIEW` Focus Mode를 사용하고 debug/raw 정보는 player HUD에서 분리한다. | `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md` | Project Home + `03 · UI · 게임플레이 Flow Map` + `08` | CONFIRMED |
+
+## Adversarial review result
+
+2026-08-20 Decision 1~6과 현행 routing을 Base `running-adversarial-review-and-refinement` 규칙으로 5회의 full-scope loop로 다시 공격했다.
+
+```text
+FULL_LOOP_COUNT = 5
+DECISION_1_TO_6_REGRESSION = NONE_FOUND
+CURRENT_ROUTING_CONFLICT = NONE_FOUND_AFTER_FIXES
+CURRENT_RUNTIME_PASS_CLAIM = NONE
+HUMAN_PASS_CLAIM = NONE
+PR197_MUTATION = NONE
+CLEAN_REVIEW_EXIT = PASS_FOR_DECISIONS_1_TO_6_AND_CURRENT_ROUTING_SCOPE
+WHOLE_PROJECT_PLANNING_COMPLETE = FALSE
+```
+
+Review owner:
+`docs/reviews/ADVERSARIAL_REPLAN_DECISIONS_1_TO_6_AND_CANON_RECONCILIATION_2026-08-20.md`
 
 ## 보호되는 상위 정체성
 
@@ -54,8 +74,6 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 
 ## Visual status
 
-Visual Requirement Inventory와 첫 화면 방향 A는 기획상 유지한다. 그러나 첫 생성 후보는 사용자 검토에서 기각됐다.
-
 ```text
 VISUAL_REQUIREMENT_INVENTORY = COMPLETE_PROPOSED
 VISUAL_NORTH_STAR_DIRECTION_A = APPROVED_DIRECTION_ONLY
@@ -67,10 +85,8 @@ VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
 
 ## Current pending Decision class
 
-다음은 Decision 1~6의 재질문이 아니라 아직 닫지 않은 새 범위다.
-
 ```text
-CURRENT_REVIEW = FIVE_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
+CURRENT_REVIEW = COMPLETE_CLEAN_FOR_DECISION_1_TO_6_AND_ROUTING
 CURRENT_NEXT_PRODUCT_DECISION = WORLD_CONFLICT_AND_CORE_STORY
 AFTER_WORLD_STORY = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
 AFTER_CONTENT = BALANCE_BUDGET
