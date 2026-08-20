@@ -1,191 +1,217 @@
 # [현행] Active Context
 
 ```yaml
-updated_at: 2026-08-12
+updated_at: 2026-08-20
 current_branch: main
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-context_baseline_commit: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
-current_decision: OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLEMENTATION-PACKAGE-V1
-activation_decision: OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
-contract_version: 4.5
-work_phase: PHASE_C_ISSUE176_PROJECT_BOOT_SIGNAL11_ISOLATION
-phase_c_gate: OPEN_BLOCKED_RUNTIME_BOOT
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+work_phase: PHASE_A_GPT_CHAT_REPLANNING_VISUAL_REQUIREMENTS
+planning_status: REOPENED_REVIEW_IN_PROGRESS
+current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
+current_decision: OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
+current_next_gate: VISUAL_REQUIREMENT_INVENTORY
+implementation_authorized: false
+current_chat_runtime_status: NOT_RUN
+human_player_evidence: NOT_RUN
 ```
 
-Current main SHA는 이 문서에 고정하지 않고 repository default branch에서 fresh resolve한다.
+Current main SHA는 이 문서에 고정하지 않고 repository default branch에서 fresh resolve한다. 이 파일은 2026-08-20 재기획 흐름의 현재 상태를 소유하며 2026-08-11~12의 Phase C/PR175 실행 지시는 역사 상태로만 보존한다.
 
-## Current phase
+## Current planning phase
 
 ```text
-MAIN_CANONICAL_APPROVED_10_OF_10
-WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0
-WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED
-USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED
-PHASE_B_FINAL_PLANNING_REVIEW = PASS
-OMW-DEC-20260811-OPS-PHASE-B-FINAL-PLANNING-REVIEW-V1
-PHASE_C_C0_REPOSITORY_TOOLCHAIN_GATE = PASS
-PHASE_C_C0_LOCAL_HIGODOT_GATE = PASS
-PHASE_C_C0_OVERALL = PASS
-NEW_PRODUCT_DECISION_REQUIRED = FALSE
-IMPLEMENTATION_PACKAGE_DEFINITION_OF_READY = CLOSED
-PHASE_C_GATE = OPEN
-PHASE_C_STATUS = ISSUE176_PROJECT_BOOT_SIGNAL11_BLOCKED
-PRODUCT_IMPLEMENTATION_COMPLETION = FALSE
+PROJECT_STATE_RECOVERED = TRUE
+PLANNING_REOPENED_BY_USER = TRUE
+CURRENT_APPROVED_REPLAN_DECISIONS = 6
+WORLD_ROLE = CONFIRMED
+MAPRUN_WORLD_MEANING = CONFIRMED
+PRESSURE_LANGUAGE = CONFIRMED
+MOBILIZATION_REGISTRY_WORLD_MEANING = CONFIRMED
+FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
+RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
+VISUAL_REQUIREMENT_INVENTORY = NEXT
+VISUAL_NORTH_STAR_ASSET = NOT_CREATED
+IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
-Current C0 local closure owner remains:
-`docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
+Current recovery owner:
 
-Historical C0 repository/toolchain owner remains:
-`docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`
+`docs/CURRENT_CONFIRMED_DECISIONS.md`
 
-Historical activation evidence remains:
+Current Decision owners:
+
+- `docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_OMEN_CYCLE_MAPRUN_WORLD_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_PRESSURE_LANGUAGE_AND_OMEN_SIGNATURES_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
+- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+
+## Current product promise
 
 ```text
-OMW-DEC-20260811-OPS-ACTIVATE-INTEGRATED-CONTRACT-V4-5-R2-V1
-V45_R2_ACTIVATION_EVIDENCE_CLOSURE = MERGED
+징조 관측
+→ 건설 / 동원 인장 / 미래 병력 분포 설계
+→ 세 징조륜에서 병력 획득
+→ 세 전선 중 하나에 비가역 커밋
+→ 자동전투 + 결정적 순간의 수동 전술
+→ 인과 복기
+→ 다음 설계
 ```
 
-## Runtime handoff — current blocker
+Player role:
+
+`징조수호관(Omen Warden)`
+
+Run world meaning:
+
+`one Ward Citadel + one 20 Stage Omen Cycle`
+
+Pressure language:
+
+`MASS / ARMORED / FLYING / INFILTRATION / SIEGE = Omen Signature, not enemy race/faction`
+
+Player-facing Run shell:
+
+`PREPARE → COMMIT → BATTLE → REVIEW`
+
+## First-session current truth
 
 ```text
-PR175 = OPEN_DRAFT
-PR175_DRAFT_7_RUNTIME_GAPS_OPEN
-PR175_HEAD_OBSERVED = 83cf816a11f732e2cd285461865cf9c5ed404802
-PR175_BASE_OBSERVED = 1fef69ccdd7896d70ae2aacdb28ee03f33b6241a
-PR175_CHANGED_FILES_OBSERVED = 19
-ISSUE176 = OPEN
-ISSUE176_APPROVED_RUNTIME_GAPS = 7
-ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS
-PR175_MERGE = FORBIDDEN_UNTIL_RUNTIME_ACCEPTANCE
-PR177 = REFERENCE_ONLY_DO_NOT_MERGE
-CURRENT_RUNTIME_BLOCKER = CANONICAL_EXACT_HEAD_PROJECT_BOOT_BOUNDARY
-CLEAN_ARCHIVE_INITIAL_GIT = ABSENT
-CLEAN_ARCHIVE_INITIAL_GODOT = ABSENT
-CLEAN_ARCHIVE_IMPORT = PASS_NO_SIGNAL11_MARKERS
-CLEAN_ARCHIVE_NORMAL_HEADLESS_BOOT = CRASH_SIGNAL11_EXIT_NEG1073741819
-ACTIVE_PROJECT_FILES_CHANGED_BY_DIAGNOSTIC = NONE
-ACTIVE_TEST_HASHES_PRESERVED_AT_DIAGNOSTIC_SNAPSHOT = TRUE
-NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION
+FIRST_SESSION = REAL_MAPRUN
+STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
+SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
+FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+STAGE_1 = CAUSAL_UNDERSTANDING
+STAGE_2 = FUTURE_DISTRIBUTION_MODIFICATION
+STAGE_3 = TACTICAL_INTERVENTION
+STAGE_4 = APPLICATION_WITH_NO_NEW_CORE_SYSTEM
+STAGE_5 = FIRST_BOSS_AND_BUILD_REVIEW
 ```
 
-The clean exact-head archive reproduces the earliest crash without the active local `.godot` cache and without the user's uncommitted Issue #176 test deltas. It isolates the blocker to committed project startup state or below, but does not yet identify a specific autoload or main-scene component.
+Stage 1의 6개 필수 T1은 현재 유지하지만, `생존 기반 → 군사 기반 → 지휘 기반` 세 묶음으로 순차 학습한다. release-near Vertical Slice 사람 플레이에서 과부하가 실제 관측되면 필수 건물 축소안을 최우선 재검토한다.
 
-Exact committed autoload boundary at the observed PR head:
+## Current GitHub work-item truth
+
+Fresh 2026-08-20 readback:
 
 ```text
-HeraGameInspector="*uid://c4ug7a211oav8"
-_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
+PR175 = CLOSED_UNMERGED
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_PACKET_REQUIRES_RECONCILIATION_BEFORE_ANY_NEW_IMPLEMENTATION
+PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
 ```
 
-Next diagnostic is read-only with respect to the active project:
+### PR #175
+
+`[Runtime] Implement barracks role-output behaviors and FV evidence`
+
+- closed on 2026-08-18
+- merged = false
+- historical implementation/evidence only
+- none of its unmerged runtime changes are current main product truth
+
+### PR #177
+
+`[Handoff] Persist PR175/Issue176 pause and resume state`
+
+- closed on 2026-08-18
+- merged = false
+- reference/historical handoff only
+
+### Issue #176
+
+Issue remains open and still describes seven historical role-output/FV gaps under the old PR175 package. Because its parent implementation PR is now closed/unmerged and the project has reopened planning, **do not execute it blindly**. Before any future implementation work, reconcile it against then-current main, current planning Decisions, and current implementation scope.
+
+### PR #197
+
+`feat: pilot reusable candidate draft engine`
+
+- OPEN / DRAFT
+- head: `feat/p0-draft-ui-symbol-pilot-20260820`
+- current workstream is read-only from this planning chat
+- do not modify, retarget, merge, or use its unmerged changes as current product truth
+
+## Runtime and evidence boundary
+
+The 2026-08-11~12 signal11/HiGodot isolation records remain historical evidence. This 2026-08-20 replanning chat has **not executed current Godot runtime**.
 
 ```text
-BASELINE = BOTH_AUTOLOADS_ON_CRASH_ALREADY_PROVEN
-A = independent fresh exact-head TEMP; HeraGameInspector off only
-B = independent fresh exact-head TEMP; _mcp_game_helper off only
-C = both off only if A and B both still crash
-```
-
-Do not sequentially edit one TEMP project for A/B. Do not apply an active-project startup fix before the one-variable matrix identifies the responsible component or interaction boundary.
-
-Persistent Issue #176 product authoring remains stopped until:
-
-```text
-PROJECT_BOOT_BLOCKER_CLEARED
-→ semantic single-file GUT RED with TESTS_DISCOVERED > 0
-→ HiGodot-only seven-gap implementation
-→ GUT GREEN + regressions
-→ registered FV fixtures x2 deterministic
-→ Hera live QA
-→ HERA_TRACKED_SOURCE_DELTA = NONE
-```
-
-## Runtime/evidence dependency
-
-```text
-ROLE_OUTPUT_RUNTIME -> DETERMINISTIC_MEASUREMENT -> FUNCTIONAL_VALUE_COMPARISON -> FINAL_TUNING
-FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_WINDOWS_RUNTIME = NOT_RUN
+CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
+CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
-SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 ```
 
-## Physical TokenSource current truth
+Do not state that the old signal11 crash is currently reproduced. If implementation/runtime work resumes later, fresh current-main execution determines the new runtime truth.
+
+## Protected mechanics
 
 ```text
-SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
-SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
+ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
+GAMBLING_FANTASY_POSITIONING = FORBIDDEN
+PAID_SPIN = FORBIDDEN
+FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
+RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
+AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
 TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
 TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
-FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
+THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
+IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
+BOSS_STAGES = 5 / 10 / 15 / 20
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 ```
+
+## Current visual planning gate
+
+Next work is **Visual Requirement Inventory**, not implementation.
+
+Inventory must cover at minimum:
+
+```text
+1. Run Command Screen North Star
+2. PREPARE / Forecast + Build + Omen Wheel focus
+3. COMMIT / spatial three-lane deployment
+4. BATTLE / lane readability + tactical intervention
+5. REVIEW / causal result explanation
+6. Ward Citadel / three-lane battlefield visual identity
+7. buildings / mobilization-seal visual language
+8. troop silhouettes and pressure readability
+9. Omen Signature icon system
+10. first-five-stage teaching visual cues
+```
+
+The first generated visual requires user generation approval. Generate exactly one candidate first, review it, then promote only an approved result into Notion Visual Bible / Asset Library / Flow surface.
 
 ## Work-entry process
 
 ```text
-BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
-BENCHMARK_DISPOSITION = ADOPT / ADAPT / AVOID / TEST / IGNORE
-COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
-POST_CHANGE_ADVERSARIAL_MONITORING = REQUIRED
-ROOT_CAUSE_BEFORE_FIX = REQUIRED
-DISPOSABLE_ONE_VARIABLE_PROBE_BEFORE_ACTIVE_BOOT_FIX = REQUIRED_FOR_CURRENT_BLOCKER
-```
-
-## Godot AI execution route
-
-```text
-GODOT_VERSION = 4.7.1-stable
-GODOT_AI_PLUGIN_VERSION = 3.1.4
-GODOT_AI_SERVER_VERSION = 3.1.4
-OMENWARD_EDITOR_SETTINGS = SELF_CONTAINED_ISOLATED
-OMENWARD_GODOT_AI_HTTP_PORT = 8002
-OMENWARD_GODOT_AI_WS_PORT = 9502
-CODEX_INSTALLATION = SHARED
-OMENWARD_CODEX_HOME = C:/Users/user/.codex-omenward
-SESSION_ID_FRESH_RESOLVE_EACH_EXECUTION_BLOCK = REQUIRED
-PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
-GUT_AUTHORITY = DETERMINISTIC_GDSCRIPT_TESTS
-HERA_AUTHORITY = POST_GREEN_LIVE_QA_OBSERVABILITY_ONLY
-```
-
-Historical session/PID evidence is not a future selector. Every local mutation block must fresh-list and match the exact OMENWARD project/session identity before mutation.
-
-## Product canon retained
-
-```text
-OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1
-OMW-DEC-20260811-PLANNING-QUALITY-GUARDRAILS-V1
-OMW-DEC-20260811-PLANNING-ELITE-WAVE-BOSS-CADENCE-V1
-DANGER_STAGE_TYPE = REMOVED
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-BOSS_STAGES = 5 / 10 / 15 / 20
-BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
-LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE
+BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_IMPORTANT_DECISION = TRUE
+MINIMUM_VIABLE_ALTERNATIVES = 3
+ADVERSARIAL_REVIEW = REQUIRED_BEFORE_LONG_TERM_LOCK
+NOTION_HUMAN_FACING_CANON = REQUIRED_FOR_HUMAN_VISUAL_FLOW_MEANING
+REPOSITORY_STRUCTURED_CANON = REQUIRED_FOR_RULES_AND_IMPLEMENTATION_CONTRACTS
+OPEN_DRAFT_OTHER_WORKSTREAM = READ_ONLY
+HUMAN_EVIDENCE_NEVER_SYNTHESIZED = TRUE
 ```
 
 ## Resume-first handoff locator
 
-The current handoff/current-state consumer set is `ACTIVE_CONTEXT.md`, `CURRENT_IMPLEMENTATION_STATUS.md`, `DECISIONS_PENDING.md`, and `HANDOFF_CONTEXT.md`. Fresh GitHub/Sheet truth remains higher authority than any stored observation SHA.
+Resume order:
 
-Resume read order:
-
-1. fresh OMENWARD main and PR #175/#177 state;
-2. fresh Base main/current operating contract;
-3. Google Sheet project hub;
-4. this `ACTIVE_CONTEXT.md`;
-5. `CURRENT_IMPLEMENTATION_STATUS.md`;
-6. `DECISIONS_PENDING.md` and `HANDOFF_CONTEXT.md`;
-7. PR #175 / Issue #176 latest discussion and local diagnostic output;
-8. fresh local Git/HiGodot identity only when local execution resumes.
+1. fresh OMENWARD main;
+2. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
+3. this `docs/ACTIVE_CONTEXT.md`;
+4. Project Notion Home + `02 · 비주얼 바이블` + `03 · UI · 게임플레이 Flow Map` + `08 · 핵심 시스템 · 상세`;
+5. related open/draft PR inventory, with PR #197 protected/read-only unless its own workstream explicitly resumes;
+6. actual code/data/scene/test truth only when implementation scope opens;
+7. fresh current runtime evidence only when execution is explicitly resumed.
 
 ## Release-deferred items
 
-```text
-PLATFORM_SAVE_EXPORT_STORE = RELEASE_PHASE_DEFERRED_FOR_PR175
-SHARED_SAVE_SCHEMA = NOT_STARTED
-EXPORT_PRESETS = ABSENT
-```
-
-These are not the current Issue #176 boot blocker.
+PC/Steam remains the primary planning/validation target. Android/export/save/store integration remains deferred to the release-near stage unless a later user Decision reopens it.
