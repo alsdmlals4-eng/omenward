@@ -5,12 +5,12 @@ updated_at: 2026-08-20
 current_branch: main
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
-work_phase: PHASE_A_GPT_CHAT_REPLANNING_VISUAL_NORTH_STAR
+work_phase: PHASE_A_GPT_CHAT_REPLANNING_VISUAL_DEFERRED_USER_REFERENCE
 planning_status: REOPENED_REVIEW_IN_PROGRESS
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_decision: OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
 current_visual_inventory: docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md
-current_next_gate: VISUAL_NORTH_STAR_GENERATION_APPROVAL
+current_next_gate: USER_REFERENCE_VISUAL_UPLOAD_THEN_REVIEW
 implementation_authorized: false
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -31,8 +31,10 @@ MOBILIZATION_REGISTRY_WORLD_MEANING = CONFIRMED
 FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
 RUN_COMMAND_SCREEN_FOCUS_MODES = CONFIRMED
 VISUAL_REQUIREMENT_INVENTORY = COMPLETE_PROPOSED
-VISUAL_NORTH_STAR_SELECTION = AWAITING_USER_GENERATION_APPROVAL
-VISUAL_NORTH_STAR_ASSET = NOT_CREATED
+VISUAL_NORTH_STAR_SELECTION = OPTION_A_APPROVED
+VISUAL_GENERATION = DEFERRED_PENDING_USER_REFERENCE_FILES
+VISUAL_GENERATED_CANDIDATE = REJECTED_NOT_CANON
+VISUAL_APPROVED_ASSET = NONE
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
@@ -175,25 +177,32 @@ PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 
 ## Current visual planning gate
 
-Visual Requirement Inventory is complete as a proposal. The current next step is **user approval to generate the first North Star candidate**, not implementation.
-
-Recommended first candidate:
+Visual Requirement Inventory is complete and first North Star candidate selection A was approved, but **all image work is now deferred at the user's request until user-owned local mockup/reference files are provided**.
 
 ```text
-OMW-PLAN-20260820-VISUAL-NORTH-STAR-01
-OPTION_A_RECOMMENDED = OMW-VIS-001
-SCENE = Stage 2 PREPARE · Omen Wheels Focus
-GOAL = validate battlefield + 3-lane Forecast + buildings + mobilization distribution + Triple Omen Wheels + information hierarchy in one image
+APPROVED_FIRST_VISUAL_DIRECTION = OMW-VIS-001 / Stage 2 PREPARE · Omen Wheels Focus
+GENERATED_CANDIDATE_2026_08_20 = REJECTED_NOT_CANON
+REJECTION_REASON = requested stronger dot/pixel feeling was not materially reflected
+PROMOTE_GENERATED_CANDIDATE_TO_NOTION_ASSET_LIBRARY = FORBIDDEN
+NEXT_VISUAL_ACTION = WAIT_FOR_USER_REFERENCE_FILES
+IMAGE_GENERATION_OR_EDIT_BEFORE_REFERENCE_UPLOAD = FORBIDDEN
 ```
 
-Alternative candidates retained:
+When the user uploads the local files:
 
 ```text
-OPTION_B = BATTLE Focus North Star
-OPTION_C = Triple Omen Wheels / Command Sanctum close-up
+user reference files
+→ source-grounded review first
+→ compare against current Visual Bible + Inventory
+→ identify reusable layout / pixel-density / palette / UI language
+→ propose exact revision target
+→ resume image generation/edit only when the user explicitly requests it
+→ approved result only to Visual Bible / Asset Library / Flow
 ```
 
-Inventory coverage:
+Non-visual planning work may continue while this visual gate is deferred.
+
+Inventory coverage retained:
 
 ```text
 1. Run Command Screen North Star
@@ -206,15 +215,6 @@ Inventory coverage:
 8. troop silhouettes and pressure readability
 9. Omen Signature icon system
 10. first-five-stage teaching visual cues
-```
-
-Generation contract:
-
-```text
-USER_GENERATION_APPROVAL_REQUIRED = TRUE
-GENERATE_EXACTLY_ONE_FIRST = TRUE
-APPROVED_RESULT_ONLY_TO_NOTION_ASSET_LIBRARY = TRUE
-STRUCTURE_LAYER_REUSABLE_CLASSIFICATION_AFTER_APPROVAL = TRUE
 ```
 
 ## Work-entry process
@@ -238,9 +238,10 @@ Resume order:
 3. this `docs/ACTIVE_CONTEXT.md`;
 4. `docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md`;
 5. Project Notion Home + `02 · 비주얼 바이블` + `03 · UI · 게임플레이 Flow Map` + `08 · 핵심 시스템 · 상세`;
-6. related open/draft PR inventory, with PR #197 protected/read-only unless its own workstream explicitly resumes;
-7. actual code/data/scene/test truth only when implementation scope opens;
-8. fresh current runtime evidence only when execution is explicitly resumed.
+6. user-provided visual reference files when available;
+7. related open/draft PR inventory, with PR #197 protected/read-only unless its own workstream explicitly resumes;
+8. actual code/data/scene/test truth only when implementation scope opens;
+9. fresh current runtime evidence only when execution is explicitly resumed.
 
 ## Release-deferred items
 
