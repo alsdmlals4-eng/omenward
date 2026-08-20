@@ -4,7 +4,7 @@
 updated_at: 2026-08-20
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: TOKEN_COMPONENT_SPEC
+current_next_gate: ROULETTE_DDD_FEEDBACK_SPEC
 implementation_authorized: false
 visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
 visual_generation: USER_REQUEST_ONLY
@@ -23,50 +23,43 @@ PROJECT_STATE_RECOVERED
 → VISUAL_STYLE_AND_COMPONENT_DIRECTION_CONFIRMED
 → BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_CONFIRMED
 → 3X3_ROULETTE_COMPONENT_SPEC_CONFIRMED
-→ TOKEN_COMPONENT_SPEC = CURRENT_NEXT
+→ TOKEN_COMPONENT_SPEC_CONFIRMED
+→ LOWER_CONTROL_DECK_SPEC_CONFIRMED
+→ ROULETTE_DDD_FEEDBACK_SPEC = CURRENT_NEXT
 ```
 
 ## Current planning order
 
-### P0 — Token component spec — CURRENT NEXT
+### P0 — Roulette DDD feedback — CURRENT NEXT
 
-Define the common 3×3 tile and actual unit-art crop rules so each unit type is readable at small size.
-
-```text
-common token tile frame
-T1/T2 unit-art reuse
-role silhouette priority
-face / weapon / body crop hierarchy
-faction/Tier/rarity overlay priority
-Gold Token using actual game gold art
-X token readability
-small-size validation
-```
-
-### P0 — Lower Control Deck — NEXT
-
-Fit the approved 3×3 board, 12 direct arrows, move resources, Spin/Confirm and focus tabs inside the `25~32%` lower-deck envelope without duplicating top-HUD resources.
-
-### P0 — Roulette DDD feedback — NEXT
-
-Design the anticipation/payoff chain:
+Define the anticipation/payoff chain so the strongest reward feeling comes from **the player's built probability + direct row/column manipulation producing a useful mobilization result**, not from casino fantasy.
 
 ```text
 probability setup
 → spin buildup
-→ row/column manipulation
-→ center-line lock
-→ completed-line reveal
-→ result snap
+→ natural stop
+→ near-hit / readable state
+→ row/column manipulation snap
+→ center judging-line lock
+→ completed-line cascade
+→ result reveal
 → storage/commit transfer
-→ battlefield reinforcement link
+→ short battlefield reinforcement link
 ```
 
-Casino/jackpot/paid-spin fantasy remains forbidden.
+Constraints:
 
-### Visual North Star — AFTER COMPONENT CONTRACTS
+```text
+battlefield remains visible
+casino/jackpot/paid-spin language forbidden
+feedback must be short and interruptible
+result grade follows line count, not hidden rarity draw
+player manipulation must receive stronger feedback than passive random sparkle
+```
 
-Create exactly one rebuilt North Star only after Token + Lower Deck + DDD contracts are coherent.
+### Visual North Star — AFTER DDD CONTRACT
+
+Create exactly one rebuilt North Star only when the user explicitly requests image generation after the DDD contract is coherent.
 
 Required visual contract:
 
@@ -78,9 +71,25 @@ WIDE_COMBAT_ROADS
 BATTLEFIELD_PRIMARY / LOWER_DECK_SECONDARY
 3×3 ROULETTE
 PROMINENT ROW/COLUMN ARROWS
-ROLE-READABLE UNIT TOKENS
+ACTUAL-UNIT-ART ROLE-ANCHOR TOKENS
 GOLD TOKEN
+FOCUS-ADAPTIVE LOWER DECK
 NO DUPLICATE LOWER RESOURCES
+```
+
+### Component Sheet — AFTER NORTH STAR
+
+Break the approved screen into reusable assets/components:
+
+```text
+battlefield road / clash node / lane markers
+unit token tile / Gold / X
+row/column arrows
+focus tabs
+CTA states
+forecast badges
+line-lock / result VFX layers
+Bellu context panel if retained
 ```
 
 ### Final planning review
@@ -89,7 +98,7 @@ After component contracts and rebuilt North Star result approval:
 
 ```text
 minimum 5 full adversarial loops / until clean
-Decision 1~13 + visual/component regression review
+Decision 1~15 + visual/component regression review
 Notion/GitHub drift check
 implementation Definition of Ready
 explicit user implementation authority
@@ -97,10 +106,40 @@ explicit user implementation authority
 
 Only then open implementation handoff.
 
+## Current Lower Control Deck authority
+
+Owners:
+- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
+- `docs/analysis/ui/current_lower_control_deck.v1.json`
+
+```text
+ONE_ACTIVE_WORK_SURFACE_AT_A_TIME
+TOP HUD OWNS RESOURCE TOTALS
+lower local action cost allowed
+ROULETTE / STORAGE / BUILD / TACTICAL tabs
+Bellu = contextual guide, not fifth management menu
+Roulette focus = left moves / center 3×3 / right action-result
+```
+
+## Current Token authority
+
+Owners:
+- `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md`
+- `docs/analysis/ui/current_token_component.v1.json`
+
+```text
+actual game Anime Pixel unit art reused
+Role-Anchor Crop
+T1/T2 tokens only
+T3 token art forbidden
+reward rarity != token rarity
+Gold uses actual game Gold art
+X = clear empty non-reward
+```
+
 ## Current 3×3 Roulette authority
 
 Owners:
-
 - `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
 - `docs/analysis/ui/current_3x3_roulette_component.v1.json`
 
@@ -117,12 +156,10 @@ Lucky free move first / stored tickets cap 3
 ## Current Battlefield authority
 
 Owners:
-
 - `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md`
 - `docs/analysis/visual/current_battlefield_scale_readability.v1.json`
 
 Planning envelope:
-
 ```text
 reference = 960×540
 battlefield height = 68~75%
