@@ -27,6 +27,20 @@ func _init() -> void:
 		var adapter: Variant = load(ADAPTER_PATH).new()
 		var valid: Dictionary = adapter.generate_token_source_candidates(pool, 3, 4242)
 		_expect(valid.ok and valid.candidates.size() == 3, "Omenward adapter must produce exactly three token-source candidates", failures)
+
+		var wrong_count: Dictionary = adapter.generate_token_source_candidates(pool, 2, 4242)
+		_expect(not wrong_count.ok and str(wrong_count.reason) == "OMENWARD_REQUIRES_THREE_TOKEN_SOURCE_CANDIDATES", "Omenward adapter must reject non-three candidate requests", failures)
+
+		var insufficient: Dictionary = adapter.generate_token_source_candidates(pool.slice(0, 2), 3, 4242)
+		_expect(not insufficient.ok and str(insufficient.reason) == "INSUFFICIENT_UNIQUE_CANDIDATES", "Omenward adapter must fail when three distinct candidates cannot be produced", failures)
+
+		var duplicate_ids: Dictionary = adapter.generate_token_source_candidates([
+			{"id": "same", "weight": 2},
+			{"id": "same", "weight": 1},
+			{"id": "other", "weight": 1},
+		], 3, 4242)
+		_expect(not duplicate_ids.ok and str(duplicate_ids.reason) == "DUPLICATE_CANDIDATE_ID", "Omenward adapter must reject duplicate candidate IDs", failures)
+
 		var fractional: Dictionary = adapter.generate_token_source_candidates([{"id": "bad", "weight": 1.5}], 3, 1)
 		_expect(not fractional.ok and str(fractional.reason) == "FRACTIONAL_WEIGHT_FORBIDDEN", "Omenward adapter must reject fractional roulette weights", failures)
 	_finish(failures)
