@@ -66,18 +66,26 @@ class C1RouletteValidationTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            self.assertTrue(any("pre-validation C1 state" in error or "missing proven C1 evidence" in error for error in validate(root)))
+            self.assertTrue(any("pre-validation C1 state" in error or "historical C1 evidence" in error for error in validate(root)))
 
     def test_final_validation_evidence_cannot_regress(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
-            status = root / "docs" / "CURRENT_IMPLEMENTATION_STATUS.md"
-            status.write_text(
-                status.read_text(encoding="utf-8").replace(FINAL_VALIDATION_RUN, "29919925777"),
+            report = root / "docs" / "C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md"
+            report.write_text(
+                report.read_text(encoding="utf-8").replace(FINAL_VALIDATION_RUN, "29919925777"),
                 encoding="utf-8",
             )
-            self.assertTrue(any("missing proven C1 evidence" in error for error in validate(root)))
+            self.assertTrue(any("historical C1 evidence" in error for error in validate(root)))
+
+    def test_current_status_does_not_need_exact_historical_run(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            status = root / "docs" / "CURRENT_IMPLEMENTATION_STATUS.md"
+            status.write_text(status.read_text(encoding="utf-8") + "\n# no exact C1 run required here\n", encoding="utf-8")
+            self.assertFalse(any("exact proof" in error and "CURRENT_IMPLEMENTATION_STATUS" in error for error in validate(root)))
 
     def test_missing_judgment_line_regression_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
