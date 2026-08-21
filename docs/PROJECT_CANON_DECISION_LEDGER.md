@@ -83,6 +83,7 @@ July Vertical Slice, C1/C2/C3 proof, Phase B/C0, old runtime PRs는 `[증거/호
 ## 6. Historical simulation decision lineage
 
 ```text
+OMW-DEC-20260808-PLANNING-BARRACKS-CAPABILITY-PROXY-AND-MULTI-SPECIAL-TOKEN-BURST-REMEDIATION-V1
 OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
 5_OF_10 = REMEDIATION_SMOKE_PASS
 6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
@@ -90,7 +91,7 @@ PARAMETER_SELECTION_NOT_IDENTIFIABLE = HISTORICAL_REVIEW_CONCLUSION
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
-이 Decision은 2026-08-08 당시 2k 결과의 식별 가능성 검토를 보존한다. 이후 10k robustness 및 role-output evidence와 함께 current v4.7 economy reconciliation의 입력이 될 수 있으나 현재 next gate나 final 제품 수치 authority가 아니다.
+첫 Decision은 4/10 conditional-fail 원인을 구조적 capability proxy와 physical TokenSource guard로 교정해 2,000-seed remediation smoke PASS를 만든 계보다. 두 번째 Decision은 그 결과만으로 final parameter selection을 할 수 없음을 검토한 계보다. 이후 10k robustness 및 role-output evidence와 함께 current v4.7 economy reconciliation의 입력이 될 수 있으나 현재 next gate나 final 제품 수치 authority가 아니다.
 
 ## 7. Current evidence ceiling
 
