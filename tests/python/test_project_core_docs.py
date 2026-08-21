@@ -98,7 +98,11 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            body = path.read_text(encoding="utf-8") + f"\ncurrent_main: {'a' * 40}\n"
+            body = path.read_text(encoding="utf-8").replace(
+                "current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
+                f"current_main: {'a' * 40}",
+                1,
+            )
             path.write_text(body, encoding="utf-8")
             self.assertTrue(any("current_main must resolve dynamically" in error for error in validate(root)))
 
