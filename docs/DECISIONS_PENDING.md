@@ -103,7 +103,22 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 
 과거 C1/C2/C3 technical evidence는 `LEGACY_C1_C2_C3_PROVEN`으로 보존되지만 현재 재기획 경험 증거를 대신하지 않는다.
 
-## 9. Implementation-stage reconciliation candidates
+## 9. Historical Barracks simulation lineage
+
+다음은 현재 next gate가 아니라 과거 시뮬레이션/판정 계보다. 후속 v4.7 economy reconciliation에서 당시 결과를 재사용할 수 있도록 보존하되 현재 수치 authority로 승격하지 않는다.
+
+```text
+5_OF_10 = REMEDIATION_SMOKE_PASS
+6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
+OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
+PARAMETER_SELECTION_NOT_IDENTIFIABLE = HISTORICAL_REVIEW_CONCLUSION
+DECISION_SWEEP_10000_EXECUTION = NOT_AUTHORIZED_BY_THAT_REVIEW
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+```
+
+후속 robustness 10k 및 role-output evidence는 historical experiment 범위로 보존한다. 이 계보는 `CURRENT_NEXT`를 바꾸지 않는다.
+
+## 10. Implementation-stage reconciliation candidates
 
 구현 권한이 열릴 때 다음을 fresh main에서 재대조한다.
 
@@ -116,7 +131,7 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 
 과거 packet을 그대로 실행하지 않는다.
 
-## 10. Platform / release later gates
+## 11. Platform / release later gates
 
 ```text
 COMMON_PLATFORM_GATE = NOT_RUN
@@ -126,7 +141,7 @@ ANDROID_DEVICE = DEFERRED_RELEASE_NEAR
 EXPORT_PRESETS = ABSENT
 ```
 
-## 11. GitHub live-state rule
+## 12. GitHub live-state rule
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
@@ -135,7 +150,7 @@ PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
 PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```
 
-## 12. Next gate
+## 13. Next gate
 
 ```text
 CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
