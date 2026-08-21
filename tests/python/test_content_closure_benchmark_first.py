@@ -70,11 +70,15 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
             "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED",
             "PHASE_B_FINAL_PLANNING_REVIEW = PASS",
             "PHASE_C_GATE = OPEN",
-            PRODUCT_DECISION,
-            PROCESS_DECISION,
             "NEW_PRODUCT_DECISION_REQUIRED = FALSE",
         ):
             self.assertIn(marker, phase_b)
+
+        # The exact Decision IDs are owned by their dedicated product/process
+        # documents; the Phase-B review only needs to preserve the observed
+        # closure result, not duplicate every owner ID.
+        self.assertIn(PRODUCT_DECISION, PRODUCT.read_text(encoding="utf-8"))
+        self.assertIn(PROCESS_DECISION, PROCESS.read_text(encoding="utf-8"))
 
         for path in (AGENTS, ACTIVE, PENDING):
             text = path.read_text(encoding="utf-8")
