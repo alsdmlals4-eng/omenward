@@ -90,17 +90,28 @@ VISUAL_GENERATION = USER_REQUEST_ONLY
 
 Exact SHA/run은 위 evidence owner에서 보존한다. Current status/GDD/router에는 과거 exact run을 current proof처럼 복제하지 않는다.
 
-## 6. Historical Vertical Slice / Evidence Pilot
+## 6. Historical process / Vertical Slice provenance
 
 ```text
 [증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
 [증거/호환] docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md
 [증거/호환] docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md
+[증거/호환] docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md
+[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md
+[증거/호환] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json
 [증거/호환] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md
 [증거/호환] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md
+[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
 ```
 
-특히 `[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 July 구현/validation lineage를 증명하지만 2026-08-20 v4.7 Decision index를 덮어쓰는 current spec가 아니다.
+```text
+HISTORICAL_V4_4_BINDING
+PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
+PHASE_C_C0_OVERALL = HISTORICAL_PASS
+LEGACY_DANGER_CADENCE_AUTHORITY = NONE
+```
+
+특히 `[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`와 v4.5/C0 상태는 당시 실행·검증 계보를 증명하지만 2026-08-20~21 v4.7 current Decision index를 덮어쓰지 않는다.
 
 ## 7. Durable historical product lineage
 
