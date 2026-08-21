@@ -55,7 +55,15 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     economy_test = (root / "tests/headless/economy_roulette_test.gd").read_text(encoding="utf-8")
     contract_test = (root / "tests/headless/roulette_contract_test.gd").read_text(encoding="utf-8")
 
-    for term in ("LINE_INDEXES", "resolve_board_snapshot", "_completed_line_count", "_rank_for_lines", "legendary_generated", "_gold_reward", "source_archetype_rank_fallback"):
+    for term in (
+        "LINE_INDEXES",
+        "resolve_board_snapshot",
+        "_completed_line_count",
+        "_rank_for_lines",
+        "legendary_generated",
+        "_gold_reward",
+        "source_archetype_rank_fallback",
+    ):
         if term not in roulette:
             errors.append(f"roulette service missing contract term: {term}")
     spin_signature = re.search(r"func spin.*", roulette)
@@ -99,7 +107,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         for forbidden in FORBIDDEN_ACTIVE_REFERENCES:
             if forbidden in text:
                 errors.append(f"active document references retired execution input: {relative} -> {forbidden}")
-        for stale in ("C1_IMPLEMENTED_CANDIDATE", "C1 승인 룰렛 핵심 계약 구현·원격 검증 진행", "C1 기본 릴 가중치 구현 후보"):
+        for stale in (
+            "C1_IMPLEMENTED_CANDIDATE",
+            "C1 승인 룰렛 핵심 계약 구현·원격 검증 진행",
+            "C1 기본 릴 가중치 구현 후보",
+        ):
             if stale in text:
                 errors.append(f"active document retains pre-validation C1 state: {relative} -> {stale}")
 
@@ -107,29 +119,35 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     version_match = re.search(r"문서 버전:\s*\*\*v(\d+)\.(\d+)", gdd)
     if version_match is None or tuple(map(int, version_match.groups())) < (0, 23):
         errors.append("GDD was not advanced to v0.23 or later")
-    for stale in ("### 구현 전 미확정", "Issue #1 Phase 0 Codex Plan Mode", "현재 실제 Godot 코드, Scene, Resource, 테스트는 생성·수정하지 않는다"):
+    for stale in (
+        "### 구현 전 미확정",
+        "Issue #1 Phase 0 Codex Plan Mode",
+        "현재 실제 Godot 코드, Scene, Resource, 테스트는 생성·수정하지 않는다",
+    ):
         if stale in gdd:
             errors.append(f"GDD retains stale implementation state: {stale}")
 
-    requirements = {
-        "docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md": (
-            "C1_ROULETTE_CORE_REMOTE_PROVEN",
-            f"구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
-            f"GitHub Actions run: `{FINAL_VALIDATION_RUN}`",
-        ),
-        "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-            "C1_ROULETTE_CORE_REMOTE_PROVEN",
-            f"C1 구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
-            f"C1 최종 검증 run: `{FINAL_VALIDATION_RUN}`",
-        ),
-        "docs/OMENWARD_ROADMAP.md": ("C1 승인 룰렛 핵심 계약 원격 검증·병합 완료", "**REMOTE_PROVEN**"),
-        "docs/design/APPROVED_ROULETTE_CORE_RULES.md": ("C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN",),
-    }
-    for relative, phrases in requirements.items():
-        text = (root / relative).read_text(encoding="utf-8")
-        for phrase in phrases:
-            if phrase not in text:
-                errors.append(f"{relative} missing proven C1 evidence: {phrase}")
+    report = (root / "docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md").read_text(encoding="utf-8")
+    for phrase in (
+        "C1_ROULETTE_CORE_REMOTE_PROVEN",
+        f"구현 검증 head: `{FINAL_VALIDATION_HEAD}`",
+        f"GitHub Actions run: `{FINAL_VALIDATION_RUN}`",
+    ):
+        if phrase not in report:
+            errors.append(f"historical C1 evidence missing exact proof: {phrase}")
+
+    roulette_rules = (root / "docs/design/APPROVED_ROULETTE_CORE_RULES.md").read_text(encoding="utf-8")
+    if "C1 중앙 판정·완성선·등급·보상·보관 REMOTE_PROVEN" not in roulette_rules:
+        errors.append("approved roulette rules lost historical C1 provenance marker")
+
+    current_status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
+    for phrase in (
+        "LEGACY_C1_C2_C3_PROVEN",
+        "CURRENT_GODOT_RUNTIME = NOT_RUN",
+        "CURRENT_WINDOWS_RUNTIME = NOT_RUN",
+    ):
+        if phrase not in current_status:
+            errors.append(f"current status missing historical/current evidence boundary: {phrase}")
 
     baseline = (root / "docs/design/APPROVED_PREPRODUCTION_POC_BASELINE_V1.md").read_text(encoding="utf-8")
     if "Phase 0 Plan Mode 대기 / 구현 전" in baseline:
