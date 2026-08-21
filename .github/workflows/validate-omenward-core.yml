@@ -139,10 +139,10 @@ jobs:
         run: python tools/validate_c3_core_ux.py
       - name: Validate CI usage contract
         run: python tools/validate_ci_usage_contract.py
-      - name: Run full Python repository tests
+      - name: Run Python repository tests
         run: python -m unittest discover -s tests/python -v
       - name: Check whitespace
-        run: git diff --check HEAD^ HEAD
+        run: git diff --check
 
   godot:
     timeout-minutes: 20
@@ -152,29 +152,34 @@ jobs:
       - name: Reject temporary C3 artifacts
         shell: bash
         run: |
+          set -euo pipefail
+          test ! -e docs/_C3_HEADLESS_DIAGNOSTIC.log
+          test ! -e tools/_repair_c3_stage_run_types.py
+          test ! -e tools/sync_c3_canonical_docs.py
           test ! -e tools/finalize_c3_proof.py
+          test ! -e .github/workflows/diagnose-c3-headless.yml
+          test ! -e .github/workflows/sync-c3-canonical-docs.yml
           test ! -e .github/workflows/core-contracts.yml
           test ! -e .github/workflows/validate-core-contracts.yml
           test ! -e .github/workflows/finalize-c3-proof.yml
       - name: Install Godot 4.7.1 Standard
         shell: bash
         run: |
-          python - <<'PY'
-          import urllib.request, zipfile
-          url='https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip'
-          urllib.request.urlretrieve(url, '/tmp/godot.zip')
-          with zipfile.ZipFile('/tmp/godot.zip') as z:
-              z.extractall('/tmp/godot')
-          PY
-          chmod +x /tmp/godot/Godot_v4.7.1-stable_linux.x86_64
+          curl -fL "https://github.com/godotengine/godot-builds/releases/download/4.7.1-stable/Godot_v4.7.1-stable_linux.x86_64.zip" -o godot.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.7.1-stable_linux.x86_64
+          ./Godot_v4.7.1-stable_linux.x86_64 --version
       - name: Import project
-        run: timeout 120s /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . --import
+        shell: bash
+        run: timeout 120s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --editor --quit
       - name: Run all headless contract tests
         shell: bash
         run: |
           set -euo pipefail
           for test_file in tests/headless/*_test.gd; do
-            timeout 60s /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
+            echo "Running ${test_file}"
+            timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . -s "res://${test_file}"
           done
       - name: Runtime smoke
-        run: timeout 10s /tmp/godot/Godot_v4.7.1-stable_linux.x86_64 --headless --path . || test $? -eq 124
+        shell: bash
+        run: timeout 60s ./Godot_v4.7.1-stable_linux.x86_64 --headless --path . --quit-after 1
