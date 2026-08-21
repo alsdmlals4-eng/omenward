@@ -1,6 +1,7 @@
 # OMENWARD · Top-Down Unit Silhouette Rules
 
 ```yaml
+decision_id: OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01
 status: USER_APPROVED_PLANNING_CANON
 work_mode: PLANNING_ONLY
 implementation_authorized: false
