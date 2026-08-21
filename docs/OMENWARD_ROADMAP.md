@@ -156,7 +156,27 @@ PLAYER_EXPERIENCE
 
 PC/Steam을 먼저 검증한다. Android/Google Play 실기기·모바일 UI·lifecycle은 PC 제품 구현 완료 후 출시 준비 직전까지 deferred 가능하다.
 
-## 13. Historical work-items
+## 13. Historical product-planning lineage
+
+다음 2026-08-05 planning batch는 현재 next gate가 아니지만 후속 정본이 어떤 문제를 승계했는지 추적하기 위해 보존한다.
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10 = HISTORICAL_LINEAGE_ONLY
+
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10 = HISTORICAL_LINEAGE_ONLY
+
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10 = HISTORICAL_LINEAGE_ONLY
+
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10 = HISTORICAL_LINEAGE_ONLY
+```
+
+이 계보는 current v4.7 owner보다 높은 권한이 아니며 과거 상태를 current 작업 순서로 되살리지 않는다.
+
+## 14. Historical work-items
 
 ```text
 PR175 = CLOSED_UNMERGED_HISTORICAL
@@ -167,7 +187,7 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 
 과거 work-item 상태를 current roadmap gate로 고정하지 않는다.
 
-## 14. 단계 변경 시 문서 동기화
+## 15. 단계 변경 시 문서 동기화
 
 ```text
 Decision owner
@@ -177,7 +197,7 @@ Decision owner
 → destination readback
 ```
 
-## 15. 지금 실행할 단 하나의 작업
+## 16. 지금 실행할 단 하나의 작업
 
 ```text
 CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
