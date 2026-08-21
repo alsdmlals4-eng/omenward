@@ -80,7 +80,19 @@ Historical owner:
 
 July Vertical Slice, C1/C2/C3 proof, Phase B/C0, old runtime PRs는 `[증거/호환]`이며 current v4.7 Decision을 덮어쓰지 않는다.
 
-## 6. Current evidence ceiling
+## 6. Historical simulation decision lineage
+
+```text
+OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
+5_OF_10 = REMEDIATION_SMOKE_PASS
+6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
+PARAMETER_SELECTION_NOT_IDENTIFIABLE = HISTORICAL_REVIEW_CONCLUSION
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+```
+
+이 Decision은 2026-08-08 당시 2k 결과의 식별 가능성 검토를 보존한다. 이후 10k robustness 및 role-output evidence와 함께 current v4.7 economy reconciliation의 입력이 될 수 있으나 현재 next gate나 final 제품 수치 authority가 아니다.
+
+## 7. Current evidence ceiling
 
 ```text
 CURRENT_GODOT_RUNTIME = NOT_RUN
@@ -92,7 +104,7 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-## 7. Historical GitHub work-items
+## 8. Historical GitHub work-items
 
 ```text
 PR175 = CLOSED_UNMERGED_HISTORICAL
@@ -102,7 +114,7 @@ PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 
 현재 open/draft 상태는 fresh GitHub query로만 판정한다.
 
-## 8. Workspace authority
+## 9. Workspace authority
 
 ```text
 NOTION_HUMAN_FACING_CANON
