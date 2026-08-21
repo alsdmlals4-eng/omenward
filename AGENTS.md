@@ -139,7 +139,30 @@ PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 - 의미 변경 Decision은 양쪽에 같은 의미로 동기화하고 destination readback한다.
 - Google Sheet는 migration/history compatibility input이며 current human authority가 아니다.
 
-## 8. Historical compatibility markers
+## 8. Platform / release / asset-rights durable routing
+
+플랫폼·출시·자산 권리는 current visual/planning next gate와 별개의 durable product boundary다. 제출·등급·권리 PASS를 추정하지 않는다.
+
+- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
+- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
+- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
+- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
+
+```text
+PC / Steam = COMMITTED_PRIMARY
+Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR
+STOVE = SECONDARY_RELEASE_CANDIDATE
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+PLATFORM_SUBMISSION_NOT_RUN
+LEGAL_REVIEW_NOT_PERFORMED
+RELEASE_BLOCKED_UNVERIFIED
+```
+
+아트·오디오·폰트·외부 라이브러리·AI 산출물·외주물은 provenance/상업 이용/배포/원본 재배포/참조 독립성 기록을 확인한 뒤 제품 자산으로 승격한다.
+
+## 9. Historical compatibility markers
 
 ```text
 MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
