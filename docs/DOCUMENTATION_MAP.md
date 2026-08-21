@@ -1,11 +1,11 @@
 # [현행] OMENWARD 문서 지도
 
 ```yaml
-updated_at: 2026-08-20
+updated_at: 2026-08-21
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: WORLD_CONFLICT_AND_CORE_STORY
-visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
+current_next_gate: REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+visual_generation: USER_REQUEST_ONLY
 implementation_authorized: false
 ```
 
@@ -19,29 +19,23 @@ implementation_authorized: false
 6. `docs/PROJECT_CORE.md`
 7. `docs/DECISIONS_PENDING.md`
 8. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-9. `docs/DOCUMENTATION_MAP.md`
-10. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-11. relevant 2026-08-20 Decision owner
-12. Project Notion Home + relevant human-facing page
+9. `docs/OMENWARD_ROADMAP.md`
+10. `docs/DOCUMENTATION_MAP.md`
+11. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+12. relevant current Decision owner
+13. Project Notion Home + relevant human-facing page
 
-Fresh GitHub/Notion truth는 historical Handoff·오래된 SHA보다 우선한다.
+Fresh GitHub/Notion truth는 historical Handoff·오래된 SHA·closed-unmerged PR보다 우선한다.
 
-## 2. Current process routing
-
-공통 process owner는 fresh `alsdmlals4-eng/Base` current authority와 사용자가 제공한 v4.7 instruction이다.
+## 2. Current authority split
 
 ```text
-CURRENT_PROCESS = GPT_FIRST_REPLANNING
-IMPLEMENTATION_START = NOT_AUTHORIZED
-CURRENT_REVIEW = 5_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
-NEXT_PRODUCT_DECISION = WORLD_CONFLICT_AND_CORE_STORY
-AFTER_WORLD_STORY = 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
-AFTER_CONTENT = BALANCE_BUDGET
-AFTER_BALANCE = TEXT_UX_AND_STATE_TRANSITION_SPEC
-VISUAL = PAUSED_PENDING_USER_REFERENCE_FILES
+NOTION_HUMAN_FACING_CANON = 전체 그림 / Flow / 비교표 / Visual / Story / Work Plan
+REPOSITORY_STRUCTURED_CANON = Markdown / JSON / code / data / scene / resource / test / runtime evidence
+GOOGLE_SHEET = COMPATIBILITY_HISTORY_ONLY
 ```
 
-2026-08-11 v4.5 binding/C0 문서는 historical process provenance다.
+**Google Sheet는 current human authority가 아니다.** 미이관 고유 역사 확인이 필요한 경우에만 compatibility input으로 읽는다.
 
 ## 3. Current product owners
 
@@ -52,7 +46,7 @@ VISUAL = PAUSED_PENDING_USER_REFERENCE_FILES
 - `docs/OMENWARD_GDD_CURRENT_CANON.md`
 - `docs/PROJECT_CORE.md`
 
-### 2026-08-20 replan Decisions
+### Current 2026-08-20 replan owners
 
 - `docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_OMEN_CYCLE_MAPRUN_WORLD_2026-08-20.md`
@@ -60,26 +54,28 @@ VISUAL = PAUSED_PENDING_USER_REFERENCE_FILES
 - `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
-- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
+- `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
 
-### Durable detailed system owners retained
-
-- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
-- `docs/design/APPROVED_OMENWARD_CORE_FUN_AND_CONTENT_GUARDRAILS_2026-08-04.md`
-- `docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_AUTO_PRODUCTION_AND_TOKEN_SOURCE_AMENDMENT_2026-08-06.md`
-- `docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md`
-- `docs/design/APPROVED_OMENWARD_TROOP_ROLES_SYNERGIES_AND_COUNTERS_2026-08-05.md`
-- `docs/design/APPROVED_OMENWARD_TACTICAL_SKILLS_AND_MANA_2026-08-05.md`
-- `docs/design/APPROVED_OMENWARD_STAGE_END_MERCHANT_2026-08-05.md`
-- `docs/design/APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md`
+Machine envelopes are under `docs/analysis/balance`, `docs/analysis/ui`, and `docs/analysis/visual` where present.
 
 ## 4. Current product invariants
 
 ```text
 PLAYER_ROLE = Omen Warden
 ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-PRESSURE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE = OMEN_SIGNATURE
+VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
+PRESSURE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
 ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
 AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
 THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
@@ -91,54 +87,75 @@ RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
 
 ## 5. Current visual owners
 
-- `docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md`
-- Project Notion `02 · 비주얼 바이블`
-- legacy approved art/UI guides remain style reference.
-
 ```text
-FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
-VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
-## 6. Current implementation/evidence owners
+Owner set:
+- `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
+
+## 6. Current implementation / evidence owners
 
 - `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - fresh repository code/data/scene/test
 - fresh GitHub PR/Issue state
 - fresh runtime evidence only when execution is reopened
 
-Current work-item routing:
-
 ```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
-PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_WINDOWS_RUNTIME = NOT_RUN
+CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
+LEGACY_C1_C2_C3_PROVEN
 ```
 
-## 7. Historical validation / process evidence
+## 7. Historical exact-proof owners
 
-다음은 삭제하지 않고 `[증거]`로 읽는다.
+다음은 current state가 아니라 **정확한 과거 기술 증거**를 보존한다.
 
+- `docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`
+- `docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`
+- `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
+- `docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md`
+
+Current 문서에 exact historical SHA/run을 다시 복제하지 않는다.
+
+## 8. Historical design / process evidence
+
+다음은 삭제하지 않고 `[증거/호환]`으로 읽는다.
+
+- `docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- `docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md`
+- `docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md`
 - `docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
 - `docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
-- `docs/reviews/PHASE_C_C0_PREFLIGHT_2026-08-11.md`
-- old PR175/Issue176 runtime review/evidence documents
-- v4.5 binding/state documents
+- old runtime PR175/Issue176 evidence documents
 
-이 문서의 `PR175 OPEN`, `10/10`, Phase C next gate 문자열은 당시 시점 history이며 current routing이 아니다.
+이 파일은 current Decision index보다 높은 권한을 갖지 않는다.
 
-## 8. Notion authority
-
-Notion은 사람용 전체 그림, Work Plan, Visual, Flow, Story, 비교표를 소유한다. GitHub는 구조화 계약/코드/데이터/Scene/Test/runtime evidence를 소유한다.
-
-Google Sheets는 current human authority가 아니며 migration/history 용도로만 읽는다.
-
-## 9. Historical compatibility markers
+## 9. GitHub work-item routing
 
 ```text
-MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
-PHASE_C_C0_OVERALL = HISTORICAL_PASS
-PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
-PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
+```
+
+## 10. Current process routing
+
+```text
+CURRENT_PROCESS = GPT_FIRST_REPLANNING
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+AFTER_NORTH_STAR = COMPONENT_SHEET
+AFTER_COMPONENT_SHEET = FINAL_PLANNING_ADVERSARIAL_REVIEW
+IMPLEMENTATION_START = NOT_AUTHORIZED
+VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
