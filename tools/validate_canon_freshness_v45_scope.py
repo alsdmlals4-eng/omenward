@@ -161,6 +161,7 @@ CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES = {
     "tests/python/test_c2_battle_objective_contract.py",
     "tests/python/test_c3_core_ux_contract.py",
     "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_content_closure_benchmark_first.py",
     "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v47_canon_validator_scope.py",
     "tests/python/test_project_core_docs.py",
