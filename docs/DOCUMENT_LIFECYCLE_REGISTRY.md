@@ -17,6 +17,7 @@ implementation_authorized: false
 - `[대체됨]`: 후속 owner가 의미를 승계했으며 신규 구현 입력으로 사용 금지.
 - `[보류]`: future reconciliation 전 구현 입력 금지.
 - `[폐기]`: current design에서 채택하지 않음.
+- `[증거]`: historical runtime/data artifact; current implementation input 아님.
 
 ## 2. Current routers
 
@@ -99,13 +100,58 @@ Exact SHA/run은 위 evidence owner에서 보존한다. Current status/GDD/route
 [증거/호환] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md
 ```
 
-특히:
+특히 `[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`는 July 구현/validation lineage를 증명하지만 2026-08-20 v4.7 Decision index를 덮어쓰는 current spec가 아니다.
 
-`[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+## 7. Durable historical product lineage
 
-는 July 구현/validation lineage를 증명하지만 2026-08-20 v4.7 Decision index를 덮어쓰는 current spec가 아니다.
+아래 항목은 후속 정본으로 대체되거나 더 높은 owner에 흡수됐지만, 승인 계보·회귀 테스트·위험 근거를 보존하기 위해 남긴다. **현재 구현 입력으로 재활성화하지 않는다.**
 
-## 7. Legacy master / replaced planning
+### Building branches — historical 3_OF_10
+
+```text
+[증거/호환] OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10 = HISTORICAL_PLANNING_LINEAGE
+LEGACY_UNIVERSAL_BUILDING_BRANCHES = SUPERSEDED_BY_BUILDING_TIER_REALIGNMENT
+SUPERSEDED_BY_BUILDING_TIER_REALIGNMENT
+CURRENT_SUCCESSOR = OMW-DEC-20260806-PLANNING-BUILDING-TIER-REALIGNMENT-V1
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+### Troop roles — historical 4_OF_10
+
+```text
+[증거/호환] OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10 = HISTORICAL_PLANNING_LINEAGE
+[증거] data/units/*.tres
+LEGACY_PROTOTYPE_UNIT_DATA
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+`data/units/*.tres`의 과거 prototype 값은 historical runtime/bootstrap evidence다. current 병종 역할·Tier·수치 authority로 사용하지 않는다.
+
+### Tactical skills / 마력 — historical 5_OF_10
+
+```text
+[증거/호환] OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10 = HISTORICAL_PLANNING_LINEAGE
+LEGACY_MANA_TOWER_BRANCHES = SUPERSEDED
+LEGACY_TERM_MASOK = SUPERSEDED
+CURRENT_TACTICAL_RESOURCE = 마력
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+### Stage-end merchant — historical 6_OF_10
+
+```text
+[증거/호환] OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10 = HISTORICAL_PLANNING_LINEAGE
+LEGACY_ALWAYS_AVAILABLE_SHOP = SUPERSEDED
+LEGACY_INFINITE_MERCHANT_STOCK = SUPERSEDED
+LEGACY_DIRECT_CORE_REWARD_SALES = SUPERSEDED
+IMPLEMENTATION_INPUT_FORBIDDEN
+```
+
+## 8. Legacy master / replaced planning
 
 ```text
 [대체됨] docs/OMENWARD_GAME_DESIGN.md
@@ -113,7 +159,7 @@ Exact SHA/run은 위 evidence owner에서 보존한다. Current status/GDD/route
 
 Legacy master의 과거 C1/C2/C3 및 v0.26 정보는 compatibility/history로만 읽고 current v4.7 기획 의미는 `OMENWARD_GDD_CURRENT_CANON.md`와 current owner를 따른다.
 
-## 8. Historical work-items
+## 9. Historical work-items
 
 ```text
 PR175 = CLOSED_UNMERGED_HISTORICAL
@@ -124,7 +170,7 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 
 Unmerged branch나 old Handoff를 current product truth로 승격하지 않는다.
 
-## 9. Human workspace
+## 10. Human workspace
 
 ```text
 NOTION = CURRENT_HUMAN_FACING_CANON
@@ -134,7 +180,7 @@ GOOGLE_SHEET = COMPATIBILITY_HISTORY_ONLY
 
 Google Sheet는 current human authority가 아니다. Notion/GitHub 의미 변경은 양쪽 destination readback을 요구한다.
 
-## 10. Current transition
+## 11. Current transition
 
 ```text
 TOPDOWN_BATTLEFIELD_LAYOUT
