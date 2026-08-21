@@ -6,9 +6,11 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 C2_VALIDATION_RUN = "29938742864"
+C2_VALIDATION_HEAD = "bf92195ee31b5d69b92c33f3b5321ed525c8b5c9"
 C2_AUDIT_HEAD = "496157d0b87ab71ea2c9f25780f21df9f68b67f3"
 C2_AUDIT_RUN = "29936497790"
 CURRENT_WORKFLOW = ".github/workflows/validate-omenward-core.yml"
+HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
 
 REQUIRED_FILES = (
     CURRENT_WORKFLOW,
@@ -19,6 +21,7 @@ REQUIRED_FILES = (
     "scripts/buildings/building_service.gd",
     "tests/headless/c2_battle_objective_test.gd",
     "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",
+    HISTORICAL_STATUS,
 )
 
 
@@ -90,7 +93,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "tools/validate_c1_roulette.py",
         "tools/validate_c2_battle_objective.py",
         'os: [ubuntu-latest, windows-latest]',
-        'python-version: ["3.12", "3.13"]',
         "Run all headless contract tests",
         "Runtime smoke",
     ):
@@ -103,28 +105,23 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
 
     if current_v2:
         current_requirements = {
-            "README.md": ("V2_SPEC_APPROVED", "LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
+            "README.md": ("LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
             "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
-                "LEGACY_C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
-                f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`",
-                "VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED",
-                "HUMAN_QA_NOT_RUN",
+                "LEGACY_C1_C2_C3_PROVEN",
+                "CURRENT_GODOT_RUNTIME = NOT_RUN",
+                "CURRENT_WINDOWS_RUNTIME = NOT_RUN",
             ),
             "docs/OMENWARD_GAME_DESIGN.md": (
                 "문서 버전: **v0.26",
                 "LATEST_USER_DESIGN_INTEGRATED",
                 "PRODUCT_CODE_NOT_AUTHORIZED",
             ),
-            "docs/OMENWARD_ROADMAP.md": (
-                "기존 기술 기준선·C1·C2·C3 자동 증거 확보",
-                "제품 구현: `NOT_STARTED`",
-            ),
         }
         for relative, phrases in current_requirements.items():
             body = (root / relative).read_text(encoding="utf-8")
             for phrase in phrases:
                 if phrase not in body:
-                    errors.append(f"{relative} missing proven C2 state: {phrase}")
+                    errors.append(f"{relative} missing current C2 evidence boundary: {phrase}")
     else:
         required_doc_states = {
             "README.md": ("C2 전투 목적 루프 REMOTE_PROVEN", "사람 플레이 미완결"),
@@ -176,13 +173,20 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             if not resolved.exists():
                 errors.append(f"broken active Markdown link: {relative} -> {clean}")
 
-    status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
-    if f"C2 최종 검증 run: `{C2_VALIDATION_RUN}`" not in status:
-        errors.append(f"CURRENT_IMPLEMENTATION_STATUS missing C2 proof: {C2_VALIDATION_RUN}")
     audit = (root / "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md").read_text(encoding="utf-8")
     for evidence in ("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", C2_AUDIT_HEAD, C2_AUDIT_RUN, "`Validate Core Contracts`"):
         if evidence not in audit:
-            errors.append(f"C2 audit missing final proof: {evidence}")
+            errors.append(f"C2 audit missing historical proof: {evidence}")
+
+    historical_status = (root / HISTORICAL_STATUS).read_text(encoding="utf-8")
+    for evidence in (
+        "C2_BATTLE_OBJECTIVE_REMOTE_PROVEN",
+        C2_VALIDATION_HEAD,
+        C2_VALIDATION_RUN,
+        "HUMAN_QA_NOT_RUN",
+    ):
+        if evidence not in historical_status:
+            errors.append(f"historical C2 exact proof missing: {evidence}")
 
     if (root / ".github/workflows/validate-c1-roulette.yml").exists():
         errors.append("legacy C1-only workflow remains")
