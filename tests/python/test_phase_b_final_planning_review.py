@@ -23,13 +23,12 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         self.assertIn("ISSUE176_7_GAPS = IMPLEMENTATION_COMPLETENESS", review)
         self.assertIn("FINAL_PRODUCT_NUMERICS = POST_RUNTIME_EVIDENCE_TUNING", review)
 
-    def test_current_stage_consumers_use_elite_boss_cadence_not_legacy_danger(self) -> None:
-        current_paths = [
-            "README.md",
+    def test_current_stage_authorities_use_elite_boss_cadence_not_legacy_danger(self) -> None:
+        current_authorities = [
             "docs/PROJECT_CORE.md",
             "docs/OMENWARD_GDD_CURRENT_CANON.md",
         ]
-        for path in current_paths:
+        for path in current_authorities:
             text = read(path)
             with self.subTest(path=path):
                 self.assertIn("DANGER_STAGE_TYPE = REMOVED", text)
@@ -38,17 +37,22 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
                 self.assertNotIn("Danger = 4 / 9 / 14 / 19", text)
                 self.assertNotIn("FIRST_DANGER_INTEGRATION", text)
 
-    def test_lifecycle_and_documentation_map_route_latest_product_owners(self) -> None:
+        readme = read("README.md")
+        self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", readme)
+        self.assertIn("current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md", readme)
+
+    def test_lifecycle_and_documentation_map_separate_current_owners_from_phase_b_history(self) -> None:
         lifecycle = read("docs/DOCUMENT_LIFECYCLE_REGISTRY.md")
         docmap = read("docs/DOCUMENTATION_MAP.md")
         for text in (lifecycle, docmap):
-            self.assertIn("APPROVED_OMENWARD_WHOLE_PROJECT_CONTENT_CLOSURE_2026-08-11.md", text)
-            self.assertIn("APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md", text)
-            self.assertIn("APPROVED_OMENWARD_ELITE_WAVE_AND_BOSS_CADENCE_2026-08-11.md", text)
+            self.assertIn("APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md", text)
+            self.assertIn("APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md", text)
             self.assertIn("PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md", text)
+        self.assertIn("[증거/호환] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md", lifecycle)
+        self.assertIn("PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS", lifecycle)
         self.assertIn("LEGACY_DANGER_CADENCE_AUTHORITY = NONE", lifecycle)
 
-    def test_current_phase_consumers_record_received_gate_and_phase_b_pass(self) -> None:
+    def test_current_phase_consumers_route_v47_instead_of_reactivating_phase_b_gate(self) -> None:
         current_paths = [
             "AGENTS.md",
             "docs/ACTIVE_CONTEXT.md",
@@ -57,16 +61,20 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
             "docs/DOCUMENTATION_MAP.md",
             "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
             "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
-            "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md",
         ]
         for path in current_paths:
             text = read(path)
             with self.subTest(path=path):
-                self.assertIn("USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED", text)
-                self.assertIn("PHASE_B_FINAL_PLANNING_REVIEW = PASS", text)
-                self.assertIn("PHASE_C_GATE = OPEN", text)
+                self.assertIn("PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7", text)
+                self.assertNotIn("PHASE_C_GATE = OPEN", text)
 
-    def test_machine_state_opens_phase_c_only_after_phase_b_pass(self) -> None:
+        active = read("docs/ACTIVE_CONTEXT.md")
+        pending = read("docs/DECISIONS_PENDING.md")
+        self.assertIn("CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", active)
+        self.assertIn("CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK", pending)
+        self.assertIn("CURRENT_IMPLEMENTATION_AUTHORITY = NONE", pending)
+
+    def test_machine_state_preserves_historical_phase_b_transition(self) -> None:
         state = json.loads(read("docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"))
         phase = state["planning_phase"]
         self.assertIs(phase["completion_declared"], True)
@@ -77,16 +85,21 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         self.assertNotIn("PHASE_B_FINAL_PLANNING_REVIEW_NOT_RUN", state["blocking_reasons"])
         self.assertIn("ISSUE176_7_RUNTIME_GAPS_OPEN", state["blocking_reasons"])
 
-    def test_phase_b_does_not_fake_runtime_or_numeric_completion(self) -> None:
+    def test_phase_b_history_and_current_runtime_boundary_do_not_cross(self) -> None:
+        review = read("docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md")
+        self.assertIn("PR175 = OPEN_DRAFT", review)
+        self.assertIn("ISSUE176_APPROVED_RUNTIME_GAPS = 7", review)
+        self.assertIn("USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4", review)
+        self.assertIn("GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY", review)
+
         status = read("docs/CURRENT_IMPLEMENTATION_STATUS.md")
         pending = read("docs/DECISIONS_PENDING.md")
         for text in (status, pending):
-            self.assertIn("PR175 = OPEN_DRAFT", text)
-            self.assertIn("ISSUE176_APPROVED_RUNTIME_GAPS = 7", text)
             self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", text)
             self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", text)
-            self.assertIn("USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4", text)
-            self.assertIn("GODOT_AI_3_1_4", text)
+        self.assertIn("PR175 = CLOSED_UNMERGED_HISTORICAL", status)
+        self.assertIn("CURRENT_GODOT_RUNTIME = NOT_RUN", status)
+        self.assertIn("CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN", status)
 
 
 if __name__ == "__main__":
