@@ -28,11 +28,24 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertIn(old, body, f"mutation source missing: {relative} -> {old}")
         path.write_text(body.replace(old, new, 1), encoding="utf-8")
 
+    def _mutate_all(self, root: pathlib.Path, relative: str, old: str, new: str) -> None:
+        path = root / relative
+        body = path.read_text(encoding="utf-8")
+        self.assertIn(old, body, f"mutation source missing: {relative} -> {old}")
+        path.write_text(body.replace(old, new), encoding="utf-8")
+
     def _errors_after(self, relative: str, old: str, new: str) -> list[str]:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             self._mutate(root, relative, old, new)
+            return validate(root)
+
+    def _errors_after_all(self, relative: str, old: str, new: str) -> list[str]:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            self._mutate_all(root, relative, old, new)
             return validate(root)
 
     def test_current_tree_passes(self) -> None:
@@ -131,11 +144,11 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertTrue(errors)
 
     def test_current_readme_historical_boundary_loss_is_rejected(self) -> None:
-        errors = self._errors_after("README.md", "LEGACY_C1_C2_C3_PROVEN", "LEGACY_PROOF_REMOVED")
+        errors = self._errors_after_all("README.md", "LEGACY_C1_C2_C3_PROVEN", "LEGACY_PROOF_REMOVED")
         self.assertTrue(any("README.md" in error and "LEGACY_C1_C2_C3_PROVEN" in error for error in errors))
 
     def test_current_status_boundary_loss_is_rejected(self) -> None:
-        errors = self._errors_after("docs/CURRENT_IMPLEMENTATION_STATUS.md", "LEGACY_C1_C2_C3_PROVEN", "LEGACY_C3_PROOF_REMOVED")
+        errors = self._errors_after_all("docs/CURRENT_IMPLEMENTATION_STATUS.md", "LEGACY_C1_C2_C3_PROVEN", "LEGACY_C3_PROOF_REMOVED")
         self.assertTrue(any("CURRENT_IMPLEMENTATION_STATUS.md" in error for error in errors))
 
     def test_current_status_runtime_ceiling_loss_is_rejected(self) -> None:
@@ -151,7 +164,7 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertTrue(any("PRODUCT_CODE_NOT_AUTHORIZED" in error for error in errors))
 
     def test_historical_c3_exact_run_cannot_regress(self) -> None:
-        errors = self._errors_after("docs/C3_CORE_UX_AUDIT_2026-07-23.md", PROOF_RUN, "29900000000")
+        errors = self._errors_after_all("docs/C3_CORE_UX_AUDIT_2026-07-23.md", PROOF_RUN, "29900000000")
         self.assertTrue(any("C3 audit" in error for error in errors))
 
 
