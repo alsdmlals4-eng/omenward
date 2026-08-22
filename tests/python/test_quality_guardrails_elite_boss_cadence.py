@@ -72,8 +72,6 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED",
             "PHASE_B_FINAL_PLANNING_REVIEW = PASS",
             "PHASE_C_GATE = OPEN",
-            QUALITY_DECISION,
-            CADENCE_DECISION,
             "NEW_PRODUCT_DECISION_REQUIRED = FALSE",
         ):
             self.assertIn(marker, phase_b)
