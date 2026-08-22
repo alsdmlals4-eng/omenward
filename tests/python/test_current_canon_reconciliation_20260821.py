@@ -82,7 +82,9 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertNotIn('status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text', c2)
         self.assertNotIn('CURRENT_IMPLEMENTATION_STATUS missing C2 proof', c2)
         self.assertNotIn('"LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN"', c3)
-        self.assertNotIn("C1 구현 검증 head:", sheet)
+        self.assertIn("test_c1_exact_proof_lives_in_historical_evidence_owner", sheet)
+        self.assertIn("docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md", sheet)
+        self.assertIn('self.assertNotIn(f"C1 구현 검증 head: `{C1_HEAD}`", status)', sheet)
         self.assertIn("CURRENT_CONFIRMED_DECISIONS.md", project_core)
         self.assertNotIn('CURRENT_SPEC = "docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md"', project_core)
 
