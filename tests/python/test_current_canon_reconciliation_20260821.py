@@ -20,6 +20,7 @@ CURRENT_DOCS = (
 
 TOPDOWN_LAYOUT = "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01"
 TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
+C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
 
 
 def read(relative: str) -> str:
@@ -76,8 +77,10 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
 
         self.assertIn('"docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md"', c1)
         self.assertNotIn('"docs/CURRENT_IMPLEMENTATION_STATUS.md": (\n            "C1_ROULETTE_CORE_REMOTE_PROVEN"', c1)
+        self.assertIn(f'HISTORICAL_STATUS = "{C2_HISTORICAL_STATUS}"', c2)
+        self.assertIn("historical C2 exact proof missing", c2)
+        self.assertNotIn('status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text', c2)
         self.assertNotIn('CURRENT_IMPLEMENTATION_STATUS missing C2 proof', c2)
-        self.assertNotIn('"C2 최종 검증 run:', c2)
         self.assertNotIn('"LEGACY_C3_AUTOMATED_CONTRACTS_PROVEN"', c3)
         self.assertNotIn("C1 구현 검증 head:", sheet)
         self.assertIn("CURRENT_CONFIRMED_DECISIONS.md", project_core)
