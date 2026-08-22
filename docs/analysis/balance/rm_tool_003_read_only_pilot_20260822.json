@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "pilot_id": "OMW-RM-TOOL-003-20260822",
+  "project_id": "OMENWARD",
+  "source_commit": "9a85021989bb7b8d2cf3b92d060d519f691e877f",
+  "source_contract": "docs/analysis/balance/current_normalized_balance_budget.v1.json",
+  "source_decision_id": "OMW-PLAN-20260820-BALANCE-BUDGET-01",
+  "analysis_kind": "READ_ONLY_PLANNING_ENVELOPE_PILOT",
+  "sample_count_per_variant": 10000,
+  "seed_policy": "Python random.Random(seed), seed=1..10000; draw W1, W2, final in that order",
+  "raw_independent_draws": {
+    "wave_1": {"mean": 0.2492985260501603, "median": 0.24938832930431756, "min": 0.20001712921805223, "max": 0.29999670232380526, "p05": 0.20453527005838323, "p95": 0.294536932920093},
+    "wave_2": {"mean": 0.2996872009115132, "median": 0.2992513181588759, "min": 0.25000210676581053, "max": 0.34999987263048826, "p05": 0.2551000484130562, "p95": 0.3448188002791657},
+    "final_wave": {"mean": 0.4496011568142182, "median": 0.44929755408016536, "min": 0.4000193190476833, "max": 0.49996051977423384, "p05": 0.40507901515914096, "p95": 0.49467361792598846},
+    "sum": {"mean": 0.9985868837758917, "median": 0.9982751746716068, "min": 0.8545598315758303, "max": 1.1415863425041557, "p05": 0.9146685888825369, "p95": 1.0820134772422771},
+    "absolute_sum_error": {"mean": 0.04074501473692257, "median": 0.03549706142980846, "max": 0.14544016842416974, "p95": 0.09663589781221146}
+  },
+  "normalized_budget": {
+    "wave_1": {"mean": 0.24943145888402254, "median": 0.2494624073895838, "min": 0.19425723569082437, "max": 0.31325715575173135, "p05": 0.21095983033894966, "p95": 0.2876848417936846},
+    "wave_2": {"mean": 0.30003220905808964, "median": 0.3000620056471891, "min": 0.24001307776158856, "max": 0.3658245892392073, "p05": 0.2619787982009814, "p95": 0.33885844737230536},
+    "final_wave": {"mean": 0.45053633205788784, "median": 0.4505055231830309, "min": 0.38466882325859963, "max": 0.5214584398675979, "p05": 0.41138229648718166, "p95": 0.4915318477386768},
+    "sum": {"mean": 1.0, "median": 1.0, "min": 1.0, "max": 1.0, "p05": 1.0, "p95": 1.0}
+  },
+  "findings": {
+    "post_normalization_outside_original_search_envelope_rate": {
+      "wave_1": 0.0124,
+      "wave_2": 0.0193,
+      "final_wave": 0.0344
+    },
+    "final_wave_not_largest_rate": 0.0,
+    "interpretation": "The current contract says to normalize selected shares to one. The three raw search envelopes therefore cannot simultaneously be treated as guaranteed post-normalization bounds without an additional rule."
+  },
+  "disposition": "KEEP_PLANNING_ENVELOPE_AND_CLARIFY_POST_NORMALIZATION_SEMANTICS_BEFORE_FINAL_NUMERICS",
+  "evidence_ceiling": [
+    "PLANNING_ENVELOPE_ONLY",
+    "RUNTIME_NOT_RUN",
+    "HUMAN_VALIDATION_NOT_RUN",
+    "FINAL_PRODUCT_NUMERICS_NOT_APPROVED",
+    "ECONOMY_DRIFT_RECONCILIATION_STILL_REQUIRED"
+  ],
+  "mutates_project_data": false
+}
