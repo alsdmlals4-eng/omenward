@@ -50,7 +50,7 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_benchmark_first_process_is_mandatory(self) -> None:
+    def test_benchmark_first_process_is_mandatory_historical_policy_evidence(self) -> None:
         text = PROCESS.read_text(encoding="utf-8")
         for marker in (
             PROCESS_DECISION,
@@ -63,30 +63,43 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_current_routers_keep_closure_and_advance_to_phase_b_pass(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING, PHASE_B))
+    def test_phase_b_closure_is_history_and_v47_is_current(self) -> None:
+        phase_b = PHASE_B.read_text(encoding="utf-8")
         for marker in (
             "WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0",
             "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED",
             "PHASE_B_FINAL_PLANNING_REVIEW = PASS",
             "PHASE_C_GATE = OPEN",
-            "BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE",
-            PRODUCT_DECISION,
-            PROCESS_DECISION,
+            "NEW_PRODUCT_DECISION_REQUIRED = FALSE",
         ):
-            self.assertIn(marker, combined)
-        self.assertIn("NEW_PRODUCT_DECISION_REQUIRED = FALSE", PHASE_B.read_text(encoding="utf-8"))
+            self.assertIn(marker, phase_b)
 
-    def test_current_responsibility_sources_preserve_existing_active_owners(self) -> None:
-        text = PENDING.read_text(encoding="utf-8")
-        for source in (
+        # The exact Decision IDs are owned by their dedicated product/process
+        # documents; the Phase-B review only needs to preserve the observed
+        # closure result, not duplicate every owner ID.
+        self.assertIn(PRODUCT_DECISION, PRODUCT.read_text(encoding="utf-8"))
+        self.assertIn(PROCESS_DECISION, PROCESS.read_text(encoding="utf-8"))
+
+        for path in (AGENTS, ACTIVE, PENDING):
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7", text)
+            self.assertIn("REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", text)
+            self.assertIn("USER_REQUEST_ONLY", text)
+            self.assertNotIn("PHASE_C_GATE = OPEN", text)
+
+    def test_retained_responsibility_sources_still_exist_without_being_current_gate(self) -> None:
+        sources = (
             "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
             "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md",
             "docs/design/APPROVED_OMENWARD_BARRACKS_10000_SEED_ROBUSTNESS_EXECUTION_RESULTS_2026-08-09.md",
             "docs/design/APPROVED_OMENWARD_BARRACKS_FUNCTIONAL_VALUE_COMBAT_NUMERICS_DEFINITION_REVIEW_2026-08-09.md",
             "docs/design/APPROVED_OMENWARD_UNIT_BUILDING_TIER_MATRIX_AND_ARCHER_T3_CORRECTION_2026-08-06.md",
-        ):
-            self.assertIn(source, text, f"current responsibility source was dropped: {source}")
+        )
+        for source in sources:
+            self.assertTrue((ROOT / source).is_file(), f"retained responsibility source was lost: {source}")
+        pending = PENDING.read_text(encoding="utf-8")
+        self.assertIn("ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION", pending)
+        self.assertIn("CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", pending)
 
     def test_final_numerics_remain_downstream(self) -> None:
         pending = PENDING.read_text(encoding="utf-8")

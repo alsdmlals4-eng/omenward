@@ -1,7 +1,7 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-20
+updated_at: 2026-08-21
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
@@ -10,55 +10,45 @@ current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 implementation_authorized: false
-visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
+visual_generation: USER_REQUEST_ONLY
 current_chat_runtime: NOT_RUN
 ```
 
-공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 current routing과 보호 경계만 소유한다.
+공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 **영구 routing과 보호 경계**만 소유하며, PR 번호·HEAD·Decision 개수처럼 자주 변하는 live 상태를 복제하지 않는다.
 
 ## 1. 매 작업 시작 read order
 
 1. fresh Base `START_HERE.md` / `AGENTS.md` / relevant Skill / main.
-2. fresh OMENWARD `main`, open/draft PR, target files.
+2. fresh OMENWARD `main`, open/draft PR, Issue, target files.
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. `docs/ACTIVE_CONTEXT.md`.
-5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + relevant detailed owner.
+5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md` + relevant owner.
 6. Project Notion Home + relevant human-facing page.
-7. runtime/code/data/scene/test는 실제 구현/검증 scope가 열렸을 때만 current evidence로 판정한다.
+7. 실제 code/data/scene/test/runtime evidence는 해당 scope가 열렸을 때만 current evidence로 판정한다.
 
-과거 채팅·Handoff·오래된 SHA·closed-unmerged PR을 current product truth로 사용하지 않는다.
+과거 채팅·Handoff·오래된 SHA·closed-unmerged PR을 current product truth로 사용하지 않는다. GitHub work-item 상태는 매번 fresh 조회한다.
 
-## 2. Current planning truth
+## 2. Current planning route
 
-2026-08-20 사용자가 프로젝트 기획을 다시 열었다. 현재 승인된 재기획 Decision 6개는 `docs/CURRENT_CONFIRMED_DECISIONS.md`가 복원 인덱스를 소유한다.
-
-```text
-OMW-PLAN-20260820-WORLD-ROLE-01
-OMW-PLAN-20260820-MAPRUN-WORLD-01
-OMW-PLAN-20260820-PRESSURE-LANGUAGE-01
-OMW-PLAN-20260820-MOBILIZATION-REGISTRY-01
-OMW-PLAN-20260820-FIRST5-FTUE-01
-OMW-PLAN-20260820-RUN-COMMAND-SHELL-01
-```
-
-현재 이미지 workstream은 사용자가 보유한 시안/레퍼런스 파일을 받을 때까지 보류한다. 이미지 보류는 다른 기획 작업을 막지 않는다.
-
-현재 비이미지 기획 순서:
+현재 승인 상태의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`다.
 
 ```text
-ADVERSARIAL_REVIEW_AND_CANON_RECONCILIATION
-→ WORLD_CONFLICT_AND_CORE_STORY
-→ 20_STAGE_CONTENT_AND_BOSS_STRUCTURE
-→ BALANCE_BUDGET
-→ TEXT_UX_AND_STATE_TRANSITION_SPEC
+CURRENT_APPROVED_REPLAN_DECISIONS = 18
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+VISUAL_GENERATION = USER_REQUEST_ONLY
+IMPLEMENTATION_START = NOT_AUTHORIZED
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ```
+
+현재 non-image 기획의 world/content/balance envelope/Text UX/Visual Component/Top-down Layout/Silhouette 계약은 이미 승인 owner가 존재한다. 같은 질문을 다시 열지 않는다.
 
 ## 3. Protected product identity
 
 ```text
 ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
 GAMBLING_FANTASY_POSITIONING = FORBIDDEN
-PAID_SPIN = FORBIDDEN
+SCRIPTED_FAKE_NEAR_MISS = FORBIDDEN
 RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
 FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
 AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
@@ -69,6 +59,7 @@ IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
 BOSS_STAGES = 5 / 10 / 15 / 20
 ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
 PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
+RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
 ```
 
 Player-facing core:
@@ -76,61 +67,44 @@ Player-facing core:
 ```text
 징조 관측
 → 건설 / 동원 인장 / 미래 병력 분포 설계
-→ 세 징조륜에서 병력 획득
+→ 3×3 징조륜 결과 / 제한된 행·열 조작
+→ 병력 획득
 → 세 전선 중 하나에 비가역 커밋
 → 자동전투 + 제한된 수동 전술
 → 인과 복기
 ```
 
-## 4. World / MapRun current truth
+## 4. Current world / visual truth
 
 ```text
 PLAYER_ROLE = Omen Warden / 징조수호관
-WORLD_HAS_MULTIPLE_WARD_CITADELS = TRUE
 ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
 PRESSURE_LANGUAGE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-PRESSURE_IS_ENEMY_RACE_OR_FACTION = FALSE
-MULTI_SIGNATURE_ENEMY_OR_WAVE = ALLOWED
+VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
+RUN_HISTORY_RESET = FALSE
+CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
+BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
+DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
+ROULETTE_EXPOSURE = 3×3
+LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 ```
 
-세계 갈등의 원인, 적 세력의 상위 정체, Stage 20의 서사적 결산은 아직 새 재기획에서 확정되지 않았으며 다음 주요 Decision 대상이다.
+Visual owner를 읽을 때 최소 다음을 함께 확인한다.
+- visual style/component
+- battlefield scale/readability
+- 3×3 roulette component
+- token component
+- lower control deck
+- roulette DDD
+- top-down battlefield layout
+- top-down unit silhouette
 
-## 5. First-session / UI current truth
+이미지 생성은 사용자가 명시적으로 요청한 경우에만 수행한다.
 
-```text
-FIRST_SESSION = REAL_MAPRUN
-STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
-SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
-FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
-STAGE_1 = CAUSAL_UNDERSTANDING
-STAGE_2 = FUTURE_DISTRIBUTION_MODIFICATION
-STAGE_3 = TACTICAL_INTERVENTION
-STAGE_4 = APPLICATION_WITH_NO_NEW_CORE_SYSTEM
-STAGE_5 = FIRST_BOSS_AND_BUILD_REVIEW
-RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
-```
+## 5. Runtime / evidence ceiling
 
-Stage 1의 6개 필수 T1은 현재 유지하되 `생존 기반 / 군사 기반 / 지휘 기반` 세 묶음으로 순차 노출한다. 사람 플레이에서 과부하가 실제 관측되면 축소안을 재검토한다.
-
-## 6. Current GitHub work-item boundary
-
-Fresh current truth를 매번 다시 읽는다. 2026-08-20 기준 routing:
-
-```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
-PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
-```
-
-- PR175/177의 unmerged 변경을 current main product truth로 사용하지 않는다.
-- Issue176을 미래 구현 packet으로 쓰기 전 current main + current planning Decisions와 재대조한다.
-- PR197은 현재 채팅에서 수정·retarget·merge 금지.
-- 사용자가 진행 중 PR을 별도 workstream으로 선언한 경우 현재 작업에서 건드리지 않는다.
-
-## 7. Runtime / evidence ceiling
-
-2026-08-20 재기획 채팅은 current Godot runtime을 실행하지 않았다.
+현재 v4.7 재기획 의미에 대한 runtime/사람 검증은 실행하지 않았다.
 
 ```text
 CURRENT_GODOT_RUNTIME = NOT_RUN
@@ -140,30 +114,61 @@ CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+LEGACY_C1_C2_C3_PROVEN
 ```
 
-2026-08-11~12 signal11 / HiGodot / GUT / Hera 기록은 historical evidence다. 현재 crash가 재현된다고 주장하지 않는다.
+`LEGACY_C1_C2_C3_PROVEN`은 과거 exact evidence의 존재만 뜻한다. 정확한 head/run은 historical audit/archive owner에서 검증하고 Current 문서에 복제하지 않는다.
 
-실제 구현/런타임 작업이 다시 열리면 fresh current-main 실행과 current tool/session identity로 새 truth를 만든다.
+## 6. GitHub work-item boundary
 
-## 8. Notion / GitHub authority
+```text
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
+```
 
-- Notion: 사람용 전체 그림, Flow, 비교표, Visual/Story/Work Plan.
-- GitHub: Markdown/JSON/code/data/scene/resource/test/runtime evidence와 구조화 계약.
-- 의미 변경 Decision은 두 surface가 같은 Decision ID와 의미를 갖도록 동기화한다.
-- Google Sheets는 current human authority가 아니며 migration/history 용도로만 취급한다.
+- open/draft PR은 Base 규칙대로 기본 read-only.
+- closed-unmerged branch 내용을 current product truth로 사용하지 않는다.
+- Issue176/과거 runtime package는 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
+
+## 7. Notion / repository authority
+
+- Notion: 사람이 보는 전체 그림, Flow, 비교표, Visual/Story/Work Plan.
+- Repository: Markdown/JSON/code/data/scene/resource/test/runtime evidence와 구조화 계약.
+- 의미 변경 Decision은 양쪽에 같은 의미로 동기화하고 destination readback한다.
+- Google Sheet는 migration/history compatibility input이며 current human authority가 아니다.
+
+## 8. Platform / release / asset-rights durable routing
+
+플랫폼·출시·자산 권리는 current visual/planning next gate와 별개의 durable product boundary다. 제출·등급·권리 PASS를 추정하지 않는다.
+
+- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
+- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
+- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
+- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
+
+```text
+PC / Steam = COMMITTED_PRIMARY
+Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR
+STOVE = SECONDARY_RELEASE_CANDIDATE
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+PLATFORM_SUBMISSION_NOT_RUN
+LEGAL_REVIEW_NOT_PERFORMED
+RELEASE_BLOCKED_UNVERIFIED
+```
+
+아트·오디오·폰트·외부 라이브러리·AI 산출물·외주물은 provenance/상업 이용/배포/원본 재배포/참조 독립성 기록을 확인한 뒤 제품 자산으로 승격한다.
 
 ## 9. Historical compatibility markers
-
-아래는 과거 validator/문서 lineage를 위한 `ALLOWED_LEGACY` 문자열이다. current routing으로 해석하지 않는다.
 
 ```text
 MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
 PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
 PHASE_C_C0_OVERALL = HISTORICAL_PASS
-PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
-PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
-PR177 = REFERENCE_ONLY_DO_NOT_MERGE = HISTORICAL_LABEL_ONLY
+LEGACY_C1_C2_C3_PROVEN
 ```
 
-retained repository change 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`를 수행하고, 최소 5회의 full-scope adversarial review가 요구되는 범위에서는 `CLEAN_REVIEW_EXIT` 조건을 만족하기 전 완료 선언하지 않는다.
+retained repository change 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`와 최소 5회 full-scope adversarial review를 수행한다. `NOT_RUN`을 PASS로 승격하지 않는다.

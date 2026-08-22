@@ -139,13 +139,29 @@ class PcAndroidCoreAdapterArchitectureContractTests(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_central_operational_docs_preserve_product_boundary(self) -> None:
-        for path in (AGENTS, STATUS):
-            text = read(path)
-            self.assertIn(DECISION_ID, text, str(path.relative_to(ROOT)))
-            self.assertIn("APPROVED_DESIGN_NOT_IMPLEMENTED", text, str(path.relative_to(ROOT)))
-            self.assertIn("PRODUCT_CODE_AUTHORITY = NONE", text, str(path.relative_to(ROOT)))
-            self.assertIn("PC_ANDROID_ADAPTER_IMPLEMENTATION = NOT_STARTED", text, str(path.relative_to(ROOT)))
+    def test_central_operational_docs_preserve_current_platform_boundary(self) -> None:
+        agents = read(AGENTS)
+        for marker in (
+            "docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md",
+            "PC / Steam = COMMITTED_PRIMARY",
+            "Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR",
+            "COMMON_PLATFORM_GATE = NOT_RUN",
+            "PC_RELEASE_GATE = NOT_RUN",
+            "MOBILE_RELEASE_GATE = NOT_RUN",
+        ):
+            self.assertIn(marker, agents, "AGENTS.md")
+
+        status = read(STATUS)
+        for marker in (
+            "PC / Steam = PRIMARY_PLANNING_AND_VALIDATION_TARGET",
+            "Android / Google Play = COMMITTED_RELEASE_TARGET_EXECUTION_DEFERRED_RELEASE_NEAR",
+            "SHARED_SAVE_SCHEMA = NOT_STARTED",
+            "EXPORT_PRESETS = ABSENT",
+            "RELEASE_READINESS = NOT_PROVEN",
+        ):
+            self.assertIn(marker, status, "docs/CURRENT_IMPLEMENTATION_STATUS.md")
+        self.assertNotIn(DECISION_ID, agents)
+        self.assertNotIn(DECISION_ID, status)
 
 
 if __name__ == "__main__":

@@ -11,92 +11,54 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 CURRENT_SPEC = MODULE["CURRENT_SPEC"]
-CURRENT_REVIEW = MODULE["CURRENT_REVIEW"]
 EVIDENCE_PILOT = MODULE["EVIDENCE_PILOT"]
 LEDGER = MODULE["LEDGER"]
 LEGENDARY_DEPLOYMENT_POLICY = MODULE["LEGENDARY_DEPLOYMENT_POLICY"]
 ROULETTE_RULES = MODULE["ROULETTE_RULES"]
+HISTORICAL_VERTICAL_SLICE = MODULE["HISTORICAL_VERTICAL_SLICE"]
 
 
-class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
+class CurrentProjectCoreDocumentationTests(unittest.TestCase):
     def test_current_repository_passes(self) -> None:
         self.assertEqual([], validate(ROOT))
 
-    def test_current_spec_route_loss_is_rejected(self) -> None:
+    def test_current_decision_route_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/PROJECT_CORE.md"
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    pathlib.PurePosixPath(CURRENT_SPEC).name,
-                    "CURRENT_SPEC_REMOVED.md",
-                ),
-                encoding="utf-8",
-            )
-            self.assertTrue(any("current Vertical Slice" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace(pathlib.PurePosixPath(CURRENT_SPEC).name, "CURRENT_SPEC_REMOVED.md"), encoding="utf-8")
+            self.assertTrue(any("Project Core" in error or "current decision" in error for error in validate(root)))
 
-    def test_latest_implementation_boundary_loss_is_rejected(self) -> None:
+    def test_current_runtime_ceiling_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    "VERTICAL_SLICE_IMPLEMENTATION_NOT_STARTED",
-                    "VERTICAL_SLICE_IMPLEMENTATION_UNKNOWN",
-                ),
-                encoding="utf-8",
-            )
-            self.assertTrue(any("implementation" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
+            self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
-    def test_legacy_and_latest_status_must_remain_separate(self) -> None:
+    def test_legacy_and_current_status_must_remain_separate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    "LEGACY_C1_ROULETTE_CORE_REMOTE_PROVEN",
-                    "LEGACY_C1_EVIDENCE_REMOVED",
-                ),
-                encoding="utf-8",
-            )
-            self.assertTrue(any("Legacy C1" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace("LEGACY_C1_C2_C3_PROVEN", "LEGACY_PROOF_REMOVED"), encoding="utf-8")
+            self.assertTrue(any("LEGACY_C1_C2_C3_PROVEN" in error for error in validate(root)))
 
-    def test_evidence_pilot_is_required(self) -> None:
+    def test_evidence_pilot_is_required_as_history(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             (root / EVIDENCE_PILOT).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
-    def test_pilot_non_canon_boundary_loss_is_rejected(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = pathlib.Path(directory)
-            self.copy(root)
-            path = root / "docs/DOCUMENTATION_MAP.md"
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    "PILOT_RECOMMENDATION / NOT_CANON",
-                    "PILOT_CANONIZED_WITHOUT_APPROVAL",
-                ),
-                encoding="utf-8",
-            )
-            self.assertTrue(any("non-canon" in error for error in validate(root)))
-
     def test_pilot_implementation_boundary_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / EVIDENCE_PILOT
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    "implementation_authority: NONE",
-                    "implementation_authority: GRANTED",
-                ),
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8").replace("implementation_authority: NONE", "implementation_authority: GRANTED"), encoding="utf-8")
             self.assertTrue(any("Evidence Pilot" in error for error in validate(root)))
 
     def test_v2_decision_lineage_is_preserved(self) -> None:
@@ -104,13 +66,7 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / LEDGER
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    "AUTHORED_PRIORITY_LIST",
-                    "PRIORITY_LINEAGE_REMOVED",
-                ),
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8").replace("AUTHORED_PRIORITY_LIST", "PRIORITY_LINEAGE_REMOVED"), encoding="utf-8")
             self.assertTrue(any("V2 decision lineage" in error for error in validate(root)))
 
     def test_legendary_policy_contract_loss_is_rejected(self) -> None:
@@ -118,13 +74,7 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / LEGENDARY_DEPLOYMENT_POLICY
-            path.write_text(
-                path.read_text(encoding="utf-8").replace(
-                    "COMMIT_TIME_REVALIDATION: REQUIRED",
-                    "COMMIT_REVALIDATION_REMOVED",
-                ),
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8").replace("COMMIT_TIME_REVALIDATION: REQUIRED", "COMMIT_REVALIDATION_REMOVED"), encoding="utf-8")
             self.assertTrue(any("legendary deployment" in error for error in validate(root)))
 
     def test_horizontal_cursor_contract_loss_is_rejected(self) -> None:
@@ -132,22 +82,15 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / ROULETTE_RULES
-            path.write_text(
-                path.read_text(encoding="utf-8").replace("노출 인덱스", "삭제된 인덱스"),
-                encoding="utf-8",
-            )
-            self.assertTrue(any("horizontal movement" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace("노출 인덱스", "삭제된 인덱스"), encoding="utf-8")
+            self.assertTrue(any("horizontal movement" in error or "exposure index" in error for error in validate(root)))
 
     def test_active_context_self_reference_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            path.write_text(
-                path.read_text(encoding="utf-8")
-                + "\ncurrent_branch_and_commit: forbidden-self-reference\n",
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8") + "\ncurrent_branch_and_commit: forbidden-self-reference\n", encoding="utf-8")
             self.assertTrue(any("self-referential" in error for error in validate(root)))
 
     def test_active_context_fixed_current_main_sha_is_rejected(self) -> None:
@@ -155,52 +98,36 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            text = re.sub(
-                r"(?m)^current_main:.*$",
+            body = path.read_text(encoding="utf-8").replace(
+                "current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
                 f"current_main: {'a' * 40}",
-                path.read_text(encoding="utf-8"),
+                1,
             )
-            path.write_text(text, encoding="utf-8")
-            self.assertTrue(
-                any("current_main must resolve dynamically" in error for error in validate(root))
-            )
-
-    def test_active_context_fixed_baseline_sha_is_rejected(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = pathlib.Path(directory)
-            self.copy(root)
-            path = root / "docs/ACTIVE_CONTEXT.md"
-            text = re.sub(
-                r"(?m)^context_baseline_commit:.*$",
-                f"context_baseline_commit: {'b' * 40}",
-                path.read_text(encoding="utf-8"),
-            )
-            path.write_text(text, encoding="utf-8")
-            self.assertTrue(
-                any(
-                    "context_baseline_commit must resolve dynamically" in error
-                    for error in validate(root)
-                )
-            )
+            path.write_text(body, encoding="utf-8")
+            self.assertTrue(any("current_main must resolve dynamically" in error for error in validate(root)))
 
     def test_document_lifecycle_registry_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
-            if path.exists():
-                path.unlink()
-            self.assertTrue(any("lifecycle registry" in error for error in validate(root)))
+            path.unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_historical_vertical_slice_cannot_be_promoted_to_current(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            lifecycle = root / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
+            lifecycle.write_text(lifecycle.read_text(encoding="utf-8").replace(f"[증거/호환] {HISTORICAL_VERTICAL_SLICE}", f"[현행] {HISTORICAL_VERTICAL_SLICE}"), encoding="utf-8")
+            self.assertTrue(any("lifecycle registry" in error or "historical Vertical Slice" in error for error in validate(root)))
 
     def test_legacy_master_gdd_requires_superseded_marker(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/OMENWARD_GAME_DESIGN.md"
-            path.write_text(
-                path.read_text(encoding="utf-8").replace("[대체됨]", ""),
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8").replace("[대체됨]", ""), encoding="utf-8")
             self.assertTrue(any("legacy GDD" in error for error in validate(root)))
 
     def test_project_core_rejects_legacy_food_contract(self) -> None:
@@ -208,10 +135,7 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/PROJECT_CORE.md"
-            path.write_text(
-                path.read_text(encoding="utf-8") + "\nstorage_selling_food\n",
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8") + "\nstorage_selling_food\n", encoding="utf-8")
             self.assertTrue(any("legacy core marker" in error for error in validate(root)))
 
     def test_project_core_rejects_legacy_masok_term(self) -> None:
@@ -219,10 +143,7 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/PROJECT_CORE.md"
-            path.write_text(
-                path.read_text(encoding="utf-8") + "\n구형 전술 자원: 마석\n",
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8") + "\n구형 전술 자원: 마석\n", encoding="utf-8")
             self.assertTrue(any("legacy core marker" in error for error in validate(root)))
 
     def test_exact_premature_completion_claim_is_rejected(self) -> None:
@@ -230,10 +151,7 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "README.md"
-            path.write_text(
-                path.read_text(encoding="utf-8") + "\nVERTICAL_SLICE_PROVEN\n",
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8") + "\nVERTICAL_SLICE_PROVEN\n", encoding="utf-8")
             self.assertTrue(any("premature completion" in error for error in validate(root)))
 
     def test_broken_local_link_is_rejected(self) -> None:
@@ -241,10 +159,7 @@ class CurrentVerticalSliceDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / EVIDENCE_PILOT
-            path.write_text(
-                path.read_text(encoding="utf-8") + "\n[broken](missing/path.md)\n",
-                encoding="utf-8",
-            )
+            path.write_text(path.read_text(encoding="utf-8") + "\n[broken](missing/path.md)\n", encoding="utf-8")
             self.assertTrue(any("broken local link" in error for error in validate(root)))
 
     def copy(self, destination: pathlib.Path) -> None:

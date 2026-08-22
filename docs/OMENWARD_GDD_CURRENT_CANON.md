@@ -1,17 +1,19 @@
 # [현행] OMENWARD GDD 정본
 
 ```yaml
-updated_at: 2026-08-20
+updated_at: 2026-08-21
 status: CURRENT_GDD_CANON
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
-planning_status: REOPENED_REVIEW_IN_PROGRESS
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
+current_project_core: docs/PROJECT_CORE.md
 implementation_authorized: false
 current_chat_runtime: NOT_RUN
 human_player_evidence: NOT_RUN
-visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
+visual_generation: USER_REQUEST_ONLY
 ```
+
+이 문서는 현재 제품의 **통합 요약 GDD**다. 개별 규칙의 상세·예외·prototype range는 각 `APPROVED_OMENWARD_*` owner가 소유한다. 중복된 세부 수치를 이 문서에 독립 정본처럼 복제하지 않는다.
 
 ## 1. 게임 정체성
 
@@ -21,14 +23,7 @@ visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
 PRIMARY_GENRE = ROGUELITE_STRATEGY_AUTO_BATTLER
 MECHANICAL_SUBGENRE = ROULETTE_PROBABILITY_BUILDER
 MARKETING_SHORT = 룰렛을 설계해 군대를 만드는 로그라이트 전략 오토배틀러
-```
-
-현재 플레이어 판타지:
-
-```text
 PLAYER_ROLE = 징조수호관 / Omen Warden
-OMEN = 다가올 위협을 읽는다
-WARD = 읽은 위협에 대비해 지킨다
 ```
 
 핵심 인과:
@@ -36,7 +31,9 @@ WARD = 읽은 위협에 대비해 지킨다
 ```text
 징조 관측
 → 건설 / TokenSource / 동원 인장 / 미래 병력 분포 설계
-→ 세 징조륜에서 병력 획득
+→ 3×3 징조륜 결과
+→ 제한된 행·열 조작
+→ 병력 획득
 → 세 전선 중 하나에 비가역 커밋
 → 자동전투 + 결정적 순간의 마력 전술
 → 인과 복기
@@ -45,63 +42,24 @@ WARD = 읽은 위협에 대비해 지킨다
 
 룰렛은 카지노/가챠 장치가 아니라 플레이어가 구성하는 군사적 확률·동원 장치다.
 
-## 2. World / MapRun
-
-2026-08-20 승인:
+## 2. World / Veil / MapRun
 
 ```text
+PLAYER_ROLE = Omen Warden
 WORLD_HAS_MULTIPLE_WARD_CITADELS = TRUE
+VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
+OMEN = 실제 공세가 도착하기 전에 나타나는 전조 / Pre-Echo
 ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-WARD_CITADEL_IS_LAST_HUMAN_FORTRESS = FALSE
+STAGE_20 = 해당 Cycle을 현실에 고정시키는 수렴핵/정박체를 파괴하는 결산
 RUN_RESULT = CAMPAIGN_RECORD_OF_DEFENSE_OR_FALL
+RUN_HISTORY_RESET = FALSE
+FAILED_OR_WON_RUNS_CAN_EXIST_AS_WORLD_HISTORY = TRUE
+META_PROGRESS_IS_NOT_TIME_REWIND = TRUE
 ```
 
-현재 확정되지 않은 world/story 항목:
+Veil의 최종 우주론적 기원·의지·세계 최종 엔딩 등 아직 owner가 확정하지 않은 lore는 별도 future world expansion 범위다. 그러나 **Veil의 현재 게임플레이 정체와 20 Stage 수렴기의 의미는 확정**이다.
 
-```text
-CAUSE_OF_OMEN_CYCLE = USER_DECISION_REQUIRED
-HIGH_LEVEL_ENEMY_OR_VEIL_IDENTITY = USER_DECISION_REQUIRED
-STAGE_20_NARRATIVE_RESOLUTION = USER_DECISION_REQUIRED
-INTER_RUN_WORLD_PROGRESS_MEANING = USER_DECISION_REQUIRED
-```
-
-이 미확정 항목은 기존 코어를 다시 여는 결함이 아니라 다음 기획 Decision 범위다.
-
-## 3. Stage cadence
-
-```text
-MAPRUN_STAGE_COUNT = 20
-BASELINE_WAVE_BEATS = 3
-DANGER_STAGE_TYPE = REMOVED
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-ELITE_PRESENCE_REQUIRED = TRUE
-BOSS_STAGES = 5 / 10 / 15 / 20
-BOSS_STAGE_BOSS_PRESENCE_REQUIRED = TRUE
-BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
-LEGACY_DANGER_CADENCE_AUTHORITY = NONE
-```
-
-- 모든 Stage 마지막 Wave에 Elite가 존재한다.
-- 5/10/15/20은 Boss Stage다.
-- 별도 Danger Stage 타입은 없다.
-- 과거 4/9/14/19 cadence는 history/optional variation lineage이며 current implementation input이 아니다.
-
-현재 서사 리듬의 작업용 해석:
-
-```text
-Stage 1~4   = 초기 징후와 첫 압력 학습
-Stage 5     = 제1 수렴
-Stage 6~9   = 복합 압력 확대
-Stage 10    = 제2 수렴
-Stage 11~14 = 누적 설계의 대가와 적응
-Stage 15    = 대수렴
-Stage 16~19 = 최종 전역 압축
-Stage 20    = 최종 징조 / 붕괴점
-```
-
-위 명칭은 CHANGEABLE이며 Boss cadence 자체는 보호한다.
-
-## 4. Omen Signature / 정보 규칙
+## 3. Omen Signature / 정보 규칙
 
 ```text
 PRESSURE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
@@ -114,144 +72,140 @@ LETHAL_OR_CORE_THREAT_FORECAST_REQUIRED = TRUE
 PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
 ```
 
-의미:
+기본 Forecast는 `주 압력 + 부 압력 + 강도 + Route 징후`를 제공한다. 정확한 전체 적 명단이나 정답 카운터를 기본 공개하지 않는다.
 
-- `MASS`: 수적 밀도 / 전선 포화.
-- `ARMORED`: 높은 방어 / 내구.
-- `FLYING`: 상공 경로 / 지상선 우회 압력.
-- `INFILTRATION`: 우회로 / 후열 침투.
-- `SIEGE`: 구조물 파괴 / 전선 붕괴.
-
-Forecast 기본 계층:
+## 4. Stage cadence / content arc
 
 ```text
-주 압력 + 부 압력 + 강도 + Route 징후
+MAPRUN_STAGE_COUNT = 20
+BASELINE_WAVE_BEATS = 3
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+ELITE_PRESENCE_REQUIRED = TRUE
+BOSS_STAGES = 5 / 10 / 15 / 20
+BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE
 ```
 
-정확한 전체 병종 명단·출현 순서·정답 카운터 지시는 기본 공개 정보가 아니다.
-
-## 5. 자원 / 룰렛 / 배치
-
 ```text
-자원 = 골드 / 마력 / 배치 병력·병력 한도 / 이동권
+Stage 1~5   = PRESSURE LITERACY
+Stage 6~10  = COMBINATION
+Stage 11~15 = OPPORTUNITY COST
+Stage 16~20 = SYNTHESIS
+Boss 5/10/15/20 = PRIORITY / ROUTE / STANCE / SEQUENTIAL_SYNTHESIS
 ```
 
-- 세 원형 릴은 하나의 3x3 노출창을 형성한다.
-- 세 릴은 세 전선과 1:1 대응하지 않는다.
-- 병력은 보관·판매 후 한 전선에 비가역 배치한다.
-- 배치 뒤 자유 회수·판매·cross-lane 이동은 금지한다.
-- 자동생산과 TokenSource는 별도 획득 경로다.
-- T3 병종의 신규 TokenSource grammar는 금지한다.
-
-Physical Token grammar:
+## 5. Roulette / TokenSource / acquisition
 
 ```text
+ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
+ROULETTE_EXPOSURE = 3×3
+PRIMARY_JUDGING_LINE = CENTER_HORIZONTAL_ROW
+ROW_COLUMN_ARROWS = PROMINENT
+PREVIEW_CONSUMES_RESOURCE = FALSE
+EXECUTED_MOVE_IS_COMMITTED = TRUE
+UNDO_AFTER_MOVE = FORBIDDEN
+THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
+AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
 TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
 TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
 FRACTIONAL_TOKEN_WEIGHT = FORBIDDEN
 ```
 
-## 6. 동원 인장망
+룰렛 결과는 즉시 전선 배치가 아니다. 획득 병력은 storage/commit flow로 넘어가고 이후 COMMIT에서 전선을 선택한다.
 
-세계관/시스템 의미:
+## 6. Roulette DDD
 
 ```text
-AUTO_PRODUCTION = 해당 시설의 직접 훈련·편성
-TOKEN_SOURCE = 같은 병종의 동원 인장을 중앙 동원망에 등록
-TOKEN_INSTANCE = 징조륜에 새겨진 병종 동원 표식
-OMEN_WHEELS = 하나의 중앙 삼중 동원 확률 장치
+DIRECTION = AGENCY_FIRST_TACTICAL_CRESCENDO
+BUILD / PROBABILITY DESIGN
+→ ANTICIPATION
+→ SPIN
+→ HONEST NATURAL STOP
+→ PLAYER ROW/COLUMN MANIPULATION
+→ CENTER LINE LOCK
+→ COMPLETED LINE CASCADE
+→ RESULT REVEAL
+→ STORAGE / COMMIT QUEUE
 ```
 
-한 건물이 `지금 생기는 병력`과 `앞으로 더 자주 동원될 병력`을 동시에 바꿀 수 있으나 두 획득 사건을 합치지 않는다.
+```text
+SCRIPTED_FAKE_NEAR_MISS = FORBIDDEN
+CASINO_JACKPOT_LANGUAGE = FORBIDDEN
+ROULETTE_RESULT_AUTO_LANE_DEPLOYMENT = FORBIDDEN
+PLAYER_MOVE_FEEDBACK_PRIORITY = HIGHEST
+```
 
-세계관 설명을 위해 인구·예비군·수송·보급 화폐 같은 새 관리 자원을 추가하지 않는다.
+## 7. 전선 / 배치 / 전투
 
-## 7. 건물 Tier
+```text
+LANES = TOP / MIDDLE / BOTTOM
+IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
+RECALL_AFTER_FINAL_COMMIT = FORBIDDEN
+SELL_AFTER_FINAL_COMMIT = FORBIDDEN
+CROSS_LANE_MOVE_AFTER_FINAL_COMMIT = FORBIDDEN
+AUTOBATTLE = CORE
+TACTICAL_INTERVENTION = LIMITED_MANUAL_TIMING
+```
 
-기본 건물 7종:
+세 전선은 한 화면에서 읽히며 자동전투가 핵심 결과를 만든다. 플레이어 전술은 지속 병종/건물 역할을 대체하는 실시간 액션 게임이 아니다.
+
+## 8. Run Command Screen
+
+```text
+RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
+```
+
+- `PREPARE`: Forecast + 건설/업그레이드 + 확률/징조륜.
+- `COMMIT`: 획득 병력 + 세 전선 비교 + 비가역 공간 배치.
+- `BATTLE`: 전선 상태 + 주요 위협 + 마력 + 수동 전술.
+- `REVIEW`: Forecast → 준비 → 배치 → 사건 → 대응 → 결과.
+
+Mode마다 하나의 주요 질문과 Primary CTA를 우선한다.
+
+## 9. 자원 / 건물 / 성장 축
+
+현재 핵심 자원:
+
+```text
+골드 / 마력 / 배치 병력·병력 한도 / 이동권
+```
+
+기본 건물 계열:
 
 ```text
 금고 / 농장 / 일반병 병영 / 특수병 병영 / 방어탑 / 지휘소 / 마력탑
 ```
 
-공통:
+공통 Tier 원칙:
 
 ```text
 BUILDING_T3_GRAMMAR = SINGLE_CAPSTONE_DEEPENS_SELECTED_T2_IDENTITY
 BUILDING_T3_REBRANCH = FORBIDDEN
-GENERAL_BARRACKS_T3_NEW_TROOP_BRANCH = FORBIDDEN
-GENERAL_BARRACKS_T3_NEW_TOKEN_SOURCE_GRAMMAR = FORBIDDEN
-ARCHER_T3 = CROSSBOW_ARCHER / RAPID_FIRE_ARCHER
-DEFENSE_T2_DISPLAY_NAMES = 포격탑 / 요새탑 / 저격탑
-LINEAR_TIER_BUILDINGS = VAULT / FARM / COMMAND_POST / MANA_TOWER
-LINEAR_T2_BRANCHING = FORBIDDEN
+T3_NEW_TOKEN_SOURCE_GRAMMAR = FORBIDDEN
 ```
 
-### 일반병 병영
+병영의 자동생산과 TokenSource는 같은 병종을 가리킬 수 있어도 획득 사건은 분리한다. T3는 새 룰렛 토큰 계층이 아니라 실제 병종의 역할 변화다.
 
-```text
-GENERAL_T1_AUTO_PRODUCTION = BASIC_INFANTRY
-GENERAL_T1_TOKEN_SOURCE = BASIC_INFANTRY
-GENERAL_T2_BRANCHES = SHIELD / GREATSWORD / SPEAR / ARCHER / CAVALRY
-GENERAL_T2_AUTO_PRODUCTION = SELECTED_GENERAL_UNIT
-GENERAL_T2_TOKEN_SOURCE = SELECTED_GENERAL_UNIT
-```
+상세 건물·병종 규칙은 기존 retained detailed owner가 소유한다.
 
-### 특수병 병영
-
-```text
-SPECIAL_T1_SELECTION_TRIGGER = SUCCESSFUL_CONSTRUCTION_COMMIT
-SPECIAL_T1_SELECTED_UNIT_PERSISTENCE = FIXED_WHILE_BUILDING_REMAINS_T1
-SPECIAL_T1_POOL = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
-SPECIAL_T1_AUTO_PRODUCTION = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_TOKEN_SOURCE = SELECTED_RANDOM_SPECIAL_UNIT
-SPECIAL_T1_AUTO_PRODUCTION_AND_TOKEN_SOURCE = SAME_SELECTED_UNIT_SEPARATE_ACQUISITION_PATHS
-SPECIAL_T1_SAVE_RELOAD_RESELECT = FORBIDDEN
-SPECIAL_T1_FREE_REROLL = FORBIDDEN
-SPECIAL_T2_BRANCHES = MAGE / PRIEST / ASSASSIN / FLYING_UNIT / GIANT
-SPECIAL_T2_AUTO_PRODUCTION = SELECTED_SPECIAL_UNIT
-SPECIAL_T2_TOKEN_SOURCE = SELECTED_SPECIAL_UNIT
-SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
-```
-
-### 방어탑
-
-```text
-DEFENSE_TOWER_T2 = ARTILLERY / DEFENSE_ENHANCEMENT / SNIPER
-T2 포격탑 = 범위 공격
-T2 요새탑 = 방어력·내구 강화
-T2 저격탑 = 긴 사거리
-```
-
-### 직선 강화 건물
-
-```text
-금고 T1 → T2 → T3
-농장 T1 → T2 → T3
-지휘소 T1 → T2 → T3
-마력탑 T1 → T2 → T3
-BRANCHING = FORBIDDEN_FOR_LINEAR_BUILDINGS
-```
-
-## 8. 마력탑 / 전술 연구
+## 10. 마력 / 전술 연구
 
 ```text
 MANA_TOWER_MAX_ACTIVE_INSTANCES = 1
 TOTAL_TACTICAL_SKILLS = 10
 T1 = 4 / T2 = 3 / T3 = 3
-ONE_CONCURRENT_RESEARCH
+ONE_CONCURRENT_RESEARCH = TRUE
 STAGE_LOADOUT = NONE
 AUTO_CAST = FORBIDDEN
 RESEARCH_USES_MANA = FORBIDDEN
 INVALID_CAST_SPENDS_MANA = FALSE
 UNLOCK_SCOPE = CURRENT_MAPRUN
 RESET_SCOPE = NEW_MAPRUN
-STAGE_TRANSITION_RESET = FALSE
 ```
 
-연구 비용은 골드+시간, 유효 시전 비용은 마력이다. 전술은 병종/건물의 지속 역할을 대체하지 않는다.
+연구는 골드+시간, 유효 시전은 마력을 사용한다.
 
-## 9. Stage 종료 상인
+## 11. Stage 종료 상인
 
 ```text
 MERCHANT_VISIT_STAGES = 1_TO_19
@@ -261,57 +215,26 @@ VISIT_STOCK = FINITE
 PURCHASE_CURRENCY = GOLD_ONLY
 ```
 
-직접 핵심 전력 판매와 무한 reroll을 금지한다.
+상인은 핵심 전력 직접 판매나 무한 reroll을 제공하는 독립 성장 시스템이 아니라 기존 선택의 제한적 보정/기회비용 장치다.
 
-## 10. First-session / FTUE
+## 12. First-session / FTUE
 
 ```text
 ONBOARDING_FORMAT = IN_RUN_PROGRESSIVE_DISCLOSURE
 FIRST_SESSION = REAL_MAPRUN
-STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
-STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
-SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
-STAGE_1_T1_BUILD_BUDGET = GUARANTEED_SUFFICIENT_FOR_REQUIRED_SET
-STAGE_1_BUILD_CURRENCY = REAL_GOLD
-FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
-FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
-FIRST_MEANINGFUL_BUILD_CHOICE = STAGE_2_T2_UPGRADE
 SEPARATE_TUTORIAL = FORBIDDEN
 SCRIPTED_VICTORY = FORBIDDEN
 BELU_REPLACES_PLAYER_CHOICE = FORBIDDEN
+STAGE_1 = CAUSAL_UNDERSTANDING
+STAGE_2 = FUTURE_DISTRIBUTION_MODIFICATION
+STAGE_3 = TACTICAL_INTERVENTION
+STAGE_4 = APPLICATION_WITH_NO_NEW_CORE_SYSTEM
+STAGE_5 = FIRST_BOSS_AND_BUILD_REVIEW
 ```
 
-2026-08-20 숙련 사다리:
+Stage 1의 현재 여섯 T1은 `생존 기반 / 군사 기반 / 지휘 기반` 세 묶음으로 순차 노출한다. 사람 플레이에서 과부하가 실제 관측되면 축소를 우선 재검토한다.
 
-```text
-STAGE_1 = 인과 이해
-STAGE_2 = 미래 수정
-STAGE_3 = 순간 개입
-STAGE_4 = 응용 시험 / 새 핵심 시스템 없음
-STAGE_5 = 첫 Boss + 첫 빌드 결산
-```
-
-Stage 1의 6개 T1은 `생존 기반 / 군사 기반 / 지휘 기반` 세 묶음으로 순차 노출한다. 실제 사람 플레이에서 과부하가 확인되면 필수 건물 축소안을 최우선 재검토한다.
-
-## 11. Run Command Screen / UX
-
-```text
-RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
-```
-
-항상 유지:
-
-```text
-Stage / Wave / 핵심 자원 / 세 전선 Forecast 요약 / 전장 공간 맥락
-```
-
-- `PREPARE`: Forecast + 건설/업그레이드 + 동원 분포 + 징조륜.
-- `COMMIT`: 획득 병력 + 세 전선 비교 + 비가역 공간 배치.
-- `BATTLE`: 전선 상태 + 주요 위협 + 마력 + 수동 전술.
-- `REVIEW`: Forecast → 준비 → 배치 → 사건 → 대응 → 결과.
-- Token Ledger, internal IDs, raw target/cause 로그는 Debug/Inspector 상세로 분리한다.
-
-## 12. Hero / Legendary / Meta
+## 13. Hero / Legendary / Meta
 
 ```text
 HERO_STRATEGIC_ROLE = CONTEXTUAL_AMPLIFIER
@@ -324,97 +247,96 @@ PERMANENT_PURE_COMBAT_STAT_ACCUMULATION = FORBIDDEN
 MANDATORY_GRIND_CURRENCY = FORBIDDEN
 ```
 
-## 13. Quality / repeat-run guardrails
+## 14. Quality guardrails
 
 ```text
 SOFT_SYNERGY_DISCOVERY = PREFERRED
 DEFAULT_HARD_SET_BONUS = AVOID
-HORIZONTAL_CHALLENGE_EXPANSION = ALLOWED
 SEEDED_RUN = ALLOWED
 HP_ONLY_DIFFICULTY = AVOID
-ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
 GAMBLING_FANTASY_POSITIONING = FORBIDDEN
-PAID_SPIN = FORBIDDEN
 REAL_MONEY_PROBABILITY_PURCHASE = FORBIDDEN
 POST_STAGE_CAUSAL_REVIEW = FORECAST -> KEY_EVENTS -> PLAYER_RESPONSE_OUTCOME
 ```
 
-## 14. Visual / art boundary
-
-기존 승인 방향은 유지한다.
+## 15. Visual / battlefield
 
 ```text
-STYLE = 클린 전술 픽셀 + 미니어처 치비 픽셀 + 제한된 고급 조명
-FULL_BATTLEFIELD = 세 라인 전체를 기본 전략 줌에서 확인
-MINIMAP = NONE
-AI_GENERATED_LOOK_REDUCTION = REQUIRED
+CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
+BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
+DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+AUTO_ZOOM_HIDING_OTHER_LANES = FORBIDDEN
+PRIMARY_VISUAL_MASS = BATTLEFIELD
+SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
+BATTLEFIELD_HEIGHT = 68~75% exploration
+LOWER_DECK_HEIGHT = 25~32% exploration
+NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
+READ_ORDER = ROLE -> WEAPON -> SCALE -> FACTION_COLOR -> TIER -> DECORATION
+VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
-첫 생성 후보는 사용자 검토에서 **REJECTED_NOT_CANON**이 됐다. 사용자 보유 시안/레퍼런스 파일을 받을 때까지 새 이미지 생성·수정은 보류한다.
+Top-down owners:
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
+
+## 16. Balance boundary
 
 ```text
-VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
+NORMALIZED_BALANCE_ENVELOPE = APPROVED_FOR_PLANNING
+ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
+FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+FINAL_PRODUCT_NUMERICS = NOT_APPROVED
+BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
 ```
 
-## 15. Current implementation / evidence truth
+## 17. Platform / release
 
 ```text
-IMPLEMENTATION_START = NOT_AUTHORIZED_BY_CURRENT_REPLAN
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
-PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
+PC / Steam = PRIMARY_PLANNING_AND_VALIDATION_TARGET
+Android / Google Play = COMMITTED_RELEASE_TARGET_EXECUTION_DEFERRED_RELEASE_NEAR
+SHARED_SAVE_SCHEMA = NOT_STARTED
+EXPORT_PRESETS = ABSENT
+```
+
+## 18. Current planning gate
+
+```text
+CURRENT_APPROVED_REPLAN_DECISIONS = 18
+TOPDOWN_BATTLEFIELD_LAYOUT = CONFIRMED
+TOPDOWN_UNIT_SILHOUETTE = CONFIRMED
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+THEN = COMPONENT_SHEET
+THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
+THEN = IMPLEMENTATION_AUTHORITY_REQUIRED
+```
+
+## 19. Implementation Reality Gate
+
+```text
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
-FINAL_FUNCTIONAL_VALUE_INDEX = NOT_SELECTED
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
-FINAL_PRODUCT_NUMERICS = NOT_APPROVED
-```
-
-2026-08-11~12 signal11/HiGodot 기록은 historical evidence다. 현재 `main`에서 crash가 재현된다고 주장하지 않는다.
-
-Issue #176은 과거 PR175 package의 7개 gap을 보존하는 historical follow-up이다. 미래 구현 전에 current main + current Decisions와 재대조한다.
-
-## 16. Platform scope
-
-```text
-PC / Steam = COMMITTED_PRIMARY_PLANNING_TARGET
-Android / Google Play = COMMITTED_RELEASE_TARGET_EXECUTION_DEFERRED_RELEASE_NEAR
-STOVE = SECONDARY_RELEASE_CANDIDATE
-iOS = NOT_CURRENT_SCOPE
-SHARED_SAVE_SCHEMA = NOT_STARTED
-EXPORT_PRESETS = ABSENT
-```
-
-## 17. Current authority lineage
-
-현재 가장 먼저 읽을 owner:
-
-- `docs/CURRENT_CONFIRMED_DECISIONS.md`
-- `docs/ACTIVE_CONTEXT.md`
-- 이 `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- `docs/PROJECT_CORE.md`
-- `docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md`
-- 2026-08-20 각 승인 Decision detail 문서
-- Project Notion Home / `08 · 핵심 시스템 · 상세`
-
-과거 2026-08-11 Phase B/C0/PR175 문서는 provenance와 historical evidence로 보존하며 current routing을 덮어쓰지 않는다.
-
-## 18. Historical compatibility markers
-
-아래 문자열은 historical validator/consumer lineage를 위한 `ALLOWED_LEGACY`다.
-
-```text
-MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
-CURRENT_STATUS = MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_LABEL_ONLY
-PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
-PHASE_C_C0_OVERALL = HISTORICAL_PASS
-PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
-PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_LABEL_ONLY
-PR177 = REFERENCE_ONLY_DO_NOT_MERGE = HISTORICAL_LABEL_ONLY
 LEGACY_C1_C2_C3_PROVEN
+HUMAN_QA_NOT_RUN
+```
+
+과거 exact C1/C2/C3 evidence는 historical owner에서 보존한다. 현재 v4.7 runtime이나 player-experience PASS를 뜻하지 않는다.
+
+## 20. Authority / resume
+
+- Decision index: `docs/CURRENT_CONFIRMED_DECISIONS.md`
+- Active Context: `docs/ACTIVE_CONTEXT.md`
+- Project Core: `docs/PROJECT_CORE.md`
+- Implementation state: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- Documentation Map: `docs/DOCUMENTATION_MAP.md`
+- Human-facing current workspace: Project Notion
+
+```text
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```

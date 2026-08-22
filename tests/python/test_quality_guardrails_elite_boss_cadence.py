@@ -54,31 +54,32 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_current_consumers_route_new_cadence(self) -> None:
+    def test_current_consumers_route_durable_cadence_without_historical_decision_ids(self) -> None:
         combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
         for marker in (
-            CADENCE_DECISION,
-            QUALITY_DECISION,
             "DANGER_STAGE_TYPE = REMOVED",
             "ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE",
             "BOSS_STAGES = 5 / 10 / 15 / 20",
-            "BOSS_STAGE_FINAL_WAVE_ELITE_REQUIRED = TRUE",
-            "LEGACY_DANGER_STAGES_4_9_14_19 = SUPERSEDED_FOR_CURRENT_CADENCE",
         ):
             self.assertIn(marker, combined)
+        self.assertNotIn(QUALITY_DECISION, combined)
+        self.assertNotIn(CADENCE_DECISION, combined)
 
-    def test_phase_gate_advances_without_mutating_product_decisions(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (ACTIVE, PENDING, PHASE_B))
+    def test_phase_b_gate_is_historical_evidence_not_current_execution_gate(self) -> None:
+        phase_b = PHASE_B.read_text(encoding="utf-8")
         for marker in (
             "WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0",
             "USER_EXPLICIT_PLANNING_COMPLETE_DECLARATION = RECEIVED",
             "PHASE_B_FINAL_PLANNING_REVIEW = PASS",
             "PHASE_C_GATE = OPEN",
-            QUALITY_DECISION,
-            CADENCE_DECISION,
+            "NEW_PRODUCT_DECISION_REQUIRED = FALSE",
         ):
-            self.assertIn(marker, combined)
-        self.assertIn("NEW_PRODUCT_DECISION_REQUIRED = FALSE", PHASE_B.read_text(encoding="utf-8"))
+            self.assertIn(marker, phase_b)
+
+        current = "\n".join(path.read_text(encoding="utf-8") for path in (ACTIVE, PENDING))
+        self.assertNotIn("PHASE_C_GATE = OPEN", current)
+        self.assertIn("CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK", current)
+        self.assertIn("CURRENT_IMPLEMENTATION_AUTHORITY = NONE", current)
 
     def test_no_final_elite_or_boss_numerics_are_selected(self) -> None:
         text = CADENCE.read_text(encoding="utf-8")
@@ -94,11 +95,11 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
         self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", PENDING.read_text(encoding="utf-8"))
         self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", PENDING.read_text(encoding="utf-8"))
 
-    def test_godot_ai_314_stays_user_report_pending_phase_c_verification(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING, PHASE_B))
-        self.assertIn("USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4", combined)
-        self.assertIn("GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY", combined)
-        self.assertIn("GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK", combined)
+    def test_godot_ai_314_phase_b_claim_stays_historical(self) -> None:
+        phase_b = PHASE_B.read_text(encoding="utf-8")
+        self.assertIn("USER_REPORTED_GODOT_AI_CURRENT_VERSION = 3.1.4", phase_b)
+        self.assertIn("GODOT_AI_3_1_4_CANON_AUTHORITY_RECONCILIATION = DEFER_TO_PHASE_C_FRESH_VERIFY", phase_b)
+        self.assertIn("GODOT_AI_3_1_4_EXACT_UPSTREAM_VERIFICATION = NOT_CONFIRMED_IN_PHASE_B_WEB_CHECK", phase_b)
 
 
 if __name__ == "__main__":

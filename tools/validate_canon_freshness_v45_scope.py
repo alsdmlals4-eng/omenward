@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate bounded activation, planning, Phase B, Phase C C0, and CI remediation surfaces for v4.5."""
+"""Validate bounded historical v4.5 transitions and the explicit current v4.7 canon-reconciliation surface."""
 from __future__ import annotations
 
 import argparse
@@ -139,6 +139,59 @@ PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 PHASE_B_FINAL_PLANNING_REVIEW_REQUIRED_ANCHORS = set(PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES)
+
+CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES = {
+    ".github/workflows/validate-omenward-core.yml",
+    "AGENTS.md",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md",
+    "tests/python/test_bca_visual_sheet_adoption.py",
+    "tests/python/test_c1_roulette_contract.py",
+    "tests/python/test_c2_battle_objective_contract.py",
+    "tests/python/test_c3_core_ux_contract.py",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v47_canon_validator_scope.py",
+    "tests/python/test_pc_android_core_adapter_architecture_contract.py",
+    "tests/python/test_phase_b_final_planning_review.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tools/validate_c1_roulette.py",
+    "tools/validate_c2_battle_objective.py",
+    "tools/validate_c3_core_ux.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS = {
+    "AGENTS.md",
+    "README.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/PROJECT_CORE.md",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v47_canon_validator_scope.py",
+    "tools/validate_c1_roulette.py",
+    "tools/validate_c2_battle_objective.py",
+    "tools/validate_c3_core_ux.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -154,6 +207,7 @@ APPROVED_FILES = (
     | CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES
     | QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES
     | PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES
+    | CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES
 )
 
 
@@ -185,6 +239,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES, CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS, "current v4.7 canon-validator reconciliation"),
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
         (POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_ALLOWED_FILES, POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_REQUIRED_ANCHORS, "post-C0 transient ops-state decoupling"),
         (POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_ALLOWED_FILES, POST_C0_FULL_CURRENT_CONSUMER_CLOSURE_REQUIRED_ANCHORS, "post-C0 full current-consumer closure"),

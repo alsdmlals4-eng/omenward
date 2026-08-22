@@ -1,223 +1,207 @@
-# [현행] 오멘워드 로드맵
+# [현행] OMENWARD Roadmap
 
 ```yaml
-updated_at: 2026-08-20
+updated_at: 2026-08-21
+status: CURRENT_ROADMAP
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
-planning_status: REOPENED_REVIEW_IN_PROGRESS
-current_next_gate: ROULETTE_DDD_FEEDBACK_SPEC
-implementation_authorized: false
-visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
+current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
+current_next_gate: REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
 visual_generation: USER_REQUEST_ONLY
+implementation_authorized: false
 ```
 
-## Current milestone
+## 1. Product north star
+
+> 건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.
 
 ```text
-PROJECT_STATE_RECOVERED
-→ DECISION_1_TO_6_CONFIRMED
-→ 6_FULL_ADVERSARIAL_LOOPS_AND_CANON_RECONCILIATION
-→ WORLD_CONFLICT_AND_CORE_STORY_CONFIRMED
-→ 20_STAGE_CONTENT_AND_BOSS_STRUCTURE_CONFIRMED
-→ NORMALIZED_BALANCE_BUDGET_CONFIRMED
-→ TEXT_UX_AND_STATE_TRANSITION_CONFIRMED
-→ VISUAL_STYLE_AND_COMPONENT_DIRECTION_CONFIRMED
-→ BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_CONFIRMED
-→ 3X3_ROULETTE_COMPONENT_SPEC_CONFIRMED
-→ TOKEN_COMPONENT_SPEC_CONFIRMED
-→ LOWER_CONTROL_DECK_SPEC_CONFIRMED
-→ ROULETTE_DDD_FEEDBACK_SPEC = CURRENT_NEXT
+징조 관측
+→ 확률 설계
+→ 3×3 징조륜 / 제한 조작
+→ 병력 획득
+→ 비가역 전선 커밋
+→ 자동전투 / 전술
+→ 인과 Review
 ```
 
-## Current planning order
-
-### P0 — Roulette DDD feedback — CURRENT NEXT
-
-Define the anticipation/payoff chain so the strongest reward feeling comes from **the player's built probability + direct row/column manipulation producing a useful mobilization result**, not from casino fantasy.
+## 2. Planning closure status
 
 ```text
-probability setup
-→ spin buildup
-→ natural stop
-→ near-hit / readable state
-→ row/column manipulation snap
-→ center judging-line lock
-→ completed-line cascade
-→ result reveal
-→ storage/commit transfer
-→ short battlefield reinforcement link
+CURRENT_APPROVED_REPLAN_DECISIONS = 18
+WORLD / MAPRUN / PRESSURE = COMPLETE
+FIRST5_FTUE / RUN_COMMAND = COMPLETE
+WORLD_CONFLICT / 20_STAGE_BOSS_ARC = COMPLETE
+NORMALIZED_BALANCE_BUDGET = COMPLETE_AS_ENVELOPE
+TEXT_UX_STATE = COMPLETE
+VISUAL_STYLE_COMPONENTS = COMPLETE
+BATTLEFIELD_SCALE = COMPLETE
+ROULETTE_3X3 = COMPLETE
+TOKEN_COMPONENT = COMPLETE
+LOWER_CONTROL_DECK = COMPLETE
+ROULETTE_DDD = COMPLETE
+TOPDOWN_BATTLEFIELD_LAYOUT = COMPLETE
+TOPDOWN_UNIT_SILHOUETTE = COMPLETE
 ```
 
-Constraints:
+## 3. Current visual route
 
 ```text
-battlefield remains visible
-casino/jackpot/paid-spin language forbidden
-feedback must be short and interruptible
-result grade follows line count, not hidden rarity draw
-player manipulation must receive stronger feedback than passive random sparkle
+TOPDOWN_BATTLEFIELD_LAYOUT
+→ TOPDOWN_UNIT_SILHOUETTE
+→ REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+→ COMPONENT_SHEET
 ```
 
-### Visual North Star — AFTER DDD CONTRACT
+- `TOPDOWN_BATTLEFIELD_LAYOUT`: `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
+- `TOPDOWN_UNIT_SILHOUETTE`: `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
+- `VISUAL_GENERATION = USER_REQUEST_ONLY`
+- 새 North Star는 사용자가 이미지 생성을 명시적으로 요청할 때만 제작한다.
 
-Create exactly one rebuilt North Star only when the user explicitly requests image generation after the DDD contract is coherent.
+## 4. G1 — Canon / evidence reconciliation
 
-Required visual contract:
-
-```text
-ANIME_PIXEL_ART_UNITS
-CLEAN_PIXEL_BATTLEFIELD
-FULL_THREE_LANES
-WIDE_COMBAT_ROADS
-BATTLEFIELD_PRIMARY / LOWER_DECK_SECONDARY
-3×3 ROULETTE
-PROMINENT ROW/COLUMN ARROWS
-ACTUAL-UNIT-ART ROLE-ANCHOR TOKENS
-GOLD TOKEN
-FOCUS-ADAPTIVE LOWER DECK
-NO DUPLICATE LOWER RESOURCES
-```
-
-### Component Sheet — AFTER NORTH STAR
-
-Break the approved screen into reusable assets/components:
+현재 Current 문서는 v4.7 의미를 소유하고, 과거 C1/C2/C3 exact proof는 전용 historical evidence owner가 소유한다.
 
 ```text
-battlefield road / clash node / lane markers
-unit token tile / Gold / X
-row/column arrows
-focus tabs
-CTA states
-forecast badges
-line-lock / result VFX layers
-Bellu context panel if retained
-```
-
-### Final planning review
-
-After component contracts and rebuilt North Star result approval:
-
-```text
-minimum 5 full adversarial loops / until clean
-Decision 1~15 + visual/component regression review
-Notion/GitHub drift check
-implementation Definition of Ready
-explicit user implementation authority
-```
-
-Only then open implementation handoff.
-
-## Current Lower Control Deck authority
-
-Owners:
-- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
-- `docs/analysis/ui/current_lower_control_deck.v1.json`
-
-```text
-ONE_ACTIVE_WORK_SURFACE_AT_A_TIME
-TOP HUD OWNS RESOURCE TOTALS
-lower local action cost allowed
-ROULETTE / STORAGE / BUILD / TACTICAL tabs
-Bellu = contextual guide, not fifth management menu
-Roulette focus = left moves / center 3×3 / right action-result
-```
-
-## Current Token authority
-
-Owners:
-- `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md`
-- `docs/analysis/ui/current_token_component.v1.json`
-
-```text
-actual game Anime Pixel unit art reused
-Role-Anchor Crop
-T1/T2 tokens only
-T3 token art forbidden
-reward rarity != token rarity
-Gold uses actual game Gold art
-X = clear empty non-reward
-```
-
-## Current 3×3 Roulette authority
-
-Owners:
-- `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
-- `docs/analysis/ui/current_3x3_roulette_component.v1.json`
-
-```text
-3×3 exposure window
-12 direct arrows
-hover/focus preview without spend
-execute = move resource spend + immediate committed move
-undo/reset after move = forbidden
-center horizontal row = primary judging line
-Lucky free move first / stored tickets cap 3
-```
-
-## Current Battlefield authority
-
-Owners:
-- `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md`
-- `docs/analysis/visual/current_battlefield_scale_readability.v1.json`
-
-Planning envelope:
-```text
-reference = 960×540
-battlefield height = 68~75%
-lower deck = 25~32%
-common unit = 30~36 px visual height
-common footprint = 18~22 px
-usable road = 60~72 px / 2.75~3.25× footprint
-lateral ranks = 2~3
-lane center spacing = 105~125 px
-clash node = 78~96 px
-default camera = full three lanes
-```
-
-These are validation ranges, not final runtime geometry.
-
-## Current Visual authority
-
-Owner:
-`docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
-
-```text
-CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
-BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
-PRIMARY_VISUAL_MASS = BATTLEFIELD
-SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
-ROULETTE_EXPOSURE = 3×3
-ROW_COLUMN_ARROWS = PROMINENT
-GOLD_TOKEN = SUPPORTED
-DUPLICATE_RESOURCE_DISPLAY_IN_LOWER_DECK = FORBIDDEN
-```
-
-## Current GitHub work-item routing
-
-```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
-PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
-```
-
-PR197 is protected from this planning workstream.
-
-## Current runtime/evidence gate
-
-```text
+LEGACY_C1_C2_C3_PROVEN
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
-CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+```
+
+정확한 과거 proof:
+- `docs/C1_ROULETTE_RECOVERY_REPORT_2026-07-22.md`
+- `docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md`
+- `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
+- `docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md`
+
+## 5. G2 — Economy reconciliation
+
+```text
+ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-## Platform / release deferred
+구현 전에 fresh main/runtime 기준으로 economy baseline을 재대조한다. 기존 수치가 있다는 이유만으로 final 제품 숫자로 승격하지 않는다.
+
+## 6. G3 — North Star / component evidence
+
+North Star의 목표는 그림 완성이 아니라 다음 플레이어 판단을 한 화면에서 검증하는 것이다.
+
+- 3개 전선을 동시에 읽을 수 있는가.
+- 역할 실루엣이 전장 줌에서 읽히는가.
+- 3×3 + 12 direct arrows의 조작 대상이 즉시 이해되는가.
+- 전장이 PRIMARY, 하단 Control Deck이 SECONDARY로 유지되는가.
+- Roulette result와 lane deployment가 분리되어 보이는가.
+
+## 7. P1 — Implementation handoff gate
 
 ```text
-PC / Steam = PRIMARY_PLANNING_AND_VALIDATION_TARGET
-Android / Google Play = COMMITTED_RELEASE_TARGET_EXECUTION_DEFERRED_RELEASE_NEAR
-SHARED_SAVE_SCHEMA = NOT_STARTED
-EXPORT_PRESETS = ABSENT
+IMPLEMENTATION_AUTHORITY_REQUIRED
+CURRENT_IMPLEMENTATION_AUTHORITY = NONE
 ```
+
+North Star/component sheet와 최종 planning review가 닫힌 뒤에만 별도 구현 권한으로 전환한다.
+
+## 8. P2 — Run Command implementation
+
+승인 뒤 구현 순서:
+
+```text
+PREPARE
+→ COMMIT
+→ BATTLE
+→ REVIEW
+```
+
+기존 StageRun/Battle/Roulette foundation을 전면 rewrite하지 않고 orchestration/state layer를 추가하는 것을 기본안으로 한다.
+
+## 9. P3 — Roulette manipulation session
+
+기존 deterministic board/line resolution을 재사용하고 다음 player agency를 추가한다.
+
+```text
+SPIN
+→ HONEST_STOPPED_3X3
+→ ROW/COLUMN_PREVIEW
+→ MOVE_TICKET_COMMIT
+→ CENTER_LINE_LOCK
+→ LINE_CASCADE
+→ RESULT_STORAGE
+```
+
+## 10. P4 — Battlefield / Focus Deck presentation
+
+- Full three-lane top-down camera.
+- Wide combat road and readable clash nodes.
+- Silhouette-first unit presentation.
+- Focus-adaptive lower control deck.
+- top HUD = resource total single owner.
+
+## 11. P5 — Runtime / human vertical slice
+
+실행 증거를 다음처럼 분리한다.
+
+```text
+GODOT_IMPORT
+HEADLESS_CONTRACTS
+RUNTIME_SMOKE
+HUMAN_USABILITY
+PLAYER_EXPERIENCE
+```
+
+앞 단계 PASS를 다음 단계로 자동 전이하지 않는다.
+
+## 12. P6 — Platform / release
+
+PC/Steam을 먼저 검증한다. Android/Google Play 실기기·모바일 UI·lifecycle은 PC 제품 구현 완료 후 출시 준비 직전까지 deferred 가능하다.
+
+## 13. Historical product-planning lineage
+
+다음 2026-08-05 planning batch는 현재 next gate가 아니지만 후속 정본이 어떤 문제를 승계했는지 추적하기 위해 보존한다.
+
+```text
+OMW-DEC-20260805-PLANNING-SIX-BUILDING-T2-T3-BRANCHES-AND-COUNTERS-V1
+3_OF_10 = HISTORICAL_LINEAGE_ONLY
+
+OMW-DEC-20260805-PLANNING-TROOP-ROLES-SYNERGIES-AND-COUNTERS-V1
+4_OF_10 = HISTORICAL_LINEAGE_ONLY
+
+OMW-DEC-20260805-PLANNING-TACTICAL-SKILLS-AND-MANA-V1
+5_OF_10 = HISTORICAL_LINEAGE_ONLY
+
+OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
+6_OF_10 = HISTORICAL_LINEAGE_ONLY
+```
+
+이 계보는 current v4.7 owner보다 높은 권한이 아니며 과거 상태를 current 작업 순서로 되살리지 않는다.
+
+## 14. Historical work-items
+
+```text
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+```
+
+과거 work-item 상태를 current roadmap gate로 고정하지 않는다.
+
+## 15. 단계 변경 시 문서 동기화
+
+```text
+Decision owner
+→ CURRENT_CONFIRMED_DECISIONS
+→ ACTIVE_CONTEXT / PROJECT_CORE / GDD / ROADMAP / PENDING / MAP / LIFECYCLE
+→ Project Notion human-facing surface
+→ destination readback
+```
+
+## 16. 지금 실행할 단 하나의 작업
+
+```text
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+VISUAL_GENERATION = USER_REQUEST_ONLY
+```
+
+이미지 요청이 없는 동안에는 구현 권한을 열거나 임의 이미지 생성을 하지 않는다.

@@ -9,7 +9,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "tools"))
 
-from validate_c2_battle_objective import C2_VALIDATION_RUN, REQUIRED_FILES, validate  # noqa: E402
+from validate_c2_battle_objective import C2_VALIDATION_RUN, HISTORICAL_STATUS, REQUIRED_FILES, validate  # noqa: E402
 
 
 class C2BattleObjectiveContractTests(unittest.TestCase):
@@ -79,13 +79,13 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             roadmap.write_text(roadmap.read_text(encoding="utf-8") + "\nPR #49 사용자 검토 대기\n", encoding="utf-8")
             self.assertTrue(any("stale C1/C2 state" in error for error in validate(root)))
 
-    def test_missing_c2_proven_state_is_rejected(self) -> None:
+    def test_current_status_historical_boundary_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
-            status.write_text(status.read_text(encoding="utf-8").replace("C2_BATTLE_OBJECTIVE_REMOTE_PROVEN", "C2_STATE_REMOVED"), encoding="utf-8")
-            self.assertTrue(any("missing proven C2 state" in error for error in validate(root)))
+            status.write_text(status.read_text(encoding="utf-8").replace("LEGACY_C1_C2_C3_PROVEN", "LEGACY_PROOF_REMOVED"), encoding="utf-8")
+            self.assertTrue(any("current C2 evidence boundary" in error for error in validate(root)))
 
     def test_stale_c2_candidate_state_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -99,9 +99,9 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
-            status = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
-            status.write_text(status.read_text(encoding="utf-8").replace(C2_VALIDATION_RUN, "29934172758"), encoding="utf-8")
-            self.assertTrue(any("missing C2 proof" in error for error in validate(root)))
+            historical = root / HISTORICAL_STATUS
+            historical.write_text(historical.read_text(encoding="utf-8").replace(C2_VALIDATION_RUN, "29934172758"), encoding="utf-8")
+            self.assertTrue(any("historical C2 exact proof" in error for error in validate(root)))
 
     def test_legacy_c1_workflow_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

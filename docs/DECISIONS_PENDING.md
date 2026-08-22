@@ -1,178 +1,160 @@
-# [현행] 오멘워드 미확정 결정·Gate 목록
+# [현행] OMENWARD Decisions / Gates Pending
 
 ```yaml
-updated_at: 2026-08-20
-status: CURRENT_PENDING_DECISIONS_AND_GATES
+updated_at: 2026-08-21
+status: CURRENT_PENDING_GATE_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
-planning_status: REOPENED_REVIEW_IN_PROGRESS
+current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 implementation_authorized: false
-visual_generation: PAUSED_PENDING_USER_REFERENCE_FILES
+visual_generation: USER_REQUEST_ONLY
 ```
 
-이 문서는 현재 재기획에서 **아직 닫지 않은 제품 Decision과 실행 Gate**를 분리한다.
+## 1. 이미 닫힌 주요 기획 Decision
 
-## 1. Current product Decisions pending
-
-### P0 · World conflict / core story
+다음은 더 이상 pending이 아니다.
 
 ```text
-CAUSE_OF_OMEN_CYCLE = USER_DECISION_REQUIRED
-HIGH_LEVEL_ENEMY_OR_VEIL_IDENTITY = USER_DECISION_REQUIRED
-STAGE_20_NARRATIVE_RESOLUTION = USER_DECISION_REQUIRED
-INTER_RUN_WORLD_PROGRESS_MEANING = USER_DECISION_REQUIRED
+WORLD_CONFLICT_AND_CORE_STORY = CONFIRMED
+20_STAGE_CONTENT_AND_BOSS_STRUCTURE = CONFIRMED
+NORMALIZED_BALANCE_BUDGET = CONFIRMED_AS_PLANNING_ENVELOPE
+TEXT_UX_AND_STATE_TRANSITION = CONFIRMED
+VISUAL_STYLE_AND_COMPONENTS = CONFIRMED
+BATTLEFIELD_SCALE_AND_READABILITY = CONFIRMED
+ROULETTE_3X3_COMPONENT = CONFIRMED
+TOKEN_COMPONENT = CONFIRMED
+LOWER_CONTROL_DECK = CONFIRMED
+ROULETTE_DDD_FEEDBACK = CONFIRMED
+TOPDOWN_BATTLEFIELD_LAYOUT = CONFIRMED
+TOPDOWN_UNIT_SILHOUETTE = CONFIRMED
 ```
 
-현재 승인된 world frame은 `Omen Warden + 여러 Ward Citadel + 한 Run = 20 Stage Omen Cycle`까지다. 왜 Omen Cycle이 발생하고 무엇이 공격하며 Stage 20 승리가 무엇을 의미하는지는 아직 확정하지 않았다.
-
-### P0 · 20 Stage content / Boss structure
-
-World/core story 이후 다음을 닫는다.
+## 2. P0 — Current canon / validator reconciliation
 
 ```text
-STAGE_1_TO_20_CONTENT_ESCALATION
-BOSS_5_IDENTITY_AND_TEACHING_ROLE
-BOSS_10_IDENTITY_AND_BUILD_CHECK
-BOSS_15_IDENTITY_AND_COMPOUND_PRESSURE_ROLE
-BOSS_20_FINAL_RESOLUTION_AND_MASTERY_ROLE
-ELITE_VARIATION_BUDGET
-PRESSURE_COMBINATION_BUDGET
+CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK
+HISTORICAL_PROOF_OWNER_SEPARATION = REQUIRED
 ```
 
-기존 `5 / 10 / 15 / 20 Boss`와 `every-stage final-wave Elite`는 보호한다.
+- Current 문서는 current v4.7 state만 소유한다.
+- C1/C2/C3 exact SHA/run은 historical audit/archive evidence owner가 소유한다.
+- July Vertical Slice는 `[증거/호환]`, current product authority가 아니다.
+- Google Sheet는 current human authority가 아니다.
 
-### P0 · Balance Budget
-
-정확 수치 확정 전 목표 범위와 비교 지표부터 정한다.
-
-```text
-GOLD_INFLOW_AND_BUILD_SPEND_BUDGET
-AUTO_PRODUCTION_VALUE_BUDGET
-TOKEN_SOURCE_PROBABILITY_IMPACT_BUDGET
-UNIT_LIMIT_AND_DEPLOYMENT_PRESSURE_BUDGET
-MANA_RESEARCH_AND_CAST_BUDGET
-MERCHANT_SPEND_BUDGET
-STAGE_1_TO_5_FAILURE_TOLERANCE
-STAGE_20_BUILD_MASTERY_TARGET
-```
-
-`FINAL_PARAMETER_VECTOR`와 `FINAL_PRODUCT_NUMERICS`는 simulation/runtime/human evidence 전까지 미선정 유지.
-
-### P1 · Text UX / state transition spec
+## 3. P1 — Economy baseline
 
 ```text
-PREPARE_INFORMATION_HIERARCHY
-COMMIT_SPATIAL_DEPLOYMENT_TEXT_CONTRACT
-BATTLE_TACTICAL_PROMPT_CONTRACT
-REVIEW_CAUSAL_SUMMARY_CONTRACT
-FTUE_STAGE_1_TO_5_COPY_AND_DISCLOSURE
-ERROR_BLOCK_REASON_COPY
-DEBUG_VS_PLAYER_SURFACE_SEPARATION
-```
-
-## 2. Visual work pending / paused
-
-Visual Requirement Inventory와 A안 `Stage 2 PREPARE · Omen Wheels Focus` 방향은 승인됐으나 첫 생성 후보는 사용자 검토에서 기각됐다.
-
-```text
-VISUAL_GENERATION = PAUSED_PENDING_USER_REFERENCE_FILES
-FIRST_GENERATED_CANDIDATE = REJECTED_NOT_CANON
-USER_LOCAL_REFERENCE_FILES = PENDING
-```
-
-사용자 시안 파일을 받기 전에는 새 이미지 생성/수정을 하지 않는다. 이미지 보류는 world/story, content, balance, text UX 기획을 막지 않는다.
-
-## 3. Current implementation gate
-
-```text
-IMPLEMENTATION_START = NOT_AUTHORIZED
-CURRENT_GODOT_RUNTIME = NOT_RUN
-CURRENT_WINDOWS_RUNTIME = NOT_RUN
-CURRENT_RUNTIME_BLOCKER = UNVERIFIED_UNTIL_FRESH_EXECUTION
-```
-
-기획이 완료되고 사용자 implementation handoff가 열리기 전에는 Godot/GDScript/runtime mutation을 시작하지 않는다.
-
-## 4. Historical PR175 / Issue176 gate
-
-```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-ISSUE176 = OPEN_HISTORICAL_FOLLOWUP_REQUIRES_RECONCILIATION
-```
-
-Issue176은 과거 PR175 package의 7 gap을 보존하지만 current execution queue가 아니다.
-
-Future disposition gate:
-
-```text
-CURRENT_PLANNING_COMPLETE
-+ FRESH_MAIN_IMPLEMENTATION_AUDIT
-+ FRESH_RUNTIME_EVIDENCE
-→ compare Issue176 gaps to current code/contract
-→ KEEP / REWRITE / SPLIT / CLOSE / SUPERSEDE
-```
-
-## 5. Open/draft other workstream
-
-```text
-PR197 = OPEN_DRAFT_OTHER_WORKSTREAM_READ_ONLY
-```
-
-현재 기획 채팅은 PR197을 수정·retarget·merge하지 않고 그 unmerged 내용을 current product truth로 사용하지 않는다.
-
-## 6. Settled / not pending
-
-다음은 현재 재기획에서 다시 묻지 않는다.
-
-```text
-PLAYER_ROLE = Omen Warden
-ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-PRESSURE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE = OMEN_SIGNATURE
-AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
-THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
-FIRST5_FTUE_MASTERY_LADDER = CONFIRMED
-RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
-BOSS_STAGES = 5 / 10 / 15 / 20
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-```
-
-## 7. Evidence-deferred, not missing planning
-
-```text
-SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
+ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
 FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
-HUMAN_PLAYER_EXPERIENCE = NOT_RUN
 ```
 
-이 항목은 증거가 필요한 downstream tuning이며 world/story Decision과 혼동하지 않는다.
+Fresh main/runtime을 실행할 구현 단계에서 현재 데이터와 normalized planning envelope를 다시 대조한다.
 
-## 8. Current execution order
+## 4. P1 — Visual North Star
 
 ```text
-5x ADVERSARIAL REVIEW + CANON RECONCILIATION
-→ WORLD CONFLICT / CORE STORY
-→ 20 STAGE / BOSS CONTENT STRUCTURE
-→ BALANCE BUDGET
-→ TEXT UX SPEC
-→ USER REFERENCE VISUALS WHEN AVAILABLE
-→ FINAL PLANNING REVIEW
-→ IMPLEMENTATION HANDOFF ONLY AFTER USER AUTHORITY
+REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
-## 9. Historical compatibility markers
+선행 계약은 완료됐다.
 
-아래 문자열은 과거 2026-08-11~12 validator/lineage를 위한 `ALLOWED_LEGACY`다. current gate가 아니다.
+- Battlefield Scale / Wide Road
+- 3×3 Roulette
+- Token
+- Lower Control Deck
+- Roulette DDD
+- Top-down Battlefield Layout
+- Top-down Unit Silhouette
+
+사용자 이미지 생성 요청 전에는 임의 생성하지 않는다.
+
+## 5. P1 — Component sheet / reusable asset breakup
+
+North Star가 승인된 경우에만 실제 화면을 재사용 가능한 component/asset 단위로 분해한다.
+
+## 6. P1 — Final planning adversarial review
 
 ```text
-MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
-WHOLE_PROJECT_CONTENT_DECISIONS = CLOSED = HISTORICAL_LABEL_ONLY
-NEW_PRODUCT_DECISION_REQUIRED = FALSE = HISTORICAL_LABEL_ONLY
-PHASE_C_C0_OVERALL = HISTORICAL_PASS
-PR175 = OPEN_DRAFT = HISTORICAL_LABEL_ONLY
-PR175_DRAFT_7_RUNTIME_GAPS_OPEN = HISTORICAL_LABEL_ONLY
-PR175_CURRENT_MAIN_REVALIDATION_NEXT = HISTORICAL_COMPLETED_GATE_LOCATOR
-NEXT_EXECUTABLE_STEP = DISPOSABLE_AUTOLOAD_AB_ISOLATION = HISTORICAL_LABEL_ONLY
-PR177 = REFERENCE_ONLY_DO_NOT_MERGE = HISTORICAL_LABEL_ONLY
+MINIMUM_FULL_LOOPS = 5
+GITHUB_NOTION_DRIFT_CHECK = REQUIRED
+CLEAN_REVIEW_EXIT = REQUIRED_BEFORE_IMPLEMENTATION_HANDOFF
+```
+
+## 7. P1 — Implementation authority
+
+```text
+IMPLEMENTATION_AUTHORITY_REQUIRED
+CURRENT_IMPLEMENTATION_AUTHORITY = NONE
+```
+
+승인 전 제품 code/data/scene/balance/player-facing runtime을 변경하지 않는다.
+
+## 8. Runtime evidence pending
+
+```text
+CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_WINDOWS_RUNTIME = NOT_RUN
+CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
+CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+```
+
+과거 C1/C2/C3 technical evidence는 `LEGACY_C1_C2_C3_PROVEN`으로 보존되지만 현재 재기획 경험 증거를 대신하지 않는다.
+
+## 9. Historical Barracks simulation lineage
+
+다음은 현재 next gate가 아니라 과거 시뮬레이션/판정 계보다. 후속 v4.7 economy reconciliation에서 당시 결과를 재사용할 수 있도록 보존하되 현재 수치 authority로 승격하지 않는다.
+
+```text
+5_OF_10 = REMEDIATION_SMOKE_PASS
+6_OF_10_REVIEW = 10000_DECISION_SWEEP_REVIEW_COMPLETE
+OMW-DEC-20260808-PLANNING-BARRACKS-10000-SEED-DECISION-SWEEP-REVIEW-V1
+PARAMETER_SELECTION_NOT_IDENTIFIABLE = HISTORICAL_REVIEW_CONCLUSION
+DECISION_SWEEP_10000_EXECUTION = NOT_AUTHORIZED_BY_THAT_REVIEW
+FINAL_PARAMETER_VECTOR = NOT_SELECTED
+```
+
+후속 robustness 10k 및 role-output evidence는 historical experiment 범위로 보존한다. 이 계보는 `CURRENT_NEXT`를 바꾸지 않는다.
+
+## 10. Implementation-stage reconciliation candidates
+
+구현 권한이 열릴 때 다음을 fresh main에서 재대조한다.
+
+- legacy `tutorial_stage`와 `FIRST_SESSION = REAL_MAPRUN`의 관계.
+- 기존 StageRun/RunCommand orchestration gap.
+- 3×3 stopped/manipulation session.
+- battlefield graybox와 top-down presentation adapter.
+- economy drift.
+- historical Issue176 role-output package 중 current design에 여전히 필요한 부분.
+
+과거 packet을 그대로 실행하지 않는다.
+
+## 11. Platform / release later gates
+
+```text
+COMMON_PLATFORM_GATE = NOT_RUN
+PC_RELEASE_GATE = NOT_RUN
+MOBILE_RELEASE_GATE = NOT_RUN
+ANDROID_DEVICE = DEFERRED_RELEASE_NEAR
+EXPORT_PRESETS = ABSENT
+```
+
+## 12. GitHub live-state rule
+
+```text
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+PR175 = CLOSED_UNMERGED_HISTORICAL
+PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
+PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
+```
+
+## 13. Next gate
+
+```text
+CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+THEN = COMPONENT_SHEET
+THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
+THEN = IMPLEMENTATION_AUTHORITY_REQUIRED
 ```
