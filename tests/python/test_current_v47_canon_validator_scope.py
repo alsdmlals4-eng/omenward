@@ -24,6 +24,7 @@ class CurrentV47CanonValidatorScopeTests(unittest.TestCase):
             "docs/OMENWARD_ROADMAP.md",
             "docs/PROJECT_CANON_DECISION_LEDGER.md",
             "tests/python/test_canon_freshness_v45_routing.py",
+            "tests/python/test_pc_android_core_adapter_architecture_contract.py",
             "tests/python/test_phase_b_final_planning_review.py",
             "tests/python/test_quality_guardrails_elite_boss_cadence.py",
         })
@@ -52,6 +53,7 @@ class CurrentV47CanonValidatorScopeTests(unittest.TestCase):
         self.assertNotIn("scenes/", CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES)
         self.assertIn("tools/validate_canon_freshness_v45_scope.py", CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES)
         self.assertIn("tests/python/test_current_canon_reconciliation_20260821.py", CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES)
+        self.assertIn("tests/python/test_pc_android_core_adapter_architecture_contract.py", CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES)
         self.assertIn("tests/python/test_phase_b_final_planning_review.py", CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES)
         self.assertIn("tests/python/test_quality_guardrails_elite_boss_cadence.py", CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES)
 
