@@ -210,6 +210,7 @@ CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES = {
     "docs/PROJECT_CORE.md",
     "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md",
     "docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md",
+    "docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md",
     "tests/python/test_canon_freshness_v45_routing.py",
     "tests/python/test_content_closure_benchmark_first.py",
     "tests/python/test_current_canon_reconciliation_20260821.py",
