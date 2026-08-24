@@ -9,11 +9,15 @@ PROCESS = ROOT / "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIR
 AGENTS = ROOT / "AGENTS.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
+ONBOARDING = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
 PHASE_B = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 PRODUCT_DECISION = "OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1"
 PROCESS_DECISION = "OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1"
+CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+CURRENT_GATE = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK"
+STALE_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 
 
 class ContentClosureBenchmarkFirstTest(unittest.TestCase):
@@ -63,7 +67,7 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         ):
             self.assertIn(marker, text)
 
-    def test_phase_b_closure_is_history_and_v47_is_current(self) -> None:
+    def test_phase_b_closure_is_history_and_v48_is_current(self) -> None:
         phase_b = PHASE_B.read_text(encoding="utf-8")
         for marker in (
             "WHOLE_PROJECT_CONTENT_DECISION_GROUPS_OPEN = 0",
@@ -74,18 +78,20 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         ):
             self.assertIn(marker, phase_b)
 
-        # The exact Decision IDs are owned by their dedicated product/process
-        # documents; the Phase-B review only needs to preserve the observed
-        # closure result, not duplicate every owner ID.
         self.assertIn(PRODUCT_DECISION, PRODUCT.read_text(encoding="utf-8"))
         self.assertIn(PROCESS_DECISION, PROCESS.read_text(encoding="utf-8"))
 
-        for path in (AGENTS, ACTIVE, PENDING):
+        for path in (AGENTS, ACTIVE, PENDING, ONBOARDING):
             text = path.read_text(encoding="utf-8")
-            self.assertIn("PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7", text)
-            self.assertIn("REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", text)
+            self.assertIn(CURRENT_CONTRACT, text)
             self.assertIn("USER_REQUEST_ONLY", text)
             self.assertNotIn("PHASE_C_GATE = OPEN", text)
+            self.assertNotIn(STALE_GATE, text)
+
+        active = ACTIVE.read_text(encoding="utf-8")
+        pending = PENDING.read_text(encoding="utf-8")
+        self.assertIn(CURRENT_GATE, active)
+        self.assertIn(CURRENT_GATE, pending)
 
     def test_retained_responsibility_sources_still_exist_without_being_current_gate(self) -> None:
         sources = (
@@ -99,7 +105,7 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
             self.assertTrue((ROOT / source).is_file(), f"retained responsibility source was lost: {source}")
         pending = PENDING.read_text(encoding="utf-8")
         self.assertIn("ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION", pending)
-        self.assertIn("CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", pending)
+        self.assertIn(f"CURRENT_NEXT = {CURRENT_GATE}", pending)
 
     def test_final_numerics_remain_downstream(self) -> None:
         pending = PENDING.read_text(encoding="utf-8")
