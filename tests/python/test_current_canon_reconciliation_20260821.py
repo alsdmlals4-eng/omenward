@@ -26,7 +26,9 @@ TOPDOWN_LAYOUT = "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01"
 TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
 NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
+FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+CURRENT_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
 
@@ -110,6 +112,38 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
                 NORTH_STAR_AUDIT in text or NORTH_STAR_AUDIT_OWNER in text,
                 f"{relative} does not route the current North Star audit owner",
             )
+
+    def test_final_planning_review_is_current_and_routes_implementation_authority(self) -> None:
+        review = read("docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md")
+        for marker in (
+            "status: PASS_5_OF_5",
+            "ADVERSARIAL_REVIEW = PASS_5_OF_5",
+            "GITHUB_NOTION_DRIFT_CHECK = PASS",
+            "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
+            "IMPLEMENTATION_AUTHORITY = NONE",
+        ):
+            self.assertIn(marker, review)
+
+        for relative in (
+            "README.md",
+            "docs/PROJECT_CORE.md",
+            "docs/ACTIVE_CONTEXT.md",
+            "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+            "docs/CURRENT_CONFIRMED_DECISIONS.md",
+            "docs/OMENWARD_GDD_CURRENT_CANON.md",
+            "docs/OMENWARD_ROADMAP.md",
+            "docs/DECISIONS_PENDING.md",
+            "docs/DOCUMENTATION_MAP.md",
+            "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+            "docs/HANDOFF_CONTEXT.md",
+            "docs/PROJECT_CANON_DECISION_LEDGER.md",
+        ):
+            text = read(relative)
+            self.assertIn(CURRENT_GATE, text, relative)
+            self.assertIn("FINAL_PLANNING_ADVERSARIAL_REVIEW", text, relative)
+
+        routed = "\n".join(read(path) for path in ("README.md", "docs/ACTIVE_CONTEXT.md", "docs/DOCUMENTATION_MAP.md", "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"))
+        self.assertIn(FINAL_REVIEW_OWNER, routed)
 
     def test_current_world_docs_use_approved_veil_convergence_truth(self) -> None:
         for relative in ("docs/PROJECT_CORE.md", "docs/OMENWARD_GDD_CURRENT_CANON.md"):
