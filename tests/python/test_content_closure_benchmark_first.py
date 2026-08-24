@@ -10,13 +10,14 @@ AGENTS = ROOT / "AGENTS.md"
 ACTIVE = ROOT / "docs/ACTIVE_CONTEXT.md"
 PENDING = ROOT / "docs/DECISIONS_PENDING.md"
 ONBOARDING = ROOT / "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md"
+FINAL_REVIEW = ROOT / "docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 PHASE_B = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 
 PRODUCT_DECISION = "OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1"
 PROCESS_DECISION = "OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
-CURRENT_GATE = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK"
+CURRENT_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
 STALE_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 
 
@@ -92,6 +93,19 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
         pending = PENDING.read_text(encoding="utf-8")
         self.assertIn(CURRENT_GATE, active)
         self.assertIn(CURRENT_GATE, pending)
+        self.assertIn("FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5", active)
+        self.assertIn("GITHUB_NOTION_DRIFT_CHECK = PASS", pending)
+
+    def test_final_planning_review_reuses_benchmark_first_without_opening_new_product_decision(self) -> None:
+        text = FINAL_REVIEW.read_text(encoding="utf-8")
+        for marker in (
+            "status: PASS_5_OF_5",
+            "Targeted benchmark fresh-check",
+            "SELECTED_ROUTE = C",
+            "NEW_PRODUCT_DECISION_REQUIRED = FALSE",
+            "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
+        ):
+            self.assertIn(marker, text)
 
     def test_retained_responsibility_sources_still_exist_without_being_current_gate(self) -> None:
         sources = (
