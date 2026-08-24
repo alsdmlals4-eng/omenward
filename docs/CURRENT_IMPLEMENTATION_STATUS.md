@@ -4,7 +4,7 @@
 updated_at: 2026-08-24
 status: CURRENT_IMPLEMENTATION_STATUS
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
-planning_status: NORTH_STAR_V2_1_AUDITED_FINAL_REVIEW_PENDING
+planning_status: FINAL_PLANNING_REVIEW_COMPLETE_AWAITING_IMPLEMENTATION_AUTHORITY
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 implementation_authorized: false
 current_runtime_status: NOT_RUN
@@ -25,7 +25,7 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 CURRENT_RUNTIME_BLOCKER = UNVERIFIED_UNTIL_FRESH_EXECUTION
 ```
 
-2026-08-20~24의 v4.8 재기획·North Star 감사 작업은 current 제품 경험을 실행·검증하지 않았다. 과거 signal11이나 과거 exact-head technical PASS를 현재 blocker/PASS로 재주장하지 않는다.
+2026-08-20~24의 v4.8 재기획·North Star 감사·final planning adversarial review는 current 제품 경험을 실행·검증하지 않았다. 과거 signal11이나 과거 exact-head technical PASS를 현재 blocker/PASS로 재주장하지 않는다.
 
 ## 2. Existing main foundations
 
@@ -58,11 +58,17 @@ NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
 NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
 LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
 COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
-CURRENT_NEXT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+GITHUB_NOTION_DRIFT_CHECK = PASS
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+IMPLEMENTATION_AUTHORITY = NONE
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
+
+Final planning review owner:
+- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
 새 정본과 현재 프로토타입 사이에는 의도된 미구현 간격이 있다. 구현 권한이 열리기 전까지 이를 runtime defect나 completion으로 승격하지 않는다.
 
@@ -126,10 +132,11 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. `docs/ACTIVE_CONTEXT.md`.
 5. current GDD/Project Core + relevant owner.
-6. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-7. Project Notion current human-facing page.
-8. fresh local Godot/runtime execution.
-9. 그 뒤에만 historical runtime/evidence와 비교.
+6. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
+7. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
+8. Project Notion current human-facing page.
+9. fresh local Godot/runtime execution.
+10. 그 뒤에만 historical runtime/evidence와 비교.
 
 ## 9. Historical compatibility markers
 
