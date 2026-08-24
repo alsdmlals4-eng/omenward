@@ -8,6 +8,7 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+CURRENT_GATE = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 CURRENT_GDD = "docs/OMENWARD_GDD_CURRENT_CANON.md"
@@ -37,6 +38,7 @@ REQUIRED_FILES = (
     CURRENT_GDD,
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
     "docs/DECISIONS_PENDING.md",
     "docs/PROJECT_CANON_DECISION_LEDGER.md",
     TOPDOWN_LAYOUT,
@@ -62,6 +64,7 @@ CURRENT_ROUTE_FILES = (
     CURRENT_SPEC,
     CURRENT_GDD,
     "docs/OMENWARD_ROADMAP.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
     "docs/DECISIONS_PENDING.md",
     "docs/PROJECT_CANON_DECISION_LEDGER.md",
 )
@@ -136,6 +139,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION",
             "NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION",
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
         ),
         "current decision index",
@@ -154,6 +158,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "PREPARE -> COMMIT -> BATTLE -> REVIEW",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "LEGACY_C1_C2_C3_PROVEN",
@@ -172,6 +177,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "CURRENT_CONFIRMED_REPLAN_DECISIONS = 19",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "CURRENT_WINDOWS_RUNTIME = NOT_RUN",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
@@ -194,6 +200,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "RUN_HISTORY_RESET = FALSE",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
         ),
@@ -215,7 +222,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            "CURRENT_NEXT = COMPONENT_BREAKDOWN_REUSE_IN_FINAL_PLANNING_REVIEW",
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
         ),
         "Active Context",
@@ -238,6 +245,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
             "Google Sheet는 current human authority가 아니다",
         ),
@@ -254,6 +262,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
             "[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md",
         ),
@@ -267,7 +276,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         (
             CURRENT_CONTRACT,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            CURRENT_GATE,
             "USER_REQUEST_ONLY",
             "TOPDOWN_BATTLEFIELD_LAYOUT",
             "TOPDOWN_UNIT_SILHOUETTE",
@@ -283,7 +292,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "ECONOMY_BASELINE_DRIFT",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            CURRENT_GATE,
             "IMPLEMENTATION_AUTHORITY_REQUIRED",
         ),
         "pending decisions",
@@ -300,7 +309,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            CURRENT_GATE,
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
         ),
@@ -309,6 +318,19 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for stale in ("PHASE_C_ISSUE176_PROJECT_BOOT_SIGNAL11_ISOLATION", "DISPOSABLE_AUTOLOAD_AB_ISOLATION", "PR175 = OPEN_DRAFT"):
         if stale in handoff:
             errors.append(f"current handoff retains historical runtime routing: {stale}")
+
+    onboarding = read(root, "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md")
+    require(
+        errors,
+        onboarding,
+        (
+            "status: CURRENT_ONBOARDING_AUTHORITY",
+            CURRENT_CONTRACT,
+            "current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md",
+            "USER_REQUEST_ONLY",
+        ),
+        "onboarding authority",
+    )
 
     ledger_current = read(root, "docs/PROJECT_CANON_DECISION_LEDGER.md")
     require(
@@ -319,6 +341,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            CURRENT_GATE,
             "USER_REQUEST_ONLY",
         ),
         "current decision ledger",
