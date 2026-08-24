@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import pathlib
+import re
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
@@ -16,10 +17,17 @@ CURRENT_DOCS = (
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
     "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
 )
 
 TOPDOWN_LAYOUT = "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01"
 TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
+NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
+NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
+CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
 
 
@@ -37,17 +45,71 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         decisions = read("docs/CURRENT_CONFIRMED_DECISIONS.md")
         self.assertIn(TOPDOWN_LAYOUT, decisions)
         self.assertIn(TOPDOWN_SILHOUETTE, decisions)
-        self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 18", decisions)
+        self.assertIn(NORTH_STAR_AUDIT, decisions)
         self.assertIn("APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md", decisions)
         self.assertIn("APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md", decisions)
+        self.assertIn(NORTH_STAR_AUDIT_OWNER, decisions)
+        self.assertIn("NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY", decisions)
+        self.assertIn("NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION", decisions)
+        self.assertIn("NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION", decisions)
 
-    def test_entry_docs_route_current_north_star_gate_and_user_request_only_visuals(self) -> None:
-        for relative in ("README.md", "AGENTS.md", "docs/ACTIVE_CONTEXT.md", "docs/OMENWARD_ROADMAP.md", "docs/DOCUMENTATION_MAP.md"):
+    def test_current_decision_count_matches_registered_table(self) -> None:
+        decisions = read("docs/CURRENT_CONFIRMED_DECISIONS.md")
+        match = re.search(r"CURRENT_APPROVED_REPLAN_DECISIONS\s*=\s*(\d+)", decisions)
+        self.assertIsNotNone(match)
+        table_ids = set(re.findall(r"\| `(OMW-PLAN-[^`]+)` \|", decisions))
+        self.assertEqual(int(match.group(1)), len(table_ids))
+        self.assertEqual(19, len(table_ids))
+
+    def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:
+        for relative in CURRENT_DOCS:
             text = read(relative)
-            self.assertIn("REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", text, relative)
+            self.assertIn(CURRENT_CONTRACT, text, relative)
+            self.assertNotIn(STALE_NORTH_STAR_GATE, text, relative)
+
+        for relative in (
+            "README.md",
+            "docs/PROJECT_CORE.md",
+            "docs/ACTIVE_CONTEXT.md",
+            "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+            "docs/CURRENT_CONFIRMED_DECISIONS.md",
+            "docs/OMENWARD_GDD_CURRENT_CANON.md",
+            "docs/OMENWARD_ROADMAP.md",
+            "docs/DECISIONS_PENDING.md",
+            "docs/DOCUMENTATION_MAP.md",
+            "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+            "docs/HANDOFF_CONTEXT.md",
+            "docs/PROJECT_CANON_DECISION_LEDGER.md",
+        ):
+            text = read(relative)
             self.assertIn("USER_REQUEST_ONLY", text, relative)
-            self.assertNotIn("PAUSED_PENDING_USER_REFERENCE_FILES", text, relative)
-            self.assertNotIn("current_next_gate: ROULETTE_DDD_FEEDBACK_SPEC", text, relative)
+
+        agents = read("AGENTS.md")
+        self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
+        self.assertIn("current_context: docs/ACTIVE_CONTEXT.md", agents)
+        self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
+
+    def test_current_north_star_audit_is_consistent_across_state_owners(self) -> None:
+        for relative in (
+            "README.md",
+            "docs/PROJECT_CORE.md",
+            "docs/ACTIVE_CONTEXT.md",
+            "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+            "docs/CURRENT_CONFIRMED_DECISIONS.md",
+            "docs/OMENWARD_GDD_CURRENT_CANON.md",
+            "docs/OMENWARD_ROADMAP.md",
+            "docs/DECISIONS_PENDING.md",
+            "docs/DOCUMENTATION_MAP.md",
+            "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+            "docs/HANDOFF_CONTEXT.md",
+            "docs/PROJECT_CANON_DECISION_LEDGER.md",
+        ):
+            text = read(relative)
+            self.assertIn("NORTH_STAR_V2_1", text, relative)
+            self.assertTrue(
+                NORTH_STAR_AUDIT in text or NORTH_STAR_AUDIT_OWNER in text,
+                f"{relative} does not route the current North Star audit owner",
+            )
 
     def test_current_world_docs_use_approved_veil_convergence_truth(self) -> None:
         for relative in ("docs/PROJECT_CORE.md", "docs/OMENWARD_GDD_CURRENT_CANON.md"):
