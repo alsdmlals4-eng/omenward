@@ -11,6 +11,7 @@ current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
 implementation_architecture_approved: true
 implementation_plan_ready: true
+execution_handoff_ready: true
 implementation_authorized: false
 visual_generation: USER_REQUEST_ONLY
 current_chat_runtime_status: NOT_RUN
@@ -46,7 +47,9 @@ FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
 ORCHESTRATION_FIRST_VERTICAL_SLICE_ARCHITECTURE = USER_APPROVED
 TDD_IMPLEMENTATION_PLAN = READY
-CURRENT_NEXT = EXECUTION_HANDOFF_REQUIRED
+EXECUTION_HANDOFF = READY
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+IMPLEMENTATION_AUTHORITY = NONE
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
@@ -56,6 +59,9 @@ Implementation architecture owner:
 
 Implementation plan owner:
 - `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`
+
+Planning review owner:
+- `docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md`
 
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
@@ -165,7 +171,7 @@ DEBUG_STAGE_HUD = PRESERVED_TECHNICAL_SURFACE
 PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
 GUT = DETERMINISTIC_TEST_AUTHORITY
 HERA = READ_ONLY_LIVE_QA
-PRODUCT_CODE_AUTHORITY = NONE
+IMPLEMENTATION_AUTHORITY = NONE
 ```
 
 ## Runtime / evidence boundary
@@ -203,9 +209,10 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 6. COMPLETE — final planning adversarial review 5/5 + GitHub/Notion drift check
 7. COMPLETE — Orchestration-first Vertical Slice architecture approval
 8. COMPLETE — detailed TDD implementation plan preparation
-9. CURRENT GATE — execution handoff required; product code authority is NONE
-10. OPTIONAL IMAGE — corrected North Star only on explicit user image request
-11. IMPLEMENTATION — only in a HiGodot-capable execution route after explicit handoff
+9. READY — execution handoff package
+10. CURRENT GATE — explicit implementation authority required; implementation authority is NONE
+11. OPTIONAL IMAGE — corrected North Star only on explicit user image request
+12. IMPLEMENTATION — only after explicit implementation authority in a HiGodot-capable execution route
 ```
 
 ## Resume order
@@ -217,7 +224,8 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 5. current GDD/Project Core + relevant owner.
 6. `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md`.
 7. `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`.
-8. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-9. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-10. Project Notion Home + Planning + Production Handoff pages.
-11. runtime only after explicit execution handoff.
+8. `docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md`.
+9. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
+10. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
+11. Project Notion Home + Planning + Production Handoff pages.
+12. runtime only after explicit implementation authority.
