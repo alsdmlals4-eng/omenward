@@ -214,6 +214,7 @@ CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES = {
     "tests/python/test_content_closure_benchmark_first.py",
     "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v48_north_star_audit_scope.py",
+    "tests/python/test_pc_android_core_adapter_architecture_contract.py",
     "tests/python/test_phase_b_final_planning_review.py",
     "tests/python/test_project_core_docs.py",
     "tools/validate_canon_freshness_v45_scope.py",
