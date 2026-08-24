@@ -13,21 +13,14 @@ from validate_canon_freshness_v45_scope import validate_canon_freshness_scope  #
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate_project_core = MODULE["validate"]
 
+# Exact retained surface of PR #207. Volatile implementation authority is owned by
+# AGENTS routing + Current Decisions + Active Context; durable current consumers do
+# not need to be rewritten just to repeat the same live gate. The two validators and
+# their mutation tests are included so the transition remains fail-closed.
 RUN_COMMAND_AUTHORITY_SYNC_SURFACE = {
     "AGENTS.md",
-    "README.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_CONFIRMED_DECISIONS.md",
-    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
-    "docs/DECISIONS_PENDING.md",
-    "docs/DOCUMENTATION_MAP.md",
-    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
-    "docs/HANDOFF_CONTEXT.md",
-    "docs/OMENWARD_GDD_CURRENT_CANON.md",
-    "docs/OMENWARD_ROADMAP.md",
-    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
-    "docs/PROJECT_CANON_DECISION_LEDGER.md",
-    "docs/PROJECT_CORE.md",
     "tests/python/test_project_core_docs.py",
     "tests/python/test_run_command_implementation_authority_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
