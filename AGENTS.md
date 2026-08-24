@@ -9,7 +9,7 @@ planning_status: RESOLVE_FROM_CURRENT_DECISION_INDEX
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
-implementation_authorized: false
+implementation_authorized: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
 visual_generation: USER_REQUEST_ONLY
 ```
 
@@ -34,11 +34,11 @@ visual_generation: USER_REQUEST_ONLY
 ```text
 CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
 VISUAL_GENERATION = USER_REQUEST_ONLY
-IMPLEMENTATION_START = EXPLICIT_USER_AUTHORITY_REQUIRED
+IMPLEMENTATION_START = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
 RUNTIME_EVIDENCE = RESOLVE_FROM_ACTIVE_CONTEXT_AND_ACTUAL_EXECUTION
 ```
 
-이미 승인 owner가 존재하는 질문을 다시 열지 않는다. 각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN` 블록은 **그 Decision 승인 당시의 local sequence**로 읽고 current router로 사용하지 않는다.
+이미 승인 owner가 존재하는 질문을 다시 열지 않는다. 각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN` 블록은 **그 Decision 승인 당시의 local sequence**로 읽고 current router로 사용하지 않는다. 특정 구현 패킷이 승인되었다면 그 패킷의 명시 범위만 구현 권한으로 읽고, 프로젝트 전체 구현 권한으로 확대하지 않는다.
 
 ## 3. Protected product identity
 
