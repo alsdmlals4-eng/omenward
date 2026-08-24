@@ -37,6 +37,15 @@ Notion은 승인 visual과 사람이 읽는 판정·설명을 소유하고, repo
 
 ## 3. 영역별 판정
 
+```text
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+BATTLEFIELD_COMPOSITION = APPROVED_DIRECTION
+ART_MOOD_FACTION_CONTRAST = APPROVED_DIRECTION
+LOWER_CONTROL_DECK_LAYOUT = NEEDS_CORRECTION
+ROULETTE_INTERACTION_SURFACE = NEEDS_CORRECTION
+EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+```
+
 | 영역 | 판정 | 처리 |
 |---|---|---|
 | Battlefield composition | `APPROVED_DIRECTION` | 3전선 전체 표시, 아군 좌측 ↔ Veil 우측, 넓은 combat road, 큰 clash node 방향 재사용 |
