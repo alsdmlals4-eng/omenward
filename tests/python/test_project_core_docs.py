@@ -46,6 +46,27 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             path.write_text(path.read_text(encoding="utf-8").replace("LEGACY_C1_C2_C3_PROVEN", "LEGACY_PROOF_REMOVED"), encoding="utf-8")
             self.assertTrue(any("LEGACY_C1_C2_C3_PROVEN" in error for error in validate(root)))
 
+    def test_decision_count_mismatch_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / CURRENT_SPEC
+            body = path.read_text(encoding="utf-8").replace(
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+                1,
+            )
+            path.write_text(body, encoding="utf-8")
+            self.assertTrue(any("decision count mismatch" in error for error in validate(root)))
+
+    def test_stale_pre_audit_north_star_gate_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "README.md"
+            path.write_text(path.read_text(encoding="utf-8") + "\nREBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST\n", encoding="utf-8")
+            self.assertTrue(any("stale marker" in error for error in validate(root)))
+
     def test_evidence_pilot_is_required_as_history(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
