@@ -223,6 +223,20 @@ CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES = {
 }
 CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS = set(CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES)
 
+# Current live-state owners transitioned from planning-complete/awaiting-authority to a
+# user-approved, *scoped* Run Command implementation packet. Keep this bounded so the
+# authority sync itself cannot mutate product source or unrelated current consumers.
+RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES = {
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS = set(RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -240,6 +254,7 @@ APPROVED_FILES = (
     | PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES
     | CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES
     | CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES
+    | RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES
 )
 
 
@@ -271,6 +286,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES, RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS, "Run Command implementation-authority sync"),
         (CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES, CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS, "current v4.8 North Star audit reconciliation"),
         (CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES, CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS, "current v4.7 canon-validator reconciliation"),
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
