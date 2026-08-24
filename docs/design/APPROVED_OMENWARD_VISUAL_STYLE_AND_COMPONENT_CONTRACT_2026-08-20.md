@@ -6,6 +6,7 @@ status: APPROVED_CURRENT
 approved_at: 2026-08-20
 approval: USER_EXPLICIT_STYLE_APPROVAL_AND_COMPONENT_DIRECTION
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+current_visual_audit: OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01
 runtime_mutation: NONE
 scene_mutation: NONE
 product_data_mutation: NONE
@@ -215,18 +216,36 @@ EXACT_PIXEL_RESOLUTION_PER_ASSET = NOT_FINAL
 EXACT_VFX_TIMING = NOT_FINAL
 ```
 
-## 10. 현재 생성 이미지의 지위
+## 10. North Star v2.1의 현재 지위
 
-최근 애니메 픽셀 + 클린 픽셀 예시 화면과 컴포넌트 정리 보드는 **style/reference evidence**로만 사용한다.
-
-- 그림체 방향은 승인됐다.
-- 보드 안 실제 하단 배치, 텍스트, 캐릭터/건물 개별 외형, 잘못 표현된 룰렛 구조는 최종 UI 정본이 아니다.
-- 향후 North Star는 이 계약을 사용해 `넓은 전장 + 3×3 룰렛 + prominent arrows + compact lower deck`으로 다시 제작한다.
-
-## 11. 다음 Gate
+사용자가 제공한 `North Star v2.1`은 `OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01`에서 영역별 감사했다.
 
 ```text
-NEXT_VISUAL_WORK = COMPONENT_LEVEL_REFERENCE_AND_NORTH_STAR_REBUILD
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+BATTLEFIELD_COMPOSITION = APPROVED_DIRECTION
+ART_MOOD_FACTION_CONTRAST = APPROVED_DIRECTION
+LOWER_CONTROL_DECK_LAYOUT = NEEDS_CORRECTION
+ROULETTE_INTERACTION_SURFACE = NEEDS_CORRECTION
+EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+```
+
+- 3전선 전체 표시, 넓은 combat road, 큰 clash node, 아군 좌측 ↔ Veil 우측 구도는 보호한다.
+- Anime Pixel unit + Clean Pixel battlefield 조합과 큰 진영 대비는 보호한다.
+- 이미지처럼 Roulette / Storage / Commit / battlefield summary를 persistent dashboard로 동시에 크게 펼치는 구조는 채택하지 않는다.
+- 3×3 direct-arrow workbench는 기존 계약대로 각 열 상·하 / 각 행 좌·우 affordance를 더 명확하게 교정한다.
+- 이미지 속 문구·수치·패널 폭·정확 픽셀 위치를 product canon으로 사용하지 않는다.
+
+상세 감사·Correction Brief·Component Breakdown owner:
+
+`docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
+
+## 11. 현재 Gate
+
+```text
+NORTH_STAR_V2_1_AREA_AUDIT = COMPLETE
+LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
+NEXT_NON_IMAGE_WORK = COMPONENT_BREAKDOWN_REUSE_IN_FINAL_PLANNING_REVIEW
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 IMAGE_GENERATION = USER_REQUEST_ONLY
 RUNTIME_IMPLEMENTATION = NOT_AUTHORIZED
 HUMAN_USABILITY = NOT_RUN
