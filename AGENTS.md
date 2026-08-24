@@ -1,11 +1,11 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-21
+updated_at: 2026-08-24
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
-planning_status: REOPENED_REVIEW_IN_PROGRESS
+planning_status: NORTH_STAR_V2_1_AUDITED_CORRECTION_BRIEF_CURRENT
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -33,15 +33,19 @@ current_chat_runtime: NOT_RUN
 현재 승인 상태의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`다.
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 18
-CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+CURRENT_APPROVED_REPLAN_DECISIONS = 19
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+CURRENT_NEXT = COMPONENT_BREAKDOWN_REUSE_IN_FINAL_PLANNING_REVIEW
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ```
 
-현재 non-image 기획의 world/content/balance envelope/Text UX/Visual Component/Top-down Layout/Silhouette 계약은 이미 승인 owner가 존재한다. 같은 질문을 다시 열지 않는다.
+현재 non-image 기획의 world/content/balance envelope/Text UX/Visual Component/Top-down Layout/Silhouette/North Star v2.1 audit 계약은 이미 승인 owner가 존재한다. 같은 질문을 다시 열지 않는다.
+
+각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN` 블록은 **그 Decision 승인 당시의 local sequence**로 읽고, 현재 프로젝트 routing은 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 `docs/ACTIVE_CONTEXT.md`를 우선한다.
 
 ## 3. Protected product identity
 
@@ -88,6 +92,12 @@ DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 ROULETTE_EXPOSURE = 3×3
 LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
+NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
+NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
+NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
+NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
 ```
 
 Visual owner를 읽을 때 최소 다음을 함께 확인한다.
@@ -99,12 +109,13 @@ Visual owner를 읽을 때 최소 다음을 함께 확인한다.
 - roulette DDD
 - top-down battlefield layout
 - top-down unit silhouette
+- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
 
 이미지 생성은 사용자가 명시적으로 요청한 경우에만 수행한다.
 
 ## 5. Runtime / evidence ceiling
 
-현재 v4.7 재기획 의미에 대한 runtime/사람 검증은 실행하지 않았다.
+현재 v4.8 재기획 의미에 대한 runtime/사람 검증은 실행하지 않았다.
 
 ```text
 CURRENT_GODOT_RUNTIME = NOT_RUN
