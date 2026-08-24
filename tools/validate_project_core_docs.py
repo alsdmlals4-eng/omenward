@@ -8,7 +8,9 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
-CURRENT_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
+HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
+CURRENT_EXECUTION_GATE = "RUN_COMMAND_VERTICAL_SLICE_EXECUTION"
+CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 FINAL_REVIEW = "docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
@@ -24,6 +26,8 @@ TOPDOWN_LAYOUT = "docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_
 TOPDOWN_SILHOUETTE = "docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md"
 NORTH_STAR_AUDIT = "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 NORTH_STAR_AUDIT_ID = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
+IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
+IMPLEMENTATION_PLAN = "docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 STALE_FINAL_REVIEW_GATE = "CURRENT_NEXT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK"
 DYNAMIC_CURRENT_REF = "RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH"
@@ -48,6 +52,8 @@ REQUIRED_FILES = (
     TOPDOWN_SILHOUETTE,
     NORTH_STAR_AUDIT,
     FINAL_REVIEW,
+    IMPLEMENTATION_PACKET,
+    IMPLEMENTATION_PLAN,
     HISTORICAL_VERTICAL_SLICE,
     CURRENT_REVIEW,
     EVIDENCE_PILOT,
@@ -56,6 +62,10 @@ REQUIRED_FILES = (
     ROULETTE_RULES,
 )
 
+# These files must continue to route through v4.8, but volatile implementation
+# authority is owned only by CURRENT_SPEC + ACTIVE_CONTEXT. Requiring a copied
+# live gate in every current document caused the validators themselves to freeze
+# the pre-approval state after the user granted a scoped implementation packet.
 CURRENT_ROUTE_FILES = (
     "README.md",
     "AGENTS.md",
@@ -147,14 +157,104 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
-            f"CURRENT_NEXT = {CURRENT_GATE}",
-            "IMPLEMENTATION_AUTHORITY = NONE",
+            f"CURRENT_NEXT = {CURRENT_EXECUTION_GATE}",
+            f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
+            IMPLEMENTATION_PACKET,
+            IMPLEMENTATION_PLAN,
+            "PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY",
+            "RUNTIME_EVIDENCE = NOT_RUN",
+            "HUMAN_EVIDENCE = NOT_RUN",
             "USER_REQUEST_ONLY",
         ),
         "current decision index",
     )
     validate_decision_count(errors, decisions)
 
+    agents = read(root, "AGENTS.md")
+    require(
+        errors,
+        agents,
+        (
+            CURRENT_CONTRACT,
+            "implementation_authorized: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
+            "IMPLEMENTATION_START = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
+            "CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
+            "VISUAL_GENERATION = USER_REQUEST_ONLY",
+        ),
+        "AGENTS",
+    )
+
+    active = read(root, "docs/ACTIVE_CONTEXT.md")
+    require(
+        errors,
+        active,
+        (
+            CURRENT_CONTRACT,
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            pathlib.PurePosixPath(FINAL_REVIEW).name,
+            "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
+            "GITHUB_NOTION_DRIFT_CHECK = PASS",
+            "implementation_authorized: true",
+            "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY",
+            f"CURRENT_NEXT = {CURRENT_EXECUTION_GATE}",
+            "ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE",
+            "PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY",
+            "CURRENT_GODOT_RUNTIME = NOT_RUN",
+            "CURRENT_GUT_RED = NOT_RUN",
+            "CURRENT_GUT_GREEN = NOT_RUN",
+            "CURRENT_HERA_LIVE_QA = NOT_RUN",
+            "CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN",
+            "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
+            "USER_REQUEST_ONLY",
+        ),
+        "Active Context",
+    )
+    if "current_branch_and_commit:" in active:
+        errors.append("Active Context contains self-referential current_branch_and_commit")
+    for field in ("current_main", "context_baseline_commit"):
+        match = re.search(rf"(?m)^{field}:\s*([^\n]+)$", active)
+        if match and re.fullmatch(r"[0-9a-f]{40}", match.group(1).strip(" `")):
+            errors.append(f"{field} must resolve dynamically")
+
+    packet = read(root, IMPLEMENTATION_PACKET)
+    require(
+        errors,
+        packet,
+        (
+            "packet_id: OMW-EXEC-20260824-RUN-COMMAND-VERTICAL-SLICE-01",
+            "status: APPROVED_FOR_EXECUTION",
+            "approved_by_user: true",
+            "architecture: ORCHESTRATION_FIRST_VERTICAL_SLICE",
+            "implementation_authority: HIGODOT_SINGLE_PERSISTENT_AUTHORING_AUTHORITY",
+            "PRODUCT_RUNTIME_IMPLEMENTATION: NOT_RUN",
+            "GUT_RED: NOT_RUN",
+            "GUT_GREEN: NOT_RUN",
+            "HERA_LIVE_QA: NOT_RUN",
+            "HUMAN_VALIDATION: NOT_RUN",
+        ),
+        "implementation packet",
+    )
+    plan = read(root, IMPLEMENTATION_PLAN)
+    require(
+        errors,
+        plan,
+        (
+            "OMENWARD Run Command Vertical Slice Implementation Plan",
+            "orchestration-first",
+            "HiGodot",
+            "GUT",
+            "PREPARE",
+            "COMMIT",
+            "BATTLE",
+            "REVIEW",
+        ),
+        "implementation plan",
+    )
+
+    # Durable current documents remain required for core/world/visual/history
+    # semantics, but volatile CURRENT_NEXT/implementation authority is not copied
+    # from them. CURRENT_SPEC + ACTIVE_CONTEXT are the sole live-state owners.
     core = read(root, "docs/PROJECT_CORE.md")
     require(
         errors,
@@ -170,8 +270,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
-            "IMPLEMENTATION_AUTHORITY = NONE",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "LEGACY_C1_C2_C3_PROVEN",
@@ -193,8 +291,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
-            "IMPLEMENTATION_AUTHORITY = NONE",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "CURRENT_WINDOWS_RUNTIME = NOT_RUN",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
@@ -220,8 +316,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
-            "IMPLEMENTATION_AUTHORITY = NONE",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
         ),
@@ -234,29 +328,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     ):
         if stale in gdd:
             errors.append(f"current GDD retains superseded world decision: {stale}")
-
-    active = read(root, "docs/ACTIVE_CONTEXT.md")
-    require(
-        errors,
-        active,
-        (
-            CURRENT_CONTRACT,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            pathlib.PurePosixPath(FINAL_REVIEW).name,
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
-            "USER_REQUEST_ONLY",
-        ),
-        "Active Context",
-    )
-    if "current_branch_and_commit:" in active:
-        errors.append("Active Context contains self-referential current_branch_and_commit")
-    for field in ("current_main", "context_baseline_commit"):
-        match = re.search(rf"(?m)^{field}:\s*([^\n]+)$", active)
-        if match and re.fullmatch(r"[0-9a-f]{40}", match.group(1).strip(" `")):
-            errors.append(f"{field} must resolve dynamically")
 
     doc_map = read(root, "docs/DOCUMENTATION_MAP.md")
     require(
@@ -272,7 +343,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
             "Google Sheet는 current human authority가 아니다",
         ),
@@ -292,7 +362,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
             "USER_REQUEST_ONLY",
             "[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md",
         ),
@@ -309,7 +378,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            CURRENT_GATE,
             "USER_REQUEST_ONLY",
             "TOPDOWN_BATTLEFIELD_LAYOUT",
             "TOPDOWN_UNIT_SILHOUETTE",
@@ -328,8 +396,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            CURRENT_GATE,
-            "CURRENT_IMPLEMENTATION_AUTHORITY = NONE",
         ),
         "pending decisions",
     )
@@ -348,8 +414,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            CURRENT_GATE,
-            "IMPLEMENTATION_AUTHORITY = NONE",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
         ),
@@ -384,13 +448,14 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            CURRENT_GATE,
-            "IMPLEMENTATION_AUTHORITY = NONE",
             "USER_REQUEST_ONLY",
         ),
         "current decision ledger",
     )
 
+    # North Star audit and final planning review are historical records of the
+    # state *before* the later explicit implementation approval. Their authority
+    # markers must remain unchanged rather than being rewritten as current state.
     audit = read(root, NORTH_STAR_AUDIT)
     require(
         errors,
@@ -420,7 +485,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
             "NEW_PRODUCT_DECISION_REQUIRED = FALSE",
             "PLANNING_BLOCKER = NONE",
-            f"CURRENT_NEXT = {CURRENT_GATE}",
+            f"CURRENT_NEXT = {HISTORICAL_PLANNING_GATE}",
             "IMPLEMENTATION_AUTHORITY = NONE",
             "CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
@@ -448,7 +513,6 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     if "implementation_authority: NONE" not in pilot:
         errors.append("Evidence Pilot lost non-implementation boundary")
 
-    # Historical files remain verifiable but are not current routing authority.
     historical_spec = read(root, HISTORICAL_VERTICAL_SLICE)
     if "USER_APPROVED_PLAN" not in historical_spec:
         errors.append("historical Vertical Slice contract lost provenance")

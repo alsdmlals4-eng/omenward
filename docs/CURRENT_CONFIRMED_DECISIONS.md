@@ -5,7 +5,7 @@ updated_at: 2026-08-24
 status: CURRENT_DECISION_RECOVERY_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_reopened_at: 2026-08-20
-current_planning_track: FINAL_PLANNING_REVIEW_COMPLETE_AWAITING_IMPLEMENTATION_AUTHORITY
+current_planning_track: RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTATION_AUTHORIZED
 runtime_evidence_ceiling: CURRENT_REPLAN_RUNTIME_NOT_RUN
 human_play_evidence: NOT_RUN
 visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
@@ -104,6 +104,24 @@ CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ```
 
+## Current implementation authority
+
+```text
+PREVIOUS_GATE_BEFORE_2026_08_24_USER_APPROVAL = IMPLEMENTATION_AUTHORITY_REQUIRED
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
+IMPLEMENTATION_PACKET = docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
+IMPLEMENTATION_PLAN = docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
+AUTHORIZED_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE
+AUTHORIZED_FLOW = PREPARE -> STOPPED_3X3 -> MANIPULATE -> CONFIRM -> COMMIT_PENDING -> ATOMIC_DEPLOY -> BATTLE -> REVIEW
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+RUNTIME_EVIDENCE = NOT_RUN
+HUMAN_EVIDENCE = NOT_RUN
+```
+
+`PREVIOUS_GATE_BEFORE_2026_08_24_USER_APPROVAL`은 최종 기획 검토 당시의 과거 gate를 재현하기 위한 compatibility marker이며 현재 작업 라우터가 아니다. 현재 권한과 다음 작업은 아래 `Current work order`가 소유한다.
+
+이 권한은 프로젝트 전체 구현 승인이나 unrelated Issue/PR takeover가 아니다. 패킷에 명시된 first vertical slice만 승인하며, 범위 밖 product/balance/platform/role-output 작업은 별도 권한을 유지한다.
+
 ## Current work order
 
 ```text
@@ -115,10 +133,10 @@ COMPLETED = LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF
 COMPLETED = COMPONENT_BREAKDOWN_FOR_FINAL_PLANNING_INPUT
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
-IMPLEMENTATION_AUTHORITY = NONE
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
+CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION
+EXECUTION_PLAN = docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
-THEN = IMPLEMENTATION_HANDOFF_AFTER_EXPLICIT_USER_AUTHORITY
 ```
 
 ## GitHub work-item rule
@@ -127,16 +145,16 @@ THEN = IMPLEMENTATION_HANDOFF_AFTER_EXPLICIT_USER_AUTHORITY
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-진행 중 PR은 fresh 조회 후 Base 규칙대로 read-only 처리한다. 과거 PR/Issue 문자열을 current routing으로 재사용하지 않는다.
+진행 중 PR은 fresh 조회 후 Base 규칙대로 read-only 처리한다. 현재 Run Command 구현은 latest completed main에서 새 current-task work item으로 시작하며 unrelated historical runtime Issue/branch를 흡수하지 않는다.
 
 ## Resume
 
 1. fresh Base + fresh OMENWARD `main`/PR/Issue.
 2. 이 Decision index.
 3. `docs/ACTIVE_CONTEXT.md`.
-4. current GDD/Project Core + 관련 owner.
-5. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-6. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` + Project Notion Home/Visual page.
+4. `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`.
+5. `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`.
+6. current GDD/Project Core + 관련 owner.
 7. 이미지 생성은 사용자 명시 요청이 있을 때만.
 8. runtime/human evidence 미실행 항목은 `NOT_RUN / UNVERIFIED` 유지.
-9. 구현 전 economy drift와 actual current runtime을 fresh 대조.
+9. executor는 persistent Godot mutation 전에 HiGodot availability를 확인하고 GUT RED(>0 tests)부터 시작한다.

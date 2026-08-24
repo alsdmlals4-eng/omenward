@@ -12,6 +12,8 @@ MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 CURRENT_SPEC = MODULE["CURRENT_SPEC"]
 FINAL_REVIEW = MODULE["FINAL_REVIEW"]
+IMPLEMENTATION_PACKET = MODULE["IMPLEMENTATION_PACKET"]
+IMPLEMENTATION_PLAN = MODULE["IMPLEMENTATION_PLAN"]
 EVIDENCE_PILOT = MODULE["EVIDENCE_PILOT"]
 LEDGER = MODULE["LEDGER"]
 LEGENDARY_DEPLOYMENT_POLICY = MODULE["LEGENDARY_DEPLOYMENT_POLICY"]
@@ -35,7 +37,7 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
-            path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
+            path = root / "docs/ACTIVE_CONTEXT.md"
             path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
             self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
@@ -75,19 +77,57 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             (root / FINAL_REVIEW).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
-    def test_completed_final_review_cannot_regress_to_current_gate(self) -> None:
+    def test_scoped_implementation_authority_cannot_regress_to_waiting_gate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
+                "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
-                "CURRENT_NEXT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            )
+            path.write_text(body, encoding="utf-8")
+            errors = validate(root)
+            self.assertTrue(any("RUN_COMMAND_VERTICAL_SLICE_EXECUTION" in error for error in errors), errors)
+
+    def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/ACTIVE_CONTEXT.md"
+            body = path.read_text(encoding="utf-8").replace(
+                "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY",
+                "implementation_scope: ALL_PRODUCT_IMPLEMENTATION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("IMPLEMENTATION_AUTHORITY_REQUIRED" in error or "stale marker" in error for error in errors), errors)
+            self.assertTrue(any("RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY" in error for error in errors), errors)
+
+    def test_implementation_packet_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / IMPLEMENTATION_PACKET).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_implementation_plan_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / IMPLEMENTATION_PLAN).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_final_review_remains_historical_pre_implementation_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / FINAL_REVIEW
+            path.write_text(
+                path.read_text(encoding="utf-8").replace("IMPLEMENTATION_AUTHORITY = NONE", "IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED"),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("final planning review" in error for error in validate(root)))
 
     def test_final_review_cannot_promote_runtime_evidence(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
