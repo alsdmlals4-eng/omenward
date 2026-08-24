@@ -5,11 +5,13 @@ updated_at: 2026-08-24
 status: CURRENT_DECISION_RECOVERY_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_reopened_at: 2026-08-20
-current_planning_track: FINAL_PLANNING_REVIEW_COMPLETE_AWAITING_IMPLEMENTATION_AUTHORITY
+current_planning_track: IMPLEMENTATION_ARCHITECTURE_APPROVED_PLAN_READY_AWAITING_EXECUTION_HANDOFF
 runtime_evidence_ceiling: CURRENT_REPLAN_RUNTIME_NOT_RUN
 human_play_evidence: NOT_RUN
 visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
 visual_generation: USER_REQUEST_ONLY
+implementation_architecture: ORCHESTRATION_FIRST_VERTICAL_SLICE_APPROVED
+product_code_authority: NONE
 ```
 
 이 문서는 현재 승인 Decision을 새 작업자가 빠르게 복원하는 **인덱스**다. 상세 규칙은 각 owner가 소유한다. 사람용 전체 그림·Flow·비교표는 Project Notion, 구조화 계약·code/data/scene/test/runtime evidence는 repository가 소유한다. GitHub PR/Issue의 live 상태는 문서에 고정하지 않고 매 작업 시작 시 fresh 조회한다.
@@ -19,7 +21,7 @@ visual_generation: USER_REQUEST_ONLY
 ## Current approved replan decisions
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
 ```
 
 | Decision ID | 승인 핵심 | Repository owner | 상태 |
@@ -43,9 +45,13 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 19
 | `OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01` | 세 전선 전체가 보이는 top-down strategy battlefield | `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01` | 역할→무기→체급→진영색→Tier→장식 순으로 읽히는 실루엣 | `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01` | North Star v2.1 영역별 승인: 전장/분위기 승인, Lower Deck·Roulette 조작면 교정, 세부 수치·micro-layout 비정본 | `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` | CONFIRMED |
+| `OMW-PLAN-20260824-ORCHESTRATION-FIRST-VSLICE-01` | 기존 StageRun/services를 보존하고 RunCommandState + physical SpinSession + staged atomic COMMIT + Focus UI를 세우는 Orchestration-first Vertical Slice | `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md` | CONFIRMED |
 
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
+
+Current implementation plan owner:
+- `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`
 
 ## Protected product identity
 
@@ -104,6 +110,22 @@ CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ```
 
+## Current implementation architecture
+
+```text
+IMPLEMENTATION_ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE_APPROVED
+COMPOSITION_SPINE = GameApplication -> StageRun -> existing services
+RUN_COMMAND_STATE = PREPARE -> COMMIT -> BATTLE -> REVIEW
+ROULETTE_RUNTIME_TARGET = PHYSICAL_THREE_REEL_SPIN_SESSION
+DEPLOYMENT_TARGET = STAGED_PENDING_PLAN -> ATOMIC_IRREVERSIBLE_CONFIRM
+PLAYER_UI_TARGET = FOCUS_ADAPTIVE_RUN_COMMAND_SCREEN
+DEBUG_STAGE_HUD = PRESERVE_AS_TECHNICAL_SURFACE
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+IMPLEMENTATION_PLAN = READY
+PRODUCT_CODE_AUTHORITY = NONE
+CURRENT_RUNTIME = NOT_RUN
+```
+
 ## Current work order
 
 ```text
@@ -115,10 +137,12 @@ COMPLETED = LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF
 COMPLETED = COMPONENT_BREAKDOWN_FOR_FINAL_PLANNING_INPUT
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
-IMPLEMENTATION_AUTHORITY = NONE
+COMPLETED = ORCHESTRATION_FIRST_IMPLEMENTATION_ARCHITECTURE_APPROVAL
+COMPLETED = TDD_IMPLEMENTATION_PLAN_PREPARATION
+CURRENT_NEXT = EXECUTION_HANDOFF_REQUIRED
+PRODUCT_CODE_AUTHORITY = NONE
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
-THEN = IMPLEMENTATION_HANDOFF_AFTER_EXPLICIT_USER_AUTHORITY
+THEN = EXECUTE_IMPLEMENTATION_PLAN_IN_HIGODOT_CAPABLE_SESSION
 ```
 
 ## GitHub work-item rule
@@ -135,8 +159,10 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 2. 이 Decision index.
 3. `docs/ACTIVE_CONTEXT.md`.
 4. current GDD/Project Core + 관련 owner.
-5. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-6. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` + Project Notion Home/Visual page.
-7. 이미지 생성은 사용자 명시 요청이 있을 때만.
-8. runtime/human evidence 미실행 항목은 `NOT_RUN / UNVERIFIED` 유지.
-9. 구현 전 economy drift와 actual current runtime을 fresh 대조.
+5. `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md`.
+6. `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`.
+7. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
+8. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` + Project Notion Home/Visual/Production pages.
+9. 이미지 생성은 사용자 명시 요청이 있을 때만.
+10. runtime/human evidence 미실행 항목은 `NOT_RUN / UNVERIFIED` 유지.
+11. 실제 제품 코드 실행은 explicit execution handoff 뒤 HiGodot-capable session에서만 시작.
