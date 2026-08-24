@@ -223,6 +223,21 @@ CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES = {
 }
 CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS = set(CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES)
 
+CURRENT_V48_ORCHESTRATION_PLAN_ALLOWED_FILES = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md",
+    "docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md",
+    "docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_orchestration_plan_scope.py",
+    "tests/python/test_project_core_docs.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+CURRENT_V48_ORCHESTRATION_PLAN_REQUIRED_ANCHORS = set(CURRENT_V48_ORCHESTRATION_PLAN_ALLOWED_FILES)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -240,6 +255,7 @@ APPROVED_FILES = (
     | PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES
     | CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES
     | CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES
+    | CURRENT_V48_ORCHESTRATION_PLAN_ALLOWED_FILES
 )
 
 
@@ -271,6 +287,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (CURRENT_V48_ORCHESTRATION_PLAN_ALLOWED_FILES, CURRENT_V48_ORCHESTRATION_PLAN_REQUIRED_ANCHORS, "current v4.8 orchestration implementation-planning reconciliation"),
         (CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES, CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS, "current v4.8 North Star audit reconciliation"),
         (CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES, CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS, "current v4.7 canon-validator reconciliation"),
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
