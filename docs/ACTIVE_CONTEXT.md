@@ -2,7 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-24
-status: CURRENT_V4_8_NORTH_STAR_AUDIT_CONTEXT
+status: CURRENT_V4_8_PLANNING_REVIEW_COMPLETE_CONTEXT
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -40,10 +40,15 @@ TOPDOWN_UNIT_SILHOUETTE = CONFIRMED
 NORTH_STAR_V2_1_AREA_AUDIT = CONFIRMED
 LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
 COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
-CURRENT_NEXT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+GITHUB_NOTION_DRIFT_CHECK = PASS
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
+
+Final planning review owner:
+- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
 각 개별 Decision owner의 과거 `CURRENT_NEXT / THEN`은 승인 당시의 local sequence다. 현재 작업 순서는 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 이 Active Context를 사용한다.
 
@@ -151,10 +156,9 @@ HUMAN_QA_NOT_RUN
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```
+
+현재 파일은 PR 번호나 branch HEAD를 live state로 고정하지 않는다.
 
 ## Current work order
 
@@ -164,9 +168,10 @@ PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 3. COMPLETE — top-down battlefield layout + unit silhouette
 4. COMPLETE — North Star v2.1 Notion delivery + area-by-area audit
 5. COMPLETE — Lower Deck / Roulette correction brief + reusable component breakdown
-6. CURRENT — final planning adversarial review + GitHub/Notion drift check
-7. OPTIONAL IMAGE — corrected North Star only on explicit user image request
-8. IMPLEMENTATION — only after explicit user authority
+6. COMPLETE — final planning adversarial review 5/5 + GitHub/Notion drift check
+7. CURRENT GATE — implementation authority required; authority is NONE
+8. OPTIONAL IMAGE — corrected North Star only on explicit user image request
+9. IMPLEMENTATION — only after explicit user authority
 ```
 
 ## Resume order
@@ -176,6 +181,7 @@ PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. this file.
 5. current GDD/Project Core + relevant owner.
-6. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-7. Project Notion Home + `13 · 비주얼 컴포넌트 · 전장/룰렛/UI`.
-8. runtime only when explicitly reopened.
+6. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
+7. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
+8. Project Notion Home + `13 · 비주얼 컴포넌트 · 전장/룰렛/UI`.
+9. runtime only when explicitly reopened.
