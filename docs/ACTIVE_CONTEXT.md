@@ -2,13 +2,16 @@
 
 ```yaml
 updated_at: 2026-08-24
-status: CURRENT_V4_8_PLANNING_REVIEW_COMPLETE_CONTEXT
+status: CURRENT_V4_8_IMPLEMENTATION_ARCHITECTURE_APPROVED_CONTEXT
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_project_core: docs/PROJECT_CORE.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
+implementation_architecture_approved: true
+implementation_plan_ready: true
+execution_handoff_ready: true
 implementation_authorized: false
 visual_generation: USER_REQUEST_ONLY
 current_chat_runtime_status: NOT_RUN
@@ -18,7 +21,7 @@ human_player_evidence: NOT_RUN
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -42,10 +45,23 @@ LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
 COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
+ORCHESTRATION_FIRST_VERTICAL_SLICE_ARCHITECTURE = USER_APPROVED
+TDD_IMPLEMENTATION_PLAN = READY
+EXECUTION_HANDOFF = READY
 CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+IMPLEMENTATION_AUTHORITY = NONE
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
+
+Implementation architecture owner:
+- `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md`
+
+Implementation plan owner:
+- `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`
+
+Planning review owner:
+- `docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md`
 
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
@@ -138,6 +154,26 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
+## Current implementation architecture
+
+```text
+IMPLEMENTATION_ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE_APPROVED
+COMPOSITION_SPINE = GameApplication -> StageRun -> existing services
+RUN_COMMAND_STATE = PREPARE -> COMMIT -> BATTLE -> REVIEW
+PREPARE_COMMIT_REVIEW_ACTIVE_TIME = PAUSED
+BATTLE_ACTIVE_TIME = ENABLED
+ROULETTE_DOMAIN = PHYSICAL_THREE_REELS + IMMUTABLE_SNAPSHOT + SPIN_SESSION
+ROULETTE_VERTICAL_MOVE = ONE_REEL_CURSOR_SHIFT
+ROULETTE_HORIZONTAL_MOVE = VISIBLE_ROW_TOKEN_ROTATION_PERSISTS_TO_LIVE_REELS
+DEPLOYMENT = PENDING_PLAN -> BATCH_PREFLIGHT -> ATOMIC_IRREVERSIBLE_CONFIRM
+PLAYER_UI = FOCUS_ADAPTIVE_RUN_COMMAND_SCREEN
+DEBUG_STAGE_HUD = PRESERVED_TECHNICAL_SURFACE
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+GUT = DETERMINISTIC_TEST_AUTHORITY
+HERA = READ_ONLY_LIVE_QA
+IMPLEMENTATION_AUTHORITY = NONE
+```
+
 ## Runtime / evidence boundary
 
 ```text
@@ -146,6 +182,8 @@ CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+NEW_IMPLEMENTATION_GUT = NOT_RUN
+NEW_IMPLEMENTATION_HERA = NOT_RUN
 LEGACY_C1_C2_C3_PROVEN
 HUMAN_QA_NOT_RUN
 ```
@@ -169,9 +207,12 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 4. COMPLETE — North Star v2.1 Notion delivery + area-by-area audit
 5. COMPLETE — Lower Deck / Roulette correction brief + reusable component breakdown
 6. COMPLETE — final planning adversarial review 5/5 + GitHub/Notion drift check
-7. CURRENT GATE — implementation authority required; authority is NONE
-8. OPTIONAL IMAGE — corrected North Star only on explicit user image request
-9. IMPLEMENTATION — only after explicit user authority
+7. COMPLETE — Orchestration-first Vertical Slice architecture approval
+8. COMPLETE — detailed TDD implementation plan preparation
+9. READY — execution handoff package
+10. CURRENT GATE — explicit implementation authority required; implementation authority is NONE
+11. OPTIONAL IMAGE — corrected North Star only on explicit user image request
+12. IMPLEMENTATION — only after explicit implementation authority in a HiGodot-capable execution route
 ```
 
 ## Resume order
@@ -181,7 +222,10 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. this file.
 5. current GDD/Project Core + relevant owner.
-6. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-7. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-8. Project Notion Home + `13 · 비주얼 컴포넌트 · 전장/룰렛/UI`.
-9. runtime only when explicitly reopened.
+6. `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md`.
+7. `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`.
+8. `docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md`.
+9. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
+10. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
+11. Project Notion Home + Planning + Production Handoff pages.
+12. runtime only after explicit implementation authority.

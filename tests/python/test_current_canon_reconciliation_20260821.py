@@ -26,6 +26,9 @@ TOPDOWN_LAYOUT = "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01"
 TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
 NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
+ORCHESTRATION_ARCHITECTURE = "OMW-PLAN-20260824-ORCHESTRATION-FIRST-VSLICE-01"
+ORCHESTRATION_ARCHITECTURE_OWNER = "APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md"
+ORCHESTRATION_PLAN_OWNER = "2026-08-24-omenward-orchestration-first-vertical-slice.md"
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 CURRENT_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
@@ -61,7 +64,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIsNotNone(match)
         table_ids = set(re.findall(r"\| `(OMW-PLAN-[^`]+)` \|", decisions))
         self.assertEqual(int(match.group(1)), len(table_ids))
-        self.assertEqual(19, len(table_ids))
+        self.assertEqual(20, len(table_ids))
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:
         for relative in CURRENT_DOCS:
@@ -89,7 +92,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         agents = read("AGENTS.md")
         self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
         self.assertIn("current_context: docs/ACTIVE_CONTEXT.md", agents)
-        self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
+        self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 20", agents)
 
     def test_current_north_star_audit_is_consistent_across_state_owners(self) -> None:
         for relative in (
@@ -144,6 +147,23 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
 
         routed = "\n".join(read(path) for path in ("README.md", "docs/ACTIVE_CONTEXT.md", "docs/DOCUMENTATION_MAP.md", "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"))
         self.assertIn(FINAL_REVIEW_OWNER, routed)
+
+    def test_approved_orchestration_architecture_is_routed_without_granting_execution(self) -> None:
+        decisions = read("docs/CURRENT_CONFIRMED_DECISIONS.md")
+        active = read("docs/ACTIVE_CONTEXT.md")
+        status = read("docs/CURRENT_IMPLEMENTATION_STATUS.md")
+        combined = "\n".join((decisions, active, status))
+        for marker in (
+            ORCHESTRATION_ARCHITECTURE,
+            ORCHESTRATION_ARCHITECTURE_OWNER,
+            ORCHESTRATION_PLAN_OWNER,
+            "IMPLEMENTATION_ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE_APPROVED",
+            "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
+            "IMPLEMENTATION_AUTHORITY = NONE",
+            "IMPLEMENTATION_START = NOT_AUTHORIZED",
+        ):
+            self.assertIn(marker, combined, marker)
+        self.assertNotIn("IMPLEMENTATION_AUTHORITY = GRANTED", combined)
 
     def test_current_world_docs_use_approved_veil_convergence_truth(self) -> None:
         for relative in ("docs/PROJECT_CORE.md", "docs/OMENWARD_GDD_CURRENT_CANON.md"):

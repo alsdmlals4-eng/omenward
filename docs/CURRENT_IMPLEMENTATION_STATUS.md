@@ -4,8 +4,10 @@
 updated_at: 2026-08-24
 status: CURRENT_IMPLEMENTATION_STATUS
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
-planning_status: FINAL_PLANNING_REVIEW_COMPLETE_AWAITING_IMPLEMENTATION_AUTHORITY
+planning_status: IMPLEMENTATION_ARCHITECTURE_APPROVED_PLAN_READY_AWAITING_IMPLEMENTATION_AUTHORITY
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
+implementation_architecture_approved: true
+implementation_plan_ready: true
 implementation_authorized: false
 current_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -15,7 +17,7 @@ visual_generation: USER_REQUEST_ONLY
 ## 1. Current high-level state
 
 ```text
-CURRENT_CONFIRMED_REPLAN_DECISIONS = 19
+CURRENT_CONFIRMED_REPLAN_DECISIONS = 20
 PRODUCT_IMPLEMENTATION_COMPLETION = FALSE
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
@@ -25,7 +27,7 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 CURRENT_RUNTIME_BLOCKER = UNVERIFIED_UNTIL_FRESH_EXECUTION
 ```
 
-2026-08-20~24의 v4.8 재기획·North Star 감사·final planning adversarial review는 current 제품 경험을 실행·검증하지 않았다. 과거 signal11이나 과거 exact-head technical PASS를 현재 blocker/PASS로 재주장하지 않는다.
+2026-08-20~24의 v4.8 재기획·North Star 감사·final planning adversarial review와 2026-08-24의 Orchestration-first 구현 아키텍처/계획 준비는 current 제품 경험을 실행·검증하지 않았다. 과거 signal11이나 과거 exact-head technical PASS를 현재 blocker/PASS로 재주장하지 않는다.
 
 ## 2. Existing main foundations
 
@@ -60,6 +62,9 @@ LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
 COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
+IMPLEMENTATION_ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE_APPROVED
+TDD_IMPLEMENTATION_PLAN = READY
+EXECUTION_HANDOFF = READY
 CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
 IMPLEMENTATION_AUTHORITY = NONE
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
@@ -67,12 +72,40 @@ VISUAL_GENERATION = USER_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
+North Star audit owner:
+- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
+
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
+Implementation architecture owner:
+- `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md`
+
+Implementation plan owner:
+- `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`
+
+Planning review owner:
+- `docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md`
+
 새 정본과 현재 프로토타입 사이에는 의도된 미구현 간격이 있다. 구현 권한이 열리기 전까지 이를 runtime defect나 completion으로 승격하지 않는다.
 
-## 4. Historical technical evidence boundary
+## 4. Approved implementation architecture, not executed implementation
+
+```text
+COMPOSITION_SPINE = GameApplication -> StageRun -> existing services
+RUN_COMMAND_STATE = PREPARE -> COMMIT -> BATTLE -> REVIEW
+ROULETTE_RUNTIME_TARGET = PHYSICAL_THREE_REEL_SPIN_SESSION
+DEPLOYMENT_TARGET = STAGED_PENDING_PLAN -> ATOMIC_IRREVERSIBLE_CONFIRM
+PLAYER_UI_TARGET = FOCUS_ADAPTIVE_RUN_COMMAND_SCREEN
+DEBUG_STAGE_HUD = PRESERVE_AS_TECHNICAL_SURFACE
+PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
+GUT = DETERMINISTIC_GDSCRIPT_TEST_AUTHORITY
+HERA = LIVE_QA_AND_OBSERVABILITY_ONLY
+```
+
+이 블록은 승인된 구현 방법이다. `RunCommandState`, physical reel domain, `PendingDeploymentPlan`, 새 player-facing Run Command Screen이 현재 `main`에 구현됐다는 뜻이 아니다.
+
+## 5. Historical technical evidence boundary
 
 ```text
 LEGACY_C1_C2_C3_PROVEN
@@ -92,7 +125,7 @@ C1/C2/C3의 정확한 historical head/run은 다음 evidence owner에서 검증�
 
 **이 Current 문서는 exact historical run을 복제하지 않는다.** 역사 증거와 현재 상태를 분리하기 위함이다.
 
-## 5. Durable product/evidence boundaries
+## 6. Durable product/evidence boundaries
 
 ```text
 FINAL_FUNCTIONAL_VALUE = POST_RUNTIME_EVIDENCE_TUNING
@@ -105,7 +138,7 @@ ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
 
 기존 10,000-seed robustness와 과거 runtime evidence는 해당 실험 범위에서만 유효하다. 새 재기획 의미나 현재 runtime을 자동 PASS시키지 않는다.
 
-## 6. Platform / release boundary
+## 7. Platform / release boundary
 
 ```text
 PC / Steam = PRIMARY_PLANNING_AND_VALIDATION_TARGET
@@ -115,7 +148,7 @@ EXPORT_PRESETS = ABSENT
 RELEASE_READINESS = NOT_PROVEN
 ```
 
-## 7. Current GitHub work-item rule
+## 8. Current GitHub work-item rule
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
@@ -123,22 +156,23 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 
 과거 PR/Issue의 branch 내용은 current main 제품 truth가 아니다. Future implementation은 fresh current main + current Decisions + actual runtime에서 다시 시작한다.
 
-## 8. Resume order for implementation work
+## 9. Resume order for implementation work
 
-실제 구현이 다시 열릴 때:
+실제 구현 권한이 별도로 승인될 때:
 
 1. fresh Base current authority.
 2. fresh OMENWARD main/open PR/Issue inventory.
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. `docs/ACTIVE_CONTEXT.md`.
 5. current GDD/Project Core + relevant owner.
-6. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-7. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-8. Project Notion current human-facing page.
-9. fresh local Godot/runtime execution.
-10. 그 뒤에만 historical runtime/evidence와 비교.
+6. `docs/design/APPROVED_OMENWARD_ORCHESTRATION_FIRST_VERTICAL_SLICE_IMPLEMENTATION_ARCHITECTURE_2026-08-24.md`.
+7. `docs/superpowers/plans/2026-08-24-omenward-orchestration-first-vertical-slice.md`.
+8. `docs/reviews/ORCHESTRATION_FIRST_VSLICE_PLANNING_ADVERSARIAL_REVIEW_2026-08-24.md`.
+9. Project Notion current human-facing page + Production Handoff.
+10. HiGodot-capable isolated execution workspace에서 GUT RED부터 시작.
+11. 그 뒤에만 historical runtime/evidence와 비교.
 
-## 9. Historical compatibility markers
+## 10. Historical compatibility markers
 
 ```text
 MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11

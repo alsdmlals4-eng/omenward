@@ -53,8 +53,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
                 1,
             )
             path.write_text(body, encoding="utf-8")
