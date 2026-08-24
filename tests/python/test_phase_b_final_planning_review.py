@@ -5,6 +5,9 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+CURRENT_GATE = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK"
+STALE_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 
 
 def read(path: str) -> str:
@@ -52,7 +55,7 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         self.assertIn("PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS", lifecycle)
         self.assertIn("LEGACY_DANGER_CADENCE_AUTHORITY = NONE", lifecycle)
 
-    def test_current_phase_consumers_route_v47_instead_of_reactivating_phase_b_gate(self) -> None:
+    def test_current_phase_consumers_route_v48_instead_of_reactivating_phase_b_gate(self) -> None:
         current_paths = [
             "AGENTS.md",
             "docs/ACTIVE_CONTEXT.md",
@@ -65,12 +68,13 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         for path in current_paths:
             text = read(path)
             with self.subTest(path=path):
-                self.assertIn("PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7", text)
+                self.assertIn(CURRENT_CONTRACT, text)
                 self.assertNotIn("PHASE_C_GATE = OPEN", text)
+                self.assertNotIn(STALE_GATE, text)
 
         active = read("docs/ACTIVE_CONTEXT.md")
         pending = read("docs/DECISIONS_PENDING.md")
-        self.assertIn("CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", active)
+        self.assertIn(CURRENT_GATE, active)
         self.assertIn("CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK", pending)
         self.assertIn("CURRENT_IMPLEMENTATION_AUTHORITY = NONE", pending)
 
@@ -97,7 +101,8 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         for text in (status, pending):
             self.assertIn("FINAL_PARAMETER_VECTOR = NOT_SELECTED", text)
             self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", text)
-        self.assertIn("PR175 = CLOSED_UNMERGED_HISTORICAL", status)
+        self.assertNotIn("PR175 = OPEN_DRAFT", status)
+        self.assertIn("CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED", status)
         self.assertIn("CURRENT_GODOT_RUNTIME = NOT_RUN", status)
         self.assertIn("CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN", status)
 
