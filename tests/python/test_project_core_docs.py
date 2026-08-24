@@ -85,7 +85,6 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             body = path.read_text(encoding="utf-8").replace(
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
-                1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
@@ -125,7 +124,7 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / FINAL_REVIEW
             path.write_text(
-                path.read_text(encoding="utf-8").replace("IMPLEMENTATION_AUTHORITY = NONE", "IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", 1),
+                path.read_text(encoding="utf-8").replace("IMPLEMENTATION_AUTHORITY = NONE", "IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED"),
                 encoding="utf-8",
             )
             self.assertTrue(any("final planning review" in error for error in validate(root)))
