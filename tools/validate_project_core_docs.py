@@ -188,7 +188,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 19",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 20",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
@@ -241,7 +241,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
