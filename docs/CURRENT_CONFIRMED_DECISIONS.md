@@ -107,6 +107,7 @@ CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ## Current implementation authority
 
 ```text
+PREVIOUS_GATE_BEFORE_2026_08_24_USER_APPROVAL = IMPLEMENTATION_AUTHORITY_REQUIRED
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 IMPLEMENTATION_PACKET = docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
 IMPLEMENTATION_PLAN = docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
@@ -116,6 +117,8 @@ PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
 RUNTIME_EVIDENCE = NOT_RUN
 HUMAN_EVIDENCE = NOT_RUN
 ```
+
+`PREVIOUS_GATE_BEFORE_2026_08_24_USER_APPROVAL`은 최종 기획 검토 당시의 과거 gate를 재현하기 위한 compatibility marker이며 현재 작업 라우터가 아니다. 현재 권한과 다음 작업은 아래 `Current work order`가 소유한다.
 
 이 권한은 프로젝트 전체 구현 승인이나 unrelated Issue/PR takeover가 아니다. 패킷에 명시된 first vertical slice만 승인하며, 범위 밖 product/balance/platform/role-output 작업은 별도 권한을 유지한다.
 
