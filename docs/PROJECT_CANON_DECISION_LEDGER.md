@@ -1,11 +1,11 @@
 # [현행] OMENWARD Project Canon Decision Ledger
 
 ```yaml
-updated_at: 2026-08-21
+updated_at: 2026-08-24
 status: CURRENT_DECISION_LEDGER
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
-current_next_gate: REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+current_next_gate: IMPLEMENTATION_AUTHORITY_REQUIRED
 visual_generation: USER_REQUEST_ONLY
 implementation_authorized: false
 ```
@@ -15,7 +15,7 @@ implementation_authorized: false
 이 문서는 current Decision owner를 찾는 사람용 ledger다. 실제 승인 목록의 단일 복원 인덱스는 `docs/CURRENT_CONFIRMED_DECISIONS.md`다. GitHub PR/Issue live 상태와 exact current SHA를 장기 고정하지 않는다.
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 18
+CURRENT_APPROVED_REPLAN_DECISIONS = 19
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
@@ -41,14 +41,28 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 | Roulette DDD | CONFIRMED | `APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md` |
 | Top-down battlefield | CONFIRMED | `APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md` |
 | Top-down unit silhouette | CONFIRMED | `APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md` |
+| North Star v2.1 audit / correction | CONFIRMED | `APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` |
+
+Final planning review is process evidence, not a new product Decision:
+- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
 ## 3. Current north-star state
 
 ```text
-CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
+NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
+NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
+NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
+NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
+COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+GITHUB_NOTION_DRIFT_CHECK = PASS
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+IMPLEMENTATION_AUTHORITY = NONE
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
-COMPONENT_SHEET = AFTER_APPROVED_NORTH_STAR
-FINAL_PLANNING_ADVERSARIAL_REVIEW = AFTER_COMPONENT_SHEET
 IMPLEMENTATION_AUTHORITY_REQUIRED = TRUE
 ```
 
@@ -78,7 +92,7 @@ AUTHORED_PRIORITY_LIST
 Historical owner:
 `docs/design/APPROVED_CORE_V2_INTEGRATED_DECISION_LEDGER_2026-07-25.md`
 
-July Vertical Slice, C1/C2/C3 proof, Phase B/C0, old runtime PRs는 `[증거/호환]`이며 current v4.7 Decision을 덮어쓰지 않는다.
+July Vertical Slice, C1/C2/C3 proof, Phase B/C0, old runtime PRs는 `[증거/호환]`이며 current v4.8 Decision을 덮어쓰지 않는다.
 
 ## 6. Historical simulation decision lineage
 
@@ -91,7 +105,7 @@ PARAMETER_SELECTION_NOT_IDENTIFIABLE = HISTORICAL_REVIEW_CONCLUSION
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 ```
 
-첫 Decision은 4/10 conditional-fail 원인을 구조적 capability proxy와 physical TokenSource guard로 교정해 2,000-seed remediation smoke PASS를 만든 계보다. 두 번째 Decision은 그 결과만으로 final parameter selection을 할 수 없음을 검토한 계보다. 이후 10k robustness 및 role-output evidence와 함께 current v4.7 economy reconciliation의 입력이 될 수 있으나 현재 next gate나 final 제품 수치 authority가 아니다.
+이 계보는 current economy reconciliation의 입력이 될 수 있으나 현재 next gate나 final 제품 수치 authority가 아니다.
 
 ## 7. Current evidence ceiling
 
@@ -107,13 +121,11 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 
 ## 8. Historical GitHub work-items
 
-```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
-```
-
 현재 open/draft 상태는 fresh GitHub query로만 판정한다.
+
+```text
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+```
 
 ## 9. Workspace authority
 

@@ -1,11 +1,11 @@
 # [현행] OMENWARD Roadmap
 
 ```yaml
-updated_at: 2026-08-21
+updated_at: 2026-08-24
 status: CURRENT_ROADMAP
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
-current_next_gate: REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+current_next_gate: IMPLEMENTATION_AUTHORITY_REQUIRED
 visual_generation: USER_REQUEST_ONLY
 implementation_authorized: false
 ```
@@ -27,7 +27,7 @@ implementation_authorized: false
 ## 2. Planning closure status
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 18
+CURRENT_APPROVED_REPLAN_DECISIONS = 19
 WORLD / MAPRUN / PRESSURE = COMPLETE
 FIRST5_FTUE / RUN_COMMAND = COMPLETE
 WORLD_CONFLICT / 20_STAGE_BOSS_ARC = COMPLETE
@@ -41,25 +41,48 @@ LOWER_CONTROL_DECK = COMPLETE
 ROULETTE_DDD = COMPLETE
 TOPDOWN_BATTLEFIELD_LAYOUT = COMPLETE
 TOPDOWN_UNIT_SILHOUETTE = COMPLETE
+NORTH_STAR_V2_1_AREA_AUDIT = COMPLETE
+LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
+COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+GITHUB_NOTION_DRIFT_CHECK = PASS
 ```
+
+Final planning review owner:
+- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
 ## 3. Current visual route
 
 ```text
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
+NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
+NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
+NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
+NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+
 TOPDOWN_BATTLEFIELD_LAYOUT
 → TOPDOWN_UNIT_SILHOUETTE
-→ REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
-→ COMPONENT_SHEET
+→ NORTH_STAR_V2_1_AREA_AUDIT
+→ LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF
+→ COMPONENT_BREAKDOWN
+→ FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+→ IMPLEMENTATION_AUTHORITY_REQUIRED
 ```
 
-- `TOPDOWN_BATTLEFIELD_LAYOUT`: `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
-- `TOPDOWN_UNIT_SILHOUETTE`: `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
-- `VISUAL_GENERATION = USER_REQUEST_ONLY`
-- 새 North Star는 사용자가 이미지 생성을 명시적으로 요청할 때만 제작한다.
+- North Star v2.1 = `APPROVED_REFERENCE_WITH_BOUNDARY`.
+- Battlefield / Art Mood = `APPROVED_DIRECTION`.
+- Lower Deck / Roulette interaction = `NEEDS_CORRECTION`; correction brief로 요구사항을 확정했다.
+- Exact text / values / micro-layout = `NON_CANON_REFERENCE`.
+- `CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY`.
+- `VISUAL_GENERATION = USER_REQUEST_ONLY`.
+
+Current visual audit owner:
+- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
 
 ## 4. G1 — Canon / evidence reconciliation
 
-현재 Current 문서는 v4.7 의미를 소유하고, 과거 C1/C2/C3 exact proof는 전용 historical evidence owner가 소유한다.
+현재 Current 문서는 v4.8 의미를 소유하고, 과거 C1/C2/C3 exact proof는 전용 historical evidence owner가 소유한다.
 
 ```text
 LEGACY_C1_C2_C3_PROVEN
@@ -94,14 +117,17 @@ North Star의 목표는 그림 완성이 아니라 다음 플레이어 판단을
 - 전장이 PRIMARY, 하단 Control Deck이 SECONDARY로 유지되는가.
 - Roulette result와 lane deployment가 분리되어 보이는가.
 
+현재 v2.1에서 전장 방향은 승인했고, Lower Deck / Roulette interaction은 correction brief를 통해 다음 구현·시각 입력으로 분해했다.
+
 ## 7. P1 — Implementation handoff gate
 
 ```text
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
 IMPLEMENTATION_AUTHORITY_REQUIRED
 CURRENT_IMPLEMENTATION_AUTHORITY = NONE
 ```
 
-North Star/component sheet와 최종 planning review가 닫힌 뒤에만 별도 구현 권한으로 전환한다.
+Final planning adversarial review와 drift check는 `PASS_5_OF_5 / PASS`로 닫혔다. 별도 구현 권한이 열리기 전에는 제품 code/data/scene/runtime 변경을 시작하지 않는다.
 
 ## 8. P2 — Run Command implementation
 
@@ -137,6 +163,8 @@ SPIN
 - Silhouette-first unit presentation.
 - Focus-adaptive lower control deck.
 - top HUD = resource total single owner.
+- Roulette Focus = 3×3 + 12 direct arrows dominant.
+- COMMIT Focus = stored units → pending lane → irreversible warning → one CTA.
 
 ## 11. P5 — Runtime / human vertical slice
 
@@ -174,14 +202,11 @@ OMW-DEC-20260805-PLANNING-STAGE-END-MERCHANT-V1
 6_OF_10 = HISTORICAL_LINEAGE_ONLY
 ```
 
-이 계보는 current v4.7 owner보다 높은 권한이 아니며 과거 상태를 current 작업 순서로 되살리지 않는다.
+이 계보는 current v4.8 owner보다 높은 권한이 아니며 과거 상태를 current 작업 순서로 되살리지 않는다.
 
 ## 14. Historical work-items
 
 ```text
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
@@ -200,8 +225,8 @@ Decision owner
 ## 16. 지금 실행할 단 하나의 작업
 
 ```text
-CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
+IMPLEMENTATION_AUTHORITY = NONE
 ```
-
-이미지 요청이 없는 동안에는 구현 권한을 열거나 임의 이미지 생성을 하지 않는다.

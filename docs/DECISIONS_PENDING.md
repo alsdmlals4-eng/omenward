@@ -1,9 +1,9 @@
 # [현행] OMENWARD Decisions / Gates Pending
 
 ```yaml
-updated_at: 2026-08-21
+updated_at: 2026-08-24
 status: CURRENT_PENDING_GATE_INDEX
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 implementation_authorized: false
 visual_generation: USER_REQUEST_ONLY
@@ -26,7 +26,15 @@ LOWER_CONTROL_DECK = CONFIRMED
 ROULETTE_DDD_FEEDBACK = CONFIRMED
 TOPDOWN_BATTLEFIELD_LAYOUT = CONFIRMED
 TOPDOWN_UNIT_SILHOUETTE = CONFIRMED
+NORTH_STAR_V2_1_AREA_AUDIT = CONFIRMED
+LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
+COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+GITHUB_NOTION_DRIFT_CHECK = PASS
 ```
+
+Final planning review owner:
+`docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
 ## 2. P0 — Current canon / validator reconciliation
 
@@ -35,10 +43,11 @@ CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_R
 HISTORICAL_PROOF_OWNER_SEPARATION = REQUIRED
 ```
 
-- Current 문서는 current v4.7 state만 소유한다.
+- Current 문서는 current v4.8 state만 소유한다.
 - C1/C2/C3 exact SHA/run은 historical audit/archive evidence owner가 소유한다.
 - July Vertical Slice는 `[증거/호환]`, current product authority가 아니다.
 - Google Sheet는 current human authority가 아니다.
+- Current validator는 19개 Decision, North Star v2.1 audit owner, final planning review owner를 인식해야 한다.
 
 ## 3. P1 — Economy baseline
 
@@ -51,40 +60,51 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 
 Fresh main/runtime을 실행할 구현 단계에서 현재 데이터와 normalized planning envelope를 다시 대조한다.
 
-## 4. P1 — Visual North Star
+## 4. Visual North Star — 영역별 감사 완료
 
 ```text
-REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
+NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
+NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
+NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
+NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
-선행 계약은 완료됐다.
+전장·분위기는 보호하고, Lower Deck·Roulette interaction은 기존 owner를 바꾸지 않고 correction brief로 교정 요구를 확정했다.
 
-- Battlefield Scale / Wide Road
-- 3×3 Roulette
-- Token
-- Lower Control Deck
-- Roulette DDD
-- Top-down Battlefield Layout
-- Top-down Unit Silhouette
+## 5. Component sheet / reusable asset breakup — 비이미지 분해 완료
 
-사용자 이미지 생성 요청 전에는 임의 생성하지 않는다.
+North Star v2.1을 다음 구현·시각 handoff 단위로 분해했다.
 
-## 5. P1 — Component sheet / reusable asset breakup
+- Battlefield viewport / lane / road / clash / node components.
+- Top HUD resource/status components.
+- Focus-adaptive Lower Shell.
+- 3×3 Roulette + 12 direct arrows + Spin/Confirm/preview.
+- COMMIT stored unit / pending lane / irreversible warning / one CTA.
+- Build / Battle / Review focused components.
 
-North Star가 승인된 경우에만 실제 화면을 재사용 가능한 component/asset 단위로 분해한다.
+상세 owner:
+`docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
 
-## 6. P1 — Final planning adversarial review
+새 corrected image는 자동 생성하지 않는다.
+
+## 6. Final planning adversarial review — 완료
 
 ```text
 MINIMUM_FULL_LOOPS = 5
-GITHUB_NOTION_DRIFT_CHECK = REQUIRED
-CLEAN_REVIEW_EXIT = REQUIRED_BEFORE_IMPLEMENTATION_HANDOFF
+ADVERSARIAL_REVIEW = PASS_5_OF_5
+GITHUB_NOTION_DRIFT_CHECK = PASS
+NEW_PRODUCT_DECISION_REQUIRED = FALSE
+PLANNING_BLOCKER = NONE
 ```
 
 ## 7. P1 — Implementation authority
 
 ```text
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
 IMPLEMENTATION_AUTHORITY_REQUIRED
 CURRENT_IMPLEMENTATION_AUTHORITY = NONE
 ```
@@ -105,7 +125,7 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 
 ## 9. Historical Barracks simulation lineage
 
-다음은 현재 next gate가 아니라 과거 시뮬레이션/판정 계보다. 후속 v4.7 economy reconciliation에서 당시 결과를 재사용할 수 있도록 보존하되 현재 수치 authority로 승격하지 않는다.
+다음은 현재 next gate가 아니라 과거 시뮬레이션/판정 계보다. 후속 economy reconciliation에서 당시 결과를 재사용할 수 있도록 보존하되 현재 수치 authority로 승격하지 않는다.
 
 ```text
 5_OF_10 = REMEDIATION_SMOKE_PASS
@@ -127,7 +147,7 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 - 3×3 stopped/manipulation session.
 - battlefield graybox와 top-down presentation adapter.
 - economy drift.
-- historical Issue176 role-output package 중 current design에 여전히 필요한 부분.
+- historical role-output package 중 current design에 여전히 필요한 부분.
 
 과거 packet을 그대로 실행하지 않는다.
 
@@ -145,16 +165,12 @@ EXPORT_PRESETS = ABSENT
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```
 
 ## 13. Next gate
 
 ```text
-CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
-THEN = COMPONENT_SHEET
-THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
-THEN = IMPLEMENTATION_AUTHORITY_REQUIRED
+CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+CURRENT_IMPLEMENTATION_AUTHORITY = NONE
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 ```

@@ -13,6 +13,9 @@ RUNTIME_DECISION = "OMW-DEC-20260809-PLANNING-BARRACKS-ROLE-OUTPUT-RUNTIME-IMPLE
 BASE_MAIN = "069f0c9654a6cde7cea6f3343dd2fa81c6248d5d"
 PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
 PR193_MERGE = "7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0"
+CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+CURRENT_NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
+STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 
 BINDING = ROOT / "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
 STATE = ROOT / "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"
@@ -31,6 +34,7 @@ ROADMAP = ROOT / "docs/OMENWARD_ROADMAP.md"
 DOCUMENTATION_MAP = ROOT / "docs/DOCUMENTATION_MAP.md"
 LIFECYCLE = ROOT / "docs/DOCUMENT_LIFECYCLE_REGISTRY.md"
 LEDGER = ROOT / "docs/PROJECT_CANON_DECISION_LEDGER.md"
+CURRENT_DECISIONS = ROOT / "docs/CURRENT_CONFIRMED_DECISIONS.md"
 C0_REVIEW = ROOT / "docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md"
 PHASE_B_REVIEW = ROOT / "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 
@@ -47,6 +51,7 @@ CURRENT_ROUTERS = (
     LIFECYCLE,
     LEDGER,
     GDD,
+    CURRENT_DECISIONS,
 )
 
 
@@ -96,12 +101,22 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         ):
             self.assertIn(marker, barracks)
 
-    def test_current_routers_use_v47_and_north_star_gate(self) -> None:
+    def test_current_routers_use_v48_and_do_not_restore_pre_audit_gate(self) -> None:
         for path in CURRENT_ROUTERS:
             text = path.read_text(encoding="utf-8")
-            self.assertIn("PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7", text, str(path.relative_to(ROOT)))
-            self.assertIn("REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", text, str(path.relative_to(ROOT)))
-            self.assertIn("USER_REQUEST_ONLY", text, str(path.relative_to(ROOT)))
+            self.assertIn(CURRENT_CONTRACT, text, str(path.relative_to(ROOT)))
+            self.assertNotIn(STALE_NORTH_STAR_GATE, text, str(path.relative_to(ROOT)))
+
+        decisions = CURRENT_DECISIONS.read_text(encoding="utf-8")
+        self.assertIn(CURRENT_NORTH_STAR_AUDIT, decisions)
+        self.assertIn("NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY", decisions)
+        self.assertIn("NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION", decisions)
+        self.assertIn("NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION", decisions)
+
+        agents = AGENTS.read_text(encoding="utf-8")
+        self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
+        self.assertIn("current_context: docs/ACTIVE_CONTEXT.md", agents)
+        self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
 
     def test_v45_phase_b_c0_and_issue176_do_not_freeze_current_execution_routing(self) -> None:
         stale_current_markers = (

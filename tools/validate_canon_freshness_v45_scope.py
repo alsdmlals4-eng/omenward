@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate bounded historical v4.5 transitions and the explicit current v4.7 canon-reconciliation surface."""
+"""Validate historical v4.5 transitions plus explicit current-canon reconciliation surfaces."""
 from __future__ import annotations
 
 import argparse
@@ -140,6 +140,7 @@ PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES = {
 }
 PHASE_B_FINAL_PLANNING_REVIEW_REQUIRED_ANCHORS = set(PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES)
 
+# Retained to reproduce the 2026-08-21 reconciliation exactly.
 CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES = {
     ".github/workflows/validate-omenward-core.yml",
     "AGENTS.md",
@@ -192,6 +193,36 @@ CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS = {
     "tools/validate_project_core_docs.py",
 }
 
+CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES = {
+    "AGENTS.md",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md",
+    "docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md",
+    "docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_north_star_audit_scope.py",
+    "tests/python/test_pc_android_core_adapter_architecture_contract.py",
+    "tests/python/test_phase_b_final_planning_review.py",
+    "tests/python/test_project_core_docs.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS = set(CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -208,6 +239,7 @@ APPROVED_FILES = (
     | QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES
     | PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES
     | CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES
+    | CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES
 )
 
 
@@ -239,6 +271,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES, CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS, "current v4.8 North Star audit reconciliation"),
         (CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES, CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS, "current v4.7 canon-validator reconciliation"),
         (POSTMERGE_EVIDENCE_ALLOWED_FILES, POSTMERGE_EVIDENCE_REQUIRED_ANCHORS, "postmerge evidence"),
         (POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_ALLOWED_FILES, POST_C0_TRANSIENT_OPS_STATE_DECOUPLING_REQUIRED_ANCHORS, "post-C0 transient ops-state decoupling"),

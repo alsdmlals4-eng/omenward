@@ -11,6 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 CURRENT_SPEC = MODULE["CURRENT_SPEC"]
+FINAL_REVIEW = MODULE["FINAL_REVIEW"]
 EVIDENCE_PILOT = MODULE["EVIDENCE_PILOT"]
 LEDGER = MODULE["LEDGER"]
 LEGENDARY_DEPLOYMENT_POLICY = MODULE["LEGENDARY_DEPLOYMENT_POLICY"]
@@ -45,6 +46,59 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             path = root / "docs/CURRENT_IMPLEMENTATION_STATUS.md"
             path.write_text(path.read_text(encoding="utf-8").replace("LEGACY_C1_C2_C3_PROVEN", "LEGACY_PROOF_REMOVED"), encoding="utf-8")
             self.assertTrue(any("LEGACY_C1_C2_C3_PROVEN" in error for error in validate(root)))
+
+    def test_decision_count_mismatch_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / CURRENT_SPEC
+            body = path.read_text(encoding="utf-8").replace(
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+                1,
+            )
+            path.write_text(body, encoding="utf-8")
+            self.assertTrue(any("decision count mismatch" in error for error in validate(root)))
+
+    def test_stale_pre_audit_north_star_gate_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "README.md"
+            path.write_text(path.read_text(encoding="utf-8") + "\nREBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST\n", encoding="utf-8")
+            self.assertTrue(any("stale marker" in error for error in validate(root)))
+
+    def test_final_review_owner_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / FINAL_REVIEW).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_completed_final_review_cannot_regress_to_current_gate(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/ACTIVE_CONTEXT.md"
+            body = path.read_text(encoding="utf-8").replace(
+                "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
+                "CURRENT_NEXT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+                1,
+            )
+            path.write_text(body, encoding="utf-8")
+            errors = validate(root)
+            self.assertTrue(any("IMPLEMENTATION_AUTHORITY_REQUIRED" in error or "stale marker" in error for error in errors), errors)
+
+    def test_final_review_cannot_promote_runtime_evidence(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / FINAL_REVIEW
+            path.write_text(
+                path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS", 1),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
     def test_evidence_pilot_is_required_as_history(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

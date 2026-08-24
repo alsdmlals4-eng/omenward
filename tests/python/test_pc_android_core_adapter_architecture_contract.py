@@ -145,11 +145,14 @@ class PcAndroidCoreAdapterArchitectureContractTests(unittest.TestCase):
             "docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md",
             "PC / Steam = COMMITTED_PRIMARY",
             "Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR",
+        ):
+            self.assertIn(marker, agents, "AGENTS.md")
+        for live_gate in (
             "COMMON_PLATFORM_GATE = NOT_RUN",
             "PC_RELEASE_GATE = NOT_RUN",
             "MOBILE_RELEASE_GATE = NOT_RUN",
         ):
-            self.assertIn(marker, agents, "AGENTS.md")
+            self.assertNotIn(live_gate, agents, "AGENTS.md must stay a thin durable adapter")
 
         status = read(STATUS)
         for marker in (

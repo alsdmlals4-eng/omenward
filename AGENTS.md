@@ -1,20 +1,19 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-21
+updated_at: 2026-08-24
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
-planning_status: REOPENED_REVIEW_IN_PROGRESS
+planning_status: RESOLVE_FROM_CURRENT_DECISION_INDEX
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 implementation_authorized: false
 visual_generation: USER_REQUEST_ONLY
-current_chat_runtime: NOT_RUN
 ```
 
-공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 **영구 routing과 보호 경계**만 소유하며, PR 번호·HEAD·Decision 개수처럼 자주 변하는 live 상태를 복제하지 않는다.
+공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 **영구 routing과 보호 경계**만 소유하며, PR 번호·HEAD·Decision 개수·현재 작업 단계처럼 자주 변하는 live 상태를 복제하지 않는다.
 
 ## 1. 매 작업 시작 read order
 
@@ -30,18 +29,16 @@ current_chat_runtime: NOT_RUN
 
 ## 2. Current planning route
 
-현재 승인 상태의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`다.
+현재 승인 상태와 exact 작업 순서의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 `docs/ACTIVE_CONTEXT.md`다.
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 18
-CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
 VISUAL_GENERATION = USER_REQUEST_ONLY
-IMPLEMENTATION_START = NOT_AUTHORIZED
-CURRENT_GODOT_RUNTIME = NOT_RUN
-CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
+IMPLEMENTATION_START = EXPLICIT_USER_AUTHORITY_REQUIRED
+RUNTIME_EVIDENCE = RESOLVE_FROM_ACTIVE_CONTEXT_AND_ACTUAL_EXECUTION
 ```
 
-현재 non-image 기획의 world/content/balance envelope/Text UX/Visual Component/Top-down Layout/Silhouette 계약은 이미 승인 owner가 존재한다. 같은 질문을 다시 열지 않는다.
+이미 승인 owner가 존재하는 질문을 다시 열지 않는다. 각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN` 블록은 **그 Decision 승인 당시의 local sequence**로 읽고 current router로 사용하지 않는다.
 
 ## 3. Protected product identity
 
@@ -74,7 +71,7 @@ Player-facing core:
 → 인과 복기
 ```
 
-## 4. Current world / visual truth
+## 4. Durable world / visual boundary
 
 ```text
 PLAYER_ROLE = Omen Warden / 징조수호관
@@ -90,47 +87,26 @@ ROULETTE_EXPOSURE = 3×3
 LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 ```
 
-Visual owner를 읽을 때 최소 다음을 함께 확인한다.
-- visual style/component
-- battlefield scale/readability
-- 3×3 roulette component
-- token component
-- lower control deck
-- roulette DDD
-- top-down battlefield layout
-- top-down unit silhouette
-
-이미지 생성은 사용자가 명시적으로 요청한 경우에만 수행한다.
+Visual 작업은 current Decision index에서 active visual owner를 복원한다. 이미지 생성은 사용자가 명시적으로 요청한 경우에만 수행한다.
 
 ## 5. Runtime / evidence ceiling
 
-현재 v4.7 재기획 의미에 대한 runtime/사람 검증은 실행하지 않았다.
+현재 runtime·UI·human/player evidence 상태는 `docs/ACTIVE_CONTEXT.md`와 actual execution evidence에서 읽는다.
 
-```text
-CURRENT_GODOT_RUNTIME = NOT_RUN
-CURRENT_WINDOWS_RUNTIME = NOT_RUN
-CURRENT_UI_EVIDENCE = NOT_RUN
-CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
-CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
-FINAL_PARAMETER_VECTOR = NOT_SELECTED
-FINAL_PRODUCT_NUMERICS = NOT_APPROVED
-LEGACY_C1_C2_C3_PROVEN
-```
-
-`LEGACY_C1_C2_C3_PROVEN`은 과거 exact evidence의 존재만 뜻한다. 정확한 head/run은 historical audit/archive owner에서 검증하고 Current 문서에 복제하지 않는다.
+- 과거 exact evidence가 존재해도 current replan/runtime PASS로 자동 승격하지 않는다.
+- file/Scene/resource 존재만으로 runtime 동작을 주장하지 않는다.
+- runtime/human 검증을 실행하지 않았으면 `NOT_RUN / UNVERIFIED`를 유지한다.
+- 최종 제품 수치는 simulation/runtime/human evidence 없이 확정하지 않는다.
 
 ## 6. GitHub work-item boundary
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```
 
 - open/draft PR은 Base 규칙대로 기본 read-only.
 - closed-unmerged branch 내용을 current product truth로 사용하지 않는다.
-- Issue176/과거 runtime package는 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
+- 과거 runtime execution Issue/PR은 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
 
 ## 7. Notion / repository authority
 
@@ -152,23 +128,12 @@ PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 PC / Steam = COMMITTED_PRIMARY
 Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR
 STOVE = SECONDARY_RELEASE_CANDIDATE
-COMMON_PLATFORM_GATE = NOT_RUN
-PC_RELEASE_GATE = NOT_RUN
-MOBILE_RELEASE_GATE = NOT_RUN
-PLATFORM_SUBMISSION_NOT_RUN
-LEGAL_REVIEW_NOT_PERFORMED
-RELEASE_BLOCKED_UNVERIFIED
 ```
 
-아트·오디오·폰트·외부 라이브러리·AI 산출물·외주물은 provenance/상업 이용/배포/원본 재배포/참조 독립성 기록을 확인한 뒤 제품 자산으로 승격한다.
+actual release/submission/compliance 상태는 위 owner와 current evidence에서 읽는다. 아트·오디오·폰트·외부 라이브러리·AI 산출물·외주물은 provenance/상업 이용/배포/원본 재배포/참조 독립성 기록을 확인한 뒤 제품 자산으로 승격한다.
 
 ## 9. Historical compatibility markers
 
-```text
-MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
-PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
-PHASE_C_C0_OVERALL = HISTORICAL_PASS
-LEGACY_C1_C2_C3_PROVEN
-```
+과거 approval/runtime marker는 historical owner에 보존하고 이 영구 adapter에 live 상태로 복제하지 않는다.
 
 retained repository change 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`와 최소 5회 full-scope adversarial review를 수행한다. `NOT_RUN`을 PASS로 승격하지 않는다.
