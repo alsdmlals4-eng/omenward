@@ -241,7 +241,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         plan,
         (
             "OMENWARD Run Command Vertical Slice Implementation Plan",
-            "ORCHESTRATION_FIRST_VERTICAL_SLICE",
+            "orchestration-first",
             "HiGodot",
             "GUT",
             "PREPARE",
