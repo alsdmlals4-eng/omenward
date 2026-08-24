@@ -2,14 +2,18 @@
 
 ```yaml
 updated_at: 2026-08-24
-status: CURRENT_V4_8_PLANNING_REVIEW_COMPLETE_CONTEXT
+status: CURRENT_V4_8_RUN_COMMAND_IMPLEMENTATION_AUTHORIZED_CONTEXT
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_project_core: docs/PROJECT_CORE.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-implementation_authorized: false
+implementation_authorized: true
+implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+implementation_packet: docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
+implementation_plan: docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
+persistent_godot_authoring: HIGODOT_ONLY
 visual_generation: USER_REQUEST_ONLY
 current_chat_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
@@ -42,13 +46,17 @@ LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
 COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
+CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
-IMPLEMENTATION_START = NOT_AUTHORIZED
 ```
 
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
+
+Implementation authority owners:
+- `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
+- `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`
 
 각 개별 Decision owner의 과거 `CURRENT_NEXT / THEN`은 승인 당시의 local sequence다. 현재 작업 순서는 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 이 Active Context를 사용한다.
 
@@ -65,6 +73,39 @@ Final planning review owner:
 → 자동전투 + 제한된 수동 전술
 → 인과 복기
 ```
+
+## Authorized implementation slice
+
+```text
+PREPARE
+→ paid stopped 3×3 snapshot
+→ limited row/column manipulation
+→ confirmed resolution
+→ reward storage
+→ COMMIT pending lane plan
+→ aggregate food/spawn preflight
+→ atomic deployment apply
+→ BATTLE
+→ REVIEW
+```
+
+### Architecture lock
+
+```text
+ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE
+STAGE_RUN = EXISTING_FOUNDATION_COORDINATOR
+ROULETTE_SERVICE = EXISTING_OUTCOME_AUTHORITY_WITH_STOPPED_SNAPSHOT_SEAM
+DEPLOYMENT_SERVICE = EXISTING_FOUNDATION_PLUS_BATCH_TRANSACTION
+BATTLE_SIMULATOR = EXISTING_FOUNDATION_PLUS_NON_MUTATING_SPAWN_PREFLIGHT
+STAGE_ECONOMY = EXISTING_FOUNDATION_PLUS_NON_MUTATING_FOOD_PREFLIGHT
+RUN_COMMAND_STATE = NEW_THIN_OWNER
+ROULETTE_MANIPULATION_SESSION = NEW_THIN_TRANSACTION_OWNER
+PENDING_DEPLOYMENT_PLAN = NEW_THIN_PLAN_OWNER
+PLAYER_UI = READ_ONLY_VIEW_MODEL_PLUS_COMMAND_SURFACE
+TECHNICAL_STAGE_HUD = PRESERVE_AS_DEBUG_EVIDENCE_SURFACE
+```
+
+Implementation authority is **not** a project-wide build approval. It does not authorize unrelated role-output, balance-finalization, platform/release, adapter/governance, historical evidence or image-generation work.
 
 ## Current world
 
@@ -138,12 +179,17 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
+The open economy drift is not authority to change final economy/balance values inside the Run Command slice. The implementation may preserve/route existing values and tests; product-value reconciliation remains a separate decision/evidence track.
+
 ## Runtime / evidence boundary
 
 ```text
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_GUT_RED = NOT_RUN
+CURRENT_GUT_GREEN = NOT_RUN
+CURRENT_HERA_LIVE_QA = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 LEGACY_C1_C2_C3_PROVEN
@@ -158,7 +204,7 @@ HUMAN_QA_NOT_RUN
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-현재 파일은 PR 번호나 branch HEAD를 live state로 고정하지 않는다.
+현재 파일은 PR 번호나 branch HEAD를 live state로 고정하지 않는다. Run Command implementation must start from the fresh latest completed `main`; unrelated open/draft work remains read-only.
 
 ## Current work order
 
@@ -169,9 +215,13 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 4. COMPLETE — North Star v2.1 Notion delivery + area-by-area audit
 5. COMPLETE — Lower Deck / Roulette correction brief + reusable component breakdown
 6. COMPLETE — final planning adversarial review 5/5 + GitHub/Notion drift check
-7. CURRENT GATE — implementation authority required; authority is NONE
-8. OPTIONAL IMAGE — corrected North Star only on explicit user image request
-9. IMPLEMENTATION — only after explicit user authority
+7. COMPLETE — implementation architecture selected: ORCHESTRATION_FIRST_VERTICAL_SLICE
+8. COMPLETE — implementation plan + execution packet prepared
+9. CURRENT — HiGodot-enabled Run Command vertical slice execution, starting with GUT RED (>0 tests)
+10. REQUIRED — parse/import + GUT GREEN + existing regressions + determinism replay
+11. REQUIRED — Hera live QA with source delta NONE + resolution/input checks
+12. REQUIRED — five full adversarial review loops + exact-head PR integration + postmerge readback
+13. OPTIONAL IMAGE — corrected North Star only on explicit user image request
 ```
 
 ## Resume order
@@ -180,8 +230,8 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 2. fresh OMENWARD main + PR/Issue inventory.
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. this file.
-5. current GDD/Project Core + relevant owner.
-6. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-7. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-8. Project Notion Home + `13 · 비주얼 컴포넌트 · 전장/룰렛/UI`.
-9. runtime only when explicitly reopened.
+5. `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`.
+6. `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`.
+7. current GDD/Project Core + relevant owners.
+8. Project Notion Home + `08 · 핵심 시스템 · 상세` + relevant visual/UI pages.
+9. Confirm HiGodot authoring availability, then begin GUT RED; if unavailable, remain `BLOCKED_UNVERIFIED` for product mutation rather than writing Godot source through another authority.
