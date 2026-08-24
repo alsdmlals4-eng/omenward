@@ -1,13 +1,15 @@
 # OMENWARD 현재 온보딩 기획 권위
 
 ```yaml
-updated_at: 2026-08-20
+updated_at: 2026-08-24
 status: CURRENT_ONBOARDING_AUTHORITY
-planning_status: REOPENED_CURRENT_REPLAN
+planning_status: CURRENT_REPLAN_CONFIRMED
 current_planning_decision: OMW-PLAN-20260820-FIRST5-FTUE-01
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 runtime_mutation: NONE
 balance_mutation: NONE
+visual_generation: USER_REQUEST_ONLY
 ```
 
 ## Current precedence
