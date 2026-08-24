@@ -1,9 +1,9 @@
 # [현행] OMENWARD Handoff Context
 
 ```yaml
-updated_at: 2026-08-21
-status: CURRENT_V4_7_HANDOFF
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+updated_at: 2026-08-24
+status: CURRENT_V4_8_HANDOFF
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -15,8 +15,16 @@ visual_generation: USER_REQUEST_ONLY
 ## 1. 새 세션에서 가장 먼저 복원할 것
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 18
-CURRENT_NEXT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
+CURRENT_APPROVED_REPLAN_DECISIONS = 19
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
+NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
+NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
+NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
+LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
+COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
+CURRENT_NEXT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
@@ -32,8 +40,9 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 5. `docs/OMENWARD_GDD_CURRENT_CANON.md`.
 6. `docs/PROJECT_CORE.md`.
 7. relevant current Decision owner.
-8. Project Notion Home + relevant human-facing page.
-9. runtime scope가 열렸을 때 actual code/data/scene/test/runtime.
+8. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` when visual/UI scope applies.
+9. Project Notion Home + relevant human-facing page.
+10. runtime scope가 열렸을 때 actual code/data/scene/test/runtime.
 
 ## 3. Product core
 
@@ -72,20 +81,27 @@ DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 ROULETTE_EXPOSURE = 3×3
 LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
+NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
+NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
+NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
+NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
 ```
 
 Latest visual owners:
+- `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
 
 ## 6. Current work gate
 
 ```text
-TOPDOWN_BATTLEFIELD_LAYOUT = COMPLETE
-TOPDOWN_UNIT_SILHOUETTE = COMPLETE
-CURRENT = REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST
-THEN = COMPONENT_SHEET
-THEN = FINAL_PLANNING_ADVERSARIAL_REVIEW
+NORTH_STAR_V2_1_AREA_AUDIT = COMPLETE
+LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
+COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
+CURRENT = FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK
+CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 THEN = IMPLEMENTATION_AUTHORITY_REQUIRED
 ```
 
@@ -114,15 +130,12 @@ Historical exact proof owner:
 - `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
 - `docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md`
 
-과거 signal11 / HiGodot / GUT / Hera / Issue176 execution evidence는 history다. fresh current-main execution 없이 current blocker나 next step으로 사용하지 않는다.
+과거 signal11 / HiGodot / GUT / Hera / runtime execution evidence는 history다. fresh current-main execution 없이 current blocker나 next step으로 사용하지 않는다.
 
 ## 9. GitHub work-item rule
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```
 
 ## 10. Notion / repository sync
@@ -131,12 +144,14 @@ PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 - Repository = structured/runtime current canon.
 - Google Sheet = compatibility/history only.
 - current meaning 변경 후 destination readback 필수.
+- North Star v2.1 Notion upload/attach 및 server readback은 PASS지만 human client 렌더는 `NOT_RUN`이다.
 
 ## 11. Do not infer
 
-- 과거 technical PASS → current v4.7 player-experience PASS.
+- 과거 technical PASS → current v4.8 player-experience PASS.
 - closed-unmerged PR → current main implementation.
 - existing prototype UI → approved current UX implementation.
+- North Star v2.1 전체 화면 → final UI canon.
 - normalized balance envelope → final product numerics.
 
 ## 12. Next-session stopping rule
