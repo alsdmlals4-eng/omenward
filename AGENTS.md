@@ -30,12 +30,11 @@ current_chat_runtime: NOT_RUN
 
 ## 2. Current planning route
 
-현재 승인 상태의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`다.
+현재 승인 상태와 exact 작업 순서의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 `docs/ACTIVE_CONTEXT.md`다.
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
 NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
-CURRENT_NEXT = COMPONENT_BREAKDOWN_REUSE_IN_FINAL_PLANNING_REVIEW
+CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
 IMPLEMENTATION_START = NOT_AUTHORIZED
@@ -134,14 +133,11 @@ LEGACY_C1_C2_C3_PROVEN
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-PR175 = CLOSED_UNMERGED_HISTORICAL
-PR177 = CLOSED_UNMERGED_REFERENCE_HISTORY
-PR197 = CLOSED_UNMERGED_SUPERSEDED_BY_198
 ```
 
 - open/draft PR은 Base 규칙대로 기본 read-only.
 - closed-unmerged branch 내용을 current product truth로 사용하지 않는다.
-- Issue176/과거 runtime package는 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
+- 과거 runtime execution Issue/PR은 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
 
 ## 7. Notion / repository authority
 
