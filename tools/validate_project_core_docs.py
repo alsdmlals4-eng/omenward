@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate OMENWARD current v4.7 documentation and historical compatibility boundaries."""
+"""Validate OMENWARD current v4.8 documentation and historical compatibility boundaries."""
 from __future__ import annotations
 
 import pathlib
@@ -7,6 +7,7 @@ import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
+CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
 CURRENT_GDD = "docs/OMENWARD_GDD_CURRENT_CANON.md"
@@ -18,6 +19,9 @@ ROULETTE_RULES = "docs/design/APPROVED_ROULETTE_CORE_RULES.md"
 HISTORICAL_VERTICAL_SLICE = "docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md"
 TOPDOWN_LAYOUT = "docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md"
 TOPDOWN_SILHOUETTE = "docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md"
+NORTH_STAR_AUDIT = "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
+NORTH_STAR_AUDIT_ID = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
+STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 DYNAMIC_CURRENT_REF = "RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH"
 
 REQUIRED_FILES = (
@@ -34,8 +38,10 @@ REQUIRED_FILES = (
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
     TOPDOWN_LAYOUT,
     TOPDOWN_SILHOUETTE,
+    NORTH_STAR_AUDIT,
     HISTORICAL_VERTICAL_SLICE,
     CURRENT_REVIEW,
     EVIDENCE_PILOT,
@@ -57,6 +63,7 @@ CURRENT_ROUTE_FILES = (
     CURRENT_GDD,
     "docs/OMENWARD_ROADMAP.md",
     "docs/DECISIONS_PENDING.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
 )
 
 FORBIDDEN_CURRENT_MARKERS = (
@@ -64,6 +71,7 @@ FORBIDDEN_CURRENT_MARKERS = (
     "PAUSED_PENDING_USER_REFERENCE_FILES",
     "current_next_gate: WORLD_CONFLICT_AND_CORE_STORY",
     "current_next_gate: ROULETTE_DDD_FEEDBACK_SPEC",
+    STALE_NORTH_STAR_GATE,
 )
 
 
@@ -90,6 +98,17 @@ def validate_links(errors: list[str], root: pathlib.Path, relative: str, body: s
             errors.append(f"broken local link: {relative} -> {clean}")
 
 
+def validate_decision_count(errors: list[str], decisions: str) -> None:
+    declared_match = re.search(r"CURRENT_APPROVED_REPLAN_DECISIONS\s*=\s*(\d+)", decisions)
+    if not declared_match:
+        errors.append("current decision index missing declared decision count")
+        return
+    registered = set(re.findall(r"\| `(OMW-PLAN-[^`]+)` \|", decisions))
+    declared = int(declared_match.group(1))
+    if declared != len(registered):
+        errors.append(f"decision count mismatch: declared {declared}, registered {len(registered)}")
+
+
 def validate(root: pathlib.Path = ROOT) -> list[str]:
     errors: list[str] = []
     for relative in REQUIRED_FILES:
@@ -104,7 +123,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         decisions,
         (
             "status: CURRENT_DECISION_RECOVERY_INDEX",
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 18",
+            CURRENT_CONTRACT,
+            NORTH_STAR_AUDIT_ID,
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             "OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01",
             "OMW-PLAN-20260820-CONTENT-BOSS-ARC-01",
             "OMW-PLAN-20260820-BALANCE-BUDGET-01",
@@ -112,22 +133,27 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "OMW-PLAN-20260820-ROULETTE-DDD-FEEDBACK-01",
             "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01",
             "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01",
-            "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION",
+            "NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION",
             "USER_REQUEST_ONLY",
         ),
         "current decision index",
     )
+    validate_decision_count(errors, decisions)
 
     core = read(root, "docs/PROJECT_CORE.md")
     require(
         errors,
         core,
         (
+            CURRENT_CONTRACT,
             "current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md",
             "VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상",
             "RUN_HISTORY_RESET = FALSE",
             "PREPARE -> COMMIT -> BATTLE -> REVIEW",
-            "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "LEGACY_C1_C2_C3_PROVEN",
@@ -143,7 +169,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         status,
         (
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 18",
+            CURRENT_CONTRACT,
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 19",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "CURRENT_WINDOWS_RUNTIME = NOT_RUN",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
@@ -161,9 +189,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         gdd,
         (
             "status: CURRENT_GDD_CANON",
+            CURRENT_CONTRACT,
             "VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상",
             "RUN_HISTORY_RESET = FALSE",
-            "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
         ),
@@ -178,7 +208,18 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"current GDD retains superseded world decision: {stale}")
 
     active = read(root, "docs/ACTIVE_CONTEXT.md")
-    require(errors, active, ("CURRENT_APPROVED_REPLAN_DECISIONS = 18", "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", "USER_REQUEST_ONLY"), "Active Context")
+    require(
+        errors,
+        active,
+        (
+            CURRENT_CONTRACT,
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "CURRENT_NEXT = COMPONENT_BREAKDOWN_REUSE_IN_FINAL_PLANNING_REVIEW",
+            "USER_REQUEST_ONLY",
+        ),
+        "Active Context",
+    )
     if "current_branch_and_commit:" in active:
         errors.append("Active Context contains self-referential current_branch_and_commit")
     for field in ("current_main", "context_baseline_commit"):
@@ -191,10 +232,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         doc_map,
         (
+            CURRENT_CONTRACT,
             "docs/CURRENT_CONFIRMED_DECISIONS.md",
             "APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md",
             "APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md",
-            "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST",
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "USER_REQUEST_ONLY",
             "Google Sheet는 current human authority가 아니다",
         ),
@@ -206,9 +249,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         lifecycle,
         (
+            CURRENT_CONTRACT,
             "APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md",
             "APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md",
-            "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST",
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
             "USER_REQUEST_ONLY",
             "[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md",
         ),
@@ -216,22 +261,90 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     )
 
     roadmap = read(root, "docs/OMENWARD_ROADMAP.md")
-    require(errors, roadmap, ("REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", "USER_REQUEST_ONLY", "TOPDOWN_BATTLEFIELD_LAYOUT", "TOPDOWN_UNIT_SILHOUETTE"), "roadmap")
+    require(
+        errors,
+        roadmap,
+        (
+            CURRENT_CONTRACT,
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            "USER_REQUEST_ONLY",
+            "TOPDOWN_BATTLEFIELD_LAYOUT",
+            "TOPDOWN_UNIT_SILHOUETTE",
+        ),
+        "roadmap",
+    )
 
     pending = read(root, "docs/DECISIONS_PENDING.md")
-    require(errors, pending, ("ECONOMY_BASELINE_DRIFT", "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", "IMPLEMENTATION_AUTHORITY_REQUIRED"), "pending decisions")
+    require(
+        errors,
+        pending,
+        (
+            CURRENT_CONTRACT,
+            "ECONOMY_BASELINE_DRIFT",
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            "IMPLEMENTATION_AUTHORITY_REQUIRED",
+        ),
+        "pending decisions",
+    )
     for stale in ("WORLD_CONFLICT_AND_CORE_STORY", "20_STAGE_CONTENT_AND_BOSS_STRUCTURE", "TEXT_UX_AND_STATE_TRANSITION_SPEC"):
         if f"NEXT_PRODUCT_DECISION = {stale}" in pending:
             errors.append(f"pending decisions routes a completed planning gate as next: {stale}")
 
     handoff = read(root, "docs/HANDOFF_CONTEXT.md")
-    require(errors, handoff, ("PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7", "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST", "USER_REQUEST_ONLY", "CURRENT_GODOT_RUNTIME = NOT_RUN"), "handoff")
+    require(
+        errors,
+        handoff,
+        (
+            CURRENT_CONTRACT,
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK",
+            "USER_REQUEST_ONLY",
+            "CURRENT_GODOT_RUNTIME = NOT_RUN",
+        ),
+        "handoff",
+    )
     for stale in ("PHASE_C_ISSUE176_PROJECT_BOOT_SIGNAL11_ISOLATION", "DISPOSABLE_AUTOLOAD_AB_ISOLATION", "PR175 = OPEN_DRAFT"):
         if stale in handoff:
             errors.append(f"current handoff retains historical runtime routing: {stale}")
 
+    ledger_current = read(root, "docs/PROJECT_CANON_DECISION_LEDGER.md")
+    require(
+        errors,
+        ledger_current,
+        (
+            CURRENT_CONTRACT,
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "USER_REQUEST_ONLY",
+        ),
+        "current decision ledger",
+    )
+
+    audit = read(root, NORTH_STAR_AUDIT)
+    require(
+        errors,
+        audit,
+        (
+            NORTH_STAR_AUDIT_ID,
+            "status: APPROVED_CURRENT",
+            CURRENT_CONTRACT,
+            "BATTLEFIELD_COMPOSITION = APPROVED_DIRECTION",
+            "LOWER_CONTROL_DECK_LAYOUT = NEEDS_CORRECTION",
+            "ROULETTE_INTERACTION_SURFACE = NEEDS_CORRECTION",
+            "EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE",
+            "IMPLEMENTATION_AUTHORIZED = FALSE",
+        ),
+        "North Star audit",
+    )
+
     for relative in CURRENT_ROUTE_FILES:
         body = read(root, relative)
+        if CURRENT_CONTRACT not in body:
+            errors.append(f"current route missing v4.8 planning contract: {relative}")
         for marker in FORBIDDEN_CURRENT_MARKERS:
             if marker in body:
                 errors.append(f"current route contains stale marker: {relative} -> {marker}")
@@ -258,6 +371,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     roulette = read(root, ROULETTE_RULES)
     if "노출 인덱스" not in roulette:
         errors.append("roulette horizontal movement contract lost exposure index")
+
     lineage = read(root, LEDGER)
     if "AUTHORED_PRIORITY_LIST" not in lineage:
         errors.append("V2 decision lineage lost AUTHORED_PRIORITY_LIST")
