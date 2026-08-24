@@ -4,9 +4,9 @@
 
 **Goal:** Implement one playable OMENWARD vertical slice that proves `PREPARE -> Roulette STOPPED/MANIPULATE -> CONFIRM -> COMMIT pending plan -> atomic deployment -> BATTLE -> REVIEW` without replacing the existing battle/economy foundation.
 
-**Architecture:** Use the approved orchestration-first design. `StageRun` remains the owner of existing economy, buildings, roulette, deployment, wave director, battle, and Core UX services; new focused state/transaction objects own Run Command phase, roulette manipulation session, and pending deployment plan. Player UI consumes a view model/snapshot and sends commands only; it does not calculate game rules. Preserve the current technical `StageHud` as a debug/evidence surface while introducing a separate player-facing Focus Mode surface.
+**Architecture:** Use the approved orchestration-first design. `StageRun` stays the coordinator for existing economy/building/roulette/deployment/wave/battle services. New focused state/transaction objects own Run Command phase, roulette manipulation, and pending deployment planning. The existing `RouletteService` is split only enough to support `paid spin snapshot -> manipulation -> confirmed resolution` without duplicating the central-row/8-line resolver. Deployment uses aggregate preflight plus one batch food reservation and prevalidated battle spawns so invalid COMMIT plans produce zero applied units.
 
-**Tech Stack:** Godot 4.7.x, GDScript, GUT 9.7.1, existing headless SceneTree tests, HiGodot/godot-ai as sole persistent Godot authoring authority, Hera as read-only live QA.
+**Tech Stack:** Godot 4.7.x, GDScript, GUT 9.7.1, existing SceneTree headless tests, HiGodot/godot-ai as sole persistent Godot authoring authority, Hera as read-only live QA.
 
 **Spec:**
 - `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
@@ -18,196 +18,156 @@
 ## Global Constraints
 
 - `RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW`.
-- `ROULETTE_EXPOSURE = 3×3`.
-- Player-facing roulette has 12 direct arrows: column up/down × 3 and row left/right × 3.
+- `ROULETTE_EXPOSURE = 3×3`; 12 direct arrows: 3 column up + 3 column down + 3 row left + 3 row right.
 - `THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN`.
-- `IRREVERSIBLE_LANE_COMMITMENT = REQUIRED`, but actual deployment occurs only after the COMMIT primary CTA; pending plans are editable and are not deployed truth.
-- `ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE`.
-- `DUPLICATE_TOP_RESOURCES = FORBIDDEN`.
-- Debug Token Ledger, raw target IDs, internal cause codes, and exact diagnostic counters remain off the player-facing default surface.
-- Existing `RouletteService.resolve_board_snapshot()` central-row judging and 8-line outcome behavior must remain regression-protected.
-- Existing battle, economy, building, wave, and role-output workstreams must not be rewritten as part of this slice.
-- Persistent `.gd`, `.tscn`, `.tres`, project-setting, or other Godot-source mutations must be performed through HiGodot/godot-ai only.
-- GUT is the deterministic GDScript test authority; Hera is `LIVE_QA_AND_OBSERVABILITY_ONLY` and must produce tracked-source delta `NONE`.
-- Runtime, device, accessibility, controller, and human evidence remain `NOT_RUN` until actually executed.
-- No new paid dependency, SDK, or service.
+- `IRREVERSIBLE_LANE_COMMITMENT = REQUIRED`, but pending COMMIT assignments are editable and are not deployed truth.
+- `ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE`; duplicated top resource totals in the lower deck are forbidden.
+- Existing `RouletteService.resolve_board_snapshot()` central-row judging, 8-line counting, rank and gold behavior remain the only reward-resolution authority.
+- `RouletteService.spin()` legacy behavior remains regression-protected; the new player path must not charge twice or resolve before manipulation.
+- PREPARE/COMMIT/REVIEW must not advance WaveDirector, BattleSimulator, or StageEconomy active time.
+- Existing battle, economy, building, role-output and historical-evidence workstreams are not rewritten.
+- Persistent `.gd`, `.tscn`, `.tres`, `project.godot`, Scene/Node/Resource mutations are HiGodot-only.
+- GUT RED requires **>0 tests discovered**. A missing implementation file must not cause the test script itself to fail parsing before discovery: initial RED tests use dynamic `load()` or a behavior-level RED after a minimal loadable shell exists.
+- Hera is `LIVE_QA_AND_OBSERVABILITY_ONLY`; tracked-source delta attributable to Hera must be `NONE`.
+- Runtime/device/accessibility/controller/human evidence remain `NOT_RUN` until actually executed.
+- No new paid dependency or service.
 
 ---
 
 ## File Structure
 
-### Create
-- `scripts/run_command/run_command_state.gd` — authoritative PREPARE/COMMIT/BATTLE/REVIEW phase state.
-- `scripts/roulette/roulette_manipulation_session.gd` — immutable stopped board + row/column manipulation transaction before confirm.
-- `scripts/units/pending_deployment_plan.gd` — editable COMMIT plan and atomic preflight/apply boundary.
-- `scripts/ui/run_command_view_model.gd` — player-safe snapshot; strips debug-only internals.
-- `scripts/ui/run_command_screen.gd` — player input/controller for Focus Mode surface; delegates to run/view model.
-- `scenes/ui/run_command_screen.tscn` — player-facing top HUD + battlefield-preserving compact lower deck shell.
-- `tests/gut/test_run_command_state.gd` — phase state GUT contract.
-- `tests/gut/test_roulette_manipulation_session.gd` — 3×3 manipulation/GUT contract.
-- `tests/gut/test_pending_deployment_plan.gd` — staged/atomic COMMIT contract.
-- `tests/gut/test_run_command_vertical_slice.gd` — cross-system vertical slice contract.
+**Create**
+- `scripts/run_command/run_command_state.gd` — PREPARE/COMMIT/BATTLE/REVIEW state authority.
+- `scripts/roulette/roulette_manipulation_session.gd` — stopped 3×3 board, preview/apply/confirm and move budget.
+- `scripts/units/pending_deployment_plan.gd` — editable reward-index → lane assignments and aggregate validation.
+- `scripts/ui/run_command_view_model.gd` — read-only player-safe projection.
+- `scripts/ui/run_command_screen.gd` — player input/controller; delegates commands.
+- `scenes/ui/run_command_screen.tscn` — player-facing Focus Mode UI.
+- focused GUT tests under `tests/gut/` for every new owner plus one vertical-slice integration test.
 
-### Modify
-- `scripts/core/stage_run.gd` — compose the new state/session/plan and gate active simulation by phase.
-- `scripts/presentation/scene_binder.gd` — bind the player-facing Run Command screen without removing the technical HUD.
-- `scenes/main/main.tscn` — instance the Run Command player UI while retaining debug/evidence access.
-- `tests/headless/stage_run_test.gd` — replace the obsolete immediate-deploy expectation with staged COMMIT expectations while preserving all unrelated regressions.
-- `docs/ACTIVE_CONTEXT.md` — only after implementation/evidence, record actual executed state; do not pre-promote PASS.
-- `docs/CURRENT_IMPLEMENTATION_STATUS.md` — only after implementation/evidence, record exact implementation/evidence ceiling.
+**Modify**
+- `scripts/roulette/roulette_service.gd` — add paid stopped-snapshot transaction seam; keep `resolve_board_snapshot()` as outcome authority.
+- `scripts/core/stage_economy.gd` — add non-mutating food-capacity preflight helper.
+- `scripts/units/deployment_service.gd` — add batch deployment transaction with one aggregate food reservation.
+- `scripts/battle/battle_simulator.gd` — add non-mutating spawn-definition preflight helper.
+- `scripts/core/stage_run.gd` — compose new owners, phase-gate simulation, orchestrate confirmed roulette and COMMIT transaction.
+- `scripts/presentation/scene_binder.gd`, `scenes/main/main.tscn` — bind player surface while preserving technical HUD as debug/evidence.
+- `tests/headless/stage_run_test.gd` — replace obsolete immediate deployment expectation with staged COMMIT behavior; preserve unrelated regressions.
+- `docs/ACTIVE_CONTEXT.md`, `docs/CURRENT_IMPLEMENTATION_STATUS.md` only after actual implementation/evidence; do not pre-promote PASS.
 
 ---
 
-### Task 1: Run Command phase state
+### Task 1: Run Command phase authority
 
-**Files:**
+**Files**
 - Create: `scripts/run_command/run_command_state.gd`
 - Test: `tests/gut/test_run_command_state.gd`
 
-**Interfaces:**
-- Produces:
-  - `class_name RunCommandState`
-  - constants `PREPARE`, `COMMIT`, `BATTLE`, `REVIEW`
-  - `func phase() -> StringName`
-  - `func enter_prepare() -> void`
-  - `func enter_commit() -> bool`
-  - `func enter_battle() -> bool`
-  - `func enter_review() -> bool`
-  - `func can_mutate_preparation() -> bool`
-  - `func can_edit_commit_plan() -> bool`
-  - `func can_advance_combat() -> bool`
+**Produces**
+```gdscript
+class_name RunCommandState
+func phase() -> StringName
+func enter_prepare() -> void
+func enter_commit() -> bool
+func enter_battle() -> bool
+func enter_review() -> bool
+func can_mutate_preparation() -> bool
+func can_edit_commit_plan() -> bool
+func can_advance_combat() -> bool
+```
 
-- [ ] **Step 1: Write the failing GUT test**
+- [ ] **Step 1: RED test that is discoverable before the implementation exists.**
 
 ```gdscript
 extends GutTest
 
-const RunCommandState = preload("res://scripts/run_command/run_command_state.gd")
-
-func test_phase_order_and_capabilities() -> void:
-    var state := RunCommandState.new()
-    assert_eq(state.phase(), &"prepare")
-    assert_true(state.can_mutate_preparation())
-    assert_false(state.can_advance_combat())
-
-    assert_true(state.enter_commit())
-    assert_true(state.can_edit_commit_plan())
-    assert_false(state.can_mutate_preparation())
-
-    assert_true(state.enter_battle())
-    assert_true(state.can_advance_combat())
-    assert_false(state.can_edit_commit_plan())
-
-    assert_true(state.enter_review())
-    assert_false(state.can_advance_combat())
-    state.enter_prepare()
-    assert_eq(state.phase(), &"prepare")
+func test_run_command_state_script_exists() -> void:
+    var script := load("res://scripts/run_command/run_command_state.gd")
+    assert_not_null(script)
 ```
-
-- [ ] **Step 2: Run RED**
 
 Run:
 ```text
 Godot_v4.7.1-stable_win64.exe --headless --path . -s addons/gut/gut_cmdln.gd -gtest=res://tests/gut/test_run_command_state.gd -gexit
 ```
-Expected: >0 tests discovered and FAIL because `run_command_state.gd` does not exist.
+Expected: 1+ test discovered, FAIL because load returns null.
 
-- [ ] **Step 3: Implement the minimal state machine**
-
-```gdscript
-class_name RunCommandState
-extends RefCounted
-
-const PREPARE := &"prepare"
-const COMMIT := &"commit"
-const BATTLE := &"battle"
-const REVIEW := &"review"
-
-var _phase: StringName = PREPARE
-
-func phase() -> StringName:
-    return _phase
-
-func enter_prepare() -> void:
-    _phase = PREPARE
-
-func enter_commit() -> bool:
-    if _phase != PREPARE:
-        return false
-    _phase = COMMIT
-    return true
-
-func enter_battle() -> bool:
-    if _phase != COMMIT:
-        return false
-    _phase = BATTLE
-    return true
-
-func enter_review() -> bool:
-    if _phase != BATTLE:
-        return false
-    _phase = REVIEW
-    return true
-
-func can_mutate_preparation() -> bool:
-    return _phase == PREPARE
-
-func can_edit_commit_plan() -> bool:
-    return _phase == COMMIT
-
-func can_advance_combat() -> bool:
-    return _phase == BATTLE
-```
-
-- [ ] **Step 4: Run GREEN** — same command, expected PASS with >0 tests.
-- [ ] **Step 5: Commit**
+- [ ] **Step 2: Create the minimal loadable `RunCommandState` shell**, rerun, then replace/add behavior RED assertions for legal phase order and capability flags.
+- [ ] **Step 3: Implement minimal behavior:** initial PREPARE; only PREPARE→COMMIT→BATTLE→REVIEW; REVIEW→PREPARE explicit reset; phase capability helpers as specified.
+- [ ] **Step 4: GREEN with >0 tests.**
+- [ ] **Step 5: Commit.**
 
 ```text
 git add scripts/run_command/run_command_state.gd tests/gut/test_run_command_state.gd
-git commit -m "feat: add Run Command phase state"
+git commit -m "feat: add Run Command phase authority"
 ```
 
 ---
 
-### Task 2: 3×3 roulette manipulation session
+### Task 2: Split paid roulette spin from confirmed resolution
 
-**Files:**
-- Create: `scripts/roulette/roulette_manipulation_session.gd`
-- Test: `tests/gut/test_roulette_manipulation_session.gd`
-- Read-only dependency: `scripts/roulette/roulette_service.gd`
+**Files**
+- Modify: `scripts/roulette/roulette_service.gd`
+- Create: `tests/gut/test_roulette_spin_transaction.gd`
+- Preserve existing roulette headless tests.
 
-**Interfaces:**
-- Produces:
-  - `class_name RouletteManipulationSession`
-  - `func begin(board: Array[StringName], available_moves: int) -> bool`
-  - `func board_snapshot() -> Array[StringName]`
-  - `func preview_row_shift(row: int, direction: int) -> Array[StringName]`
-  - `func preview_column_shift(column: int, direction: int) -> Array[StringName]`
-  - `func apply_row_shift(row: int, direction: int) -> bool`
-  - `func apply_column_shift(column: int, direction: int) -> bool`
-  - `func remaining_moves() -> int`
-  - `func confirm() -> Array[StringName]`
-  - `func is_confirmed() -> bool`
-
-- [ ] **Step 1: Write failing GUT cases** for: exact 9-cell requirement, preview purity, row wrap, column wrap, move consumption, no mutation with zero moves, no mutation after confirm, and returned board copies not aliases.
-
-Representative contract:
+**Produces**
 ```gdscript
-func test_preview_is_pure_and_apply_consumes_one_move() -> void:
-    var session := RouletteManipulationSession.new()
-    assert_true(session.begin([&"a",&"b",&"c",&"d",&"e",&"f",&"g",&"h",&"i"], 1))
-    var preview := session.preview_row_shift(1, 1)
-    assert_eq(preview, [&"a",&"b",&"c",&"f",&"d",&"e",&"g",&"h",&"i"])
-    assert_eq(session.board_snapshot(), [&"a",&"b",&"c",&"d",&"e",&"f",&"g",&"h",&"i"])
-    assert_true(session.apply_row_shift(1, 1))
-    assert_eq(session.remaining_moves(), 0)
+func begin_paid_spin(seed_input: Dictionary) -> Dictionary
+func resolve_confirmed_spin(transaction: Dictionary, confirmed_board: Array[StringName]) -> RouletteSpinResult
 ```
 
-- [ ] **Step 2: Run RED** with the focused GUT file; require >0 discovered tests.
-- [ ] **Step 3: Implement minimal immutable-preview/copy-on-read session.** Use only 3×3 projection semantics; do not invent economy, rewards, or final V2 physical reel persistence in this file.
-- [ ] **Step 4: Run GREEN.**
-- [ ] **Step 5: Run existing roulette headless contract** to prove central-row and 8-line resolver behavior is unchanged.
-- [ ] **Step 6: Commit**
+`begin_paid_spin()` result shape:
+```gdscript
+{
+    "accepted": bool,
+    "failure_reason": StringName,
+    "spin_seed": int,
+    "resolution_seed": int,
+    "paid_cost": int,
+    "board": Array[StringName],
+    "sources": Array[Dictionary],
+}
+```
+
+- [ ] **Step 1: RED tests** proving: one accepted begin deducts exactly one `SPIN_COST`; begin returns a 9-cell stopped board but no reward/gold resolution; insufficient gold mutates nothing; confirmed resolution uses `resolve_board_snapshot()` semantics and does not charge again; resolving the same transaction twice is rejected/idempotently blocked by transaction state owned by the caller/session rather than paying twice.
+- [ ] **Step 2: Run RED (>0 discovered).**
+- [ ] **Step 3: Refactor existing `spin()` to call the new seam internally** so legacy callers keep the same observable result: begin paid spin → immediately resolve its natural board. Do not duplicate `_completed_line_count`, rank or gold logic.
+- [ ] **Step 4: GREEN focused tests + existing roulette contract.**
+- [ ] **Step 5: Commit.**
+
+```text
+git add scripts/roulette/roulette_service.gd tests/gut/test_roulette_spin_transaction.gd
+git commit -m "refactor: split roulette spin and confirmed resolution"
+```
+
+---
+
+### Task 3: 3×3 manipulation session
+
+**Files**
+- Create: `scripts/roulette/roulette_manipulation_session.gd`
+- Test: `tests/gut/test_roulette_manipulation_session.gd`
+
+**Produces**
+```gdscript
+class_name RouletteManipulationSession
+func begin(transaction: Dictionary, available_moves: int) -> bool
+func board_snapshot() -> Array[StringName]
+func preview_row_shift(row: int, direction: int) -> Array[StringName]
+func preview_column_shift(column: int, direction: int) -> Array[StringName]
+func apply_row_shift(row: int, direction: int) -> bool
+func apply_column_shift(column: int, direction: int) -> bool
+func remaining_moves() -> int
+func confirm() -> Dictionary
+func is_confirmed() -> bool
+```
+
+- [ ] **Step 1: Discoverable RED for missing script; create loadable shell; then behavior RED.**
+- [ ] **Step 2: Behavior tests:** exact 9 cells; preview purity; row wrap; column wrap; move decrements only on successful apply; zero moves blocks apply; directions accept only `-1` or `1`; row/column index accepts only `0..2`; returned arrays/dictionaries are deep enough copies that caller mutation cannot alter session truth; after confirm all manipulation is blocked; confirm returns original transaction fields plus the confirmed board exactly once.
+- [ ] **Step 3: Implement minimal copy-on-read session.** Do not resolve rewards, mutate economy, or infer three-lane mapping.
+- [ ] **Step 4: GREEN + existing roulette regression.**
+- [ ] **Step 5: Commit.**
 
 ```text
 git add scripts/roulette/roulette_manipulation_session.gd tests/gut/test_roulette_manipulation_session.gd
@@ -216,63 +176,81 @@ git commit -m "feat: add deterministic roulette manipulation session"
 
 ---
 
-### Task 3: Staged and atomic deployment plan
+### Task 4: Staged COMMIT and atomic batch deployment
 
-**Files:**
+**Files**
 - Create: `scripts/units/pending_deployment_plan.gd`
+- Modify: `scripts/core/stage_economy.gd`
+- Modify: `scripts/units/deployment_service.gd`
+- Modify: `scripts/battle/battle_simulator.gd`
 - Test: `tests/gut/test_pending_deployment_plan.gd`
-- Read-only dependency: `scripts/units/deployment_service.gd`
+- Test: `tests/gut/test_atomic_deployment_batch.gd`
 
-**Interfaces:**
-- Produces:
-  - `class_name PendingDeploymentPlan`
-  - `func assign(reward_index: int, lane_id: StringName) -> bool`
-  - `func unassign(reward_index: int) -> bool`
-  - `func assignments() -> Dictionary`
-  - `func preflight(rewards: Array, food_available: int) -> Dictionary`
-  - `func apply(rewards: Array, deploy_callable: Callable) -> Dictionary`
-  - result shape: `{ "accepted": bool, "reason": StringName, "applied_count": int }`
+**Produces**
+```gdscript
+# StageEconomy
+func can_reserve_food(amount: int) -> bool
 
-- [ ] **Step 1: Write failing GUT tests** proving pending edits do not call deployment, lane reassignment is editable, invalid lanes fail, insufficient aggregate food produces `accepted=false` with `applied_count=0`, and a successful apply calls the deploy callable exactly once per assigned reward.
-- [ ] **Step 2: Run RED.**
-- [ ] **Step 3: Implement preflight-before-apply.** Never partially apply when the plan itself is invalid. The plan does not own food; it reads the aggregate requirement and delegates actual deployment to the existing service only after preflight.
-- [ ] **Step 4: Run GREEN.**
-- [ ] **Step 5: Commit.**
+# BattleSimulator
+func can_spawn_definition(spawn: UnitSpawnDefinition) -> bool
+
+# DeploymentService
+func deploy_batch(cards: Array[UnitSpawnDefinition], lane_ids: Array[StringName], position: float) -> Dictionary
+# result {"accepted": bool, "reason": StringName, "deployed": Array[UnitSpawnDefinition]}
+
+# PendingDeploymentPlan
+class_name PendingDeploymentPlan
+func assign(reward_index: int, lane_id: StringName) -> bool
+func unassign(reward_index: int) -> bool
+func assignments() -> Dictionary
+func build_ordered_batch(rewards: Array[UnitSpawnDefinition]) -> Dictionary
+```
+
+- [ ] **Step 1: RED tests for pending state:** assignment/reassignment/unassign never changes food/deployment/battle; invalid lane and invalid reward index fail; duplicate reward index has one current assignment.
+- [ ] **Step 2: RED tests for aggregate transaction:** insufficient total food returns zero deployed; any invalid spawn definition/lane detected by preflight returns zero deployed; accepted batch reserves aggregate food **once**, records all deployment entries deterministically, and returns deployed definitions in reward-index order.
+- [ ] **Step 3: Implement `StageEconomy.can_reserve_food()` as non-mutating mirror of capacity logic.**
+- [ ] **Step 4: Implement `BattleSimulator.can_spawn_definition()` using exactly the existing `spawn_unit()` validity boundary: non-null, archetype exists, lane exists.** Do not add a new combat rule.
+- [ ] **Step 5: Implement `DeploymentService.deploy_batch()`: validate array sizes/lanes/cards; sum food; call `can_reserve_food(total)`; only then call `try_reserve_food(total)` once; append/log all deployed cards. Existing single `deploy()` remains for compatibility and may delegate to batch-of-one.
+- [ ] **Step 6: GREEN + deployment/battle/economy regressions.**
+- [ ] **Step 7: Commit.**
 
 ```text
-git add scripts/units/pending_deployment_plan.gd tests/gut/test_pending_deployment_plan.gd
-git commit -m "feat: add atomic pending deployment plan"
+git add scripts/units/pending_deployment_plan.gd scripts/core/stage_economy.gd scripts/units/deployment_service.gd scripts/battle/battle_simulator.gd tests/gut/test_pending_deployment_plan.gd tests/gut/test_atomic_deployment_batch.gd
+git commit -m "feat: add staged atomic deployment transaction"
 ```
 
 ---
 
-### Task 4: Integrate state/session/plan into StageRun
+### Task 5: Orchestrate the playable slice in StageRun
 
-**Files:**
+**Files**
 - Modify: `scripts/core/stage_run.gd`
 - Modify: `tests/headless/stage_run_test.gd`
-- Test: `tests/gut/test_run_command_vertical_slice.gd`
+- Create: `tests/gut/test_run_command_vertical_slice.gd`
 
-**Interfaces:**
-- `StageRun` produces:
-  - `var run_command_state: RunCommandState`
-  - `var roulette_session: RouletteManipulationSession`
-  - `var pending_deployment_plan: PendingDeploymentPlan`
-  - `func begin_roulette_manipulation(seed_input: Dictionary) -> Dictionary`
-  - `func shift_roulette_row(row: int, direction: int) -> bool`
-  - `func shift_roulette_column(column: int, direction: int) -> bool`
-  - `func confirm_roulette_result() -> bool`
-  - `func assign_pending_reward(reward_index: int, lane_id: StringName) -> bool`
-  - `func unassign_pending_reward(reward_index: int) -> bool`
-  - `func confirm_deployment_and_start_battle() -> Dictionary`
+**Produces**
+```gdscript
+var run_command_state: RunCommandState
+var roulette_session: RouletteManipulationSession
+var pending_deployment_plan: PendingDeploymentPlan
 
-- [ ] **Step 1: Change the old immediate-deployment headless expectation to RED.** The test must assert that assignment in COMMIT does not change `deployment.deployed_cards`, `battle.snapshot().units`, or `economy.food_used` until final confirm.
-- [ ] **Step 2: Add a focused vertical-slice GUT test** that starts a run, enters PREPARE, resolves/manipulates a deterministic board, confirms reward, enters COMMIT, assigns a lane, confirms atomically, reaches BATTLE, advances combat, and eventually reaches REVIEW through a deterministic test result path.
-- [ ] **Step 3: Run RED with >0 tests.**
-- [ ] **Step 4: Integrate the three new domain objects into `StageRun`.** Preserve existing `RouletteService` as the authoritative resolver and reward builder. Do not duplicate line-count/reward logic in the session or UI.
-- [ ] **Step 5: Gate `advance(delta)` by phase.** PREPARE/COMMIT/REVIEW must not advance wave, battle, or economy active time. BATTLE uses the existing wave/battle/economy sequence.
-- [ ] **Step 6: Transition to REVIEW only from actual battle result resolution.** Debug `stage_victory/stage_defeat` remains test/debug capability but must not be the player-facing completion path.
-- [ ] **Step 7: Run focused GREEN and the complete existing headless regression set used by CI.**
+func begin_roulette_manipulation(seed_input: Dictionary, available_moves: int) -> Dictionary
+func shift_roulette_row(row: int, direction: int) -> bool
+func shift_roulette_column(column: int, direction: int) -> bool
+func confirm_roulette_result() -> RouletteSpinResult
+func enter_commit() -> bool
+func assign_pending_reward(reward_index: int, lane_id: StringName) -> bool
+func unassign_pending_reward(reward_index: int) -> bool
+func confirm_deployment_and_start_battle() -> Dictionary
+```
+
+- [ ] **Step 1: RED:** revise the old immediate `deploy_next_roulette_reward()` expectation. In the new player path, lane assignment during COMMIT changes neither `economy.food_used`, `deployment.deployed_cards`, nor `battle.snapshot().units`.
+- [ ] **Step 2: RED vertical-slice test:** PREPARE begin paid spin → stopped board → at least one legal manipulation → confirm once → reward storage → COMMIT assignment → final confirm → BATTLE; verify food/deployed/battle unit changes happen only at final COMMIT.
+- [ ] **Step 3: Integrate roulette transaction:** `begin_roulette_manipulation()` only in PREPARE and only with no unresolved session/reward conflict. `confirm_roulette_result()` passes the session's confirmed transaction/board to `RouletteService.resolve_confirmed_spin()`, then stores reward using the existing stage storage path.
+- [ ] **Step 4: Integrate COMMIT transaction:** before calling `deployment.deploy_batch()`, build all spawn definitions with assigned lanes and call `battle.can_spawn_definition()` for every definition. If any fail, return with zero deployment mutation. After accepted `deploy_batch`, spawn exactly the returned deployed definitions; the prior preflight makes `spawn_unit()` valid under current battle rules.
+- [ ] **Step 5: Phase-gate `advance(delta)`:** PREPARE/COMMIT/REVIEW may update only non-active UI/planning clocks if needed; WaveDirector, BattleSimulator and StageEconomy active advancement occurs only in BATTLE.
+- [ ] **Step 6: On natural battle result, enter REVIEW before exposing next-run transition.** Debug `stage_victory/stage_defeat` remains debug/test-only and must not become the player CTA.
+- [ ] **Step 7: GREEN focused GUT + complete affected headless suite.**
 - [ ] **Step 8: Commit.**
 
 ```text
@@ -282,120 +260,83 @@ git commit -m "feat: orchestrate Run Command vertical slice"
 
 ---
 
-### Task 5: Player-safe Run Command view model
+### Task 6: Player-safe view model and Focus Mode UI
 
-**Files:**
+**Files**
 - Create: `scripts/ui/run_command_view_model.gd`
-- Test: `tests/gut/test_run_command_view_model.gd`
-- Read-only dependency: `scripts/core/core_ux_service.gd`
-
-**Interfaces:**
-- Produces `func snapshot(run: Variant) -> Dictionary` with keys:
-  - `phase`
-  - `top_hud`: `gold`, `mana`, `food_used`, `food_cap`, `wave`, `forecast_summary`
-  - `prepare`: current active work-surface state only
-  - `commit`: stored rewards, pending assignments, irreversible warning, primary CTA state
-  - `battle`: lane status + tactical summary only
-  - `review`: five causal blocks only
-  - `block_reason_copy`
-
-- [ ] **Step 1: Write RED tests** that fail if `source_building_ids`, `reward_archetype_ids`, raw unit IDs, raw target IDs, raw cause codes, or exact diagnostic counters leak into the default player snapshot.
-- [ ] **Step 2: Implement a read-only adapter.** It may consume existing debug/Core UX snapshots but must project them into player-safe semantics; it must not mutate run state or calculate combat/roulette outcomes.
-- [ ] **Step 3: GREEN + regression.**
-- [ ] **Step 4: Commit.**
-
-```text
-git add scripts/ui/run_command_view_model.gd tests/gut/test_run_command_view_model.gd
-git commit -m "feat: add player-safe Run Command view model"
-```
-
----
-
-### Task 6: Focus-adaptive Run Command player UI
-
-**Files:**
 - Create: `scripts/ui/run_command_screen.gd`
 - Create: `scenes/ui/run_command_screen.tscn`
 - Modify: `scripts/presentation/scene_binder.gd`
 - Modify: `scenes/main/main.tscn`
-- Preserve: `scripts/ui/stage_hud.gd`, `scenes/ui/stage_hud.tscn`
+- Create tests: `tests/gut/test_run_command_view_model.gd`, `tests/gut/test_run_command_screen.gd`
+- Preserve: `scripts/ui/stage_hud.gd`, `scenes/ui/stage_hud.tscn` as technical/debug evidence surface.
 
-**Interfaces:**
-- Consumes `RunCommandViewModel.snapshot(run)` and the `StageRun` command methods from Task 4.
-- Player controls invoke domain commands only.
+**View-model default snapshot**
+```gdscript
+{
+  "phase": StringName,
+  "top_hud": {"gold": int, "food_used": int, "food_cap": int, "wave": int, "forecast_summary": Variant},
+  "prepare": Dictionary,
+  "commit": Dictionary,
+  "battle": Dictionary,
+  "review": Dictionary,
+  "primary_action": Dictionary,
+}
+```
 
-- [ ] **Step 1: Add a GUT/scene contract that loads the new scene and verifies required named nodes exist:** `TopHud`, `BattlefieldContext`, `LowerDeck`, `RouletteSurface`, `CommitSurface`, `BattleSurface`, `ReviewSurface`, `PrimaryAction`.
-- [ ] **Step 2: RED.**
-- [ ] **Step 3: Build the shell at the existing 960×540 reference.** Lower deck target is 25–32% of screen height; battlefield remains visible. Do not copy the mockup's multi-surface lower dashboard.
-- [ ] **Step 4: Implement Focus visibility:** only one lower work surface visible at once.
-- [ ] **Step 5: Implement Roulette surface:** 3×3 board, 12 direct arrows, move count, Spin/Confirm CTA separation, preview on hover/focus without spending.
-- [ ] **Step 6: Implement COMMIT surface:** stored/new rewards, editable lane assignment, irreversible warning, exactly one primary CTA.
-- [ ] **Step 7: Implement BATTLE/REVIEW surfaces:** hide Build/Spin/Commit mutation during battle; review shows causal summary rather than raw debug report.
-- [ ] **Step 8: Keep the technical StageHud reachable only as debug/evidence surface; do not make both dashboards simultaneously player-visible by default.**
-- [ ] **Step 9: GREEN scene-load and focused UI contract tests.**
+- [ ] **Step 1: RED view-model tests:** fail if default player snapshot leaks `source_building_ids`, `reward_archetype_ids`, raw unit IDs, raw target IDs, raw internal cause codes, or exact diagnostic counters. View model must be read-only.
+- [ ] **Step 2: Implement projection only; do not calculate roulette/combat outcomes or probabilities.**
+- [ ] **Step 3: Discoverable RED scene test using dynamic `load()`** before the scene exists; then behavior tests for required nodes `TopHud`, `LowerDeck`, `RouletteSurface`, `CommitSurface`, `BattleSurface`, `ReviewSurface`, `PrimaryAction`.
+- [ ] **Step 4: Build 960×540 reference shell.** Lower deck 25–32% exploration target; battlefield stays primary. Only one lower work surface visible at once.
+- [ ] **Step 5: Roulette surface:** 3×3 center, all 12 arrows, preview on hover/focus without spending, Spin and Result Confirm separate, movement resources local only.
+- [ ] **Step 6: COMMIT surface:** stored/new units, editable pending lanes, irreversible warning, one primary CTA. Do not present three abstract lane buttons as the only spatial cue if battlefield lane selection can be bound safely.
+- [ ] **Step 7: BATTLE/REVIEW:** Build/Spin/Commit mutation hidden in BATTLE; REVIEW shows five causal blocks, not raw `WAVE CAUSE REPORT` text.
+- [ ] **Step 8: SceneBinder binds both the battlefield and new Run Command player surface. Technical StageHud is not simultaneously shown as the normal player dashboard.**
+- [ ] **Step 9: GREEN scene/view tests.**
 - [ ] **Step 10: Commit.**
 
 ```text
-git add scripts/ui/run_command_screen.gd scenes/ui/run_command_screen.tscn scripts/presentation/scene_binder.gd scenes/main/main.tscn
+git add scripts/ui/run_command_view_model.gd scripts/ui/run_command_screen.gd scenes/ui/run_command_screen.tscn scripts/presentation/scene_binder.gd scenes/main/main.tscn tests/gut/test_run_command_view_model.gd tests/gut/test_run_command_screen.gd
 git commit -m "feat: add Focus Mode Run Command player UI"
 ```
 
 ---
 
-### Task 7: Parse/import, complete regression, deterministic evidence
+### Task 7: Verification, runtime evidence, adversarial review and integration
 
-**Files:**
-- No product change unless a failing test reveals a bounded defect.
-- Evidence output should go only to the repository's existing evidence/test artifact locations; do not invent a second evidence authority.
+- [ ] **Godot parse/import:** Godot 4.7.x, no script/resource errors.
+- [ ] **GUT:** all new suites >0 tests, 100% pass.
+- [ ] **Existing regressions:** roulette, stage run, battle, economy, deployment, application/session/bootstrap and every CI-routed affected contract.
+- [ ] **Python contracts:** run the exact suite routed by `.github/workflows/validate-omenward-core.yml`; zero required tests/checks is failure.
+- [ ] **Determinism replay:** same seed + same action list twice; compare confirmed board, deployed reward order/lane, input log deterministic fields and final slice state.
+- [ ] **Unrelated-diff gate:** no role-output #176, balance pilot, platform/release, adapter/governance or historical-evidence mutation unless an independently approved work item owns it.
+- [ ] **Hera pre-fingerprint → live player-path smoke → post-fingerprint.** Complete PREPARE→Spin→manipulate→Confirm→COMMIT→BATTLE→REVIEW. Hera source delta must be `NONE`.
+- [ ] **Resolution/readability:** 960×540, 1280×720, 1920×1080; all three lanes visible, lower deck secondary, one active work surface, 12 arrows legible, top resource totals not duplicated. Mouse+keyboard executed. Controller remains NOT_RUN unless actually executed.
 
-- [ ] **Step 1: Godot 4.7.x headless import/parse.** Require no script/resource errors.
-- [ ] **Step 2: Run all new GUT tests.** Require >0 tests and 100% pass.
-- [ ] **Step 3: Run existing headless suite**, including roulette, stage run, battle, application/session, bootstrap and any CI-routed project contracts affected by changed files.
-- [ ] **Step 4: Run Python contract/regression suite used by `.github/workflows/validate-omenward-core.yml`.** Zero-test discovery or skipped required checks is failure.
-- [ ] **Step 5: Determinism replay:** execute the focused vertical slice twice with identical seeds/actions and compare the resulting command/input log and final state. Require exact semantic identity for deterministic fields.
-- [ ] **Step 6: Confirm no unrelated role-output, balance, platform, adapter, or historical-evidence files changed.**
-- [ ] **Step 7: Commit only if verification required a bounded correction; otherwise no commit.**
+**Five full adversarial loops**
+- [ ] **Loop 1 — authority/architecture:** duplicate state owners, UI rule calculation, premature resolution/charge, stale planning authority, unrelated open-work mutation.
+- [ ] **Loop 2 — transaction:** insufficient gold, invalid board, zero moves, post-confirm mutation, invalid reward index/lane, insufficient aggregate food, invalid spawn preflight, double confirm, phase skip. Require zero mutation on rejected COMMIT.
+- [ ] **Loop 3 — regressions:** legacy `spin()`, central-row judging, 8-line outcomes, battle/economy/wave behavior in BATTLE, debug HUD availability, historical evidence ownership.
+- [ ] **Loop 4 — UX/state:** more than one primary CTA, more than one lower surface, resource duplication, raw debug leakage, hidden irreversible boundary, three-reels/three-lanes confusion, battlefield crop.
+- [ ] **Loop 5 — Implementation Reality Gate:** fresh latest main + exact implementation HEAD + all changed files + tests + runtime/Hera evidence + remaining work. Exit only with zero blocking findings.
 
----
-
-### Task 8: Hera live QA and Implementation Reality Gate
-
-**Files:**
-- No persistent authoring through Hera.
-
-- [ ] **Step 1: Record tracked-source fingerprint immediately before Hera QA.**
-- [ ] **Step 2: Launch the game and complete one real player-path smoke:** PREPARE -> Spin -> manipulate -> Confirm -> COMMIT assignment -> atomic confirm -> BATTLE -> REVIEW.
-- [ ] **Step 3: Verify at 960×540, 1280×720, and 1920×1080:** all three lanes remain visible; lower deck is secondary; exactly one active work surface; 12 arrows remain legible; no duplicated Gold/Mana/Troop totals.
-- [ ] **Step 4: Verify mouse and keyboard focus.** Controller remains `NOT_RUN` unless a real controller/input path is executed.
-- [ ] **Step 5: Capture post-Hera tracked-source fingerprint and require delta `NONE` attributable to Hera.**
-- [ ] **Step 6: Mark evidence precisely:** runtime PASS only for paths actually executed; device/accessibility/human/player-experience remain NOT_RUN unless separately performed.
-
----
-
-### Task 9: Five full adversarial review loops and PR integration
-
-**Files:**
-- Entire exact-head diff + relevant current owners + test/evidence outputs.
-
-- [ ] **Loop 1 — authority/architecture attack:** check UI/domain leakage, duplicate state owners, stale v4.7 assumptions, unrelated open-workstream mutation. Fix and rerun affected tests.
-- [ ] **Loop 2 — transaction attack:** force invalid lane, insufficient aggregate food, empty rewards, duplicate assignment, zero move tickets, post-confirm manipulation, phase-skipping. Fix and rerun.
-- [ ] **Loop 3 — regression attack:** central judging line, 8-line reward count, existing battle/economy/wave behavior in BATTLE, historical evidence ownership, debug HUD preservation. Fix and rerun.
-- [ ] **Loop 4 — UX/state attack:** multiple primary CTAs, multiple lower surfaces visible, resource duplication, raw debug leakage, hidden irreversible boundary, three reels mistaken for three lanes. Fix and rerun.
-- [ ] **Loop 5 — Implementation Reality Gate:** re-read exact HEAD, fresh main, all changed files, all test outputs, Hera evidence, and remaining work. Exit only with zero blocking findings.
-
-- [ ] **Create one implementation PR from latest completed `main`.** Do not modify pre-existing/open unrelated branches or PRs.
-- [ ] **Require exact-head CI, unresolved thread 0, no ruleset bypass, no admin bypass.**
-- [ ] **Merge only if the Base current-task continuation rules are satisfied.** Otherwise leave the PR open with the exact blocker.
-- [ ] **Postmerge readback:** fetch merged main and verify changed files/evidence are present; do not call runtime/human verification complete beyond executed evidence.
+**Integration**
+- [ ] Create one implementation PR from latest completed `main`; no takeover of existing/open unrelated branches.
+- [ ] Require exact-head CI, unresolved threads 0, repository rules/checks, no force push/admin bypass.
+- [ ] Merge only if current-task continuation rules are satisfied; otherwise leave the exact blocker.
+- [ ] Postmerge readback exact main. Update `docs/ACTIVE_CONTEXT.md`/`docs/CURRENT_IMPLEMENTATION_STATUS.md` only to evidence actually executed; human/player experience remains NOT_RUN without real users.
 
 ---
 
 ## Self-Review
 
-**Spec coverage:** The plan covers Run Command phase ownership, 3×3 direct-arrow manipulation, staged atomic commit, battle-only active time, player-safe information projection, one-surface lower deck, technical HUD preservation, runtime/deterministic evidence, and 5-loop adversarial review. Platform release, balance finalization, controller/device/human usability, full 20-stage MapRun progression, merchant/maintenance depth, and production art are intentionally outside this first vertical slice.
+**Spec coverage:** Covers Run Command phase, paid stopped-spin transaction, 3×3/12-arrow manipulation, staged atomic COMMIT, battle-only active simulation, player-safe projection, Focus-adaptive lower deck, technical HUD preservation, deterministic/runtime evidence and 5-loop adversarial review.
 
-**Placeholder scan:** No `TBD`, generic "add tests", or undefined follow-up placeholder remains. Every product mutation task has a concrete test cycle and interface.
+**Adversarial corrections already incorporated:**
+1. The first draft incorrectly assumed current `RouletteService.spin()` could precede manipulation; corrected by adding a paid stopped-snapshot seam and preserving `spin()` as legacy wrapper.
+2. The first draft's preflight + per-unit deploy callable could still partially mutate if a later apply failed; corrected to aggregate food reservation + battle spawn preflight + deterministic batch deployment.
+3. A missing-file `preload()` RED could prevent GUT discovery; corrected to discoverable dynamic-load RED before behavior RED.
 
-**Type consistency:** `StageRun` owns orchestration; `RouletteManipulationSession` never resolves rewards; `PendingDeploymentPlan` never owns food/economy; `RunCommandViewModel` is read-only; `RunCommandScreen` sends commands but does not calculate rules.
+**Intentionally outside first slice:** full 20-stage production MapRun, merchant/maintenance depth, production art generation, final balance authority, Android certification, accessibility certification, controller PASS without actual execution, human/player-experience PASS without real users.
 
-**Execution route:** Use `superpowers:subagent-driven-development` when an executor with HiGodot access is available; otherwise `superpowers:executing-plans` in a HiGodot-enabled session. Persistent Godot mutation through GitHub text-file APIs is not an allowed substitute.
+**Execution route:** Persistent product implementation starts only in a HiGodot-enabled executor/session. GitHub text-file APIs are not a substitute for HiGodot persistent Godot authoring.
