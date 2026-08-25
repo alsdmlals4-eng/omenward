@@ -138,6 +138,8 @@ HUMAN_EVIDENCE = NOT_RUN
 CURRENT_EXECUTION = NOT_RESUMED
 ```
 
+Historical compatibility note: `CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION` was the retained pre-pause execution router after the 2026-08-24 scoped implementation approval. It is not the current project gate after the 2026-08-25 closeout; the current gate below is `USER_EXPLICIT_REACTIVATION`.
+
 The 2026-08-25 visual Decision does not cancel the retained orchestration architecture, but this closeout does not resume or complete that implementation.
 
 ## Current work order
