@@ -15,10 +15,11 @@ receiver_ack: docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md
 implementation_execution: NOT_RESUMED
 visual_generation_policy: USER_REQUEST_ONLY
 visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
-prepared_from_project_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
-receiver_observed_project_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
+historical_premerge_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
+receiver_observed_project_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
+current_closeout_state: PR_210_MERGED_ON_MAIN_HISTORICAL
 receiver_base_main_sha: 1416907e6c62b00ef22dc568afa70cd86015846f
-canon_freshness: SAME_BASELINE
+canon_freshness: CURRENT_MAIN_READBACK
 ```
 
 This file is the short restart router. The sender packet was fresh-read by a new receiver and the transfer is now `TRANSFER_ACCEPTED`. Detailed evidence remains in the sender handoff and receiver ACK; this file does not duplicate them.
@@ -30,6 +31,8 @@ This file is the short restart router. The sender packet was fresh-read by a new
 ```text
 CURRENT_APPROVED_REPLAN_DECISIONS = 20
 CURRENT_VISUAL_DECISION = OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
+CURRENT_MAIN = fd4e377c5a5203fb01c0d971e8ead474d618747f
+PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL
 PLAYER_ROLE = Omen Warden / 징조수호관
 PLAYER_FANTASY = 전조를 읽고 수호성을 준비하며 병력을 세 전선에 보내는 지휘관
 DIRECT_HERO_MELEE_FANTASY = FORBIDDEN_AS_PRIMARY
@@ -55,7 +58,7 @@ The 2026-08-25 Decision supersedes the long full-road default, `NO_MINIMAP`/mini
 
 ## Receiver correction applied
 
-Fresh receiver rehydration found that several current routers still exposed the pre-closeout 2026-08-24 state despite being marked current. PR #210 reconciles those current owners to the same 2026-08-25 visual Decision and retained-scoped-but-paused implementation state before merge.
+Fresh receiver rehydration found that several current routers still exposed the pre-closeout 2026-08-24 state despite being marked current. PR #210 reconciled those current owners to the same 2026-08-25 visual Decision and retained-scoped-but-paused implementation state, then merged into current main.
 
 This correction is documentation/canon routing only. It does not reactivate product/runtime work.
 
@@ -111,7 +114,7 @@ side_effects_already_applied:
   - Notion Home current approved original attached and server-read back
   - Notion Visual Bible current approved original attached and server-read back
   - Sheet 71/72 OM-IMG-023 records written
-  - OMENWARD PR #210 created for this workstream
+  - OMENWARD PR #210 merged into current main fd4e377c5a5203fb01c0d971e8ead474d618747f
   - Base PR #693 carries BCP-2026-033-visual-canon-approval-and-handoff-integrity proposal/evidence
   - accidental placeholder main write already reverted by 4e10ea4
 idempotency:
@@ -125,7 +128,7 @@ idempotency:
 
 ## Protected workstreams
 
-- PR #210 owns this visual/handoff continuation until integrated.
+- PR #210 is MERGED / historical visual-handoff closeout; no current task may mutate or re-run its closeout.
 - PR #209 and PR #205 remain other-workstream read-only.
 - Base PR #693 is the independent proposal-only `BCP-2026-033-visual-canon-approval-and-handoff-integrity` workstream and remains read-only here.
 - Do not resume Issue #208 Run Command/Godot execution merely because handoff transfer is accepted.
@@ -148,7 +151,7 @@ The full previous conversation is not required.
 ## Transfer state
 
 ```yaml
-resume_observed_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
+resume_observed_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
 canon_freshness: SAME_BASELINE
 receiver_ack:
   current_state_readback: PASS
@@ -159,4 +162,4 @@ receiver_ack:
   status: TRANSFER_ACCEPTED
 ```
 
-Current handoff closeout next action is exact-head PR verification → safe merge → post-merge main readback → stop. Future product/runtime work requires a separate explicit user reactivation and fresh execution bootstrap.
+PR #210 closeout is completed on current main fd4e377c5a5203fb01c0d971e8ead474d618747f; prior exact-head verification/merge/readback steps are historical. Future product/runtime work requires a separate explicit user reactivation and fresh execution bootstrap.
