@@ -78,7 +78,11 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
 
         current = "\n".join(path.read_text(encoding="utf-8") for path in (ACTIVE, PENDING))
         self.assertNotIn("PHASE_C_GATE = OPEN", current)
-        self.assertIn("CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK", current)
+        self.assertIn("CURRENT_CANON_RECONCILIATION = CLOSED_BY_PR_210_MERGED_MAIN_READBACK", current)
+        self.assertIn(
+            "CURRENT_MAIN_POINTER_RECONCILIATION = FRESH_GITHUB_AND_NOTION_READBACK_REQUIRED_BEFORE_COMPLETION",
+            current,
+        )
         self.assertIn("CURRENT_IMPLEMENTATION_AUTHORITY = NONE", current)
 
     def test_no_final_elite_or_boss_numerics_are_selected(self) -> None:
