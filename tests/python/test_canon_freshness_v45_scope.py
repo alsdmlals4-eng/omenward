@@ -144,6 +144,16 @@ def load_module():
     return module
 
 
+# A narrowly bounded repair surface for current-state metadata only. It must not
+# re-open the completed visual-closeout package or permit product paths.
+CURRENT_MAIN_ROUTER_HANDOFF_SYNC = {
+    "docs/DECISIONS_PENDING.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -257,6 +267,23 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_partial_postmerge_closure_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope({"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"})
         self.assertTrue(any("missing required v4.5 postmerge evidence anchors" in error for error in errors), errors)
+
+
+    def test_current_main_router_handoff_sync_exact_surface_passes(self) -> None:
+        module = load_module()
+        self.assertEqual(module.validate_canon_freshness_scope(CURRENT_MAIN_ROUTER_HANDOFF_SYNC), [])
+
+    def test_partial_current_main_router_handoff_sync_is_rejected(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            CURRENT_MAIN_ROUTER_HANDOFF_SYNC - {"docs/HANDOFF_CONTEXT.md"}
+        )
+        self.assertTrue(
+            any(
+                "missing required v4.5 current-main router handoff synchronization anchors" in error
+                for error in errors
+            ),
+            errors,
+        )
 
 
 if __name__ == "__main__":
