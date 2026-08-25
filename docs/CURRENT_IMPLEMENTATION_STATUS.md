@@ -4,9 +4,12 @@
 updated_at: 2026-08-24
 status: CURRENT_IMPLEMENTATION_STATUS
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
-planning_status: FINAL_PLANNING_REVIEW_COMPLETE_AWAITING_IMPLEMENTATION_AUTHORITY
+planning_status: FINAL_PLANNING_REVIEW_COMPLETE_SCOPED_IMPLEMENTATION_AUTHORIZED
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
-implementation_authorized: false
+implementation_authorized: true
+implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+implementation_packet: docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
+implementation_plan: docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
 current_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
 visual_generation: USER_REQUEST_ONLY
@@ -60,17 +63,17 @@ LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
 COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
-IMPLEMENTATION_AUTHORITY = NONE
+CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 VISUAL_GENERATION = USER_REQUEST_ONLY
-IMPLEMENTATION_START = NOT_AUTHORIZED
+IMPLEMENTATION_START = SCOPED_AUTHORIZED
 ```
 
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
-새 정본과 현재 프로토타입 사이에는 의도된 미구현 간격이 있다. 구현 권한이 열리기 전까지 이를 runtime defect나 completion으로 승격하지 않는다.
+새 정본과 현재 프로토타입 사이에는 의도된 미구현 간격이 있다. 현재 허용된 범위는 Run Command orchestration first Vertical Slice뿐이며, 이 문서는 그것을 runtime completion·사람 검증 PASS·최종 수치 확정으로 승격하지 않는다. 다른 범위의 구현은 새 명시 Gate가 필요하다.
 
 ## 4. Historical technical evidence boundary
 
