@@ -12,6 +12,7 @@ current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
 current_visual_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
 implementation_execution: NOT_RESUMED
+visual_generation_policy: USER_REQUEST_ONLY
 visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
 prepared_from_project_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
 prepared_with_base_main_sha: 6726d23276b8a808a6d49d51ad6081c6c96f8f72
