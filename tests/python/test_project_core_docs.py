@@ -11,6 +11,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 CURRENT_SPEC = MODULE["CURRENT_SPEC"]
+CURRENT_VISUAL_SPEC = MODULE["CURRENT_VISUAL_SPEC"]
+CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
+CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
 FINAL_REVIEW = MODULE["FINAL_REVIEW"]
 IMPLEMENTATION_PACKET = MODULE["IMPLEMENTATION_PACKET"]
 IMPLEMENTATION_PLAN = MODULE["IMPLEMENTATION_PLAN"]
@@ -41,6 +44,14 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
             self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
+    def test_visual_runtime_ceiling_loss_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / CURRENT_VISUAL_ASSET
+            path.write_text(path.read_text(encoding="utf-8").replace("runtime_readability: NOT_RUN", "runtime_readability: PASS"), encoding="utf-8")
+            self.assertTrue(any("runtime_readability: NOT_RUN" in error for error in validate(root)))
+
     def test_legacy_and_current_status_must_remain_separate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
@@ -55,8 +66,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -77,18 +88,19 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             (root / FINAL_REVIEW).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
-    def test_scoped_implementation_authority_cannot_regress_to_waiting_gate(self) -> None:
+    def test_visual_closeout_cannot_reactivate_execution_gate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
+                "CURRENT_NEXT = USER_EXPLICIT_REACTIVATION",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
-                "CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED",
+                1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("RUN_COMMAND_VERTICAL_SLICE_EXECUTION" in error for error in errors), errors)
+            self.assertTrue(any("USER_EXPLICIT_REACTIVATION" in error for error in errors), errors)
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -103,6 +115,27 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
             self.assertTrue(any("RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY" in error for error in errors), errors)
+
+    def test_current_visual_spec_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / CURRENT_VISUAL_SPEC).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_current_visual_asset_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / CURRENT_VISUAL_ASSET).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_current_visual_handoff_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / CURRENT_VISUAL_HANDOFF).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_implementation_packet_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

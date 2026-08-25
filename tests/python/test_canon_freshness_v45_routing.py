@@ -15,6 +15,7 @@ PROJECT_BASELINE = "87339f87949c8faea0dfe1482c5d0887a04d94f4"
 PR193_MERGE = "7d421372c33c2d6a32ee3ef8bdb94ead333bc0c0"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 CURRENT_NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
+CURRENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 
 BINDING = ROOT / "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
@@ -101,7 +102,7 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         ):
             self.assertIn(marker, barracks)
 
-    def test_current_routers_use_v48_and_do_not_restore_pre_audit_gate(self) -> None:
+    def test_current_routers_use_v48_and_current_visual_closeout(self) -> None:
         for path in CURRENT_ROUTERS:
             text = path.read_text(encoding="utf-8")
             self.assertIn(CURRENT_CONTRACT, text, str(path.relative_to(ROOT)))
@@ -109,14 +110,28 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
 
         decisions = CURRENT_DECISIONS.read_text(encoding="utf-8")
         self.assertIn(CURRENT_NORTH_STAR_AUDIT, decisions)
-        self.assertIn("NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY", decisions)
-        self.assertIn("NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION", decisions)
-        self.assertIn("NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION", decisions)
+        self.assertIn(CURRENT_VISUAL_DECISION, decisions)
+        self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 20", decisions)
+        self.assertIn("VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION", decisions)
+        self.assertIn("PER_FRONT_MINIMAP = REQUIRED", decisions)
+        self.assertIn("APPROVED_VISUAL = OM-IMG-023", decisions)
+        self.assertIn("PROJECT_STATE = PAUSED_QUEUED", decisions)
 
         agents = AGENTS.read_text(encoding="utf-8")
         self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
         self.assertIn("current_context: docs/ACTIVE_CONTEXT.md", agents)
+        self.assertIn(CURRENT_VISUAL_DECISION, agents)
         self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
+
+        active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
+        self.assertIn("status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT", active)
+        self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 20", active)
+        self.assertIn("CURRENT_NEXT = USER_EXPLICIT_REACTIVATION", active)
+        self.assertIn("NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS", active)
+
+        handoff = HANDOFF.read_text(encoding="utf-8")
+        self.assertIn("APPROVED_VISUAL = OM-IMG-023", handoff)
+        self.assertIn("BCP-2026-033-visual-canon-approval-and-handoff-integrity", handoff)
 
     def test_v45_phase_b_c0_and_issue176_do_not_freeze_current_execution_routing(self) -> None:
         stale_current_markers = (

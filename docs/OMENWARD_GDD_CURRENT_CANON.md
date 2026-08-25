@@ -1,19 +1,22 @@
 # [현행] OMENWARD GDD 정본
 
 ```yaml
-updated_at: 2026-08-24
+updated_at: 2026-08-25
 status: CURRENT_GDD_CANON
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_project_core: docs/PROJECT_CORE.md
-implementation_authorized: false
+current_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+implementation_authorized: true
+implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+implementation_execution: NOT_RESUMED
 current_chat_runtime: NOT_RUN
 human_player_evidence: NOT_RUN
 visual_generation: USER_REQUEST_ONLY
 ```
 
-이 문서는 현재 제품의 **통합 요약 GDD**다. 개별 규칙의 상세·예외·prototype range는 각 `APPROVED_OMENWARD_*` owner가 소유한다. 중복된 세부 수치를 이 문서에 독립 정본처럼 복제하지 않는다.
+이 문서는 현재 제품의 **통합 요약 GDD**다. 개별 규칙의 상세·예외·prototype range는 각 `APPROVED_OMENWARD_*` owner와 current Decision owner가 소유한다. 중복된 세부 수치를 이 문서에 독립 정본처럼 복제하지 않는다.
 
 ## 1. 게임 정체성
 
@@ -147,7 +150,7 @@ AUTOBATTLE = CORE
 TACTICAL_INTERVENTION = LIMITED_MANUAL_TIMING
 ```
 
-세 전선은 한 화면에서 읽히며 자동전투가 핵심 결과를 만든다. 플레이어 전술은 지속 병종/건물 역할을 대체하는 실시간 액션 게임이 아니다.
+세 전선은 한 화면에서 동시에 읽히며 자동전투가 핵심 결과를 만든다. 플레이어 전술은 지속 병종/건물 역할을 대체하는 실시간 액션 게임이 아니다.
 
 ## 8. Run Command Screen
 
@@ -261,31 +264,45 @@ POST_STAGE_CAUSAL_REVIEW = FORECAST -> KEY_EVENTS -> PLAYER_RESPONSE_OUTCOME
 
 ## 15. Visual / battlefield
 
+Current Decision: `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`.
+
 ```text
-CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
-BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
-DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
-AUTO_ZOOM_HIDING_OTHER_LANES = FORBIDDEN
+VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
+MATERIAL_FINISH = HIGH_RES_PIXEL_TEXTURE_AND_RESTRAINED_LIGHTING
+WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
+COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
+
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+PER_FRONT_MINIMAP = REQUIRED
+MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
+UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
+LONG_FULL_ROAD_PRESENTATION = SUPERSEDED_AS_DEFAULT
+
 PRIMARY_VISUAL_MASS = BATTLEFIELD
 SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
-BATTLEFIELD_HEIGHT = 68~75% exploration
-LOWER_DECK_HEIGHT = 25~32% exploration
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 READ_ORDER = ROLE -> WEAPON -> SCALE -> FACTION_COLOR -> TIER -> DECORATION
-NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
-NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
-NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
-NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
-NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
-NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
+APPROVED_VISUAL = OM-IMG-023
 VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
+Front-State information split:
+
+```text
+FRONT_STATE_VIEW = CURRENT_UNITS + CURRENT_THREAT + CURRENT_CLASH + COMMIT_OUTCOME
+PER_FRONT_MINIMAP = FRONT_PROGRESS + STRONGHOLD + ROUTE + INFILTRATION/AIR + BOSS/SIEGE_CONTEXT
+```
+
 Current visual owners:
-- `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
+- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
+- `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
+- `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md` — retained role-silhouette rule.
+- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md` — retained compact lower deck.
+- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` — lineage/reference only in superseded scope.
+
+The 2026-08-25 Decision supersedes standalone `ANIME_PIXEL_ART`, standalone `CLEAN_PIXEL_ART`, the long full-road three-lane default composition, and `NO_MINIMAP`/minimap-not-required wording. It retains three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower deck, allied-vs-Veil contrast, and silhouette-first troop readability.
 
 ## 16. Balance boundary
 
@@ -307,22 +324,30 @@ SHARED_SAVE_SCHEMA = NOT_STARTED
 EXPORT_PRESETS = ABSENT
 ```
 
-## 18. Current planning gate
+## 18. Current planning / execution gate
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
-NORTH_STAR_V2_1_AREA_AUDIT = COMPLETE
-LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
-COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
-FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
-GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
-IMPLEMENTATION_AUTHORITY = NONE
-CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
+FRONT_STATE_MINIMAP_SD_FANTASY = CONFIRMED_CURRENT
+APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT
+NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5_RETAINED_PRE_20260825_VISUAL_OVERRIDE
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
+IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+IMPLEMENTATION_EXECUTION = NOT_RESUMED
+PROJECT_ACTIVITY = PAUSED_QUEUED
+CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
-Final planning review owner:
+Retained implementation owners:
+- `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
+- `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`
+
+Retained final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
+
+The 2026-08-25 visual closeout does not cancel the approved Run Command orchestration packet, but does not resume it. Product/runtime mutation begins only after explicit user reactivation and fresh execution bootstrap.
 
 ## 19. Implementation Reality Gate
 
@@ -330,13 +355,16 @@ Final planning review owner:
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_MINIMAP_READABILITY = NOT_RUN
+CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
+RIGHTS_REVIEW = NOT_RUN
 LEGACY_C1_C2_C3_PROVEN
 HUMAN_QA_NOT_RUN
 ```
 
-과거 exact C1/C2/C3 evidence는 historical owner에서 보존한다. 현재 v4.8 runtime이나 player-experience PASS를 뜻하지 않는다.
+과거 exact C1/C2/C3 evidence는 historical owner에서 보존한다. 현재 v4.8 runtime이나 player-experience PASS를 뜻하지 않는다. `OM-IMG-023` 사용자 승인과 Notion server readback 역시 runtime/minimap/SD-unit/human/player/rights PASS가 아니다.
 
 ## 20. Authority / resume
 
@@ -344,11 +372,16 @@ HUMAN_QA_NOT_RUN
 - Active Context: `docs/ACTIVE_CONTEXT.md`
 - Project Core: `docs/PROJECT_CORE.md`
 - Implementation state: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+- Handoff Context: `docs/HANDOFF_CONTEXT.md`
+- Current handoff: `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
+- Current visual spec: `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
+- Approved visual asset: `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - Documentation Map: `docs/DOCUMENTATION_MAP.md`
-- Final planning review: `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
-- North Star audit: `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
+- Retained final planning review: `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 - Human-facing current workspace: Project Notion
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
+
+Implementation resume order is current Base + fresh OMENWARD main/open work → current decisions/context/handoff → current GDD/Project Core + relevant owner → Notion/approved visual → implementation packet/plan → fresh Godot execution. Image generation is separately user-request-only.

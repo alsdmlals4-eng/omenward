@@ -237,6 +237,36 @@ RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES = {
 }
 RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS = set(RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES)
 
+# User-approved 2026-08-25 visual closeout. Current global routers are part of the
+# exact closeout surface so no current entry point can retain the 2026-08-24 gate.
+CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
+    "AGENTS.md",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md",
+    "docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md",
+    "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md",
+    "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_current_v48_visual_closeout_scope.py",
+    "tests/python/test_project_core_docs.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS = set(CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -255,6 +285,7 @@ APPROVED_FILES = (
     | CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES
     | CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES
     | RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES
+    | CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES
 )
 
 
@@ -286,6 +317,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES, CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS, "current v4.8 visual closeout"),
         (RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES, RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS, "Run Command implementation-authority sync"),
         (CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES, CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS, "current v4.8 North Star audit reconciliation"),
         (CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES, CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_REQUIRED_ANCHORS, "current v4.7 canon-validator reconciliation"),

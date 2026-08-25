@@ -1,25 +1,27 @@
 # OMENWARD · Current Confirmed Decisions
 
 ```yaml
-updated_at: 2026-08-24
+updated_at: 2026-08-25
 status: CURRENT_DECISION_RECOVERY_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_reopened_at: 2026-08-20
-current_planning_track: RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTATION_AUTHORIZED
+current_planning_track: PAUSED_AFTER_FRONT_STATE_VISUAL_APPROVAL
 runtime_evidence_ceiling: CURRENT_REPLAN_RUNTIME_NOT_RUN
 human_play_evidence: NOT_RUN
-visual_style: ANIME_PIXEL_ART_UNITS_PLUS_CLEAN_PIXEL_BATTLEFIELD
-visual_generation: USER_REQUEST_ONLY
+visual_style: FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+current_visual_asset: OM-IMG-023
+visual_generation_policy: USER_REQUEST_ONLY
+visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
 이 문서는 현재 승인 Decision을 새 작업자가 빠르게 복원하는 **인덱스**다. 상세 규칙은 각 owner가 소유한다. 사람용 전체 그림·Flow·비교표는 Project Notion, 구조화 계약·code/data/scene/test/runtime evidence는 repository가 소유한다. GitHub PR/Issue의 live 상태는 문서에 고정하지 않고 매 작업 시작 시 fresh 조회한다.
 
-각 개별 Decision owner 안의 `CURRENT_NEXT / THEN` 블록은 승인 시점의 local sequence로 읽는다. **현재 프로젝트 작업 순서의 단일 복원 owner는 이 문서의 `Current work order`다.**
+각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN`은 승인 시점의 local sequence로 읽는다. 현재 작업 순서와 supersession은 이 문서가 우선한다.
 
 ## Current approved replan decisions
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
 ```
 
 | Decision ID | 승인 핵심 | Repository owner | 상태 |
@@ -34,24 +36,22 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 19
 | `OMW-PLAN-20260820-CONTENT-BOSS-ARC-01` | 20 Stage = 4×5 authored spine, Boss 5/10/15/20 | `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-BALANCE-BUDGET-01` | 최종 숫자보다 normalized envelope 우선 | `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-TEXT-UX-STATE-01` | Mode당 하나의 질문/Primary CTA, COMMIT은 staged→atomic irreversible confirm | `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md` | CONFIRMED |
-| `OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01` | Unit=Anime Pixel, Battlefield=Clean Pixel, 전장 메인/하단 보조 | `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md` | CONFIRMED |
-| `OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01` | full-three-lane + 2~3열 교전 가독성 | `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md` | CONFIRMED |
+| `OMW-PLAN-20260820-VISUAL-STYLE-COMPONENTS-01` | 과거 Anime Pixel + Clean Pixel 및 긴 전장 표현의 기반 owner. 2026-08-25 Visual Decision이 스타일/전장 표현 일부를 supersede | `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md` | PARTIALLY_SUPERSEDED |
+| `OMW-PLAN-20260820-BATTLEFIELD-SCALE-READABILITY-01` | 2~3열 교전·병종 실루엣 가독성 원칙 유지. 긴 도로 전체표시는 superseded | `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md` | RETAINED_WITH_LAYOUT_OVERRIDE |
 | `OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01` | 3×3 + 행/열 직접 화살표 + 이동권 + 중앙줄 판정 | `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-TOKEN-COMPONENT-01` | 실제 병종 아트 T1/T2 토큰, 역할 실루엣 우선 | `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-LOWER-CONTROL-DECK-01` | Focus-adaptive compact lower deck, one active work surface | `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260820-ROULETTE-DDD-FEEDBACK-01` | Agency-first tactical crescendo | `docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md` | CONFIRMED |
-| `OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01` | 세 전선 전체가 보이는 top-down strategy battlefield | `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md` | CONFIRMED |
+| `OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01` | 세 전선 동시 가독성·전술 시점 원칙 유지. 긴 3-lane road composition은 superseded | `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md` | PARTIALLY_SUPERSEDED |
 | `OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01` | 역할→무기→체급→진영색→Tier→장식 순으로 읽히는 실루엣 | `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md` | CONFIRMED |
-| `OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01` | North Star v2.1 영역별 승인: 전장/분위기 승인, Lower Deck·Roulette 조작면 교정, 세부 수치·micro-layout 비정본 | `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` | CONFIRMED |
-
-Final planning review owner:
-- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
+| `OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01` | 전장 우선 계층·진영 대비는 reference로 유지. 긴 길 전체표시와 스타일은 2026-08-25 Decision이 supersede | `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` | REFERENCE_WITH_NEW_OVERRIDE |
+| `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` | 3개 Front-State View 동시 표시 + 전선별 미니맵 + Fantasy/Magic/SD Tactical Pixel + 긴 지휘 깃발 Omen Warden + 승인 이미지 `OM-IMG-023` | `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` | CONFIRMED_CURRENT |
 
 ## Protected product identity
 
-```text
-건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.
+> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
+```text
 징조 관측
 → 건설 / 동원 인장 / 확률 설계
 → 병력 획득
@@ -77,66 +77,84 @@ Final planning review owner:
 ## Current visual contract
 
 ```text
-CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
-BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
-DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
+MATERIAL_FINISH = HIGH_RES_PIXEL_TEXTURE_AND_RESTRAINED_LIGHTING
+WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
+COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
+
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+LONG_FULL_ROAD_PRESENTATION = SUPERSEDED_AS_DEFAULT
+PER_FRONT_MINIMAP = REQUIRED
+MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
+UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
+
 PRIMARY_VISUAL_MASS = BATTLEFIELD
 SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
 ROULETTE_EXPOSURE = 3×3
 ROW_COLUMN_ARROWS = PROMINENT
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
-NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
-NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
-NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
-NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
-NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
-NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
-VISUAL_GENERATION = USER_REQUEST_ONLY
+NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
+APPROVED_VISUAL = OM-IMG-023
 ```
 
-## Current balance boundary
+Retained faction language:
+
+```text
+ALLY = NAVY + IVORY + COOL_GRAY_METAL + RESTRAINED_GOLD
+ALLY_SHAPES = ARCH + SHIELD + BANNER + RELIC + VERTICAL_LINES
+VEIL = BLACK_PURPLE + DARK_RED + CARAPACE_GRAY + LIMITED_RIFT_GLOW
+VEIL_SHAPES = ASYMMETRIC_RIFT + CARAPACE + SPIKE + VOID_APERTURE
+```
+
+Approved visual asset record:
+- `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
+- Drive ID `1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5`
+- Notion Home and Visual Bible contain the current inline preview and full-resolution link.
+
+## Current balance / evidence boundary
 
 ```text
 ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
 FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_MINIMAP_READABILITY = NOT_RUN
+CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 CURRENT_HUMAN_PLAYER_EVIDENCE = NOT_RUN
 ```
 
-## Current implementation authority
+## Retained implementation authority
 
 ```text
-PREVIOUS_GATE_BEFORE_2026_08_24_USER_APPROVAL = IMPLEMENTATION_AUTHORITY_REQUIRED
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 IMPLEMENTATION_PACKET = docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
 IMPLEMENTATION_PLAN = docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
 AUTHORIZED_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE
 AUTHORIZED_FLOW = PREPARE -> STOPPED_3X3 -> MANIPULATE -> CONFIRM -> COMMIT_PENDING -> ATOMIC_DEPLOY -> BATTLE -> REVIEW
-PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY
 RUNTIME_EVIDENCE = NOT_RUN
 HUMAN_EVIDENCE = NOT_RUN
+CURRENT_EXECUTION = NOT_RESUMED
 ```
 
-`PREVIOUS_GATE_BEFORE_2026_08_24_USER_APPROVAL`은 최종 기획 검토 당시의 과거 gate를 재현하기 위한 compatibility marker이며 현재 작업 라우터가 아니다. 현재 권한과 다음 작업은 아래 `Current work order`가 소유한다.
+Historical compatibility note: `CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION` was the retained pre-pause execution router after the 2026-08-24 scoped implementation approval. It is not the current project gate after the 2026-08-25 closeout; the current gate below is `USER_EXPLICIT_REACTIVATION`.
 
-이 권한은 프로젝트 전체 구현 승인이나 unrelated Issue/PR takeover가 아니다. 패킷에 명시된 first vertical slice만 승인하며, 범위 밖 product/balance/platform/role-output 작업은 별도 권한을 유지한다.
+The 2026-08-25 visual Decision does not cancel the retained orchestration architecture, but this closeout does not resume or complete that implementation.
 
 ## Current work order
 
 ```text
-COMPLETED = WORLD / CONTENT / BALANCE_ENVELOPE / TEXT_UX / VISUAL_COMPONENT_CONTRACTS
-COMPLETED = BATTLEFIELD_SCALE / 3X3 / TOKEN / LOWER_DECK / ROULETTE_DDD
-COMPLETED = TOPDOWN_BATTLEFIELD_LAYOUT / TOPDOWN_UNIT_SILHOUETTE
-COMPLETED = NORTH_STAR_V2_1_UPLOAD_AND_AREA_AUDIT
-COMPLETED = LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF
-COMPLETED = COMPONENT_BREAKDOWN_FOR_FINAL_PLANNING_INPUT
-FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
-GITHUB_NOTION_DRIFT_CHECK = PASS
-IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
-CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION
-EXECUTION_PLAN = docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
-CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
+COMPLETED = WORLD / CONTENT / BALANCE_ENVELOPE / TEXT_UX
+COMPLETED = RETAINED_3X3 / TOKEN / LOWER_DECK / ROULETTE_DDD
+COMPLETED = ORCHESTRATION_FIRST_VERTICAL_SLICE_ARCHITECTURE_AND_EXECUTION_PACKET
+COMPLETED = FRONT_STATE_MINIMAP_SD_FANTASY_VISUAL_DECISION
+COMPLETED = OM_IMG_023_USER_APPROVAL
+COMPLETED = NOTION_HOME_AND_VISUAL_BIBLE_IMAGE_READBACK
+COMPLETED = DURABLE_VISUAL_ASSET_RECORD_AND_NEW_CHAT_HANDOFF
+PROJECT_STATE = PAUSED_QUEUED
+CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
 ## GitHub work-item rule
@@ -145,16 +163,17 @@ CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-진행 중 PR은 fresh 조회 후 Base 규칙대로 read-only 처리한다. 현재 Run Command 구현은 latest completed main에서 새 current-task work item으로 시작하며 unrelated historical runtime Issue/branch를 흡수하지 않는다.
+Open/draft work not owned by the current task remains read-only. Fresh GitHub state always wins over old PR numbers in historical documents.
 
 ## Resume
 
-1. fresh Base + fresh OMENWARD `main`/PR/Issue.
-2. 이 Decision index.
-3. `docs/ACTIVE_CONTEXT.md`.
-4. `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`.
-5. `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`.
-6. current GDD/Project Core + 관련 owner.
-7. 이미지 생성은 사용자 명시 요청이 있을 때만.
-8. runtime/human evidence 미실행 항목은 `NOT_RUN / UNVERIFIED` 유지.
-9. executor는 persistent Godot mutation 전에 HiGodot availability를 확인하고 GUT RED(>0 tests)부터 시작한다.
+1. fresh Base + fresh OMENWARD `main`/PR/Issue;
+2. this Decision index;
+3. `docs/ACTIVE_CONTEXT.md`;
+4. `docs/HANDOFF_CONTEXT.md`;
+5. `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`;
+6. current visual spec + approved visual asset record;
+7. Notion Home + Visual Bible + Visual Components + full-resolution Drive image;
+8. current GDD/Project Core + relevant owners, treating conflicting older visual wording as superseded by the 2026-08-25 Decision;
+9. Google Sheet only as compatibility/history;
+10. only resume runtime/code work or image generation after an explicit user request and fresh authority/readback.

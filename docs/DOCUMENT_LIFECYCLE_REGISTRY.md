@@ -1,13 +1,14 @@
 # [현행] OMENWARD Document Lifecycle Registry
 
 ```yaml
-updated_at: 2026-08-24
+updated_at: 2026-08-26
 status: CURRENT_DOCUMENT_LIFECYCLE_REGISTRY
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
-current_next_gate: IMPLEMENTATION_AUTHORITY_REQUIRED
+current_next_gate: USER_EXPLICIT_REACTIVATION
 visual_generation: USER_REQUEST_ONLY
-implementation_authorized: false
+implementation_authorized: true
+implementation_execution: NOT_RESUMED
 ```
 
 ## 1. Lifecycle labels
@@ -26,6 +27,7 @@ implementation_authorized: false
 [현행] AGENTS.md
 [현행] docs/CURRENT_CONFIRMED_DECISIONS.md
 [현행] docs/ACTIVE_CONTEXT.md
+[현행] docs/HANDOFF_CONTEXT.md
 [현행] docs/OMENWARD_GDD_CURRENT_CANON.md
 [현행] docs/PROJECT_CORE.md
 [현행] docs/CURRENT_IMPLEMENTATION_STATUS.md
@@ -33,11 +35,26 @@ implementation_authorized: false
 [현행] docs/OMENWARD_ROADMAP.md
 [현행] docs/DOCUMENTATION_MAP.md
 [현행] docs/DOCUMENT_LIFECYCLE_REGISTRY.md
+[현행] docs/PROJECT_CANON_DECISION_LEDGER.md
 ```
 
-GitHub PR/Issue 상태는 current document로 복제하지 않고 `FRESH_GITHUB_QUERY_REQUIRED`다.
+## 3. Current 2026-08-25 authority
 
-## 3. Current 2026-08 Decision owners
+```text
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
+CURRENT_VISUAL_DECISION = OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
+APPROVED_VISUAL = OM-IMG-023
+NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+PER_FRONT_MINIMAP = REQUIRED
+VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
+PROJECT_ACTIVITY = PAUSED_QUEUED
+CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+IMAGE_GENERATION = USER_REQUEST_ONLY
+```
+
+### Current non-visual decision owners
 
 ```text
 [현행] docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md
@@ -50,27 +67,40 @@ GitHub PR/Issue 상태는 current document로 복제하지 않고 `FRESH_GITHUB_
 [현행] docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md
 [현행] docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md
 [현행] docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md
-[현행] docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md
-[현행] docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md
 ```
 
+### Current visual / handoff owners
+
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
-NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
+[현행] docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
+[현행] docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md
+[현행] docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+```
+
+Retained 2026-08-20/24 visual lineage:
+
+```text
+[증거/호환] docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md
+[증거/호환] docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md
+[증거/호환] docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md
+```
+
+Historical compatibility markers:
+
+```text
+HISTORICAL_20260824_CURRENT_APPROVED_REPLAN_DECISIONS = 19
+HISTORICAL_20260824_NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
-IMPLEMENTATION_AUTHORITY = NONE
-CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
-VISUAL_GENERATION = USER_REQUEST_ONLY
+HISTORICAL_20260824_CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
+HISTORICAL_20260824_IMPLEMENTATION_AUTHORITY = NONE
 ```
 
 ## 4. Current machine envelopes
@@ -93,36 +123,30 @@ VISUAL_GENERATION = USER_REQUEST_ONLY
 [증거/호환] docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md
 [증거/호환] docs/C3_CORE_UX_AUDIT_2026-07-23.md
 [증거/호환] docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md
+[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
 ```
 
-Exact SHA/run은 위 evidence owner에서 보존한다. Current status/GDD/router에는 과거 exact run을 current proof처럼 복제하지 않는다.
+Exact SHA/run은 evidence owner에서 보존한다. Current router에는 과거 exact run을 current proof처럼 복제하지 않는다.
 
-## 6. Historical process / Vertical Slice provenance
+## 6. Historical process provenance
 
 ```text
-[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md
 [증거/호환] docs/reviews/ADVERSARIAL_VERTICAL_SLICE_REVIEW_2026-07-27.md
 [증거/호환] docs/benchmarks/OMENWARD_ROULETTE_AGENCY_EVIDENCE_PACK_2026-07-29.md
 [증거/호환] docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md
 [증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md
 [증거/호환] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json
+[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
+[증거/호환] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json
 [증거/호환] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md
 [증거/호환] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md
-[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
-```
-
-```text
 HISTORICAL_V4_4_BINDING
 PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
 PHASE_C_C0_OVERALL = HISTORICAL_PASS
 LEGACY_DANGER_CADENCE_AUTHORITY = NONE
 ```
 
-특히 `[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`와 v4.5/C0 상태는 당시 실행·검증 계보를 증명하지만 2026-08 current Decision index를 덮어쓰지 않는다.
-
 ## 7. Durable historical product lineage
-
-아래 항목은 후속 정본으로 대체되거나 더 높은 owner에 흡수됐지만, 승인 계보·회귀 테스트·위험 근거를 보존하기 위해 남긴다. **현재 구현 입력으로 재활성화하지 않는다.**
 
 ### Building branches — historical 3_OF_10
 
@@ -144,8 +168,6 @@ IMPLEMENTATION_INPUT_FORBIDDEN
 LEGACY_PROTOTYPE_UNIT_DATA
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
-
-`data/units/*.tres`의 과거 prototype 값은 historical runtime/bootstrap evidence다. current 병종 역할·Tier·수치 authority로 사용하지 않는다.
 
 ### Tactical skills / 마력 — historical 5_OF_10
 
@@ -169,41 +191,24 @@ LEGACY_DIRECT_CORE_REWARD_SALES = SUPERSEDED
 IMPLEMENTATION_INPUT_FORBIDDEN
 ```
 
-## 8. Legacy master / replaced planning
-
-```text
-[대체됨] docs/OMENWARD_GAME_DESIGN.md
-```
-
-Legacy master의 과거 C1/C2/C3 및 v0.26 정보는 compatibility/history로만 읽고 current v4.8 기획 의미는 `OMENWARD_GDD_CURRENT_CANON.md`와 current owner를 따른다.
-
-## 9. Historical work-items
-
-```text
-CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-```
-
-Unmerged branch나 old Handoff를 current product truth로 승격하지 않는다.
-
-## 10. Human workspace
+## 8. Human workspace / live-state rule
 
 ```text
 NOTION = CURRENT_HUMAN_FACING_CANON
 REPOSITORY = CURRENT_STRUCTURED_RUNTIME_CANON
 GOOGLE_SHEET = COMPATIBILITY_HISTORY_ONLY
+CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-Google Sheet는 current human authority가 아니다. Notion/GitHub 의미 변경은 양쪽 destination readback을 요구한다.
+Google Sheet는 current human authority가 아니다.
 
-## 11. Current transition
+## 9. Current transition
 
 ```text
-NORTH_STAR_V2_1_AREA_AUDIT = COMPLETE
-→ LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
-→ COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
-→ FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
-→ GITHUB_NOTION_DRIFT_CHECK = PASS
-→ IMPLEMENTATION_AUTHORITY_REQUIRED
+CURRENT_VISUAL_DECISION = OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
+→ APPROVED_VISUAL = OM-IMG-023
+→ VISUAL_CLOSEOUT = COMPLETE
+→ CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
 ```
 
-Corrected North Star 이미지 제작은 `USER_EXPLICIT_IMAGE_REQUEST_ONLY`다.
+Implementation authority is retained but execution is not resumed. Image generation remains `USER_REQUEST_ONLY`.
