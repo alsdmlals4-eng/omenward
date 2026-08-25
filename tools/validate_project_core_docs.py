@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_EXECUTION_GATE = "RUN_COMMAND_VERTICAL_SLICE_EXECUTION"
+CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_REACTIVATION"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
@@ -26,6 +26,10 @@ TOPDOWN_LAYOUT = "docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_
 TOPDOWN_SILHOUETTE = "docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md"
 NORTH_STAR_AUDIT = "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 NORTH_STAR_AUDIT_ID = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
+CURRENT_VISUAL_DECISION_ID = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
+CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md"
+CURRENT_VISUAL_ASSET = "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md"
+CURRENT_VISUAL_HANDOFF = "docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md"
 IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
 IMPLEMENTATION_PLAN = "docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
@@ -43,6 +47,9 @@ REQUIRED_FILES = (
     LIFECYCLE_REGISTRY,
     CURRENT_SPEC,
     CURRENT_GDD,
+    CURRENT_VISUAL_SPEC,
+    CURRENT_VISUAL_ASSET,
+    CURRENT_VISUAL_HANDOFF,
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
     "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
@@ -62,10 +69,9 @@ REQUIRED_FILES = (
     ROULETTE_RULES,
 )
 
-# These files must continue to route through v4.8, but volatile implementation
-# authority is owned only by CURRENT_SPEC + ACTIVE_CONTEXT. Requiring a copied
-# live gate in every current document caused the validators themselves to freeze
-# the pre-approval state after the user granted a scoped implementation packet.
+# Volatile current state is owned by CURRENT_SPEC + ACTIVE_CONTEXT + HANDOFF.
+# Older detailed documents remain required as durable/history inputs, but their
+# superseded visual literals cannot override the 2026-08-25 current Decision.
 CURRENT_ROUTE_FILES = (
     "README.md",
     "AGENTS.md",
@@ -144,6 +150,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             NORTH_STAR_AUDIT_ID,
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
+            CURRENT_VISUAL_DECISION_ID,
+            CURRENT_VISUAL_SPEC,
+            CURRENT_VISUAL_ASSET,
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
             "OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01",
             "OMW-PLAN-20260820-CONTENT-BOSS-ARC-01",
             "OMW-PLAN-20260820-BALANCE-BUDGET-01",
@@ -151,20 +161,17 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "OMW-PLAN-20260820-ROULETTE-DDD-FEEDBACK-01",
             "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01",
             "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01",
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            "NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION",
-            "NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION",
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK",
-            pathlib.PurePosixPath(FINAL_REVIEW).name,
-            f"CURRENT_NEXT = {CURRENT_EXECUTION_GATE}",
+            "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
+            "PER_FRONT_MINIMAP = REQUIRED",
+            "APPROVED_VISUAL = OM-IMG-023",
+            "PROJECT_STATE = PAUSED_QUEUED",
+            f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
             IMPLEMENTATION_PACKET,
             IMPLEMENTATION_PLAN,
-            "PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY",
             "RUNTIME_EVIDENCE = NOT_RUN",
             "HUMAN_EVIDENCE = NOT_RUN",
-            "USER_REQUEST_ONLY",
+            "IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT",
         ),
         "current decision index",
     )
@@ -179,6 +186,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "implementation_authorized: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
             "IMPLEMENTATION_START = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
             "CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
+            CURRENT_VISUAL_DECISION_ID,
+            "PER_FRONT_MINIMAP = REQUIRED",
             "VISUAL_GENERATION = USER_REQUEST_ONLY",
         ),
         "AGENTS",
@@ -190,23 +199,24 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            pathlib.PurePosixPath(FINAL_REVIEW).name,
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK = PASS",
+            "status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+            CURRENT_VISUAL_DECISION_ID,
+            "APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT",
+            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
             "implementation_authorized: true",
             "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY",
-            f"CURRENT_NEXT = {CURRENT_EXECUTION_GATE}",
-            "ARCHITECTURE = ORCHESTRATION_FIRST_VERTICAL_SLICE",
-            "PERSISTENT_GODOT_AUTHORING = HIGODOT_ONLY",
+            "implementation_execution: NOT_RESUMED_IN_VISUAL_CLOSEOUT",
+            f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "CURRENT_GUT_RED = NOT_RUN",
             "CURRENT_GUT_GREEN = NOT_RUN",
             "CURRENT_HERA_LIVE_QA = NOT_RUN",
+            "CURRENT_MINIMAP_READABILITY = NOT_RUN",
+            "CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN",
             "CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
-            "USER_REQUEST_ONLY",
+            "IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT",
         ),
         "Active Context",
     )
@@ -252,9 +262,59 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "implementation plan",
     )
 
-    # Durable current documents remain required for core/world/visual/history
-    # semantics, but volatile CURRENT_NEXT/implementation authority is not copied
-    # from them. CURRENT_SPEC + ACTIVE_CONTEXT are the sole live-state owners.
+    visual_spec = read(root, CURRENT_VISUAL_SPEC)
+    require(
+        errors,
+        visual_spec,
+        (
+            CURRENT_VISUAL_DECISION_ID,
+            "status: USER_APPROVED_CURRENT",
+            "BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS",
+            "PER_FRONT_MINIMAP = REQUIRED",
+            "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
+            "COMMANDER_SILHOUETTE = LONG_COMMAND_FLAG",
+            "ADVERSARIAL_FULL_LOOP_COUNT = 5",
+            "RUNTIME_AND_HUMAN_EVIDENCE = NOT_RUN",
+        ),
+        "current visual spec",
+    )
+
+    visual_asset = read(root, CURRENT_VISUAL_ASSET)
+    require(
+        errors,
+        visual_asset,
+        (
+            "asset_id: OM-IMG-023",
+            f"decision_id: {CURRENT_VISUAL_DECISION_ID}",
+            "status: USER_APPROVED_CURRENT",
+            "source_dimensions: 1536x1024",
+            "source_sha256: 0326b012d1fbefba85b545086b84992051591edff6f3b7e159cf3e083f204224",
+            "runtime_readability: NOT_RUN",
+            "human_usability: NOT_RUN",
+            "rights_review: NOT_RUN",
+        ),
+        "current visual asset record",
+    )
+
+    visual_handoff = read(root, CURRENT_VISUAL_HANDOFF)
+    require(
+        errors,
+        visual_handoff,
+        (
+            "handoff_state: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT",
+            f"visual_decision: {CURRENT_VISUAL_DECISION_ID}",
+            "approved_visual: OM-IMG-023",
+            "CURRENT_MINIMAP_READABILITY = NOT_RUN",
+            "CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN",
+            "BCP-2026-033-visual-canon-approval-and-handoff-integrity",
+            "Base PR #693",
+        ),
+        "current visual closeout handoff",
+    )
+
+    # Durable current documents remain required for core/world/history semantics.
+    # Their older North Star wording is retained lineage and is explicitly
+    # superseded by CURRENT_SPEC/ACTIVE_CONTEXT when it conflicts.
     core = read(root, "docs/PROJECT_CORE.md")
     require(
         errors,
@@ -409,13 +469,13 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         handoff,
         (
             CURRENT_CONTRACT,
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
-            pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
-            pathlib.PurePosixPath(FINAL_REVIEW).name,
-            "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK = PASS",
-            "USER_REQUEST_ONLY",
+            "status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT",
+            CURRENT_VISUAL_DECISION_ID,
+            "APPROVED_VISUAL = OM-IMG-023",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
+            "CURRENT_MINIMAP_READABILITY = NOT_RUN",
+            "CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN",
+            "BCP-2026-033-visual-canon-approval-and-handoff-integrity",
         ),
         "handoff",
     )
@@ -453,9 +513,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "current decision ledger",
     )
 
-    # North Star audit and final planning review are historical records of the
-    # state *before* the later explicit implementation approval. Their authority
-    # markers must remain unchanged rather than being rewritten as current state.
+    # The North Star audit and final planning review are historical records of
+    # the state before later visual/implementation approvals. Their authority
+    # markers remain unchanged rather than being rewritten as current state.
     audit = read(root, NORTH_STAR_AUDIT)
     require(
         errors,
