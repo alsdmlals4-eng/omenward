@@ -237,17 +237,21 @@ RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES = {
 }
 RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS = set(RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES)
 
-# User-approved 2026-08-25 visual closeout. This scope is documentation/validator-only:
-# it records the current visual Decision/asset/handoff while keeping all product paths
-# and runtime evidence fail-closed. The current-canon consumer is part of this exact
-# reconciliation because the approved Decision count and visual owner changed.
+# User-approved 2026-08-25 visual closeout. Current global routers are part of the
+# exact closeout surface so no current entry point can retain the 2026-08-24 gate.
 CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
     "AGENTS.md",
+    "README.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_CONFIRMED_DECISIONS.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
     "docs/HANDOFF_CONTEXT.md",
     "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
     "docs/PROJECT_CORE.md",
     "docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md",
     "docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md",
