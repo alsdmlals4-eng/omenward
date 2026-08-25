@@ -67,7 +67,8 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
     def test_handoff_distinguishes_historical_premerge_sha_from_integrated_closeout(self) -> None:
         handoff = read("docs/HANDOFF_CONTEXT.md")
         for marker in (
-            "CURRENT_MAIN = fd4e377c5a5203fb01c0d971e8ead474d618747f",
+            "CURRENT_MAIN = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
+            "PR_210_MERGED_MAIN_BASE = fd4e377c5a5203fb01c0d971e8ead474d618747f",
             "PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL",
             "CURRENT_NEXT = USER_EXPLICIT_REACTIVATION",
         ):
