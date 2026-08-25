@@ -1,31 +1,36 @@
 # [현행] 오멘워드 현재 구현 상태
 
 ```yaml
-updated_at: 2026-08-24
+updated_at: 2026-08-25
 status: CURRENT_IMPLEMENTATION_STATUS
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
-planning_status: FINAL_PLANNING_REVIEW_COMPLETE_AWAITING_IMPLEMENTATION_AUTHORITY
+planning_status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
-implementation_authorized: false
+current_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+implementation_authorized: true
+implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+implementation_execution: NOT_RESUMED
 current_runtime_status: NOT_RUN
 human_player_evidence: NOT_RUN
-visual_generation: USER_REQUEST_ONLY
+visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
 ## 1. Current high-level state
 
 ```text
-CURRENT_CONFIRMED_REPLAN_DECISIONS = 19
+CURRENT_CONFIRMED_REPLAN_DECISIONS = 20
 PRODUCT_IMPLEMENTATION_COMPLETION = FALSE
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_MINIMAP_READABILITY = NOT_RUN
+CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 CURRENT_RUNTIME_BLOCKER = UNVERIFIED_UNTIL_FRESH_EXECUTION
 ```
 
-2026-08-20~24의 v4.8 재기획·North Star 감사·final planning adversarial review는 current 제품 경험을 실행·검증하지 않았다. 과거 signal11이나 과거 exact-head technical PASS를 현재 blocker/PASS로 재주장하지 않는다.
+2026-08-20~24의 v4.8 재기획·North Star 감사·final planning adversarial review와 2026-08-25 승인 Visual closeout은 current 제품 경험을 실행·검증하지 않았다. 과거 signal11이나 과거 exact-head technical PASS, 또는 사용자 Visual 승인을 현재 runtime/minimap/human/player PASS로 재주장하지 않는다.
 
 ## 2. Existing main foundations
 
@@ -48,29 +53,38 @@ GameApplication / GameSession / SessionDriver / SceneBinder separation
 WORLD_STORY_CONTENT = PLANNING_CONFIRMED
 BALANCE_ENVELOPE = PLANNING_CONFIRMED
 TEXT_UX = PLANNING_CONFIRMED
-VISUAL_COMPONENTS = PLANNING_CONFIRMED
-TOPDOWN_BATTLEFIELD_LAYOUT = PLANNING_CONFIRMED
+VISUAL_STYLE_COMPONENTS_20260820 = PARTIALLY_SUPERSEDED
+BATTLEFIELD_SCALE_AND_COMBAT_READABILITY = RETAINED_WITH_LAYOUT_OVERRIDE
+TOPDOWN_BATTLEFIELD_LAYOUT_20260820 = PARTIALLY_SUPERSEDED
 TOPDOWN_UNIT_SILHOUETTE = PLANNING_CONFIRMED
-NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
-NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
-NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
-NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
-NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
-LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
-COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
-FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
-GITHUB_NOTION_DRIFT_CHECK = PASS
-CURRENT_NEXT = IMPLEMENTATION_AUTHORITY_REQUIRED
-IMPLEMENTATION_AUTHORITY = NONE
-CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
-VISUAL_GENERATION = USER_REQUEST_ONLY
-IMPLEMENTATION_START = NOT_AUTHORIZED
+FRONT_STATE_MINIMAP_SD_FANTASY = CONFIRMED_CURRENT
+APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT
+NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
+VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+PER_FRONT_MINIMAP = REQUIRED
+NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5_RETAINED_PRE_20260825_VISUAL_OVERRIDE
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
+IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+IMPLEMENTATION_EXECUTION = NOT_RESUMED
+PROJECT_ACTIVITY = PAUSED_QUEUED
+CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+VISUAL_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
-Final planning review owner:
+Current visual owners:
+- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
+- `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
+
+Retained implementation authority owners:
+- `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
+- `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`
+
+Retained final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
-새 정본과 현재 프로토타입 사이에는 의도된 미구현 간격이 있다. 구현 권한이 열리기 전까지 이를 runtime defect나 completion으로 승격하지 않는다.
+2026-08-25 Visual Decision은 Run Command의 승인된 orchestration architecture를 취소하지 않지만, 이 closeout은 그 구현을 재개하지도 완료하지도 않는다. 새 정본과 현재 프로토타입 사이에는 의도된 미구현 간격이 있으며, 실행 재개 전 fresh authority + exact implementation bootstrap이 필요하다.
 
 ## 4. Historical technical evidence boundary
 
@@ -101,6 +115,7 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 SPECIAL_T1_SELECTION_DISTRIBUTION = POST_RUNTIME_EVIDENCE_TUNING
 BLOCKED_RUNTIME_OUTPUT = NEVER_SYNTHESIZE_AS_ZERO
 ECONOMY_BASELINE_DRIFT = OPEN_RECONCILIATION
+RIGHTS_REVIEW = NOT_RUN
 ```
 
 기존 10,000-seed robustness와 과거 runtime evidence는 해당 실험 범위에서만 유효하다. 새 재기획 의미나 현재 runtime을 자동 PASS시키지 않는다.
@@ -121,7 +136,7 @@ RELEASE_READINESS = NOT_PROVEN
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-과거 PR/Issue의 branch 내용은 current main 제품 truth가 아니다. Future implementation은 fresh current main + current Decisions + actual runtime에서 다시 시작한다.
+과거 PR/Issue의 branch 내용은 current main 제품 truth가 아니다. 현재 visual/handoff workstream은 fresh GitHub 상태를 따라 닫고, 다른 open/draft work는 명시적 현재-task 권한 없이 변경하지 않는다.
 
 ## 8. Resume order for implementation work
 
@@ -131,12 +146,14 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 2. fresh OMENWARD main/open PR/Issue inventory.
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. `docs/ACTIVE_CONTEXT.md`.
-5. current GDD/Project Core + relevant owner.
-6. `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`.
-7. `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`.
-8. Project Notion current human-facing page.
-9. fresh local Godot/runtime execution.
+5. `docs/HANDOFF_CONTEXT.md` + current handoff.
+6. current GDD/Project Core + relevant current visual/implementation owner.
+7. Project Notion current human-facing pages and approved `OM-IMG-023` reference.
+8. current implementation packet/plan.
+9. fresh local Godot/runtime execution bootstrap.
 10. 그 뒤에만 historical runtime/evidence와 비교.
+
+Implementation reactivation does not authorize image generation; image generation remains user-request-only.
 
 ## 9. Historical compatibility markers
 
@@ -144,6 +161,9 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 MAIN_CANONICAL_APPROVED_10_OF_10 = HISTORICAL_2026_08_11
 PHASE_B_FINAL_PLANNING_REVIEW = HISTORICAL_PASS
 PHASE_C_C0_OVERALL = HISTORICAL_PASS
+HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 LEGACY_C1_C2_C3_PROVEN
 HUMAN_QA_NOT_RUN
 ```
+
+`IMPLEMENTATION_AUTHORITY_REQUIRED` is retained only as the pre-2026-08-24 historical gate. Current authority is scoped and retained, while execution is paused until `USER_EXPLICIT_REACTIVATION` plus fresh execution bootstrap.
