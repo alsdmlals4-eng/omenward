@@ -1,7 +1,7 @@
 # [현행] OMENWARD Document Lifecycle Registry
 
 ```yaml
-updated_at: 2026-08-25
+updated_at: 2026-08-26
 status: CURRENT_DOCUMENT_LIFECYCLE_REGISTRY
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -54,7 +54,22 @@ CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
 IMAGE_GENERATION = USER_REQUEST_ONLY
 ```
 
-Current owners:
+### Current non-visual decision owners
+
+```text
+[현행] docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_OMEN_CYCLE_MAPRUN_WORLD_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_PRESSURE_LANGUAGE_AND_OMEN_SIGNATURES_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md
+[현행] docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md
+```
+
+### Current visual / handoff owners
 
 ```text
 [현행] docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
@@ -62,7 +77,7 @@ Current owners:
 [현행] docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
 ```
 
-Retained 2026-08-20/24 design lineage:
+Retained 2026-08-20/24 visual lineage:
 
 ```text
 [증거/호환] docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md
@@ -121,6 +136,8 @@ Exact SHA/run은 evidence owner에서 보존한다. Current router에는 과거 
 [증거/호환] docs/process/PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.5_r2.md
 [증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md
 [증거/호환] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json
+[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md
+[증거/호환] docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json
 [증거/호환] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md
 [증거/호환] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md
 HISTORICAL_V4_4_BINDING
