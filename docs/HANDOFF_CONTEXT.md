@@ -16,7 +16,8 @@ implementation_execution: NOT_RESUMED
 visual_generation_policy: USER_REQUEST_ONLY
 visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
 historical_premerge_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
-receiver_observed_project_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
+current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+historical_postmerge_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
 current_closeout_state: PR_210_MERGED_ON_MAIN_HISTORICAL
 receiver_base_main_sha: 1416907e6c62b00ef22dc568afa70cd86015846f
 canon_freshness: CURRENT_MAIN_READBACK
@@ -31,7 +32,8 @@ This file is the short restart router. The sender packet was fresh-read by a new
 ```text
 CURRENT_APPROVED_REPLAN_DECISIONS = 20
 CURRENT_VISUAL_DECISION = OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
-CURRENT_MAIN = fd4e377c5a5203fb01c0d971e8ead474d618747f
+CURRENT_MAIN = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
+PR_210_MERGED_MAIN_BASE = fd4e377c5a5203fb01c0d971e8ead474d618747f
 PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL
 PLAYER_ROLE = Omen Warden / 징조수호관
 PLAYER_FANTASY = 전조를 읽고 수호성을 준비하며 병력을 세 전선에 보내는 지휘관
@@ -151,7 +153,7 @@ The full previous conversation is not required.
 ## Transfer state
 
 ```yaml
-resume_observed_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
+transfer_observed_postmerge_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
 canon_freshness: CURRENT_MAIN_READBACK
 receiver_ack:
   current_state_readback: PASS
@@ -162,4 +164,4 @@ receiver_ack:
   status: TRANSFER_ACCEPTED
 ```
 
-PR #210 closeout is completed on current main fd4e377c5a5203fb01c0d971e8ead474d618747f; prior exact-head verification/merge/readback steps are historical. Future product/runtime work requires a separate explicit user reactivation and fresh execution bootstrap.
+PR #210 closeout is merged historical evidence; resolve current main from the repository default branch before any new task. Prior exact-head verification/merge/readback steps are historical. Future product/runtime work requires a separate explicit user reactivation and fresh execution bootstrap.
