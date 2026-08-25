@@ -93,7 +93,21 @@ CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES = {
     "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
+
 CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS = set(CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES)
+
+# PR #210 is historical. This narrow, exact surface allows a later correction to
+# stale current-state routing without reopening that full visual-closeout bundle.
+CURRENT_MAIN_ROUTER_HANDOFF_SYNC_ALLOWED_FILES = {
+    "docs/DECISIONS_PENDING.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+CURRENT_MAIN_ROUTER_HANDOFF_SYNC_REQUIRED_ANCHORS = set(
+    CURRENT_MAIN_ROUTER_HANDOFF_SYNC_ALLOWED_FILES
+)
 PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES = {".github/workflows/validate-canon-freshness-v4-5.yml", "AGENTS.md", "docs/DECISIONS_PENDING.md", "docs/OMENWARD_GDD_CURRENT_CANON.md", "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md", "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md", "docs/reviews/PHASE_A_PLANNING_READINESS_DEPENDENCY_CLASSIFICATION_2026-08-11.md", "docs/superpowers/plans/2026-08-11-phase-a-readiness-dependency-classification.md", "tests/python/test_phase_a_readiness_dependency_classification.py", "tests/python/test_canon_freshness_v45_scope.py", "tools/validate_canon_freshness_v45_scope.py"}
 PHASE_A_READINESS_CLASSIFICATION_REQUIRED_ANCHORS = set(PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES)
 CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES = {
@@ -278,6 +292,7 @@ APPROVED_FILES = (
     | WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES
     | POSTMERGE_EVIDENCE_ALLOWED_FILES
     | CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES
+    | CURRENT_MAIN_ROUTER_HANDOFF_SYNC_ALLOWED_FILES
     | PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES
     | CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES
     | QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE_ALLOWED_FILES
@@ -329,6 +344,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES, PHASE_C_C0_TOOLCHAIN_GATE_REQUIRED_ANCHORS, "Phase C C0 toolchain gate"),
         (PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES, PHASE_B_POSTMERGE_FULL_SUITE_REQUIRED_ANCHORS, "Phase B postmerge full-suite remediation"),
         (WINDOWS_CANONICAL_EVIDENCE_ALLOWED_FILES, WINDOWS_CANONICAL_EVIDENCE_REQUIRED_ANCHORS, "Windows canonical evidence portability"),
+        (CURRENT_MAIN_ROUTER_HANDOFF_SYNC_ALLOWED_FILES, CURRENT_MAIN_ROUTER_HANDOFF_SYNC_REQUIRED_ANCHORS, "current-main router handoff synchronization"),
         (CURRENT_CONSUMER_RECONCILIATION_ALLOWED_FILES, CURRENT_CONSUMER_RECONCILIATION_REQUIRED_ANCHORS, "current consumer reconciliation"),
         (PHASE_A_READINESS_CLASSIFICATION_ALLOWED_FILES, PHASE_A_READINESS_CLASSIFICATION_REQUIRED_ANCHORS, "Phase A readiness classification"),
         (CONTENT_CLOSURE_BENCHMARK_FIRST_ALLOWED_FILES, CONTENT_CLOSURE_BENCHMARK_FIRST_REQUIRED_ANCHORS, "content closure benchmark-first"),
