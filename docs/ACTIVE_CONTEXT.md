@@ -1,16 +1,20 @@
 # [현행] OMENWARD Active Context
 
 ```yaml
-updated_at: 2026-08-24
-status: CURRENT_V4_8_RUN_COMMAND_IMPLEMENTATION_AUTHORIZED_CONTEXT
+updated_at: 2026-08-25
+status: CURRENT_V4_8_FRONT_STATE_MINIMAP_SD_FANTASY_SPEC_REVIEW_CONTEXT
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_project_core: docs/PROJECT_CORE.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
+current_activity: VISUAL_PLANNING_ONLY
+current_visual_spec: docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
+current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 implementation_authorized: true
 implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+implementation_execution: NOT_RESUMED_IN_CURRENT_VISUAL_REVIEW
 implementation_packet: docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
 implementation_plan: docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
 persistent_godot_authoring: HIGODOT_ONLY
@@ -22,7 +26,7 @@ human_player_evidence: NOT_RUN
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 19
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -33,31 +37,28 @@ WORLD_CONFLICT_AND_STORY = CONFIRMED
 CONTENT_BOSS_ARC = CONFIRMED
 NORMALIZED_BALANCE_BUDGET = CONFIRMED
 TEXT_UX_STATE = CONFIRMED
-VISUAL_STYLE_COMPONENTS = CONFIRMED
-BATTLEFIELD_SCALE_AND_COMBAT_READABILITY = CONFIRMED
+VISUAL_STYLE_COMPONENTS_20260820 = PARTIALLY_SUPERSEDED
+BATTLEFIELD_SCALE_AND_COMBAT_READABILITY = RETAINED_WITH_LAYOUT_OVERRIDE
 ROULETTE_3X3_COMPONENT = CONFIRMED
 TOKEN_COMPONENT = CONFIRMED
 LOWER_CONTROL_DECK = CONFIRMED
 ROULETTE_DDD_FEEDBACK = CONFIRMED
-TOPDOWN_BATTLEFIELD_LAYOUT = CONFIRMED
+TOPDOWN_BATTLEFIELD_LAYOUT_20260820 = PARTIALLY_SUPERSEDED
 TOPDOWN_UNIT_SILHOUETTE = CONFIRMED
-NORTH_STAR_V2_1_AREA_AUDIT = CONFIRMED
-LOWER_DECK_AND_ROULETTE_CORRECTION_BRIEF = COMPLETE
-COMPONENT_BREAKDOWN = COMPLETE_FOR_FINAL_PLANNING_INPUT
-FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
-GITHUB_NOTION_DRIFT_CHECK = PASS
+NORTH_STAR_V2_1 = REFERENCE_WITH_NEW_OVERRIDE
+FRONT_STATE_MINIMAP_SD_FANTASY = CONFIRMED_CURRENT
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
-CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION
-HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
-CORRECTED_NORTH_STAR_IMAGE = USER_EXPLICIT_IMAGE_REQUEST_ONLY
+RUN_COMMAND_IMPLEMENTATION_EXECUTION = NOT_RESUMED_IN_THIS_VISUAL_REVIEW
+CURRENT_NEXT = USER_REVIEW_OF_FRONT_STATE_MINIMAP_SD_FANTASY_WRITTEN_SPEC
+IMAGE_GENERATION = STOPPED_FOR_CURRENT_REVIEW
 ```
 
-`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 사용자 승인 직전 상태를 가리키는 호환/역사 marker이며 현재 Gate가 아니다. 현재 실행 Gate는 `CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION`이다.
+2026-08-25 사용자 승인 Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`이 visual/battlefield 표현의 current owner다. 이전 `Anime Pixel + Clean Pixel`, 긴 3-lane road 전체표시, 미니맵 비요구는 해당 범위에서 superseded다. 세 전선 동시 가독성, 전장-primary, 하단-secondary, 병종 실루엣 우선은 유지한다.
 
-Final planning review owner:
-- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
+Current visual owner:
+- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 
-Implementation authority owners:
+Implementation authority owners remain retained but are not being executed by this visual-planning task:
 - `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
 - `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`
 
@@ -77,11 +78,11 @@ Implementation authority owners:
 → 인과 복기
 ```
 
-## Authorized implementation slice
+## Authorized implementation slice — retained, not currently executing
 
 ```text
 PREPARE
-→ paid stopped 3×3 snapshot
+→ stopped 3×3 snapshot
 → limited row/column manipulation
 → confirmed resolution
 → reward storage
@@ -109,12 +110,14 @@ PLAYER_UI = READ_ONLY_VIEW_MODEL_PLUS_COMMAND_SURFACE
 TECHNICAL_STAGE_HUD = PRESERVE_AS_DEBUG_EVIDENCE_SURFACE
 ```
 
-Implementation authority is **not** a project-wide build approval. It does not authorize unrelated role-output, balance-finalization, platform/release, adapter/governance, historical evidence or image-generation work.
+Implementation authority is **not** a project-wide build approval. This visual-planning Decision also does not itself authorize Godot/UI implementation. Runtime implementation resumes only under the existing scoped packet after current visual spec review and fresh execution bootstrap.
 
 ## Current world
 
 ```text
 PLAYER_ROLE = Omen Warden / 징조수호관
+PLAYER_FANTASY = 전조를 읽고 수호성을 준비하며 병력을 세 전선에 보내는 지휘관
+COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
 VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
 OMEN = 실제 공세 전에 나타나는 전조 / Pre-Echo
 ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
@@ -128,44 +131,53 @@ DANGER_STAGE_TYPE = REMOVED
 
 ```text
 RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
-CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
-BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
-DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
+MATERIAL_FINISH = HIGH_RES_PIXEL_TEXTURE_AND_RESTRAINED_LIGHTING
+WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
+
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+PER_FRONT_MINIMAP = REQUIRED
+MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
+UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
+LONG_FULL_ROAD_PRESENTATION = SUPERSEDED_AS_DEFAULT
+
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
-BATTLEFIELD_HEIGHT = 68~75% exploration
-LOWER_CONTROL_DECK = 25~32% exploration
+PRIMARY_VISUAL_MASS = BATTLEFIELD
+SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
 ROULETTE_EXPOSURE = 3×3
 ROW_COLUMN_ARROWS = PROMINENT
 PLAYER_MOVE_FEEDBACK_PRIORITY = HIGHEST
-NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY
-NORTH_STAR_BATTLEFIELD = APPROVED_DIRECTION
-NORTH_STAR_ART_MOOD = APPROVED_DIRECTION
-NORTH_STAR_LOWER_DECK = NEEDS_CORRECTION
-NORTH_STAR_ROULETTE_INTERACTION = NEEDS_CORRECTION
-NORTH_STAR_EXACT_TEXT_VALUES_MICROLAYOUT = NON_CANON_REFERENCE
+NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
 VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
-Visual owner set:
-- `docs/design/APPROVED_OMENWARD_VISUAL_STYLE_AND_COMPONENT_CONTRACT_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_BATTLEFIELD_SCALE_AND_COMBAT_READABILITY_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_ROULETTE_DDD_FEEDBACK_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
+### Faction language retained
+
+```text
+ALLY = NAVY + IVORY + COOL_GRAY_METAL + RESTRAINED_GOLD
+ALLY_SHAPES = ARCH + SHIELD + BANNER + RELIC + VERTICAL_LINES
+VEIL = BLACK_PURPLE + DARK_RED + CARAPACE_GRAY + LIMITED_RIFT_GLOW
+VEIL_SHAPES = ASYMMETRIC_RIFT + CARAPACE + SPIKE + VOID_APERTURE
+```
+
+### Front-State information split
+
+```text
+FRONT_STATE_VIEW = CURRENT_UNITS + CURRENT_THREAT + CURRENT_CLASH + COMMIT_OUTCOME
+PER_FRONT_MINIMAP = FRONT_PROGRESS + STRONGHOLD + ROUTE + INFILTRATION/AIR + BOSS/SIEGE_CONTEXT
+```
+
+미니맵은 작은 두 번째 전장이 아니다. 개별 병사/VFX를 그대로 복제하지 않는다.
 
 ## North Star v2.1 evidence boundary
 
 ```text
 NOTION_UPLOAD_ATTACH = PASS
 NOTION_SERVER_READBACK = PASS
-BATTLEFIELD_DIRECTION = APPROVED_DIRECTION
-ART_MOOD_DIRECTION = APPROVED_DIRECTION
-LOWER_DECK_LAYOUT = NEEDS_CORRECTION
-ROULETTE_INTERACTION = NEEDS_CORRECTION
+NORTH_STAR_V2_1_OVERALL = REFERENCE_ONLY_AFTER_2026_08_25
+RETAINED = BATTLEFIELD_PRIMARY_HIERARCHY + ALLY_VS_VEIL_CONTRAST + COMPACT_LOWER_DECK_DIRECTION
+SUPERSEDED = LONG_ROAD_FULL_THREE_LANE_COMPOSITION + NO_MINIMAP + ANIME_PIXEL_ONLY_STYLE
 FINAL_UI_GEOMETRY = NOT_APPROVED
 FINAL_COPY_FROM_IMAGE = NOT_APPROVED
 FINAL_PRODUCT_NUMERICS_FROM_IMAGE = NOT_APPROVED
@@ -183,7 +195,7 @@ FINAL_PARAMETER_VECTOR = NOT_SELECTED
 FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ```
 
-The open economy drift is not authority to change final economy/balance values inside the Run Command slice. The implementation may preserve/route existing values and tests; product-value reconciliation remains a separate decision/evidence track.
+The visual Decision does not authorize final economy/balance values.
 
 ## Runtime / evidence boundary
 
@@ -191,6 +203,8 @@ The open economy drift is not authority to change final economy/balance values i
 CURRENT_GODOT_RUNTIME = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_MINIMAP_READABILITY = NOT_RUN
+CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 CURRENT_GUT_RED = NOT_RUN
 CURRENT_GUT_GREEN = NOT_RUN
 CURRENT_HERA_LIVE_QA = NOT_RUN
@@ -200,7 +214,7 @@ LEGACY_C1_C2_C3_PROVEN
 HUMAN_QA_NOT_RUN
 ```
 
-과거 C1/C2/C3 exact proof와 signal11/HiGodot/GUT/Hera 기록은 history/evidence다. 현재 runtime 또는 v4.8 플레이 경험 PASS로 승격하지 않는다.
+과거 C1/C2/C3 exact proof와 signal11/HiGodot/GUT/Hera 기록은 history/evidence다. 현재 visual/runtime/player-experience PASS로 승격하지 않는다.
 
 ## GitHub routing
 
@@ -208,24 +222,21 @@ HUMAN_QA_NOT_RUN
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-현재 파일은 PR 번호나 branch HEAD를 live state로 고정하지 않는다. Run Command implementation must start from the fresh latest completed `main`; unrelated open/draft work remains read-only.
+현재 파일은 PR 번호나 branch HEAD를 live state로 고정하지 않는다. unrelated open/draft work remains read-only.
 
 ## Current work order
 
 ```text
-1. COMPLETE — world/story/content/balance envelope/Text UX
-2. COMPLETE — visual style/battlefield/3×3/token/lower deck/DDD
-3. COMPLETE — top-down battlefield layout + unit silhouette
-4. COMPLETE — North Star v2.1 Notion delivery + area-by-area audit
-5. COMPLETE — Lower Deck / Roulette correction brief + reusable component breakdown
-6. COMPLETE — final planning adversarial review 5/5 + GitHub/Notion drift check
-7. COMPLETE — implementation architecture selected: ORCHESTRATION_FIRST_VERTICAL_SLICE
-8. COMPLETE — implementation plan + execution packet prepared
-9. CURRENT — HiGodot-enabled Run Command vertical slice execution, starting with GUT RED (>0 tests)
-10. REQUIRED — parse/import + GUT GREEN + existing regressions + determinism replay
-11. REQUIRED — Hera live QA with source delta NONE + resolution/input checks
-12. REQUIRED — five full adversarial review loops + exact-head PR integration + postmerge readback
-13. OPTIONAL IMAGE — corrected North Star only on explicit user image request
+1. COMPLETE — existing world/story/content/balance envelope/Text UX
+2. COMPLETE — retained 3×3/token/lower deck/roulette DDD contracts
+3. SUPERSEDED_IN_PART — old Anime Pixel/Clean Pixel + long-road battlefield default
+4. COMPLETE — user approved Front-State + per-front minimap + Fantasy/Magic/SD direction
+5. COMPLETE — written spec + alternatives + planning adversarial review 5/5
+6. CURRENT — user review of written visual spec
+7. AFTER_REVIEW — synchronize any accepted wording corrections and close/merge planning PR under normal PR gates
+8. NOT_STARTED — runtime blockout/readability validation for minimaps and SD units
+9. RETAINED_NOT_RESUMED — scoped Run Command implementation packet
+10. OPTIONAL IMAGE — only on a later explicit user image request
 ```
 
 ## Resume order
@@ -234,8 +245,8 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 2. fresh OMENWARD main + PR/Issue inventory.
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. this file.
-5. `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`.
-6. `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`.
-7. current GDD/Project Core + relevant owners.
-8. Project Notion Home + `08 · 핵심 시스템 · 상세` + relevant visual/UI pages.
-9. Confirm HiGodot authoring availability, then begin GUT RED; if unavailable, remain `BLOCKED_UNVERIFIED` for product mutation rather than writing Godot source through another authority.
+5. visual/battlefield scope: `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`.
+6. current GDD/Project Core + relevant owner; when an older visual phrase conflicts, the 2026-08-25 Decision supersession applies.
+7. Project Notion Home + Visual Bible + Visual Component page.
+8. implementation scope is reopened only after the current spec review and fresh execution decision/bootstrap; no product mutation is implied by this planning sync.
+9. image generation only on explicit user request.
