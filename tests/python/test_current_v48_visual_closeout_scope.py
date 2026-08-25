@@ -16,6 +16,7 @@ VISUAL_CLOSEOUT = {
     "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md",
     "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md",
     "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v48_visual_closeout_scope.py",
     "tests/python/test_project_core_docs.py",
     "tools/validate_canon_freshness_v45_scope.py",
@@ -38,6 +39,12 @@ class CurrentV48VisualCloseoutScopeTests(unittest.TestCase):
     def test_partial_visual_closeout_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(
             VISUAL_CLOSEOUT - {"docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md"}
+        )
+        self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
+
+    def test_current_canon_consumer_is_required(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            VISUAL_CLOSEOUT - {"tests/python/test_current_canon_reconciliation_20260821.py"}
         )
         self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
 
