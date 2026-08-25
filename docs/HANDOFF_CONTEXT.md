@@ -69,4 +69,6 @@ Visual approval is not runtime or player-experience proof.
 
 OMENWARD is paused/queued after this visual closeout. Do not automatically resume Godot/runtime work or generate another image. Resume only after an explicit user request and a fresh authority/readback pass.
 
-Base reusable workflow lesson is tracked separately as `BCP-2026-032-visual-canon-approval-override-and-handoff-integrity`; proposal submission does not authorize active Base implementation.
+## Base learning handoff
+
+Reusable closeout lessons are submitted as `BCP-2026-033-visual-canon-approval-and-handoff-integrity` in Base PR #693. Fresh Base already owns a separate `BCP-2026-032-ai-visual-continuity-and-notion-preview-fallback`; BCP-033 is complementary and does not duplicate its preview-transport or persistent-character scope. Proposal submission does not authorize active Base implementation.
