@@ -11,8 +11,12 @@ VISUAL_CLOSEOUT = {
     "AGENTS.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/PROJECT_CORE.md",
     "docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md",
+    "docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md",
     "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md",
     "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md",
     "tests/python/test_canon_freshness_v45_routing.py",
@@ -39,6 +43,12 @@ class CurrentV48VisualCloseoutScopeTests(unittest.TestCase):
     def test_partial_visual_closeout_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(
             VISUAL_CLOSEOUT - {"docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md"}
+        )
+        self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
+
+    def test_receiver_ack_is_required_after_transfer_acceptance(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            VISUAL_CLOSEOUT - {"docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md"}
         )
         self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
 
