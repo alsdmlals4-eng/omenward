@@ -28,6 +28,8 @@ This file is the short restart router. The sender packet was fresh-read by a new
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
 ```text
+CURRENT_APPROVED_REPLAN_DECISIONS = 20
+CURRENT_VISUAL_DECISION = OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 PLAYER_ROLE = Omen Warden / 징조수호관
 PLAYER_FANTASY = 전조를 읽고 수호성을 준비하며 병력을 세 전선에 보내는 지휘관
 DIRECT_HERO_MELEE_FANTASY = FORBIDDEN_AS_PRIMARY
@@ -45,14 +47,15 @@ IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 IMPLEMENTATION_EXECUTION = NOT_RESUMED
 PROJECT_ACTIVITY = PAUSED_QUEUED
 CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
-IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
+IMAGE_GENERATION = USER_REQUEST_ONLY
+VISUAL_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
 The 2026-08-25 Decision supersedes the long full-road default, `NO_MINIMAP`/minimap-not-required, standalone `ANIME_PIXEL_ART`, standalone `CLEAN_PIXEL_ART`, and North Star v2.1 as current layout. It retains three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower Control Deck, allied-vs-Veil contrast, 3×3 roulette/direct arrows, irreversible front commitment, `PREPARE -> COMMIT -> BATTLE -> REVIEW`, and silhouette-first troops.
 
 ## Receiver correction applied
 
-Fresh receiver rehydration found that `docs/OMENWARD_GDD_CURRENT_CANON.md`, `docs/PROJECT_CORE.md`, and `docs/CURRENT_IMPLEMENTATION_STATUS.md` still exposed the pre-closeout 2026-08-24 state despite being marked current. PR #210 reconciles those current owners to the same 2026-08-25 visual Decision and retained-scoped-but-paused implementation state before merge.
+Fresh receiver rehydration found that several current routers still exposed the pre-closeout 2026-08-24 state despite being marked current. PR #210 reconciles those current owners to the same 2026-08-25 visual Decision and retained-scoped-but-paused implementation state before merge.
 
 This correction is documentation/canon routing only. It does not reactivate product/runtime work.
 
