@@ -239,7 +239,8 @@ RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS = set(RUN_COMMAND_IMP
 
 # User-approved 2026-08-25 visual closeout. This scope is documentation/validator-only:
 # it records the current visual Decision/asset/handoff while keeping all product paths
-# and runtime evidence fail-closed.
+# and runtime evidence fail-closed. The current-canon consumer is part of this exact
+# reconciliation because the approved Decision count and visual owner changed.
 CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
     "AGENTS.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -249,6 +250,7 @@ CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
     "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md",
     "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md",
     "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v48_visual_closeout_scope.py",
     "tests/python/test_project_core_docs.py",
     "tools/validate_canon_freshness_v45_scope.py",
