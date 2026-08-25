@@ -53,11 +53,14 @@ APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT
 NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = NOT_RESUMED
+HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = PAUSED_QUEUED
 CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
 VISUAL_GENERATION_POLICY = USER_REQUEST_ONLY
 IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
+
+`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 `CURRENT_NEXT = USER_EXPLICIT_REACTIVATION`이다.
 
 The 2026-08-25 Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` is the current visual/battlefield owner. Earlier `Anime Pixel + Clean Pixel`, long full-road three-lane presentation, and minimap-not-required wording are superseded in that scope. Three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first readability remain protected.
 
