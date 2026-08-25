@@ -152,7 +152,7 @@ The full previous conversation is not required.
 
 ```yaml
 resume_observed_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
-canon_freshness: SAME_BASELINE
+canon_freshness: CURRENT_MAIN_READBACK
 receiver_ack:
   current_state_readback: PASS
   next_safe_action_readback: PASS
