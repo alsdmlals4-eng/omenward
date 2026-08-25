@@ -107,4 +107,4 @@ IMPLEMENTATION_EXECUTION = NOT_RESUMED
 IMAGE_GENERATION = USER_REQUEST_ONLY
 ```
 
-PR #210 handoff closeout is historical and merged on current main fd4e377c5a5203fb01c0d971e8ead474d618747f. Current next gate remains USER_EXPLICIT_REACTIVATION; this document does not authorize product/runtime resumption.
+PR #210 handoff closeout is historical and merged; resolve current main from the repository default branch. Current next gate remains USER_EXPLICIT_REACTIVATION; this document does not authorize product/runtime resumption.
