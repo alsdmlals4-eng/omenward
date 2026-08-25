@@ -4,62 +4,76 @@
 updated_at: 2026-08-25
 status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT
 handoff_packet_state: PACKET_READY
-receiver_state: PENDING_RECEIVER_ACK
+receiver_state: TRANSFER_ACCEPTED
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
-current_visual_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+sender_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+receiver_ack: docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md
 implementation_execution: NOT_RESUMED
 visual_generation_policy: USER_REQUEST_ONLY
 visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
 prepared_from_project_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
-prepared_with_base_main_sha: 6726d23276b8a808a6d49d51ad6081c6c96f8f72
+receiver_observed_project_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
+receiver_base_main_sha: 1416907e6c62b00ef22dc568afa70cd86015846f
+canon_freshness: SAME_BASELINE
 ```
 
-This file is the short restart router. It is a **sender packet**, not proof that a future chat has accepted control. A new chat must fresh-read current GitHub + Notion + applicable instructions and produce a `receiver_ack` before any persistent mutation. If current canon differs from this packet, use `CONTEXT_DRIFT_RECHECK_REQUIRED`, not the packet as a frozen source of truth.
+This file is the short restart router. The sender packet was fresh-read by a new receiver and the transfer is now `TRANSFER_ACCEPTED`. Detailed evidence remains in the sender handoff and receiver ACK; this file does not duplicate them.
 
-Detailed current visual/handoff truth is owned by:
+## Current state
 
-- `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
-- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
-- `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
-
-## New-session read order
-
-1. fresh Base current `main`, `AGENTS.md`, relevant Skill, open PRs;
-2. fresh OMENWARD default branch, latest commit, open PRs/issues;
-3. OMENWARD `AGENTS.md` and any nearer applicable instruction;
-4. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
-5. `docs/ACTIVE_CONTEXT.md`;
-6. this file + `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`;
-7. current visual spec + approved asset record;
-8. Notion Home + Visual Bible + Visual Components;
-9. full-resolution approved image from Drive ID `1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5`;
-10. current GDD/Project Core and relevant detailed owner;
-11. Google Sheet only as compatibility/history; report conflicts rather than letting stale Sheet values override GitHub/Notion;
-12. inspect code/runtime only after explicit user reactivation of that scope.
-
-## Current visual truth
+> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
 ```text
+PLAYER_ROLE = Omen Warden / 징조수호관
+PLAYER_FANTASY = 전조를 읽고 수호성을 준비하며 병력을 세 전선에 보내는 지휘관
+DIRECT_HERO_MELEE_FANTASY = FORBIDDEN_AS_PRIMARY
+COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
+
 BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
 PER_FRONT_MINIMAP = REQUIRED
 MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
 VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
 UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
-COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
 APPROVED_VISUAL = OM-IMG-023
+
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
+IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
+IMPLEMENTATION_EXECUTION = NOT_RESUMED
+PROJECT_ACTIVITY = PAUSED_QUEUED
+CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
-The approved visual is a `1536x1024 PNG` stored in Drive and shown as a Notion-native inline preview on Home/Visual Bible. The old North Star v2.1, long-road layout, no-minimap rule and standalone Anime-Pixel/Clean-Pixel style are historical/partial references where they conflict with the 2026-08-25 Decision.
+The 2026-08-25 Decision supersedes the long full-road default, `NO_MINIMAP`/minimap-not-required, standalone `ANIME_PIXEL_ART`, standalone `CLEAN_PIXEL_ART`, and North Star v2.1 as current layout. It retains three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower Control Deck, allied-vs-Veil contrast, 3×3 roulette/direct arrows, irreversible front commitment, `PREPARE -> COMMIT -> BATTLE -> REVIEW`, and silhouette-first troops.
 
-## Protected product identity
+## Receiver correction applied
 
-> **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
+Fresh receiver rehydration found that `docs/OMENWARD_GDD_CURRENT_CANON.md`, `docs/PROJECT_CORE.md`, and `docs/CURRENT_IMPLEMENTATION_STATUS.md` still exposed the pre-closeout 2026-08-24 state despite being marked current. PR #210 reconciles those current owners to the same 2026-08-25 visual Decision and retained-scoped-but-paused implementation state before merge.
 
-Omen Warden is a commander, not primarily a melee hero. Keep three-front strategic responsibility, 3x3 roulette/direct arrows, irreversible front commitment, auto-battle, `PREPARE -> COMMIT -> BATTLE -> REVIEW`, silhouette-first troops and allied-vs-Veil contrast.
+This correction is documentation/canon routing only. It does not reactivate product/runtime work.
+
+## Approved visual asset
+
+```text
+IMAGE_ID = OM-IMG-023
+IMAGE_STATUS = USER_APPROVED_CURRENT
+FULL_RESOLUTION = 1536x1024 PNG
+DRIVE_FILE_ID = 1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5
+SOURCE_SHA256 = 0326b012d1fbefba85b545086b84992051591edff6f3b7e159cf3e083f204224
+NOTION_HOME_ORIGINAL = PASS_SERVER_READBACK
+NOTION_VISUAL_BIBLE_ORIGINAL = PASS_SERVER_READBACK
+```
+
+Human-facing current surfaces:
+- Project Home: https://app.notion.com/p/3c41b237eb1c816fbbc8e2dddc18b6eb
+- Visual Bible: https://app.notion.com/p/3c01b237eb1c81c38be5e3ee9f64b59d
+- Visual Components: https://app.notion.com/p/3c21b237eb1c81e29be2d6ce397c9c85
+
+Server readback proves durable attachment/readback, not actual browser/device human-visible rendering.
 
 ## Evidence ceiling
 
@@ -75,92 +89,71 @@ NOTION_SERVER_READBACK = PASS
 NOTION_HUMAN_VISIBLE_CLIENT = NOT_RUN
 ```
 
-Visual approval is not runtime, rights, accessibility, device or player-experience proof.
+## Compatibility conflict report
 
-## Resume checkpoint / side-effect ledger
+Google Sheet is migration/compatibility evidence only.
+
+- `00_프로젝트_허브` is stale and still reflects an older PR175/Issue176/runtime period.
+- `02_현재_확정결정` did not return the 2026-08-25 Front-State Decision in receiver search.
+- `71_이미지기획_생성목록` and `72_이미지검수_승인로그` do contain `OM-IMG-023` with the current Decision ID.
+
+Do not use the stale Sheet hub/decision list to overwrite GitHub/Notion current state. No new Sheet migration write is part of this closeout.
+
+## Side effects already applied
 
 ```yaml
-last_safe_checkpoint: >-
-  OM-IMG-023 user approval recorded; full-resolution PNG persisted in Drive;
-  current visual Decision/spec/router/handoff prepared on PR #210; Notion Home and
-  Visual Bible contain current approved inline preview with server readback; Sheet
-  image planning/review rows contain OM-IMG-023; Base proposal/evidence exists as PR #693.
-next_safe_action: >-
-  In a new chat, fresh-read current Base + OMENWARD + Notion, compare packet baseline
-  against observed current main/PR states, read back current state/protected scope,
-  then record receiver_ack before any persistent mutation.
 side_effects_already_applied:
   - OM-IMG-023 generated and user-approved
-  - full-resolution PNG uploaded to Drive file 1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5
-  - Notion Home current approved preview attached and server-read back
-  - Notion Visual Bible current approved preview attached and server-read back
-  - Sheet 71/72 OM-IMG-023 planning/review records written
-  - OMENWARD current-task PR #210 created and carries visual closeout/handoff work
-  - Base proposal PR #693 carries BCP-2026-033 OMENWARD visual-canon/handoff lessons
-  - accidental placeholder main write 7013d52 was already reverted by 4e10ea4; do not repeat either mutation
+  - full-resolution PNG stored in Drive file 1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5
+  - Notion Home current approved original attached and server-read back
+  - Notion Visual Bible current approved original attached and server-read back
+  - Sheet 71/72 OM-IMG-023 records written
+  - OMENWARD PR #210 created for this workstream
+  - Base PR #693 created for BCP-2026-033 proposal/evidence
+  - accidental placeholder main write already reverted by 4e10ea4
 idempotency:
   retry_safe: false
   verify_before_retry:
-    - do not re-upload OM-IMG-023 unless the durable Drive file is missing or hash differs
-    - do not recreate BCP-2026-033 while Base PR #693 exists
-    - do not recreate or duplicate PR #210
-    - do not repeat Notion attachment/upload if current image block readback already passes
+    - verify Drive file before image re-upload
+    - verify Notion image block before attachment retry
+    - verify PR #210 before duplicate visual closeout PR
+    - verify Base PR #693 before duplicate BCP-033 proposal
 ```
 
-## Pending decisions / reactivation gate
+## Protected workstreams
 
-```yaml
-pending_user_decisions: []
-approval_required_before_resume: false
-reactivation_required_before_product_or_runtime_mutation: true
-safe_work_before_reactivation:
-  - fresh-read current authorities
-  - inspect current PR/Issue/Notion/Sheet state read-only
-  - report drift/conflicts
-```
+- PR #210 owns this visual/handoff continuation until integrated.
+- PR #209 and PR #205 remain other-workstream read-only.
+- Base PR #693 remains independent proposal-only/read-only.
+- Do not resume Issue #208 Run Command/Godot execution merely because handoff transfer is accepted.
+- Do not generate another image unless the user explicitly requests image generation.
 
-The user has approved the current visual. There is no unresolved visual choice in this packet. Product/runtime implementation remains paused and must not restart merely because this handoff exists.
+## Read next
 
-## Instruction / freshness receipt
+A fresh future session should read only the current authorities needed for its requested scope:
 
-```yaml
-instruction_surface_readback:
-  base_root_agents: PASS_AT_BASE_6726d23276b8a808a6d49d51ad6081c6c96f8f72
-  project_root_agents: PASS_ON_PR210_BRANCH
-  nearest_applicable_agents: RECHECK_ON_RESUME
-  project_visual_router: PASS_ON_PR210_BRANCH
-prepared_from_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
-resume_observed_main_sha: RESOLVE_FRESH_IN_RECEIVER_SESSION
-canon_freshness: PENDING_RECEIVER_RECHECK
-```
+1. latest Base main + root `AGENTS.md` and triggered owner;
+2. fresh OMENWARD main/open PR/Issue + root `AGENTS.md`;
+3. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
+4. `docs/ACTIVE_CONTEXT.md` + this file;
+5. `docs/OMENWARD_GDD_CURRENT_CANON.md` / `docs/PROJECT_CORE.md` and the relevant detailed owner;
+6. current Notion Home/Visual Bible/Visual Components and `OM-IMG-023` when visual scope is relevant;
+7. implementation packet/actual runtime only after explicit product/runtime reactivation.
 
-`prepared_from_main_sha != resume_observed_main_sha` is expected after PR #210 is merged; the receiver must verify that the new main contains this handoff and current Decision rather than treating the SHA change itself as failure.
-
-## Context sanitation
-
-```yaml
-canonical_read_order_count: 7_CORE_LOCATORS_PLUS_CURRENT_EXTERNAL_SURFACES
-raw_tool_logs_included: false
-full_transcript_required: false
-superseded_material_included_only_if_needed: true
-```
-
-Do not require this conversation transcript to resume. Use current repository/Notion owners and the approved asset locator.
-
-## GitHub / Base learning boundary
-
-- OMENWARD PR #210 is the current visual/handoff workstream until integrated.
-- PR #209 and PR #205 are other workstreams and stay read-only unless explicitly named.
-- Base PR #693 is the existing proposal-only `BCP-2026-033-visual-canon-approval-and-handoff-integrity` submission with OMENWARD problem/lesson evidence. Do not duplicate or mutate that open Base PR from this project closeout.
-- Proposal submission is not active Base implementation authority.
+The full previous conversation is not required.
 
 ## Transfer state
 
-The sender can close this work as:
-
-```text
-PACKET_READY
-PENDING_RECEIVER_ACK
+```yaml
+resume_observed_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
+canon_freshness: SAME_BASELINE
+receiver_ack:
+  current_state_readback: PASS
+  next_safe_action_readback: PASS
+  protected_scope_readback: PASS
+  pending_decisions_readback: []
+  side_effects_readback: PASS
+  status: TRANSFER_ACCEPTED
 ```
 
-Only a future fresh chat/receiver that has performed the readback above may set `TRANSFER_ACCEPTED`. Until then, do not claim the handoff has been accepted.
+Current handoff closeout next action is exact-head PR verification → safe merge → post-merge main readback → stop. Future product/runtime work requires a separate explicit user reactivation and fresh execution bootstrap.
