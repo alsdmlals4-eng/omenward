@@ -312,9 +312,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "current visual closeout handoff",
     )
 
-    # Durable current documents remain required for core/world/history semantics.
-    # Their older North Star wording is retained lineage and is explicitly
-    # superseded by CURRENT_SPEC/ACTIVE_CONTEXT when it conflicts.
+    # Current summary documents moved to the 2026-08-25 visual authority. Older
+    # detailed documents below remain required as durable/history inputs, but their
+    # superseded visual literals cannot override these current summaries.
     core = read(root, "docs/PROJECT_CORE.md")
     require(
         errors,
@@ -325,11 +325,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상",
             "RUN_HISTORY_RESET = FALSE",
             "PREPARE -> COMMIT -> BATTLE -> REVIEW",
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK = PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "LEGACY_C1_C2_C3_PROVEN",
@@ -346,11 +346,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 19",
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 20",
+            "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK = PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
             "CURRENT_WINDOWS_RUNTIME = NOT_RUN",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
@@ -371,11 +371,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상",
             "RUN_HISTORY_RESET = FALSE",
-            "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",
+            "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "GITHUB_NOTION_DRIFT_CHECK = PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
             "USER_REQUEST_ONLY",
             "CURRENT_GODOT_RUNTIME = NOT_RUN",
         ),
