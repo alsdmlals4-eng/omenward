@@ -109,7 +109,7 @@ side_effects_already_applied:
   - Notion Visual Bible current approved original attached and server-read back
   - Sheet 71/72 OM-IMG-023 records written
   - OMENWARD PR #210 created for this workstream
-  - Base PR #693 created for BCP-2026-033 proposal/evidence
+  - Base PR #693 carries BCP-2026-033-visual-canon-approval-and-handoff-integrity proposal/evidence
   - accidental placeholder main write already reverted by 4e10ea4
 idempotency:
   retry_safe: false
@@ -117,14 +117,14 @@ idempotency:
     - verify Drive file before image re-upload
     - verify Notion image block before attachment retry
     - verify PR #210 before duplicate visual closeout PR
-    - verify Base PR #693 before duplicate BCP-033 proposal
+    - verify Base PR #693 before duplicate BCP-2026-033 submission
 ```
 
 ## Protected workstreams
 
 - PR #210 owns this visual/handoff continuation until integrated.
 - PR #209 and PR #205 remain other-workstream read-only.
-- Base PR #693 remains independent proposal-only/read-only.
+- Base PR #693 is the independent proposal-only `BCP-2026-033-visual-canon-approval-and-handoff-integrity` workstream and remains read-only here.
 - Do not resume Issue #208 Run Command/Godot execution merely because handoff transfer is accepted.
 - Do not generate another image unless the user explicitly requests image generation.
 
