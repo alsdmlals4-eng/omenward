@@ -64,6 +64,19 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
                         f"{relative} reactivated stale current line: {stale}",
                     )
 
+    def test_handoff_distinguishes_historical_premerge_sha_from_integrated_closeout(self) -> None:
+        handoff = read("docs/HANDOFF_CONTEXT.md")
+        for marker in (
+            "CURRENT_MAIN = fd4e377c5a5203fb01c0d971e8ead474d618747f",
+            "PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL",
+            "CURRENT_NEXT = USER_EXPLICIT_REACTIVATION",
+        ):
+            self.assertIn(marker, handoff)
+        self.assertNotIn(
+            "Current handoff closeout next action is exact-head PR verification",
+            handoff,
+        )
+
     def test_historical_final_review_keeps_preapproval_values(self) -> None:
         review = read("docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md")
         for marker in (
