@@ -9,11 +9,17 @@ TOOL = ROOT / "tools/validate_canon_freshness_v45_scope.py"
 
 VISUAL_CLOSEOUT = {
     "AGENTS.md",
+    "README.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_CONFIRMED_DECISIONS.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
     "docs/HANDOFF_CONTEXT.md",
     "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
     "docs/PROJECT_CORE.md",
     "docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md",
     "docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md",
@@ -21,6 +27,7 @@ VISUAL_CLOSEOUT = {
     "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md",
     "tests/python/test_canon_freshness_v45_routing.py",
     "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
     "tests/python/test_current_v48_visual_closeout_scope.py",
     "tests/python/test_project_core_docs.py",
     "tools/validate_canon_freshness_v45_scope.py",
@@ -55,6 +62,12 @@ class CurrentV48VisualCloseoutScopeTests(unittest.TestCase):
     def test_current_canon_consumer_is_required(self) -> None:
         errors = load_module().validate_canon_freshness_scope(
             VISUAL_CLOSEOUT - {"tests/python/test_current_canon_reconciliation_20260821.py"}
+        )
+        self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
+
+    def test_current_router_sync_is_required(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            VISUAL_CLOSEOUT - {"tests/python/test_current_v48_router_sync.py"}
         )
         self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
 
