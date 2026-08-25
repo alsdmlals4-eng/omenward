@@ -150,6 +150,7 @@ CURRENT_MAIN_ROUTER_HANDOFF_SYNC = {
     "docs/DECISIONS_PENDING.md",
     "docs/HANDOFF_CONTEXT.md",
     "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
     "tests/python/test_canon_freshness_v45_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
 }
