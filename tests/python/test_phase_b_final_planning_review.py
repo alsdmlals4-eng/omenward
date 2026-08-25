@@ -6,6 +6,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
+CURRENT_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
 STALE_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 FINAL_REVIEW = "docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 
@@ -56,7 +57,7 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         self.assertIn("LEGACY_DANGER_CADENCE_AUTHORITY = NONE", lifecycle)
         self.assertIn("FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md", lifecycle)
 
-    def test_current_phase_consumers_preserve_v48_history_while_current_route_is_paused(self) -> None:
+    def test_current_phase_consumers_route_v48_to_implementation_authority_gate(self) -> None:
         current_paths = [
             "AGENTS.md",
             "docs/ACTIVE_CONTEXT.md",
@@ -75,11 +76,9 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
 
         active = read("docs/ACTIVE_CONTEXT.md")
         pending = read("docs/DECISIONS_PENDING.md")
-        self.assertIn("HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED", active)
+        self.assertIn(CURRENT_GATE, active)
         self.assertIn("FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5", active)
-        self.assertIn("FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE", active)
-        self.assertIn("PROJECT_ACTIVITY = PAUSED_QUEUED", active)
-        self.assertIn("CURRENT_NEXT = USER_EXPLICIT_REACTIVATION", active)
+        self.assertIn("GITHUB_NOTION_DRIFT_CHECK = PASS", active)
         self.assertIn("CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK", pending)
         self.assertIn("CURRENT_IMPLEMENTATION_AUTHORITY = NONE", pending)
 
