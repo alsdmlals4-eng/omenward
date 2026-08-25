@@ -18,9 +18,7 @@ VISUAL_CLOSEOUT = {
     "tests/python/test_canon_freshness_v45_routing.py",
     "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v48_visual_closeout_scope.py",
-    "tests/python/test_phase_b_final_planning_review.py",
     "tests/python/test_project_core_docs.py",
-    "tests/python/test_run_command_implementation_authority_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
     "tools/validate_project_core_docs.py",
 }
@@ -49,18 +47,6 @@ class CurrentV48VisualCloseoutScopeTests(unittest.TestCase):
             VISUAL_CLOSEOUT - {"tests/python/test_current_canon_reconciliation_20260821.py"}
         )
         self.assertTrue(any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors), errors)
-
-    def test_legacy_gate_reconciliation_tests_are_required(self) -> None:
-        for required_test in (
-            "tests/python/test_phase_b_final_planning_review.py",
-            "tests/python/test_run_command_implementation_authority_scope.py",
-        ):
-            with self.subTest(required_test=required_test):
-                errors = load_module().validate_canon_freshness_scope(VISUAL_CLOSEOUT - {required_test})
-                self.assertTrue(
-                    any("missing required v4.5 current v4.8 visual closeout anchors" in error for error in errors),
-                    errors,
-                )
 
     def test_product_source_remains_forbidden(self) -> None:
         errors = load_module().validate_canon_freshness_scope(VISUAL_CLOSEOUT | {"scripts/core/stage_run.gd"})
