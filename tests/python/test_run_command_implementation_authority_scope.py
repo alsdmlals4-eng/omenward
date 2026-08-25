@@ -44,15 +44,13 @@ class RunCommandImplementationAuthorityScopeTests(unittest.TestCase):
         errors = validate_canon_freshness_scope(changed)
         self.assertTrue(any("protected product paths" in error for error in errors), errors)
 
-    def test_current_repository_retains_scoped_authority_while_paused_without_runtime_promotion(self) -> None:
+    def test_current_repository_has_scoped_authority_without_runtime_promotion(self) -> None:
         self.assertEqual([], validate_project_core(ROOT))
         decisions = (ROOT / "docs/CURRENT_CONFIRMED_DECISIONS.md").read_text(encoding="utf-8")
         active = (ROOT / "docs/ACTIVE_CONTEXT.md").read_text(encoding="utf-8")
         self.assertIn("IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", decisions)
-        self.assertIn("CURRENT_EXECUTION = NOT_RESUMED", decisions)
-        self.assertIn("CURRENT_NEXT = USER_EXPLICIT_REACTIVATION", decisions)
+        self.assertIn("CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION", decisions)
         self.assertIn("implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY", active)
-        self.assertIn("PROJECT_ACTIVITY = PAUSED_QUEUED", active)
         self.assertIn("CURRENT_GODOT_RUNTIME = NOT_RUN", active)
         self.assertNotIn("CURRENT_GODOT_RUNTIME = PASS", active)
 
