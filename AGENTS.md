@@ -1,7 +1,7 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-24
+updated_at: 2026-08-25
 common_work_authority: alsdmlals4-eng/Base/AGENTS.md
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
@@ -79,15 +79,22 @@ ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
 PRESSURE_LANGUAGE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
 VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
 RUN_HISTORY_RESET = FALSE
-CHARACTER_AND_UNIT_STYLE = ANIME_PIXEL_ART
-BATTLEFIELD_AND_BACKGROUND_STYLE = CLEAN_PIXEL_ART
-DEFAULT_CAMERA = FULL_THREE_LANES_VISIBLE
+
+VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
+WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
+COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+PER_FRONT_MINIMAP = REQUIRED
+MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 ROULETTE_EXPOSURE = 3×3
 LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 ```
 
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 이미지 생성은 사용자가 명시적으로 요청한 경우에만 수행한다.
+2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
+
+Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 battlefield/visual owner는 `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`다. 이미지 생성은 사용자가 명시적으로 요청한 경우에만 수행한다.
 
 ## 5. Runtime / evidence ceiling
 
@@ -97,6 +104,7 @@ Visual 작업은 current Decision index에서 active visual owner를 복원한�
 - file/Scene/resource 존재만으로 runtime 동작을 주장하지 않는다.
 - runtime/human 검증을 실행하지 않았으면 `NOT_RUN / UNVERIFIED`를 유지한다.
 - 최종 제품 수치는 simulation/runtime/human evidence 없이 확정하지 않는다.
+- 전선별 미니맵 가독성과 SD 병종의 실제 전투 가독성은 runtime/human 검증 전 `NOT_RUN`이다.
 
 ## 6. GitHub work-item boundary
 
