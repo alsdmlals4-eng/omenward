@@ -51,6 +51,8 @@ NORTH_STAR_V2_1 = REFERENCE_WITH_NEW_OVERRIDE
 FRONT_STATE_MINIMAP_SD_FANTASY = CONFIRMED_CURRENT
 APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT
 NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
+FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
+FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = NOT_RESUMED
 HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
@@ -60,7 +62,7 @@ VISUAL_GENERATION_POLICY = USER_REQUEST_ONLY
 IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
 ```
 
-`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 `CURRENT_NEXT = USER_EXPLICIT_REACTIVATION`이다.
+`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 사용자의 명시적 프로젝트 재활성화다.
 
 The 2026-08-25 Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` is the current visual/battlefield owner. Earlier `Anime Pixel + Clean Pixel`, long full-road three-lane presentation, and minimap-not-required wording are superseded in that scope. Three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first readability remain protected.
 
@@ -68,6 +70,12 @@ Current visual/handoff owners:
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
+
+Retained visual lineage/audit owner:
+- `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` (`OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01`) — historical/partial reference where the 2026-08-25 Decision supersedes layout/style.
+
+Retained final planning review owner:
+- `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md` — `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5` is retained planning evidence, not runtime or post-2026-08-25 visual validation.
 
 Retained implementation authority owners are not being executed by this closeout:
 - `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
