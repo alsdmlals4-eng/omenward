@@ -1,7 +1,7 @@
 # [현행] OMENWARD 문서 지도
 
 ```yaml
-updated_at: 2026-08-25
+updated_at: 2026-08-26
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT
 current_next_gate: USER_EXPLICIT_REACTIVATION
@@ -25,7 +25,7 @@ implementation_execution: NOT_RESUMED
 11. `docs/DECISIONS_PENDING.md`
 12. `docs/DOCUMENTATION_MAP.md`
 13. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-14. current visual Decision/spec/asset owner
+14. relevant current Decision/spec/asset owner
 15. Project Notion Home + relevant human-facing page
 
 Fresh GitHub/Notion truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다.
@@ -56,7 +56,21 @@ CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
 IMAGE_GENERATION = USER_REQUEST_ONLY
 ```
 
-Current visual owners:
+### Current non-visual decision owners
+
+- `docs/design/APPROVED_OMENWARD_WORLD_ROLE_AND_OMEN_WARD_IDENTITY_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_OMEN_CYCLE_MAPRUN_WORLD_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_PRESSURE_LANGUAGE_AND_OMEN_SIGNATURES_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_VEIL_CONVERGENCE_FRONT_AND_CORE_STORY_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_20_STAGE_CONTENT_AND_BOSS_ARC_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_NORMALIZED_BALANCE_BUDGET_2026-08-20.md`
+- `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md`
+
+### Current visual / handoff owners
+
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
@@ -71,6 +85,8 @@ Retained historical visual/process owners:
 - `docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md`
+- `[증거/호환] docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md`
+- `[증거/호환] docs/reviews/PHASE_C_C0_LOCAL_HIGODOT_CLOSURE_2026-08-11.md`
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
 
 Historical compatibility markers:
@@ -119,6 +135,8 @@ Current implementation authority is retained but execution is not resumed by thi
 - `docs/C3_CORE_UX_AUDIT_2026-07-23.md`
 - `docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md`
 - `[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md`
+- `[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md`
+- `[증거/호환] docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md`
 
 ## 7. GitHub / process routing
 
