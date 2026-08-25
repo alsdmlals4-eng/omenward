@@ -15,11 +15,17 @@ human_runtime_validation: NOT_RUN
 
 ## 1. 결정 요약
 
-OMENWARD의 전장은 더 이상 **수호성에서 적 진영까지 이어지는 긴 3개 길 전체를 보여주는 화면**을 기본 표현으로 사용하지 않는다.
+OMENWARD의 기본 전장 표현은 더 이상 **수호성에서 적 진영까지 이어지는 긴 3개 길 전체**가 아니다. 상·중·하 **세 전선의 현재 교전 상황을 동시에 보여주는 3개 Front-State View**를 사용하고, 각 전선에 작은 미니맵을 붙여 공간 문맥을 보충한다.
 
-대신 상·중·하 **세 전선의 현재 교전 상황을 동시에 보여주는 3개 Front-State View**를 기본 전장 표현으로 사용한다. 각 전선에는 작은 **전선별 미니맵**을 붙여 현재 교전 위치, 아군/적 방향, 거점·우회·침투·보스 등 공간 문맥을 전달한다.
+```text
+BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
+PER_FRONT_MINIMAP = REQUIRED
+MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
+UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
+LONG_FULL_ROAD_PRESENTATION = SUPERSEDED_AS_DEFAULT
+```
 
-그림체는 최신 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART` 단순 조합을 폐기하고, 기존 승인 계보의 다음 방향으로 통합한다.
+그림체는 최신 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART` 단순 조합을 폐기하고 기존 승인 계보의 판타지·마법·SD 방향을 하나로 통합한다.
 
 ```text
 VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
@@ -28,11 +34,11 @@ MATERIAL_FINISH = HIGH_RES_PIXEL_TEXTURE_AND_RESTRAINED_LIGHTING
 WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
 ```
 
-플레이어 Omen Warden의 대표 실루엣은 **지휘관 외투/갑주 + 긴 지휘 깃발**을 중심으로 잡는다. 직접 전투 영웅이 아니라 전조를 읽고 병력을 보내는 지휘자라는 역할이 먼저 읽혀야 한다.
+플레이어 Omen Warden의 대표 실루엣은 **지휘관 외투/갑주 + 긴 지휘 깃발**이다. 직접 전투 영웅이 아니라 전조를 읽고 병력을 보내는 지휘자라는 역할이 먼저 읽혀야 한다.
 
 ## 2. 대체 관계
 
-이 Decision은 다음 과거 표현을 **부분 대체**한다.
+이 Decision은 다음 과거 표현을 부분 대체한다.
 
 ```text
 SUPERSEDED:
@@ -89,15 +95,9 @@ RETAINED:
 
 미니맵에서 개별 병사를 모두 표시하거나 전체 전투 VFX를 축소 복제하지 않는다.
 
-```text
-PER_FRONT_MINIMAP = REQUIRED
-MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
-UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
-```
-
 ## 4. 비교한 대안
 
-### B · 선택 전선 1개 확대 + 나머지 2개 미니맵/탭
+### B · 선택 전선 1개 확대 + 나머지 2개 미니맵/탭 — REJECT
 
 장점:
 - 선택 전선의 전술 디테일이 강하다.
@@ -107,9 +107,9 @@ UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
 - 세 전선 동시 판단이 약해진다.
 - 오토배틀러의 병렬 전선 운영 감각이 줄어든다.
 
-**판정: REJECT.** 세 전선 동시 비교가 제품 정체성에 더 중요하다.
+세 전선 동시 비교가 제품 정체성에 더 중요하므로 채택하지 않는다.
 
-### C · 전체 전략 지도 + 선택 전선 팝업
+### C · 전체 전략 지도 + 선택 전선 팝업 — REJECT
 
 장점:
 - 영지/전략 게임 느낌이 강하다.
@@ -119,7 +119,7 @@ UNIT_BY_UNIT_MINIMAP_REPLICATION = FORBIDDEN
 - 전투 관전성과 병종 조합 판독이 약해진다.
 - 전투가 지도 아이콘 사건처럼 축소될 위험이 있다.
 
-**판정: REJECT.** OMENWARD는 영지 지도 게임이 아니라 병력을 보내고 자동전투 결과를 읽는 게임이다.
+OMENWARD는 영지 지도 자체보다 **병력을 보내고 자동전투 결과를 읽는 경험**이 핵심이므로 채택하지 않는다.
 
 ## 5. 그림체 정본
 
@@ -154,17 +154,15 @@ PALETTE = BLACK_PURPLE + DARK_RED + CARAPACE_GRAY + LIMITED_RIFT_GLOW
 SHAPE_LANGUAGE = ASYMMETRIC_RIFT + CARAPACE + SPIKE + VOID_APERTURE
 ```
 
-Veil은 단일 종족처럼 획일화하지 않되, 아군과 다른 형태 문법으로 즉시 구분한다.
+Veil은 단일 종족처럼 획일화하지 않되 아군과 다른 형태 문법으로 즉시 구분한다.
 
 ### 마법 연출
 
 - 마법은 세계의 상시 존재감으로 사용한다.
-- 다만 전투 가독성을 가리는 상시 bloom/섬광은 금지한다.
+- 전투 가독성을 가리는 상시 bloom/섬광은 금지한다.
 - Omen, Mana, Signature, Hero/Legendary/Boss 사건에서만 강도를 올린다.
 
 ## 6. 지휘관 시각 정체성
-
-Omen Warden은 플레이어의 대표 캐릭터다.
 
 ```text
 COMMANDER_SILHOUETTE = LONG_COMMAND_FLAG + COMMAND_COAT/ARMOR + HIGH_GROUND_POSTURE
@@ -173,7 +171,7 @@ DIRECT_HERO_MELEE_FANTASY = FORBIDDEN_AS_PRIMARY
 ```
 
 - 긴 지휘 깃발은 단순 장식이 아니라 플레이어 역할을 즉시 설명하는 Role Anchor다.
-- 지휘관은 전선 상황창을 가리는 대형 상시 초상/캐릭터로 두지 않는다.
+- 지휘관은 전선 상황창을 가리는 대형 상시 초상/캐릭터가 아니다.
 - PREPARE/COMMIT 또는 수호성 지휘 공간에서 존재감을 주고 BATTLE에서는 전선 읽기를 우선한다.
 
 ## 7. 기존 North Star v2.1 처리
@@ -188,7 +186,7 @@ SUPERSEDE = NO_MINIMAP
 SUPERSEDE = ANIME_PIXEL_ONLY_CHARACTER_DIRECTION
 ```
 
-기존 시안은 전장 우선 계층과 진영 대비 참고로 남긴다. 새 전장 레이아웃이나 최종 그림체의 정본으로는 사용하지 않는다.
+기존 시안은 전장 우선 계층과 진영 대비 참고로 남긴다. 새 전장 레이아웃이나 최종 그림체의 정본으로 사용하지 않는다.
 
 ## 8. UX / 정보 계약
 
@@ -238,15 +236,13 @@ SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 ## 11. 5회 전체 적대적 검토
 
 ### Loop 1
-
-- 전체 범위 재검토: 세 전선 동시성, 오토배틀러 정체성, 기존 Run Command 흐름, UI 밀도, 장기 구현 비용.
+- 전체 범위 재검토: 세 전선 동시성, 오토배틀러 정체성, Run Command 흐름, UI 밀도, 장기 구현 비용.
 - Finding: `전선 상황만`이 선택 전선 1개만 보인다는 의미로 오해될 수 있음.
 - 수정: **상·중·하 세 Front-State View 동시 표시**를 명시적 불변식으로 고정.
 - 대안 재검색: B/C보다 A가 세 전선 판단을 가장 잘 보존.
 - 장기 적합성: PASS.
 
 ### Loop 2
-
 - 전체 범위 재검토.
 - Finding: 미니맵이 작은 두 번째 전장처럼 복제될 위험.
 - 수정: `MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD`, 개별 병사/VFX 복제 금지.
@@ -254,15 +250,13 @@ SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 - 장기 적합성: PASS.
 
 ### Loop 3
-
 - 전체 범위 재검토.
 - Finding: 최신 `Anime Pixel + Clean Pixel` 문구와 기존 `SD + fantasy + magic` 승인 계보가 충돌.
-- 수정: 새 통합 정본 `FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION`을 정의하고 과거 두 단독 스타일 표현을 부분 대체.
+- 수정: 통합 정본 `FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION`을 정의하고 과거 두 단독 스타일 표현을 부분 대체.
 - 대안 재검색: 완전 풀 일러스트/비픽셀 전환은 전투 가독성과 기존 자산 계보를 훼손하므로 기각.
 - 장기 적합성: PASS.
 
 ### Loop 4
-
 - 전체 범위 재검토.
 - Finding: 큰 깃발 지휘관이 전장을 가리거나 액션 영웅처럼 보일 위험.
 - 수정: Commander는 Role Anchor로 유지하되 BATTLE 전선 패널을 침범하지 않고 PREPARE/COMMIT/수호성 지휘 맥락에서 우선 노출.
@@ -270,7 +264,6 @@ SD_UNIT_RUNTIME_READABILITY = NOT_RUN
 - 장기 적합성: PASS.
 
 ### Loop 5
-
 - 전체 범위 재검토: 960×540, 하단 Focus UI, 룰렛, COMMIT, 전선 미니맵, SD 병종, VFX.
 - Finding: P0/P1 blocking finding 없음. 실제 가독성은 runtime/human 증거가 없어 PASS로 승격할 수 없음.
 - 수정: 구현/사용성 증거를 `NOT_RUN`으로 유지하고 해상도 검증 계약을 명시.
@@ -283,10 +276,36 @@ CLEAN_REVIEW_EXIT = PLANNING_LEVEL_ONLY
 RUNTIME_AND_HUMAN_EVIDENCE = NOT_RUN
 ```
 
-## 12. 다음 단계
+## 12. 승인 이미지 및 closeout
 
-1. 이 Decision을 current decision index와 기존 visual/battlefield owner에 연결한다.
-2. Notion Visual Bible / Visual Component surface에 같은 Decision ID로 반영한다.
-3. Google Sheet는 compatibility log에 동일 Decision ID를 기록하되 active authority로 승격하지 않는다.
-4. 새 이미지는 만들지 않는다.
-5. 사용자가 이 서면 spec을 검토한 뒤에만 구현 계획 또는 새 North Star 제작 단계로 넘어간다.
+현재 사용자 승인 visual reference:
+
+```text
+IMAGE_ID = OM-IMG-023
+IMAGE_STATUS = USER_APPROVED_CURRENT
+FULL_RESOLUTION = 1536x1024 PNG
+FULL_RESOLUTION_OWNER = GOOGLE_DRIVE_FILE_ID_1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5
+NOTION_HOME_INLINE_PREVIEW = SERVER_READBACK_PASS
+NOTION_VISUAL_BIBLE_INLINE_PREVIEW = SERVER_READBACK_PASS
+```
+
+Repository asset record:
+`docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
+
+New-chat handoff:
+`docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
+
+이미지 승인만으로 Godot runtime, minimap/SD readability, human usability, player experience, rights review를 PASS로 승격하지 않는다.
+
+## 13. 다음 단계
+
+```text
+PROJECT_STATE = PAUSED_QUEUED
+CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
+```
+
+- 새 이미지를 자동 생성하지 않는다.
+- Godot/runtime 구현을 자동 재개하지 않는다.
+- 다음 세션은 승인 asset `OM-IMG-023`을 실제로 다시 읽고 시작한다.
+- 과거 visual 문서의 충돌 문구는 이 Decision의 supersession 경계를 따른다.
