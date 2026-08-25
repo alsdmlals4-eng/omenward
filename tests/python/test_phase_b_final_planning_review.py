@@ -79,7 +79,11 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
         self.assertIn(CURRENT_GATE, active)
         self.assertIn("FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5", active)
         self.assertIn("GITHUB_NOTION_DRIFT_CHECK = PASS", active)
-        self.assertIn("CURRENT_CANON_RECONCILIATION = REQUIRED_UNTIL_EXACT_HEAD_GREEN_AND_MERGED_MAIN_READBACK", pending)
+        self.assertIn("CURRENT_CANON_RECONCILIATION = CLOSED_BY_PR_210_MERGED_MAIN_READBACK", pending)
+        self.assertIn(
+            "CURRENT_MAIN_POINTER_RECONCILIATION = FRESH_GITHUB_AND_NOTION_READBACK_REQUIRED_BEFORE_COMPLETION",
+            pending,
+        )
         self.assertIn("CURRENT_IMPLEMENTATION_AUTHORITY = NONE", pending)
 
     def test_current_final_review_closes_planning_without_runtime_promotion(self) -> None:
