@@ -2,12 +2,12 @@
 
 ```yaml
 work_package_id: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-status: PROPOSED_FOR_USER_REVIEW
+status: USER_APPROVED_B_CURRENT
 created_at: 2026-08-26
 scope: PROJECT_IMAGE_GAP_AUDIT_AND_FUTURE_CODEX_INTEGRATION_HANDOFF
 current_user_order: REQUIRED_GAME_IMAGES_FIRST_THEN_CODEX
-image_generation_this_work_package: NOT_RUN
-codex_godot_execution: NOT_RUN
+image_generation_this_work_package: AWAITING_EXPLICIT_IMG_01_GENERATION_APPROVAL
+codex_godot_execution: BLOCKED_UNTIL_APPROVED_P0_AND_CURRENT_CONSUMER_P1_IMPLEMENTATION_READY
 runtime_validation: NOT_RUN
 base_main_fresh_read: 05d44bba978f4cff0fc94ade8e54825f5d6c80f0
 omenward_main_fresh_read: 43f37e2bf25ec4f38a42936c3fea367d9c826370
@@ -47,6 +47,18 @@ SUPERSEDED
 ```
 
 `APPROVED != IMPLEMENTATION_READY != IMPLEMENTED != RUNTIME_VERIFIED`.
+
+## 1.1 User decision · B approval
+
+- Decision ID: `OMW-IMG-QUEUE-APPROVAL-20260826-B-01`
+- User input: `B안 승인`
+- Status: `USER_APPROVED_CURRENT`
+- Approved scope: P0 + current-consumer P1 assets → cleanup/export → Implementation Ready → Codex integration.
+- Deferred scope: P2/P3 preproduction.
+- Image generation: a final IMG-01 text brief and separate explicit generation approval are still required.
+- Codex/Godot: blocked until the approved scope is Implementation Ready.
+
+Decision record: `docs/images/approved/OMENWARD_IMAGE_GOAL_QUEUE_B_APPROVAL_2026-08-26.md`.
 
 ## 2. Fresh-read authority / drift
 
