@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/stage_hud.gd" id="1_view"]
+[ext_resource type="Texture2D" path="res://assets/art/buildings/general_barracks_t1_build_button.png" id="2_barracks"]
+[ext_resource type="Texture2D" path="res://assets/art/buildings/defense_tower_t1_build_button.png" id="3_tower"]
+[ext_resource type="Texture2D" path="res://assets/art/buildings/farm_t1_build_button.png" id="4_farm"]
 
 [node name="StageHud" type="Control"]
 layout_mode = 3
@@ -102,6 +105,9 @@ offset_top = 450.0
 offset_right = 242.0
 offset_bottom = 486.0
 text = "Barracks"
+icon = ExtResource("2_barracks")
+expand_icon = true
+theme_override_constants/icon_max_width = 22
 
 [node name="TowerButton" type="Button" parent="."]
 layout_mode = 0
@@ -110,6 +116,9 @@ offset_top = 450.0
 offset_right = 330.0
 offset_bottom = 486.0
 text = "Tower"
+icon = ExtResource("3_tower")
+expand_icon = true
+theme_override_constants/icon_max_width = 22
 
 [node name="FarmButton" type="Button" parent="."]
 layout_mode = 0
@@ -118,6 +127,9 @@ offset_top = 450.0
 offset_right = 418.0
 offset_bottom = 486.0
 text = "Farm"
+icon = ExtResource("4_farm")
+expand_icon = true
+theme_override_constants/icon_max_width = 22
 
 [node name="CardsLabel" type="Label" parent="."]
 layout_mode = 0

@@ -62,7 +62,7 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
-CURRENT_NEXT = P0_BUILDING_RUNTIME_GEOMETRY_RECONCILIATION_BEFORE_CONSUMER_EXTENSION
+CURRENT_NEXT = P1_STRUCTURE_CONSUMER_DISCOVERY_AND_APPROVED_SOURCE_MAPPING
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = USER_REACTIVATED__SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_COMPLETE
@@ -180,14 +180,14 @@ Notion server readback proves the image block/attachment exists; it is not a bro
 ## Runtime / evidence boundary
 
 ```text
-CURRENT_GODOT_RUNTIME = PARTIAL__LIVE_TUTORIAL_AND_ALL18_UNIT_GALLERY_CAPTURED
+CURRENT_GODOT_RUNTIME = PARTIAL__LIVE_TUTORIAL_ALL18_UNIT_GALLERY_AND_BUILD_BUTTON_CAPTURED
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
-CURRENT_UI_EVIDENCE = NOT_RUN
+CURRENT_UI_EVIDENCE = PARTIAL__THREE_BUILD_BUTTONS_LIVE_HUD_CAPTURED
 CURRENT_MINIMAP_READABILITY = NOT_RUN
 CURRENT_SD_UNIT_RUNTIME_READABILITY = PARTIAL__ALL18_UNIT_GALLERY_NO_CLIPPING_SIGNAL
 CURRENT_GUT_RED = NOT_RUN
 CURRENT_GUT_GREEN = NOT_RUN
-CURRENT_HERA_LIVE_QA = PARTIAL__LIVE_TUTORIAL_AND_ALL18_GALLERY_DIAGNOSTICS_CLEAN
+CURRENT_HERA_LIVE_QA = PARTIAL__LIVE_TUTORIAL_ALL18_GALLERY_AND_BUILD_BUTTON_DIAGNOSTICS_CLEAN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 ```
@@ -216,7 +216,8 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 9. COMPLETE — Shield Guard shared UnitView idle texture consumer import contract
 10. COMPLETE — reconcile remaining approved P0 asset geometry and extend shared runtime consumers
 11. PARTIAL — live tutorial plus all-18 gallery captures show the shared renderer without an automated clipping signal; broad interactive readability and human evidence remain `NOT_RUN`
-12. NEXT — reconcile approved P0 building geometry before extending its runtime consumer
+12. COMPLETE — derive and bind General Barracks, Defense Tower, and Farm compact thumbnails to the three existing Stage HUD build-action buttons
+13. NEXT — discover a real P1 structure consumer before extending approved source-only building masters; do not infer battlefield placement
 ```
 
 ## Resume order
@@ -232,6 +233,6 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
-11. Shield Guard plus the remaining P0 unit import contracts are verified. Live tutorial and all-18 gallery evidence are partial; broad runtime readability and human evidence remain `NOT_RUN`.
+11. Shield Guard, the remaining P0 unit imports, and the three current HUD building-button imports are verified. Live tutorial, all-18 gallery, and button captures are partial; broad runtime readability and human evidence remain `NOT_RUN`.
 
 The user currently authorizes autonomous required-image production and scoped Codex/Godot continuation. Any runtime readability or human-play PASS still requires actual recorded evidence.

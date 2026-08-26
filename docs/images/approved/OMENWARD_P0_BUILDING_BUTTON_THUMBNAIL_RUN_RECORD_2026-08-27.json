@@ -1,0 +1,110 @@
+{
+  "record_id": "OMW-P0-BUILDING-BUTTON-THUMBNAILS-V1",
+  "normalization": {
+    "source": "approved cleanup master in the local asset vault",
+    "canvas_size": [
+      192,
+      144
+    ],
+    "max_content_size": [
+      160,
+      120
+    ],
+    "resampling": "nearest",
+    "background": "transparent",
+    "alpha": "binary",
+    "alignment": "horizontal center, bottom baseline"
+  },
+  "entries": [
+    {
+      "building_id": "general_barracks_t1",
+      "consumer": "scenes/ui/stage_hud.tscn::BarracksButton",
+      "source": ".asset-vault/library/buildings/masters/OMENWARD_ASSET_BUILDING_GENERAL_BARRACKS_T1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "919040f0d9f429b6323169996b1782f816543baf25b2c034765940e616b2fadd",
+      "source_alpha_bounds": [
+        15,
+        7,
+        1207,
+        1226
+      ],
+      "output": "assets/art/buildings/general_barracks_t1_build_button.png",
+      "output_sha256": "941aac39217f84b0e8c954c44383b5dc2615c63388c5f22249dd44fcbffb9cc3",
+      "canvas_size": [
+        192,
+        144
+      ],
+      "max_content_size": [
+        160,
+        120
+      ],
+      "scaled_size": [
+        117,
+        120
+      ],
+      "placement": [
+        37,
+        24
+      ]
+    },
+    {
+      "building_id": "defense_tower_t1",
+      "consumer": "scenes/ui/stage_hud.tscn::TowerButton",
+      "source": ".asset-vault/library/buildings/masters/OMENWARD_ASSET_BUILDING_DEFENSE_TOWER_T1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "42246b9ce947bad4891260eef895cee4ffbcfe9ec757cf5b528249fa9cfb8bae",
+      "source_alpha_bounds": [
+        250,
+        105,
+        961,
+        1213
+      ],
+      "output": "assets/art/buildings/defense_tower_t1_build_button.png",
+      "output_sha256": "b2c24e32f4c4e7843374abc6e66a6d8cd767921c71f53acd658250645a2d49ac",
+      "canvas_size": [
+        192,
+        144
+      ],
+      "max_content_size": [
+        160,
+        120
+      ],
+      "scaled_size": [
+        77,
+        120
+      ],
+      "placement": [
+        57,
+        24
+      ]
+    },
+    {
+      "building_id": "farm_t1",
+      "consumer": "scenes/ui/stage_hud.tscn::FarmButton",
+      "source": ".asset-vault/library/buildings/masters/OMENWARD_ASSET_BUILDING_FARM_T1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "b302bb827e987ca19fadecd060486e2bc63b5ec283b621e7e16e937e80df64f2",
+      "source_alpha_bounds": [
+        250,
+        10,
+        1319,
+        1008
+      ],
+      "output": "assets/art/buildings/farm_t1_build_button.png",
+      "output_sha256": "c09f5b96d5a5e39f8535791457058bb8ea826dc69a40013caa27f159e9fd4ae1",
+      "canvas_size": [
+        192,
+        144
+      ],
+      "max_content_size": [
+        160,
+        120
+      ],
+      "scaled_size": [
+        129,
+        120
+      ],
+      "placement": [
+        31,
+        24
+      ]
+    }
+  ]
+}

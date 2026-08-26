@@ -1,0 +1,39 @@
+{
+  "record_id": "OMW-P0-BUILDING-BUTTON-THUMBNAILS-V1",
+  "scope": "Only current Stage HUD build-action consumers; no battlefield placement or new building gameplay.",
+  "normalization": {
+    "source": "approved cleanup master in the local asset vault",
+    "canvas_size": [192, 144],
+    "max_content_size": [160, 120],
+    "resampling": "nearest",
+    "background": "transparent",
+    "alpha": "binary",
+    "alignment": "horizontal center, bottom baseline"
+  },
+  "entries": [
+    {
+      "building_id": "general_barracks_t1",
+      "consumer": "scenes/ui/stage_hud.tscn::BarracksButton",
+      "source": ".asset-vault/library/buildings/masters/OMENWARD_ASSET_BUILDING_GENERAL_BARRACKS_T1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/buildings/general_barracks_t1_build_button.png",
+      "canvas_size": [192, 144],
+      "max_content_size": [160, 120]
+    },
+    {
+      "building_id": "defense_tower_t1",
+      "consumer": "scenes/ui/stage_hud.tscn::TowerButton",
+      "source": ".asset-vault/library/buildings/masters/OMENWARD_ASSET_BUILDING_DEFENSE_TOWER_T1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/buildings/defense_tower_t1_build_button.png",
+      "canvas_size": [192, 144],
+      "max_content_size": [160, 120]
+    },
+    {
+      "building_id": "farm_t1",
+      "consumer": "scenes/ui/stage_hud.tscn::FarmButton",
+      "source": ".asset-vault/library/buildings/masters/OMENWARD_ASSET_BUILDING_FARM_T1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/buildings/farm_t1_build_button.png",
+      "canvas_size": [192, 144],
+      "max_content_size": [160, 120]
+    }
+  ]
+}
