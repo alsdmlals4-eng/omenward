@@ -14,6 +14,7 @@ codex_execution: NOT_IN_SCOPE
 image_generation: NOT_STARTED
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_reference_asset: OM-IMG-023
+current_asset_brief: OMW-ASSET-BRIEF-20260826-LUMERN-SHIELD-GUARD-01
 ```
 
 ## 1. 사용자 승인 제작 원칙
@@ -140,8 +141,17 @@ victory
 
 | 순서 | Tracker Key | 실제 자산 | Primary consumer | Secondary consumer | 상태 |
 |---:|---|---|---|---|---|
-| 1 | `ASSET-UNIT-LUMERN-SHIELD-GUARD` | Lumern Shield Guard sprite sheet | Battlefield UnitView | Roulette token crop / Storage / COMMIT | `NEXT_BRIEF` |
-| 2 | `ASSET-UNIT-VEIL-SHIELD-GUARD` | Veil Shield Guard sprite sheet | Battlefield UnitView | enemy preview / battle read | `NEXT_AFTER_1` |
+| 1 | `ASSET-UNIT-LUMERN-SHIELD-GUARD` | Lumern Shield Guard sprite sheet | Battlefield UnitView | Roulette token crop / Storage / COMMIT | `BRIEF_READY` · `OMW-ASSET-BRIEF-20260826-LUMERN-SHIELD-GUARD-01` |
+| 2 | `ASSET-UNIT-VEIL-SHIELD-GUARD` | Veil Shield Guard sprite sheet | Battlefield UnitView | enemy preview / battle read | `NEXT_AFTER_1_USER_APPROVAL` |
+
+현재 첫 생성 Gate:
+
+```text
+ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
+→ one isolated runtime-oriented idle sprite
+→ user APPROVE / REVISE / REJECT
+→ only then Veil pair or additional animation states
+```
 
 두 자산으로 **아군/Veil shape language + 2.5~3등신 + 역할 실루엣 + pixel density**를 먼저 잠근다.
 
@@ -326,7 +336,11 @@ OM-IMG-023 = visual direction only
 
 NOW
 1. ASSET-UNIT-LUMERN-SHIELD-GUARD
+   BRIEF = OMW-ASSET-BRIEF-20260826-LUMERN-SHIELD-GUARD-01
+   FIRST_GENERATION_TARGET = ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
+   IMAGE_GENERATION = NOT_STARTED
 2. ASSET-UNIT-VEIL-SHIELD-GUARD
+   BLOCKED_UNTIL = LUMERN_IDLE_USER_APPROVAL
 
 STYLE_LOCK_AFTER_PAIR
 → faction shape language
@@ -353,7 +367,7 @@ P2 content-specific runtime assets
 - [ ] named runtime/game consumer가 존재
 - [ ] 동일 source art 재사용 가능성 먼저 확인
 - [ ] current GitHub + Notion canon fresh-read
-- [ ] asset-specific brief 준비
+- [x] `ASSET-UNIT-LUMERN-SHIELD-GUARD` asset-specific brief 준비
 - [ ] 필요한 candidate만 생성
 - [ ] 사용자 `APPROVE / REVISE / REJECT`
 - [ ] 승인본에 실제 asset identity/file-role 기록
@@ -405,6 +419,7 @@ HUMAN_READABILITY = NOT_RUN
 - `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md` — actual unit art reuse for Roulette Token
 - `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md` — current Stage 1 six base facilities
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — current visual style/front/minimap/commander contract
+- `docs/images/planning/assets/ASSET_UNIT_LUMERN_SHIELD_GUARD_BRIEF_2026-08-26.md` — first actual runtime asset brief
 - `docs/images/planning/OMENWARD_CORE_PLAYER_FLOW_IMAGE_BRIEFS_2026-08-26.md` — composition reference only after this policy
 
 ## 12. Boundary
@@ -413,7 +428,10 @@ HUMAN_READABILITY = NOT_RUN
 SCREEN_MOCKUP_IMAGE_PRODUCTION = STOPPED
 EXPLANATION_SHEET_IMAGE_PRODUCTION = STOPPED
 RUNTIME_CONSUMER_ASSET_PLANNING = ACTIVE
-FIRST_ACTUAL_ASSET_BRIEF = ASSET-UNIT-LUMERN-SHIELD-GUARD
+FIRST_ACTUAL_ASSET_BRIEF = OMW-ASSET-BRIEF-20260826-LUMERN-SHIELD-GUARD-01
+FIRST_ACTUAL_ASSET_BRIEF_STATUS = READY
+FIRST_GENERATION_TARGET = ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
+IMAGE_GENERATION = NOT_STARTED
 PRODUCT_CODE = UNCHANGED
 SCENE = UNCHANGED
 GODOT_CODEX = OUT_OF_CURRENT_SCOPE
