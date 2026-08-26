@@ -9,7 +9,8 @@ ROOT = Path(__file__).resolve().parents[2]
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 CURRENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
 CURRENT_VISUAL_ASSET = "OM-IMG-023"
-CURRENT_REACTIVATION_GATE = "USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES"
+CURRENT_REACTIVATION_GATE = "AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION"
+CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 CURRENT_AUTHORITY = "SCOPED_APPROVED_RETAINED"
 
 GLOBAL_CURRENT_ROUTERS = (
@@ -40,9 +41,8 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
                 self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 21", text)
                 self.assertIn(CURRENT_VISUAL_DECISION, text)
                 self.assertIn(CURRENT_VISUAL_ASSET, text)
-                self.assertIn(f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}", text)
                 self.assertIn(CURRENT_AUTHORITY, text)
-                self.assertIn("USER_REQUEST_ONLY", text)
+                self.assertIn(CURRENT_IMAGE_POLICY, text)
 
     def test_global_current_routers_do_not_reactivate_20260824_gate_or_visual_default(self) -> None:
         stale_exact_lines = (
@@ -70,7 +70,7 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
             "CURRENT_MAIN = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
             "PR_210_MERGED_MAIN_BASE = fd4e377c5a5203fb01c0d971e8ead474d618747f",
             "PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL",
-            "CURRENT_NEXT = USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES",
+            "CURRENT_NEXT = AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION",
         ):
             self.assertIn(marker, handoff)
         self.assertNotIn(

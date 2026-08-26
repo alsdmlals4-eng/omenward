@@ -9,7 +9,7 @@ current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 runtime_mutation: NONE
 balance_mutation: NONE
-visual_generation: USER_REQUEST_ONLY
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
 ## Current precedence

@@ -11,7 +11,7 @@ current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 implementation_authorized: true
 implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 implementation_execution: NOT_RESUMED
-visual_generation: USER_REQUEST_ONLY
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
 ## Current product promise

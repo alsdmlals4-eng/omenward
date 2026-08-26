@@ -2,7 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-26
-status: PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE
+status: AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 handoff_packet_state: PACKET_READY
 receiver_state: TRANSFER_ACCEPTED
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
@@ -12,15 +12,15 @@ current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
 current_approved_runtime_asset_pair: SHIELD_GUARD_IDLE_PAIR
 current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
-current_image_package_status: P0_REMAINDER_CANDIDATE_BATCH_READY_FOR_USER_REVIEW
-current_gate: P0_REMAINDER_CANDIDATE_BATCH_REVIEW
+current_image_package_status: P0_REMAINDER_SOURCES_AND_CLEANUP_MASTERS_STORED
+current_gate: AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION
 codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 sender_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 receiver_ack: docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md
 implementation_execution: NOT_RESUMED
-visual_generation_policy: USER_REQUEST_ONLY
-visual_generation: USER_REQUEST_ONLY
-image_generation: USER_REQUEST_ONLY
+visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
+visual_generation: AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
+image_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 runtime_validation: NOT_RUN
 human_player_evidence: NOT_RUN
 historical_premerge_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
@@ -58,12 +58,12 @@ APPROVED_VISUAL = OM-IMG-023
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 IMPLEMENTATION_EXECUTION = NOT_RESUMED
-PROJECT_ACTIVITY = PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE
+PROJECT_ACTIVITY = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
-CURRENT_NEXT = USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES
-IMAGE_GENERATION = USER_REQUEST_ONLY
-VISUAL_GENERATION = USER_REQUEST_ONLY
+CURRENT_NEXT = AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION
+IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
+VISUAL_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
 The 2026-08-25 Decision supersedes the long full-road default, `NO_MINIMAP`/minimap-not-required, standalone `ANIME_PIXEL_ART`, standalone `CLEAN_PIXEL_ART`, and North Star v2.1 as current layout. It retains three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower Control Deck, allied-vs-Veil contrast, 3×3 roulette/direct arrows, irreversible front commitment, `PREPARE -> COMMIT -> BATTLE -> REVIEW`, and silhouette-first troops.
@@ -144,7 +144,7 @@ idempotency:
 - PR #209 and PR #205 remain other-workstream read-only.
 - Base PR #693 is the independent proposal-only `BCP-2026-033-visual-canon-approval-and-handoff-integrity` workstream and remains read-only here.
 - Do not resume Issue #208 Run Command/Godot execution merely because handoff transfer is accepted.
-- Do not generate another image unless the user explicitly requests image generation.
+- Required images may be produced automatically under the current autonomous-image policy; existing Omenward visual language and dual storage remain mandatory.
 
 ## Read next
 

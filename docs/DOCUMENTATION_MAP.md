@@ -5,7 +5,7 @@ updated_at: 2026-08-26
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_status: PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE
 current_next_gate: USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES
-visual_generation: USER_REQUEST_ONLY
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 implementation_authorized: true
 implementation_execution: NOT_RESUMED
 ```

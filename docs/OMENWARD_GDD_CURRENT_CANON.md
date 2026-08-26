@@ -13,7 +13,7 @@ implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 implementation_execution: NOT_RESUMED
 current_chat_runtime: NOT_RUN
 human_player_evidence: NOT_RUN
-visual_generation: USER_REQUEST_ONLY
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
 이 문서는 현재 제품의 **통합 요약 GDD**다. 개별 규칙의 상세·예외·prototype range는 각 `APPROVED_OMENWARD_*` owner와 current Decision owner가 소유한다. 중복된 세부 수치를 이 문서에 독립 정본처럼 복제하지 않는다.

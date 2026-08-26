@@ -6,7 +6,7 @@ status: CURRENT_DOCUMENT_LIFECYCLE_REGISTRY
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_next_gate: USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES
-visual_generation: USER_REQUEST_ONLY
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 implementation_authorized: true
 implementation_execution: NOT_RESUMED
 ```
