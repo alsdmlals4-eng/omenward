@@ -9,6 +9,8 @@ ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ROUTER = ROOT / ".agents" / "skills" / "omenward-workflow-router" / "SKILL.md"
 SHARED = ROOT / "skills" / "SHARED_EXECUTION_CONTRACT.md"
 BASE_VERSION = ROOT / "docs" / "BASE_RULES_VERSION.md"
+ADAPTER_WORKFLOW = ROOT / ".github" / "workflows" / "validate-project-base-adapter.yml"
+CURRENT_BASE_MAIN = "edb3b3376603c9f6b00d64af3126304f8c9946bf"
 
 
 class R54WorkspaceAuthorityReconciliationTest(unittest.TestCase):
@@ -18,6 +20,7 @@ class R54WorkspaceAuthorityReconciliationTest(unittest.TestCase):
         cls.router = ROUTER.read_text(encoding="utf-8")
         cls.shared = SHARED.read_text(encoding="utf-8")
         cls.base_version = BASE_VERSION.read_text(encoding="utf-8")
+        cls.adapter_workflow = ADAPTER_WORKFLOW.read_text(encoding="utf-8")
 
     def test_adapter_uses_v2_identity_and_sheet_is_compatibility_only(self) -> None:
         self.assertEqual(self.adapter["schema_version"], 2)
@@ -47,6 +50,15 @@ class R54WorkspaceAuthorityReconciliationTest(unittest.TestCase):
         self.assertIn("PROJECT_BASE_ADOPTION_HISTORY", self.base_version)
         self.assertIn("CURRENT_BASE_AUTHORITY = FRESH_LATEST_COMPLETED_MAIN", self.base_version)
         self.assertIn("GOOGLE_SHEETS = COMPATIBILITY_ONLY", self.base_version)
+
+    def test_adapter_workflow_uses_current_base_validator_without_changing_release_pin(self) -> None:
+        self.assertIn(f"ref: {CURRENT_BASE_MAIN}", self.adapter_workflow)
+        self.assertNotIn("ref: bfdc9e44d4a6920dc085eaa3f9d19d31b1acd2a1", self.adapter_workflow)
+        self.assertEqual(self.adapter["base_release"]["version"], "9.4.3")
+        self.assertEqual(
+            self.adapter["base_release"]["release_commit"],
+            "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8",
+        )
 
 
 if __name__ == "__main__":
