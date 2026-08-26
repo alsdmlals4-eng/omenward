@@ -7,6 +7,7 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ROUTER = ROOT / ".agents" / "skills" / "omenward-workflow-router" / "SKILL.md"
+PROJECT_AGENTS = ROOT / "AGENTS.md"
 SHARED = ROOT / "skills" / "SHARED_EXECUTION_CONTRACT.md"
 BASE_VERSION = ROOT / "docs" / "BASE_RULES_VERSION.md"
 ADAPTER_WORKFLOW = ROOT / ".github" / "workflows" / "validate-project-base-adapter.yml"
@@ -18,6 +19,7 @@ class R54WorkspaceAuthorityReconciliationTest(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls.adapter = json.loads(ADAPTER.read_text(encoding="utf-8"))
         cls.router = ROUTER.read_text(encoding="utf-8")
+        cls.project_agents = PROJECT_AGENTS.read_text(encoding="utf-8")
         cls.shared = SHARED.read_text(encoding="utf-8")
         cls.base_version = BASE_VERSION.read_text(encoding="utf-8")
         cls.adapter_workflow = ADAPTER_WORKFLOW.read_text(encoding="utf-8")
@@ -36,11 +38,13 @@ class R54WorkspaceAuthorityReconciliationTest(unittest.TestCase):
         self.assertEqual(planning["current_human_workspace"], "NOTION_DEFAULT_PROJECT_WORKSPACE")
         self.assertEqual(planning["runtime_structured_authority"], "GITHUB_REPOSITORY_AND_ACTUAL_RUNTIME")
 
-    def test_router_fresh_reads_current_base_before_release_pin_validation(self) -> None:
-        self.assertIn("Base latest completed main", self.router)
-        self.assertIn("current Base `AGENTS.md`", self.router)
-        self.assertIn("release pin", self.router)
-        self.assertNotIn("Before selecting any route, run the project operating-contract validator", self.router)
+    def test_generated_router_remains_generator_owned_while_project_agents_owns_fresh_read(self) -> None:
+        self.assertIn("Resolve this project's Base shared and project-local Skills through its verified v9.1 operating contracts.", self.router)
+        self.assertIn("Before selecting any route, run the project operating-contract validator", self.router)
+        self.assertIn("fresh Base", self.project_agents)
+        self.assertIn("Project Notion Home", self.project_agents)
+        self.assertIn("Google Sheet", self.project_agents)
+        self.assertIn("current human authority", self.project_agents)
 
     def test_shared_execution_contract_does_not_treat_project_base_version_file_as_current_base_owner(self) -> None:
         self.assertIn("fresh Base latest completed main", self.shared)
