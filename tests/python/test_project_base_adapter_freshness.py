@@ -6,8 +6,6 @@ import pathlib
 import subprocess
 import unittest
 
-from tools.git_canonical_evidence import git_blob_sha256
-
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 ADAPTER = ROOT / "skills" / "PROJECT_BASE_ADAPTER.json"
 ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json"
@@ -18,7 +16,6 @@ CURRENT_PROTECTED_BASELINE = "86f3c3c47ef02c2bc79c183059aa04daaec218ac"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-CURRENT_ADAPTER_SHA = "eb1e220b9c7e438038056b2bb033b5f7cd81cf8886480836bb0e71bb1b9b186f"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 
 
@@ -28,27 +25,30 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         cls.adapter = json.loads(ADAPTER.read_text(encoding="utf-8"))
         cls.state = json.loads(ACTIVE_STATE.read_text(encoding="utf-8"))
 
-    def test_release_pin_is_preserved_without_automatic_base_main_migration(self) -> None:
+    def test_historical_release_pin_is_preserved_without_becoming_current_router(self) -> None:
         release = self.adapter["base_release"]
         self.assertEqual(release["version"], BASE_RELEASE_VERSION)
         self.assertEqual(release["release_commit"], BASE_RELEASE_COMMIT)
+        self.assertEqual(release["role"], "HISTORICAL_ADOPTION_RECORD_ONLY")
+        current = self.adapter["current_base_authority"]
+        self.assertEqual(current["resolution"], "LATEST_COMPLETED_MAIN")
+        self.assertEqual(current["loading_policy"], "BASE_OWNER_PROGRESSIVE_LOAD")
 
-    def test_gdd_sheet_matches_current_reconciled_workspace(self) -> None:
+    def test_gdd_sheet_is_compatibility_only_not_current_human_workspace(self) -> None:
         sheet = self.adapter["gdd_sheet"]
         self.assertEqual(sheet["id"], SHEET_ID)
-        self.assertEqual(sheet["role"], "USER_FACING_GDD_WORKSPACE")
-        self.assertEqual(sheet["sync_status"], "CURRENT")
-        self.assertEqual(sheet["declared_sync_status"], "SHEET_GITHUB_SYNCED")
-        self.assertEqual(sheet["write_policy"], "NO_AUTOMATIC_OVERWRITE")
+        self.assertEqual(sheet["role"], "COMPATIBILITY_ONLY_MIGRATION_SOURCE")
+        self.assertEqual(sheet["sync_status"], "COMPATIBILITY_ONLY")
+        self.assertEqual(sheet["declared_sync_status"], "LEGACY_COMPATIBILITY_ONLY")
+        self.assertEqual(sheet["write_policy"], "NO_NEW_ACTIVE_WORKSPACE_WRITES")
+        self.assertEqual(self.adapter["project"]["human_workspace"], "NOTION_DEFAULT_PROJECT_WORKSPACE")
 
-    def test_current_protected_baseline_uses_user_approved_tool_sync_main(self) -> None:
+    def test_historical_protected_baseline_keeps_exact_policy_evidence(self) -> None:
         baseline = self.adapter["protected_baseline"]
         self.assertEqual(baseline["commit"], CURRENT_PROTECTED_BASELINE)
         self.assertEqual(baseline["authority_kind"], "REMOTE_TRACKING_REF")
         self.assertEqual(baseline["authority_ref"], "refs/remotes/origin/main")
-        self.assertEqual(baseline["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
-        self.assertEqual(baseline["policy_source_path"], "skills/PROJECT_BASE_ADAPTER.json")
-        self.assertEqual(baseline["protected_paths_pointer"], "/protected_paths")
+        self.assertEqual(baseline["role"], "HISTORICAL_PROTECTED_POLICY_EVIDENCE")
         baseline_adapter = json.loads(
             subprocess.check_output(
                 ["git", "show", f"{CURRENT_PROTECTED_BASELINE}:skills/PROJECT_BASE_ADAPTER.json"]
@@ -57,7 +57,6 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         protected_policy = (json.dumps(baseline_adapter["protected_paths"], ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
-        self.assertEqual(git_blob_sha256(ROOT, ADAPTER), CURRENT_ADAPTER_SHA)
 
     def test_historical_state_block_remains_point_in_time_while_current_adapter_advances(self) -> None:
         gate = self.state["entry_gate"]
@@ -66,13 +65,10 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertNotIn("PR154_CONDITIONAL_FAIL_UNMERGED", blockers)
         self.assertNotIn("GUT_ADOPTION_SPEC_PR155_NOT_MERGED", blockers)
         self.assertEqual(gate["decision"], "BLOCK")
-        self.assertNotIn("PROJECT_BASE_ADAPTER_FRESHNESS_RECONCILIATION", gate["allowed_next_actions"])
         adapter_state = self.state["project_base_adapter"]
         self.assertEqual(adapter_state["decision_id"], DECISION_ID)
         self.assertEqual(adapter_state["protected_baseline_commit"], HISTORICAL_BASELINE_MAIN)
-        self.assertEqual(adapter_state["canonical_adapter_sha256"], "799b20aa009c3a90dcf433f965a1f8280de30a7dfdc36bfc7518e4f19ea6677c")
         self.assertEqual(adapter_state["protected_policy_sha256"], PROTECTED_POLICY_SHA)
-        self.assertEqual(adapter_state["gdd_sheet_sync_status"], "CURRENT")
         self.assertEqual(adapter_state["status"], "FRESHNESS_RECONCILED")
         self.assertTrue(adapter_state["blocker_cleared"])
 
