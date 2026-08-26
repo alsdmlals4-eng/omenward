@@ -16,8 +16,13 @@ current_reference_asset: OM-IMG-023
 current_approved_runtime_asset_source: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
 current_next_brief: OMW-ASSET-BRIEF-20260826-VEIL-SHIELD-GUARD-01
 goal_queue: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-goal_queue_status: PROPOSED_FOR_USER_REVIEW
+goal_queue_status: USER_APPROVED_B_CURRENT
+current_gate: IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
 ```
+
+## 0.1 User decision · B approval
+
+`OMW-IMG-QUEUE-APPROVAL-20260826-B-01` · 사용자 입력 `B안 승인`으로 B안이 현재 승인되었습니다. 범위는 P0와 current-consumer P1의 승인·cleanup·Implementation Ready까지이며, P2/P3 선제 제작과 Codex/Godot 실행은 승인하지 않습니다. 다음 단계는 Veil Shield Guard의 단일 최종 텍스트 브리프 확인이며, 실제 이미지 생성에는 별도 명시 승인이 필요합니다.
 
 ## 1. Production rule
 
