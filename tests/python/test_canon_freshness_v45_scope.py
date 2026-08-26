@@ -160,6 +160,7 @@ CURRENT_MAIN_ROUTER_HANDOFF_SYNC = {
 # no product source, no broad documentation surface, and no unrelated workflow change.
 R54_WORKSPACE_AUTHORITY_RECONCILIATION = {
     ".agents/skills/omenward-workflow-router/SKILL.md",
+    ".github/workflows/validate-project-base-adapter.yml",
     "docs/BASE_RULES_VERSION.md",
     "docs/PROJECT_OPERATING_DASHBOARD.html",
     "skills/BASE_V9_ADAPTER.json",
