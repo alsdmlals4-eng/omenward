@@ -1,10 +1,12 @@
-# OMENWARD · Image Production Master Checklist
+# OMENWARD · Runtime Consumer Image Asset Master Checklist
 
 ```yaml
 tracker_id: OMW-VIS-TRACKER-20260826-MASTER-01
-status: CURRENT_PLANNING_CHECKLIST
-created_at: 2026-08-26
-scope: PLANNING_AND_IMAGE_PRODUCTION_TRACKING_ONLY
+policy_id: OMW-VIS-POLICY-20260826-RUNTIME-CONSUMER-ASSET-FIRST-01
+status: USER_APPROVED_CURRENT
+approved_at: 2026-08-26
+approval_basis: USER_DIRECT_INSTRUCTION
+scope: PLANNING_AND_GAME_CONSUMED_IMAGE_ASSET_TRACKING
 current_user_work_mode: PLANNING_PLUS_IMAGE_ONLY
 product_code_mutation: NONE
 godot_execution: NOT_IN_SCOPE
@@ -12,204 +14,408 @@ codex_execution: NOT_IN_SCOPE
 image_generation: NOT_STARTED
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_reference_asset: OM-IMG-023
-source_brief_package: OMW-VIS-BRIEF-20260826-CORE-PLAYER-FLOW-3PACK-01
 ```
 
-## 1. 목적
+## 1. 사용자 승인 제작 원칙
 
-이 문서는 OMENWARD에서 앞으로 제작해야 할 이미지의 **마스터 제작 관리표**다. 새 gameplay Decision을 만들지 않으며, 기존 Visual Requirement Inventory의 `OMW-VIS-001~012` 계보를 가능한 한 재사용한다.
-
-2026-08-25 이후 새로 필수가 된 항목은 아직 영구 Asset ID를 임의 확정하지 않고 `TRACK-*` 제작 키로 관리한다. 실제 이미지가 승인될 때 필요한 경우 별도 Asset ID/Decision 승격을 검토한다.
-
-Google Sheet는 현재 compatibility/history-only이며 이 체크리스트의 current authority가 아니다.
-
-## 2. 공통 현재 Visual LOCK
-
-모든 신규 이미지에서 다음을 우선한다.
+OMENWARD의 이미지 제작 백로그에는 **실제 게임 소비처가 있는 이미지 자산만** 넣는다.
 
 ```text
-BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
-PER_FRONT_MINIMAP = REQUIRED
-MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
+NO_RUNTIME_CONSUMER = NO_IMAGE_PRODUCTION_TASK
+EXPLANATION_SHEET = PLANNING_REFERENCE_ONLY
+FULL_SCREEN_MOCKUP = PLANNING_REFERENCE_ONLY
+COMPARISON_BOARD = PLANNING_REFERENCE_ONLY
+RUNTIME_TEXTURE_OR_SPRITE_OR_ICON_OR_VFX = IMAGE_PRODUCTION_CANDIDATE
+```
+
+이미지 한 건을 제작 목록에 넣으려면 최소 하나의 실제 소비처를 말할 수 있어야 한다.
+
+허용 소비 형태 예:
+
+```text
+Sprite2D / AnimatedSprite2D
+TextureRect / NinePatchRect
+Button / TextureButton icon
+Roulette token texture
+HUD / Forecast / Review icon
+Minimap marker
+Character portrait actually shown by the game
+Battlefield / building / environment texture
+VFX sprite sheet / flipbook / effect texture
+```
+
+기획자가 보기 위한 전체 화면 시안, 규칙 설명 시트, 실루엣 비교판, faction 비교 보드 자체는 이 목록에서 생성하지 않는다.
+
+## 2. 관리 방식 대안 검토
+
+### A · Runtime-consumer asset first — USER APPROVED
+
+각 자산에 `실제 소비처`, `재사용 관계`, `선행 정본`을 붙인다. 게임에서 직접 쓰지 않는 이미지는 생성하지 않는다.
+
+장점:
+- 생성 결과가 바로 제품 자산 후보가 된다.
+- 설명용 산출물에 이미지 제작 비용을 쓰지 않는다.
+- 같은 unit art를 Battlefield → Token → Storage → COMMIT에서 재사용할 수 있다.
+
+### B · Explanation-sheet first — REJECTED
+
+전체 화면 mockup, component sheet, silhouette board를 먼저 이미지로 제작한다.
+
+거부 이유:
+- 게임이 직접 소비하지 않는 파일이 쌓인다.
+- 실제 sprite/icon 제작과 별개의 시각 계보가 생긴다.
+- 승인된 설명 이미지가 구현 자산인 것처럼 오인될 수 있다.
+
+### C · Runtime asset + explanation sheet 한 목록 혼합 — REJECTED FOR PRODUCTION TRACKER
+
+기획용 이미지와 실제 제품 자산을 같은 상태표에서 관리한다.
+
+거부 이유:
+- `APPROVED`가 디자인 승인인지 게임 자산 승인인지 모호해진다.
+- 우선순위와 완료 정의가 서로 다르다.
+
+기획용 composition 문서는 보존하되 production tracker 밖에서 reference로만 사용한다.
+
+## 3. 현재 Visual LOCK
+
+모든 실제 게임 자산은 다음을 따른다.
+
+```text
 VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
 UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
-BATTLEFIELD = PRIMARY
-LOWER_CONTROL_DECK = SECONDARY
-COMMANDER_ROLE = OMEN_WARDEN_COMMANDER_NOT_MELEE_HERO
+ALLY = NAVY + IVORY + COOL_GRAY_METAL + RESTRAINED_GOLD
+VEIL = BLACK_PURPLE + DARK_RED + CARAPACE_GRAY + LIMITED_RIFT_GLOW
+ALLY_SHAPES = ARCH + SHIELD + BANNER + RELIC + VERTICAL_LINES
+VEIL_SHAPES = ASYMMETRIC_RIFT + CARAPACE + SPIKE + VOID_APERTURE
+COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
+ROLE_SILHOUETTE_FIRST = TRUE
 CASINO_SLOT_MACHINE_LANGUAGE = FORBIDDEN
 ```
 
-과거 `LONG_FULL_ROAD_PRESENTATION`, `NO_MINIMAP`, standalone `ANIME_PIXEL_ART`, standalone `CLEAN_PIXEL_ART`가 충돌하면 현재 Visual Decision이 우선한다.
+`OM-IMG-023`은 **방향 reference**다. 그 자체를 게임 화면 background로 사용하거나 재생성 대상으로 보지 않는다.
 
-## 3. 상태 정의
+## 4. 생산 목록에서 제외되는 기존 Visual 항목
 
-| 상태 | 의미 |
-|---|---|
-| `REFERENCE_APPROVED` | 이미 승인된 기준 이미지. 새 생성 대상 아님 |
-| `BRIEF_READY` | 목적·구도·금지요소·검수표가 준비됨 |
-| `NEEDS_BRIEF` | 제작 필요성이 확인됐지만 생성용 브리프 미완성 |
-| `REBRIEF_REQUIRED` | 과거 브리프가 현행 Visual Decision과 충돌하여 다시 작성 필요 |
-| `CANON_RECHECK` | 생성 전 최신 gameplay/수량/구조 정본 재확인 필요 |
-| `BACKLOG` | 후속 제작 대상 |
-| `GENERATING` | 이미지 1장 생성 중 |
-| `USER_REVIEW` | 생성본 사용자 검수 중 |
-| `APPROVED_CURRENT` | 사용자 승인 후 current visual lineage에 등록됨 |
-| `REVISE` | 같은 브리프 기준 수정 필요 |
-| `REJECTED_NOT_CANON` | 미승인. 구현/reference 승격 금지 |
+다음 ID는 gameplay/UI composition 검증용 계보로 보존하지만 **이미지 생성 production queue에서는 제외**한다.
 
-## 4. 제작 완료 정의
+| ID | 과거 의미 | 현재 처리 |
+|---|---|---|
+| `OMW-VIS-001` | PREPARE 전체 화면 시안 | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-002` | COMMIT 전체 화면 시안 | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-003` | BATTLE 전체 화면 시안 | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-004` | REVIEW 전체 화면 시안 | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-005` | Battlefield clean plate 설명 시안 | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-006` | Triple Omen Wheels 설명 close-up | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-009` | Building silhouette board | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-010` | Troop silhouette lineup | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-011` | Ally vs Veil comparison board | `PLANNING_REFERENCE_ONLY` |
+| `OMW-VIS-012` | FTUE cue sheet | `PLANNING_REFERENCE_ONLY` |
 
-이미지 한 건은 아래가 모두 끝나야 `APPROVED_CURRENT`다.
-
-- [ ] current GitHub + Notion visual canon fresh-read
-- [ ] 해당 이미지 브리프 준비
-- [ ] 선행 이미지/컴포넌트가 필요한 경우 승인 상태 확인
-- [ ] 정확히 1개 candidate 생성
-- [ ] 이미지별 체크리스트 검수
-- [ ] 사용자 `APPROVE / REVISE / REJECT` 판정
-- [ ] 승인본만 Visual Bible / Asset Library / 관련 Flow에 등록
-- [ ] destination readback
-- [ ] runtime/human evidence와 이미지 승인 evidence를 혼동하지 않음
+`OMW-VIS-007` Omen Signature와 `OMW-VIS-008` Mobilization Seal은 **설명 시트 자체는 만들지 않지만**, 그 안에서 필요했던 실제 runtime icon/seal 자산은 아래 소비처 기반 목록으로 재정의한다.
 
 ---
 
-# 5. MASTER TABLE
+# 5. P0 · 실제 게임 핵심 소비 자산
 
-## Reference · 이미 승인된 기준
+## 5.1 전투 유닛 Sprite Sheet · 현재 데이터가 증명하는 20 visual slots
 
-| 순서 | Priority | ID | 이미지 | 목적 | 현재 상태 | 다음 Gate |
-|---:|---|---|---|---|---|---|
-| R0 | REF | `OM-IMG-023` | Front-State + Per-Front Minimap + SD Fantasy 승인 시안 | 모든 후속 이미지의 현재 방향 기준 | `REFERENCE_APPROVED` | 재생성하지 않고 reference로 사용 |
+현재 bootstrap data는 10 archetype과 `lumern / veil` 두 visual faction을 갖는다. 따라서 현재 증명 가능한 기본 전투 visual slot은 **10 × 2 = 20개**다.
 
-## P0 · Core Player Experience · 먼저 제작
-
-| 순서 | Priority | ID / Tracker Key | 이미지 | 핵심 검증 목적 | 선행조건 | Brief | 생성 | 사용자 승인 | 다음 Gate |
-|---:|---|---|---|---|---|---|---|---|---|
-| 1 | P0 | `OMW-VIS-003` | Main Battle / BATTLE Focus | 세 Front-State 동시 비교, 미니맵 3개, 병종 실루엣, 전투 가독성 | `OM-IMG-023` | `BRIEF_READY` | ☐ | ☐ | **현재 첫 생성 대상** |
-| 2 | P0 | `OMW-VIS-001` | PREPARE / Roulette STOPPED-MANIPULATE | 3×3 + 12 direct arrows + preview + 결과 확정, 전장 지속 맥락 | 1번 시각 언어 승인 권장 | `BRIEF_READY` | ☐ | ☐ | 1번 승인 후 생성 |
-| 3 | P0 | `OMW-VIS-002` | COMMIT / Irreversible Front Assignment | 병력→세 전선 PENDING 계획→atomic confirm의 비가역 판단 | 1~2번 승인 권장 | `BRIEF_READY` | ☐ | ☐ | 2번 승인 후 생성 |
-| 4 | P0 | `TRACK-P0-3X3-COMPONENT` | 3×3 Roulette Component Sheet | 3×3 token grammar, 정확히 12 arrows, judging line, preview/confirm 상태 고정 | `OMW-VIS-001` 승인 | `NEEDS_BRIEF` | ☐ | ☐ | PREPARE 화면에서 실제 문법 추출 |
-| 5 | P0 | `TRACK-P0-MINIMAP-RULES` | Per-Front Minimap Rule Sheet | progress/stronghold/clash/route exception 문법과 금지 예시 고정 | `OMW-VIS-003` 승인 | `NEEDS_BRIEF` | ☐ | ☐ | Main Battle에서 미니맵 문법 추출 |
-| 6 | P0 | `OMW-VIS-004` | REVIEW Focus Mode | Forecast→Prepare→Commit→Key Event→Result 인과 설명 | 1~3번 승인 | `NEEDS_BRIEF` | ☐ | ☐ | Core 3-Pack 완료 후 브리프 |
-| 7 | P0 | `OMW-VIS-005` | Ward Citadel / Battlefield Clean Plate | UI 없이 세계/전장 구조와 공간 문법 확인 | 현재 Front-State Decision | `REBRIEF_REQUIRED` | ☐ | ☐ | 과거 long-road clean plate 의미를 현행 Front-State 기준으로 재정의 |
-
-### P0 완료 Gate
-
-- [ ] `OMW-VIS-003` 승인
-- [ ] `OMW-VIS-001` 승인
-- [ ] `OMW-VIS-002` 승인
-- [ ] 3×3 component grammar 분리 확인
-- [ ] per-front minimap grammar 분리 확인
-- [ ] REVIEW 화면 브리프 준비
-- [ ] clean plate가 과거 long-road 정본을 되살리지 않음
-
----
-
-## P1 · Production Readability · 핵심 3장 이후
-
-| 순서 | Priority | ID / Tracker Key | 이미지 | 목적 | 상태 | 생성 전 확인 |
-|---:|---|---|---|---|---|---|
-| 8 | P1 | `OMW-VIS-006` | Triple Omen Wheels / Command Device Close-up | 세 릴의 세계관 장치성, 3전선 1:1 비대응, 카지노 문법 회피 | `REBRIEF_REQUIRED` | 현행 3×3 player-facing 조작면과 물리 3-reel 세계관 관계 재확인 |
-| 9 | P1 | `OMW-VIS-007` | Omen Signature Icon Sheet | MASS / ARMORED / FLYING / INFILTRATION / SIEGE 형태 구분 | `NEEDS_BRIEF` | 현행 Signature 명칭/개수 fresh-read |
-| 10 | P1 | `OMW-VIS-008` | Mobilization Seal / TokenSource Feedback | 건물→동원 확률/인장 기여의 인과 시각화 | `NEEDS_BRIEF` | 현행 building→roulette 기여 계약 fresh-read |
-| 11 | P1 | `OMW-VIS-009` | Building Family Silhouette Board | 건물 종류와 Tier 성장 식별 | `CANON_RECHECK` | **과거 Inventory의 `7 building family`와 후속 기획의 건물 수 표현 충돌 가능성부터 해소** |
-| 12 | P1 | `OMW-VIS-010` | Troop Archetype Silhouette Lineup | 전략 줌에서 병종 역할을 실루엣으로 구분 | `NEEDS_BRIEF` | 현행 병종 목록/role count fresh-read 후 확정 |
-| 13 | P1 | `OMW-VIS-011` | Ally vs Veil Faction Pair Board | 색만이 아니라 형태 언어로 진영 구분 | `NEEDS_BRIEF` | 현재 ally/Veil palette + shape language 적용 |
-| 14 | P1 | `TRACK-P1-OMEN-WARDEN` | Omen Warden Commander Sheet | 긴 지휘 깃발, 갑주/외투, 지휘 포즈, melee hero 오독 방지 | `NEEDS_BRIEF` | `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` |
-| 15 | P1 | `OMW-VIS-012` | Stage 1 FTUE Build-group Cue Sheet | 첫 세션의 build-group 단계적 강조 | `CANON_RECHECK` | 현행 FTUE/건물 수/Stage 1 flow fresh-read |
-
-### P1 완료 Gate
-
-- [ ] Omen Wheel이 slot machine으로 읽히지 않음
-- [ ] Signature 5종이 색 없이도 구분됨
-- [ ] 건물→동원 확률 기여가 설명 가능함
-- [ ] 현행 건물 목록 확정 뒤 building board 승인
-- [ ] 현행 병종 목록 확정 뒤 troop lineup 승인
-- [ ] Ally / Veil shape language 승인
-- [ ] Omen Warden silhouette 승인
-- [ ] FTUE cue가 current first-session flow와 일치
-
----
-
-## P2 · Content Expansion · 후속 제작
-
-아래는 과거 Visual Requirement Inventory에서 명시된 후속 이미지다. 영구 Asset ID는 아직 부여하지 않는다.
-
-| 순서 | Priority | Tracker Key | 이미지 | 목적 | 상태 | 선행조건 |
-|---:|---|---|---|---|---|---|
-| 16 | P2 | `TRACK-P2-HIGH-GRADE-HIERARCHY` | Elite / Hero / Legendary / Mythic Boss Hierarchy Board | 등급·체급·연출 위계 | `BACKLOG` | 현행 고등급/보스 visual budget 확정 |
-| 17 | P2 | `TRACK-P2-MERCHANT-REWARD` | Merchant / Reward / Growth Surface | Stage 종료 보상·상인·성장 화면 | `BACKLOG` | REVIEW/maintenance flow 승인 |
-| 18 | P2 | `TRACK-P2-SPECIAL-BARRACKS` | Special Barracks T1 Reveal + T2 Specialization | 특수 병영 선택 구조 설명 | `CANON_RECHECK` | 현행 barracks role/output 기획 재확인 |
-| 19 | P2 | `TRACK-P2-ASSASSIN-WARNING` | Assassin Bypass / Omen-Fog Warning | 침투 위협의 사전 경고 표현 | `BACKLOG` | infiltration Signature/route cue 확정 |
-| 20 | P2 | `TRACK-P2-GATE-SIEGE-VFX` | Gate Damage / Siege Warning / Capture State VFX Sheet | 거점 피해·공성·위기 상태를 전장에서 읽기 | `BACKLOG` | per-front minimap + battle VFX 문법 승인 |
-| 21 | P2 | `TRACK-P2-BIOME-WARD-KIT` | Biome / Ward Citadel Expansion Kit | 맵/환경 확장 시 동일 세계관 유지 | `BACKLOG` | clean plate + faction/environment language 승인 |
-
----
-
-# 6. 현재 실제 작업 Queue
+각 archetype의 현재 animation contract 상태명:
 
 ```text
-NOW
-1. OMW-VIS-003 · Main Battle
-
-THEN
-2. OMW-VIS-001 · PREPARE Roulette
-3. OMW-VIS-002 · COMMIT
-
-AFTER_CORE_3PACK
-4. TRACK-P0-3X3-COMPONENT
-5. TRACK-P0-MINIMAP-RULES
-6. OMW-VIS-004 · REVIEW
-7. OMW-VIS-005 · Current Front-State Clean Plate
-
-THEN_PRODUCTION_READABILITY
-P1 sequence
-
-LATER
-P2 content expansion
+deploy
+idle
+move
+attack_basic
+skill_1
+hit_light
+death
+victory
 ```
 
-## 7. 한 장씩 생성하는 운영 규칙
+정확한 프레임 수, FPS, sheet geometry는 지금 승인하지 않는다.
 
-```text
-ONE CURRENT ITEM
-→ fresh-read its brief/canon
-→ generate ONE candidate
-→ checklist review
-→ USER APPROVE / REVISE / REJECT
-→ only approved candidate is registered
-→ advance tracker
-```
+### 최초 스타일 잠금 Pair
+
+| 순서 | Tracker Key | 실제 자산 | Primary consumer | Secondary consumer | 상태 |
+|---:|---|---|---|---|---|
+| 1 | `ASSET-UNIT-LUMERN-SHIELD-GUARD` | Lumern Shield Guard sprite sheet | Battlefield UnitView | Roulette token crop / Storage / COMMIT | `NEXT_BRIEF` |
+| 2 | `ASSET-UNIT-VEIL-SHIELD-GUARD` | Veil Shield Guard sprite sheet | Battlefield UnitView | enemy preview / battle read | `NEXT_AFTER_1` |
+
+두 자산으로 **아군/Veil shape language + 2.5~3등신 + 역할 실루엣 + pixel density**를 먼저 잠근다.
+
+### 같은 문법으로 후속 제작할 unit assets
+
+- [ ] `ASSET-UNIT-LUMERN-GREATSWORD`
+- [ ] `ASSET-UNIT-VEIL-GREATSWORD`
+- [ ] `ASSET-UNIT-LUMERN-SPEAR`
+- [ ] `ASSET-UNIT-VEIL-SPEAR`
+- [ ] `ASSET-UNIT-LUMERN-ARCHER`
+- [ ] `ASSET-UNIT-VEIL-ARCHER`
+- [ ] `ASSET-UNIT-LUMERN-CAVALRY`
+- [ ] `ASSET-UNIT-VEIL-CAVALRY`
+- [ ] `ASSET-UNIT-LUMERN-PRIEST`
+- [ ] `ASSET-UNIT-VEIL-PRIEST`
+- [ ] `ASSET-UNIT-LUMERN-MAGE`
+- [ ] `ASSET-UNIT-VEIL-MAGE`
+- [ ] `ASSET-UNIT-LUMERN-ASSASSIN`
+- [ ] `ASSET-UNIT-VEIL-ASSASSIN`
+- [ ] `ASSET-UNIT-LUMERN-FLIER`
+- [ ] `ASSET-UNIT-VEIL-FLIER`
+- [ ] `ASSET-UNIT-LUMERN-GIANT`
+- [ ] `ASSET-UNIT-VEIL-GIANT`
+
+상태: `WAITING_FIRST_PAIR_STYLE_LOCK`.
+
+### Unit production 완료 정의
+
+- [ ] 실제 Battlefield unit용 full sprite/animation source
+- [ ] role silhouette가 작은 전략 줌에서도 읽힘
+- [ ] Ally/Veil이 단순 색변경이 아님
+- [ ] 승인된 unit art에서 Roulette token crop을 만들 수 있음
+- [ ] 별도 token-only 캐릭터를 새로 그리지 않음
+- [ ] `OM-IMG-023`의 SD/Fantasy/Magic 방향과 일치
+
+---
+
+## 5.2 Roulette / Storage / COMMIT 실제 Texture 자산
+
+병종 Token은 **실제 unit art 재사용**이 current contract다. 그러므로 병종별 token-only character illustration은 만들지 않는다.
+
+| Tracker Key | 실제 자산 | 소비처 | 제작 방식 | 상태 |
+|---|---|---|---|---|
+| `ASSET-TOKEN-UNIT-CROPS` | T1/T2 unit Role-Anchor crops | 3×3 Roulette / Result / Storage / COMMIT | approved unit art에서 파생 | `DERIVED_NOT_NEW_CHARACTER_ART` |
+| `ASSET-TOKEN-GOLD` | Gold icon/coin texture | HUD / reward / Gold Roulette token | 하나의 shared Gold asset | `NEEDS_BRIEF` |
+| `ASSET-TOKEN-X` | empty X / non-reward rune | Roulette 3×3 | 전용 small texture | `NEEDS_BRIEF` |
+| `ASSET-TOKEN-FRAME` | common token frame | Roulette / Result / Storage / COMMIT | NinePatch/atlas 후보 | `NEEDS_BRIEF` |
+| `ASSET-TOKEN-STATE-OVERLAY` | focus / preview / judging / completed-line overlay | Roulette 3×3 | frame/underlay 기반 | `NEEDS_BRIEF` |
 
 금지:
+- rarity마다 별도 gacha frame 생성
+- unit token 전용 캐릭터 일러스트
+- Gold를 premium currency처럼 제작
 
-- 여러 이미지를 한꺼번에 생성해서 서로 다른 시각 문법을 확산시키기
-- 사용자 승인 전 `APPROVED_CURRENT` 처리
-- 이미지가 예쁘다는 이유만으로 gameplay/UX drift 허용
-- runtime/human usability를 이미지 승인만으로 PASS 처리
-- 오래된 Visual Inventory의 `NO_MINIMAP`, long-road, 과거 art-style 표현을 current로 부활시키기
+---
 
-## 8. 현재 체크 상태
+## 5.3 Omen / HUD / Minimap 실제 Icon 자산
+
+| Tracker Key | 실제 자산 | 실제 소비처 | 상태 |
+|---|---|---|---|
+| `ASSET-OMEN-MASS` | MASS Signature icon | Forecast / BATTLE / REVIEW | `NEEDS_BRIEF` |
+| `ASSET-OMEN-ARMORED` | ARMORED Signature icon | Forecast / BATTLE / REVIEW | `NEEDS_BRIEF` |
+| `ASSET-OMEN-FLYING` | FLYING Signature icon | Forecast / BATTLE / REVIEW / minimap context | `NEEDS_BRIEF` |
+| `ASSET-OMEN-INFILTRATION` | INFILTRATION Signature icon | Forecast / BATTLE / REVIEW / minimap context | `NEEDS_BRIEF` |
+| `ASSET-OMEN-SIEGE` | SIEGE Signature icon | Forecast / BATTLE / REVIEW / minimap context | `NEEDS_BRIEF` |
+| `ASSET-HUD-MANA` | Mana icon | top HUD / Tactical cost context | `NEEDS_BRIEF` |
+| `ASSET-HUD-TROOP-CAPACITY` | troop capacity icon | top HUD | `NEEDS_BRIEF` |
+| `ASSET-MINIMAP-MARKERS` | stronghold / clash / route / Boss / Siege marker atlas | per-front minimap | `NEEDS_BRIEF` |
+
+Gold는 `ASSET-TOKEN-GOLD`를 HUD에서도 재사용한다.
+
+색만으로 상태를 구분하지 않는다.
+
+---
+
+## 5.4 3×3 Omen Workbench 실제 UI Texture
+
+전체 PREPARE 화면을 한 장으로 만들지 않는다. 실제 UI가 소비할 부분만 제작한다.
+
+| Tracker Key | 실제 자산 | 소비처 | 상태 |
+|---|---|---|---|
+| `ASSET-ROULETTE-BOARD-FRAME` | 3×3 exposure board/frame | Roulette Focus | `NEEDS_BRIEF` |
+| `ASSET-ROULETTE-ARROW` | direct manipulation arrow icon | row/column controls; rotation reuse | `NEEDS_BRIEF` |
+| `ASSET-OMEN-DEVICE` | Omen/reel/seal command-device textures | PREPARE Roulette Focus | `NEEDS_BRIEF` |
+
+가능하면 한 arrow texture를 회전/flip하여 12개 control에서 재사용한다. UI text는 이미지에 bake하지 않는다.
+
+단순 Panel/Button으로 충분한 영역은 **이미지를 억지로 만들지 않고 Godot Theme/primitive 후보로 남긴다**.
+
+---
+
+## 5.5 실제 건물 Sprite · 현재 FTUE에서 직접 확인되는 6 base families
+
+현행 Text UX Stage 1은 다음 여섯 시설을 실제 플레이어 건설 대상으로 명시한다.
+
+- [ ] `ASSET-BUILDING-VAULT` · 금고
+- [ ] `ASSET-BUILDING-FARM` · 농장
+- [ ] `ASSET-BUILDING-BARRACKS` · 병영
+- [ ] `ASSET-BUILDING-DEFENSE-TOWER` · 방어탑
+- [ ] `ASSET-BUILDING-COMMAND-POST` · 지휘소
+- [ ] `ASSET-BUILDING-MANA-TOWER` · 마력탑
+
+실제 소비처:
+- Ward Citadel/world building sprite
+- Build 선택 thumbnail은 가능하면 같은 building art를 crop/reuse
+- T2 전문화 preview는 동일 계열 art를 기반으로 후속 확장
+
+현재 `Special Barracks` 등 과거 7-family 표현은 이 목록에 자동 포함하지 않는다. current canon 재확인 전 `NOT_IN_PRODUCTION_QUEUE`.
+
+T2/T3 exact branch sprite 수는 최신 specialization canon fresh-read 후 별도 확장한다.
+
+---
+
+## 5.6 Battlefield / Ward 실제 Environment 자산
+
+전체 BATTLE 화면 스크린샷이 아니라 전장에서 조립해 쓰는 자산을 제작한다.
+
+| Tracker Key | 실제 자산 | 소비처 | 상태 |
+|---|---|---|---|
+| `ASSET-ENV-FRONT-TERRAIN` | current biome ground / combat-band tiles or plate | three Front-State world views | `NEEDS_BRIEF` |
+| `ASSET-ENV-WARD-STRONGHOLD` | allied stronghold / defense-line visual | Front-State / minimap reference | `NEEDS_BRIEF` |
+| `ASSET-ENV-VEIL-ANCHOR` | Veil rift/front anchor visual | Front-State world | `NEEDS_BRIEF` |
+| `ASSET-ENV-OUTPOST-ROUTE-PROPS` | outpost / route landmark props | Front-State spatial reading | `NEEDS_BRIEF` |
+
+미니맵의 전체 배경을 별도 그림으로 복제하지 않는다. 실제 world state에서 필요한 context marker를 조합하는 방향이 우선이다.
+
+---
+
+## 5.7 Omen Warden 실제 Character 자산
+
+| Tracker Key | 실제 자산 | 소비처 | 상태 |
+|---|---|---|---|
+| `ASSET-COMMANDER-OMEN-WARDEN` | 긴 지휘 깃발을 든 Omen Warden command sprite/half-body source | PREPARE / COMMIT / Ward command context | `NEEDS_BRIEF` |
+
+대형 상시 전투 초상은 만들지 않는다. 실제 UI/장면에서 필요한 크롭은 이 source에서 파생한다.
+
+---
+
+# 6. P1 · P0 문법 승인 뒤 실제 소비 자산
+
+## Combat / Roulette VFX
+
+- [ ] `ASSET-VFX-DEPLOY` · 병력 배치/증원 VFX → Battlefield deployment
+- [ ] `ASSET-VFX-HIT` · hit feedback → Unit battle
+- [ ] `ASSET-VFX-MAGIC` · magic/skill effect family → skill runtime, exact skill canon 필요
+- [ ] `ASSET-VFX-ROULETTE-SNAP` · row/column move snap → Roulette
+- [ ] `ASSET-VFX-LINE-LOCK` · judging / completed line → Roulette
+- [ ] `ASSET-VFX-REWARD-REVEAL` · acquired troop reveal → Result/Storage transition
+- [ ] `ASSET-VFX-SIEGE-WARNING` · siege urgency → Front-State / minimap context
+- [ ] `ASSET-VFX-CAPTURE-GATE-DAMAGE` · stronghold damage/capture feedback → Battlefield
+
+모든 항목은 sprite/flipbook/texture가 실제로 필요한 경우에만 이미지 생성한다. Shader/primitive가 더 적절하면 production asset 목록에서 제거한다.
+
+## Tier / Rank variants
+
+- Unit T2/Tier visual variants
+- Building T2/T3 specialization visuals
+- Elite / Hero / Legendary visual overlays or unit variants
+
+현재 정확 수량은 `CANON_RECHECK`; 먼저 base unit/building art 문법을 잠근다.
+
+---
+
+# 7. P2 · 실제 소비처가 확정될 때만 추가
+
+- Boss 5/10/15/20 actual battle sprites/effects
+- Merchant character/portrait actually shown in REVIEW.MAINTENANCE
+- Bellu guide portrait/sprite if current player-facing guide surface is reconfirmed
+- additional biome/environment tile sets
+- named Hero/Legendary character variants if current canon reconfirms them
+- map/settlement/background illustrations only when a concrete game screen consumes them
+
+설명용 `boss hierarchy board`, `faction pair board`, `biome kit sheet`는 만들지 않는다. 필요한 개별 자산만 만든다.
+
+---
+
+# 8. 현재 실제 제작 Queue
 
 ```text
-REFERENCE_OM_IMG_023 = APPROVED
-MASTER_CHECKLIST = READY
-OMW_VIS_003_BRIEF = READY
-OMW_VIS_003_GENERATION = NOT_STARTED
-OMW_VIS_001_BRIEF = READY
-OMW_VIS_001_GENERATION = NOT_STARTED
-OMW_VIS_002_BRIEF = READY
-OMW_VIS_002_GENERATION = NOT_STARTED
-OTHER_IMAGE_BRIEFS = PARTIAL_OR_NOT_STARTED
-GODOT_CODEX = OUT_OF_CURRENT_SCOPE
+REFERENCE
+OM-IMG-023 = visual direction only
+
+NOW
+1. ASSET-UNIT-LUMERN-SHIELD-GUARD
+2. ASSET-UNIT-VEIL-SHIELD-GUARD
+
+STYLE_LOCK_AFTER_PAIR
+→ faction shape language
+→ SD proportion
+→ pixel density
+→ role silhouette
+
+THEN
+3. remaining 18 unit visual slots
+4. derived unit-token crops + Gold/X/token frames
+5. Omen Signature + resource + minimap icons
+6. six current base building sprites
+7. Omen workbench component textures
+8. battlefield environment assets
+9. Omen Warden actual command asset
+
+LATER
+P1 VFX / tier variants
+P2 content-specific runtime assets
 ```
 
-## 9. Source lineage
+## 9. 한 자산 생산 완료 정의
 
-- `docs/images/planning/OMENWARD_CORE_PLAYER_FLOW_IMAGE_BRIEFS_2026-08-26.md`
-- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
-- `docs/design/OMENWARD_VISUAL_REQUIREMENT_INVENTORY_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
-- `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md`
+- [ ] named runtime/game consumer가 존재
+- [ ] 동일 source art 재사용 가능성 먼저 확인
+- [ ] current GitHub + Notion canon fresh-read
+- [ ] asset-specific brief 준비
+- [ ] 필요한 candidate만 생성
+- [ ] 사용자 `APPROVE / REVISE / REJECT`
+- [ ] 승인본에 실제 asset identity/file-role 기록
+- [ ] Visual Bible / Asset Library에 승인본 등록
+- [ ] destination readback
+- [ ] 이미지 승인과 runtime/human PASS를 혼동하지 않음
+
+`APPROVED_CURRENT`는 **시각 자산 승인**만 뜻한다. 실제 Godot 소비/크기/animation/성능 검증은 현재 작업 모드에서 `NOT_RUN`이다.
+
+## 10. 5회 전체 적대적 검토
+
+### Loop 1 · 소비처 검사
+Finding: 기존 tracker의 Main Battle/PREPARE/COMMIT 전체 화면은 실제 texture consumer가 아니라 composition reference였다.
+
+Correction: production queue에서 제외하고 planning reference로 강등.
+
+### Loop 2 · 중복 자산 검사
+Finding: 별도 Roulette unit-token 캐릭터를 만들면 Battlefield unit art와 계보가 갈라진다.
+
+Correction: Token은 approved actual unit art의 Role-Anchor crop으로 파생.
+
+### Loop 3 · 현재 데이터 대조
+Finding: runtime bootstrap이 직접 증명하는 기본 unit visual slot은 10 archetype × 2 faction = 20이다.
+
+Correction: 20 unit assets를 실제 전투 소비 자산의 첫 핵심 family로 고정. exact tier variant count는 추정하지 않음.
+
+### Loop 4 · 건물 계보 대조
+Finding: 과거 `7 building family` 설명 자료와 current Stage 1의 6 base facilities 사이에 drift 가능성이 있다.
+
+Correction: 현재 FTUE가 명시하는 6 base building sprite만 production queue에 포함. Special Barracks는 재확인 전 제외.
+
+### Loop 5 · 과생산 검사
+Finding: UI panel, minimap background, VFX는 Godot Theme/primitive/shader로 충분할 수도 있다.
+
+Correction: `IMAGE_REQUIRED`가 증명되지 않으면 생성하지 않는다. 이미지 생성 자체가 목적이 아니라 실제 게임 소비가 목적이다.
+
+```text
+ADVERSARIAL_REVIEW = CLEAN_5_OF_5_AFTER_CORRECTIONS
+IMAGE_GENERATION = NOT_STARTED
+GODOT_RUNTIME_CONSUMPTION = NOT_RUN
+HUMAN_READABILITY = NOT_RUN
+```
+
+## 11. Source evidence
+
+- `data/bootstrap_catalog.tres` — 10 archetype × Lumern/Veil visual profiles
+- `scripts/data/animation_contract.gd` — unit animation state names
+- `scripts/units/unit_view.gd` — current graybox battlefield UnitView consumer seam
+- `docs/design/APPROVED_OMENWARD_TOKEN_COMPONENT_SPEC_2026-08-20.md` — actual unit art reuse for Roulette Token
+- `docs/design/APPROVED_OMENWARD_TEXT_UX_AND_STATE_TRANSITION_2026-08-20.md` — current Stage 1 six base facilities
+- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — current visual style/front/minimap/commander contract
+- `docs/images/planning/OMENWARD_CORE_PLAYER_FLOW_IMAGE_BRIEFS_2026-08-26.md` — composition reference only after this policy
+
+## 12. Boundary
+
+```text
+SCREEN_MOCKUP_IMAGE_PRODUCTION = STOPPED
+EXPLANATION_SHEET_IMAGE_PRODUCTION = STOPPED
+RUNTIME_CONSUMER_ASSET_PLANNING = ACTIVE
+FIRST_ACTUAL_ASSET_BRIEF = ASSET-UNIT-LUMERN-SHIELD-GUARD
+PRODUCT_CODE = UNCHANGED
+SCENE = UNCHANGED
+GODOT_CODEX = OUT_OF_CURRENT_SCOPE
+GOOGLE_SHEET = COMPATIBILITY_HISTORY_ONLY
+```
