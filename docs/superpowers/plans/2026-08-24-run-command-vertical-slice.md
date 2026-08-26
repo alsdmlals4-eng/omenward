@@ -6,7 +6,7 @@
 
 **Architecture:** Use the approved orchestration-first design. `StageRun` stays the coordinator for existing economy/building/roulette/deployment/wave/battle services. New focused state/transaction objects own Run Command phase, roulette manipulation, and pending deployment planning. The existing `RouletteService` is split only enough to support `paid spin snapshot -> manipulation -> confirmed resolution` without duplicating the central-row/8-line resolver. Deployment uses aggregate preflight plus one batch food reservation and prevalidated battle spawns so invalid COMMIT plans produce zero applied units.
 
-**Tech Stack:** Godot 4.7.x project compatibility baseline, GDScript, adopted GUT, existing SceneTree headless tests, current project-adopted persistent Godot authoring authority, current project-adopted live QA. Exact installed pins must be fresh-read before execution.
+**Tech Stack:** Godot 4.7.x project compatibility baseline, GDScript, adopted GUT, existing SceneTree headless tests, current project-adopted persistent Godot authoring authority (currently HiGodot by project adoption record), current project-adopted live QA. Exact installed pins and the exact editor/session identity must be fresh-read before execution.
 
 **Spec:**
 - `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
