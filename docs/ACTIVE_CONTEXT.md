@@ -62,7 +62,7 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
-CURRENT_NEXT = P1_STRUCTURE_CONSUMER_DISCOVERY_AND_APPROVED_SOURCE_MAPPING
+CURRENT_NEXT = P0_HUD_RESOURCE_INDICATOR_ICON_CONSUMER
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = USER_REACTIVATED__SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_COMPLETE
@@ -217,7 +217,8 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 10. COMPLETE — reconcile remaining approved P0 asset geometry and extend shared runtime consumers
 11. PARTIAL — live tutorial plus all-18 gallery captures show the shared renderer without an automated clipping signal; broad interactive readability and human evidence remain `NOT_RUN`
 12. COMPLETE — derive and bind General Barracks, Defense Tower, and Farm compact thumbnails to the three existing Stage HUD build-action buttons
-13. NEXT — discover a real P1 structure consumer before extending approved source-only building masters; do not infer battlefield placement
+13. COMPLETE — P1 structure-consumer discovery found no current scene/data receiver for the four source-only building masters; no inferred placement or rule was added
+14. NEXT — bind approved Gold and Troop Capacity derivatives to the current Stage HUD resource indicator only
 ```
 
 ## Resume order
