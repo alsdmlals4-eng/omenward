@@ -27,7 +27,7 @@
 2. `foundation.project-intake`는 요청이 직접 일치하거나 선택된 Skill의 dependency일 때만 포함한다.
 3. 주 책임 Omenward Discipline은 최대 1개, 지원 Discipline은 최대 1개다.
 4. Specialist는 명시적 trigger 또는 REVIEW stage 계약이 있을 때만 선택한다.
-5. `REVIEW`에는 current Base validation/freshness trigger에 맞는 검증 Skill을 추가한다.
+5. 현재 project-local compatibility Registry의 REVIEW stack은 `foundation.validation-review`와 `specialist.canonical-freshness`를 사용한다. 이 legacy-local ID는 Base current Skill ID를 대신하는 공용 정본이 아니며, Base 행동은 fresh current owner에서 resolve한다.
 6. 같은 산출물을 둘 이상의 Skill이 동시에 소유하지 않는다. 주 책임 Skill이 편집하고 지원 Skill은 검토만 한다.
 7. 사용자가 Skill을 직접 지정하면 current Registry의 활성 ID 또는 등록된 compatibility alias만 허용한다.
 8. `inactive` 패키지는 과거 기록으로만 유지하며 Router가 직접 선택하지 않는다.
@@ -45,7 +45,7 @@
 8. 독립된 검증으로 결과를 확인한다.
 9. 실행·미실행·잔여 위험을 분리해 보고한다.
 
-더 구체적인 사용자 지시 또는 current Base owner가 더 엄격한 게이트를 요구하면 그것이 우선한다.
+`P0·P1이 남으면 완료하지 않는다`. 더 구체적인 사용자 지시 또는 current Base owner가 더 엄격한 게이트를 요구하면 그것이 우선한다.
 
 ## Workspace authority
 
