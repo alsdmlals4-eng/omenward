@@ -15,6 +15,7 @@ on:
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "tests/python/test_project_base_adapter_freshness.py"
       - "tests/python/test_active_integrated_contract_v4_4.py"
+      - "tests/python/test_r54_workspace_authority_reconciliation.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
       - ".github/workflows/validate-project-base-adapter.yml"
 
@@ -40,13 +41,13 @@ jobs:
           python-version: "3.12"
 
       - name: Run project adapter freshness contract
-        run: python -m unittest tests.python.test_project_base_adapter_freshness -v
+        run: python -m unittest tests.python.test_project_base_adapter_freshness tests.python.test_r54_workspace_authority_reconciliation -v
 
-      - name: Check out Base validator
+      - name: Check out current Base validator
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           repository: alsdmlals4-eng/Base
-          ref: bfdc9e44d4a6920dc085eaa3f9d19d31b1acd2a1
+          ref: edb3b3376603c9f6b00d64af3126304f8c9946bf
           path: .base-contract
           fetch-depth: 0
 
