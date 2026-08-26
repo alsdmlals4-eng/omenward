@@ -288,6 +288,7 @@ CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS = set(CURRENT_V48_VISUAL_CLOSEOUT_A
 # the regression tests proving the old Sheet-as-current assumption cannot return.
 R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES = {
     ".agents/skills/omenward-workflow-router/SKILL.md",
+    ".github/workflows/validate-project-base-adapter.yml",
     "docs/BASE_RULES_VERSION.md",
     "docs/PROJECT_OPERATING_DASHBOARD.html",
     "skills/BASE_V9_ADAPTER.json",
