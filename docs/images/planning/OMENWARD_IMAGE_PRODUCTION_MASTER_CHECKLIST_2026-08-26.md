@@ -182,16 +182,17 @@ PLATFORM_SPEC_RECHECK
 
 ```text
 NOW
-1. User review/approval of OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-2. IMG-01 / ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-3. Shield pair user approval / style lock
-4. finalize non-image UNIT_ANIMATION_PRODUCTION_CONTRACT
-5. complete P0 image Goal packets
-6. complete current-consumer P1 Goal packets
-7. pixel cleanup / Notion approved registration / implementation-ready evidence
-8. only then prepare Codex Integration Goals for execution
+1. Final Veil text brief for exactly ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+2. Stop for separate explicit single-image generation approval
+3. Only after that approval: generate IMG-01 / ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+4. Shield pair user asset approval / style lock
+5. finalize non-image UNIT_ANIMATION_PRODUCTION_CONTRACT
+6. complete P0 image Goal packets
+7. complete current-consumer P1 Goal packets
+8. pixel cleanup / export / Notion approved registration / implementation-ready evidence
+9. only then prepare Codex Integration Goals for execution
 
-CODEX = NOT_STARTED
+CODEX = BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 ```
 
 ## 11. Asset completion definition
