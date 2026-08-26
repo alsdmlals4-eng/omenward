@@ -284,8 +284,9 @@ CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
 CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS = set(CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES)
 
 # Current r5.4 operating-authority repair. It is intentionally exact and non-product:
-# adapter/router/workspace authority, the generated consumers of the adapter hash, and
-# the regression tests proving the old Sheet-as-current assumption cannot return.
+# adapter/workspace authority, generated adapter consumers, and regression tests proving
+# that the old Sheet-as-current assumption cannot return. The workflow router remains
+# generator-owned and unchanged, so it is allowed but not a required changed anchor.
 R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES = {
     ".agents/skills/omenward-workflow-router/SKILL.md",
     ".github/workflows/validate-project-base-adapter.yml",
@@ -305,7 +306,7 @@ R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES = {
 }
 R54_WORKSPACE_AUTHORITY_RECONCILIATION_REQUIRED_ANCHORS = set(
     R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES
-)
+) - {".agents/skills/omenward-workflow-router/SKILL.md"}
 
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
