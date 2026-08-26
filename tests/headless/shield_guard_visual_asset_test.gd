@@ -1,3 +1,4 @@
+# Shield Guard idle 런타임 자산 계약을 검증한다.
 extends SceneTree
 
 const UNIT_SCENE_PATH := "res://scenes/units/unit.tscn"

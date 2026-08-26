@@ -1,0 +1,32 @@
+{
+  "record_id": "OMW-ASSET-20260826-P0-UNIT-IDLE-RUNTIME-CELL-01",
+  "normalization": {
+    "purpose": "Godot runtime presentation derivative only; cleanup masters remain immutable authority.",
+    "canvas_size": [512, 512],
+    "pivot": [256, 448],
+    "resampling": "nearest",
+    "alpha_policy": "0-or-255-only",
+    "source_facing": "right",
+    "veil_runtime_mirror": "UnitView horizontal flip"
+  },
+  "entries": [
+    {"archetype_id":"greatsword_warrior","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_GREATSWORD_WARRIOR_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_greatsword_warrior_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"greatsword_warrior","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_GREATSWORD_WARRIOR_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_greatsword_warrior_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"assassin","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_ASSASSIN_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_assassin_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"assassin","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_ASSASSIN_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_assassin_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"spear_guard","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_SPEAR_GUARD_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_spear_guard_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"spear_guard","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_SPEAR_GUARD_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_spear_guard_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"archer","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_ARCHER_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_archer_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"archer","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_ARCHER_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_archer_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"cavalry","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_CAVALRY_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_cavalry_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"cavalry","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_CAVALRY_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_cavalry_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"priest","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_PRIEST_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_priest_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"priest","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_PRIEST_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_priest_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"mage","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_MAGE_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_mage_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"mage","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_MAGE_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_mage_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"flier","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_FLIER_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_flier_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"flier","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_FLIER_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_flier_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":420},
+    {"archetype_id":"giant","visual_faction_id":"lumern","source":".asset-vault/library/characters/allies/masters/OMENWARD_ASSET_UNIT_LUMERN_GIANT_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/lumern_giant_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":448},
+    {"archetype_id":"giant","visual_faction_id":"veil","source":".asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_GIANT_IDLE_V1_CLEANUP_MASTER_V1.png","output":"assets/art/units/veil_giant_idle.png","canvas_size":[512,512],"pivot":[256,448],"max_content_height":448}
+  ]
+}

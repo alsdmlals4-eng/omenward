@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=44 format=3]
+[gd_resource type="Resource" load_steps=62 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/bootstrap_catalog.gd" id="1_catalog"]
 [ext_resource type="Script" path="res://scripts/data/tier_profile.gd" id="2_tier"]
@@ -23,6 +23,24 @@
 [ext_resource type="Resource" path="res://data/stages/regular_stage.tres" id="21_regular_stage"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_shield_guard_idle.png" id="22_lumern_shield_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_shield_guard_idle.png" id="23_veil_shield_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_greatsword_warrior_idle.png" id="24_lumern_greatsword_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_greatsword_warrior_idle.png" id="25_veil_greatsword_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_assassin_idle.png" id="26_lumern_assassin_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_assassin_idle.png" id="27_veil_assassin_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_spear_guard_idle.png" id="28_lumern_spear_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_spear_guard_idle.png" id="29_veil_spear_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_archer_idle.png" id="30_lumern_archer_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_archer_idle.png" id="31_veil_archer_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_cavalry_idle.png" id="32_lumern_cavalry_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_cavalry_idle.png" id="33_veil_cavalry_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_priest_idle.png" id="34_lumern_priest_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_priest_idle.png" id="35_veil_priest_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_mage_idle.png" id="36_lumern_mage_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_mage_idle.png" id="37_veil_mage_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_flier_idle.png" id="38_lumern_flier_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_flier_idle.png" id="39_veil_flier_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_giant_idle.png" id="40_lumern_giant_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_giant_idle.png" id="41_veil_giant_idle"]
 
 [sub_resource type="Resource" id="Tier1"]
 script = ExtResource("2_tier")
@@ -154,108 +172,144 @@ archetype_id = &"greatsword_warrior"
 visual_faction_id = &"lumern"
 display_name = "Greatsword Warrior"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("24_lumern_greatsword_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualGreatswordVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"greatsword_warrior"
 visual_faction_id = &"veil"
 display_name = "Veil Greatsword Warrior"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("25_veil_greatsword_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualAssassinLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"assassin"
 visual_faction_id = &"lumern"
 display_name = "Assassin"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("26_lumern_assassin_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualAssassinVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"assassin"
 visual_faction_id = &"veil"
 display_name = "Veil Assassin"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("27_veil_assassin_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualSpearLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"spear_guard"
 visual_faction_id = &"lumern"
 display_name = "Spear Guard"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("28_lumern_spear_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualSpearVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"spear_guard"
 visual_faction_id = &"veil"
 display_name = "Veil Spear Guard"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("29_veil_spear_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualArcherLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"archer"
 visual_faction_id = &"lumern"
 display_name = "Archer"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("30_lumern_archer_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualArcherVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"archer"
 visual_faction_id = &"veil"
 display_name = "Veil Archer"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("31_veil_archer_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualCavalryLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"cavalry"
 visual_faction_id = &"lumern"
 display_name = "Cavalry"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("32_lumern_cavalry_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualCavalryVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"cavalry"
 visual_faction_id = &"veil"
 display_name = "Veil Cavalry"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("33_veil_cavalry_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualPriestLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"priest"
 visual_faction_id = &"lumern"
 display_name = "Priest"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("34_lumern_priest_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualPriestVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"priest"
 visual_faction_id = &"veil"
 display_name = "Veil Priest"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("35_veil_priest_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualMageLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"mage"
 visual_faction_id = &"lumern"
 display_name = "Mage"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("36_lumern_mage_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualMageVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"mage"
 visual_faction_id = &"veil"
 display_name = "Veil Mage"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("37_veil_mage_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualFlierLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"flier"
 visual_faction_id = &"lumern"
 display_name = "Flier"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("38_lumern_flier_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualFlierVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"flier"
 visual_faction_id = &"veil"
 display_name = "Veil Flier"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("39_veil_flier_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualGiantLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"giant"
 visual_faction_id = &"lumern"
 display_name = "Giant"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("40_lumern_giant_idle")
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualGiantVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"giant"
 visual_faction_id = &"veil"
 display_name = "Veil Giant"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("41_veil_giant_idle")
+idle_pivot = Vector2(256, 448)
 
 [resource]
 script = ExtResource("1_catalog")
