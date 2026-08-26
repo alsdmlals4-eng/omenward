@@ -14,6 +14,7 @@ historical_base_main_at_packet_creation: fb11c50d594c03d49f4d675e01340148f889cdb
 execution_baseline: LATEST_COMPLETED_MAIN_AT_EXECUTOR_FRESH_READ
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 codex_route: CODEX_GODOT_PRODUCT_IMPLEMENTATION_HANDOFF
+implementation_authority: HIGODOT_SINGLE_PERSISTENT_AUTHORING_AUTHORITY
 persistent_godot_authoring: RESOLVE_FROM_CURRENT_PROJECT_ADOPTION_AND_EXACT_SESSION
 ```
 
@@ -101,7 +102,7 @@ current repository/worktree identity
 → product mutation
 ```
 
-If the current project adoption resolves to HiGodot/GUT/Hera, preserve their role separation: persistent authoring / deterministic test / live QA only. A tool being installed does not prove its current session is the OMENWARD session.
+Current OMENWARD adoption retains HiGodot as the persistent authoring authority, GUT as deterministic test authority, and Hera as read-only live QA; their exact versions and live session identity must still be fresh-read. A tool being installed does not prove its current session is the OMENWARD session.
 
 ## Evidence sequence
 
@@ -160,6 +161,9 @@ PRODUCT_RUNTIME_IMPLEMENTATION: NOT_RUN
 DETERMINISTIC_RED: NOT_RUN
 DETERMINISTIC_GREEN: NOT_RUN
 LIVE_QA: NOT_RUN
+GUT_RED: NOT_RUN
+GUT_GREEN: NOT_RUN
+HERA_LIVE_QA: NOT_RUN
 MINIMAP_RUNTIME_READABILITY: NOT_RUN
 SD_UNIT_RUNTIME_READABILITY: NOT_RUN
 HUMAN_VALIDATION: NOT_RUN
