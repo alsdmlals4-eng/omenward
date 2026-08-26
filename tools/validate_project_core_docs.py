@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_NEXT_P0_ASSET_SCOPE_APPROVAL"
+CURRENT_REACTIVATION_GATE = "USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
@@ -168,7 +168,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
             "PER_FRONT_MINIMAP = REQUIRED",
             "APPROVED_VISUAL = OM-IMG-023",
-            "PROJECT_STATE = PAUSED_AT_P0_ASSET_COVERAGE_DECISION_GATE",
+            "PROJECT_STATE = PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
             IMPLEMENTATION_PACKET,
@@ -203,7 +203,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: PAUSED_AT_P0_ASSET_COVERAGE_DECISION_GATE",
+            "status: PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE",
             "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
             CURRENT_VISUAL_DECISION_ID,
             "APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT",
@@ -305,8 +305,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         visual_handoff,
         (
-            "current_gate: NEXT_P0_ASSET_SCOPE_APPROVAL",
-            "current_image_package_status: P0_UNITS_BUILDINGS_CLEANUP_MASTERS_EXPORTED",
+            "current_gate: P0_REMAINDER_CANDIDATE_BATCH_REVIEW",
+            "current_image_package_status: P0_REMAINDER_CANDIDATE_BATCH_READY_FOR_USER_REVIEW",
             "image_generation: USER_REQUEST_ONLY",
             "codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY",
         ),
@@ -470,8 +470,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         handoff,
         (
             CURRENT_CONTRACT,
-            "current_gate: NEXT_P0_ASSET_SCOPE_APPROVAL",
-            "current_image_package_status: P0_UNITS_BUILDINGS_CLEANUP_MASTERS_EXPORTED",
+            "current_gate: P0_REMAINDER_CANDIDATE_BATCH_REVIEW",
+            "current_image_package_status: P0_REMAINDER_CANDIDATE_BATCH_READY_FOR_USER_REVIEW",
             "image_generation: USER_REQUEST_ONLY",
             "runtime_validation: NOT_RUN",
             "human_player_evidence: NOT_RUN",

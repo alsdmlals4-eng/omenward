@@ -115,7 +115,7 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertIn("VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION", decisions)
         self.assertIn("PER_FRONT_MINIMAP = REQUIRED", decisions)
         self.assertIn("APPROVED_VISUAL = OM-IMG-023", decisions)
-        self.assertIn("PROJECT_STATE = PAUSED_AT_P0_ASSET_COVERAGE_DECISION_GATE", decisions)
+        self.assertIn("PROJECT_STATE = PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE", decisions)
 
         agents = AGENTS.read_text(encoding="utf-8")
         self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
@@ -124,9 +124,9 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
 
         active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
-        self.assertIn("status: PAUSED_AT_P0_ASSET_COVERAGE_DECISION_GATE", active)
+        self.assertIn("status: PAUSED_AT_P0_REMAINDER_CANDIDATE_REVIEW_GATE", active)
         self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 21", active)
-        self.assertIn("CURRENT_NEXT = USER_EXPLICIT_NEXT_P0_ASSET_SCOPE_APPROVAL", active)
+        self.assertIn("CURRENT_NEXT = USER_BATCH_REVIEW_OF_P0_REMAINDER_CANDIDATES", active)
         self.assertIn("NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS", active)
 
         handoff = HANDOFF.read_text(encoding="utf-8")
