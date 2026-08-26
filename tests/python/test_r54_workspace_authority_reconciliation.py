@@ -60,6 +60,15 @@ class R54WorkspaceAuthorityReconciliationTest(unittest.TestCase):
             "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8",
         )
 
+    def test_remote_canonical_baseline_uses_recorded_ancestry_not_pr_base_override(self) -> None:
+        baseline = self.adapter["protected_baseline"]
+        self.assertEqual(baseline["authority_kind"], "REMOTE_TRACKING_REF")
+        self.assertEqual(baseline["policy_source_type"], "CANONICAL_ADAPTER_SOURCE")
+        self.assertIn("RECORDED_PROTECTED_BASE_SHA", self.adapter_workflow)
+        self.assertIn("git merge-base --is-ancestor", self.adapter_workflow)
+        self.assertNotIn('PROTECTED_BASE_SHA="$PR_BASE_SHA"', self.adapter_workflow)
+        self.assertNotIn('--protected-base "$PROTECTED_BASE_SHA"', self.adapter_workflow)
+
 
 if __name__ == "__main__":
     unittest.main()
