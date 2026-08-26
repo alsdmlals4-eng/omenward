@@ -11,8 +11,8 @@ prepared_with_base_main: 06669fe9c6a3ccd6f3b0d19c5757540bfdcc0623
 current_user_work_mode: PLANNING_PLUS_IMAGE_ONLY
 current_user_order: REQUIRED_GAME_IMAGES_FIRST_THEN_CODEX
 current_image_package: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-current_image_package_status: USER_APPROVED_B_CURRENT
-current_gate: IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
+current_image_package_status: SHIELD_GUARD_IDLE_PAIR_USER_APPROVED
+current_gate: UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS
 image_generation: USER_REQUEST_ONLY
 codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 runtime_validation: NOT_RUN
@@ -201,13 +201,15 @@ Disposition: `REUSE_WITH_EDIT`. Never redraw from zero unless the user explicitl
 
 ```text
 BRIEF = READY
-IMAGE = NOT_GENERATED
-USER_APPROVAL = NOT_RUN
+IMAGE = GENERATED
+USER_APPROVAL = APPROVED
+PIXEL_CLEANUP = NOT_RUN
+IMPLEMENTATION_READY = NO
 ```
 
 Owner:
 
-`docs/images/planning/assets/ASSET_UNIT_VEIL_SHIELD_GUARD_BRIEF_2026-08-26.md`
+`docs/images/approved/OMENWARD_ASSET_UNIT_VEIL_SHIELD_GUARD_IDLE_V1_APPROVAL_2026-08-26.md`
 
 A later unregistered blue-knight generation is **REJECTED / NOT_CANON** and does not satisfy this Veil brief.
 
@@ -264,13 +266,13 @@ Alternative C (Codex after each Goal) conflicts with the current user order `ima
 
 ## 11. Current user gate after B approval
 
-- `GOAL_QUEUE_STATUS = USER_APPROVED_B_CURRENT`
-- `CURRENT_GATE = IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL`
-- `NEXT_IMAGE_CANDIDATE = ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1`
-- `IMAGE_GENERATION = NOT_STARTED`
+- `GOAL_QUEUE_STATUS = SHIELD_GUARD_IDLE_PAIR_USER_APPROVED`
+- `CURRENT_GATE = UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS`
+- `NEXT_REQUIRED_ACTION = DEFINE_UNIT_ANIMATION_PRODUCTION_CONTRACT`
+- `NEXT_IMAGE_GENERATION = REQUIRES_ITS_OWN_EXPLICIT_USER_APPROVAL`
 - `CODEX = BLOCKED`
 
-B approval fixes the production sequence: current-consumer P0 plus current-consumer P1 assets must become approved, cleaned/exported, and `IMPLEMENTATION_READY` before Codex integration starts. It does **not** silently generate IMG-01. After the final text brief, a separate explicit user generation approval is required for exactly one Veil Shield Guard idle candidate.
+B approval fixes the production sequence: current-consumer P0 plus current-consumer P1 assets must become approved, cleaned/exported, and `IMPLEMENTATION_READY` before Codex integration starts. The Veil idle was generated only after its separate explicit generation approval and is now user-approved; no future asset is auto-authorized.
 
 ## 12. Non-image gate before mass unit animation art
 
@@ -344,13 +346,10 @@ Veil brief:
 ## 15. First actions in GPT Work after B approval
 
 1. Fresh-read Base + OMENWARD + Notion.
-2. Confirm this B approval record and the current main/PR state.
+2. Confirm the Shield Guard idle pair approval and current main/PR state.
 3. Keep P2/P3 deferred and Codex/Godot blocked.
-4. Present the final text brief for exactly one `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` candidate.
-5. Stop for separate explicit image-generation approval.
-6. Only then generate exactly one candidate; review against Lumern and the Veil brief.
-7. Register only a user-approved candidate in Notion/GitHub lineage.
-8. Continue in Goal order with non-image contracts before any mass atlas production.
+4. Define `UNIT_ANIMATION_PRODUCTION_CONTRACT` before any mass unit atlas production.
+5. Generate any future image only after its Goal-specific explicit user approval.
 
 ## 16. Suggested first GPT Work prompt
 
@@ -388,8 +387,8 @@ The GPT Work receiver is considered ready when it can state, after fresh-read:
 2. current open workstreams and read-only boundaries;
 3. current image Goal package and approval status;
 4. approved Lumern source and its non-runtime status;
-5. Veil Shield Guard as the next candidate, still ungenerated;
-6. the current B approval, its P0/current-consumer P1 boundary, and the still-separate IMG-01 generation approval;
+5. Veil Shield Guard as a user-approved idle source, still not Implementation Ready;
+6. the current B approval, its P0/current-consumer P1 boundary, and the separate approval requirement for every future image;
 7. stale Google Sheet conflict;
 8. runtime/human evidence ceiling.
 

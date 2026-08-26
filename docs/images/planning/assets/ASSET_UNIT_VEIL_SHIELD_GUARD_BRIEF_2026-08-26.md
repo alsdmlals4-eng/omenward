@@ -4,12 +4,15 @@
 asset_brief_id: OMW-ASSET-BRIEF-20260826-VEIL-SHIELD-GUARD-01
 asset_family: ASSET-UNIT-VEIL-SHIELD-GUARD
 first_generation_target: ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-status: BRIEF_READY
+status: USER_APPROVED_CURRENT_VISUAL_ASSET
 created_at: 2026-08-26
 parent_policy: OMW-VIS-POLICY-20260826-RUNTIME-CONSUMER-ASSET-FIRST-01
 paired_with: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
 lumern_pair_approval: OMW-ASSET-APPROVAL-20260826-LUMERN-SHIELD-GUARD-IDLE-V1
-image_generation: NOT_STARTED
+image_generation: GENERATED_AND_USER_APPROVED
+approval_record: docs/images/approved/OMENWARD_ASSET_UNIT_VEIL_SHIELD_GUARD_IDLE_V1_APPROVAL_2026-08-26.md
+pixel_cleanup: NOT_RUN
+implementation_ready: NO
 runtime_import: NOT_RUN
 ```
 
@@ -137,13 +140,16 @@ Exact frame count, FPS, `skill_1` choreography, and final atlas geometry remain 
 - [ ] short attack element does not read as Spear Guard or Greatsword;
 - [ ] future animation/pivot pairing remains plausible.
 
-## 10. Production boundary
+## 10. Approval and remaining production boundary
 
 ```text
 BRIEF = READY
-IMAGE_GENERATION = NOT_STARTED
-USER_APPROVAL = NOT_RUN
+IMAGE_GENERATION = GENERATED_AND_USER_APPROVED
+USER_APPROVAL = APPROVED
 PIXEL_CLEANUP = NOT_RUN
+IMPLEMENTATION_READY = NO
 RUNTIME_IMPORT = NOT_RUN
 GODOT_CODEX = NOT_RUN
 ```
+
+The approved source and its Notion/local-file records are tracked in `docs/images/approved/OMENWARD_ASSET_UNIT_VEIL_SHIELD_GUARD_IDLE_V1_APPROVAL_2026-08-26.md`. This approval does not authorize mass animation production or Codex integration.

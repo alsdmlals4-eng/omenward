@@ -13,11 +13,11 @@ godot_execution: NOT_IN_SCOPE
 codex_execution: NOT_IN_SCOPE
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_reference_asset: OM-IMG-023
-current_approved_runtime_asset_source: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
-current_next_brief: OMW-ASSET-BRIEF-20260826-VEIL-SHIELD-GUARD-01
+current_approved_runtime_asset_source: SHIELD_GUARD_IDLE_PAIR
+current_next_brief: UNIT_ANIMATION_PRODUCTION_CONTRACT
 goal_queue: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
 goal_queue_status: USER_APPROVED_B_CURRENT
-current_gate: IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
+current_gate: UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS
 ```
 
 ## 0.1 User decision · B approval
@@ -78,7 +78,7 @@ CASINO_SLOT_MACHINE_LANGUAGE = FORBIDDEN
 |---|---|---|
 | `OM-IMG-023` | `REFERENCE_ONLY` · user-approved visual direction | `REUSE_AS_IS` as reference only |
 | `ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1` | `APPROVED` | `REUSE_WITH_EDIT` for cleanup/runtime export/animation/token crop |
-| `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` | not generated; brief ready | `NEW_REQUIRED` · current next image candidate |
+| `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` | `APPROVED` | `REUSE_WITH_EDIT` for cleanup/runtime export/animation/token crop |
 | old `OMW-VIS-001~012` full-screen/sheet lineage | `REFERENCE_ONLY` / some `SUPERSEDED` | no production-image counting |
 | historical VR-001/VR-002/old image-gen candidates | `REFERENCE_ONLY` / `SUPERSEDED` | selective reference only |
 | unregistered second blue-knight generation after Lumern approval | `REJECTED` | conflicts with Veil brief; not canon |
@@ -113,7 +113,7 @@ RUNTIME_VERIFIED = NO
 
 | Goal | Asset family | Current state |
 |---|---|---|
-| IMG-01 | Shield Guard faction pair | Lumern idle `APPROVED`; Veil idle `BRIEF_READY` |
+| IMG-01 | Shield Guard faction pair | Lumern idle `APPROVED`; Veil idle `APPROVED`; cleanup/export and animation contract remain |
 | IMG-02 | Greatsword + Spear 2 factions | `NEW_REQUIRED` |
 | IMG-03 | Archer + Cavalry 2 factions | `NEW_REQUIRED` |
 | IMG-04 | Priest + Mage 2 factions | `NEW_REQUIRED` |
@@ -182,11 +182,8 @@ PLATFORM_SPEC_RECHECK
 
 ```text
 NOW
-1. Final Veil text brief for exactly ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-2. Stop for separate explicit single-image generation approval
-3. Only after that approval: generate IMG-01 / ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-4. Shield pair user asset approval / style lock
-5. finalize non-image UNIT_ANIMATION_PRODUCTION_CONTRACT
+1. Shield pair user asset approval / style lock — COMPLETE
+2. finalize non-image UNIT_ANIMATION_PRODUCTION_CONTRACT
 6. complete P0 image Goal packets
 7. complete current-consumer P1 Goal packets
 8. pixel cleanup / export / Notion approved registration / implementation-ready evidence
@@ -238,10 +235,10 @@ RUNTIME_VERIFICATION = NOT_RUN
 SCREEN_MOCKUP_IMAGE_PRODUCTION = STOPPED
 EXPLANATION_SHEET_IMAGE_PRODUCTION = STOPPED
 RUNTIME_CONSUMER_ASSET_PLANNING = ACTIVE
-CURRENT_NEXT_ASSET = ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-CURRENT_GATE = IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
-NEXT_REQUIRED_ACTION = PRESENT_VEIL_FINAL_TEXT_BRIEF
-IMAGE_GENERATION = REQUIRES_SEPARATE_EXPLICIT_USER_APPROVAL
+CURRENT_APPROVED_ASSET_PAIR = ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1 + ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+CURRENT_GATE = UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS
+NEXT_REQUIRED_ACTION = DEFINE_UNIT_ANIMATION_PRODUCTION_CONTRACT
+IMAGE_GENERATION = STOPPED_UNTIL_NEXT_GOAL_HAS_ITS_OWN_USER_APPROVAL
 CODEX_PRODUCT_IMAGE_INTEGRATION = BLOCKED_UNTIL_B_SCOPE_ASSETS_ARE_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 UNBLOCK_CODEX = ALL_B_SCOPE_P0_AND_CURRENT_CONSUMER_P1_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 GOOGLE_SHEET = COMPATIBILITY_HISTORY_ONLY_STALE
