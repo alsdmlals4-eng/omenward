@@ -6,7 +6,7 @@
 
 **Architecture:** Use the approved orchestration-first design. `StageRun` stays the coordinator for existing economy/building/roulette/deployment/wave/battle services. New focused state/transaction objects own Run Command phase, roulette manipulation, and pending deployment planning. The existing `RouletteService` is split only enough to support `paid spin snapshot -> manipulation -> confirmed resolution` without duplicating the central-row/8-line resolver. Deployment uses aggregate preflight plus one batch food reservation and prevalidated battle spawns so invalid COMMIT plans produce zero applied units.
 
-**Tech Stack:** Godot 4.7.x, GDScript, GUT 9.7.1, existing SceneTree headless tests, HiGodot/godot-ai as sole persistent Godot authoring authority, Hera as read-only live QA.
+**Tech Stack:** Godot 4.7.x project compatibility baseline, GDScript, adopted GUT, existing SceneTree headless tests, current project-adopted persistent Godot authoring authority (currently HiGodot by project adoption record), current project-adopted live QA. Exact installed pins and the exact editor/session identity must be fresh-read before execution.
 
 **Spec:**
 - `docs/design/APPROVED_OMENWARD_RUN_COMMAND_SCREEN_FOCUS_MODES_2026-08-20.md`
@@ -14,6 +14,7 @@
 - `docs/design/APPROVED_OMENWARD_3X3_ROULETTE_COMPONENT_SPEC_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md`
 - `docs/design/APPROVED_OMENWARD_MOBILIZATION_REGISTRY_AND_TRIPLE_OMEN_WHEELS_2026-08-20.md`
+- `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — current visual/battlefield override, Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`.
 
 ## Global Constraints
 
@@ -22,15 +23,19 @@
 - `THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN`.
 - `IRREVERSIBLE_LANE_COMMITMENT = REQUIRED`, but pending COMMIT assignments are editable and are not deployed truth.
 - `ONE_ACTIVE_WORK_SURFACE_AT_A_TIME = TRUE`; duplicated top resource totals in the lower deck are forbidden.
+- `BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS`.
+- `PER_FRONT_MINIMAP = REQUIRED`; the three minimaps are contextual route/progress/stronghold/exception surfaces, not duplicate miniature battlefields.
+- `MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE`; unit-by-unit minimap replication is forbidden.
 - Existing `RouletteService.resolve_board_snapshot()` central-row judging, 8-line counting, rank and gold behavior remain the only reward-resolution authority.
 - `RouletteService.spin()` legacy behavior remains regression-protected; the new player path must not charge twice or resolve before manipulation.
 - PREPARE/COMMIT/REVIEW must not advance WaveDirector, BattleSimulator, or StageEconomy active time.
 - Existing battle, economy, building, role-output and historical-evidence workstreams are not rewritten.
-- Persistent `.gd`, `.tscn`, `.tres`, `project.godot`, Scene/Node/Resource mutations are HiGodot-only.
+- Persistent `.gd`, `.tscn`, `.tres`, `project.godot`, Scene/Node/Resource mutations use the project-adopted Godot authoring authority after exact session/tool freshness readback.
 - GUT RED requires **>0 tests discovered**. A missing implementation file must not cause the test script itself to fail parsing before discovery: initial RED tests use dynamic `load()` or a behavior-level RED after a minimal loadable shell exists.
-- Hera is `LIVE_QA_AND_OBSERVABILITY_ONLY`; tracked-source delta attributable to Hera must be `NONE`.
+- Live QA is observability-only unless a separately approved contract says otherwise; unintended tracked-source delta must be `NONE`.
 - Runtime/device/accessibility/controller/human evidence remain `NOT_RUN` until actually executed.
 - No new paid dependency or service.
+- Execution starts from latest completed `main`, not the historical 2026-08-24 start SHA or paused branch state.
 
 ---
 
@@ -42,7 +47,7 @@
 - `scripts/units/pending_deployment_plan.gd` — editable reward-index → lane assignments and aggregate validation.
 - `scripts/ui/run_command_view_model.gd` — read-only player-safe projection.
 - `scripts/ui/run_command_screen.gd` — player input/controller; delegates commands.
-- `scenes/ui/run_command_screen.tscn` — player-facing Focus Mode UI.
+- `scenes/ui/run_command_screen.tscn` — player-facing Focus Mode UI with three Front-State surfaces and three contextual minimaps.
 - focused GUT tests under `tests/gut/` for every new owner plus one vertical-slice integration test.
 
 **Modify**
@@ -86,21 +91,12 @@ func test_run_command_state_script_exists() -> void:
     assert_not_null(script)
 ```
 
-Run:
-```text
-Godot_v4.7.1-stable_win64.exe --headless --path . -s addons/gut/gut_cmdln.gd -gtest=res://tests/gut/test_run_command_state.gd -gexit
-```
-Expected: 1+ test discovered, FAIL because load returns null.
+Run the current adopted Godot/GUT command after exact tool/session readback. Expected: 1+ test discovered, FAIL because load returns null.
 
 - [ ] **Step 2: Create the minimal loadable `RunCommandState` shell**, rerun, then replace/add behavior RED assertions for legal phase order and capability flags.
 - [ ] **Step 3: Implement minimal behavior:** initial PREPARE; only PREPARE→COMMIT→BATTLE→REVIEW; REVIEW→PREPARE explicit reset; phase capability helpers as specified.
 - [ ] **Step 4: GREEN with >0 tests.**
 - [ ] **Step 5: Commit.**
-
-```text
-git add scripts/run_command/run_command_state.gd tests/gut/test_run_command_state.gd
-git commit -m "feat: add Run Command phase authority"
-```
 
 ---
 
@@ -136,11 +132,6 @@ func resolve_confirmed_spin(transaction: Dictionary, confirmed_board: Array[Stri
 - [ ] **Step 4: GREEN focused tests + existing roulette contract.**
 - [ ] **Step 5: Commit.**
 
-```text
-git add scripts/roulette/roulette_service.gd tests/gut/test_roulette_spin_transaction.gd
-git commit -m "refactor: split roulette spin and confirmed resolution"
-```
-
 ---
 
 ### Task 3: 3×3 manipulation session
@@ -168,11 +159,6 @@ func is_confirmed() -> bool
 - [ ] **Step 3: Implement minimal copy-on-read session.** Do not resolve rewards, mutate economy, or infer three-lane mapping.
 - [ ] **Step 4: GREEN + existing roulette regression.**
 - [ ] **Step 5: Commit.**
-
-```text
-git add scripts/roulette/roulette_manipulation_session.gd tests/gut/test_roulette_manipulation_session.gd
-git commit -m "feat: add deterministic roulette manipulation session"
-```
 
 ---
 
@@ -214,11 +200,6 @@ func build_ordered_batch(rewards: Array[UnitSpawnDefinition]) -> Dictionary
 - [ ] **Step 6: GREEN + deployment/battle/economy regressions.**
 - [ ] **Step 7: Commit.**
 
-```text
-git add scripts/units/pending_deployment_plan.gd scripts/core/stage_economy.gd scripts/units/deployment_service.gd scripts/battle/battle_simulator.gd tests/gut/test_pending_deployment_plan.gd tests/gut/test_atomic_deployment_batch.gd
-git commit -m "feat: add staged atomic deployment transaction"
-```
-
 ---
 
 ### Task 5: Orchestrate the playable slice in StageRun
@@ -253,14 +234,9 @@ func confirm_deployment_and_start_battle() -> Dictionary
 - [ ] **Step 7: GREEN focused GUT + complete affected headless suite.**
 - [ ] **Step 8: Commit.**
 
-```text
-git add scripts/core/stage_run.gd tests/headless/stage_run_test.gd tests/gut/test_run_command_vertical_slice.gd
-git commit -m "feat: orchestrate Run Command vertical slice"
-```
-
 ---
 
-### Task 6: Player-safe view model and Focus Mode UI
+### Task 6: Player-safe view model, Front-State presentation, per-front minimaps, and Focus Mode UI
 
 **Files**
 - Create: `scripts/ui/run_command_view_model.gd`
@@ -279,64 +255,65 @@ git commit -m "feat: orchestrate Run Command vertical slice"
   "prepare": Dictionary,
   "commit": Dictionary,
   "battle": Dictionary,
+  "front_states": Array[Dictionary],
   "review": Dictionary,
   "primary_action": Dictionary,
 }
 ```
 
 - [ ] **Step 1: RED view-model tests:** fail if default player snapshot leaks `source_building_ids`, `reward_archetype_ids`, raw unit IDs, raw target IDs, raw internal cause codes, or exact diagnostic counters. View model must be read-only.
-- [ ] **Step 2: Implement projection only; do not calculate roulette/combat outcomes or probabilities.**
-- [ ] **Step 3: Discoverable RED scene test using dynamic `load()`** before the scene exists; then behavior tests for required nodes `TopHud`, `LowerDeck`, `RouletteSurface`, `CommitSurface`, `BattleSurface`, `ReviewSurface`, `PrimaryAction`.
-- [ ] **Step 4: Build 960×540 reference shell.** Lower deck 25–32% exploration target; battlefield stays primary. Only one lower work surface visible at once.
-- [ ] **Step 5: Roulette surface:** 3×3 center, all 12 arrows, preview on hover/focus without spending, Spin and Result Confirm separate, movement resources local only.
-- [ ] **Step 6: COMMIT surface:** stored/new units, editable pending lanes, irreversible warning, one primary CTA. Do not present three abstract lane buttons as the only spatial cue if battlefield lane selection can be bound safely.
-- [ ] **Step 7: BATTLE/REVIEW:** Build/Spin/Commit mutation hidden in BATTLE; REVIEW shows five causal blocks, not raw `WAVE CAUSE REPORT` text.
-- [ ] **Step 8: SceneBinder binds both the battlefield and new Run Command player surface. Technical StageHud is not simultaneously shown as the normal player dashboard.**
-- [ ] **Step 9: GREEN scene/view tests.**
-- [ ] **Step 10: Commit.**
-
-```text
-git add scripts/ui/run_command_view_model.gd scripts/ui/run_command_screen.gd scenes/ui/run_command_screen.tscn scripts/presentation/scene_binder.gd scenes/main/main.tscn tests/gut/test_run_command_view_model.gd tests/gut/test_run_command_screen.gd
-git commit -m "feat: add Focus Mode Run Command player UI"
-```
+- [ ] **Step 2: Implement projection only; do not calculate roulette/combat outcomes or probabilities.** Project three player-safe front-state entries for TOP/MIDDLE/BOTTOM with current units/threat/clash/commit outcome plus minimap context for front progress/stronghold/route/exception markers.
+- [ ] **Step 3: Discoverable RED scene test using dynamic `load()`** before the scene exists; then behavior tests for required nodes `TopHud`, `LowerDeck`, `RouletteSurface`, `CommitSurface`, `BattleSurface`, `ReviewSurface`, `PrimaryAction`, `FrontStateTop`, `FrontStateMiddle`, `FrontStateBottom`, `FrontStateMinimapTop`, `FrontStateMinimapMiddle`, `FrontStateMinimapBottom`.
+- [ ] **Step 4: Build 960×540 reference shell.** Lower deck 25–32% exploration target; battlefield stays primary. All three Front-State views remain simultaneously readable. The three contextual minimaps remain visible without duplicating unit-by-unit battle state. Only one lower work surface is visible at once.
+- [ ] **Step 5: Minimap semantics:** each minimap exposes route/progress, stronghold/defense line, current clash position, and only relevant infiltration/air/Boss/Siege exceptions. Do not render a second miniature battlefield or copy all combat units/VFX.
+- [ ] **Step 6: Roulette surface:** 3×3 center, all 12 arrows, preview on hover/focus without spending, Spin and Result Confirm separate, movement resources local only.
+- [ ] **Step 7: COMMIT surface:** stored/new units, editable pending lanes, irreversible warning, one primary CTA. Bind assignment to the corresponding visible Front-State spatial context rather than relying on three abstract buttons alone.
+- [ ] **Step 8: BATTLE/REVIEW:** Build/Spin/Commit mutation hidden in BATTLE; REVIEW shows five causal blocks, not raw `WAVE CAUSE REPORT` text. The front state reflects the result of committed troops.
+- [ ] **Step 9: SceneBinder binds battlefield + three Front-State/minimap surfaces + Run Command player surface. Technical StageHud is not simultaneously shown as the normal player dashboard.**
+- [ ] **Step 10: GREEN scene/view tests.**
+- [ ] **Step 11: Commit.**
 
 ---
 
 ### Task 7: Verification, runtime evidence, adversarial review and integration
 
-- [ ] **Godot parse/import:** Godot 4.7.x, no script/resource errors.
+- [ ] **Godot parse/import:** current project-approved stable Godot exact pin, no script/resource errors.
 - [ ] **GUT:** all new suites >0 tests, 100% pass.
 - [ ] **Existing regressions:** roulette, stage run, battle, economy, deployment, application/session/bootstrap and every CI-routed affected contract.
-- [ ] **Python contracts:** run the exact suite routed by `.github/workflows/validate-omenward-core.yml`; zero required tests/checks is failure.
+- [ ] **Python contracts:** run the exact suite routed by current repository workflows; zero required tests/checks is failure.
 - [ ] **Determinism replay:** same seed + same action list twice; compare confirmed board, deployed reward order/lane, input log deterministic fields and final slice state.
 - [ ] **Unrelated-diff gate:** no role-output #176, balance pilot, platform/release, adapter/governance or historical-evidence mutation unless an independently approved work item owns it.
-- [ ] **Hera pre-fingerprint → live player-path smoke → post-fingerprint.** Complete PREPARE→Spin→manipulate→Confirm→COMMIT→BATTLE→REVIEW. Hera source delta must be `NONE`.
-- [ ] **Resolution/readability:** 960×540, 1280×720, 1920×1080; all three lanes visible, lower deck secondary, one active work surface, 12 arrows legible, top resource totals not duplicated. Mouse+keyboard executed. Controller remains NOT_RUN unless actually executed.
+- [ ] **Live QA pre-fingerprint → live player-path smoke → post-fingerprint.** Complete PREPARE→Spin→manipulate→Confirm→COMMIT→BATTLE→REVIEW. QA-attributable tracked source delta must be `NONE`.
+- [ ] **Resolution/readability:** 960×540, 1280×720, 1920×1080; all three Front-State views visible simultaneously, three contextual minimaps identifiable, lower deck secondary, one active work surface, 12 arrows legible, top resource totals not duplicated. Mouse+keyboard executed. Controller remains NOT_RUN unless actually executed.
+- [ ] **Minimap contract:** each front's progress/stronghold/route context is readable; unit-by-unit replication and duplicated battle VFX are absent.
+- [ ] **Decision-screen comprehension:** situation, options, cost/risk, consequence, and next action remain separate evidence; human comprehension stays NOT_RUN until a person actually tests it.
 
 **Five full adversarial loops**
-- [ ] **Loop 1 — authority/architecture:** duplicate state owners, UI rule calculation, premature resolution/charge, stale planning authority, unrelated open-work mutation.
+- [ ] **Loop 1 — authority/architecture:** duplicate state owners, UI rule calculation, premature resolution/charge, stale planning authority, current visual Decision omission, unrelated open-work mutation.
 - [ ] **Loop 2 — transaction:** insufficient gold, invalid board, zero moves, post-confirm mutation, invalid reward index/lane, insufficient aggregate food, invalid spawn preflight, double confirm, phase skip. Require zero mutation on rejected COMMIT.
 - [ ] **Loop 3 — regressions:** legacy `spin()`, central-row judging, 8-line outcomes, battle/economy/wave behavior in BATTLE, debug HUD availability, historical evidence ownership.
-- [ ] **Loop 4 — UX/state:** more than one primary CTA, more than one lower surface, resource duplication, raw debug leakage, hidden irreversible boundary, three-reels/three-lanes confusion, battlefield crop.
-- [ ] **Loop 5 — Implementation Reality Gate:** fresh latest main + exact implementation HEAD + all changed files + tests + runtime/Hera evidence + remaining work. Exit only with zero blocking findings.
+- [ ] **Loop 4 — UX/state:** more than one primary CTA, more than one lower surface, resource duplication, raw debug leakage, hidden irreversible boundary, three-reels/three-lanes confusion, missing front/minimap context, battlefield crop, minimap-as-second-battlefield regression.
+- [ ] **Loop 5 — Implementation Reality Gate:** fresh latest main + exact implementation HEAD + all changed files + tests + runtime/live-QA evidence + remaining work. Exit only with zero blocking findings.
 
 **Integration**
 - [ ] Create one implementation PR from latest completed `main`; no takeover of existing/open unrelated branches.
 - [ ] Require exact-head CI, unresolved threads 0, repository rules/checks, no force push/admin bypass.
 - [ ] Merge only if current-task continuation rules are satisfied; otherwise leave the exact blocker.
 - [ ] Postmerge readback exact main. Update `docs/ACTIVE_CONTEXT.md`/`docs/CURRENT_IMPLEMENTATION_STATUS.md` only to evidence actually executed; human/player experience remains NOT_RUN without real users.
+- [ ] Reflect verified playable-slice meaning into the exact Project Notion human surface and destination-read back it; do not claim runtime/human PASS from a Notion update.
 
 ---
 
 ## Self-Review
 
-**Spec coverage:** Covers Run Command phase, paid stopped-spin transaction, 3×3/12-arrow manipulation, staged atomic COMMIT, battle-only active simulation, player-safe projection, Focus-adaptive lower deck, technical HUD preservation, deterministic/runtime evidence and 5-loop adversarial review.
+**Spec coverage:** Covers Run Command phase, paid stopped-spin transaction, 3×3/12-arrow manipulation, staged atomic COMMIT, battle-only active simulation, player-safe projection, three simultaneous Front-State views, three contextual per-front minimaps, Focus-adaptive lower deck, technical HUD preservation, deterministic/runtime evidence and 5-loop adversarial review.
 
 **Adversarial corrections already incorporated:**
 1. The first draft incorrectly assumed current `RouletteService.spin()` could precede manipulation; corrected by adding a paid stopped-snapshot seam and preserving `spin()` as legacy wrapper.
 2. The first draft's preflight + per-unit deploy callable could still partially mutate if a later apply failed; corrected to aggregate food reservation + battle spawn preflight + deterministic batch deployment.
 3. A missing-file `preload()` RED could prevent GUT discovery; corrected to discoverable dynamic-load RED before behavior RED.
+4. The 2026-08-24 plan predated Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`; r5.4 reconciliation added the required three simultaneous Front-State views, three contextual minimaps, and their runtime/readability checks without changing the approved orchestration architecture.
 
 **Intentionally outside first slice:** full 20-stage production MapRun, merchant/maintenance depth, production art generation, final balance authority, Android certification, accessibility certification, controller PASS without actual execution, human/player-experience PASS without real users.
 
-**Execution route:** Persistent product implementation starts only in a HiGodot-enabled executor/session. GitHub text-file APIs are not a substitute for HiGodot persistent Godot authoring.
+**Execution route:** GPT owns this planning/reconciliation and final review. Actual Godot product implementation proceeds only through `CODEX_GODOT_PRODUCT_IMPLEMENTATION_HANDOFF`; Codex fresh-reads current OMENWARD GitHub + Project Notion and uses its own implementation environment. GPT→PowerShell→local Codex launch is not an execution route.
