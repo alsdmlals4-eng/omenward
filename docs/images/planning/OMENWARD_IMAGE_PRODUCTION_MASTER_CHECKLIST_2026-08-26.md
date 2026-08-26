@@ -16,8 +16,13 @@ current_reference_asset: OM-IMG-023
 current_approved_runtime_asset_source: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1
 current_next_brief: OMW-ASSET-BRIEF-20260826-VEIL-SHIELD-GUARD-01
 goal_queue: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-goal_queue_status: PROPOSED_FOR_USER_REVIEW
+goal_queue_status: USER_APPROVED_B_CURRENT
+current_gate: IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
 ```
+
+## 0.1 User decision · B approval
+
+`OMW-IMG-QUEUE-APPROVAL-20260826-B-01` · 사용자 입력 `B안 승인`으로 B안이 현재 승인되었습니다. 범위는 P0와 current-consumer P1의 승인·cleanup·Implementation Ready까지이며, P2/P3 선제 제작과 Codex/Godot 실행은 승인하지 않습니다. 다음 단계는 Veil Shield Guard의 단일 최종 텍스트 브리프 확인이며, 실제 이미지 생성에는 별도 명시 승인이 필요합니다.
 
 ## 1. Production rule
 
@@ -177,16 +182,17 @@ PLATFORM_SPEC_RECHECK
 
 ```text
 NOW
-1. User review/approval of OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-2. IMG-01 / ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-3. Shield pair user approval / style lock
-4. finalize non-image UNIT_ANIMATION_PRODUCTION_CONTRACT
-5. complete P0 image Goal packets
-6. complete current-consumer P1 Goal packets
-7. pixel cleanup / Notion approved registration / implementation-ready evidence
-8. only then prepare Codex Integration Goals for execution
+1. Final Veil text brief for exactly ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+2. Stop for separate explicit single-image generation approval
+3. Only after that approval: generate IMG-01 / ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+4. Shield pair user asset approval / style lock
+5. finalize non-image UNIT_ANIMATION_PRODUCTION_CONTRACT
+6. complete P0 image Goal packets
+7. complete current-consumer P1 Goal packets
+8. pixel cleanup / export / Notion approved registration / implementation-ready evidence
+9. only then prepare Codex Integration Goals for execution
 
-CODEX = NOT_STARTED
+CODEX = BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 ```
 
 ## 11. Asset completion definition
@@ -233,8 +239,10 @@ SCREEN_MOCKUP_IMAGE_PRODUCTION = STOPPED
 EXPLANATION_SHEET_IMAGE_PRODUCTION = STOPPED
 RUNTIME_CONSUMER_ASSET_PLANNING = ACTIVE
 CURRENT_NEXT_ASSET = ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-CURRENT_NEXT_ASSET_GENERATION = AWAITING_GOAL_QUEUE_USER_APPROVAL
-CODEX_PRODUCT_IMAGE_INTEGRATION = BLOCKED_BY_USER_ORDER
-UNBLOCK_CODEX = CURRENT_CONSUMER_P0_P1_IMAGE_GOALS_APPROVED_AND_IMPLEMENTATION_READY
+CURRENT_GATE = IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
+NEXT_REQUIRED_ACTION = PRESENT_VEIL_FINAL_TEXT_BRIEF
+IMAGE_GENERATION = REQUIRES_SEPARATE_EXPLICIT_USER_APPROVAL
+CODEX_PRODUCT_IMAGE_INTEGRATION = BLOCKED_UNTIL_B_SCOPE_ASSETS_ARE_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
+UNBLOCK_CODEX = ALL_B_SCOPE_P0_AND_CURRENT_CONSUMER_P1_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 GOOGLE_SHEET = COMPATIBILITY_HISTORY_ONLY_STALE
 ```
