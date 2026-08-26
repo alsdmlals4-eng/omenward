@@ -11,7 +11,8 @@ prepared_with_base_main: 06669fe9c6a3ccd6f3b0d19c5757540bfdcc0623
 current_user_work_mode: PLANNING_PLUS_IMAGE_ONLY
 current_user_order: REQUIRED_GAME_IMAGES_FIRST_THEN_CODEX
 current_image_package: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
-current_image_package_status: PROPOSED_FOR_USER_REVIEW
+current_image_package_status: USER_APPROVED_B_CURRENT
+current_gate: IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL
 image_generation: USER_REQUEST_ONLY
 codex_godot_execution: NOT_STARTED
 runtime_validation: NOT_RUN
@@ -246,7 +247,7 @@ P2 = 5 Goal Packets
 P3 = 2 Goal Packets
 ```
 
-Current recommended Codex-start policy is **B**:
+Current approved Codex-start policy is **B**:
 
 ```text
 B = finish all P0 + current-consumer P1 assets
@@ -259,27 +260,17 @@ B = finish all P0 + current-consumer P1 assets
 Alternative A (produce all future P2/P3 before Codex) is rejected as premature overproduction.
 Alternative C (Codex after each Goal) conflicts with the current user order `images first → Codex`.
 
-**Important:** B is a recommendation recorded in the Goal package, not yet a user-approved Decision.
+**Current decision:** `OMW-IMG-QUEUE-APPROVAL-20260826-B-01` records the user's `B안 승인`. It authorizes the B scope only; it does not auto-generate an image or start Codex.
 
-## 11. Current unresolved user gate
+## 11. Current user gate after B approval
 
-```text
-CURRENT_GATE = USER_REVIEW_OF_IMAGE_GOAL_QUEUE
-GOAL_QUEUE_STATUS = PROPOSED_FOR_USER_REVIEW
-```
+- `GOAL_QUEUE_STATUS = USER_APPROVED_B_CURRENT`
+- `CURRENT_GATE = IMG_01_FINAL_TEXT_BRIEF_AWAITING_EXPLICIT_GENERATION_APPROVAL`
+- `NEXT_IMAGE_CANDIDATE = ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1`
+- `IMAGE_GENERATION = NOT_STARTED`
+- `CODEX = BLOCKED`
 
-Do not silently promote the queue to approved.
-
-If the user explicitly approves the queue / approves B / says to start the next image with clear approval intent, proceed to IMG-01.
-
-The next actual image candidate is:
-
-```text
-IMG-01
-→ ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
-```
-
-Do **not** generate that image merely because this handoff was opened or because the project moved into ChatGPT Work.
+B approval fixes the production sequence: current-consumer P0 plus current-consumer P1 assets must become approved, cleaned/exported, and `IMPLEMENTATION_READY` before Codex integration starts. It does **not** silently generate IMG-01. After the final text brief, a separate explicit user generation approval is required for exactly one Veil Shield Guard idle candidate.
 
 ## 12. Non-image gate before mass unit animation art
 
@@ -350,20 +341,16 @@ Veil brief:
 - `22 · Asset Brief · Veil Shield Guard`
 - https://app.notion.com/p/3c81b237eb1c8180b30bc98f8bf067b6
 
-## 15. First actions in GPT Work
+## 15. First actions in GPT Work after B approval
 
-```text
 1. Fresh-read Base + OMENWARD + Notion.
-2. Compare current main/PR/image records to this handoff and report material drift.
-3. Restore current gate: Goal Queue is PROPOSED_FOR_USER_REVIEW.
-4. Do not ask the user for facts available from project authority.
-5. Do not generate an image until explicit image/Goal approval.
-6. Do not start Godot/Codex.
-7. After approval, produce IMG-01 Veil Shield Guard Idle V1 only.
-8. Review candidate against approved Lumern pair and current Veil brief.
-9. Register only user-approved candidate in Notion/GitHub lineage.
-10. Continue P0/P1 in Goal order, with non-image animation/data gates where required.
-```
+2. Confirm this B approval record and the current main/PR state.
+3. Keep P2/P3 deferred and Codex/Godot blocked.
+4. Present the final text brief for exactly one `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` candidate.
+5. Stop for separate explicit image-generation approval.
+6. Only then generate exactly one candidate; review against Lumern and the Veil brief.
+7. Register only a user-approved candidate in Notion/GitHub lineage.
+8. Continue in Goal order with non-image contracts before any mass atlas production.
 
 ## 16. Suggested first GPT Work prompt
 
@@ -402,7 +389,7 @@ The GPT Work receiver is considered ready when it can state, after fresh-read:
 3. current image Goal package and approval status;
 4. approved Lumern source and its non-runtime status;
 5. Veil Shield Guard as the next candidate, still ungenerated;
-6. current P0/P1-before-Codex recommendation and its pending approval;
+6. the current B approval, its P0/current-consumer P1 boundary, and the still-separate IMG-01 generation approval;
 7. stale Google Sheet conflict;
 8. runtime/human evidence ceiling.
 
