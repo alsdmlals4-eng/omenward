@@ -13,8 +13,8 @@ godot_execution: NOT_IN_SCOPE
 codex_execution: NOT_IN_SCOPE
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_reference_asset: OM-IMG-023
-current_approved_runtime_asset_source: SHIELD_GUARD_IDLE_PAIR
-current_next_brief: IMG_02_01_LUMERN_GREATSWORD_IDLE_V1
+current_approved_runtime_asset_source: SHIELD_GUARD_IDLE_PAIR_PLUS_LUMERN_GREATSWORD_IDLE
+current_next_brief: BATCH_SCOPE_CONFIRMATION_FOR_REMAINING_UNITS_AND_BUILDINGS
 goal_queue: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
 goal_queue_status: USER_APPROVED_B_CURRENT
 current_gate: IMG_02_GOAL_SPECIFIC_BRIEF_AND_GENERATION_APPROVAL
@@ -79,6 +79,7 @@ CASINO_SLOT_MACHINE_LANGUAGE = FORBIDDEN
 | `OM-IMG-023` | `REFERENCE_ONLY` · user-approved visual direction | `REUSE_AS_IS` as reference only |
 | `ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1` | `APPROVED` + cleanup master | reuse approved master for runtime export/animation/token crop |
 | `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` | `APPROVED` + cleanup master | reuse approved master for runtime export/animation/token crop |
+| `ASSET-UNIT-LUMERN-GREATSWORD-WARRIOR-IDLE-V1` | `APPROVED` source | cleanup/export/animation/token crop remain separate |
 | old `OMW-VIS-001~012` full-screen/sheet lineage | `REFERENCE_ONLY` / some `SUPERSEDED` | no production-image counting |
 | historical VR-001/VR-002/old image-gen candidates | `REFERENCE_ONLY` / `SUPERSEDED` | selective reference only |
 | unregistered second blue-knight generation after Lumern approval | `REJECTED` | conflicts with Veil brief; not canon |
