@@ -12,7 +12,7 @@ current_user_work_mode: PLANNING_PLUS_IMAGE_ONLY
 current_user_order: REQUIRED_GAME_IMAGES_FIRST_THEN_CODEX
 current_image_package: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
 current_image_package_status: SHIELD_GUARD_IDLE_PAIR_USER_APPROVED
-current_gate: UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS
+current_gate: PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
 image_generation: USER_REQUEST_ONLY
 codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 runtime_validation: NOT_RUN
@@ -267,8 +267,9 @@ Alternative C (Codex after each Goal) conflicts with the current user order `ima
 ## 11. Current user gate after B approval
 
 - `GOAL_QUEUE_STATUS = SHIELD_GUARD_IDLE_PAIR_USER_APPROVED`
-- `CURRENT_GATE = UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS`
-- `NEXT_REQUIRED_ACTION = DEFINE_UNIT_ANIMATION_PRODUCTION_CONTRACT`
+- `UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT` — `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
+- `CURRENT_GATE = PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION`
+- `NEXT_REQUIRED_ACTION = AWAIT_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL`
 - `NEXT_IMAGE_GENERATION = REQUIRES_ITS_OWN_EXPLICIT_USER_APPROVAL`
 - `CODEX = BLOCKED`
 
@@ -348,8 +349,8 @@ Veil brief:
 1. Fresh-read Base + OMENWARD + Notion.
 2. Confirm the Shield Guard idle pair approval and current main/PR state.
 3. Keep P2/P3 deferred and Codex/Godot blocked.
-4. Define `UNIT_ANIMATION_PRODUCTION_CONTRACT` before any mass unit atlas production.
-5. Generate any future image only after its Goal-specific explicit user approval.
+4. Keep `UNIT_ANIMATION_PRODUCTION_CONTRACT` as the pair-pilot owner; no mass atlas without its cleaned-pair geometry addendum.
+5. Perform pair pixel cleanup or any future image/edit only after its Goal-specific explicit user approval.
 
 ## 16. Suggested first GPT Work prompt
 

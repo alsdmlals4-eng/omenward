@@ -1,19 +1,21 @@
 # [현행] OMENWARD Active Context
 
 ```yaml
-updated_at: 2026-08-25
-status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT
+updated_at: 2026-08-26
+status: PAUSED_AT_PAIR_PIXEL_CLEANUP_APPROVAL_GATE
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_project_core: docs/PROJECT_CORE.md
-current_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+current_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: PAUSED_AFTER_USER_APPROVED_VISUAL_CLOSEOUT
+current_activity: SHIELD_GUARD_IDLE_PAIR_APPROVED_AND_PRODUCTION_CONTRACT_LOCKED
 current_visual_spec: docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
+current_approved_runtime_asset_pair: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1 + ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
 implementation_authorized: true
 implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 implementation_execution: NOT_RESUMED_IN_VISUAL_CLOSEOUT
@@ -28,7 +30,7 @@ human_player_evidence: NOT_RUN
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 20
+CURRENT_APPROVED_REPLAN_DECISIONS = 21
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -57,10 +59,12 @@ FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = NOT_RESUMED
 HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
-PROJECT_ACTIVITY = PAUSED_QUEUED
-CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+PROJECT_ACTIVITY = PAUSED_AT_PAIR_PIXEL_CLEANUP_APPROVAL_GATE
+UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
+CURRENT_NEXT = USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
 VISUAL_GENERATION_POLICY = USER_REQUEST_ONLY
-IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
+IMAGE_GENERATION = USER_REQUEST_ONLY
+GODOT_CODEX = BLOCKED_UNTIL_B_SCOPE_ASSETS_ARE_IMPLEMENTATION_READY
 ```
 
 `GITHUB_NOTION_DRIFT_CHECK = PASS`와 `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5`는 2026-08-24 final-planning 시점의 보존 증거다. 2026-08-25 승인 이미지의 runtime/human 검증 PASS를 뜻하지 않는다.
@@ -72,7 +76,8 @@ The 2026-08-25 Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` is
 Current visual/handoff owners:
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
-- `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
+- `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
+- `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`
 
 Retained visual lineage/audit owner:
 - `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` (`OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01`) — historical/partial reference where the 2026-08-25 Decision supersedes layout/style.
@@ -218,9 +223,10 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 3. `AGENTS.md`;
 4. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
 5. this file;
-6. `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`;
-7. current visual spec + approved asset record;
-8. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
+6. `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`;
+7. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`;
+8. current visual spec + approved asset record;
+9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
 11. only resume runtime/code work after explicit user reactivation and fresh execution bootstrap.

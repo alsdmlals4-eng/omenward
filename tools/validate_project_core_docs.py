@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_REACTIVATION"
+CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
@@ -29,7 +29,8 @@ NORTH_STAR_AUDIT_ID = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 CURRENT_VISUAL_DECISION_ID = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
 CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md"
 CURRENT_VISUAL_ASSET = "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md"
-CURRENT_VISUAL_HANDOFF = "docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md"
+CURRENT_VISUAL_HANDOFF = "docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md"
+CURRENT_UNIT_ANIMATION_CONTRACT = "docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md"
 IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
 IMPLEMENTATION_PLAN = "docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
@@ -50,6 +51,7 @@ REQUIRED_FILES = (
     CURRENT_VISUAL_SPEC,
     CURRENT_VISUAL_ASSET,
     CURRENT_VISUAL_HANDOFF,
+    CURRENT_UNIT_ANIMATION_CONTRACT,
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
     "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
@@ -153,7 +155,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_VISUAL_DECISION_ID,
             CURRENT_VISUAL_SPEC,
             CURRENT_VISUAL_ASSET,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
+            "OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01",
+            CURRENT_UNIT_ANIMATION_CONTRACT,
             "OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01",
             "OMW-PLAN-20260820-CONTENT-BOSS-ARC-01",
             "OMW-PLAN-20260820-BALANCE-BUDGET-01",
@@ -164,14 +168,14 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
             "PER_FRONT_MINIMAP = REQUIRED",
             "APPROVED_VISUAL = OM-IMG-023",
-            "PROJECT_STATE = PAUSED_QUEUED",
+            "PROJECT_STATE = PAUSED_AT_PAIR_CLEANUP_APPROVAL_GATE",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
             IMPLEMENTATION_PACKET,
             IMPLEMENTATION_PLAN,
             "RUNTIME_EVIDENCE = NOT_RUN",
             "HUMAN_EVIDENCE = NOT_RUN",
-            "IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT",
+            "IMAGE_GENERATION = USER_REQUEST_ONLY",
         ),
         "current decision index",
     )
@@ -199,8 +203,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT",
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 20",
+            "status: PAUSED_AT_PAIR_PIXEL_CLEANUP_APPROVAL_GATE",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
             CURRENT_VISUAL_DECISION_ID,
             "APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT",
             "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
@@ -216,7 +220,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN",
             "CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
-            "IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT",
+            "IMAGE_GENERATION = USER_REQUEST_ONLY",
         ),
         "Active Context",
     )
@@ -301,13 +305,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         visual_handoff,
         (
-            "handoff_state: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT",
-            f"visual_decision: {CURRENT_VISUAL_DECISION_ID}",
-            "approved_visual: OM-IMG-023",
-            "CURRENT_MINIMAP_READABILITY = NOT_RUN",
-            "CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN",
-            "BCP-2026-033-visual-canon-approval-and-handoff-integrity",
-            "Base PR #693",
+            "current_gate: PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION",
+            "current_image_package_status: SHIELD_GUARD_IDLE_PAIR_USER_APPROVED",
+            "image_generation: USER_REQUEST_ONLY",
+            "codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY",
         ),
         "current visual closeout handoff",
     )
@@ -346,7 +347,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 20",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 21",
             "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
@@ -469,13 +470,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         handoff,
         (
             CURRENT_CONTRACT,
-            "status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT",
-            CURRENT_VISUAL_DECISION_ID,
-            "APPROVED_VISUAL = OM-IMG-023",
-            "CURRENT_GODOT_RUNTIME = NOT_RUN",
-            "CURRENT_MINIMAP_READABILITY = NOT_RUN",
-            "CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN",
-            "BCP-2026-033-visual-canon-approval-and-handoff-integrity",
+            "current_gate: PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION",
+            "current_image_package_status: SHIELD_GUARD_IDLE_PAIR_USER_APPROVED",
+            "image_generation: USER_REQUEST_ONLY",
+            "runtime_validation: NOT_RUN",
+            "human_player_evidence: NOT_RUN",
+            "codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY",
         ),
         "handoff",
     )

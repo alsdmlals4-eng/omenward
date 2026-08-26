@@ -1,8 +1,8 @@
 # [현행] OMENWARD Handoff Context
 
 ```yaml
-updated_at: 2026-08-25
-status: PAUSED_QUEUED_AFTER_VISUAL_CLOSEOUT
+updated_at: 2026-08-26
+status: PAUSED_AT_PAIR_PIXEL_CLEANUP_APPROVAL_GATE
 handoff_packet_state: PACKET_READY
 receiver_state: TRANSFER_ACCEPTED
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
@@ -10,11 +10,19 @@ current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
-sender_handoff: docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md
+current_approved_runtime_asset_pair: SHIELD_GUARD_IDLE_PAIR
+current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
+current_image_package_status: SHIELD_GUARD_IDLE_PAIR_USER_APPROVED
+current_gate: PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
+codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
+sender_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 receiver_ack: docs/handoffs/2026-08-25-front-state-visual-receiver-ack.md
 implementation_execution: NOT_RESUMED
 visual_generation_policy: USER_REQUEST_ONLY
-visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
+visual_generation: USER_REQUEST_ONLY
+image_generation: USER_REQUEST_ONLY
+runtime_validation: NOT_RUN
+human_player_evidence: NOT_RUN
 historical_premerge_main_sha: 4e10ea441ecf537e4bef5af9d1991ddf99be217d
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 historical_postmerge_main_sha: fd4e377c5a5203fb01c0d971e8ead474d618747f
@@ -30,7 +38,7 @@ This file is the short restart router. The sender packet was fresh-read by a new
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 20
+CURRENT_APPROVED_REPLAN_DECISIONS = 21
 CURRENT_VISUAL_DECISION = OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 CURRENT_MAIN = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 PR_210_MERGED_MAIN_BASE = fd4e377c5a5203fb01c0d971e8ead474d618747f
@@ -50,10 +58,11 @@ APPROVED_VISUAL = OM-IMG-023
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 IMPLEMENTATION_EXECUTION = NOT_RESUMED
-PROJECT_ACTIVITY = PAUSED_QUEUED
-CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
+PROJECT_ACTIVITY = PAUSED_AT_PAIR_PIXEL_CLEANUP_APPROVAL_GATE
+UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
+CURRENT_NEXT = USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
 IMAGE_GENERATION = USER_REQUEST_ONLY
-VISUAL_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
+VISUAL_GENERATION = USER_REQUEST_ONLY
 ```
 
 The 2026-08-25 Decision supersedes the long full-road default, `NO_MINIMAP`/minimap-not-required, standalone `ANIME_PIXEL_ART`, standalone `CLEAN_PIXEL_ART`, and North Star v2.1 as current layout. It retains three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower Control Deck, allied-vs-Veil contrast, 3×3 roulette/direct arrows, irreversible front commitment, `PREPARE -> COMMIT -> BATTLE -> REVIEW`, and silhouette-first troops.

@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 CURRENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
 CURRENT_VISUAL_ASSET = "OM-IMG-023"
-CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_REACTIVATION"
+CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL"
 CURRENT_AUTHORITY = "SCOPED_APPROVED_RETAINED"
 
 GLOBAL_CURRENT_ROUTERS = (
@@ -37,7 +37,7 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
             text = read(relative)
             with self.subTest(relative=relative):
                 self.assertIn(CURRENT_CONTRACT, text)
-                self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 20", text)
+                self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 21", text)
                 self.assertIn(CURRENT_VISUAL_DECISION, text)
                 self.assertIn(CURRENT_VISUAL_ASSET, text)
                 self.assertIn(f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}", text)
@@ -70,7 +70,7 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
             "CURRENT_MAIN = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
             "PR_210_MERGED_MAIN_BASE = fd4e377c5a5203fb01c0d971e8ead474d618747f",
             "PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL",
-            "CURRENT_NEXT = USER_EXPLICIT_REACTIVATION",
+            "CURRENT_NEXT = USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL",
         ):
             self.assertIn(marker, handoff)
         self.assertNotIn(

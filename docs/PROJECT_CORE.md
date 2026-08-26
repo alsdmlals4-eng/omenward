@@ -1,7 +1,7 @@
 # [현행] OMENWARD Project Core
 
 ```yaml
-updated_at: 2026-08-25
+updated_at: 2026-08-26
 status: CURRENT_PROJECT_CORE
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -126,6 +126,7 @@ VISUAL_GENERATION = USER_REQUEST_ONLY
 Current visual owners:
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
+- `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
 - `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md` — retained silhouette rule.
 - `docs/design/APPROVED_OMENWARD_LOWER_CONTROL_DECK_SPEC_2026-08-20.md` — retained compact lower deck.
 - `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` — lineage/reference only where superseded by the 2026-08-25 Decision.
@@ -160,24 +161,26 @@ FINAL_PRODUCT_NUMERICS = NOT_APPROVED
 ## 10. Current work gate
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 20
+CURRENT_APPROVED_REPLAN_DECISIONS = 21
 FRONT_STATE_MINIMAP_SD_FANTASY = CONFIRMED_CURRENT
 APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT
+CURRENT_APPROVED_RUNTIME_ASSET_PAIR = SHIELD_GUARD_IDLE_PAIR
+UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5_RETAINED_PRE_20260825_VISUAL_OVERRIDE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 IMPLEMENTATION_EXECUTION = NOT_RESUMED
-PROJECT_ACTIVITY = PAUSED_QUEUED
-CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
-IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
+PROJECT_ACTIVITY = PAUSED_AT_PAIR_PIXEL_CLEANUP_APPROVAL_GATE
+CURRENT_NEXT = USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
+IMAGE_GENERATION = USER_REQUEST_ONLY
 ```
 
 Retained implementation authority owners:
 - `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
 - `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`
 
-The 2026-08-25 visual closeout neither cancels that scoped packet nor resumes its execution. Runtime/product mutation starts only after explicit user reactivation and fresh execution bootstrap.
+The 2026-08-25 visual closeout neither cancels that scoped packet nor resumes its execution. Runtime/product mutation remains blocked until the current image-production Gate is satisfied and a separate implementation authorization is fresh-read.
 
 ## 11. Implementation Reality Gate
 
@@ -203,7 +206,8 @@ HUMAN_QA_NOT_RUN
 - current implementation state: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - current visual Decision: `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - approved visual asset: `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
-- current handoff: `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`
+- current handoff: `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`
+- current unit animation contract: `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
 - current documentation routing: `docs/DOCUMENTATION_MAP.md`
 - current final planning review: `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md` — retained pre-2026-08-25 visual-override evidence.
 - current human-facing workspace: Project Notion

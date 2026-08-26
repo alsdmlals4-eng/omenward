@@ -31,7 +31,7 @@ CURRENT_VISUAL_SPEC_OWNER = "2026-08-25-front-state-minimap-sd-fantasy-design.md
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_IMPLEMENTATION_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_REACTIVATION"
+CURRENT_REACTIVATION_GATE = "USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
 
@@ -66,7 +66,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIsNotNone(match)
         table_ids = set(re.findall(r"\| `(OMW-PLAN-[^`]+)` \|", decisions))
         self.assertEqual(int(match.group(1)), len(table_ids))
-        self.assertEqual(20, len(table_ids))
+        self.assertEqual(21, len(table_ids))
         self.assertIn(CURRENT_VISUAL_DECISION, table_ids)
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:

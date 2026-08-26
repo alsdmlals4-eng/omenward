@@ -707,7 +707,7 @@ Store submission evidence, not game runtime evidence.
 
 These are **production information**, not generated images.
 
-1. `UNIT_ANIMATION_PRODUCTION_CONTRACT`: exact frame count/FPS/pivot/atlas arrangement and any missing `skill_1` choreography before mass atlas production.
+1. `UNIT_ANIMATION_PRODUCTION_CONTRACT`: **COMPLETE** — `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` locks the pair invariants and reserves exact frame/FPS/pivot/atlas geometry for the cleaned-pair addendum before mass atlas production.
 2. `UNIT_TIER_VISUAL_DATA_CONTRACT`: exact tier/rank visual mapping before IMG-19.
 3. `BUILDING_T3_CANON_RECHECK`: before IMG-24.
 4. `BOSS_BEHAVIOR_VISUAL_RECHECK`: before IMG-20.
@@ -783,8 +783,8 @@ RUNTIME_VERIFICATION = NOT_RUN
 **Current next production gate after IMG-01 idle approval:**
 
 ```text
-CURRENT_GATE = UNIT_ANIMATION_PRODUCTION_CONTRACT_REQUIRED_BEFORE_MASS_UNIT_ATLAS
-NEXT_REQUIRED_ACTION = DEFINE_UNIT_ANIMATION_PRODUCTION_CONTRACT
+CURRENT_GATE = PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
+NEXT_REQUIRED_ACTION = AWAIT_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
 NEXT_IMAGE_GENERATION = REQUIRES_ITS_OWN_EXPLICIT_USER_APPROVAL
 ```
 

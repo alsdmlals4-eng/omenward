@@ -29,7 +29,7 @@
 - 사용할 것: Shield Guard 역할을 읽게 하는 넓은 전면 갑각 방패, Veil의 black-purple/dark-red/carapace-gray 언어, 우향 3/4 전술 소스 포즈.
 - 사용하지 않을 것: 보스 체급, 창·긴 뿔·대검 실루엣, 과도한 rift glow와 가시, 이 후보만으로 runtime scale·pivot·atlas·상업 출시 권리를 확정하는 해석.
 
-이 자산은 프로젝트 asset lineage 승인본이며 Godot import 또는 runtime 검증본이 아니다. Mass unit animation atlas는 `UNIT_ANIMATION_PRODUCTION_CONTRACT`가 먼저 필요하다.
+이 자산은 프로젝트 asset lineage 승인본이며 Godot import 또는 runtime 검증본이 아니다. Pair의 animation production boundary는 `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`가 소유한다. Mass unit animation atlas는 cleaned-pair geometry/timing addendum 전까지 금지다.
 
 ### VR-001 — 전장 UI·병종 월드 스프라이트 형식
 

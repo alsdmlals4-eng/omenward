@@ -1,7 +1,7 @@
 # OMENWARD · Current Confirmed Decisions
 
 ```yaml
-updated_at: 2026-08-25
+updated_at: 2026-08-26
 status: CURRENT_DECISION_RECOVERY_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_reopened_at: 2026-08-20
@@ -10,8 +10,9 @@ runtime_evidence_ceiling: CURRENT_REPLAN_RUNTIME_NOT_RUN
 human_play_evidence: NOT_RUN
 visual_style: FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
 current_visual_asset: OM-IMG-023
+current_approved_runtime_asset_pair: SHIELD_GUARD_IDLE_PAIR
 visual_generation_policy: USER_REQUEST_ONLY
-visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
+visual_generation: USER_REQUEST_ONLY
 ```
 
 이 문서는 현재 승인 Decision을 새 작업자가 빠르게 복원하는 **인덱스**다. 상세 규칙은 각 owner가 소유한다. 사람용 전체 그림·Flow·비교표는 Project Notion, 구조화 계약·code/data/scene/test/runtime evidence는 repository가 소유한다. GitHub PR/Issue의 live 상태는 문서에 고정하지 않고 매 작업 시작 시 fresh 조회한다.
@@ -21,7 +22,7 @@ visual_generation: STOPPED_AFTER_APPROVED_CLOSEOUT
 ## Current approved replan decisions
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 20
+CURRENT_APPROVED_REPLAN_DECISIONS = 21
 ```
 
 | Decision ID | 승인 핵심 | Repository owner | 상태 |
@@ -46,6 +47,7 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 20
 | `OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01` | 역할→무기→체급→진영색→Tier→장식 순으로 읽히는 실루엣 | `docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md` | CONFIRMED |
 | `OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01` | 전장 우선 계층·진영 대비는 reference로 유지. 긴 길 전체표시와 스타일은 2026-08-25 Decision이 supersede | `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` | REFERENCE_WITH_NEW_OVERRIDE |
 | `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` | 3개 Front-State View 동시 표시 + 전선별 미니맵 + Fantasy/Magic/SD Tactical Pixel + 긴 지휘 깃발 Omen Warden + 승인 이미지 `OM-IMG-023` | `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` | CONFIRMED_CURRENT |
+| `OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01` | Shield Guard Lumern/Veil pair의 공통 state·facing·pivot·보관·cleanup 경계를 승인하고 exact geometry/timing은 cleaned-pair addendum으로 유보 | `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` | CONFIRMED_CURRENT |
 
 ## Protected product identity
 
@@ -138,7 +140,7 @@ HUMAN_EVIDENCE = NOT_RUN
 CURRENT_EXECUTION = NOT_RESUMED
 ```
 
-Historical compatibility note: `CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION` was the retained pre-pause execution router after the 2026-08-24 scoped implementation approval. It is not the current project gate after the 2026-08-25 closeout; the current gate below is `USER_EXPLICIT_REACTIVATION`.
+Historical compatibility note: `CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION` was the retained pre-pause execution router after the 2026-08-24 scoped implementation approval. It is not the current project gate; the current Gate is maintained in the current work-order block below.
 
 The 2026-08-25 visual Decision does not cancel the retained orchestration architecture, but this closeout does not resume or complete that implementation.
 
@@ -152,9 +154,12 @@ COMPLETED = FRONT_STATE_MINIMAP_SD_FANTASY_VISUAL_DECISION
 COMPLETED = OM_IMG_023_USER_APPROVAL
 COMPLETED = NOTION_HOME_AND_VISUAL_BIBLE_IMAGE_READBACK
 COMPLETED = DURABLE_VISUAL_ASSET_RECORD_AND_NEW_CHAT_HANDOFF
-PROJECT_STATE = PAUSED_QUEUED
-CURRENT_NEXT = USER_EXPLICIT_REACTIVATION
-IMAGE_GENERATION = STOPPED_AFTER_APPROVED_CLOSEOUT
+COMPLETED = SHIELD_GUARD_IDLE_PAIR_USER_APPROVAL_AND_DUAL_STORAGE
+COMPLETED = UNIT_ANIMATION_PRODUCTION_CONTRACT
+PROJECT_STATE = PAUSED_AT_PAIR_CLEANUP_APPROVAL_GATE
+CURRENT_NEXT = USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
+IMAGE_GENERATION = USER_REQUEST_ONLY
+GODOT_CODEX = BLOCKED_UNTIL_B_SCOPE_ASSETS_ARE_IMPLEMENTATION_READY
 ```
 
 ## GitHub work-item rule
@@ -171,9 +176,10 @@ Open/draft work not owned by the current task remains read-only. Fresh GitHub st
 2. this Decision index;
 3. `docs/ACTIVE_CONTEXT.md`;
 4. `docs/HANDOFF_CONTEXT.md`;
-5. `docs/handoffs/2026-08-25-front-state-visual-approved-closeout.md`;
-6. current visual spec + approved visual asset record;
-7. Notion Home + Visual Bible + Visual Components + full-resolution Drive image;
+5. `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`;
+6. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`;
+7. current visual spec + approved visual asset record;
+8. Notion Home + Visual Bible + Visual Components + full-resolution Drive image;
 8. current GDD/Project Core + relevant owners, treating conflicting older visual wording as superseded by the 2026-08-25 Decision;
 9. Google Sheet only as compatibility/history;
 10. only resume runtime/code work or image generation after an explicit user request and fresh authority/readback.
