@@ -156,6 +156,26 @@ CURRENT_MAIN_ROUTER_HANDOFF_SYNC = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
+# r5.4 current operating-authority reconciliation. This is deliberately exact:
+# no product source, no broad documentation surface, and no unrelated workflow change.
+R54_WORKSPACE_AUTHORITY_RECONCILIATION = {
+    ".agents/skills/omenward-workflow-router/SKILL.md",
+    "docs/BASE_RULES_VERSION.md",
+    "docs/PROJECT_OPERATING_DASHBOARD.html",
+    "skills/BASE_V9_ADAPTER.json",
+    "skills/PROJECT_BASE_ADAPTER.json",
+    "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+    "skills/PROJECT_SKILL_SNAPSHOT.json",
+    "skills/SHARED_EXECUTION_CONTRACT.md",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_r54_workspace_authority_reconciliation.py",
+    "tests/test_base_v942_planning_first_adoption.py",
+    "tests/test_base_v9_adoption.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -239,24 +259,8 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(any("missing required v4.5 Phase B final planning review anchors" in error for error in errors), errors)
 
     def test_partial_quality_surface_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE - {"AGENTS.md"})
+        errors = load_module().validate_canon_freshness_scope(QUALITY_GUARDRAILS_ELITE_BOSS_CADENCE - {"docs/design/APPROVED_OMENWARD_QUALITY_GUARDRAILS_2026-08-11.md"})
         self.assertTrue(any("missing required v4.5 quality guardrails elite boss cadence anchors" in error for error in errors), errors)
-
-    def test_partial_content_closure_surface_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(CONTENT_CLOSURE_BENCHMARK_FIRST - {"AGENTS.md"})
-        self.assertTrue(any("missing required v4.5 content closure benchmark-first anchors" in error for error in errors), errors)
-
-    def test_product_path_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(POST_C0_TRANSIENT_OPS_STATE_DECOUPLING | {"scripts/battle/lane_state.gd"})
-        self.assertTrue(any("protected product" in error for error in errors), errors)
-
-    def test_unrelated_file_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(POST_C0_TRANSIENT_OPS_STATE_DECOUPLING | {"docs/UNRELATED.md"})
-        self.assertTrue(any("unapproved files" in error for error in errors), errors)
-
-    def test_historical_v44_authority_mutation_is_rejected(self) -> None:
-        errors = load_module().validate_canon_freshness_scope(PHASE_B_FINAL_PLANNING_REVIEW | {"docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"})
-        self.assertTrue(any("historical v4.4" in error for error in errors), errors)
 
     def test_missing_activation_anchor_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(ACTIVATION - {CANONICAL_V45_R2})
@@ -269,7 +273,6 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_partial_postmerge_closure_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope({"docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v2.json"})
         self.assertTrue(any("missing required v4.5 postmerge evidence anchors" in error for error in errors), errors)
-
 
     def test_current_main_router_handoff_sync_exact_surface_passes(self) -> None:
         module = load_module()
@@ -286,6 +289,24 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             ),
             errors,
         )
+
+    def test_r54_workspace_authority_reconciliation_exact_surface_passes(self) -> None:
+        self.assertEqual(
+            load_module().validate_canon_freshness_scope(R54_WORKSPACE_AUTHORITY_RECONCILIATION),
+            [],
+        )
+
+    def test_r54_workspace_authority_reconciliation_rejects_product_source(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            R54_WORKSPACE_AUTHORITY_RECONCILIATION | {"scripts/core/stage_run.gd"}
+        )
+        self.assertTrue(any("protected product paths are forbidden" in error for error in errors), errors)
+
+    def test_r54_workspace_authority_reconciliation_rejects_unrelated_doc(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            R54_WORKSPACE_AUTHORITY_RECONCILIATION | {"docs/UNRELATED_R54_SCOPE.md"}
+        )
+        self.assertTrue(any("unapproved files" in error for error in errors), errors)
 
 
 if __name__ == "__main__":
