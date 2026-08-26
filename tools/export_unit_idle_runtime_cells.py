@@ -55,7 +55,7 @@ def export_entry(project_root: Path, entry: dict[str, Any]) -> dict[str, Any]:
     output_alpha = canvas.getchannel("A")
     if output_alpha.getbbox() is None:
         raise ValueError(f"empty runtime cell exported: {output}")
-    if any(value not in (0, 255) for value in output_alpha.getdata()):
+    if any(value not in (0, 255) for value in output_alpha.get_flattened_data()):
         raise ValueError(f"runtime cell contains partial alpha: {output}")
     if any(canvas.getpixel(point)[3] != 0 for point in ((0, 0), (canvas_width - 1, 0), (0, canvas_height - 1), (canvas_width - 1, canvas_height - 1))):
         raise ValueError(f"runtime cell corners must remain transparent: {output}")

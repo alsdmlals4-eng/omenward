@@ -10,17 +10,17 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_IMPORT_CONTRACT_COMPLETE
+current_activity: P0_UNIT_IDLE_RUNTIME_CONSUMER_EXTENSION_COMPLETE
 current_visual_spec: docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
-current_approved_runtime_asset_pair: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1 + ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
+current_approved_runtime_asset_pair: SHIELD_GUARD_IDLE_PAIR_PLUS_REMAINING_P0_UNIT_IDLE_CELLS
 current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
 implementation_authorized: true
-implementation_scope: SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_PILOT_ONLY
+implementation_scope: ALL_APPROVED_P0_UNIT_IDLE_RUNTIME_CONSUMERS
 implementation_execution: COMPLETE__IMPORT_AND_HEADLESS_CONTRACTS_VERIFIED
-implementation_packet: docs/implementation/OMENWARD_SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_EXECUTION_PACKET_2026-08-26.md
-implementation_plan: docs/superpowers/plans/2026-08-26-shield-guard-idle-texture-consumer.md
+implementation_packet: docs/implementation/OMENWARD_P0_UNIT_IDLE_RUNTIME_CONSUMER_EXECUTION_PACKET_2026-08-26.md
+implementation_plan: docs/superpowers/plans/2026-08-26-p0-unit-idle-runtime-geometry.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 current_chat_runtime_status: NOT_RUN
@@ -62,7 +62,7 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
-CURRENT_NEXT = AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION
+CURRENT_NEXT = P0_UNIT_IDLE_INTERACTIVE_READABILITY_REVIEW
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = USER_REACTIVATED__SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_COMPLETE
@@ -214,7 +214,8 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 7. COMPLETE — Notion Home/Visual Bible current image placement + server readback
 8. COMPLETE — durable GitHub visual asset record + new-chat handoff
 9. COMPLETE — Shield Guard shared UnitView idle texture consumer import contract
-10. NEXT — reconcile remaining approved P0 asset geometry before extending runtime consumers
+10. COMPLETE — reconcile remaining approved P0 asset geometry and extend shared runtime consumers
+11. NEXT — interactive P0 unit idle readability review; retain runtime/human evidence as `NOT_RUN` until recorded
 ```
 
 ## Resume order
@@ -230,6 +231,6 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
-11. current Shield Guard import contract is verified; retain runtime readability and human evidence as `NOT_RUN`.
+11. Shield Guard plus the remaining P0 unit import contracts are verified; retain runtime readability and human evidence as `NOT_RUN`.
 
-Do not generate another image or resume Godot implementation automatically.
+The user currently authorizes autonomous required-image production and scoped Codex/Godot continuation. Any runtime readability or human-play PASS still requires actual recorded evidence.

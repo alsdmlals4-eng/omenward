@@ -5,7 +5,7 @@ packet_id: OMW-IMPL-20260826-P0-UNIT-IDLE-RUNTIME-CONSUMER-01
 github_issue: 33
 approval_basis: USER_CONTINUATION_AND_CODEX_IMPLEMENTATION_AUTHORITY_2026-08-26
 scope: NINE_APPROVED_P0_UNIT_PAIRS_EXCLUDING_SHIELD_GUARD_PILOT
-status: IN_PROGRESS
+status: COMPLETE__IMPORT_AND_HEADLESS_CONTRACTS_VERIFIED
 ```
 
 ## Goal
@@ -33,3 +33,13 @@ Extend the verified shared Shield Guard texture path to the remaining approved P
 ## Evidence ceiling
 
 Headless/import checks cannot establish battlefield readability or human usability. Both remain `NOT_RUN`.
+
+## Completion evidence
+
+- 18 manifest-listed runtime cells were exported to `assets/art/units/` and imported by Godot 4.7.1 headlessly.
+- `docs/images/approved/OMENWARD_P0_UNIT_IDLE_RUNTIME_CELL_RUN_RECORD_2026-08-26.json` records every cleanup-master and output SHA-256, bounds, output size, and pivot.
+- The focused `p0_unit_idle_geometry_test.gd` was observed RED before binding and GREEN after binding.
+- All current 16 `tests/headless/*_test.gd` files and the 60-frame headless project smoke exited `0`.
+- Notion evidence was created and read back: `P0 Unit Idle Runtime Cells V1 · Codex Evidence` (`3c81b237-eb1c-8137-9ff6-c03dfbe1bbec`).
+
+Known headless shutdown resource/ObjectDB leak messages remain outside this scope and do not indicate an importer, parser, or contract-test failure.

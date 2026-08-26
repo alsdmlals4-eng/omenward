@@ -13,7 +13,7 @@
     "version": "9.4.3"
   },
   "canonical_source": "skills/PROJECT_BASE_ADAPTER.json",
-  "canonical_source_sha256": "e69fba2534908fd54abb39023f8fb1ee8d1b41c4f5040ee170fb8d795a4d7f0f",
+  "canonical_source_sha256": "d3ae4d9b54b24ebe318c0d1f2a3205df5dce4bc81a11e715efea8943168b2d5a",
   "canonical_sources": [
     "docs/BASE_RULES_VERSION.md",
     "docs/ACTIVE_CONTEXT.md",
