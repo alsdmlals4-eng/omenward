@@ -31,14 +31,22 @@ class PlanningFirstCompatibilityTests(unittest.TestCase):
         self.assertEqual(10, policy["max_approved_decisions_per_batch"])
         self.assertEqual("RECOMMENDED_DEFAULT", policy["numeric_default_state"])
         self.assertEqual("GRILL_ME_REQUIRED", policy["planning_conflict_state"])
-        self.assertEqual("APPROVED_PENDING_MERGE", policy["pre_merge_sheet_state"])
-        self.assertEqual("SYNCED_TO_MAIN", policy["post_merge_sheet_state"])
+        self.assertEqual("NOTION_DEFAULT_PROJECT_WORKSPACE", policy["current_human_workspace"])
+        self.assertEqual("GITHUB_REPOSITORY_AND_ACTUAL_RUNTIME", policy["runtime_structured_authority"])
+        self.assertEqual("COMPATIBILITY_ONLY_MIGRATION_SOURCE", policy["google_sheets_policy"])
+        self.assertEqual("HISTORICAL_ONLY_NOT_ACTIVE_SYNC", policy["pre_merge_sheet_state"])
+        self.assertEqual("HISTORICAL_ONLY_NOT_ACTIVE_SYNC", policy["post_merge_sheet_state"])
         self.assertEqual("NOT_RUN", policy["actual_project_batch_execution"])
 
     def test_project_boundaries_remain_unchanged(self) -> None:
         data = load()
-        self.assertEqual("CURRENT", data["gdd_sheet"]["sync_status"])
-        self.assertEqual("SHEET_GITHUB_SYNCED", data["gdd_sheet"]["declared_sync_status"])
+        sheet = data["gdd_sheet"]
+        self.assertEqual("GOOGLE_SHEETS_LEGACY_MIGRATION_SOURCE", sheet["role"])
+        self.assertEqual("MIGRATION_COMPATIBILITY_SURFACE", sheet["workspace_status"])
+        self.assertEqual("NOT_CONFIGURED", sheet["sync_status"])
+        self.assertEqual("HISTORICAL_SYNCED", sheet["declared_sync_status"])
+        self.assertFalse(sheet["new_input_allowed"])
+        self.assertFalse(sheet["read_for_normal_work"])
         self.assertEqual(["data/", "scripts/", "scenes/", "assets/", "addons/", "project.godot"], data["protected_paths"])
         self.assertEqual("NOT_RUN", data["shared_overrides"]["orchestrating-deepseek-worktrees"]["actual_external_ai_worktree_execution"])
 

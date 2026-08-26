@@ -283,6 +283,31 @@ CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
 }
 CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS = set(CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES)
 
+# Current r5.4 operating-authority repair. It is intentionally exact and non-product:
+# adapter/workspace authority, generated adapter consumers, and regression tests proving
+# that the old Sheet-as-current assumption cannot return. The workflow router remains
+# generator-owned and unchanged, so it is allowed but not a required changed anchor.
+R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES = {
+    ".agents/skills/omenward-workflow-router/SKILL.md",
+    ".github/workflows/validate-project-base-adapter.yml",
+    "docs/BASE_RULES_VERSION.md",
+    "docs/PROJECT_OPERATING_DASHBOARD.html",
+    "skills/BASE_V9_ADAPTER.json",
+    "skills/PROJECT_BASE_ADAPTER.json",
+    "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+    "skills/PROJECT_SKILL_SNAPSHOT.json",
+    "skills/SHARED_EXECUTION_CONTRACT.md",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_r54_workspace_authority_reconciliation.py",
+    "tests/test_base_v942_planning_first_adoption.py",
+    "tests/test_base_v9_adoption.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+R54_WORKSPACE_AUTHORITY_RECONCILIATION_REQUIRED_ANCHORS = set(
+    R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES
+) - {".agents/skills/omenward-workflow-router/SKILL.md"}
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -303,6 +328,7 @@ APPROVED_FILES = (
     | CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES
     | RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES
     | CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES
+    | R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES
 )
 
 
@@ -334,6 +360,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (R54_WORKSPACE_AUTHORITY_RECONCILIATION_ALLOWED_FILES, R54_WORKSPACE_AUTHORITY_RECONCILIATION_REQUIRED_ANCHORS, "r5.4 workspace authority reconciliation"),
         (CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES, CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS, "current v4.8 visual closeout"),
         (RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES, RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS, "Run Command implementation-authority sync"),
         (CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES, CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS, "current v4.8 North Star audit reconciliation"),

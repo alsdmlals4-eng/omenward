@@ -19,9 +19,16 @@ class BaseV9AdoptionTests(unittest.TestCase):
         intake = data["shared_overrides"]["managing-project-intake-and-work-contract"]
         self.assertEqual(10, intake["planning_first_governance"]["max_approved_decisions_per_batch"])
         self.assertEqual("GRILL_ME_REQUIRED", intake["planning_first_governance"]["planning_conflict_state"])
+        self.assertEqual("NOTION_DEFAULT_PROJECT_WORKSPACE", intake["planning_first_governance"]["current_human_workspace"])
+        self.assertEqual("GITHUB_REPOSITORY_AND_ACTUAL_RUNTIME", intake["planning_first_governance"]["runtime_structured_authority"])
         self.assertEqual("AWAITING_USER_CONFIRMATION", intake["first_prompt_governance"]["unconfirmed_state"])
-        self.assertEqual("CURRENT", data["gdd_sheet"]["sync_status"])
-        self.assertEqual("SHEET_GITHUB_SYNCED", data["gdd_sheet"]["declared_sync_status"])
+        sheet = data["gdd_sheet"]
+        self.assertEqual("GOOGLE_SHEETS_LEGACY_MIGRATION_SOURCE", sheet["role"])
+        self.assertEqual("MIGRATION_COMPATIBILITY_SURFACE", sheet["workspace_status"])
+        self.assertEqual("NOT_CONFIGURED", sheet["sync_status"])
+        self.assertEqual("HISTORICAL_SYNCED", sheet["declared_sync_status"])
+        self.assertFalse(sheet["new_input_allowed"])
+        self.assertFalse(sheet["read_for_normal_work"])
         self.assertEqual("OM-L0", health["operating_maturity"])
         self.assertEqual("PE-0", health["product_evidence_maturity"])
         self.assertEqual("NOT_RUN", health["critical_gates"]["runtime"])

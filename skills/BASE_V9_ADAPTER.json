@@ -18,7 +18,7 @@
     "version": "9.4.3"
   },
   "canonical_source": "skills/PROJECT_BASE_ADAPTER.json",
-  "canonical_source_sha256": "eb1e220b9c7e438038056b2bb033b5f7cd81cf8886480836bb0e71bb1b9b186f",
+  "canonical_source_sha256": "1a1d141736fd12de406b0d8c624ff9919cc98865d332ce1bc5af64ad6b59444b",
   "generated": true,
   "hash_definition": "RAW_FILE_BYTES_SHA256",
   "legacy_source": "docs/archive/base-v9-legacy-inputs/BASE_V9_ADAPTER.json",
@@ -31,6 +31,7 @@
   },
   "project": {
     "engine": "Godot 4.7",
+    "project_id": "omenward",
     "repository": "alsdmlals4-eng/omenward",
     "root": "."
   },

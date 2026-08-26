@@ -18,7 +18,7 @@ CURRENT_PROTECTED_BASELINE = "86f3c3c47ef02c2bc79c183059aa04daaec218ac"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-CURRENT_ADAPTER_SHA = "eb1e220b9c7e438038056b2bb033b5f7cd81cf8886480836bb0e71bb1b9b186f"
+CURRENT_ADAPTER_SHA = "1a1d141736fd12de406b0d8c624ff9919cc98865d332ce1bc5af64ad6b59444b"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 
 
@@ -33,12 +33,15 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(release["version"], BASE_RELEASE_VERSION)
         self.assertEqual(release["release_commit"], BASE_RELEASE_COMMIT)
 
-    def test_gdd_sheet_matches_current_reconciled_workspace(self) -> None:
+    def test_gdd_sheet_is_legacy_migration_compatibility_source(self) -> None:
         sheet = self.adapter["gdd_sheet"]
         self.assertEqual(sheet["id"], SHEET_ID)
-        self.assertEqual(sheet["role"], "USER_FACING_GDD_WORKSPACE")
-        self.assertEqual(sheet["sync_status"], "CURRENT")
-        self.assertEqual(sheet["declared_sync_status"], "SHEET_GITHUB_SYNCED")
+        self.assertEqual(sheet["role"], "GOOGLE_SHEETS_LEGACY_MIGRATION_SOURCE")
+        self.assertEqual(sheet["workspace_status"], "MIGRATION_COMPATIBILITY_SURFACE")
+        self.assertEqual(sheet["sync_status"], "NOT_CONFIGURED")
+        self.assertEqual(sheet["declared_sync_status"], "HISTORICAL_SYNCED")
+        self.assertFalse(sheet["new_input_allowed"])
+        self.assertFalse(sheet["read_for_normal_work"])
         self.assertEqual(sheet["write_policy"], "NO_AUTOMATIC_OVERWRITE")
 
     def test_current_protected_baseline_uses_user_approved_tool_sync_main(self) -> None:
