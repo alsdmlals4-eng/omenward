@@ -1,19 +1,11 @@
 {
   "artifact_role": "PROJECT_BASE_ADAPTER",
-  "current_base_authority": {
-    "repository": "alsdmlals4-eng/Base",
-    "resolution": "LATEST_COMPLETED_MAIN",
-    "loading_policy": "BASE_OWNER_PROGRESSIVE_LOAD",
-    "skill_registry": "skills/SKILL_REGISTRY.json",
-    "generated_active_map": "docs/generated/BASE_ACTIVE_SKILLS.md"
-  },
   "base_release": {
     "finalization_commit": "0b7c94f38d959efc0fc9442274c60b2e268a3c97",
     "release_commit": "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8",
     "release_evidence_commit": "da33a350d61b8adc52df97fccc7001708a933370",
     "repository": "alsdmlals4-eng/Base",
-    "version": "9.4.3",
-    "role": "HISTORICAL_ADOPTION_RECORD_ONLY"
+    "version": "9.4.3"
   },
   "compatibility": {
     "cycle": "ONE_CYCLE",
@@ -27,19 +19,17 @@
     ]
   },
   "gdd_sheet": {
-    "declared_sync_status": "LEGACY_COMPATIBILITY_ONLY",
+    "declared_sync_status": "SHEET_GITHUB_SYNCED",
     "id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
-    "role": "COMPATIBILITY_ONLY_MIGRATION_SOURCE",
+    "role": "USER_FACING_GDD_WORKSPACE",
     "sheet_only_change_policy": "PROPOSED_SHEET_CHANGE",
-    "sync_status": "COMPATIBILITY_ONLY",
-    "write_policy": "NO_NEW_ACTIVE_WORKSPACE_WRITES"
+    "sync_status": "CURRENT",
+    "write_policy": "NO_AUTOMATIC_OVERWRITE"
   },
   "project": {
     "engine": "Godot 4.7",
     "repository": "alsdmlals4-eng/omenward",
-    "root": ".",
-    "human_workspace": "NOTION_DEFAULT_PROJECT_WORKSPACE",
-    "structured_runtime_authority": "GITHUB_REPOSITORY_AND_ACTUAL_RUNTIME"
+    "root": "."
   },
   "protected_baseline": {
     "authority_kind": "REMOTE_TRACKING_REF",
@@ -48,8 +38,7 @@
     "policy_sha256": "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52",
     "policy_source_path": "skills/PROJECT_BASE_ADAPTER.json",
     "policy_source_type": "CANONICAL_ADAPTER_SOURCE",
-    "protected_paths_pointer": "/protected_paths",
-    "role": "HISTORICAL_PROTECTED_POLICY_EVIDENCE"
+    "protected_paths_pointer": "/protected_paths"
   },
   "protected_paths": [
     "data/",
@@ -61,8 +50,6 @@
   ],
   "routing": {
     "aliases": [],
-    "base_routes_role": "HISTORICAL_ADOPTION_SNAPSHOT_ONLY",
-    "current_base_routes": "RESOLVE_FROM_CURRENT_BASE_SKILL_REGISTRY",
     "base_routes": [
       {
         "route_id": "auditing-canonical-reference-freshness",
@@ -183,9 +170,6 @@
     "managing-design-documents": {},
     "managing-game-project-operating-system": {},
     "managing-project-intake-and-work-contract": {
-      "current_authority": "RESOLVE_FROM_LATEST_COMPLETED_BASE_MAIN",
-      "notion_workspace": "NOTION_DEFAULT_PROJECT_WORKSPACE",
-      "google_sheet": "COMPATIBILITY_ONLY_MIGRATION_SOURCE",
       "first_prompt_governance": {
         "actual_project_instruction_execution": "NOT_RUN",
         "approval_reuse": "REUSE_EXACT_APPROVAL_REFERENCE",
@@ -268,7 +252,6 @@
     "python tests/test_base_shared_external_ai_adapter.py",
     "python tests/test_base_v942_planning_first_adoption.py",
     "manual: Godot project parse/runtime check",
-    "python tests/test_base_v943_first_prompt_adoption.py",
-    "python tests/python/test_r54_operating_contract_reconciliation.py"
+    "python tests/test_base_v943_first_prompt_adoption.py"
   ]
 }

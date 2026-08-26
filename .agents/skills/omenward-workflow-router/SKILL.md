@@ -1,14 +1,16 @@
 ---
 name: omenward-workflow-router
-description: Resolve OMENWARD project-local Skills together with the latest completed Base main without copying Base Skill bodies into the project.
+description: Resolve this project's Base shared and project-local Skills through its verified v9.1 operating contracts.
 ---
 
 # Project Workflow Router
 
-Before selecting a route, fresh-read the latest completed Base main and its root `AGENTS.md`, then inventory the current Base `skills/SKILL_REGISTRY.json` and generated active map. Read OMENWARD `AGENTS.md`, `skills/PROJECT_BASE_ADAPTER.json`, `skills/SKILL_REGISTRY.json`, the current Project Notion Home, and the relevant current project canon before material mutation.
+Before selecting any route, run the project operating-contract validator for
+this repository and its pinned Base checkout. On a nonzero result, stop; do
+not infer, repair, or execute a route. Then read only
+`skills/PROJECT_BASE_ADAPTER.json` and the generated
+`skills/PROJECT_SKILL_SNAPSHOT.json`.
 
-`skills/PROJECT_SKILL_SNAPSHOT.json` is retained as compatibility/adoption evidence only. It is not the current Base route authority and must not freeze a pinned Base checkout or an old Base Skill count.
-
-Resolve current Base routes from the fresh Base Registry and project-local routes from the OMENWARD Registry. Project-local routes take precedence over a same-name shared route. Load only triggered owners progressively; do not copy Base shared Skill bodies into this repository.
-
-If GitHub and the Project Notion Home disagree on current meaning, stop mutation as `CONTEXT_DRIFT_RECHECK_REQUIRED` until the current owners are reconciled. Google Sheet is compatibility/migration input only and is not a current human-facing workspace.
+Resolve `effective_routes` exactly as generated. Project-local routes take
+precedence over same-name Base routes. Follow the selected recorded package at
+its path; this router contains no copied Base shared Skill body.
