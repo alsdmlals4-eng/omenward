@@ -1,22 +1,34 @@
 class_name UnitView
 extends Node2D
 
+const IDLE_DISPLAY_HEIGHT := 56.0
+
 var unit: Variant
 var visual_profile: Variant
+
+@onready var idle_sprite: Sprite2D = $IdleSprite
+
+
+func _ready() -> void:
+	_sync_idle_sprite()
 
 
 func bind_unit(assigned_unit: Variant, assigned_visual_profile: Variant = null) -> void:
 	unit = assigned_unit
 	visual_profile = assigned_visual_profile
+	_sync_idle_sprite()
 	queue_redraw()
 
 
 func _process(_delta: float) -> void:
+	_sync_idle_sprite()
 	queue_redraw()
 
 
 func _draw() -> void:
 	if unit == null:
+		return
+	if idle_sprite != null and idle_sprite.visible:
 		return
 	var color := Color.WHITE
 	if visual_profile != null:
@@ -42,3 +54,25 @@ func _draw() -> void:
 		draw_arc(Vector2.ZERO, radius + 4.0, 0.0, TAU, 12, Color(1.0, 0.85, 0.35), 2.0)
 	if state_name == "victory":
 		draw_line(Vector2(0, -radius), Vector2(0, -radius - 8.0), Color(1.0, 0.9, 0.4), 2.0)
+
+
+func _sync_idle_sprite() -> void:
+	if idle_sprite == null:
+		return
+	var texture: Texture2D = null
+	if visual_profile != null:
+		texture = visual_profile.idle_texture
+	if unit == null or texture == null:
+		idle_sprite.visible = false
+		idle_sprite.texture = null
+		return
+	var texture_size := Vector2(texture.get_width(), texture.get_height())
+	var scale_factor := IDLE_DISPLAY_HEIGHT / maxf(texture_size.y, 1.0)
+	idle_sprite.texture = texture
+	idle_sprite.scale = Vector2.ONE * scale_factor
+	idle_sprite.position = (texture_size * 0.5 - visual_profile.idle_pivot) * scale_factor
+	idle_sprite.flip_h = unit.owner_team_id == &"veil"
+	idle_sprite.modulate = Color.WHITE
+	if str(unit.state) == "dead":
+		idle_sprite.modulate.a = 0.3
+	idle_sprite.visible = true

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=42 format=3]
+[gd_resource type="Resource" load_steps=44 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/bootstrap_catalog.gd" id="1_catalog"]
 [ext_resource type="Script" path="res://scripts/data/tier_profile.gd" id="2_tier"]
@@ -21,6 +21,8 @@
 [ext_resource type="Resource" path="res://data/units/giant.tres" id="19_giant"]
 [ext_resource type="Resource" path="res://data/stages/tutorial_stage.tres" id="20_tutorial_stage"]
 [ext_resource type="Resource" path="res://data/stages/regular_stage.tres" id="21_regular_stage"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_shield_guard_idle.png" id="22_lumern_shield_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_shield_guard_idle.png" id="23_veil_shield_idle"]
 
 [sub_resource type="Resource" id="Tier1"]
 script = ExtResource("2_tier")
@@ -136,12 +138,16 @@ archetype_id = &"shield_guard"
 visual_faction_id = &"lumern"
 display_name = "Shield Guard"
 palette_color = Color(0.38, 0.66, 0.96, 1)
+idle_texture = ExtResource("22_lumern_shield_idle")
+idle_pivot = Vector2(640, 1280)
 [sub_resource type="Resource" id="VisualShieldVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"shield_guard"
 visual_faction_id = &"veil"
 display_name = "Veil Shield Guard"
 palette_color = Color(0.76, 0.3, 0.54, 1)
+idle_texture = ExtResource("23_veil_shield_idle")
+idle_pivot = Vector2(640, 1280)
 [sub_resource type="Resource" id="VisualGreatswordLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"greatsword_warrior"

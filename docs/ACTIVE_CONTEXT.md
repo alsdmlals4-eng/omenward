@@ -10,17 +10,17 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: P0_REMAINDER_SOURCES_AND_CLEANUP_MASTERS_STORED
+current_activity: SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_IMPORT_CONTRACT_COMPLETE
 current_visual_spec: docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
 current_approved_runtime_asset_pair: ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1 + ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
 current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
 implementation_authorized: true
-implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
-implementation_execution: NOT_RESUMED_IN_VISUAL_CLOSEOUT
-implementation_packet: docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md
-implementation_plan: docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
+implementation_scope: SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_PILOT_ONLY
+implementation_execution: COMPLETE__IMPORT_AND_HEADLESS_CONTRACTS_VERIFIED
+implementation_packet: docs/implementation/OMENWARD_SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_EXECUTION_PACKET_2026-08-26.md
+implementation_plan: docs/superpowers/plans/2026-08-26-shield-guard-idle-texture-consumer.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 current_chat_runtime_status: NOT_RUN
@@ -65,7 +65,7 @@ SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
 CURRENT_NEXT = AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
-GODOT_CODEX = BLOCKED_UNTIL_B_SCOPE_ASSETS_ARE_IMPLEMENTATION_READY
+GODOT_CODEX = USER_REACTIVATED__SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_COMPLETE
 ```
 
 `GITHUB_NOTION_DRIFT_CHECK = PASS`와 `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5`는 2026-08-24 final-planning 시점의 보존 증거다. 2026-08-25 승인 이미지의 runtime/human 검증 PASS를 뜻하지 않는다.
@@ -86,7 +86,7 @@ Retained visual lineage/audit owner:
 Retained final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md` — `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5` is retained planning evidence, not runtime or post-2026-08-25 visual validation.
 
-Retained implementation authority owners are not being executed by this closeout:
+Retained Run Command implementation authority remains separate from this completed visual receiver pilot:
 - `docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md`
 - `docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md`
 
@@ -213,8 +213,8 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 6. COMPLETE — OM-IMG-023 user visual approval
 7. COMPLETE — Notion Home/Visual Bible current image placement + server readback
 8. COMPLETE — durable GitHub visual asset record + new-chat handoff
-9. RETAINED_NOT_RESUMED — scoped Run Command implementation packet
-10. PAUSED — wait for explicit user reactivation
+9. COMPLETE — Shield Guard shared UnitView idle texture consumer import contract
+10. NEXT — reconcile remaining approved P0 asset geometry before extending runtime consumers
 ```
 
 ## Resume order
@@ -230,6 +230,6 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
-11. only resume runtime/code work after explicit user reactivation and fresh execution bootstrap.
+11. current Shield Guard import contract is verified; retain runtime readability and human evidence as `NOT_RUN`.
 
 Do not generate another image or resume Godot implementation automatically.
