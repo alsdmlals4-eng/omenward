@@ -1,0 +1,47 @@
+{
+  "record_id": "OMW-P0-HUD-RESOURCE-INDICATORS-V1",
+  "entries": [
+    {
+      "id": "gold",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_GOLD_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "aaf1bf90e216cda3d3671a58922a856d2093f2fce09a291e072699dacd42cfec",
+      "output": "assets/art/ui/gold_resource_indicator.png",
+      "output_sha256": "9f63b12e9ea6ae0b1010b460f22382b1513c98666d714c0cd21ae1980fc498bb",
+      "source_alpha_bounds": [
+        142,
+        117,
+        1113,
+        1130
+      ],
+      "canvas_size": [
+        64,
+        64
+      ],
+      "scaled_size": [
+        46,
+        48
+      ]
+    },
+    {
+      "id": "troop_capacity",
+      "source": ".asset-vault/library/ui/hud/masters/OMENWARD_ASSET_ICON_TROOP_CAPACITY_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "b94eb341acaab62333db4cbcf02e02947046b8fe14b60c69bcd3ac5447c59f8b",
+      "output": "assets/art/ui/troop_capacity_resource_indicator.png",
+      "output_sha256": "c40fd996338251f7d407e5f23607a34e347c3a56c80100db90820e5696f19a1a",
+      "source_alpha_bounds": [
+        239,
+        105,
+        1016,
+        1120
+      ],
+      "canvas_size": [
+        64,
+        64
+      ],
+      "scaled_size": [
+        37,
+        48
+      ]
+    }
+  ]
+}

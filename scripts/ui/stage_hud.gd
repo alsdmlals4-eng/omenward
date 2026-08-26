@@ -1,7 +1,8 @@
 class_name StageHud
 extends Control
 
-@onready var _resource_label: Label = $ResourceLabel
+@onready var _gold_label: Label = $GoldLabel
+@onready var _food_label: Label = $FoodLabel
 @onready var _wave_label: Label = $WaveLabel
 @onready var _omen_label: Label = $OmenLabel
 @onready var _omen_detail_label: Label = $OmenDetailLabel
@@ -70,7 +71,8 @@ func _on_retry_pressed() -> void:
 func _update_display() -> void:
 	if run == null or run.economy == null:
 		return
-	_resource_label.text = "Gold %d   Food %d/%d" % [run.economy.gold, run.economy.food_used, run.economy.food_cap]
+	_gold_label.text = "Gold %d" % run.economy.gold
+	_food_label.text = "Food %d/%d" % [run.economy.food_used, run.economy.food_cap]
 	_wave_label.text = "Wave %d" % run.current_wave
 	var omen: float = float(run.wave_director.seconds_until_next_wave()) if run.wave_director != null else 0.0
 	_omen_label.text = "Next wave %.0fs" % omen
