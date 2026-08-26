@@ -24,6 +24,7 @@ func _init() -> void:
 		_test_deterministic_approved_roulette(economy_script, building_service_script, roulette_script, failures)
 	if economy_script != null and deployment_script != null:
 		_test_deployment_food_limit(economy_script, deployment_script, failures)
+		_test_batch_deployment_is_atomic(economy_script, deployment_script, failures)
 	_finish(failures)
 
 
@@ -101,6 +102,25 @@ func _test_deployment_food_limit(economy_script: GDScript, deployment_script: GD
 	_expect(not deployment.deploy(card, &"top", 20.0), "deployment rejects cards that exceed the food cap", failures)
 	_expect(economy.food_used == 12, "rejected deployment does not spend additional food", failures)
 	_expect(manifest.input_log.size() == 1, "only accepted deployment commands are recorded", failures)
+
+
+func _test_batch_deployment_is_atomic(economy_script: GDScript, deployment_script: GDScript, failures: PackedStringArray) -> void:
+	var manifest := _manifest()
+	var economy: Variant = economy_script.new(manifest)
+	var deployment: Variant = deployment_script.new(economy, manifest)
+	var first := UnitSpawnDefinition.new()
+	first.archetype_id = &"shield_guard"
+	first.owner_team_id = &"lumern"
+	first.visual_faction_id = &"lumern"
+	first.food_cost = 7
+	first.lane_id = &"top"
+	var second := first.duplicate() as UnitSpawnDefinition
+	second.lane_id = &"middle"
+	var over_capacity_cards: Array[UnitSpawnDefinition] = [first, second]
+	_expect(not deployment.deploy_batch(over_capacity_cards, 10.0), "batch deployment rejects the entire over-capacity set", failures)
+	_expect(economy.food_used == 0, "rejected batch does not reserve partial food", failures)
+	_expect(deployment.deployed_cards.is_empty(), "rejected batch does not add partial deployed cards", failures)
+	_expect(manifest.input_log.is_empty(), "rejected batch does not write partial commands", failures)
 
 
 func _manifest() -> StageManifest:

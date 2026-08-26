@@ -71,8 +71,12 @@ func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health
 	}
 
 
+func can_spawn_unit(spawn: UnitSpawnDefinition) -> bool:
+	return spawn != null and registry != null and registry.archetypes.has(str(spawn.archetype_id)) and lanes.has(spawn.lane_id)
+
+
 func spawn_unit(spawn: UnitSpawnDefinition) -> Variant:
-	if spawn == null or not registry.archetypes.has(str(spawn.archetype_id)) or not lanes.has(spawn.lane_id):
+	if not can_spawn_unit(spawn):
 		return null
 	var unit: UnitInstance = UnitInstanceScript.new(spawn, registry, _next_unit_id, _rng.randi_range(0, 9999))
 	_next_unit_id += 1

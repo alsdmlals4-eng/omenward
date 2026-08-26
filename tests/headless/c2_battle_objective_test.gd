@@ -144,11 +144,13 @@ func _test_stage_natural_results(failures: PackedStringArray) -> void:
 	var victory_progression := StageProgression.new()
 	var victory_run := StageRun.new(victory_progression)
 	victory_run.start(tutorial, 505)
+	_expect(victory_run.begin_battle(), "victory run enters battle before natural result resolution", failures)
 	victory_run.battle.bases[&"veil"].apply_damage(100000.0, true)
 	victory_run.advance(0.1)
 	_expect(victory_run.result_state == victory_run.VICTORY and victory_progression.regular_unlocked, "enemy base destruction closes StageRun as victory", failures)
 	var defeat_run := StageRun.new(StageProgression.new())
 	defeat_run.start(tutorial, 506)
+	_expect(defeat_run.begin_battle(), "defeat run enters battle before natural result resolution", failures)
 	defeat_run.battle.bases[&"lumern"].apply_damage(100000.0, true)
 	defeat_run.advance(0.1)
 	_expect(defeat_run.result_state == defeat_run.DEFEAT, "player base destruction closes StageRun as defeat", failures)
@@ -157,6 +159,7 @@ func _test_stage_natural_results(failures: PackedStringArray) -> void:
 	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
 	var boss_run := StageRun.new(progression)
 	boss_run.start(regular, 507)
+	_expect(boss_run.begin_battle(), "boss run enters battle before wave progression", failures)
 	boss_run.battle.objectives_enabled = false
 	while boss_run.current_wave < 15:
 		boss_run.advance(60.0)

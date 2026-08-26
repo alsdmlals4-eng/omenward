@@ -41,7 +41,7 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
+            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_CAPTURED", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
             self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
     def test_visual_runtime_ceiling_loss_is_rejected(self) -> None:
@@ -94,13 +94,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION",
+                "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_FULL_SCOPE_MACHINE_QA_AND_HUMAN_PLAYTEST",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION" in error for error in errors), errors)
+            self.assertTrue(any("RUN_COMMAND_VERTICAL_SLICE_FULL_SCOPE_MACHINE_QA_AND_HUMAN_PLAYTEST" in error for error in errors), errors)
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -108,13 +108,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY",
+                "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
                 "implementation_scope: ALL_PRODUCT_IMPLEMENTATION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY" in error for error in errors), errors)
+            self.assertTrue(any("RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE" in error for error in errors), errors)
 
     def test_current_visual_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

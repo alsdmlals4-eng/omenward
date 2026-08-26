@@ -1,0 +1,189 @@
+{
+  "record_id": "OMW-ASSET-RUN-COMMAND-VISUAL-DERIVATIVES-20260827-V1",
+  "approval_reference": "OMW-ASSET-AUTO-APPROVAL-20260826-P0-REMAINDER-V1",
+  "normalization": "RGBA_BINARY_ALPHA_NEAREST_NEIGHBOUR_TRANSPARENT_CORNERS",
+  "entries": [
+    {
+      "asset_id": "roulette_board_frame",
+      "consumer": "RunCommandScreen roulette workbench",
+      "source": ".asset-vault/library/ui/roulette/masters/OMENWARD_ASSET_ROULETTE_BOARD_FRAME_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "b8a9d913e0cb37e1a557a71d56cf68c46876b9ceabbd71aa8827af3376b05bfa",
+      "source_alpha_bounds": [
+        12,
+        20,
+        1243,
+        1221
+      ],
+      "output": "assets/art/ui/run_command/roulette_board_frame.png",
+      "output_sha256": "ee77c786eeed3e1a7f33c30ea82644f5612604430ba1be833e4aa8ef7256ab2a",
+      "canvas_size": [
+        180,
+        180
+      ],
+      "scaled_size": [
+        180,
+        176
+      ],
+      "placement": [
+        0,
+        2
+      ]
+    },
+    {
+      "asset_id": "roulette_arrow",
+      "consumer": "RunCommandScreen twelve direct move controls",
+      "source": ".asset-vault/library/ui/roulette/masters/OMENWARD_ASSET_ROULETTE_ARROW_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "4f2aa5cb5ac723f033a9d23641b9705cfceaf6e94b207f270e83ffaa521eaf65",
+      "source_alpha_bounds": [
+        166,
+        73,
+        1141,
+        1158
+      ],
+      "output": "assets/art/ui/run_command/roulette_arrow.png",
+      "output_sha256": "7650d6f10ab35dcfe6cf78330050e6a13626e6aa9bde2fd01fac757b3ffa2a16",
+      "canvas_size": [
+        28,
+        28
+      ],
+      "scaled_size": [
+        25,
+        28
+      ],
+      "placement": [
+        1,
+        0
+      ]
+    },
+    {
+      "asset_id": "omen_device",
+      "consumer": "RunCommandScreen roulette focus anchor",
+      "source": ".asset-vault/library/ui/roulette/masters/OMENWARD_ASSET_OMEN_DEVICE_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "86d9f57c2a0a8b0a5349bd3eab4b36728f6de8d4fb78315d5e8afbea70ad2dd3",
+      "source_alpha_bounds": [
+        186,
+        18,
+        1045,
+        1206
+      ],
+      "output": "assets/art/ui/run_command/omen_device.png",
+      "output_sha256": "ae12c9a045856e0447d2873f220fc530bffbc1d08acc00f583c4ffcfb7d36f5c",
+      "canvas_size": [
+        72,
+        76
+      ],
+      "scaled_size": [
+        55,
+        76
+      ],
+      "placement": [
+        8,
+        0
+      ]
+    },
+    {
+      "asset_id": "token_x",
+      "consumer": "RunCommandScreen non-reward token",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_X_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "17f5d3dadb940d8266c0581abc14ec55d772b6fc445e4dd4cec5b6f107b04afe",
+      "source_alpha_bounds": [
+        54,
+        26,
+        1200,
+        1216
+      ],
+      "output": "assets/art/ui/run_command/token_x.png",
+      "output_sha256": "aa213b7ae701fde208d4e630c8fef6bb4755731575d8c06368905869c2359763",
+      "canvas_size": [
+        34,
+        34
+      ],
+      "scaled_size": [
+        33,
+        34
+      ],
+      "placement": [
+        0,
+        0
+      ]
+    },
+    {
+      "asset_id": "token_gold",
+      "consumer": "RunCommandScreen gold token",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_GOLD_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "aaf1bf90e216cda3d3671a58922a856d2093f2fce09a291e072699dacd42cfec",
+      "source_alpha_bounds": [
+        142,
+        117,
+        1113,
+        1130
+      ],
+      "output": "assets/art/ui/run_command/token_gold.png",
+      "output_sha256": "2039c94cf7f6f284184c9ae065900a03f7a58d52499ebbe5535106e269f1aa80",
+      "canvas_size": [
+        34,
+        34
+      ],
+      "scaled_size": [
+        33,
+        34
+      ],
+      "placement": [
+        0,
+        0
+      ]
+    },
+    {
+      "asset_id": "token_frame",
+      "consumer": "RunCommandScreen unit token frame",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_FRAME_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "5b27684d1eaf3c062ed8d115282119b8068360d855aee36c79adf5d97994a539",
+      "source_alpha_bounds": [
+        44,
+        22,
+        1210,
+        1188
+      ],
+      "output": "assets/art/ui/run_command/token_frame.png",
+      "output_sha256": "0a2e2fb3cab8784dc965dafc291731bd2942e2bb786a02ffc5cf103210a04669",
+      "canvas_size": [
+        34,
+        34
+      ],
+      "scaled_size": [
+        34,
+        34
+      ],
+      "placement": [
+        0,
+        0
+      ]
+    },
+    {
+      "asset_id": "token_state",
+      "consumer": "RunCommandScreen token state overlay",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_STATE_OVERLAY_V1_CLEANUP_MASTER_V1.png",
+      "source_sha256": "382e71722b13767ded2815424589d1763efa688edd370a773dd6616b8efa5b54",
+      "source_alpha_bounds": [
+        24,
+        17,
+        1230,
+        1237
+      ],
+      "output": "assets/art/ui/run_command/token_state.png",
+      "output_sha256": "8427618a8c8ed037346ccbd174c3404a616ba4de3172bbc8b615b6c0968f7cce",
+      "canvas_size": [
+        34,
+        34
+      ],
+      "scaled_size": [
+        34,
+        34
+      ],
+      "placement": [
+        0,
+        0
+      ]
+    }
+  ]
+}

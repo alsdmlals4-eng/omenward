@@ -27,3 +27,6 @@ func _on_stage_started(_stage_id: StringName, run: Variant) -> void:
 	var stage_hud := scene_root.get_node_or_null("UI/StageHud")
 	if stage_hud != null and stage_hud.has_method("bind_run"):
 		stage_hud.bind_run(run)
+	var run_command_screen := scene_root.get_node_or_null("UI/RunCommandScreen")
+	if run_command_screen != null and run_command_screen.has_method("bind_run"):
+		run_command_screen.bind_run(run)

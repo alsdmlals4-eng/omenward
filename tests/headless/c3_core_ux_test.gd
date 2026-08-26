@@ -104,11 +104,13 @@ func _test_boundary_snapshots(failures: PackedStringArray) -> void:
 
 	var no_target: Variant = _new_run(708)
 	var lone_archer: Variant = no_target.battle.spawn_unit(_spawn(&"lumern", &"top", &"archer"))
+	_expect(no_target.begin_battle(), "tactical overlay setup enters battle", failures)
 	no_target.advance(0.1)
 	var lone_entry: Dictionary = _unit_entry(no_target.core_ux_snapshot().get("tactical_overlay", []), int(lone_archer.unit_id))
 	_expect(int(lone_entry.get("target_unit_id", 0)) == -1, "tactical overlay safely exposes a unit with no current target", failures)
 
 	var unresolved: Variant = _new_run(709)
+	_expect(unresolved.begin_battle(), "unresolved report setup enters battle", failures)
 	unresolved.advance(60.0)
 	_expect((unresolved.core_ux_snapshot().get("latest_wave_report", {}) as Dictionary).is_empty(), "wave report remains empty while a registered wave is unresolved", failures)
 
@@ -117,6 +119,7 @@ func _test_staged_omen_reveal(failures: PackedStringArray) -> void:
 	var run: Variant = _new_run(702)
 	var initial: Dictionary = run.core_ux_snapshot().get("omen", {})
 	_expect(str(initial.get("phase", "")) == "countdown" and (initial.get("lanes", []) as Array).is_empty(), "omen hides composition outside T-30", failures)
+	_expect(run.begin_battle(), "omen reveal setup enters battle", failures)
 	run.advance(30.0)
 	var t30: Dictionary = run.core_ux_snapshot().get("omen", {})
 	_expect(str(t30.get("phase", "")) == "t30", "omen enters the T-30 phase", failures)
@@ -137,6 +140,7 @@ func _test_tactical_range_target_and_counter_overlay(failures: PackedStringArray
 	var flier: Variant = run.battle.spawn_unit(_spawn(&"veil", &"top", &"flier"))
 	archer.lane_position = 48.0
 	flier.lane_position = 52.0
+	_expect(run.begin_battle(), "target overlay setup enters battle", failures)
 	run.advance(0.1)
 	var overlay: Array = run.core_ux_snapshot().get("tactical_overlay", [])
 	var archer_entry: Dictionary = _unit_entry(overlay, int(archer.unit_id))
@@ -149,6 +153,7 @@ func _test_tactical_range_target_and_counter_overlay(failures: PackedStringArray
 func _test_wave_cause_report(failures: PackedStringArray) -> void:
 	var run: Variant = _new_run(704)
 	run.battle.objectives_enabled = false
+	_expect(run.begin_battle(), "wave report setup enters battle", failures)
 	run.advance(60.0)
 	var enemy: Variant = null
 	for unit in run.battle.snapshot().get("units", []):

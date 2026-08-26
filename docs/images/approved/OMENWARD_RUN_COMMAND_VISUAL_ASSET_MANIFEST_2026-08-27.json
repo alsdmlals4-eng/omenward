@@ -1,0 +1,56 @@
+{
+  "record_id": "OMW-ASSET-RUN-COMMAND-VISUAL-DERIVATIVES-20260827-V1",
+  "approval_reference": "OMW-ASSET-AUTO-APPROVAL-20260826-P0-REMAINDER-V1",
+  "normalization": "RGBA_BINARY_ALPHA_NEAREST_NEIGHBOUR_TRANSPARENT_CORNERS",
+  "entries": [
+    {
+      "asset_id": "roulette_board_frame",
+      "consumer": "RunCommandScreen roulette workbench",
+      "source": ".asset-vault/library/ui/roulette/masters/OMENWARD_ASSET_ROULETTE_BOARD_FRAME_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/roulette_board_frame.png",
+      "canvas_size": [180, 180]
+    },
+    {
+      "asset_id": "roulette_arrow",
+      "consumer": "RunCommandScreen twelve direct move controls",
+      "source": ".asset-vault/library/ui/roulette/masters/OMENWARD_ASSET_ROULETTE_ARROW_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/roulette_arrow.png",
+      "canvas_size": [28, 28]
+    },
+    {
+      "asset_id": "omen_device",
+      "consumer": "RunCommandScreen roulette focus anchor",
+      "source": ".asset-vault/library/ui/roulette/masters/OMENWARD_ASSET_OMEN_DEVICE_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/omen_device.png",
+      "canvas_size": [72, 76]
+    },
+    {
+      "asset_id": "token_x",
+      "consumer": "RunCommandScreen non-reward token",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_X_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/token_x.png",
+      "canvas_size": [34, 34]
+    },
+    {
+      "asset_id": "token_gold",
+      "consumer": "RunCommandScreen gold token",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_GOLD_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/token_gold.png",
+      "canvas_size": [34, 34]
+    },
+    {
+      "asset_id": "token_frame",
+      "consumer": "RunCommandScreen unit token frame",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_FRAME_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/token_frame.png",
+      "canvas_size": [34, 34]
+    },
+    {
+      "asset_id": "token_state",
+      "consumer": "RunCommandScreen token state overlay",
+      "source": ".asset-vault/library/ui/tokens/masters/OMENWARD_ASSET_TOKEN_STATE_OVERLAY_V1_CLEANUP_MASTER_V1.png",
+      "output": "assets/art/ui/run_command/token_state.png",
+      "canvas_size": [34, 34]
+    }
+  ]
+}

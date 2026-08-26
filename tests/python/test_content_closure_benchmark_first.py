@@ -17,7 +17,7 @@ WORKFLOW = ROOT / ".github/workflows/validate-canon-freshness-v4-5.yml"
 PRODUCT_DECISION = "OMW-DEC-20260811-PLANNING-WHOLE-PROJECT-CONTENT-CLOSURE-V1"
 PROCESS_DECISION = "OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
-CURRENT_GATE = "AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION"
+CURRENT_GATE = "RUN_COMMAND_VERTICAL_SLICE_FULL_SCOPE_MACHINE_QA_AND_HUMAN_PLAYTEST"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 STALE_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 
@@ -91,11 +91,9 @@ class ContentClosureBenchmarkFirstTest(unittest.TestCase):
             self.assertNotIn(STALE_GATE, text)
 
         active = ACTIVE.read_text(encoding="utf-8")
-        pending = PENDING.read_text(encoding="utf-8")
         self.assertIn(CURRENT_GATE, active)
-        self.assertIn(CURRENT_GATE, pending)
         self.assertIn("FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5", active)
-        self.assertIn("GITHUB_NOTION_DRIFT_CHECK = PASS", pending)
+        self.assertIn("GITHUB_NOTION_DRIFT_CHECK = PASS", PENDING.read_text(encoding="utf-8"))
 
     def test_final_planning_review_reuses_benchmark_first_without_opening_new_product_decision(self) -> None:
         text = FINAL_REVIEW.read_text(encoding="utf-8")

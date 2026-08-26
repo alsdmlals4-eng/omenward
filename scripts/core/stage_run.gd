@@ -18,6 +18,14 @@ const CoreUxServiceScript = preload("res://scripts/core/core_ux_service.gd")
 const RUNNING := &"running"
 const VICTORY := &"victory"
 const DEFEAT := &"defeat"
+const PREPARE := &"prepare"
+const STOPPED_3X3 := &"stopped_3x3"
+const MANIPULATE := &"manipulate"
+const RESULT_CONFIRM := &"result_confirm"
+const COMMIT := &"commit"
+const BATTLE := &"battle"
+const REVIEW := &"review"
+const COMMAND_LANE_IDS := [&"top", &"middle", &"bottom"]
 
 var progression: Variant
 var stage: Variant
@@ -35,6 +43,10 @@ var result_state: StringName = &""
 var pending_roulette_rewards: Array[UnitSpawnDefinition] = []
 var last_roulette_result: RouletteSpinResult
 var legendary_boss_unit_id := -1
+var command_phase: StringName = PREPARE
+var roulette_session := {}
+var roulette_moves_remaining := 0
+var pending_deployment_assignments := {}
 
 var _registry: Variant
 
@@ -50,6 +62,10 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	legendary_boss_unit_id = -1
 	pending_roulette_rewards.clear()
 	last_roulette_result = null
+	command_phase = PREPARE
+	roulette_session = {}
+	roulette_moves_remaining = 0
+	pending_deployment_assignments = {}
 	core_ux = null
 	if stage == null or not progression.can_start(stage):
 		return
@@ -86,6 +102,122 @@ func spin_roulette(seed_input: Dictionary) -> RouletteSpinResult:
 	last_roulette_result = result
 	store_roulette_result(result)
 	return result
+
+
+func begin_roulette_session(seed_input: Dictionary) -> bool:
+	if command_phase != PREPARE or roulette == null or not pending_roulette_rewards.is_empty():
+		return false
+	var session: Dictionary = roulette.begin_paid_spin(seed_input)
+	if not bool(session.get("accepted", false)):
+		var rejected := RouletteSpinResultScript.new() as RouletteSpinResult
+		rejected.failure_reason = StringName(session.get("failure_reason", &"service_not_ready"))
+		last_roulette_result = rejected
+		return false
+	roulette_session = session
+	roulette_moves_remaining = 3
+	command_phase = STOPPED_3X3
+	return true
+
+
+func preview_roulette_result() -> RouletteSpinResult:
+	var unavailable := RouletteSpinResultScript.new() as RouletteSpinResult
+	if roulette == null or roulette_session.is_empty():
+		unavailable.failure_reason = &"session_not_ready"
+		return unavailable
+	return roulette.preview_paid_board(
+		roulette_session.get("board", []),
+		int(roulette_session.get("resolution_seed", 0)),
+	)
+
+
+func move_roulette_row(row_index: int, direction: int) -> bool:
+	if row_index < 0 or row_index > 2:
+		return false
+	return _move_roulette_indexes([row_index * 3, row_index * 3 + 1, row_index * 3 + 2], direction)
+
+
+func move_roulette_column(column_index: int, direction: int) -> bool:
+	if column_index < 0 or column_index > 2:
+		return false
+	return _move_roulette_indexes([column_index, column_index + 3, column_index + 6], direction)
+
+
+func lock_roulette_result() -> bool:
+	if command_phase != STOPPED_3X3 and command_phase != MANIPULATE:
+		return false
+	last_roulette_result = preview_roulette_result()
+	if not last_roulette_result.accepted:
+		return false
+	command_phase = RESULT_CONFIRM
+	return true
+
+
+func confirm_roulette_result() -> bool:
+	if command_phase != RESULT_CONFIRM or roulette == null or roulette_session.is_empty():
+		return false
+	var result: RouletteSpinResult = roulette.resolve_paid_board(
+		roulette_session.get("board", []),
+		int(roulette_session.get("resolution_seed", 0)),
+		int(roulette_session.get("spin_seed", manifest.seed)),
+	)
+	if not result.accepted:
+		last_roulette_result = result
+		return false
+	last_roulette_result = result
+	store_roulette_result(result)
+	roulette_session = {}
+	roulette_moves_remaining = 0
+	pending_deployment_assignments = {}
+	command_phase = COMMIT
+	return true
+
+
+func assign_pending_reward(reward_index: int, lane_id: StringName) -> bool:
+	if command_phase != COMMIT or reward_index < 0 or reward_index >= pending_roulette_rewards.size() or not COMMAND_LANE_IDS.has(lane_id):
+		return false
+	pending_deployment_assignments[reward_index] = lane_id
+	return true
+
+
+func confirm_pending_deployment() -> bool:
+	if command_phase != COMMIT or pending_roulette_rewards.is_empty():
+		return false
+	var cards: Array[UnitSpawnDefinition] = []
+	for reward_index in pending_roulette_rewards.size():
+		if not pending_deployment_assignments.has(reward_index):
+			return false
+		var card := pending_roulette_rewards[reward_index].duplicate() as UnitSpawnDefinition
+		if card == null:
+			return false
+		card.lane_id = StringName(pending_deployment_assignments[reward_index])
+		if battle == null or not COMMAND_LANE_IDS.has(card.lane_id) or not battle.can_spawn_unit(card):
+			return false
+		cards.append(card)
+	if deployment == null or not deployment.can_deploy_batch(cards):
+		return false
+	if not deployment.deploy_batch(cards, 10.0):
+		return false
+	for card in cards:
+		if battle.spawn_unit(card) == null:
+			return false
+	manifest.input_log.append({
+		"action": "commit_deployment",
+		"assignments": cards.map(func(card: UnitSpawnDefinition) -> Dictionary: return card.to_dictionary()),
+	})
+	pending_roulette_rewards.clear()
+	pending_deployment_assignments = {}
+	command_phase = BATTLE
+	return true
+
+
+func begin_battle() -> bool:
+	if command_phase == PREPARE and pending_roulette_rewards.is_empty() and roulette_session.is_empty():
+		command_phase = BATTLE
+		return true
+	if command_phase == COMMIT and pending_roulette_rewards.is_empty():
+		command_phase = BATTLE
+		return true
+	return false
 
 
 func store_roulette_result(result: RouletteSpinResult) -> bool:
@@ -157,7 +289,7 @@ func core_ux_snapshot() -> Dictionary:
 
 
 func advance(delta: float) -> void:
-	if result_state != RUNNING:
+	if result_state != RUNNING or command_phase != BATTLE:
 		return
 	clock.advance(delta)
 	for wave in wave_director.advance(delta):
@@ -214,6 +346,7 @@ func _finish_victory(reason: StringName) -> void:
 	if result_state != RUNNING:
 		return
 	result_state = VICTORY
+	command_phase = REVIEW
 	progression.record_victory(stage)
 	manifest.input_log.append({"action": "stage_result", "result": "victory", "reason": str(reason)})
 
@@ -222,4 +355,32 @@ func _finish_defeat(reason: StringName) -> void:
 	if result_state != RUNNING:
 		return
 	result_state = DEFEAT
+	command_phase = REVIEW
 	manifest.input_log.append({"action": "stage_result", "result": "defeat", "reason": str(reason)})
+
+
+func _move_roulette_indexes(indexes: Array, direction: int) -> bool:
+	if (command_phase != STOPPED_3X3 and command_phase != MANIPULATE) or roulette_session.is_empty() or roulette_moves_remaining <= 0:
+		return false
+	if direction != -1 and direction != 1:
+		return false
+	var board: Array = roulette_session.get("board", [])
+	if board.size() != 9:
+		return false
+	var values := []
+	for index in indexes:
+		values.append(board[index])
+	for local_index in indexes.size():
+		var source_index := posmod(local_index - direction, indexes.size())
+		board[indexes[local_index]] = values[source_index]
+	roulette_session["board"] = board
+	roulette_moves_remaining -= 1
+	command_phase = MANIPULATE
+	manifest.input_log.append({
+		"action": "roulette_move",
+		"axis": "row" if indexes[1] - indexes[0] == 1 else "column",
+		"index": indexes[0] / 3 if indexes[1] - indexes[0] == 1 else indexes[0],
+		"direction": direction,
+		"moves_remaining": roulette_moves_remaining,
+	})
+	return true

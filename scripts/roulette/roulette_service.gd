@@ -36,25 +36,62 @@ func _init(assigned_economy: Variant, assigned_buildings: Variant, assigned_mani
 
 
 func spin(seed_input: Dictionary) -> RouletteSpinResult:
-	var rejected := RouletteSpinResultScript.new() as RouletteSpinResult
+	var session := begin_paid_spin(seed_input, false)
+	if not bool(session.get("accepted", false)):
+		var rejected := RouletteSpinResultScript.new() as RouletteSpinResult
+		rejected.failure_reason = StringName(session.get("failure_reason", &"service_not_ready"))
+		return rejected
+	return resolve_paid_board(
+		session.get("board", []),
+		int(session.get("resolution_seed", 0)),
+		int(session.get("spin_seed", manifest.seed)),
+	)
+
+
+func begin_paid_spin(seed_input: Dictionary, record_stopped_board: bool = true) -> Dictionary:
+	var session := {"accepted": false, "failure_reason": &"service_not_ready", "board": []}
 	if economy == null or buildings == null or manifest == null:
-		rejected.failure_reason = &"service_not_ready"
-		return rejected
+		return session
 	if not economy.try_spend_gold(SPIN_COST):
-		rejected.failure_reason = &"insufficient_gold"
-		return rejected
+		session["failure_reason"] = &"insufficient_gold"
+		return session
 	var requested_seed := int(seed_input.get("seed", manifest.seed))
 	var rng: RandomNumberGenerator = DeterminismServiceScript.new(manifest.seed).create_roulette_rng(requested_seed)
 	var sources: Array[Dictionary] = buildings.roulette_token_sources()
-	var board := _generate_board(rng, sources)
-	var result := resolve_board_snapshot(board, sources, rng.randi(), SPIN_COST, true)
-	result.spin_seed = requested_seed
-	if result.gold_reward > 0:
+	session = {
+		"accepted": true,
+		"failure_reason": &"",
+		"board": _generate_board(rng, sources),
+		"resolution_seed": rng.randi(),
+		"spin_seed": requested_seed,
+		"paid_cost": SPIN_COST,
+	}
+	if record_stopped_board:
+		manifest.input_log.append({
+			"action": "roulette_stopped",
+			"spin_seed": requested_seed,
+			"paid_cost": SPIN_COST,
+			"board": (session["board"] as Array).map(func(symbol: StringName) -> String: return str(symbol)),
+		})
+	return session
+
+
+func preview_paid_board(board: Array, resolution_seed: int) -> RouletteSpinResult:
+	var sources: Array[Dictionary] = buildings.roulette_token_sources() if buildings != null else []
+	return resolve_board_snapshot(board, sources, resolution_seed, SPIN_COST, false)
+
+
+func resolve_paid_board(board: Array, resolution_seed: int, spin_seed: int) -> RouletteSpinResult:
+	var sources: Array[Dictionary] = buildings.roulette_token_sources() if buildings != null else []
+	var result := resolve_board_snapshot(board, sources, resolution_seed, SPIN_COST, true)
+	result.spin_seed = spin_seed
+	if result.gold_reward > 0 and economy != null:
 		economy.add_gold(result.gold_reward)
-	manifest.input_log.append({
-		"action": "roulette",
-		"result": result.to_dictionary(),
-	})
+	if manifest != null:
+		manifest.input_log.append({
+			"action": "roulette",
+			"result": result.to_dictionary(),
+		})
 	return result
 
 

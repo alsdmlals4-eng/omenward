@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "artifact_role": "PROJECT_PROTECTED_CHANGE_APPROVAL",
+  "status": "APPROVED",
+  "protected_base_commit": "d4d99168a1a1092deba480d3290815eb86bfeca2",
+  "decision_ids": [
+    "OMW-PLAN-20260820-RUN-COMMAND-SHELL-01",
+    "OMW-PLAN-20260820-ROULETTE-3X3-COMPONENT-01",
+    "OMW-PLAN-20260820-TEXT-UX-STATE-01",
+    "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
+  ],
+  "approved_paths": [
+    "assets/art/ui/run_command/omen_device.png",
+    "assets/art/ui/run_command/roulette_arrow.png",
+    "assets/art/ui/run_command/roulette_board_frame.png",
+    "assets/art/ui/run_command/token_frame.png",
+    "assets/art/ui/run_command/token_gold.png",
+    "assets/art/ui/run_command/token_state.png",
+    "assets/art/ui/run_command/token_x.png",
+    "scenes/main/main.tscn",
+    "scenes/ui/run_command_screen.tscn",
+    "scripts/battle/battle_simulator.gd",
+    "scripts/core/stage_run.gd",
+    "scripts/presentation/scene_binder.gd",
+    "scripts/roulette/roulette_service.gd",
+    "scripts/ui/run_command_screen.gd",
+    "scripts/ui/run_command_screen.gd.uid",
+    "scripts/units/deployment_service.gd"
+  ],
+  "approval_source": "USER_CONTINUOUS_APPROVAL__RECOMMENDED_PLAN_AUTO_EXECUTE_AND_COMMIT",
+  "approval_time": "2026-08-27T00:00:00+09:00",
+  "scope_summary": "Approved Run Command vertical slice: player Run Command screen, stopped 3x3 roulette session, atomic front deployment, phase-gated battle, and approved local UI derivatives only."
+}

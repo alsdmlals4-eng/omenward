@@ -41,6 +41,7 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 	var progression: Variant = progression_script.new()
 	var run: Variant = stage_run_script.new(progression)
 	run.start(tutorial, 1001)
+	_expect(run.begin_battle(), "tutorial enters the battle phase before simulation advances", failures)
 	run.battle.objectives_enabled = false
 	_expect(run.result_state == &"running", "stage run begins with the tutorial", failures)
 	_advance_waves(run, 4)
@@ -48,6 +49,7 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 	run.submit_command({"action": "stage_victory"})
 	_expect(progression.regular_unlocked, "tutorial victory unlocks the regular stage for this session", failures)
 	run.start(regular, 1001)
+	_expect(run.begin_battle(), "regular stage enters the battle phase before simulation advances", failures)
 	run.battle.objectives_enabled = false
 	_advance_waves(run, 15)
 	_expect(run.current_wave == 15, "regular progression reaches W15", failures)
