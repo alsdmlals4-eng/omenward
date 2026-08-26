@@ -8,8 +8,8 @@ user_approval_input: 후보 묶음 승인
 scope: 17_NEW_UNIT_SOURCES_PLUS_7_T1_BUILDING_SOURCES
 project_local_storage: COMPLETE
 notion_approval_records: COMPLETE__24_CHILD_PAGES
-pixel_cleanup: NOT_RUN
-master_export: NOT_RUN
+pixel_cleanup: COMPLETE__24_FINAL_MASTERS
+master_export: COMPLETE__24_FINAL_MASTERS
 implementation_ready: NO
 runtime_import: NOT_RUN
 runtime_readability: NOT_RUN
@@ -28,4 +28,4 @@ All 24 approved PNG sources are stored in `.asset-vault/library/characters/{alli
 
 ## Important remaining gate
 
-The approved sources retain their generated geometry and partial alpha edges. Deterministic edge cleanup, shared master canvas/pivot selection, and master export require a separate approval. No Godot import or Codex implementation is authorized by this source-batch approval.
+The user separately approved deterministic cleanup/master export. The 24 final masters are documented in `docs/images/approved/OMENWARD_P0_UNITS_BUILDINGS_CLEANUP_MASTER_EXPORT_V1_2026-08-26.md`; they retain source dimensions and do not normalize canvas/pivot. No Godot import or Codex implementation is authorized by this source-batch approval.
