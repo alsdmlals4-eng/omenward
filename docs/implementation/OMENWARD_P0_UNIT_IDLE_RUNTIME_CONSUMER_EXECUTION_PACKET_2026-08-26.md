@@ -41,5 +41,6 @@ Headless/import checks cannot establish battlefield readability or human usabili
 - The focused `p0_unit_idle_geometry_test.gd` was observed RED before binding and GREEN after binding.
 - All current 16 `tests/headless/*_test.gd` files and the 60-frame headless project smoke exited `0`.
 - Notion evidence was created and read back: `P0 Unit Idle Runtime Cells V1 · Codex Evidence` (`3c81b237-eb1c-8137-9ff6-c03dfbe1bbec`).
+- A live `tests/visual/p0_unit_idle_gallery.tscn` instantiated all 18 profiles through the shared `UnitView`; its final capture and Hera diagnostics reported no clipping signal or runtime error.
 
 Known headless shutdown resource/ObjectDB leak messages remain outside this scope and do not indicate an importer, parser, or contract-test failure.

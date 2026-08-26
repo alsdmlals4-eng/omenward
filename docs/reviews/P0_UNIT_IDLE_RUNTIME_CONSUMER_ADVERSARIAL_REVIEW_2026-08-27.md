@@ -18,6 +18,10 @@ This review covers the committed 18-cell P0 runtime import, its bootstrap bindin
 4. **Importer and runtime attack:** Godot 4.7.1 headlessly imported all 18 PNGs. A live tutorial run created two `Unit`/`IdleSprite` nodes; the runtime screenshot showed Veil Shield Guard and newly imported Veil Archer on their lanes without a screenshot-analysis clipping signal. Hera diagnostics reported no errors or warnings.
 5. **Authority and drift attack:** checked staged data/asset behavior against the approved scope, ran the 60-frame smoke, and passed the Base project operating-contract and generated-artifact checks after the protected-baseline update.
 
+## Follow-up live gallery
+
+An isolated `tests/visual/p0_unit_idle_gallery.tscn` was then added to instantiate all 18 approved P0 profiles at the shared battlefield display scale. Its first live capture exposed an overlap between the column headings and the first row; the cause was the first baseline at `y=72` while a 56-pixel display cell could extend into the heading region. A new failing layout assertion required the first baseline to clear `y=108`; moving only that baseline to `108` passed the headless gallery contract and produced a final live capture with no screenshot-analysis clipping signal or Hera diagnostic.
+
 ## Critique–refine
 
 - Removed a Pillow deprecation warning in the export verifier after the first export; the production output algorithm and recorded output hashes are otherwise unchanged.
@@ -26,6 +30,6 @@ This review covers the committed 18-cell P0 runtime import, its bootstrap bindin
 
 ## Result
 
-`P0 = none`, `P1 = none`, `P2 = broad interactive readability remains unverified`, `P3 = none`.
+`P0 = none`, `P1 = none`, `P2 = broad interactive player readability remains unverified`, `P3 = none`.
 
-The next safe action is a deliberately scoped multi-archetype live readability capture or a user hands-on Godot review. `CURRENT_HUMAN_PLAYER_EVIDENCE` remains `NOT_RUN`.
+The multi-archetype live capture is complete. A user hands-on Godot review remains available for player evidence, while the next implementation consumer may proceed independently. `CURRENT_HUMAN_PLAYER_EVIDENCE` remains `NOT_RUN`.

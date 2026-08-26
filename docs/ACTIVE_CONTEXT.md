@@ -10,7 +10,7 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: P0_UNIT_IDLE_RUNTIME_CONSUMER_EXTENSION_COMPLETE
+current_activity: P0_UNIT_IDLE_RUNTIME_GALLERY_COMPLETE
 current_visual_spec: docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
@@ -23,7 +23,7 @@ implementation_packet: docs/implementation/OMENWARD_P0_UNIT_IDLE_RUNTIME_CONSUME
 implementation_plan: docs/superpowers/plans/2026-08-26-p0-unit-idle-runtime-geometry.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
-current_chat_runtime_status: PARTIAL__LIVE_TUTORIAL_RENDERER_AND_VEIL_ARCHER_CAPTURED
+current_chat_runtime_status: PARTIAL__LIVE_TUTORIAL_AND_ALL18_UNIT_GALLERY_CAPTURED
 human_player_evidence: NOT_RUN
 ```
 
@@ -62,7 +62,7 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
-CURRENT_NEXT = P0_UNIT_IDLE_INTERACTIVE_READABILITY_REVIEW
+CURRENT_NEXT = P0_BUILDING_RUNTIME_GEOMETRY_RECONCILIATION_BEFORE_CONSUMER_EXTENSION
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = USER_REACTIVATED__SHIELD_GUARD_IDLE_TEXTURE_CONSUMER_COMPLETE
@@ -180,14 +180,14 @@ Notion server readback proves the image block/attachment exists; it is not a bro
 ## Runtime / evidence boundary
 
 ```text
-CURRENT_GODOT_RUNTIME = PARTIAL__LIVE_TUTORIAL_RENDERER_AND_VEIL_ARCHER_CAPTURED
+CURRENT_GODOT_RUNTIME = PARTIAL__LIVE_TUTORIAL_AND_ALL18_UNIT_GALLERY_CAPTURED
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
 CURRENT_MINIMAP_READABILITY = NOT_RUN
-CURRENT_SD_UNIT_RUNTIME_READABILITY = PARTIAL__VEIL_ARCHER_AND_SHIELD_GUARD_LIVE_CAPTURE
+CURRENT_SD_UNIT_RUNTIME_READABILITY = PARTIAL__ALL18_UNIT_GALLERY_NO_CLIPPING_SIGNAL
 CURRENT_GUT_RED = NOT_RUN
 CURRENT_GUT_GREEN = NOT_RUN
-CURRENT_HERA_LIVE_QA = PARTIAL__LIVE_TUTORIAL_CAPTURE_AND_DIAGNOSTICS_CLEAN
+CURRENT_HERA_LIVE_QA = PARTIAL__LIVE_TUTORIAL_AND_ALL18_GALLERY_DIAGNOSTICS_CLEAN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 ```
@@ -215,8 +215,8 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 8. COMPLETE — durable GitHub visual asset record + new-chat handoff
 9. COMPLETE — Shield Guard shared UnitView idle texture consumer import contract
 10. COMPLETE — reconcile remaining approved P0 asset geometry and extend shared runtime consumers
-11. PARTIAL — live tutorial capture shows Shield Guard and Veil Archer through the shared renderer; broad interactive readability and human evidence remain `NOT_RUN`
-12. NEXT — multi-archetype live readability capture or user hands-on Godot review
+11. PARTIAL — live tutorial plus all-18 gallery captures show the shared renderer without an automated clipping signal; broad interactive readability and human evidence remain `NOT_RUN`
+12. NEXT — reconcile approved P0 building geometry before extending its runtime consumer
 ```
 
 ## Resume order
@@ -232,6 +232,6 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
-11. Shield Guard plus the remaining P0 unit import contracts are verified. Live tutorial evidence is partial; broad runtime readability and human evidence remain `NOT_RUN`.
+11. Shield Guard plus the remaining P0 unit import contracts are verified. Live tutorial and all-18 gallery evidence are partial; broad runtime readability and human evidence remain `NOT_RUN`.
 
 The user currently authorizes autonomous required-image production and scoped Codex/Godot continuation. Any runtime readability or human-play PASS still requires actual recorded evidence.
