@@ -12,7 +12,7 @@ status: PARTIAL_RUNTIME_EVIDENCE__NO_P0_OR_P1_FINDING
 2. **Missing/incorrect mapping attack:** created and ran the HUD contract before implementation (RED: every texture, binding, display mode, and compact width was absent). After the scene binding and Godot import, the same contract passed (GREEN).
 3. **Regression and scope-creep attack:** ran all 18 headless tests. The implementation touches only three `Button.icon` properties plus deterministic export/test/evidence files; construction rules, prices, service logic, scene geometry, and the battlefield stay unchanged.
 4. **Importer and live-interaction attack:** imported the three PNGs with Godot 4.7.1, captured the live Stage HUD, then clicked Barracks and Tower. Their existing gold deduction and occupied/disabled state still occurred; screenshot analysis found no clipping signal and Hera diagnostics were clean.
-5. **Authority and drift attack:** grounded the slice in GitHub Issue #223, retained the four unconsumed approved masters as source-only, and will advance the Base protected baseline only after the protected asset/scene commit is recorded.
+5. **Authority and drift attack:** grounded the slice in GitHub Issue #223, retained the four unconsumed approved masters as source-only, advanced the Base protected baseline after the protected asset/scene commit, and passed both Base operating-contract and generated-artifact checks.
 
 ## Result
 
