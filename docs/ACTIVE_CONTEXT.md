@@ -23,7 +23,7 @@ implementation_packet: docs/implementation/OMENWARD_P0_UNIT_IDLE_RUNTIME_CONSUME
 implementation_plan: docs/superpowers/plans/2026-08-26-p0-unit-idle-runtime-geometry.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE
-current_chat_runtime_status: NOT_RUN
+current_chat_runtime_status: PARTIAL__LIVE_TUTORIAL_RENDERER_AND_VEIL_ARCHER_CAPTURED
 human_player_evidence: NOT_RUN
 ```
 
@@ -180,14 +180,14 @@ Notion server readback proves the image block/attachment exists; it is not a bro
 ## Runtime / evidence boundary
 
 ```text
-CURRENT_GODOT_RUNTIME = NOT_RUN
+CURRENT_GODOT_RUNTIME = PARTIAL__LIVE_TUTORIAL_RENDERER_AND_VEIL_ARCHER_CAPTURED
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 CURRENT_UI_EVIDENCE = NOT_RUN
 CURRENT_MINIMAP_READABILITY = NOT_RUN
-CURRENT_SD_UNIT_RUNTIME_READABILITY = NOT_RUN
+CURRENT_SD_UNIT_RUNTIME_READABILITY = PARTIAL__VEIL_ARCHER_AND_SHIELD_GUARD_LIVE_CAPTURE
 CURRENT_GUT_RED = NOT_RUN
 CURRENT_GUT_GREEN = NOT_RUN
-CURRENT_HERA_LIVE_QA = NOT_RUN
+CURRENT_HERA_LIVE_QA = PARTIAL__LIVE_TUTORIAL_CAPTURE_AND_DIAGNOSTICS_CLEAN
 CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 ```
@@ -215,7 +215,8 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 8. COMPLETE — durable GitHub visual asset record + new-chat handoff
 9. COMPLETE — Shield Guard shared UnitView idle texture consumer import contract
 10. COMPLETE — reconcile remaining approved P0 asset geometry and extend shared runtime consumers
-11. NEXT — interactive P0 unit idle readability review; retain runtime/human evidence as `NOT_RUN` until recorded
+11. PARTIAL — live tutorial capture shows Shield Guard and Veil Archer through the shared renderer; broad interactive readability and human evidence remain `NOT_RUN`
+12. NEXT — multi-archetype live readability capture or user hands-on Godot review
 ```
 
 ## Resume order
@@ -231,6 +232,6 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
-11. Shield Guard plus the remaining P0 unit import contracts are verified; retain runtime readability and human evidence as `NOT_RUN`.
+11. Shield Guard plus the remaining P0 unit import contracts are verified. Live tutorial evidence is partial; broad runtime readability and human evidence remain `NOT_RUN`.
 
 The user currently authorizes autonomous required-image production and scoped Codex/Godot continuation. Any runtime readability or human-play PASS still requires actual recorded evidence.
