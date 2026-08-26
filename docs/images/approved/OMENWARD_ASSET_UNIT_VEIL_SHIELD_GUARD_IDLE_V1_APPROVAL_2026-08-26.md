@@ -33,6 +33,9 @@ PROJECT_LOCAL_PATH = .asset-vault/library/characters/enemies/OMENWARD_ASSET_UNIT
 DRIVE_ID = 1TbsIqmMoQh-byXrUPxBiFbONZfBnT-Nx
 DRIVE_URL = https://drive.google.com/file/d/1TbsIqmMoQh-byXrUPxBiFbONZfBnT-Nx/view?usp=drivesdk
 NOTION_RECORD = https://app.notion.com/p/3c81b237eb1c81519cb2de33f2a5e6e6
+CLEANUP_MASTER_APPROVAL = OMW-ASSET-APPROVAL-20260826-SHIELD-GUARD-CLEANUP-MASTER-PAIR-V1
+CLEANUP_MASTER_PATH = .asset-vault/library/characters/enemies/masters/OMENWARD_ASSET_UNIT_VEIL_SHIELD_GUARD_IDLE_CLEANUP_MASTER_V1.png
+CLEANUP_MASTER_SHA256 = 11d6fa548f03b1609afb60344404fac288ba9e5702a15cc57e76ff577eacff0a
 ```
 
 ## What is visually locked

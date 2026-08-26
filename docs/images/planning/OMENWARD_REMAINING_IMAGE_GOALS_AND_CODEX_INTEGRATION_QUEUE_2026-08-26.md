@@ -6,7 +6,7 @@ status: USER_APPROVED_B_CURRENT
 created_at: 2026-08-26
 scope: PROJECT_IMAGE_GAP_AUDIT_AND_FUTURE_CODEX_INTEGRATION_HANDOFF
 current_user_order: REQUIRED_GAME_IMAGES_FIRST_THEN_CODEX
-image_generation_this_work_package: AWAITING_EXPLICIT_IMG_01_GENERATION_APPROVAL
+image_generation_this_work_package: AWAITING_EXPLICIT_IMG_02_01_GENERATION_APPROVAL
 codex_godot_execution: BLOCKED_UNTIL_APPROVED_P0_AND_CURRENT_CONSUMER_P1_IMPLEMENTATION_READY
 runtime_validation: NOT_RUN
 base_main_fresh_read: 05d44bba978f4cff0fc94ade8e54825f5d6c80f0
@@ -55,7 +55,7 @@ SUPERSEDED
 - Status: `USER_APPROVED_CURRENT`
 - Approved scope: P0 + current-consumer P1 assets → cleanup/export → Implementation Ready → Codex integration.
 - Deferred scope: P2/P3 preproduction.
-- IMG-01 Veil idle generation: completed and user-approved; cleanup/export and the animation-production contract remain.
+- IMG-01 Shield Guard pair: cleanup master pair and the animation-production contract are completed and user-approved.
 - Codex/Godot: blocked until the approved scope is Implementation Ready.
 
 Decision record: `docs/images/approved/OMENWARD_IMAGE_GOAL_QUEUE_B_APPROVAL_2026-08-26.md`.
@@ -87,7 +87,7 @@ FILE = OMENWARD_ASSET_UNIT_LUMERN_SHIELD_GUARD_IDLE_V1.png
 SIZE = 1254x1254 RGBA
 SHA256 = 3e98fb83f5ac9169c387e6669c8ba545375700fc2346fc004781754884b2a50a
 DRIVE_ID = 1ZiVrA2mxO8sfzzct6uuPAk_b0NDMK8b8
-PIXEL_CLEANUP = NOT_RUN
+PIXEL_CLEANUP = USER_APPROVED_CLEANUP_MASTER_PAIR_V1
 RUNTIME_IMPORT = NOT_RUN
 RUNTIME_READABILITY = NOT_RUN
 ```
@@ -783,8 +783,8 @@ RUNTIME_VERIFICATION = NOT_RUN
 **Current next production gate after IMG-01 idle approval:**
 
 ```text
-CURRENT_GATE = PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
-NEXT_REQUIRED_ACTION = AWAIT_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
+CURRENT_GATE = IMG_02_GOAL_SPECIFIC_BRIEF_AND_GENERATION_APPROVAL
+NEXT_REQUIRED_ACTION = AWAIT_EXPLICIT_IMG_02_01_GENERATION_APPROVAL
 NEXT_IMAGE_GENERATION = REQUIRES_ITS_OWN_EXPLICIT_USER_APPROVAL
 ```
 

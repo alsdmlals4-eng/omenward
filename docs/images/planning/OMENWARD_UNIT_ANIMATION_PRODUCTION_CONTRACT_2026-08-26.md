@@ -9,8 +9,8 @@ issue_tracking: GitHub Issue #33
 authority_domain: REPOSITORY_STRUCTURED_CANON
 scope: SHIELD_GUARD_LUMERN_VEIL_PAIR_PILOT_ONLY
 visual_generation: USER_REQUEST_ONLY
-pixel_cleanup: NOT_RUN
-pair_geometry_addendum: REQUIRED_BEFORE_ATLAS_PRODUCTION
+pixel_cleanup: USER_APPROVED_CLEANUP_MASTER_PAIR_V1
+pair_geometry_addendum: IDLE_GEOMETRY_LOCKED__ANIMATION_TIMING_DEFERRED
 godot_implementation: OUT_OF_SCOPE
 runtime_validation: NOT_RUN
 ```
@@ -91,9 +91,9 @@ MIRROR_CONVENTION
 
 `IMPLEMENTATION_READY`는 아래를 모두 만족할 때만 검토할 수 있다.
 
-- [ ] 양쪽 원본의 project-local/Notion 보관과 checksum이 다시 확인됨.
-- [ ] 투명 배경, UI·문구·바닥 그림자 없는 cleaned master가 비파괴적으로 생성됨.
-- [ ] hard pixel edge, 일관된 pixel density, fuzzy alpha edge 없음.
+- [x] 양쪽 원본의 project-local/Notion 보관과 checksum이 다시 확인됨.
+- [x] 투명 배경, UI·문구·바닥 그림자 없는 cleaned master가 비파괴적으로 생성됨.
+- [x] hard pixel edge, 일관된 pixel density, fuzzy alpha edge 없음.
 - [ ] Shield Guard primary silhouette와 진영별 모양 언어가 승인 원본과 동일하게 유지됨.
 - [ ] pair geometry addendum이 양쪽에 공통 적용됨.
 - [ ] export filename·dimensions·SHA-256·Notion approval record가 남음.
@@ -113,15 +113,15 @@ MIRROR_CONVENTION
 |---|---|
 | 계약과 기존 state ID 일치 | `DOCUMENT_REVIEW_REQUIRED` |
 | Lumern/Veil idle 원본 보관·hash | `PROVEN` |
-| pixel cleanup / master export | `NOT_RUN` |
-| geometry / timing addendum | `NOT_RUN` |
+| pixel cleanup / master export | `USER_APPROVED_CLEANUP_MASTER_PAIR_V1` |
+| geometry / timing addendum | `IDLE_GEOMETRY_LOCKED__OTHER_STATES_NOT_LOCKED` |
 | Godot import / runtime readability | `NOT_RUN` |
 | human player test | `NOT_RUN` |
 
 ```text
-CURRENT_GATE = PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
+CURRENT_GATE = IMG_02_GOAL_SPECIFIC_BRIEF_AND_GENERATION_APPROVAL
 NEXT_IMAGE_OR_EDIT_ACTION = REQUIRES_ITS_OWN_EXPLICIT_USER_APPROVAL
-NEXT_DECISION_AFTER_CLEANUP = PAIR_GEOMETRY_AND_TIMING_ADDENDUM
+NEXT_DECISION_AFTER_CLEANUP = PRODUCE_REMAINING_P0_CURRENT_CONSUMER_ASSETS
 CODEX_GODOT = BLOCKED
 ```
 

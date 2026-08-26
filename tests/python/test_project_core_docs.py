@@ -94,13 +94,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL",
+                "CURRENT_NEXT = USER_EXPLICIT_IMG_02_01_GENERATION_APPROVAL",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("USER_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL" in error for error in errors), errors)
+            self.assertTrue(any("USER_EXPLICIT_IMG_02_01_GENERATION_APPROVAL" in error for error in errors), errors)
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

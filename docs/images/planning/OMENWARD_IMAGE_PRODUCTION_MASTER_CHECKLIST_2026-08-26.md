@@ -14,10 +14,10 @@ codex_execution: NOT_IN_SCOPE
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_reference_asset: OM-IMG-023
 current_approved_runtime_asset_source: SHIELD_GUARD_IDLE_PAIR
-current_next_brief: PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
+current_next_brief: IMG_02_01_LUMERN_GREATSWORD_IDLE_V1
 goal_queue: OMW-IMG-GOALS-20260826-RUNTIME-CONSUMER-COVERAGE-01
 goal_queue_status: USER_APPROVED_B_CURRENT
-current_gate: PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
+current_gate: IMG_02_GOAL_SPECIFIC_BRIEF_AND_GENERATION_APPROVAL
 ```
 
 ## 0.1 User decision · B approval
@@ -77,8 +77,8 @@ CASINO_SLOT_MACHINE_LANGUAGE = FORBIDDEN
 | Item | Status | Decision |
 |---|---|---|
 | `OM-IMG-023` | `REFERENCE_ONLY` · user-approved visual direction | `REUSE_AS_IS` as reference only |
-| `ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1` | `APPROVED` | `REUSE_WITH_EDIT` for cleanup/runtime export/animation/token crop |
-| `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` | `APPROVED` | `REUSE_WITH_EDIT` for cleanup/runtime export/animation/token crop |
+| `ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1` | `APPROVED` + cleanup master | reuse approved master for runtime export/animation/token crop |
+| `ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1` | `APPROVED` + cleanup master | reuse approved master for runtime export/animation/token crop |
 | old `OMW-VIS-001~012` full-screen/sheet lineage | `REFERENCE_ONLY` / some `SUPERSEDED` | no production-image counting |
 | historical VR-001/VR-002/old image-gen candidates | `REFERENCE_ONLY` / `SUPERSEDED` | selective reference only |
 | unregistered second blue-knight generation after Lumern approval | `REJECTED` | conflicts with Veil brief; not canon |
@@ -92,7 +92,7 @@ FILE = OMENWARD_ASSET_UNIT_LUMERN_SHIELD_GUARD_IDLE_V1.png
 SIZE = 1254x1254 RGBA
 SHA256 = 3e98fb83f5ac9169c387e6669c8ba545375700fc2346fc004781754884b2a50a
 DRIVE_ID = 1ZiVrA2mxO8sfzzct6uuPAk_b0NDMK8b8
-PIXEL_CLEANUP = NOT_RUN
+PIXEL_CLEANUP = USER_APPROVED_CLEANUP_MASTER_PAIR_V1
 IMPLEMENTATION_READY = NO
 IMPLEMENTED = NO
 RUNTIME_VERIFIED = NO
@@ -184,7 +184,8 @@ PLATFORM_SPEC_RECHECK
 NOW
 1. Shield pair user asset approval / style lock — COMPLETE
 2. non-image UNIT_ANIMATION_PRODUCTION_CONTRACT — COMPLETE (`OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01`)
-3. pair pixel cleanup and master export preparation — NEXT; a separate explicit image/edit approval is required
+3. pair pixel cleanup and master export — COMPLETE (`OMW-ASSET-APPROVAL-20260826-SHIELD-GUARD-CLEANUP-MASTER-PAIR-V1`)
+4. IMG-02-01 Lumern Greatsword idle brief + separate explicit generation approval — NEXT
 6. complete P0 image Goal packets
 7. complete current-consumer P1 Goal packets
 8. pixel cleanup / export / Notion approved registration / implementation-ready evidence
@@ -238,8 +239,8 @@ EXPLANATION_SHEET_IMAGE_PRODUCTION = STOPPED
 RUNTIME_CONSUMER_ASSET_PLANNING = ACTIVE
 CURRENT_APPROVED_ASSET_PAIR = ASSET-UNIT-LUMERN-SHIELD-GUARD-IDLE-V1 + ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
-CURRENT_GATE = PAIR_PIXEL_CLEANUP_AND_MASTER_EXPORT_PREPARATION
-NEXT_REQUIRED_ACTION = AWAIT_EXPLICIT_PAIR_PIXEL_CLEANUP_OR_EDIT_APPROVAL
+CURRENT_GATE = IMG_02_GOAL_SPECIFIC_BRIEF_AND_GENERATION_APPROVAL
+NEXT_REQUIRED_ACTION = AWAIT_EXPLICIT_IMG_02_01_GENERATION_APPROVAL
 IMAGE_GENERATION = STOPPED_UNTIL_NEXT_GOAL_HAS_ITS_OWN_USER_APPROVAL
 CODEX_PRODUCT_IMAGE_INTEGRATION = BLOCKED_UNTIL_B_SCOPE_ASSETS_ARE_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
 UNBLOCK_CODEX = ALL_B_SCOPE_P0_AND_CURRENT_CONSUMER_P1_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY
