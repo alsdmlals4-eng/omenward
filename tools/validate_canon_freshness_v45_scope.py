@@ -253,6 +253,27 @@ RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES = {
 }
 RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS = set(RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES)
 
+# The 2026-08-27 machine-QA record advances only evidence state. Keep its
+# documentation, validators, and mutation tests on an exact non-product surface.
+RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES = {
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/qa/OMENWARD_RUN_COMMAND_MACHINE_QA_2026-08-27.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tests/python/test_run_command_machine_qa_evidence_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_REQUIRED_ANCHORS = set(
+    RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES
+)
+
 # User-approved 2026-08-25 visual closeout. Current global routers are part of the
 # exact closeout surface so no current entry point can retain the 2026-08-24 gate.
 CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES = {
@@ -302,6 +323,7 @@ APPROVED_FILES = (
     | CURRENT_V47_CANON_VALIDATOR_RECONCILIATION_ALLOWED_FILES
     | CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES
     | RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES
+    | RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES
     | CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES
 )
 
@@ -334,6 +356,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES, RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_REQUIRED_ANCHORS, "Run Command machine-QA evidence sync"),
         (CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES, CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS, "current v4.8 visual closeout"),
         (RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES, RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS, "Run Command implementation-authority sync"),
         (CURRENT_V48_NORTH_STAR_AUDIT_ALLOWED_FILES, CURRENT_V48_NORTH_STAR_AUDIT_REQUIRED_ANCHORS, "current v4.8 North Star audit reconciliation"),
