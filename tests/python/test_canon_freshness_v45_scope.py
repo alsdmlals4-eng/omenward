@@ -188,6 +188,33 @@ SCREEN_SURFACE_COVERAGE_AUDIT = {
     "tools/validate_project_core_docs.py",
 }
 
+# The 2026-08-28 audit repairs current router drift after the approved
+# battlefield/roulette presentation evidence. It is documentation and contract
+# coverage only; no product code, Scene, Resource, or runtime asset path is
+# permitted.
+CANON_PLAY_VISUAL_AUDIT = {
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/analysis/ui/current_roulette_ddd_feedback.v1.json",
+    "docs/audits/OMENWARD_CANON_PLAY_EXPERIENCE_VISUAL_AUDIT_2026-08-28.md",
+    "docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -309,6 +336,19 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
 
     def test_screen_surface_coverage_audit_exact_surface_passes(self) -> None:
         self.assertEqual(load_module().validate_canon_freshness_scope(SCREEN_SURFACE_COVERAGE_AUDIT), [])
+
+    def test_canon_play_visual_audit_exact_surface_passes(self) -> None:
+        self.assertEqual(load_module().validate_canon_freshness_scope(CANON_PLAY_VISUAL_AUDIT), [])
+
+    def test_canon_play_visual_audit_rejects_missing_audit_record(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            CANON_PLAY_VISUAL_AUDIT
+            - {"docs/audits/OMENWARD_CANON_PLAY_EXPERIENCE_VISUAL_AUDIT_2026-08-28.md"}
+        )
+        self.assertTrue(
+            any("missing required v4.5 canon/play/visual audit anchors" in error for error in errors),
+            errors,
+        )
 
     def test_partial_current_main_router_handoff_sync_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(
