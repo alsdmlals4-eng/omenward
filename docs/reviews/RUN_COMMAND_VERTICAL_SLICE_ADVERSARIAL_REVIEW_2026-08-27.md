@@ -35,3 +35,9 @@ CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 CURRENT_WINDOWS_RUNTIME = NOT_RUN
 ```
+
+## Incident / Solution / Lesson · 2026-08-27
+
+- **Incident:** the current repository's CI-routed static tests still expected a superseded protected baseline and Godot AI `3.1.4`, while the actual current adapter and enabled plugin report `d4d99168…` and `3.2.0` respectively. This made the verification surface contradict the checked-in state.
+- **Solution:** updated only those test expectations to the exact current tracked values, then reran both authority/tool-state suites successfully. The unrelated local `test_base_recovery_map` requirement for a CI-only `_base_recovery` checkout remains an environment limitation, not a PASS claim.
+- **Lesson:** version and protected-baseline assertions must be refreshed together with their canonical tracked owner; a historical approval record must remain historical rather than being used as a live version assertion.
