@@ -25,7 +25,7 @@ class ToolStateUserApprovalRemoteSyncTest(unittest.TestCase):
         self.assertIn('res://addons/gut/plugin.cfg', project)
         self.assertIn('res://addons/hera_agent_godot/plugin.cfg', project)
         self.assertIn('HeraGameInspector=', project)
-        self.assertIn('version="3.1.4"', GODOT_AI.read_text(encoding="utf-8"))
+        self.assertIn('version="3.2.0"', GODOT_AI.read_text(encoding="utf-8"))
         self.assertIn('version="9.7.1"', GUT.read_text(encoding="utf-8"))
         self.assertIn('version="1.0.0"', HERA.read_text(encoding="utf-8"))
 
