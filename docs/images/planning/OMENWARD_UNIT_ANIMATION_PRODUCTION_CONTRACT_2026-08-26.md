@@ -8,7 +8,7 @@ approval_input: "승인"
 issue_tracking: GitHub Issue #33
 authority_domain: REPOSITORY_STRUCTURED_CANON
 scope: SHIELD_GUARD_LUMERN_VEIL_PAIR_PILOT_ONLY
-visual_generation: USER_REQUEST_ONLY
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 pixel_cleanup: USER_APPROVED_CLEANUP_MASTER_PAIR_V1
 pair_geometry_addendum: IDLE_GEOMETRY_LOCKED__ANIMATION_TIMING_DEFERRED
 godot_implementation: OUT_OF_SCOPE
