@@ -33,6 +33,7 @@ secrets/
 # Test and local outputs
 coverage/
 logs/
+artifacts/
 .cache/
 tmp/
 .worktrees/

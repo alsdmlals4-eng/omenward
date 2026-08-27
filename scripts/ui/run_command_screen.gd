@@ -18,11 +18,14 @@ const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_
 @onready var _board_grid: GridContainer = $LowerDeck/RoulettePanel/BoardGrid
 @onready var _result_label: Label = $LowerDeck/RoulettePanel/ResultLabel
 @onready var _move_label: Label = $LowerDeck/RoulettePanel/MoveLabel
+@onready var _selection_detail: Label = $LowerDeck/RoulettePanel/SelectionDetail
+@onready var _result_list: GridContainer = $LowerDeck/RoulettePanel/ResultList
 @onready var _commit_assignments: VBoxContainer = $LowerDeck/CommitPanel/Assignments
 @onready var _commit_label: Label = $LowerDeck/CommitPanel/CommitLabel
 
 var run: Variant
 var _spin_seed := 1
+var _selected_roulette_index := -1
 
 
 func bind_run(assigned_run: Variant) -> void:
@@ -91,6 +94,15 @@ func _move_column(column_index: int, direction: int) -> void:
 		run.move_roulette_column(column_index, direction)
 
 
+func select_roulette_tile(index: int) -> void:
+	if index >= 0 and index < 9:
+		_selected_roulette_index = index
+
+
+func selected_roulette_tile_index() -> int:
+	return _selected_roulette_index
+
+
 func _refresh() -> void:
 	if run == null or run.economy == null:
 		return
@@ -147,15 +159,21 @@ func _refresh_roulette() -> void:
 	var board: Array = run.roulette_session.get("board", [])
 	if board.size() != 9:
 		return
+	if _selected_roulette_index < 0 or _selected_roulette_index >= board.size():
+		_selected_roulette_index = 4
 	for child in _board_grid.get_children():
 		child.queue_free()
-	for symbol in board:
-		var tile := TextureRect.new()
+	for index in board.size():
+		var symbol: StringName = board[index]
+		var tile := Button.new()
 		tile.custom_minimum_size = Vector2(34, 34)
-		tile.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		tile.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		tile.texture = _token_texture(StringName(symbol))
+		tile.icon = _token_texture(symbol)
+		tile.expand_icon = true
+		tile.tooltip_text = "%d번 슬롯 · %s" % [index + 1, _roulette_symbol_name(symbol)]
+		tile.modulate = Color(1.25, 1.16, 0.72, 1.0) if index == _selected_roulette_index else Color.WHITE
+		tile.pressed.connect(func() -> void: select_roulette_tile(index))
 		_board_grid.add_child(tile)
+	_refresh_roulette_picker(board)
 	_move_label.text = "남은 이동 %d · preview는 비용 없음" % int(run.roulette_moves_remaining)
 	var preview: Variant = run.preview_roulette_result()
 	_result_label.text = "중앙 판정: %s · 완성선 %d" % [str(preview.outcome_type), int(preview.completed_line_count)]
@@ -204,6 +222,33 @@ func _token_texture(symbol: StringName) -> Texture2D:
 			return load("res://assets/art/ui/run_command/token_gold.png")
 		_:
 			return UNIT_TOKEN_TEXTURE
+
+
+func _refresh_roulette_picker(board: Array) -> void:
+	for child in _result_list.get_children():
+		child.queue_free()
+	var selected_symbol: StringName = board[_selected_roulette_index]
+	_selection_detail.text = "선택 %d번 · %s\n아래 목록이나 타일을 눌러 다른 결과도 살펴보세요." % [_selected_roulette_index + 1, _roulette_symbol_name(selected_symbol)]
+	for index in board.size():
+		var symbol: StringName = board[index]
+		var entry := Button.new()
+		entry.custom_minimum_size = Vector2(88, 16)
+		entry.add_theme_font_size_override("font_size", 10)
+		entry.text = "%d. %s" % [index + 1, _roulette_symbol_name(symbol)]
+		entry.tooltip_text = "이 항목을 선택해 결과 의미를 확인합니다."
+		entry.modulate = Color(1.25, 1.16, 0.72, 1.0) if index == _selected_roulette_index else Color.WHITE
+		entry.pressed.connect(func() -> void: select_roulette_tile(index))
+		_result_list.add_child(entry)
+
+
+func _roulette_symbol_name(symbol: StringName) -> String:
+	match symbol:
+		&"x":
+			return "빈 징조"
+		&"gold":
+			return "황금 징조"
+		_:
+			return "수호 병력"
 
 
 func _friendly_count(lane_id: StringName) -> int:

@@ -49,8 +49,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / CURRENT_VISUAL_ASSET
-            path.write_text(path.read_text(encoding="utf-8").replace("runtime_readability: NOT_RUN", "runtime_readability: PASS"), encoding="utf-8")
-            self.assertTrue(any("runtime_readability: NOT_RUN" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace("runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN", "runtime_readability: PASS"), encoding="utf-8")
+            self.assertTrue(any("runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN" in error for error in validate(root)))
 
     def test_legacy_and_current_status_must_remain_separate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -66,8 +66,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 22",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 23",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -94,13 +94,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE",
+                "CURRENT_NEXT = HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE" in error for error in errors), errors)
+            self.assertTrue(any("HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION" in error for error in errors), errors)
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

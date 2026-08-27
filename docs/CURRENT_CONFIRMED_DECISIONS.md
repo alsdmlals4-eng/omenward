@@ -1,15 +1,15 @@
 # OMENWARD · Current Confirmed Decisions
 
 ```yaml
-updated_at: 2026-08-27
+updated_at: 2026-08-28
 status: CURRENT_DECISION_RECOVERY_INDEX
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_reopened_at: 2026-08-20
-current_planning_track: RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTATION_AND_MACHINE_QA
+current_planning_track: BATTLEFIELD_MAP_AND_ROULETTE_PICKER_PRESENTATION_TECHNICAL_QA
 runtime_evidence_ceiling: PARTIAL__AUTOMATED_AND_HERA_TECHNICAL_SMOKE_ONLY
 human_play_evidence: NOT_RUN
 visual_style: FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
-current_visual_asset: OM-IMG-023
+current_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
 current_approved_runtime_asset_pair: SHIELD_GUARD_IDLE_PAIR_PLUS_REMAINING_P0_UNIT_IDLE_CELLS
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
@@ -22,7 +22,7 @@ visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ## Current approved replan decisions
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 21
+CURRENT_APPROVED_REPLAN_DECISIONS = 22
 ```
 
 | Decision ID | 승인 핵심 | Repository owner | 상태 |
@@ -48,6 +48,7 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 21
 | `OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01` | 전장 우선 계층·진영 대비는 reference로 유지. 긴 길 전체표시와 스타일은 2026-08-25 Decision이 supersede | `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` | REFERENCE_WITH_NEW_OVERRIDE |
 | `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` | 3개 Front-State View 동시 표시 + 전선별 미니맵 + Fantasy/Magic/SD Tactical Pixel + 긴 지휘 깃발 Omen Warden + 승인 이미지 `OM-IMG-023` | `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` | CONFIRMED_CURRENT |
 | `OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01` | Shield Guard Lumern/Veil pair의 공통 state·facing·pivot·보관·cleanup 경계를 승인하고 exact geometry/timing은 cleaned-pair addendum으로 유보 | `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` | CONFIRMED_CURRENT |
+| `OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01` | 본진 앞 확대 3전선 전장(전진기지·접전지·우회로) + 동화풍 수채화 SD backdrop + UI 전용 룰렛 항목 선택/목록 | `docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md` | CONFIRMED_CURRENT |
 
 ## Protected product identity
 
@@ -97,7 +98,7 @@ ROULETTE_EXPOSURE = 3×3
 ROW_COLUMN_ARROWS = PROMINENT
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
-APPROVED_VISUAL = OM-IMG-023
+APPROVED_VISUAL = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
 ```
 
 Retained faction language:
@@ -113,6 +114,7 @@ Approved visual asset record:
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - Drive ID `1-JRf4q95wZm51DsEYPH_-hnH_GLEIAQ5`
 - Notion Home and Visual Bible contain the current inline preview and full-resolution link.
+- `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md` — current runtime battlefield backdrop record; its Notion registration is owned by the Visual Bible.
 
 ## Current balance / evidence boundary
 
@@ -167,7 +169,8 @@ COMPLETED = P0_BUILDING_BUTTON_THUMBNAIL_RUNTIME_CONSUMER
 COMPLETED = P0_HUD_RESOURCE_INDICATOR_ICON_CONSUMER
 COMPLETED = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTATION
 COMPLETED = SCREEN_SURFACE_COVERAGE_AUDIT
-CURRENT_NEXT = NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE
+COMPLETED = BATTLEFIELD_MAP_AND_ROULETTE_PICKER_PRESENTATION_TECHNICAL_QA
+CURRENT_NEXT = HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
 ```
