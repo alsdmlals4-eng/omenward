@@ -26,12 +26,13 @@ TOPDOWN_LAYOUT = "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01"
 TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
 NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
-CURRENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
-CURRENT_VISUAL_SPEC_OWNER = "2026-08-25-front-state-minimap-sd-fantasy-design.md"
+PARENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
+CURRENT_VISUAL_DECISION = "OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01"
+CURRENT_VISUAL_SPEC_OWNER = "2026-08-28-battlefield-map-and-roulette-picker-design.md"
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_IMPLEMENTATION_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE"
+CURRENT_REACTIVATION_GATE = "HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
@@ -55,19 +56,20 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn("APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_2026-08-20.md", decisions)
         self.assertIn("APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md", decisions)
         self.assertIn(NORTH_STAR_AUDIT_OWNER, decisions)
+        self.assertIn(PARENT_VISUAL_DECISION, decisions)
         self.assertIn(CURRENT_VISUAL_DECISION, decisions)
         self.assertIn(CURRENT_VISUAL_SPEC_OWNER, decisions)
         self.assertIn("NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25", decisions)
-        self.assertIn("APPROVED_VISUAL = OM-IMG-023", decisions)
+        self.assertIn("APPROVED_VISUAL = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
         self.assertIn("PER_FRONT_MINIMAP = REQUIRED", decisions)
 
     def test_current_decision_count_matches_registered_table(self) -> None:
         decisions = read("docs/CURRENT_CONFIRMED_DECISIONS.md")
         match = re.search(r"CURRENT_APPROVED_REPLAN_DECISIONS\s*=\s*(\d+)", decisions)
         self.assertIsNotNone(match)
-        table_ids = set(re.findall(r"\| `(OMW-PLAN-[^`]+)` \|", decisions))
+        table_ids = set(re.findall(r"\| `(OMW-(?:PLAN|VISUAL)-[^`]+)` \|", decisions))
         self.assertEqual(int(match.group(1)), len(table_ids))
-        self.assertEqual(21, len(table_ids))
+        self.assertEqual(22, len(table_ids))
         self.assertIn(CURRENT_VISUAL_DECISION, table_ids)
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:

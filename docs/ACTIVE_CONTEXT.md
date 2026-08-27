@@ -61,7 +61,7 @@ FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = IMPLEMENTED__MACHINE_QA_AND_HUMAN_PLAYTEST_REMAIN
 HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
-PROJECT_ACTIVITY = SCREEN_SURFACE_COVERAGE_AUDIT_COMPLETE__RUNTIME_CAPTURE_NEXT
+PROJECT_ACTIVITY = BATTLEFIELD_MAP_AND_ROULETTE_PICKER_TECHNICAL_QA_COMPLETE__HUMAN_PLAYTEST_REMAINS
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
 CURRENT_NEXT = HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION
@@ -74,9 +74,11 @@ GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
 
 `HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 사용자의 명시적 프로젝트 재활성화다.
 
-The 2026-08-25 Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` is the current visual/battlefield owner. Earlier `Anime Pixel + Clean Pixel`, long full-road three-lane presentation, and minimap-not-required wording are superseded in that scope. Three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first readability remain protected.
+`OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01` is the current presentation owner; `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` remains its protected parent visual contract. Earlier `Anime Pixel + Clean Pixel`, long full-road three-lane presentation, and minimap-not-required wording are superseded in that scope. Three-front simultaneous responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first readability remain protected.
 
 Current visual/handoff owners:
+- `docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md`
+- `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md`
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
@@ -141,7 +143,8 @@ SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
 ROULETTE_EXPOSURE = 3×3
 ROW_COLUMN_ARROWS = PROMINENT
 NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25
-APPROVED_VISUAL = OM-IMG-023
+APPROVED_VISUAL = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
+APPROVED_PARENT_VISUAL = OM-IMG-023
 ```
 
 Faction language retained:
@@ -196,7 +199,7 @@ CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 
 ## Current screen-surface coverage owner
 
-`docs/design/OMENWARD_TARGET_SCREEN_SURFACE_AND_VISUAL_COVERAGE_AUDIT_2026-08-27.md` is the current screen-first companion audit for the scoped Run Command vertical slice. It maps the actual default route and all relevant/not-applicable player-facing families to runtime consumers, approved local assets, Godot UI/procedural rendering, and evidence. It does not replace the visual Decision, asset manifests, or runtime evidence owners.
+`docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md` is the current screen-first companion audit for the scoped Run Command vertical slice. It maps the actual default route and all relevant/not-applicable player-facing families to runtime consumers, approved local assets, Godot UI/procedural rendering, and evidence. It does not replace the visual Decision, asset manifests, or runtime evidence owners.
 
 ```text
 SCREEN_INVENTORY_HANDOFF_READY = TRUE
@@ -236,7 +239,7 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 13. COMPLETE — P1 structure-consumer discovery found no current scene/data receiver for the four source-only building masters; no inferred placement or rule was added
 14. COMPLETE — bind approved Gold and Troop Capacity derivatives to the current Stage HUD resource indicator
 15. COMPLETE — screen-first visual coverage audit; no asset-generation work inferred from its gaps
-16. NEXT — obtain bounded natural BATTLE → REVIEW runtime capture before deciding any battlefield/review visual implementation
+16. NEXT — run a bounded human playtest for battlefield readability and roulette inspection; machine capture does not prove player comprehension
 ```
 
 ## Resume order
