@@ -27,12 +27,12 @@ TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
 NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 PARENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
-CURRENT_VISUAL_DECISION = "OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01"
-CURRENT_VISUAL_SPEC_OWNER = "2026-08-28-battlefield-map-and-roulette-picker-design.md"
+CURRENT_VISUAL_DECISION = "OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01"
+CURRENT_VISUAL_SPEC_OWNER = "2026-08-28-storybook-sd-three-front-strategic-map-design.md"
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_IMPLEMENTATION_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION"
+CURRENT_REACTIVATION_GATE = "USER_REVIEW_OF_STORYBOOK_THREE_FRONT_VISUAL_LOCK_PACKET"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
@@ -59,9 +59,10 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn(PARENT_VISUAL_DECISION, decisions)
         self.assertIn(CURRENT_VISUAL_DECISION, decisions)
         self.assertIn(CURRENT_VISUAL_SPEC_OWNER, decisions)
-        self.assertIn("NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25", decisions)
-        self.assertIn("APPROVED_VISUAL = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
-        self.assertIn("PER_FRONT_MINIMAP = REQUIRED", decisions)
+        self.assertIn("NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY", decisions)
+        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED", decisions)
+        self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
+        self.assertIn("PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP", decisions)
 
     def test_current_decision_count_matches_registered_table(self) -> None:
         decisions = read("docs/CURRENT_CONFIRMED_DECISIONS.md")
@@ -69,7 +70,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIsNotNone(match)
         table_ids = set(re.findall(r"\| `(OMW-(?:PLAN|VISUAL)-[^`]+)` \|", decisions))
         self.assertEqual(int(match.group(1)), len(table_ids))
-        self.assertEqual(22, len(table_ids))
+        self.assertEqual(23, len(table_ids))
         self.assertIn(CURRENT_VISUAL_DECISION, table_ids)
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:
@@ -109,11 +110,10 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         active = read("docs/ACTIVE_CONTEXT.md")
         self.assertIn(NORTH_STAR_AUDIT, active)
         self.assertIn(NORTH_STAR_AUDIT_OWNER, active)
-        self.assertIn("NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25", active)
+        self.assertIn("NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY", active)
 
         for relative in (
             "docs/ACTIVE_CONTEXT.md",
-            "docs/CURRENT_CONFIRMED_DECISIONS.md",
             "docs/HANDOFF_CONTEXT.md",
         ):
             text = read(relative)

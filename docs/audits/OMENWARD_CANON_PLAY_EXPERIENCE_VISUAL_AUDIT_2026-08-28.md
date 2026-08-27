@@ -1,5 +1,7 @@
 # OMENWARD 정본·핵심 경험·시각 이해 감사 · 2026-08-28
 
+> **Historical snapshot boundary — 2026-08-28:** 이 감사는 Storybook 전략 지도 전환 이전의 정본·기술 증거를 기록한다. `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 current visual owner/status만 supersede하며, 캡처된 legacy-build 증거 자체는 무효화하지 않는다.
+
 ```yaml
 audit_id: OMW-AUDIT-20260828-CANON-PLAY-VISUAL-01
 issue: 236

@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION"
+CURRENT_REACTIVATION_GATE = "USER_REVIEW_OF_STORYBOOK_THREE_FRONT_VISUAL_LOCK_PACKET"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
@@ -27,9 +27,12 @@ TOPDOWN_LAYOUT = "docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_
 TOPDOWN_SILHOUETTE = "docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md"
 NORTH_STAR_AUDIT = "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 NORTH_STAR_AUDIT_ID = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
-CURRENT_VISUAL_DECISION_ID = "OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01"
-CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md"
-CURRENT_VISUAL_ASSET = "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md"
+CURRENT_VISUAL_DECISION_ID = "OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01"
+CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md"
+CURRENT_VISUAL_BOARD = "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md"
+LEGACY_RUNTIME_VISUAL_ASSET = "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md"
+# Compatibility export for mutation tests that validate the legacy runtime evidence.
+CURRENT_VISUAL_ASSET = LEGACY_RUNTIME_VISUAL_ASSET
 CURRENT_VISUAL_HANDOFF = "docs/HANDOFF_CONTEXT.md"
 CURRENT_UNIT_ANIMATION_CONTRACT = "docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md"
 IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
@@ -51,6 +54,7 @@ REQUIRED_FILES = (
     CURRENT_SPEC,
     CURRENT_GDD,
     CURRENT_VISUAL_SPEC,
+    CURRENT_VISUAL_BOARD,
     CURRENT_VISUAL_ASSET,
     CURRENT_VISUAL_HANDOFF,
     CURRENT_UNIT_ANIMATION_CONTRACT,
@@ -157,8 +161,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             CURRENT_VISUAL_DECISION_ID,
             CURRENT_VISUAL_SPEC,
-            CURRENT_VISUAL_ASSET,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 22",
+            CURRENT_VISUAL_BOARD,
+            LEGACY_RUNTIME_VISUAL_ASSET,
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 23",
             "OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01",
             CURRENT_UNIT_ANIMATION_CONTRACT,
             "OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01",
@@ -168,10 +173,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "OMW-PLAN-20260820-ROULETTE-DDD-FEEDBACK-01",
             "OMW-PLAN-20260820-TOPDOWN-BATTLEFIELD-LAYOUT-01",
             "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01",
-            "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
-            "PER_FRONT_MINIMAP = REQUIRED",
-            "APPROVED_VISUAL = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
-            "PROJECT_STATE = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE",
+            "VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION",
+            "BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP",
+            "PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP",
+            "CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED",
+            "LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
+            "PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__USER_REVIEW_PENDING",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
             IMPLEMENTATION_PACKET,
@@ -194,7 +201,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "IMPLEMENTATION_START = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
             "CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT",
             CURRENT_VISUAL_DECISION_ID,
-            "PER_FRONT_MINIMAP = REQUIRED",
+            "PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP",
             f"VISUAL_GENERATION = {CURRENT_IMAGE_POLICY}",
         ),
         "AGENTS",
@@ -206,10 +213,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: BATTLEFIELD_MAP_AND_ROULETTE_PICKER_TECHNICAL_QA_COMPLETE__HUMAN_PLAYTEST_REMAINS",
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 22",
+            "status: STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCKED__USER_REVIEW_PENDING",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 23",
             CURRENT_VISUAL_DECISION_ID,
-            "APPROVED_VISUAL_BATTLEFIELD_BACKDROP_V1 = USER_AUTHORIZED_RUNTIME_ACTIVE",
+            "APPROVED_VISUAL_BATTLEFIELD_BACKDROP_V1 = LEGACY_RUNTIME_ASSET__CURRENT_BUILD_ONLY",
+            "current_visual_asset: NONE__NEW_DIRECTION_PLANNING_ONLY",
             "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
             "implementation_authorized: true",
             "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
@@ -288,30 +296,47 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         visual_spec,
         (
             CURRENT_VISUAL_DECISION_ID,
-            "status: USER_APPROVED_CURRENT",
-            "RUN_COMMAND_VERTICAL_SLICE_PRESENTATION_ONLY",
-            "three simultaneous lanes",
-            "forward bases",
-            "bypass routes",
-            "No new runtime error/warning appears in a Hera capture",
+            "status: USER_CONFIRMED_CURRENT",
+            "VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION",
+            "BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP",
+            "PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP",
+            "runtime_target_asset: NOT_CREATED",
+            "PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION",
+            "!= RUNTIME_ASSET",
+            "Phase 2 entry criteria",
         ),
         "current visual spec",
     )
 
-    visual_asset = read(root, CURRENT_VISUAL_ASSET)
+    visual_board = read(root, CURRENT_VISUAL_BOARD)
+    require(
+        errors,
+        visual_board,
+        (
+            "board_id: OMW-VISUAL-BOARD-20260828-STORYBOOK-SD-THREE-FRONT-01",
+            CURRENT_VISUAL_DECISION_ID,
+            "status: GENERATED_EXPLORATION__USER_REVIEW_PENDING",
+            "rights_status: PLANNING_REFERENCE_ONLY__NOT_RUNTIME_ASSET__NOT_RELEASE_RIGHTS_PASS",
+            "!= runtime asset batch",
+            "no pseudo-text used as structured truth",
+        ),
+        "current visual planning board",
+    )
+
+    visual_asset = read(root, LEGACY_RUNTIME_VISUAL_ASSET)
     require(
         errors,
         visual_asset,
         (
             "asset_id: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
-            "status: USER_APPROVED_AUTONOMOUS_GENERATION__RUNTIME_CONSUMER_ACTIVE",
+            "status: LEGACY_RUNTIME_ASSET__CURRENT_BUILD_CONSUMER_ACTIVE",
             "dimensions: 1672x941",
             "sha256: DB80778C1EA0A7905EA938B902F94C06DC472EB00740C93E07A38CE6E4C86525",
             "runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN",
             "human_evidence: NOT_RUN",
             "Generation runtime: OpenAI image generation",
         ),
-        "current visual asset record",
+        "legacy runtime visual asset record",
     )
 
     visual_handoff = read(root, CURRENT_VISUAL_HANDOFF)
@@ -322,7 +347,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             f"current_gate: {CURRENT_REACTIVATION_GATE}",
             "current_image_package_status: P0_REMAINDER_SOURCES_AND_CLEANUP_MASTERS_STORED",
             f"image_generation: {CURRENT_IMAGE_POLICY}",
-            "codex_godot_execution: IMPLEMENTED__BATTLEFIELD_MAP_AND_ROULETTE_PICKER_MACHINE_QA_COMPLETE",
+            "codex_godot_execution: IMPLEMENTED__LEGACY_BATTLEFIELD_MAP_MACHINE_QA__NEW_VISUAL_NOT_APPLIED",
         ),
         "current visual closeout handoff",
     )
@@ -340,7 +365,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상",
             "RUN_HISTORY_RESET = FALSE",
             "PREPARE -> COMMIT -> BATTLE -> REVIEW",
-            "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
+            "NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
@@ -361,8 +386,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 22",
-            "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 23",
+            "NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
@@ -386,7 +411,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상",
             "RUN_HISTORY_RESET = FALSE",
-            "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
+            "NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
@@ -489,7 +514,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             f"image_generation: {CURRENT_IMAGE_POLICY}",
             "runtime_validation: PARTIAL__RUN_COMMAND_PREPARE_TO_BATTLE_LIVE_CAPTURED",
             "human_player_evidence: NOT_RUN",
-            "codex_godot_execution: IMPLEMENTED__BATTLEFIELD_MAP_AND_ROULETTE_PICKER_MACHINE_QA_COMPLETE",
+            "codex_godot_execution: IMPLEMENTED__LEGACY_BATTLEFIELD_MAP_MACHINE_QA__NEW_VISUAL_NOT_APPLIED",
         ),
         "handoff",
     )
@@ -516,7 +541,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         ledger_current,
         (
             CURRENT_CONTRACT,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 19",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 23",
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",

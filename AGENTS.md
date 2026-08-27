@@ -81,21 +81,22 @@ PRESSURE_LANGUAGE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
 VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
 RUN_HISTORY_RESET = FALSE
 
-VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION
+VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
 UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
 WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
 COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
-BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS
-PER_FRONT_MINIMAP = REQUIRED
+BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
+THREE_FRONT_VISIBILITY = REQUIRED
+PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
 MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 ROULETTE_EXPOSURE = 3×3
 LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 ```
 
-2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
+2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
 
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 2026-08-25 Front-State/Minimap Decision은 상위 보호 계약으로 유지하고, 현재 battlefield/roulette presentation owner는 `OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01` 및 `docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md`다. 현재 사용자 승인 정책 아래 실제 소비처가 확인된 이미지는 기존 OMENWARD 시안 언어와 로컬·Notion 이중 보관을 지키며 자동 제작할 수 있다.
+Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` 및 `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`다. 2026-08-25 Decision의 동시 전선 책임은 유지하고, 2026-08-28 close-backdrop Decision은 3×3 inspection만 retained한다. 새 target runtime asset은 Phase 2 Issue·RED test·provenance review 전까지 생성·적용하지 않는다.
 
 ## 5. Runtime / evidence ceiling
 
