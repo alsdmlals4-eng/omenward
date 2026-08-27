@@ -124,9 +124,9 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
 
         active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
-        self.assertIn("status: RUN_COMMAND_VERTICAL_SLICE_MACHINE_QA_ACTIVE", active)
+        self.assertIn("status: SCREEN_SURFACE_COVERAGE_AUDIT_COMPLETE__RUNTIME_CAPTURE_NEXT", active)
         self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 21", active)
-        self.assertIn("CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_LONG_FORM_RUNTIME_AND_HUMAN_PLAYTEST", active)
+        self.assertIn("CURRENT_NEXT = NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE", active)
         self.assertIn("NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS", active)
 
         handoff = HANDOFF.read_text(encoding="utf-8")
