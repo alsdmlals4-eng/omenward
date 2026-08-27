@@ -31,7 +31,7 @@ class OmenwardGddSheetTests(unittest.TestCase):
         self.assertIn(f"GitHub Actions run: `{C1_RUN}`", report)
         status = (ROOT / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
         self.assertIn("LEGACY_C1_C2_C3_PROVEN", status)
-        self.assertIn("CURRENT_GODOT_RUNTIME = NOT_RUN", status)
+        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", status)
         self.assertNotIn(f"C1 구현 검증 head: `{C1_HEAD}`", status)
         self.assertNotIn(f"C1 최종 검증 run: `{C1_RUN}`", status)
 

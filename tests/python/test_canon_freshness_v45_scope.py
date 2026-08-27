@@ -156,6 +156,38 @@ CURRENT_MAIN_ROUTER_HANDOFF_SYNC = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
+SCREEN_SURFACE_COVERAGE_AUDIT = {
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/design/OMENWARD_TARGET_SCREEN_SURFACE_AND_VISUAL_COVERAGE_AUDIT_2026-08-27.md",
+    "tests/python/test_bca_visual_sheet_adoption.py",
+    "tests/python/test_c3_core_ux_contract.py",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_phase_b_final_planning_review.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_c1_roulette.py",
+    "tools/validate_c2_battle_objective.py",
+    "tools/validate_c3_core_ux.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -274,6 +306,9 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_current_main_router_handoff_sync_exact_surface_passes(self) -> None:
         module = load_module()
         self.assertEqual(module.validate_canon_freshness_scope(CURRENT_MAIN_ROUTER_HANDOFF_SYNC), [])
+
+    def test_screen_surface_coverage_audit_exact_surface_passes(self) -> None:
+        self.assertEqual(load_module().validate_canon_freshness_scope(SCREEN_SURFACE_COVERAGE_AUDIT), [])
 
     def test_partial_current_main_router_handoff_sync_is_rejected(self) -> None:
         errors = load_module().validate_canon_freshness_scope(

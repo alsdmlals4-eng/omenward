@@ -152,7 +152,7 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertTrue(any("CURRENT_IMPLEMENTATION_STATUS.md" in error for error in errors))
 
     def test_current_status_runtime_ceiling_loss_is_rejected(self) -> None:
-        errors = self._errors_after("docs/CURRENT_IMPLEMENTATION_STATUS.md", "CURRENT_GODOT_RUNTIME = NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS")
+        errors = self._errors_after("docs/CURRENT_IMPLEMENTATION_STATUS.md", "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", "CURRENT_GODOT_RUNTIME = PASS")
         self.assertTrue(any("CURRENT_IMPLEMENTATION_STATUS.md" in error for error in errors))
 
     def test_current_v2_gdd_version_regression_is_rejected(self) -> None:

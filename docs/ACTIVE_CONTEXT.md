@@ -2,7 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-27
-status: RUN_COMMAND_VERTICAL_SLICE_MACHINE_QA_ACTIVE
+status: SCREEN_SURFACE_COVERAGE_AUDIT_COMPLETE__RUNTIME_CAPTURE_NEXT
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -10,12 +10,13 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
+current_activity: SCREEN_SURFACE_COVERAGE_AUDIT_COMPLETE__NATURAL_BATTLE_TO_REVIEW_CAPTURE_NEXT
 current_visual_spec: docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md
 current_visual_decision: OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01
 current_visual_asset: OM-IMG-023
 current_approved_runtime_asset_pair: SHIELD_GUARD_IDLE_PAIR_PLUS_REMAINING_P0_UNIT_IDLE_CELLS
 current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
+current_screen_surface_visual_coverage_audit: docs/design/OMENWARD_TARGET_SCREEN_SURFACE_AND_VISUAL_COVERAGE_AUDIT_2026-08-27.md
 implementation_authorized: true
 implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE
 implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_TECHNICAL_QA_CAPTURED__HUMAN_NOT_RUN
@@ -59,10 +60,10 @@ FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = IMPLEMENTED__MACHINE_QA_AND_HUMAN_PLAYTEST_REMAIN
 HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
-PROJECT_ACTIVITY = RUN_COMMAND_VERTICAL_SLICE_MACHINE_QA_ACTIVE
+PROJECT_ACTIVITY = SCREEN_SURFACE_COVERAGE_AUDIT_COMPLETE__RUNTIME_CAPTURE_NEXT
 UNIT_ANIMATION_PRODUCTION_CONTRACT = USER_APPROVED_CURRENT
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = USER_APPROVED_CURRENT
-CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_LONG_FORM_RUNTIME_AND_HUMAN_PLAYTEST
+CURRENT_NEXT = NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
@@ -192,6 +193,17 @@ CURRENT_HUMAN_USABILITY_EVIDENCE = NOT_RUN
 CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN
 ```
 
+## Current screen-surface coverage owner
+
+`docs/design/OMENWARD_TARGET_SCREEN_SURFACE_AND_VISUAL_COVERAGE_AUDIT_2026-08-27.md` is the current screen-first companion audit for the scoped Run Command vertical slice. It maps the actual default route and all relevant/not-applicable player-facing families to runtime consumers, approved local assets, Godot UI/procedural rendering, and evidence. It does not replace the visual Decision, asset manifests, or runtime evidence owners.
+
+```text
+SCREEN_INVENTORY_HANDOFF_READY = TRUE
+IMAGE_GENERATION_FROM_AUDIT_GAPS = FORBIDDEN
+NEXT_VALIDATION_REQUIREMENT = NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE
+HUMAN_PLAYER_EVIDENCE = NOT_RUN
+```
+
 Visual approval is not runtime proof. The visual closeout does not authorize final economy/balance values or claim implementation completion.
 
 Machine-QA evidence owner: `docs/qa/OMENWARD_RUN_COMMAND_MACHINE_QA_2026-08-27.md`. It records technical layout and interaction capture only; human/player evidence remains `NOT_RUN`.
@@ -220,7 +232,9 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 11. PARTIAL — live tutorial plus all-18 gallery captures show the shared renderer without an automated clipping signal; broad interactive readability and human evidence remain `NOT_RUN`
 12. COMPLETE — derive and bind General Barracks, Defense Tower, and Farm compact thumbnails to the three existing Stage HUD build-action buttons
 13. COMPLETE — P1 structure-consumer discovery found no current scene/data receiver for the four source-only building masters; no inferred placement or rule was added
-14. NEXT — bind approved Gold and Troop Capacity derivatives to the current Stage HUD resource indicator only
+14. COMPLETE — bind approved Gold and Troop Capacity derivatives to the current Stage HUD resource indicator
+15. COMPLETE — screen-first visual coverage audit; no asset-generation work inferred from its gaps
+16. NEXT — obtain bounded natural BATTLE → REVIEW runtime capture before deciding any battlefield/review visual implementation
 ```
 
 ## Resume order
