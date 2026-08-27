@@ -6,7 +6,7 @@ github_issue: 231
 status: CURRENT_TARGET_BUILD_AUDITED
 scope: ACTUAL_GODOT_CONSUMERS_PLUS_PLANNED_PRODUCT_SURFACES
 decision_owner: OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01
-runtime_evidence_ceiling: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN
+runtime_evidence_ceiling: PARTIAL_TECHNICAL_HERA_CAPTURE_PLUS_HEADLESS_NATURAL_REVIEW__HUMAN_NOT_RUN
 image_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
@@ -48,9 +48,9 @@ image_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 | Button/selection/disabled/warning | normal, hover, pressed, focus, selected, disabled | `StyleBoxFlat`, Godot `Button`/`OptionButton`, text and modulation | `COVERED_BY_THEME_NOT_NEW_RASTER` |
 | Tactical telegraph | clash ring, bypass warning, faction direction | `BattlefieldView._draw()` | `COVERED_BY_PROCEDURAL_RUNTIME_EXPRESSION` |
 
-No current direct runtime consumer is missing a required raster asset after the battlefield backdrop addition. This is **not** a claim that player experience is complete: natural BATTLE→REVIEW, long-session readability, and human player evaluation remain `NOT_RUN`.
+No current direct runtime consumer is missing a required raster asset after the battlefield backdrop addition. The deterministic no-unit tutorial path now proves actual `BATTLE → REVIEW` defeat through wave, objective, gate, and base rules; a live Hera REVIEW capture, long-session readability, and human player evaluation remain `NOT_RUN`.
 
-Machine readback owner: `tools/audit_runtime_image_coverage.py`; its regression test is `tests/python/test_runtime_image_coverage_audit.py`.
+Machine readback owners: `tools/audit_runtime_image_coverage.py` with `tests/python/test_runtime_image_coverage_audit.py`, and `tests/headless/natural_tutorial_resolution_test.gd` for natural result-to-review regression.
 
 ## C. Production visuals
 
@@ -75,6 +75,6 @@ Title/menu, save/load, pause/settings, game over, ending/credits, event/dialogue
 
 ## Evidence and next actions
 
-1. Capture the natural BATTLE → REVIEW transition and an actual COMMIT assignment state using the current main scene.
+1. Capture an actual COMMIT assignment state and a live Hera REVIEW frame using the current main scene when a bounded player-flow scenario is available.
 2. If a capture identifies a clarity failure, add the smallest consumer-bound image, shader, or Godot theme asset and validate it in the same resolution.
 3. Before a title, settings, save/load, or release-art production pass, establish that surface’s actual Godot consumer and platform dimensions.
