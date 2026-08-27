@@ -10,7 +10,8 @@ dimensions: 1672x941
 sha256: DB80778C1EA0A7905EA938B902F94C06DC472EB00740C93E07A38CE6E4C86525
 format: PNG_RGBA_OPAQUE
 consumer: scenes/battle/battlefield.tscn::Backdrop
-notion_record: 02_Visual_Bible__2026-08-28_runtime_backdrop_section
+notion_record: 02_Visual_Bible__2026-08-28_runtime_backdrop_section__SERVER_READBACK_PASS
+notion_attachment: file-upload://3c91b237-eb1c-810b-9b15-00b2440ee848
 runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN
 runtime_evidence: HERA_960x540_PREPARE_AND_STOPPED_3X3_CAPTURED
 human_evidence: NOT_RUN
@@ -30,7 +31,7 @@ human_evidence: NOT_RUN
 ## Provenance and storage
 
 - Local canonical runtime input: `assets/art/battlefield/ward_veil_three_lane_backdrop_v1.png`.
-- Notion human-facing record: `02 · 비주얼 바이블` — “2026-08-28 · Runtime Battlefield Backdrop” section, including the inline image attachment and this asset ID/hash.
+- Notion human-facing record: `02 · 비주얼 바이블` — “2026-08-28 · Runtime Battlefield Backdrop” section, including a Notion-owned inline PNG attachment and this asset ID/hash. Destination readback: `PASS`.
 - Generation runtime: OpenAI image generation, 2026-08-28. The asset has no third-party source image or copied protected expression.
 
 ## Evidence boundary
