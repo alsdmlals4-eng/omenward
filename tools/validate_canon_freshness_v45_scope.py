@@ -308,6 +308,7 @@ CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS = set(CURRENT_V48_VISUAL_CLOSEOUT_A
 # reconciles current routers to observed machine-QA evidence. It cannot permit
 # any Godot product path or authorize image production.
 SCREEN_SURFACE_COVERAGE_AUDIT_ALLOWED_FILES = {
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
     "README.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_CONFIRMED_DECISIONS.md",

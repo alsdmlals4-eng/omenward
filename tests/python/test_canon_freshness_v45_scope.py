@@ -157,6 +157,7 @@ CURRENT_MAIN_ROUTER_HANDOFF_SYNC = {
 }
 
 SCREEN_SURFACE_COVERAGE_AUDIT = {
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
     "README.md",
     "docs/ACTIVE_CONTEXT.md",
     "docs/CURRENT_CONFIRMED_DECISIONS.md",
