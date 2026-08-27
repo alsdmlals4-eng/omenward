@@ -12,6 +12,7 @@ MODULE = runpy.run_path(str(ROOT / "tools" / "validate_project_core_docs.py"))
 validate = MODULE["validate"]
 CURRENT_SPEC = MODULE["CURRENT_SPEC"]
 CURRENT_VISUAL_SPEC = MODULE["CURRENT_VISUAL_SPEC"]
+CURRENT_VISUAL_BOARD = MODULE["CURRENT_VISUAL_BOARD"]
 CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
 CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
 FINAL_REVIEW = MODULE["FINAL_REVIEW"]
@@ -66,8 +67,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 22",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 23",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 24",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -94,13 +95,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION",
+                "CURRENT_NEXT = USER_REVIEW_OF_STORYBOOK_THREE_FRONT_VISUAL_LOCK_PACKET",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION" in error for error in errors), errors)
+            self.assertTrue(any("USER_REVIEW_OF_STORYBOOK_THREE_FRONT_VISUAL_LOCK_PACKET" in error for error in errors), errors)
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -128,6 +129,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             (root / CURRENT_VISUAL_ASSET).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_current_visual_planning_board_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / CURRENT_VISUAL_BOARD).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_current_visual_handoff_is_required(self) -> None:

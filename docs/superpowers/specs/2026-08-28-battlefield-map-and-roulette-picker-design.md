@@ -3,10 +3,14 @@
 ```yaml
 decision_id: OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01
 issue: 229
-status: USER_APPROVED_CURRENT
+status: PARTIALLY_SUPERSEDED__ROULETTE_INSPECTION_RETAINED
 approval_source: 2026-08-28 user instruction plus continuous approval
 scope: RUN_COMMAND_VERTICAL_SLICE_PRESENTATION_ONLY
 ```
+
+## Current boundary
+
+`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 close-battlefield backdrop 표현을 supersede한다. 이 문서의 3×3 tile/list inspection behavior와 관련 QA는 retained historical implementation evidence이며, 현재 전장 framing/style owner가 아니다.
 
 ## Goal
 

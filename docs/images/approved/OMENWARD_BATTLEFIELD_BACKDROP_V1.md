@@ -2,9 +2,9 @@
 
 ```yaml
 asset_id: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
-status: USER_APPROVED_AUTONOMOUS_GENERATION__RUNTIME_CONSUMER_ACTIVE
+status: LEGACY_RUNTIME_ASSET__CURRENT_BUILD_CONSUMER_ACTIVE
 created_at: 2026-08-28
-decision: OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01
+decision: OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01__PARTIALLY_SUPERSEDED
 local_path: assets/art/battlefield/ward_veil_three_lane_backdrop_v1.png
 dimensions: 1672x941
 sha256: DB80778C1EA0A7905EA938B902F94C06DC472EB00740C93E07A38CE6E4C86525
@@ -16,6 +16,10 @@ runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN
 runtime_evidence: HERA_960x540_PREPARE_AND_STOPPED_3X3_CAPTURED
 human_evidence: NOT_RUN
 ```
+
+## Current boundary
+
+`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 주 전장 표현을 세 전선 동시 전략 지도 UI로 변경했다. 이 파일은 현 빌드의 실제 consumer를 설명하는 **legacy runtime asset record**다. 삭제·교체·새 방향의 runtime PASS를 의미하지 않는다.
 
 ## Intent
 

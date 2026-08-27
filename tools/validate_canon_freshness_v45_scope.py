@@ -368,6 +368,44 @@ CANON_PLAY_VISUAL_AUDIT_ALLOWED_FILES = {
 }
 CANON_PLAY_VISUAL_AUDIT_REQUIRED_ANCHORS = set(CANON_PLAY_VISUAL_AUDIT_ALLOWED_FILES)
 
+# A user-confirmed visual-direction lock is documentation and planning-board work
+# only. It may revise current routers and legacy-record labels, but never Godot
+# source, Scene, Resource, or runtime asset inputs.
+STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES = {
+    "AGENTS.md",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/audits/OMENWARD_CANON_PLAY_EXPERIENCE_VISUAL_AUDIT_2026-08-28.md",
+    "docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md",
+    "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md",
+    "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md",
+    "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v1.png",
+    "docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md",
+    "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS = set(
+    STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES
+)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -391,6 +429,7 @@ APPROVED_FILES = (
     | CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES
     | SCREEN_SURFACE_COVERAGE_AUDIT_ALLOWED_FILES
     | CANON_PLAY_VISUAL_AUDIT_ALLOWED_FILES
+    | STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES
 )
 
 
@@ -443,6 +482,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (PHASE_B_FINAL_PLANNING_REVIEW_ALLOWED_FILES, PHASE_B_FINAL_PLANNING_REVIEW_REQUIRED_ANCHORS, "Phase B final planning review"),
         (SCREEN_SURFACE_COVERAGE_AUDIT_ALLOWED_FILES, SCREEN_SURFACE_COVERAGE_AUDIT_REQUIRED_ANCHORS, "screen-surface coverage audit"),
         (CANON_PLAY_VISUAL_AUDIT_ALLOWED_FILES, CANON_PLAY_VISUAL_AUDIT_REQUIRED_ANCHORS, "canon/play/visual audit"),
+        (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),
     )
     for allowed, required, label in modes:
