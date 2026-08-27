@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/run_command_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/art/ui/run_command/roulette_board_frame.png" id="2_board"]
@@ -12,6 +12,18 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.35, 0.48, 0.67, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="FrontPanel"]
+bg_color = Color(0.025, 0.055, 0.082, 0.42)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.47, 0.62, 0.78, 0.72)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -63,13 +75,13 @@ layout_mode = 0
 offset_left = 18.0
 offset_top = 62.0
 offset_right = 942.0
-offset_bottom = 307.0
+offset_bottom = 242.0
 theme_override_constants/separation = 6
 
 [node name="Top" type="Panel" parent="Fronts"]
-custom_minimum_size = Vector2(0, 77)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-theme_override_styles/panel = SubResource("Panel")
+theme_override_styles/panel = SubResource("FrontPanel")
 
 [node name="Title" type="Label" parent="Fronts/Top"]
 layout_mode = 0
@@ -81,9 +93,9 @@ offset_bottom = 30.0
 [node name="Minimap" type="Control" parent="Fronts/Top"]
 layout_mode = 0
 offset_left = 650.0
-offset_top = 8.0
+offset_top = 1.0
 offset_right = 910.0
-offset_bottom = 67.0
+offset_bottom = 53.0
 
 [node name="Progress" type="ProgressBar" parent="Fronts/Top/Minimap"]
 layout_mode = 0
@@ -103,9 +115,9 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 12
 
 [node name="Middle" type="Panel" parent="Fronts"]
-custom_minimum_size = Vector2(0, 77)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-theme_override_styles/panel = SubResource("Panel")
+theme_override_styles/panel = SubResource("FrontPanel")
 
 [node name="Title" type="Label" parent="Fronts/Middle"]
 layout_mode = 0
@@ -117,9 +129,9 @@ offset_bottom = 30.0
 [node name="Minimap" type="Control" parent="Fronts/Middle"]
 layout_mode = 0
 offset_left = 650.0
-offset_top = 8.0
+offset_top = 1.0
 offset_right = 910.0
-offset_bottom = 67.0
+offset_bottom = 53.0
 
 [node name="Progress" type="ProgressBar" parent="Fronts/Middle/Minimap"]
 layout_mode = 0
@@ -139,9 +151,9 @@ horizontal_alignment = 1
 theme_override_font_sizes/font_size = 12
 
 [node name="Bottom" type="Panel" parent="Fronts"]
-custom_minimum_size = Vector2(0, 77)
+custom_minimum_size = Vector2(0, 54)
 layout_mode = 2
-theme_override_styles/panel = SubResource("Panel")
+theme_override_styles/panel = SubResource("FrontPanel")
 
 [node name="Title" type="Label" parent="Fronts/Bottom"]
 layout_mode = 0
@@ -153,9 +165,9 @@ offset_bottom = 30.0
 [node name="Minimap" type="Control" parent="Fronts/Bottom"]
 layout_mode = 0
 offset_left = 650.0
-offset_top = 8.0
+offset_top = 1.0
 offset_right = 910.0
-offset_bottom = 67.0
+offset_bottom = 53.0
 
 [node name="Progress" type="ProgressBar" parent="Fronts/Bottom/Minimap"]
 layout_mode = 0
@@ -413,21 +425,39 @@ offset_top = 44.0
 offset_right = 610.0
 offset_bottom = 70.0
 
+[node name="SelectionDetail" type="Label" parent="LowerDeck/RoulettePanel"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 72.0
+offset_right = 610.0
+offset_bottom = 106.0
+theme_override_colors/font_color = Color(0.82, 0.92, 1, 1)
+
+[node name="ResultList" type="GridContainer" parent="LowerDeck/RoulettePanel"]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 110.0
+offset_right = 610.0
+offset_bottom = 166.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 2
+columns = 3
+
 [node name="LockResultButton" type="Button" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
 offset_left = 640.0
-offset_top = 36.0
+offset_top = 26.0
 offset_right = 884.0
-offset_bottom = 78.0
+offset_bottom = 68.0
 text = "결과 확인"
 
 [node name="ConfirmResultButton" type="Button" parent="LowerDeck/RoulettePanel"]
 visible = false
 layout_mode = 0
 offset_left = 640.0
-offset_top = 36.0
+offset_top = 26.0
 offset_right = 884.0
-offset_bottom = 78.0
+offset_bottom = 68.0
 text = "결과 확정 · 커밋으로"
 
 [node name="CommitPanel" type="Control" parent="LowerDeck"]

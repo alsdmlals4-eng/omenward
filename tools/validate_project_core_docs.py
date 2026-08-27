@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE"
+CURRENT_REACTIVATION_GATE = "HUMAN_PLAYTEST_FOR_BATTLEFIELD_READABILITY_AND_ROULETTE_INSPECTION"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
@@ -27,10 +27,10 @@ TOPDOWN_LAYOUT = "docs/design/APPROVED_OMENWARD_TOPDOWN_BATTLEFIELD_LAYOUT_SPEC_
 TOPDOWN_SILHOUETTE = "docs/design/APPROVED_OMENWARD_TOPDOWN_UNIT_SILHOUETTE_RULES_2026-08-20.md"
 NORTH_STAR_AUDIT = "docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 NORTH_STAR_AUDIT_ID = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
-CURRENT_VISUAL_DECISION_ID = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
-CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md"
-CURRENT_VISUAL_ASSET = "docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md"
-CURRENT_VISUAL_HANDOFF = "docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md"
+CURRENT_VISUAL_DECISION_ID = "OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01"
+CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md"
+CURRENT_VISUAL_ASSET = "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md"
+CURRENT_VISUAL_HANDOFF = "docs/HANDOFF_CONTEXT.md"
 CURRENT_UNIT_ANIMATION_CONTRACT = "docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md"
 IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
 IMPLEMENTATION_PLAN = "docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md"
@@ -132,7 +132,7 @@ def validate_decision_count(errors: list[str], decisions: str) -> None:
     if not declared_match:
         errors.append("current decision index missing declared decision count")
         return
-    registered = set(re.findall(r"\| `(OMW-PLAN-[^`]+)` \|", decisions))
+    registered = set(re.findall(r"\| `(OMW-(?:PLAN|VISUAL)-[^`]+)` \|", decisions))
     declared = int(declared_match.group(1))
     if declared != len(registered):
         errors.append(f"decision count mismatch: declared {declared}, registered {len(registered)}")
@@ -158,7 +158,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_VISUAL_DECISION_ID,
             CURRENT_VISUAL_SPEC,
             CURRENT_VISUAL_ASSET,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 22",
             "OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01",
             CURRENT_UNIT_ANIMATION_CONTRACT,
             "OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01",
@@ -170,7 +170,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01",
             "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
             "PER_FRONT_MINIMAP = REQUIRED",
-            "APPROVED_VISUAL = OM-IMG-023",
+            "APPROVED_VISUAL = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
             "PROJECT_STATE = AUTONOMOUS_REQUIRED_IMAGE_PRODUCTION_ACTIVE",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
@@ -206,10 +206,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: SCREEN_SURFACE_COVERAGE_AUDIT_COMPLETE__RUNTIME_CAPTURE_NEXT",
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 21",
+            "status: BATTLEFIELD_MAP_AND_ROULETTE_PICKER_TECHNICAL_QA_COMPLETE__HUMAN_PLAYTEST_REMAINS",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 22",
             CURRENT_VISUAL_DECISION_ID,
-            "APPROVED_VISUAL_OM_IMG_023 = USER_APPROVED_CURRENT",
+            "APPROVED_VISUAL_BATTLEFIELD_BACKDROP_V1 = USER_AUTHORIZED_RUNTIME_ACTIVE",
             "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
             "implementation_authorized: true",
             "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
@@ -289,12 +289,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         (
             CURRENT_VISUAL_DECISION_ID,
             "status: USER_APPROVED_CURRENT",
-            "BATTLEFIELD_PRESENTATION = THREE_SIMULTANEOUS_FRONT_STATE_VIEWS",
-            "PER_FRONT_MINIMAP = REQUIRED",
-            "VISUAL_STYLE = FANTASY_MAGIC_SD_TACTICAL_PIXEL_ILLUSTRATION",
-            "COMMANDER_SILHOUETTE = LONG_COMMAND_FLAG",
-            "ADVERSARIAL_FULL_LOOP_COUNT = 5",
-            "RUNTIME_AND_HUMAN_EVIDENCE = NOT_RUN",
+            "RUN_COMMAND_VERTICAL_SLICE_PRESENTATION_ONLY",
+            "three simultaneous lanes",
+            "forward bases",
+            "bypass routes",
+            "No new runtime error/warning appears in a Hera capture",
         ),
         "current visual spec",
     )
@@ -304,14 +303,13 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         visual_asset,
         (
-            "asset_id: OM-IMG-023",
-            f"decision_id: {CURRENT_VISUAL_DECISION_ID}",
-            "status: USER_APPROVED_CURRENT",
-            "source_dimensions: 1536x1024",
-            "source_sha256: 0326b012d1fbefba85b545086b84992051591edff6f3b7e159cf3e083f204224",
-            "runtime_readability: NOT_RUN",
-            "human_usability: NOT_RUN",
-            "rights_review: NOT_RUN",
+            "asset_id: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
+            "status: USER_APPROVED_AUTONOMOUS_GENERATION__RUNTIME_CONSUMER_ACTIVE",
+            "dimensions: 1672x941",
+            "sha256: DB80778C1EA0A7905EA938B902F94C06DC472EB00740C93E07A38CE6E4C86525",
+            "runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN",
+            "human_evidence: NOT_RUN",
+            "Generation runtime: OpenAI image generation",
         ),
         "current visual asset record",
     )
@@ -321,10 +319,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         errors,
         visual_handoff,
         (
-            "current_gate: AUTONOMOUS_P0_DERIVED_CROP_CONTRACT_AND_CURRENT_P1_CONSUMER_RECONCILIATION",
+            f"current_gate: {CURRENT_REACTIVATION_GATE}",
             "current_image_package_status: P0_REMAINDER_SOURCES_AND_CLEANUP_MASTERS_STORED",
             f"image_generation: {CURRENT_IMAGE_POLICY}",
-            "codex_godot_execution: BLOCKED_UNTIL_ALL_B_SCOPE_ASSETS_USER_APPROVED_CLEANED_EXPORTED_AND_IMPLEMENTATION_READY",
+            "codex_godot_execution: IMPLEMENTED__BATTLEFIELD_MAP_AND_ROULETTE_PICKER_MACHINE_QA_COMPLETE",
         ),
         "current visual closeout handoff",
     )
@@ -363,7 +361,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 21",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 22",
             "NORTH_STAR_V2_1 = REFERENCE_ONLY_AFTER_2026_08_25",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
@@ -487,11 +485,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         handoff,
         (
             CURRENT_CONTRACT,
-            "current_gate: NATURAL_BATTLE_TO_REVIEW_RUNTIME_CAPTURE_FOR_SCREEN_COVERAGE",
+            f"current_gate: {CURRENT_REACTIVATION_GATE}",
             f"image_generation: {CURRENT_IMAGE_POLICY}",
             "runtime_validation: PARTIAL__RUN_COMMAND_PREPARE_TO_BATTLE_LIVE_CAPTURED",
             "human_player_evidence: NOT_RUN",
-            "codex_godot_execution: IMPLEMENTED__NEXT_SAFE_WORK_IS_RUNTIME_CAPTURE_ONLY",
+            "codex_godot_execution: IMPLEMENTED__BATTLEFIELD_MAP_AND_ROULETTE_PICKER_MACHINE_QA_COMPLETE",
         ),
         "handoff",
     )

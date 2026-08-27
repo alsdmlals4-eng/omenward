@@ -95,7 +95,7 @@ LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 
 2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01`이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
 
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 battlefield/visual owner는 `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`다. 현재 사용자 승인 정책 아래 실제 소비처가 확인된 이미지는 기존 OMENWARD 시안 언어와 로컬·Notion 이중 보관을 지키며 자동 제작할 수 있다.
+Visual 작업은 current Decision index에서 active visual owner를 복원한다. 2026-08-25 Front-State/Minimap Decision은 상위 보호 계약으로 유지하고, 현재 battlefield/roulette presentation owner는 `OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01` 및 `docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md`다. 현재 사용자 승인 정책 아래 실제 소비처가 확인된 이미지는 기존 OMENWARD 시안 언어와 로컬·Notion 이중 보관을 지키며 자동 제작할 수 있다.
 
 ## 5. Runtime / evidence ceiling
 

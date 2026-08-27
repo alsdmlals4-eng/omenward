@@ -20,21 +20,18 @@ func _process(_delta: float) -> void:
 
 
 func _draw() -> void:
-	draw_rect(Rect2(24, 92, 912, 332), Color(0.08, 0.12, 0.16, 0.96), true)
 	for lane_id in LANE_IDS:
 		var y: float = LANE_Y[lane_id]
-		draw_line(Vector2(88, y), Vector2(872, y), Color(0.31, 0.37, 0.43), 20.0)
-		draw_line(Vector2(88, y), Vector2(872, y), Color(0.58, 0.63, 0.68), 2.0)
-		draw_rect(Rect2(96, y - 23, 18, 46), Color(0.38, 0.66, 0.96), true)
-		draw_rect(Rect2(846, y - 23, 18, 46), Color(0.76, 0.3, 0.54), true)
-		draw_rect(Rect2(420, y - 20, 120, 40), Color(0.25, 0.28, 0.3), true)
-		_draw_outpost_nodes(Vector2(330, y), Color(0.5, 0.55, 0.6))
-		_draw_outpost_nodes(Vector2(630, y), Color(0.5, 0.55, 0.6))
+		draw_line(Vector2(120, y), Vector2(840, y), Color(0.9, 0.78, 0.42, 0.32), 2.0)
+		draw_circle(Vector2(480, y), 27.0, Color(0.55, 0.2, 0.14, 0.26))
+		draw_arc(Vector2(480, y), 27.0, 0.0, TAU, 24, Color(0.95, 0.68, 0.3, 0.7), 1.0)
+		_draw_outpost_nodes(Vector2(330, y), Color(0.55, 0.72, 0.98, 0.75))
+		_draw_outpost_nodes(Vector2(630, y), Color(0.72, 0.36, 0.76, 0.75))
 		if run != null and run.battle != null:
 			var bypasses: Array = run.battle.bypasses
 			if bypasses.any(func(entry: Dictionary) -> bool: return entry["state"].lane_id == lane_id and entry["state"].warning_active):
 				draw_string(ThemeDB.fallback_font, Vector2(460, y - 34), "BYPASS WARNING", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.76, 0.24))
-	draw_string(ThemeDB.fallback_font, Vector2(38, 72), "BATTLEFIELD GRAYBOX · THREE ISOLATED LANES", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.82, 0.88, 0.92))
+	draw_string(ThemeDB.fallback_font, Vector2(32, 28), "WARD CITADEL  ·  THREE FRONT CONFLICT  ·  VEIL RIFT", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.95, 0.88, 0.62, 0.9))
 
 
 func _draw_outpost_nodes(center: Vector2, color: Color) -> void:
