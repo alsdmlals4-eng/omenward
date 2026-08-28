@@ -15,6 +15,7 @@ on:
       - ".github/workflows/validate-barracks-functional-value-combat-numerics-review.yml"
       - ".github/workflows/validate-barracks-functional-value-measurement-scenarios.yml"
       - ".gitignore"
+      - ".gitattributes"
       - "AGENTS.md"
       - "docs/ACTIVE_CONTEXT.md"
       - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
@@ -26,6 +27,7 @@ on:
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
       - "docs/DECISIONS_PENDING.md"
       - "docs/PROJECT_OPERATING_DASHBOARD.html"
+      - "docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md"
       - "docs/analysis/barracks_simulation/**"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_REMEDIATION_SMOKE_RERUN_RESULTS_2026-08-08.md"
@@ -108,9 +110,11 @@ jobs:
               ".github/workflows/validate-tool-state-user-approval-remote-sync.yml",
               ".github/workflows/validate-godot-csv-import-artifact-hygiene.yml",
               ".gitignore",
+              ".gitattributes",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/DECISIONS_PENDING.md",
               "docs/PROJECT_OPERATING_DASHBOARD.html",
+              "docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md",
               "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md",
               "docs/process/APPROVED_OMENWARD_GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_2026-08-09.md",
               "docs/process/GODOT_LOCAL_EXECUTOR_HANDOFF_2026-08-09.md",

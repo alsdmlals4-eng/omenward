@@ -506,6 +506,22 @@ DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_REQUIRED_ANCHORS = set(
     DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES
 )
 
+# Base-generated views are deterministic raw-byte artifacts. This narrow guard
+# prevents a Windows checkout from converting only those outputs to CRLF while
+# keeping all product source outside this operational scope.
+GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES = {
+    ".gitattributes",
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+GENERATED_OPERATING_ARTIFACT_EOL_GUARD_REQUIRED_ANCHORS = set(
+    GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES
+)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -533,6 +549,7 @@ APPROVED_FILES = (
     | ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES
     | FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES
     | DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES
+    | GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES
 )
 
 
@@ -587,6 +604,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (CANON_PLAY_VISUAL_AUDIT_ALLOWED_FILES, CANON_PLAY_VISUAL_AUDIT_REQUIRED_ANCHORS, "canon/play/visual audit"),
         (FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES, FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_REQUIRED_ANCHORS, "forward-base and clash-zone planning-board correction"),
         (DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES, DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_REQUIRED_ANCHORS, "dual-citadel map-only planning-board correction"),
+        (GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES, GENERATED_OPERATING_ARTIFACT_EOL_GUARD_REQUIRED_ANCHORS, "generated operating-artifact LF guard"),
         (ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES, ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_REQUIRED_ANCHORS, "one Ward Citadel three-branches visual correction"),
         (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),

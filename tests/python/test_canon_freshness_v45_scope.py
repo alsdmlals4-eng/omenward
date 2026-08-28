@@ -325,6 +325,16 @@ DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD = {
     "tools/validate_project_core_docs.py",
 }
 
+GENERATED_OPERATING_ARTIFACT_EOL_GUARD = {
+    ".gitattributes",
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -529,6 +539,23 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         )
         self.assertTrue(
             any("dual-citadel map-only planning-board correction" in error for error in errors),
+            errors,
+        )
+
+    def test_generated_operating_artifact_eol_guard_exact_surface_passes(self) -> None:
+        self.assertEqual(
+            load_module().validate_canon_freshness_scope(
+                GENERATED_OPERATING_ARTIFACT_EOL_GUARD
+            ),
+            [],
+        )
+
+    def test_generated_operating_artifact_eol_guard_rejects_missing_attribute_rule(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            GENERATED_OPERATING_ARTIFACT_EOL_GUARD - {".gitattributes"}
+        )
+        self.assertTrue(
+            any("generated operating-artifact LF guard" in error for error in errors),
             errors,
         )
 
