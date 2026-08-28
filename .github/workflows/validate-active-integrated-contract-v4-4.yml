@@ -27,6 +27,11 @@ on:
       - "docs/PROJECT_GOOGLE_SHEET_WORKBOOK.md"
       - "docs/DECISIONS_PENDING.md"
       - "docs/PROJECT_OPERATING_DASHBOARD.html"
+      - "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md"
+      - "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md"
+      - "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
+      - "docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md"
+      - "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_FORWARD_DEFENSE_OCCUPATION_NODES.png"
       - "docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md"
       - "docs/analysis/barracks_simulation/**"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
@@ -46,6 +51,7 @@ on:
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-06.md"
       - "docs/process/ACTIVE_INTEGRATED_CONTRACT_BINDING_2026-08-11.md"
       - "docs/process/APPROVED_OMENWARD_CANON_FRESHNESS_AND_V4_5_THIN_ADAPTER_2026-08-11.md"
+      - "docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md"
       - "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md"
       - "docs/process/APPROVED_OMENWARD_GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_2026-08-09.md"
       - "docs/process/GODOT_LOCAL_EXECUTOR_HANDOFF_2026-08-09.md"
@@ -118,6 +124,7 @@ jobs:
               "docs/audits/OMENWARD_STAGE1_FTUE_CANON_DRIFT_INCIDENT_2026-08-28.md",
               "docs/process/APPROVED_OMENWARD_GODOT_AI_3_1_3_HERA_GUT_USER_APPROVAL_AND_REMOTE_SYNC_RECONCILIATION_2026-08-09.md",
               "docs/process/APPROVED_OMENWARD_GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_2026-08-09.md",
+              "docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md",
               "docs/process/GODOT_LOCAL_EXECUTOR_HANDOFF_2026-08-09.md",
               "docs/operations/ACTIVE_INTEGRATED_CONTRACT_STATE.v1.json",
               "docs/operations/GODOT_CSV_IMPORT_ARTIFACT_HYGIENE_STATE.v1.json",
@@ -143,11 +150,16 @@ jobs:
               "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
               "docs/HANDOFF_CONTEXT.md",
               "docs/OMENWARD_GDD_CURRENT_CANON.md",
+              "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
               "docs/OMENWARD_ROADMAP.md",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/PROJECT_CORE.md",
               "docs/design/OMENWARD_TARGET_SCREEN_SURFACE_AND_VISUAL_COVERAGE_AUDIT_2026-08-27.md",
+              "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
               "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md",
+              "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md",
+              "docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md",
+              "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_FORWARD_DEFENSE_OCCUPATION_NODES.png",
               "tests/python/test_bca_visual_sheet_adoption.py",
               "tests/python/test_c3_core_ux_contract.py",
               "tests/python/test_canon_freshness_v45_routing.py",

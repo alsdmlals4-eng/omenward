@@ -2,7 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-28
-status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_TOWER_DECISION_PENDING
+status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_DEFENSE_GDD_REVIEW_PENDING
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -10,7 +10,9 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_TOWER_DECISION_PENDING
+current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_DEFENSE_GDD_REVIEW_PENDING
+current_forward_defense_spec: docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md
+forward_defense_visual_candidate: docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md
 current_visual_spec: docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 current_visual_decision: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
 current_visual_topology: ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
@@ -27,7 +29,11 @@ implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_T
 implementation_packet: docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_WORK_PRODUCTION_INPUT_PACKET_2026-08-27.md
 implementation_plan: docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
-visual_generation: PAUSED_PENDING_CORE_LOOP_RECONCILIATION
+visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
+visual_confirmation: GENERATE_THEN_USER_CONFIRM_LOCK
+current_human_facing_canon: REPOSITORY_ONLY
+notion_current_authority: RETIRED__NO_FUTURE_READ_OR_WRITE
+repository_only_policy: docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md
 current_chat_runtime_status: PARTIAL__RUN_COMMAND_PREPARE_TO_BATTLE_LIVE_CAPTURED__HEADLESS_NATURAL_TUTORIAL_TO_REVIEW_PASS__HUMAN_NOT_RUN
 human_player_evidence: NOT_RUN
 ```
@@ -35,19 +41,21 @@ human_player_evidence: NOT_RUN
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 24
+CURRENT_APPROVED_REPLAN_DECISIONS = 25
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
 MOBILIZATION_REGISTRY = CONFIRMED
 FIRST5_FTUE = CONFIRMED__STAGE1_PREBUILT_FACILITY_LEARNING_AMENDED
 STAGE_1_DIRECT_CONSTRUCTION = FORBIDDEN
-STAGE_1_PREBUILT_FACILITY_TYPES = GENERAL_BARRACKS / FARM / DEFENSE_TOWER
+STAGE_1_PREBUILT_FACILITY_TYPES = GENERAL_BARRACKS / FARM / FORWARD_BASE_DEFENSE_SYSTEM
 STAGE_1_WARD_CITADEL = GENERAL_BARRACKS x1 + FARM x1
-STAGE_1_WARD_FORWARD_BASES = DEFENSE_TOWER x1 PER_WARD_FORWARD_BASE
+STAGE_1_WARD_FORWARD_BASES = BARRICADE x1 + AUTO_ATTACK_TOWER x1 PER_WARD_FORWARD_BASE
 FIRST_MEANINGFUL_BUILD_OR_UPGRADE = STAGE_2_T2_UPGRADE
-FORWARD_TOWER_FUNCTIONAL_EFFECT = UNDECIDED
-VEIL_FORWARD_TOWER_VISUAL_SYMMETRY = UNDECIDED
+FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER
+OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY
+FORWARD_DEFENSE_OCCUPATION_NODE_STATUS = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+FORWARD_DEFENSE_OCCUPATION_NODE_DECISION = OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01
 RUN_COMMAND_SCREEN = CONFIRMED
 WORLD_CONFLICT_AND_STORY = CONFIRMED
 CONTENT_BOSS_ARC = CONFIRMED
@@ -71,7 +79,7 @@ FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITAD
 ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
 PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__USER_REVIEW_PENDING
-NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
+NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
 FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
@@ -81,7 +89,7 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__VISUAL_EXECUTION_PAUSED
 UNIT_ANIMATION_PRODUCTION_CONTRACT = RETAINED_GEOMETRY_ONLY__STYLE_FIT_REVIEW_REQUIRED
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = LEGACY_STYLE_FIT_REVIEW_REQUIRED
-CURRENT_NEXT = USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE
+CURRENT_NEXT = USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
@@ -89,7 +97,7 @@ GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
 
 `GITHUB_NOTION_DRIFT_CHECK = PASS`와 `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5`는 2026-08-24 final-planning 시점의 보존 증거다. 2026-08-25 승인 이미지의 runtime/human 검증 PASS를 뜻하지 않는다.
 
-`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 Stage 1 전진기지 방어탑이 플레이어에게 어떤 가치와 피드백을 주는지 확정하는 것이다.
+`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 승인된 전진기지 고정 방어와 점령 건설 노드 GDD가 플레이어 경험·실제 구현 경계와 맞는지 사용자 검토를 받는 것이다.
 
 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` is the current presentation owner. It fixes the primary battlefield as one simultaneous strategic map with **one Ward Citadel root branching into three visible fronts**, using storybook watercolor SD visual language. Parallel rows or three independent Ward bases are rejected. The 2026-08-25 Decision retains only the protected three-front responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first rule; the 2026-08-28 close-backdrop presentation is superseded while its roulette inspection behavior remains retained.
 
@@ -200,7 +208,7 @@ Human surfaces:
 - Visual Bible: https://app.notion.com/p/3c01b237eb1c81c38be5e3ee9f64b59d
 - Visual Components: https://app.notion.com/p/3c21b237eb1c81e29be2d6ce397c9c85
 
-Notion server readback proves the image block/attachment exists; it is not a browser/device usability PASS.
+Notion server readback proves a historical image block/attachment existed; it is not current authority or a browser/device usability PASS.
 
 ## Runtime / evidence boundary
 
@@ -250,7 +258,7 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 4. COMPLETE — Front-State + per-front minimap + Fantasy/Magic/SD Decision
 5. COMPLETE — written spec + alternatives + planning adversarial review 5/5
 6. COMPLETE — OM-IMG-023 historical visual approval retained as reference only
-7. COMPLETE — Notion Home/Visual Bible current image placement + server readback
+7. HISTORICAL — Notion Home/Visual Bible image placement + server readback; future Notion writes retired
 8. COMPLETE — durable GitHub visual asset record + new-chat handoff
 9. COMPLETE — Shield Guard shared UnitView idle texture consumer import contract
 10. COMPLETE — reconcile remaining approved P0 asset geometry and extend shared runtime consumers
@@ -273,7 +281,7 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 6. `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`;
 7. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`;
 8. current visual spec + approved asset record;
-9. Project Notion Home + Visual Bible + Visual Components and full-resolution Drive asset;
+9. repository의 current visual spec / planning board / asset provenance owner;
 9. current GDD/Project Core and relevant owner, treating older conflicting visual wording as superseded by the 2026-08-25 Decision;
 10. Google Sheet as compatibility/history only;
 11. Shield Guard, the remaining P0 unit imports, and the three current HUD building-button imports are verified. Live tutorial, all-18 gallery, and button captures are partial; broad runtime readability and human evidence remain `NOT_RUN`.

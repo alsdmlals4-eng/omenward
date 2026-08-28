@@ -15,6 +15,8 @@ CURRENT_VISUAL_SPEC = MODULE["CURRENT_VISUAL_SPEC"]
 CURRENT_VISUAL_BOARD = MODULE["CURRENT_VISUAL_BOARD"]
 CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
 CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
+FORWARD_DEFENSE_SPEC = MODULE["FORWARD_DEFENSE_SPEC"]
+REPOSITORY_ONLY_POLICY = MODULE["REPOSITORY_ONLY_POLICY"]
 FINAL_REVIEW = MODULE["FINAL_REVIEW"]
 IMPLEMENTATION_PACKET = MODULE["IMPLEMENTATION_PACKET"]
 IMPLEMENTATION_PLAN = MODULE["IMPLEMENTATION_PLAN"]
@@ -67,8 +69,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 24",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 26",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -95,13 +97,40 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE",
+                "CURRENT_NEXT = USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE" in error for error in errors), errors)
+            self.assertTrue(any("USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD" in error for error in errors), errors)
+
+    def test_forward_defense_spec_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / FORWARD_DEFENSE_SPEC).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_forward_barricade_cannot_collide_with_tactical_command_barricade(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / FORWARD_DEFENSE_SPEC
+            body = path.read_text(encoding="utf-8").replace(
+                "BARRICADE_IDENTITY_COLLISION = FORBIDDEN",
+                "BARRICADE_IDENTITY_COLLISION = ALLOWED",
+                1,
+            )
+            path.write_text(body, encoding="utf-8")
+            self.assertTrue(any("BARRICADE_IDENTITY_COLLISION = FORBIDDEN" in error for error in validate(root)))
+
+    def test_repository_only_policy_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / REPOSITORY_ONLY_POLICY).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

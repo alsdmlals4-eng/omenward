@@ -49,7 +49,7 @@ class RunCommandImplementationAuthorityScopeTests(unittest.TestCase):
         decisions = (ROOT / "docs/CURRENT_CONFIRMED_DECISIONS.md").read_text(encoding="utf-8")
         active = (ROOT / "docs/ACTIVE_CONTEXT.md").read_text(encoding="utf-8")
         self.assertIn("IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", decisions)
-        self.assertIn("CURRENT_NEXT = USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE", decisions)
+        self.assertIn("CURRENT_NEXT = USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD", decisions)
         self.assertIn("implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE", active)
         self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", active)
         self.assertNotIn("CURRENT_GODOT_RUNTIME = PASS", active)

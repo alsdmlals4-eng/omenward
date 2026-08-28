@@ -36,7 +36,9 @@ CURRENT_VISUAL_SPEC_OWNER = "2026-08-28-storybook-sd-three-front-strategic-map-d
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_IMPLEMENTATION_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE"
+CURRENT_REACTIVATION_GATE = "USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD"
+FORWARD_DEFENSE_DECISION = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
+FORWARD_DEFENSE_OWNER = "APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 STALE_NORTH_STAR_GATE = "REBUILT_NORTH_STAR_ON_USER_IMAGE_REQUEST"
 C2_HISTORICAL_STATUS = "docs/archive/2026-07/pre-v2-canon/CURRENT_IMPLEMENTATION_STATUS_PRE_V2.md"
@@ -71,6 +73,8 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED", decisions)
         self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
         self.assertIn("PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP", decisions)
+        self.assertIn(FORWARD_DEFENSE_DECISION, decisions)
+        self.assertIn(FORWARD_DEFENSE_OWNER, decisions)
 
     def test_current_decision_count_matches_registered_table(self) -> None:
         decisions = read("docs/CURRENT_CONFIRMED_DECISIONS.md")
@@ -78,8 +82,9 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIsNotNone(match)
         table_ids = set(re.findall(r"\| `(OMW-(?:PLAN|VISUAL)-[^`]+)` \|", decisions))
         self.assertEqual(int(match.group(1)), len(table_ids))
-        self.assertEqual(24, len(table_ids))
+        self.assertEqual(25, len(table_ids))
         self.assertIn(CURRENT_VISUAL_DECISION, table_ids)
+        self.assertIn(FORWARD_DEFENSE_DECISION, table_ids)
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:
         for relative in CURRENT_DOCS:
