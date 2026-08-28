@@ -522,6 +522,39 @@ GENERATED_OPERATING_ARTIFACT_EOL_GUARD_REQUIRED_ANCHORS = set(
     GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES
 )
 
+# The Stage 1 amendment corrects a player-learning gate that conflicted with
+# the current implementation surface. This exact documentation/test set is
+# allowed without permitting a Godot product path or reopening visual assets.
+STAGE1_PREBUILT_LEARNING_CANON_SYNC_ALLOWED_FILES = {
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/audits/OMENWARD_STAGE1_FTUE_CANON_DRIFT_INCIDENT_2026-08-28.md",
+    "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+STAGE1_PREBUILT_LEARNING_CANON_SYNC_REQUIRED_ANCHORS = set(
+    STAGE1_PREBUILT_LEARNING_CANON_SYNC_ALLOWED_FILES
+)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -550,6 +583,7 @@ APPROVED_FILES = (
     | FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES
     | DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES
     | GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES
+    | STAGE1_PREBUILT_LEARNING_CANON_SYNC_ALLOWED_FILES
 )
 
 
@@ -605,6 +639,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES, FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_REQUIRED_ANCHORS, "forward-base and clash-zone planning-board correction"),
         (DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES, DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_REQUIRED_ANCHORS, "dual-citadel map-only planning-board correction"),
         (GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES, GENERATED_OPERATING_ARTIFACT_EOL_GUARD_REQUIRED_ANCHORS, "generated operating-artifact LF guard"),
+        (STAGE1_PREBUILT_LEARNING_CANON_SYNC_ALLOWED_FILES, STAGE1_PREBUILT_LEARNING_CANON_SYNC_REQUIRED_ANCHORS, "Stage 1 prebuilt-learning canon sync"),
         (ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES, ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_REQUIRED_ANCHORS, "one Ward Citadel three-branches visual correction"),
         (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),

@@ -5,6 +5,8 @@ decision_id: OMW-PLAN-20260820-FIRST5-FTUE-01
 status: APPROVED_CURRENT
 approved_at: 2026-08-20
 approval: USER_APPROVED_RECOMMENDED_OPTION_A
+amended_at: 2026-08-28
+amended_by: OMW-PLAN-20260828-STAGE1-PREBUILT-EXPLAIN-01
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
 parent_decisions:
   - OMW-PLAN-20260820-WORLD-ROLE-01
@@ -19,7 +21,7 @@ visual_asset_approval: NONE
 
 ## 1. 결정
 
-기존 Stage 1~5 기능 순서를 유지하되, 첫 세션을 다음 **5단계 숙련 사다리**로 읽히게 한다.
+Stage 1~5의 숙련 순서는 유지하되, 2026-08-28 amendment는 Stage 1의 기존 `6종 T1 직접 건설 → 첫 룰렛` gate를 사전 구축 시설 학습으로 교체한다.
 
 ```text
 Stage 1 = 인과 이해
@@ -33,40 +35,43 @@ Stage 5 = 첫 결산
 
 ## 2. Stage 1 · 인과 이해
 
-기존 승인 규칙을 보존한다.
+`OMW-PLAN-20260828-STAGE1-PREBUILT-EXPLAIN-01`에 따라 Stage 1은 플레이어의 건설 행동을 요구하지 않는다. 실제 MapRun 안에서 이미 지어진 세 시설 **종류**를 하나씩 읽고, 그 뒤 룰렛과 비가역 전선 커밋을 경험한다.
 
 ```text
-STAGE_1_T1_BUILDINGS = ONE_EACH_ALL_SIX
-STAGE_1_REQUIRED_T1 = VAULT / FARM / GENERAL_BARRACKS / DEFENSE_TOWER / COMMAND_POST / MANA_TOWER
-SPECIAL_BARRACKS_STAGE1_REQUIRED = FALSE
-FIRST_ROULETTE_UNLOCK = AFTER_ALL_SIX_T1_AND_SETUP_CONFIRMATION
+STAGE_1_DIRECT_CONSTRUCTION = FORBIDDEN
+STAGE_1_PREBUILT_FACILITY_TYPES = GENERAL_BARRACKS / FARM / DEFENSE_TOWER
+STAGE_1_WARD_CITADEL = GENERAL_BARRACKS x1 + FARM x1
+STAGE_1_WARD_FORWARD_BASES = DEFENSE_TOWER x1 PER_WARD_FORWARD_BASE
+STAGE_1_FACILITY_EXPLANATION = ONE_TYPE_AT_A_TIME
+FIRST_ROULETTE_UNLOCK = AFTER_THREE_PREBUILT_FACILITY_TYPE_EXPLANATIONS
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
+FIRST_MEANINGFUL_BUILD_OR_UPGRADE = STAGE_2_T2_UPGRADE
+FORWARD_TOWER_FUNCTIONAL_EFFECT = UNDECIDED__NO_RUNTIME_CLAIM
+VEIL_FORWARD_TOWER_VISUAL_SYMMETRY = UNDECIDED
 ```
 
-단, 6개 건물을 한 화면에서 동일 밀도로 설명하지 않는다. 사람용 노출은 세 목적 묶음으로 순차 진행한다.
+시설 설명은 한 화면의 건설 선택지가 아니다. 플레이어는 다음 순서로 **이미 존재하는 시설의 역할**을 읽는다. 정확한 팝업 문구·강조 애니메이션·방어탑의 전술 효과는 후속 결정이다.
 
 ```text
-1. 생존 기반
-   VAULT + FARM
-   → 전쟁을 지속할 기반
+1. Ward Citadel의 일반병 병영
+   → 병력이 생기는 경로와 룰렛 결과의 군사적 의미
 
-2. 군사 기반
-   GENERAL_BARRACKS + DEFENSE_TOWER
-   → 지금 병력이 생기는 경로와 전선을 버티는 수단
-   → 병영 건설 시 AUTO_PRODUCTION과 TokenSource/동원 인장 기여를 별도 피드백
+2. Ward Citadel의 농장
+   → 병력을 지속·수용하는 기반
 
-3. 지휘 기반
-   COMMAND_POST + MANA_TOWER
-   → 이후 지휘·전술 확장의 기반
-   → Mana Tower의 세부 연구 학습은 Stage 3까지 미룬다
+3. 세 Ward 전진기지의 방어탑
+   → 전진기지가 각 전선의 방어 거점임을 읽는다
+   → 방어탑이 제공하는 정확한 기능 효과는 아직 확정하지 않는다
+
+4. 3×3 징조륜
+   → 시설을 건설하는 것이 아니라, 현재 준비가 결과와 다음 배치 판단으로 이어짐을 배운다
 ```
 
-Stage 1의 교육 목표는 건물명 6개 암기가 아니다.
+Stage 1의 교육 목표는 시설명 암기나 건설 UI 조작이 아니다.
 
 ```text
 징조를 읽었다
-→ 건물을 세웠다
-→ 미래 병력 분포가 바뀌었다
+→ 이미 마련된 병영·농장·전진기지를 읽었다
 → 징조륜에서 병력을 얻었다
 → 내가 한 전선을 골라 비가역 배치했다
 → 전투 결과가 나왔다
@@ -164,8 +169,9 @@ Stage 종료 복기는 다음 인과를 보여준다.
 
 - 첫 세션은 실제 MapRun이다.
 - 별도 튜토리얼은 만들지 않는다.
-- Stage 1 필수 T1 6종 자체는 이번 Decision으로 삭제하지 않는다.
-- 첫 룰렛은 기존대로 6종 T1과 setup confirmation 이후 열린다.
+- Stage 1의 `필수 T1 6종 직접 건설`과 `6종+setup confirmation 뒤 첫 룰렛` gate는 superseded다.
+- Stage 1에는 Ward Citadel의 일반병 병영 1개·농장 1개와 각 Ward 전진기지의 방어탑 1개가 이미 존재한다.
+- 세 시설 종류를 순차 설명한 뒤 첫 3×3 룰렛을 열고, 첫 의미 있는 전투 선택은 비가역 전선 배치다.
 - Stage 1 첫 의미 있는 전투 선택은 비가역 전선 배치다.
 - Stage 2 첫 T2 선택, Stage 3 전술, Stage 4 응용, Stage 5 Boss 순서를 보존한다.
 - Stage 4에는 새 핵심 시스템 교육을 추가하지 않는다.
@@ -174,16 +180,18 @@ Stage 종료 복기는 다음 인과를 보여준다.
 ### CHANGEABLE
 
 - 각 설명 팝업의 정확한 문구·길이
-- 6건물 묶음의 시각 배치·강조 방식
+- 세 사전 구축 시설 설명의 시각 배치·강조 방식
 - 상대적 확률 변화 표현 방식
 - Stage 1~5의 정확한 분 단위 시간
 - Stage 1/2의 세부 enemy composition
+- 방어탑의 정확한 전술·수치 효과
+- Veil 전진기지에도 방어탑을 대칭 표기할지 여부
 
 ## 8. 대안과 재검토
 
-### 대안 B · Stage 1 필수 건물 수 축소
+### Historical alternative B · Stage 1 필수 건물 수 축소
 
-초기 학습 과부하를 줄일 가능성이 있지만 기존 경제·첫 T2·테스트·밸런스 계약을 넓게 다시 열어야 하므로 현 시점에는 채택하지 않는다.
+이 대안은 당시에는 채택하지 않았으나, 2026-08-28 승인으로 Stage 1의 직접 건설 gate 자체가 사전 구축 시설 학습으로 supersede되었다. 이 문단은 역사적 비교 근거로만 보존한다.
 
 다음 조건이면 B를 최우선으로 재검토한다.
 

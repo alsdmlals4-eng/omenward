@@ -67,8 +67,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 23",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 24",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -95,13 +95,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = USER_REVIEW_OF_STORYBOOK_THREE_FRONT_VISUAL_LOCK_PACKET",
+                "CURRENT_NEXT = USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("USER_REVIEW_OF_STORYBOOK_THREE_FRONT_VISUAL_LOCK_PACKET" in error for error in errors), errors)
+            self.assertTrue(any("USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE" in error for error in errors), errors)
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
