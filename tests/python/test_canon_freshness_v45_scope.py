@@ -670,6 +670,10 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             "docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_V6_VISUAL_LOCK_REVIEW_2026-08-29.md",
             scope,
         )
+        self.assertIn(
+            "docs/audits/OMENWARD_CI_GODOT_TEARDOWN_RERUN_INCIDENT_2026-08-29.md",
+            scope,
+        )
         self.assertEqual(load_module().validate_canon_freshness_scope(scope), [])
 
     def test_open_battlefield_v6_visual_lock_rejects_missing_lock_packet(self) -> None:

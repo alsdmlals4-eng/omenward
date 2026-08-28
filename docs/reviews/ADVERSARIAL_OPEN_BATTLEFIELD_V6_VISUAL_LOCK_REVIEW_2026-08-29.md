@@ -27,3 +27,5 @@ NO_BASE_PROMOTION = PROJECT_SPECIFIC_THREE_FRONT_OPEN_BATTLEFIELD_VISUAL_LOCK
 External recheck used the official Commander Quest, Thronefall, and Cataclismo pages. The only retained deductions are active-battlefield information hierarchy and terrain-informed choices; walls/barricades, freeform wall construction, and their distinctive presentation are rejected.
 
 Focused documentation and scope tests pass. The repository-wide local validation launcher is `BLOCKED_DEPENDENCY_MISSING` in this machine (`PIL`, `markdown_it`, `docx`, `pypdf`); this is not a v6 visual-lock failure and is not counted as a full-suite pass.
+
+Remote PR validation initially hit a non-reproducible Godot 4.7.1 teardown failure after import completion. The same exact head passed import, headless contracts, and runtime smoke on failed-job rerun; the incident, evidence ceiling, and monitor rule are recorded in `docs/audits/OMENWARD_CI_GODOT_TEARDOWN_RERUN_INCIDENT_2026-08-29.md`.
