@@ -50,11 +50,16 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 23
 | `OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01` | 세 Front 동시 책임·전장-primary·compact lower deck·silhouette-first 규칙은 retained. 세부 그림체/전장 framing은 2026-08-28 새 Decision이 supersede | `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` | PARTIALLY_SUPERSEDED |
 | `OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01` | Shield Guard Lumern/Veil pair의 공통 state·facing·pivot·보관·cleanup 경계를 승인하고 exact geometry/timing은 cleaned-pair addendum으로 유보 | `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` | CONFIRMED_CURRENT |
 | `OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01` | 3×3 tile/list inspection은 retained. 가까운 확대 전장 backdrop 표현은 새 전략 지도 Decision이 supersede | `docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md` | PARTIALLY_SUPERSEDED__ROULETTE_RETAINED |
-| `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` | 동화풍 수채화 SD + 세 전선 동시 전략 지도 UI를 Run Command의 주 전장 표현으로 고정 | `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md` | CONFIRMED_CURRENT |
+| `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` | 동화풍 수채화 SD + **단일 Ward 본진에서 상·중·하 세 branch가 갈라지는** 동시 전략 지도 UI를 Run Command의 주 전장 표현으로 고정 | `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md` | CONFIRMED_CURRENT__REVISION_2026-08-28_2 |
 
 ## Protected product identity
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
+
+```text
+MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
+PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
+```
 
 ```text
 징조 관측

@@ -19,7 +19,7 @@ human_evidence: NOT_RUN
 
 ## Current boundary
 
-`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 주 전장 표현을 세 전선 동시 전략 지도 UI로 변경했다. 이 파일은 현 빌드의 실제 consumer를 설명하는 **legacy runtime asset record**다. 삭제·교체·새 방향의 runtime PASS를 의미하지 않는다.
+`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 주 전장 표현을 **단일 Ward 본진에서 세 branch가 갈라지는** 동시 전략 지도 UI로 변경했다. 이 파일은 현 빌드의 실제 consumer를 설명하는 **legacy runtime asset record**다. 삭제·교체·새 방향의 runtime PASS를 의미하지 않는다.
 
 ## Intent
 

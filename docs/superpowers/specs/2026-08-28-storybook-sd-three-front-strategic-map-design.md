@@ -3,8 +3,10 @@
 ```yaml
 decision_id: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
 issue: 239
+revision_issue: 241
 status: USER_CONFIRMED_CURRENT
-approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게"
+revision: 2026-08-28.2__ONE_BASE_THREE_BRANCHES_CORRECTION
+approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; correction: 본진에서 3갈래로 뻗어져 나가야 함"
 scope: VISUAL_DIRECTION_LOCK_AND_PLANNING_BOARD_ONLY
 runtime_implementation: NOT_AUTHORIZED_BY_THIS_DECISION
 runtime_target_asset: NOT_CREATED
@@ -12,7 +14,7 @@ runtime_target_asset: NOT_CREATED
 
 ## 1. Decision
 
-Run Command의 주 전장 표현은 가까운 전투 배경 일러스트가 아니라, 세 전선이 동시에 보이는 **전략 지도 UI**다. 왼쪽 Ward 수호권 → 중앙 경합 거점 → 오른쪽 Veil 압력권의 공간 인과를 한 화면에서 읽는다.
+Run Command의 주 전장 표현은 가까운 전투 배경 일러스트가 아니라, 세 전선이 동시에 보이는 **전략 지도 UI**다. 지도에는 **단 하나의 Ward Citadel 본진**만 있고, 그 본진에서 상·중·하 세 전선이 부채꼴로 갈라져 각자의 Veil 압력 지점으로 뻗는다. 플레이어는 같은 뿌리에서 나온 세 갈래의 위험·route·commit 결과를 한 화면에서 읽는다.
 
 전체 그림체는 밝은 아이보리·종이 질감 위의 동화풍 수채화 SD 전술 일러스트다. 부대는 2.5~3등신이며 얇은 청회색 선, 부드러운 수채화 명암, 읽기 쉬운 역할 실루엣을 사용한다.
 
@@ -38,12 +40,14 @@ PRIMARY_VISUAL_MASS = THREE_FRONT_STRATEGIC_MAP
 SECONDARY_VISUAL_MASS = FOCUS_ADAPTIVE_LOWER_CONTROL_DECK
 BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
 PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
+MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
+PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
 ```
 
 ### Character / environment / UI / VFX anchors
 
 - **Character:** shield, banner, weapon, silhouette, faction color를 장식보다 먼저 읽는다. 수호군은 navy/ivory/pale steel/restrained gold, Veil은 charcoal/plum-black/dark violet/limited rift glow다.
-- **Environment:** 각 전선은 Ward stronghold, 2~3개 원형 route node, 중앙 clash zone, Veil approach 또는 fortress를 가진다. 같은 카메라·축척을 유지하되 지형과 위협 상태만 제한적으로 변주한다.
+- **Environment:** 화면의 공통 기점은 단 하나의 Ward Citadel 본진이다. 본진에서 갈라진 상·중·하 route는 각각 2~3개 원형 route node와 별도의 clash/pressure 지점을 지나 Veil approach·fortress·rift로 향한다. 세 route는 공통 기점을 공유하되 같은 카메라·축척 안에서 지형과 위협 상태만 제한적으로 변주한다.
 - **UI:** 종이 패널, 정교한 얇은 테두리, 상징 기반 아이콘, 제한된 금색 강조를 사용한다. UI는 지도 위에 과적되지 않으며 3×3 roulette은 계속 노출된다.
 - **VFX:** 아주 작은 별빛, 수호 문장 광택, 균열의 보랏빛 glow만 허용한다. full-screen flash, 과도한 흔들림, 시야를 가리는 보상 연출은 금지한다.
 
@@ -51,11 +55,11 @@ PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
 
 | Keep | Avoid | Do Not Drift |
 |---|---|---|
-| 세 전선 동시 가독성, 전장-primary, compact lower deck, silhouette-first, 3×3 roulette | 카지노/도박 표현, 가짜 near miss, copied character/UI, 조밀한 개체 단위 미니맵, 장식이 정보보다 앞서는 화면 | player-constructed probability engine, fixed reel-to-lane mapping 금지, 비가역 commit, Ward 대 Veil 양 진영, 아이보리/남색 대 어두운 보랏빛 명도 위계 |
+| 단일 Ward 본진, 본진에서 갈라지는 세 전선, 전선 동시 가독성, 전장-primary, compact lower deck, silhouette-first, 3×3 roulette | 카지노/도박 표현, 가짜 near miss, copied character/UI, 조밀한 개체 단위 미니맵, 장식이 정보보다 앞서는 화면, 세 개의 독립 본진, 병렬 3-lane road | player-constructed probability engine, fixed reel-to-lane mapping 금지, 비가역 commit, Ward 대 Veil 양 진영, 아이보리/남색 대 어두운 보랏빛 명도 위계 |
 
 ### Allowed variation
 
-지역·시간대·위협 상태에 따라 식생, 물길, 석재, 안개, Veil 균열 밀도는 달라질 수 있다. 다만 세 전선의 좌→우 인과, 종이/수채화/잉크 문법, faction color hierarchy, route node 의미는 유지한다.
+상·중·하 branch는 지역·시간대·위협 상태에 따라 식생, 물길, 석재, 안개, Veil 균열 밀도를 다르게 가질 수 있다. 다만 **한 본진 → 세 갈래** topology, 종이/수채화/잉크 문법, faction color hierarchy, route node 의미는 유지한다.
 
 ## 4. Confirmed Flow / Screen anchors
 
@@ -77,7 +81,7 @@ PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
 
 ## 6. Planning board
 
-`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v1.png`은 이 방향의 AI 이해·기획 검토 보드다.
+`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v2_BRANCHING.png`은 이 방향의 AI 이해·기획 검토 보드다. 이전 v1은 세 개의 Ward 본진과 병렬 행을 보여 준 오류 때문에 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`다.
 
 ```text
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
@@ -90,17 +94,17 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 ## 7. Phase 2 entry criteria
 
 1. 사용자가 이 Lock Packet과 planning board를 검토한다.
-2. target resolution에서 route node·전선 상태·3×3 roulette·commit target의 정보 우선순위를 별도 UI spec으로 확정한다.
+2. target resolution에서 **공유 본진·세 branch의 분기·각 route node**와 전선 상태·3×3 roulette·commit target의 정보 우선순위를 별도 UI spec으로 확정한다.
 3. 원본 runtime asset의 provenance/rights 기록을 만든다.
 4. 새 Godot Scene/Resource/code 변경은 별도 Issue, RED test, implementation packet이 승인된 뒤에만 시작한다.
 
 ## 8. Incident / solution / lesson
 
-**Incident:** 기존 close-battlefield backdrop와 P0 unit master가 current visual asset처럼 남아 있으면, 사용자가 새로 확정한 동화풍 전략 지도 UI가 이미 구현·승인된 것처럼 오해될 수 있었다.
+**Incident:** 첫 planning board가 세 개의 Ward 본진과 병렬 행을 그려, 사용자가 요구한 "하나의 본진에서 세 갈래로 뻗는 전선"을 전진기지 세 개처럼 오해했다.
 
-**Solution:** 새 Direction을 단일 current owner로 기록하고, 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 재분류했다. planning board는 별도 `GENERATED_EXPLORATION`으로만 보관했다.
+**Solution:** 같은 Visual Direction의 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고, v1 board를 supersede한 v2 branching board를 만들었다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
 
-**Lesson:** 전역 visual direction 변경 시에는 rendering/style, battlefield framing, asset consumer, runtime evidence, planning visualization을 독립 상태로 기록해야 한다.
+**Lesson:** 전역 visual direction 변경 시에는 rendering/style뿐 아니라 **지도 topology(공통 기점·분기·종점)**를 문장과 보드에서 모두 독립적으로 검증해야 한다.
 
 **Base promotion:** `NO_BASE_PROMOTION` — 현재 finding은 Omenward의 세 전선·룰렛·P0 asset lineage에 특화되어 있으며, 두 번째 프로젝트의 재사용 evidence가 없다.
 
@@ -117,3 +121,4 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 | reference 권리 또는 직접 복제 | PASS | 두 user reference는 `REFERENCE_ONLY__RIGHTS_UNVERIFIED`; project asset promotion 금지다. |
 | target resolution / human usability를 원화만으로 승인 | NOT_RUN | target-resolution UI readability와 human/player evidence는 Phase 2 이후 별도 검증한다. |
 | 기존 asset이 새 그림체에 맞는다고 오인 | CORRECTED | backdrop은 legacy, P0 unit master는 style-fit review required로 변경했다. |
+| 세 전선을 병렬 전진기지 세 개로 오해 | CORRECTED | v1 병렬 보드를 supersede하고 단일 Ward 본진에서 세 route가 갈라지는 v2를 current planning board로 기록했다. |
