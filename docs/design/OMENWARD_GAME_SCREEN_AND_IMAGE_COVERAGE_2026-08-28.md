@@ -6,7 +6,7 @@ github_issue: 231
 status: CURRENT_TARGET_BUILD_AUDITED
 scope: ACTUAL_GODOT_CONSUMERS_PLUS_PLANNED_PRODUCT_SURFACES
 decision_owner: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
-planned_map_topology: ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
+planned_map_topology: ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
 runtime_evidence_ceiling: PARTIAL_TECHNICAL_HERA_CAPTURE_PLUS_HEADLESS_NATURAL_REVIEW__HUMAN_NOT_RUN
 image_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
@@ -59,7 +59,7 @@ Machine readback owners: `tools/audit_runtime_image_coverage.py` with `tests/pyt
 |---|---|---|---|---|
 | `PV-STYLE-01` | current visual north star and faction language | `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md` | `02 · 비주얼 바이블` | `REGISTERED` |
 | `PV-BATTLEFIELD-01` | close battlefield composition / routes / forward bases | `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md` | `02 · 비주얼 바이블` | `LOCAL_AND_NOTION_STORED` |
-| `PV-SCREEN-01` | current screen × consumer × state matrix; one-base/three-branch planning topology with per-branch forward base and clash-zone anchors | this file | Notion coverage page update in the next audit task | `REPOSITORY_REGISTERED__PLANNED_ROUTE_STATES_NOT_RUNTIME_APPLIED` |
+| `PV-SCREEN-01` | current screen × consumer × state matrix; dual-citadel, three-shared-front planning map with both forward bases and central clash zones | this file | Notion coverage page update in the next audit task | `REPOSITORY_REGISTERED__MAP_ONLY_DUAL_CITADEL_NOT_RUNTIME_APPLIED` |
 | `PV-UNIT-01` | idle/unit geometry and faction identity | `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` | Visual Bible / asset records | `REGISTERED` |
 
 ## D. Release / external surfaces

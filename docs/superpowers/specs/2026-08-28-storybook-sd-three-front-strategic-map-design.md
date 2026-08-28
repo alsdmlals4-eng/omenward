@@ -5,9 +5,10 @@ decision_id: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
 issue: 239
 revision_issue: 241
 board_revision_issue: 243
+map_only_revision_issue: 245
 status: USER_CONFIRMED_CURRENT
-revision: 2026-08-28.2__ONE_BASE_THREE_BRANCHES_CORRECTION
-approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; correction: 본진에서 3갈래로 뻗어져 나가야 함"
+revision: 2026-08-28.4__DUAL_CITADEL_MAP_ONLY_CORRECTION
+approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; Ward 본진에서 3갈래로 뻗어져 나감; 전진기지·접전지 배치; 하단 룰렛 이미지 제거; Veil도 Ward와 같은 단일 본진 구조"
 scope: VISUAL_DIRECTION_LOCK_AND_PLANNING_BOARD_ONLY
 runtime_implementation: NOT_AUTHORIZED_BY_THIS_DECISION
 runtime_target_asset: NOT_CREATED
@@ -15,7 +16,7 @@ runtime_target_asset: NOT_CREATED
 
 ## 1. Decision
 
-Run Command의 주 전장 표현은 가까운 전투 배경 일러스트가 아니라, 세 전선이 동시에 보이는 **전략 지도 UI**다. 지도에는 **단 하나의 Ward Citadel 본진**만 있고, 그 본진에서 상·중·하 세 전선이 부채꼴로 갈라져 각자의 Veil 압력 지점으로 뻗는다. 플레이어는 같은 뿌리에서 나온 세 갈래의 위험·route·commit 결과를 한 화면에서 읽는다.
+Run Command의 주 전장 표현은 가까운 전투 배경 일러스트가 아니라, 세 전선이 동시에 보이는 **전략 지도 UI**다. 지도에는 **단 하나의 Ward Citadel 본진**과 **단 하나의 Veil Citadel 본진**이 있고, 양쪽 본진이 각각 상·중·하 세 전선을 공유한다. 플레이어는 Ward 본진에서 시작한 세 갈래가 세 접전지를 거쳐 Veil 본진으로 되돌아드는 대칭 구조 안에서 위험·route·commit 결과를 읽는다.
 
 전체 그림체는 밝은 아이보리·종이 질감 위의 동화풍 수채화 SD 전술 일러스트다. 부대는 2.5~3등신이며 얇은 청회색 선, 부드러운 수채화 명암, 읽기 쉬운 역할 실루엣을 사용한다.
 
@@ -41,18 +42,21 @@ PRIMARY_VISUAL_MASS = THREE_FRONT_STRATEGIC_MAP
 SECONDARY_VISUAL_MASS = FOCUS_ADAPTIVE_LOWER_CONTROL_DECK
 BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
 PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
-MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
+MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
 PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
-ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_ENDPOINT
+FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT
+ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
 FORWARD_BASE = ROUTE_OUTPOST__NOT_ADDITIONAL_HOME_BASE
 CLASH_ZONE = ACTIVE_WARD_VS_VEIL_CONTACT_NODE__NOT_GENERIC_ROUTE_DECORATION
+PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
+ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 ```
 
 ### Character / environment / UI / VFX anchors
 
 - **Character:** shield, banner, weapon, silhouette, faction color를 장식보다 먼저 읽는다. 수호군은 navy/ivory/pale steel/restrained gold, Veil은 charcoal/plum-black/dark violet/limited rift glow다.
-- **Environment:** 화면의 공통 기점은 단 하나의 Ward Citadel 본진이다. 본진에서 갈라진 상·중·하 route는 각각 2~3개 원형 route node와 별도의 clash/pressure 지점을 지나 Veil approach·fortress·rift로 향한다. 세 route는 공통 기점을 공유하되 같은 카메라·축척 안에서 지형과 위협 상태만 제한적으로 변주한다.
-- **Route state:** 각 branch는 본진 뒤의 빈 route가 아니라 `본진 → Ward 전진기지 → Ward/Veil 접전지 → Veil 종점` 순서로 읽힌다. 전진기지는 파란 banner·작은 성벽·보급광이 있는 route outpost이며 추가 본진이 아니다. 접전지는 양 진영 SD 병력·손상 지형·crossed-swords signifier로 보이는 contested contact node다.
+- **Environment:** 화면의 양 끝에는 Ward Citadel과 Veil Citadel이 각각 하나씩 있다. 양쪽 본진에서 갈라진 상·중·하 route는 같은 세 접전지에서 맞물린다. 두 본진은 구조적 중요도는 같지만 Ward는 navy/ivory, Veil은 charcoal/violet으로 구분한다. 세 route는 공통 양 끝을 공유하되 같은 카메라·축척 안에서 지형과 위협 상태만 제한적으로 변주한다.
+- **Route state:** 각 branch는 `Ward 본진 → Ward 전진기지 → Ward/Veil 접전지 → Veil 전진기지 → Veil 본진` 순서로 읽힌다. 양쪽 전진기지는 home base가 아닌 route outpost다. 접전지는 양 진영 SD 병력·손상 지형·crossed-swords signifier로 보이는 contested contact node다.
 - **UI:** 종이 패널, 정교한 얇은 테두리, 상징 기반 아이콘, 제한된 금색 강조를 사용한다. UI는 지도 위에 과적되지 않으며 3×3 roulette은 계속 노출된다.
 - **VFX:** 아주 작은 별빛, 수호 문장 광택, 균열의 보랏빛 glow만 허용한다. full-screen flash, 과도한 흔들림, 시야를 가리는 보상 연출은 금지한다.
 
@@ -60,7 +64,7 @@ CLASH_ZONE = ACTIVE_WARD_VS_VEIL_CONTACT_NODE__NOT_GENERIC_ROUTE_DECORATION
 
 | Keep | Avoid | Do Not Drift |
 |---|---|---|
-| 단일 Ward 본진, 각 branch의 전진기지·접전지, 전선 동시 가독성, 전장-primary, compact lower deck, silhouette-first, 3×3 roulette | 카지노/도박 표현, 가짜 near miss, copied character/UI, 조밀한 개체 단위 미니맵, 장식이 정보보다 앞서는 화면, 세 개의 독립 본진, 병렬 3-lane road, 접전지 없는 장식 node | player-constructed probability engine, fixed reel-to-lane mapping 금지, 비가역 commit, Ward 대 Veil 양 진영, 아이보리/남색 대 어두운 보랏빛 명도 위계 |
+| Ward/Veil 각각 단일 본진, 양측 각 branch의 전진기지, 세 접전지, 전선 동시 가독성, 전장-primary, silhouette-first | 카지노/도박 표현, 가짜 near miss, copied character/UI, 조밀한 개체 단위 미니맵, 장식이 정보보다 앞서는 화면, 세 개의 독립 본진, 병렬 3-lane road, 접전지 없는 장식 node, 지도 보드 안의 하단 roulette/storyboard | player-constructed probability engine, fixed reel-to-lane mapping 금지, 비가역 commit, Ward 대 Veil 양 진영, 아이보리/남색 대 어두운 보랏빛 명도 위계 |
 
 ### Allowed variation
 
@@ -86,7 +90,7 @@ CLASH_ZONE = ACTIVE_WARD_VS_VEIL_CONTACT_NODE__NOT_GENERIC_ROUTE_DECORATION
 
 ## 6. Planning board
 
-`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v3_FORWARD_BASES_AND_CLASH_ZONES.png`은 이 방향의 AI 이해·기획 검토 보드다. 이전 v1은 세 개의 Ward 본진과 병렬 행을 보여 준 오류 때문에 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`고, v2는 topology는 맞지만 전진기지·접전지를 명시적 state anchor로 보여 주지 못해 `SUPERSEDED__OPERATIONAL_MARKERS_INCOMPLETE`다.
+`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v4_DUAL_CITADEL_MAP_ONLY.png`은 이 방향의 AI 이해·기획 검토 보드다. 이전 v1은 세 개의 Ward 본진과 병렬 행을 보여 준 오류 때문에 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`고, v2는 topology는 맞지만 전진기지·접전지를 명시적 state anchor로 보여 주지 못해 `SUPERSEDED__OPERATIONAL_MARKERS_INCOMPLETE`다. v3는 Ward 본진만 root로 그리고 하단 roulette/storyboard를 포함해 `SUPERSEDED__VEIL_ROOT_AND_MAP_ONLY_SCOPE_CORRECTED`다.
 
 ```text
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
@@ -99,7 +103,7 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 ## 7. Phase 2 entry criteria
 
 1. 사용자가 이 Lock Packet과 planning board를 검토한다.
-2. target resolution에서 **공유 본진·세 branch의 분기·각 전진기지·각 접전지·Veil endpoint**와 전선 상태·3×3 roulette·commit target의 정보 우선순위를 별도 UI spec으로 확정한다.
+2. target resolution에서 **Ward/Veil 각각의 공유 본진·세 branch·양측 전진기지·세 접전지**와 전선 상태의 정보 우선순위를 별도 UI spec으로 확정한다. 3×3 roulette과 compact lower deck의 UI spec은 이 map-only board와 별도로 유지한다.
 3. 원본 runtime asset의 provenance/rights 기록을 만든다.
 4. 새 Godot Scene/Resource/code 변경은 별도 Issue, RED test, implementation packet이 승인된 뒤에만 시작한다.
 
@@ -107,11 +111,13 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 
 **Incident:** 첫 planning board가 세 개의 Ward 본진과 병렬 행을 그려, 사용자가 요구한 "하나의 본진에서 세 갈래로 뻗는 전선"을 전진기지 세 개처럼 오해했다.
 
-**Solution:** 같은 Visual Direction의 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고, v1 board를 supersede한 v2 branching board를 만들었다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
+**Historical solution (superseded):** 당시에는 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고 v2 branching board로 보정했다. 이는 Ward 쪽 기점을 하나로 바로잡은 중간 교정이다. 이후 사용자가 Veil도 단일 본진이어야 하고 보드는 map-only여야 한다고 확정했으므로, current owner는 `ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT` 및 v4 board다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
 
 **Lesson:** 전역 visual direction 변경 시에는 rendering/style뿐 아니라 **지도 topology(공통 기점·분기·종점)**를 문장과 보드에서 모두 독립적으로 검증해야 한다.
 
 **Follow-up correction:** topology가 맞아도 route node가 전술적 의미를 보장하지는 않는다. 사용자가 확인한 전진기지와 접전지를 각 branch의 별도 visual state anchor로 배치하고, 이 보드를 runtime asset으로 오인하지 않는 경계를 유지한다.
+
+**Map-only correction:** 보드 하단의 roulette/storyboard는 현재 UI 의미를 정확히 설명하지 못해 제거했다. 이는 roulette system이나 lower control deck의 제거가 아니라, 전략 지도를 독립적으로 검증하기 위한 board scope 축소다. Veil 측도 Ward와 같은 단일 본진·세 branch 구조로 보정했다.
 
 **Base promotion:** `NO_BASE_PROMOTION` — 현재 finding은 Omenward의 세 전선·룰렛·P0 asset lineage에 특화되어 있으며, 두 번째 프로젝트의 재사용 evidence가 없다.
 
@@ -130,3 +136,4 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 | 기존 asset이 새 그림체에 맞는다고 오인 | CORRECTED | backdrop은 legacy, P0 unit master는 style-fit review required로 변경했다. |
 | 세 전선을 병렬 전진기지 세 개로 오해 | CORRECTED | v1 병렬 보드를 supersede하고 단일 Ward 본진에서 세 route가 갈라지는 v2를 current planning board로 기록했다. |
 | 전진기지·접전지가 일반 route node처럼 보임 | CORRECTED | v3는 branch마다 Ward outpost와 contested contact node를 구별해 배치했다. |
+| Veil 측이 세 독립 endpoint처럼 보이거나 하단 UI가 잘못된 시스템을 암시 | CORRECTED | v4는 단일 Veil Citadel root와 map-only composition을 고정하고, roulette은 retained-but-not-visualized로 분리했다. |
