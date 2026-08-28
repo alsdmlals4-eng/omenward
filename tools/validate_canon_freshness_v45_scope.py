@@ -599,6 +599,51 @@ FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_REQUIRED_ANCHORS = set(
     FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_ALLOWED_FILES
 )
 
+# The user removed visible home production buildings and set exact construction
+# capacity and fixed-defense counts for both command roots and every forward
+# base. This is a planning/visual-board reconciliation only: the current Godot
+# runtime remains a legacy consumer until a separate Phase 2 Issue and RED tests.
+BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES = {
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/PROJECT_HOME.md",
+    "docs/audits/OMENWARD_BASE_FORWARD_BATTLEFIELD_LAYOUT_INCIDENT_2026-08-28.md",
+    "docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md",
+    "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
+    "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md",
+    "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md",
+    "docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md",
+    "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md",
+    "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png",
+    "docs/handoffs/2026-08-28-base-forward-battlefield-layout-handoff.md",
+    "docs/process/APPROVED_OMENWARD_BENCHMARK_INDUSTRY_RESEARCH_FIRST_2026-08-11.md",
+    "docs/reviews/ADVERSARIAL_BASE_FORWARD_BATTLEFIELD_LAYOUT_REVIEW_2026-08-28.md",
+    "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md",
+    "tests/python/test_base_forward_battlefield_layout_canon.py",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_REQUIRED_ANCHORS = set(
+    BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
+)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -629,6 +674,7 @@ APPROVED_FILES = (
     | GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES
     | STAGE1_PREBUILT_LEARNING_CANON_SYNC_ALLOWED_FILES
     | FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_ALLOWED_FILES
+    | BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
 )
 
 
@@ -686,6 +732,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (GENERATED_OPERATING_ARTIFACT_EOL_GUARD_ALLOWED_FILES, GENERATED_OPERATING_ARTIFACT_EOL_GUARD_REQUIRED_ANCHORS, "generated operating-artifact LF guard"),
         (STAGE1_PREBUILT_LEARNING_CANON_SYNC_ALLOWED_FILES, STAGE1_PREBUILT_LEARNING_CANON_SYNC_REQUIRED_ANCHORS, "Stage 1 prebuilt-learning canon sync"),
         (FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_ALLOWED_FILES, FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_REQUIRED_ANCHORS, "forward-defense / occupation-node GDD canon sync"),
+        (BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES, BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_REQUIRED_ANCHORS, "base/forward battlefield layout canon sync"),
         (ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES, ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_REQUIRED_ANCHORS, "one Ward Citadel three-branches visual correction"),
         (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),

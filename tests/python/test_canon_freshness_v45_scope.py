@@ -633,6 +633,33 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             errors,
         )
 
+    def test_base_forward_battlefield_layout_exact_surface_passes(self) -> None:
+        scope = load_module().BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
+        self.assertIn(
+            "docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md",
+            scope,
+        )
+        self.assertIn(
+            "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png",
+            scope,
+        )
+        self.assertIn(
+            "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
+            scope,
+        )
+        self.assertEqual(load_module().validate_canon_freshness_scope(scope), [])
+
+    def test_base_forward_battlefield_layout_rejects_missing_v5_board(self) -> None:
+        scope = load_module().BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
+        errors = load_module().validate_canon_freshness_scope(
+            scope
+            - {"docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png"}
+        )
+        self.assertTrue(
+            any("base/forward battlefield layout canon sync" in error for error in errors),
+            errors,
+        )
+
     def test_generated_operating_artifact_eol_guard_exact_surface_passes(self) -> None:
         self.assertEqual(
             load_module().validate_canon_freshness_scope(

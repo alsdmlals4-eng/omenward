@@ -9,10 +9,13 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD"
+CURRENT_REACTIVATION_GATE = "USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 FORWARD_DEFENSE_SPEC = "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
 FORWARD_DEFENSE_DECISION_ID = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
+BASE_FORWARD_LAYOUT_SPEC = "docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md"
+BASE_FORWARD_LAYOUT_DECISION_ID = "OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01"
+BASE_FORWARD_LAYOUT_REVIEW = "docs/reviews/ADVERSARIAL_BASE_FORWARD_BATTLEFIELD_LAYOUT_REVIEW_2026-08-28.md"
 REPOSITORY_ONLY_POLICY = "docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md"
 REPOSITORY_ONLY_POLICY_ID = "OMW-OPS-20260828-REPOSITORY-ONLY-CANON-NOTION-RETIREMENT-01"
 PROJECT_HOME = "docs/PROJECT_HOME.md"
@@ -45,6 +48,7 @@ LEGACY_RUNTIME_VISUAL_ASSET = "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDRO
 # Compatibility export for mutation tests that validate the legacy runtime evidence.
 CURRENT_VISUAL_ASSET = LEGACY_RUNTIME_VISUAL_ASSET
 CURRENT_VISUAL_HANDOFF = "docs/HANDOFF_CONTEXT.md"
+CURRENT_RESTART_HANDOFF = "docs/handoffs/2026-08-28-base-forward-battlefield-layout-handoff.md"
 CURRENT_UNIT_ANIMATION_CONTRACT = "docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md"
 IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
 IMPLEMENTATION_PLAN = "docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md"
@@ -69,6 +73,7 @@ REQUIRED_FILES = (
     CURRENT_VISUAL_BOARD,
     CURRENT_VISUAL_ASSET,
     CURRENT_VISUAL_HANDOFF,
+    CURRENT_RESTART_HANDOFF,
     CURRENT_UNIT_ANIMATION_CONTRACT,
     "docs/OMENWARD_GAME_DESIGN.md",
     "docs/OMENWARD_ROADMAP.md",
@@ -89,6 +94,8 @@ REQUIRED_FILES = (
     LEGENDARY_DEPLOYMENT_POLICY,
     ROULETTE_RULES,
     FORWARD_DEFENSE_SPEC,
+    BASE_FORWARD_LAYOUT_SPEC,
+    BASE_FORWARD_LAYOUT_REVIEW,
     REPOSITORY_ONLY_POLICY,
     NOTION_MIGRATION_REPORT,
 )
@@ -178,9 +185,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_VISUAL_SPEC,
             CURRENT_VISUAL_BOARD,
             LEGACY_RUNTIME_VISUAL_ASSET,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 26",
             FORWARD_DEFENSE_DECISION_ID,
             FORWARD_DEFENSE_SPEC,
+            BASE_FORWARD_LAYOUT_DECISION_ID,
+            BASE_FORWARD_LAYOUT_SPEC,
             NOTION_MIGRATION_REPORT,
             "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
             "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
@@ -202,7 +211,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP",
             "CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED",
             "LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
-            "PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__USER_REVIEW_PENDING",
+            "PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V5_BASE_FORWARD_NODE_LAYOUT__USER_CONFIRM_PENDING",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
             IMPLEMENTATION_PACKET,
@@ -241,10 +250,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_DEFENSE_GDD_REVIEW_PENDING",
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+            "status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__BASE_FORWARD_BATTLEFIELD_BOARD_USER_CONFIRM_PENDING",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 26",
             FORWARD_DEFENSE_DECISION_ID,
             FORWARD_DEFENSE_SPEC,
+            BASE_FORWARD_LAYOUT_DECISION_ID,
+            BASE_FORWARD_LAYOUT_SPEC,
             "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
             "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
             CURRENT_VISUAL_DECISION_ID,
@@ -260,6 +271,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "implementation_authorized: true",
             "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
             "implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_TECHNICAL_QA_CAPTURED__HUMAN_NOT_RUN",
+            f"current_handoff: {CURRENT_RESTART_HANDOFF}",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED",
             "CURRENT_GUT_RED = NOT_RUN",
@@ -357,14 +369,14 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         (
             "board_id: OMW-VISUAL-BOARD-20260828-STORYBOOK-SD-THREE-FRONT-01",
             CURRENT_VISUAL_DECISION_ID,
-            "revision: v4__DUAL_CITADEL_MAP_ONLY",
+            "revision: v5__BASE_FORWARD_NODE_LAYOUT",
             "map_topology: ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT",
             "front_structure: ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT",
             "route_state_grammar: WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE",
             "board_scope: STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED",
             "roulette_system: RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD",
-            "OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v4_DUAL_CITADEL_MAP_ONLY.png",
-            "status: GENERATED_EXPLORATION__USER_REVIEW_PENDING",
+            "OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png",
+            "status: GENERATED_EXPLORATION__USER_CONFIRM_PENDING",
             "rights_status: PLANNING_REFERENCE_ONLY__NOT_RUNTIME_ASSET__NOT_RELEASE_RIGHTS_PASS",
             "!= runtime asset batch",
             "no pseudo-text used as structured truth",
@@ -399,6 +411,23 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "codex_godot_execution: IMPLEMENTED__LEGACY_BATTLEFIELD_MAP_MACHINE_QA__NEW_VISUAL_NOT_APPLIED",
         ),
         "current visual closeout handoff",
+    )
+
+    restart_handoff = read(root, CURRENT_RESTART_HANDOFF)
+    require(
+        errors,
+        restart_handoff,
+        (
+            "status: CURRENT_RESTART_ROUTER",
+            CURRENT_CONTRACT,
+            "notion_current_authority: RETIRED__NO_FUTURE_READ_OR_WRITE",
+            BASE_FORWARD_LAYOUT_SPEC,
+            CURRENT_VISUAL_BOARD,
+            f"current_gate: {CURRENT_REACTIVATION_GATE}",
+            "NEW_LAYOUT_RUNTIME = NOT_RUN",
+            "NEW_LAYOUT_HUMAN_USABILITY = NOT_RUN",
+        ),
+        "base/forward restart handoff",
     )
 
     # Current summary documents moved to the 2026-08-25 visual authority. Older
@@ -436,7 +465,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 25",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 26",
             "NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
@@ -506,6 +535,42 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NO_BASE_PROMOTION = PROJECT_SPECIFIC_MAPRUN_FRONT_AND_OUTPOST_RULES",
         ),
         "forward-defense / occupation-node contract",
+    )
+
+    base_forward_layout = read(root, BASE_FORWARD_LAYOUT_SPEC)
+    require(
+        errors,
+        base_forward_layout,
+        (
+            BASE_FORWARD_LAYOUT_DECISION_ID,
+            "status: CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED",
+            "HOME_BASE_PREBUILT_PRODUCTION_BUILDINGS = NONE",
+            "HOME_BASE_CONSTRUCTION_NODE_COUNT_PER_FACTION = 4",
+            "HOME_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_FACTION = 2",
+            "FORWARD_BASE_CONSTRUCTION_NODE_COUNT_PER_BASE = 2",
+            "FORWARD_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_BASE = 1",
+            "FORWARD_BASE_FIXED_DEFENSE_STACK = FORWARD_BARRICADE + AUTO_ATTACK_TOWER",
+            "TOTAL_CONSTRUCTION_NODE_CAPACITY_PER_FACTION = 10",
+            "PHASE_2_PRODUCT_CODE_AUTHORITY = NONE",
+        ),
+        "base/forward battlefield layout contract",
+    )
+
+    base_forward_layout_review = read(root, BASE_FORWARD_LAYOUT_REVIEW)
+    require(
+        errors,
+        base_forward_layout_review,
+        (
+            "review_id: OMW-REV-20260828-BASE-FORWARD-BATTLEFIELD-LAYOUT-01",
+            "result: PASS_5_OF_5__PLANNING_SCOPE_ONLY",
+            BASE_FORWARD_LAYOUT_DECISION_ID,
+            "runtime: NOT_RUN",
+            "human_usability: NOT_RUN",
+            "player_experience: NOT_RUN",
+            "visual_lock: USER_CONFIRM_PENDING",
+            "NO_BASE_PROMOTION = PROJECT_SPECIFIC_THREE_FRONT_ROOT_AND_OCCUPATION_CAPACITY_LAYOUT",
+        ),
+        "base/forward battlefield layout adversarial review",
     )
 
     repository_only = read(root, REPOSITORY_ONLY_POLICY)
@@ -673,9 +738,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         ledger_current,
         (
             CURRENT_CONTRACT,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 26",
             FORWARD_DEFENSE_DECISION_ID,
             FORWARD_DEFENSE_SPEC,
+            BASE_FORWARD_LAYOUT_DECISION_ID,
+            BASE_FORWARD_LAYOUT_SPEC,
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",

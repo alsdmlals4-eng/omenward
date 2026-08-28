@@ -8,7 +8,9 @@ approval: USER_APPROVED_RECOMMENDED_OPTION_A
 amended_at: 2026-08-28
 amended_by: OMW-PLAN-20260828-STAGE1-PREBUILT-EXPLAIN-01
 amended_by_forward_defense: OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.7
+amended_by_battlefield_layout: OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01
+current_battlefield_layout_owner: docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md
+planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 parent_decisions:
   - OMW-PLAN-20260820-WORLD-ROLE-01
   - OMW-PLAN-20260820-MAPRUN-WORLD-01
@@ -22,7 +24,7 @@ visual_asset_approval: NONE
 
 ## 1. 결정
 
-Stage 1~5의 숙련 순서는 유지하되, 2026-08-28 amendment는 Stage 1의 기존 `6종 T1 직접 건설 → 첫 룰렛` gate를 사전 구축 시설 학습으로 교체한다.
+Stage 1~5의 숙련 순서는 유지하되, 2026-08-28 amendment는 Stage 1의 기존 `6종 T1 직접 건설 → 첫 룰렛` gate를 **지휘 거점·전진기지 방어·잠긴 건설 패드**를 읽는 흐름으로 교체한다.
 
 ```text
 Stage 1 = 인과 이해
@@ -36,15 +38,16 @@ Stage 5 = 첫 결산
 
 ## 2. Stage 1 · 인과 이해
 
-`OMW-PLAN-20260828-STAGE1-PREBUILT-EXPLAIN-01`에 따라 Stage 1은 플레이어의 건설 행동을 요구하지 않는다. 실제 MapRun 안에서 이미 지어진 세 시설 **종류**를 하나씩 읽고, 그 뒤 룰렛과 비가역 전선 커밋을 경험한다.
+`OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01`에 따라 Stage 1은 플레이어의 건설 행동을 요구하지 않는다. 실제 MapRun 안에서 지휘 거점·전진기지 방어·잠긴 건설 패드의 역할을 하나씩 읽고, 그 뒤 룰렛과 비가역 전선 커밋을 경험한다.
 
 ```text
 STAGE_1_DIRECT_CONSTRUCTION = FORBIDDEN
-STAGE_1_PREBUILT_FACILITY_TYPES = GENERAL_BARRACKS / FARM / FORWARD_BASE_DEFENSE_SYSTEM
-STAGE_1_WARD_CITADEL = GENERAL_BARRACKS x1 + FARM x1
-STAGE_1_WARD_FORWARD_BASES = BARRICADE x1 + AUTO_ATTACK_TOWER x1 PER_WARD_FORWARD_BASE
-STAGE_1_FACILITY_EXPLANATION = ONE_TYPE_AT_A_TIME
-FIRST_ROULETTE_UNLOCK = AFTER_THREE_PREBUILT_FACILITY_TYPE_EXPLANATIONS
+STAGE_1_WARD_CITADEL_PREBUILT_PRODUCTION_BUILDINGS = NONE
+STAGE_1_HOME_CONSTRUCTION_NODES = 4_VISIBLE_LOCKED
+STAGE_1_HOME_FIXED_AUTO_ATTACK_TOWERS = 2
+STAGE_1_WARD_FORWARD_BASES = FORWARD_BARRICADE x1 + AUTO_ATTACK_TOWER x1 + CONSTRUCTION_NODES x2 PER_BASE
+STAGE_1_EXPLANATION_UNIT = ONE_SYSTEM_ROLE_AT_A_TIME
+FIRST_ROULETTE_UNLOCK = AFTER_THREE_EXPLANATION_UNITS
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
 FIRST_MEANINGFUL_BUILD_OR_UPGRADE = STAGE_2_T2_UPGRADE
 FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER
@@ -52,28 +55,26 @@ OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY
 FORWARD_DEFENSE_RUNTIME = NOT_IMPLEMENTED
 ```
 
-시설 설명은 한 화면의 건설 선택지가 아니다. 플레이어는 다음 순서로 **이미 존재하는 시설의 역할**을 읽는다. 정확한 팝업 문구·강조 애니메이션·방어 수치는 후속 simulation/Phase 2 계약에서 정한다.
+설명은 한 화면의 건설 선택지가 아니다. 플레이어는 다음 순서로 **이미 존재하는 방어와 앞으로 열릴 선택 자리의 역할**을 읽는다. 정확한 팝업 문구·강조 애니메이션·방어 수치는 후속 simulation/Phase 2 계약에서 정한다.
 
 ```text
-1. Ward Citadel의 일반병 병영
-   → 병력이 생기는 경로와 룰렛 결과의 군사적 의미
+1. Ward 지휘 거점
+   → 본진은 생산 건물 군집이 아니라 MapRun의 지휘 경계이며, 두 고정탑은 접근을 보조할 뿐 승리를 만들지 않는다
 
-2. Ward Citadel의 농장
-   → 병력을 지속·수용하는 기반
-
-3. 세 Ward 전진기지의 방어 체계
+2. 세 Ward 전진기지의 방어 체계
    → 바리케이드가 첫 압력을 늦추고 자동공격탑이 전선 안에서 화력을 보탠다
    → 고정 방어는 점령력·처치 보상·자동 승리를 만들지 않으며 병력 커밋을 대체하지 않는다
 
-4. 3×3 징조륜
-   → 시설을 건설하는 것이 아니라, 현재 준비가 결과와 다음 배치 판단으로 이어짐을 배운다
+3. 건설 패드와 3×3 징조륜
+   → 본진에는 4개, 각 전진기지에는 2개의 비어 있는 패드가 보이지만 Stage 1에는 잠겨 있다
+   → 이번에는 시설을 건설하는 것이 아니라, 현재 준비가 결과와 다음 배치 판단으로 이어짐을 배운다
 ```
 
 Stage 1의 교육 목표는 시설명 암기나 건설 UI 조작이 아니다.
 
 ```text
 징조를 읽었다
-→ 이미 마련된 병영·농장·전진기지를 읽었다
+→ 지휘 거점·전진기지 방어·미래 건설 패드를 읽었다
 → 징조륜에서 병력을 얻었다
 → 내가 한 전선을 골라 비가역 배치했다
 → 전투 결과가 나왔다
@@ -172,8 +173,9 @@ Stage 종료 복기는 다음 인과를 보여준다.
 - 첫 세션은 실제 MapRun이다.
 - 별도 튜토리얼은 만들지 않는다.
 - Stage 1의 `필수 T1 6종 직접 건설`과 `6종+setup confirmation 뒤 첫 룰렛` gate는 superseded다.
-- Stage 1에는 Ward Citadel의 일반병 병영 1개·농장 1개와 각 Ward 전진기지의 방어탑 1개가 이미 존재한다.
-- 세 시설 종류를 순차 설명한 뒤 첫 3×3 룰렛을 열고, 첫 의미 있는 전투 선택은 비가역 전선 배치다.
+- Stage 1의 Ward Citadel에는 보이는 병영·농장이 없다. 대신 고정탑 2개와 잠긴 건설 패드 4개가 있다.
+- Stage 1의 각 Ward 전진기지에는 고정 바리케이드 1개·자동공격탑 1개·잠긴 건설 패드 2개가 있다.
+- 세 설명 단위를 순차로 읽은 뒤 첫 3×3 룰렛을 열고, 첫 의미 있는 전투 선택은 비가역 전선 배치다.
 - Stage 1 첫 의미 있는 전투 선택은 비가역 전선 배치다.
 - Stage 2 첫 T2 선택, Stage 3 전술, Stage 4 응용, Stage 5 Boss 순서를 보존한다.
 - Stage 4에는 새 핵심 시스템 교육을 추가하지 않는다.
@@ -182,12 +184,12 @@ Stage 종료 복기는 다음 인과를 보여준다.
 ### CHANGEABLE
 
 - 각 설명 팝업의 정확한 문구·길이
-- 세 사전 구축 시설 설명의 시각 배치·강조 방식
+- 본진 4개·전진기지 2개 건설 패드의 시각 배치·강조 방식
 - 상대적 확률 변화 표현 방식
 - Stage 1~5의 정확한 분 단위 시간
 - Stage 1/2의 세부 enemy composition
 - 방어탑의 정확한 전술·수치 효과
-- Veil 전진기지에도 방어탑을 대칭 표기할지 여부
+- Veil 본진·전진기지의 같은 수량을 target resolution에서 어떻게 읽게 할지
 
 ## 8. 대안과 재검토
 

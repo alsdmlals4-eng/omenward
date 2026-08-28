@@ -16,6 +16,7 @@ CURRENT_VISUAL_BOARD = MODULE["CURRENT_VISUAL_BOARD"]
 CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
 CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
 FORWARD_DEFENSE_SPEC = MODULE["FORWARD_DEFENSE_SPEC"]
+BASE_FORWARD_LAYOUT_REVIEW = MODULE["BASE_FORWARD_LAYOUT_REVIEW"]
 REPOSITORY_ONLY_POLICY = MODULE["REPOSITORY_ONLY_POLICY"]
 PROJECT_HOME = MODULE["PROJECT_HOME"]
 NOTION_MIGRATION_REPORT = MODULE["NOTION_MIGRATION_REPORT"]
@@ -71,8 +72,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 26",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 27",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -99,13 +100,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD",
+                "CURRENT_NEXT = USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD" in error for error in errors), errors)
+            self.assertTrue(any("USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD" in error for error in errors), errors)
 
     def test_forward_defense_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -126,6 +127,17 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             )
             path.write_text(body, encoding="utf-8")
             self.assertTrue(any("BARRICADE_IDENTITY_COLLISION = FORBIDDEN" in error for error in validate(root)))
+
+    def test_base_forward_layout_review_is_required_and_keeps_evidence_ceiling(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / BASE_FORWARD_LAYOUT_REVIEW).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+            self.copy(root)
+            path = root / BASE_FORWARD_LAYOUT_REVIEW
+            path.write_text(path.read_text(encoding="utf-8").replace("runtime: NOT_RUN", "runtime: PASS", 1), encoding="utf-8")
+            self.assertTrue(any("runtime: NOT_RUN" in error for error in validate(root)))
 
     def test_repository_only_policy_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
