@@ -6,6 +6,8 @@ decision_id: OMW-DEC-20260811-OPS-BENCHMARK-INDUSTRY-RESEARCH-FIRST-V1
 status: APPROVED_CURRENT_PROCESS_AUTHORITY
 approval_source: USER_EXPLICIT_STANDING_PROJECT_INSTRUCTION
 scope: OMENWARD_NON_TRIVIAL_WORK
+amended_at: 2026-08-28
+amended_by: USER_EXPLICIT_STANDING_RESEARCH_ADVERSARIAL_AND_FEASIBILITY_RECHECK
 ```
 
 사용자 지시에 따라 앞으로 OMENWARD의 모든 비사소 작업은 **실제 설계·정본 변경·구현 전에 벤치마킹과 현업조사를 먼저 수행**한다.
@@ -14,6 +16,10 @@ scope: OMENWARD_NON_TRIVIAL_WORK
 BENCHMARK_AND_INDUSTRY_RESEARCH_REQUIRED_BEFORE_WORK = TRUE
 BENCHMARK_DISPOSITION = ADOPT / ADAPT / AVOID / TEST / IGNORE
 COMPETITOR_BEHAVIOR_AUTOMATIC_AUTHORITY = FORBIDDEN
+FRESH_INTERNET_RESEARCH_REQUIRED_FOR_NON_TRIVIAL_WORK = TRUE
+ADVERSARIAL_REVIEW_UNTIL_CLEAN_REQUIRED_FOR_NON_TRIVIAL_WORK = TRUE
+IMPLEMENTATION_FEASIBILITY_RECHECK_REQUIRED_BEFORE_APPROVAL_OR_BUILD = TRUE
+NOT_RUN_IS_NOT_PASS = TRUE
 ```
 
 ## 1. 필수 선행 순서
@@ -24,6 +30,8 @@ FRESH_BASE_PROJECT_SHEET_READ
 → SOURCE_DATE_AND_RELEVANCE_RECORD
 → ADOPT_ADAPT_AVOID_TEST_IGNORE
 → PROJECT_CANON_CONFLICT_CHECK
+→ ACTUAL_IMPLEMENTATION_FEASIBILITY_RECHECK
+→ ADVERSARIAL_REVIEW_UNTIL_CLEAN
 → DESIGN_CANON_IMPLEMENTATION_WORK
 ```
 
@@ -32,7 +40,9 @@ FRESH_BASE_PROJECT_SHEET_READ
 3. 출처, 조사 날짜, 비교 이유, 프로젝트와의 구조 차이를 기록한다.
 4. 각 finding을 `ADOPT / ADAPT / AVOID / TEST / IGNORE` 중 하나로 분류한다.
 5. 외부 사례와 OMENWARD 정본이 충돌하면 외부 사례를 자동 채택하지 않고 충돌을 보고한다.
-6. 그 뒤에만 설계·정본·Sheet·코드 작업을 시작한다.
+6. 실제 code/data/Scene/Resource/test/runtime evidence를 대조해, 제안이 현재 구조에서 가능한지와 새 구현 경계가 무엇인지 다시 판정한다.
+7. 반대 가정을 통한 적대적 검토를 수행해 finding을 교정하거나 `NOT_RUN`/후속 검증으로 남긴다.
+8. 그 뒤에만 설계·정본·Sheet·코드 작업을 시작한다.
 
 ## 2. 조사 품질
 
@@ -63,6 +73,23 @@ TRIVIAL_SAME_WORK_ITEM_READBACK_RESEARCH_REUSE = ALLOWED
 EMERGENCY_MINIMAL_TARGETED_RESEARCH_FIRST = ALLOWED
 SKIP_ALL_RESEARCH_FOR_NON_TRIVIAL_WORK = FORBIDDEN
 ```
+
+## 4.1 2026-08-28 상시 재검증 강화
+
+사용자는 모든 OMENWARD 비사소 작업에서 인터넷 조사와 적대적 검토를 **한 번 더** 수행해, 문제와 실제 구현 가능성을 확인하도록 명시했다. 이 항목은 Base 공용 운영 규칙을 복제하지 않고, 이 프로젝트의 현재 work gate에 다음 순서를 강제한다.
+
+```text
+FRESH_PROJECT_AND_BASE_READ
+→ FRESH_TARGETED_INTERNET_RESEARCH
+→ ADOPT / ADAPT / REJECT_OR_AVOID
+→ ACTUAL_CODE_DATA_SCENE_RESOURCE_TEST_RUNTIME_FEASIBILITY_RECHECK
+→ FULL_SCOPE_ADVERSARIAL_REVIEW_UNTIL_CLEAN
+→ ONLY_THEN_CANON_OR_IMPLEMENTATION_CHANGE
+```
+
+- 외부 조사는 현행 결정에 material한 것만 대상으로 하며, 공식 제품·공식 엔진 문서·현업 1차 자료를 우선한다.
+- 적대적 검토는 발견한 문제를 "이미 승인됨"으로 덮지 않는다. 수정·후속 Issue·`NOT_RUN` 중 하나로 처분을 남긴다.
+- 단순 동일 work item의 readback/형식 수정은 기존 조사 packet을 재사용할 수 있지만, 설계·정본·code·asset·runtime 의미가 바뀌면 재사용만으로 끝내지 않는다.
 
 ## 5. OMENWARD 장르 benchmark 기본 세트
 

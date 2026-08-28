@@ -6,9 +6,10 @@ issue: 239
 revision_issue: 241
 board_revision_issue: 243
 map_only_revision_issue: 245
+battlefield_layout_amendment: OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01
 status: USER_CONFIRMED_CURRENT
-revision: 2026-08-28.4__DUAL_CITADEL_MAP_ONLY_CORRECTION
-approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; Ward 본진에서 3갈래로 뻗어져 나감; 전진기지·접전지 배치; 하단 룰렛 이미지 제거; Veil도 Ward와 같은 단일 본진 구조"
+revision: 2026-08-28.5__BATTLEFIELD_NODE_CAPACITY_AMENDMENT
+approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; Ward 본진에서 3갈래로 뻗어져 나감; 전진기지·접전지 배치; 하단 룰렛 이미지 제거; Veil도 Ward와 같은 단일 본진 구조; 본진 건물 제거; 본진 건설 노드 4·방어탑 2, 전진기지당 건설 노드 2·방어탑 1"
 scope: VISUAL_DIRECTION_LOCK_AND_PLANNING_BOARD_ONLY
 runtime_implementation: NOT_AUTHORIZED_BY_THIS_DECISION
 runtime_target_asset: NOT_CREATED
@@ -48,6 +49,12 @@ FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITAD
 ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
 FORWARD_BASE = ROUTE_OUTPOST__NOT_ADDITIONAL_HOME_BASE
 CLASH_ZONE = ACTIVE_WARD_VS_VEIL_CONTACT_NODE__NOT_GENERIC_ROUTE_DECORATION
+HOME_BASE_PREBUILT_PRODUCTION_BUILDINGS = NONE
+HOME_BASE_CONSTRUCTION_NODE_COUNT_PER_FACTION = 4
+HOME_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_FACTION = 2
+FORWARD_BASE_CONSTRUCTION_NODE_COUNT_PER_BASE = 2
+FORWARD_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_BASE = 1
+FORWARD_BASE_FIXED_DEFENSE_STACK = FORWARD_BARRICADE + AUTO_ATTACK_TOWER
 PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
 ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 ```
@@ -55,7 +62,7 @@ ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 ### Character / environment / UI / VFX anchors
 
 - **Character:** shield, banner, weapon, silhouette, faction color를 장식보다 먼저 읽는다. 수호군은 navy/ivory/pale steel/restrained gold, Veil은 charcoal/plum-black/dark violet/limited rift glow다.
-- **Environment:** 화면의 양 끝에는 Ward Citadel과 Veil Citadel이 각각 하나씩 있다. 양쪽 본진에서 갈라진 상·중·하 route는 같은 세 접전지에서 맞물린다. 두 본진은 구조적 중요도는 같지만 Ward는 navy/ivory, Veil은 charcoal/violet으로 구분한다. 세 route는 공통 양 끝을 공유하되 같은 카메라·축척 안에서 지형과 위협 상태만 제한적으로 변주한다.
+- **Environment:** 화면의 양 끝에는 Ward Citadel과 Veil Citadel이 각각 하나씩 있다. 본진은 거대 성이나 병영·농장 군집이 아니라 지휘 표식, 고정탑 2개, 빈 건설 패드 4개로 읽힌다. 각 branch의 전진기지에는 고정 바리케이드·고정탑 1개·빈 패드 2개가 있다. 양쪽 본진에서 갈라진 상·중·하 route는 넓은 세 접전지에서 맞물린다. Ward는 navy/ivory, Veil은 charcoal/violet으로 구분하되 구조적 수량은 대칭이다.
 - **Route state:** 각 branch는 `Ward 본진 → Ward 전진기지 → Ward/Veil 접전지 → Veil 전진기지 → Veil 본진` 순서로 읽힌다. 양쪽 전진기지는 home base가 아닌 route outpost다. 접전지는 양 진영 SD 병력·손상 지형·crossed-swords signifier로 보이는 contested contact node다.
 - **UI:** 종이 패널, 정교한 얇은 테두리, 상징 기반 아이콘, 제한된 금색 강조를 사용한다. UI는 지도 위에 과적되지 않으며 3×3 roulette은 계속 노출된다.
 - **VFX:** 아주 작은 별빛, 수호 문장 광택, 균열의 보랏빛 glow만 허용한다. full-screen flash, 과도한 흔들림, 시야를 가리는 보상 연출은 금지한다.
@@ -90,7 +97,7 @@ ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 
 ## 6. Planning board
 
-`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v4_DUAL_CITADEL_MAP_ONLY.png`은 이 방향의 AI 이해·기획 검토 보드다. 이전 v1은 세 개의 Ward 본진과 병렬 행을 보여 준 오류 때문에 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`고, v2는 topology는 맞지만 전진기지·접전지를 명시적 state anchor로 보여 주지 못해 `SUPERSEDED__OPERATIONAL_MARKERS_INCOMPLETE`다. v3는 Ward 본진만 root로 그리고 하단 roulette/storyboard를 포함해 `SUPERSEDED__VEIL_ROOT_AND_MAP_ONLY_SCOPE_CORRECTED`다.
+`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png`은 이 방향의 AI 이해·기획 검토 보드다. v1은 세 개의 Ward 본진과 병렬 행을 보여 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`, v2는 전진기지·접전지 state anchor가 부족해 `SUPERSEDED__OPERATIONAL_MARKERS_INCOMPLETE`, v3는 Ward 본진만 root로 그리고 하단 storyboard를 넣어 `SUPERSEDED__VEIL_ROOT_AND_MAP_ONLY_SCOPE_CORRECTED`, v4는 본진·전진기지의 정확한 패드/탑 수와 전장 밀도가 부족해 `SUPERSEDED__BASE_FORWARD_NODE_COUNTS_AND_BATTLEFIELD_LAYOUT_REQUIRED`다.
 
 ```text
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
@@ -111,7 +118,7 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 
 **Incident:** 첫 planning board가 세 개의 Ward 본진과 병렬 행을 그려, 사용자가 요구한 "하나의 본진에서 세 갈래로 뻗는 전선"을 전진기지 세 개처럼 오해했다.
 
-**Historical solution (superseded):** 당시에는 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고 v2 branching board로 보정했다. 이는 Ward 쪽 기점을 하나로 바로잡은 중간 교정이다. 이후 사용자가 Veil도 단일 본진이어야 하고 보드는 map-only여야 한다고 확정했으므로, current owner는 `ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT` 및 v4 board다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
+**Historical solution (superseded):** 당시에는 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고 v2 branching board로 보정했다. 이는 Ward 쪽 기점을 하나로 바로잡은 중간 교정이다. 이후 Veil도 단일 본진·map-only board를 확정했고, 최종적으로 본진 생산 건물을 제거하며 양측 본진의 패드 4개·고정탑 2개와 전진기지의 패드 2개·바리케이드 1개·고정탑 1개를 확정했다. current owner는 `ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT` 및 v5 board다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
 
 **Lesson:** 전역 visual direction 변경 시에는 rendering/style뿐 아니라 **지도 topology(공통 기점·분기·종점)**를 문장과 보드에서 모두 독립적으로 검증해야 한다.
 
@@ -137,3 +144,4 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 | 세 전선을 병렬 전진기지 세 개로 오해 | CORRECTED | v1 병렬 보드를 supersede하고 단일 Ward 본진에서 세 route가 갈라지는 v2를 current planning board로 기록했다. |
 | 전진기지·접전지가 일반 route node처럼 보임 | CORRECTED | v3는 branch마다 Ward outpost와 contested contact node를 구별해 배치했다. |
 | Veil 측이 세 독립 endpoint처럼 보이거나 하단 UI가 잘못된 시스템을 암시 | CORRECTED | v4는 단일 Veil Citadel root와 map-only composition을 고정하고, roulette은 retained-but-not-visualized로 분리했다. |
+| 본진에 생산 건물이 남거나 패드/탑 수가 불명확 | CORRECTED_AS_PLANNING_BOARD | v5는 양 본진 4 empty pads·2 fixed towers, 각 전진기지 2 empty pads·1 barricade·1 tower를 그린다. target resolution/human readability는 여전히 NOT_RUN이다. |
