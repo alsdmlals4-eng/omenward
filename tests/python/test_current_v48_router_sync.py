@@ -10,7 +10,7 @@ CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTI
 CURRENT_VISUAL_DECISION = "OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01"
 CURRENT_MAP_TOPOLOGY = "MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT"
 CURRENT_LEGACY_RUNTIME_ASSET = "OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1"
-CURRENT_REACTIVATION_GATE = "USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD"
+CURRENT_REACTIVATION_GATE = "USER_CONFIRM_OPEN_BATTLEFIELD_TOWER_ONLY_PLANNING_BOARD"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 CURRENT_AUTHORITY = "SCOPED_APPROVED"
 
@@ -39,12 +39,13 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
             text = read(relative)
             with self.subTest(relative=relative):
                 self.assertIn(CURRENT_CONTRACT, text)
-                self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 26", text)
+                self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 27", text)
                 self.assertIn(CURRENT_VISUAL_DECISION, text)
                 self.assertIn(CURRENT_MAP_TOPOLOGY, text)
                 self.assertIn(CURRENT_LEGACY_RUNTIME_ASSET, text)
                 self.assertIn(CURRENT_AUTHORITY, text)
                 self.assertIn(CURRENT_IMAGE_POLICY, text)
+                self.assertIn("FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL", text)
 
     def test_global_current_routers_do_not_reactivate_20260824_gate_or_visual_default(self) -> None:
         stale_exact_lines = (

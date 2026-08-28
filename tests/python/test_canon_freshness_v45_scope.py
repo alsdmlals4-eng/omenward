@@ -633,14 +633,14 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             errors,
         )
 
-    def test_base_forward_battlefield_layout_exact_surface_passes(self) -> None:
-        scope = load_module().BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
+    def test_open_battlefield_tower_only_layout_exact_surface_passes(self) -> None:
+        scope = load_module().OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_ALLOWED_FILES
         self.assertIn(
-            "docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md",
+            "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md",
             scope,
         )
         self.assertIn(
-            "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png",
+            "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v6_OPEN_BATTLEFIELD_NO_BARRICADE.png",
             scope,
         )
         self.assertIn(
@@ -649,14 +649,14 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         )
         self.assertEqual(load_module().validate_canon_freshness_scope(scope), [])
 
-    def test_base_forward_battlefield_layout_rejects_missing_v5_board(self) -> None:
-        scope = load_module().BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
+    def test_open_battlefield_tower_only_layout_rejects_missing_v6_board(self) -> None:
+        scope = load_module().OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_ALLOWED_FILES
         errors = load_module().validate_canon_freshness_scope(
             scope
-            - {"docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png"}
+            - {"docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v6_OPEN_BATTLEFIELD_NO_BARRICADE.png"}
         )
         self.assertTrue(
-            any("base/forward battlefield layout canon sync" in error for error in errors),
+            any("open-battlefield tower-only layout canon sync" in error for error in errors),
             errors,
         )
 

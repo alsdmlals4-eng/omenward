@@ -4,19 +4,30 @@
 decision_id: OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01
 approved_at: 2026-08-28 KST
 approval: USER_APPROVED
-status: CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+status: PARTIALLY_SUPERSEDED__FIXED_FORWARD_BARRICADE_REMOVED__TOWER_AND_OCCUPATION_NODE_RETAINED
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 scope: STAGE1_FTUE / FORWARD_BASE_FIXED_DEFENSE / OCCUPATION_CONSTRUCTION_NODE
 amended_at: 2026-08-28 KST
-amended_by: OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01
-current_capacity_owner: docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md
+amended_by: OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01
+current_capacity_owner: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 product_code_authority: NONE
 simulation: NOT_RUN
 runtime: NOT_RUN
 human_validation: NOT_RUN
 ```
 
-## 1. 결정 요약
+## 1. 현행 범위 정정
+
+`OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01`이 이 문서의 **고정 전진 바리케이드**만 제거한다. 전진기지의 패드 2개, 고정 자동공격탑 1개, 안정 점령 뒤 노드 활성화와 점령 중 잠금은 유지한다. 이 문서의 아래 바리케이드 설계는 historical/superseded reasoning이며 current runtime 또는 map visual input이 아니다.
+
+```text
+FORWARD_BASE_FIXED_DEFENSE_STACK = AUTO_ATTACK_TOWER_ONLY
+FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL
+TACTICAL_COMMAND_BARRICADE = OUT_OF_SCOPE__RETAINED
+CURRENT_LAYOUT_OWNER = docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
+```
+
+## 2. Historical original decision summary (partially superseded)
 
 전진기지는 한 개의 포탑만 있는 장식이 아니다. 플레이어가 전진기지를 읽을 때 **시간을 버는 바리케이드**, **지속 화력을 주는 자동공격탑**, 그리고 **거점을 안정적으로 점령했을 때 선택권을 여는 건설 노드**를 구분해야 한다.
 

@@ -2,22 +2,22 @@
 
 ```yaml
 updated_at: 2026-08-28
-status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__BASE_FORWARD_BATTLEFIELD_BOARD_USER_CONFIRM_PENDING
+status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_TOWER_ONLY_BOARD_USER_CONFIRM_PENDING
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 current_project_core: docs/PROJECT_CORE.md
-current_handoff: docs/handoffs/2026-08-28-base-forward-battlefield-layout-handoff.md
+current_handoff: docs/handoffs/2026-08-28-open-battlefield-tower-only-layout-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__BASE_FORWARD_BATTLEFIELD_BOARD_USER_CONFIRM_PENDING
+current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_TOWER_ONLY_BOARD_USER_CONFIRM_PENDING
 current_forward_defense_spec: docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md
-current_base_forward_layout_spec: docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md
+current_open_battlefield_layout_spec: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 forward_defense_visual_candidate: docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md
 current_visual_spec: docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 current_visual_decision: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
 current_visual_topology: ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
-current_visual_board_file: docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png
+current_visual_board_file: docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v6_OPEN_BATTLEFIELD_NO_BARRICADE.png
 current_visual_route_state_grammar: WARD_CITADEL_HOME_BASE__WARD_FORWARD_BASE__CLASH_ZONE__VEIL_FORWARD_BASE__VEIL_CITADEL_HOME_BASE
 current_visual_asset: NONE__NEW_DIRECTION_PLANNING_ONLY
 legacy_runtime_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
@@ -45,7 +45,7 @@ Notion의 current structure/work read-only migration은 완료했다. 이관 내
 ## Current planning state
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 26
+CURRENT_APPROVED_REPLAN_DECISIONS = 27
 WORLD_ROLE = CONFIRMED
 MAPRUN_WORLD_MEANING = CONFIRMED
 PRESSURE_LANGUAGE = CONFIRMED
@@ -59,12 +59,14 @@ FORWARD_BASE_CONSTRUCTION_NODE_COUNT_PER_BASE = 2
 FORWARD_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_BASE = 1
 STAGE_1_NODE_INTERACTION_STATE = VISIBLE_LOCKED__FIRST_MEANINGFUL_BUILD_STAGE_2
 FIRST_MEANINGFUL_BUILD_OR_UPGRADE = STAGE_2_T2_UPGRADE
-FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER
+FORWARD_BASE_FIXED_DEFENSE_STACK = AUTO_ATTACK_TOWER_ONLY
+FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL
+FENCED_OR_ENCLOSED_BASE_BOUNDARY = FORBIDDEN
 OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY
 FORWARD_DEFENSE_OCCUPATION_NODE_STATUS = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
 FORWARD_DEFENSE_OCCUPATION_NODE_DECISION = OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01
-BASE_FORWARD_BATTLEFIELD_LAYOUT = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
-BASE_FORWARD_BATTLEFIELD_LAYOUT_DECISION = OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01
+OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_DECISION = OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01
 RUN_COMMAND_SCREEN = CONFIRMED
 WORLD_CONFLICT_AND_STORY = CONFIRMED
 CONTENT_BOSS_ARC = CONFIRMED
@@ -87,7 +89,7 @@ MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
 FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT
 ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
 PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
-PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V5_BASE_FORWARD_NODE_LAYOUT__USER_CONFIRM_PENDING
+PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V6_OPEN_BATTLEFIELD_NO_BARRICADE__USER_CONFIRM_PENDING
 NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
 GITHUB_NOTION_DRIFT_CHECK = PASS
@@ -98,7 +100,7 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__VISUAL_EXECUTION_PAUSED
 UNIT_ANIMATION_PRODUCTION_CONTRACT = RETAINED_GEOMETRY_ONLY__STYLE_FIT_REVIEW_REQUIRED
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = LEGACY_STYLE_FIT_REVIEW_REQUIRED
-CURRENT_NEXT = USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD
+CURRENT_NEXT = USER_CONFIRM_OPEN_BATTLEFIELD_TOWER_ONLY_PLANNING_BOARD
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
@@ -106,19 +108,19 @@ GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
 
 `GITHUB_NOTION_DRIFT_CHECK = PASS`와 `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5`는 2026-08-24 final-planning 시점의 보존 증거다. 2026-08-25 승인 이미지의 runtime/human 검증 PASS를 뜻하지 않는다.
 
-`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 본진/전진기지의 확정 수량이 반영된 v5 planning board를 사용자가 확정할지 검토하는 것이다.
+`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 열린 전장·탑 전용 배치가 반영된 v6 planning board를 사용자가 확정할지 검토하는 것이다.
 
 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` is the current presentation owner. It fixes the primary battlefield as one simultaneous strategic map with **one Ward Citadel root branching into three visible fronts**, using storybook watercolor SD visual language. Parallel rows or three independent Ward bases are rejected. The 2026-08-25 Decision retains only the protected three-front responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first rule; the 2026-08-28 close-backdrop presentation is superseded while its roulette inspection behavior remains retained.
 
 Current visual/handoff owners:
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
-- `docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md`
+- `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
 - `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
 - `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md` — legacy current-build consumer only
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
-- `docs/handoffs/2026-08-28-base-forward-battlefield-layout-handoff.md`
+- `docs/handoffs/2026-08-28-open-battlefield-tower-only-layout-handoff.md`
 
 Retained visual lineage/audit owner:
 - `docs/design/APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md` (`OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01`) — historical/partial reference where the 2026-08-25 Decision supersedes layout/style.
@@ -182,7 +184,7 @@ ROW_COLUMN_ARROWS = PROMINENT
 NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY
 CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED
 LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
-PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V5_BASE_FORWARD_NODE_LAYOUT__USER_CONFIRM_PENDING
+PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V6_OPEN_BATTLEFIELD_NO_BARRICADE__USER_CONFIRM_PENDING
 ```
 
 Faction language retained:
@@ -278,7 +280,7 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 14. COMPLETE — bind approved Gold and Troop Capacity derivatives to the current Stage HUD resource indicator
 15. COMPLETE — screen-first visual coverage audit; no asset-generation work inferred from its gaps
 16. COMPLETE — user locks storybook watercolor SD and one simultaneous three-front strategic-map UI; planning board generated
-17. NEXT — user reviews the Visual Direction Lock Packet and planning board before Phase 2 UI/implementation readiness review
+17. NEXT — user confirms the v6 open-battlefield planning board before a Visual Direction Lock Packet and Phase 2 UI/implementation readiness review
 ```
 
 ## Resume order
@@ -288,7 +290,7 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 3. `AGENTS.md`;
 4. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
 5. this file;
-6. `docs/handoffs/2026-08-28-base-forward-battlefield-layout-handoff.md`;
+6. `docs/handoffs/2026-08-28-open-battlefield-tower-only-layout-handoff.md`;
 7. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`;
 8. current visual spec + approved asset record;
 9. repository의 current visual spec / planning board / asset provenance owner;
