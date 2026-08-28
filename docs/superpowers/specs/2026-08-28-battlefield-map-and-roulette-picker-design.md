@@ -10,7 +10,7 @@ scope: RUN_COMMAND_VERTICAL_SLICE_PRESENTATION_ONLY
 
 ## Current boundary
 
-`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 close-battlefield backdrop 표현을 supersede한다. 이 문서의 3×3 tile/list inspection behavior와 관련 QA는 retained historical implementation evidence이며, 현재 전장 framing/style owner가 아니다.
+`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 close-battlefield backdrop 표현을 supersede한다. 현재 지도 topology는 단일 Ward 본진에서 세 branch가 갈라지는 구조이며, 이 문서의 3×3 tile/list inspection behavior와 관련 QA는 retained historical implementation evidence다.
 
 ## Goal
 

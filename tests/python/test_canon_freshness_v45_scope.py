@@ -247,6 +247,34 @@ STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK = {
     "tools/validate_project_core_docs.py",
 }
 
+ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION = {
+    "AGENTS.md",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md",
+    "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md",
+    "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md",
+    "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v2_BRANCHING.png",
+    "docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md",
+    "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -397,6 +425,24 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         )
         self.assertTrue(
             any("storybook SD three-front strategic-map direction lock" in error for error in errors),
+            errors,
+        )
+
+    def test_one_ward_citadel_three_branches_correction_exact_surface_passes(self) -> None:
+        self.assertEqual(
+            load_module().validate_canon_freshness_scope(
+                ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION
+            ),
+            [],
+        )
+
+    def test_one_ward_citadel_three_branches_correction_rejects_missing_v2_board(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION
+            - {"docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v2_BRANCHING.png"}
+        )
+        self.assertTrue(
+            any("one Ward Citadel three-branches visual correction" in error for error in errors),
             errors,
         )
 

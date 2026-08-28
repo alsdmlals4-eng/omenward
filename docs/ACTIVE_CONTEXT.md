@@ -13,6 +13,8 @@ current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
 current_activity: STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCKED__USER_REVIEW_PENDING
 current_visual_spec: docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 current_visual_decision: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
+current_visual_topology: ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
+current_visual_board_file: docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v2_BRANCHING.png
 current_visual_asset: NONE__NEW_DIRECTION_PLANNING_ONLY
 legacy_runtime_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
 current_build_runtime_unit_asset_set: LEGACY_STYLE_FIT_REVIEW_REQUIRED
@@ -56,6 +58,7 @@ FRONT_STATE_MINIMAP_SD_FANTASY = PARTIALLY_SUPERSEDED__THREE_FRONT_RESPONSIBILIT
 APPROVED_VISUAL_OM_IMG_023 = HISTORICAL_REFERENCE_ONLY
 APPROVED_VISUAL_BATTLEFIELD_BACKDROP_V1 = LEGACY_RUNTIME_ASSET__CURRENT_BUILD_ONLY
 STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP = USER_CONFIRMED_CURRENT
+MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__USER_REVIEW_PENDING
 NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5
@@ -77,7 +80,7 @@ GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
 
 `HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 사용자의 명시적 프로젝트 재활성화다.
 
-`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` is the current presentation owner. It fixes the primary battlefield as one simultaneous strategic map with three visible fronts, using storybook watercolor SD visual language. The 2026-08-25 Decision retains only the protected three-front responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first rule; the 2026-08-28 close-backdrop presentation is superseded while its roulette inspection behavior remains retained.
+`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` is the current presentation owner. It fixes the primary battlefield as one simultaneous strategic map with **one Ward Citadel root branching into three visible fronts**, using storybook watercolor SD visual language. Parallel rows or three independent Ward bases are rejected. The 2026-08-25 Decision retains only the protected three-front responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first rule; the 2026-08-28 close-backdrop presentation is superseded while its roulette inspection behavior remains retained.
 
 Current visual/handoff owners:
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`

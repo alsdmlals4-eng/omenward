@@ -28,6 +28,7 @@ NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 PARENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
 CURRENT_VISUAL_DECISION = "OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01"
+CURRENT_MAP_TOPOLOGY = "MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES"
 CURRENT_VISUAL_SPEC_OWNER = "2026-08-28-storybook-sd-three-front-strategic-map-design.md"
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
@@ -58,6 +59,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn(NORTH_STAR_AUDIT_OWNER, decisions)
         self.assertIn(PARENT_VISUAL_DECISION, decisions)
         self.assertIn(CURRENT_VISUAL_DECISION, decisions)
+        self.assertIn(CURRENT_MAP_TOPOLOGY, decisions)
         self.assertIn(CURRENT_VISUAL_SPEC_OWNER, decisions)
         self.assertIn("NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY", decisions)
         self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED", decisions)
@@ -118,6 +120,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         ):
             text = read(relative)
             self.assertIn(CURRENT_VISUAL_DECISION, text, relative)
+            self.assertIn(CURRENT_MAP_TOPOLOGY, text, relative)
             self.assertIn("OM-IMG-023", text, relative)
 
     def test_final_planning_review_remains_retained_evidence_without_reactivating_execution(self) -> None:

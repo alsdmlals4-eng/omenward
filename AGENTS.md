@@ -86,6 +86,8 @@ UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
 WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
 COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
 BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
+MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES
+PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
 THREE_FRONT_VISIBILITY = REQUIRED
 PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
 MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
@@ -96,7 +98,7 @@ LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 
 2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
 
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` 및 `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`다. 2026-08-25 Decision의 동시 전선 책임은 유지하고, 2026-08-28 close-backdrop Decision은 3×3 inspection만 retained한다. 새 target runtime asset은 Phase 2 Issue·RED test·provenance review 전까지 생성·적용하지 않는다.
+Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` 및 `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`다. 지도 topology는 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`이며, 병렬 3-lane 또는 독립 Ward 본진 세 개는 금지한다. 2026-08-25 Decision의 동시 전선 책임은 유지하고, 2026-08-28 close-backdrop Decision은 3×3 inspection만 retained한다. 새 target runtime asset은 Phase 2 Issue·RED test·provenance review 전까지 생성·적용하지 않는다.
 
 ## 5. Runtime / evidence ceiling
 
