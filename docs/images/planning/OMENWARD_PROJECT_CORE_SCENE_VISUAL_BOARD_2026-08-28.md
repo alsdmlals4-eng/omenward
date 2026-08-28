@@ -6,7 +6,7 @@ decision_id: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01
 revision_issue: 241
 board_revision_issue: 243
 map_only_revision_issue: 245
-status: GENERATED_EXPLORATION__USER_CONFIRM_PENDING
+status: USER_CONFIRMED_PLANNING_LOCK__NOT_RUNTIME_ASSET
 revision: v6__OPEN_BATTLEFIELD_NO_BARRICADE
 map_topology: ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
 front_structure: ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT
@@ -19,11 +19,15 @@ sha256: 92A0922212ED62AAE30723FDFD97E13D61D37168F950A236104A2A1EB6F8D94D
 supersedes: docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png__SUPERSEDED__OPEN_TERRAIN_NO_FENCE_NO_BARRICADE_REQUIRED
 provenance: BUILT_IN_IMAGEGEN__USER_PROVIDED_REFERENCE_IMAGES_STYLE_AND_COMPOSITION_ONLY
 rights_status: PLANNING_REFERENCE_ONLY__NOT_RUNTIME_ASSET__NOT_RELEASE_RIGHTS_PASS
+visual_direction_lock_packet: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md
+user_confirmation: 2026-08-29__USER_CONFIRMED_IN_CHAT
 ```
 
 ## Purpose
 
 이 보드는 새 그림체와 세 전선 전략 지도 UI가 Omenward의 핵심 인과를 설명하는지 검수하기 위한 planning visualization이다.
+
+v6는 사용자가 현재 planning visual direction으로 확정했다. 확정 범위는 열린 전장 지도 문법이며, 이 이미지 자체의 runtime asset·Godot 적용·human usability·player experience·release rights 승격은 아니다.
 
 정확한 구조·상태는 repository의 `APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`가 소유한다. **no pseudo-text used as structured truth**.
 

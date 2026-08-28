@@ -9,7 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_CONFIRM_OPEN_BATTLEFIELD_TOWER_ONLY_PLANNING_BOARD"
+CURRENT_REACTIVATION_GATE = "PHASE2_OPEN_BATTLEFIELD_READINESS_REVIEW__ISSUE_RED_TEST_PROVENANCE_TARGET_RESOLUTION_REQUIRED"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 FORWARD_DEFENSE_SPEC = "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
 FORWARD_DEFENSE_DECISION_ID = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
@@ -44,11 +44,13 @@ CURRENT_ROUTE_STATE_GRAMMAR = "ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> W
 CURRENT_MAP_ONLY_BOARD_SCOPE = "PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED"
 CURRENT_VISUAL_SPEC = "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md"
 CURRENT_VISUAL_BOARD = "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md"
+CURRENT_VISUAL_LOCK_PACKET = "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md"
+CURRENT_VISUAL_LOCK_REVIEW = "docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_V6_VISUAL_LOCK_REVIEW_2026-08-29.md"
 LEGACY_RUNTIME_VISUAL_ASSET = "docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md"
 # Compatibility export for mutation tests that validate the legacy runtime evidence.
 CURRENT_VISUAL_ASSET = LEGACY_RUNTIME_VISUAL_ASSET
 CURRENT_VISUAL_HANDOFF = "docs/HANDOFF_CONTEXT.md"
-CURRENT_RESTART_HANDOFF = "docs/handoffs/2026-08-28-open-battlefield-tower-only-layout-handoff.md"
+CURRENT_RESTART_HANDOFF = "docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md"
 CURRENT_UNIT_ANIMATION_CONTRACT = "docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md"
 IMPLEMENTATION_PACKET = "docs/implementation/OMENWARD_RUN_COMMAND_VERTICAL_SLICE_EXECUTION_PACKET_2026-08-24.md"
 IMPLEMENTATION_PLAN = "docs/superpowers/plans/2026-08-24-run-command-vertical-slice.md"
@@ -71,6 +73,8 @@ REQUIRED_FILES = (
     CURRENT_GDD,
     CURRENT_VISUAL_SPEC,
     CURRENT_VISUAL_BOARD,
+    CURRENT_VISUAL_LOCK_PACKET,
+    CURRENT_VISUAL_LOCK_REVIEW,
     CURRENT_VISUAL_ASSET,
     CURRENT_VISUAL_HANDOFF,
     CURRENT_RESTART_HANDOFF,
@@ -213,7 +217,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP",
             "CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED",
             "LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1",
-            "PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V6_OPEN_BATTLEFIELD_NO_BARRICADE__USER_CONFIRM_PENDING",
+            "PROJECT_CORE_SCENE_VISUAL_BOARD = USER_CONFIRMED_PLANNING_LOCK__V6_OPEN_BATTLEFIELD_NO_BARRICADE__NOT_RUNTIME_ASSET",
+            CURRENT_VISUAL_LOCK_PACKET,
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
             f"IMPLEMENTATION_AUTHORITY = {CURRENT_IMPLEMENTATION_AUTHORITY}",
             IMPLEMENTATION_PACKET,
@@ -252,7 +257,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_TOWER_ONLY_BOARD_USER_CONFIRM_PENDING",
+            "status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED",
             "CURRENT_APPROVED_REPLAN_DECISIONS = 27",
             FORWARD_DEFENSE_DECISION_ID,
             FORWARD_DEFENSE_SPEC,
@@ -262,6 +267,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL",
             "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
             CURRENT_VISUAL_DECISION_ID,
+            CURRENT_VISUAL_LOCK_PACKET,
             CURRENT_MAP_TOPOLOGY,
             CURRENT_FRONT_STRUCTURE,
             CURRENT_ROUTE_STATE_GRAMMAR,
@@ -380,7 +386,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "roulette_system: RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD",
             "OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v6_OPEN_BATTLEFIELD_NO_BARRICADE.png",
             "92A0922212ED62AAE30723FDFD97E13D61D37168F950A236104A2A1EB6F8D94D",
-            "status: GENERATED_EXPLORATION__USER_CONFIRM_PENDING",
+            "status: USER_CONFIRMED_PLANNING_LOCK__NOT_RUNTIME_ASSET",
+            CURRENT_VISUAL_LOCK_PACKET,
             "rights_status: PLANNING_REFERENCE_ONLY__NOT_RUNTIME_ASSET__NOT_RELEASE_RIGHTS_PASS",
             "!= runtime asset batch",
             "no pseudo-text used as structured truth",
@@ -427,9 +434,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "notion_current_authority: RETIRED__NO_FUTURE_READ_OR_WRITE",
             BASE_FORWARD_LAYOUT_SPEC,
             CURRENT_VISUAL_BOARD,
+            CURRENT_VISUAL_LOCK_PACKET,
             f"current_gate: {CURRENT_REACTIVATION_GATE}",
-            "NEW_LAYOUT_RUNTIME = NOT_RUN",
-            "NEW_LAYOUT_HUMAN_USABILITY = NOT_RUN",
+            "runtime: NOT_RUN",
+            "human_usability: NOT_RUN",
         ),
         "base/forward restart handoff",
     )
@@ -579,6 +587,41 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NO_BASE_PROMOTION = PROJECT_SPECIFIC_THREE_FRONT_OCCUPATION_AND_FIXED_PAD_LAYOUT",
         ),
         "open-battlefield tower-only layout adversarial review",
+    )
+
+    visual_lock_packet = read(root, CURRENT_VISUAL_LOCK_PACKET)
+    require(
+        errors,
+        visual_lock_packet,
+        (
+            "packet_id: OMW-VISUAL-LOCK-20260829-OPEN-BATTLEFIELD-V6-01",
+            CURRENT_VISUAL_DECISION_ID,
+            BASE_FORWARD_LAYOUT_DECISION_ID,
+            "status: USER_CONFIRMED_CURRENT__PLANNING_LOCKED__NOT_RUNTIME_IMPLEMENTED",
+            "USER_CONFIRMED_IN_CHAT",
+            "FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL",
+            "FENCED_OR_ENCLOSED_BASE_BOUNDARY = FORBIDDEN",
+            "runtime: NOT_RUN",
+            "human_usability: NOT_RUN",
+            "player_experience: NOT_RUN",
+            f"NEXT_GATE = {CURRENT_REACTIVATION_GATE}",
+        ),
+        "open-battlefield v6 visual direction lock packet",
+    )
+
+    visual_lock_review = read(root, CURRENT_VISUAL_LOCK_REVIEW)
+    require(
+        errors,
+        visual_lock_review,
+        (
+            "review_id: OMW-REV-20260829-OPEN-BATTLEFIELD-V6-VISUAL-LOCK-01",
+            "result: PASS_5_OF_5__PLANNING_LOCK_SCOPE_ONLY",
+            "runtime: NOT_RUN",
+            "human_usability: NOT_RUN",
+            "player_experience: NOT_RUN",
+            "rights_review: NOT_RUN",
+        ),
+        "open-battlefield v6 visual lock adversarial review",
     )
 
     repository_only = read(root, REPOSITORY_ONLY_POLICY)

@@ -7,9 +7,9 @@ revision_issue: 241
 board_revision_issue: 243
 map_only_revision_issue: 245
 battlefield_layout_amendment: OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01
-status: USER_CONFIRMED_CURRENT
-revision: 2026-08-28.5__BATTLEFIELD_NODE_CAPACITY_AMENDMENT
-approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; Ward 본진에서 3갈래로 뻗어져 나감; 전진기지·접전지 배치; 하단 룰렛 이미지 제거; Veil도 Ward와 같은 단일 본진 구조; 본진 건물 제거; 본진 건설 노드 4·방어탑 2, 전진기지당 건설 노드 2·방어탑 1"
+status: USER_CONFIRMED_CURRENT__V6_OPEN_BATTLEFIELD_VISUAL_LOCKED
+revision: 2026-08-29__V6_OPEN_BATTLEFIELD_VISUAL_LOCK
+approval_source: "2026-08-28 user: 1번이미지 = 그림체, 2번이미지 = 전장 미니맵·UI; 세 전선이 다 보이게; Ward 본진에서 3갈래로 뻗어져 나감; 전진기지·접전지 배치; 하단 룰렛 이미지 제거; Veil도 Ward와 같은 단일 본진 구조; 본진 건물 제거; 본진 건설 노드 4·방어탑 2, 전진기지당 건설 노드 2·방어탑 1; 2026-08-29 user: v6 열린 전장 보드 확정"
 scope: VISUAL_DIRECTION_LOCK_AND_PLANNING_BOARD_ONLY
 runtime_implementation: NOT_AUTHORIZED_BY_THIS_DECISION
 runtime_target_asset: NOT_CREATED
@@ -99,7 +99,7 @@ ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 
 ## 6. Planning board
 
-`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_BASE_FORWARD_NODE_LAYOUT.png`은 이 방향의 AI 이해·기획 검토 보드다. v1은 세 개의 Ward 본진과 병렬 행을 보여 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`, v2는 전진기지·접전지 state anchor가 부족해 `SUPERSEDED__OPERATIONAL_MARKERS_INCOMPLETE`, v3는 Ward 본진만 root로 그리고 하단 storyboard를 넣어 `SUPERSEDED__VEIL_ROOT_AND_MAP_ONLY_SCOPE_CORRECTED`, v4는 본진·전진기지의 정확한 패드/탑 수와 전장 밀도가 부족해 `SUPERSEDED__BASE_FORWARD_NODE_COUNTS_AND_BATTLEFIELD_LAYOUT_REQUIRED`다.
+`docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v6_OPEN_BATTLEFIELD_NO_BARRICADE.png`은 이 방향의 AI 이해·기획 검토 보드이며, 2026-08-29 사용자가 planning direction으로 확정했다. v1은 세 개의 Ward 본진과 병렬 행을 보여 `SUPERSEDED__PARALLEL_COMPOSITION_REJECTED`, v2는 전진기지·접전지 state anchor가 부족해 `SUPERSEDED__OPERATIONAL_MARKERS_INCOMPLETE`, v3는 Ward 본진만 root로 그리고 하단 storyboard를 넣어 `SUPERSEDED__VEIL_ROOT_AND_MAP_ONLY_SCOPE_CORRECTED`, v4는 본진·전진기지의 정확한 패드/탑 수와 전장 밀도가 부족해 `SUPERSEDED__BASE_FORWARD_NODE_COUNTS_AND_BATTLEFIELD_LAYOUT_REQUIRED`, v5는 울타리/고정 바리케이드가 열린 전장 의도를 가려 `SUPERSEDED__OPEN_TERRAIN_NO_FENCE_NO_BARRICADE_REQUIRED`다. v6 lock의 상세 owner는 `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`다.
 
 ```text
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
@@ -111,10 +111,10 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 
 ## 7. Phase 2 entry criteria
 
-1. 사용자가 이 Lock Packet과 planning board를 검토한다.
-2. target resolution에서 **Ward/Veil 각각의 공유 본진·세 branch·양측 전진기지·세 접전지**와 전선 상태의 정보 우선순위를 별도 UI spec으로 확정한다. 3×3 roulette과 compact lower deck의 UI spec은 이 map-only board와 별도로 유지한다.
-3. 원본 runtime asset의 provenance/rights 기록을 만든다.
-4. 새 Godot Scene/Resource/code 변경은 별도 Issue, RED test, implementation packet이 승인된 뒤에만 시작한다.
+1. 사용자 review는 2026-08-29에 완료됐으며 v6 planning lock이 current다.
+2. Phase 2 readiness review에서 target resolution의 **Ward/Veil 각각의 공유 본진·세 branch·양측 전진기지·세 접전지** 정보 우선순위를 별도 UI spec으로 고정한다. 3×3 roulette과 compact lower deck의 UI spec은 이 map-only board와 별도로 유지한다.
+3. Phase 2에서 원본 runtime asset의 provenance/rights 기록을 만든다.
+4. 새 Godot Scene/Resource/code 변경은 별도 Issue, RED test, implementation packet, provenance review 뒤에만 시작한다.
 
 ## 8. Incident / solution / lesson
 
@@ -146,4 +146,4 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 | 세 전선을 병렬 전진기지 세 개로 오해 | CORRECTED | v1 병렬 보드를 supersede하고 단일 Ward 본진에서 세 route가 갈라지는 v2를 current planning board로 기록했다. |
 | 전진기지·접전지가 일반 route node처럼 보임 | CORRECTED | v3는 branch마다 Ward outpost와 contested contact node를 구별해 배치했다. |
 | Veil 측이 세 독립 endpoint처럼 보이거나 하단 UI가 잘못된 시스템을 암시 | CORRECTED | v4는 단일 Veil Citadel root와 map-only composition을 고정하고, roulette은 retained-but-not-visualized로 분리했다. |
-| 본진에 생산 건물이 남거나 패드/탑 수가 불명확 | CORRECTED_AS_PLANNING_BOARD | v5는 양 본진 4 empty pads·2 fixed towers, 각 전진기지 2 empty pads·1 barricade·1 tower를 그린다. target resolution/human readability는 여전히 NOT_RUN이다. |
+| 본진에 생산 건물이 남거나 패드/탑 수가 불명확 | CORRECTED_AS_PLANNING_BOARD | v6는 양 본진 4 empty pads·2 fixed towers, 각 전진기지 2 empty pads·1 tower를 열린 지형에 배치하며, fence와 fixed barricade를 제거했다. target resolution/human readability는 여전히 NOT_RUN이다. |

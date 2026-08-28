@@ -126,7 +126,7 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertIn(CURRENT_MAP_ONLY_BOARD_SCOPE, decisions)
         self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED", decisions)
         self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
-        self.assertIn("PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__V6_OPEN_BATTLEFIELD_NO_BARRICADE__USER_CONFIRM_PENDING", decisions)
+        self.assertIn("PROJECT_CORE_SCENE_VISUAL_BOARD = USER_CONFIRMED_PLANNING_LOCK__V6_OPEN_BATTLEFIELD_NO_BARRICADE__NOT_RUNTIME_ASSET", decisions)
 
         agents = AGENTS.read_text(encoding="utf-8")
         self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
@@ -139,9 +139,9 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
 
         active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
-        self.assertIn("status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_TOWER_ONLY_BOARD_USER_CONFIRM_PENDING", active)
+        self.assertIn("status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED", active)
         self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 27", active)
-        self.assertIn("CURRENT_NEXT = USER_CONFIRM_OPEN_BATTLEFIELD_TOWER_ONLY_PLANNING_BOARD", active)
+        self.assertIn("CURRENT_NEXT = PHASE2_OPEN_BATTLEFIELD_READINESS_REVIEW__ISSUE_RED_TEST_PROVENANCE_TARGET_RESOLUTION_REQUIRED", active)
         self.assertIn("NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES", active)
         self.assertIn(CURRENT_MAP_TOPOLOGY, active)
         self.assertIn(CURRENT_FRONT_STRUCTURE, active)

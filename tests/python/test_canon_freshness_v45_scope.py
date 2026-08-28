@@ -660,6 +660,33 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
             errors,
         )
 
+    def test_open_battlefield_v6_visual_lock_exact_surface_passes(self) -> None:
+        scope = load_module().OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES
+        self.assertIn(
+            "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md",
+            scope,
+        )
+        self.assertIn(
+            "docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_V6_VISUAL_LOCK_REVIEW_2026-08-29.md",
+            scope,
+        )
+        self.assertIn(
+            "docs/audits/OMENWARD_CI_GODOT_TEARDOWN_RERUN_INCIDENT_2026-08-29.md",
+            scope,
+        )
+        self.assertEqual(load_module().validate_canon_freshness_scope(scope), [])
+
+    def test_open_battlefield_v6_visual_lock_rejects_missing_lock_packet(self) -> None:
+        scope = load_module().OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES
+        errors = load_module().validate_canon_freshness_scope(
+            scope
+            - {"docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md"}
+        )
+        self.assertTrue(
+            any("open-battlefield v6 visual lock canon sync" in error for error in errors),
+            errors,
+        )
+
     def test_generated_operating_artifact_eol_guard_exact_surface_passes(self) -> None:
         self.assertEqual(
             load_module().validate_canon_freshness_scope(
