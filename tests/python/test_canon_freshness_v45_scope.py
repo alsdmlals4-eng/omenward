@@ -320,6 +320,7 @@ DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD = {
     "tests/python/test_canon_freshness_v45_scope.py",
     "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_base_adapter_freshness.py",
     "tools/validate_canon_freshness_v45_scope.py",
     "tools/validate_project_core_docs.py",
 }
