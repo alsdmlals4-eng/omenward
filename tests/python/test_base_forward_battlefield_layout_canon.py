@@ -3,7 +3,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[2]
-LAYOUT = ROOT / "docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md"
+LAYOUT = ROOT / "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md"
 DECISIONS = ROOT / "docs/CURRENT_CONFIRMED_DECISIONS.md"
 FTUE = ROOT / "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md"
 TIER_LINEAGE = ROOT / "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md"
@@ -13,21 +13,24 @@ class BaseForwardBattlefieldLayoutCanonTest(unittest.TestCase):
     def test_layout_owner_locks_the_user_approved_counts_and_boundaries(self) -> None:
         text = LAYOUT.read_text(encoding="utf-8")
         for marker in (
-            "OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01",
+            "OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01",
             "HOME_BASE_CONSTRUCTION_NODE_COUNT_PER_FACTION = 4",
             "HOME_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_FACTION = 2",
             "FORWARD_BASE_CONSTRUCTION_NODE_COUNT_PER_BASE = 2",
             "FORWARD_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_BASE = 1",
-            "FORWARD_BASE_FIXED_DEFENSE_STACK = FORWARD_BARRICADE + AUTO_ATTACK_TOWER",
+            "FORWARD_BASE_FIXED_DEFENSE_STACK = AUTO_ATTACK_TOWER_ONLY",
+            "FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL",
+            "FENCED_OR_ENCLOSED_BASE_BOUNDARY = FORBIDDEN",
+            "BUILD_PLACEMENT_FREEDOM = DISCOVERABLE_FIXED_PADS_IN_OPEN_TERRAIN__NOT_FREEFORM_TERRAIN_GRID",
             "TOTAL_CONSTRUCTION_NODE_CAPACITY_PER_FACTION = 10",
             "HOME_BASE_PREBUILT_PRODUCTION_BUILDINGS = NONE",
-            "FIXED_DEFENSE_SOLO_CLEAR = FORBIDDEN",
+            "FIXED_TOWER_NEVER_GENERATES_CAPTURE_POWER_OR_SOLO_CLEAR",
             "PHASE_2_PRODUCT_CODE_AUTHORITY = NONE",
         ):
             self.assertIn(marker, text)
 
     def test_current_summaries_route_to_the_new_layout_owner(self) -> None:
-        expected = "docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md"
+        expected = "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md"
         self.assertIn(expected, DECISIONS.read_text(encoding="utf-8"))
         self.assertIn(expected, FTUE.read_text(encoding="utf-8"))
 
@@ -40,6 +43,7 @@ class BaseForwardBattlefieldLayoutCanonTest(unittest.TestCase):
         text = TIER_LINEAGE.read_text(encoding="utf-8")
         self.assertIn("STAGE_1_VISIBLE_PRODUCTION_BUILDINGS = NONE", text)
         self.assertIn("STAGE_1_HOME_COMMAND_ROOT = 4_LOCKED_CONSTRUCTION_NODES + 2_FIXED_AUTO_ATTACK_TOWERS", text)
+        self.assertIn("STAGE_1_FORWARD_BASE_DEFENSE_SYSTEM = 2_LOCKED_CONSTRUCTION_NODES + AUTO_ATTACK_TOWER_ONLY", text)
         self.assertNotIn("STAGE_1_PREBUILT_FACILITY_TYPES = GENERAL_BARRACKS / FARM / FORWARD_BASE_DEFENSE_SYSTEM", text)
 
 

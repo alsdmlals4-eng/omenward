@@ -72,8 +72,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 26",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 27",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 28",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -100,13 +100,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD",
+                "CURRENT_NEXT = USER_CONFIRM_OPEN_BATTLEFIELD_TOWER_ONLY_PLANNING_BOARD",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD" in error for error in errors), errors)
+            self.assertTrue(any("USER_CONFIRM_OPEN_BATTLEFIELD_TOWER_ONLY_PLANNING_BOARD" in error for error in errors), errors)
 
     def test_forward_defense_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -115,18 +115,18 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             (root / FORWARD_DEFENSE_SPEC).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
-    def test_forward_barricade_cannot_collide_with_tactical_command_barricade(self) -> None:
+    def test_open_battlefield_change_cannot_delete_tactical_command_barricade(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / FORWARD_DEFENSE_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "BARRICADE_IDENTITY_COLLISION = FORBIDDEN",
-                "BARRICADE_IDENTITY_COLLISION = ALLOWED",
+                "TACTICAL_COMMAND_BARRICADE = OUT_OF_SCOPE__RETAINED",
+                "TACTICAL_COMMAND_BARRICADE = REMOVED",
                 1,
             )
             path.write_text(body, encoding="utf-8")
-            self.assertTrue(any("BARRICADE_IDENTITY_COLLISION = FORBIDDEN" in error for error in validate(root)))
+            self.assertTrue(any("TACTICAL_COMMAND_BARRICADE = OUT_OF_SCOPE__RETAINED" in error for error in validate(root)))
 
     def test_base_forward_layout_review_is_required_and_keeps_evidence_ceiling(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

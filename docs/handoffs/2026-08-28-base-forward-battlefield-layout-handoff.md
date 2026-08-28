@@ -2,26 +2,27 @@
 
 ```yaml
 handoff_id: OMW-HANDOFF-20260828-BASE-FORWARD-BATTLEFIELD-LAYOUT-01
-status: CURRENT_RESTART_ROUTER
+status: SUPERSEDED_RESTART_ROUTER__OPEN_BATTLEFIELD_TOWER_ONLY_SUCCESSOR
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
-current_layout_owner: docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md
+current_layout_owner: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 current_visual_board: docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md
 repository_human_facing_canon: true
 notion_current_authority: RETIRED__NO_FUTURE_READ_OR_WRITE
-current_gate: USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD
+current_gate: HISTORICAL__USER_CONFIRM_REVISED_BASE_FORWARD_BATTLEFIELD_PLANNING_BOARD
 product_code_authority: NONE_FOR_BASE_FORWARD_LAYOUT
+successor_handoff: docs/handoffs/2026-08-28-open-battlefield-tower-only-layout-handoff.md
 ```
 
-## 무엇이 현재인가
+## Historical snapshot (superseded)
 
 ```text
 HOME_BASE = 4_EMPTY_CONSTRUCTION_PADS + 2_FIXED_AUTO_ATTACK_TOWERS + NO_VISIBLE_PRODUCTION_BUILDINGS
-FORWARD_BASE = 2_EMPTY_CONSTRUCTION_PADS + 1_FORWARD_BARRICADE + 1_FIXED_AUTO_ATTACK_TOWER
+FORWARD_BASE = 2_EMPTY_CONSTRUCTION_PADS + 1_FORWARD_BARRICADE + 1_FIXED_AUTO_ATTACK_TOWER__HISTORICAL_ONLY
 MAP = ONE_WARD_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_ROOT
 STAGE_1 = SHOW_CAPACITY_LOCKED__NO_DIRECT_CONSTRUCTION
-CURRENT_BOARD = V5_BASE_FORWARD_NODE_LAYOUT__GENERATED_EXPLORATION__USER_CONFIRM_PENDING
+CURRENT_BOARD = V5_BASE_FORWARD_NODE_LAYOUT__GENERATED_EXPLORATION__SUPERSEDED
 ```
 
 병영·농장은 지도 위 본진 건물로 보이지 않는다. 이 시각 삭제는 기존 MapRun 시작 baseline 자체의 삭제가 아니며, 실제 starting mobilization/capacity를 새 model로 바꾸는 일은 Phase 2 구현 계약에서만 다룬다.
@@ -44,9 +45,9 @@ NEW_LAYOUT_HUMAN_USABILITY = NOT_RUN
 NEW_LAYOUT_PLAYER_EXPERIENCE = NOT_RUN
 ```
 
-## 다음 작업
+## Historical next work
 
-1. 사용자가 v5 planning board를 확정/수정한다.
+1. 이 historical v5 board 대신 successor v6 open-battlefield board를 사용자가 확정/수정한다.
 2. 확정 뒤 Visual Lock Packet에 adopted/rejected elements와 Keep/Avoid/Do Not Drift를 기록한다.
 3. Phase 2를 열려면 별도 Issue, RED 테스트, Resource/State/UI implementation packet, target-resolution 검증이 필요하다.
 

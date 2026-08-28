@@ -8,8 +8,8 @@ approval: USER_APPROVED_RECOMMENDED_OPTION_A
 amended_at: 2026-08-28
 amended_by: OMW-PLAN-20260828-STAGE1-PREBUILT-EXPLAIN-01
 amended_by_forward_defense: OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01
-amended_by_battlefield_layout: OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01
-current_battlefield_layout_owner: docs/design/APPROVED_OMENWARD_BASE_FORWARD_BATTLEFIELD_CONSTRUCTION_LAYOUT_2026-08-28.md
+amended_by_battlefield_layout: OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01
+current_battlefield_layout_owner: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 parent_decisions:
   - OMW-PLAN-20260820-WORLD-ROLE-01
@@ -38,19 +38,20 @@ Stage 5 = 첫 결산
 
 ## 2. Stage 1 · 인과 이해
 
-`OMW-PLAN-20260828-BASE-FORWARD-BATTLEFIELD-CONSTRUCTION-LAYOUT-01`에 따라 Stage 1은 플레이어의 건설 행동을 요구하지 않는다. 실제 MapRun 안에서 지휘 거점·전진기지 방어·잠긴 건설 패드의 역할을 하나씩 읽고, 그 뒤 룰렛과 비가역 전선 커밋을 경험한다.
+`OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01`에 따라 Stage 1은 플레이어의 건설 행동을 요구하지 않는다. 열린 MapRun 전장 안에서 지휘 거점·전진기지 탑·잠긴 건설 패드의 역할을 하나씩 읽고, 그 뒤 룰렛과 비가역 전선 커밋을 경험한다.
 
 ```text
 STAGE_1_DIRECT_CONSTRUCTION = FORBIDDEN
 STAGE_1_WARD_CITADEL_PREBUILT_PRODUCTION_BUILDINGS = NONE
 STAGE_1_HOME_CONSTRUCTION_NODES = 4_VISIBLE_LOCKED
 STAGE_1_HOME_FIXED_AUTO_ATTACK_TOWERS = 2
-STAGE_1_WARD_FORWARD_BASES = FORWARD_BARRICADE x1 + AUTO_ATTACK_TOWER x1 + CONSTRUCTION_NODES x2 PER_BASE
+STAGE_1_WARD_FORWARD_BASES = AUTO_ATTACK_TOWER x1 + CONSTRUCTION_NODES x2 PER_BASE
 STAGE_1_EXPLANATION_UNIT = ONE_SYSTEM_ROLE_AT_A_TIME
 FIRST_ROULETTE_UNLOCK = AFTER_THREE_EXPLANATION_UNITS
 FIRST_MEANINGFUL_COMBAT_CHOICE = STAGE_1_IRREVERSIBLE_DEPLOYMENT
 FIRST_MEANINGFUL_BUILD_OR_UPGRADE = STAGE_2_T2_UPGRADE
-FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER
+FORWARD_BASE_FIXED_DEFENSE_STACK = AUTO_ATTACK_TOWER_ONLY
+FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL
 OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY
 FORWARD_DEFENSE_RUNTIME = NOT_IMPLEMENTED
 ```
@@ -62,8 +63,8 @@ FORWARD_DEFENSE_RUNTIME = NOT_IMPLEMENTED
    → 본진은 생산 건물 군집이 아니라 MapRun의 지휘 경계이며, 두 고정탑은 접근을 보조할 뿐 승리를 만들지 않는다
 
 2. 세 Ward 전진기지의 방어 체계
-   → 바리케이드가 첫 압력을 늦추고 자동공격탑이 전선 안에서 화력을 보탠다
-   → 고정 방어는 점령력·처치 보상·자동 승리를 만들지 않으며 병력 커밋을 대체하지 않는다
+   → 열린 지형의 자동공격탑이 전선 안에서 화력을 보탠다
+   → 고정탑은 점령력·처치 보상·자동 승리를 만들지 않으며 병력 커밋을 대체하지 않는다
 
 3. 건설 패드와 3×3 징조륜
    → 본진에는 4개, 각 전진기지에는 2개의 비어 있는 패드가 보이지만 Stage 1에는 잠겨 있다
@@ -174,7 +175,7 @@ Stage 종료 복기는 다음 인과를 보여준다.
 - 별도 튜토리얼은 만들지 않는다.
 - Stage 1의 `필수 T1 6종 직접 건설`과 `6종+setup confirmation 뒤 첫 룰렛` gate는 superseded다.
 - Stage 1의 Ward Citadel에는 보이는 병영·농장이 없다. 대신 고정탑 2개와 잠긴 건설 패드 4개가 있다.
-- Stage 1의 각 Ward 전진기지에는 고정 바리케이드 1개·자동공격탑 1개·잠긴 건설 패드 2개가 있다.
+- Stage 1의 각 Ward 전진기지에는 고정 자동공격탑 1개·잠긴 건설 패드 2개가 있으며 울타리·고정 바리케이드는 없다.
 - 세 설명 단위를 순차로 읽은 뒤 첫 3×3 룰렛을 열고, 첫 의미 있는 전투 선택은 비가역 전선 배치다.
 - Stage 1 첫 의미 있는 전투 선택은 비가역 전선 배치다.
 - Stage 2 첫 T2 선택, Stage 3 전술, Stage 4 응용, Stage 5 Boss 순서를 보존한다.

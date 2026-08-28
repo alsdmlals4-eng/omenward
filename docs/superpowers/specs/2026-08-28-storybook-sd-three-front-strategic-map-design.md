@@ -54,7 +54,9 @@ HOME_BASE_CONSTRUCTION_NODE_COUNT_PER_FACTION = 4
 HOME_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_FACTION = 2
 FORWARD_BASE_CONSTRUCTION_NODE_COUNT_PER_BASE = 2
 FORWARD_BASE_FIXED_AUTO_ATTACK_TOWER_COUNT_PER_BASE = 1
-FORWARD_BASE_FIXED_DEFENSE_STACK = FORWARD_BARRICADE + AUTO_ATTACK_TOWER
+FORWARD_BASE_FIXED_DEFENSE_STACK = AUTO_ATTACK_TOWER_ONLY
+FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL
+FENCED_OR_ENCLOSED_BASE_BOUNDARY = FORBIDDEN
 PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
 ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 ```
@@ -62,7 +64,7 @@ ROULETTE_SYSTEM = RETAINED__NOT_VISUALIZED_IN_CURRENT_MAP_ONLY_BOARD
 ### Character / environment / UI / VFX anchors
 
 - **Character:** shield, banner, weapon, silhouette, faction color를 장식보다 먼저 읽는다. 수호군은 navy/ivory/pale steel/restrained gold, Veil은 charcoal/plum-black/dark violet/limited rift glow다.
-- **Environment:** 화면의 양 끝에는 Ward Citadel과 Veil Citadel이 각각 하나씩 있다. 본진은 거대 성이나 병영·농장 군집이 아니라 지휘 표식, 고정탑 2개, 빈 건설 패드 4개로 읽힌다. 각 branch의 전진기지에는 고정 바리케이드·고정탑 1개·빈 패드 2개가 있다. 양쪽 본진에서 갈라진 상·중·하 route는 넓은 세 접전지에서 맞물린다. Ward는 navy/ivory, Veil은 charcoal/violet으로 구분하되 구조적 수량은 대칭이다.
+- **Environment:** 화면의 양 끝에는 Ward Citadel과 Veil Citadel이 각각 하나씩 있다. 본진은 거대 성·병영·농장 군집·울타리 없이 열린 지형의 지휘 표식, 고정탑 2개, 빈 건설 패드 4개로 읽힌다. 각 branch의 전진기지에는 고정탑 1개·빈 패드 2개만 있으며 바리케이드와 닫힌 경계는 없다. 양쪽 본진에서 갈라진 상·중·하 route는 바위 능선·얕은 물길·분화구·연기와 넓은 세 접전지에서 맞물린다. Ward는 navy/ivory, Veil은 charcoal/violet으로 구분하되 구조적 수량은 대칭이다.
 - **Route state:** 각 branch는 `Ward 본진 → Ward 전진기지 → Ward/Veil 접전지 → Veil 전진기지 → Veil 본진` 순서로 읽힌다. 양쪽 전진기지는 home base가 아닌 route outpost다. 접전지는 양 진영 SD 병력·손상 지형·crossed-swords signifier로 보이는 contested contact node다.
 - **UI:** 종이 패널, 정교한 얇은 테두리, 상징 기반 아이콘, 제한된 금색 강조를 사용한다. UI는 지도 위에 과적되지 않으며 3×3 roulette은 계속 노출된다.
 - **VFX:** 아주 작은 별빛, 수호 문장 광택, 균열의 보랏빛 glow만 허용한다. full-screen flash, 과도한 흔들림, 시야를 가리는 보상 연출은 금지한다.
@@ -118,7 +120,7 @@ PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION
 
 **Incident:** 첫 planning board가 세 개의 Ward 본진과 병렬 행을 그려, 사용자가 요구한 "하나의 본진에서 세 갈래로 뻗는 전선"을 전진기지 세 개처럼 오해했다.
 
-**Historical solution (superseded):** 당시에는 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고 v2 branching board로 보정했다. 이는 Ward 쪽 기점을 하나로 바로잡은 중간 교정이다. 이후 Veil도 단일 본진·map-only board를 확정했고, 최종적으로 본진 생산 건물을 제거하며 양측 본진의 패드 4개·고정탑 2개와 전진기지의 패드 2개·바리케이드 1개·고정탑 1개를 확정했다. current owner는 `ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT` 및 v5 board다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
+**Historical solution (superseded):** 당시에는 topology를 `ONE_WARD_CITADEL_ROOT__THREE_DIVERGING_FRONT_ROUTES`로 명시하고 v2 branching board로 보정했다. 이는 Ward 쪽 기점을 하나로 바로잡은 중간 교정이다. 이후 Veil도 단일 본진·map-only board를 확정했고, 본진 생산 건물을 제거하며 양측 본진의 패드 4개·고정탑 2개와 전진기지의 패드 2개·고정탑 1개를 유지했다. 이후 울타리/닫힌 거점과 고정 전진 바리케이드는 제거되어 current owner는 `ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT`, 열린 지형 grammar, v6 board다. 기존 backdrop은 current-build-only legacy asset, 기존 unit masters는 geometry/consumer evidence retained + style-fit review required로 유지한다. planning board는 계속 별도 `GENERATED_EXPLORATION`으로만 보관한다.
 
 **Lesson:** 전역 visual direction 변경 시에는 rendering/style뿐 아니라 **지도 topology(공통 기점·분기·종점)**를 문장과 보드에서 모두 독립적으로 검증해야 한다.
 
