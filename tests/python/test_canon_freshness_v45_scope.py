@@ -275,6 +275,24 @@ ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION = {
     "tools/validate_project_core_docs.py",
 }
 
+FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD = {
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/PROJECT_CORE.md",
+    "docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md",
+    "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md",
+    "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v3_FORWARD_BASES_AND_CLASH_ZONES.png",
+    "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+
 class CanonFreshnessV45ScopeTest(unittest.TestCase):
     def test_known_historical_modes_still_pass(self) -> None:
         module = load_module()
@@ -443,6 +461,24 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         )
         self.assertTrue(
             any("one Ward Citadel three-branches visual correction" in error for error in errors),
+            errors,
+        )
+
+    def test_forward_base_and_clash_zone_visual_board_exact_surface_passes(self) -> None:
+        self.assertEqual(
+            load_module().validate_canon_freshness_scope(
+                FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD
+            ),
+            [],
+        )
+
+    def test_forward_base_and_clash_zone_visual_board_rejects_missing_v3_board(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD
+            - {"docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v3_FORWARD_BASES_AND_CLASH_ZONES.png"}
+        )
+        self.assertTrue(
+            any("forward-base and clash-zone planning-board correction" in error for error in errors),
             errors,
         )
 
