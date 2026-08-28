@@ -20,6 +20,13 @@ BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
 CURRENT_ADAPTER_SHA = "34e792f7e2e5be6111fd9d4eaab439f0e95dbd6bc6cd650cf00c7c1c505a768d"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
+GENERATED_OPERATING_ARTIFACTS = (
+    ".agents/skills/omenward-workflow-router/SKILL.md",
+    "docs/PROJECT_OPERATING_DASHBOARD.html",
+    "skills/BASE_V9_ADAPTER.json",
+    "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+    "skills/PROJECT_SKILL_SNAPSHOT.json",
+)
 
 
 class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
@@ -75,6 +82,16 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(adapter_state["gdd_sheet_sync_status"], "CURRENT")
         self.assertEqual(adapter_state["status"], "FRESHNESS_RECONCILED")
         self.assertTrue(adapter_state["blocker_cleared"])
+
+    def test_generated_operating_artifacts_are_checked_out_with_lf(self) -> None:
+        for relative_path in GENERATED_OPERATING_ARTIFACTS:
+            with self.subTest(relative_path=relative_path):
+                attribute = subprocess.check_output(
+                    ["git", "check-attr", "eol", "--", relative_path],
+                    cwd=ROOT,
+                    text=True,
+                )
+                self.assertEqual(f"{relative_path}: eol: lf\n", attribute)
 
 
 if __name__ == "__main__":
