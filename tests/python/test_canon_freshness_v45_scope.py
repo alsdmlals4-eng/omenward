@@ -215,6 +215,33 @@ CANON_PLAY_VISUAL_AUDIT = {
     "tools/validate_canon_freshness_v45_scope.py",
 }
 
+STAGE1_PREBUILT_LEARNING_CANON_SYNC = {
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/audits/OMENWARD_STAGE1_FTUE_CANON_DRIFT_INCIDENT_2026-08-28.md",
+    "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+
 STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK = {
     "AGENTS.md",
     "README.md",
@@ -468,6 +495,14 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
         self.assertTrue(
             any("missing required v4.5 canon/play/visual audit anchors" in error for error in errors),
             errors,
+        )
+
+    def test_stage1_prebuilt_learning_canon_sync_exact_surface_passes(self) -> None:
+        self.assertEqual(
+            load_module().validate_canon_freshness_scope(
+                STAGE1_PREBUILT_LEARNING_CANON_SYNC
+            ),
+            [],
         )
 
     def test_storybook_direction_lock_exact_surface_passes(self) -> None:
