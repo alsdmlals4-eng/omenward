@@ -273,6 +273,8 @@ FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC = {
     "tests/python/test_current_canon_reconciliation_20260821.py",
     "tests/python/test_current_v48_router_sync.py",
     "tests/python/test_project_core_docs.py",
+    "tests/python/test_phase_b_final_planning_review.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
     "tests/python/test_run_command_implementation_authority_scope.py",
     "tools/validate_canon_freshness_v45_scope.py",
     "tools/validate_project_core_docs.py",

@@ -175,6 +175,8 @@ jobs:
               "tests/python/test_current_v48_router_sync.py",
               "tests/python/test_phase_b_final_planning_review.py",
               "tests/python/test_project_core_docs.py",
+              "tests/python/test_phase_b_final_planning_review.py",
+              "tests/python/test_quality_guardrails_elite_boss_cadence.py",
               "tests/python/test_run_command_implementation_authority_scope.py",
               "tools/validate_c1_roulette.py",
               "tools/validate_c2_battle_objective.py",
