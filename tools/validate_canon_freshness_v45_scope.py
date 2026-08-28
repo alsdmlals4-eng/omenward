@@ -465,6 +465,47 @@ FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_REQUIRED_ANCHORS = set(
     FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES
 )
 
+# The player clarified that the opposing side has one Veil Citadel of the same
+# strategic weight as the Ward Citadel, and that this board must be map-only.
+# This exact surface replaces only the planning visualization and current
+# canonical routes; roulette remains a retained system and no Godot consumer is
+# changed. The operation-contract artifacts are included solely to advance the
+# stale protected baseline to the latest completed main before this docs-only PR.
+DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES = {
+    "AGENTS.md",
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/PROJECT_OPERATING_DASHBOARD.html",
+    "docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md",
+    "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md",
+    "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v4_DUAL_CITADEL_MAP_ONLY.png",
+    "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md",
+    "skills/BASE_V9_ADAPTER.json",
+    "skills/PROJECT_BASE_ADAPTER.json",
+    "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+    "skills/PROJECT_SKILL_SNAPSHOT.json",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_REQUIRED_ANCHORS = set(
+    DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES
+)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -491,6 +532,7 @@ APPROVED_FILES = (
     | STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES
     | ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES
     | FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES
+    | DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES
 )
 
 
@@ -544,6 +586,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (SCREEN_SURFACE_COVERAGE_AUDIT_ALLOWED_FILES, SCREEN_SURFACE_COVERAGE_AUDIT_REQUIRED_ANCHORS, "screen-surface coverage audit"),
         (CANON_PLAY_VISUAL_AUDIT_ALLOWED_FILES, CANON_PLAY_VISUAL_AUDIT_REQUIRED_ANCHORS, "canon/play/visual audit"),
         (FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_ALLOWED_FILES, FORWARD_BASE_AND_CLASH_ZONE_VISUAL_BOARD_REQUIRED_ANCHORS, "forward-base and clash-zone planning-board correction"),
+        (DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_ALLOWED_FILES, DUAL_CITADEL_MAP_ONLY_VISUAL_BOARD_REQUIRED_ANCHORS, "dual-citadel map-only planning-board correction"),
         (ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES, ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_REQUIRED_ANCHORS, "one Ward Citadel three-branches visual correction"),
         (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),

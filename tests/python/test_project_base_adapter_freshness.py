@@ -14,11 +14,11 @@ ACTIVE_STATE = ROOT / "docs" / "operations" / "ACTIVE_INTEGRATED_CONTRACT_STATE.
 
 DECISION_ID = "OMW-DEC-20260808-PROCESS-PROJECT-BASE-ADAPTER-FRESHNESS-RECONCILIATION-V1"
 HISTORICAL_BASELINE_MAIN = "1f23981fdfc3e965ff46c8866e978c4701eb3d4e"
-CURRENT_PROTECTED_BASELINE = "d4d99168a1a1092deba480d3290815eb86bfeca2"
+CURRENT_PROTECTED_BASELINE = "9a67a267a69c80fba6f25d5a37e360a15dcc2419"
 BASE_RELEASE_VERSION = "9.4.3"
 BASE_RELEASE_COMMIT = "7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8"
 PROTECTED_POLICY_SHA = "1c36c4180b85d6bd97f4e7cdba908cc73298f529d368aa07e0dffde6e1e8ec52"
-CURRENT_ADAPTER_SHA = "621042a56d8a7f538a0815c8055e207af13188ca50db508b49fbe7695c02e89b"
+CURRENT_ADAPTER_SHA = "34e792f7e2e5be6111fd9d4eaab439f0e95dbd6bc6cd650cf00c7c1c505a768d"
 SHEET_ID = "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw"
 
 
@@ -41,7 +41,7 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         self.assertEqual(sheet["declared_sync_status"], "SHEET_GITHUB_SYNCED")
         self.assertEqual(sheet["write_policy"], "NO_AUTOMATIC_OVERWRITE")
 
-    def test_current_protected_baseline_uses_user_approved_tool_sync_main(self) -> None:
+    def test_current_protected_baseline_uses_latest_completed_main(self) -> None:
         baseline = self.adapter["protected_baseline"]
         self.assertEqual(baseline["commit"], CURRENT_PROTECTED_BASELINE)
         self.assertEqual(baseline["authority_kind"], "REMOTE_TRACKING_REF")
