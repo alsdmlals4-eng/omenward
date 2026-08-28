@@ -13,6 +13,7 @@ product_code_authority: NONE
 runtime: NOT_RUN
 human_validation: NOT_RUN
 player_experience_validation: NOT_RUN
+visual_direction_lock_packet: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md
 ```
 
 ## 1. 현재 사용자 승인 구조
@@ -118,3 +119,5 @@ NO_BASE_PROMOTION = PROJECT_SPECIFIC_THREE_FRONT_OCCUPATION_AND_FIXED_PAD_LAYOUT
 ```
 
 이 문서는 실제 Godot Scene/UI/Resource, runtime asset, 밸런스 수치, target-resolution 가독성, Human usability / Player Experience PASS를 뜻하지 않는다.
+
+2026-08-29 사용자는 v6 planning board를 확정했다. 선택한 rendering/layer/Keep-Avoid/variation은 `APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`가 소유하며, 이 layout contract의 code authority는 계속 `NONE`이다.

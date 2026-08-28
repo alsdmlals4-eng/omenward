@@ -645,9 +645,10 @@ BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_REQUIRED_ANCHORS = set(
 )
 
 # The user replaced the fenced/outpost visual with an open battlefield while
-# retaining the exact node/tower capacity. This is a documentation, generated
-# planning-board, and fail-closed validator sync only; product code remains
-# protected until a separate Phase 2 Issue, RED tests, and runtime review.
+# retaining the exact node/tower capacity. The user then locked v6 as the
+# planning direction. This remains documentation, planning-board, and
+# fail-closed validator sync only; product code remains protected until a
+# separate Phase 2 Issue, RED tests, provenance review, and runtime review.
 OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_ALLOWED_FILES = {
     "README.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -690,6 +691,44 @@ OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_REQUIRED_ANCHORS = set(
     OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_ALLOWED_FILES
 )
 
+# The user's v6 confirmation locks an existing planning board; it does not
+# authorize product paths. Keep the exact documentation, handoff, review, and
+# validator surface fail-closed so a lock cannot silently become implementation.
+OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES = {
+    "README.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/PROJECT_HOME.md",
+    "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md",
+    "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md",
+    "docs/handoffs/2026-08-28-open-battlefield-tower-only-layout-handoff.md",
+    "docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md",
+    "docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md",
+    "docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_V6_VISUAL_LOCK_REVIEW_2026-08-29.md",
+    "docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_REQUIRED_ANCHORS = set(
+    OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES
+)
+
 APPROVED_FILES = (
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -722,6 +761,7 @@ APPROVED_FILES = (
     | FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_ALLOWED_FILES
     | BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES
     | OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_ALLOWED_FILES
+    | OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES
 )
 
 
@@ -781,6 +821,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_ALLOWED_FILES, FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC_REQUIRED_ANCHORS, "forward-defense / occupation-node GDD canon sync"),
         (BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_ALLOWED_FILES, BASE_FORWARD_BATTLEFIELD_LAYOUT_CANON_SYNC_REQUIRED_ANCHORS, "base/forward battlefield layout canon sync"),
         (OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_ALLOWED_FILES, OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_CANON_SYNC_REQUIRED_ANCHORS, "open-battlefield tower-only layout canon sync"),
+        (OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES, OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_REQUIRED_ANCHORS, "open-battlefield v6 visual lock canon sync"),
         (ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES, ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_REQUIRED_ANCHORS, "one Ward Citadel three-branches visual correction"),
         (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),
