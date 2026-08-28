@@ -13,27 +13,29 @@ implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_T
 ## 1. Current entry order
 
 1. `README.md`
-2. `AGENTS.md`
-3. `docs/CURRENT_CONFIRMED_DECISIONS.md`
-4. `docs/ACTIVE_CONTEXT.md`
-5. `docs/HANDOFF_CONTEXT.md`
-6. `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`
-7. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
-8. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-9. `docs/PROJECT_CORE.md`
-10. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-11. `docs/OMENWARD_ROADMAP.md`
-12. `docs/DECISIONS_PENDING.md`
-13. `docs/DOCUMENTATION_MAP.md`
-14. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-15. `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
-16. `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
-17. relevant current Decision/spec/asset owner
-18. repository의 relevant human-facing Markdown owner
-19. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
-20. `docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md` (generated candidate; not current lock)
+2. `docs/PROJECT_HOME.md`
+3. `AGENTS.md`
+4. `docs/CURRENT_CONFIRMED_DECISIONS.md`
+5. `docs/ACTIVE_CONTEXT.md`
+6. `docs/HANDOFF_CONTEXT.md`
+7. `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`
+8. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
+9. `docs/OMENWARD_GDD_CURRENT_CANON.md`
+10. `docs/PROJECT_CORE.md`
+11. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+12. `docs/OMENWARD_ROADMAP.md`
+13. `docs/DECISIONS_PENDING.md`
+14. `docs/DOCUMENTATION_MAP.md`
+15. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+16. `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
+17. `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
+18. relevant current Decision/spec/asset owner
+19. repository의 relevant human-facing Markdown owner
+20. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
+21. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
+22. `docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md` (generated candidate; not current lock)
 
-Fresh GitHub/repository truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다. Notion은 historical reference only다.
+Fresh GitHub/repository truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다. Notion의 current structure/work는 읽기 전용 migration으로 이관 완료했고, 이후 Notion은 historical reference only다.
 
 ## 2. Current authority split
 

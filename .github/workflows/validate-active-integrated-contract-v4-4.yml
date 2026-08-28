@@ -17,6 +17,7 @@ on:
       - ".gitignore"
       - ".gitattributes"
       - "AGENTS.md"
+      - "docs/PROJECT_HOME.md"
       - "docs/ACTIVE_CONTEXT.md"
       - "docs/CURRENT_IMPLEMENTATION_STATUS.md"
       - "docs/DOCUMENTATION_MAP.md"
@@ -32,6 +33,8 @@ on:
       - "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
       - "docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md"
       - "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_FORWARD_DEFENSE_OCCUPATION_NODES.png"
+      - "docs/images/VISUAL_REFERENCE_INDEX.md"
+      - "docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md"
       - "docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md"
       - "docs/analysis/barracks_simulation/**"
       - "docs/design/APPROVED_OMENWARD_BARRACKS_CAPABILITY_PROXY_AND_MULTI_SPECIAL_TOKEN_BURST_REMEDIATION_2026-08-08.md"
@@ -142,6 +145,7 @@ jobs:
               "tests/python/test_project_base_adapter_freshness.py",
               "tools/validate_active_integrated_contract_v4_4.py",
               "README.md",
+              "docs/PROJECT_HOME.md",
               "docs/ACTIVE_CONTEXT.md",
               "docs/CURRENT_CONFIRMED_DECISIONS.md",
               "docs/CURRENT_IMPLEMENTATION_STATUS.md",
@@ -154,6 +158,8 @@ jobs:
               "docs/OMENWARD_ROADMAP.md",
               "docs/PROJECT_CANON_DECISION_LEDGER.md",
               "docs/PROJECT_CORE.md",
+              "docs/images/VISUAL_REFERENCE_INDEX.md",
+              "docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md",
               "docs/design/OMENWARD_TARGET_SCREEN_SURFACE_AND_VISUAL_COVERAGE_AUDIT_2026-08-27.md",
               "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
               "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md",

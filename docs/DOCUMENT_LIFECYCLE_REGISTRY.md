@@ -7,6 +7,7 @@ planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTIO
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_next_gate: USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD
 repository_only_policy: docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md
+notion_migration_report: docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md
 current_screen_surface_visual_coverage_audit: docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 implementation_authorized: true
@@ -26,6 +27,7 @@ implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_T
 
 ```text
 [현행] README.md
+[현행] docs/PROJECT_HOME.md
 [현행] AGENTS.md
 [현행] docs/CURRENT_CONFIRMED_DECISIONS.md
 [현행] docs/ACTIVE_CONTEXT.md
@@ -41,6 +43,7 @@ implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_T
 [현행] docs/PROJECT_CANON_DECISION_LEDGER.md
 [현행] docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 [현행] docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md
+[증거/호환] docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md
 ```
 
 ## 3. Current 2026-08-28 authority

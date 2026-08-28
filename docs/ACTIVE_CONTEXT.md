@@ -34,9 +34,12 @@ visual_confirmation: GENERATE_THEN_USER_CONFIRM_LOCK
 current_human_facing_canon: REPOSITORY_ONLY
 notion_current_authority: RETIRED__NO_FUTURE_READ_OR_WRITE
 repository_only_policy: docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md
+notion_migration_report: docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md
 current_chat_runtime_status: PARTIAL__RUN_COMMAND_PREPARE_TO_BATTLE_LIVE_CAPTURED__HEADLESS_NATURAL_TUTORIAL_TO_REVIEW_PASS__HUMAN_NOT_RUN
 human_player_evidence: NOT_RUN
 ```
+
+Notion의 current structure/work read-only migration은 완료했다. 이관 내용과 stale/superseded 분류는 `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`가 소유하며, 이후 Notion read/write는 재활성화 전 금지다.
 
 ## Current planning state
 

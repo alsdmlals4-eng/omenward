@@ -15,6 +15,9 @@ FORWARD_DEFENSE_SPEC = "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPA
 FORWARD_DEFENSE_DECISION_ID = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
 REPOSITORY_ONLY_POLICY = "docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md"
 REPOSITORY_ONLY_POLICY_ID = "OMW-OPS-20260828-REPOSITORY-ONLY-CANON-NOTION-RETIREMENT-01"
+PROJECT_HOME = "docs/PROJECT_HOME.md"
+NOTION_MIGRATION_REPORT = "docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md"
+NOTION_MIGRATION_ID = "OMW-OPS-20260828-NOTION-CURRENT-CONTENT-TO-REPOSITORY-01"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
@@ -53,6 +56,7 @@ DYNAMIC_CURRENT_REF = "RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH"
 REQUIRED_FILES = (
     "README.md",
     "AGENTS.md",
+    PROJECT_HOME,
     "docs/PROJECT_CORE.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -86,6 +90,7 @@ REQUIRED_FILES = (
     ROULETTE_RULES,
     FORWARD_DEFENSE_SPEC,
     REPOSITORY_ONLY_POLICY,
+    NOTION_MIGRATION_REPORT,
 )
 
 # Volatile current state is owned by CURRENT_SPEC + ACTIVE_CONTEXT + HANDOFF.
@@ -176,6 +181,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
             FORWARD_DEFENSE_DECISION_ID,
             FORWARD_DEFENSE_SPEC,
+            NOTION_MIGRATION_REPORT,
             "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
             "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
             "OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01",
@@ -250,6 +256,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "current_visual_asset: NONE__NEW_DIRECTION_PLANNING_ONLY",
             "NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES",
             REPOSITORY_ONLY_POLICY,
+            NOTION_MIGRATION_REPORT,
             "implementation_authorized: true",
             "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
             "implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_TECHNICAL_QA_CAPTURED__HUMAN_NOT_RUN",
@@ -511,8 +518,38 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "NOTION_CURRENT_AUTHORITY = RETIRED",
             "NOTION_FUTURE_READ_OR_WRITE = FORBIDDEN_UNTIL_USER_REENABLES",
             "NOTION_DESTINATION_READBACK = NOT_REQUIRED",
+            "NOTION_MIGRATION_READ = COMPLETE__USER_APPROVED_READ_ONLY",
+            NOTION_MIGRATION_REPORT,
         ),
         "repository-only canon policy",
+    )
+
+    project_home = read(root, PROJECT_HOME)
+    require(
+        errors,
+        project_home,
+        (
+            "status: CURRENT_REPOSITORY_PROJECT_HOME",
+            NOTION_MIGRATION_REPORT,
+            "FORWARD_DEFENSE_OCCUPATION_NODES = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED",
+            "HUMAN_USABILITY_AND_PLAYER_EXPERIENCE = NOT_RUN",
+        ),
+        "repository Project Home",
+    )
+
+    notion_migration = read(root, NOTION_MIGRATION_REPORT)
+    require(
+        errors,
+        notion_migration,
+        (
+            NOTION_MIGRATION_ID,
+            "authority_after_migration: REPOSITORY_ONLY",
+            "notion_access: USER_APPROVED_READ_ONLY__NO_WRITE_OR_DELETE",
+            "NOTION_WRITE_OR_DELETE = NOT_PERFORMED",
+            "MIGRATED_AND_CORRECTED",
+            "HISTORICAL_OR_SUPERSEDED__NOT_COPIED_AS_CURRENT",
+        ),
+        "Notion current-content migration report",
     )
 
     doc_map = read(root, "docs/DOCUMENTATION_MAP.md")
@@ -532,6 +569,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_IMAGE_POLICY,
             FORWARD_DEFENSE_SPEC,
             REPOSITORY_ONLY_POLICY,
+            PROJECT_HOME,
+            NOTION_MIGRATION_REPORT,
             "Google Sheet는 current human authority가 아니다",
         ),
         "Documentation Map",

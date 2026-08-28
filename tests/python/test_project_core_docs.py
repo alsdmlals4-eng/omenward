@@ -17,6 +17,8 @@ CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
 CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
 FORWARD_DEFENSE_SPEC = MODULE["FORWARD_DEFENSE_SPEC"]
 REPOSITORY_ONLY_POLICY = MODULE["REPOSITORY_ONLY_POLICY"]
+PROJECT_HOME = MODULE["PROJECT_HOME"]
+NOTION_MIGRATION_REPORT = MODULE["NOTION_MIGRATION_REPORT"]
 FINAL_REVIEW = MODULE["FINAL_REVIEW"]
 IMPLEMENTATION_PACKET = MODULE["IMPLEMENTATION_PACKET"]
 IMPLEMENTATION_PLAN = MODULE["IMPLEMENTATION_PLAN"]
@@ -130,6 +132,16 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             (root / REPOSITORY_ONLY_POLICY).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+
+    def test_notion_current_content_migration_owners_are_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / NOTION_MIGRATION_REPORT).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
+            self.copy(root)
+            (root / PROJECT_HOME).unlink()
             self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_scoped_implementation_authority_cannot_expand_project_wide(self) -> None:

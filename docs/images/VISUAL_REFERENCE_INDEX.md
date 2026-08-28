@@ -1,16 +1,35 @@
 # 오멘워드 시각자료 인덱스
 
 - 갱신일: 2026-07-16
-- 상태: **활성 시각자료 라우터 / 최신 사용자 지시 우선**
+- 상태: **HISTORICAL_VISUAL_LINEAGE_INDEX / current router는 별도 owner**
 - 책임 범위: 사용자가 제공한 이미지, 탐색 시안, 비교표와 도구 산출물의 상태·용도·금지 해석
 
 이 문서는 대화에 있던 이미지를 문서에서 누락하거나, 오래된 시안을 최신 승인안으로 오인하는 일을 방지한다. 이미지 자체보다 이 인덱스의 **상태와 해석 규칙**을 먼저 확인한다.
+
+## 0. 현행 override · 2026-08-28
+
+이 파일의 2026-07~08-26 항목은 **시각 계보/자산 provenance 참고**이며 current visual router가 아니다. 현행 전장·그림체·지도 topology는 다음 repository owner가 소유한다.
+
+- `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
+- `docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md`
+- `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
+
+```text
+CURRENT_VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
+CURRENT_MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
+PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
+CURRENT_V5_BOARD = GENERATED_EXPLORATION__USER_LOCK_PENDING
+```
+
+따라서 아래 `MIGRATION_PENDING`, 옛 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 전선별 미니맵, 병렬 세 도로, Notion에만 남은 과거 생성 queue는 신규 구현·자산 제작의 입력으로 사용하지 않는다.
 
 ## 1. 우선순위
 
 ```text
 최신 사용자 지시
-→ 이 인덱스에서 APPROVED로 표시된 시각자료
+→ docs/CURRENT_CONFIRMED_DECISIONS.md + docs/ACTIVE_CONTEXT.md
+→ current visual Decision/spec/asset owner
+→ 이 인덱스의 lineage 상태
 → 관련 APPROVED 기획서
 → PARTIAL_REFERENCE 자료
 → EXPLORATION·SUPERSEDED 자료

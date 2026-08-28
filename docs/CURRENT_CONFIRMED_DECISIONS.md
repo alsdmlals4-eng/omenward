@@ -18,9 +18,12 @@ visual_confirmation: GENERATE_THEN_USER_CONFIRM_LOCK
 current_human_facing_canon: REPOSITORY_ONLY
 notion_current_authority: RETIRED__NO_FUTURE_READ_OR_WRITE
 repository_only_policy: docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md
+notion_migration_report: docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md
 ```
 
 이 문서는 현재 승인 Decision을 새 작업자가 빠르게 복원하는 **인덱스**다. 상세 규칙은 각 repository owner가 소유한다. 사람용 전체 그림·Flow·비교표와 구조화 계약·code/data/scene/test/runtime evidence는 repository가 함께 소유한다. GitHub PR/Issue의 live 상태는 문서에 고정하지 않고 매 작업 시작 시 fresh 조회한다.
+
+기존 Notion의 현재 구조·작업 연결은 `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`로 읽기 전용 이관을 완료했다. 이후 Notion은 현행 Decision owner가 아니다.
 
 각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN`은 승인 시점의 local sequence로 읽는다. 현재 작업 순서와 supersession은 이 문서가 우선한다.
 
