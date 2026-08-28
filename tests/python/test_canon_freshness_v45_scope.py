@@ -242,6 +242,44 @@ STAGE1_PREBUILT_LEARNING_CANON_SYNC = {
     "tools/validate_project_core_docs.py",
 }
 
+FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC = {
+    ".github/workflows/validate-active-integrated-contract-v4-4.yml",
+    "AGENTS.md",
+    "README.md",
+    "docs/PROJECT_HOME.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/CURRENT_IMPLEMENTATION_STATUS.md",
+    "docs/DECISIONS_PENDING.md",
+    "docs/DOCUMENTATION_MAP.md",
+    "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+    "docs/HANDOFF_CONTEXT.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/ONBOARDING_PLANNING_CURRENT_AUTHORITY.md",
+    "docs/PROJECT_CANON_DECISION_LEDGER.md",
+    "docs/PROJECT_CORE.md",
+    "docs/images/VISUAL_REFERENCE_INDEX.md",
+    "docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md",
+    "docs/design/APPROVED_OMENWARD_BUILDING_TIER_REALIGNMENT_2026-08-06.md",
+    "docs/design/APPROVED_OMENWARD_FIRST5_FTUE_MASTERY_LADDER_2026-08-20.md",
+    "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md",
+    "docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md",
+    "docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v5_FORWARD_DEFENSE_OCCUPATION_NODES.png",
+    "docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_canon_freshness_v45_scope.py",
+    "tests/python/test_content_closure_benchmark_first.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_current_v48_router_sync.py",
+    "tests/python/test_project_core_docs.py",
+    "tests/python/test_phase_b_final_planning_review.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tests/python/test_run_command_implementation_authority_scope.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+    "tools/validate_project_core_docs.py",
+}
+
 STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK = {
     "AGENTS.md",
     "README.md",
@@ -503,6 +541,24 @@ class CanonFreshnessV45ScopeTest(unittest.TestCase):
                 STAGE1_PREBUILT_LEARNING_CANON_SYNC
             ),
             [],
+        )
+
+    def test_forward_defense_occupation_node_gdd_canon_sync_exact_surface_passes(self) -> None:
+        self.assertEqual(
+            load_module().validate_canon_freshness_scope(
+                FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC
+            ),
+            [],
+        )
+
+    def test_forward_defense_occupation_node_gdd_rejects_missing_contract(self) -> None:
+        errors = load_module().validate_canon_freshness_scope(
+            FORWARD_DEFENSE_OCCUPATION_NODE_GDD_CANON_SYNC
+            - {"docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"}
+        )
+        self.assertTrue(
+            any("forward-defense / occupation-node GDD canon sync" in error for error in errors),
+            errors,
         )
 
     def test_storybook_direction_lock_exact_surface_passes(self) -> None:

@@ -6,6 +6,7 @@ status: CURRENT_ONBOARDING_AUTHORITY
 planning_status: CURRENT_REPLAN_CONFIRMED
 current_planning_decision: OMW-PLAN-20260820-FIRST5-FTUE-01
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
+repository_only_policy: docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 runtime_mutation: NONE
 balance_mutation: NONE

@@ -9,8 +9,15 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_PLANNING_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE"
+CURRENT_REACTIVATION_GATE = "USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
+FORWARD_DEFENSE_SPEC = "docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
+FORWARD_DEFENSE_DECISION_ID = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
+REPOSITORY_ONLY_POLICY = "docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md"
+REPOSITORY_ONLY_POLICY_ID = "OMW-OPS-20260828-REPOSITORY-ONLY-CANON-NOTION-RETIREMENT-01"
+PROJECT_HOME = "docs/PROJECT_HOME.md"
+NOTION_MIGRATION_REPORT = "docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md"
+NOTION_MIGRATION_ID = "OMW-OPS-20260828-NOTION-CURRENT-CONTENT-TO-REPOSITORY-01"
 CURRENT_IMPLEMENTATION_AUTHORITY = "SCOPED_APPROVED"
 CURRENT_SPEC = "docs/CURRENT_CONFIRMED_DECISIONS.md"
 CURRENT_REVIEW = "docs/reviews/PHASE_B_FINAL_PLANNING_REVIEW_2026-08-11.md"
@@ -49,6 +56,7 @@ DYNAMIC_CURRENT_REF = "RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH"
 REQUIRED_FILES = (
     "README.md",
     "AGENTS.md",
+    PROJECT_HOME,
     "docs/PROJECT_CORE.md",
     "docs/CURRENT_IMPLEMENTATION_STATUS.md",
     "docs/ACTIVE_CONTEXT.md",
@@ -80,6 +88,9 @@ REQUIRED_FILES = (
     LEDGER,
     LEGENDARY_DEPLOYMENT_POLICY,
     ROULETTE_RULES,
+    FORWARD_DEFENSE_SPEC,
+    REPOSITORY_ONLY_POLICY,
+    NOTION_MIGRATION_REPORT,
 )
 
 # Volatile current state is owned by CURRENT_SPEC + ACTIVE_CONTEXT + HANDOFF.
@@ -167,7 +178,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_VISUAL_SPEC,
             CURRENT_VISUAL_BOARD,
             LEGACY_RUNTIME_VISUAL_ASSET,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 24",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+            FORWARD_DEFENSE_DECISION_ID,
+            FORWARD_DEFENSE_SPEC,
+            NOTION_MIGRATION_REPORT,
+            "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
+            "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
             "OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01",
             CURRENT_UNIT_ANIMATION_CONTRACT,
             "OMW-PLAN-20260820-WORLD-CONFLICT-STORY-01",
@@ -225,8 +241,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         active,
         (
             CURRENT_CONTRACT,
-            "status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_TOWER_DECISION_PENDING",
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 24",
+            "status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__FORWARD_DEFENSE_GDD_REVIEW_PENDING",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+            FORWARD_DEFENSE_DECISION_ID,
+            FORWARD_DEFENSE_SPEC,
+            "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
+            "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
             CURRENT_VISUAL_DECISION_ID,
             CURRENT_MAP_TOPOLOGY,
             CURRENT_FRONT_STRUCTURE,
@@ -234,7 +254,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_MAP_ONLY_BOARD_SCOPE,
             "APPROVED_VISUAL_BATTLEFIELD_BACKDROP_V1 = LEGACY_RUNTIME_ASSET__CURRENT_BUILD_ONLY",
             "current_visual_asset: NONE__NEW_DIRECTION_PLANNING_ONLY",
-            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES",
+            REPOSITORY_ONLY_POLICY,
+            NOTION_MIGRATION_REPORT,
             "implementation_authorized: true",
             "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
             "implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_TECHNICAL_QA_CAPTURED__HUMAN_NOT_RUN",
@@ -396,7 +418,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES",
+            REPOSITORY_ONLY_POLICY,
             CURRENT_IMAGE_POLICY,
             "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED",
             "LEGACY_C1_C2_C3_PROVEN",
@@ -413,12 +436,16 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         status,
         (
             CURRENT_CONTRACT,
-            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 24",
+            "CURRENT_CONFIRMED_REPLAN_DECISIONS = 25",
             "NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY",
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES",
+            REPOSITORY_ONLY_POLICY,
             "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED",
+            FORWARD_DEFENSE_SPEC,
+            "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
+            "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
             "CURRENT_WINDOWS_RUNTIME = PARTIAL__STANDALONE_TECHNICAL_CAPTURED_960_1280_1920",
             "CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN",
             "LEGACY_C1_C2_C3_PROVEN",
@@ -442,9 +469,13 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
-            "NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS",
+            "NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES",
+            REPOSITORY_ONLY_POLICY,
             CURRENT_IMAGE_POLICY,
             "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED",
+            FORWARD_DEFENSE_SPEC,
+            "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
+            "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
         ),
         "current GDD",
     )
@@ -455,6 +486,71 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     ):
         if stale in gdd:
             errors.append(f"current GDD retains superseded world decision: {stale}")
+
+    forward_defense = read(root, FORWARD_DEFENSE_SPEC)
+    require(
+        errors,
+        forward_defense,
+        (
+            FORWARD_DEFENSE_DECISION_ID,
+            "status: CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED",
+            "FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER",
+            "BARRICADE_RUNTIME_ID = FORWARD_BARRICADE",
+            "TACTICAL_COMMAND_BARRICADE_RUNTIME_ID = TACTICAL_COMMAND_BARRICADE",
+            "BARRICADE_IDENTITY_COLLISION = FORBIDDEN",
+            "OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY",
+            "CONSTRUCTION_NODE_DURING_CAPTURE = LOCKED",
+            "PLAYER_BUILT_EFFECTS_AFTER_HOSTILE_CAPTURE = RUINED",
+            "FIXED_DEFENSE_SOLO_CLEAR = FORBIDDEN",
+            "FORWARD_DEFENSE_RUNTIME = NOT_IMPLEMENTED",
+            "NO_BASE_PROMOTION = PROJECT_SPECIFIC_MAPRUN_FRONT_AND_OUTPOST_RULES",
+        ),
+        "forward-defense / occupation-node contract",
+    )
+
+    repository_only = read(root, REPOSITORY_ONLY_POLICY)
+    require(
+        errors,
+        repository_only,
+        (
+            REPOSITORY_ONLY_POLICY_ID,
+            "REPOSITORY_HUMAN_FACING_CANON = Markdown owners under docs/ + README.md",
+            "NOTION_CURRENT_AUTHORITY = RETIRED",
+            "NOTION_FUTURE_READ_OR_WRITE = FORBIDDEN_UNTIL_USER_REENABLES",
+            "NOTION_DESTINATION_READBACK = NOT_REQUIRED",
+            "NOTION_MIGRATION_READ = COMPLETE__USER_APPROVED_READ_ONLY",
+            NOTION_MIGRATION_REPORT,
+        ),
+        "repository-only canon policy",
+    )
+
+    project_home = read(root, PROJECT_HOME)
+    require(
+        errors,
+        project_home,
+        (
+            "status: CURRENT_REPOSITORY_PROJECT_HOME",
+            NOTION_MIGRATION_REPORT,
+            "FORWARD_DEFENSE_OCCUPATION_NODES = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED",
+            "HUMAN_USABILITY_AND_PLAYER_EXPERIENCE = NOT_RUN",
+        ),
+        "repository Project Home",
+    )
+
+    notion_migration = read(root, NOTION_MIGRATION_REPORT)
+    require(
+        errors,
+        notion_migration,
+        (
+            NOTION_MIGRATION_ID,
+            "authority_after_migration: REPOSITORY_ONLY",
+            "notion_access: USER_APPROVED_READ_ONLY__NO_WRITE_OR_DELETE",
+            "NOTION_WRITE_OR_DELETE = NOT_PERFORMED",
+            "MIGRATED_AND_CORRECTED",
+            "HISTORICAL_OR_SUPERSEDED__NOT_COPIED_AS_CURRENT",
+        ),
+        "Notion current-content migration report",
+    )
 
     doc_map = read(root, "docs/DOCUMENTATION_MAP.md")
     require(
@@ -471,6 +567,10 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
             CURRENT_IMAGE_POLICY,
+            FORWARD_DEFENSE_SPEC,
+            REPOSITORY_ONLY_POLICY,
+            PROJECT_HOME,
+            NOTION_MIGRATION_REPORT,
             "Google Sheet는 current human authority가 아니다",
         ),
         "Documentation Map",
@@ -490,6 +590,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
             CURRENT_IMAGE_POLICY,
+            FORWARD_DEFENSE_SPEC,
+            REPOSITORY_ONLY_POLICY,
             "[증거/호환] docs/design/APPROVED_VERTICAL_SLICE_SYSTEM_CONTRACT_2026-07-27.md",
             f"[증거] {MACHINE_QA_RECORD}",
         ),
@@ -507,6 +609,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5",
             "GITHUB_NOTION_DRIFT_CHECK = PASS",
             CURRENT_IMAGE_POLICY,
+            FORWARD_DEFENSE_SPEC,
+            REPOSITORY_ONLY_POLICY,
             "TOPDOWN_BATTLEFIELD_LAYOUT",
             "TOPDOWN_UNIT_SILHOUETTE",
         ),
@@ -558,6 +662,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             CURRENT_CONTRACT,
             "current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md",
             CURRENT_IMAGE_POLICY,
+            REPOSITORY_ONLY_POLICY,
         ),
         "onboarding authority",
     )
@@ -568,7 +673,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         ledger_current,
         (
             CURRENT_CONTRACT,
-            "CURRENT_APPROVED_REPLAN_DECISIONS = 24",
+            "CURRENT_APPROVED_REPLAN_DECISIONS = 25",
+            FORWARD_DEFENSE_DECISION_ID,
+            FORWARD_DEFENSE_SPEC,
             pathlib.PurePosixPath(NORTH_STAR_AUDIT).name,
             pathlib.PurePosixPath(FINAL_REVIEW).name,
             "NORTH_STAR_V2_1 = APPROVED_REFERENCE_WITH_BOUNDARY",

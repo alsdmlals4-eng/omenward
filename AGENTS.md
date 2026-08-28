@@ -22,7 +22,7 @@ visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
 4. `docs/ACTIVE_CONTEXT.md`.
 5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md` + relevant owner.
-6. Project Notion Home + relevant human-facing page.
+6. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md` 및 repository의 관련 사람용 owner.
 7. 실제 code/data/scene/test/runtime evidence는 해당 scope가 열렸을 때만 current evidence로 판정한다.
 
 과거 채팅·Handoff·오래된 SHA·closed-unmerged PR을 current product truth로 사용하지 않는다. GitHub work-item 상태는 매번 fresh 조회한다.
@@ -123,12 +123,12 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 - closed-unmerged branch 내용을 current product truth로 사용하지 않는다.
 - 과거 runtime execution Issue/PR은 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
 
-## 7. Notion / repository authority
+## 7. Repository-only authority
 
-- Notion: 사람이 보는 전체 그림, Flow, 비교표, Visual/Story/Work Plan.
-- Repository: Markdown/JSON/code/data/scene/resource/test/runtime evidence와 구조화 계약.
-- 의미 변경 Decision은 양쪽에 같은 의미로 동기화하고 destination readback한다.
-- Google Sheet는 migration/history compatibility input이며 current human authority가 아니다.
+- Repository: 사람이 보는 전체 그림, Flow, 비교표, Visual/Story/Work Plan과 Markdown/JSON/code/data/scene/resource/test/runtime evidence를 함께 소유한다.
+- Notion: `RETIRED`; 기존 기록은 삭제하지 않지만 future read/write와 destination readback을 하지 않는다.
+- 의미 변경 Decision은 relevant repository owner와 GitHub PR readback에만 동기화한다.
+- Google Sheet와 Notion은 migration/history compatibility input이며 current human authority가 아니다.
 
 ## 8. Platform / release / asset-rights durable routing
 

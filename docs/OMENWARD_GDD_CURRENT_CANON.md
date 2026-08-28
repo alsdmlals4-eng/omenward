@@ -236,7 +236,7 @@ STAGE_4 = APPLICATION_WITH_NO_NEW_CORE_SYSTEM
 STAGE_5 = FIRST_BOSS_AND_BUILD_REVIEW
 ```
 
-Stage 1에는 플레이어의 직접 건설이 없다. Ward Citadel에는 일반병 병영 1개와 농장 1개, 각 Ward 전진기지에는 방어탑 1개가 사전 구축되어 있다. 세 시설 **종류**를 순차 설명한 뒤 첫 3×3 룰렛과 비가역 전선 커밋으로 진행한다. 첫 실제 건설/업그레이드는 Stage 2 T2 선택이다. 방어탑의 정확한 전술 효과와 Veil 전진기지의 대칭 표기는 `UNDECIDED`다.
+Stage 1에는 플레이어의 직접 건설이 없다. Ward Citadel에는 일반병 병영 1개와 농장 1개, 각 Ward 전진기지에는 바리케이드 1개와 자동공격탑 1개가 사전 구축되어 있다. 세 번째 시설 설명 단위는 이 둘을 묶은 **전진기지 방어 체계**다. 바리케이드는 첫 압력을 지연하고, 자동공격탑은 전선 국소 화력만 지원한다. 둘 모두 점령력을 주거나 병력 커밋을 대체하지 않는다. 안정적으로 점령한 거점의 별도 건설 노드는 Stage 2 이후에만 해금 건물을 설치할 수 있고, 점령 중에는 잠긴다. 정확한 수치는 `docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md`가 소유하며 아직 runtime 구현이 아니다.
 
 ## 13. Hero / Legendary / Meta
 
@@ -296,6 +296,7 @@ CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED
 LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__USER_REVIEW_PENDING
 VISUAL_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
+VISUAL_CONFIRMATION = GENERATE_THEN_USER_CONFIRM_LOCK
 ```
 
 Front-State information split:
@@ -339,7 +340,11 @@ EXPORT_PRESETS = ABSENT
 ## 18. Current planning / execution gate
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 24
+CURRENT_APPROVED_REPLAN_DECISIONS = 25
+FORWARD_DEFENSE_OCCUPATION_NODES = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+FORWARD_BASE_DEFENSE_STACK = BARRICADE + AUTO_ATTACK_TOWER
+OCCUPATION_NODE_ACTIVATION = STABLE_PLAYER_OWNED_OUTPOST_ONLY
+CURRENT_FORWARD_DEFENSE_SPEC = docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md
 FRONT_STATE_MINIMAP_SD_FANTASY = PARTIALLY_SUPERSEDED__THREE_FRONT_RESPONSIBILITY_RETAINED
 STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP = USER_CONFIRMED_CURRENT
 APPROVED_VISUAL_OM_IMG_023 = HISTORICAL_REFERENCE_ONLY
@@ -347,14 +352,15 @@ LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
 PROJECT_CORE_SCENE_VISUAL_BOARD = GENERATED_EXPLORATION__USER_REVIEW_PENDING
 CURRENT_BUILD_RUNTIME_UNIT_ASSET_SET = LEGACY_STYLE_FIT_REVIEW_REQUIRED
 UNIT_ANIMATION_PRODUCTION_CONTRACT = RETAINED_GEOMETRY_ONLY__STYLE_FIT_REVIEW_REQUIRED
-NOTION_CURRENT_VISUAL_IMAGE = SERVER_READBACK_PASS
+NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES
 FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5_RETAINED_PRE_20260825_VISUAL_OVERRIDE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED_RETAINED
 IMPLEMENTATION_SCOPE = RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE_ONLY
 IMPLEMENTATION_EXECUTION = IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_TECHNICAL_QA_CAPTURED__HUMAN_NOT_RUN
 PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__VISUAL_EXECUTION_PAUSED
-CURRENT_NEXT = USER_GRILL_ME_ON_FORWARD_TOWER_PLAYER_VALUE
+CURRENT_NEXT = USER_REVIEW_OF_FORWARD_DEFENSE_AND_OCCUPATION_NODE_GDD
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
+VISUAL_CONFIRMATION = GENERATE_THEN_USER_CONFIRM_LOCK
 ```
 
 Retained implementation owners:
@@ -388,6 +394,7 @@ HUMAN_QA_NOT_RUN
 - Decision index: `docs/CURRENT_CONFIRMED_DECISIONS.md`
 - Active Context: `docs/ACTIVE_CONTEXT.md`
 - Project Core: `docs/PROJECT_CORE.md`
+- Current forward-defense / occupation-node contract: `docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md`
 - Implementation state: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
 - Handoff Context: `docs/HANDOFF_CONTEXT.md`
 - Current handoff: `docs/handoffs/2026-08-26-gpt-work-image-production-handoff.md`
@@ -395,11 +402,12 @@ HUMAN_QA_NOT_RUN
 - Current visual spec: `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
 - Approved visual asset: `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md`
 - Documentation Map: `docs/DOCUMENTATION_MAP.md`
+- Repository-only policy: `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
 - Retained final planning review: `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`
-- Human-facing current workspace: Project Notion
+- Human-facing current workspace: repository Markdown owners (`README.md`, `docs/`, current Decision index)
 
 ```text
 CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
-Implementation resume order is current Base + fresh OMENWARD main/open work → current decisions/context/handoff → current GDD/Project Core + relevant owner → Notion/approved visual → implementation packet/plan → fresh Godot execution. Image generation is separately user-request-only.
+Implementation resume order is current Base + fresh OMENWARD main/open work → current decisions/context/handoff → current GDD/Project Core + relevant repository owner → implementation packet/plan → fresh Godot execution. Image generation is user-authorized and requires only post-generation user lock confirmation.
