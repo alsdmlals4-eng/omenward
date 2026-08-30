@@ -15,6 +15,7 @@ CURRENT_VISUAL_SPEC = MODULE["CURRENT_VISUAL_SPEC"]
 CURRENT_VISUAL_BOARD = MODULE["CURRENT_VISUAL_BOARD"]
 CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
 CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
+CURRENT_STORYBOOK_SHIELD_GUARD_PAIR = MODULE["CURRENT_STORYBOOK_SHIELD_GUARD_PAIR"]
 FORWARD_DEFENSE_SPEC = MODULE["FORWARD_DEFENSE_SPEC"]
 BASE_FORWARD_LAYOUT_REVIEW = MODULE["BASE_FORWARD_LAYOUT_REVIEW"]
 REPOSITORY_ONLY_POLICY = MODULE["REPOSITORY_ONLY_POLICY"]
@@ -100,13 +101,20 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW",
+                "CURRENT_NEXT = PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW" in error for error in errors), errors)
+            self.assertTrue(any("PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW" in error for error in errors), errors)
+
+    def test_current_storybook_shield_guard_pair_record_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / CURRENT_STORYBOOK_SHIELD_GUARD_PAIR).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_forward_defense_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

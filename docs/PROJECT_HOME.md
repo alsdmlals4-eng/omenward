@@ -1,7 +1,7 @@
 # OMENWARD · Project Home
 
 ```yaml
-updated_at: 2026-08-28
+updated_at: 2026-08-30
 status: CURRENT_REPOSITORY_PROJECT_HOME
 source_migration: docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -15,23 +15,24 @@ current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
 
 > **건물로 룰렛을 만들고, 룰렛으로 전선을 지휘한다.**
 
-플레이어는 징조수호관으로서 세 전선의 압력을 읽고, Stage 2부터 건물과 TokenSource로 동원 확률을 설계한다. 3×3 징조륜을 제한적으로 조작해 얻은 병력은 한 전선에 비가역 커밋되며, 전투 뒤에는 인과 Review로 다음 설계를 고친다.
+플레이어는 징조수호관으로서 세 전선의 압력을 읽고, 전장 밖의 건물 목록과 TokenSource로 동원 확률을 설계한다. 3×3 징조륜을 제한적으로 조작해 얻은 병력은 한 전선에 비가역 커밋되며, 전투 뒤에는 인과 Review로 다음 설계를 고친다.
 
-Stage 1은 직접 건설이 아니라 `열린 전장의 본진 지휘·방어 → 전진기지의 자동공격탑과 잠긴 건설 패드 발견 → 3×3 룰렛 → 비가역 전선 커밋`을 설명하는 첫 학습이다. 양쪽 본진에는 생산 건물·울타리 없이 패드 4개·고정탑 2개, 각 전진기지에는 패드 2개·고정탑 1개가 열린 지형 landmark로 있다. 고정 전진 바리케이드는 없으며, 점령 중인 전진기지의 건설 노드는 안정적으로 아군이 소유한 때만 활성화된다. 상세는 `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`가 소유한다.
+Stage 1은 `열린 전장의 본진 지휘·방어 → 전진기지/접전지의 점령 효과 관측 → 3×3 룰렛 → 비가역 전선 커밋`을 설명하는 첫 학습이다. 전장에는 지형, 전선, 유닛, 목표와 각 shared front당 고정 방어탑 한 개만 보인다. 건설 패드·건설 노드·건물 지도 배치는 없다. 건물은 플레이어 전용 목록에서만 올리고, 활성 건물 상한은 기본 6칸에 안정적으로 보유한 전진기지와 접전지 수를 더한 값이다. 상세는 `docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md`가 소유한다.
 
 ## 현재 상태와 증거 한계
 
 ```text
 CURRENT_APPROVED_REPLAN_DECISIONS = 28
-CURRENT_NEXT = PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
+CURRENT_NEXT = PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
 FORWARD_DEFENSE_OCCUPATION_NODES = SUPERSEDED_IN_SCOPE__GLOBAL_ROSTER_IMPLEMENTED__MACHINE_VERIFIED
-OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT = GLOBAL_ROSTER_AND_FIXED_TOWERS__IMPLEMENTED__RUNTIME_NOT_RUN
 CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260830-WIDE-CONNECTED-STRATEGIC-FRONT-TERRAIN-V1
+CURRENT_RUNTIME_UNIT_PAIR = OMW-IMG-20260830-STORYBOOK-SD-SHIELD-GUARD-PAIR-V1__IMPLEMENTED__RUNTIME_NOT_RUN
 CURRENT_RUNTIME_EVIDENCE = PARTIAL__TECHNICAL_ONLY
 HUMAN_USABILITY_AND_PLAYER_EXPERIENCE = NOT_RUN
 ```
 
-새 전장 방향은 하나의 Ward 본진에서 상·중·하 세 shared front로 갈라져 하나의 Veil 본진으로 수렴하는 전략 지도다. 세 전선은 한 화면에서 동시에 읽혀야 하며, 전선별 미니맵은 주 전략 지도에 흡수된다. 사용자 승인 terrain-only 배경은 정본 등록과 Godot 씬 연결까지 완료했지만, 실제 runtime 및 사람 검증은 아직 `NOT_RUN`이다. 다음 작업은 새 SD 유닛 원본 시트를 true-alpha 개별 runtime cell 후보로 정규화·검수하는 것이다.
+새 전장 방향은 하나의 Ward 본진에서 상·중·하 세 shared front로 갈라져 하나의 Veil 본진으로 수렴하는 전략 지도다. 세 전선은 한 화면에서 동시에 읽혀야 하며, 전선별 미니맵은 주 전략 지도에 흡수된다. 사용자 승인 terrain-only 배경과 exact Shield Guard pair는 정본 등록과 Godot 소비자 연결까지 완료했지만, 실제 runtime 및 사람 검증은 아직 `NOT_RUN`이다. 다음 작업은 남은 SD 유닛 원본 시트를 true-alpha 개별 runtime cell 후보로 정규화·검수하는 것이다.
 
 ## 저장소 탐색 구조
 
@@ -50,6 +51,7 @@ Project Home
 │  ├─ docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 │  ├─ docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 │  ├─ docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md
+│  ├─ docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md
 │  ├─ docs/images/approved/OMENWARD_RUN_COMMAND_VISUAL_ASSET_MANIFEST_2026-08-27.json
 │  └─ docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md
 ├─ Production / Validation

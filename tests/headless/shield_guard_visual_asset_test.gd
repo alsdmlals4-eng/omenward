@@ -3,8 +3,10 @@ extends SceneTree
 
 const UNIT_SCENE_PATH := "res://scenes/units/unit.tscn"
 const BOOTSTRAP_CATALOG_PATH := "res://data/bootstrap_catalog.tres"
-const LUMERN_IDLE_PATH := "res://assets/art/units/lumern_shield_guard_idle.png"
-const VEIL_IDLE_PATH := "res://assets/art/units/veil_shield_guard_idle.png"
+const LUMERN_IDLE_PATH := "res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png"
+const VEIL_IDLE_PATH := "res://assets/art/units/veil_shield_guard_storybook_idle_v1.png"
+const RUNTIME_CELL_SIZE := Vector2(512, 512)
+const RUNTIME_PIVOT := Vector2(256, 448)
 
 
 func _init() -> void:
@@ -14,6 +16,7 @@ func _init() -> void:
 	var visual_profile := FactionVisualProfile.new()
 	_expect(_has_property(visual_profile, &"idle_texture"), "faction visual profiles can provide an idle texture", failures)
 	_expect(_has_property(visual_profile, &"idle_pivot"), "faction visual profiles declare the idle pivot", failures)
+	_expect(_has_property(visual_profile, &"idle_mirror_for_veil"), "faction visual profiles can opt out of Veil mirroring for a left-facing source", failures)
 	var catalog := load(BOOTSTRAP_CATALOG_PATH) as BootstrapCatalog
 	_expect(catalog != null, "bootstrap catalog loads for Shield Guard texture binding", failures)
 	var lumern_profile: FactionVisualProfile
@@ -23,8 +26,14 @@ func _init() -> void:
 		veil_profile = _find_profile(catalog, &"veil")
 		_expect(lumern_profile != null and lumern_profile.idle_texture != null, "Lumern Shield Guard profile resolves its idle texture", failures)
 		_expect(veil_profile != null and veil_profile.idle_texture != null, "Veil Shield Guard profile resolves its idle texture", failures)
-		_expect(lumern_profile != null and lumern_profile.idle_pivot == Vector2(640, 1280), "Lumern uses the locked Shield Guard pivot", failures)
-		_expect(veil_profile != null and veil_profile.idle_pivot == Vector2(640, 1280), "Veil uses the locked Shield Guard pivot", failures)
+		_expect(lumern_profile != null and lumern_profile.idle_texture.resource_path == LUMERN_IDLE_PATH, "Lumern profile binds the approved Storybook idle texture", failures)
+		_expect(veil_profile != null and veil_profile.idle_texture.resource_path == VEIL_IDLE_PATH, "Veil profile binds the approved Storybook idle texture", failures)
+		_expect(lumern_profile != null and lumern_profile.idle_pivot == RUNTIME_PIVOT, "Lumern uses the normalized Storybook Shield Guard pivot", failures)
+		_expect(veil_profile != null and veil_profile.idle_pivot == RUNTIME_PIVOT, "Veil uses the normalized Storybook Shield Guard pivot", failures)
+		_expect(lumern_profile != null and lumern_profile.idle_texture.get_size() == RUNTIME_CELL_SIZE, "Lumern Storybook texture uses the 512 square runtime cell", failures)
+		_expect(veil_profile != null and veil_profile.idle_texture.get_size() == RUNTIME_CELL_SIZE, "Veil Storybook texture uses the 512 square runtime cell", failures)
+		if veil_profile != null and _has_property(veil_profile, &"idle_mirror_for_veil"):
+			_expect(not bool(veil_profile.get(&"idle_mirror_for_veil")), "the approved left-facing Veil Shield Guard source opts out of runtime mirroring", failures)
 	var packed := load(UNIT_SCENE_PATH) as PackedScene
 	_expect(packed != null, "shared unit scene loads for Shield Guard textures", failures)
 	if packed != null:
@@ -38,6 +47,12 @@ func _init() -> void:
 			unit_view.call("_sync_idle_sprite")
 			_expect(idle_sprite != null and idle_sprite.texture == lumern_profile.idle_texture, "UnitView renders the resolved Lumern idle texture", failures)
 			_expect(idle_sprite != null and idle_sprite.visible, "UnitView shows the resolved idle sprite", failures)
+		if veil_profile != null:
+			var idle_sprite := unit_view.get_node_or_null("IdleSprite") as Sprite2D
+			unit_view.idle_sprite = idle_sprite
+			unit_view.bind_unit({"owner_team_id": &"veil", "state": &"idle"}, veil_profile)
+			unit_view.call("_sync_idle_sprite")
+			_expect(idle_sprite != null and not idle_sprite.flip_h, "UnitView retains the approved left-facing Veil Shield Guard source direction", failures)
 		unit_view.queue_free()
 	_finish(failures)
 

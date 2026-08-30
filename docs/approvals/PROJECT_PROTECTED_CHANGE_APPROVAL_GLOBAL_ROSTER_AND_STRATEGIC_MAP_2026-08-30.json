@@ -10,6 +10,9 @@
   ],
   "approved_paths": [
     "assets/art/battlefield/wide_connected_strategic_front_terrain_v1.png",
+    "assets/art/units/lumern_shield_guard_storybook_idle_v1.png",
+    "assets/art/units/veil_shield_guard_storybook_idle_v1.png",
+    "data/bootstrap_catalog.tres",
     "scenes/battle/battlefield.tscn",
     "scenes/ui/run_command_screen.tscn",
     "scripts/battle/battle_simulator.gd",
@@ -21,13 +24,14 @@
     "scripts/core/core_ux_service.gd",
     "scripts/core/stage_run.gd",
     "scripts/data/building_definition.gd",
+    "scripts/data/faction_visual_profile.gd",
     "scripts/ui/run_command_screen.gd",
     "scripts/ui/stage_hud.gd",
     "scripts/ui/strategic_map_view.gd",
     "scripts/ui/strategic_map_view.gd.uid",
     "scripts/units/unit_view.gd"
   ],
-  "approval_source": "USER_CONTINUOUS_APPROVAL__2026-08-30__RECOVER_AND_CONTINUE",
+  "approval_source": "USER_EXACT_ASSET_LOCK__2026-08-30__CONFIRM_AND_CONTINUE",
   "approval_time": "2026-08-30T17:45:54+09:00",
-  "scope_summary": "User-approved recovery and continuation: global 6-plus-occupation building roster, one fixed tower per shared front, wide connected strategic-map projection, terrain-only runtime backdrop binding, and unit battlefield readability scaling."
+  "scope_summary": "User-approved recovery and continuation: global 6-plus-occupation building roster, one fixed tower per shared front, wide connected strategic-map projection, terrain-only runtime backdrop binding, unit battlefield readability scaling, and the exact approved Lumern/Veil Storybook Shield Guard pair as non-overwrite 512 runtime textures."
 }

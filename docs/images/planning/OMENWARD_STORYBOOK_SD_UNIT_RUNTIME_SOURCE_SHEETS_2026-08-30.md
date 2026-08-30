@@ -48,10 +48,11 @@ bound into `assets/art/units/` until a non-destructive, true-alpha cell export
 is checked against the 512×512 runtime geometry and its visual result is
 reviewed. No existing approved/legacy unit texture is overwritten.
 
-The first true-alpha derivative pair is recorded separately in
-`docs/images/planning/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_CANDIDATE_2026-08-30.md`.
-It is still an external candidate and does not alter this sheet's source-only
-status or create a runtime asset.
+The first true-alpha derivative pair is recorded as an approved runtime asset
+in `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md`.
+Only that exact Shield Guard pair has been bound to runtime consumers; this
+source sheet remains source-only for its remaining cells and does not authorize
+their runtime use.
 
 ```text
 GENERATED_SOURCE_SHEETS

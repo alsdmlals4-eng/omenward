@@ -2,7 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-30
-status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_IMPLEMENTED__UNIT_SOURCE_SHEETS_GENERATED
+status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_AND_SHIELD_GUARD_PAIR_IMPLEMENTED__REMAINING_SOURCE_CELLS_PENDING_REVIEW
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -10,7 +10,7 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_IMPLEMENTED__UNIT_SOURCE_SHEETS_GENERATED
+current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_AND_SHIELD_GUARD_PAIR_IMPLEMENTED__REMAINING_SOURCE_CELLS_PENDING_REVIEW
 current_forward_defense_spec: docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md
 current_global_building_roster_decision: OMW-PLAN-20260830-GLOBAL-BUILDING-ROSTER-OCCUPATION-SLOTS-01
 current_global_building_roster_issue: 255
@@ -27,9 +27,9 @@ current_strategic_map_issue: 235
 current_wide_connected_terrain_asset: docs/images/approved/OMENWARD_WIDE_CONNECTED_STRATEGIC_FRONT_TERRAIN_V1.md
 current_wide_connected_terrain_status: USER_APPROVED__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN
 legacy_runtime_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
-current_build_runtime_unit_asset_set: STORYBOOK_SD_SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
+current_build_runtime_unit_asset_set: STORYBOOK_SD_SHIELD_GUARD_PAIR_V1__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN__REMAINING_SOURCE_CELLS_PENDING_REVIEW
 current_storybook_unit_source_sheets: docs/images/planning/OMENWARD_STORYBOOK_SD_UNIT_RUNTIME_SOURCE_SHEETS_2026-08-30.md
-current_storybook_shield_guard_pair_candidate: docs/images/planning/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_CANDIDATE_2026-08-30.md
+current_storybook_shield_guard_pair: docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md
 current_storybook_unit_asset_issue: 256
 current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
 current_screen_surface_visual_coverage_audit: docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md
@@ -76,7 +76,7 @@ BUILDING_MAP_PLACEMENT = FORBIDDEN
 FIXED_TOWER_COUNT_PER_SHARED_FRONT = 1
 FORWARD_DEFENSE_OCCUPATION_NODE_STATUS = SUPERSEDED_IN_SCOPE__GLOBAL_ROSTER_PHASE2
 FORWARD_DEFENSE_OCCUPATION_NODE_DECISION = OMW-PLAN-20260830-GLOBAL-BUILDING-ROSTER-OCCUPATION-SLOTS-01
-OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT = GLOBAL_ROSTER_AND_FIXED_TOWERS__IMPLEMENTED__RUNTIME_NOT_RUN
 OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_DECISION = OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01
 RUN_COMMAND_SCREEN = CONFIRMED
 WORLD_CONFLICT_AND_STORY = CONFIRMED
@@ -108,10 +108,10 @@ FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = IMPLEMENTED__MACHINE_QA_AND_HUMAN_PLAYTEST_REMAIN
 HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
-PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_IMPLEMENTED__UNIT_SOURCE_SHEETS_GENERATED
+PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_AND_SHIELD_GUARD_PAIR_IMPLEMENTED__REMAINING_SOURCE_CELLS_PENDING_REVIEW
 UNIT_ANIMATION_PRODUCTION_CONTRACT = RETAINED_GEOMETRY_ONLY__STYLE_FIT_REVIEW_REQUIRED
-SHIELD_GUARD_CLEANUP_MASTER_PAIR = LEGACY_STYLE_FIT_REVIEW_REQUIRED
-CURRENT_NEXT = PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
+SHIELD_GUARD_CLEANUP_MASTER_PAIR = STORYBOOK_SD_PAIR_V1__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN
+CURRENT_NEXT = PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
@@ -123,7 +123,7 @@ STORYBOOK_UNIT_SOURCE_SHEETS = GENERATED_CANDIDATE__TRUE_ALPHA_CELL_EXPORT_PENDI
 
 `GITHUB_NOTION_DRIFT_CHECK = PASS`와 `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5`는 2026-08-24 final-planning 시점의 보존 증거다. 2026-08-25 승인 이미지의 runtime/human 검증 PASS를 뜻하지 않는다.
 
-`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 사용자 승인 지형은 정본 등록과 씬 연결까지 완료했지만, runtime/human 검증은 아직 실행하지 않았다. 현재 gate는 새 Storybook SD 유닛 원본 시트를 true-alpha 개별 runtime cell 후보로 정규화하고 검토하는 것이다.
+`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 사용자 승인 지형과 exact Shield Guard pair는 정본 등록과 씬 연결까지 완료했지만, runtime/human 검증은 아직 실행하지 않았다. 현재 gate는 남은 Storybook SD 유닛 원본 시트를 true-alpha 개별 runtime cell 후보로 정규화하고 검토하는 것이다.
 
 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` is the current presentation owner. It fixes the primary battlefield as one simultaneous strategic map with **one Ward Citadel root branching into three visible fronts**, using storybook watercolor SD visual language. Parallel rows or three independent Ward bases are rejected. The 2026-08-25 Decision retains only the protected three-front responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first rule; the 2026-08-28 close-backdrop presentation is superseded while its roulette inspection behavior remains retained.
 
@@ -132,6 +132,8 @@ Current visual/handoff owners:
 - `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
 - `docs/superpowers/plans/2026-08-30-wide-connected-strategic-map.md`
 - `docs/images/approved/OMENWARD_WIDE_CONNECTED_STRATEGIC_FRONT_TERRAIN_V1.md` — user-approved, canon-registered, and bound terrain-only runtime backdrop; runtime/human verification remains `NOT_RUN`.
+- `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md` — user-approved, canon-registered, and bound Shield Guard pair; runtime/human verification remains `NOT_RUN`.
+- `docs/reviews/ADVERSARIAL_STORYBOOK_SHIELD_GUARD_PAIR_IMPLEMENTATION_REVIEW_2026-08-30.md` — five machine-scope full reviews complete; target live runtime/human evidence remains open.
 - `docs/images/planning/OMENWARD_STORYBOOK_SD_UNIT_RUNTIME_SOURCE_SHEETS_2026-08-30.md` — generated source-sheet candidate; true-alpha cell export and user review remain pending.
 - `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
 - `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md` — legacy current-build consumer only

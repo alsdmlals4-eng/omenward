@@ -3,7 +3,7 @@ class_name RunCommandScreen
 extends Control
 
 const LANE_IDS := [&"top", &"middle", &"bottom"]
-const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_idle.png")
+const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png")
 
 @onready var _phase_label: Label = $TopBar/PhaseLabel
 @onready var _gold_label: Label = $TopBar/GoldLabel

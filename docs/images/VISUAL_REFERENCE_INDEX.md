@@ -1,6 +1,6 @@
 # 오멘워드 시각자료 인덱스
 
-- 갱신일: 2026-07-16
+- 갱신일: 2026-08-30
 - 상태: **HISTORICAL_VISUAL_LINEAGE_INDEX / current router는 별도 owner**
 - 책임 범위: 사용자가 제공한 이미지, 탐색 시안, 비교표와 도구 산출물의 상태·용도·금지 해석
 
@@ -13,13 +13,14 @@
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
 - `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
 - `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
+- `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md`
 - `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
 
 ```text
 CURRENT_VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
 CURRENT_MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
 PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
-CURRENT_V6_BOARD = GENERATED_EXPLORATION__OPEN_BATTLEFIELD_NO_BARRICADE__USER_LOCK_PENDING
+CURRENT_V6_BOARD = USER_CONFIRMED_PLANNING_LOCK__OPEN_BATTLEFIELD_NO_BARRICADE__NOT_RUNTIME_ASSET
 ```
 
 따라서 아래 `MIGRATION_PENDING`, 옛 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 전선별 미니맵, 병렬 세 도로, Notion에만 남은 과거 생성 queue는 신규 구현·자산 제작의 입력으로 사용하지 않는다.
@@ -38,7 +39,19 @@ CURRENT_V6_BOARD = GENERATED_EXPLORATION__OPEN_BATTLEFIELD_NO_BARRICADE__USER_LO
 
 이미지의 화면 안 문구·수치·맵 연결·병종 이름이 현재 책임 기획서와 다르면 기획서가 우선한다. 다만 사용자가 특정 이미지의 형식을 최신 기준으로 다시 지정한 경우 해당 형식 결정은 이 인덱스에 반영하고 이후 작업에 적용한다.
 
-## 2. 현재 핵심 이미지
+## 2. 현재 승인 runtime pair
+
+### OMW-IMG-20260830-STORYBOOK-SD-SHIELD-GUARD-PAIR-V1 — Storybook SD Shield Guard pair
+
+- 상태: **USER_APPROVED / CANON_REGISTERED / IMPLEMENTED / RUNTIME_NOT_RUN**
+- 정본 기록: `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md`
+- Lumern runtime derivative: `assets/art/units/lumern_shield_guard_storybook_idle_v1.png`
+- Veil runtime derivative: `assets/art/units/veil_shield_guard_storybook_idle_v1.png`
+- 사용처: `data/bootstrap_catalog.tres`의 Shield Guard faction profile 및 Run Command token.
+- 유지할 것: 2.5–3등신 전술 미니어처, Lumern의 ivory/navy/gold, Veil의 charcoal/violet, 방패 우선 실루엣, 양 진영의 서로 마주 보는 전진 방향.
+- 범위 밖: 이 pair 외의 source-sheet cell, animation atlas, live runtime/readability, release rights. 이들은 이 record의 PASS가 아니다.
+
+## 3. Historical visual lineage
 
 ### ASSET-UNIT-VEIL-SHIELD-GUARD-IDLE-V1 — Veil Shield Guard runtime source candidate
 
@@ -96,7 +109,7 @@ CURRENT_V6_BOARD = GENERATED_EXPLORATION__OPEN_BATTLEFIELD_NO_BARRICADE__USER_LO
 - 병종 이미지 제작 형식은 VR-001의 실제 전장 삽입형 픽셀 스프라이트로 변경됐다.
 - 도감표에 보이는 등급별 체형 변화, 장식량과 개별 캐릭터 디자인을 그대로 복제하지 않는다.
 
-## 3. 확인된 누락 자료 감사
+## 4. 확인된 누락 자료 감사
 
 File Library와 이전 산출물에서 다음 오멘워드 관련 자료가 확인됐다. 현재 활성 책임 문서에 모두 포함된 것은 아니므로 이전 작업자가 존재 여부를 다시 추정하지 않게 목록을 남긴다.
 
@@ -115,7 +128,7 @@ File Library와 이전 산출물에서 다음 오멘워드 관련 자료가 확�
 
 `urban-legend`의 저승역 UI·캐릭터 아트 제안서는 다른 프로젝트 자료다. 오멘워드의 파일 누락 감사 대상이나 활성 아트 기준에 포함하지 않는다. 범용 방법만 Base에서 별도로 추출할 수 있다.
 
-## 4. 시각자료 유입 규칙
+## 5. 시각자료 유입 규칙
 
 앞으로 사용자가 이미지·영상 프레임·도표·UI 시안을 제공하면 작업 종료 전에 다음을 수행한다.
 
@@ -126,14 +139,14 @@ File Library와 이전 산출물에서 다음 오멘워드 관련 자료가 확�
 5. 기존 이미지가 교체되면 삭제하지 않고 `SUPERSEDED` 또는 `ARCHIVE_SOURCE`로 상태를 낮춘다.
 6. 바이너리 이동을 완료하지 못했으면 반드시 `MIGRATION_PENDING`으로 표시하며 완료했다고 보고하지 않는다.
 
-## 5. Codex·작업자 검수 질문
+## 6. Codex·작업자 검수 질문
 
 시각 작업 또는 UI·전장·병종 구현 전 다음을 답할 수 있어야 한다.
 
 - 현재 병종 월드 스프라이트 형식의 승인 기준 이미지는 무엇인가.
 - 도감표를 실제 전장 스프라이트 형식으로 사용해도 되는가.
 - 참고 이미지의 어떤 요소가 승인됐고 어떤 요소가 임시인가.
-- 이미지의 맵 구조가 현재 독립 3라인 전장 기획과 충돌하지 않는가.
+- 이미지의 맵 구조가 현재의 단일 Ward root → 세 shared front → 단일 Veil root 토폴로지와 충돌하지 않는가.
 - 사용하려는 이미지가 저장소에 있으며 이 인덱스에 상태가 기록됐는가.
 
 답을 확인할 수 없으면 임의로 이미지를 선택하거나 생성하지 않고 이 인덱스와 관련 책임 문서를 먼저 갱신한다.
