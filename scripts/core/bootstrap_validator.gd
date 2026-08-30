@@ -3,7 +3,7 @@ extends RefCounted
 
 const REQUIRED_ARCHETYPE_COUNT := 10
 const VALID_FACTION_IDS := [&"lumern", &"veil"]
-const VALID_LANE_IDS := [&"top", &"middle", &"bottom"]
+const VALID_FRONT_IDS := [&"front"]
 
 func validate_registry(registry: DataRegistry) -> PackedStringArray:
 	var errors := PackedStringArray()
@@ -42,5 +42,5 @@ func _validate_stage_spawns(stage: StageDefinition, registry: DataRegistry, erro
 				errors.append("invalid spawn visual_faction_id: %s" % spawn.visual_faction_id)
 			if not VALID_FACTION_IDS.has(spawn.owner_team_id):
 				errors.append("invalid spawn owner_team_id: %s" % spawn.owner_team_id)
-			if not VALID_LANE_IDS.has(spawn.lane_id):
-				errors.append("invalid spawn lane_id: %s" % spawn.lane_id)
+			if not VALID_FRONT_IDS.has(spawn.lane_id):
+				errors.append("invalid spawn front id: %s" % spawn.lane_id)

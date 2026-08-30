@@ -40,8 +40,8 @@ func _test_global_roster_mutation_gate_and_capacity(economy_script: GDScript, bu
 	var buildings: Variant = building_service_script.new(economy, _manifest())
 	_expect(not buildings.try_install(&"tower"), "tutorial/read-only state rejects building roster installation", failures)
 	buildings.set_roster_mutation_allowed(true)
-	buildings.sync_occupation_capacity(3, 0)
-	_expect(buildings.unlocked_slot_capacity() == 9, "three stabilized Lumern forward bases open three slots above the six base slots", failures)
+	buildings.sync_occupation_capacity(1, 1)
+	_expect(buildings.unlocked_slot_capacity() == 8, "one stable Ward forward base and clash zone open two slots above the six base slots", failures)
 	_expect(buildings.try_install(&"tower"), "the unlocked global roster accepts a tower without an outpost construction node", failures)
 
 
@@ -49,7 +49,7 @@ func _test_capacity_lock_preserves_and_reactivates_buildings(economy_script: GDS
 	var economy: Variant = economy_script.new(_manifest())
 	var buildings: Variant = building_service_script.new(economy, _manifest())
 	buildings.set_roster_mutation_allowed(true)
-	buildings.sync_occupation_capacity(3, 0)
+	buildings.sync_occupation_capacity(1, 1)
 	economy.add_gold(300)
 	for _slot_index in range(6):
 		_expect(buildings.try_install(&"farm"), "base roster slot accepts a farm", failures)
@@ -57,7 +57,7 @@ func _test_capacity_lock_preserves_and_reactivates_buildings(economy_script: GDS
 	buildings.sync_occupation_capacity(0, 0)
 	var locked_snapshot: Array = buildings.roster_snapshot()
 	_expect(locked_snapshot[6].state == &"inactive_locked", "a building beyond lost occupation capacity stays in the roster but becomes inactive", failures)
-	buildings.sync_occupation_capacity(3, 0)
+	buildings.sync_occupation_capacity(1, 1)
 	var restored_snapshot: Array = buildings.roster_snapshot()
 	_expect(restored_snapshot[6].state == &"active", "the preserved building reactivates when the same capacity returns", failures)
 
@@ -67,7 +67,7 @@ func _test_deterministic_approved_roulette(economy_script: GDScript, building_se
 	var first_economy: Variant = economy_script.new(first_manifest)
 	var first_buildings: Variant = building_service_script.new(first_economy, first_manifest)
 	first_buildings.set_roster_mutation_allowed(true)
-	first_buildings.sync_occupation_capacity(3, 0)
+	first_buildings.sync_occupation_capacity(1, 1)
 	_expect(first_buildings.try_install(&"tower"), "tower roster installation succeeds", failures)
 	_expect(first_buildings.try_install(&"farm"), "farm roster installation succeeds", failures)
 	_expect(first_buildings.roulette_token_sources().is_empty(), "tower and farm do not create unit roulette tokens", failures)
@@ -81,7 +81,7 @@ func _test_deterministic_approved_roulette(economy_script: GDScript, building_se
 	var second_economy: Variant = economy_script.new(second_manifest)
 	var second_buildings: Variant = building_service_script.new(second_economy, second_manifest)
 	second_buildings.set_roster_mutation_allowed(true)
-	second_buildings.sync_occupation_capacity(3, 0)
+	second_buildings.sync_occupation_capacity(1, 1)
 	second_buildings.try_install(&"tower")
 	second_buildings.try_install(&"farm")
 	second_buildings.try_install(&"barracks")
@@ -100,8 +100,8 @@ func _test_deployment_food_limit(economy_script: GDScript, deployment_script: GD
 	card.owner_team_id = &"lumern"
 	card.visual_faction_id = &"lumern"
 	card.food_cost = 12
-	_expect(deployment.deploy(card, &"top", 10.0), "deployment reserves available food", failures)
-	_expect(not deployment.deploy(card, &"top", 20.0), "deployment rejects cards that exceed the food cap", failures)
+	_expect(deployment.deploy(card, &"front", 10.0), "deployment reserves available food on the single front", failures)
+	_expect(not deployment.deploy(card, &"front", 20.0), "deployment rejects cards that exceed the food cap", failures)
 	_expect(economy.food_used == 12, "rejected deployment does not spend additional food", failures)
 	_expect(manifest.input_log.size() == 1, "only accepted deployment commands are recorded", failures)
 
@@ -115,9 +115,9 @@ func _test_batch_deployment_is_atomic(economy_script: GDScript, deployment_scrip
 	first.owner_team_id = &"lumern"
 	first.visual_faction_id = &"lumern"
 	first.food_cost = 7
-	first.lane_id = &"top"
+	first.lane_id = &"front"
 	var second := first.duplicate() as UnitSpawnDefinition
-	second.lane_id = &"middle"
+	second.lane_id = &"front"
 	var over_capacity_cards: Array[UnitSpawnDefinition] = [first, second]
 	_expect(not deployment.deploy_batch(over_capacity_cards, 10.0), "batch deployment rejects the entire over-capacity set", failures)
 	_expect(economy.food_used == 0, "rejected batch does not reserve partial food", failures)

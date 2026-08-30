@@ -172,29 +172,13 @@ theme_override_colors/font_color = Color(0.84, 0.89, 0.94, 1)
 theme_override_font_sizes/font_size = 11
 autowrap_mode = 2
 
-[node name="DeployTop" type="Button" parent="."]
+[node name="DeployFront" type="Button" parent="."]
 layout_mode = 0
 offset_left = 710.0
 offset_top = 438.0
-offset_right = 786.0
-offset_bottom = 468.0
-text = "Top"
-
-[node name="DeployMiddle" type="Button" parent="."]
-layout_mode = 0
-offset_left = 794.0
-offset_top = 438.0
-offset_right = 870.0
-offset_bottom = 468.0
-text = "Middle"
-
-[node name="DeployBottom" type="Button" parent="."]
-layout_mode = 0
-offset_left = 878.0
-offset_top = 438.0
 offset_right = 952.0
 offset_bottom = 468.0
-text = "Bottom"
+text = "Deploy to Front"
 
 [node name="ResultLabel" type="Label" parent="."]
 layout_mode = 0
@@ -218,7 +202,5 @@ text = "Retry Stage"
 [connection signal="pressed" from="BarracksButton" to="." method="_on_barracks_pressed"]
 [connection signal="pressed" from="TowerButton" to="." method="_on_tower_pressed"]
 [connection signal="pressed" from="FarmButton" to="." method="_on_farm_pressed"]
-[connection signal="pressed" from="DeployTop" to="." method="_on_deploy_pressed" binds= [&"top"]]
-[connection signal="pressed" from="DeployMiddle" to="." method="_on_deploy_pressed" binds= [&"middle"]]
-[connection signal="pressed" from="DeployBottom" to="." method="_on_deploy_pressed" binds= [&"bottom"]]
+[connection signal="pressed" from="DeployFront" to="." method="_on_deploy_pressed" binds= [&"front"]]
 [connection signal="pressed" from="RetryButton" to="." method="_on_retry_pressed"]

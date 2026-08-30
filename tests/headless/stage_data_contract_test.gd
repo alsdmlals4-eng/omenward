@@ -32,7 +32,7 @@ func _init() -> void:
 		&"enemy_only",
 		&"veil",
 		&"veil",
-		&"top",
+		&"front",
 		"unknown spawn archetype IDs are rejected",
 		"unknown spawn archetype_id: enemy_only",
 		failures,
@@ -41,7 +41,7 @@ func _init() -> void:
 		&"shield_guard",
 		&"other",
 		&"veil",
-		&"top",
+		&"front",
 		"non-lumern/veil visual factions are rejected",
 		"invalid spawn visual_faction_id: other",
 		failures,
@@ -50,7 +50,7 @@ func _init() -> void:
 		&"shield_guard",
 		&"veil",
 		&"other",
-		&"top",
+		&"front",
 		"non-lumern/veil owner teams are rejected",
 		"invalid spawn owner_team_id: other",
 		failures,
@@ -60,8 +60,8 @@ func _init() -> void:
 		&"veil",
 		&"veil",
 		&"side",
-		"lane IDs outside top/middle/bottom are rejected",
-		"invalid spawn lane_id: side",
+		"front IDs outside the one front are rejected",
+		"invalid spawn front id: side",
 		failures,
 	)
 
@@ -104,7 +104,7 @@ func _assert_regular_manifest_contract(regular: StageDefinition, failures: Packe
 	if spawns.is_empty():
 		return
 	var first_spawn: Dictionary = spawns[0] as Dictionary
-	for field in ["archetype_id", "tier_id", "rank_id", "owner_team_id", "visual_faction_id", "lane_id", "spawn_delay_seconds"]:
+	for field in ["archetype_id", "tier_id", "rank_id", "owner_team_id", "visual_faction_id", "front_id", "spawn_delay_seconds"]:
 		_expect(first_spawn.has(field), "manifest spawn includes %s" % field, failures)
 
 	var input_log: Variant = manifest.get("input_log")

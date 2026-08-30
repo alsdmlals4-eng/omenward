@@ -72,15 +72,16 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"shared archetype schema missing objective field: {term}")
 
     for phrase in (
-        "an uncontested giant squad captures the top clash",
-        "the top enemy gate collapses from same-lane siege unit attacks",
-        "other lane gates remain standing",
-        "both teams on one clash freeze it as contested",
+        "battle exposes one advancing front",
+        "Ward forward stabilization grants the single tower",
+        "the same force next stabilizes the clash zone",
+        "the one enemy gate collapses from same-front siege attacks",
+        "both teams on the one clash freeze it as contested",
         "an empty stable clash clears its contested marker",
         "loss of objectives locks the building below the new capacity",
         "a locked global farm loses its passive without deletion",
         "returning occupation capacity restores the owned roster entry",
-        "enemy base destruction from unit attacks produces a natural battle victory",
+        "enemy base destruction from one-front unit attacks produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
         "enemy base destruction closes StageRun as victory",
         "W15 legendary boss defeat produces standard victory",

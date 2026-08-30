@@ -67,7 +67,7 @@ Player-facing core:
 → 건설 / 동원 인장 / 미래 병력 분포 설계
 → 3×3 징조륜 결과 / 제한된 행·열 조작
 → 병력 획득
-→ 세 전선 중 하나에 비가역 커밋
+→ 단일 전선에 비가역 커밋
 → 자동전투 + 제한된 수동 전술
 → 인과 복기
 ```
@@ -85,23 +85,24 @@ VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
 UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
 WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
 COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
-BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
-MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
-PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
-FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT
+BATTLEFIELD_PRESENTATION = ONE_WIDE_DIRECTIONAL_ACTIVE_FRONT
+MAP_TOPOLOGY = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL
+PARALLEL_THREE_LANE_COMPOSITION = SUPERSEDED
+FRONT_STRUCTURE = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL
 ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
 PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
-THREE_FRONT_VISIBILITY = REQUIRED
-PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
-MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
+THREE_FRONT_VISIBILITY = REMOVED
+ONE_ACTIVE_FRONT_VISIBILITY = REQUIRED
+PER_FRONT_MINIMAP = REMOVED
+SECTOR_STATE_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
 NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
 ROULETTE_EXPOSURE = 3×3
 LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
 ```
 
-2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
+2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 세 전선 동시 지도와 미니맵 중심 표현은 current Decision이 해당 범위에서 supersede한다. 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 단일 전선 구성에도 유지한다.
 
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` 및 `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`다. 지도 topology는 Ward/Veil 양측 각각 단일 본진과 세 shared front이며, 병렬 3-lane 또는 독립 Ward/Veil 본진 여러 개는 금지한다. map-only board에서 roulette/storyboard는 제외하지만 roulette system 자체는 retained다. 2026-08-25 Decision의 동시 전선 책임은 유지하고, 2026-08-28 close-backdrop Decision은 3×3 inspection만 retained한다. 새 target runtime asset은 Phase 2 Issue·RED test·provenance review 전까지 생성·적용하지 않는다.
+Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-PLAN-20260830-SINGLE-MARCH-FRONT-THREE-TAB-01` 및 `docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md`다. 지도 topology는 Ward Citadel에서 Veil Citadel로 이어지는 하나의 넓은 행군 전선이며, 건물·건설 노드·분기 또는 병렬 3-lane은 금지한다. map-only board에서 roulette/storyboard는 제외하지만 roulette system 자체는 retained다. 2026-08-28 three-front 및 close-backdrop Decision은 수채화 SD 재질·실루엣·3×3 inspection 언어만 historical reference로 보존한다. 새 terrain candidate는 사용자 lock 전까지 생성 후보이며 runtime에 적용하지 않는다.
 
 ## 5. Runtime / evidence ceiling
 
@@ -111,7 +112,7 @@ Visual 작업은 current Decision index에서 active visual owner를 복원한�
 - file/Scene/resource 존재만으로 runtime 동작을 주장하지 않는다.
 - runtime/human 검증을 실행하지 않았으면 `NOT_RUN / UNVERIFIED`를 유지한다.
 - 최종 제품 수치는 simulation/runtime/human evidence 없이 확정하지 않는다.
-- 전선별 미니맵 가독성과 SD 병종의 실제 전투 가독성은 runtime/human 검증 전 `NOT_RUN`이다.
+- SD 병종의 실제 전투 가독성은 runtime/human 검증 전 `NOT_RUN`이다.
 
 ## 6. GitHub work-item boundary
 

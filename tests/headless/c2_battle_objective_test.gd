@@ -12,12 +12,13 @@ const StageProgression = preload("res://scripts/core/stage_progression.gd")
 const BOOTSTRAP_CATALOG_PATH := "res://data/bootstrap_catalog.tres"
 const TUTORIAL_STAGE_PATH := "res://data/stages/tutorial_stage.tres"
 const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
+const FRONT_ID := &"front"
 
 
 func _init() -> void:
 	var failures := PackedStringArray()
 	_test_shared_objective_profiles(failures)
-	_test_objective_sequence_and_lane_gate_isolation(failures)
+	_test_one_front_objective_sequence(failures)
 	_test_contested_clash_and_economy(failures)
 	_test_global_roster_effect_lifecycle(failures)
 	_test_natural_base_result(failures)
@@ -46,61 +47,79 @@ func _test_shared_objective_profiles(failures: PackedStringArray) -> void:
 		_expect(is_siege == (archetype_id == &"giant"), "%s uses the shared structure damage tag" % archetype_id, failures)
 
 
-func _test_objective_sequence_and_lane_gate_isolation(failures: PackedStringArray) -> void:
+func _test_one_front_objective_sequence(failures: PackedStringArray) -> void:
 	var battle := BattleSimulator.new(_registry(), 101)
+	_expect(battle.front_ids() == [FRONT_ID], "battle exposes one advancing front", failures)
 	var giants: Array = []
 	for _index in 4:
-		var giant: Variant = battle.spawn_unit(_spawn(&"lumern", &"top", &"giant"))
-		giant.lane_position = battle.CLASH_POSITION
-		giants.append(giant)
+		var giant: Variant = battle.spawn_unit(_spawn(&"lumern", &"giant"))
+		_expect(giant != null, "a valid one-front giant spawn succeeds", failures)
+		if giant != null:
+			giant.lane_position = float(battle.OUTPOST_POSITIONS[&"lumern"])
+			giants.append(giant)
 	battle.advance(10.0)
-	_expect(battle.clash_zones[&"top"].outpost.is_stable_for(&"lumern"), "an uncontested giant squad captures the top clash", failures)
+	_expect(battle.ward_forward_is_stable_for(&"lumern"), "the advancing force first stabilizes Ward forward base", failures)
+	_expect(battle.fixed_towers[FRONT_ID].active and battle.fixed_towers[FRONT_ID].owner_team_id == &"lumern", "Ward forward stabilization grants the single tower", failures)
+	for giant in giants:
+		giant.lane_position = battle.CLASH_POSITION
+	battle.advance(10.0)
+	_expect(battle.clash_is_stable_for(&"lumern"), "the same force next stabilizes the clash zone", failures)
 	for giant in giants:
 		giant.lane_position = float(battle.OUTPOST_POSITIONS[&"veil"])
 	battle.advance(15.0)
-	_expect(battle.outposts[&"veil"][&"top"].is_stable_for(&"lumern"), "the same lane force captures the enemy top outpost", failures)
+	_expect(battle.outposts[&"veil"][FRONT_ID].is_stable_for(&"lumern"), "the same force then captures Veil forward base", failures)
 	for giant in giants:
 		giant.lane_position = float(battle.GATE_POSITIONS[&"veil"])
-	battle.gates[&"veil"][&"top"].health = 1.0
+	battle.gates[&"veil"][FRONT_ID].health = 1.0
 	battle.advance(4.0)
-	_expect(battle.gates[&"veil"][&"top"].is_collapsed(), "the top enemy gate collapses from same-lane siege unit attacks", failures)
-	_expect(not battle.gates[&"veil"][&"middle"].is_collapsed() and not battle.gates[&"veil"][&"bottom"].is_collapsed(), "other lane gates remain standing", failures)
+	_expect(battle.gates[&"veil"][FRONT_ID].is_collapsed(), "the one enemy gate collapses from same-front siege attacks", failures)
 	for attacker in giants:
 		attacker.lane_position = float(battle.BASE_POSITIONS[&"veil"])
 	battle.bases[&"veil"].health = 1.0
 	battle.advance(2.0)
-	_expect(battle.result_state == battle.LUMERN_VICTORY, "enemy base destruction from unit attacks produces a natural battle victory", failures)
+	_expect(battle.result_state == battle.LUMERN_VICTORY, "enemy base destruction from one-front unit attacks produces a natural battle victory", failures)
 
 
 func _test_contested_clash_and_economy(failures: PackedStringArray) -> void:
 	var battle := BattleSimulator.new(_registry(), 202)
-	var lumern: Variant = battle.spawn_unit(_spawn(&"lumern", &"middle", &"shield_guard"))
-	var veil: Variant = battle.spawn_unit(_spawn(&"veil", &"middle", &"shield_guard"))
+	var lumern: Variant = battle.spawn_unit(_spawn(&"lumern", &"shield_guard"))
+	var veil: Variant = battle.spawn_unit(_spawn(&"veil", &"shield_guard"))
+	_expect(lumern != null and veil != null, "both sides can place a unit on the one front", failures)
+	if lumern == null or veil == null:
+		return
 	lumern.lane_position = battle.CLASH_POSITION
 	veil.lane_position = battle.CLASH_POSITION
-	battle.advance(5.0)
-	_expect(battle.clash_zones[&"middle"].outpost.contested, "both teams on one clash freeze it as contested", failures)
-	_expect(is_equal_approx(float(battle.clash_zones[&"middle"].outpost.capture_progress), 0.0), "contested clash does not progress", failures)
+	battle.advance(0.1)
+	_expect(battle.clash_zones[FRONT_ID].outpost.contested, "both teams on the one clash freeze it as contested", failures)
+	_expect(is_equal_approx(float(battle.clash_zones[FRONT_ID].outpost.capture_progress), 0.0), "contested clash does not progress", failures)
 	lumern.health = 0.0
 	veil.health = 0.0
 	battle.advance(0.1)
-	_expect(not battle.clash_zones[&"middle"].outpost.contested, "an empty stable clash clears its contested marker", failures)
-	var replacement: Variant = battle.spawn_unit(_spawn(&"lumern", &"middle", &"shield_guard"))
-	replacement.lane_position = battle.CLASH_POSITION
-	battle.advance(8.0)
-	_expect(battle.clash_zones[&"middle"].outpost.state != battle.clash_zones[&"middle"].outpost.STABLE, "capture begins after one team remains", failures)
-	battle.clash_zones[&"middle"].outpost.owner_team_id = &"lumern"
-	battle.clash_zones[&"middle"].outpost.state = battle.clash_zones[&"middle"].outpost.STABLE
+	_expect(not battle.clash_zones[FRONT_ID].outpost.contested, "an empty stable clash clears its contested marker", failures)
+	var replacement: Variant = battle.spawn_unit(_spawn(&"lumern", &"shield_guard"))
+	_expect(replacement != null, "a replacement unit can return to the one front", failures)
+	if replacement != null:
+		replacement.lane_position = battle.CLASH_POSITION
+		battle.advance(8.0)
+		_expect(battle.clash_zones[FRONT_ID].outpost.state != battle.clash_zones[FRONT_ID].outpost.STABLE, "capture begins after one team remains", failures)
+	battle.clash_zones[FRONT_ID].outpost.owner_team_id = &"lumern"
+	battle.clash_zones[FRONT_ID].outpost.state = battle.clash_zones[FRONT_ID].outpost.STABLE
+	battle.outposts[&"lumern"][FRONT_ID].owner_team_id = &"lumern"
+	battle.outposts[&"lumern"][FRONT_ID].state = battle.outposts[&"lumern"][FRONT_ID].STABLE
 	var manifest := StageManifest.new()
 	manifest.starting_gold = 0
 	manifest.starting_food_cap = 12
 	var economy := StageEconomy.new(manifest)
 	economy.advance(60.0, battle.controlled_clash_count(&"lumern"), battle.stable_owned_outpost_count(&"lumern"))
-	_expect(economy.gold == 31, "sixty seconds pays 15 base, 4 clash, and 12 for three stable home outposts", failures)
+	_expect(economy.gold == 23, "sixty seconds pays 15 base, 4 clash, and 4 for one stable Ward forward base", failures)
 
 
 func _test_global_roster_effect_lifecycle(failures: PackedStringArray) -> void:
 	var battle := BattleSimulator.new(_registry(), 303)
+	battle.outposts[&"lumern"][FRONT_ID].owner_team_id = &"lumern"
+	battle.outposts[&"lumern"][FRONT_ID].state = battle.outposts[&"lumern"][FRONT_ID].STABLE
+	battle.clash_zones[FRONT_ID].outpost.owner_team_id = &"lumern"
+	battle.clash_zones[FRONT_ID].outpost.state = battle.clash_zones[FRONT_ID].outpost.STABLE
 	var manifest := StageManifest.new()
 	manifest.starting_gold = 500
 	manifest.starting_food_cap = 12
@@ -108,20 +127,19 @@ func _test_global_roster_effect_lifecycle(failures: PackedStringArray) -> void:
 	var buildings := BuildingService.new(economy, manifest)
 	buildings.set_roster_mutation_allowed(true)
 	buildings.sync_occupation_capacity(battle.stable_owned_outpost_count(&"lumern"), battle.controlled_clash_count(&"lumern"))
+	_expect(buildings.unlocked_slot_capacity() == 8, "one Ward forward base plus clash unlocks eight player roster slots", failures)
 	for _index in 6:
 		_expect(buildings.try_install(&"barracks"), "the first six global roster slots accept buildings", failures)
 	_expect(buildings.try_install(&"farm"), "an occupation-unlocked global slot installs a farm", failures)
 	_expect(economy.food_cap == 18, "active farm grants six food cap", failures)
-	for lane_id in battle.LANE_IDS:
-		battle.outposts[&"lumern"][lane_id].owner_team_id = &"veil"
-		battle.outposts[&"lumern"][lane_id].state = battle.outposts[&"lumern"][lane_id].STABLE
+	battle.outposts[&"lumern"][FRONT_ID].owner_team_id = &""
+	battle.clash_zones[FRONT_ID].outpost.owner_team_id = &""
 	buildings.sync_occupation_capacity(battle.stable_owned_outpost_count(&"lumern"), battle.controlled_clash_count(&"lumern"))
 	var locked_roster := buildings.roster_snapshot()
 	_expect(locked_roster.size() > 6 and locked_roster[6].get("state", "") == "inactive_locked", "loss of objectives locks the building below the new capacity", failures)
 	_expect(economy.food_cap == 12, "a locked global farm loses its passive without deletion", failures)
-	for lane_id in battle.LANE_IDS:
-		battle.outposts[&"lumern"][lane_id].owner_team_id = &"lumern"
-		battle.outposts[&"lumern"][lane_id].state = battle.outposts[&"lumern"][lane_id].STABLE
+	battle.outposts[&"lumern"][FRONT_ID].owner_team_id = &"lumern"
+	battle.clash_zones[FRONT_ID].outpost.owner_team_id = &"lumern"
 	buildings.sync_occupation_capacity(battle.stable_owned_outpost_count(&"lumern"), battle.controlled_clash_count(&"lumern"))
 	var restored_roster := buildings.roster_snapshot()
 	_expect(restored_roster.size() > 6 and restored_roster[6].get("state", "") == "active", "returning occupation capacity restores the owned roster entry", failures)
@@ -130,12 +148,12 @@ func _test_global_roster_effect_lifecycle(failures: PackedStringArray) -> void:
 
 func _test_natural_base_result(failures: PackedStringArray) -> void:
 	var battle := BattleSimulator.new(_registry(), 404)
-	battle.clash_zones[&"bottom"].outpost.owner_team_id = &"veil"
-	battle.clash_zones[&"bottom"].outpost.state = battle.clash_zones[&"bottom"].outpost.STABLE
-	battle.outposts[&"lumern"][&"bottom"].owner_team_id = &"veil"
-	battle.outposts[&"lumern"][&"bottom"].state = battle.outposts[&"lumern"][&"bottom"].STABLE
-	battle.gates[&"lumern"][&"bottom"].apply_damage(100000.0, true)
-	battle.gates[&"lumern"][&"bottom"].advance(2.0)
+	battle.clash_zones[FRONT_ID].outpost.owner_team_id = &"veil"
+	battle.clash_zones[FRONT_ID].outpost.state = battle.clash_zones[FRONT_ID].outpost.STABLE
+	battle.outposts[&"lumern"][FRONT_ID].owner_team_id = &"veil"
+	battle.outposts[&"lumern"][FRONT_ID].state = battle.outposts[&"lumern"][FRONT_ID].STABLE
+	battle.gates[&"lumern"][FRONT_ID].apply_damage(100000.0, true)
+	battle.gates[&"lumern"][FRONT_ID].advance(2.0)
 	battle.bases[&"lumern"].apply_damage(100000.0, true)
 	battle.advance(0.1)
 	_expect(battle.result_state == battle.VEIL_VICTORY, "player base destruction produces a natural battle defeat", failures)
@@ -181,12 +199,12 @@ func _registry() -> Variant:
 	return registry
 
 
-func _spawn(team_id: StringName, lane_id: StringName, archetype_id: StringName) -> UnitSpawnDefinition:
+func _spawn(team_id: StringName, archetype_id: StringName) -> UnitSpawnDefinition:
 	var spawn := UnitSpawnDefinition.new()
 	spawn.archetype_id = archetype_id
 	spawn.owner_team_id = team_id
 	spawn.visual_faction_id = team_id
-	spawn.lane_id = lane_id
+	spawn.lane_id = FRONT_ID
 	return spawn
 
 

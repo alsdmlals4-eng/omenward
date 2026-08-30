@@ -14,13 +14,13 @@ func _init(assigned_lane_id: StringName) -> void:
 
 
 func sync_from_tower_bearing_objective(objective: OutpostState) -> void:
-	active = objective != null and objective.state == objective.STABLE
+	active = objective != null and objective.state == objective.STABLE and objective.owner_team_id != &""
 	owner_team_id = objective.owner_team_id if active else &""
 
 
 func snapshot() -> Dictionary:
 	return {
-		"lane_id": str(lane_id),
+		"front_id": str(lane_id),
 		"owner_team_id": str(owner_team_id),
 		"active": active,
 		"capture_power": capture_power,

@@ -3,7 +3,7 @@ extends RefCounted
 
 const PLAYER_TEAM_ID := &"lumern"
 const ENEMY_TEAM_ID := &"veil"
-const LANE_IDS := [&"top", &"middle", &"bottom"]
+const FRONT_IDS := [&"front"]
 var run: Variant
 var registry: Variant
 var _wave_metrics := {}
@@ -32,17 +32,17 @@ func register_wave(wave: Variant, spawned_units: Array[Dictionary]) -> void:
 		"wave_number": wave_number,
 		"enemy_unit_ids": [],
 		"reported": false,
-		"lanes": _empty_lane_metrics(),
+		"fronts": _empty_front_metrics(),
 	}
 	for record in spawned_units:
 		var unit_id := int(record.get("unit_id", -1))
 		if unit_id <= 0:
 			continue
-		var lane_id := StringName(record.get("lane_id", &""))
+		var front_id := StringName(record.get("front_id", record.get("lane_id", &"")))
 		var team_id := StringName(record.get("team_id", &""))
 		_unit_registration[unit_id] = {
 			"wave_number": wave_number,
-			"lane_id": lane_id,
+			"front_id": front_id,
 			"team_id": team_id,
 		}
 		if team_id == ENEMY_TEAM_ID:
@@ -63,32 +63,32 @@ func observe_unit_delta(before_units: Array, after_units: Array) -> void:
 		var wave_number := _latest_active_wave_number()
 		if wave_number <= 0:
 			continue
-		var lane_id := StringName(unit.get("lane_id", &""))
-		_increment_lane_metric(wave_number, lane_id, "allied_lost", 1.0)
+		var front_id := StringName(unit.get("front_id", unit.get("lane_id", &"")))
+		_increment_front_metric(wave_number, front_id, "allied_lost", 1.0)
 
 
 func consume_battle_events(events: Array[Dictionary]) -> void:
 	for event in events:
 		var event_type := StringName(event.get("event_type", &""))
-		var lane_id := StringName(event.get("lane_id", &""))
+		var front_id := StringName(event.get("front_id", event.get("lane_id", &"")))
 		var wave_number := _latest_active_wave_number()
-		if wave_number <= 0 or not LANE_IDS.has(lane_id):
+		if wave_number <= 0 or not FRONT_IDS.has(front_id):
 			continue
 		match event_type:
 			&"objective_state":
-				_increment_lane_metric(wave_number, lane_id, "objective_changes", 1.0)
+				_increment_front_metric(wave_number, front_id, "objective_changes", 1.0)
 			&"gate_damage":
 				var damage := float(event.get("damage", 0.0))
 				if StringName(event.get("attacker_team", &"")) == PLAYER_TEAM_ID:
-					_increment_lane_metric(wave_number, lane_id, "gate_damage_dealt", damage)
+					_increment_front_metric(wave_number, front_id, "gate_damage_dealt", damage)
 				else:
-					_increment_lane_metric(wave_number, lane_id, "gate_damage_taken", damage)
+					_increment_front_metric(wave_number, front_id, "gate_damage_taken", damage)
 			&"base_damage":
 				var base_damage := float(event.get("damage", 0.0))
 				if StringName(event.get("attacker_team", &"")) == PLAYER_TEAM_ID:
-					_increment_lane_metric(wave_number, lane_id, "base_damage_dealt", base_damage)
+					_increment_front_metric(wave_number, front_id, "base_damage_dealt", base_damage)
 				else:
-					_increment_lane_metric(wave_number, lane_id, "base_damage_taken", base_damage)
+					_increment_front_metric(wave_number, front_id, "base_damage_taken", base_damage)
 
 
 func update_wave_reports() -> void:
@@ -183,25 +183,25 @@ func _omen_snapshot() -> Dictionary:
 		"phase": str(phase),
 		"seconds_remaining": float(run.wave_director.seconds_until_next_wave()),
 		"wave_number": int(wave.wave_number) if wave != null else 0,
-		"danger_lane": "",
-		"lanes": [],
+		"danger_front": "",
+		"fronts": [],
 	}
 	if wave == null or phase == &"countdown":
 		return snapshot
-	var lane_data := {}
-	for lane_id in LANE_IDS:
-		lane_data[lane_id] = {
-			"lane_id": str(lane_id),
+	var front_data := {}
+	for front_id in FRONT_IDS:
+		front_data[front_id] = {
+			"front_id": str(front_id),
 			"count": 0,
 			"roles": [],
 			"units": [],
 		}
 	for spawn in wave.spawns:
-		var lane_id := StringName(spawn.lane_id)
-		if not lane_data.has(lane_id):
+		var front_id := StringName(spawn.lane_id)
+		if not front_data.has(front_id):
 			continue
 		var profile: Variant = registry.archetypes.get(str(spawn.archetype_id)) if registry != null else null
-		var entry: Dictionary = lane_data[lane_id]
+		var entry: Dictionary = front_data[front_id]
 		entry["count"] = int(entry["count"]) + 1
 		var roles: Array = entry["roles"]
 		var role: String = str(profile.role) if profile != null else "unknown"
@@ -213,19 +213,19 @@ func _omen_snapshot() -> Dictionary:
 				"role": role,
 				"counter_tags": Array(profile.counter_tags) if profile != null else [],
 			})
-		lane_data[lane_id] = entry
-	var danger_lane := &""
+		front_data[front_id] = entry
+	var danger_front := &""
 	var danger_count := -1
-	for lane_id in LANE_IDS:
-		var entry: Dictionary = lane_data[lane_id]
+	for front_id in FRONT_IDS:
+		var entry: Dictionary = front_data[front_id]
 		(entry["roles"] as Array).sort()
 		(entry["units"] as Array).sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return str(a.get("archetype_id", "")) < str(b.get("archetype_id", "")))
-		(snapshot["lanes"] as Array).append(entry)
+		(snapshot["fronts"] as Array).append(entry)
 		if int(entry["count"]) > danger_count:
 			danger_count = int(entry["count"])
-			danger_lane = lane_id
+			danger_front = front_id
 	if phase == &"t5" or phase == &"now":
-		snapshot["danger_lane"] = str(danger_lane)
+		snapshot["danger_front"] = str(danger_front)
 	return snapshot
 
 
@@ -241,7 +241,7 @@ func _tactical_overlay_snapshot() -> Array[Dictionary]:
 			"unit_id": int(unit.get("unit_id", -1)),
 			"archetype_id": str(unit.get("archetype_id", "")),
 			"owner_team_id": str(unit.get("owner_team_id", "")),
-			"lane_id": str(unit.get("lane_id", "")),
+			"front_id": str(unit.get("front_id", unit.get("lane_id", ""))),
 			"role": str(unit.get("role", "")),
 			"attack_range": float(unit.get("attack_range", 0.0)),
 			"target_unit_id": int(unit.get("target_unit_id", -1)),
@@ -250,9 +250,9 @@ func _tactical_overlay_snapshot() -> Array[Dictionary]:
 			"state": str(unit.get("state", "")),
 		})
 	result.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
-		var lane_compare := LANE_IDS.find(StringName(a.get("lane_id", &""))) - LANE_IDS.find(StringName(b.get("lane_id", &"")))
-		if lane_compare != 0:
-			return lane_compare < 0
+		var front_compare := FRONT_IDS.find(StringName(a.get("front_id", &""))) - FRONT_IDS.find(StringName(b.get("front_id", &"")))
+		if front_compare != 0:
+			return front_compare < 0
 		if str(a.get("owner_team_id", "")) != str(b.get("owner_team_id", "")):
 			return str(a.get("owner_team_id", "")) < str(b.get("owner_team_id", ""))
 		return int(a.get("unit_id", 0)) < int(b.get("unit_id", 0))
@@ -267,9 +267,9 @@ func _record_enemy_defeat(unit_id: int) -> void:
 	if StringName(registration.get("team_id", &"")) != ENEMY_TEAM_ID:
 		return
 	_defeat_recorded[unit_id] = true
-	_increment_lane_metric(
+	_increment_front_metric(
 		int(registration.get("wave_number", 0)),
-		StringName(registration.get("lane_id", &"")),
+		StringName(registration.get("front_id", &"")),
 		"enemy_defeated",
 		1.0,
 	)
@@ -283,16 +283,16 @@ func _finalize_wave_report(wave_number: int) -> void:
 		return
 	metrics["reported"] = true
 	_wave_metrics[wave_number] = metrics
-	var lanes: Array[Dictionary] = []
-	for lane_id in LANE_IDS:
-		var lane_metrics: Dictionary = (metrics["lanes"] as Dictionary)[lane_id]
-		var lane_report := lane_metrics.duplicate(true)
-		lane_report["lane_id"] = str(lane_id)
-		lane_report["cause_code"] = _cause_code(lane_metrics)
-		lanes.append(lane_report)
+	var fronts: Array[Dictionary] = []
+	for front_id in FRONT_IDS:
+		var front_metrics: Dictionary = (metrics["fronts"] as Dictionary)[front_id]
+		var front_report := front_metrics.duplicate(true)
+		front_report["front_id"] = str(front_id)
+		front_report["cause_code"] = _cause_code(front_metrics)
+		fronts.append(front_report)
 	var report := {
 		"wave_number": wave_number,
-		"lanes": lanes,
+		"fronts": fronts,
 	}
 	_wave_reports.append(report)
 	if _wave_reports.size() > 3:
@@ -315,18 +315,18 @@ func _cause_code(metrics: Dictionary) -> String:
 	return "no_contact"
 
 
-func _increment_lane_metric(wave_number: int, lane_id: StringName, key: String, amount: float) -> void:
-	if not _wave_metrics.has(wave_number) or not LANE_IDS.has(lane_id):
+func _increment_front_metric(wave_number: int, front_id: StringName, key: String, amount: float) -> void:
+	if not _wave_metrics.has(wave_number) or not FRONT_IDS.has(front_id):
 		return
 	var metrics: Dictionary = _wave_metrics[wave_number]
-	var lanes: Dictionary = metrics["lanes"]
-	var lane_metrics: Dictionary = lanes[lane_id]
+	var fronts: Dictionary = metrics["fronts"]
+	var front_metrics: Dictionary = fronts[front_id]
 	if key in ["enemy_defeated", "allied_lost", "objective_changes"]:
-		lane_metrics[key] = int(lane_metrics.get(key, 0)) + int(amount)
+		front_metrics[key] = int(front_metrics.get(key, 0)) + int(amount)
 	else:
-		lane_metrics[key] = float(lane_metrics.get(key, 0.0)) + amount
-	lanes[lane_id] = lane_metrics
-	metrics["lanes"] = lanes
+		front_metrics[key] = float(front_metrics.get(key, 0.0)) + amount
+	fronts[front_id] = front_metrics
+	metrics["fronts"] = fronts
 	_wave_metrics[wave_number] = metrics
 
 
@@ -340,10 +340,10 @@ func _latest_active_wave_number() -> int:
 	return 0
 
 
-func _empty_lane_metrics() -> Dictionary:
+func _empty_front_metrics() -> Dictionary:
 	var result := {}
-	for lane_id in LANE_IDS:
-		result[lane_id] = {
+	for front_id in FRONT_IDS:
+		result[front_id] = {
 			"enemy_defeated": 0,
 			"allied_lost": 0,
 			"objective_changes": 0,

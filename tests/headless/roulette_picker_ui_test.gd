@@ -22,7 +22,7 @@ func _init() -> void:
 	_expect(strategic_map != null, "one primary strategic map replaces three front cards", failures)
 	if strategic_map != null:
 		_expect(strategic_map.has_method("route_state_for"), "map owns a read-only route-state projection", failures)
-		_expect(strategic_map.get_rect().size.x > strategic_map.get_rect().size.y * 3.0, "map is wide enough to show all three fronts at once", failures)
+		_expect(strategic_map.get_rect().size.x > strategic_map.get_rect().size.y * 3.0, "map is wide enough to show the complete single marching route", failures)
 	_expect(screen.get_node_or_null("Fronts") == null, "legacy three-card front hierarchy is not retained", failures)
 	_expect(screen.has_method("select_roulette_tile"), "roulette screen exposes UI-only tile selection", failures)
 	_expect(screen.has_method("selected_roulette_tile_index"), "roulette screen exposes current selected tile index", failures)

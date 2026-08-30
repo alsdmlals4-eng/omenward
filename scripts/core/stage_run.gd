@@ -25,7 +25,11 @@ const RESULT_CONFIRM := &"result_confirm"
 const COMMIT := &"commit"
 const BATTLE := &"battle"
 const REVIEW := &"review"
-const COMMAND_LANE_IDS := [&"top", &"middle", &"bottom"]
+const COMMAND_LANE_IDS := [&"front"]
+const TAB_DOMESTIC := &"domestic"
+const TAB_ROULETTE := &"roulette"
+const TAB_FRONT := &"front"
+const TAB_IDS := [TAB_DOMESTIC, TAB_ROULETTE, TAB_FRONT]
 
 var progression: Variant
 var stage: Variant
@@ -44,6 +48,7 @@ var pending_roulette_rewards: Array[UnitSpawnDefinition] = []
 var last_roulette_result: RouletteSpinResult
 var legendary_boss_unit_id := -1
 var command_phase: StringName = PREPARE
+var active_tab: StringName = TAB_DOMESTIC
 var roulette_session := {}
 var roulette_moves_remaining := 0
 var pending_deployment_assignments := {}
@@ -63,6 +68,7 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	pending_roulette_rewards.clear()
 	last_roulette_result = null
 	command_phase = PREPARE
+	active_tab = TAB_DOMESTIC
 	roulette_session = {}
 	roulette_moves_remaining = 0
 	pending_deployment_assignments = {}
@@ -80,6 +86,8 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	economy = StageEconomyScript.new(manifest)
 	buildings = BuildingServiceScript.new(economy, manifest)
 	buildings.set_roster_mutation_allowed(not manifest.tutorial_stage)
+	if manifest.tutorial_stage:
+		buildings.install_prebuilt(&"barracks")
 	roulette = RouletteServiceScript.new(economy, buildings, manifest, &"lumern")
 	deployment = DeploymentServiceScript.new(economy, manifest)
 	wave_director = WaveDirectorScript.new(stage)
@@ -117,6 +125,7 @@ func begin_roulette_session(seed_input: Dictionary) -> bool:
 	roulette_session = session
 	roulette_moves_remaining = 3
 	command_phase = STOPPED_3X3
+	active_tab = TAB_ROULETTE
 	return true
 
 
@@ -170,13 +179,14 @@ func confirm_roulette_result() -> bool:
 	roulette_moves_remaining = 0
 	pending_deployment_assignments = {}
 	command_phase = COMMIT
+	active_tab = TAB_FRONT
 	return true
 
 
-func assign_pending_reward(reward_index: int, lane_id: StringName) -> bool:
-	if command_phase != COMMIT or reward_index < 0 or reward_index >= pending_roulette_rewards.size() or not COMMAND_LANE_IDS.has(lane_id):
+func assign_pending_reward(reward_index: int, lane_id: StringName = &"front") -> bool:
+	if command_phase != COMMIT or reward_index < 0 or reward_index >= pending_roulette_rewards.size() or lane_id != &"front":
 		return false
-	pending_deployment_assignments[reward_index] = lane_id
+	pending_deployment_assignments[reward_index] = &"front"
 	return true
 
 
@@ -186,12 +196,13 @@ func confirm_pending_deployment() -> bool:
 	var cards: Array[UnitSpawnDefinition] = []
 	for reward_index in pending_roulette_rewards.size():
 		if not pending_deployment_assignments.has(reward_index):
-			return false
+			if not assign_pending_reward(reward_index):
+				return false
 		var card := pending_roulette_rewards[reward_index].duplicate() as UnitSpawnDefinition
 		if card == null:
 			return false
-		card.lane_id = StringName(pending_deployment_assignments[reward_index])
-		if battle == null or not COMMAND_LANE_IDS.has(card.lane_id) or not battle.can_spawn_unit(card):
+		card.lane_id = &"front"
+		if battle == null or not battle.accepts_front_id(card.lane_id) or not battle.can_spawn_unit(card):
 			return false
 		cards.append(card)
 	if deployment == null or not deployment.can_deploy_batch(cards):
@@ -208,15 +219,18 @@ func confirm_pending_deployment() -> bool:
 	pending_roulette_rewards.clear()
 	pending_deployment_assignments = {}
 	command_phase = BATTLE
+	active_tab = TAB_FRONT
 	return true
 
 
 func begin_battle() -> bool:
 	if command_phase == PREPARE and pending_roulette_rewards.is_empty() and roulette_session.is_empty():
 		command_phase = BATTLE
+		active_tab = TAB_FRONT
 		return true
 	if command_phase == COMMIT and pending_roulette_rewards.is_empty():
 		command_phase = BATTLE
+		active_tab = TAB_FRONT
 		return true
 	return false
 
@@ -246,6 +260,18 @@ func move_building_roster_entry(from_slot_index: int, to_slot_index: int) -> boo
 func building_roster_snapshot() -> Array[Dictionary]:
 	_sync_building_roster_capacity()
 	return buildings.roster_snapshot() if buildings != null else []
+
+
+func front_slot_capacity() -> int:
+	_sync_building_roster_capacity()
+	return buildings.unlocked_slot_capacity() if buildings != null else 0
+
+
+func set_active_tab(tab_id: StringName) -> bool:
+	if not TAB_IDS.has(tab_id):
+		return false
+	active_tab = tab_id
+	return true
 
 
 func deploy_next_roulette_reward(lane_id: StringName) -> bool:
@@ -305,7 +331,7 @@ func advance(delta: float) -> void:
 			if unit != null:
 				spawned_units.append({
 					"unit_id": int(unit.unit_id),
-					"lane_id": unit.lane_id,
+					"front_id": unit.lane_id,
 					"team_id": unit.owner_team_id,
 				})
 			if wave.wave_number == 15 and wave.boss_kind == &"legendary" and unit != null and spawn.rank_id == &"legendary":
@@ -333,8 +359,8 @@ func _sync_building_roster_capacity() -> void:
 	if buildings == null or battle == null:
 		return
 	buildings.sync_occupation_capacity(
-		battle.stable_owned_outpost_count(&"lumern"),
-		battle.controlled_clash_count(&"lumern"),
+		1 if battle.ward_forward_is_stable_for(&"lumern") else 0,
+		1 if battle.clash_is_stable_for(&"lumern") else 0,
 	)
 
 
@@ -354,6 +380,7 @@ func _finish_victory(reason: StringName) -> void:
 		return
 	result_state = VICTORY
 	command_phase = REVIEW
+	active_tab = TAB_FRONT
 	progression.record_victory(stage)
 	manifest.input_log.append({"action": "stage_result", "result": "victory", "reason": str(reason)})
 
@@ -363,6 +390,7 @@ func _finish_defeat(reason: StringName) -> void:
 		return
 	result_state = DEFEAT
 	command_phase = REVIEW
+	active_tab = TAB_FRONT
 	manifest.input_log.append({"action": "stage_result", "result": "defeat", "reason": str(reason)})
 
 

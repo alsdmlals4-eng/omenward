@@ -49,9 +49,9 @@ class RunCommandImplementationAuthorityScopeTests(unittest.TestCase):
         decisions = (ROOT / "docs/CURRENT_CONFIRMED_DECISIONS.md").read_text(encoding="utf-8")
         active = (ROOT / "docs/ACTIVE_CONTEXT.md").read_text(encoding="utf-8")
         self.assertIn("IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", decisions)
-        self.assertIn("CURRENT_NEXT = PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW", decisions)
-        self.assertIn("implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE", active)
-        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", active)
+        self.assertIn("CURRENT_NEXT = REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK", decisions)
+        self.assertIn("implementation_scope: SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND", active)
+        self.assertIn("current_chat_runtime_status: PARTIAL__SINGLE_FRONT_PREPARE_TO_BATTLE_LIVE_CAPTURED__HEADLESS_NATURAL_TUTORIAL_TO_REVIEW_PASS__HUMAN_NOT_RUN", active)
         self.assertNotIn("CURRENT_GODOT_RUNTIME = PASS", active)
 
 

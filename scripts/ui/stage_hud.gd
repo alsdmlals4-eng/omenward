@@ -56,9 +56,9 @@ func _on_farm_pressed() -> void:
 	_update_display()
 
 
-func _on_deploy_pressed(lane_id: StringName) -> void:
+func _on_deploy_pressed(front_id: StringName = &"front") -> void:
 	if run != null:
-		run.deploy_next_roulette_reward(lane_id)
+		run.deploy_next_roulette_reward(front_id)
 	_update_display()
 
 
@@ -154,21 +154,21 @@ func _apply_build_button_state(building_id: String, can_construct: bool, reason:
 func _render_omen(omen: Dictionary) -> void:
 	var phase := str(omen.get("phase", "complete"))
 	var lines := PackedStringArray(["OMEN W%d %s T-%.0f" % [int(omen.get("wave_number", 0)), phase.to_upper(), float(omen.get("seconds_remaining", 0.0))]])
-	for lane in omen.get("lanes", []):
-		var count := int(lane.get("count", 0))
+	for front in omen.get("fronts", []):
+		var count := int(front.get("count", 0))
 		if count <= 0:
 			continue
-		var lane_id := str(lane.get("lane_id", ""))
-		var roles := _string_list(lane.get("roles", []))
-		var danger := " !" if lane_id == str(omen.get("danger_lane", "")) else ""
-		var units: Array = lane.get("units", [])
+		var front_id := str(front.get("front_id", ""))
+		var roles := _string_list(front.get("roles", []))
+		var danger := " !" if front_id == str(omen.get("danger_front", "")) else ""
+		var units: Array = front.get("units", [])
 		if units.is_empty():
-			lines.append("%s x%d roles=%s%s" % [lane_id, count, roles, danger])
+			lines.append("%s x%d roles=%s%s" % [front_id, count, roles, danger])
 		else:
 			var unit_text := PackedStringArray()
 			for unit in units:
 				unit_text.append("%s{%s}" % [str(unit.get("archetype_id", "")), _string_list(unit.get("counter_tags", []))])
-			lines.append("%s x%d %s%s" % [lane_id, count, ",".join(unit_text), danger])
+			lines.append("%s x%d %s%s" % [front_id, count, ",".join(unit_text), danger])
 	_omen_detail_label.text = "\n".join(lines)
 
 
@@ -181,7 +181,7 @@ func _render_tactical_overlay(entries: Array) -> void:
 		var team := "L" if str(entry.get("owner_team_id", "")) == "lumern" else "V"
 		var target_id := int(entry.get("target_unit_id", -1))
 		lines.append("%s %s #%d %s R%.1f -> %s [%s] prio=%s" % [
-			str(entry.get("lane_id", "")),
+			str(entry.get("front_id", "")),
 			team,
 			int(entry.get("unit_id", -1)),
 			str(entry.get("archetype_id", "")),
@@ -205,17 +205,17 @@ func _render_wave_report(report: Dictionary) -> void:
 		_wave_report_label.text = "\n".join(lines)
 		return
 	lines.append("Wave %d" % int(report.get("wave_number", 0)))
-	for lane in report.get("lanes", []):
+	for front in report.get("fronts", []):
 		lines.append("%s %s E%d/L%d obj%d gate +%.0f/-%.0f base +%.0f/-%.0f" % [
-			str(lane.get("lane_id", "")),
-			str(lane.get("cause_code", "")),
-			int(lane.get("enemy_defeated", 0)),
-			int(lane.get("allied_lost", 0)),
-			int(lane.get("objective_changes", 0)),
-			float(lane.get("gate_damage_dealt", 0.0)),
-			float(lane.get("gate_damage_taken", 0.0)),
-			float(lane.get("base_damage_dealt", 0.0)),
-			float(lane.get("base_damage_taken", 0.0)),
+			str(front.get("front_id", "")),
+			str(front.get("cause_code", "")),
+			int(front.get("enemy_defeated", 0)),
+			int(front.get("allied_lost", 0)),
+			int(front.get("objective_changes", 0)),
+			float(front.get("gate_damage_dealt", 0.0)),
+			float(front.get("gate_damage_taken", 0.0)),
+			float(front.get("base_damage_dealt", 0.0)),
+			float(front.get("base_damage_taken", 0.0)),
 		])
 	_wave_report_label.text = "\n".join(lines)
 

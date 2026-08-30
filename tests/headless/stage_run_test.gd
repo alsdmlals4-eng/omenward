@@ -89,7 +89,7 @@ func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progressi
 	_expect(not blocked.accepted and blocked.failure_reason == &"pending_reward", "pending storage blocks only the next roulette spin", failures)
 	_expect(int(run.economy.gold) == gold_before_block, "a storage-blocked spin does not charge gold", failures)
 	var food_before_deploy: int = int(run.economy.food_used)
-	_expect(run.deploy_next_roulette_reward(&"top"), "the stored reward can be committed to one lane", failures)
+	_expect(run.deploy_next_roulette_reward(&"front"), "the stored reward can be committed to the one front", failures)
 	_expect(run.pending_roulette_rewards.is_empty(), "successful deployment clears the stored reward", failures)
 	_expect(int(run.economy.food_used) == food_before_deploy + 1, "successful roulette deployment reserves the reward's food cost", failures)
 
@@ -113,7 +113,7 @@ func _test_building_roster_preparation_gate(stage_run_script: GDScript, progress
 
 
 func _test_assassin_bypass_timing(bypass_script: GDScript, failures: PackedStringArray) -> void:
-	var bypass: Variant = bypass_script.new(&"middle", 500.0)
+	var bypass: Variant = bypass_script.new(&"front", 500.0)
 	_expect(bypass.capture_power == 0.0, "assassin bypass never contributes capture power", failures)
 	bypass.advance(1.0)
 	_expect(bypass.state == &"travel", "assassin enters travel after one second of windup", failures)
@@ -133,14 +133,14 @@ func _test_assassin_bypass_leaves_and_returns_to_same_lane(battle_script: GDScri
 	assassin.archetype_id = &"assassin"
 	assassin.owner_team_id = &"lumern"
 	assassin.visual_faction_id = &"lumern"
-	assassin.lane_id = &"bottom"
+	assassin.lane_id = &"front"
 	var unit: Variant = battle.spawn_unit(assassin)
 	_expect(battle.request_assassin_bypass(unit, 100.0), "assassin can start its same-lane bypass", failures)
 	battle.advance(1.0)
-	_expect(battle.lanes[&"bottom"].units.is_empty(), "assassin is removed from the lane during travel", failures)
+	_expect(battle.front_units(&"front").is_empty(), "assassin is removed from the front during travel", failures)
 	battle.advance(9.6)
-	_expect(battle.lanes[&"bottom"].units.size() == 1, "assassin returns to its original lane after recovery", failures)
-	_expect(is_equal_approx(float(battle.lanes[&"bottom"].units[0].lane_position), 220.0), "assassin returns behind the same lane enemy outpost", failures)
+	_expect(battle.front_units(&"front").size() == 1, "assassin returns to the original front after recovery", failures)
+	_expect(is_equal_approx(float(battle.front_units(&"front")[0].lane_position), 220.0), "assassin returns behind the same front enemy outpost", failures)
 
 
 func _advance_waves(run: Variant, target_wave: int) -> void:

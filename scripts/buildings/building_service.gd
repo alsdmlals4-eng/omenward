@@ -92,6 +92,23 @@ func try_install(building_id: StringName) -> bool:
 	return true
 
 
+func install_prebuilt(building_id: StringName) -> bool:
+	if not definitions.has(building_id) or _first_empty_active_slot() < 0:
+		return false
+	var definition: BuildingDefinition = definitions[building_id]
+	var state: BuildingState = BuildingStateScript.new(_first_empty_active_slot(), definition)
+	_buildings.append(state)
+	_buildings.sort_custom(func(a: BuildingState, b: BuildingState) -> bool: return a.slot_index < b.slot_index)
+	_set_effect_active(state, true)
+	manifest.input_log.append({
+		"action": "install_prebuilt_building",
+		"slot_index": state.slot_index,
+		"building_id": str(building_id),
+		"tier_id": str(state.tier_id),
+	})
+	return true
+
+
 func install_block_reason(building_id: StringName) -> StringName:
 	if not _roster_mutation_allowed:
 		return &"stage_locked"

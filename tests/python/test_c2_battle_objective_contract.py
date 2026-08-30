@@ -63,13 +63,13 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             outpost.write_text(outpost.read_text(encoding="utf-8").replace("clampf(power, 0.0, MAX_CAPTURE_POWER)", "0.0"), encoding="utf-8")
             self.assertTrue(any("capture contract" in error for error in validate(root)))
 
-    def test_line_gate_isolation_regression_is_rejected(self) -> None:
+    def test_single_front_gate_progression_regression_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self._copy_contract_files(root)
             test_file = root / "tests/headless/c2_battle_objective_test.gd"
-            test_file.write_text(test_file.read_text(encoding="utf-8").replace("other lane gates remain standing", "gate isolation omitted"), encoding="utf-8")
-            self.assertTrue(any("other lane gates remain standing" in error for error in validate(root)))
+            test_file.write_text(test_file.read_text(encoding="utf-8").replace("the one enemy gate collapses from same-front siege attacks", "single-front gate progression omitted"), encoding="utf-8")
+            self.assertTrue(any("the one enemy gate collapses from same-front siege attacks" in error for error in validate(root)))
 
     def test_stale_pr49_current_state_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

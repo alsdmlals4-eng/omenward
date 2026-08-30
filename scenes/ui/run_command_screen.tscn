@@ -73,12 +73,38 @@ theme_override_colors/font_color = Color(0.75, 0.9, 0.98, 1)
 
 [node name="StrategicMap" type="Control" parent="."]
 layout_mode = 0
-offset_left = 18.0
+offset_left = 126.0
 offset_top = 62.0
 offset_right = 942.0
 offset_bottom = 310.0
 mouse_filter = 2
 script = ExtResource("5_map")
+
+[node name="TabRail" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 72.0
+offset_right = 114.0
+offset_bottom = 218.0
+theme_override_constants/separation = 10
+
+[node name="DomesticTab" type="Button" parent="TabRail"]
+custom_minimum_size = Vector2(96, 38)
+layout_mode = 2
+toggle_mode = true
+text = "내정"
+
+[node name="RouletteTab" type="Button" parent="TabRail"]
+custom_minimum_size = Vector2(96, 38)
+layout_mode = 2
+toggle_mode = true
+text = "룰렛"
+
+[node name="FrontTab" type="Button" parent="TabRail"]
+custom_minimum_size = Vector2(96, 38)
+layout_mode = 2
+toggle_mode = true
+text = "전선"
 
 [node name="LowerDeck" type="Panel" parent="."]
 layout_mode = 0
@@ -165,6 +191,68 @@ offset_top = 110.0
 offset_right = 730.0
 offset_bottom = 144.0
 text = "징조륜 · 20G"
+
+[node name="RouletteReadyPanel" type="Control" parent="LowerDeck"]
+visible = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = 910.0
+offset_bottom = 194.0
+
+[node name="Title" type="Label" parent="LowerDeck/RouletteReadyPanel"]
+layout_mode = 0
+offset_right = 560.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(1, 0.86, 0.46, 1)
+theme_override_font_sizes/font_size = 16
+text = "징조륜 준비"
+
+[node name="Description" type="Label" parent="LowerDeck/RouletteReadyPanel"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 570.0
+offset_bottom = 90.0
+autowrap_mode = 2
+text = "3×3 징조륜을 열어 병력 출현 확률을 관측하고, 제한된 행·열 조작으로 결과를 설계합니다."
+
+[node name="StartSpinButton" type="Button" parent="LowerDeck/RouletteReadyPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 42.0
+offset_right = 884.0
+offset_bottom = 84.0
+text = "징조륜 시작 · 20G"
+
+[node name="FrontReadyPanel" type="Control" parent="LowerDeck"]
+visible = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 38.0
+offset_right = 910.0
+offset_bottom = 194.0
+
+[node name="RouteSummary" type="Label" parent="LowerDeck/FrontReadyPanel"]
+layout_mode = 0
+offset_right = 680.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.74, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "수호 성채 → 수호 전진기지 → 접전지 → 장막 전진기지 → 장막 성채"
+
+[node name="TowerRule" type="Label" parent="LowerDeck/FrontReadyPanel"]
+layout_mode = 0
+offset_top = 40.0
+offset_right = 700.0
+offset_bottom = 70.0
+text = "고정 방어탑 1개 · 수호 전진기지를 안정 점령할 때만 아군 소유"
+
+[node name="CapacityRule" type="Label" parent="LowerDeck/FrontReadyPanel"]
+layout_mode = 0
+offset_top = 78.0
+offset_right = 700.0
+offset_bottom = 108.0
+text = "건물 슬롯은 기본 6칸 + 수호 전진기지 + 접전지 (최대 8칸)"
 
 [node name="RoulettePanel" type="Control" parent="LowerDeck"]
 visible = false
@@ -458,6 +546,10 @@ text = "Stage 다시 시작"
 [connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveUpButton" to="." method="_on_roster_move_up_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveDownButton" to="." method="_on_roster_move_down_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/SpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="LowerDeck/RouletteReadyPanel/StartSpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="TabRail/DomesticTab" to="." method="_on_domestic_tab_pressed"]
+[connection signal="pressed" from="TabRail/RouletteTab" to="." method="_on_roulette_tab_pressed"]
+[connection signal="pressed" from="TabRail/FrontTab" to="." method="_on_front_tab_pressed"]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp0" to="." method="_move_column" binds= [0, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp1" to="." method="_move_column" binds= [1, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp2" to="." method="_move_column" binds= [2, -1]]

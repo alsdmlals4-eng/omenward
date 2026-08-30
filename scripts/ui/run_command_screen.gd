@@ -2,8 +2,10 @@
 class_name RunCommandScreen
 extends Control
 
-const LANE_IDS := [&"top", &"middle", &"bottom"]
 const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png")
+const TAB_DOMESTIC := &"domestic"
+const TAB_ROULETTE := &"roulette"
+const TAB_FRONT := &"front"
 
 @onready var _phase_label: Label = $TopBar/PhaseLabel
 @onready var _gold_label: Label = $TopBar/GoldLabel
@@ -12,6 +14,8 @@ const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_
 @onready var _primary_label: Label = $LowerDeck/PrimaryLabel
 @onready var _building_roster: ItemList = $LowerDeck/PreparePanel/BuildingRoster
 @onready var _prepare_panel: Control = $LowerDeck/PreparePanel
+@onready var _roulette_ready_panel: Control = $LowerDeck/RouletteReadyPanel
+@onready var _front_ready_panel: Control = $LowerDeck/FrontReadyPanel
 @onready var _roulette_panel: Control = $LowerDeck/RoulettePanel
 @onready var _commit_panel: Control = $LowerDeck/CommitPanel
 @onready var _battle_panel: Control = $LowerDeck/BattlePanel
@@ -72,6 +76,33 @@ func _on_spin_pressed() -> void:
 		run.begin_roulette_session({"seed": _spin_seed})
 
 
+func _on_domestic_tab_pressed() -> void:
+	set_active_tab(TAB_DOMESTIC)
+
+
+func _on_roulette_tab_pressed() -> void:
+	set_active_tab(TAB_ROULETTE)
+
+
+func _on_front_tab_pressed() -> void:
+	set_active_tab(TAB_FRONT)
+
+
+func set_active_tab(tab_id: StringName) -> bool:
+	if run == null:
+		return false
+	var accepted: bool = run.set_active_tab(tab_id)
+	if accepted:
+		_refresh()
+	return accepted
+
+
+func visible_work_surface_id() -> StringName:
+	if run == null:
+		return TAB_DOMESTIC
+	return StringName(run.active_tab)
+
+
 func _on_lock_result_pressed() -> void:
 	if run != null:
 		run.lock_roulette_result()
@@ -124,6 +155,8 @@ func _refresh() -> void:
 	_food_label.text = "병력 %d/%d" % [int(run.economy.food_used), int(run.economy.food_cap)]
 	_phase_label.text = _phase_title(StringName(run.command_phase))
 	_strategic_map.bind_run(run)
+	_strategic_map.visible = visible_work_surface_id() == TAB_FRONT
+	_refresh_tab_rail()
 	_refresh_phase_panels()
 	_refresh_building_roster()
 	_refresh_roulette()
@@ -173,11 +206,14 @@ func _move_selected_roster_entry(direction: int) -> void:
 
 func _refresh_phase_panels() -> void:
 	var phase := StringName(run.command_phase)
-	_prepare_panel.visible = phase == run.PREPARE
-	_roulette_panel.visible = phase == run.STOPPED_3X3 or phase == run.MANIPULATE or phase == run.RESULT_CONFIRM
-	_commit_panel.visible = phase == run.COMMIT
-	_battle_panel.visible = phase == run.BATTLE
-	_review_panel.visible = phase == run.REVIEW
+	var tab := visible_work_surface_id()
+	_prepare_panel.visible = phase == run.PREPARE and tab == TAB_DOMESTIC
+	_roulette_ready_panel.visible = phase == run.PREPARE and tab == TAB_ROULETTE
+	_front_ready_panel.visible = phase == run.PREPARE and tab == TAB_FRONT
+	_roulette_panel.visible = (phase == run.STOPPED_3X3 or phase == run.MANIPULATE or phase == run.RESULT_CONFIRM) and tab == TAB_ROULETTE
+	_commit_panel.visible = phase == run.COMMIT and tab == TAB_FRONT
+	_battle_panel.visible = phase == run.BATTLE and tab == TAB_FRONT
+	_review_panel.visible = phase == run.REVIEW and tab == TAB_FRONT
 	match phase:
 		run.PREPARE:
 			_primary_label.text = "다가오는 징조를 보고 무엇을 준비할까?"
@@ -186,11 +222,25 @@ func _refresh_phase_panels() -> void:
 		run.RESULT_CONFIRM:
 			_primary_label.text = "이 결과를 확정하고 병력을 커밋할까?"
 		run.COMMIT:
-			_primary_label.text = "획득 병력을 어느 전선에 되돌릴 수 없게 보낼까?"
+			_primary_label.text = "획득 병력을 단일 전선에 되돌릴 수 없게 투입한다"
 		run.BATTLE:
-			_primary_label.text = "세 전선의 현재 전황을 관찰한다"
+			_primary_label.text = "단일 전선의 현재 전황을 관찰한다"
 		run.REVIEW:
 			_primary_label.text = "이번 설계와 배치가 만든 결과를 복기한다"
+
+
+func _refresh_tab_rail() -> void:
+	var tab := visible_work_surface_id()
+	var phase := StringName(run.command_phase)
+	var domestic_button := $TabRail/DomesticTab as Button
+	var roulette_button := $TabRail/RouletteTab as Button
+	var front_button := $TabRail/FrontTab as Button
+	domestic_button.button_pressed = tab == TAB_DOMESTIC
+	roulette_button.button_pressed = tab == TAB_ROULETTE
+	front_button.button_pressed = tab == TAB_FRONT
+	domestic_button.disabled = phase != str(run.PREPARE) and tab != TAB_DOMESTIC
+	roulette_button.disabled = false
+	front_button.disabled = false
 
 
 func _refresh_roulette() -> void:
@@ -234,18 +284,11 @@ func _refresh_commit() -> void:
 		return
 	$LowerDeck/CommitPanel/ConfirmDeploymentButton.visible = true
 	$LowerDeck/CommitPanel/BeginBattleButton.visible = false
-	_commit_label.text = "모든 병력의 전선을 고른 뒤 한 번에 커밋합니다."
-	for reward_index in run.pending_roulette_rewards.size():
-		if not run.pending_deployment_assignments.has(reward_index):
-			run.assign_pending_reward(reward_index, &"top")
-		var assignment := OptionButton.new()
-		assignment.add_item("상단 전선")
-		assignment.add_item("중앙 전선")
-		assignment.add_item("하단 전선")
-		assignment.select(_lane_index(StringName(run.pending_deployment_assignments.get(reward_index, &"top"))))
-		assignment.tooltip_text = "획득 병력 %d의 비가역 배치 전선" % (reward_index + 1)
-		assignment.item_selected.connect(func(selected: int) -> void: run.assign_pending_reward(reward_index, LANE_IDS[selected]))
-		_commit_assignments.add_child(assignment)
+	_commit_label.text = "획득 병력 %d개를 단일 전선에 되돌릴 수 없게 투입합니다." % run.pending_roulette_rewards.size()
+	var queue_line := Label.new()
+	queue_line.text = "수호 성채 → 전진기지 → 접전지 → 장막 성채"
+	queue_line.tooltip_text = "전선 투입 확정 뒤 병력은 회수하거나 다른 전선으로 이동할 수 없습니다."
+	_commit_assignments.add_child(queue_line)
 
 
 func _set_arrow_buttons_disabled(disabled: bool) -> void:
@@ -289,10 +332,6 @@ func _roulette_symbol_name(symbol: StringName) -> String:
 			return "황금 징조"
 		_:
 			return "수호 병력"
-
-
-func _lane_index(lane_id: StringName) -> int:
-	return LANE_IDS.find(lane_id)
 
 
 func _phase_title(phase: StringName) -> String:

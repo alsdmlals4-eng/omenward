@@ -41,15 +41,18 @@ func _test_shared_stats_and_lane_isolation(simulator_script: GDScript, failures:
 	for archetype in registry.catalog.archetypes:
 		var public_stats: Variant = archetype.get("base_stats")
 		_expect(public_stats is Dictionary and not public_stats.is_empty(), "%s exposes public base combat stats" % archetype.archetype_id, failures)
-		var lumern: Variant = simulator.spawn_unit(_spawn(&"lumern", &"top", archetype.archetype_id))
-		var veil: Variant = simulator.spawn_unit(_spawn(&"veil", &"top", archetype.archetype_id))
-		_expect(lumern.combat_stats() == veil.combat_stats(), "%s visual faction does not alter combat stats" % archetype.archetype_id, failures)
-		if public_stats is Dictionary:
-			_expect(lumern.combat_stats() == public_stats, "%s unit stats derive from public profile data" % archetype.archetype_id, failures)
-	var lumern: Variant = simulator.lanes[&"top"].units[0]
-	_expect(not simulator.request_lane_move(lumern, &"middle"), "ordinary top lane units cannot move to middle", failures)
-	_expect(lumern.lane_id == &"top", "rejected lane movement preserves the original lane", failures)
-	_expect(simulator.lanes[&"middle"].units.is_empty(), "middle lane does not own top lane units", failures)
+		var lumern: Variant = simulator.spawn_unit(_spawn(&"lumern", &"front", archetype.archetype_id))
+		var veil: Variant = simulator.spawn_unit(_spawn(&"veil", &"front", archetype.archetype_id))
+		_expect(lumern != null and veil != null, "%s can spawn for both visual factions on the one front" % archetype.archetype_id, failures)
+		if lumern != null and veil != null:
+			_expect(lumern.combat_stats() == veil.combat_stats(), "%s visual faction does not alter combat stats" % archetype.archetype_id, failures)
+			if public_stats is Dictionary:
+				_expect(lumern.combat_stats() == public_stats, "%s unit stats derive from public profile data" % archetype.archetype_id, failures)
+	var first_lumern: Variant = simulator.front_units(&"front")[0] if not simulator.front_units(&"front").is_empty() else null
+	_expect(first_lumern != null, "the simulator exposes units through the one public front", failures)
+	if first_lumern != null:
+		_expect(not simulator.request_lane_move(first_lumern, &"top"), "removed three-front identifiers cannot move ordinary units", failures)
+		_expect(first_lumern.lane_id == &"front", "rejected movement preserves the one front", failures)
 
 
 func _test_gate_multipliers_and_collapse(gate_script: GDScript, failures: PackedStringArray) -> void:
@@ -144,9 +147,9 @@ func _test_fixed_seed_snapshot_repeatability(simulator_script: GDScript, failure
 	var second: Variant = simulator_script.new(_registry(), 314159)
 	for simulator in [first, second]:
 		simulator.objectives_enabled = false
-		simulator.spawn_unit(_spawn(&"lumern", &"top"))
-		simulator.spawn_unit(_spawn(&"veil", &"top"))
-		simulator.spawn_unit(_spawn(&"lumern", &"bottom", &"archer"))
+		simulator.spawn_unit(_spawn(&"lumern", &"front"))
+		simulator.spawn_unit(_spawn(&"veil", &"front"))
+		simulator.spawn_unit(_spawn(&"lumern", &"front", &"archer"))
 		for _step in 20:
 			simulator.advance(0.1)
 	_expect(JSON.stringify(first.snapshot()) == JSON.stringify(second.snapshot()), "identical seeds and inputs reproduce the same battle snapshot", failures)

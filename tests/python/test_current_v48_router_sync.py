@@ -7,10 +7,10 @@ import unittest
 ROOT = Path(__file__).resolve().parents[2]
 
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
-CURRENT_VISUAL_DECISION = "OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01"
-CURRENT_MAP_TOPOLOGY = "MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT"
+CURRENT_VISUAL_DECISION = "OMW-PLAN-20260830-SINGLE-MARCH-FRONT-THREE-TAB-01"
+CURRENT_MAP_TOPOLOGY = "MAP_TOPOLOGY = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL"
 CURRENT_LEGACY_RUNTIME_ASSET = "OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1"
-CURRENT_REACTIVATION_GATE = "PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW"
+CURRENT_REACTIVATION_GATE = "REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
 CURRENT_AUTHORITY = "SCOPED_APPROVED"
 
@@ -39,7 +39,7 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
             text = read(relative)
             with self.subTest(relative=relative):
                 self.assertIn(CURRENT_CONTRACT, text)
-                self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 28", text)
+                self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 29", text)
                 self.assertIn(CURRENT_VISUAL_DECISION, text)
                 self.assertIn(CURRENT_MAP_TOPOLOGY, text)
                 self.assertIn(CURRENT_LEGACY_RUNTIME_ASSET, text)
@@ -70,10 +70,10 @@ class CurrentV48RouterSyncTests(unittest.TestCase):
     def test_handoff_distinguishes_historical_premerge_sha_from_integrated_closeout(self) -> None:
         handoff = read("docs/HANDOFF_CONTEXT.md")
         for marker in (
-            "CURRENT_MAIN = RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
-            "PR_210_MERGED_MAIN_BASE = fd4e377c5a5203fb01c0d971e8ead474d618747f",
-            "PR_210_CLOSEOUT = MERGED_ON_MAIN_HISTORICAL",
+            "current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH",
+            f"current_gate: {CURRENT_REACTIVATION_GATE}",
             f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}",
+            "runtime_validation: RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN",
         ):
             self.assertIn(marker, handoff)
         self.assertNotIn(

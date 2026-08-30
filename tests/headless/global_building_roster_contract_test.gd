@@ -38,8 +38,8 @@ func _test_global_roster_capacity_and_effect_lifecycle(failures: PackedStringArr
 	if not buildings.has_method(&"set_roster_mutation_allowed") or not buildings.has_method(&"sync_occupation_capacity") or not buildings.has_method(&"try_install") or not buildings.has_method(&"move_roster_entry") or not buildings.has_method(&"roster_snapshot"):
 		return
 	buildings.set_roster_mutation_allowed(true)
-	buildings.sync_occupation_capacity(3, 0)
-	_expect(buildings.unlocked_slot_capacity() == 9, "three stable Lumern forward bases unlock six plus three slots", failures)
+	buildings.sync_occupation_capacity(1, 1)
+	_expect(buildings.unlocked_slot_capacity() == 8, "one stable Ward forward base and one stable clash zone unlock six plus two slots", failures)
 	for _index in 6:
 		_expect(buildings.try_install(&"barracks"), "top-priority base slots accept an available building", failures)
 	_expect(buildings.try_install(&"farm"), "an available building installs into the first occupation slot", failures)
@@ -56,13 +56,13 @@ func _test_global_roster_capacity_and_effect_lifecycle(failures: PackedStringArr
 	var token_economy := StageEconomy.new(token_manifest)
 	var token_buildings: Variant = BuildingService.new(token_economy, token_manifest)
 	token_buildings.set_roster_mutation_allowed(true)
-	token_buildings.sync_occupation_capacity(3, 0)
+	token_buildings.sync_occupation_capacity(1, 1)
 	for _index in 6:
 		_expect(token_buildings.try_install(&"farm"), "base slots can contain passive buildings before a source is installed", failures)
 	_expect(token_buildings.try_install(&"barracks"), "an occupation slot can contain a roulette source", failures)
 	token_buildings.sync_occupation_capacity(0, 0)
 	_expect(token_buildings.roulette_token_sources_snapshot().is_empty(), "an inactive building contributes no roulette TokenSource", failures)
-	buildings.sync_occupation_capacity(3, 0)
+	buildings.sync_occupation_capacity(1, 1)
 	var restored_roster: Array = buildings.roster_snapshot()
 	_expect(restored_roster.size() > 6 and restored_roster[6].get("state", "") == "active", "capacity recovery restores the same top-priority entry", failures)
 	_expect(economy.food_cap == 18, "capacity recovery leaves the already-active top-priority passive applied exactly once", failures)
@@ -77,17 +77,22 @@ func _test_fixed_tower_contract(failures: PackedStringArray) -> void:
 	if not property_names.has("fixed_towers"):
 		return
 	var towers: Dictionary = battle.fixed_towers
-	_expect(towers.size() == 3, "the battle exposes exactly one tower for each shared front", failures)
-	for lane_id in [&"top", &"middle", &"bottom"]:
-		_expect(towers.has(lane_id), "%s has its one fixed tower" % lane_id, failures)
-		if not towers.has(lane_id):
-			continue
-		var tower: Variant = towers[lane_id]
-		_expect(tower.owner_team_id == &"lumern" and tower.active, "%s starts with its Ward forward-base owner", failures)
-		_expect(is_equal_approx(float(tower.capture_power), 0.0), "%s tower has zero capture power", failures)
-	battle.outposts[&"lumern"][&"top"].begin_capture(&"veil", 1.0)
+	_expect(towers.size() == 1, "the battle exposes exactly one fixed tower for its one shared front", failures)
+	_expect(towers.has(&"front"), "the single front owns the only fixed tower", failures)
+	if not towers.has(&"front"):
+		return
+	var tower: Variant = towers[&"front"]
+	_expect(tower.owner_team_id == &"" and not tower.active, "the tower stays neutral and inactive until Ward forward base is stabilized", failures)
+	_expect(is_equal_approx(float(tower.capture_power), 0.0), "the fixed tower has zero capture power", failures)
+	var ward_forward: Variant = battle.outposts[&"lumern"][&"front"]
+	ward_forward.begin_capture(&"lumern", 2.0)
+	ward_forward.advance(10.0)
+	ward_forward.advance(5.0)
 	battle.advance(0.1)
-	_expect(not towers[&"top"].active and towers[&"top"].owner_team_id == &"", "a tower disables throughout neutralizing/capturing/stabilizing", failures)
+	_expect(tower.owner_team_id == &"lumern" and tower.active, "stabilized Ward forward base grants the only tower to Lumern", failures)
+	ward_forward.begin_capture(&"veil", 1.0)
+	battle.advance(0.1)
+	_expect(not tower.active and tower.owner_team_id == &"", "a tower disables throughout neutralizing/capturing/stabilizing", failures)
 
 
 func _test_income_boundary(failures: PackedStringArray) -> void:
@@ -95,8 +100,8 @@ func _test_income_boundary(failures: PackedStringArray) -> void:
 	manifest.starting_gold = 0
 	manifest.starting_food_cap = 12
 	var economy := StageEconomy.new(manifest)
-	economy.advance(60.0, 1, 3)
-	_expect(economy.gold == 31, "base, one clash, and three forward bases pay through their existing single income paths", failures)
+	economy.advance(60.0, 1, 1)
+	_expect(economy.gold == 23, "base, one clash, and one Ward forward base pay through their existing single income paths", failures)
 
 
 func _test_stage_one_blocks_roster_mutation(failures: PackedStringArray) -> void:

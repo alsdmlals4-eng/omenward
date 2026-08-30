@@ -2,8 +2,8 @@ class_name BattlefieldView
 extends Node2D
 
 const UNIT_SCENE := preload("res://scenes/units/unit.tscn")
-const LANE_IDS := [&"top", &"middle", &"bottom"]
-const LANE_Y := {&"top": 116.0, &"middle": 186.0, &"bottom": 256.0}
+const LANE_IDS := [&"front"]
+const LANE_Y := {&"front": 186.0}
 const WORLD_X_ORIGIN := 110.0
 const WORLD_X_PER_SIMULATION_POSITION := 7.4
 const FIXED_TOWER_PRESENTATION_POSITION := 27.0
@@ -33,7 +33,7 @@ func _draw() -> void:
 			var bypasses: Array = run.battle.bypasses
 			if bypasses.any(func(entry: Dictionary) -> bool: return entry["state"].lane_id == lane_id and entry["state"].warning_active):
 				draw_string(ThemeDB.fallback_font, clash + Vector2(-20.0, -34.0), "BYPASS WARNING", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.76, 0.24))
-	draw_string(ThemeDB.fallback_font, Vector2(32, 28), "WARD CITADEL  ·  THREE FRONT CONFLICT  ·  VEIL RIFT", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.95, 0.88, 0.62, 0.9))
+	draw_string(ThemeDB.fallback_font, Vector2(32, 28), "WARD CITADEL  ·  MARCH FRONT  ·  VEIL RIFT", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.95, 0.88, 0.62, 0.9))
 
 
 func _draw_fixed_tower(lane_id: StringName, center: Vector2) -> void:
@@ -51,7 +51,7 @@ func _draw_fixed_tower(lane_id: StringName, center: Vector2) -> void:
 
 
 func world_position_for(lane_id: StringName, lane_position: float) -> Vector2:
-	var lane_y: float = float(LANE_Y.get(lane_id, LANE_Y[&"middle"]))
+	var lane_y: float = float(LANE_Y.get(lane_id, LANE_Y[&"front"]))
 	return Vector2(WORLD_X_ORIGIN + clampf(lane_position, 0.0, 100.0) * WORLD_X_PER_SIMULATION_POSITION, lane_y)
 
 

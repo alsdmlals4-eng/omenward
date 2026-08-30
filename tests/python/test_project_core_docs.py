@@ -73,8 +73,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 28",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 29",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 30",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -101,13 +101,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW",
+                "CURRENT_NEXT = REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("PHASE2_STORYBOOK_REMAINING_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW" in error for error in errors), errors)
+            self.assertTrue(any("REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK" in error for error in errors), errors)
 
     def test_current_storybook_shield_guard_pair_record_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -170,13 +170,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
+                "implementation_scope: SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND",
                 "implementation_scope: ALL_PRODUCT_IMPLEMENTATION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE" in error for error in errors), errors)
+            self.assertTrue(any("SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND" in error for error in errors), errors)
 
     def test_current_visual_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

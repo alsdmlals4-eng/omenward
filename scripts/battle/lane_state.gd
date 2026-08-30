@@ -51,4 +51,4 @@ func snapshot() -> Dictionary:
 	var unit_snapshots: Array = []
 	for unit in ordered_units():
 		unit_snapshots.append(unit.to_snapshot())
-	return {"lane_id": str(lane_id), "units": unit_snapshots}
+	return {"front_id": str(lane_id), "units": unit_snapshots}
