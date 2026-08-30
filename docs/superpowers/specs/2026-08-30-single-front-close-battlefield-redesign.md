@@ -33,18 +33,34 @@ clash before route progress, while the five-sector march remains context only.
 
 ## New battlefield map contract
 
-The new background is an original, terrain-only 16:9 watercolor plate for a
-close battle. It uses a broad, gently irregular, continuously traversable
-center field from left to right. The playable visual ground is warm muted
-grass and earth with low, soft edge terrain: broken slabs, shallow flowered
-banks, sparse shrubs, haze, and distant ward/Veil atmosphere.
+The battlefield is a three-layer composition rather than a single baked
+illustration.
 
-The Ward side uses cool navy/ivory light and restrained gold; the Veil side
-uses charcoal/violet shadow and limited rift glow. Their transition is a
-gradual environmental change, not a road, river, bridge, cliff, moat, hard
-border, or gap. The center must remain open enough for two-to-three readable
-unit rows. It contains no baked characters, tower, buildings, UI, words,
-logos, pads, flags, or route nodes.
+1. `Foundation`: an original terrain-only 16:9 watercolor plate with broad,
+   gently irregular, continuously traversable neutral grass and earth. It has
+   distant atmosphere and restrained ground texture, but no foreground rock,
+   shrub, crystal, character, tower, building, UI, words, pads, flags, or
+   route nodes.
+2. `TerritoryProps`: independently placed transparent PNG terrain objects.
+   Lumern props are pale broken slab clusters, blue meadow banks, and
+   ivory/blue flower banks. Veil props are charcoal rubble, low violet crystal
+   clusters, and dark thorny brush. Each object can be moved, omitted, reused,
+   and layered without editing the foundation image.
+3. `BattleOverlay`: existing live unit sprites, their health/faction feedback,
+   the one live fixed tower, and small runtime effects.
+
+The `Foundation` stays visibly and physically continuous from left to right.
+Lumern territory props are placed only when `x_ratio < 0.36`; Veil territory
+props are placed only when `x_ratio > 0.64`. The transition bands
+`0.36..0.46` and `0.54..0.64` reduce their respective prop density; the
+central `0.46..0.54` remains a clear, neutral clash ground. This makes the
+territory change feel gradual without drawing a road, river, bridge, cliff,
+moat, hard border, or gap. The center remains open enough for two-to-three
+readable unit rows.
+
+The previously generated single combined terrain candidate remains preserved
+as a historical candidate and is excluded from runtime binding because its
+foreground terrain is baked into the image.
 
 ## New battle screen contract
 
@@ -67,25 +83,29 @@ silhouette.
 
 ## Candidate and approval boundary
 
-Two non-runtime candidates are required before any binding:
+Eight non-runtime candidates are required before any binding:
 
-1. a terrain-only close-battlefield plate that satisfies the map contract;
-2. a no-copy UI composition reference showing that terrain, the approved unit
-   language, the wide battle view, the narrow minimap, and the compact lower
-   deck together.
+1. one neutral terrain `Foundation` plate;
+2. three individual Lumern `TerritoryProps` with actual transparency;
+3. three individual Veil `TerritoryProps` with actual transparency;
+4. a no-copy UI composition reference showing the composited terrain, the
+   approved unit language, the wide battle view, the narrow minimap, and the
+   compact lower deck together.
 
-Both candidates are `GENERATED_CANDIDATE` only. The user must lock the exact
-selected terrain candidate before it is copied under `assets/`, referenced by
-Godot, or registered as canonical. The UI reference is a direction guide;
-runtime controls remain Godot-native text and controls, never image-generated
-text.
+All eight candidates are `GENERATED_CANDIDATE` only. The user must lock the
+exact foundation and six selected terrain props before any are copied under
+`assets/`, referenced by Godot, or registered as canonical. The UI reference
+is a direction guide; runtime controls remain Godot-native text and controls,
+never image-generated text.
 
 ## Acceptance criteria
 
 - No legacy three-front backdrop texture is referenced by the battle focus.
 - The battle focus is wider than the current 576px presentation at 960x540.
-- The original terrain has no route-breaking water or obstacle and no baked
-  buildings, construction objects, units, or tower.
+- The foundation has no route-breaking water or obstacle, no baked foreground
+  terrain prop, and no baked buildings, construction objects, units, or tower.
+- Lumern and Veil terrain props are independent transparent assets and are
+  selected by their placement ratio, never painted into the foundation.
 - One dynamic tower and live Lumern/Veil units remain drawn from current battle
   state.
 - The existing five-sector minimap keeps its read-only state projection.
