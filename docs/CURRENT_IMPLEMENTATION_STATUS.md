@@ -109,6 +109,7 @@ Current visual owners:
 - `docs/superpowers/plans/2026-08-30-wide-connected-strategic-map.md` — implemented structural UI contract.
 - `docs/images/approved/OMENWARD_WIDE_CONNECTED_STRATEGIC_FRONT_TERRAIN_V1.md` — user-approved terrain, bound to the battlefield consumer; runtime observation remains not-run.
 - `docs/images/planning/OMENWARD_STORYBOOK_SD_UNIT_RUNTIME_SOURCE_SHEETS_2026-08-30.md` — source sheets only; true-alpha runtime cells remain pending review.
+- `docs/images/planning/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_CANDIDATE_2026-08-30.md` — first true-alpha opposing pair; external candidate only, without runtime binding.
 - `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md` — planning-only, not runtime asset.
 - `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md` — current planning visual lock; not runtime implementation authority.
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — retained three-front responsibility only.
