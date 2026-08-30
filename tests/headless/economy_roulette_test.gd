@@ -1,7 +1,6 @@
 extends SceneTree
 
 const StageManifest = preload("res://scripts/core/stage_manifest.gd")
-const OutpostState = preload("res://scripts/battle/outpost_state.gd")
 const UnitSpawnDefinition = preload("res://scripts/data/unit_spawn_definition.gd")
 
 
@@ -18,8 +17,8 @@ func _init() -> void:
 	if economy_script != null:
 		_test_stage_economy(economy_script, failures)
 	if economy_script != null and building_service_script != null:
-		_test_building_ownership_and_capture_lock(economy_script, building_service_script, failures)
-		_test_stabilized_capture_allows_rebuilding(economy_script, building_service_script, failures)
+		_test_global_roster_mutation_gate_and_capacity(economy_script, building_service_script, failures)
+		_test_capacity_lock_preserves_and_reactivates_buildings(economy_script, building_service_script, failures)
 	if economy_script != null and building_service_script != null and roulette_script != null:
 		_test_deterministic_approved_roulette(economy_script, building_service_script, roulette_script, failures)
 	if economy_script != null and deployment_script != null:
@@ -36,40 +35,43 @@ func _test_stage_economy(economy_script: GDScript, failures: PackedStringArray) 
 	_expect(economy.gold == 183, "active combat grants base, controlled clash, and stable outpost income on their exact intervals", failures)
 
 
-func _test_building_ownership_and_capture_lock(economy_script: GDScript, building_service_script: GDScript, failures: PackedStringArray) -> void:
+func _test_global_roster_mutation_gate_and_capacity(economy_script: GDScript, building_service_script: GDScript, failures: PackedStringArray) -> void:
 	var economy: Variant = economy_script.new(_manifest())
 	var buildings: Variant = building_service_script.new(economy, _manifest())
-	var enemy_outpost := OutpostState.new(&"veil")
-	var player_outpost := OutpostState.new(&"lumern")
-	buildings.register_outpost(&"enemy_top", enemy_outpost, [&"front_a"])
-	buildings.register_outpost(&"player_top", player_outpost, [&"front_a", &"front_b"])
-	_expect(not buildings.try_construct(&"enemy_top", &"front_a", &"tower"), "enemy-owned node rejects player building", failures)
-	_expect(buildings.try_construct(&"player_top", &"front_a", &"tower"), "owned stabilized outpost accepts a tower", failures)
-	player_outpost.begin_capture(&"veil", 1.0)
-	_expect(not buildings.try_construct(&"player_top", &"front_b", &"farm"), "capture locks construction nodes", failures)
+	_expect(not buildings.try_install(&"tower"), "tutorial/read-only state rejects building roster installation", failures)
+	buildings.set_roster_mutation_allowed(true)
+	buildings.sync_occupation_capacity(3, 0)
+	_expect(buildings.unlocked_slot_capacity() == 9, "three stabilized Lumern forward bases open three slots above the six base slots", failures)
+	_expect(buildings.try_install(&"tower"), "the unlocked global roster accepts a tower without an outpost construction node", failures)
 
 
-func _test_stabilized_capture_allows_rebuilding(economy_script: GDScript, building_service_script: GDScript, failures: PackedStringArray) -> void:
+func _test_capacity_lock_preserves_and_reactivates_buildings(economy_script: GDScript, building_service_script: GDScript, failures: PackedStringArray) -> void:
 	var economy: Variant = economy_script.new(_manifest())
 	var buildings: Variant = building_service_script.new(economy, _manifest())
-	var outpost := OutpostState.new(&"veil", true)
-	buildings.register_outpost(&"captured_top", outpost, [&"front_a"])
-	outpost.begin_capture(&"lumern", 1.0)
-	outpost.advance(20.0)
-	outpost.advance(5.0)
-	_expect(buildings.try_construct(&"captured_top", &"front_a", &"farm"), "a captured outpost accepts new construction after stabilization", failures)
+	buildings.set_roster_mutation_allowed(true)
+	buildings.sync_occupation_capacity(3, 0)
+	economy.add_gold(300)
+	for _slot_index in range(6):
+		_expect(buildings.try_install(&"farm"), "base roster slot accepts a farm", failures)
+	_expect(buildings.try_install(&"barracks"), "occupation-expanded roster accepts a seventh building", failures)
+	buildings.sync_occupation_capacity(0, 0)
+	var locked_snapshot: Array = buildings.roster_snapshot()
+	_expect(locked_snapshot[6].state == &"inactive_locked", "a building beyond lost occupation capacity stays in the roster but becomes inactive", failures)
+	buildings.sync_occupation_capacity(3, 0)
+	var restored_snapshot: Array = buildings.roster_snapshot()
+	_expect(restored_snapshot[6].state == &"active", "the preserved building reactivates when the same capacity returns", failures)
 
 
 func _test_deterministic_approved_roulette(economy_script: GDScript, building_service_script: GDScript, roulette_script: GDScript, failures: PackedStringArray) -> void:
 	var first_manifest := _manifest()
 	var first_economy: Variant = economy_script.new(first_manifest)
 	var first_buildings: Variant = building_service_script.new(first_economy, first_manifest)
-	var outpost := OutpostState.new(&"lumern")
-	first_buildings.register_outpost(&"player_top", outpost, [&"front_a", &"front_b", &"rear"])
-	_expect(first_buildings.try_construct(&"player_top", &"front_a", &"tower"), "tower construction succeeds", failures)
-	_expect(first_buildings.try_construct(&"player_top", &"front_b", &"farm"), "farm construction succeeds", failures)
+	first_buildings.set_roster_mutation_allowed(true)
+	first_buildings.sync_occupation_capacity(3, 0)
+	_expect(first_buildings.try_install(&"tower"), "tower roster installation succeeds", failures)
+	_expect(first_buildings.try_install(&"farm"), "farm roster installation succeeds", failures)
 	_expect(first_buildings.roulette_token_sources().is_empty(), "tower and farm do not create unit roulette tokens", failures)
-	_expect(first_buildings.try_construct(&"player_top", &"rear", &"barracks"), "barracks construction succeeds", failures)
+	_expect(first_buildings.try_install(&"barracks"), "barracks roster installation succeeds", failures)
 	_expect(first_buildings.roulette_token_sources().size() == 1, "one completed barracks contributes one source token entry", failures)
 	var first_roulette: Variant = roulette_script.new(first_economy, first_buildings, first_manifest, &"lumern")
 	var first_result: Variant = first_roulette.spin({"seed": 12})
@@ -78,15 +80,15 @@ func _test_deterministic_approved_roulette(economy_script: GDScript, building_se
 	var second_manifest := _manifest()
 	var second_economy: Variant = economy_script.new(second_manifest)
 	var second_buildings: Variant = building_service_script.new(second_economy, second_manifest)
-	var second_outpost := OutpostState.new(&"lumern")
-	second_buildings.register_outpost(&"player_top", second_outpost, [&"front_a", &"front_b", &"rear"])
-	second_buildings.try_construct(&"player_top", &"front_a", &"tower")
-	second_buildings.try_construct(&"player_top", &"front_b", &"farm")
-	second_buildings.try_construct(&"player_top", &"rear", &"barracks")
+	second_buildings.set_roster_mutation_allowed(true)
+	second_buildings.sync_occupation_capacity(3, 0)
+	second_buildings.try_install(&"tower")
+	second_buildings.try_install(&"farm")
+	second_buildings.try_install(&"barracks")
 	var second_roulette: Variant = roulette_script.new(second_economy, second_buildings, second_manifest, &"lumern")
 	var second_result: Variant = second_roulette.spin({"seed": 12})
 	_expect(JSON.stringify(first_result.to_dictionary()) == JSON.stringify(second_result.to_dictionary()), "identical seed and building snapshot reproduce the same roulette result", failures)
-	_expect(first_manifest.input_log.size() == 4, "three constructions and the roulette result are recorded", failures)
+	_expect(first_manifest.input_log.size() == 4, "three roster installations and the roulette result are recorded", failures)
 
 
 func _test_deployment_food_limit(economy_script: GDScript, deployment_script: GDScript, failures: PackedStringArray) -> void:

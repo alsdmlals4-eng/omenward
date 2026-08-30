@@ -4,13 +4,6 @@ extends RefCounted
 const PLAYER_TEAM_ID := &"lumern"
 const ENEMY_TEAM_ID := &"veil"
 const LANE_IDS := [&"top", &"middle", &"bottom"]
-const BUILD_SLOTS := {
-	&"barracks": &"rear",
-	&"tower": &"front_a",
-	&"farm": &"front_b",
-}
-const HOME_OUTPOST_ID := &"lumern_middle"
-
 var run: Variant
 var registry: Variant
 var _wave_metrics := {}
@@ -136,31 +129,16 @@ func snapshot() -> Dictionary:
 
 func _construction_comparison(token_sources: Array[Dictionary]) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
-	if run == null or run.buildings == null or run.battle == null or run.economy == null or run.roulette == null:
+	if run == null or run.buildings == null or run.economy == null or run.roulette == null:
 		return result
-	var outpost: Variant = run.battle.outposts[PLAYER_TEAM_ID][&"middle"]
-	var building_ids: Array = BUILD_SLOTS.keys()
-	building_ids.sort_custom(func(a: Variant, b: Variant) -> bool: return str(a) < str(b))
-	for building_id_value in building_ids:
-		var building_id := StringName(building_id_value)
-		var node_id: StringName = BUILD_SLOTS[building_id]
+	for entry in run.buildings.available_definitions_snapshot():
+		var building_id := StringName(entry.get("building_id", ""))
 		var definition: Variant = run.buildings.definitions.get(building_id)
 		if definition == null:
 			continue
-		var existing: Variant = run.buildings.building_state_snapshot(HOME_OUTPOST_ID, node_id)
-		var block_reason := &""
-		if outpost.owner_team_id != PLAYER_TEAM_ID:
-			block_reason = &"not_owned"
-		elif outpost.state != outpost.STABLE:
-			block_reason = StringName("outpost_%s" % outpost.state)
-		elif outpost.construction_locked:
-			block_reason = &"construction_locked"
-		elif existing != null and existing.state != existing.RUINED:
-			block_reason = &"occupied"
-		elif run.economy.gold < int(definition.gold_cost):
-			block_reason = &"insufficient_gold"
-		var source := _preview_source(HOME_OUTPOST_ID, node_id, definition)
-		var symbol_id := StringName(definition.roulette_symbol_id)
+		var block_reason := StringName(entry.get("install_block_reason", ""))
+		var source := _preview_source(definition)
+		var symbol_id := StringName(entry.get("roulette_symbol_id", ""))
 		var before_probability: float = float(run.roulette.probability_for_symbol_from_sources(symbol_id, token_sources)) if symbol_id != &"" else 0.0
 		var preview_sources: Array[Dictionary] = []
 		if not source.is_empty():
@@ -168,14 +146,13 @@ func _construction_comparison(token_sources: Array[Dictionary]) -> Array[Diction
 		var after_probability: float = float(run.roulette.probability_for_symbol_from_sources(symbol_id, token_sources, preview_sources)) if not preview_sources.is_empty() else before_probability
 		result.append({
 			"building_id": str(building_id),
-			"outpost_id": str(HOME_OUTPOST_ID),
-			"node_id": str(node_id),
-			"gold_cost": int(definition.gold_cost),
-			"food_cap_bonus": int(definition.food_cap_bonus),
+			"display_name": str(entry.get("display_name", "")),
+			"gold_cost": int(entry.get("gold_cost", 0)),
+			"food_cap_bonus": int(entry.get("food_cap_bonus", 0)),
 			"roulette_symbol_id": str(symbol_id),
-			"roulette_board_weight": int(definition.roulette_board_weight),
-			"reward_archetype_id": str(definition.roulette_reward_archetype_id),
-			"can_construct": block_reason == &"",
+			"roulette_board_weight": int(entry.get("roulette_board_weight", 0)),
+			"reward_archetype_id": str(entry.get("reward_archetype_id", "")),
+			"can_construct": block_reason == &"" and bool(entry.get("runtime_available", false)),
 			"block_reason": str(block_reason),
 			"probability_before": before_probability,
 			"probability_after": after_probability,
@@ -184,7 +161,7 @@ func _construction_comparison(token_sources: Array[Dictionary]) -> Array[Diction
 	return result
 
 
-func _preview_source(outpost_id: StringName, node_id: StringName, definition: Variant) -> Dictionary:
+func _preview_source(definition: Variant) -> Dictionary:
 	if StringName(definition.roulette_symbol_id) == &"" or int(definition.roulette_board_weight) <= 0:
 		return {}
 	return {
@@ -193,7 +170,7 @@ func _preview_source(outpost_id: StringName, node_id: StringName, definition: Va
 		"board_weight": definition.roulette_board_weight,
 		"source_tier_id": definition.roulette_source_tier_id,
 		"source_weight": definition.roulette_source_weight,
-		"source_building_id": StringName("preview:%s:%s:%s" % [outpost_id, node_id, definition.building_id]),
+		"source_building_id": StringName("preview:%s" % definition.building_id),
 	}
 
 

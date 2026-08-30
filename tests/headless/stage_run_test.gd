@@ -28,6 +28,7 @@ func _init() -> void:
 	if stage_run_ready and progression_ready:
 		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, failures)
 		_test_roulette_storage_and_deployment(stage_run_script, progression_script, failures)
+		_test_building_roster_preparation_gate(stage_run_script, progression_script, failures)
 	if bypass_ready:
 		_test_assassin_bypass_timing(bypass_script, failures)
 	if bypass_ready and battle_ready:
@@ -63,10 +64,12 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 
 
 func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
-	var tutorial: Resource = ResourceLoader.load(TUTORIAL_STAGE_PATH)
-	var run: Variant = stage_run_script.new(progression_script.new())
-	run.start(tutorial, 2002)
-	_expect(run.construct_home(&"barracks"), "the stage can build the approved basic barracks", failures)
+	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
+	var progression: Variant = progression_script.new()
+	progression.regular_unlocked = true
+	var run: Variant = stage_run_script.new(progression)
+	run.start(regular, 2002)
+	_expect(run.install_building(&"barracks"), "a post-tutorial run installs the approved basic barracks in the global roster", failures)
 	var no_reward: Variant = run.roulette.resolve_board_snapshot([
 		&"warrior", &"warrior", &"warrior",
 		&"warrior", &"warrior", &"x",
@@ -89,6 +92,24 @@ func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progressi
 	_expect(run.deploy_next_roulette_reward(&"top"), "the stored reward can be committed to one lane", failures)
 	_expect(run.pending_roulette_rewards.is_empty(), "successful deployment clears the stored reward", failures)
 	_expect(int(run.economy.food_used) == food_before_deploy + 1, "successful roulette deployment reserves the reward's food cost", failures)
+
+
+func _test_building_roster_preparation_gate(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
+	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
+	var progression: Variant = progression_script.new()
+	progression.regular_unlocked = true
+	var run: Variant = stage_run_script.new(progression)
+	run.start(regular, 2003)
+	_expect(run.has_method(&"move_building_roster_entry"), "StageRun exposes a player-facing global-roster reorder command", failures)
+	if not run.has_method(&"move_building_roster_entry"):
+		return
+	_expect(run.install_building(&"barracks") and run.install_building(&"farm"), "PREPARE can install two owned roster entries", failures)
+	_expect(run.move_building_roster_entry(1, 0), "PREPARE can reorder the global roster without a battlefield target", failures)
+	var roster: Array = run.building_roster_snapshot()
+	_expect(roster[0].get("building_id", "") == "farm" and roster[1].get("building_id", "") == "barracks", "StageRun forwards roster reordering in player-visible priority order", failures)
+	_expect(run.begin_battle(), "a ready regular run can close PREPARE and enter BATTLE", failures)
+	_expect(not run.install_building(&"tower"), "BATTLE rejects building-roster installation", failures)
+	_expect(not run.move_building_roster_entry(0, 1), "BATTLE rejects building-roster reordering", failures)
 
 
 func _test_assassin_bypass_timing(bypass_script: GDScript, failures: PackedStringArray) -> void:

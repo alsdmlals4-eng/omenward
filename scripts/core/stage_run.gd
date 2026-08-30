@@ -79,11 +79,12 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	clock.is_planning = false
 	economy = StageEconomyScript.new(manifest)
 	buildings = BuildingServiceScript.new(economy, manifest)
+	buildings.set_roster_mutation_allowed(not manifest.tutorial_stage)
 	roulette = RouletteServiceScript.new(economy, buildings, manifest, &"lumern")
 	deployment = DeploymentServiceScript.new(economy, manifest)
 	wave_director = WaveDirectorScript.new(stage)
 	battle = BattleSimulatorScript.new(_registry, seed, manifest.base_max_health)
-	_register_battle_outposts()
+	_sync_building_roster_capacity()
 	core_ux = CoreUxServiceScript.new(self, _registry)
 	result_state = RUNNING
 
@@ -228,19 +229,23 @@ func store_roulette_result(result: RouletteSpinResult) -> bool:
 	return true
 
 
-func construct_home(building_id: StringName) -> bool:
-	var node_by_building := {
-		&"tower": &"front_a",
-		&"farm": &"front_b",
-		&"barracks": &"rear",
-	}
-	if not node_by_building.has(building_id):
+func install_building(building_id: StringName) -> bool:
+	if command_phase != PREPARE:
 		return false
-	return construct_at_outpost(&"lumern_middle", node_by_building[building_id], building_id)
+	_sync_building_roster_capacity()
+	return buildings != null and buildings.try_install(building_id)
 
 
-func construct_at_outpost(outpost_id: StringName, node_id: StringName, building_id: StringName) -> bool:
-	return buildings != null and buildings.try_construct(outpost_id, node_id, building_id)
+func move_building_roster_entry(from_slot_index: int, to_slot_index: int) -> bool:
+	if command_phase != PREPARE:
+		return false
+	_sync_building_roster_capacity()
+	return buildings != null and buildings.move_roster_entry(from_slot_index, to_slot_index)
+
+
+func building_roster_snapshot() -> Array[Dictionary]:
+	_sync_building_roster_capacity()
+	return buildings.roster_snapshot() if buildings != null else []
 
 
 func deploy_next_roulette_reward(lane_id: StringName) -> bool:
@@ -311,7 +316,7 @@ func advance(delta: float) -> void:
 	var before_units: Array = (battle.snapshot().get("units", []) as Array).duplicate(true)
 	battle.advance(delta)
 	var after_units: Array = (battle.snapshot().get("units", []) as Array).duplicate(true)
-	buildings.sync_outpost_states()
+	_sync_building_roster_capacity()
 	var battle_events: Array[Dictionary] = battle.drain_events()
 	for event in battle_events:
 		manifest.input_log.append(event)
@@ -324,11 +329,13 @@ func advance(delta: float) -> void:
 		economy.advance(delta, battle.controlled_clash_count(&"lumern"), battle.stable_owned_outpost_count(&"lumern"))
 
 
-func _register_battle_outposts() -> void:
-	for team_id in battle.TEAM_IDS:
-		for lane_id in battle.LANE_IDS:
-			var outpost_id := StringName("%s_%s" % [team_id, lane_id])
-			buildings.register_outpost(outpost_id, battle.outposts[team_id][lane_id], [&"front_a", &"front_b", &"rear"])
+func _sync_building_roster_capacity() -> void:
+	if buildings == null or battle == null:
+		return
+	buildings.sync_occupation_capacity(
+		battle.stable_owned_outpost_count(&"lumern"),
+		battle.controlled_clash_count(&"lumern"),
+	)
 
 
 func _resolve_natural_result() -> void:

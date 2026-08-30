@@ -64,7 +64,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     for term in ("set_contested", "clear_capture_presence", "clampf(power, 0.0, MAX_CAPTURE_POWER)"):
         if term not in outpost:
             errors.append(f"outpost state missing approved capture contract: {term}")
-    for term in ("sync_outpost_states", "remove_food_cap", "RUINED"):
+    for term in ("sync_occupation_capacity", "roster_snapshot", "INACTIVE_LOCKED", "remove_food_cap"):
         if term not in building and term not in economy:
             errors.append(f"building lifecycle missing contract term: {term}")
     for term in ("capture_power", "structure_damage_tags"):
@@ -77,7 +77,9 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "other lane gates remain standing",
         "both teams on one clash freeze it as contested",
         "an empty stable clash clears its contested marker",
-        "farm food cap is removed when the outpost becomes neutral",
+        "loss of objectives locks the building below the new capacity",
+        "a locked global farm loses its passive without deletion",
+        "returning occupation capacity restores the owned roster entry",
         "enemy base destruction from unit attacks produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
         "enemy base destruction closes StageRun as victory",

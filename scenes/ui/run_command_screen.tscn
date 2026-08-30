@@ -213,38 +213,64 @@ offset_bottom = 194.0
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 26.0
-text = "건설은 확률과 병력 한도를 바꿉니다."
+text = "건물은 이 전역 로스터에서만 설치되며, 지도에는 배치되지 않습니다."
+
+[node name="BuildingRoster" type="ItemList" parent="LowerDeck/PreparePanel"]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 578.0
+offset_bottom = 150.0
+theme_override_colors/font_color = Color(0.78, 0.88, 0.96, 1)
+theme_override_font_sizes/font_size = 12
+select_mode = 0
+
+[node name="RosterMoveUpButton" type="Button" parent="LowerDeck/PreparePanel"]
+layout_mode = 0
+offset_left = 590.0
+offset_top = 26.0
+offset_right = 730.0
+offset_bottom = 60.0
+text = "우선순위 ↑"
+
+[node name="RosterMoveDownButton" type="Button" parent="LowerDeck/PreparePanel"]
+layout_mode = 0
+offset_left = 590.0
+offset_top = 68.0
+offset_right = 730.0
+offset_bottom = 102.0
+text = "우선순위 ↓"
 
 [node name="BarracksButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_top = 40.0
-offset_right = 150.0
-offset_bottom = 78.0
-text = "병영 건설"
+offset_left = 744.0
+offset_top = 26.0
+offset_right = 884.0
+offset_bottom = 60.0
+text = "병영 추가"
 
 [node name="TowerButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_left = 164.0
-offset_top = 40.0
-offset_right = 314.0
-offset_bottom = 78.0
-text = "방어탑 건설"
+offset_left = 744.0
+offset_top = 68.0
+offset_right = 884.0
+offset_bottom = 102.0
+text = "방어탑 추가"
 
 [node name="FarmButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_left = 328.0
-offset_top = 40.0
-offset_right = 478.0
-offset_bottom = 78.0
-text = "농장 건설"
+offset_left = 744.0
+offset_top = 110.0
+offset_right = 884.0
+offset_bottom = 144.0
+text = "농장 추가"
 
 [node name="SpinButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_left = 650.0
-offset_top = 34.0
-offset_right = 884.0
-offset_bottom = 84.0
-text = "징조륜 정지 · 20 Gold"
+offset_left = 590.0
+offset_top = 110.0
+offset_right = 730.0
+offset_bottom = 144.0
+text = "징조륜 · 20G"
 
 [node name="RoulettePanel" type="Control" parent="LowerDeck"]
 visible = false
@@ -534,6 +560,9 @@ text = "Stage 다시 시작"
 [connection signal="pressed" from="LowerDeck/PreparePanel/BarracksButton" to="." method="_on_barracks_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/TowerButton" to="." method="_on_tower_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/FarmButton" to="." method="_on_farm_pressed"]
+[connection signal="item_selected" from="LowerDeck/PreparePanel/BuildingRoster" to="." method="_on_roster_selected"]
+[connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveUpButton" to="." method="_on_roster_move_up_pressed"]
+[connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveDownButton" to="." method="_on_roster_move_down_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/SpinButton" to="." method="_on_spin_pressed"]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp0" to="." method="_move_column" binds= [0, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp1" to="." method="_move_column" binds= [1, -1]]

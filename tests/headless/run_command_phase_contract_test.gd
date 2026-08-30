@@ -19,7 +19,7 @@ func _init() -> void:
 	var wave_before := int(run.current_wave)
 	run.advance(60.0)
 	_expect(int(run.current_wave) == wave_before, "PREPARE does not advance wave, combat, or economy time", failures)
-	_expect(run.construct_home(&"barracks"), "PREPARE retains the existing construction choice", failures)
+	_expect(not run.install_building(&"barracks"), "Stage 1 PREPARE keeps the global roster read-only", failures)
 	var gold_before_spin := int(run.economy.gold)
 	_expect(run.begin_roulette_session({"seed": 8102}), "PREPARE starts one paid stopped-board session", failures)
 	_expect(run.command_phase == &"stopped_3x3", "paid spin reaches STOPPED_3X3", failures)

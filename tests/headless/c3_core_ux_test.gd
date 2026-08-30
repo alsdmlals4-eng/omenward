@@ -8,6 +8,7 @@ const RouletteService = preload("res://scripts/roulette/roulette_service.gd")
 const WaveDirector = preload("res://scripts/waves/wave_director.gd")
 
 const TUTORIAL_STAGE_PATH := "res://data/stages/tutorial_stage.tres"
+const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
 const HUD_SCENE_PATH := "res://scenes/ui/stage_hud.tscn"
 
 
@@ -50,57 +51,67 @@ func _new_run(seed: int) -> Variant:
 	return run
 
 
+func _new_post_tutorial_run(seed: int) -> Variant:
+	var stage: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
+	var progression := StageProgression.new()
+	progression.regular_unlocked = true
+	var run := StageRun.new(progression)
+	run.start(stage, seed)
+	return run
+
+
 func _test_token_ledger_and_construction_preview(failures: PackedStringArray) -> void:
-	var run: Variant = _new_run(701)
+	var run: Variant = _new_post_tutorial_run(701)
 	var snapshot: Dictionary = run.core_ux_snapshot()
 	var ledger: Array = snapshot.get("token_ledger", [])
 	_expect(_ledger_entry(ledger, "x").get("weight", 0) == 6, "token ledger exposes the authoritative X weight", failures)
 	_expect(_ledger_entry(ledger, "gold").get("weight", 0) == 2, "token ledger exposes the authoritative gold weight", failures)
 	_expect(_ledger_entry(ledger, "warrior").is_empty(), "initial token ledger does not invent an inactive building source", failures)
 	var barracks: Dictionary = _building_entry(snapshot.get("construction_comparison", []), "barracks")
-	_expect(bool(barracks.get("can_construct", false)), "barracks comparison is available on the stable home node", failures)
+	_expect(bool(barracks.get("can_construct", false)), "barracks comparison is available in the unlocked global roster", failures)
 	_expect(float(barracks.get("probability_after", 0.0)) > float(barracks.get("probability_before", 0.0)), "barracks preview increases the warrior probability before construction", failures)
-	_expect(run.construct_home(&"barracks"), "barracks construction succeeds from the comparison state", failures)
+	_expect(run.install_building(&"barracks"), "barracks installation succeeds from the roster comparison state", failures)
 	var after: Dictionary = run.core_ux_snapshot()
 	var warrior: Dictionary = _ledger_entry(after.get("token_ledger", []), "warrior")
 	_expect(int(warrior.get("source_count", 0)) == 1 and int(warrior.get("weight", 0)) == 3, "constructed barracks appears once in the token ledger", failures)
-	_expect((warrior.get("source_building_ids", []) as Array).has("lumern_middle:rear"), "token ledger exposes the authoritative source building ID", failures)
-	var occupied: Dictionary = _building_entry(after.get("construction_comparison", []), "barracks")
-	_expect(not bool(occupied.get("can_construct", true)) and str(occupied.get("block_reason", "")) == "occupied", "building comparison exposes the occupied node reason", failures)
+	_expect((warrior.get("source_building_ids", []) as Array).has("slot_0:barracks"), "token ledger exposes the authoritative global roster source ID", failures)
+	var next_slot: Dictionary = _building_entry(after.get("construction_comparison", []), "barracks")
+	_expect(bool(next_slot.get("can_construct", false)), "a second building uses another unlocked roster slot instead of a map node", failures)
 
 
 func _test_snapshot_is_read_only(failures: PackedStringArray) -> void:
-	var run: Variant = _new_run(710)
-	_expect(run.construct_home(&"farm"), "read-only snapshot setup constructs a farm", failures)
-	var farm: Variant = run.buildings.building_state_snapshot(&"lumern_middle", &"front_b")
-	var home: Variant = run.battle.outposts[&"lumern"][&"middle"]
-	home.capture_revision += 1
+	var run: Variant = _new_post_tutorial_run(710)
+	_expect(run.install_building(&"farm"), "read-only snapshot setup installs a global farm", failures)
+	var farm: Dictionary = run.building_roster_snapshot()[0]
 	var gold_before := int(run.economy.gold)
 	var food_cap_before := int(run.economy.food_cap)
-	var state_before := StringName(farm.state)
-	var effect_before := bool(farm.effect_active)
+	var state_before := StringName(farm.get("state", ""))
+	var effect_before := bool(farm.get("effect_active", false))
 	var log_before := JSON.stringify(run.manifest.input_log)
 	var first_snapshot := JSON.stringify(run.core_ux_snapshot())
 	var second_snapshot := JSON.stringify(run.core_ux_snapshot())
 	_expect(first_snapshot == second_snapshot, "repeated C3 reads return the same snapshot without a gameplay tick", failures)
 	_expect(int(run.economy.gold) == gold_before, "C3 snapshot does not spend or grant gold", failures)
 	_expect(int(run.economy.food_cap) == food_cap_before, "C3 snapshot does not change food capacity", failures)
-	_expect(StringName(farm.state) == state_before and bool(farm.effect_active) == effect_before, "C3 snapshot does not synchronize or ruin a stale building", failures)
+	var farm_after: Dictionary = run.building_roster_snapshot()[0]
+	_expect(StringName(farm_after.get("state", "")) == state_before and bool(farm_after.get("effect_active", false)) == effect_before, "C3 snapshot does not change global roster activation", failures)
 	_expect(JSON.stringify(run.manifest.input_log) == log_before, "C3 snapshot does not append gameplay input-log events", failures)
 
 
 func _test_boundary_snapshots(failures: PackedStringArray) -> void:
-	var poor: Variant = _new_run(706)
+	var poor: Variant = _new_post_tutorial_run(706)
 	poor.economy.gold = 0
 	var poor_barracks: Dictionary = _building_entry(poor.core_ux_snapshot().get("construction_comparison", []), "barracks")
 	_expect(not bool(poor_barracks.get("can_construct", true)) and str(poor_barracks.get("block_reason", "")) == "insufficient_gold", "construction comparison exposes insufficient gold without mutating state", failures)
 
-	var contested: Variant = _new_run(707)
+	var contested: Variant = _new_post_tutorial_run(707)
 	var home: Variant = contested.battle.outposts[&"lumern"][&"middle"]
 	_expect(home.begin_capture(&"veil", 1.0), "boundary setup begins an enemy capture", failures)
 	home.set_contested()
+	contested.buildings.sync_occupation_capacity(contested.battle.stable_owned_outpost_count(&"lumern"), contested.battle.controlled_clash_count(&"lumern"))
+	_expect(contested.buildings.unlocked_slot_capacity() == 8, "a contested forward base immediately removes one global occupation slot", failures)
 	var contested_barracks: Dictionary = _building_entry(contested.core_ux_snapshot().get("construction_comparison", []), "barracks")
-	_expect(not bool(contested_barracks.get("can_construct", true)) and str(contested_barracks.get("block_reason", "")).begins_with("outpost_"), "construction comparison safely blocks a contested capture state", failures)
+	_expect(bool(contested_barracks.get("can_construct", false)), "a remaining global slot is not tied to a contested map coordinate", failures)
 
 	var no_target: Variant = _new_run(708)
 	var lone_archer: Variant = no_target.battle.spawn_unit(_spawn(&"lumern", &"top", &"archer"))

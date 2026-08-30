@@ -174,7 +174,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             '"latest_wave_report"',
             "roulette_token_sources_snapshot",
             "token_ledger_from_sources",
-            "building_state_snapshot",
+            "available_definitions_snapshot",
             "probability_for_symbol_from_sources",
             "var preview_sources: Array[Dictionary]",
             "var before_probability: float",
@@ -194,7 +194,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     require_terms(
         errors,
         buildings,
-        ("func roulette_token_sources_snapshot()", "func building_state_snapshot(", "return roulette_token_sources_snapshot()", "return building_state_snapshot(outpost_id, node_id)"),
+        ("func roulette_token_sources_snapshot()", "func roster_snapshot()", "func available_definitions_snapshot()", "return roulette_token_sources_snapshot()"),
         "building read-only snapshot API",
     )
     require_terms(errors, roulette, ("func token_ledger_from_sources(", "func probability_for_symbol_from_sources(", "X_WEIGHT", "GOLD_WEIGHT"), "roulette authoritative preview")
@@ -271,12 +271,12 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "repeated C3 reads return the same snapshot without a gameplay tick",
             "C3 snapshot does not spend or grant gold",
             "C3 snapshot does not change food capacity",
-            "C3 snapshot does not synchronize or ruin a stale building",
+            "C3 snapshot does not change global roster activation",
             "C3 snapshot does not append gameplay input-log events",
             "initial token ledger does not invent an inactive building source",
-            "token ledger exposes the authoritative source building ID",
+            "token ledger exposes the authoritative global roster source ID",
             "construction comparison exposes insufficient gold without mutating state",
-            "construction comparison safely blocks a contested capture state",
+            "a contested forward base immediately removes one global occupation slot",
             "tactical overlay safely exposes a unit with no current target",
             "wave report remains empty while a registered wave is unresolved",
             "T-30 reveals lane and role without exact unit details",

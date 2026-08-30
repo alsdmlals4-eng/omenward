@@ -80,9 +80,9 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertTrue(any("probability_for_symbol_from_sources" in error for error in errors))
 
     def test_read_only_headless_regression_removal_is_rejected(self) -> None:
-        phrase = "C3 snapshot does not synchronize or ruin a stale building"
+        phrase = "C3 snapshot does not change global roster activation"
         errors = self._errors_after("tests/headless/c3_core_ux_test.gd", phrase, "removed read-only check")
-        self.assertTrue(any("stale building" in error for error in errors))
+        self.assertTrue(any("global roster activation" in error for error in errors))
 
     def test_boundary_regression_removal_is_rejected(self) -> None:
         phrase = "construction comparison exposes insufficient gold without mutating state"

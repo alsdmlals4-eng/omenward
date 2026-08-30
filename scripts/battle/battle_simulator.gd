@@ -7,6 +7,7 @@ const GateStateScript = preload("res://scripts/battle/gate_state.gd")
 const BaseStateScript = preload("res://scripts/battle/base_state.gd")
 const ClashZoneStateScript = preload("res://scripts/battle/clash_zone_state.gd")
 const OutpostStateScript = preload("res://scripts/battle/outpost_state.gd")
+const FixedTowerStateScript = preload("res://scripts/battle/fixed_tower_state.gd")
 const AssassinBypassStateScript = preload("res://scripts/battle/assassin_bypass_state.gd")
 
 const FIXED_STEP_SECONDS := 0.1
@@ -31,6 +32,7 @@ var gates := {}
 var bases := {}
 var outposts := {}
 var clash_zones := {}
+var fixed_towers := {}
 var bypasses: Array = []
 var result_state: StringName = RUNNING
 var objectives_enabled := true
@@ -49,6 +51,7 @@ func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health
 	for lane_id in LANE_IDS:
 		lanes[lane_id] = LaneStateScript.new(lane_id)
 		clash_zones[lane_id] = ClashZoneStateScript.new(lane_id)
+		fixed_towers[lane_id] = FixedTowerStateScript.new(lane_id)
 	gates = {
 		&"lumern": {&"top": GateStateScript.new(), &"middle": GateStateScript.new(), &"bottom": GateStateScript.new()},
 		&"veil": {&"top": GateStateScript.new(), &"middle": GateStateScript.new(), &"bottom": GateStateScript.new()},
@@ -69,6 +72,7 @@ func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health
 			&"bottom": OutpostStateScript.new(&"veil", true),
 		},
 	}
+	_refresh_fixed_towers()
 
 
 func can_spawn_unit(spawn: UnitSpawnDefinition) -> bool:
@@ -128,6 +132,10 @@ func stable_owned_outpost_count(team_id: StringName) -> int:
 	return count
 
 
+func stable_player_forward_base_count() -> int:
+	return stable_owned_outpost_count(&"lumern")
+
+
 func get_unit_by_id(unit_id: int) -> Variant:
 	for lane_id in LANE_IDS:
 		for unit in lanes[lane_id].units:
@@ -159,6 +167,7 @@ func snapshot() -> Dictionary:
 	var zone_snapshots: Array = []
 	var gate_snapshots := {}
 	var outpost_snapshots := {}
+	var fixed_tower_snapshots := {}
 	var base_snapshots := {}
 	for lane_id in LANE_IDS:
 		var lane: LaneState = lanes[lane_id]
@@ -166,6 +175,7 @@ func snapshot() -> Dictionary:
 		for unit in lane.ordered_units():
 			unit_snapshots.append(unit.to_snapshot())
 		zone_snapshots.append(clash_zones[lane_id].snapshot())
+		fixed_tower_snapshots[str(lane_id)] = fixed_towers[lane_id].snapshot()
 	for team_id in TEAM_IDS:
 		var team_gates := {}
 		var team_outposts := {}
@@ -187,6 +197,7 @@ func snapshot() -> Dictionary:
 		"bases": base_snapshots,
 		"outposts": outpost_snapshots,
 		"clash_zones": zone_snapshots,
+		"fixed_towers": fixed_tower_snapshots,
 		"bypasses": bypasses.map(func(entry: Dictionary) -> Dictionary: return entry["state"].snapshot()),
 	}
 
@@ -210,6 +221,7 @@ func _advance_fixed_step() -> void:
 		lane.remove_dead_units()
 	if objectives_enabled and result_state == RUNNING:
 		_advance_capture_objectives(FIXED_STEP_SECONDS)
+	_refresh_fixed_towers()
 	for team_id in TEAM_IDS:
 		for lane_id in LANE_IDS:
 			var gate: GateState = gates[team_id][lane_id]
@@ -292,6 +304,11 @@ func _advance_capture_objectives(delta: float) -> void:
 		_update_capture_state(clash_zones[lane_id].outpost, CLASH_POSITION, lane_id, &"clash", delta)
 		_update_capture_state(outposts[&"lumern"][lane_id], float(OUTPOST_POSITIONS[&"lumern"]), lane_id, &"outpost_lumern", delta)
 		_update_capture_state(outposts[&"veil"][lane_id], float(OUTPOST_POSITIONS[&"veil"]), lane_id, &"outpost_veil", delta)
+
+
+func _refresh_fixed_towers() -> void:
+	for lane_id in LANE_IDS:
+		fixed_towers[lane_id].sync_from_tower_bearing_objective(outposts[&"lumern"][lane_id])
 
 
 func _update_capture_state(state: OutpostState, position: float, lane_id: StringName, objective_id: StringName, delta: float) -> void:

@@ -40,19 +40,19 @@ func _on_spin_pressed() -> void:
 
 func _on_barracks_pressed() -> void:
 	if run != null:
-		run.construct_home(&"barracks")
+		run.install_building(&"barracks")
 	_update_display()
 
 
 func _on_tower_pressed() -> void:
 	if run != null:
-		run.construct_home(&"tower")
+		run.install_building(&"tower")
 	_update_display()
 
 
 func _on_farm_pressed() -> void:
 	if run != null:
-		run.construct_home(&"farm")
+		run.install_building(&"farm")
 	_update_display()
 
 
@@ -116,7 +116,7 @@ func _render_token_ledger(entries: Array) -> void:
 
 
 func _render_construction_comparison(entries: Array) -> void:
-	var lines := PackedStringArray(["BUILD / ROULETTE PREVIEW"])
+	var lines := PackedStringArray(["GLOBAL BUILDING ROSTER / ROULETTE PREVIEW"])
 	for entry in entries:
 		var building_id := str(entry.get("building_id", ""))
 		var reason := str(entry.get("block_reason", ""))

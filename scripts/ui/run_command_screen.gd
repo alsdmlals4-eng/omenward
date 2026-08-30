@@ -10,6 +10,7 @@ const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_
 @onready var _gold_label: Label = $TopBar/GoldLabel
 @onready var _food_label: Label = $TopBar/FoodLabel
 @onready var _primary_label: Label = $LowerDeck/PrimaryLabel
+@onready var _building_roster: ItemList = $LowerDeck/PreparePanel/BuildingRoster
 @onready var _prepare_panel: Control = $LowerDeck/PreparePanel
 @onready var _roulette_panel: Control = $LowerDeck/RoulettePanel
 @onready var _commit_panel: Control = $LowerDeck/CommitPanel
@@ -26,6 +27,7 @@ const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_
 var run: Variant
 var _spin_seed := 1
 var _selected_roulette_index := -1
+var _selected_roster_slot := -1
 
 
 func bind_run(assigned_run: Variant) -> void:
@@ -39,17 +41,29 @@ func _process(_delta: float) -> void:
 
 func _on_barracks_pressed() -> void:
 	if run != null:
-		run.construct_home(&"barracks")
+		run.install_building(&"barracks")
 
 
 func _on_tower_pressed() -> void:
 	if run != null:
-		run.construct_home(&"tower")
+		run.install_building(&"tower")
 
 
 func _on_farm_pressed() -> void:
 	if run != null:
-		run.construct_home(&"farm")
+		run.install_building(&"farm")
+
+
+func _on_roster_selected(slot_index: int) -> void:
+	_selected_roster_slot = slot_index
+
+
+func _on_roster_move_up_pressed() -> void:
+	_move_selected_roster_entry(-1)
+
+
+func _on_roster_move_down_pressed() -> void:
+	_move_selected_roster_entry(1)
 
 
 func _on_spin_pressed() -> void:
@@ -111,6 +125,7 @@ func _refresh() -> void:
 	_phase_label.text = _phase_title(StringName(run.command_phase))
 	_refresh_fronts()
 	_refresh_phase_panels()
+	_refresh_building_roster()
 	_refresh_roulette()
 	_refresh_commit()
 
@@ -128,7 +143,52 @@ func _refresh_fronts() -> void:
 		var friendly_count := _friendly_count(lane_id)
 		panel.get_node("Title").text = "%s · 아군 %d / 징조 %d" % [LANE_TITLES[lane_id], friendly_count, enemy_count]
 		panel.get_node("Minimap/Progress").value = clampi(50 + (friendly_count - enemy_count) * 10, 5, 95)
-		panel.get_node("Minimap/Context").text = "수호성  ◇───◆  Veil"
+		var tower: Variant = run.battle.fixed_towers.get(lane_id) if run.battle != null else null
+		var tower_state := "탑 비활성"
+		if tower != null and tower.active:
+			tower_state = "Lumern 탑" if tower.owner_team_id == &"lumern" else "Veil 탑"
+		panel.get_node("Minimap/Context").text = "수호성  ◇───◆  Veil · %s" % tower_state
+
+
+func _refresh_building_roster() -> void:
+	if run == null or run.buildings == null:
+		return
+	var roster: Array = run.building_roster_snapshot()
+	_building_roster.clear()
+	for entry in roster:
+		var state := str(entry.get("state", ""))
+		var building_name := str(entry.get("display_name", "빈 슬롯"))
+		var status := "활성" if state == "active" else ("잠김" if state == "inactive_locked" else "비어 있음")
+		_building_roster.add_item("%d. %s · %s" % [int(entry.get("slot_index", 0)) + 1, building_name, status])
+	if roster.is_empty():
+		_selected_roster_slot = -1
+	elif _selected_roster_slot < 0 or _selected_roster_slot >= roster.size():
+		_selected_roster_slot = 0
+	if _selected_roster_slot >= 0:
+		_building_roster.select(_selected_roster_slot, true)
+	var roster_is_mutable := StringName(run.command_phase) == &"prepare"
+	$LowerDeck/PreparePanel/RosterMoveUpButton.disabled = not roster_is_mutable or _selected_roster_slot <= 0
+	$LowerDeck/PreparePanel/RosterMoveDownButton.disabled = not roster_is_mutable or _selected_roster_slot < 0 or _selected_roster_slot >= roster.size() - 1
+	_update_install_button_state(&"barracks", $LowerDeck/PreparePanel/BarracksButton)
+	_update_install_button_state(&"tower", $LowerDeck/PreparePanel/TowerButton)
+	_update_install_button_state(&"farm", $LowerDeck/PreparePanel/FarmButton)
+
+
+func _update_install_button_state(building_id: StringName, button: Button) -> void:
+	var reason := String(run.buildings.install_block_reason(building_id))
+	var phase_is_prepare := StringName(run.command_phase) == &"prepare"
+	button.disabled = reason != "" or not phase_is_prepare
+	button.tooltip_text = "로스터에 추가" if reason == "" and phase_is_prepare else (reason if reason != "" else "준비 단계에서만 변경할 수 있습니다")
+
+
+func _move_selected_roster_entry(direction: int) -> void:
+	if run == null or _selected_roster_slot < 0:
+		return
+	var target_slot := _selected_roster_slot + direction
+	if target_slot < 0 or target_slot >= run.building_roster_snapshot().size():
+		return
+	if run.move_building_roster_entry(_selected_roster_slot, target_slot):
+		_selected_roster_slot = target_slot
 
 
 func _refresh_phase_panels() -> void:

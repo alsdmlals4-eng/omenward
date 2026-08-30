@@ -19,7 +19,7 @@ func _init() -> void:
 	_test_shared_objective_profiles(failures)
 	_test_objective_sequence_and_lane_gate_isolation(failures)
 	_test_contested_clash_and_economy(failures)
-	_test_outpost_building_effect_lifecycle(failures)
+	_test_global_roster_effect_lifecycle(failures)
 	_test_natural_base_result(failures)
 	_test_stage_natural_results(failures)
 	_finish(failures)
@@ -99,31 +99,33 @@ func _test_contested_clash_and_economy(failures: PackedStringArray) -> void:
 	_expect(economy.gold == 31, "sixty seconds pays 15 base, 4 clash, and 12 for three stable home outposts", failures)
 
 
-func _test_outpost_building_effect_lifecycle(failures: PackedStringArray) -> void:
+func _test_global_roster_effect_lifecycle(failures: PackedStringArray) -> void:
 	var battle := BattleSimulator.new(_registry(), 303)
 	var manifest := StageManifest.new()
-	manifest.starting_gold = 200
+	manifest.starting_gold = 500
 	manifest.starting_food_cap = 12
 	var economy := StageEconomy.new(manifest)
 	var buildings := BuildingService.new(economy, manifest)
-	var outpost: Variant = battle.outposts[&"lumern"][&"middle"]
-	buildings.register_outpost(&"lumern_middle", outpost, [&"front_a", &"front_b", &"rear"])
-	_expect(buildings.try_construct(&"lumern_middle", &"front_b", &"farm"), "a stable home outpost builds a farm", failures)
+	buildings.set_roster_mutation_allowed(true)
+	buildings.sync_occupation_capacity(battle.stable_owned_outpost_count(&"lumern"), battle.controlled_clash_count(&"lumern"))
+	for _index in 6:
+		_expect(buildings.try_install(&"barracks"), "the first six global roster slots accept buildings", failures)
+	_expect(buildings.try_install(&"farm"), "an occupation-unlocked global slot installs a farm", failures)
 	_expect(economy.food_cap == 18, "active farm grants six food cap", failures)
-	outpost.begin_capture(&"veil", 2.0)
-	outpost.advance(5.0)
-	buildings.sync_outpost_states()
-	_expect(economy.food_cap == 12, "farm food cap is removed when the outpost becomes neutral", failures)
-	outpost.advance(5.0)
-	outpost.advance(5.0)
-	buildings.sync_outpost_states()
-	var ruined: Variant = buildings.building_state(&"lumern_middle", &"front_b")
-	_expect(ruined != null and ruined.state == ruined.RUINED, "captured outpost ruins the previous building revision", failures)
-	outpost.begin_capture(&"lumern", 2.0)
-	outpost.advance(10.0)
-	outpost.advance(5.0)
-	_expect(buildings.try_construct(&"lumern_middle", &"front_b", &"farm"), "recapture allows a new building on the ruined node", failures)
-	_expect(economy.food_cap == 18, "rebuilt farm restores food cap once", failures)
+	for lane_id in battle.LANE_IDS:
+		battle.outposts[&"lumern"][lane_id].owner_team_id = &"veil"
+		battle.outposts[&"lumern"][lane_id].state = battle.outposts[&"lumern"][lane_id].STABLE
+	buildings.sync_occupation_capacity(battle.stable_owned_outpost_count(&"lumern"), battle.controlled_clash_count(&"lumern"))
+	var locked_roster := buildings.roster_snapshot()
+	_expect(locked_roster.size() > 6 and locked_roster[6].get("state", "") == "inactive_locked", "loss of objectives locks the building below the new capacity", failures)
+	_expect(economy.food_cap == 12, "a locked global farm loses its passive without deletion", failures)
+	for lane_id in battle.LANE_IDS:
+		battle.outposts[&"lumern"][lane_id].owner_team_id = &"lumern"
+		battle.outposts[&"lumern"][lane_id].state = battle.outposts[&"lumern"][lane_id].STABLE
+	buildings.sync_occupation_capacity(battle.stable_owned_outpost_count(&"lumern"), battle.controlled_clash_count(&"lumern"))
+	var restored_roster := buildings.roster_snapshot()
+	_expect(restored_roster.size() > 6 and restored_roster[6].get("state", "") == "active", "returning occupation capacity restores the owned roster entry", failures)
+	_expect(economy.food_cap == 18, "restored global farm reapplies its passive once", failures)
 
 
 func _test_natural_base_result(failures: PackedStringArray) -> void:
