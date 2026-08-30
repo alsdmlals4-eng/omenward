@@ -1,0 +1,78 @@
+{
+  "url": "https://api.github.com/repos/alsdmlals4-eng/omenward/issues/256",
+  "repository_url": "https://api.github.com/repos/alsdmlals4-eng/omenward",
+  "labels_url": "https://api.github.com/repos/alsdmlals4-eng/omenward/issues/256/labels{/name}",
+  "comments_url": "https://api.github.com/repos/alsdmlals4-eng/omenward/issues/256/comments",
+  "events_url": "https://api.github.com/repos/alsdmlals4-eng/omenward/issues/256/events",
+  "html_url": "https://github.com/alsdmlals4-eng/omenward/issues/256",
+  "id": 5291108498,
+  "node_id": "I_kwDOTYDKW88AAAABO1_okg",
+  "number": 256,
+  "title": "Phase 2: implement approved storybook SD unit runtime assets",
+  "user": {
+    "login": "alsdmlals4-eng",
+    "id": 300401789,
+    "node_id": "U_kgDOEefEfQ",
+    "avatar_url": "https://avatars.githubusercontent.com/u/300401789?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/alsdmlals4-eng",
+    "html_url": "https://github.com/alsdmlals4-eng",
+    "followers_url": "https://api.github.com/users/alsdmlals4-eng/followers",
+    "following_url": "https://api.github.com/users/alsdmlals4-eng/following{/other_user}",
+    "gists_url": "https://api.github.com/users/alsdmlals4-eng/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/alsdmlals4-eng/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/alsdmlals4-eng/subscriptions",
+    "organizations_url": "https://api.github.com/users/alsdmlals4-eng/orgs",
+    "repos_url": "https://api.github.com/users/alsdmlals4-eng/repos",
+    "events_url": "https://api.github.com/users/alsdmlals4-eng/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/alsdmlals4-eng/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "labels": [
+
+  ],
+  "state": "open",
+  "locked": false,
+  "assignees": [
+
+  ],
+  "milestone": null,
+  "comments": 0,
+  "created_at": "2026-08-30T08:22:27Z",
+  "updated_at": "2026-08-30T08:22:27Z",
+  "closed_at": null,
+  "assignee": null,
+  "author_association": "OWNER",
+  "active_lock_reason": null,
+  "sub_issues_summary": {
+    "total": 0,
+    "completed": 0,
+    "percent_completed": 0
+  },
+  "issue_dependencies_summary": {
+    "blocked_by": 0,
+    "total_blocked_by": 0,
+    "blocking": 0,
+    "total_blocking": 0
+  },
+  "body": "## Goal\nBring the current runtime unit presentation into the user-approved storybook watercolor SD tactical direction without changing battle rules, unit data, or animation timing.\n\n## Scope\n- Produce original, provenance-recorded idle candidates for the existing runtime archetype/faction consumers.\n- Start with the current early-stage readability pair: Lumern/Veil Shield Guard and Lumern/Veil Archer.\n- Preserve the existing 512×512 runtime cell, pivot, source-facing, UnitView binding, and deterministic battle behavior.\n- Keep terrain, fixed towers, units, and ownership state as separate render layers.\n\n## Non-goals\n- No battle balance, attack timing, frame-count, or new animation-state change.\n- No replacement of a user-approved source without candidate provenance, exact approval, and consumer verification.\n- No baked character/tower content in the strategic terrain backdrop.\n\n## Acceptance\n- Every changed runtime texture has an original-generation provenance record, SHA-256, and a non-overwrite path.\n- Existing geometry/gallery and battle contracts remain green.\n- Godot scene import resolves the new textures and runtime visual capture is taken separately from machine checks.\n- Human readability remains not-run until actually reviewed.",
+  "closed_by": null,
+  "reactions": {
+    "url": "https://api.github.com/repos/alsdmlals4-eng/omenward/issues/256/reactions",
+    "total_count": 0,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  },
+  "timeline_url": "https://api.github.com/repos/alsdmlals4-eng/omenward/issues/256/timeline",
+  "performed_via_github_app": null,
+  "state_reason": null,
+  "pinned_comment": null
+}
