@@ -13,7 +13,7 @@ BASE_ISSUE = https://github.com/alsdmlals4-eng/Base/issues/768
 
 ## Incident
 
-After PR #246 merged, the Base operating-contract `--check` reported four deterministic generated views as manually modified or stale in this Windows checkout. The current game canon, board topology, and GitHub main content were not changed by this finding.
+After PR #246 merged, the Base operating-contract `--check` reported deterministic generated views as manually modified or stale in this Windows checkout. The current game canon, board topology, and GitHub main content were not changed by this finding.
 
 ## Verified root cause
 
@@ -21,15 +21,16 @@ This checkout has `core.autocrlf=true` and no project `.gitattributes` rule for 
 
 ## Solution
 
-`.gitattributes` pins only the five outputs emitted by the project operating-artifact generator to `text eol=lf`:
+`.gitattributes` pins the six generated or raw-byte-checked operating-contract outputs to `text eol=lf`:
 
 1. `.agents/skills/omenward-workflow-router/SKILL.md`
 2. `docs/PROJECT_OPERATING_DASHBOARD.html`
-3. `skills/BASE_V9_ADAPTER.json`
-4. `skills/PROJECT_BASE_SKILL_ADAPTER.json`
-5. `skills/PROJECT_SKILL_SNAPSHOT.json`
+3. `skills/PROJECT_BASE_ADAPTER.json`
+4. `skills/BASE_V9_ADAPTER.json`
+5. `skills/PROJECT_BASE_SKILL_ADAPTER.json`
+6. `skills/PROJECT_SKILL_SNAPSHOT.json`
 
-The regression test verifies the exact attribute for all five paths. No Godot code, Scene, Resource, asset, player-facing rule, or visual decision changes are part of this solution.
+The regression test verifies the exact attribute for all six paths. `PROJECT_BASE_ADAPTER.json` is the canonical adapter whose raw snapshot hash is checked, so omitting it reintroduced an OS-line-ending-only baseline mismatch. No Godot code, Scene, Resource, asset, player-facing rule, or visual decision changes are part of this solution.
 
 ## Lesson and Base disposition
 
@@ -38,8 +39,8 @@ The raw-byte reproducibility requirement is shared infrastructure rather than an
 ## Validation record
 
 ```text
-RED = test_generated_operating_artifacts_are_checked_out_with_lf failed for all five paths before .gitattributes
-GREEN = same test passed after .gitattributes
+RED = generated-artifact LF test and raw adapter snapshot equality reported Windows line-ending mismatch before the complete .gitattributes guard
+GREEN = exact six-path LF test and raw adapter snapshot equality passed after adding PROJECT_BASE_ADAPTER.json
 GENERATED_ARTIFACT_CHECK = PASS
 BASE_OPERATING_CONTRACT_CHECK = PASS
 ```

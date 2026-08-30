@@ -2,7 +2,7 @@
 
 ```yaml
 updated_at: 2026-08-30
-status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__GLOBAL_BUILDING_ROSTER_PHASE2_ACTIVE
+status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_IMPLEMENTED__UNIT_SOURCE_SHEETS_GENERATED
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
@@ -10,7 +10,7 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
-current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__GLOBAL_BUILDING_ROSTER_PHASE2_MACHINE_VERIFIED
+current_activity: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_IMPLEMENTED__UNIT_SOURCE_SHEETS_GENERATED
 current_forward_defense_spec: docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md
 current_global_building_roster_decision: OMW-PLAN-20260830-GLOBAL-BUILDING-ROSTER-OCCUPATION-SLOTS-01
 current_global_building_roster_issue: 255
@@ -21,9 +21,15 @@ current_visual_decision: OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-
 current_visual_topology: ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
 current_visual_board_file: docs/images/planning/generated/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28_v6_OPEN_BATTLEFIELD_NO_BARRICADE.png
 current_visual_route_state_grammar: WARD_CITADEL_HOME_BASE__WARD_FORWARD_BASE__CLASH_ZONE__VEIL_FORWARD_BASE__VEIL_CITADEL_HOME_BASE
-current_visual_asset: NONE__NEW_DIRECTION_PLANNING_ONLY
+current_visual_asset: OMW-IMG-20260830-WIDE-CONNECTED-STRATEGIC-FRONT-TERRAIN-V1
+current_strategic_map_owner: scripts/ui/strategic_map_view.gd
+current_strategic_map_issue: 235
+current_wide_connected_terrain_asset: docs/images/approved/OMENWARD_WIDE_CONNECTED_STRATEGIC_FRONT_TERRAIN_V1.md
+current_wide_connected_terrain_status: USER_APPROVED__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN
 legacy_runtime_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
-current_build_runtime_unit_asset_set: LEGACY_STYLE_FIT_REVIEW_REQUIRED
+current_build_runtime_unit_asset_set: STORYBOOK_SD_SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
+current_storybook_unit_source_sheets: docs/images/planning/OMENWARD_STORYBOOK_SD_UNIT_RUNTIME_SOURCE_SHEETS_2026-08-30.md
+current_storybook_unit_asset_issue: 256
 current_unit_animation_production_contract: docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md
 current_screen_surface_visual_coverage_audit: docs/design/OMENWARD_GAME_SCREEN_AND_IMAGE_COVERAGE_2026-08-28.md
 implementation_authorized: true
@@ -101,25 +107,31 @@ FINAL_PLANNING_REVIEW_SCOPE = RETAINED_PRE_20260825_VISUAL_OVERRIDE_EVIDENCE
 IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
 RUN_COMMAND_IMPLEMENTATION_EXECUTION = IMPLEMENTED__MACHINE_QA_AND_HUMAN_PLAYTEST_REMAIN
 HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
-PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__VISUAL_EXECUTION_PAUSED
+PROJECT_ACTIVITY = FIRST5_FTUE_CORE_LOOP_RECONCILIATION__TERRAIN_IMPLEMENTED__UNIT_SOURCE_SHEETS_GENERATED
 UNIT_ANIMATION_PRODUCTION_CONTRACT = RETAINED_GEOMETRY_ONLY__STYLE_FIT_REVIEW_REQUIRED
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = LEGACY_STYLE_FIT_REVIEW_REQUIRED
-CURRENT_NEXT = PHASE2_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOT_MIGRATION__ISSUE_255__MACHINE_VERIFIED__RUNTIME_TARGET_RESOLUTION_REQUIRED
+CURRENT_NEXT = PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 GODOT_CODEX = RUN_COMMAND_VERTICAL_SLICE_IMPLEMENTED__MACHINE_QA_ACTIVE
-PHASE2_GLOBAL_ROSTER_MACHINE_QA = 24_HEADLESS_GODOT_PASS__561_PYTHON_PASS__1_CI_ONLY_BASE_RECOVERY_FIXTURE_REQUIRED
+PHASE2_GLOBAL_ROSTER_MACHINE_QA = 24_HEADLESS_GODOT_PASS__562_PYTHON_PASS__1_CI_ONLY_BASE_RECOVERY_FIXTURE_REQUIRED
+STRATEGIC_MAP_UI = IMPLEMENTED__25_HEADLESS_GODOT_CONTRACTS__EDITOR_IMPORT
+WIDE_CONNECTED_TERRAIN = USER_APPROVED__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN
+STORYBOOK_UNIT_SOURCE_SHEETS = GENERATED_CANDIDATE__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
 ```
 
 `GITHUB_NOTION_DRIFT_CHECK = PASS`와 `FINAL_PLANNING_ADVERSARIAL_REVIEW = PASS_5_OF_5`는 2026-08-24 final-planning 시점의 보존 증거다. 2026-08-25 승인 이미지의 runtime/human 검증 PASS를 뜻하지 않는다.
 
-`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 현재 gate는 열린 전장·탑 전용 배치가 반영된 v6 planning board를 사용자가 확정할지 검토하는 것이다.
+`HISTORICAL_PRE_APPROVAL_GATE`는 2026-08-24 implementation 승인 이전의 과거 gate를 보존하는 호환 marker이며 현재 다음 작업이 아니다. 사용자 승인 지형은 정본 등록과 씬 연결까지 완료했지만, runtime/human 검증은 아직 실행하지 않았다. 현재 gate는 새 Storybook SD 유닛 원본 시트를 true-alpha 개별 runtime cell 후보로 정규화하고 검토하는 것이다.
 
 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` is the current presentation owner. It fixes the primary battlefield as one simultaneous strategic map with **one Ward Citadel root branching into three visible fronts**, using storybook watercolor SD visual language. Parallel rows or three independent Ward bases are rejected. The 2026-08-25 Decision retains only the protected three-front responsibility, battlefield-primary hierarchy, compact lower deck, and silhouette-first rule; the 2026-08-28 close-backdrop presentation is superseded while its roulette inspection behavior remains retained.
 
 Current visual/handoff owners:
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
 - `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
+- `docs/superpowers/plans/2026-08-30-wide-connected-strategic-map.md`
+- `docs/images/approved/OMENWARD_WIDE_CONNECTED_STRATEGIC_FRONT_TERRAIN_V1.md` — user-approved, canon-registered, and bound terrain-only runtime backdrop; runtime/human verification remains `NOT_RUN`.
+- `docs/images/planning/OMENWARD_STORYBOOK_SD_UNIT_RUNTIME_SOURCE_SHEETS_2026-08-30.md` — generated source-sheet candidate; true-alpha cell export and user review remain pending.
 - `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
 - `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md` — legacy current-build consumer only
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md`
@@ -187,7 +199,7 @@ SECONDARY_VISUAL_MASS = LOWER_CONTROL_DECK
 ROULETTE_EXPOSURE = 3×3
 ROW_COLUMN_ARROWS = PROMINENT
 NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY
-CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED
+CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260830-WIDE-CONNECTED-STRATEGIC-FRONT-TERRAIN-V1
 LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
 PROJECT_CORE_SCENE_VISUAL_BOARD = USER_CONFIRMED_PLANNING_LOCK__V6_OPEN_BATTLEFIELD_NO_BARRICADE__NOT_RUNTIME_ASSET
 ```

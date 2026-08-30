@@ -1,7 +1,7 @@
 class_name UnitView
 extends Node2D
 
-const IDLE_DISPLAY_HEIGHT := 56.0
+const IDLE_DISPLAY_HEIGHT := 72.0
 
 var unit: Variant
 var visual_profile: Variant

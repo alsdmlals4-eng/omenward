@@ -26,6 +26,7 @@ func _init() -> void:
 	_assert_scene_contract(STAGE_HUD_SCENE_PATH, "bind_run", "stage HUD binds a stage run", failures)
 	_assert_scene_contract(RUN_COMMAND_SCREEN_PATH, "bind_run", "Run Command screen binds a stage run", failures)
 	_assert_global_roster_ui_contract(failures)
+	_assert_strategic_map_ui_contract(failures)
 	_assert_scene_contract(STAGE_SELECT_SCENE_PATH, "stage_requested", "stage select emits stage requests", failures)
 	_assert_scene_contract(UNIT_SCENE_PATH, "bind_unit", "shared unit scene binds a unit instance", failures)
 	_expect(not FileAccess.file_exists("res://scenes/units/enemy_unit.tscn"), "no enemy unit scene is created", failures)
@@ -52,6 +53,20 @@ func _assert_global_roster_ui_contract(failures: PackedStringArray) -> void:
 	_expect(roster is ItemList, "PREPARE exposes the global building roster as a selectable list", failures)
 	_expect(screen.get_node_or_null("LowerDeck/PreparePanel/RosterMoveUpButton") is Button, "PREPARE exposes a roster priority-up action", failures)
 	_expect(screen.get_node_or_null("LowerDeck/PreparePanel/RosterMoveDownButton") is Button, "PREPARE exposes a roster priority-down action", failures)
+	screen.queue_free()
+
+
+func _assert_strategic_map_ui_contract(failures: PackedStringArray) -> void:
+	var packed := load(RUN_COMMAND_SCREEN_PATH) as PackedScene
+	if packed == null:
+		return
+	var screen := packed.instantiate()
+	var strategic_map := screen.get_node_or_null("StrategicMap") as Control
+	_expect(strategic_map != null, "Run Command exposes one primary strategic map", failures)
+	_expect(screen.get_node_or_null("Fronts") == null, "Run Command no longer exposes three progress-card minimaps", failures)
+	if strategic_map != null:
+		_expect(strategic_map.has_method("bind_run"), "strategic map consumes a stage run read-only", failures)
+		_expect(strategic_map.has_method("fixed_tower_count"), "strategic map exposes fixed tower presentation count", failures)
 	screen.queue_free()
 
 

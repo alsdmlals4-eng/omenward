@@ -3,7 +3,10 @@ extends Node2D
 
 const UNIT_SCENE := preload("res://scenes/units/unit.tscn")
 const LANE_IDS := [&"top", &"middle", &"bottom"]
-const LANE_Y := {&"top": 165.0, &"middle": 270.0, &"bottom": 375.0}
+const LANE_Y := {&"top": 116.0, &"middle": 186.0, &"bottom": 256.0}
+const WORLD_X_ORIGIN := 110.0
+const WORLD_X_PER_SIMULATION_POSITION := 7.4
+const FIXED_TOWER_PRESENTATION_POSITION := 27.0
 
 var run: Variant
 var _unit_views := {}
@@ -22,14 +25,14 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	for lane_id in LANE_IDS:
 		var y: float = LANE_Y[lane_id]
-		draw_line(Vector2(120, y), Vector2(840, y), Color(0.9, 0.78, 0.42, 0.32), 2.0)
-		draw_circle(Vector2(480, y), 27.0, Color(0.55, 0.2, 0.14, 0.26))
-		draw_arc(Vector2(480, y), 27.0, 0.0, TAU, 24, Color(0.95, 0.68, 0.3, 0.7), 1.0)
-		_draw_fixed_tower(lane_id, Vector2(330, y))
+		var clash := world_position_for(lane_id, 50.0)
+		draw_circle(clash, 27.0, Color(0.55, 0.2, 0.14, 0.26))
+		draw_arc(clash, 27.0, 0.0, TAU, 24, Color(0.95, 0.68, 0.3, 0.7), 1.0)
+		_draw_fixed_tower(lane_id, world_position_for(lane_id, FIXED_TOWER_PRESENTATION_POSITION))
 		if run != null and run.battle != null:
 			var bypasses: Array = run.battle.bypasses
 			if bypasses.any(func(entry: Dictionary) -> bool: return entry["state"].lane_id == lane_id and entry["state"].warning_active):
-				draw_string(ThemeDB.fallback_font, Vector2(460, y - 34), "BYPASS WARNING", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.76, 0.24))
+				draw_string(ThemeDB.fallback_font, clash + Vector2(-20.0, -34.0), "BYPASS WARNING", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.76, 0.24))
 	draw_string(ThemeDB.fallback_font, Vector2(32, 28), "WARD CITADEL  ·  THREE FRONT CONFLICT  ·  VEIL RIFT", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.95, 0.88, 0.62, 0.9))
 
 
@@ -47,6 +50,11 @@ func _draw_fixed_tower(lane_id: StringName, center: Vector2) -> void:
 	draw_circle(center + Vector2(0, -18), 5.0, color)
 
 
+func world_position_for(lane_id: StringName, lane_position: float) -> Vector2:
+	var lane_y: float = float(LANE_Y.get(lane_id, LANE_Y[&"middle"]))
+	return Vector2(WORLD_X_ORIGIN + clampf(lane_position, 0.0, 100.0) * WORLD_X_PER_SIMULATION_POSITION, lane_y)
+
+
 func _sync_unit_views() -> void:
 	if run == null or run.battle == null:
 		return
@@ -61,7 +69,7 @@ func _sync_unit_views() -> void:
 				_unit_views[unit.unit_id] = view
 				add_child(view)
 			view.bind_unit(unit, _visual_profile_for(unit))
-			view.position = Vector2(110.0 + unit.lane_position * 7.4, float(LANE_Y[lane_id]))
+			view.position = world_position_for(lane_id, unit.lane_position)
 	for unit_id in _unit_views.keys():
 		if not visible_ids.has(unit_id):
 			_unit_views[unit_id].queue_free()

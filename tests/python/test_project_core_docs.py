@@ -100,13 +100,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = PHASE2_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOT_MIGRATION__ISSUE_255__MACHINE_VERIFIED__RUNTIME_TARGET_RESOLUTION_REQUIRED",
+                "CURRENT_NEXT = PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("PHASE2_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOT_MIGRATION__ISSUE_255__MACHINE_VERIFIED__RUNTIME_TARGET_RESOLUTION_REQUIRED" in error for error in errors), errors)
+            self.assertTrue(any("PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW" in error for error in errors), errors)
 
     def test_forward_defense_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

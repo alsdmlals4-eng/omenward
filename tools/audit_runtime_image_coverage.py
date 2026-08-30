@@ -12,6 +12,7 @@ CATALOG = pathlib.PurePosixPath("data/bootstrap_catalog.tres")
 BATTLEFIELD_SCENE = pathlib.PurePosixPath("scenes/battle/battlefield.tscn")
 RUN_COMMAND_SCENE = pathlib.PurePosixPath("scenes/ui/run_command_screen.tscn")
 UNIT_VIEW = pathlib.PurePosixPath("scripts/units/unit_view.gd")
+BATTLEFIELD_BACKDROP = "assets/art/battlefield/wide_connected_strategic_front_terrain_v1.png"
 REQUIRED_ROULETTE_ASSETS = {
     "assets/art/ui/run_command/roulette_board_frame.png",
     "assets/art/ui/run_command/roulette_arrow.png",
@@ -59,7 +60,7 @@ def audit(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"missing unit texture: {relative}")
 
     backdrop_paths = [path for path in _asset_paths(battlefield) if "/battlefield/" in path]
-    if backdrop_paths != ["assets/art/battlefield/ward_veil_three_lane_backdrop_v1.png"]:
+    if backdrop_paths != [BATTLEFIELD_BACKDROP]:
         errors.append("missing battlefield backdrop consumer binding")
     elif not (root / backdrop_paths[0]).is_file():
         errors.append(f"missing battlefield backdrop: {backdrop_paths[0]}")

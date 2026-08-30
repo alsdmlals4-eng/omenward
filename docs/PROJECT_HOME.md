@@ -22,16 +22,16 @@ Stage 1은 직접 건설이 아니라 `열린 전장의 본진 지휘·방어 �
 ## 현재 상태와 증거 한계
 
 ```text
-CURRENT_APPROVED_REPLAN_DECISIONS = 27
-CURRENT_NEXT = PHASE2_OPEN_BATTLEFIELD_READINESS_REVIEW__ISSUE_RED_TEST_PROVENANCE_TARGET_RESOLUTION_REQUIRED
-FORWARD_DEFENSE_OCCUPATION_NODES = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
+CURRENT_APPROVED_REPLAN_DECISIONS = 28
+CURRENT_NEXT = PHASE2_STORYBOOK_UNIT_RUNTIME_ASSETS__ISSUE_256__SOURCE_SHEETS_GENERATED__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
+FORWARD_DEFENSE_OCCUPATION_NODES = SUPERSEDED_IN_SCOPE__GLOBAL_ROSTER_IMPLEMENTED__MACHINE_VERIFIED
 OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT = CONFIRMED__PLANNING_ONLY__NOT_IMPLEMENTED
-CURRENT_TARGET_RUNTIME_ASSET = NOT_CREATED
+CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260830-WIDE-CONNECTED-STRATEGIC-FRONT-TERRAIN-V1
 CURRENT_RUNTIME_EVIDENCE = PARTIAL__TECHNICAL_ONLY
 HUMAN_USABILITY_AND_PLAYER_EXPERIENCE = NOT_RUN
 ```
 
-새 전장 방향은 하나의 Ward 본진에서 상·중·하 세 shared front로 갈라져 하나의 Veil 본진으로 수렴하는 전략 지도다. 세 전선은 한 화면에서 동시에 읽혀야 하며, 전선별 미니맵은 주 전략 지도에 흡수된다. 현재 v6 보드는 생성 탐색물일 뿐 runtime asset, Godot 적용, 사람 검증 결과가 아니다.
+새 전장 방향은 하나의 Ward 본진에서 상·중·하 세 shared front로 갈라져 하나의 Veil 본진으로 수렴하는 전략 지도다. 세 전선은 한 화면에서 동시에 읽혀야 하며, 전선별 미니맵은 주 전략 지도에 흡수된다. 사용자 승인 terrain-only 배경은 정본 등록과 Godot 씬 연결까지 완료했지만, 실제 runtime 및 사람 검증은 아직 `NOT_RUN`이다. 다음 작업은 새 SD 유닛 원본 시트를 true-alpha 개별 runtime cell 후보로 정규화·검수하는 것이다.
 
 ## 저장소 탐색 구조
 

@@ -18,9 +18,12 @@ func _init() -> void:
 	_expect(result_list is GridContainer, "roulette exposes all nine inspected results as a compact grid", failures)
 	if result_list is GridContainer:
 		_expect(result_list.columns == 3, "roulette inspection grid keeps three visible columns", failures)
-	var front_panel := screen.get_node_or_null("Fronts/Top") as Panel
-	var front_style := front_panel.get_theme_stylebox("panel") if front_panel != null else null
-	_expect(front_style is StyleBoxFlat and (front_style as StyleBoxFlat).bg_color.a <= 0.45, "front cards remain translucent so the battlefield is primary", failures)
+	var strategic_map := screen.get_node_or_null("StrategicMap") as Control
+	_expect(strategic_map != null, "one primary strategic map replaces three front cards", failures)
+	if strategic_map != null:
+		_expect(strategic_map.has_method("route_state_for"), "map owns a read-only route-state projection", failures)
+		_expect(strategic_map.get_rect().size.x > strategic_map.get_rect().size.y * 3.0, "map is wide enough to show all three fronts at once", failures)
+	_expect(screen.get_node_or_null("Fronts") == null, "legacy three-card front hierarchy is not retained", failures)
 	_expect(screen.has_method("select_roulette_tile"), "roulette screen exposes UI-only tile selection", failures)
 	_expect(screen.has_method("selected_roulette_tile_index"), "roulette screen exposes current selected tile index", failures)
 	if screen.has_method("select_roulette_tile"):

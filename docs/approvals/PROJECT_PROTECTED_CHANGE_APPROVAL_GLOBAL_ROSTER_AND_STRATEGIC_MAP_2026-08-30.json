@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "artifact_role": "PROJECT_PROTECTED_CHANGE_APPROVAL",
+  "status": "APPROVED",
+  "protected_base_commit": "9a67a267a69c80fba6f25d5a37e360a15dcc2419",
+  "decision_ids": [
+    "OMW-PLAN-20260830-GLOBAL-BUILDING-ROSTER-OCCUPATION-SLOTS-01",
+    "OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01",
+    "OMW-PLAN-20260820-UNIT-ANIMATION-PRODUCTION-CONTRACT-01"
+  ],
+  "approved_paths": [
+    "assets/art/battlefield/wide_connected_strategic_front_terrain_v1.png",
+    "scenes/battle/battlefield.tscn",
+    "scenes/ui/run_command_screen.tscn",
+    "scripts/battle/battle_simulator.gd",
+    "scripts/battle/battlefield_view.gd",
+    "scripts/battle/fixed_tower_state.gd",
+    "scripts/battle/fixed_tower_state.gd.uid",
+    "scripts/buildings/building_service.gd",
+    "scripts/buildings/building_state.gd",
+    "scripts/core/core_ux_service.gd",
+    "scripts/core/stage_run.gd",
+    "scripts/data/building_definition.gd",
+    "scripts/ui/run_command_screen.gd",
+    "scripts/ui/stage_hud.gd",
+    "scripts/ui/strategic_map_view.gd",
+    "scripts/ui/strategic_map_view.gd.uid",
+    "scripts/units/unit_view.gd"
+  ],
+  "approval_source": "USER_CONTINUOUS_APPROVAL__2026-08-30__RECOVER_AND_CONTINUE",
+  "approval_time": "2026-08-30T17:45:54+09:00",
+  "scope_summary": "User-approved recovery and continuation: global 6-plus-occupation building roster, one fixed tower per shared front, wide connected strategic-map projection, terrain-only runtime backdrop binding, and unit battlefield readability scaling."
+}

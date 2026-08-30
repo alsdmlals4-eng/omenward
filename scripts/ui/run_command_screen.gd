@@ -3,12 +3,12 @@ class_name RunCommandScreen
 extends Control
 
 const LANE_IDS := [&"top", &"middle", &"bottom"]
-const LANE_TITLES := {&"top": "상단 전선", &"middle": "중앙 전선", &"bottom": "하단 전선"}
 const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_idle.png")
 
 @onready var _phase_label: Label = $TopBar/PhaseLabel
 @onready var _gold_label: Label = $TopBar/GoldLabel
 @onready var _food_label: Label = $TopBar/FoodLabel
+@onready var _strategic_map: Control = $StrategicMap
 @onready var _primary_label: Label = $LowerDeck/PrimaryLabel
 @onready var _building_roster: ItemList = $LowerDeck/PreparePanel/BuildingRoster
 @onready var _prepare_panel: Control = $LowerDeck/PreparePanel
@@ -123,31 +123,11 @@ func _refresh() -> void:
 	_gold_label.text = "Gold %d" % int(run.economy.gold)
 	_food_label.text = "병력 %d/%d" % [int(run.economy.food_used), int(run.economy.food_cap)]
 	_phase_label.text = _phase_title(StringName(run.command_phase))
-	_refresh_fronts()
+	_strategic_map.bind_run(run)
 	_refresh_phase_panels()
 	_refresh_building_roster()
 	_refresh_roulette()
 	_refresh_commit()
-
-
-func _refresh_fronts() -> void:
-	var omen: Dictionary = run.core_ux_snapshot().get("omen", {})
-	var lanes: Array = omen.get("lanes", [])
-	var lane_details := {}
-	for lane in lanes:
-		lane_details[StringName(lane.get("lane_id", ""))] = lane
-	for lane_id in LANE_IDS:
-		var panel := $Fronts.get_node(NodePath("%s" % str(lane_id).capitalize()))
-		var detail: Dictionary = lane_details.get(lane_id, {})
-		var enemy_count := int(detail.get("count", 0))
-		var friendly_count := _friendly_count(lane_id)
-		panel.get_node("Title").text = "%s · 아군 %d / 징조 %d" % [LANE_TITLES[lane_id], friendly_count, enemy_count]
-		panel.get_node("Minimap/Progress").value = clampi(50 + (friendly_count - enemy_count) * 10, 5, 95)
-		var tower: Variant = run.battle.fixed_towers.get(lane_id) if run.battle != null else null
-		var tower_state := "탑 비활성"
-		if tower != null and tower.active:
-			tower_state = "Lumern 탑" if tower.owner_team_id == &"lumern" else "Veil 탑"
-		panel.get_node("Minimap/Context").text = "수호성  ◇───◆  Veil · %s" % tower_state
 
 
 func _refresh_building_roster() -> void:
@@ -309,16 +289,6 @@ func _roulette_symbol_name(symbol: StringName) -> String:
 			return "황금 징조"
 		_:
 			return "수호 병력"
-
-
-func _friendly_count(lane_id: StringName) -> int:
-	if run.battle == null or not run.battle.lanes.has(lane_id):
-		return 0
-	var count := 0
-	for unit in run.battle.lanes[lane_id].units:
-		if unit.owner_team_id == &"lumern":
-			count += 1
-	return count
 
 
 func _lane_index(lane_id: StringName) -> int:
