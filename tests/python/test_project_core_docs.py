@@ -48,7 +48,7 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__RUNTIME_NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
+            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__MODULAR_CLOSE_BATTLEFIELD_RUNTIME_TECHNICAL_SMOKE_PASS", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
             self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
     def test_visual_runtime_ceiling_loss_is_rejected(self) -> None:
@@ -56,8 +56,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / CURRENT_VISUAL_ASSET
-            path.write_text(path.read_text(encoding="utf-8").replace("runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN", "runtime_readability: PASS"), encoding="utf-8")
-            self.assertTrue(any("runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace("human_readability: NOT_RUN", "human_readability: PASS"), encoding="utf-8")
+            self.assertTrue(any("human_readability: NOT_RUN" in error for error in validate(root)))
 
     def test_legacy_and_current_status_must_remain_separate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -101,13 +101,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK",
+                "CURRENT_NEXT = HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK" in error for error in errors), errors)
+            self.assertTrue(any("HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK" in error for error in errors), errors)
 
     def test_current_storybook_shield_guard_pair_record_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

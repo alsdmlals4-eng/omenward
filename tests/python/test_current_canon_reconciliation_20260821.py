@@ -36,7 +36,7 @@ CURRENT_VISUAL_SPEC_OWNER = "APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_IMPLEMENTATION_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK"
+CURRENT_REACTIVATION_GATE = "HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK"
 FORWARD_DEFENSE_DECISION = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
 FORWARD_DEFENSE_OWNER = "APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
@@ -70,7 +70,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn(CURRENT_MAP_ONLY_BOARD_SCOPE, decisions)
         self.assertIn(CURRENT_VISUAL_SPEC_OWNER, decisions)
         self.assertIn("NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY", decisions)
-        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__LEGACY_RUNTIME_CONSUMER", decisions)
+        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED", decisions)
         self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
         self.assertIn("MARCH_MINIMAP = READ_ONLY_FIVE_SECTOR_CONTEXT", decisions)
         self.assertIn(FORWARD_DEFENSE_DECISION, decisions)
@@ -88,9 +88,9 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
 
     def test_battle_primary_decision_records_machine_and_runtime_evidence_separately(self) -> None:
         decision = read("docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md")
-        self.assertIn("implementation_state: IMPLEMENTED__HEADLESS_GODOT_CONTRACTS_PASS", decision)
-        self.assertIn("machine_verification: PASS__HEADLESS_GODOT_CONTRACTS", decision)
-        self.assertIn("runtime_verification: NOT_RUN", decision)
+        self.assertIn("implementation_state: IMPLEMENTED__MODULAR_CLOSE_BATTLEFIELD__FULL_HEADLESS_GODOT_SUITE_PASS", decision)
+        self.assertIn("machine_verification: PASS__FULL_HEADLESS_GODOT_SUITE", decision)
+        self.assertIn("runtime_verification: TECHNICAL_SMOKE_PASS", decision)
         self.assertIn("human_validation: NOT_RUN", decision)
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:
@@ -157,7 +157,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn(f"HISTORICAL_PRE_APPROVAL_GATE = {HISTORICAL_IMPLEMENTATION_GATE}", active)
         self.assertIn(f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}", active)
         self.assertIn("IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", active)
-        self.assertIn("GODOT_CODEX = BATTLE_PRIMARY_MARCH_MINIMAP_IMPLEMENTED__FOCUSED_HEADLESS_CONTRACTS_PASS__RUNTIME_NOT_RUN", active)
+        self.assertIn("GODOT_CODEX = MODULAR_CLOSE_SINGLE_FRONT_BATTLEFIELD_IMPLEMENTED__FULL_HEADLESS_SUITE_PASS__RUNTIME_TECHNICAL_SMOKE_PASS", active)
 
         routed = "\n".join(
             read(path)
@@ -182,8 +182,8 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
     def test_current_status_preserves_historical_proof_without_claiming_current_runtime(self) -> None:
         status = read("docs/CURRENT_IMPLEMENTATION_STATUS.md")
         self.assertIn("LEGACY_C1_C2_C3_PROVEN", status)
-        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__RUNTIME_NOT_RUN", status)
-        self.assertIn("CURRENT_WINDOWS_RUNTIME = NOT_RUN__BATTLE_PRIMARY", status)
+        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__MODULAR_CLOSE_BATTLEFIELD_RUNTIME_TECHNICAL_SMOKE_PASS", status)
+        self.assertIn("CURRENT_WINDOWS_RUNTIME = HERA_TECHNICAL_SMOKE_PASS__ONE_LIVE_BATTLE_CAPTURE__HUMAN_NOT_RUN", status)
         self.assertIn("CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN", status)
         self.assertNotIn("C1 구현 검증 head:", status)
         self.assertNotIn("C1 최종 검증 run:", status)

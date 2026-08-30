@@ -124,7 +124,7 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertIn(CURRENT_FRONT_STRUCTURE, decisions)
         self.assertIn(CURRENT_ROUTE_STATE_GRAMMAR, decisions)
         self.assertIn(CURRENT_MAP_ONLY_BOARD_SCOPE, decisions)
-        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__LEGACY_RUNTIME_CONSUMER", decisions)
+        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED", decisions)
         self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
         self.assertIn("PROJECT_CORE_SCENE_VISUAL_BOARD = USER_CONFIRMED_PLANNING_LOCK__V6_OPEN_BATTLEFIELD_NO_BARRICADE__NOT_RUNTIME_ASSET", decisions)
 
@@ -141,7 +141,7 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
         self.assertIn("status: BATTLE_PRIMARY_MARCH_MINIMAP__USER_CONFIRMED__IMPLEMENTATION_AUTHORIZED", active)
         self.assertIn("CURRENT_APPROVED_REPLAN_DECISIONS = 30", active)
-        self.assertIn("CURRENT_NEXT = RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK", active)
+        self.assertIn("CURRENT_NEXT = HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK", active)
         self.assertIn("NOTION_CURRENT_VISUAL_IMAGE = HISTORICAL_SERVER_READBACK_ONLY__NO_FUTURE_WRITES", active)
         self.assertIn(CURRENT_MAP_TOPOLOGY, active)
         self.assertIn(CURRENT_FRONT_STRUCTURE, active)
@@ -151,7 +151,7 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         handoff = HANDOFF.read_text(encoding="utf-8")
         self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", handoff)
         self.assertIn(CURRENT_VISUAL_DECISION, handoff)
-        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__LEGACY_RUNTIME_CONSUMER", handoff)
+        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED", handoff)
         self.assertIn(CURRENT_FRONT_STRUCTURE, handoff)
 
     def test_v45_phase_b_c0_and_issue176_do_not_freeze_current_execution_routing(self) -> None:

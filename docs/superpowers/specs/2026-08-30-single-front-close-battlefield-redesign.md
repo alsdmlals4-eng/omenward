@@ -1,12 +1,12 @@
 # Single-Front Close Battlefield Redesign
 
 ```yaml
-decision_status: USER_DIRECTED__DESIGN_APPROVED_FOR_CANDIDATE_PRODUCTION
-approval_source: "user: 맵이랑 전투화면 새로 만들어야지 -> 진행해"
+decision_status: USER_APPROVED_EXACT_CANDIDATE_SET__IMPLEMENTATION_AUTHORIZED
+approval_source: "user: 좋아 확정할게 / 지형지물들은 전선에(병사들 이동)에 방해되지않게 좀 벗어난 위치에만 분포시켜줘"
 scope: BATTLE_PHASE__ONE_ACTIVE_MARCH_FRONT
-work_mode: PLAN_THEN_ASSET_CANDIDATE
-runtime_asset_status: NOT_CREATED
-runtime_binding: FORBIDDEN_UNTIL_EXACT_CANDIDATE_LOCK
+work_mode: BUILD
+runtime_asset_status: USER_APPROVED__CANON_REGISTRATION_PENDING
+runtime_binding: AUTHORIZED_FOR_EXACT_LOCKED_CANDIDATE_SET_ONLY
 ```
 
 ## Goal
@@ -58,6 +58,21 @@ territory change feel gradual without drawing a road, river, bridge, cliff,
 moat, hard border, or gap. The center remains open enough for two-to-three
 readable unit rows.
 
+`TerritoryProps` are visual scenery only. They never create collision,
+pathfinding, attack, capture, or cover state. Their full destination rectangles
+must remain outside the battle view's vertical unit-travel corridor:
+
+```text
+UNIT_TRAVEL_Y_RATIO = 0.36..0.80
+TOP_PROP_SAFE_BAND_Y_RATIO = 0.00..0.30
+BOTTOM_PROP_SAFE_BAND_Y_RATIO = 0.82..1.00
+PROP_RECT_INTERSECTS_UNIT_TRAVEL_CORRIDOR = FORBIDDEN
+```
+
+This rule applies even though props draw below live units. A scenery rectangle
+that would visually crowd a moving soldier is rejected rather than merely
+covered by the soldier sprite.
+
 The previously generated single combined terrain candidate remains preserved
 as a historical candidate and is excluded from runtime binding because its
 foreground terrain is baked into the image.
@@ -106,6 +121,8 @@ never image-generated text.
   terrain prop, and no baked buildings, construction objects, units, or tower.
 - Lumern and Veil terrain props are independent transparent assets and are
   selected by their placement ratio, never painted into the foundation.
+- Every prop destination rectangle stays wholly in the upper or lower
+  non-travel edge band; no prop intersects the unit-travel corridor.
 - One dynamic tower and live Lumern/Veil units remain drawn from current battle
   state.
 - The existing five-sector minimap keeps its read-only state projection.

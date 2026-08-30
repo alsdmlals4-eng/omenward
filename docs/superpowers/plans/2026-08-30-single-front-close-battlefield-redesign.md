@@ -17,6 +17,7 @@
 - The final terrain asset is bound only after `GENERATED_CANDIDATE -> USER_APPROVED -> CANON_REGISTERED`.
 - No river, bridge, path gap, parallel lane, baked unit, baked tower, baked building, construction node, wall, barricade, or baked foreground terrain prop in the foundation.
 - Lumern props are placed only before `x_ratio = 0.36` and thin through `0.36..0.46`; Veil props increase through `0.54..0.64` and are placed only after `x_ratio = 0.64`; `0.46..0.54` is clear neutral clash ground.
+- Every prop destination rectangle remains wholly inside `y_ratio = 0.00..0.30` or `0.82..1.00`; the live unit-travel corridor is `y_ratio = 0.36..0.80` and must never intersect a terrain prop rectangle.
 - Lumern and Veil Shield Guard pair V1 remain the runtime unit texture pair.
 - The minimap is a read-only five-sector route context, not a second battle surface.
 
@@ -99,6 +100,8 @@ assert(source.contains("omenward_lumern_low_slab_cluster_v1.png"))
 assert(source.contains("omenward_veil_crystal_cluster_v1.png"))
 assert(source.contains("LUMERN_PROP_MAX_X_RATIO := 0.36"))
 assert(source.contains("VEIL_PROP_MIN_X_RATIO := 0.64"))
+assert(source.contains("UNIT_TRAVEL_Y_MIN_RATIO := 0.36"))
+assert(source.contains("UNIT_TRAVEL_Y_MAX_RATIO := 0.80"))
 assert(FileAccess.file_exists("res://assets/art/battlefield/omenward_close_single_front_foundation_v1.png"))
 ```
 
@@ -114,7 +117,8 @@ props, and territory thresholds do not yet exist.
 Copy each exact locked file non-destructively to its new project-local path,
 write provenance/approval metadata, replace the legacy preload, draw the full
 foundation within the combat rectangle, and place the six props independently
-by their recorded `x_ratio` values.
+by their recorded `x_ratio` values. Use only upper/lower edge destination
+rectangles outside the unit-travel corridor, never merely a lower draw order.
 
 - [ ] **Step 4: Run the focused test and verify GREEN**
 
@@ -168,7 +172,8 @@ the lower deck at `x16 y364 w928 h164`.
 
 Render the current approved unit pair in a two-to-three-row cluster, preserve
 the one dynamic tower, avoid buildings, and retain current health/faction
-feedback. Do not add gameplay state or write through the minimap.
+feedback. Keep every terrain-prop rectangle outside the unit-travel corridor;
+do not add gameplay state or write through the minimap.
 
 - [ ] **Step 5: Run the focused test and verify GREEN**
 

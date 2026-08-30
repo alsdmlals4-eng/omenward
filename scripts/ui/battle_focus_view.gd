@@ -3,13 +3,21 @@ class_name BattleFocusView
 extends Control
 
 const FRONT_ID := &"front"
-const BACKDROP := preload("res://assets/art/battlefield/ward_veil_three_lane_backdrop_v1.png")
+const BATTLEFIELD_FOUNDATION := preload("res://assets/art/battlefield/omenward_close_single_front_foundation_v1.png")
+const LUMERN_LOW_SLAB_CLUSTER := preload("res://assets/art/battlefield/props/omenward_lumern_low_slab_cluster_v1.png")
+const LUMERN_MEADOW_BANK := preload("res://assets/art/battlefield/props/omenward_lumern_meadow_bank_v1.png")
+const LUMERN_BLUE_FLOWER_BANK := preload("res://assets/art/battlefield/props/omenward_lumern_blue_flower_bank_v1.png")
+const VEIL_RUBBLE := preload("res://assets/art/battlefield/props/omenward_veil_rubble_v1.png")
+const VEIL_CRYSTAL_CLUSTER := preload("res://assets/art/battlefield/props/omenward_veil_crystal_cluster_v1.png")
+const VEIL_THORN_BRUSH := preload("res://assets/art/battlefield/props/omenward_veil_thorn_brush_v1.png")
 const LUMERN_SHIELD_GUARD_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png")
 const VEIL_SHIELD_GUARD_TEXTURE := preload("res://assets/art/units/veil_shield_guard_storybook_idle_v1.png")
 const WARD_COLOR := Color(0.42, 0.7, 1.0, 1.0)
 const VEIL_COLOR := Color(0.76, 0.38, 0.82, 1.0)
-const CLASH_COLOR := Color(1.0, 0.7, 0.26, 1.0)
-const BACKDROP_SOURCE_RECT := Rect2(0.0, 250.0, 1672.0, 430.0)
+const LUMERN_PROP_MAX_X_RATIO := 0.36
+const VEIL_PROP_MIN_X_RATIO := 0.64
+const UNIT_TRAVEL_Y_MIN_RATIO := 0.36
+const UNIT_TRAVEL_Y_MAX_RATIO := 0.80
 
 var run: Variant
 
@@ -58,13 +66,92 @@ func _draw() -> void:
 	frame.corner_radius_bottom_right = 8
 	draw_style_box(frame, Rect2(Vector2.ZERO, size))
 	var combat_rect := Rect2(Vector2(8.0, 31.0), Vector2(maxf(1.0, size.x - 16.0), maxf(1.0, size.y - 39.0)))
-	draw_texture_rect_region(BACKDROP, combat_rect, BACKDROP_SOURCE_RECT, Color(0.8, 0.86, 0.98, 0.88))
-	draw_rect(combat_rect, Color(0.02, 0.04, 0.08, 0.28), true)
+	draw_texture_rect(BATTLEFIELD_FOUNDATION, combat_rect, false, Color.WHITE)
+	draw_rect(combat_rect, Color(0.02, 0.04, 0.08, 0.12), true)
+	_draw_territory_props(combat_rect)
 	_draw_header()
-	_draw_clash_focus(combat_rect)
 	_draw_fixed_tower(combat_rect)
 	_draw_live_units(combat_rect)
 	_draw_footer(combat_rect)
+
+
+func terrain_prop_layout(combat_rect: Rect2) -> Array:
+	# 통행·교전 구간은 y_ratio 0.36..0.80으로 비워 둔다. 이 사각형들은
+	# 단지 유닛보다 먼저 그려지는 것이 아니라, 그 구간을 기하적으로 피한다.
+	return [
+		{
+			"id": &"lumern_low_slabs",
+			"x_ratio": 0.12,
+			"texture": LUMERN_LOW_SLAB_CLUSTER,
+			"rect": _prop_rect(combat_rect, 0.03, 0.04, 0.20, 0.18),
+		},
+		{
+			"id": &"lumern_meadow_bank",
+			"x_ratio": 0.26,
+			"texture": LUMERN_MEADOW_BANK,
+			"rect": _prop_rect(combat_rect, 0.18, 0.84, 0.16, 0.12),
+		},
+		{
+			"id": &"lumern_blue_flower_bank",
+			"x_ratio": 0.29,
+			"texture": LUMERN_BLUE_FLOWER_BANK,
+			"rect": _prop_rect(combat_rect, 0.22, 0.82, 0.14, 0.14),
+		},
+		{
+			"id": &"veil_rubble",
+			"x_ratio": 0.86,
+			"texture": VEIL_RUBBLE,
+			"rect": _prop_rect(combat_rect, 0.75, 0.05, 0.21, 0.20),
+		},
+		{
+			"id": &"veil_crystal_cluster",
+			"x_ratio": 0.78,
+			"texture": VEIL_CRYSTAL_CLUSTER,
+			"rect": _prop_rect(combat_rect, 0.68, 0.82, 0.19, 0.16),
+		},
+		{
+			"id": &"veil_thorn_brush",
+			"x_ratio": 0.91,
+			"texture": VEIL_THORN_BRUSH,
+			"rect": _prop_rect(combat_rect, 0.84, 0.11, 0.14, 0.17),
+		},
+	]
+
+
+func _prop_rect(combat_rect: Rect2, x_ratio: float, y_ratio: float, width_ratio: float, height_ratio: float) -> Rect2:
+	return Rect2(
+		combat_rect.position + Vector2(combat_rect.size.x * x_ratio, combat_rect.size.y * y_ratio),
+		Vector2(combat_rect.size.x * width_ratio, combat_rect.size.y * height_ratio)
+	)
+
+
+func _draw_territory_props(combat_rect: Rect2) -> void:
+	for placement in terrain_prop_layout(combat_rect):
+		var prop_texture := placement.get("texture") as Texture2D
+		if prop_texture != null and is_terrain_prop_placement_allowed(placement, combat_rect):
+			var prop_rect: Rect2 = placement.get("rect", Rect2())
+			draw_texture_rect(prop_texture, prop_rect, false, Color.WHITE)
+
+
+func is_terrain_prop_placement_allowed(placement: Dictionary, combat_rect: Rect2) -> bool:
+	var prop_id := str(placement.get("id", &""))
+	var x_ratio := float(placement.get("x_ratio", -1.0))
+	var prop_rect: Rect2 = placement.get("rect", Rect2())
+	var is_faction_band := false
+	if prop_id.begins_with("lumern_"):
+		is_faction_band = x_ratio <= LUMERN_PROP_MAX_X_RATIO and prop_rect.end.x <= combat_rect.position.x + combat_rect.size.x * LUMERN_PROP_MAX_X_RATIO
+	elif prop_id.begins_with("veil_"):
+		is_faction_band = x_ratio >= VEIL_PROP_MIN_X_RATIO and prop_rect.position.x >= combat_rect.position.x + combat_rect.size.x * VEIL_PROP_MIN_X_RATIO
+	if not is_faction_band:
+		return false
+	return not prop_rect.intersects(_unit_travel_corridor(combat_rect))
+
+
+func _unit_travel_corridor(combat_rect: Rect2) -> Rect2:
+	return Rect2(
+		combat_rect.position + Vector2(0.0, combat_rect.size.y * UNIT_TRAVEL_Y_MIN_RATIO),
+		Vector2(combat_rect.size.x, combat_rect.size.y * (UNIT_TRAVEL_Y_MAX_RATIO - UNIT_TRAVEL_Y_MIN_RATIO))
+	)
 
 
 func _draw_header() -> void:
@@ -72,16 +159,6 @@ func _draw_header() -> void:
 	draw_string(ThemeDB.fallback_font, Vector2(14.0, 21.0), "전투 초점 · %s" % _sector_title(sector), HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Color(0.98, 0.93, 0.76, 1.0))
 	var counts := _unit_counts()
 	draw_string(ThemeDB.fallback_font, Vector2(maxf(176.0, size.x - 168.0), 21.0), "수호 %d  ·  장막 %d" % [counts.get(&"lumern", 0), counts.get(&"veil", 0)], HORIZONTAL_ALIGNMENT_RIGHT, 150.0, 12, Color(0.9, 0.94, 0.98, 0.96))
-
-
-func _draw_clash_focus(combat_rect: Rect2) -> void:
-	var center := combat_rect.get_center() + Vector2(0.0, 12.0)
-	var color := CLASH_COLOR
-	match current_sector_id():
-		&"ward_forward": color = WARD_COLOR
-		&"veil_forward", &"veil_citadel": color = VEIL_COLOR
-	draw_circle(center, minf(46.0, combat_rect.size.y * 0.26), Color(color.r, color.g, color.b, 0.16))
-	draw_arc(center, minf(46.0, combat_rect.size.y * 0.26), 0.0, TAU, 28, Color(color.r, color.g, color.b, 0.8), 1.5, true)
 
 
 func _draw_fixed_tower(combat_rect: Rect2) -> void:

@@ -216,6 +216,9 @@ func test_binder() -> void:
 	var hud := BindTarget.new()
 	hud.name = "StageHud"
 	ui.add_child(hud)
+	var command_screen := BindTarget.new()
+	command_screen.name = "RunCommandScreen"
+	ui.add_child(command_screen)
 	var app := FakeApplication.new()
 	var binder: Variant = SceneBinderScript.new()
 	host.add_child(binder)
@@ -223,8 +226,14 @@ func test_binder() -> void:
 	app.stage_started.emit(&"tutorial_stage", &"shared_run")
 	binder.configure(app, host)
 	app.stage_started.emit(&"tutorial_stage", &"second_run")
-	check(battlefield.calls == 2 and hud.calls == 2, "binder should connect once and bind both targets")
-	check(battlefield.run == &"second_run" and hud.run == &"second_run", "binder should pass the same run")
+	check(
+		battlefield.calls == 0 and hud.calls == 2 and command_screen.calls == 2,
+		"binder should leave the hidden legacy battlefield unbound and bind the active HUD and Run Command screen once"
+	)
+	check(
+		battlefield.run == null and hud.run == &"second_run" and command_screen.run == &"second_run",
+		"binder should pass the same run only to active presentation targets"
+	)
 	root.free()
 
 

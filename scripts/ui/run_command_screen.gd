@@ -236,9 +236,9 @@ func _refresh_phase_panels() -> void:
 func _refresh_tab_rail() -> void:
 	var tab := visible_work_surface_id()
 	var phase := StringName(run.command_phase)
-	var domestic_button := $TabRail/DomesticTab as Button
-	var roulette_button := $TabRail/RouletteTab as Button
-	var front_button := $TabRail/FrontTab as Button
+	var domestic_button := $TopBar/TopTabRail/DomesticTab as Button
+	var roulette_button := $TopBar/TopTabRail/RouletteTab as Button
+	var front_button := $TopBar/TopTabRail/FrontTab as Button
 	domestic_button.button_pressed = tab == TAB_DOMESTIC
 	roulette_button.button_pressed = tab == TAB_ROULETTE
 	front_button.button_pressed = tab == TAB_FRONT

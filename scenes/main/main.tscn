@@ -12,6 +12,7 @@
 script = ExtResource("1_session")
 
 [node name="Battlefield" parent="." unique_id=617805723 instance=ExtResource("2_battlefield")]
+visible = false
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1304523516]
 

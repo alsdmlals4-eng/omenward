@@ -3,7 +3,7 @@
 ```yaml
 asset_id: OMW-IMG-20260830-CLOSE-FRONT-UI-REFERENCE-V1
 created_at: 2026-08-30 KST
-status: GENERATED_CANDIDATE__USER_REVIEW_PENDING
+status: USER_APPROVED_DIRECTION_REFERENCE__NOT_RUNTIME_ASSET
 generator: BUILT_IN_IMAGEGEN
 source_path: C:/Users/user/.codex/generated_images/01a04af4-0452-7a13-9b6e-1a6077568d72/exec-4fbd8f2d-4248-4dd4-8e12-bd746263216b.png
 source_sha256: 2C3F6C61254A8D4F00D9DAA90463354AFC61C7F3210A77559BEE2D246E69801B
@@ -15,8 +15,8 @@ runtime_asset: NONE
 runtime: NOT_IMPLEMENTED
 human_readability: NOT_RUN
 rights_status: GENERATION_PROVENANCE_RECORDED__RELEASE_RIGHTS_REVIEW_PENDING
-user_asset_lock: NONE
-approval_source: NONE
+user_asset_lock: USER_APPROVED_COMPOSITION_DIRECTION_V1
+approval_source: USER_CHAT__2026-08-31__"좋아 확정할게"
 ```
 
 ## What this previews
@@ -50,4 +50,3 @@ foundation-and-prop lock.
 - Image generation, alpha inspection of props, and static documentation do not
   prove runtime readability, UX quality, platform behavior, or release-rights
   clearance.
-

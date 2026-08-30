@@ -11,12 +11,20 @@
     "OMW-PLAN-20260820-UNIT-ANIMATION-PRODUCTION-CONTRACT-01"
   ],
   "approved_paths": [
+	"assets/art/battlefield/omenward_close_single_front_foundation_v1.png",
+	"assets/art/battlefield/props/omenward_lumern_blue_flower_bank_v1.png",
+	"assets/art/battlefield/props/omenward_lumern_low_slab_cluster_v1.png",
+	"assets/art/battlefield/props/omenward_lumern_meadow_bank_v1.png",
+	"assets/art/battlefield/props/omenward_veil_crystal_cluster_v1.png",
+	"assets/art/battlefield/props/omenward_veil_rubble_v1.png",
+	"assets/art/battlefield/props/omenward_veil_thorn_brush_v1.png",
     "assets/art/battlefield/wide_connected_strategic_front_terrain_v1.png",
     "assets/art/units/lumern_shield_guard_storybook_idle_v1.png",
     "assets/art/units/veil_shield_guard_storybook_idle_v1.png",
     "data/bootstrap_catalog.tres",
     "data/stages/regular_stage.tres",
     "data/stages/tutorial_stage.tres",
+    "scenes/main/main.tscn",
     "scenes/ui/run_command_screen.tscn",
     "scenes/ui/stage_hud.tscn",
     "scripts/battle/assassin_bypass_state.gd",
@@ -35,6 +43,7 @@
     "scripts/data/building_definition.gd",
     "scripts/data/faction_visual_profile.gd",
     "scripts/data/unit_spawn_definition.gd",
+    "scripts/presentation/scene_binder.gd",
     "scripts/ui/battle_focus_view.gd",
     "scripts/ui/battle_focus_view.gd.uid",
     "scripts/ui/march_minimap_view.gd",
@@ -46,7 +55,7 @@
     "scripts/units/deployment_service.gd",
     "scripts/units/unit_view.gd"
   ],
-  "approval_source": "USER_EXACT_ASSET_LOCK_AND_GAME_PROCEED__2026-08-30__CONFIRM_AND_CONTINUE__BATTLE_PRIMARY_MARCH_MINIMAP_CONFIRMED",
-  "approval_time": "2026-08-30T18:15:00+09:00",
-  "scope_summary": "User-approved recovery and continuation: replace the retired three-front topology with one broad advancing front, expose Domestic/Roulette/Front work surfaces, retain roulette agency, keep buildings in the global 6-plus-stable-Ward-Forward-and-Clash roster only, gate one fixed tower by Ward Forward ownership, and replace the wide primary strategic map with a live battle-primary viewport plus a compact read-only five-sector march minimap without binding an unapproved terrain candidate."
+  "approval_source": "USER_EXACT_ASSET_LOCK_AND_GAME_PROCEED__2026-08-30_TO_2026-08-31__CONFIRM_AND_CONTINUE__BATTLE_PRIMARY_MARCH_MINIMAP_CONFIRMED__MODULAR_CLOSE_BATTLEFIELD_EXACT_ASSET_SET_LOCKED",
+  "approval_time": "2026-08-31T00:00:00+09:00",
+  "scope_summary": "User-approved recovery and continuation: replace the retired three-front topology with one broad advancing front, expose Domestic/Roulette/Front work surfaces, retain roulette agency, keep buildings in the global 6-plus-stable-Ward-Forward-and-Clash roster only, gate one fixed tower by Ward Forward ownership, and replace the wide primary strategic map with a live battle-primary viewport plus a compact read-only five-sector march minimap. On 2026-08-31 the user locked the exact modular close-battlefield foundation and the exact Lumern/Veil terrain-prop sets, with terrain restricted outside the soldier travel corridor; this approval authorizes their repository copies, the active BattleFocusView binding, and keeping the retired root battlefield renderer hidden and unbound during a run."
 }

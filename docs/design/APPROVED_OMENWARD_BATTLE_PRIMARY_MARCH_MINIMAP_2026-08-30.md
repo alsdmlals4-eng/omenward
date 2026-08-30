@@ -2,13 +2,14 @@
 
 ```yaml
 decision_id: OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01
-status: USER_CONFIRMED__IMPLEMENTATION_AUTHORIZED
+status: USER_CONFIRMED__IMPLEMENTATION_AUTHORIZED__MODULAR_BATTLEFIELD_ASSETS_USER_APPROVED
 approved_at: 2026-08-30
+updated_at: 2026-08-31
 approval_source: "user: 확정해"
 scope: single_march_front_battle_presentation
-implementation_state: IMPLEMENTED__HEADLESS_GODOT_CONTRACTS_PASS
-machine_verification: PASS__HEADLESS_GODOT_CONTRACTS
-runtime_verification: NOT_RUN
+implementation_state: IMPLEMENTED__MODULAR_CLOSE_BATTLEFIELD__FULL_HEADLESS_GODOT_SUITE_PASS
+machine_verification: PASS__FULL_HEADLESS_GODOT_SUITE
+runtime_verification: TECHNICAL_SMOKE_PASS
 human_validation: NOT_RUN
 supersedes_in_scope:
   - OMW-PLAN-20260830-SINGLE-MARCH-FRONT-THREE-TAB-01::wide_strategic_map_as_primary_front_surface
@@ -41,6 +42,6 @@ INTERACTIVE_SECOND_BATTLEFIELD = FORBIDDEN
 
 ## 자산과 증거 경계
 
-기존 승인 Shield Guard 양 진영 페어와 기존 runtime backdrop만 첫 구현에 사용한다. 새 중앙 전투 이미지나 새 지형을 생성·바인딩하는 일은 이 Decision에 포함하지 않는다. 새 이미지가 필요해지면 `GENERATED_CANDIDATE -> USER_APPROVED -> CANON_REGISTERED -> IMPLEMENTED -> RUNTIME_VERIFIED` 순서를 별도로 따른다.
+기존 승인 Shield Guard 양 진영 페어를 계속 사용한다. 사용자가 2026-08-31에 정확히 잠근 modular foundation 및 Lumern/Veil prop set은 `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`로 등록되어 `BattleFocusView`에 바인딩됐다. 이 소품은 병사의 통행·교전 구간(`y=0.36..0.80`)을 침범할 수 없고, Lumern은 좌측 경계·Veil은 우측 경계에서만 렌더된다. 예전 runtime backdrop 파일은 보존하지만 더 이상 close battle view의 소비자가 아니다.
 
 기계 테스트와 Godot 기술 스모크는 구현/실행 증거일 뿐 사람 가독성, 최종 아트 적합성, 밸런스 또는 출시 승인 증거가 아니다.

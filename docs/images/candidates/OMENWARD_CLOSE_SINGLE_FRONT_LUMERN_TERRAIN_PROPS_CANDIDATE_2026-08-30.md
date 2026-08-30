@@ -3,15 +3,16 @@
 ```yaml
 asset_set_id: OMW-IMG-20260830-CLOSE-FRONT-LUMERN-PROPS-V1
 created_at: 2026-08-30 KST
-status: GENERATED_CANDIDATE__USER_REVIEW_PENDING
+status: USER_APPROVED_EXACT_CANDIDATE_SET__CANON_REGISTERED__IMPLEMENTED__RUNTIME_TECHNICAL_SMOKE_PASS
 generator: BUILT_IN_IMAGEGEN
 consumer_candidate: BattleFocusView/TerritoryProps/Lumern
-runtime_assets: NONE
-runtime: NOT_IMPLEMENTED
+runtime_assets: assets/art/battlefield/props/omenward_lumern_low_slab_cluster_v1.png | assets/art/battlefield/props/omenward_lumern_meadow_bank_v1.png | assets/art/battlefield/props/omenward_lumern_blue_flower_bank_v1.png
+runtime: BOUND_TO_BATTLEFOCUSVIEW_TERRITORY_PROPS
 human_readability: NOT_RUN
 rights_status: GENERATION_PROVENANCE_RECORDED__RELEASE_RIGHTS_REVIEW_PENDING
-user_asset_lock: NONE
-approval_source: NONE
+user_asset_lock: USER_APPROVED_EXACT_LUMERN_PROP_SET_V1
+approval_source: USER_CHAT__2026-08-31__"좋아 확정할게"
+canon_record: docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md
 ```
 
 ## Exact candidate files
@@ -31,12 +32,14 @@ approval_source: NONE
 - The clear central clash band (`0.46..0.54`) receives no Lumern prop.
 - Props belong on the outer edge or low foreground and must not cover the
   active units, one defensive tower, or the continuous readable route.
+- Every destination rectangle must stay entirely in the upper `0.00..0.30` or
+  lower `0.82..1.00` vertical edge band. The unit-travel corridor
+  `0.36..0.80` is forbidden to props regardless of rendering order.
 - None is a building, capture marker, resource node, construction slot, or
   tower. Gameplay ownership remains runtime state rather than baked art.
 
-## Required promotion gate
+## Completed promotion record
 
-This set remains a candidate until the user locks the **exact three files as a
-set**. Only then may repository copies, catalog provenance, imports, and
-runtime placement code be created.
-
+The user locked the **exact three files as a set** on 2026-08-31. Repository
+copies, hashes, runtime binding, and the edge-band placement guard are recorded
+in the approved asset record. Human readability is still `NOT_RUN`.

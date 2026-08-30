@@ -11,9 +11,9 @@ const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
 func _init() -> void:
 	var failures := PackedStringArray()
 	var screen := (load(RUN_COMMAND_SCREEN_PATH) as PackedScene).instantiate()
-	_expect(screen.get_node_or_null("TabRail/DomesticTab") is Button, "domestic tab exists", failures)
-	_expect(screen.get_node_or_null("TabRail/RouletteTab") is Button, "roulette tab exists", failures)
-	_expect(screen.get_node_or_null("TabRail/FrontTab") is Button, "front tab exists", failures)
+	_expect(screen.get_node_or_null("TopBar/TopTabRail/DomesticTab") is Button, "domestic tab exists in the top command rail", failures)
+	_expect(screen.get_node_or_null("TopBar/TopTabRail/RouletteTab") is Button, "roulette tab exists in the top command rail", failures)
+	_expect(screen.get_node_or_null("TopBar/TopTabRail/FrontTab") is Button, "front tab exists in the top command rail", failures)
 	_expect(screen.get_node_or_null("LowerDeck/RouletteReadyPanel/StartSpinButton") is Button, "roulette tab has a ready-state spin control before a board exists", failures)
 	_expect(screen.get_node_or_null("LowerDeck/FrontReadyPanel/RouteSummary") is Label, "front tab has an always-readable route summary before deployment", failures)
 	_expect(screen.has_method("visible_work_surface_id"), "screen exposes one active work surface", failures)

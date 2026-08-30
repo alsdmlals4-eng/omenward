@@ -1,20 +1,20 @@
 # [현행] OMENWARD Handoff Context
 
 ```yaml
-updated_at: 2026-08-30
-status: BATTLE_PRIMARY_MARCH_MINIMAP__IMPLEMENTED__MACHINE_VERIFIED__RUNTIME_NOT_RUN
+updated_at: 2026-08-31
+status: MODULAR_CLOSE_SINGLE_FRONT_BATTLEFIELD__IMPLEMENTED__MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_visual_decision: OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01
-current_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__LEGACY_RUNTIME_CONSUMER
+current_visual_asset: OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED
 current_battle_focus_owner: scripts/ui/battle_focus_view.gd
 current_march_minimap_owner: scripts/ui/march_minimap_view.gd
-current_gate: RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK
+current_gate: HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK
 implementation_authorized: true
 implementation_authority: SCOPED_APPROVED
-implementation_execution: IMPLEMENTED__HEADLESS_GODOT_CONTRACTS_PASS__RUNTIME_NOT_RUN
-runtime_validation: MACHINE_CONTRACT_PASS__RUNTIME_NOT_RUN__HUMAN_NOT_RUN
+implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
+runtime_validation: FULL_HEADLESS_SUITE_PASS__HERA_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 human_player_evidence: NOT_RUN
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_confirmation: GENERATE_THEN_USER_CONFIRM_LOCK
@@ -38,10 +38,10 @@ FIXED_TOWER_COUNT_PER_ACTIVE_FRONT = 1
 TOWER_OWNERSHIP = STABLE_WARD_FORWARD_OBJECTIVE_ONLY
 THREE_FRONT_TOPOLOGY = SUPERSEDED
 
-BATTLE_PRIMARY_MARCH_MINIMAP = IMPLEMENTED__HEADLESS_GODOT_CONTRACTS_PASS__RUNTIME_NOT_RUN
-CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__LEGACY_RUNTIME_CONSUMER
-LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
-CURRENT_NEXT = RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK
+BATTLE_PRIMARY_MARCH_MINIMAP = IMPLEMENTED__MODULAR_CLOSE_BATTLEFIELD__FULL_HEADLESS_SUITE_PASS__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
+CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED
+LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__RETAINED__NOT_CONSUMED_BY_BATTLEFOCUSVIEW
+CURRENT_NEXT = HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK
 ```
 
 ## Current owners
@@ -49,14 +49,16 @@ CURRENT_NEXT = RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_C
 - `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md` — current battle-primary / read-only minimap presentation owner.
 - `docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md` — retained topology and player workflow.
 - `docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md` — implementation plan and test order.
+- `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md` — current exact user-locked foundation and territory-prop bundle.
+- `docs/qa/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_RUNTIME_SMOKE_2026-08-31.md` — technical live BATTLE evidence.
 - `scripts/core/stage_run.gd`, `scripts/battle/battle_simulator.gd`, `scripts/ui/run_command_screen.gd`, `scripts/ui/battle_focus_view.gd`, and `scripts/ui/march_minimap_view.gd` — implemented domain and presentation consumers.
 
 ## Verification boundary
 
-The battle-primary implementation passed repository headless Godot contracts.
-This establishes automated contract coverage only. A live technical render/input
-smoke has not yet been run for this presentation, and neither player readability,
-human UX, release rights, nor balance completion has been established.
+The battle-primary implementation passed the full repository headless Godot
+suite and a live technical render/input smoke. This establishes machine and
+technical runtime coverage only; player readability, human UX, multi-unit
+combat readability, release rights, and balance completion remain unestablished.
 
 The engine may still report existing headless teardown resource/RID warnings
 after successful tests. Those warnings are not being represented as a clean
@@ -80,7 +82,7 @@ engine teardown or a human runtime pass.
 2. `AGENTS.md`, `docs/CURRENT_CONFIRMED_DECISIONS.md`, and
    `docs/ACTIVE_CONTEXT.md`.
 3. This handoff, then the current GDD/Project Core and relevant current owner.
-4. Run the battle-primary technical smoke, including `BattleFocusViewport` and
-   the read-only `MarchMinimap` in BATTLE.
-5. Follow with human readability review. Keep the generated terrain candidate
-   unbound unless a future user asset lock promotes it.
+4. Run a human readability review with multiple allied and Veil units visible
+   in `BattleFocusViewport` and the read-only `MarchMinimap` in BATTLE.
+5. Keep the exact approved modular asset bundle immutable unless the user locks
+   a replacement candidate set.

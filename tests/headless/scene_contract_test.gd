@@ -14,7 +14,9 @@ func _init() -> void:
 	_expect(main_packed != null, "main scene loads", failures)
 	if main_packed != null:
 		var main := main_packed.instantiate()
-		_expect(main.get_node_or_null("Battlefield") != null, "main includes battlefield", failures)
+		var legacy_battlefield := main.get_node_or_null("Battlefield") as CanvasItem
+		_expect(legacy_battlefield != null, "main retains the legacy battlefield scene for compatibility", failures)
+		_expect(legacy_battlefield != null and not legacy_battlefield.visible, "main keeps the legacy battlefield hidden behind the close battle renderer", failures)
 		_expect(main.get_node_or_null("UI/StageHud") != null, "main includes stage HUD", failures)
 		_expect(main.get_node_or_null("UI/RunCommandScreen") != null, "main includes the player-facing Run Command screen", failures)
 		_expect(main.get_node_or_null("UI/StageSelect") != null, "main includes stage select", failures)

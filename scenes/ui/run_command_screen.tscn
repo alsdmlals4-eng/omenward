@@ -72,10 +72,36 @@ offset_right = 910.0
 offset_bottom = 32.0
 theme_override_colors/font_color = Color(0.75, 0.9, 0.98, 1)
 
+[node name="TopTabRail" type="HBoxContainer" parent="TopBar"]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 5.0
+offset_right = 650.0
+offset_bottom = 35.0
+theme_override_constants/separation = 10
+
+[node name="DomesticTab" type="Button" parent="TopBar/TopTabRail"]
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+toggle_mode = true
+text = "내정"
+
+[node name="RouletteTab" type="Button" parent="TopBar/TopTabRail"]
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+toggle_mode = true
+text = "룰렛"
+
+[node name="FrontTab" type="Button" parent="TopBar/TopTabRail"]
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+toggle_mode = true
+text = "전선"
+
 [node name="BattleFocusViewport" type="Control" parent="."]
 visible = false
 layout_mode = 0
-offset_left = 126.0
+offset_left = 16.0
 offset_top = 62.0
 offset_right = 702.0
 offset_bottom = 364.0
@@ -91,32 +117,6 @@ offset_right = 942.0
 offset_bottom = 364.0
 mouse_filter = 2
 script = ExtResource("6_march_minimap")
-
-[node name="TabRail" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 18.0
-offset_top = 72.0
-offset_right = 114.0
-offset_bottom = 218.0
-theme_override_constants/separation = 10
-
-[node name="DomesticTab" type="Button" parent="TabRail"]
-custom_minimum_size = Vector2(96, 38)
-layout_mode = 2
-toggle_mode = true
-text = "내정"
-
-[node name="RouletteTab" type="Button" parent="TabRail"]
-custom_minimum_size = Vector2(96, 38)
-layout_mode = 2
-toggle_mode = true
-text = "룰렛"
-
-[node name="FrontTab" type="Button" parent="TabRail"]
-custom_minimum_size = Vector2(96, 38)
-layout_mode = 2
-toggle_mode = true
-text = "전선"
 
 [node name="LowerDeck" type="Panel" parent="."]
 layout_mode = 0
@@ -559,9 +559,9 @@ text = "Stage 다시 시작"
 [connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveDownButton" to="." method="_on_roster_move_down_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/SpinButton" to="." method="_on_spin_pressed"]
 [connection signal="pressed" from="LowerDeck/RouletteReadyPanel/StartSpinButton" to="." method="_on_spin_pressed"]
-[connection signal="pressed" from="TabRail/DomesticTab" to="." method="_on_domestic_tab_pressed"]
-[connection signal="pressed" from="TabRail/RouletteTab" to="." method="_on_roulette_tab_pressed"]
-[connection signal="pressed" from="TabRail/FrontTab" to="." method="_on_front_tab_pressed"]
+[connection signal="pressed" from="TopBar/TopTabRail/DomesticTab" to="." method="_on_domestic_tab_pressed"]
+[connection signal="pressed" from="TopBar/TopTabRail/RouletteTab" to="." method="_on_roulette_tab_pressed"]
+[connection signal="pressed" from="TopBar/TopTabRail/FrontTab" to="." method="_on_front_tab_pressed"]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp0" to="." method="_move_column" binds= [0, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp1" to="." method="_move_column" binds= [1, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp2" to="." method="_move_column" binds= [2, -1]]
