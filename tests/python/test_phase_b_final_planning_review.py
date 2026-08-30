@@ -125,7 +125,7 @@ class PhaseBFinalPlanningReviewTests(unittest.TestCase):
             self.assertIn("FINAL_PRODUCT_NUMERICS = NOT_APPROVED", text)
         self.assertNotIn("PR175 = OPEN_DRAFT", status)
         self.assertIn("CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED", status)
-        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", status)
+        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__RUNTIME_NOT_RUN", status)
         self.assertIn("CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN", status)
 
 

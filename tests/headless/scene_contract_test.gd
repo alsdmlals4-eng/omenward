@@ -26,7 +26,7 @@ func _init() -> void:
 	_assert_scene_contract(STAGE_HUD_SCENE_PATH, "bind_run", "stage HUD binds a stage run", failures)
 	_assert_scene_contract(RUN_COMMAND_SCREEN_PATH, "bind_run", "Run Command screen binds a stage run", failures)
 	_assert_global_roster_ui_contract(failures)
-	_assert_strategic_map_ui_contract(failures)
+	_assert_battle_primary_ui_contract(failures)
 	_assert_scene_contract(STAGE_SELECT_SCENE_PATH, "stage_requested", "stage select emits stage requests", failures)
 	_assert_scene_contract(UNIT_SCENE_PATH, "bind_unit", "shared unit scene binds a unit instance", failures)
 	_expect(not FileAccess.file_exists("res://scenes/units/enemy_unit.tscn"), "no enemy unit scene is created", failures)
@@ -56,17 +56,23 @@ func _assert_global_roster_ui_contract(failures: PackedStringArray) -> void:
 	screen.queue_free()
 
 
-func _assert_strategic_map_ui_contract(failures: PackedStringArray) -> void:
+func _assert_battle_primary_ui_contract(failures: PackedStringArray) -> void:
 	var packed := load(RUN_COMMAND_SCREEN_PATH) as PackedScene
 	if packed == null:
 		return
 	var screen := packed.instantiate()
-	var strategic_map := screen.get_node_or_null("StrategicMap") as Control
-	_expect(strategic_map != null, "Run Command exposes one primary strategic map", failures)
+	var battle_focus := screen.get_node_or_null("BattleFocusViewport") as Control
+	var march_minimap := screen.get_node_or_null("MarchMinimap") as Control
+	_expect(battle_focus != null, "Run Command exposes the primary battle focus", failures)
+	_expect(march_minimap != null, "Run Command exposes the secondary march minimap", failures)
+	_expect(screen.get_node_or_null("StrategicMap") == null, "Run Command does not retain the wide strategic map", failures)
 	_expect(screen.get_node_or_null("Fronts") == null, "Run Command no longer exposes three progress-card minimaps", failures)
-	if strategic_map != null:
-		_expect(strategic_map.has_method("bind_run"), "strategic map consumes a stage run read-only", failures)
-		_expect(strategic_map.has_method("fixed_tower_count"), "strategic map exposes fixed tower presentation count", failures)
+	if battle_focus != null:
+		_expect(battle_focus.has_method("bind_run"), "battle focus consumes a stage run read-only", failures)
+	if march_minimap != null:
+		_expect(march_minimap.has_method("bind_run"), "march minimap consumes a stage run read-only", failures)
+		_expect(march_minimap.has_method("fixed_tower_count"), "march minimap exposes fixed tower presentation count", failures)
+		_expect(march_minimap.has_method("is_read_only"), "march minimap remains context rather than a second battlefield", failures)
 	screen.queue_free()
 
 

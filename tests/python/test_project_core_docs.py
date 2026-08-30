@@ -48,7 +48,7 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
+            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__RUNTIME_NOT_RUN", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
             self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
     def test_visual_runtime_ceiling_loss_is_rejected(self) -> None:
@@ -73,8 +73,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 29",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 30",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 31",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -101,13 +101,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK",
+                "CURRENT_NEXT = RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK" in error for error in errors), errors)
+            self.assertTrue(any("RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK" in error for error in errors), errors)
 
     def test_current_storybook_shield_guard_pair_record_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -170,13 +170,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "implementation_scope: SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND",
+                "implementation_scope: BATTLE_PRIMARY_MARCH_MINIMAP__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN",
                 "implementation_scope: ALL_PRODUCT_IMPLEMENTATION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND" in error for error in errors), errors)
+            self.assertTrue(any("BATTLE_PRIMARY_MARCH_MINIMAP__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN" in error for error in errors), errors)
 
     def test_current_visual_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -1,16 +1,21 @@
-# [현행] OMENWARD 단일 행군 전선과 세 탭 지휘 구조
+# [보존된 도메인] OMENWARD 단일 행군 전선과 세 탭 지휘 구조
 
 ```yaml
 decision_id: OMW-PLAN-20260830-SINGLE-MARCH-FRONT-THREE-TAB-01
 approved_at: 2026-08-30 KST
 approval_source: USER_CHAT__"확정 게임진행해"
 status: USER_CONFIRMED__IMPLEMENTATION_AUTHORIZED
-scope: MAP_TOPOLOGY / BATTLE_SIMULATION / RUN_COMMAND_TABS / STAGE_DATA / VISUAL_CONSUMERS
+scope: MAP_TOPOLOGY / BATTLE_SIMULATION / RUN_COMMAND_TABS / STAGE_DATA
+presentation_state: SUPERSEDED_BY_OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01
 implementation_state: IMPLEMENTED__28_HEADLESS_GODOT_CONTRACTS_PASS
 machine_verification: PASS__28_HEADLESS_GODOT_CONTRACTS
 runtime_verification: RUNTIME_TECHNICAL_SMOKE_PASS
 human_validation: NOT_RUN
 ```
+
+> 현재 전투 화면의 주/보조 시각 계층은
+> `OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01`가 소유한다. 이 문서는 단일 전선,
+> 5구간 route state, 세 탭, 단일 방어탑, 건물 로스터의 **도메인 규칙**만 유지한다.
 
 ## 1. Decision
 

@@ -12,7 +12,7 @@ CATALOG = pathlib.PurePosixPath("data/bootstrap_catalog.tres")
 BATTLEFIELD_SCENE = pathlib.PurePosixPath("scenes/battle/battlefield.tscn")
 RUN_COMMAND_SCENE = pathlib.PurePosixPath("scenes/ui/run_command_screen.tscn")
 UNIT_VIEW = pathlib.PurePosixPath("scripts/units/unit_view.gd")
-BATTLEFIELD_BACKDROP = "assets/art/battlefield/wide_connected_strategic_front_terrain_v1.png"
+BATTLEFIELD_BACKDROP = "assets/art/battlefield/ward_veil_three_lane_backdrop_v1.png"
 REQUIRED_ROULETTE_ASSETS = {
     "assets/art/ui/run_command/roulette_board_frame.png",
     "assets/art/ui/run_command/roulette_arrow.png",
@@ -85,7 +85,7 @@ def main() -> int:
         for error in errors:
             print(f"- {error}")
         return 1
-    print("Runtime image coverage audit passed: 20 unit idle textures, battlefield backdrop, roulette sources, and procedural state expressions")
+    print("Runtime image coverage audit passed: 20 unit idle textures, legacy battlefield backdrop, roulette sources, and procedural state expressions")
     return 0
 
 

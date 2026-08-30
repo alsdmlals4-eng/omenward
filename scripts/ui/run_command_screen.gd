@@ -10,7 +10,8 @@ const TAB_FRONT := &"front"
 @onready var _phase_label: Label = $TopBar/PhaseLabel
 @onready var _gold_label: Label = $TopBar/GoldLabel
 @onready var _food_label: Label = $TopBar/FoodLabel
-@onready var _strategic_map: Control = $StrategicMap
+@onready var _battle_focus: Control = $BattleFocusViewport
+@onready var _march_minimap: Control = $MarchMinimap
 @onready var _primary_label: Label = $LowerDeck/PrimaryLabel
 @onready var _building_roster: ItemList = $LowerDeck/PreparePanel/BuildingRoster
 @onready var _prepare_panel: Control = $LowerDeck/PreparePanel
@@ -154,8 +155,11 @@ func _refresh() -> void:
 	_gold_label.text = "Gold %d" % int(run.economy.gold)
 	_food_label.text = "병력 %d/%d" % [int(run.economy.food_used), int(run.economy.food_cap)]
 	_phase_label.text = _phase_title(StringName(run.command_phase))
-	_strategic_map.bind_run(run)
-	_strategic_map.visible = visible_work_surface_id() == TAB_FRONT
+	_battle_focus.bind_run(run)
+	_march_minimap.bind_run(run)
+	var battle_surface_is_visible: bool = StringName(run.command_phase) == run.BATTLE and visible_work_surface_id() == TAB_FRONT
+	_battle_focus.visible = battle_surface_is_visible
+	_march_minimap.visible = battle_surface_is_visible
 	_refresh_tab_rail()
 	_refresh_phase_panels()
 	_refresh_building_roster()
@@ -224,7 +228,7 @@ func _refresh_phase_panels() -> void:
 		run.COMMIT:
 			_primary_label.text = "획득 병력을 단일 전선에 되돌릴 수 없게 투입한다"
 		run.BATTLE:
-			_primary_label.text = "단일 전선의 현재 전황을 관찰한다"
+			_primary_label.text = "가까운 전투 장면을 읽고, 전진 미니맵으로 행군 위치를 확인한다"
 		run.REVIEW:
 			_primary_label.text = "이번 설계와 배치가 만든 결과를 복기한다"
 
@@ -256,7 +260,7 @@ func _refresh_roulette() -> void:
 	for index in board.size():
 		var symbol: StringName = board[index]
 		var tile := Button.new()
-		tile.custom_minimum_size = Vector2(34, 34)
+		tile.custom_minimum_size = Vector2(20, 20)
 		tile.icon = _token_texture(symbol)
 		tile.expand_icon = true
 		tile.tooltip_text = "%d번 슬롯 · %s" % [index + 1, _roulette_symbol_name(symbol)]
@@ -311,11 +315,11 @@ func _refresh_roulette_picker(board: Array) -> void:
 	for child in _result_list.get_children():
 		child.queue_free()
 	var selected_symbol: StringName = board[_selected_roulette_index]
-	_selection_detail.text = "선택 %d번 · %s\n아래 목록이나 타일을 눌러 다른 결과도 살펴보세요." % [_selected_roulette_index + 1, _roulette_symbol_name(selected_symbol)]
+	_selection_detail.text = "선택 %d번 · %s" % [_selected_roulette_index + 1, _roulette_symbol_name(selected_symbol)]
 	for index in board.size():
 		var symbol: StringName = board[index]
 		var entry := Button.new()
-		entry.custom_minimum_size = Vector2(88, 16)
+		entry.custom_minimum_size = Vector2(70, 14)
 		entry.add_theme_font_size_override("font_size", 10)
 		entry.text = "%d. %s" % [index + 1, _roulette_symbol_name(symbol)]
 		entry.tooltip_text = "이 항목을 선택해 결과 의미를 확인합니다."

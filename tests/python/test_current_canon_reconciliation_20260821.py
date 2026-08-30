@@ -27,16 +27,16 @@ TOPDOWN_SILHOUETTE = "OMW-PLAN-20260820-TOPDOWN-UNIT-SILHOUETTE-01"
 NORTH_STAR_AUDIT = "OMW-PLAN-20260824-NORTH-STAR-V2-1-AUDIT-01"
 NORTH_STAR_AUDIT_OWNER = "APPROVED_OMENWARD_NORTH_STAR_V2_1_AUDIT_AND_CORRECTION_BRIEF_2026-08-24.md"
 PARENT_VISUAL_DECISION = "OMW-PLAN-20260825-FRONT-STATE-MINIMAP-SD-FANTASY-01"
-CURRENT_VISUAL_DECISION = "OMW-PLAN-20260830-SINGLE-MARCH-FRONT-THREE-TAB-01"
+CURRENT_VISUAL_DECISION = "OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01"
 CURRENT_MAP_TOPOLOGY = "MAP_TOPOLOGY = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL"
 CURRENT_FRONT_STRUCTURE = "FRONT_STRUCTURE = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL"
 CURRENT_ROUTE_STATE_GRAMMAR = "ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE"
 CURRENT_MAP_ONLY_BOARD_SCOPE = "PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED"
-CURRENT_VISUAL_SPEC_OWNER = "APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md"
+CURRENT_VISUAL_SPEC_OWNER = "APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md"
 FINAL_REVIEW_OWNER = "FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md"
 CURRENT_CONTRACT = "PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8"
 HISTORICAL_IMPLEMENTATION_GATE = "IMPLEMENTATION_AUTHORITY_REQUIRED"
-CURRENT_REACTIVATION_GATE = "REVIEW_TERRAIN_CANDIDATE_AND_RUN_HUMAN_USABILITY_CHECK"
+CURRENT_REACTIVATION_GATE = "RUN_BATTLE_PRIMARY_RUNTIME_TECHNICAL_SMOKE_THEN_HUMAN_USABILITY_CHECK"
 FORWARD_DEFENSE_DECISION = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODES-01"
 FORWARD_DEFENSE_OWNER = "APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md"
 CURRENT_IMAGE_POLICY = "USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES"
@@ -70,9 +70,9 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn(CURRENT_MAP_ONLY_BOARD_SCOPE, decisions)
         self.assertIn(CURRENT_VISUAL_SPEC_OWNER, decisions)
         self.assertIn("NORTH_STAR_V2_1 = HISTORICAL_REFERENCE_ONLY", decisions)
-        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260830-SINGLE-MARCH-FRONT-TERRAIN-V1__GENERATED_CANDIDATE__NOT_BOUND", decisions)
+        self.assertIn("CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__LEGACY_RUNTIME_CONSUMER", decisions)
         self.assertIn("LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1", decisions)
-        self.assertIn("PER_FRONT_MINIMAP = REMOVED", decisions)
+        self.assertIn("MARCH_MINIMAP = READ_ONLY_FIVE_SECTOR_CONTEXT", decisions)
         self.assertIn(FORWARD_DEFENSE_DECISION, decisions)
         self.assertIn(FORWARD_DEFENSE_OWNER, decisions)
 
@@ -82,15 +82,15 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIsNotNone(match)
         table_ids = set(re.findall(r"\| `(OMW-(?:PLAN|VISUAL)-[^`]+)` \|", decisions))
         self.assertEqual(int(match.group(1)), len(table_ids))
-        self.assertEqual(29, len(table_ids))
+        self.assertEqual(30, len(table_ids))
         self.assertIn(CURRENT_VISUAL_DECISION, table_ids)
         self.assertIn(FORWARD_DEFENSE_DECISION, table_ids)
 
-    def test_single_march_decision_records_implemented_machine_and_runtime_evidence_separately(self) -> None:
-        decision = read("docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md")
-        self.assertIn("implementation_state: IMPLEMENTED__28_HEADLESS_GODOT_CONTRACTS_PASS", decision)
-        self.assertIn("machine_verification: PASS__28_HEADLESS_GODOT_CONTRACTS", decision)
-        self.assertIn("runtime_verification: RUNTIME_TECHNICAL_SMOKE_PASS", decision)
+    def test_battle_primary_decision_records_machine_and_runtime_evidence_separately(self) -> None:
+        decision = read("docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md")
+        self.assertIn("implementation_state: IMPLEMENTED__HEADLESS_GODOT_CONTRACTS_PASS", decision)
+        self.assertIn("machine_verification: PASS__HEADLESS_GODOT_CONTRACTS", decision)
+        self.assertIn("runtime_verification: NOT_RUN", decision)
         self.assertIn("human_validation: NOT_RUN", decision)
 
     def test_current_routers_use_v48_and_retire_pre_audit_gate(self) -> None:
@@ -157,7 +157,7 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
         self.assertIn(f"HISTORICAL_PRE_APPROVAL_GATE = {HISTORICAL_IMPLEMENTATION_GATE}", active)
         self.assertIn(f"CURRENT_NEXT = {CURRENT_REACTIVATION_GATE}", active)
         self.assertIn("IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", active)
-        self.assertIn("GODOT_CODEX = SINGLE_MARCH_FRONT_THREE_TAB_COMMAND_IMPLEMENTED__28_HEADLESS_GODOT_CONTRACTS_PASS__RUNTIME_TECHNICAL_SMOKE_PASS", active)
+        self.assertIn("GODOT_CODEX = BATTLE_PRIMARY_MARCH_MINIMAP_IMPLEMENTED__FOCUSED_HEADLESS_CONTRACTS_PASS__RUNTIME_NOT_RUN", active)
 
         routed = "\n".join(
             read(path)
@@ -182,8 +182,8 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
     def test_current_status_preserves_historical_proof_without_claiming_current_runtime(self) -> None:
         status = read("docs/CURRENT_IMPLEMENTATION_STATUS.md")
         self.assertIn("LEGACY_C1_C2_C3_PROVEN", status)
-        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", status)
-        self.assertIn("CURRENT_WINDOWS_RUNTIME = PARTIAL__STANDALONE_TECHNICAL_CAPTURED_960_1280_1920", status)
+        self.assertIn("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__RUNTIME_NOT_RUN", status)
+        self.assertIn("CURRENT_WINDOWS_RUNTIME = NOT_RUN__BATTLE_PRIMARY", status)
         self.assertIn("CURRENT_PLAYER_EXPERIENCE_EVIDENCE = NOT_RUN", status)
         self.assertNotIn("C1 구현 검증 head:", status)
         self.assertNotIn("C1 최종 검증 run:", status)

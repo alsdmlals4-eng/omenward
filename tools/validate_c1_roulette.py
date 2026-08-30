@@ -143,8 +143,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     current_status = (root / "docs/CURRENT_IMPLEMENTATION_STATUS.md").read_text(encoding="utf-8")
     for phrase in (
         "LEGACY_C1_C2_C3_PROVEN",
-        "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED",
-        "CURRENT_WINDOWS_RUNTIME = PARTIAL__STANDALONE_TECHNICAL_CAPTURED_960_1280_1920",
+        "CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__RUNTIME_NOT_RUN",
+        "CURRENT_WINDOWS_RUNTIME = NOT_RUN__BATTLE_PRIMARY",
     ):
         if phrase not in current_status:
             errors.append(f"current status missing historical/current evidence boundary: {phrase}")
