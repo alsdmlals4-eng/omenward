@@ -220,12 +220,14 @@ git diff --check
 
 Observed: all 25 headless Godot contracts passed. The Python suite is rerun after each contract-relevant repair; its only remaining local failure is the known CI-only `_base_recovery` checkout fixture, which must be provided by CI rather than fabricated locally. Editor import is machine parse/import evidence only, never visual/human runtime PASS.
 
-- [ ] **Step 5: Commit the coherent non-runtime slice**
+- [x] **Step 5: Commit the coherent strategic-map slice**
 
 ```powershell
 git add scripts/ui/strategic_map_view.gd scripts/ui/run_command_screen.gd scenes/ui/run_command_screen.tscn scripts/battle/battlefield_view.gd scenes/battle/battlefield.tscn tests/headless/strategic_map_ui_contract_test.gd tests/headless/roulette_picker_ui_test.gd tests/headless/scene_contract_test.gd docs/images/planning/OMENWARD_WIDE_CONNECTED_STRATEGIC_FRONT_TERRAIN_CANDIDATE_2026-08-30.md docs/ACTIVE_CONTEXT.md docs/CURRENT_IMPLEMENTATION_STATUS.md docs/HANDOFF_CONTEXT.md tests/python/test_wide_connected_strategic_map_contract.py docs/superpowers/plans/2026-08-30-wide-connected-strategic-map.md
 git commit -m "feat: add wide connected strategic map projection"
 ```
+
+Completed as `649a7076`. The commit contains the approved terrain consumer binding and remains machine-verified only; it does not claim runtime or human readability validation.
 
 ## Plan Self-Review
 
