@@ -21,18 +21,20 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 7. `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md`
 8. `docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md`
 9. `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`
-10. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-11. `docs/PROJECT_CORE.md`
-12. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-13. `docs/OMENWARD_ROADMAP.md`
-14. `docs/DECISIONS_PENDING.md`
-15. `docs/DOCUMENTATION_MAP.md`
-16. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-17. relevant current Decision/spec/asset owner
-18. repository의 relevant human-facing Markdown owner
-19. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
-20. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
-21. historical topology / handoff / planning boards only when needed
+10. `docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md`
+11. `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`
+12. `docs/OMENWARD_GDD_CURRENT_CANON.md`
+13. `docs/PROJECT_CORE.md`
+14. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+15. `docs/OMENWARD_ROADMAP.md`
+16. `docs/DECISIONS_PENDING.md`
+17. `docs/DOCUMENTATION_MAP.md`
+18. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+19. relevant current Decision/spec/asset owner
+20. repository의 relevant human-facing Markdown owner
+21. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
+22. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
+23. historical topology / handoff / planning boards only when needed
 
 Fresh GitHub/repository truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다. Notion의 current structure/work는 읽기 전용 migration으로 이관 완료했고, 이후 Notion은 historical reference only다.
 
@@ -111,6 +113,9 @@ Operating incident / solution / lesson evidence:
 - `docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md`
 - `docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md` — retained route and three-tab domain owner.
 - `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md` — current exact user-locked terrain bundle; human readability remains open.
+- `docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md` — user-locked title battle-surge backdrop and wordmark only; release rights and human usability remain open.
+- `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md` — locked-asset technical evidence and capture ownership.
+- `docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md` — historical title-candidate disposition only; no candidate PNG is a runtime consumer.
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md` — historical topology; retained art-language reference only.
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — historical three-front reference only.
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md` — historical reference only.

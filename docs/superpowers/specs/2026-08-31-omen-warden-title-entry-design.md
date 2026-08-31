@@ -4,11 +4,11 @@
 decision_id: OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01
 approved_at: 2026-08-31 KST
 approval_source: USER_CHAT__"승인,진행해"
-status: IMPLEMENTED__MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__TITLE_ASSET_LOCK_PENDING
+status: USER_APPROVED__TITLE_ASSETS_CANON_REGISTERED__IMPLEMENTED__MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 scope: TITLE_ENTRY / BOOT_TO_TUTORIAL_ROUTE / TITLE_RUNTIME_ASSET_CANDIDATES
 authority_domain: REPOSITORY_STRUCTURED_CANON
 publication_policy: source_only
-runtime_evidence: HERA_TECHNICAL_SMOKE_PASS
+runtime_evidence: LOCKED_ART_MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 human_usability_evidence: NOT_RUN
 ```
 
@@ -54,19 +54,21 @@ BAKED_TEXT_IN_GENERATED_IMAGE = FORBIDDEN
 BATTLEFIELD_BUILDINGS_OR_CONSTRUCTION_NODES = FORBIDDEN
 ```
 
-검토용 후보를 층으로 나눈다.
+승인된 자산은 서로 다른 레이어로 유지한다.
 
 1. `TITLE-BG-06`: 16:9 수채화 전쟁 배경. 성벽의 수호군은 모두 후면 실루엣으로 보이며 방패·창,
    궁수의 실제 사격, 마법사·천사·사제의 서로 다른 주문 준비가 함께 읽힌다. 베일 군단은 우측에서
    불규칙한 혼성 돌격으로 다가오며, 좌측에는 하나의 고정 방어탑과 별도 기수의 긴 지휘 깃발만 둔다.
-   이는 세계관 배경일 뿐 건설 노드·다중 전선·게임플레이 미니맵을 뜻하지 않는다.
-2. `TITLE-WORDMARK-01`: 투명 알파의 `OMENWARD` 게임 제목 후보. 배경에 구워 넣지 않고, 후보
-   미리보기에서만 상단 중앙에 겹친다.
-3. `TITLE-SEAL-01`: 기존 글자 없는 수호 문장 후보. 보존하되 현재 타이틀 구도의 선택 대상은 아니다.
+   이는 세계관 배경일 뿐 건설 노드·다중 전선·게임플레이 미니맵을 뜻하지 않는다. 사용자가 마지막
+   첨부 이미지를 명시 승인했고, byte-exact copy는
+   `assets/art/ui/title/omenward_title_wall_battle_surge_v1.png`이다.
+2. `TITLE-WORDMARK-01`: 투명 알파의 `OMENWARD` 게임 제목. 사용자가 워드마크를 명시 승인했고,
+   byte-exact copy는 `assets/art/ui/title/omenward_title_omenward_wordmark_v1.png`이다.
 
-모든 후보는 생성 직후 `GENERATED_CANDIDATE`다. 사용자가 화면에서 본 배경과 워드마크를 각각
-`LOCK`할 때만 repository의 `assets/art/ui/title/` runtime path, SHA-256, consumer, provenance
-record에 올리고 TitleScreen에 연결한다. 후보 거절 시 해당 후보만 제거하고 기존 전장 자산은 보존한다.
+승인된 두 PNG의 SHA-256, source, consumer, provenance와 rights ceiling은
+`docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md`가 소유한다. 승인되지 않은 배경,
+seal, preview screenshot과 candidate preview scene은 사용자 요청에 따라 제거했고, 식별 정보와
+prompt archive만 `docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md`에 남긴다.
 
 ## Runtime composition
 
@@ -75,8 +77,8 @@ Main
 ├── GameSession
 └── UI
     ├── TitleScreen                 visible at boot
-    │   ├── candidate/approved backdrop area
-    │   ├── Omenward title + role line (Godot Label)
+    │   ├── approved battle-surge backdrop TextureRect
+    │   ├── approved transparent OMENWARD wordmark TextureRect + native role line
     │   ├── 원정 시작                only functional primary action
     │   └── bootstrap status label
     ├── RunCommandScreen            hidden at boot; visible after stage_started
@@ -85,9 +87,8 @@ Main
 ```
 
 한국어 역할 문구와 버튼은 native Godot `Label` / `Button`이 계속 소유한다. `OMENWARD` 워드마크는
-현재 candidate-preview에만 있는 투명 이미지이며, 사용자가 `LOCK`하기 전에는 실제 TitleScreen의
-native Godot title text를 대체하지 않는다. 따라서 후보 검토와 런타임 바인딩·로컬라이제이션 책임을
-혼동하지 않는다.
+승인된 투명 이미지지만 배경에 구워 넣지 않고 독립 `TextureRect`로 둔다. 따라서 이미지 교체와
+로컬라이제이션 책임을 혼동하지 않으며, 타이틀 화면은 전장 삽화의 가시성을 유지한다.
 
 ## Acceptance criteria
 
@@ -95,8 +96,9 @@ native Godot title text를 대체하지 않는다. 따라서 후보 검토와 �
 - [x] The title action is disabled while bootstrap is pending or failed.
 - [x] A successful title action starts exactly `tutorial_stage` and reveals the existing Run Command screen.
 - [x] The title scene contains no non-functional Continue, Save, Settings, Shop, or Record action.
-- [x] The candidate background and seal remain non-runtime candidates until the user visually locks them.
-- [ ] Locked art, once promoted, has a manifest record with SHA-256, prompt provenance, exact consumer, and state.
+- [x] Only the user-approved `TITLE-BG-06` and `TITLE-WORDMARK-01` are byte-exact runtime assets; the remaining candidates are deleted after provenance readback.
+- [x] Locked art has a canonical record with SHA-256, prompt provenance, exact consumer, approval, and evidence ceiling.
+- [x] Locked-art focused contract, full Godot/Python suites, and live technical capture were rerun on the locked working-tree state; the exact outputs are in `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`.
 - [x] Focused headless title-route test, full headless suite, Python suite, Godot import, and a live technical capture pass before any machine-PASS statement. See `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`.
 
 ## Boundaries and rollback

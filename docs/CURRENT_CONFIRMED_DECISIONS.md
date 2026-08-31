@@ -15,8 +15,9 @@ current_build_runtime_unit_asset_set: STORYBOOK_SD_SHIELD_GUARD_PAIR_V1__CANON_R
 current_storybook_shield_guard_pair: docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md
 current_title_entry_decision: OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01
 current_title_entry_spec: docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md
-current_title_entry_status: IMPLEMENTED__FULL_MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__TITLE_CANDIDATE_LOCK_PENDING
-current_title_entry_candidate_record: docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md
+current_title_entry_status: USER_APPROVED__TITLE_ASSETS_CANON_REGISTERED__IMPLEMENTED__MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
+current_title_entry_asset_record: docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md
+current_title_entry_candidate_archive: docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_confirmation: GENERATE_THEN_USER_CONFIRM_LOCK
@@ -73,7 +74,7 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 30
 
 ## Current approved implementation continuation
 
-- `OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01` — 부팅 뒤 자동 전투 시작을 제거하고, 실제 `원정 시작` 한 개로 기존 `tutorial_stage`와 단일 전선 Run Command로 들어간다. 후보 배경·문장은 사용자 시각 lock 전 runtime에 연결하지 않는다. Owner: `docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md`. Status: `IMPLEMENTED__FULL_MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__TITLE_CANDIDATE_LOCK_PENDING__HUMAN_NOT_RUN`.
+- `OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01` — 부팅 뒤 자동 전투 시작을 제거하고, 실제 `원정 시작` 한 개로 기존 `tutorial_stage`와 단일 전선 Run Command로 들어간다. 사용자는 `TITLE-WORDMARK-01`과 마지막 첨부 `TITLE-BG-06`을 명시 lock했고, 두 byte-exact 복사본만 실제 TitleScreen에 연결한다. 나머지 title 후보·preview는 제거했다. Owners: `docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md`, `docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md`. Status: `USER_APPROVED__TITLE_ASSETS_CANON_REGISTERED__IMPLEMENTED__MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN`.
 
 ## Protected product identity
 

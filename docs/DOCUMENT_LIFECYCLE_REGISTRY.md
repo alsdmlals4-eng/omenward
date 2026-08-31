@@ -49,6 +49,11 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 [현행] docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md
 [증거] docs/qa/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_RUNTIME_SMOKE_2026-08-31.md
 [증거] docs/reviews/ADVERSARIAL_CLOSE_SINGLE_FRONT_BATTLEFIELD_IMPLEMENTATION_REVIEW_2026-08-31.md
+[현행] docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md
+[현행] docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md
+[증거] docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md
+[증거] docs/reviews/ADVERSARIAL_TITLE_ENTRY_IMPLEMENTATION_REVIEW_2026-08-31.md
+[증거/호환] docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md — candidate metadata only; physical PNGs are deleted
 [대체됨] docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 [증거] docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_V6_VISUAL_LOCK_REVIEW_2026-08-29.md
 [증거] docs/audits/OMENWARD_CI_GODOT_TEARDOWN_RERUN_INCIDENT_2026-08-29.md
@@ -72,6 +77,9 @@ CURRENT_FORWARD_DEFENSE_SPEC = docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROS
 CURRENT_BASE_FORWARD_LAYOUT_SPEC = docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 CURRENT_VISUAL_DECISION = OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01
 CURRENT_TARGET_RUNTIME_ASSET = OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED
+CURRENT_TITLE_ENTRY_ASSET_BUNDLE = OMW-IMG-20260831-TITLE-ENTRY-ASSETS-V1__USER_APPROVED__CANON_REGISTERED__IMPLEMENTED
+CURRENT_TITLE_ENTRY_ASSET_OWNER = docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md
+CURRENT_TITLE_ENTRY_ASSET_STATUS = MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 BATTLE_FOCUS_UI_OWNER = scripts/ui/battle_focus_view.gd
 MARCH_MINIMAP_UI_OWNER = scripts/ui/march_minimap_view.gd
 SINGLE_MARCH_TERRAIN_CANDIDATE = docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md
@@ -116,6 +124,11 @@ IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 [증거/호환] docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md
 [증거/호환] docs/superpowers/plans/2026-08-30-single-march-front-and-three-tab-command.md
 [현행] docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md — exact user-locked modular runtime asset bundle; technical smoke passed, human readability remains open
+[현행] docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md — one truthful title action and exact locked title-asset binding
+[현행] docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md — last-attached battle-surge background plus wordmark only; rights and human evidence remain open
+[증거] docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md — exact locked-asset technical evidence
+[증거] docs/reviews/ADVERSARIAL_TITLE_ENTRY_IMPLEMENTATION_REVIEW_2026-08-31.md — title-entry five-loop review; locked-asset closeout remains current
+[증거/호환] docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md — disposition and provenance archive; no physical candidate PNG survives
 [대체됨] docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md
 [현행] docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md — Shield Guard runtime pair only; runtime/human observation remains NOT_RUN
 [증거] docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md — legacy current-build consumer only

@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "artifact_role": "REVIEW_EVIDENCE_RECORD",
+  "scope": {
+    "allowed_changed_paths": [
+      "assets/art/ui/title/*.png",
+      "docs/ACTIVE_CONTEXT.md",
+      "docs/CURRENT_CONFIRMED_DECISIONS.md",
+      "docs/DOCUMENTATION_MAP.md",
+      "docs/DOCUMENT_LIFECYCLE_REGISTRY.md",
+      "docs/approvals/PROJECT_PROTECTED_CHANGE_APPROVAL_GLOBAL_ROSTER_AND_STRATEGIC_MAP_2026-08-30.json",
+      "docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md",
+      "docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md",
+      "docs/images/candidates/title/*.png",
+      "docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md",
+      "docs/qa/captures/title_entry/*.png",
+      "docs/reviews/ADVERSARIAL_TITLE_ENTRY_IMPLEMENTATION_REVIEW_2026-08-31.md",
+      "docs/reviews/OMENWARD_TITLE_ENTRY_REVIEW_EVIDENCE_2026-08-31.json",
+      "docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md",
+      "scenes/preview/omenward_title_entry_candidate_preview.tscn",
+      "scenes/ui/title_screen.tscn",
+      "tests/headless/title_entry_candidate_preview_contract_test.gd",
+      "tests/headless/title_entry_candidate_preview_contract_test.gd.uid",
+      "tests/headless/title_entry_locked_asset_contract_test.gd",
+      "tests/headless/title_entry_locked_asset_contract_test.gd.uid"
+    ],
+    "protected_paths": []
+  },
+  "claims": [
+    {
+      "claim_id": "TITLE-LOCK-IMPLEMENTED",
+      "claim_type": "IMPLEMENTATION",
+      "claim_text": "The user-approved battle-surge background and wordmark are the only canonical TitleScreen artwork, while former candidate consumers are removed.",
+      "acceptance_ids": [
+        "TITLE-LOCK-01"
+      ],
+      "check_ids": [
+        "CHECK-PYTHON-FULL"
+      ]
+    },
+    {
+      "claim_id": "TITLE-LOCK-VERIFIED",
+      "claim_type": "VERIFICATION",
+      "claim_text": "The locked title implementation remains inside the project contract suite; runtime and human evidence are reported separately in the QA record.",
+      "acceptance_ids": [
+        "TITLE-LOCK-01"
+      ],
+      "check_ids": [
+        "CHECK-PYTHON-FULL"
+      ]
+    }
+  ],
+  "acceptance": [
+    {
+      "intent_id": "TITLE-LOCK-01",
+      "approved_intent": "Bind exactly the user-approved wordmark and last-attached battle-surge image to the real title entry, retain one truthful start action, and remove redundant title candidates after provenance readback.",
+      "implementation_paths": [
+        "scenes/ui/title_screen.tscn",
+        "assets/art/ui/title/omenward_title_wall_battle_surge_v1.png",
+        "assets/art/ui/title/omenward_title_omenward_wordmark_v1.png",
+        "docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md",
+        "docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md"
+      ],
+      "required_level": "TEST"
+    }
+  ],
+  "checks": [
+    {
+      "check_id": "CHECK-PYTHON-FULL",
+      "argv": [
+        "{python}",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/python",
+        "-q"
+      ],
+      "working_directory": ".",
+      "timeout_seconds": 180,
+      "declared_level": "TEST",
+      "acceptance_ids": [
+        "TITLE-LOCK-01"
+      ],
+      "markers": [
+        "OK"
+      ]
+    }
+  ]
+}
