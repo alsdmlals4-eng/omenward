@@ -37,6 +37,7 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 [현행] docs/OMENWARD_GDD_CURRENT_CANON.md
 [대체됨] docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md
 [대체됨] docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
+[파생] docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf — Issue #254의 개정 2 사람용 게임 경험 블루프린트. 위 GDD와 repository canon에서 파생하며 독립 정본·runtime asset·implementation authority가 아니다. 사용자 최종 검수는 `AWAITING`이며, 이 상태는 별도 구현 승인이 아니다.
 [현행] docs/PROJECT_CORE.md
 [현행] docs/CURRENT_IMPLEMENTATION_STATUS.md
 [현행] docs/DECISIONS_PENDING.md

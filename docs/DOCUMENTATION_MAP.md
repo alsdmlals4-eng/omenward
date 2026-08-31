@@ -24,17 +24,18 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 10. `docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md`
 11. `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`
 12. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-13. `docs/PROJECT_CORE.md`
-14. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-15. `docs/OMENWARD_ROADMAP.md`
-16. `docs/DECISIONS_PENDING.md`
-17. `docs/DOCUMENTATION_MAP.md`
-18. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-19. relevant current Decision/spec/asset owner
-20. repository의 relevant human-facing Markdown owner
-21. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
-22. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
-23. historical topology / handoff / planning boards only when needed
+13. `docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf` — 개정 2의 사람용 게임 경험 블루프린트. 현재 GDD와 repository canon에서 파생하며, 정본·runtime evidence·implementation authority가 아니다. 현재 화면은 `구현 기준선`, 목표 경험은 `기획 확인`, 지도 보드는 `시각 참고`로 구분한다.
+14. `docs/PROJECT_CORE.md`
+15. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+16. `docs/OMENWARD_ROADMAP.md`
+17. `docs/DECISIONS_PENDING.md`
+18. `docs/DOCUMENTATION_MAP.md`
+19. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+20. relevant current Decision/spec/asset owner
+21. repository의 relevant human-facing Markdown owner
+22. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
+23. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
+24. historical topology / handoff / planning boards only when needed
 
 Fresh GitHub/repository truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다. Notion의 current structure/work는 읽기 전용 migration으로 이관 완료했고, 이후 Notion은 historical reference only다.
 
