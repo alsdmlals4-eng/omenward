@@ -44,7 +44,7 @@ script paths needed for that approved continuation.
 | 2 | Attacked boot order, title visibility, disabled state, semantic button targeting, title-to-command transition, and existing tutorial routing. | No new valid finding. On a fresh run `TitleScreen=true`, `RunCommandScreen=false`, and the sole `원정 시작` action was enabled; the live text-target click changed them to `false` and `true` respectively. | 32 / 32 headless Godot contracts passed with 0 failures; title-route coverage remained in the complete suite. |
 | 3 | Attacked candidate cleanup, stale scene/test/capture consumers, historical-reference loss, duplicated current authority, and file-size hygiene. | No active candidate PNG, preview scene, preview contract, or old title capture survived. Candidate identity, prompt provenance, hashes, and disposal decisions are retained in one history-only archive rather than duplicated image files. | Active scene/script/test search finds canonical title paths only; the candidate archive is explicitly classified as non-runtime history. |
 | 4 | Attacked document/current-state drift, protected-path approval scope, canonical locator propagation, and release-rights overclaim. | No blocking drift found after updating the decision index, active context, documentation map, lifecycle registry, asset record, QA record, and approval manifest. The asset record continues to mark AI terms/input rights/distribution as `RELEASE_BLOCKED_UNVERIFIED`. | Project core docs, archive governance, skill system, and Base adapter contract checks all passed; no legal or release claim was promoted. |
-| 5 | Attacked exact-machine evidence, runtime render bounds, post-start screenshot provenance, editor import noise, temporary checkout cleanup, remote/main divergence, and accidental import churn. | `P3 / FOLLOW_UP`: PR #257 remains `DIRTY` against current `origin/main`, so this change must not be represented as merged or main-verified. Godot import had non-title add-on/engine diagnostics; live diagnostics were clean with 0 errors and 0 warnings. Temporary Base checkout was removed. | 569 / 569 Python contracts passed against the exact temporary Base revision. Ready render inspector reported `possible_clipping=false`; post-start generic command-screen heuristic remains recorded rather than treated as UX pass. |
+| 5 | Attacked exact-machine evidence, runtime render bounds, post-start screenshot provenance, editor import noise, temporary checkout cleanup, remote/main divergence, and accidental import churn. | `P3 / FOLLOW_UP`: PR #257 remains `DIRTY` against current `origin/main`, so this change must not be represented as merged or main-verified. Godot import had non-title add-on/engine diagnostics; live diagnostics were clean with 0 errors and 0 warnings. Temporary Base checkout was removed. The generic Base claim-and-intent checker is `UNVERIFIED_DEPENDENCY`: this thin-adapter project intentionally has no local `skills/reviewing-and-validating-project-changes/` schema bundle for that checker to load. | 569 / 569 Python contracts passed against the exact temporary Base revision. Ready render inspector reported `possible_clipping=false`; post-start generic command-screen heuristic remains recorded rather than treated as UX pass. The declared record at `docs/reviews/OMENWARD_TITLE_ENTRY_REVIEW_EVIDENCE_2026-08-31.json` is retained, but its generic checker is not counted as a PASS. |
 
 ## Multi-lens outcome
 
@@ -84,7 +84,13 @@ or the battle-primary/minimap surface.
   current title decision.
 - **Evidence ceiling:** this result is machine plus live technical smoke and user
   exact-asset selection, not human usability, accessibility, performance,
-  legal/rights, remote CI, merged-main, or release evidence.
+  legal/rights, remote CI, merged-main, or release evidence. The repository does
+  not define `.github/reference-freshness.json`; therefore the Base automatic
+  freshness checker is also not runnable here. A manual impact map and active
+  consumer scan were completed instead: the title scene, locked-asset contract,
+  decision/context, documentation map, lifecycle registry, approval manifest,
+  asset record, QA record, and review are current consumers; historical plan and
+  candidate-archive references are retained only as history.
 
 ## Decision and remaining gate
 
@@ -94,4 +100,6 @@ bound, machine-verified, and technically rendered. It is not merged to main or
 release-ready. The next gates are remote PR validation after push, a dedicated
 PR/main reconciliation without discarding current work, human readability and
 accessibility observation, performance profiling on target hardware, and asset
-rights review.
+rights review. The generic Base claim-and-intent and reference-freshness helpers
+also need a project-local adapter/config route before they can contribute fresh
+machine evidence; their unavailable state is not represented as a PASS.
