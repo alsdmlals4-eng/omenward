@@ -1,7 +1,7 @@
 # [현행] OMENWARD 문서 지도
 
 ```yaml
-updated_at: 2026-08-29
+updated_at: 2026-08-30
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED
 current_next_gate: PHASE2_OPEN_BATTLEFIELD_READINESS_REVIEW__ISSUE_RED_TEST_PROVENANCE_TARGET_RESOLUTION_REQUIRED
@@ -21,22 +21,23 @@ implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_T
 7. `docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md`
 8. `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
 9. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-10. `docs/PROJECT_CORE.md`
-11. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-12. `docs/OMENWARD_ROADMAP.md`
-13. `docs/DECISIONS_PENDING.md`
-14. `docs/DOCUMENTATION_MAP.md`
-15. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-16. `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
-17. `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
-18. `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`
-19. relevant current Decision/spec/asset owner
-19. repository의 relevant human-facing Markdown owner
-20. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
-21. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
-22. `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
-23. `docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_REVIEW_2026-08-28.md`
-24. `docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md` (superseded discovery candidate)
+10. `docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf` — 개정 2의 사람용 게임 경험 블루프린트. GDD/current main에서 파생하며, 정본·runtime evidence·implementation authority가 아니다. 현재 화면은 `구현 기준선`, 목표 경험은 `기획 확인`, 지도 보드는 `시각 참고`로 구분한다.
+11. `docs/PROJECT_CORE.md`
+12. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+13. `docs/OMENWARD_ROADMAP.md`
+14. `docs/DECISIONS_PENDING.md`
+15. `docs/DOCUMENTATION_MAP.md`
+16. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+17. `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
+18. `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
+19. `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`
+20. relevant current Decision/spec/asset owner
+21. repository의 relevant human-facing Markdown owner
+22. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
+23. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
+24. `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
+25. `docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_REVIEW_2026-08-28.md`
+26. `docs/images/planning/OMENWARD_FORWARD_DEFENSE_OCCUPATION_NODE_STRATEGIC_MAP_CANDIDATE_2026-08-28.md` (superseded discovery candidate)
 
 Fresh GitHub/repository truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다. Notion의 current structure/work는 읽기 전용 migration으로 이관 완료했고, 이후 Notion은 historical reference only다.
 

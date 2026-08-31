@@ -1,7 +1,7 @@
 # [현행] OMENWARD Document Lifecycle Registry
 
 ```yaml
-updated_at: 2026-08-29
+updated_at: 2026-08-30
 status: CURRENT_DOCUMENT_LIFECYCLE_REGISTRY
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -34,6 +34,7 @@ implementation_execution: IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_T
 [현행] docs/HANDOFF_CONTEXT.md
 [현행] docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md
 [현행] docs/OMENWARD_GDD_CURRENT_CANON.md
+[파생] docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf — Issue #254의 개정 2 사람용 게임 경험 블루프린트. 위 GDD와 current main에서 파생하며 독립 정본·runtime asset·implementation authority가 아님. 사용자 최종 검수는 AWAITING이며, 이 상태는 별도 구현 승인이 아니다.
 [현행] docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md
 [현행] docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 [현행] docs/PROJECT_CORE.md

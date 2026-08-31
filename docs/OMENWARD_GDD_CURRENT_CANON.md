@@ -1,7 +1,24 @@
 # [현행] OMENWARD GDD 정본
 
 ```yaml
-updated_at: 2026-08-28
+artifact_role: AI_MASTER_GDD
+pair_id: omenward-human-game-blueprint
+project_repo: alsdmlals4-eng/omenward
+project_branch: main
+project_sha: 2229ed882c936ea1a34dabd32534db0f6067ad0c
+base_repo: alsdmlals4-eng/Base
+base_sha: 7ead958819a8d96b639e2641a7bbf7c10822cc69
+generated_at_utc: 2026-08-30T00:00:00Z
+document_version: 2.0.0
+scope: vertical-slice
+canonical_ai_gdd_path: docs/OMENWARD_GDD_CURRENT_CANON.md
+human_pdf_path: docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf
+human_blueprint_revision: 2
+human_blueprint_status: USER_FINAL_REVIEW_AWAITING
+source_precedence: current repository main > current confirmed decisions > code/test evidence > derived PDF
+overall_status: PARTIAL__RUN_COMMAND_MACHINE_QA_CAPTURED__HUMAN_PLAYER_EVIDENCE_NOT_RUN
+known_stale_points: current runtime presentation predates the v6 open-battlefield target
+updated_at: 2026-08-30
 status: CURRENT_GDD_CANON
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -426,3 +443,57 @@ CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
 ```
 
 Implementation resume order is current Base + fresh OMENWARD main/open work → current decisions/context/handoff → current GDD/Project Core + relevant repository owner → implementation packet/plan → fresh Godot execution. Image generation is user-authorized and requires only post-generation user lock confirmation.
+
+## 21. Human game blueprint pair register
+
+`docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf` revision 2 is the
+repository-derived, human-facing pair for this GDD. It is **not** an additional
+product canon, a runtime asset, or an implementation authorization. It is a
+reader-first review artifact that explains the player promise, the complete
+experience flow, player choices, visual direction, and the exact questions
+still awaiting human review.
+
+```yaml
+blueprint_pair_id: omenward-human-game-blueprint
+human_blueprint_revision: 2
+pdf_generated_at: 2026-08-30
+pdf_path: docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf
+canonical_ai_spec: docs/OMENWARD_GDD_CURRENT_CANON.md
+human_final_review: AWAITING_USER_REVIEW
+implementation_after_human_review: REQUIRES_SEPARATE_SCOPED_DIRECTION
+new_generated_images: NONE
+image_reuse_disposition: REUSED_APPROVED_PLANNING_BOARD_AND_EXISTING_SCREEN_CAPTURES
+```
+
+### Pair scope and source boundary
+
+| Source class | Current owner | Human-PDF use |
+| --- | --- | --- |
+| Product identity and player promise | `docs/CURRENT_CONFIRMED_DECISIONS.md`, `docs/PROJECT_CORE.md` | one-page vision, product boundary, player questions |
+| Current planning and evidence ceiling | `docs/ACTIVE_CONTEXT.md` | status labels and scope separation only |
+| World, MapRun, pressure, mobilization, FTUE, content, text | relevant `docs/design/APPROVED_OMENWARD_*` owners | player experience, scene contracts, stage arc, causal review |
+| Current screen behavior | `scenes/main/main.tscn`, `scenes/ui/run_command_screen.tscn`, `scripts/core/stage_run.gd` and existing QA captures | three `구현 기준선` screen cards only |
+| Approved planning board | `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md` | `시각 참고`; never presented as a current screen or final release asset |
+| External benchmark vocabulary | official Steam pages for [Into the Breach](https://store.steampowered.com/app/590380/Into_the_Breach/), [The Last Spell](https://store.steampowered.com/app/1105670/The_Last_Spell/), and [Shogun Showdown](https://store.steampowered.com/app/2084000/Shogun_Showdown/) | one positioning comparison; no mechanics, expression, assets, or trade dress copied |
+
+### Human-document contract
+
+- **Human-facing content:** player questions, complete normal/win/fail/retry/return flow, scene purpose, choice consequences, first-five learning curve, 20-stage arc, and visual/auditory intent.
+- **Deliberately excluded:** engine names, scene/script/data internals, commands, test/CI/PR/Issue evidence, file paths inside the PDF body, traceability dashboards, and next implementation slices.
+- **Status language:** current verified captures use `구현 기준선`; approved target experience uses `기획 확인`; planning map material uses `시각 참고`; direct player feeling remains `사람 검수 전`.
+- **Image decision:** no new image was needed. The existing three screen captures and the approved planning board directly answer the four visual/flow questions without manufacturing an unapproved illustration.
+- **Reuse mode:** `REUSE_EXISTING_PROJECT_IMPLEMENTATION` for screen captures and `REUSE_EXISTING_PROJECT_REFERENCE` for the planning board; no Base module or cross-project asset is adopted.
+
+### Publication QA record — Issue #254 / revision 2
+
+| Review loop | Adversarial question | Result |
+| --- | --- | --- |
+| 1. Authority | Does this revision change a product decision or replace the GDD? | PASS — the PDF remains a derived human view; current decisions and this GDD retain ownership. |
+| 2. Human readability | Does the PDF omit technical leakage and avoid duplicating the old technical/evidence appendix? | PASS — static text scan found no engine, test, CI, PR/Issue, `NOT_RUN`, or file-path leakage in the 21-page PDF body. |
+| 3. Flow completeness | Are normal flow, victory, defeat, retry, return, completion, and scene exits readable as player movement? | PASS — each is shown in the flow map and flow-detail table; “result” is treated as a decision moment rather than an invented screen. |
+| 4. Reality separation | Could a current capture, planning board, or target experience be misread as another state? | PASS — every visual use is marked `구현 기준선`, `기획 확인`, `시각 참고`, or `사람 검수 전` at the relevant reader decision. |
+| 5. Artifact quality | Are all pages readable after rendering, with no unresolved clipping or overlap? | PASS — all 21 pages were raster-rendered and individually inspected on 2026-08-30. Initial cover image overflow, a positioning-table overlap, flow-table overlap, and status-card overlap were corrected before the final render. |
+
+The PDF remains at `human_final_review: AWAITING_USER_REVIEW`. Its acceptance
+is an approval of the document's clarity and feel, not an implementation PASS
+or a release/rights confirmation.
