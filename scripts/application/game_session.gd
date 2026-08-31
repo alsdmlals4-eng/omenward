@@ -11,6 +11,8 @@ var application: Variant
 var driver: Variant
 var binder: Variant
 var _bootstrapper: Variant
+var _bootstrap_succeeded := false
+var _bootstrap_errors := PackedStringArray()
 
 var clock: Variant:
 	get:
@@ -49,21 +51,37 @@ func _ready() -> void:
 	if application == null or driver == null or binder == null:
 		var composition_errors := PackedStringArray()
 		composition_errors.append("GameSession composition failed")
+		_bootstrap_errors = composition_errors.duplicate()
 		bootstrap_failed.emit(composition_errors)
 		push_error(composition_errors[0])
 		return
 	_connect_application_signals()
 	var errors: PackedStringArray = application.bootstrap()
 	if not errors.is_empty():
+		_bootstrap_errors = errors.duplicate()
 		push_error("Phase 2 bootstrap validation failed: %s" % errors)
 		return
-	driver.start_stage_deferred(&"tutorial_stage")
+	_bootstrap_succeeded = true
 
 
 func start_stage(stage_id: StringName) -> bool:
 	if application == null:
 		return false
 	return application.start_stage(stage_id)
+
+
+func is_bootstrap_ready() -> bool:
+	return _bootstrap_succeeded
+
+
+func bootstrap_failure_message() -> String:
+	return str(_bootstrap_errors[0]) if not _bootstrap_errors.is_empty() else ""
+
+
+func begin_tutorial() -> bool:
+	if not _bootstrap_succeeded:
+		return false
+	return start_stage(&"tutorial_stage")
 
 
 func retry_stage() -> bool:

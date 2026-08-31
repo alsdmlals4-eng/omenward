@@ -13,6 +13,10 @@ current_visual_asset: OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON
 legacy_runtime_visual_asset: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1__RETAINED__NOT_CONSUMED_BY_BATTLEFOCUSVIEW
 current_build_runtime_unit_asset_set: STORYBOOK_SD_SHIELD_GUARD_PAIR_V1__CANON_REGISTERED__IMPLEMENTED__RUNTIME_TECHNICAL_SMOKE_PASS__REMAINING_SOURCE_CELLS_PENDING_REVIEW
 current_storybook_shield_guard_pair: docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md
+current_title_entry_decision: OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01
+current_title_entry_spec: docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md
+current_title_entry_status: IMPLEMENTED__FULL_MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__TITLE_CANDIDATE_LOCK_PENDING
+current_title_entry_candidate_record: docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md
 visual_generation_policy: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 visual_confirmation: GENERATE_THEN_USER_CONFIRM_LOCK
@@ -66,6 +70,10 @@ CURRENT_APPROVED_REPLAN_DECISIONS = 30
 | `OMW-PLAN-20260826-UNIT-ANIMATION-PRODUCTION-CONTRACT-01` | Shield Guard Lumern/Veil pair의 공통 state·facing·pivot·보관·cleanup 경계를 승인하고 exact geometry/timing은 cleaned-pair addendum으로 유보 | `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` | CONFIRMED_CURRENT |
 | `OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01` | 3×3 tile/list inspection은 retained. 가까운 확대 전장 backdrop 표현은 새 전략 지도 Decision이 supersede | `docs/superpowers/specs/2026-08-28-battlefield-map-and-roulette-picker-design.md` | PARTIALLY_SUPERSEDED__ROULETTE_RETAINED |
 | `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` | 동화풍 수채화 SD + 세 branch 전략 지도 UI의 과거 owner. 수채화 SD·실루엣 원칙만 보존된다. | `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md` | SUPERSEDED_IN_TOPOLOGY_AND_TERRAIN_CONSUMER |
+
+## Current approved implementation continuation
+
+- `OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01` — 부팅 뒤 자동 전투 시작을 제거하고, 실제 `원정 시작` 한 개로 기존 `tutorial_stage`와 단일 전선 Run Command로 들어간다. 후보 배경·문장은 사용자 시각 lock 전 runtime에 연결하지 않는다. Owner: `docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md`. Status: `IMPLEMENTED__FULL_MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__TITLE_CANDIDATE_LOCK_PENDING__HUMAN_NOT_RUN`.
 
 ## Protected product identity
 

@@ -23,6 +23,11 @@ current_visual_board_file: docs/images/planning/generated/OMENWARD_PROJECT_CORE_
 current_visual_route_state_grammar: WARD_CITADEL_HOME_BASE__WARD_FORWARD_BASE__CLASH_ZONE__VEIL_FORWARD_BASE__VEIL_CITADEL_HOME_BASE
 current_visual_asset: OMW-IMG-20260831-CLOSE-FRONT-BATTLEFIELD-MODULAR-V1__CANON_REGISTERED__IMPLEMENTED
 current_visual_asset_record: docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md
+current_title_entry_decision: OMW-PLAN-20260831-OMEN-WARDEN-TITLE-ENTRY-01
+current_title_entry_spec: docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md
+current_title_entry_status: IMPLEMENTED__FULL_MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__TITLE_CANDIDATE_LOCK_PENDING
+current_title_entry_candidate_record: docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md
+current_title_entry_qa: docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md
 current_battle_focus_owner: scripts/ui/battle_focus_view.gd__IMPLEMENTED__FULL_HEADLESS_CONTRACTS_PASS__RUNTIME_TECHNICAL_SMOKE_PASS
 current_march_minimap_owner: scripts/ui/march_minimap_view.gd__IMPLEMENTED__FOCUSED_HEADLESS_CONTRACTS_PASS
 current_wide_connected_terrain_asset: SUPERSEDED_FOR_SINGLE_FRONT__RETAINED_HISTORY
@@ -119,6 +124,8 @@ HISTORICAL_PRE_APPROVAL_GATE = IMPLEMENTATION_AUTHORITY_REQUIRED
 PROJECT_ACTIVITY = MODULAR_CLOSE_SINGLE_FRONT_BATTLEFIELD_IMPLEMENTED__MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_REVIEW_PENDING
 UNIT_ANIMATION_PRODUCTION_CONTRACT = RETAINED_GEOMETRY_ONLY__STYLE_FIT_REVIEW_REQUIRED
 SHIELD_GUARD_CLEANUP_MASTER_PAIR = STORYBOOK_SD_PAIR_V1__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN
+TITLE_ENTRY = IMPLEMENTED__FULL_MACHINE_VERIFIED__HERA_TECHNICAL_SMOKE_PASS__CANDIDATE_ASSET_LOCK_PENDING
+TITLE_ENTRY_ASSET_GATE = USER_VISUAL_LOCK_OR_REVISE_OR_REJECT
 CURRENT_NEXT = HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK
 VISUAL_GENERATION_POLICY = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
@@ -140,6 +147,10 @@ Current visual/handoff owners:
 - `docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md`
 - `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md` — exact user-locked modular runtime asset bundle; technical smoke passed, human readability remains open.
 - `docs/qa/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_RUNTIME_SMOKE_2026-08-31.md` — current live technical evidence; human usability and multi-unit readability remain open.
+- `docs/superpowers/specs/2026-08-31-omen-warden-title-entry-design.md` — boot-to-tutorial title-entry implementation; candidate title art remains unbound until visual lock.
+- `docs/images/candidates/OMENWARD_TITLE_ENTRY_CANDIDATES_2026-08-31.md` — `TITLE-BG-01` / `TITLE-SEAL-01` candidate provenance and promotion gate.
+- `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md` — title-entry full machine and live technical smoke; human usability remains open.
+- `docs/reviews/ADVERSARIAL_TITLE_ENTRY_IMPLEMENTATION_REVIEW_2026-08-31.md` — five full-scope implementation review loops; image lock, human usability, rights, and release evidence remain open.
 - `docs/reviews/ADVERSARIAL_CLOSE_SINGLE_FRONT_BATTLEFIELD_IMPLEMENTATION_REVIEW_2026-08-31.md` — five adversarial machine/runtime-scope reviews complete; human evidence remains open.
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md` — historical topology; retained art-language reference only.
 - `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md` — user-approved, canon-registered, and bound Shield Guard pair; runtime/human verification remains `NOT_RUN`.
