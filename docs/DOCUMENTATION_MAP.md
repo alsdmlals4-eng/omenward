@@ -89,6 +89,7 @@ Operating incident / solution / lesson evidence:
 - `docs/audits/OMENWARD_STAGE1_FTUE_CANON_DRIFT_INCIDENT_2026-08-28.md` — Stage 1 prebuilt-learning correction; `NO_BASE_PROMOTION` because the rule is product-specific.
 - `docs/audits/OMENWARD_OPEN_BATTLEFIELD_NO_BARRICADE_INCIDENT_2026-08-28.md` — fenced/barricade 보드가 열린 전장 의도를 가린 문제를 고정 패드·탑 수를 보존한 채 교정했다.
 - `docs/audits/OMENWARD_CI_GODOT_TEARDOWN_RERUN_INCIDENT_2026-08-29.md` — v6 문서 PR의 단발 headless Godot 종료 오류는 동일 SHA 재실행에서 통과했으며, 제품 변경 없이 monitor 대상으로 기록했다.
+- `docs/audits/OMENWARD_APPROVED_PROTECTED_CHANGE_CI_ROUTING_INCIDENT_2026-08-31.md` — 문서 전용 CI가 승인된 보호 경로 구현을 오인해 막은 계약 충돌을 exact Base approval gate로 분리했다; remote CI readback은 아직 남아 있다.
 - `docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_REVIEW_2026-08-28.md` — 열린 지형·수량·건설 범위·실구현 경계·생성 보드 오인을 5회 공격해 교정했으며, runtime/human evidence는 보류로 남긴다.
 
 ### Current non-visual decision owners

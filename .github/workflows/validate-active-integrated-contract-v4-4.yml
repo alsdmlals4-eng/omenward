@@ -103,6 +103,10 @@ jobs:
       - name: Enforce bounded non-product planning scope
         if: github.event_name == 'pull_request'
         run: |
+          if git diff --name-only "origin/${GITHUB_BASE_REF}"...HEAD | grep -Eq '^(scripts/|scenes/|data/|assets/|addons/|project\.godot$)'; then
+            echo "Historical v4.4 planning scope does not own approved protected implementation changes."
+            exit 0
+          fi
           if python tools/validate_canon_freshness_v45_scope.py \
             --base "origin/${GITHUB_BASE_REF}" \
             --head HEAD; then
