@@ -98,7 +98,7 @@ Main
 - [x] The title scene contains no non-functional Continue, Save, Settings, Shop, or Record action.
 - [x] Only the user-approved `TITLE-BG-06` and `TITLE-WORDMARK-01` are byte-exact runtime assets; the remaining candidates are deleted after provenance readback.
 - [x] Locked art has a canonical record with SHA-256, prompt provenance, exact consumer, approval, and evidence ceiling.
-- [x] Locked-art focused contract, full Godot/Python suites, and live technical capture were rerun on the locked working-tree state; the exact outputs are in `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`.
+- [x] Headless editor import, then the locked-art focused contract, full Godot/Python suites, and live technical capture were rerun on the locked working-tree state; the exact outputs are in `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`.
 - [x] Focused headless title-route test, full headless suite, Python suite, Godot import, and a live technical capture pass before any machine-PASS statement. See `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`.
 
 ## Boundaries and rollback

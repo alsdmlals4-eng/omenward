@@ -32,9 +32,9 @@ the non-runtime decision history remains in
 
 | Check | Result | Evidence |
 |---|---|---|
-| Locked-asset focused contract | PASS | `tests/headless/title_entry_locked_asset_contract_test.gd` loaded both canonical `Texture2D` resources, instantiated `TitleScreen`, asserted the exact resource paths, and rejected the removed native `Panel/Title` and candidate directory. |
+| Locked-asset focused contract | PASS | After Godot headless editor import, `tests/headless/title_entry_locked_asset_contract_test.gd` loaded both canonical `Texture2D` resources, instantiated `TitleScreen`, asserted the exact resource paths, and rejected the removed native `Panel/Title` and candidate directory. |
 | Focused title-route contract | PASS | `tests/headless/title_entry_contract_test.gd` ran inside the exact working-tree Godot contract suite. |
-| Full Godot headless contracts | PASS | 32 / 32 `tests/headless/*_test.gd` scripts completed with 0 failures after the locked-asset binding. |
+| Full Godot headless contracts | PASS | After the same headless editor import precondition used by the remote workflow, 32 / 32 `tests/headless/*_test.gd` scripts completed with 0 failures after the locked-asset binding. |
 | Full Python contract suite | PASS | 569 / 569 tests completed successfully against a temporary exact `Base` checkout at `fa69a77a14f923a756064f6ae151d34cadb374f7`; the checkout was removed immediately after the test. |
 | Godot editor load/import | PASS_WITH_NON_TITLE_DIAGNOSTICS | Godot 4.7.1 completed editor import with exit code 0. It emitted existing add-on font parsing and exit-time resource/ObjectDB diagnostics; those do not prove visual quality and are retained as non-title diagnostics. |
 
