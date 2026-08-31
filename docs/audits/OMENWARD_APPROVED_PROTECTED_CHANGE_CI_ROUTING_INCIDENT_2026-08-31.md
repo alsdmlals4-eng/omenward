@@ -2,7 +2,7 @@
 
 ```yaml
 incident_id: OMW-CI-20260831-APPROVED-PROTECTED-CHANGE-ROUTING
-status: LOCAL_REPAIR_VALIDATED__REMOTE_CI_PENDING
+status: LOCAL_AND_REMOTE_CI_PASS__REPAIR_HEAD_RECORDED
 scope: PR_257_APPROVED_SINGLE_FRONT_IMPLEMENTATION
 approval_reference: USER_CONTINUATION_AND_CLEANUP_AUTHORIZATION_2026-08-31
 protected_baseline: 9a67a267a69c80fba6f25d5a37e360a15dcc2419
@@ -10,7 +10,8 @@ base_gate_commit: 928f8ed44f2f8f84859834b229cb8321d716e9f6
 base_gate_role: APPROVED_PROTECTED_CHANGE_RECONCILIATION_ONLY
 runtime_evidence: NOT_APPLICABLE
 human_evidence: NOT_APPLICABLE
-remote_ci_evidence: NOT_RUN
+remote_ci_evidence: PASS
+remote_ci_head: 0b045c5ddeb1193333565cc11438acd120796339
 rollback: REVERT_THIS_CI_ROUTING_CHANGE_FROM_PR_257
 ```
 
@@ -54,7 +55,7 @@ the actual owner.
 | Bridge fixture: two manifests | PASS | Fails closed as ambiguous. |
 | Bridge fixture: docs-only | PASS | Does not substitute for historical document validation. |
 | Base `928f8ed4` exact gate against PR #257 | PASS | Current approval manifest and generated artifacts reconcile. |
-| Remote GitHub workflow run | NOT_RUN | Must be read back on the updated PR head. |
+| Remote GitHub workflow run at `0b045c5d` | PASS | `ci-gate`, `adversarial-gate`, v4.4/v4.5 routing, and Godot all passed on PR #257. |
 
 ## Retention and learning
 
