@@ -77,13 +77,13 @@ Current visual owners:
 - `docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md` — retained route and three-tab domain owner.
 - `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md` — current exact user-locked modular terrain asset bundle; human readability remains open.
 - `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md` — historical topology; retained art-language reference only.
-- `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
-- `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`
+- `[증거/호환] docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
+- `[증거/호환] docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — retained three-front responsibility only.
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md` — historical reference only.
 - `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` — retained geometry only; style-fit review required.
-- `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
-- `docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md`
+- `[증거/호환] docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
+- `[증거/호환] docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md`
 
 Final planning review owner:
 - `docs/reviews/FINAL_PLANNING_ADVERSARIAL_REVIEW_AND_DRIFT_CHECK_2026-08-24.md`

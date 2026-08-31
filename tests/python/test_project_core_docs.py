@@ -43,6 +43,20 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             path.write_text(path.read_text(encoding="utf-8").replace(pathlib.PurePosixPath(CURRENT_SPEC).name, "CURRENT_SPEC_REMOVED.md"), encoding="utf-8")
             self.assertTrue(any("Project Core" in error or "current decision" in error for error in validate(root)))
 
+    def test_current_front_router_rejects_superseded_open_battlefield_as_active(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/ACTIVE_CONTEXT.md"
+            body = path.read_text(encoding="utf-8").replace(
+                "current_single_march_front_spec: docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md",
+                "current_single_march_front_spec: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md",
+                1,
+            )
+            path.write_text(body, encoding="utf-8")
+            errors = validate(root)
+            self.assertTrue(any("current_single_march_front_spec" in error for error in errors), errors)
+
     def test_current_runtime_ceiling_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)

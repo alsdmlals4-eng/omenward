@@ -150,9 +150,9 @@ Current visual owners:
 - `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md`
 - `docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md` — retained topology and tab/domain owner.
 - `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md` — current modular terrain foundation and edge-prop runtime asset owner; human readability remains open.
-- `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
-- `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
-- `docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`
+- `[증거/호환] docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md`
+- `[증거/호환] docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
+- `[증거/호환] docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md`
 - `docs/superpowers/specs/2026-08-25-front-state-minimap-sd-fantasy-design.md` — historical three-front responsibility only.
 - `docs/images/planning/canonical/OMENWARD_APPROVED_FRONT_STATE_VISUAL_2026-08-25.md` — historical reference only.
 - `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md` — retained geometry only; style-fit review required.
@@ -203,7 +203,8 @@ WIDE_CONNECTED_THREE_FRONT_TERRAIN = SUPERSEDED_FOR_CURRENT_RUNTIME_CONSUMER
 STORYBOOK_UNIT_SOURCE_SHEETS = GENERATED_CANDIDATE__TRUE_ALPHA_CELL_EXPORT_PENDING_REVIEW
 STORYBOOK_SHIELD_GUARD_PAIR_V1 = USER_APPROVED__CANON_REGISTERED__IMPLEMENTED__RUNTIME_NOT_RUN
 CURRENT_FORWARD_DEFENSE_SPEC = docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md
-CURRENT_OPEN_BATTLEFIELD_LAYOUT_SPEC = docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
+CURRENT_SINGLE_MARCH_FRONT_SPEC = docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md
+HISTORICAL_OPEN_BATTLEFIELD_LAYOUT_SPEC = docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md
 OPEN_BATTLEFIELD_INCIDENT = docs/audits/OMENWARD_OPEN_BATTLEFIELD_NO_BARRICADE_INCIDENT_2026-08-28.md
 OPEN_BATTLEFIELD_ADVERSARIAL_REVIEW = docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_REVIEW_2026-08-28.md
 FRONT_STATE_MINIMAP_SD_FANTASY = PARTIALLY_SUPERSEDED__THREE_FRONT_RESPONSIBILITY_RETAINED
@@ -251,12 +252,13 @@ HUMAN_QA_NOT_RUN
 - current Decision index: `docs/CURRENT_CONFIRMED_DECISIONS.md`
 - current context: `docs/ACTIVE_CONTEXT.md`
 - current GDD: `docs/OMENWARD_GDD_CURRENT_CANON.md`
-- current forward-defense / occupation-node contract: `docs/design/APPROVED_OMENWARD_FORWARD_DEFENSE_AND_OCCUPATION_NODE_CONTRACT_2026-08-28.md`
+- current forward-defense / occupation-slot contract: `docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md`
 - current implementation state: `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-- current visual Decision: `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`
-- current planning board: `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
+- current visual Decision: `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md`
+- current runtime terrain asset: `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`
+- retained planning board: `docs/images/planning/OMENWARD_PROJECT_CORE_SCENE_VISUAL_BOARD_2026-08-28.md`
 - legacy current-build backdrop: `docs/images/approved/OMENWARD_BATTLEFIELD_BACKDROP_V1.md`
-- current handoff: `docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md`
+- current handoff: `docs/HANDOFF_CONTEXT.md`
 - current unit animation contract: `docs/images/planning/OMENWARD_UNIT_ANIMATION_PRODUCTION_CONTRACT_2026-08-26.md`
 - current documentation routing: `docs/DOCUMENTATION_MAP.md`
 - repository-only policy: `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`

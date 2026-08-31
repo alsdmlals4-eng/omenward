@@ -17,6 +17,7 @@ FORWARD_DEFENSE_DECISION_ID = "OMW-PLAN-20260828-FORWARD-DEFENSE-OCCUPATION-NODE
 GLOBAL_BUILDING_ROSTER_SPEC = "docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md"
 GLOBAL_BUILDING_ROSTER_DECISION_ID = "OMW-PLAN-20260830-GLOBAL-BUILDING-ROSTER-OCCUPATION-SLOTS-01"
 CURRENT_DECISION_COUNT = 30
+CURRENT_SINGLE_FRONT_SPEC = "docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md"
 BASE_FORWARD_LAYOUT_SPEC = "docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md"
 BASE_FORWARD_LAYOUT_DECISION_ID = "OMW-PLAN-20260828-OPEN-BATTLEFIELD-TOWER-ONLY-01"
 BASE_FORWARD_LAYOUT_REVIEW = "docs/reviews/ADVERSARIAL_OPEN_BATTLEFIELD_TOWER_ONLY_LAYOUT_REVIEW_2026-08-28.md"
@@ -280,7 +281,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             GLOBAL_BUILDING_ROSTER_DECISION_ID,
             GLOBAL_BUILDING_ROSTER_SPEC,
             BASE_FORWARD_LAYOUT_DECISION_ID,
-            BASE_FORWARD_LAYOUT_SPEC,
+            f"current_single_march_front_spec: {CURRENT_SINGLE_FRONT_SPEC}",
             "FORWARD_BASE_FIXED_DEFENSE_STACK = AUTO_ATTACK_TOWER_ONLY",
             "FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL",
             "OCCUPATION_SLOT_CAPACITY = 6_PLUS_EACH_STABLE_PLAYER_HELD_CAPTURE_POINT__MAX_9_SINGLE_FRONT",
@@ -316,6 +317,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     )
     if "current_branch_and_commit:" in active:
         errors.append("Active Context contains self-referential current_branch_and_commit")
+    if "current_open_battlefield_layout_spec:" in active:
+        errors.append("current single-front layout route still uses the superseded open-battlefield key")
     for field in ("current_main", "context_baseline_commit"):
         match = re.search(rf"(?m)^{field}:\s*([^\n]+)$", active)
         if match and re.fullmatch(r"[0-9a-f]{40}", match.group(1).strip(" `")):
@@ -563,6 +566,17 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     ):
         if stale in gdd:
             errors.append(f"current GDD retains superseded world decision: {stale}")
+
+    current_front_route_markers = {
+        CURRENT_SPEC: f"CURRENT_SINGLE_MARCH_FRONT_SPEC = {CURRENT_SINGLE_FRONT_SPEC}",
+        "docs/PROJECT_CORE.md": f"CURRENT_SINGLE_MARCH_FRONT_SPEC = {CURRENT_SINGLE_FRONT_SPEC}",
+        "docs/CURRENT_IMPLEMENTATION_STATUS.md": f"CURRENT_BASE_FORWARD_LAYOUT_SPEC = {CURRENT_SINGLE_FRONT_SPEC}",
+        CURRENT_GDD: f"CURRENT_SINGLE_MARCH_FRONT_SPEC = {CURRENT_SINGLE_FRONT_SPEC}",
+        LIFECYCLE_REGISTRY: f"CURRENT_BASE_FORWARD_LAYOUT_SPEC = {CURRENT_SINGLE_FRONT_SPEC}",
+    }
+    for relative, marker in current_front_route_markers.items():
+        if marker not in read(root, relative):
+            errors.append(f"current single-front layout route missing in {relative}: {marker}")
 
     forward_defense = read(root, FORWARD_DEFENSE_SPEC)
     require(
