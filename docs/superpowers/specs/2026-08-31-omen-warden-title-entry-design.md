@@ -49,21 +49,24 @@ human_usability_evidence: NOT_RUN
 STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
 ALLY = NAVY + IVORY + COOL_GRAY_METAL + RESTRAINED_GOLD
 VEIL = BLACK_PURPLE + DARK_RED + CARAPACE_GRAY + LIMITED_RIFT_GLOW
-TITLE_COMPOSITION = WARD_CITADEL_LEFT + QUIET_CENTER_TEXT_SAFE_AREA + DISTANT_VEIL_RIGHT
+TITLE_COMPOSITION = WARD_WALL_DEFENSE_LEFT + ACTIVE_WARD_REAR_ROLES + VEIL_BATTLE_SURGE_RIGHT + SAFE_UPPER_CENTER_WORDMARK
 BAKED_TEXT_IN_GENERATED_IMAGE = FORBIDDEN
 BATTLEFIELD_BUILDINGS_OR_CONSTRUCTION_NODES = FORBIDDEN
 ```
 
-두 후보를 만든다.
+검토용 후보를 층으로 나눈다.
 
-1. `TITLE-BG-01`: 16:9 수채화 메인 배경. 수호 성채·깃발·먼 장막 균열은 보이되, 중앙은
-   실제 UI 텍스트와 버튼을 위한 깨끗한 여백으로 남긴다.
-2. `TITLE-SEAL-01`: 글자 없는 정사각 수호 문장. 타이틀 옆 장식으로만 쓰며, 능력·재화·점령
-   오브젝트로 읽히게 만들지 않는다.
+1. `TITLE-BG-06`: 16:9 수채화 전쟁 배경. 성벽의 수호군은 모두 후면 실루엣으로 보이며 방패·창,
+   궁수의 실제 사격, 마법사·천사·사제의 서로 다른 주문 준비가 함께 읽힌다. 베일 군단은 우측에서
+   불규칙한 혼성 돌격으로 다가오며, 좌측에는 하나의 고정 방어탑과 별도 기수의 긴 지휘 깃발만 둔다.
+   이는 세계관 배경일 뿐 건설 노드·다중 전선·게임플레이 미니맵을 뜻하지 않는다.
+2. `TITLE-WORDMARK-01`: 투명 알파의 `OMENWARD` 게임 제목 후보. 배경에 구워 넣지 않고, 후보
+   미리보기에서만 상단 중앙에 겹친다.
+3. `TITLE-SEAL-01`: 기존 글자 없는 수호 문장 후보. 보존하되 현재 타이틀 구도의 선택 대상은 아니다.
 
-두 파일은 생성 직후 `GENERATED_CANDIDATE`다. 사용자가 화면에서 본 후보를 `LOCK`할 때만
-repository의 `assets/art/ui/title/` runtime path, SHA-256, consumer, provenance record에
-올리고 TitleScreen에 연결한다. 후보 거절 시 해당 후보만 제거하고 기존 전장 자산은 보존한다.
+모든 후보는 생성 직후 `GENERATED_CANDIDATE`다. 사용자가 화면에서 본 배경과 워드마크를 각각
+`LOCK`할 때만 repository의 `assets/art/ui/title/` runtime path, SHA-256, consumer, provenance
+record에 올리고 TitleScreen에 연결한다. 후보 거절 시 해당 후보만 제거하고 기존 전장 자산은 보존한다.
 
 ## Runtime composition
 
@@ -81,8 +84,10 @@ Main
     └── StageSelect                 retained hidden developer surface
 ```
 
-The English wordmark and Korean copy remain native Godot `Label` text, not
-pixels inside generated art. This preserves readable scaling and later localization.
+한국어 역할 문구와 버튼은 native Godot `Label` / `Button`이 계속 소유한다. `OMENWARD` 워드마크는
+현재 candidate-preview에만 있는 투명 이미지이며, 사용자가 `LOCK`하기 전에는 실제 TitleScreen의
+native Godot title text를 대체하지 않는다. 따라서 후보 검토와 런타임 바인딩·로컬라이제이션 책임을
+혼동하지 않는다.
 
 ## Acceptance criteria
 
