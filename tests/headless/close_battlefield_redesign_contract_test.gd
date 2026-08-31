@@ -43,16 +43,21 @@ func _init() -> void:
 
 func _test_scene_layout(failures: PackedStringArray) -> void:
 	var scene_text := FileAccess.get_file_as_string(RUN_COMMAND_SCENE_PATH)
-	_expect(scene_text.contains("offset_left = 16.0\noffset_top = 62.0\noffset_right = 702.0"), "battle focus uses the full 686px-wide left battle surface", failures)
+	_expect(scene_text.contains("offset_left = 16.0\noffset_top = 108.0\noffset_right = 942.0"), "battle focus uses the full width below the top minimap strip", failures)
 	_expect(scene_text.contains('[node name="TopTabRail" type="HBoxContainer" parent="TopBar"]'), "three work-surface tabs live inside the top command rail", failures)
 	_expect(not scene_text.contains('[node name="TabRail" type="VBoxContainer" parent="."]'), "vertical tab rail no longer steals battle width", failures)
-	_expect(scene_text.contains('[node name="MarchMinimap" type="Control" parent="."]'), "the narrow march minimap remains a separate right-side surface", failures)
+	_expect(scene_text.contains('[node name="MarchMinimap" type="Control" parent="."]\nvisible = false\nlayout_mode = 0\noffset_left = 16.0\noffset_top = 62.0\noffset_right = 942.0\noffset_bottom = 98.0'), "march minimap is one full-width top strip", failures)
 
 
 func _test_single_active_battle_renderer(failures: PackedStringArray) -> void:
-	var main_scene := FileAccess.get_file_as_string(MAIN_SCENE_PATH)
+	var main_packed := load(MAIN_SCENE_PATH) as PackedScene
 	var scene_binder := FileAccess.get_file_as_string(SCENE_BINDER_SOURCE_PATH)
-	_expect(main_scene.contains('[node name="Battlefield" parent="." unique_id=617805723 instance=ExtResource("2_battlefield")]\nvisible = false'), "legacy root battlefield renderer is hidden behind the close battle surface", failures)
+	_expect(main_packed != null, "main scene loads before the legacy battlefield visibility is inspected", failures)
+	if main_packed != null:
+		var main_scene := main_packed.instantiate()
+		var legacy_battlefield := main_scene.get_node_or_null("Battlefield") as CanvasItem
+		_expect(legacy_battlefield != null and not legacy_battlefield.visible, "legacy root battlefield renderer is hidden behind the close battle surface", failures)
+		main_scene.queue_free()
 	_expect(not scene_binder.contains("battlefield.bind_run(run)"), "scene binder does not activate the legacy battlefield renderer for the current run", failures)
 
 

@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Replace per-outpost construction nodes with a player-only, priority-ordered global building roster whose capacity is `6 + stable Lumern forward bases + stable Lumern clash zones`, while showing exactly one fixed ownership tower on each shared front.
+**Goal:** Replace per-outpost construction nodes with a player-only, priority-ordered global building roster whose capacity is `6 + each stable player-held capture point`, while showing exactly one fixed ownership tower on the sole active front.
 
-**Architecture:** `BuildingService` becomes the sole roster/effect authority. `StageRun` derives stable-objective counts from `BattleSimulator` and supplies them to the service before any snapshot, roulette calculation, or UI render. `BattleSimulator` owns objective transitions and three presentation-only fixed-tower states; `RunCommandScreen` renders the roster in PREPARE and `BattlefieldView` draws only routes, fixed towers, units, and ownership feedback.
+**Architecture:** `BuildingService` becomes the sole roster/effect authority. `StageRun` derives stable-objective counts from `BattleSimulator` and supplies them to the service before any snapshot, roulette calculation, or UI render. `BattleSimulator` owns objective transitions and one presentation-only fixed-tower state; `RunCommandScreen` renders the roster in PREPARE and `BattlefieldView` draws only routes, the fixed tower, units, and ownership feedback.
 
 **Tech Stack:** Godot 4.7 GDScript; deterministic headless SceneTree contract tests; Python documentation contracts; existing generated project UI/building textures only.
 
@@ -13,10 +13,10 @@
 ## Global Constraints
 
 - `BATTLEFIELD_VISIBLE_EXCLUDES = CONSTRUCTION_PADS + PRODUCTION_BUILDINGS + MAP_BUILDING_POPUPS`.
-- `BASE_BUILDING_SLOT_CAPACITY = 6`; only stable Lumern forward bases and stable Lumern clash zones grant one additional slot.
+- `BASE_BUILDING_SLOT_CAPACITY = 6`; each stable player-held `Ward Forward Base`, `Clash Zone`, or `Veil Forward Base` grants one additional slot, to a single-front maximum of nine.
 - Capacity loss locks cards below the top-to-bottom boundary without deleting their tier/history or refunding them.
 - An inactive card contributes no passive effect or Roulette TokenSource.
-- There are exactly three fixed route towers, one per front, with zero capture power and no invented combat numerics.
+- There is exactly one fixed route tower on the active front, with zero capture power and no invented combat numerics.
 - Stage 1 roster mutation is forbidden; research/tier numerics remain simulation-pending.
 - Generated planning images are not runtime assets; no new image is promoted by this plan.
 - Runtime, human UX, player comprehension, release, and final-balance claims remain unverified unless separately observed.

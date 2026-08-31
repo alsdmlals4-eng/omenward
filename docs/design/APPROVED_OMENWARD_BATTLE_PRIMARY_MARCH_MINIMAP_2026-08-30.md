@@ -21,13 +21,15 @@ retains:
 
 ## 결정
 
-`BATTLE`에서 플레이어가 보는 주 화면은 넓은 전략 지도나 별도의 건물 배치 화면이 아니라, 실제 `StageRun` 전투 상태를 읽는 가까운 **전투 우선 뷰**다. 진행 맥락은 오른쪽의 작고 읽기 전용인 **전진 미니맵**에만 압축한다.
+`BATTLE`에서 플레이어가 보는 주 화면은 넓은 전략 지도나 별도의 건물 배치 화면이 아니라, 실제 `StageRun` 전투 상태를 읽는 가까운 **전투 우선 뷰**다. 진행 맥락은 상단 한 줄의 읽기 전용 **전진 미니맵**에만 압축한다.
 
 ```text
 PRIMARY = BattleFocusViewport
 SECONDARY = MarchMinimap
 MAP_TOPOLOGY = WARD_CITADEL -> WARD_FORWARD -> CLASH -> VEIL_FORWARD -> VEIL_CITADEL
 MARCH_MINIMAP = READ_ONLY
+MARCH_MINIMAP_LAYOUT = TOP_SINGLE_ROW_STRIP
+MARCH_MINIMAP_CONTENTS = FIVE_SECTOR_OWNERSHIP + CONTESTED + FIXED_TOWER + CURRENT_SECTOR
 WIDE_STRATEGIC_MAP_AS_BATTLE_PRIMARY = REMOVED
 INTERACTIVE_SECOND_BATTLEFIELD = FORBIDDEN
 ```
@@ -36,7 +38,7 @@ INTERACTIVE_SECOND_BATTLEFIELD = FORBIDDEN
 
 - `BattleFocusViewport`는 수호·장막 유닛의 실제 위치, 병력 수, 교전 상태, 현 구간, 단일 고정 방어탑의 소유 상태를 하나의 가까운 교전 장면으로 읽는다.
 - 전장에는 지형, 유닛, 전투 효과, 고정 방어탑만 보인다. 건물, 건설 패드, 건설 노드와 건물 설치 조작은 금지한다.
-- `MarchMinimap`은 다섯 구간의 소유/접전/현재 주목 위치, 아군·적 전력 덩어리, 단일 방어탑 소유 표식만 보여 준다. 개별 유닛 아트와 배치 조작을 복제하지 않는다.
+- `MarchMinimap`은 전투 뷰 위의 한 줄에서 다섯 구간의 소유/접전/현재 주목 위치와 단일 방어탑 소유 표식만 보여 준다. 개별 유닛 아트·전력 덩어리·배치 조작을 복제하지 않는다.
 - 전진 상태가 변하면 두 뷰는 같은 `StageRun.battle.route_state_for(&"front")`에서 갱신한다. 미니맵이 게임 상태를 쓰거나 전투를 조작하지 않는다.
 - 내정과 룰렛은 기존 `내정 / 룰렛 / 전선` 탭 및 phase gate를 유지한다. `BATTLE`에서는 전투 뷰가 전선 탭의 주 표면이다.
 

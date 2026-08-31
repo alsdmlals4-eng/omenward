@@ -29,9 +29,11 @@ func _run() -> void:
 		_expect(march_minimap.has_method("fixed_tower_count"), "march minimap exposes the one fixed tower", failures)
 		_expect(march_minimap.has_method("route_state_for"), "march minimap projects five-sector route state", failures)
 		_expect(march_minimap.has_method("is_read_only"), "march minimap declares itself read-only", failures)
-		_expect(march_minimap.get_rect().size.x < 360.0, "march minimap stays compact beside the battle focus", failures)
+		_expect(march_minimap.get_rect().size.x >= 900.0, "march minimap is a full-width top strip instead of a right-side battle panel", failures)
+		_expect(march_minimap.get_rect().size.y <= 48.0, "march minimap stays one compact row high", failures)
 	if battle_focus != null and march_minimap != null:
-		_expect(battle_focus.get_rect().size.x > march_minimap.get_rect().size.x * 1.5, "battle focus owns more visual width than the minimap", failures)
+		_expect(march_minimap.get_rect().position.y < battle_focus.get_rect().position.y, "march minimap sits above the live battle focus", failures)
+		_expect(battle_focus.get_rect().size.x >= 900.0, "battle focus receives the width released by the removed side minimap", failures)
 	var run: Variant = _new_run()
 	root.add_child(screen)
 	await process_frame

@@ -28,14 +28,29 @@ func _run() -> void:
 		_expect(result_list.columns == 5, "roulette result inspection compresses into two visible rows", failures)
 	var battle_focus := screen.get_node_or_null("BattleFocusViewport") as Control
 	var march_minimap := screen.get_node_or_null("MarchMinimap") as Control
+	var capacity_rule := screen.get_node_or_null("LowerDeck/FrontReadyPanel/CapacityRule") as Label
 	_expect(battle_focus != null, "battle focus is the primary visual surface", failures)
 	_expect(march_minimap != null, "march minimap retains route context", failures)
+	_expect(capacity_rule != null, "front tab explains the global building-slot rule", failures)
+	if capacity_rule != null:
+		_expect(
+			capacity_rule.text == "건물 슬롯은 기본 6칸 + 점령지 3곳 (최대 9칸)",
+			"front tab states all three eligible capture points and the nine-slot maximum",
+			failures,
+		)
 	_expect(screen.get_node_or_null("StrategicMap") == null, "wide strategic map is removed from the screen", failures)
 	if march_minimap != null:
 		_expect(march_minimap.has_method("route_state_for"), "minimap owns a read-only route-state projection", failures)
-		_expect(march_minimap.get_rect().size.x < 360.0, "minimap is compact rather than another wide battlefield", failures)
+		_expect(march_minimap.get_rect().size.x >= 900.0, "minimap is a full-width one-line route strip", failures)
+		_expect(march_minimap.get_rect().size.y <= 48.0, "minimap remains a compact single row", failures)
 	if battle_focus != null and march_minimap != null:
-		_expect(battle_focus.get_rect().size.x > march_minimap.get_rect().size.x * 1.5, "battle focus remains visually dominant", failures)
+		_expect(march_minimap.position.y < battle_focus.position.y, "minimap sits above the battle focus", failures)
+		_expect(battle_focus.get_rect().size.x >= 900.0, "battle focus retains the full battlefield width", failures)
+		_expect(
+			battle_focus.get_rect().size.x * battle_focus.get_rect().size.y > march_minimap.get_rect().size.x * march_minimap.get_rect().size.y * 4.0,
+			"battle focus remains visually dominant by area",
+			failures,
+		)
 	_expect(screen.get_node_or_null("Fronts") == null, "legacy three-card front hierarchy is not retained", failures)
 	_expect(screen.has_method("select_roulette_tile"), "roulette screen exposes UI-only tile selection", failures)
 	_expect(screen.has_method("selected_roulette_tile_index"), "roulette screen exposes current selected tile index", failures)

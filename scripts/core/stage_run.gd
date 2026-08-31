@@ -359,7 +359,7 @@ func _sync_building_roster_capacity() -> void:
 	if buildings == null or battle == null:
 		return
 	buildings.sync_occupation_capacity(
-		1 if battle.ward_forward_is_stable_for(&"lumern") else 0,
+		battle.stable_player_forward_base_count(),
 		1 if battle.clash_is_stable_for(&"lumern") else 0,
 	)
 

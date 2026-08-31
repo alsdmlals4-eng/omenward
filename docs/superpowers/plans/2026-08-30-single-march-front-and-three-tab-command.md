@@ -15,7 +15,7 @@
 - `ACTIVE_FRONT_ID = front`; `top / middle / bottom` must not appear in new stage data, public snapshots, UI, or player copy.
 - The route grammar is `WARD_CITADEL -> WARD_FORWARD_BASE -> CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL`.
 - Buildings remain a global roster only; the visible battlefield excludes building models, construction nodes, and placement controls.
-- Slot capacity is `6 + stable Lumern Ward Forward Base + stable Lumern Clash Zone`; the single-front opening maximum is eight.
+- Slot capacity is `6 + each stable player-held capture point` (`Ward Forward Base`, `Clash Zone`, `Veil Forward Base`); the single-front maximum is nine.
 - There is exactly one visible fixed tower, derived from Ward Forward Base ownership, with zero capture power and no new income path.
 - 3×3 direct row/column manipulation, deterministic results, no gambling framing, no fake near misses, and atomic irreversible commit remain mandatory.
 - The existing true-alpha Shield Guard pair remains a bound runtime asset. The old three-front terrain is retained history, not a single-front runtime consumer.

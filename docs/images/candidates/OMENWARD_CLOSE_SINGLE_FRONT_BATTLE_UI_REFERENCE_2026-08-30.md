@@ -3,7 +3,7 @@
 ```yaml
 asset_id: OMW-IMG-20260830-CLOSE-FRONT-UI-REFERENCE-V1
 created_at: 2026-08-30 KST
-status: USER_APPROVED_DIRECTION_REFERENCE__NOT_RUNTIME_ASSET
+status: SUPERSEDED_LAYOUT_REFERENCE__VISUAL_DIRECTION_RETAINED__NOT_RUNTIME_ASSET
 generator: BUILT_IN_IMAGEGEN
 source_path: C:/Users/user/.codex/generated_images/01a04af4-0452-7a13-9b6e-1a6077568d72/exec-4fbd8f2d-4248-4dd4-8e12-bd746263216b.png
 source_sha256: 2C3F6C61254A8D4F00D9DAA90463354AFC61C7F3210A77559BEE2D246E69801B
@@ -15,8 +15,9 @@ runtime_asset: NONE
 runtime: NOT_IMPLEMENTED
 human_readability: NOT_RUN
 rights_status: GENERATION_PROVENANCE_RECORDED__RELEASE_RIGHTS_REVIEW_PENDING
-user_asset_lock: USER_APPROVED_COMPOSITION_DIRECTION_V1
+user_asset_lock: USER_APPROVED_VISUAL_DIRECTION_V1__LAYOUT_SUPERSEDED_BY_TOP_SINGLE_ROW_MARCH_MINIMAP
 approval_source: USER_CHAT__2026-08-31__"좋아 확정할게"
+superseded_by: OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01__2026-08-31_TOP_SINGLE_ROW_MARCH_MINIMAP
 ```
 
 ## What this previews
@@ -30,7 +31,7 @@ thin top command rail
 wide single connected battle field
   Lumern props -> clear clash ground <- Veil props
 one live defensive tower near Lumern
-narrow route-progress minimap at right
+full-width one-line route-progress minimap above the battle frame
 shallow compact action deck at bottom
 ```
 
@@ -39,7 +40,8 @@ props, not a new baked battlefield image. It contains no authoritative UI
 text, source unit sprite, runtime position, gameplay number, or live state.
 Godot-native controls, actual shield-guard sprites, the single tower, and the
 five-sector minimap continue to be implemented separately after the exact
-foundation-and-prop lock.
+foundation-and-prop lock. Its prior right-side-minimap geometry is retained as
+history only and must not be reused as the current screen-layout reference.
 
 ## Promotion boundary
 

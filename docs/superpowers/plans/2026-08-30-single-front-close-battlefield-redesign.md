@@ -19,7 +19,7 @@
 - Lumern props are placed only before `x_ratio = 0.36` and thin through `0.36..0.46`; Veil props increase through `0.54..0.64` and are placed only after `x_ratio = 0.64`; `0.46..0.54` is clear neutral clash ground.
 - Every prop destination rectangle remains wholly inside `y_ratio = 0.00..0.30` or `0.82..1.00`; the live unit-travel corridor is `y_ratio = 0.36..0.80` and must never intersect a terrain prop rectangle.
 - Lumern and Veil Shield Guard pair V1 remain the runtime unit texture pair.
-- The minimap is a read-only five-sector route context, not a second battle surface.
+- The minimap is a read-only five-sector top single-row route context, not a second battle surface or a unit-strength display.
 
 ---
 
@@ -60,7 +60,7 @@ resembles a building, wall, tower, or construction node.
 - [ ] **Step 4: Generate the whole-screen UI reference candidate**
 
 Use the terrain candidate and the two existing shield-guard files only as style
-references. Require a wide left battle frame, narrow five-sector minimap,
+references. Require a full-width battle frame below a top single-row five-sector minimap,
 top command rail, and compact lower deck, but no readable generated text.
 
 - [ ] **Step 5: Record the asset family as candidates and request exact user lock**
@@ -144,13 +144,13 @@ git commit -m "feat: bind composable close battlefield"
 **Interfaces:**
 - Consumes: the existing `BattleFocusViewport`, `MarchMinimap`, three tab button
   handlers, and `StageRun.battle.route_state_for(&"front")`.
-- Produces: a `BattleFocusViewport` at least 686 logical pixels wide and a
-  top-rail tab selector with the same three existing handlers.
+- Produces: a full-width `BattleFocusViewport` below a one-row `MarchMinimap`
+  strip and a top-rail tab selector with the same three existing handlers.
 
 - [ ] **Step 1: Extend the failing scene-layout test**
 
 ```gdscript
-assert(scene_text.contains('offset_left = 16.0\noffset_top = 62.0\noffset_right = 702.0'))
+assert(scene_text.contains('offset_left = 16.0\noffset_top = 108.0\noffset_right = 942.0'))
 assert(scene_text.contains('[node name="TopTabRail" type="HBoxContainer" parent="TopBar"]'))
 assert(not scene_text.contains('[node name="TabRail" type="VBoxContainer" parent="."]'))
 assert(scene_text.contains('[node name="MarchMinimap" type="Control" parent="."]'))
@@ -164,9 +164,9 @@ still has the vertical `TabRail` and a 576-pixel battle viewport.
 - [ ] **Step 3: Implement the minimal new composition**
 
 Move the three current tab buttons into `TopBar/TopTabRail`, update their
-node-path lookups in `run_command_screen.gd`, set the battle focus bounds to
-`x16 y62 w686 h292`, retain the minimap at `x712 y62 w230 h292`, and retain
-the lower deck at `x16 y364 w928 h164`.
+node-path lookups in `run_command_screen.gd`, set the minimap bounds to
+`x16 y62 w926 h36`, set the battle focus bounds to `x16 y108 w926 h256`, and
+retain the lower deck at `x16 y364 w928 h164`.
 
 - [ ] **Step 4: Keep live combat rendering readable**
 
@@ -178,7 +178,7 @@ do not add gameplay state or write through the minimap.
 - [ ] **Step 5: Run the focused test and verify GREEN**
 
 Run the focused test command. Expected: exit 0 with one wide battle focus,
-top tabs, a right minimap, and no vertical tab rail.
+top tabs, a top single-row minimap, and no vertical tab rail.
 
 - [ ] **Step 6: Commit the scene composition**
 

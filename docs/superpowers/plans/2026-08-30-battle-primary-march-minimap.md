@@ -6,6 +6,13 @@
 
 **Decision:** `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md`
 
+## 2026-08-31 confirmed layout addendum
+
+- `MarchMinimapView` is a full-width, top single-row strip. It reports only five-sector ownership, contested state, the sole tower, and current sector; it never repeats unit art or strength markers.
+- `BattleFocusViewport` uses the full width below that strip. The minimap does not reduce the close battle frame to a side panel.
+- Global building capacity is `6 + each stable player-held capture point` (`Ward Forward`, `Clash`, `Veil Forward`), therefore ranges from six to nine slots on the single front. Entries past the live capacity remain owned and inactive.
+- The implementation order is RED layout/capacity contracts, minimal `StageRun` and UI changes, focused Godot contracts, full suite, and a new technical smoke. Human readability remains a separate gate.
+
 ## Tasks
 
 - [ ] Add the RED `battle_primary_march_minimap_contract_test.gd` and verify the old wide-map scene fails it.

@@ -32,6 +32,7 @@ func _init() -> void:
 	_expect(run.has_method("assign_pending_reward"), "StageRun exposes queued deployment assignment", failures)
 	_test_legacy_spawn_rejection(run, failures)
 	_test_ward_forward_first_capture(run, failures)
+	_test_all_player_held_capture_points_expand_roster_capacity(run, failures)
 	_test_pending_rewards_commit_without_front_selector(run, failures)
 	_finish(failures)
 
@@ -70,6 +71,22 @@ func _test_ward_forward_first_capture(run: Variant, failures: PackedStringArray)
 	battle.advance(26.0)
 	_expect(ward_forward.is_stable_for(&"lumern"), "Ward Forward stabilizes under sustained Lumern presence", failures)
 	_expect(tower.active and tower.owner_team_id == &"lumern", "stabilized Ward Forward activates the one fixed tower", failures)
+
+
+func _test_all_player_held_capture_points_expand_roster_capacity(run: Variant, failures: PackedStringArray) -> void:
+	if run == null or run.battle == null or not run.has_method("front_slot_capacity"):
+		return
+	var battle: Variant = run.battle
+	battle.outposts[&"lumern"][&"front"].owner_team_id = &"lumern"
+	battle.outposts[&"lumern"][&"front"].state = battle.outposts[&"lumern"][&"front"].STABLE
+	battle.clash_zones[&"front"].outpost.owner_team_id = &"lumern"
+	battle.clash_zones[&"front"].outpost.state = battle.clash_zones[&"front"].outpost.STABLE
+	battle.outposts[&"veil"][&"front"].owner_team_id = &"lumern"
+	battle.outposts[&"veil"][&"front"].state = battle.outposts[&"veil"][&"front"].STABLE
+	_expect(run.front_slot_capacity() == 9, "two player-held forward bases and the clash zone unlock six plus three roster slots", failures)
+	battle.outposts[&"veil"][&"front"].owner_team_id = &"veil"
+	battle.outposts[&"veil"][&"front"].state = battle.outposts[&"veil"][&"front"].STABLE
+	_expect(run.front_slot_capacity() == 8, "losing one captured forward base immediately locks only its one bonus slot", failures)
 
 
 func _test_pending_rewards_commit_without_front_selector(_run: Variant, failures: PackedStringArray) -> void:

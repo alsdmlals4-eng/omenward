@@ -28,8 +28,8 @@ clash before route progress, while the five-sector march remains context only.
   ownership remains driven by the existing `StageRun` route state.
 - The existing approved Lumern and Veil Shield Guard pair remains the runtime
   unit identity. This redesign does not redraw or replace those units.
-- The right-side march minimap is read-only, uses five sectors, and never
-  becomes a second battlefield or repeats individual unit art.
+- The top single-row march minimap is read-only, uses five sectors, and never
+  becomes a second battlefield or repeats individual unit art or unit-strength markers.
 
 ## New battlefield map contract
 
@@ -85,8 +85,8 @@ At the 960x540 logical reference size:
 |---|---:|---|
 | Top command rail | x16 y12 w928 h40 | What phase am I in and what resources remain? |
 | Compact three-tab selector | inside the command rail | Which work surface am I viewing: Domestic, Roulette, or Front? |
-| Battle focus | x16 y62 w686 h292 | Who is clashing here, where is the pressure, and who owns the tower? |
-| March minimap | x712 y62 w230 h292 | Which of the five route sectors is currently contested or held? |
+| Top march minimap | x16 y62 w926 h36 | Which of the five route sectors is currently contested or held? |
+| Battle focus | x16 y108 w926 h256 | Who is clashing here, where is the pressure, and who owns the tower? |
 | Focus-adaptive lower deck | x16 y364 w928 h164 | What is the one currently available command or explanation? |
 
 `BattleFocusViewport` occupies the left field without an overlaid vertical tab
