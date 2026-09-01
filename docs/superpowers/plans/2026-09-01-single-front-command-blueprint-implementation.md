@@ -8,9 +8,9 @@
 
 **Tech Stack:** Godot 4/GDScript, GUT headless tests, project-local contract validators, built-in ImageGen for original raster candidates, Pillow read-only alpha inspection, GitHub PR #257 exact-head CI.
 
-**Spec:** `docs/superpowers/specs/2026-09-01-single-front-command-blueprint-design.md`  
-**Product authority:** `docs/CURRENT_CONFIRMED_DECISIONS.md` and `docs/ACTIVE_CONTEXT.md`  
-**Visual source of truth:** `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md`  
+**Spec:** `docs/superpowers/specs/2026-09-01-single-front-command-blueprint-design.md`
+**Product authority:** `docs/CURRENT_CONFIRMED_DECISIONS.md` and `docs/ACTIVE_CONTEXT.md`
+**Visual source of truth:** `docs/images/approved/OMENWARD_STORYBOOK_SD_SHIELD_GUARD_TRUE_ALPHA_PAIR_V1.md`
 **Benchmark input:** `docs/benchmarks/OMENWARD_SINGLE_FRONT_COMMAND_BENCHMARK_REVERSE_ENGINEERING_2026-09-01.md`
 
 ## Global Constraints
