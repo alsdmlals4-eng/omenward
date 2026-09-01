@@ -32,9 +32,9 @@
 - Create: `docs/images/candidates/role_profiles/` (only original generated PNG candidates that pass technical inspection)
 
 - [x] Mark the Blueprint as `USER_CONFIRMED__ASSET_CANDIDATE_PRODUCTION_AUTHORIZED`; this authorizes candidate production, not runtime binding or final art promotion.
-- [ ] Pre-register the exact eight cells: Lumern and Veil each receive Spear Guard, Archer, Mage, and Cavalry. The approved Shield Guard pair is excluded to prevent redundant generation.
-- [ ] Record for every cell the candidate ID, generation prompt, output path, generator, source type, SHA-256, pixel dimensions, alpha extrema, alpha coverage, pivot `(256,448)`, intended consumer `BattleFocusView`, and status.
-- [ ] Keep rejected/malformed generations outside runtime asset paths with an explicit rejection reason rather than silently normalizing or replacing them.
+- [x] Pre-register the exact eight cells: Lumern and Veil each receive Spear Guard, Archer, Mage, and Cavalry. The approved Shield Guard pair is excluded to prevent redundant generation.
+- [x] Record for every cell the candidate ID, generation prompt, output path, generator, source type, SHA-256, pixel dimensions, alpha extrema, alpha coverage, pivot `(256,448)`, intended consumer `BattleFocusView`, and status.
+- [x] Keep rejected/malformed generations outside runtime asset paths with an explicit rejection reason rather than silently normalizing or replacing them. All eight outputs passed the bounded technical gate; therefore no rejection record was required.
 
 **Verification:** Candidate registry covers exactly eight roles/factions; every retained PNG is `512×512`, has an RGBA channel with meaningful transparency, contains no text/checkerboard/UI, and is visually a single full-body right-facing role silhouette. Record this as machine candidate evidence only.
 
@@ -44,11 +44,11 @@
 - Create: `docs/images/candidates/role_profiles/omenward_<faction>_<role>_storybook_role_candidate_v1.png` (only after pass)
 - Modify: `docs/images/candidates/OMENWARD_STORYBOOK_ROLE_PROFILE_TRUE_ALPHA_CANDIDATES_2026-09-01.md`
 
-- [ ] Use the built-in image model once per cell. Prompt each image as a 512×512, true transparent-alpha, full-body, right-facing, 2.5–3-head storybook-watercolor tactical miniature, grounded at pivot y=448.
-- [ ] Enforce faction palette and role-first silhouette: Lumern uses navy/ivory/cool-grey/restrained gold; Veil uses black-purple/dark red/carapace grey/limited rift glow. Spear has an unmistakably long spear, Archer a drawn bow, Mage a clear casting staff/focus, and Cavalry a mounted horizontal charge mass.
-- [ ] Reject outputs with a background, checkerboard, text/logo, baked UI, extra limbs, duplicate subject, cropped weapon/feet, wrong direction, or a visually ambiguous role. Do not repair a poor source by painting/converting it into a different illustration.
-- [ ] Copy only technically valid candidate bytes to the versioned `docs/images/candidates/role_profiles/` paths; preserve generated source path and SHA in the registry.
-- [ ] Inspect the retained transparent images at native scale and update the registry with outcome evidence and `GENERATED_CANDIDATE` status.
+- [x] Use the built-in image model once per cell. Prompt each image as a 512×512, true transparent-alpha, full-body, right-facing, 2.5–3-head storybook-watercolor tactical miniature, grounded at pivot y=448.
+- [x] Enforce faction palette and role-first silhouette: Lumern uses navy/ivory/cool-grey/restrained gold; Veil uses black-purple/dark red/carapace grey/limited rift glow. Spear has an unmistakably long spear, Archer a drawn bow, Mage a clear casting staff/focus, and Cavalry a mounted horizontal charge mass.
+- [x] Reject outputs with a background, checkerboard, text/logo, baked UI, extra limbs, duplicate subject, cropped weapon/feet, wrong direction, or a visually ambiguous role. Do not repair a poor source by painting/converting it into a different illustration. All eight inspected outputs met this candidate-only screen; human readability and exact-cell approval remain pending.
+- [x] Copy only technically valid candidate bytes to the versioned `docs/images/candidates/role_profiles/` paths; preserve generated source path and SHA in the registry.
+- [x] Inspect the retained transparent images at native scale and update the registry with outcome evidence and `GENERATED_CANDIDATE` status.
 
 **Verification:** For all retained candidates, hash readback and alpha/image inspection match the registry. No `res://` path, scene, script, data file, or save data references a candidate.
 
