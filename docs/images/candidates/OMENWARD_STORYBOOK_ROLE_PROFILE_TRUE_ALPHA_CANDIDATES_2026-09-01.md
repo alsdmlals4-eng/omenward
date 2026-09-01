@@ -2,20 +2,20 @@
 
 ```yaml
 batch_id: OMW-IMG-20260901-STORYBOOK-ROLE-PROFILE-CANDIDATES-V1
-status: GENERATED_CANDIDATE__TECHNICAL_CHECK_PASS__USER_REVIEW_PENDING
-authorization: USER_CHAT__2026-09-01__"권장안대로 진행해"
-authorization_scope: ORIGINAL_GENERATED_CANDIDATES_ONLY__NO_RUNTIME_BINDING
+status: ARCHER_MAGE_USER_APPROVED__SPEAR_CAVALRY_STYLE_REGENERATION_AUTHORIZED
+authorization: USER_CHAT__2026-09-02__"궁병,마법사만 이미지 승인" + "앞으로 필요하다고 판단되는 이미지는 별도 승인받지말고 제작해"
+authorization_scope: ARCHER_MAGE_EXACT_USER_APPROVAL__SPEAR_CAVALRY_AUTONOMOUS_REGENERATION__NO_LEGACY_CANDIDATE_RUNTIME_BINDING
 generator: BUILT_IN_IMAGEGEN
 source_type: ORIGINAL_GENERATION__PROJECT_VISUAL_DIRECTION_ONLY
 consumer_after_exact_user_approval: scripts/ui/battle_focus_view.gd::BattleFocusView
 candidate_storage: docs/images/candidates/role_profiles/
-runtime_storage: FORBIDDEN_UNTIL_EXACT_USER_APPROVAL_AND_CANON_REGISTRATION
+runtime_storage: USER_APPROVED_EXACT_OR_STANDING_AUTONOMOUS_AUTHORIZATION__CANON_RECORD_REQUIRED
 canvas_px: 512x512
 runtime_pivot_px: 256x448
 facing: RIGHT
 background: TRUE_TRANSPARENT_ALPHA_ONLY
 technical_evidence: COMPLETE_PER_CELL__TRUE_ALPHA_512x512_DERIVATIVES
-human_asset_review: PENDING
+human_asset_review: ARCHER_MAGE_APPROVED__SPEAR_CAVALRY_STANDING_AUTONOMOUS_PROMOTION__READABILITY_NOT_RUN
 rights_release_review: REVIEW_PENDING__NOT_RELEASE_PASS
 ```
 
@@ -29,13 +29,31 @@ save state, or existing approved runtime assets.
 
 The approved Lumern/Veil Shield Guard pair is explicitly **not** in this batch.
 No candidate becomes an `assets/art/units/` file or a Godot preload until the
-user selects the exact output and its canonical record is created.
+user selects the exact output or grants standing autonomous image authority,
+and its canonical record is created.
 
 The batch continues to contain **eight role cells**. `OMW-IMG-20260901-ROLE-001`
 has one preserved V1 and one V2 replacement candidate because a direct
-comparison with `BattleFocusView`'s current `74×74` draw target showed that V1
+comparison with `BattleFocusView`'s former `74×74` draw target showed that V1
 would render its body at only about 26px wide. The V2 does not add a new role,
 system, or consumer; it restores the requested small-battlefield visibility.
+
+## 2026-09-02 user selection and standing image-production authority
+
+The user selected the exact Lumern/Veil Archer and Lumern/Veil Mage V1
+derivatives as the only approved outputs from this first batch. Their canonical
+registration and BattleFocus binding are authorized. The user also explicitly
+authorized autonomous creation of future required images, but did **not**
+approve either existing Spear Guard or Cavalry output. Those four retained
+legacy candidates remain outside runtime paths and are superseded for visual
+style alignment only; their bytes and provenance remain intact.
+
+The replacement scope is deliberately narrow: four new full-body role sprites
+(Lumern/Veil Spear Guard and Lumern/Veil Cavalry) that use the approved
+Archer/Mage pair as local style references only. It cannot alter combat stats,
+the one-front route, tower count, building system, roulette, save data, or
+other unit roles. Each replacement still requires the technical gate below,
+canonical provenance record, Godot binding, and separate runtime evidence.
 
 ## Shared generation brief
 
@@ -57,15 +75,19 @@ FORBIDDEN = scenery/background, paper texture, checkerboard, text, logo,
 
 | Candidate ID | Faction / role | Required readable silhouette | Target candidate path | Status | Prompt delta / provenance / technical review |
 | --- | --- | --- | --- | --- | --- |
-| `OMW-IMG-20260901-ROLE-001` | Lumern Spear Guard — V1 | navy/ivory/gold infantry; long upright spear; light guard silhouette | `docs/images/candidates/role_profiles/omenward_lumern_spear_guard_storybook_role_candidate_v1.png` | `REJECTED__NARROW_AT_CURRENT_74PX_RENDER_TARGET` | Shared brief + “right-facing infantry guard; unmistakably long upright spear; compact buckler; alert advance.” Source `exec-3dad8832-ff2e-47f6-a063-e6c13d5c2712.png`; source SHA `E5B29EC07952BEC0B1E9C7639BF5C58063BBDF63A1616D798ABCF3E3ED621933`; derivative SHA `16312EEE5E583776A85B6163920969F77A30C989B8B1B897400AEE3027BEAFE8`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `11.428%`, alpha bbox `(166,32)-(347,448)`. Rejection reason: its `181px` normalized art width projects to about `26px` at the actual `74×74` BattleFocus draw target; retain only as traceable review provenance. |
-| `OMW-IMG-20260901-ROLE-001-R1` | Lumern Spear Guard — V2 replacement | navy/ivory/gold infantry; low diagonal forward spear; broad grounded advance | `docs/images/candidates/role_profiles/omenward_lumern_spear_guard_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing broad grounded advance; low diagonal forward spear; no banner/vertical pole; sturdy silhouette at 74px.” Source `exec-ce1014b9-ead2-4cec-982a-ae77078cf414.png`; source SHA `7036FB1EF5BD013E9DBF39CFF3145ABAEB3EAE23997B326CDA887180D66F05CA`; derivative SHA `10FE102E74A71BB2BFBA0CE2CC2A41E978B2CCC0C4AF8BF130C4494A3CAFCD04`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `23.120%`, alpha bbox `(26,47)-(486,448)`, normalized art `460×401`, which projects to a 66px-wide in-game silhouette before any later renderer scale change. |
-| `OMW-IMG-20260901-ROLE-002` | Veil Spear Guard | black-purple/dark-red infantry; long rift-tipped spear; jagged carapace | `docs/images/candidates/role_profiles/omenward_veil_spear_guard_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing aggressive Veil infantry; long diagonally-forward jagged spear; compact buckler; angular carapace.” Source `exec-4ec2d4ce-294c-4d22-bdf3-57d8920ad399.png`; source SHA `B3983D61C8A7A6DE8FAF072396E9E654B44A676CC60B9942D5E6C7D41159F4D1`; derivative SHA `650B3EAA74F9AD6153B0066F90544F8F8F19EA699AB00FC68E88C2C1A80AA0F0`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `19.135%`, alpha bbox `(26,93)-(486,448)` |
-| `OMW-IMG-20260901-ROLE-003` | Lumern Archer | navy/ivory archer; unmistakably drawn bow and quiver | `docs/images/candidates/role_profiles/omenward_lumern_archer_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing bow-drawing archer; bent longbow, nocked arrow, small quiver; no shield.” Source `exec-d69f64ae-b963-4a88-befa-4d980165463c.png`; source SHA `A948FE570723B287E0245C9ADC7BAB0D71486C6F67B2A640172B8191DCEBFBA6`; derivative SHA `B074BABB6B4088CA40C868230C0E79AC15E5857876F87E71BA4C9E8F00730B44`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `21.999%`, alpha bbox `(74,32)-(436,448)` |
-| `OMW-IMG-20260901-ROLE-004` | Veil Archer | black-purple/dark-red archer; sinister curved bow, restrained rift glow | `docs/images/candidates/role_profiles/omenward_veil_archer_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing hostile bow-drawing archer; curved bow, nocked arrow, quiver; limited violet rift detail.” Source `exec-ebeb79b6-d437-413b-9660-c9956f585f68.png`; source SHA `3259C92CAFDF7AFFD9DF4382FB796E8D0EB732E425B47877E918B594C0AB9376`; derivative SHA `611F18C424F65C33F4DA3CED8D487DCC44EC28F6EF64268D5D34BDB2AD59AA0E`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `22.784%`, alpha bbox `(65,32)-(447,448)` |
-| `OMW-IMG-20260901-ROLE-005` | Lumern Mage | blue/ivory hooded mage; raised staff/focus with restrained ward light | `docs/images/candidates/role_profiles/omenward_lumern_mage_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing hooded mage; raised staff/crystal focus; compact blue-white ward halo; no wings/mount.” Source `exec-94e187a7-bdec-46a0-a4d3-e85352053790.png`; source SHA `5679AA88E419CCD7D6A1F1BEF5EC6AB3AF3FD4EE665D1885AB80E699D0F3EC6E`; derivative SHA `1C8CA525896B87D024C4BB880D4249B487F9230B122DFAF52DB55373BE67B155`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `25.710%`, alpha bbox `(92,32)-(421,448)` |
-| `OMW-IMG-20260901-ROLE-006` | Veil Mage | black-purple cult mage; raised staff/focus with limited violet rift energy | `docs/images/candidates/role_profiles/omenward_veil_mage_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing hooded cult mage; raised fractured staff; contained violet rift spell; no wings/mount.” Source `exec-27ef32bf-742b-49bf-99cb-eb4d854c32d0.png`; source SHA `52CF7BCEF63848F718E7DFC82400325EE41650B7C1E49227313A2055513DBBF0`; derivative SHA `EB7166341F4A9F9133FD0423188E9561B5BFEFAF5BCCC05DFEF325E2352B18E3`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `25.291%`, alpha bbox `(72,32)-(440,448)` |
-| `OMW-IMG-20260901-ROLE-007` | Lumern Cavalry | blue/ivory armored rider and pale horse; horizontal mounted charge mass | `docs/images/candidates/role_profiles/omenward_lumern_cavalry_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing armored rider on one pale compact warhorse; horizontal charge; short lance; four readable horse legs.” Source `exec-6a7ba381-0a33-4be2-b49d-1486100934e3.png`; source SHA `7646CD19E1D20E9AFE266BD2237EF9B4926AF25CB93BF5E428A1EA37A0E8F612`; derivative SHA `AC8B3794DC0979CB9575ADFD5E3C19E783A4DCB5D67B8034E7021CC2A788BA20`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `27.119%`, alpha bbox `(26,97)-(486,448)` |
-| `OMW-IMG-20260901-ROLE-008` | Veil Cavalry | black-purple armored rider and shadow mount; horizontal mounted charge mass | `docs/images/candidates/role_profiles/omenward_veil_cavalry_storybook_role_candidate_v1.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__USER_REVIEW_PENDING` | Shared brief + “right-facing armored rider on one shadow warhorse; horizontal charge; short jagged lance; four readable horse legs.” Source `exec-ffd9f807-f7c1-494b-a038-3bdf0e0b660b.png`; source SHA `CF3DEC79B8F705BF3BCA55F6F14A3ABDB420D652201B30400444032FD031A844`; derivative SHA `20F0B064DEA4D6ED8DD6041521BF8BD705C912B6C4523EDF4296BBE67F2BA220`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `27.069%`, alpha bbox `(26,104)-(485,448)` |
+| `OMW-IMG-20260901-ROLE-001` | Lumern Spear Guard — V1 | navy/ivory/gold infantry; long upright spear; light guard silhouette | `docs/images/candidates/role_profiles/omenward_lumern_spear_guard_storybook_role_candidate_v1.png` | `REJECTED__NARROW_AT_FORMER_74PX_RENDER_TARGET` | Shared brief + “right-facing infantry guard; unmistakably long upright spear; compact buckler; alert advance.” Source `exec-3dad8832-ff2e-47f6-a063-e6c13d5c2712.png`; source SHA `E5B29EC07952BEC0B1E9C7639BF5C58063BBDF63A1616D798ABCF3E3ED621933`; derivative SHA `16312EEE5E583776A85B6163920969F77A30C989B8B1B897400AEE3027BEAFE8`; RGBA `512×512`, alpha `0..255`, non-transparent coverage `11.428%`, alpha bbox `(166,32)-(347,448)`. Rejection reason: its `181px` normalized art width projected to about `26px` at the former `74×74` BattleFocus draw target; retain only as traceable review provenance. |
+| `OMW-IMG-20260901-ROLE-001-R1` | Lumern Spear Guard — V2 replacement | navy/ivory/gold infantry; low diagonal forward spear; broad grounded advance | `docs/images/candidates/role_profiles/omenward_lumern_spear_guard_storybook_role_candidate_v2.png` | `REJECTED_FOR_STYLE_ALIGNMENT__REGENERATION_AUTHORIZED` | Preserved V2 trace record. It passed its original geometry check but does not match the exact user-approved Archer/Mage line weight and watercolor treatment closely enough. It must never bind at runtime. |
+| `OMW-IMG-20260901-ROLE-002` | Veil Spear Guard | black-purple/dark-red infantry; long rift-tipped spear; jagged carapace | `docs/images/candidates/role_profiles/omenward_veil_spear_guard_storybook_role_candidate_v1.png` | `REJECTED_FOR_STYLE_ALIGNMENT__REGENERATION_AUTHORIZED` | Preserved V1 trace record. It must never bind at runtime. |
+| `OMW-IMG-20260901-ROLE-003` | Lumern Archer | navy/ivory archer; unmistakably drawn bow and quiver | `docs/images/candidates/role_profiles/omenward_lumern_archer_storybook_role_candidate_v1.png` | `USER_APPROVED__CANON_PROMOTION_AUTHORIZED` | Exact user-approved candidate. Source `exec-d69f64ae-b963-4a88-befa-4d980165463c.png`; derivative SHA `B074BABB6B4088CA40C868230C0E79AC15E5857876F87E71BA4C9E8F00730B44`; RGBA `512×512`, alpha bbox `(74,32)-(436,448)`. |
+| `OMW-IMG-20260901-ROLE-004` | Veil Archer | black-purple/dark-red archer; sinister curved bow, restrained rift glow | `docs/images/candidates/role_profiles/omenward_veil_archer_storybook_role_candidate_v1.png` | `USER_APPROVED__CANON_PROMOTION_AUTHORIZED` | Exact user-approved candidate. Source `exec-ebeb79b6-d437-413b-9660-c9956f585f68.png`; derivative SHA `611F18C424F65C33F4DA3CED8D487DCC44EC28F6EF64268D5D34BDB2AD59AA0E`; RGBA `512×512`, alpha bbox `(65,32)-(447,448)`. |
+| `OMW-IMG-20260901-ROLE-005` | Lumern Mage | blue/ivory hooded mage; raised staff/focus with restrained ward light | `docs/images/candidates/role_profiles/omenward_lumern_mage_storybook_role_candidate_v1.png` | `USER_APPROVED__CANON_PROMOTION_AUTHORIZED` | Exact user-approved candidate. Source `exec-94e187a7-bdec-46a0-a4d3-e85352053790.png`; derivative SHA `1C8CA525896B87D024C4BB880D4249B487F9230B122DFAF52DB55373BE67B155`; RGBA `512×512`, alpha bbox `(92,32)-(421,448)`. |
+| `OMW-IMG-20260901-ROLE-006` | Veil Mage | black-purple cult mage; raised staff/focus with limited violet rift energy | `docs/images/candidates/role_profiles/omenward_veil_mage_storybook_role_candidate_v1.png` | `USER_APPROVED__CANON_PROMOTION_AUTHORIZED` | Exact user-approved candidate. Source `exec-27ef32bf-742b-49bf-99cb-eb4d854c32d0.png`; derivative SHA `EB7166341F4A9F9133FD0423188E9561B5BFEFAF5BCCC05DFEF325E2352B18E3`; RGBA `512×512`, alpha bbox `(72,32)-(440,448)`. |
+| `OMW-IMG-20260901-ROLE-007` | Lumern Cavalry | blue/ivory armored rider and pale horse; horizontal mounted charge mass | `docs/images/candidates/role_profiles/omenward_lumern_cavalry_storybook_role_candidate_v1.png` | `REJECTED_FOR_STYLE_ALIGNMENT__REGENERATION_AUTHORIZED` | Preserved V1 trace record. It must never bind at runtime. |
+| `OMW-IMG-20260901-ROLE-008` | Veil Cavalry | black-purple armored rider and shadow mount; horizontal mounted charge mass | `docs/images/candidates/role_profiles/omenward_veil_cavalry_storybook_role_candidate_v1.png` | `REJECTED_FOR_STYLE_ALIGNMENT__REGENERATION_AUTHORIZED` | Preserved V1 trace record. It must never bind at runtime. |
+| `OMW-IMG-20260902-ROLE-001` | Lumern Spear Guard — V3 | navy/ivory/gold infantry; low diagonal forward spear; broad grounded advance | `docs/images/candidates/role_profiles/omenward_lumern_spear_guard_storybook_role_candidate_v3.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-cd05dee8-7692-4dd0-9f8c-758494ccc187.png`; source SHA `30554A9D0A37378800F04C7E176ABD2B69118801E4E02E44089B1BDC7210C2D0`; derivative SHA `E34E87E0BB9E4028239C865BB1CB4546CF6D3B8BC1EEF31C4200A6EBF54CF11F`; RGBA `512×512`, alpha `0..255`, coverage `23.448%`, alpha bbox `(27,94)-(485,447)`, normalized art `460×355`. |
+| `OMW-IMG-20260902-ROLE-002` | Veil Spear Guard — V2 | black-purple/dark-red infantry; low diagonal rift spear; broad grounded advance | `docs/images/candidates/role_profiles/omenward_veil_spear_guard_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-1a063eaa-b31d-43e6-80b1-a598401669bc.png`; source SHA `5E6714367BE5C76582CC047DB8C890EA3CA22BF1294A3AB2813CB12C642224F6`; derivative SHA `FE0BBE1D3803AF79DD44D49C64CBD84078C8459FE1E9C446DB9A967744695805`; RGBA `512×512`, alpha `0..255`, coverage `22.923%`, alpha bbox `(27,107)-(485,447)`, normalized art `460×342`. |
+| `OMW-IMG-20260902-ROLE-003` | Lumern Cavalry — V2 | blue/ivory rider and pale horse; compact horizontal charge | `docs/images/candidates/role_profiles/omenward_lumern_cavalry_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-a5657521-78fe-42f4-b83a-a6425ad70889.png`; source SHA `8B677E87540684DED7B92927E5787D13ECC9F0A70FCF1BF9B89EA3655AAA8A86`; derivative SHA `32979D35D29E7ECD887B8A59FD443AA19D5528C3DCADF8EF6944F156A682A6CD`; RGBA `512×512`, alpha `0..255`, coverage `30.097%`, alpha bbox `(27,69)-(485,447)`, normalized art `460×380`. |
+| `OMW-IMG-20260902-ROLE-004` | Veil Cavalry — V2 | black-purple rider and shadow horse; compact horizontal charge | `docs/images/candidates/role_profiles/omenward_veil_cavalry_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-63052f01-0980-46a7-afb8-a86057b47934.png`; source SHA `D1572003F71BFC16414442979FF0376B359EC23087B34A689503F4C682502C10`; derivative SHA `5BA94A8ED5021BBF1A9CD1932386F1DCC3646040AD95D34776E1FBC097A356FF`; RGBA `512×512`, alpha `0..255`, coverage `26.284%`, alpha bbox `(27,94)-(485,447)`, normalized art `460×355`. |
 
 ## Per-cell technical gate
 
@@ -80,13 +102,16 @@ An output can be copied to its target candidate path only when all checks pass:
 5. native-scale inspection finds no forbidden text, UI, background, duplicate
    subject, cropped extremities, or anatomical defect.
 
-The image model emitted the first Lumern Spear source as `1024×1536` and the
-other sources as `1254×1254`. For each retained candidate, the project-bound
-derivative was made only through a non-destructive technical normalization:
-alpha-threshold (`>8`) bounds crop with 4px source padding, LANCZOS fit inside
-a maximum `460×416` art area, then horizontal centering on a transparent
-`512×512` canvas grounded at y=`448`. No inpainting, painting, background
-removal, redraw, shadow, compositing, or legacy-asset overwrite occurred.
+The initial 2026-09-01 sources used their existing true alpha. The 2026-09-02
+replacement sources were returned by the image model as opaque, light
+checkerboard-like backdrops despite the transparent-background request. For
+those four sources only, the technical normalization first removed pixels that
+were connected to the source image border and met the neutral-light-background
+test (`min RGB ≥ 205`, channel spread `≤ 24`); it preserved the source subject
+pixels without inpainting, redrawing, recoloring, or compositing. It then used
+the same 4px bounds padding, LANCZOS fit inside a maximum `460×416` art area,
+and horizontal centering on a transparent `512×512` canvas grounded at
+y=`448`. The resulting outputs have independently verified `0..255` alpha.
 
 Failure leaves the output unbound and records `REJECTED` plus the reason in
 this document. Technical passing is still only `GENERATED_CANDIDATE`: it is

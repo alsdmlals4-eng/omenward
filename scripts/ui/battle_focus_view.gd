@@ -12,12 +12,37 @@ const VEIL_CRYSTAL_CLUSTER := preload("res://assets/art/battlefield/props/omenwa
 const VEIL_THORN_BRUSH := preload("res://assets/art/battlefield/props/omenward_veil_thorn_brush_v1.png")
 const LUMERN_SHIELD_GUARD_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png")
 const VEIL_SHIELD_GUARD_TEXTURE := preload("res://assets/art/units/veil_shield_guard_storybook_idle_v1.png")
+const LUMERN_SPEAR_GUARD_TEXTURE := preload("res://assets/art/units/lumern_spear_guard_storybook_idle_v3.png")
+const VEIL_SPEAR_GUARD_TEXTURE := preload("res://assets/art/units/veil_spear_guard_storybook_idle_v2.png")
+const LUMERN_ARCHER_TEXTURE := preload("res://assets/art/units/lumern_archer_storybook_idle_v1.png")
+const VEIL_ARCHER_TEXTURE := preload("res://assets/art/units/veil_archer_storybook_idle_v1.png")
+const LUMERN_CAVALRY_TEXTURE := preload("res://assets/art/units/lumern_cavalry_storybook_idle_v2.png")
+const VEIL_CAVALRY_TEXTURE := preload("res://assets/art/units/veil_cavalry_storybook_idle_v2.png")
+const LUMERN_MAGE_TEXTURE := preload("res://assets/art/units/lumern_mage_storybook_idle_v1.png")
+const VEIL_MAGE_TEXTURE := preload("res://assets/art/units/veil_mage_storybook_idle_v1.png")
 const WARD_COLOR := Color(0.42, 0.7, 1.0, 1.0)
 const VEIL_COLOR := Color(0.76, 0.38, 0.82, 1.0)
 const LUMERN_PROP_MAX_X_RATIO := 0.36
 const VEIL_PROP_MIN_X_RATIO := 0.64
 const UNIT_TRAVEL_Y_MIN_RATIO := 0.36
 const UNIT_TRAVEL_Y_MAX_RATIO := 0.80
+const ROLE_VISUALS := {
+	&"lumern": {
+		&"shield_guard": {&"texture": LUMERN_SHIELD_GUARD_TEXTURE, &"flip_h": false},
+		&"spear_guard": {&"texture": LUMERN_SPEAR_GUARD_TEXTURE, &"flip_h": false},
+		&"archer": {&"texture": LUMERN_ARCHER_TEXTURE, &"flip_h": false},
+		&"cavalry": {&"texture": LUMERN_CAVALRY_TEXTURE, &"flip_h": false},
+		&"mage": {&"texture": LUMERN_MAGE_TEXTURE, &"flip_h": false},
+	},
+	&"veil": {
+		# 기존 방패병 원본은 이미 왼쪽을 향한다. 새 네 장은 오른쪽 원본이라 전투 방향으로 반전한다.
+		&"shield_guard": {&"texture": VEIL_SHIELD_GUARD_TEXTURE, &"flip_h": false},
+		&"spear_guard": {&"texture": VEIL_SPEAR_GUARD_TEXTURE, &"flip_h": true},
+		&"archer": {&"texture": VEIL_ARCHER_TEXTURE, &"flip_h": true},
+		&"cavalry": {&"texture": VEIL_CAVALRY_TEXTURE, &"flip_h": true},
+		&"mage": {&"texture": VEIL_MAGE_TEXTURE, &"flip_h": true},
+	},
+}
 
 var run: Variant
 
@@ -44,6 +69,11 @@ func displayed_unit_count() -> int:
 	if run == null or run.battle == null:
 		return 0
 	return mini(6, (run.battle.front_units(FRONT_ID) as Array).size())
+
+
+func resolve_unit_visual(owner_team_id: StringName, archetype_id: StringName) -> Dictionary:
+	var faction_visuals := ROLE_VISUALS.get(owner_team_id, {}) as Dictionary
+	return (faction_visuals.get(archetype_id, {}) as Dictionary).duplicate()
 
 
 func _process(_delta: float) -> void:
@@ -186,16 +216,49 @@ func _draw_live_units(combat_rect: Rect2) -> void:
 		if index >= 6:
 			break
 		var owner_team_id: StringName = unit.owner_team_id
-		var texture := VEIL_SHIELD_GUARD_TEXTURE if owner_team_id == &"veil" else LUMERN_SHIELD_GUARD_TEXTURE
+		var visual := resolve_unit_visual(owner_team_id, unit.archetype_id)
+		var texture := visual.get(&"texture") as Texture2D
 		var position_ratio := clampf(float(unit.lane_position) / 100.0, 0.12, 0.88)
 		var center := combat_rect.position + Vector2(combat_rect.size.x * position_ratio, combat_rect.size.y * 0.62) + _formation_offset(index, owner_team_id)
 		var faction_color := VEIL_COLOR if owner_team_id == &"veil" else WARD_COLOR
 		draw_circle(center + Vector2(0.0, 24.0), 27.0, Color(0.01, 0.02, 0.04, 0.72))
 		draw_circle(center + Vector2(0.0, 17.0), 31.0, Color(faction_color.r, faction_color.g, faction_color.b, 0.28))
 		draw_arc(center + Vector2(0.0, 17.0), 32.0, 0.0, TAU, 20, Color(faction_color.r, faction_color.g, faction_color.b, 0.84), 1.25, true)
-		draw_texture_rect(texture, Rect2(center - Vector2(37.0, 59.0), Vector2(74.0, 74.0)), false, Color.WHITE)
+		# 6명 편성에서도 2.5~3등신 SD 실루엣과 무기·마법 이펙트가 읽히도록
+		# 전투 초점의 실제 아트 표시 크기를 약간 키운다.
+		var draw_rect := Rect2(center - Vector2(44.0, 70.0), Vector2(88.0, 88.0))
+		if texture != null:
+			_draw_unit_texture(texture, draw_rect, bool(visual.get(&"flip_h", false)))
+		else:
+			_draw_unresolved_role_marker(center, unit.archetype_id, faction_color)
 		_draw_unit_health(center, unit_health_ratio(unit), faction_color)
 		index += 1
+
+
+func _draw_unit_texture(texture: Texture2D, draw_rect: Rect2, flip_h: bool) -> void:
+	if not flip_h:
+		draw_texture_rect(texture, draw_rect, false, Color.WHITE)
+		return
+	var center := draw_rect.get_center()
+	draw_set_transform(center, 0.0, Vector2(-1.0, 1.0))
+	draw_texture_rect(texture, Rect2(-draw_rect.size * 0.5, draw_rect.size), false, Color.WHITE)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+
+
+func _draw_unresolved_role_marker(center: Vector2, archetype_id: StringName, faction_color: Color) -> void:
+	# 아직 역할 자산이 없는 병종을 방패병으로 위장하지 않는다.
+	draw_circle(center + Vector2(0.0, -8.0), 12.0, Color(faction_color.r, faction_color.g, faction_color.b, 0.82))
+	draw_string(ThemeDB.fallback_font, center + Vector2(-25.0, 0.0), _role_marker_label(archetype_id), HORIZONTAL_ALIGNMENT_CENTER, 50.0, 10, Color(0.99, 0.96, 0.86, 1.0))
+
+
+func _role_marker_label(archetype_id: StringName) -> String:
+	match archetype_id:
+		&"greatsword_warrior": return "대검"
+		&"assassin": return "암살"
+		&"priest": return "사제"
+		&"flier": return "비행"
+		&"giant": return "거인"
+	return "병력"
 
 
 func _formation_offset(index: int, owner_team_id: StringName) -> Vector2:
