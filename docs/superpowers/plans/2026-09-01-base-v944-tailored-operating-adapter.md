@@ -148,10 +148,10 @@ Run the project freshness validator, all Python tests with the existing exact Ba
 
 Check in order: authority/pin drift, generated-view integrity, legacy Sheet/Notion reactivation, stale 3-front terminology, and protected product/runtime scope. Record findings, fixes, and no-finding evidence in the review receipt.
 
-- [ ] **Step 3: Commit, push, and inspect exact-head CI**
+- [x] **Step 3: Commit, push, and inspect exact-head CI**
 
 Fetch before push, commit only scoped files, normal-push the existing task branch, then inspect PR #257's new exact head and required checks. Do not merge without separate user instruction.
 
-- [ ] **Step 4: Read back and report**
+- [x] **Step 4: Read back and report**
 
 Confirm local and remote branch HEAD equality, report Base release/current-candidate separation, tests and CI evidence, unchanged human usability gate, rollback, and any Base promotion candidate.
