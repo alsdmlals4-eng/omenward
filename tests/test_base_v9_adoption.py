@@ -39,6 +39,12 @@ class BaseV9AdoptionTests(unittest.TestCase):
             self.assertIn(token, audit)
         self.assertIn("ci-gate", workflow)
         self.assertIn("adversarial-gate", workflow)
+        self.assertIn(
+            "docs/approvals/PROJECT_PROTECTED_CHANGE_APPROVAL_GLOBAL_ROSTER_AND_STRATEGIC_MAP_2026-08-30.json",
+            workflow,
+        )
+        self.assertIn('"protected_base_commit"', workflow)
+        self.assertNotIn('git show "$PR_BASE_SHA:$ADAPTER_PATH"', workflow)
 
     def test_candidate_draft_reuse_is_isolated_outside_product_paths(self) -> None:
         manifest = json.loads((ROOT / "docs/base-reuse-adoption.json").read_text(encoding="utf-8"))

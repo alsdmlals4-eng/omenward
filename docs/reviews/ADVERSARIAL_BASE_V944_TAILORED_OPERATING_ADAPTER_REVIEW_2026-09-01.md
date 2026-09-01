@@ -30,9 +30,10 @@ The adapter therefore keeps that approved protected baseline. The CI route valid
 
 1. **Schema could not express the real repository-only boundary.** The former adapter schema treated the legacy GDD Sheet as a current workspace. Schema v2 adds the explicit `project_id` required by Base's released adapter model and records the Sheet as a no-read/no-write migration compatibility source.
 2. **Released validator emitted Windows EOL false mismatches.** The v9.4.4 semantic release remains the complete content authority, while the current Base validator program is used solely to obtain Git-canonical byte handling for generated views. This does not adopt the unreleased v9.5 policy candidate.
-3. **The user-approved protected baseline looked stale but is semantically required.** Replacing it with `main` or a PR base would invalidate the exact approval receipt. It remains frozen and CI now calls the Base approved-contract checker explicitly.
-4. **The old root router duplicated volatile product details.** `AGENTS.md` is a thin start router again, with only durable operational constraints and links to live Decision/Context owners. Stable quality constraints required by current consumers remain as routing markers.
-5. **Legacy adapter tests asserted v9.4.3.** They now preserve their planning-first and first-prompt coverage while asserting the v9.4.4 release and repository-only behavior.
+3. **Generated views still carried the pre-index Windows hash.** Git stores the `.gitattributes`-locked adapter as LF (`996f19cf…`), while the first local generation recorded the unnormalized working-file hash. Generated source hashes, dashboard provenance, and regression expectations now use the Git-stored LF bytes; the generated-artifact EOL test prevents OS-dependent recurrence.
+4. **The user-approved protected baseline looked stale but is semantically required.** Replacing it with `main` or a PR base would invalidate the exact approval receipt. It remains frozen and all protected-change workflows now read the exact approval manifest.
+5. **The old root router duplicated volatile product details.** `AGENTS.md` is a thin start router again, with only durable operational constraints and links to live Decision/Context owners. Stable quality constraints required by current consumers remain as routing markers.
+6. **Legacy adapter tests asserted v9.4.3.** They now preserve their planning-first and first-prompt coverage while asserting the v9.4.4 release and repository-only behavior.
 
 ## Five adversarial passes
 
