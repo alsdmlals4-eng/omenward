@@ -46,7 +46,7 @@
 
 - [x] Use the built-in image model once per cell. Prompt each image as a 512×512, true transparent-alpha, full-body, right-facing, 2.5–3-head storybook-watercolor tactical miniature, grounded at pivot y=448.
 - [x] Enforce faction palette and role-first silhouette: Lumern uses navy/ivory/cool-grey/restrained gold; Veil uses black-purple/dark red/carapace grey/limited rift glow. Spear has an unmistakably long spear, Archer a drawn bow, Mage a clear casting staff/focus, and Cavalry a mounted horizontal charge mass.
-- [x] Reject outputs with a background, checkerboard, text/logo, baked UI, extra limbs, duplicate subject, cropped weapon/feet, wrong direction, or a visually ambiguous role. Do not repair a poor source by painting/converting it into a different illustration. All eight inspected outputs met this candidate-only screen; human readability and exact-cell approval remain pending.
+- [x] Reject outputs with a background, checkerboard, text/logo, baked UI, extra limbs, duplicate subject, cropped weapon/feet, wrong direction, or a visually ambiguous role. Do not repair a poor source by painting/converting it into a different illustration. The eight role cells met this candidate-only screen; Lumern Spear V1 was additionally rejected because its honest 74px projection was too narrow, then replaced by one same-cell V2 candidate. Human readability and exact-cell approval remain pending.
 - [x] Copy only technically valid candidate bytes to the versioned `docs/images/candidates/role_profiles/` paths; preserve generated source path and SHA in the registry.
 - [x] Inspect the retained transparent images at native scale and update the registry with outcome evidence and `GENERATED_CANDIDATE` status.
 
