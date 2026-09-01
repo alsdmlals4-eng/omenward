@@ -1,7 +1,7 @@
 # [현행] OMENWARD Document Lifecycle Registry
 
 ```yaml
-updated_at: 2026-08-31
+updated_at: 2026-09-01
 status: CURRENT_DOCUMENT_LIFECYCLE_REGISTRY
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -12,6 +12,7 @@ current_screen_surface_visual_coverage_audit: docs/images/planning/OMENWARD_PROJ
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 implementation_authorized: true
 implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
+base_operating_contract: BASE_V9_4_4_RELEASED_PIN__CURRENT_VALIDATOR_REFERENCE_ONLY
 ```
 
 ## 1. Lifecycle labels
@@ -29,6 +30,9 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 [현행] README.md
 [현행] docs/PROJECT_HOME.md
 [현행] AGENTS.md
+[현행] skills/PROJECT_BASE_ADAPTER.json — Base v9.4.4 released machine pin; v2 `omenward` identity; repository-only migration boundary
+[현행] skills/PROJECT_SKILL_SNAPSHOT.json — generated effective route view
+[현행] docs/BASE_SHARED_SKILL_INTEGRATION.md — human-readable Base adaptation owner
 [현행] docs/CURRENT_CONFIRMED_DECISIONS.md
 [현행] docs/ACTIVE_CONTEXT.md
 [현행] docs/HANDOFF_CONTEXT.md
@@ -44,6 +48,9 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 [현행] docs/OMENWARD_ROADMAP.md
 [현행] docs/DOCUMENTATION_MAP.md
 [현행] docs/DOCUMENT_LIFECYCLE_REGISTRY.md
+[현행] docs/superpowers/specs/2026-09-01-base-v944-tailored-operating-adapter-design.md — current operating structure specification; no product implementation authority
+[현행] docs/superpowers/plans/2026-09-01-base-v944-tailored-operating-adapter.md — current Base-tailored execution and verification order
+[증거] docs/reviews/ADVERSARIAL_BASE_V944_TAILORED_OPERATING_ADAPTER_REVIEW_2026-09-01.md — five-pass machine-scope review; runtime, human, and release gates unchanged
 [현행] docs/PROJECT_CANON_DECISION_LEDGER.md
 [현행] docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md
 [증거/호환] docs/superpowers/plans/2026-08-30-single-march-front-and-three-tab-command.md

@@ -1,7 +1,7 @@
 # [현행] OMENWARD Active Context
 
 ```yaml
-updated_at: 2026-08-31
+updated_at: 2026-09-01
 status: BATTLE_PRIMARY_MARCH_MINIMAP__USER_CONFIRMED__IMPLEMENTATION_AUTHORIZED
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
@@ -10,6 +10,12 @@ current_project_core: docs/PROJECT_CORE.md
 current_handoff: docs/HANDOFF_CONTEXT.md
 current_main: RESOLVE_FROM_REPOSITORY_DEFAULT_BRANCH
 current_open_work_items: FRESH_GITHUB_QUERY_REQUIRED
+base_operating_adapter: skills/PROJECT_BASE_ADAPTER.json__BASE_V9_4_4_RELEASED_PIN__SCHEMA_V2
+base_current_validator_reference: 19355b7ef065a21d0f2b685c7d9be64a4a3970f8__VALIDATOR_ONLY
+base_unreleased_v9_5_policy_adoption: NONE
+base_operating_integration_owner: docs/BASE_SHARED_SKILL_INTEGRATION.md
+base_operating_update_spec: docs/superpowers/specs/2026-09-01-base-v944-tailored-operating-adapter-design.md
+base_operating_adversarial_review: docs/reviews/ADVERSARIAL_BASE_V944_TAILORED_OPERATING_ADAPTER_REVIEW_2026-09-01.md__MACHINE_SCOPE_PASS_5_OF_5__RUNTIME_HUMAN_NOT_RUN
 current_activity: CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_ASSETS__IMPLEMENTED__FULL_MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 current_forward_defense_spec: docs/design/APPROVED_OMENWARD_GLOBAL_BUILDING_ROSTER_AND_OCCUPATION_SLOTS_2026-08-30.md
 current_global_building_roster_decision: OMW-PLAN-20260830-GLOBAL-BUILDING-ROSTER-OCCUPATION-SLOTS-01

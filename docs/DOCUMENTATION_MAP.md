@@ -1,7 +1,7 @@
 # [현행] OMENWARD 문서 지도
 
 ```yaml
-updated_at: 2026-08-31
+updated_at: 2026-09-01
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
 planning_status: MODULAR_CLOSE_SINGLE_FRONT_BATTLEFIELD__IMPLEMENTED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 current_next_gate: HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK
@@ -15,27 +15,32 @@ implementation_execution: IMPLEMENTED__FULL_HEADLESS_GODOT_SUITE_PASS__RUNTIME_T
 1. `README.md`
 2. `docs/PROJECT_HOME.md`
 3. `AGENTS.md`
-4. `docs/CURRENT_CONFIRMED_DECISIONS.md`
-5. `docs/ACTIVE_CONTEXT.md`
-6. `docs/HANDOFF_CONTEXT.md`
-7. `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md`
-8. `docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md`
-9. `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`
-10. `docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md`
-11. `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`
-12. `docs/OMENWARD_GDD_CURRENT_CANON.md`
-13. `docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf` — 개정 2의 사람용 게임 경험 블루프린트. 현재 GDD와 repository canon에서 파생하며, 정본·runtime evidence·implementation authority가 아니다. 현재 화면은 `구현 기준선`, 목표 경험은 `기획 확인`, 지도 보드는 `시각 참고`로 구분한다.
-14. `docs/PROJECT_CORE.md`
-15. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
-16. `docs/OMENWARD_ROADMAP.md`
-17. `docs/DECISIONS_PENDING.md`
-18. `docs/DOCUMENTATION_MAP.md`
-19. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
-20. relevant current Decision/spec/asset owner
-21. repository의 relevant human-facing Markdown owner
-22. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
-23. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
-24. historical topology / handoff / planning boards only when needed
+4. `skills/PROJECT_BASE_ADAPTER.json` — Base v9.4.4 released pin, current validator split, project-local/Base route machine canon
+5. `docs/BASE_SHARED_SKILL_INTEGRATION.md` — human-readable Base adaptation and reuse-first order
+6. `docs/CURRENT_CONFIRMED_DECISIONS.md`
+7. `docs/ACTIVE_CONTEXT.md`
+8. `docs/HANDOFF_CONTEXT.md`
+9. `docs/design/APPROVED_OMENWARD_BATTLE_PRIMARY_MARCH_MINIMAP_2026-08-30.md`
+10. `docs/superpowers/plans/2026-08-30-battle-primary-march-minimap.md`
+11. `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`
+12. `docs/images/approved/OMENWARD_TITLE_ENTRY_ASSETS_V1.md`
+13. `docs/qa/OMENWARD_TITLE_ENTRY_RUNTIME_SMOKE_2026-08-31.md`
+14. `docs/OMENWARD_GDD_CURRENT_CANON.md`
+15. `docs/OMENWARD_HUMAN_GAME_BLUEPRINT_20260829.pdf` — 개정 2의 사람용 게임 경험 블루프린트. 현재 GDD와 repository canon에서 파생하며, 정본·runtime evidence·implementation authority가 아니다. 현재 화면은 `구현 기준선`, 목표 경험은 `기획 확인`, 지도 보드는 `시각 참고`로 구분한다.
+16. `docs/PROJECT_CORE.md`
+17. `docs/CURRENT_IMPLEMENTATION_STATUS.md`
+18. `docs/OMENWARD_ROADMAP.md`
+19. `docs/DECISIONS_PENDING.md`
+20. `docs/DOCUMENTATION_MAP.md`
+21. `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`
+22. `docs/superpowers/specs/2026-09-01-base-v944-tailored-operating-adapter-design.md`
+23. `docs/superpowers/plans/2026-09-01-base-v944-tailored-operating-adapter.md`
+24. `docs/reviews/ADVERSARIAL_BASE_V944_TAILORED_OPERATING_ADAPTER_REVIEW_2026-09-01.md`
+25. relevant current Decision/spec/asset owner
+26. repository의 relevant human-facing Markdown owner
+27. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md`
+27. `docs/migrations/OMENWARD_NOTION_CURRENT_CONTENT_TO_REPOSITORY_MIGRATION_2026-08-28.md`
+28. historical topology / handoff / planning boards only when needed
 
 Fresh GitHub/repository truth는 historical handoff·오래된 SHA·closed-unmerged PR보다 우선한다. Notion의 current structure/work는 읽기 전용 migration으로 이관 완료했고, 이후 Notion은 historical reference only다.
 
@@ -88,6 +93,10 @@ GENERATED_OPERATING_ARTIFACT_EOL_GUARD = RESOLVED_PROJECT_GUARD__BASE_PROMOTION_
 
 Operating incident / solution / lesson evidence:
 
+- `docs/BASE_SHARED_SKILL_INTEGRATION.md` — Base v9.4.4 released semantic pin, v2 repository-only adapter, and current validator reference split; no v9.5 candidate policy adoption.
+- `docs/superpowers/specs/2026-09-01-base-v944-tailored-operating-adapter-design.md` — current Base-tailored operating structure and protected-scope boundary.
+- `docs/superpowers/plans/2026-09-01-base-v944-tailored-operating-adapter.md` — implementation/verification order; product runtime evidence is unchanged.
+- `docs/reviews/ADVERSARIAL_BASE_V944_TAILORED_OPERATING_ADAPTER_REVIEW_2026-09-01.md` — v9.4.4 release pin, validator/content split, repository-only boundary, and protected-scope five-pass review.
 - `docs/audits/OMENWARD_GENERATED_OPERATING_ARTIFACT_EOL_INCIDENT_2026-08-28.md` — Windows raw-byte generated-view guard; Base promotion is tracked by Base Issue #768.
 - `docs/audits/OMENWARD_STAGE1_FTUE_CANON_DRIFT_INCIDENT_2026-08-28.md` — Stage 1 prebuilt-learning correction; `NO_BASE_PROMOTION` because the rule is product-specific.
 - `docs/audits/OMENWARD_OPEN_BATTLEFIELD_NO_BARRICADE_INCIDENT_2026-08-28.md` — fenced/barricade 보드가 열린 전장 의도를 가린 문제를 고정 패드·탑 수를 보존한 채 교정했다.
