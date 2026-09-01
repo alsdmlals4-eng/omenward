@@ -37,6 +37,18 @@ single-row march minimap and fixed tower. The capture and its machine/runtime
 evidence are owned by
 `docs/qa/OMENWARD_STORYBOOK_ROLE_PROFILE_BATTLEFOCUS_RUNTIME_2026-09-02.md`.
 
+## Veil runtime succession — 2026-09-02
+
+The user subsequently directed that the Veil side read more clearly as monsters.
+The two Veil V1 bytes in the table remain exact, user-approved historical
+selections and are preserved without modification. Their **active runtime
+bindings only** are superseded by Veil Archer V2 and Veil Mage V2 in
+`docs/images/approved/OMENWARD_VEIL_MONSTER_ROLE_VARIANTS_V1.md`.
+
+Lumern Archer/Mage V1 remain the current exact user-approved runtime files. The
+new Veil variants are separately governed by the user's standing image
+production authority; do not reinterpret this note as a new per-byte user lock.
+
 ## Scope and rollback
 
 This record locks only the four listed bytes. It authorizes their copy into

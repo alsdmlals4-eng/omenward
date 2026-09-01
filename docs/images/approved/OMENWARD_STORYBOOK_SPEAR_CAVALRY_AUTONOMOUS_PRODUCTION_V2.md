@@ -51,3 +51,16 @@ are covered by the headless contract; its six-unit readability capture remains
 the next optional human review. This is not individual user-byte approval,
 rights release, human readability approval, or release approval. Existing V1/V2
 candidate files and legacy runtime textures remain preserved and unmodified.
+
+## Veil runtime succession — 2026-09-02
+
+The user later requested a more clearly monstrous Veil faction. Lumern Spear
+Guard V3 and Lumern Cavalry V2 remain the current runtime derivatives in this
+record. Veil Spear Guard V2 and Veil Cavalry V2 remain preserved provenance, but
+their active BattleFocus/catalog bindings are superseded by Veil Spear Guard V3
+and Veil Cavalry V3 in
+`docs/images/approved/OMENWARD_VEIL_MONSTER_ROLE_VARIANTS_V1.md`.
+
+This succession still has `exact_user_asset_approval: FALSE`: the new versions
+are permitted through standing autonomous image-production authority and the
+explicit monster-direction request, not an inferred exact-byte selection.

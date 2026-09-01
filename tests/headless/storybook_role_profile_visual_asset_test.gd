@@ -26,7 +26,7 @@ const EXPECTED_VISUALS := [
 	{
 		"team_id": &"veil",
 		"archetype_id": &"spear_guard",
-		"path": "res://assets/art/units/veil_spear_guard_storybook_idle_v2.png",
+		"path": "res://assets/art/units/veil_spear_guard_storybook_idle_v3.png",
 		"flip_h": true,
 	},
 	{
@@ -38,7 +38,7 @@ const EXPECTED_VISUALS := [
 	{
 		"team_id": &"veil",
 		"archetype_id": &"archer",
-		"path": "res://assets/art/units/veil_archer_storybook_idle_v1.png",
+		"path": "res://assets/art/units/veil_archer_storybook_idle_v2.png",
 		"flip_h": true,
 	},
 	{
@@ -50,7 +50,7 @@ const EXPECTED_VISUALS := [
 	{
 		"team_id": &"veil",
 		"archetype_id": &"cavalry",
-		"path": "res://assets/art/units/veil_cavalry_storybook_idle_v2.png",
+		"path": "res://assets/art/units/veil_cavalry_storybook_idle_v3.png",
 		"flip_h": true,
 	},
 	{
@@ -62,7 +62,7 @@ const EXPECTED_VISUALS := [
 	{
 		"team_id": &"veil",
 		"archetype_id": &"mage",
-		"path": "res://assets/art/units/veil_mage_storybook_idle_v1.png",
+		"path": "res://assets/art/units/veil_mage_storybook_idle_v2.png",
 		"flip_h": true,
 	},
 ]

@@ -2,9 +2,9 @@
 
 ```yaml
 batch_id: OMW-IMG-20260901-STORYBOOK-ROLE-PROFILE-CANDIDATES-V1
-status: ARCHER_MAGE_USER_APPROVED__SPEAR_CAVALRY_STYLE_REGENERATION_AUTHORIZED
-authorization: USER_CHAT__2026-09-02__"궁병,마법사만 이미지 승인" + "앞으로 필요하다고 판단되는 이미지는 별도 승인받지말고 제작해"
-authorization_scope: ARCHER_MAGE_EXACT_USER_APPROVAL__SPEAR_CAVALRY_AUTONOMOUS_REGENERATION__NO_LEGACY_CANDIDATE_RUNTIME_BINDING
+status: LUMERN_ARCHER_MAGE_EXACT_USER_APPROVED__VEIL_MONSTER_ROLE_VARIANTS_STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED
+authorization: USER_CHAT__2026-09-02__"궁병,마법사만 이미지 승인" + "앞으로 필요하다고 판단되는 이미지는 별도 승인받지말고 제작해" + "베일쪽이 너무 인간스러워졌다 좀 더 몬스터 느낌나게"
+authorization_scope: LUMERN_ARCHER_MAGE_EXACT_USER_APPROVAL__SPEAR_CAVALRY_AUTONOMOUS_REGENERATION__VEIL_MONSTER_VARIANTS__NO_LEGACY_CANDIDATE_RUNTIME_BINDING
 generator: BUILT_IN_IMAGEGEN
 source_type: ORIGINAL_GENERATION__PROJECT_VISUAL_DIRECTION_ONLY
 consumer_after_exact_user_approval: scripts/ui/battle_focus_view.gd::BattleFocusView
@@ -15,7 +15,7 @@ runtime_pivot_px: 256x448
 facing: RIGHT
 background: TRUE_TRANSPARENT_ALPHA_ONLY
 technical_evidence: COMPLETE_PER_CELL__TRUE_ALPHA_512x512_DERIVATIVES
-human_asset_review: ARCHER_MAGE_APPROVED__SPEAR_CAVALRY_STANDING_AUTONOMOUS_PROMOTION__READABILITY_NOT_RUN
+human_asset_review: LUMERN_ARCHER_MAGE_EXACT_APPROVED__VEIL_MONSTER_VARIANTS_STANDING_AUTONOMOUS_PROMOTION__READABILITY_NOT_RUN
 rights_release_review: REVIEW_PENDING__NOT_RELEASE_PASS
 ```
 
@@ -55,6 +55,23 @@ the one-front route, tower count, building system, roulette, save data, or
 other unit roles. Each replacement still requires the technical gate below,
 canonical provenance record, Godot binding, and separate runtime evidence.
 
+### 2026-09-02 Veil monster-direction correction
+
+The user identified that the active Veil Spear Guard, Archer, Cavalry, and Mage
+still read as human soldiers. The latest direction supersedes only their
+**active runtime selection**: each replacement retains its role weapon,
+small-scale readability, transparent `512×512` cell, `(256,448)` ground pivot,
+and right-facing source convention, while removing human skin, hair, and face
+readability in favor of a black void aperture, horned asymmetrical carapace,
+claws or digitigrade legs, and restrained violet rift cracks.
+
+The original selected Veil Archer/Mage V1 bytes and standing-authority Veil
+Spear/Cavalry V2 bytes remain immutable historical provenance. They are not
+deleted and are no longer active BattleFocus runtime bindings. The user has
+already granted standing image-production authority, so the four new candidates
+do not claim a second per-byte user selection; their actual consumer, hashes,
+and technical/runtime evidence are recorded separately.
+
 ## Shared generation brief
 
 ```text
@@ -88,6 +105,10 @@ FORBIDDEN = scenery/background, paper texture, checkerboard, text, logo,
 | `OMW-IMG-20260902-ROLE-002` | Veil Spear Guard — V2 | black-purple/dark-red infantry; low diagonal rift spear; broad grounded advance | `docs/images/candidates/role_profiles/omenward_veil_spear_guard_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-1a063eaa-b31d-43e6-80b1-a598401669bc.png`; source SHA `5E6714367BE5C76582CC047DB8C890EA3CA22BF1294A3AB2813CB12C642224F6`; derivative SHA `FE0BBE1D3803AF79DD44D49C64CBD84078C8459FE1E9C446DB9A967744695805`; RGBA `512×512`, alpha `0..255`, coverage `22.923%`, alpha bbox `(27,107)-(485,447)`, normalized art `460×342`. |
 | `OMW-IMG-20260902-ROLE-003` | Lumern Cavalry — V2 | blue/ivory rider and pale horse; compact horizontal charge | `docs/images/candidates/role_profiles/omenward_lumern_cavalry_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-a5657521-78fe-42f4-b83a-a6425ad70889.png`; source SHA `8B677E87540684DED7B92927E5787D13ECC9F0A70FCF1BF9B89EA3655AAA8A86`; derivative SHA `32979D35D29E7ECD887B8A59FD443AA19D5528C3DCADF8EF6944F156A682A6CD`; RGBA `512×512`, alpha `0..255`, coverage `30.097%`, alpha bbox `(27,69)-(485,447)`, normalized art `460×380`. |
 | `OMW-IMG-20260902-ROLE-004` | Veil Cavalry — V2 | black-purple rider and shadow horse; compact horizontal charge | `docs/images/candidates/role_profiles/omenward_veil_cavalry_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | New style-aligned source `exec-63052f01-0980-46a7-afb8-a86057b47934.png`; source SHA `D1572003F71BFC16414442979FF0376B359EC23087B34A689503F4C682502C10`; derivative SHA `5BA94A8ED5021BBF1A9CD1932386F1DCC3646040AD95D34776E1FBC097A356FF`; RGBA `512×512`, alpha `0..255`, coverage `26.284%`, alpha bbox `(27,94)-(485,447)`, normalized art `460×355`. |
+| `OMW-IMG-20260902-VEIL-001` | Veil Spear Guard — V3 monster variant | faceless horned carapace infantry; clawed feet; low rift spear and compact shield | `docs/images/candidates/role_profiles/omenward_veil_spear_guard_storybook_role_candidate_v3.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | User-directed non-human replacement source `exec-3595a016-30c3-47eb-ad15-3b93dc309143.png`; source SHA `B564789A57C2AFEB14A31CCACE979465FB7740FCA4B21355994E57918A4B4FA7`; derivative SHA `9121E98F28D4D93E9443A2D8EA72B745FDDC234AEABDC49AF6C68C7886C5A5E3`; RGBA `512×512`, alpha bbox `(26,33)-(486,448)`, normalized art `460×415`. |
+| `OMW-IMG-20260902-VEIL-002` | Veil Archer — V2 monster variant | void-aperture horned predator; chitin bow and drawn rift arrow | `docs/images/candidates/role_profiles/omenward_veil_archer_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | User-directed non-human replacement source `exec-5834346c-8b65-4155-b69b-01f00f054443.png`; source SHA `3996FAF41E340BDA078DB40227AFB654294AD45638F2C347D8F8331FF76E43D3`; derivative SHA `36F6BEC8FDD3B8122FA95635D38B9D7D3951EAE5B335934B66F05E3B8320B74A`; RGBA `512×512`, alpha bbox `(90,32)-(457,443)`, normalized art `405×416`. |
+| `OMW-IMG-20260902-VEIL-003` | Veil Cavalry — V3 monster variant | horned void rider on a clawed rift beast; low charging rift lance | `docs/images/candidates/role_profiles/omenward_veil_cavalry_storybook_role_candidate_v3.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | User-directed non-human replacement source `exec-bd28a6d1-7a4c-4d37-9c0d-d58442ba3cf5.png`; source SHA `7EF82220EC41BC7DDC6DE00D76D02BE96A9C03E9B448FB5852F054C33C9046C1`; derivative SHA `D6063AC0C6E16C5BBED7FC838D99556BFA6560A29519A7D84A3191E7D89B0D35`; RGBA `512×512`, alpha bbox `(26,142)-(486,448)`, normalized art `460×306`. |
+| `OMW-IMG-20260902-VEIL-004` | Veil Mage — V2 monster variant | horned void aperture; clawed spellcaster with a fractured rift staff | `docs/images/candidates/role_profiles/omenward_veil_mage_storybook_role_candidate_v2.png` | `GENERATED_CANDIDATE__TECHNICAL_PASS__STANDING_AUTONOMOUS_RUNTIME_PROMOTION_AUTHORIZED` | User-directed non-human replacement source `exec-7f566476-da2e-43a1-a083-2eda3c8b41a0.png`; source SHA `47E5177FD13C5097292304D4FE9CAD692CA3AC5BBB941A92569CEF3189689D50`; derivative SHA `A2E1071B0A81FA6D3ED1AC36C88816F8B5B7E36F165D27F944F5EE0FBBAAD475`; RGBA `512×512`, alpha bbox `(85,32)-(426,448)`, normalized art `341×416`. |
 
 ## Per-cell technical gate
 

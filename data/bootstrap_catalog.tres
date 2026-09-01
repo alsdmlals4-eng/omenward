@@ -34,13 +34,13 @@
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_giant_idle.png" id="40_lumern_giant_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_giant_idle.png" id="41_veil_giant_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_spear_guard_storybook_idle_v3.png" id="42_lumern_spear_storybook_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_spear_guard_storybook_idle_v2.png" id="43_veil_spear_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_spear_guard_storybook_idle_v3.png" id="43_veil_spear_storybook_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_archer_storybook_idle_v1.png" id="44_lumern_archer_storybook_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_archer_storybook_idle_v1.png" id="45_veil_archer_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_archer_storybook_idle_v2.png" id="45_veil_archer_storybook_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_cavalry_storybook_idle_v2.png" id="46_lumern_cavalry_storybook_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_cavalry_storybook_idle_v2.png" id="47_veil_cavalry_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_cavalry_storybook_idle_v3.png" id="47_veil_cavalry_storybook_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_mage_storybook_idle_v1.png" id="48_lumern_mage_storybook_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_mage_storybook_idle_v1.png" id="49_veil_mage_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_mage_storybook_idle_v2.png" id="49_veil_mage_storybook_idle"]
 
 [sub_resource type="Resource" id="Tier1"]
 script = ExtResource("2_tier")
