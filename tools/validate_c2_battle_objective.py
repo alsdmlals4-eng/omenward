@@ -20,6 +20,7 @@ REQUIRED_FILES = (
     "scripts/core/stage_run.gd",
     "scripts/buildings/building_service.gd",
     "tests/headless/c2_battle_objective_test.gd",
+    "tests/headless/five_sequential_front_maps_contract_test.gd",
     "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",
     HISTORICAL_STATUS,
 )
@@ -40,6 +41,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     economy = (root / "scripts/core/stage_economy.gd").read_text(encoding="utf-8")
     unit_profile = (root / "scripts/data/unit_archetype_profile.gd").read_text(encoding="utf-8")
     contract_test = (root / "tests/headless/c2_battle_objective_test.gd").read_text(encoding="utf-8")
+    sequential_contract = (root / "tests/headless/five_sequential_front_maps_contract_test.gd").read_text(encoding="utf-8")
     workflow = (root / CURRENT_WORKFLOW).read_text(encoding="utf-8")
 
     for term in (
@@ -57,14 +59,18 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "legendary_boss_unit_id",
         "_resolve_natural_result",
         "enemy_base_destroyed",
-        "wave_15_legendary_boss_defeated",
+        "_finish_current_front_map_victory",
+        "front_map_result",
+        "enter_next_front_map",
+        "_current_front_map_wave_package_resolved",
+        "has_living_units_for",
     ):
         if term not in stage_run:
             errors.append(f"stage run missing natural result contract: {term}")
     for term in ("set_contested", "clear_capture_presence", "clampf(power, 0.0, MAX_CAPTURE_POWER)"):
         if term not in outpost:
             errors.append(f"outpost state missing approved capture contract: {term}")
-    for term in ("sync_outpost_states", "remove_food_cap", "RUINED"):
+    for term in ("sync_occupation_capacity", "roster_snapshot", "INACTIVE_LOCKED", "remove_food_cap"):
         if term not in building and term not in economy:
             errors.append(f"building lifecycle missing contract term: {term}")
     for term in ("capture_power", "structure_damage_tags"):
@@ -72,19 +78,32 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             errors.append(f"shared archetype schema missing objective field: {term}")
 
     for phrase in (
-        "an uncontested giant squad captures the top clash",
-        "the top enemy gate collapses from same-lane siege unit attacks",
-        "other lane gates remain standing",
-        "both teams on one clash freeze it as contested",
+        "battle exposes one advancing front",
+        "Ward forward stabilization grants the single tower",
+        "the same force next stabilizes the clash zone",
+        "the one enemy gate collapses from same-front siege attacks",
+        "both teams on the one clash freeze it as contested",
         "an empty stable clash clears its contested marker",
-        "farm food cap is removed when the outpost becomes neutral",
-        "enemy base destruction from unit attacks produces a natural battle victory",
+        "loss of objectives locks the building below the new capacity",
+        "a locked global farm loses its passive without deletion",
+        "returning occupation capacity restores the owned roster entry",
+        "enemy base destruction from one-front unit attacks produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
         "enemy base destruction closes StageRun as victory",
-        "W15 legendary boss defeat produces standard victory",
+        "W15 remains a legendary pressure wave, not a premature Stage victory",
     ):
         if phrase not in contract_test:
             errors.append(f"C2 regression test missing: {phrase}")
+
+    for phrase in (
+        "real enemy-base destruction clears only the active non-final map",
+        "natural handoff reaches Ward Forward preparation",
+        "enemy-base destruction before W1 through W4 cannot skip the assigned Wave package",
+        "a surviving Lumern bypass unit endures the local-map reset",
+        "a living Veil bypass blocks a package-clear map result",
+    ):
+        if phrase not in sequential_contract:
+            errors.append(f"sequential front-map regression test missing: {phrase}")
 
     for term in (
         "name: Validate Omenward Core",
@@ -108,8 +127,8 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
             "README.md": ("LEGACY_C1_C2_C3_PROVEN", "HUMAN_QA_NOT_RUN"),
             "docs/CURRENT_IMPLEMENTATION_STATUS.md": (
                 "LEGACY_C1_C2_C3_PROVEN",
-                "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED",
-                "CURRENT_WINDOWS_RUNTIME = PARTIAL__STANDALONE_TECHNICAL_CAPTURED_960_1280_1920",
+                "CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__MODULAR_CLOSE_BATTLEFIELD_RUNTIME_TECHNICAL_SMOKE_PASS",
+                "CURRENT_WINDOWS_RUNTIME = HERA_TECHNICAL_SMOKE_PASS__ONE_LIVE_BATTLE_CAPTURE__HUMAN_NOT_RUN",
             ),
             "docs/OMENWARD_GAME_DESIGN.md": (
                 "문서 버전: **v0.26",

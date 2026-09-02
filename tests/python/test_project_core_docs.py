@@ -15,6 +15,7 @@ CURRENT_VISUAL_SPEC = MODULE["CURRENT_VISUAL_SPEC"]
 CURRENT_VISUAL_BOARD = MODULE["CURRENT_VISUAL_BOARD"]
 CURRENT_VISUAL_ASSET = MODULE["CURRENT_VISUAL_ASSET"]
 CURRENT_VISUAL_HANDOFF = MODULE["CURRENT_VISUAL_HANDOFF"]
+CURRENT_STORYBOOK_SHIELD_GUARD_PAIR = MODULE["CURRENT_STORYBOOK_SHIELD_GUARD_PAIR"]
 FORWARD_DEFENSE_SPEC = MODULE["FORWARD_DEFENSE_SPEC"]
 BASE_FORWARD_LAYOUT_REVIEW = MODULE["BASE_FORWARD_LAYOUT_REVIEW"]
 REPOSITORY_ONLY_POLICY = MODULE["REPOSITORY_ONLY_POLICY"]
@@ -42,12 +43,26 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             path.write_text(path.read_text(encoding="utf-8").replace(pathlib.PurePosixPath(CURRENT_SPEC).name, "CURRENT_SPEC_REMOVED.md"), encoding="utf-8")
             self.assertTrue(any("Project Core" in error or "current decision" in error for error in validate(root)))
 
+    def test_current_front_router_rejects_superseded_open_battlefield_as_active(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            path = root / "docs/ACTIVE_CONTEXT.md"
+            body = path.read_text(encoding="utf-8").replace(
+                "current_single_march_front_spec: docs/design/APPROVED_OMENWARD_SINGLE_MARCH_FRONT_AND_THREE_TAB_COMMAND_2026-08-30.md",
+                "current_single_march_front_spec: docs/design/APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md",
+                1,
+            )
+            path.write_text(body, encoding="utf-8")
+            errors = validate(root)
+            self.assertTrue(any("current_single_march_front_spec" in error for error in errors), errors)
+
     def test_current_runtime_ceiling_loss_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
-            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
+            path.write_text(path.read_text(encoding="utf-8").replace("CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__MODULAR_CLOSE_BATTLEFIELD_RUNTIME_TECHNICAL_SMOKE_PASS", "CURRENT_GODOT_RUNTIME = PASS"), encoding="utf-8")
             self.assertTrue(any("CURRENT_GODOT_RUNTIME" in error for error in validate(root)))
 
     def test_visual_runtime_ceiling_loss_is_rejected(self) -> None:
@@ -55,8 +70,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             root = pathlib.Path(directory)
             self.copy(root)
             path = root / CURRENT_VISUAL_ASSET
-            path.write_text(path.read_text(encoding="utf-8").replace("runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN", "runtime_readability: PASS"), encoding="utf-8")
-            self.assertTrue(any("runtime_readability: PARTIAL_TECHNICAL_HERA_CAPTURE__HUMAN_NOT_RUN" in error for error in validate(root)))
+            path.write_text(path.read_text(encoding="utf-8").replace("human_readability: NOT_RUN", "human_readability: PASS"), encoding="utf-8")
+            self.assertTrue(any("human_readability: NOT_RUN" in error for error in validate(root)))
 
     def test_legacy_and_current_status_must_remain_separate(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -72,8 +87,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 27",
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 28",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 31",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 32",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -100,13 +115,20 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = PHASE2_OPEN_BATTLEFIELD_READINESS_REVIEW__ISSUE_RED_TEST_PROVENANCE_TARGET_RESOLUTION_REQUIRED",
+                "CURRENT_NEXT = RUNTIME_TECHNICAL_SMOKE_OF_SEQUENTIAL_FRONT_TRANSITION__THEN_USER_VISUAL_CONFIRMATION",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("PHASE2_OPEN_BATTLEFIELD_READINESS_REVIEW__ISSUE_RED_TEST_PROVENANCE_TARGET_RESOLUTION_REQUIRED" in error for error in errors), errors)
+            self.assertTrue(any("RUNTIME_TECHNICAL_SMOKE_OF_SEQUENTIAL_FRONT_TRANSITION__THEN_USER_VISUAL_CONFIRMATION" in error for error in errors), errors)
+
+    def test_current_storybook_shield_guard_pair_record_is_required(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self.copy(root)
+            (root / CURRENT_STORYBOOK_SHIELD_GUARD_PAIR).unlink()
+            self.assertTrue(any("missing required file" in error for error in validate(root)))
 
     def test_forward_defense_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -162,13 +184,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "implementation_scope: RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE",
+                "implementation_scope: FIVE_SEQUENTIAL_FRONT_MAPS__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN",
                 "implementation_scope: ALL_PRODUCT_IMPLEMENTATION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("RUN_COMMAND_ORCHESTRATION_FIRST_VERTICAL_SLICE" in error for error in errors), errors)
+            self.assertTrue(any("FIVE_SEQUENTIAL_FRONT_MAPS__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN" in error for error in errors), errors)
 
     def test_current_visual_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

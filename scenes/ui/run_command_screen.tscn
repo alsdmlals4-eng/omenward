@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/run_command_screen.gd" id="1_script"]
 [ext_resource type="Texture2D" path="res://assets/art/ui/run_command/roulette_board_frame.png" id="2_board"]
 [ext_resource type="Texture2D" path="res://assets/art/ui/run_command/roulette_arrow.png" id="3_arrow"]
 [ext_resource type="Texture2D" path="res://assets/art/ui/run_command/omen_device.png" id="4_device"]
+[ext_resource type="Script" path="res://scripts/ui/battle_focus_view.gd" id="5_battle_focus"]
+[ext_resource type="Script" path="res://scripts/ui/march_minimap_view.gd" id="6_march_minimap"]
 
 [sub_resource type="StyleBoxFlat" id="Panel"]
 bg_color = Color(0.055, 0.086, 0.13, 0.94)
@@ -70,126 +72,56 @@ offset_right = 910.0
 offset_bottom = 32.0
 theme_override_colors/font_color = Color(0.75, 0.9, 0.98, 1)
 
-[node name="Fronts" type="VBoxContainer" parent="."]
+[node name="TopTabRail" type="HBoxContainer" parent="TopBar"]
 layout_mode = 0
-offset_left = 18.0
+offset_left = 280.0
+offset_top = 5.0
+offset_right = 650.0
+offset_bottom = 35.0
+theme_override_constants/separation = 10
+
+[node name="DomesticTab" type="Button" parent="TopBar/TopTabRail"]
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+toggle_mode = true
+text = "내정"
+
+[node name="RouletteTab" type="Button" parent="TopBar/TopTabRail"]
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+toggle_mode = true
+text = "룰렛"
+
+[node name="FrontTab" type="Button" parent="TopBar/TopTabRail"]
+custom_minimum_size = Vector2(96, 30)
+layout_mode = 2
+toggle_mode = true
+text = "전선"
+
+[node name="BattleFocusViewport" type="Control" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 16.0
+offset_top = 110.0
+offset_right = 942.0
+offset_bottom = 414.0
+mouse_filter = 2
+script = ExtResource("5_battle_focus")
+
+[node name="MarchMinimap" type="Control" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 16.0
 offset_top = 62.0
 offset_right = 942.0
-offset_bottom = 242.0
-theme_override_constants/separation = 6
-
-[node name="Top" type="Panel" parent="Fronts"]
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-theme_override_styles/panel = SubResource("FrontPanel")
-
-[node name="Title" type="Label" parent="Fronts/Top"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 10.0
-offset_right = 530.0
-offset_bottom = 30.0
-
-[node name="Minimap" type="Control" parent="Fronts/Top"]
-layout_mode = 0
-offset_left = 650.0
-offset_top = 1.0
-offset_right = 910.0
-offset_bottom = 53.0
-
-[node name="Progress" type="ProgressBar" parent="Fronts/Top/Minimap"]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 6.0
-offset_right = 250.0
-offset_bottom = 24.0
-show_percentage = false
-value = 50.0
-
-[node name="Context" type="Label" parent="Fronts/Top/Minimap"]
-layout_mode = 0
-offset_top = 31.0
-offset_right = 250.0
-offset_bottom = 53.0
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 12
-
-[node name="Middle" type="Panel" parent="Fronts"]
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-theme_override_styles/panel = SubResource("FrontPanel")
-
-[node name="Title" type="Label" parent="Fronts/Middle"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 10.0
-offset_right = 530.0
-offset_bottom = 30.0
-
-[node name="Minimap" type="Control" parent="Fronts/Middle"]
-layout_mode = 0
-offset_left = 650.0
-offset_top = 1.0
-offset_right = 910.0
-offset_bottom = 53.0
-
-[node name="Progress" type="ProgressBar" parent="Fronts/Middle/Minimap"]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 6.0
-offset_right = 250.0
-offset_bottom = 24.0
-show_percentage = false
-value = 50.0
-
-[node name="Context" type="Label" parent="Fronts/Middle/Minimap"]
-layout_mode = 0
-offset_top = 31.0
-offset_right = 250.0
-offset_bottom = 53.0
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 12
-
-[node name="Bottom" type="Panel" parent="Fronts"]
-custom_minimum_size = Vector2(0, 54)
-layout_mode = 2
-theme_override_styles/panel = SubResource("FrontPanel")
-
-[node name="Title" type="Label" parent="Fronts/Bottom"]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 10.0
-offset_right = 530.0
-offset_bottom = 30.0
-
-[node name="Minimap" type="Control" parent="Fronts/Bottom"]
-layout_mode = 0
-offset_left = 650.0
-offset_top = 1.0
-offset_right = 910.0
-offset_bottom = 53.0
-
-[node name="Progress" type="ProgressBar" parent="Fronts/Bottom/Minimap"]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 6.0
-offset_right = 250.0
-offset_bottom = 24.0
-show_percentage = false
-value = 50.0
-
-[node name="Context" type="Label" parent="Fronts/Bottom/Minimap"]
-layout_mode = 0
-offset_top = 31.0
-offset_right = 250.0
-offset_bottom = 53.0
-horizontal_alignment = 1
-theme_override_font_sizes/font_size = 12
+offset_bottom = 102.0
+mouse_filter = 2
+script = ExtResource("6_march_minimap")
 
 [node name="LowerDeck" type="Panel" parent="."]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 320.0
+offset_top = 364.0
 offset_right = 944.0
 offset_bottom = 528.0
 theme_override_styles/panel = SubResource("Panel")
@@ -197,156 +129,244 @@ theme_override_styles/panel = SubResource("Panel")
 [node name="PrimaryLabel" type="Label" parent="LowerDeck"]
 layout_mode = 0
 offset_left = 14.0
-offset_top = 8.0
+offset_top = 6.0
 offset_right = 900.0
-offset_bottom = 30.0
+offset_bottom = 28.0
 theme_override_colors/font_color = Color(0.88, 0.93, 0.99, 1)
 
 [node name="PreparePanel" type="Control" parent="LowerDeck"]
 layout_mode = 0
 offset_left = 14.0
-offset_top = 38.0
+offset_top = 32.0
 offset_right = 910.0
-offset_bottom = 194.0
+offset_bottom = 154.0
 
 [node name="Info" type="Label" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
 offset_right = 440.0
-offset_bottom = 26.0
-text = "건설은 확률과 병력 한도를 바꿉니다."
+offset_bottom = 20.0
+text = "건물은 이 전역 로스터에서만 설치되며, 지도에는 배치되지 않습니다."
+
+[node name="BuildingRoster" type="ItemList" parent="LowerDeck/PreparePanel"]
+layout_mode = 0
+offset_top = 22.0
+offset_right = 578.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(0.78, 0.88, 0.96, 1)
+theme_override_font_sizes/font_size = 12
+select_mode = 0
+
+[node name="RosterMoveUpButton" type="Button" parent="LowerDeck/PreparePanel"]
+layout_mode = 0
+offset_left = 590.0
+offset_top = 22.0
+offset_right = 730.0
+offset_bottom = 48.0
+text = "우선순위 ↑"
+
+[node name="RosterMoveDownButton" type="Button" parent="LowerDeck/PreparePanel"]
+layout_mode = 0
+offset_left = 590.0
+offset_top = 54.0
+offset_right = 730.0
+offset_bottom = 80.0
+text = "우선순위 ↓"
 
 [node name="BarracksButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_top = 40.0
-offset_right = 150.0
-offset_bottom = 78.0
-text = "병영 건설"
+offset_left = 744.0
+offset_top = 22.0
+offset_right = 884.0
+offset_bottom = 48.0
+text = "병영 추가"
 
 [node name="TowerButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_left = 164.0
-offset_top = 40.0
-offset_right = 314.0
-offset_bottom = 78.0
-text = "방어탑 건설"
+offset_left = 744.0
+offset_top = 54.0
+offset_right = 884.0
+offset_bottom = 80.0
+text = "방어탑 추가"
 
 [node name="FarmButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_left = 328.0
-offset_top = 40.0
-offset_right = 478.0
-offset_bottom = 78.0
-text = "농장 건설"
+offset_left = 744.0
+offset_top = 86.0
+offset_right = 884.0
+offset_bottom = 112.0
+text = "농장 추가"
 
 [node name="SpinButton" type="Button" parent="LowerDeck/PreparePanel"]
 layout_mode = 0
-offset_left = 650.0
-offset_top = 34.0
-offset_right = 884.0
-offset_bottom = 84.0
-text = "징조륜 정지 · 20 Gold"
+offset_left = 590.0
+offset_top = 86.0
+offset_right = 730.0
+offset_bottom = 112.0
+text = "징조륜 · 20G"
 
-[node name="RoulettePanel" type="Control" parent="LowerDeck"]
+[node name="RouletteReadyPanel" type="Control" parent="LowerDeck"]
 visible = false
 layout_mode = 0
 offset_left = 14.0
 offset_top = 32.0
 offset_right = 910.0
-offset_bottom = 194.0
+offset_bottom = 154.0
+
+[node name="Title" type="Label" parent="LowerDeck/RouletteReadyPanel"]
+layout_mode = 0
+offset_right = 560.0
+offset_bottom = 24.0
+theme_override_colors/font_color = Color(1, 0.86, 0.46, 1)
+theme_override_font_sizes/font_size = 16
+text = "징조륜 준비"
+
+[node name="Description" type="Label" parent="LowerDeck/RouletteReadyPanel"]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 570.0
+offset_bottom = 70.0
+autowrap_mode = 2
+text = "3×3 징조륜을 열어 병력 출현 확률을 관측하고, 제한된 행·열 조작으로 결과를 설계합니다."
+
+[node name="StartSpinButton" type="Button" parent="LowerDeck/RouletteReadyPanel"]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 34.0
+offset_right = 884.0
+offset_bottom = 74.0
+text = "징조륜 시작 · 20G"
+
+[node name="FrontReadyPanel" type="Control" parent="LowerDeck"]
+visible = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 32.0
+offset_right = 910.0
+offset_bottom = 154.0
+
+[node name="RouteSummary" type="Label" parent="LowerDeck/FrontReadyPanel"]
+layout_mode = 0
+offset_right = 680.0
+offset_bottom = 22.0
+theme_override_colors/font_color = Color(0.74, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 15
+text = "수호 성채 → 수호 전진기지 → 접전지 → 장막 전진기지 → 장막 성채"
+
+[node name="TowerRule" type="Label" parent="LowerDeck/FrontReadyPanel"]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 700.0
+offset_bottom = 54.0
+text = "고정 방어탑 1개 · 수호 전진기지를 안정 점령할 때만 아군 소유"
+
+[node name="CapacityRule" type="Label" parent="LowerDeck/FrontReadyPanel"]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 700.0
+offset_bottom = 86.0
+text = "건물 슬롯은 기본 6칸 + 점령지 3곳 (최대 9칸)"
+
+[node name="RoulettePanel" type="Control" parent="LowerDeck"]
+visible = false
+layout_mode = 0
+offset_left = 14.0
+offset_top = 30.0
+offset_right = 910.0
+offset_bottom = 154.0
 
 [node name="OmenDevice" type="TextureRect" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
 offset_left = 0.0
-offset_top = 25.0
-offset_right = 72.0
-offset_bottom = 101.0
+offset_top = 27.0
+offset_right = 60.0
+offset_bottom = 93.0
 texture = ExtResource("4_device")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="BoardFrame" type="TextureRect" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 108.0
+offset_left = 84.0
 offset_top = 0.0
-offset_right = 288.0
-offset_bottom = 180.0
+offset_right = 204.0
+offset_bottom = 120.0
 texture = ExtResource("2_board")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="BoardGrid" type="GridContainer" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 154.0
-offset_top = 45.0
-offset_right = 262.0
-offset_bottom = 153.0
+offset_left = 112.0
+offset_top = 28.0
+offset_right = 176.0
+offset_bottom = 92.0
 theme_override_constants/h_separation = 2
 theme_override_constants/v_separation = 2
 columns = 3
 
 [node name="ArrowControls" type="Control" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 84.0
+offset_left = 72.0
 offset_top = 0.0
-offset_right = 310.0
-offset_bottom = 180.0
+offset_right = 218.0
+offset_bottom = 120.0
 
 [node name="ColUp0" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 62.0
+offset_left = 40.0
 offset_top = 0.0
-offset_right = 96.0
-offset_bottom = 28.0
+offset_right = 60.0
+offset_bottom = 20.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "↑"
 
 [node name="ColUp1" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 96.0
+offset_left = 62.0
 offset_top = 0.0
-offset_right = 130.0
-offset_bottom = 28.0
+offset_right = 82.0
+offset_bottom = 20.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "↑"
 
 [node name="ColUp2" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 130.0
+offset_left = 84.0
 offset_top = 0.0
-offset_right = 164.0
-offset_bottom = 28.0
+offset_right = 104.0
+offset_bottom = 20.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "↑"
 
 [node name="ColDown0" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 62.0
-offset_top = 152.0
-offset_right = 96.0
-offset_bottom = 180.0
+offset_left = 40.0
+offset_top = 100.0
+offset_right = 60.0
+offset_bottom = 120.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "↓"
 
 [node name="ColDown1" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 96.0
-offset_top = 152.0
-offset_right = 130.0
-offset_bottom = 180.0
+offset_left = 62.0
+offset_top = 100.0
+offset_right = 82.0
+offset_bottom = 120.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "↓"
 
 [node name="ColDown2" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 130.0
-offset_top = 152.0
-offset_right = 164.0
-offset_bottom = 180.0
+offset_left = 84.0
+offset_top = 100.0
+offset_right = 104.0
+offset_bottom = 120.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "↓"
@@ -354,9 +374,9 @@ text = "↓"
 [node name="RowLeft0" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
 offset_left = 0.0
-offset_top = 38.0
-offset_right = 30.0
-offset_bottom = 70.0
+offset_top = 25.0
+offset_right = 20.0
+offset_bottom = 45.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "←"
@@ -364,9 +384,9 @@ text = "←"
 [node name="RowLeft1" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
 offset_left = 0.0
-offset_top = 72.0
-offset_right = 30.0
-offset_bottom = 104.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = 70.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "←"
@@ -374,99 +394,99 @@ text = "←"
 [node name="RowLeft2" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
 offset_left = 0.0
-offset_top = 106.0
-offset_right = 30.0
-offset_bottom = 138.0
+offset_top = 75.0
+offset_right = 20.0
+offset_bottom = 95.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "←"
 
 [node name="RowRight0" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 194.0
-offset_top = 38.0
-offset_right = 226.0
-offset_bottom = 70.0
+offset_left = 126.0
+offset_top = 25.0
+offset_right = 146.0
+offset_bottom = 45.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "→"
 
 [node name="RowRight1" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 194.0
-offset_top = 72.0
-offset_right = 226.0
-offset_bottom = 104.0
+offset_left = 126.0
+offset_top = 50.0
+offset_right = 146.0
+offset_bottom = 70.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "→"
 
 [node name="RowRight2" type="Button" parent="LowerDeck/RoulettePanel/ArrowControls"]
 layout_mode = 0
-offset_left = 194.0
-offset_top = 106.0
-offset_right = 226.0
-offset_bottom = 138.0
+offset_left = 126.0
+offset_top = 75.0
+offset_right = 146.0
+offset_bottom = 95.0
 icon = ExtResource("3_arrow")
 expand_icon = true
 text = "→"
 
 [node name="MoveLabel" type="Label" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 330.0
-offset_top = 12.0
+offset_left = 240.0
+offset_top = 0.0
 offset_right = 600.0
-offset_bottom = 34.0
+offset_bottom = 22.0
 
 [node name="ResultLabel" type="Label" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 330.0
-offset_top = 44.0
+offset_left = 240.0
+offset_top = 23.0
 offset_right = 610.0
-offset_bottom = 70.0
+offset_bottom = 45.0
 
 [node name="SelectionDetail" type="Label" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 330.0
-offset_top = 72.0
+offset_left = 240.0
+offset_top = 46.0
 offset_right = 610.0
-offset_bottom = 106.0
+offset_bottom = 68.0
 theme_override_colors/font_color = Color(0.82, 0.92, 1, 1)
 
 [node name="ResultList" type="GridContainer" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
-offset_left = 330.0
-offset_top = 110.0
+offset_left = 240.0
+offset_top = 70.0
 offset_right = 610.0
-offset_bottom = 166.0
+offset_bottom = 116.0
 theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 2
-columns = 3
+columns = 5
 
 [node name="LockResultButton" type="Button" parent="LowerDeck/RoulettePanel"]
 layout_mode = 0
 offset_left = 640.0
-offset_top = 26.0
+offset_top = 32.0
 offset_right = 884.0
-offset_bottom = 68.0
+offset_bottom = 72.0
 text = "결과 확인"
 
 [node name="ConfirmResultButton" type="Button" parent="LowerDeck/RoulettePanel"]
 visible = false
 layout_mode = 0
 offset_left = 640.0
-offset_top = 26.0
+offset_top = 32.0
 offset_right = 884.0
-offset_bottom = 68.0
+offset_bottom = 72.0
 text = "결과 확정 · 커밋으로"
 
 [node name="CommitPanel" type="Control" parent="LowerDeck"]
 visible = false
 layout_mode = 0
 offset_left = 14.0
-offset_top = 38.0
+offset_top = 32.0
 offset_right = 910.0
-offset_bottom = 194.0
+offset_bottom = 154.0
 
 [node name="CommitLabel" type="Label" parent="LowerDeck/CommitPanel"]
 layout_mode = 0
@@ -475,33 +495,33 @@ offset_bottom = 24.0
 
 [node name="Assignments" type="VBoxContainer" parent="LowerDeck/CommitPanel"]
 layout_mode = 0
-offset_top = 34.0
+offset_top = 28.0
 offset_right = 420.0
-offset_bottom = 140.0
+offset_bottom = 104.0
 
 [node name="ConfirmDeploymentButton" type="Button" parent="LowerDeck/CommitPanel"]
 layout_mode = 0
 offset_left = 640.0
-offset_top = 36.0
+offset_top = 30.0
 offset_right = 884.0
-offset_bottom = 78.0
+offset_bottom = 70.0
 text = "전선 배치 확정"
 
 [node name="BeginBattleButton" type="Button" parent="LowerDeck/CommitPanel"]
 layout_mode = 0
 offset_left = 640.0
-offset_top = 36.0
+offset_top = 30.0
 offset_right = 884.0
-offset_bottom = 78.0
+offset_bottom = 70.0
 text = "전투 시작"
 
 [node name="BattlePanel" type="Control" parent="LowerDeck"]
 visible = false
 layout_mode = 0
 offset_left = 14.0
-offset_top = 42.0
+offset_top = 32.0
 offset_right = 900.0
-offset_bottom = 190.0
+offset_bottom = 154.0
 
 [node name="Label" type="Label" parent="LowerDeck/BattlePanel"]
 layout_mode = 0
@@ -513,9 +533,9 @@ text = "전투 진행 중 · 징조륜과 건설 조작은 이 단계에서 닫�
 visible = false
 layout_mode = 0
 offset_left = 14.0
-offset_top = 42.0
+offset_top = 32.0
 offset_right = 900.0
-offset_bottom = 190.0
+offset_bottom = 154.0
 
 [node name="Label" type="Label" parent="LowerDeck/ReviewPanel"]
 layout_mode = 0
@@ -526,15 +546,31 @@ text = "전선 결과는 실제 전투 이벤트를 기반으로 다음 준비�
 [node name="RetryButton" type="Button" parent="LowerDeck/ReviewPanel"]
 layout_mode = 0
 offset_left = 640.0
-offset_top = 36.0
+offset_top = 30.0
 offset_right = 884.0
-offset_bottom = 78.0
+offset_bottom = 70.0
 text = "Stage 다시 시작"
+
+[node name="NextFrontMapButton" type="Button" parent="LowerDeck/ReviewPanel"]
+visible = false
+layout_mode = 0
+offset_left = 440.0
+offset_top = 30.0
+offset_right = 630.0
+offset_bottom = 70.0
+text = "다음 전선 진입"
 
 [connection signal="pressed" from="LowerDeck/PreparePanel/BarracksButton" to="." method="_on_barracks_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/TowerButton" to="." method="_on_tower_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/FarmButton" to="." method="_on_farm_pressed"]
+[connection signal="item_selected" from="LowerDeck/PreparePanel/BuildingRoster" to="." method="_on_roster_selected"]
+[connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveUpButton" to="." method="_on_roster_move_up_pressed"]
+[connection signal="pressed" from="LowerDeck/PreparePanel/RosterMoveDownButton" to="." method="_on_roster_move_down_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/SpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="LowerDeck/RouletteReadyPanel/StartSpinButton" to="." method="_on_spin_pressed"]
+[connection signal="pressed" from="TopBar/TopTabRail/DomesticTab" to="." method="_on_domestic_tab_pressed"]
+[connection signal="pressed" from="TopBar/TopTabRail/RouletteTab" to="." method="_on_roulette_tab_pressed"]
+[connection signal="pressed" from="TopBar/TopTabRail/FrontTab" to="." method="_on_front_tab_pressed"]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp0" to="." method="_move_column" binds= [0, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp1" to="." method="_move_column" binds= [1, -1]]
 [connection signal="pressed" from="LowerDeck/RoulettePanel/ArrowControls/ColUp2" to="." method="_move_column" binds= [2, -1]]
@@ -552,3 +588,4 @@ text = "Stage 다시 시작"
 [connection signal="pressed" from="LowerDeck/CommitPanel/ConfirmDeploymentButton" to="." method="_on_commit_pressed"]
 [connection signal="pressed" from="LowerDeck/CommitPanel/BeginBattleButton" to="." method="_on_begin_battle_pressed"]
 [connection signal="pressed" from="LowerDeck/ReviewPanel/RetryButton" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="LowerDeck/ReviewPanel/NextFrontMapButton" to="." method="_on_next_front_map_pressed"]

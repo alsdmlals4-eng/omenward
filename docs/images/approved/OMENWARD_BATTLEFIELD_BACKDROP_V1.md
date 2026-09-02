@@ -2,7 +2,7 @@
 
 ```yaml
 asset_id: OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
-status: LEGACY_RUNTIME_ASSET__CURRENT_BUILD_CONSUMER_ACTIVE
+status: LEGACY_RUNTIME_ASSET__RETAINED__NOT_CURRENT_BATTLEFOCUS_CONSUMER
 created_at: 2026-08-28
 decision: OMW-VISUAL-20260828-BATTLEFIELD-MAP-ROULETTE-PICKER-01__PARTIALLY_SUPERSEDED
 local_path: assets/art/battlefield/ward_veil_three_lane_backdrop_v1.png
@@ -19,7 +19,7 @@ human_evidence: NOT_RUN
 
 ## Current boundary
 
-`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 주 전장 표현을 **단일 Ward 본진에서 세 branch가 갈라지는** 동시 전략 지도 UI로 변경했다. 이 파일은 현 빌드의 실제 consumer를 설명하는 **legacy runtime asset record**다. 삭제·교체·새 방향의 runtime PASS를 의미하지 않는다.
+`OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01`이 주 전장 표현을 **단일 Ward 본진에서 세 branch가 갈라지는** 동시 전략 지도 UI로 변경했다. 이 파일은 이전 빌드의 actual consumer를 설명하는 **legacy runtime asset record**다. 2026-08-31부터 `BattleFocusView`의 current consumer는 `OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`가 소유하는 modular close battlefield bundle이며, 이 파일은 삭제하지 않고 historical provenance로만 보존한다.
 
 ## Intent
 

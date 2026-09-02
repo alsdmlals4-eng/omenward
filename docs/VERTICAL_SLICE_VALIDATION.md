@@ -13,8 +13,8 @@
 Godot 4.7.1 Standard editor binary로 저장소 루트에서 실행한다.
 
 ```powershell
-Get-ChildItem tests/headless/*_test.gd | ForEach-Object { & Godot_v4.7.1-stable_win64_console.exe --headless --path . -s ("res://tests/headless/" + $_.Name) }
 Godot_v4.7.1-stable_win64_console.exe --headless --path . --editor --quit
+Get-ChildItem tests/headless/*_test.gd | ForEach-Object { & Godot_v4.7.1-stable_win64_console.exe --headless --path . -s ("res://tests/headless/" + $_.Name) }
 Godot_v4.7.1-stable_win64_console.exe --headless --path . --quit-after 1
 python tools/validate_project_core_docs.py
 python tools/validate_c1_roulette.py

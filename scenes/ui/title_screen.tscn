@@ -1,0 +1,152 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/title_screen.gd" id="1_title"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/title/omenward_title_wall_battle_surge_v1.png" id="2_background"]
+[ext_resource type="Texture2D" path="res://assets/art/ui/title/omenward_title_omenward_wordmark_v1.png" id="3_wordmark"]
+
+[sub_resource type="StyleBoxFlat" id="TitlePanel"]
+bg_color = Color(0.025, 0.045, 0.075, 0.72)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7, 0.57, 0.28, 0.76)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StartButton"]
+bg_color = Color(0.13, 0.29, 0.45, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.85, 0.68, 0.32, 0.95)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[sub_resource type="StyleBoxFlat" id="StartButtonDisabled"]
+bg_color = Color(0.1, 0.13, 0.17, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.4, 0.47, 0.7)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+
+[node name="TitleScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_title")
+
+[node name="Backdrop" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_background")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="TitleWordmark" type="TextureRect" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 30.0
+offset_right = 220.0
+offset_bottom = 208.0
+grow_horizontal = 2
+texture = ExtResource("3_wordmark")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="RoleLine" type="Label" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 210.0
+offset_right = 250.0
+offset_bottom = 238.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.98, 0.95, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.035, 0.06, 0.1, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 17
+horizontal_alignment = 1
+text = "징조를 읽고, 전선을 지휘하라"
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 360.0
+offset_right = 180.0
+offset_bottom = 512.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("TitlePanel")
+
+[node name="Kicker" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 14.0
+offset_right = 342.0
+offset_bottom = 36.0
+theme_override_colors/font_color = Color(0.79, 0.85, 0.96, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+text = "WARD CITADEL · OMEN CYCLE"
+
+[node name="RouteLine" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 38.0
+offset_right = 344.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.7, 0.79, 0.91, 1)
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+text = "루메른 수호성채  →  단일 전선  →  베일"
+
+[node name="StartExpeditionButton" type="Button" parent="Panel"]
+custom_minimum_size = Vector2(260, 48)
+layout_mode = 0
+offset_left = 50.0
+offset_top = 66.0
+offset_right = 310.0
+offset_bottom = 114.0
+theme_override_colors/font_color = Color(1, 0.94, 0.76, 1)
+theme_override_font_sizes/font_size = 19
+theme_override_styles/normal = SubResource("StartButton")
+theme_override_styles/disabled = SubResource("StartButtonDisabled")
+text = "원정 시작"
+
+[node name="StatusLabel" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 122.0
+offset_right = 346.0
+offset_bottom = 144.0
+theme_override_colors/font_color = Color(0.74, 0.84, 0.95, 1)
+theme_override_font_sizes/font_size = 11
+horizontal_alignment = 1
+text = "징조를 정렬하는 중..."
+
+[connection signal="pressed" from="Panel/StartExpeditionButton" to="." method="_on_start_expedition_pressed"]

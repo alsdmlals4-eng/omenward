@@ -123,6 +123,12 @@ class FakeBootstrapper:
 		return {"application": app, "driver": driver, "binder": Node.new()}
 
 
+class BrokenBootstrapper:
+	extends RefCounted
+	func compose(_host: Node, _assigned_application: Variant = null) -> Dictionary:
+		return {}
+
+
 func _init() -> void:
 	call_deferred("run_checks")
 
@@ -144,6 +150,7 @@ func run_checks() -> void:
 	test_binder()
 	test_bootstrap()
 	await test_facade()
+	await test_facade_composition_failure()
 	if failures.is_empty():
 		print("GameSession decoupling checks passed")
 		quit(0)
@@ -216,6 +223,9 @@ func test_binder() -> void:
 	var hud := BindTarget.new()
 	hud.name = "StageHud"
 	ui.add_child(hud)
+	var command_screen := BindTarget.new()
+	command_screen.name = "RunCommandScreen"
+	ui.add_child(command_screen)
 	var app := FakeApplication.new()
 	var binder: Variant = SceneBinderScript.new()
 	host.add_child(binder)
@@ -223,8 +233,14 @@ func test_binder() -> void:
 	app.stage_started.emit(&"tutorial_stage", &"shared_run")
 	binder.configure(app, host)
 	app.stage_started.emit(&"tutorial_stage", &"second_run")
-	check(battlefield.calls == 2 and hud.calls == 2, "binder should connect once and bind both targets")
-	check(battlefield.run == &"second_run" and hud.run == &"second_run", "binder should pass the same run")
+	check(
+		battlefield.calls == 0 and hud.calls == 2 and command_screen.calls == 2,
+		"binder should leave the hidden legacy battlefield unbound and bind the active HUD and Run Command screen once"
+	)
+	check(
+		battlefield.run == null and hud.run == &"second_run" and command_screen.run == &"second_run",
+		"binder should pass the same run only to active presentation targets"
+	)
 	root.free()
 
 
@@ -250,12 +266,31 @@ func test_facade() -> void:
 	session.stage_started.connect(func(_id: StringName, _run: Variant) -> void: counts["started"] += 1)
 	root.add_child(session)
 	await process_frame
-	check(counts["ready"] == 1 and driver.requested == [&"tutorial_stage"], "facade should bootstrap and schedule tutorial once")
+	check(counts["ready"] == 1 and driver.requested.is_empty(), "facade should bootstrap without scheduling a stage before the title action")
+	check(session.has_method("is_bootstrap_ready") and session.is_bootstrap_ready(), "facade should report readiness after a successful bootstrap")
+	check(session.has_method("begin_tutorial") and session.begin_tutorial(), "facade should expose the title action for the tutorial stage")
+	check(app.starts == [&"tutorial_stage"], "title action should start exactly the tutorial stage")
 	check(session.clock == app.clock and session.progression == app.progression, "facade should expose compatibility state")
-	check(session.start_stage(&"regular_stage") and counts["started"] == 1, "facade should delegate and forward stage start")
+	check(session.start_stage(&"regular_stage") and counts["started"] == 2, "facade should delegate and forward stage start")
 	check(session.retry_stage() and app.retries == 1, "facade should delegate retry")
 	var loose_binder: Node = session.binder
 	root.free()
 	driver.free()
 	loose_binder.free()
+	await process_frame
+
+
+func test_facade_composition_failure() -> void:
+	var root := Node.new()
+	get_root().add_child(root)
+	var session: Variant = GameSessionScript.new(BrokenBootstrapper.new())
+	var failure_counts := {"count": 0}
+	session.bootstrap_failed.connect(func(_errors: PackedStringArray) -> void: failure_counts["count"] += 1)
+	root.add_child(session)
+	await process_frame
+	check(failure_counts["count"] == 1, "composition failure should emit one bootstrap-failed signal")
+	check(not session.is_bootstrap_ready(), "composition failure should never enable the title action")
+	check(session.bootstrap_failure_message() == "GameSession composition failed", "composition failure should preserve the title failure message")
+	check(not session.begin_tutorial(), "composition failure should fail closed when the title action is pressed")
+	root.free()
 	await process_frame

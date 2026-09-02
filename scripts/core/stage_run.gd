@@ -25,7 +25,24 @@ const RESULT_CONFIRM := &"result_confirm"
 const COMMIT := &"commit"
 const BATTLE := &"battle"
 const REVIEW := &"review"
-const COMMAND_LANE_IDS := [&"top", &"middle", &"bottom"]
+const COMMAND_LANE_IDS := [&"front"]
+const TAB_DOMESTIC := &"domestic"
+const TAB_ROULETTE := &"roulette"
+const TAB_FRONT := &"front"
+const TAB_IDS := [TAB_DOMESTIC, TAB_ROULETTE, TAB_FRONT]
+const FRONT_MAP_LOCKED := &"locked"
+const FRONT_MAP_CURRENT := &"current"
+const FRONT_MAP_CLEARED := &"cleared"
+const FRONT_MAP_AVAILABLE := &"available"
+const FRONT_MAP_RESULT_NONE := &""
+const FRONT_MAP_RESULT_CLEARED := &"cleared"
+const TUTORIAL_FRONT_MAP := {
+	"map_id": "ward_citadel",
+	"display_name": "수호 성채",
+	"terrain_id": "ward_citadel",
+	"wave_first": 1,
+	"wave_last": 4,
+}
 
 var progression: Variant
 var stage: Variant
@@ -44,9 +61,12 @@ var pending_roulette_rewards: Array[UnitSpawnDefinition] = []
 var last_roulette_result: RouletteSpinResult
 var legendary_boss_unit_id := -1
 var command_phase: StringName = PREPARE
+var active_tab: StringName = TAB_DOMESTIC
 var roulette_session := {}
 var roulette_moves_remaining := 0
 var pending_deployment_assignments := {}
+var front_map_index := 0
+var front_map_result: StringName = FRONT_MAP_RESULT_NONE
 
 var _registry: Variant
 
@@ -63,9 +83,12 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	pending_roulette_rewards.clear()
 	last_roulette_result = null
 	command_phase = PREPARE
+	active_tab = TAB_DOMESTIC
 	roulette_session = {}
 	roulette_moves_remaining = 0
 	pending_deployment_assignments = {}
+	front_map_index = 0
+	front_map_result = FRONT_MAP_RESULT_NONE
 	core_ux = null
 	if stage == null or not progression.can_start(stage):
 		return
@@ -79,11 +102,14 @@ func start(assigned_stage: Variant, seed: int) -> void:
 	clock.is_planning = false
 	economy = StageEconomyScript.new(manifest)
 	buildings = BuildingServiceScript.new(economy, manifest)
+	buildings.set_roster_mutation_allowed(not manifest.tutorial_stage)
+	if manifest.tutorial_stage:
+		buildings.install_prebuilt(&"barracks")
 	roulette = RouletteServiceScript.new(economy, buildings, manifest, &"lumern")
 	deployment = DeploymentServiceScript.new(economy, manifest)
-	wave_director = WaveDirectorScript.new(stage)
 	battle = BattleSimulatorScript.new(_registry, seed, manifest.base_max_health)
-	_register_battle_outposts()
+	wave_director = WaveDirectorScript.new(stage, _waves_for_current_front_map())
+	_sync_building_roster_capacity()
 	core_ux = CoreUxServiceScript.new(self, _registry)
 	result_state = RUNNING
 
@@ -116,6 +142,7 @@ func begin_roulette_session(seed_input: Dictionary) -> bool:
 	roulette_session = session
 	roulette_moves_remaining = 3
 	command_phase = STOPPED_3X3
+	active_tab = TAB_ROULETTE
 	return true
 
 
@@ -169,13 +196,14 @@ func confirm_roulette_result() -> bool:
 	roulette_moves_remaining = 0
 	pending_deployment_assignments = {}
 	command_phase = COMMIT
+	active_tab = TAB_FRONT
 	return true
 
 
-func assign_pending_reward(reward_index: int, lane_id: StringName) -> bool:
-	if command_phase != COMMIT or reward_index < 0 or reward_index >= pending_roulette_rewards.size() or not COMMAND_LANE_IDS.has(lane_id):
+func assign_pending_reward(reward_index: int, lane_id: StringName = &"front") -> bool:
+	if command_phase != COMMIT or reward_index < 0 or reward_index >= pending_roulette_rewards.size() or lane_id != &"front":
 		return false
-	pending_deployment_assignments[reward_index] = lane_id
+	pending_deployment_assignments[reward_index] = &"front"
 	return true
 
 
@@ -185,12 +213,13 @@ func confirm_pending_deployment() -> bool:
 	var cards: Array[UnitSpawnDefinition] = []
 	for reward_index in pending_roulette_rewards.size():
 		if not pending_deployment_assignments.has(reward_index):
-			return false
+			if not assign_pending_reward(reward_index):
+				return false
 		var card := pending_roulette_rewards[reward_index].duplicate() as UnitSpawnDefinition
 		if card == null:
 			return false
-		card.lane_id = StringName(pending_deployment_assignments[reward_index])
-		if battle == null or not COMMAND_LANE_IDS.has(card.lane_id) or not battle.can_spawn_unit(card):
+		card.lane_id = &"front"
+		if battle == null or not battle.accepts_front_id(card.lane_id) or not battle.can_spawn_unit(card):
 			return false
 		cards.append(card)
 	if deployment == null or not deployment.can_deploy_batch(cards):
@@ -207,15 +236,18 @@ func confirm_pending_deployment() -> bool:
 	pending_roulette_rewards.clear()
 	pending_deployment_assignments = {}
 	command_phase = BATTLE
+	active_tab = TAB_FRONT
 	return true
 
 
 func begin_battle() -> bool:
 	if command_phase == PREPARE and pending_roulette_rewards.is_empty() and roulette_session.is_empty():
 		command_phase = BATTLE
+		active_tab = TAB_FRONT
 		return true
 	if command_phase == COMMIT and pending_roulette_rewards.is_empty():
 		command_phase = BATTLE
+		active_tab = TAB_FRONT
 		return true
 	return false
 
@@ -228,19 +260,88 @@ func store_roulette_result(result: RouletteSpinResult) -> bool:
 	return true
 
 
-func construct_home(building_id: StringName) -> bool:
-	var node_by_building := {
-		&"tower": &"front_a",
-		&"farm": &"front_b",
-		&"barracks": &"rear",
-	}
-	if not node_by_building.has(building_id):
+func install_building(building_id: StringName) -> bool:
+	if command_phase != PREPARE:
 		return false
-	return construct_at_outpost(&"lumern_middle", node_by_building[building_id], building_id)
+	_sync_building_roster_capacity()
+	return buildings != null and buildings.try_install(building_id)
 
 
-func construct_at_outpost(outpost_id: StringName, node_id: StringName, building_id: StringName) -> bool:
-	return buildings != null and buildings.try_construct(outpost_id, node_id, building_id)
+func move_building_roster_entry(from_slot_index: int, to_slot_index: int) -> bool:
+	if command_phase != PREPARE:
+		return false
+	_sync_building_roster_capacity()
+	return buildings != null and buildings.move_roster_entry(from_slot_index, to_slot_index)
+
+
+func building_roster_snapshot() -> Array[Dictionary]:
+	_sync_building_roster_capacity()
+	return buildings.roster_snapshot() if buildings != null else []
+
+
+func front_slot_capacity() -> int:
+	_sync_building_roster_capacity()
+	return buildings.unlocked_slot_capacity() if buildings != null else 0
+
+
+func current_front_map() -> Dictionary:
+	if not _uses_sequential_front_maps():
+		var tutorial_map := TUTORIAL_FRONT_MAP.duplicate(true)
+		tutorial_map["wave_last"] = stage.waves.size() if stage != null else 0
+		return tutorial_map
+	var definition: Variant = stage.front_map_at(front_map_index)
+	return definition.to_dictionary() if definition != null else {}
+
+
+func front_map_snapshot() -> Array:
+	var result: Array = []
+	if not _uses_sequential_front_maps():
+		var tutorial_map := current_front_map()
+		tutorial_map["state"] = FRONT_MAP_CURRENT
+		tutorial_map["selectable"] = false
+		result.append(tutorial_map)
+		return result
+	for index in stage.front_maps.size():
+		var definition: Variant = stage.front_map_at(index)
+		if definition == null:
+			continue
+		var entry: Dictionary = definition.to_dictionary()
+		entry["state"] = _front_map_state_at(index)
+		entry["selectable"] = false
+		result.append(entry)
+	return result
+
+
+func can_enter_next_front_map() -> bool:
+	return _uses_sequential_front_maps() and front_map_result == FRONT_MAP_RESULT_CLEARED and front_map_index < stage.front_maps.size() - 1 and result_state == RUNNING and command_phase == REVIEW
+
+
+func enter_next_front_map() -> bool:
+	if not can_enter_next_front_map():
+		return false
+	front_map_index += 1
+	front_map_result = FRONT_MAP_RESULT_NONE
+	current_wave = 0
+	legendary_boss_unit_id = -1
+	if battle != null:
+		battle.reset_for_next_front_map()
+	wave_director = WaveDirectorScript.new(stage, _waves_for_current_front_map())
+	command_phase = PREPARE
+	active_tab = TAB_DOMESTIC
+	manifest.input_log.append({
+		"action": "enter_front_map",
+		"map_index": front_map_index,
+		"map_id": current_front_map().get("map_id", ""),
+	})
+	_sync_building_roster_capacity()
+	return true
+
+
+func set_active_tab(tab_id: StringName) -> bool:
+	if not TAB_IDS.has(tab_id):
+		return false
+	active_tab = tab_id
+	return true
 
 
 func deploy_next_roulette_reward(lane_id: StringName) -> bool:
@@ -266,7 +367,7 @@ func submit_command(command: Dictionary) -> bool:
 		return false
 	match command.get("action", ""):
 		"stage_victory":
-			_finish_victory(&"debug_command")
+			_finish_current_front_map_victory(&"debug_command")
 		"stage_defeat":
 			_finish_defeat(&"debug_command")
 		_:
@@ -300,7 +401,7 @@ func advance(delta: float) -> void:
 			if unit != null:
 				spawned_units.append({
 					"unit_id": int(unit.unit_id),
-					"lane_id": unit.lane_id,
+					"front_id": unit.lane_id,
 					"team_id": unit.owner_team_id,
 				})
 			if wave.wave_number == 15 and wave.boss_kind == &"legendary" and unit != null and spawn.rank_id == &"legendary":
@@ -311,7 +412,7 @@ func advance(delta: float) -> void:
 	var before_units: Array = (battle.snapshot().get("units", []) as Array).duplicate(true)
 	battle.advance(delta)
 	var after_units: Array = (battle.snapshot().get("units", []) as Array).duplicate(true)
-	buildings.sync_outpost_states()
+	_sync_building_roster_capacity()
 	var battle_events: Array[Dictionary] = battle.drain_events()
 	for event in battle_events:
 		manifest.input_log.append(event)
@@ -324,22 +425,49 @@ func advance(delta: float) -> void:
 		economy.advance(delta, battle.controlled_clash_count(&"lumern"), battle.stable_owned_outpost_count(&"lumern"))
 
 
-func _register_battle_outposts() -> void:
-	for team_id in battle.TEAM_IDS:
-		for lane_id in battle.LANE_IDS:
-			var outpost_id := StringName("%s_%s" % [team_id, lane_id])
-			buildings.register_outpost(outpost_id, battle.outposts[team_id][lane_id], [&"front_a", &"front_b", &"rear"])
+func _sync_building_roster_capacity() -> void:
+	if buildings == null or battle == null:
+		return
+	buildings.sync_occupation_capacity(
+		battle.stable_player_forward_base_count(),
+		1 if battle.clash_is_stable_for(&"lumern") else 0,
+	)
 
 
 func _resolve_natural_result() -> void:
 	if battle.result_state == battle.LUMERN_VICTORY:
-		_finish_victory(&"enemy_base_destroyed")
+		if not _uses_sequential_front_maps() or _current_front_map_wave_package_resolved():
+			_finish_current_front_map_victory(&"enemy_base_destroyed")
 		return
 	if battle.result_state == battle.VEIL_VICTORY or battle.result_state == battle.MUTUAL_DESTRUCTION:
 		_finish_defeat(&"player_base_destroyed")
 		return
-	if current_wave >= 15 and legendary_boss_unit_id > 0 and not battle.is_unit_alive(legendary_boss_unit_id):
+	if _uses_sequential_front_maps() and _current_front_map_wave_package_resolved():
+		_finish_current_front_map_victory(&"wave_package_cleared")
+		return
+	if not _uses_sequential_front_maps() and current_wave >= 15 and legendary_boss_unit_id > 0 and not battle.is_unit_alive(legendary_boss_unit_id):
 		_finish_victory(&"wave_15_legendary_boss_defeated")
+
+
+func _finish_current_front_map_victory(reason: StringName) -> void:
+	if result_state != RUNNING:
+		return
+	if not _uses_sequential_front_maps():
+		_finish_victory(reason)
+		return
+	front_map_result = FRONT_MAP_RESULT_CLEARED
+	if front_map_index >= stage.front_maps.size() - 1:
+		_finish_victory(reason)
+		return
+	command_phase = REVIEW
+	active_tab = TAB_FRONT
+	manifest.input_log.append({
+		"action": "front_map_result",
+		"map_index": front_map_index,
+		"map_id": current_front_map().get("map_id", ""),
+		"result": "victory",
+		"reason": str(reason),
+	})
 
 
 func _finish_victory(reason: StringName) -> void:
@@ -347,6 +475,7 @@ func _finish_victory(reason: StringName) -> void:
 		return
 	result_state = VICTORY
 	command_phase = REVIEW
+	active_tab = TAB_FRONT
 	progression.record_victory(stage)
 	manifest.input_log.append({"action": "stage_result", "result": "victory", "reason": str(reason)})
 
@@ -356,7 +485,43 @@ func _finish_defeat(reason: StringName) -> void:
 		return
 	result_state = DEFEAT
 	command_phase = REVIEW
+	active_tab = TAB_FRONT
 	manifest.input_log.append({"action": "stage_result", "result": "defeat", "reason": str(reason)})
+
+
+func _uses_sequential_front_maps() -> bool:
+	return stage != null and not bool(stage.tutorial_stage) and stage.front_maps.size() == 5
+
+
+func _waves_for_current_front_map() -> Array:
+	if stage == null:
+		return []
+	if not _uses_sequential_front_maps():
+		return stage.waves.duplicate()
+	var current := current_front_map()
+	var waves: Array = []
+	for wave in stage.waves:
+		if int(wave.wave_number) >= int(current.get("wave_first", 0)) and int(wave.wave_number) <= int(current.get("wave_last", -1)):
+			waves.append(wave)
+	return waves
+
+
+func _front_map_state_at(index: int) -> StringName:
+	if index < front_map_index:
+		return FRONT_MAP_CLEARED
+	if index == front_map_index:
+		return FRONT_MAP_CLEARED if front_map_result == FRONT_MAP_RESULT_CLEARED else FRONT_MAP_CURRENT
+	if index == front_map_index + 1 and front_map_result == FRONT_MAP_RESULT_CLEARED:
+		return FRONT_MAP_AVAILABLE
+	return FRONT_MAP_LOCKED
+
+
+func _all_veil_units_defeated() -> bool:
+	return battle != null and not battle.has_living_units_for(&"veil")
+
+
+func _current_front_map_wave_package_resolved() -> bool:
+	return wave_director != null and wave_director.is_exhausted() and _all_veil_units_defeated()
 
 
 func _move_roulette_indexes(indexes: Array, direction: int) -> bool:

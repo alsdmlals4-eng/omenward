@@ -2,19 +2,16 @@ class_name BuildingState
 extends RefCounted
 
 const ACTIVE := &"active"
-const DISABLED := &"disabled"
-const RUINED := &"ruined"
+const INACTIVE_LOCKED := &"inactive_locked"
 
-var outpost_id: StringName
-var node_id: StringName
+var slot_index := -1
 var definition: BuildingDefinition
-var capture_revision: int
+var tier_id: StringName = &"tier_1"
 var state: StringName = ACTIVE
 var effect_active := false
 
 
-func _init(assigned_outpost_id: StringName, assigned_node_id: StringName, assigned_definition: BuildingDefinition, assigned_capture_revision: int) -> void:
-	outpost_id = assigned_outpost_id
-	node_id = assigned_node_id
+func _init(assigned_slot_index: int, assigned_definition: BuildingDefinition, assigned_tier_id: StringName = &"tier_1") -> void:
+	slot_index = assigned_slot_index
 	definition = assigned_definition
-	capture_revision = assigned_capture_revision
+	tier_id = assigned_tier_id

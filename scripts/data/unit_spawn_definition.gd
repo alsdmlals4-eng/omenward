@@ -18,7 +18,7 @@ func to_dictionary() -> Dictionary:
 		"rank_id": str(rank_id),
 		"owner_team_id": str(owner_team_id),
 		"visual_faction_id": str(visual_faction_id),
-		"lane_id": str(lane_id),
+		"front_id": str(lane_id),
 		"spawn_delay_seconds": spawn_delay_seconds,
 		"food_cost": food_cost,
 	}

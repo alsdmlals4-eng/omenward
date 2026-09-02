@@ -1,7 +1,7 @@
 class_name DeploymentService
 extends RefCounted
 
-const LANE_IDS := [&"top", &"middle", &"bottom"]
+const LANE_IDS := [&"front"]
 
 var economy: Variant
 var manifest: Variant
@@ -21,7 +21,7 @@ func deploy(card: UnitSpawnDefinition, lane_id: StringName, position: float) -> 
 	deployed_cards.append(deployed)
 	manifest.input_log.append({
 		"action": "deploy",
-		"lane_id": str(lane_id),
+		"front_id": str(lane_id),
 		"position": position,
 		"card": deployed.to_dictionary(),
 	})
@@ -52,7 +52,7 @@ func deploy_batch(cards: Array[UnitSpawnDefinition], position: float) -> bool:
 		deployed_cards.append(deployed)
 		manifest.input_log.append({
 			"action": "deploy",
-			"lane_id": str(deployed.lane_id),
+			"front_id": str(deployed.lane_id),
 			"position": position,
 			"card": deployed.to_dictionary(),
 		})

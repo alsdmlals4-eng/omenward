@@ -26,13 +26,14 @@ func _init() -> void:
 		if waves.size() >= 20:
 			_expect(waves[14].boss_kind == &"legendary", "W15 is legendary", failures)
 			_expect(waves[19].boss_kind == &"mythic", "W20 is mythic", failures)
+		_assert_regular_front_map_contract(regular as StageDefinition, failures)
 		_assert_regular_manifest_contract(regular as StageDefinition, failures)
 
 	_expect_spawn_is_rejected(
 		&"enemy_only",
 		&"veil",
 		&"veil",
-		&"top",
+		&"front",
 		"unknown spawn archetype IDs are rejected",
 		"unknown spawn archetype_id: enemy_only",
 		failures,
@@ -41,7 +42,7 @@ func _init() -> void:
 		&"shield_guard",
 		&"other",
 		&"veil",
-		&"top",
+		&"front",
 		"non-lumern/veil visual factions are rejected",
 		"invalid spawn visual_faction_id: other",
 		failures,
@@ -50,7 +51,7 @@ func _init() -> void:
 		&"shield_guard",
 		&"veil",
 		&"other",
-		&"top",
+		&"front",
 		"non-lumern/veil owner teams are rejected",
 		"invalid spawn owner_team_id: other",
 		failures,
@@ -60,8 +61,8 @@ func _init() -> void:
 		&"veil",
 		&"veil",
 		&"side",
-		"lane IDs outside top/middle/bottom are rejected",
-		"invalid spawn lane_id: side",
+		"front IDs outside the one front are rejected",
+		"invalid spawn front id: side",
 		failures,
 	)
 
@@ -89,6 +90,11 @@ func _assert_regular_manifest_contract(regular: StageDefinition, failures: Packe
 	_expect(manifest.get("starting_food_cap") == 12, "manifest includes starting food cap", failures)
 	_expect(manifest.get("tutorial_stage") == false, "manifest identifies the regular stage", failures)
 	_expect(manifest.get("wave_count") == 20, "manifest includes the regular wave count", failures)
+	var manifest_front_maps: Array = manifest.get("front_maps", []) as Array
+	_expect(manifest_front_maps.size() == 5, "manifest includes five sequential front maps", failures)
+	if manifest_front_maps.size() == 5:
+		_expect((manifest_front_maps[0] as Dictionary).get("map_id") == "ward_citadel", "manifest starts at Ward Citadel", failures)
+		_expect((manifest_front_maps[4] as Dictionary).get("map_id") == "veil_citadel", "manifest ends at Veil Citadel", failures)
 
 	var manifest_waves: Array = manifest.get("waves", []) as Array
 	_expect(manifest_waves.size() == 20, "manifest includes resolved waves", failures)
@@ -104,13 +110,24 @@ func _assert_regular_manifest_contract(regular: StageDefinition, failures: Packe
 	if spawns.is_empty():
 		return
 	var first_spawn: Dictionary = spawns[0] as Dictionary
-	for field in ["archetype_id", "tier_id", "rank_id", "owner_team_id", "visual_faction_id", "lane_id", "spawn_delay_seconds"]:
+	for field in ["archetype_id", "tier_id", "rank_id", "owner_team_id", "visual_faction_id", "front_id", "spawn_delay_seconds"]:
 		_expect(first_spawn.has(field), "manifest spawn includes %s" % field, failures)
 
 	var input_log: Variant = manifest.get("input_log")
 	_expect(input_log is Array, "manifest includes an input log array", failures)
 	if input_log is Array:
 		_expect((input_log as Array).is_empty(), "new manifests begin with an empty input log", failures)
+
+
+func _assert_regular_front_map_contract(regular: StageDefinition, failures: PackedStringArray) -> void:
+	var map_ids := [&"ward_citadel", &"ward_forward", &"clash", &"veil_forward", &"veil_citadel"]
+	_expect(regular.front_maps.size() == 5, "regular stage declares five front maps", failures)
+	if regular.front_maps.size() != 5:
+		return
+	for index in regular.front_maps.size():
+		var front_map: Variant = regular.front_maps[index]
+		_expect(front_map.map_id == map_ids[index], "front map order is a one-way Ward-to-Veil route", failures)
+		_expect(front_map.wave_first == index * 4 + 1 and front_map.wave_last == index * 4 + 4, "each regular map owns exactly four contiguous waves", failures)
 
 
 func _expect_spawn_is_rejected(

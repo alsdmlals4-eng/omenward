@@ -14,7 +14,9 @@ func _init() -> void:
 	_expect(main_packed != null, "main scene loads", failures)
 	if main_packed != null:
 		var main := main_packed.instantiate()
-		_expect(main.get_node_or_null("Battlefield") != null, "main includes battlefield", failures)
+		var legacy_battlefield := main.get_node_or_null("Battlefield") as CanvasItem
+		_expect(legacy_battlefield != null, "main retains the legacy battlefield scene for compatibility", failures)
+		_expect(legacy_battlefield != null and not legacy_battlefield.visible, "main keeps the legacy battlefield hidden behind the close battle renderer", failures)
 		_expect(main.get_node_or_null("UI/StageHud") != null, "main includes stage HUD", failures)
 		_expect(main.get_node_or_null("UI/RunCommandScreen") != null, "main includes the player-facing Run Command screen", failures)
 		_expect(main.get_node_or_null("UI/StageSelect") != null, "main includes stage select", failures)
@@ -25,6 +27,8 @@ func _init() -> void:
 	_assert_scene_contract(BATTLEFIELD_SCENE_PATH, "bind_run", "battlefield scene binds a stage run", failures)
 	_assert_scene_contract(STAGE_HUD_SCENE_PATH, "bind_run", "stage HUD binds a stage run", failures)
 	_assert_scene_contract(RUN_COMMAND_SCREEN_PATH, "bind_run", "Run Command screen binds a stage run", failures)
+	_assert_global_roster_ui_contract(failures)
+	_assert_battle_primary_ui_contract(failures)
 	_assert_scene_contract(STAGE_SELECT_SCENE_PATH, "stage_requested", "stage select emits stage requests", failures)
 	_assert_scene_contract(UNIT_SCENE_PATH, "bind_unit", "shared unit scene binds a unit instance", failures)
 	_expect(not FileAccess.file_exists("res://scenes/units/enemy_unit.tscn"), "no enemy unit scene is created", failures)
@@ -40,6 +44,38 @@ func _assert_scene_contract(scene_path: String, requirement: String, message: St
 	var fulfilled := instance.has_method(requirement) if requirement.begins_with("bind_") else instance.has_signal(requirement)
 	_expect(fulfilled, message, failures)
 	instance.queue_free()
+
+
+func _assert_global_roster_ui_contract(failures: PackedStringArray) -> void:
+	var packed := load(RUN_COMMAND_SCREEN_PATH) as PackedScene
+	if packed == null:
+		return
+	var screen := packed.instantiate()
+	var roster := screen.get_node_or_null("LowerDeck/PreparePanel/BuildingRoster")
+	_expect(roster is ItemList, "PREPARE exposes the global building roster as a selectable list", failures)
+	_expect(screen.get_node_or_null("LowerDeck/PreparePanel/RosterMoveUpButton") is Button, "PREPARE exposes a roster priority-up action", failures)
+	_expect(screen.get_node_or_null("LowerDeck/PreparePanel/RosterMoveDownButton") is Button, "PREPARE exposes a roster priority-down action", failures)
+	screen.queue_free()
+
+
+func _assert_battle_primary_ui_contract(failures: PackedStringArray) -> void:
+	var packed := load(RUN_COMMAND_SCREEN_PATH) as PackedScene
+	if packed == null:
+		return
+	var screen := packed.instantiate()
+	var battle_focus := screen.get_node_or_null("BattleFocusViewport") as Control
+	var march_minimap := screen.get_node_or_null("MarchMinimap") as Control
+	_expect(battle_focus != null, "Run Command exposes the primary battle focus", failures)
+	_expect(march_minimap != null, "Run Command exposes the secondary march minimap", failures)
+	_expect(screen.get_node_or_null("StrategicMap") == null, "Run Command does not retain the wide strategic map", failures)
+	_expect(screen.get_node_or_null("Fronts") == null, "Run Command no longer exposes three progress-card minimaps", failures)
+	if battle_focus != null:
+		_expect(battle_focus.has_method("bind_run"), "battle focus consumes a stage run read-only", failures)
+	if march_minimap != null:
+		_expect(march_minimap.has_method("bind_run"), "march minimap consumes a stage run read-only", failures)
+		_expect(march_minimap.has_method("fixed_tower_count"), "march minimap exposes fixed tower presentation count", failures)
+		_expect(march_minimap.has_method("is_read_only"), "march minimap remains context rather than a second battlefield", failures)
+	screen.queue_free()
 
 
 func _expect(condition: bool, message: String, failures: PackedStringArray) -> void:

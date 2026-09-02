@@ -17,4 +17,4 @@ func advance(delta: float) -> void:
 
 
 func snapshot() -> Dictionary:
-	return {"lane_id": str(lane_id), "outpost": outpost.snapshot()}
+	return {"front_id": str(lane_id), "outpost": outpost.snapshot()}

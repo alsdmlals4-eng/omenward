@@ -12,16 +12,16 @@ class BaseV9AdoptionTests(unittest.TestCase):
         data = json.loads((ROOT / "skills/PROJECT_BASE_ADAPTER.json").read_text(encoding="utf-8"))
         health = json.loads((ROOT / "docs/PROJECT_OPERATING_HEALTH.json").read_text(encoding="utf-8"))
         release = data["base_release"]
-        self.assertEqual("9.4.3", release["version"])
-        self.assertEqual("7dd1a4f80388bc5faca767ff74a3eb32dc9d0ac8", release["release_commit"])
-        self.assertEqual("da33a350d61b8adc52df97fccc7001708a933370", release["release_evidence_commit"])
-        self.assertEqual("0b7c94f38d959efc0fc9442274c60b2e268a3c97", release["finalization_commit"])
+        self.assertEqual("9.4.4", release["version"])
+        self.assertEqual("210ec78292fa12ed7563ba743b322dd36103ae4a", release["release_commit"])
+        self.assertEqual("bb61e68dc3028421b60c11b87ba2abd297ee6f78", release["release_evidence_commit"])
+        self.assertEqual("5adc196c0185951f50e49ab5e51586eff8d60886", release["finalization_commit"])
         intake = data["shared_overrides"]["managing-project-intake-and-work-contract"]
         self.assertEqual(10, intake["planning_first_governance"]["max_approved_decisions_per_batch"])
         self.assertEqual("GRILL_ME_REQUIRED", intake["planning_first_governance"]["planning_conflict_state"])
         self.assertEqual("AWAITING_USER_CONFIRMATION", intake["first_prompt_governance"]["unconfirmed_state"])
-        self.assertEqual("CURRENT", data["gdd_sheet"]["sync_status"])
-        self.assertEqual("SHEET_GITHUB_SYNCED", data["gdd_sheet"]["declared_sync_status"])
+        self.assertEqual("STALE", data["gdd_sheet"]["sync_status"])
+        self.assertEqual("HISTORICAL_RECONCILIATION_ONLY", data["gdd_sheet"]["declared_sync_status"])
         self.assertEqual("OM-L0", health["operating_maturity"])
         self.assertEqual("PE-0", health["product_evidence_maturity"])
         self.assertEqual("NOT_RUN", health["critical_gates"]["runtime"])
@@ -39,6 +39,12 @@ class BaseV9AdoptionTests(unittest.TestCase):
             self.assertIn(token, audit)
         self.assertIn("ci-gate", workflow)
         self.assertIn("adversarial-gate", workflow)
+        self.assertIn(
+            "docs/approvals/PROJECT_PROTECTED_CHANGE_APPROVAL_GLOBAL_ROSTER_AND_STRATEGIC_MAP_2026-08-30.json",
+            workflow,
+        )
+        self.assertIn('"protected_base_commit"', workflow)
+        self.assertNotIn('git show "$PR_BASE_SHA:$ADAPTER_PATH"', workflow)
 
     def test_candidate_draft_reuse_is_isolated_outside_product_paths(self) -> None:
         manifest = json.loads((ROOT / "docs/base-reuse-adoption.json").read_text(encoding="utf-8"))

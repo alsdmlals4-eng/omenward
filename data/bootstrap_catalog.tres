@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=62 format=3]
+[gd_resource type="Resource" load_steps=70 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/bootstrap_catalog.gd" id="1_catalog"]
 [ext_resource type="Script" path="res://scripts/data/tier_profile.gd" id="2_tier"]
@@ -21,26 +21,26 @@
 [ext_resource type="Resource" path="res://data/units/giant.tres" id="19_giant"]
 [ext_resource type="Resource" path="res://data/stages/tutorial_stage.tres" id="20_tutorial_stage"]
 [ext_resource type="Resource" path="res://data/stages/regular_stage.tres" id="21_regular_stage"]
-[ext_resource type="Texture2D" path="res://assets/art/units/lumern_shield_guard_idle.png" id="22_lumern_shield_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_shield_guard_idle.png" id="23_veil_shield_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png" id="22_lumern_shield_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_shield_guard_storybook_idle_v1.png" id="23_veil_shield_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_greatsword_warrior_idle.png" id="24_lumern_greatsword_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_greatsword_warrior_idle.png" id="25_veil_greatsword_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_assassin_idle.png" id="26_lumern_assassin_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_assassin_idle.png" id="27_veil_assassin_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/lumern_spear_guard_idle.png" id="28_lumern_spear_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_spear_guard_idle.png" id="29_veil_spear_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/lumern_archer_idle.png" id="30_lumern_archer_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_archer_idle.png" id="31_veil_archer_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/lumern_cavalry_idle.png" id="32_lumern_cavalry_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_cavalry_idle.png" id="33_veil_cavalry_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_priest_idle.png" id="34_lumern_priest_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_priest_idle.png" id="35_veil_priest_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/lumern_mage_idle.png" id="36_lumern_mage_idle"]
-[ext_resource type="Texture2D" path="res://assets/art/units/veil_mage_idle.png" id="37_veil_mage_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_flier_idle.png" id="38_lumern_flier_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_flier_idle.png" id="39_veil_flier_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/lumern_giant_idle.png" id="40_lumern_giant_idle"]
 [ext_resource type="Texture2D" path="res://assets/art/units/veil_giant_idle.png" id="41_veil_giant_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_spear_guard_storybook_idle_v3.png" id="42_lumern_spear_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_spear_guard_storybook_idle_v3.png" id="43_veil_spear_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_archer_storybook_idle_v1.png" id="44_lumern_archer_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_archer_storybook_idle_v2.png" id="45_veil_archer_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_cavalry_storybook_idle_v2.png" id="46_lumern_cavalry_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_cavalry_storybook_idle_v3.png" id="47_veil_cavalry_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/lumern_mage_storybook_idle_v1.png" id="48_lumern_mage_storybook_idle"]
+[ext_resource type="Texture2D" path="res://assets/art/units/veil_mage_storybook_idle_v2.png" id="49_veil_mage_storybook_idle"]
 
 [sub_resource type="Resource" id="Tier1"]
 script = ExtResource("2_tier")
@@ -157,7 +157,7 @@ visual_faction_id = &"lumern"
 display_name = "Shield Guard"
 palette_color = Color(0.38, 0.66, 0.96, 1)
 idle_texture = ExtResource("22_lumern_shield_idle")
-idle_pivot = Vector2(640, 1280)
+idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualShieldVeil"]
 script = ExtResource("6_visual")
 archetype_id = &"shield_guard"
@@ -165,7 +165,8 @@ visual_faction_id = &"veil"
 display_name = "Veil Shield Guard"
 palette_color = Color(0.76, 0.3, 0.54, 1)
 idle_texture = ExtResource("23_veil_shield_idle")
-idle_pivot = Vector2(640, 1280)
+idle_pivot = Vector2(256, 448)
+idle_mirror_for_veil = false
 [sub_resource type="Resource" id="VisualGreatswordLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"greatsword_warrior"
@@ -204,7 +205,7 @@ archetype_id = &"spear_guard"
 visual_faction_id = &"lumern"
 display_name = "Spear Guard"
 palette_color = Color(0.38, 0.66, 0.96, 1)
-idle_texture = ExtResource("28_lumern_spear_idle")
+idle_texture = ExtResource("42_lumern_spear_storybook_idle")
 idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualSpearVeil"]
 script = ExtResource("6_visual")
@@ -212,15 +213,16 @@ archetype_id = &"spear_guard"
 visual_faction_id = &"veil"
 display_name = "Veil Spear Guard"
 palette_color = Color(0.76, 0.3, 0.54, 1)
-idle_texture = ExtResource("29_veil_spear_idle")
+idle_texture = ExtResource("43_veil_spear_storybook_idle")
 idle_pivot = Vector2(256, 448)
+idle_mirror_for_veil = true
 [sub_resource type="Resource" id="VisualArcherLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"archer"
 visual_faction_id = &"lumern"
 display_name = "Archer"
 palette_color = Color(0.38, 0.66, 0.96, 1)
-idle_texture = ExtResource("30_lumern_archer_idle")
+idle_texture = ExtResource("44_lumern_archer_storybook_idle")
 idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualArcherVeil"]
 script = ExtResource("6_visual")
@@ -228,15 +230,16 @@ archetype_id = &"archer"
 visual_faction_id = &"veil"
 display_name = "Veil Archer"
 palette_color = Color(0.76, 0.3, 0.54, 1)
-idle_texture = ExtResource("31_veil_archer_idle")
+idle_texture = ExtResource("45_veil_archer_storybook_idle")
 idle_pivot = Vector2(256, 448)
+idle_mirror_for_veil = true
 [sub_resource type="Resource" id="VisualCavalryLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"cavalry"
 visual_faction_id = &"lumern"
 display_name = "Cavalry"
 palette_color = Color(0.38, 0.66, 0.96, 1)
-idle_texture = ExtResource("32_lumern_cavalry_idle")
+idle_texture = ExtResource("46_lumern_cavalry_storybook_idle")
 idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualCavalryVeil"]
 script = ExtResource("6_visual")
@@ -244,8 +247,9 @@ archetype_id = &"cavalry"
 visual_faction_id = &"veil"
 display_name = "Veil Cavalry"
 palette_color = Color(0.76, 0.3, 0.54, 1)
-idle_texture = ExtResource("33_veil_cavalry_idle")
+idle_texture = ExtResource("47_veil_cavalry_storybook_idle")
 idle_pivot = Vector2(256, 448)
+idle_mirror_for_veil = true
 [sub_resource type="Resource" id="VisualPriestLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"priest"
@@ -268,7 +272,7 @@ archetype_id = &"mage"
 visual_faction_id = &"lumern"
 display_name = "Mage"
 palette_color = Color(0.38, 0.66, 0.96, 1)
-idle_texture = ExtResource("36_lumern_mage_idle")
+idle_texture = ExtResource("48_lumern_mage_storybook_idle")
 idle_pivot = Vector2(256, 448)
 [sub_resource type="Resource" id="VisualMageVeil"]
 script = ExtResource("6_visual")
@@ -276,8 +280,9 @@ archetype_id = &"mage"
 visual_faction_id = &"veil"
 display_name = "Veil Mage"
 palette_color = Color(0.76, 0.3, 0.54, 1)
-idle_texture = ExtResource("37_veil_mage_idle")
+idle_texture = ExtResource("49_veil_mage_storybook_idle")
 idle_pivot = Vector2(256, 448)
+idle_mirror_for_veil = true
 [sub_resource type="Resource" id="VisualFlierLumern"]
 script = ExtResource("6_visual")
 archetype_id = &"flier"

@@ -80,9 +80,9 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertTrue(any("probability_for_symbol_from_sources" in error for error in errors))
 
     def test_read_only_headless_regression_removal_is_rejected(self) -> None:
-        phrase = "C3 snapshot does not synchronize or ruin a stale building"
+        phrase = "C3 snapshot does not change global roster activation"
         errors = self._errors_after("tests/headless/c3_core_ux_test.gd", phrase, "removed read-only check")
-        self.assertTrue(any("stale building" in error for error in errors))
+        self.assertTrue(any("global roster activation" in error for error in errors))
 
     def test_boundary_regression_removal_is_rejected(self) -> None:
         phrase = "construction comparison exposes insufficient gold without mutating state"
@@ -152,7 +152,7 @@ class C3CoreUxContractTests(unittest.TestCase):
         self.assertTrue(any("CURRENT_IMPLEMENTATION_STATUS.md" in error for error in errors))
 
     def test_current_status_runtime_ceiling_loss_is_rejected(self) -> None:
-        errors = self._errors_after("docs/CURRENT_IMPLEMENTATION_STATUS.md", "CURRENT_GODOT_RUNTIME = PARTIAL__RUN_COMMAND_UI_TECHNICAL_SMOKE_AND_THREE_RESOLUTION_CAPTURED", "CURRENT_GODOT_RUNTIME = PASS")
+        errors = self._errors_after("docs/CURRENT_IMPLEMENTATION_STATUS.md", "CURRENT_GODOT_RUNTIME = PARTIAL__BATTLE_PRIMARY_MACHINE_VERIFIED__MODULAR_CLOSE_BATTLEFIELD_RUNTIME_TECHNICAL_SMOKE_PASS", "CURRENT_GODOT_RUNTIME = PASS")
         self.assertTrue(any("CURRENT_IMPLEMENTATION_STATUS.md" in error for error in errors))
 
     def test_current_v2_gdd_version_regression_is_rejected(self) -> None:

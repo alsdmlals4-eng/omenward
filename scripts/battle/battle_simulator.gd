@@ -7,10 +7,12 @@ const GateStateScript = preload("res://scripts/battle/gate_state.gd")
 const BaseStateScript = preload("res://scripts/battle/base_state.gd")
 const ClashZoneStateScript = preload("res://scripts/battle/clash_zone_state.gd")
 const OutpostStateScript = preload("res://scripts/battle/outpost_state.gd")
+const FixedTowerStateScript = preload("res://scripts/battle/fixed_tower_state.gd")
 const AssassinBypassStateScript = preload("res://scripts/battle/assassin_bypass_state.gd")
 
 const FIXED_STEP_SECONDS := 0.1
-const LANE_IDS := [&"top", &"middle", &"bottom"]
+const FRONT_ID := &"front"
+const LANE_IDS := [FRONT_ID]
 const TEAM_IDS := [&"lumern", &"veil"]
 const RUNNING := &"running"
 const LUMERN_VICTORY := &"lumern_victory"
@@ -31,9 +33,11 @@ var gates := {}
 var bases := {}
 var outposts := {}
 var clash_zones := {}
+var fixed_towers := {}
 var bypasses: Array = []
 var result_state: StringName = RUNNING
 var objectives_enabled := true
+var _base_max_health := 0.0
 
 var _rng := RandomNumberGenerator.new()
 var _accumulator := 0.0
@@ -45,13 +49,15 @@ var _events: Array[Dictionary] = []
 func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health: float = 0.0) -> void:
 	registry = assigned_registry
 	seed = seed_value
+	_base_max_health = base_max_health
 	_rng.seed = seed
 	for lane_id in LANE_IDS:
 		lanes[lane_id] = LaneStateScript.new(lane_id)
 		clash_zones[lane_id] = ClashZoneStateScript.new(lane_id)
+		fixed_towers[lane_id] = FixedTowerStateScript.new(lane_id)
 	gates = {
-		&"lumern": {&"top": GateStateScript.new(), &"middle": GateStateScript.new(), &"bottom": GateStateScript.new()},
-		&"veil": {&"top": GateStateScript.new(), &"middle": GateStateScript.new(), &"bottom": GateStateScript.new()},
+		&"lumern": {FRONT_ID: GateStateScript.new()},
+		&"veil": {FRONT_ID: GateStateScript.new()},
 	}
 	bases = {
 		&"lumern": BaseStateScript.new(base_max_health),
@@ -59,20 +65,114 @@ func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health
 	}
 	outposts = {
 		&"lumern": {
-			&"top": OutpostStateScript.new(&"lumern", true),
-			&"middle": OutpostStateScript.new(&"lumern", true),
-			&"bottom": OutpostStateScript.new(&"lumern", true),
+			FRONT_ID: OutpostStateScript.new(),
 		},
 		&"veil": {
-			&"top": OutpostStateScript.new(&"veil", true),
-			&"middle": OutpostStateScript.new(&"veil", true),
-			&"bottom": OutpostStateScript.new(&"veil", true),
+			FRONT_ID: OutpostStateScript.new(&"veil", true),
 		},
 	}
+	_refresh_fixed_towers()
+
+
+func reset_for_next_front_map() -> void:
+	# 살아남은 아군은 같은 단일 전선을 계속 행군한다. 적/거점/성문/탑만 새 전투 맵의
+	# local state로 다시 만든다. 전역 경제와 건물은 BattleSimulator가 소유하지 않는다.
+	var survivors: Array = []
+	var survivor_ids := {}
+	for unit in front_units(FRONT_ID):
+		if unit.owner_team_id == &"lumern" and unit.is_alive():
+			survivors.append(unit)
+			survivor_ids[unit.unit_id] = true
+	for entry: Dictionary in bypasses:
+		var bypass_unit: Variant = entry.get("unit")
+		if bypass_unit != null and bypass_unit.owner_team_id == &"lumern" and bypass_unit.is_alive() and not survivor_ids.has(bypass_unit.unit_id):
+			survivors.append(bypass_unit)
+			survivor_ids[bypass_unit.unit_id] = true
+	lanes[FRONT_ID] = LaneStateScript.new(FRONT_ID)
+	for unit in survivors:
+		unit.lane_position = 10.0
+		unit.target_unit_id = -1
+		unit.state = "idle"
+		lanes[FRONT_ID].add_unit(unit)
+	bypasses.clear()
+	gates = {
+		&"lumern": {FRONT_ID: GateStateScript.new()},
+		&"veil": {FRONT_ID: GateStateScript.new()},
+	}
+	bases = {
+		&"lumern": BaseStateScript.new(_base_max_health),
+		&"veil": BaseStateScript.new(_base_max_health),
+	}
+	outposts = {
+		&"lumern": {FRONT_ID: OutpostStateScript.new()},
+		&"veil": {FRONT_ID: OutpostStateScript.new(&"veil", true)},
+	}
+	clash_zones[FRONT_ID] = ClashZoneStateScript.new(FRONT_ID)
+	fixed_towers[FRONT_ID] = FixedTowerStateScript.new(FRONT_ID)
+	result_state = RUNNING
+	_accumulator = 0.0
+	_events.clear()
+	_refresh_fixed_towers()
 
 
 func can_spawn_unit(spawn: UnitSpawnDefinition) -> bool:
-	return spawn != null and registry != null and registry.archetypes.has(str(spawn.archetype_id)) and lanes.has(spawn.lane_id)
+	return spawn != null and registry != null and registry.archetypes.has(str(spawn.archetype_id)) and accepts_front_id(spawn.lane_id)
+
+
+func front_ids() -> Array[StringName]:
+	return [FRONT_ID]
+
+
+func accepts_front_id(front_id: StringName) -> bool:
+	return front_id == FRONT_ID
+
+
+func front_units(front_id: StringName = FRONT_ID) -> Array:
+	if not accepts_front_id(front_id):
+		return []
+	return lanes[FRONT_ID].ordered_units()
+
+
+func has_living_units_for(team_id: StringName) -> bool:
+	for unit in front_units(FRONT_ID):
+		if unit.owner_team_id == team_id and unit.is_alive():
+			return true
+	for entry: Dictionary in bypasses:
+		var bypass_unit: Variant = entry.get("unit")
+		if bypass_unit != null and bypass_unit.owner_team_id == team_id and bypass_unit.is_alive():
+			return true
+	return false
+
+
+func ward_forward_is_stable_for(team_id: StringName) -> bool:
+	return outposts[&"lumern"][FRONT_ID].is_stable_for(team_id)
+
+
+func clash_is_stable_for(team_id: StringName) -> bool:
+	return clash_zones[FRONT_ID].outpost.is_stable_for(team_id)
+
+
+func route_state_for(front_id: StringName = FRONT_ID) -> Dictionary:
+	if not accepts_front_id(front_id):
+		return {}
+	var friendly_count := 0
+	var enemy_count := 0
+	for unit in front_units(front_id):
+		if unit.owner_team_id == &"lumern":
+			friendly_count += 1
+		else:
+			enemy_count += 1
+	var tower: Variant = fixed_towers.get(FRONT_ID)
+	return {
+		"front_id": FRONT_ID,
+		"ward_forward": outposts[&"lumern"][FRONT_ID].snapshot(),
+		"clash": clash_zones[FRONT_ID].outpost.snapshot(),
+		"veil_forward": outposts[&"veil"][FRONT_ID].snapshot(),
+		"tower_owner_team_id": tower.owner_team_id if tower != null else &"",
+		"tower_active": tower.active if tower != null else false,
+		"friendly_count": friendly_count,
+		"enemy_count": enemy_count,
+	}
 
 
 func spawn_unit(spawn: UnitSpawnDefinition) -> Variant:
@@ -128,6 +228,10 @@ func stable_owned_outpost_count(team_id: StringName) -> int:
 	return count
 
 
+func stable_player_forward_base_count() -> int:
+	return stable_owned_outpost_count(&"lumern")
+
+
 func get_unit_by_id(unit_id: int) -> Variant:
 	for lane_id in LANE_IDS:
 		for unit in lanes[lane_id].units:
@@ -154,18 +258,20 @@ func drain_events() -> Array[Dictionary]:
 
 
 func snapshot() -> Dictionary:
-	var lane_snapshots: Array = []
+	var front_snapshots: Array = []
 	var unit_snapshots: Array = []
 	var zone_snapshots: Array = []
 	var gate_snapshots := {}
 	var outpost_snapshots := {}
+	var fixed_tower_snapshots := {}
 	var base_snapshots := {}
 	for lane_id in LANE_IDS:
 		var lane: LaneState = lanes[lane_id]
-		lane_snapshots.append(lane.snapshot())
+		front_snapshots.append(lane.snapshot())
 		for unit in lane.ordered_units():
 			unit_snapshots.append(unit.to_snapshot())
 		zone_snapshots.append(clash_zones[lane_id].snapshot())
+		fixed_tower_snapshots[str(lane_id)] = fixed_towers[lane_id].snapshot()
 	for team_id in TEAM_IDS:
 		var team_gates := {}
 		var team_outposts := {}
@@ -181,12 +287,13 @@ func snapshot() -> Dictionary:
 		"accumulator": _accumulator,
 		"result_state": str(result_state),
 		"objectives_enabled": objectives_enabled,
-		"lanes": lane_snapshots,
+		"fronts": front_snapshots,
 		"units": unit_snapshots,
 		"gates": gate_snapshots,
 		"bases": base_snapshots,
 		"outposts": outpost_snapshots,
 		"clash_zones": zone_snapshots,
+		"fixed_towers": fixed_tower_snapshots,
 		"bypasses": bypasses.map(func(entry: Dictionary) -> Dictionary: return entry["state"].snapshot()),
 	}
 
@@ -210,13 +317,14 @@ func _advance_fixed_step() -> void:
 		lane.remove_dead_units()
 	if objectives_enabled and result_state == RUNNING:
 		_advance_capture_objectives(FIXED_STEP_SECONDS)
+	_refresh_fixed_towers()
 	for team_id in TEAM_IDS:
 		for lane_id in LANE_IDS:
 			var gate: GateState = gates[team_id][lane_id]
 			var previous_state: String = gate.state
 			gate.advance(FIXED_STEP_SECONDS)
 			if previous_state != gate.state:
-				_record_event(&"gate_state", {"team_id": str(team_id), "lane_id": str(lane_id), "state": gate.state})
+				_record_event(&"gate_state", {"team_id": str(team_id), "front_id": str(lane_id), "state": gate.state})
 	_check_base_result()
 
 
@@ -256,22 +364,25 @@ func _advance_unit_objective(unit: UnitInstance, delta: float) -> void:
 		var previous_state: String = gate.state
 		var applied: float = gate.apply_damage(damage, unit.is_siege_damage())
 		if applied > 0.0:
-			_record_event(&"gate_damage", {"attacker_team": str(unit.owner_team_id), "defender_team": str(defender_team), "lane_id": str(unit.lane_id), "damage": applied, "health": gate.health})
+			_record_event(&"gate_damage", {"attacker_team": str(unit.owner_team_id), "defender_team": str(defender_team), "front_id": str(unit.lane_id), "damage": applied, "health": gate.health})
 		if previous_state != gate.state:
-			_record_event(&"gate_state", {"team_id": str(defender_team), "lane_id": str(unit.lane_id), "state": gate.state})
+			_record_event(&"gate_state", {"team_id": str(defender_team), "front_id": str(unit.lane_id), "state": gate.state})
 		return
 	if kind == &"base":
 		var base: BaseState = bases[defender_team]
 		var previous_state: StringName = base.state
 		var applied: float = base.apply_damage(damage, unit.is_siege_damage())
 		if applied > 0.0:
-			_record_event(&"base_damage", {"attacker_team": str(unit.owner_team_id), "defender_team": str(defender_team), "lane_id": str(unit.lane_id), "damage": applied, "health": base.health})
+			_record_event(&"base_damage", {"attacker_team": str(unit.owner_team_id), "defender_team": str(defender_team), "front_id": str(unit.lane_id), "damage": applied, "health": base.health})
 		if previous_state != base.state:
 			_record_event(&"base_state", {"team_id": str(defender_team), "state": str(base.state)})
 
 
 func _next_objective(team_id: StringName, lane_id: StringName) -> Dictionary:
 	var enemy_team := _enemy_team(team_id)
+	var friendly_forward: OutpostState = outposts[team_id][lane_id]
+	if not friendly_forward.is_stable_for(team_id):
+		return {"kind": &"capture", "position": float(OUTPOST_POSITIONS[team_id]), "state": friendly_forward}
 	var clash: OutpostState = clash_zones[lane_id].outpost
 	if not clash.is_stable_for(team_id):
 		return {"kind": &"capture", "position": CLASH_POSITION, "state": clash}
@@ -292,6 +403,11 @@ func _advance_capture_objectives(delta: float) -> void:
 		_update_capture_state(clash_zones[lane_id].outpost, CLASH_POSITION, lane_id, &"clash", delta)
 		_update_capture_state(outposts[&"lumern"][lane_id], float(OUTPOST_POSITIONS[&"lumern"]), lane_id, &"outpost_lumern", delta)
 		_update_capture_state(outposts[&"veil"][lane_id], float(OUTPOST_POSITIONS[&"veil"]), lane_id, &"outpost_veil", delta)
+
+
+func _refresh_fixed_towers() -> void:
+	for lane_id in LANE_IDS:
+		fixed_towers[lane_id].sync_from_tower_bearing_objective(outposts[&"lumern"][lane_id])
 
 
 func _update_capture_state(state: OutpostState, position: float, lane_id: StringName, objective_id: StringName, delta: float) -> void:
@@ -316,7 +432,7 @@ func _update_capture_state(state: OutpostState, position: float, lane_id: String
 	if before.get("state") != after.get("state") or before.get("owner_team_id") != after.get("owner_team_id") or before.get("contested") != after.get("contested"):
 		_record_event(&"objective_state", {
 			"objective_id": str(objective_id),
-			"lane_id": str(lane_id),
+			"front_id": str(lane_id),
 			"state": after.get("state"),
 			"owner_team_id": after.get("owner_team_id"),
 			"capturing_team_id": after.get("capturing_team_id"),

@@ -25,9 +25,10 @@ func _init() -> void:
 	_expect(wave_director_ready, "wave director service loads and can instantiate", failures)
 	_expect(bypass_ready, "assassin bypass state loads and can instantiate", failures)
 	_expect(battle_ready, "battle simulator loads and can instantiate", failures)
-	if stage_run_ready and progression_ready:
-		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, failures)
+	if stage_run_ready and progression_ready and wave_director_ready:
+		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, wave_director_script, failures)
 		_test_roulette_storage_and_deployment(stage_run_script, progression_script, failures)
+		_test_building_roster_preparation_gate(stage_run_script, progression_script, failures)
 	if bypass_ready:
 		_test_assassin_bypass_timing(bypass_script, failures)
 	if bypass_ready and battle_ready:
@@ -35,7 +36,7 @@ func _init() -> void:
 	_finish(failures)
 
 
-func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
+func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScript, progression_script: GDScript, wave_director_script: GDScript, failures: PackedStringArray) -> void:
 	var tutorial: Resource = ResourceLoader.load(TUTORIAL_STAGE_PATH)
 	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
 	var progression: Variant = progression_script.new()
@@ -48,25 +49,25 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 	_expect(run.current_wave == 4, "tutorial reaches W4 from its declared data", failures)
 	run.submit_command({"action": "stage_victory"})
 	_expect(progression.regular_unlocked, "tutorial victory unlocks the regular stage for this session", failures)
-	run.start(regular, 1001)
-	_expect(run.begin_battle(), "regular stage enters the battle phase before simulation advances", failures)
-	run.battle.objectives_enabled = false
-	_advance_waves(run, 15)
-	_expect(run.current_wave == 15, "regular progression reaches W15", failures)
-	_expect(run.wave_director.current_wave().boss_kind == &"legendary", "W15 uses the existing legendary wave definition", failures)
-	_advance_waves(run, 16)
+	var full_regular_director: Variant = wave_director_script.new(regular)
+	full_regular_director.advance(60.0 * 15.0)
+	_expect(full_regular_director.current_wave_number == 15, "regular data still exposes W15 through the generic full-stage wave reader", failures)
+	_expect(full_regular_director.current_wave().boss_kind == &"legendary", "W15 retains the existing legendary wave definition", failures)
+	full_regular_director.advance(60.0)
 	for wave_number in range(16, 20):
-		_expect(run.wave_director.wave_at(wave_number).is_overtime, "W%s is marked as overtime" % wave_number, failures)
-	_advance_waves(run, 20)
-	_expect(run.current_wave == 20, "regular progression reaches W20", failures)
-	_expect(run.wave_director.current_wave().boss_kind == &"mythic", "W20 uses the existing mythic wave definition", failures)
+		_expect(full_regular_director.wave_at(wave_number).is_overtime, "W%s remains marked as overtime" % wave_number, failures)
+	full_regular_director.advance(60.0 * 4.0)
+	_expect(full_regular_director.current_wave_number == 20, "regular data still exposes W20", failures)
+	_expect(full_regular_director.current_wave().boss_kind == &"mythic", "W20 retains the existing mythic wave definition", failures)
 
 
 func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
-	var tutorial: Resource = ResourceLoader.load(TUTORIAL_STAGE_PATH)
-	var run: Variant = stage_run_script.new(progression_script.new())
-	run.start(tutorial, 2002)
-	_expect(run.construct_home(&"barracks"), "the stage can build the approved basic barracks", failures)
+	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
+	var progression: Variant = progression_script.new()
+	progression.regular_unlocked = true
+	var run: Variant = stage_run_script.new(progression)
+	run.start(regular, 2002)
+	_expect(run.install_building(&"barracks"), "a post-tutorial run installs the approved basic barracks in the global roster", failures)
 	var no_reward: Variant = run.roulette.resolve_board_snapshot([
 		&"warrior", &"warrior", &"warrior",
 		&"warrior", &"warrior", &"x",
@@ -86,13 +87,31 @@ func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progressi
 	_expect(not blocked.accepted and blocked.failure_reason == &"pending_reward", "pending storage blocks only the next roulette spin", failures)
 	_expect(int(run.economy.gold) == gold_before_block, "a storage-blocked spin does not charge gold", failures)
 	var food_before_deploy: int = int(run.economy.food_used)
-	_expect(run.deploy_next_roulette_reward(&"top"), "the stored reward can be committed to one lane", failures)
+	_expect(run.deploy_next_roulette_reward(&"front"), "the stored reward can be committed to the one front", failures)
 	_expect(run.pending_roulette_rewards.is_empty(), "successful deployment clears the stored reward", failures)
 	_expect(int(run.economy.food_used) == food_before_deploy + 1, "successful roulette deployment reserves the reward's food cost", failures)
 
 
+func _test_building_roster_preparation_gate(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
+	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
+	var progression: Variant = progression_script.new()
+	progression.regular_unlocked = true
+	var run: Variant = stage_run_script.new(progression)
+	run.start(regular, 2003)
+	_expect(run.has_method(&"move_building_roster_entry"), "StageRun exposes a player-facing global-roster reorder command", failures)
+	if not run.has_method(&"move_building_roster_entry"):
+		return
+	_expect(run.install_building(&"barracks") and run.install_building(&"farm"), "PREPARE can install two owned roster entries", failures)
+	_expect(run.move_building_roster_entry(1, 0), "PREPARE can reorder the global roster without a battlefield target", failures)
+	var roster: Array = run.building_roster_snapshot()
+	_expect(roster[0].get("building_id", "") == "farm" and roster[1].get("building_id", "") == "barracks", "StageRun forwards roster reordering in player-visible priority order", failures)
+	_expect(run.begin_battle(), "a ready regular run can close PREPARE and enter BATTLE", failures)
+	_expect(not run.install_building(&"tower"), "BATTLE rejects building-roster installation", failures)
+	_expect(not run.move_building_roster_entry(0, 1), "BATTLE rejects building-roster reordering", failures)
+
+
 func _test_assassin_bypass_timing(bypass_script: GDScript, failures: PackedStringArray) -> void:
-	var bypass: Variant = bypass_script.new(&"middle", 500.0)
+	var bypass: Variant = bypass_script.new(&"front", 500.0)
 	_expect(bypass.capture_power == 0.0, "assassin bypass never contributes capture power", failures)
 	bypass.advance(1.0)
 	_expect(bypass.state == &"travel", "assassin enters travel after one second of windup", failures)
@@ -112,14 +131,14 @@ func _test_assassin_bypass_leaves_and_returns_to_same_lane(battle_script: GDScri
 	assassin.archetype_id = &"assassin"
 	assassin.owner_team_id = &"lumern"
 	assassin.visual_faction_id = &"lumern"
-	assassin.lane_id = &"bottom"
+	assassin.lane_id = &"front"
 	var unit: Variant = battle.spawn_unit(assassin)
 	_expect(battle.request_assassin_bypass(unit, 100.0), "assassin can start its same-lane bypass", failures)
 	battle.advance(1.0)
-	_expect(battle.lanes[&"bottom"].units.is_empty(), "assassin is removed from the lane during travel", failures)
+	_expect(battle.front_units(&"front").is_empty(), "assassin is removed from the front during travel", failures)
 	battle.advance(9.6)
-	_expect(battle.lanes[&"bottom"].units.size() == 1, "assassin returns to its original lane after recovery", failures)
-	_expect(is_equal_approx(float(battle.lanes[&"bottom"].units[0].lane_position), 220.0), "assassin returns behind the same lane enemy outpost", failures)
+	_expect(battle.front_units(&"front").size() == 1, "assassin returns to the original front after recovery", failures)
+	_expect(is_equal_approx(float(battle.front_units(&"front")[0].lane_position), 220.0), "assassin returns behind the same front enemy outpost", failures)
 
 
 func _advance_waves(run: Variant, target_wave: int) -> void:

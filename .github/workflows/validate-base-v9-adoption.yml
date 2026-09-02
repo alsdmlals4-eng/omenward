@@ -6,15 +6,56 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: python -m unittest tests.test_base_v9_adoption
+        with: { python-version: "3.12" }
+      - run: python -m unittest tests.test_base_v9_adoption tests.python.test_approved_protected_change_ci_bridge
   adversarial-gate:
     needs: ci-gate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with: {fetch-depth: 0}
+        with: { fetch-depth: 0 }
+
+      - uses: actions/checkout@v4
+        with:
+          repository: alsdmlals4-eng/Base
+          ref: 928f8ed44f2f8f84859834b229cb8321d716e9f6
+          path: .base-approved-change-gate
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+
+      - name: Install approved protected-change validator dependencies
+        run: python -m pip install --disable-pip-version-check -r .base-approved-change-gate/.github/validation-requirements.txt
+
+      - name: Select trusted protected baseline
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          APPROVAL_PATH="docs/approvals/PROJECT_PROTECTED_CHANGE_APPROVAL_GLOBAL_ROSTER_AND_STRATEGIC_MAP_2026-08-30.json"
+          test -f "$APPROVAL_PATH"
+          PROTECTED_BASE_SHA="$(python -c 'import json, sys; print(json.load(open(sys.argv[1], encoding="utf-8"))["protected_base_commit"])' "$APPROVAL_PATH")"
+          python -c 'import re, sys; value = sys.argv[1]; raise SystemExit(0 if re.fullmatch(r"[0-9a-f]{40}", value) else 1)' "$PROTECTED_BASE_SHA"
+          git cat-file -e "$PROTECTED_BASE_SHA^{commit}"
+          git merge-base --is-ancestor "$PROTECTED_BASE_SHA" "$PR_BASE_SHA"
+          printf 'PROTECTED_BASE_SHA=%s\n' "$PROTECTED_BASE_SHA" >> "$GITHUB_ENV"
+          printf 'APPROVAL_PATH=%s\n' "$APPROVAL_PATH" >> "$GITHUB_ENV"
+
+      - name: Validate approved protected implementation changes
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          python tools/validate_approved_protected_change_ci.py \
+            --project-root . \
+            --base-repository .base-approved-change-gate \
+            --pr-base "$PR_BASE_SHA" \
+            --protected-base "$PROTECTED_BASE_SHA" \
+            --external-approval true
+
       - run: |
           git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" > changed.txt
-          if grep -E '^(scripts/|scenes/|data/|assets/|addons/|project\.godot$)' changed.txt; then exit 1; fi
+          if grep -E '^(scripts/|scenes/|data/|assets/|addons/|project\.godot$)' changed.txt; then
+            echo "Protected paths were validated by the exact Base approved-change gate."
+          fi
           test -f skills/BASE_V9_ADAPTER.json

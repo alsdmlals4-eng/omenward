@@ -2,19 +2,33 @@
 class_name RunCommandScreen
 extends Control
 
-const LANE_IDS := [&"top", &"middle", &"bottom"]
-const LANE_TITLES := {&"top": "상단 전선", &"middle": "중앙 전선", &"bottom": "하단 전선"}
-const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_idle.png")
+const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_storybook_idle_v1.png")
+const TAB_DOMESTIC := &"domestic"
+const TAB_ROULETTE := &"roulette"
+const TAB_FRONT := &"front"
+const BATTLE_FOCUS_RECT := Rect2(Vector2(16, 110), Vector2(926, 304))
+const BATTLE_MINIMAP_RECT := Rect2(Vector2(16, 62), Vector2(926, 40))
+const BATTLE_LOWER_DECK_RECT := Rect2(Vector2(16, 422), Vector2(928, 106))
+const DEFAULT_LOWER_DECK_RECT := Rect2(Vector2(16, 364), Vector2(928, 164))
 
 @onready var _phase_label: Label = $TopBar/PhaseLabel
 @onready var _gold_label: Label = $TopBar/GoldLabel
 @onready var _food_label: Label = $TopBar/FoodLabel
+@onready var _battle_focus: Control = $BattleFocusViewport
+@onready var _march_minimap: Control = $MarchMinimap
+@onready var _lower_deck: Control = $LowerDeck
 @onready var _primary_label: Label = $LowerDeck/PrimaryLabel
+@onready var _building_roster: ItemList = $LowerDeck/PreparePanel/BuildingRoster
 @onready var _prepare_panel: Control = $LowerDeck/PreparePanel
+@onready var _roulette_ready_panel: Control = $LowerDeck/RouletteReadyPanel
+@onready var _front_ready_panel: Control = $LowerDeck/FrontReadyPanel
 @onready var _roulette_panel: Control = $LowerDeck/RoulettePanel
 @onready var _commit_panel: Control = $LowerDeck/CommitPanel
 @onready var _battle_panel: Control = $LowerDeck/BattlePanel
 @onready var _review_panel: Control = $LowerDeck/ReviewPanel
+@onready var _review_label: Label = $LowerDeck/ReviewPanel/Label
+@onready var _next_front_map_button: Button = $LowerDeck/ReviewPanel/NextFrontMapButton
+@onready var _retry_button: Button = $LowerDeck/ReviewPanel/RetryButton
 @onready var _board_grid: GridContainer = $LowerDeck/RoulettePanel/BoardGrid
 @onready var _result_label: Label = $LowerDeck/RoulettePanel/ResultLabel
 @onready var _move_label: Label = $LowerDeck/RoulettePanel/MoveLabel
@@ -26,6 +40,7 @@ const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_
 var run: Variant
 var _spin_seed := 1
 var _selected_roulette_index := -1
+var _selected_roster_slot := -1
 
 
 func bind_run(assigned_run: Variant) -> void:
@@ -39,23 +54,62 @@ func _process(_delta: float) -> void:
 
 func _on_barracks_pressed() -> void:
 	if run != null:
-		run.construct_home(&"barracks")
+		run.install_building(&"barracks")
 
 
 func _on_tower_pressed() -> void:
 	if run != null:
-		run.construct_home(&"tower")
+		run.install_building(&"tower")
 
 
 func _on_farm_pressed() -> void:
 	if run != null:
-		run.construct_home(&"farm")
+		run.install_building(&"farm")
+
+
+func _on_roster_selected(slot_index: int) -> void:
+	_selected_roster_slot = slot_index
+
+
+func _on_roster_move_up_pressed() -> void:
+	_move_selected_roster_entry(-1)
+
+
+func _on_roster_move_down_pressed() -> void:
+	_move_selected_roster_entry(1)
 
 
 func _on_spin_pressed() -> void:
 	if run != null:
 		_spin_seed += 1
 		run.begin_roulette_session({"seed": _spin_seed})
+
+
+func _on_domestic_tab_pressed() -> void:
+	set_active_tab(TAB_DOMESTIC)
+
+
+func _on_roulette_tab_pressed() -> void:
+	set_active_tab(TAB_ROULETTE)
+
+
+func _on_front_tab_pressed() -> void:
+	set_active_tab(TAB_FRONT)
+
+
+func set_active_tab(tab_id: StringName) -> bool:
+	if run == null:
+		return false
+	var accepted: bool = run.set_active_tab(tab_id)
+	if accepted:
+		_refresh()
+	return accepted
+
+
+func visible_work_surface_id() -> StringName:
+	if run == null:
+		return TAB_DOMESTIC
+	return StringName(run.active_tab)
 
 
 func _on_lock_result_pressed() -> void:
@@ -84,6 +138,11 @@ func _on_retry_pressed() -> void:
 		session.retry_stage()
 
 
+func _on_next_front_map_pressed() -> void:
+	if run != null:
+		run.enter_next_front_map()
+
+
 func _move_row(row_index: int, direction: int) -> void:
 	if run != null:
 		run.move_roulette_row(row_index, direction)
@@ -106,38 +165,85 @@ func selected_roulette_tile_index() -> int:
 func _refresh() -> void:
 	if run == null or run.economy == null:
 		return
+	var phase := StringName(run.command_phase)
+	_apply_phase_layout(phase)
 	_gold_label.text = "Gold %d" % int(run.economy.gold)
 	_food_label.text = "병력 %d/%d" % [int(run.economy.food_used), int(run.economy.food_cap)]
-	_phase_label.text = _phase_title(StringName(run.command_phase))
-	_refresh_fronts()
+	_phase_label.text = _phase_title(phase)
+	_battle_focus.bind_run(run)
+	_march_minimap.bind_run(run)
+	var battle_surface_is_visible: bool = phase == run.BATTLE and visible_work_surface_id() == TAB_FRONT
+	_battle_focus.visible = battle_surface_is_visible
+	_march_minimap.visible = battle_surface_is_visible
+	_refresh_tab_rail()
 	_refresh_phase_panels()
+	_refresh_building_roster()
 	_refresh_roulette()
 	_refresh_commit()
 
 
-func _refresh_fronts() -> void:
-	var omen: Dictionary = run.core_ux_snapshot().get("omen", {})
-	var lanes: Array = omen.get("lanes", [])
-	var lane_details := {}
-	for lane in lanes:
-		lane_details[StringName(lane.get("lane_id", ""))] = lane
-	for lane_id in LANE_IDS:
-		var panel := $Fronts.get_node(NodePath("%s" % str(lane_id).capitalize()))
-		var detail: Dictionary = lane_details.get(lane_id, {})
-		var enemy_count := int(detail.get("count", 0))
-		var friendly_count := _friendly_count(lane_id)
-		panel.get_node("Title").text = "%s · 아군 %d / 징조 %d" % [LANE_TITLES[lane_id], friendly_count, enemy_count]
-		panel.get_node("Minimap/Progress").value = clampi(50 + (friendly_count - enemy_count) * 10, 5, 95)
-		panel.get_node("Minimap/Context").text = "수호성  ◇───◆  Veil"
+func _apply_phase_layout(phase: StringName) -> void:
+	# BATTLE만 가까운 실제 교전을 주 화면으로 확장한다. 다른 위상은 기존 작업 덱을 유지한다.
+	_battle_focus.position = BATTLE_FOCUS_RECT.position
+	_battle_focus.size = BATTLE_FOCUS_RECT.size
+	_march_minimap.position = BATTLE_MINIMAP_RECT.position
+	_march_minimap.size = BATTLE_MINIMAP_RECT.size
+	var lower_deck_rect := BATTLE_LOWER_DECK_RECT if phase == run.BATTLE else DEFAULT_LOWER_DECK_RECT
+	_lower_deck.position = lower_deck_rect.position
+	_lower_deck.size = lower_deck_rect.size
+
+
+func _refresh_building_roster() -> void:
+	if run == null or run.buildings == null:
+		return
+	var roster: Array = run.building_roster_snapshot()
+	_building_roster.clear()
+	for entry in roster:
+		var state := str(entry.get("state", ""))
+		var building_name := str(entry.get("display_name", "빈 슬롯"))
+		var status := "활성" if state == "active" else ("잠김" if state == "inactive_locked" else "비어 있음")
+		_building_roster.add_item("%d. %s · %s" % [int(entry.get("slot_index", 0)) + 1, building_name, status])
+	if roster.is_empty():
+		_selected_roster_slot = -1
+	elif _selected_roster_slot < 0 or _selected_roster_slot >= roster.size():
+		_selected_roster_slot = 0
+	if _selected_roster_slot >= 0:
+		_building_roster.select(_selected_roster_slot, true)
+	var roster_is_mutable := StringName(run.command_phase) == &"prepare"
+	$LowerDeck/PreparePanel/RosterMoveUpButton.disabled = not roster_is_mutable or _selected_roster_slot <= 0
+	$LowerDeck/PreparePanel/RosterMoveDownButton.disabled = not roster_is_mutable or _selected_roster_slot < 0 or _selected_roster_slot >= roster.size() - 1
+	_update_install_button_state(&"barracks", $LowerDeck/PreparePanel/BarracksButton)
+	_update_install_button_state(&"tower", $LowerDeck/PreparePanel/TowerButton)
+	_update_install_button_state(&"farm", $LowerDeck/PreparePanel/FarmButton)
+
+
+func _update_install_button_state(building_id: StringName, button: Button) -> void:
+	var reason := String(run.buildings.install_block_reason(building_id))
+	var phase_is_prepare := StringName(run.command_phase) == &"prepare"
+	button.disabled = reason != "" or not phase_is_prepare
+	button.tooltip_text = "로스터에 추가" if reason == "" and phase_is_prepare else (reason if reason != "" else "준비 단계에서만 변경할 수 있습니다")
+
+
+func _move_selected_roster_entry(direction: int) -> void:
+	if run == null or _selected_roster_slot < 0:
+		return
+	var target_slot := _selected_roster_slot + direction
+	if target_slot < 0 or target_slot >= run.building_roster_snapshot().size():
+		return
+	if run.move_building_roster_entry(_selected_roster_slot, target_slot):
+		_selected_roster_slot = target_slot
 
 
 func _refresh_phase_panels() -> void:
 	var phase := StringName(run.command_phase)
-	_prepare_panel.visible = phase == run.PREPARE
-	_roulette_panel.visible = phase == run.STOPPED_3X3 or phase == run.MANIPULATE or phase == run.RESULT_CONFIRM
-	_commit_panel.visible = phase == run.COMMIT
-	_battle_panel.visible = phase == run.BATTLE
-	_review_panel.visible = phase == run.REVIEW
+	var tab := visible_work_surface_id()
+	_prepare_panel.visible = phase == run.PREPARE and tab == TAB_DOMESTIC
+	_roulette_ready_panel.visible = phase == run.PREPARE and tab == TAB_ROULETTE
+	_front_ready_panel.visible = phase == run.PREPARE and tab == TAB_FRONT
+	_roulette_panel.visible = (phase == run.STOPPED_3X3 or phase == run.MANIPULATE or phase == run.RESULT_CONFIRM) and tab == TAB_ROULETTE
+	_commit_panel.visible = phase == run.COMMIT and tab == TAB_FRONT
+	_battle_panel.visible = phase == run.BATTLE and tab == TAB_FRONT
+	_review_panel.visible = phase == run.REVIEW and tab == TAB_FRONT
 	match phase:
 		run.PREPARE:
 			_primary_label.text = "다가오는 징조를 보고 무엇을 준비할까?"
@@ -146,11 +252,42 @@ func _refresh_phase_panels() -> void:
 		run.RESULT_CONFIRM:
 			_primary_label.text = "이 결과를 확정하고 병력을 커밋할까?"
 		run.COMMIT:
-			_primary_label.text = "획득 병력을 어느 전선에 되돌릴 수 없게 보낼까?"
+			_primary_label.text = "획득 병력을 단일 전선에 되돌릴 수 없게 투입한다"
 		run.BATTLE:
-			_primary_label.text = "세 전선의 현재 전황을 관찰한다"
+			_primary_label.text = "가까운 전투 장면을 읽고, 전진 미니맵으로 행군 위치를 확인한다"
 		run.REVIEW:
 			_primary_label.text = "이번 설계와 배치가 만든 결과를 복기한다"
+	_refresh_review()
+
+
+func _refresh_review() -> void:
+	if run == null or StringName(run.command_phase) != run.REVIEW:
+		return
+	var can_enter_next := false
+	if run.has_method(&"can_enter_next_front_map"):
+		can_enter_next = bool(run.can_enter_next_front_map())
+	_next_front_map_button.visible = can_enter_next
+	_retry_button.visible = not can_enter_next
+	if can_enter_next:
+		var current: Dictionary = run.current_front_map()
+		_review_label.text = "%s 전선을 확보했습니다. 전역 로스터와 재화는 유지한 채 다음 전선의 준비로 이동합니다." % str(current.get("display_name", "현재"))
+		_next_front_map_button.text = "다음 전선 진입"
+	else:
+		_review_label.text = "전선 결과는 실제 전투 이벤트를 기반으로 다음 준비에 연결됩니다."
+
+
+func _refresh_tab_rail() -> void:
+	var tab := visible_work_surface_id()
+	var phase := StringName(run.command_phase)
+	var domestic_button := $TopBar/TopTabRail/DomesticTab as Button
+	var roulette_button := $TopBar/TopTabRail/RouletteTab as Button
+	var front_button := $TopBar/TopTabRail/FrontTab as Button
+	domestic_button.button_pressed = tab == TAB_DOMESTIC
+	roulette_button.button_pressed = tab == TAB_ROULETTE
+	front_button.button_pressed = tab == TAB_FRONT
+	domestic_button.disabled = phase != str(run.PREPARE) and tab != TAB_DOMESTIC
+	roulette_button.disabled = false
+	front_button.disabled = false
 
 
 func _refresh_roulette() -> void:
@@ -166,7 +303,7 @@ func _refresh_roulette() -> void:
 	for index in board.size():
 		var symbol: StringName = board[index]
 		var tile := Button.new()
-		tile.custom_minimum_size = Vector2(34, 34)
+		tile.custom_minimum_size = Vector2(20, 20)
 		tile.icon = _token_texture(symbol)
 		tile.expand_icon = true
 		tile.tooltip_text = "%d번 슬롯 · %s" % [index + 1, _roulette_symbol_name(symbol)]
@@ -194,18 +331,11 @@ func _refresh_commit() -> void:
 		return
 	$LowerDeck/CommitPanel/ConfirmDeploymentButton.visible = true
 	$LowerDeck/CommitPanel/BeginBattleButton.visible = false
-	_commit_label.text = "모든 병력의 전선을 고른 뒤 한 번에 커밋합니다."
-	for reward_index in run.pending_roulette_rewards.size():
-		if not run.pending_deployment_assignments.has(reward_index):
-			run.assign_pending_reward(reward_index, &"top")
-		var assignment := OptionButton.new()
-		assignment.add_item("상단 전선")
-		assignment.add_item("중앙 전선")
-		assignment.add_item("하단 전선")
-		assignment.select(_lane_index(StringName(run.pending_deployment_assignments.get(reward_index, &"top"))))
-		assignment.tooltip_text = "획득 병력 %d의 비가역 배치 전선" % (reward_index + 1)
-		assignment.item_selected.connect(func(selected: int) -> void: run.assign_pending_reward(reward_index, LANE_IDS[selected]))
-		_commit_assignments.add_child(assignment)
+	_commit_label.text = "획득 병력 %d개를 단일 전선에 되돌릴 수 없게 투입합니다." % run.pending_roulette_rewards.size()
+	var queue_line := Label.new()
+	queue_line.text = "수호 성채 → 전진기지 → 접전지 → 장막 성채"
+	queue_line.tooltip_text = "전선 투입 확정 뒤 병력은 회수하거나 다른 전선으로 이동할 수 없습니다."
+	_commit_assignments.add_child(queue_line)
 
 
 func _set_arrow_buttons_disabled(disabled: bool) -> void:
@@ -228,11 +358,11 @@ func _refresh_roulette_picker(board: Array) -> void:
 	for child in _result_list.get_children():
 		child.queue_free()
 	var selected_symbol: StringName = board[_selected_roulette_index]
-	_selection_detail.text = "선택 %d번 · %s\n아래 목록이나 타일을 눌러 다른 결과도 살펴보세요." % [_selected_roulette_index + 1, _roulette_symbol_name(selected_symbol)]
+	_selection_detail.text = "선택 %d번 · %s" % [_selected_roulette_index + 1, _roulette_symbol_name(selected_symbol)]
 	for index in board.size():
 		var symbol: StringName = board[index]
 		var entry := Button.new()
-		entry.custom_minimum_size = Vector2(88, 16)
+		entry.custom_minimum_size = Vector2(70, 14)
 		entry.add_theme_font_size_override("font_size", 10)
 		entry.text = "%d. %s" % [index + 1, _roulette_symbol_name(symbol)]
 		entry.tooltip_text = "이 항목을 선택해 결과 의미를 확인합니다."
@@ -249,20 +379,6 @@ func _roulette_symbol_name(symbol: StringName) -> String:
 			return "황금 징조"
 		_:
 			return "수호 병력"
-
-
-func _friendly_count(lane_id: StringName) -> int:
-	if run.battle == null or not run.battle.lanes.has(lane_id):
-		return 0
-	var count := 0
-	for unit in run.battle.lanes[lane_id].units:
-		if unit.owner_team_id == &"lumern":
-			count += 1
-	return count
-
-
-func _lane_index(lane_id: StringName) -> int:
-	return LANE_IDS.find(lane_id)
 
 
 func _phase_title(phase: StringName) -> String:

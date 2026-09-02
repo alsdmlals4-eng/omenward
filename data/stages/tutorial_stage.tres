@@ -9,28 +9,28 @@ script = ExtResource("3_spawn")
 archetype_id = &"shield_guard"
 owner_team_id = &"veil"
 visual_faction_id = &"veil"
-lane_id = &"top"
+lane_id = &"front"
 
 [sub_resource type="Resource" id="Spawn2"]
 script = ExtResource("3_spawn")
 archetype_id = &"archer"
 owner_team_id = &"veil"
 visual_faction_id = &"veil"
-lane_id = &"middle"
+lane_id = &"front"
 
 [sub_resource type="Resource" id="Spawn3"]
 script = ExtResource("3_spawn")
 archetype_id = &"assassin"
 owner_team_id = &"veil"
 visual_faction_id = &"veil"
-lane_id = &"bottom"
+lane_id = &"front"
 
 [sub_resource type="Resource" id="Spawn4"]
 script = ExtResource("3_spawn")
 archetype_id = &"priest"
 owner_team_id = &"veil"
 visual_faction_id = &"veil"
-lane_id = &"top"
+lane_id = &"front"
 
 [sub_resource type="Resource" id="Wave1"]
 script = ExtResource("2_wave")

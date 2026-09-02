@@ -56,7 +56,7 @@ func is_complete() -> bool:
 
 func snapshot() -> Dictionary:
 	return {
-		"lane_id": str(lane_id),
+		"front_id": str(lane_id),
 		"exit_position": exit_position,
 		"capture_power": capture_power,
 		"state": str(state),

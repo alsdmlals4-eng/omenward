@@ -8,6 +8,7 @@ const RouletteService = preload("res://scripts/roulette/roulette_service.gd")
 const WaveDirector = preload("res://scripts/waves/wave_director.gd")
 
 const TUTORIAL_STAGE_PATH := "res://data/stages/tutorial_stage.tres"
+const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
 const HUD_SCENE_PATH := "res://scenes/ui/stage_hud.tscn"
 
 
@@ -50,60 +51,70 @@ func _new_run(seed: int) -> Variant:
 	return run
 
 
+func _new_post_tutorial_run(seed: int) -> Variant:
+	var stage: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
+	var progression := StageProgression.new()
+	progression.regular_unlocked = true
+	var run := StageRun.new(progression)
+	run.start(stage, seed)
+	return run
+
+
 func _test_token_ledger_and_construction_preview(failures: PackedStringArray) -> void:
-	var run: Variant = _new_run(701)
+	var run: Variant = _new_post_tutorial_run(701)
 	var snapshot: Dictionary = run.core_ux_snapshot()
 	var ledger: Array = snapshot.get("token_ledger", [])
 	_expect(_ledger_entry(ledger, "x").get("weight", 0) == 6, "token ledger exposes the authoritative X weight", failures)
 	_expect(_ledger_entry(ledger, "gold").get("weight", 0) == 2, "token ledger exposes the authoritative gold weight", failures)
 	_expect(_ledger_entry(ledger, "warrior").is_empty(), "initial token ledger does not invent an inactive building source", failures)
 	var barracks: Dictionary = _building_entry(snapshot.get("construction_comparison", []), "barracks")
-	_expect(bool(barracks.get("can_construct", false)), "barracks comparison is available on the stable home node", failures)
+	_expect(bool(barracks.get("can_construct", false)), "barracks comparison is available in the unlocked global roster", failures)
 	_expect(float(barracks.get("probability_after", 0.0)) > float(barracks.get("probability_before", 0.0)), "barracks preview increases the warrior probability before construction", failures)
-	_expect(run.construct_home(&"barracks"), "barracks construction succeeds from the comparison state", failures)
+	_expect(run.install_building(&"barracks"), "barracks installation succeeds from the roster comparison state", failures)
 	var after: Dictionary = run.core_ux_snapshot()
 	var warrior: Dictionary = _ledger_entry(after.get("token_ledger", []), "warrior")
 	_expect(int(warrior.get("source_count", 0)) == 1 and int(warrior.get("weight", 0)) == 3, "constructed barracks appears once in the token ledger", failures)
-	_expect((warrior.get("source_building_ids", []) as Array).has("lumern_middle:rear"), "token ledger exposes the authoritative source building ID", failures)
-	var occupied: Dictionary = _building_entry(after.get("construction_comparison", []), "barracks")
-	_expect(not bool(occupied.get("can_construct", true)) and str(occupied.get("block_reason", "")) == "occupied", "building comparison exposes the occupied node reason", failures)
+	_expect((warrior.get("source_building_ids", []) as Array).has("slot_0:barracks"), "token ledger exposes the authoritative global roster source ID", failures)
+	var next_slot: Dictionary = _building_entry(after.get("construction_comparison", []), "barracks")
+	_expect(bool(next_slot.get("can_construct", false)), "a second building uses another unlocked roster slot instead of a map node", failures)
 
 
 func _test_snapshot_is_read_only(failures: PackedStringArray) -> void:
-	var run: Variant = _new_run(710)
-	_expect(run.construct_home(&"farm"), "read-only snapshot setup constructs a farm", failures)
-	var farm: Variant = run.buildings.building_state_snapshot(&"lumern_middle", &"front_b")
-	var home: Variant = run.battle.outposts[&"lumern"][&"middle"]
-	home.capture_revision += 1
+	var run: Variant = _new_post_tutorial_run(710)
+	_expect(run.install_building(&"farm"), "read-only snapshot setup installs a global farm", failures)
+	var farm: Dictionary = run.building_roster_snapshot()[0]
 	var gold_before := int(run.economy.gold)
 	var food_cap_before := int(run.economy.food_cap)
-	var state_before := StringName(farm.state)
-	var effect_before := bool(farm.effect_active)
+	var state_before := StringName(farm.get("state", ""))
+	var effect_before := bool(farm.get("effect_active", false))
 	var log_before := JSON.stringify(run.manifest.input_log)
 	var first_snapshot := JSON.stringify(run.core_ux_snapshot())
 	var second_snapshot := JSON.stringify(run.core_ux_snapshot())
 	_expect(first_snapshot == second_snapshot, "repeated C3 reads return the same snapshot without a gameplay tick", failures)
 	_expect(int(run.economy.gold) == gold_before, "C3 snapshot does not spend or grant gold", failures)
 	_expect(int(run.economy.food_cap) == food_cap_before, "C3 snapshot does not change food capacity", failures)
-	_expect(StringName(farm.state) == state_before and bool(farm.effect_active) == effect_before, "C3 snapshot does not synchronize or ruin a stale building", failures)
+	var farm_after: Dictionary = run.building_roster_snapshot()[0]
+	_expect(StringName(farm_after.get("state", "")) == state_before and bool(farm_after.get("effect_active", false)) == effect_before, "C3 snapshot does not change global roster activation", failures)
 	_expect(JSON.stringify(run.manifest.input_log) == log_before, "C3 snapshot does not append gameplay input-log events", failures)
 
 
 func _test_boundary_snapshots(failures: PackedStringArray) -> void:
-	var poor: Variant = _new_run(706)
+	var poor: Variant = _new_post_tutorial_run(706)
 	poor.economy.gold = 0
 	var poor_barracks: Dictionary = _building_entry(poor.core_ux_snapshot().get("construction_comparison", []), "barracks")
 	_expect(not bool(poor_barracks.get("can_construct", true)) and str(poor_barracks.get("block_reason", "")) == "insufficient_gold", "construction comparison exposes insufficient gold without mutating state", failures)
 
-	var contested: Variant = _new_run(707)
-	var home: Variant = contested.battle.outposts[&"lumern"][&"middle"]
+	var contested: Variant = _new_post_tutorial_run(707)
+	var home: Variant = contested.battle.outposts[&"lumern"][&"front"]
 	_expect(home.begin_capture(&"veil", 1.0), "boundary setup begins an enemy capture", failures)
 	home.set_contested()
+	contested.buildings.sync_occupation_capacity(contested.battle.stable_owned_outpost_count(&"lumern"), contested.battle.controlled_clash_count(&"lumern"))
+	_expect(contested.buildings.unlocked_slot_capacity() == 6, "an unstable Ward forward base leaves only the six base roster slots", failures)
 	var contested_barracks: Dictionary = _building_entry(contested.core_ux_snapshot().get("construction_comparison", []), "barracks")
-	_expect(not bool(contested_barracks.get("can_construct", true)) and str(contested_barracks.get("block_reason", "")).begins_with("outpost_"), "construction comparison safely blocks a contested capture state", failures)
+	_expect(bool(contested_barracks.get("can_construct", false)), "a remaining global slot is not tied to a contested map coordinate", failures)
 
 	var no_target: Variant = _new_run(708)
-	var lone_archer: Variant = no_target.battle.spawn_unit(_spawn(&"lumern", &"top", &"archer"))
+	var lone_archer: Variant = no_target.battle.spawn_unit(_spawn(&"lumern", &"front", &"archer"))
 	_expect(no_target.begin_battle(), "tactical overlay setup enters battle", failures)
 	no_target.advance(0.1)
 	var lone_entry: Dictionary = _unit_entry(no_target.core_ux_snapshot().get("tactical_overlay", []), int(lone_archer.unit_id))
@@ -118,26 +129,26 @@ func _test_boundary_snapshots(failures: PackedStringArray) -> void:
 func _test_staged_omen_reveal(failures: PackedStringArray) -> void:
 	var run: Variant = _new_run(702)
 	var initial: Dictionary = run.core_ux_snapshot().get("omen", {})
-	_expect(str(initial.get("phase", "")) == "countdown" and (initial.get("lanes", []) as Array).is_empty(), "omen hides composition outside T-30", failures)
+	_expect(str(initial.get("phase", "")) == "countdown" and (initial.get("fronts", []) as Array).is_empty(), "omen hides composition outside T-30", failures)
 	_expect(run.begin_battle(), "omen reveal setup enters battle", failures)
 	run.advance(30.0)
 	var t30: Dictionary = run.core_ux_snapshot().get("omen", {})
 	_expect(str(t30.get("phase", "")) == "t30", "omen enters the T-30 phase", failures)
-	var top_t30: Dictionary = _lane_entry(t30.get("lanes", []), "top")
-	_expect(int(top_t30.get("count", 0)) == 1 and (top_t30.get("units", []) as Array).is_empty(), "T-30 reveals lane and role without exact unit details", failures)
+	var front_t30: Dictionary = _front_entry(t30.get("fronts", []), "front")
+	_expect(int(front_t30.get("count", 0)) == 1 and (front_t30.get("units", []) as Array).is_empty(), "T-30 reveals the one front and role without exact unit details", failures)
 	run.advance(15.0)
 	var t15: Dictionary = run.core_ux_snapshot().get("omen", {})
-	var top_t15: Dictionary = _lane_entry(t15.get("lanes", []), "top")
-	_expect(str(t15.get("phase", "")) == "t15" and not (top_t15.get("units", []) as Array).is_empty(), "T-15 reveals exact shared archetype and counter hints", failures)
+	var front_t15: Dictionary = _front_entry(t15.get("fronts", []), "front")
+	_expect(str(t15.get("phase", "")) == "t15" and not (front_t15.get("units", []) as Array).is_empty(), "T-15 reveals exact shared archetype and counter hints", failures)
 	run.advance(10.0)
 	var t5: Dictionary = run.core_ux_snapshot().get("omen", {})
-	_expect(str(t5.get("phase", "")) == "t5" and str(t5.get("danger_lane", "")) == "top", "T-5 highlights the highest-count danger lane", failures)
+	_expect(str(t5.get("phase", "")) == "t5" and str(t5.get("danger_front", "")) == "front", "T-5 highlights the one danger front", failures)
 
 
 func _test_tactical_range_target_and_counter_overlay(failures: PackedStringArray) -> void:
 	var run: Variant = _new_run(703)
-	var archer: Variant = run.battle.spawn_unit(_spawn(&"lumern", &"top", &"archer"))
-	var flier: Variant = run.battle.spawn_unit(_spawn(&"veil", &"top", &"flier"))
+	var archer: Variant = run.battle.spawn_unit(_spawn(&"lumern", &"front", &"archer"))
+	var flier: Variant = run.battle.spawn_unit(_spawn(&"veil", &"front", &"flier"))
 	archer.lane_position = 48.0
 	flier.lane_position = 52.0
 	_expect(run.begin_battle(), "target overlay setup enters battle", failures)
@@ -165,10 +176,10 @@ func _test_wave_cause_report(failures: PackedStringArray) -> void:
 		enemy.health = 0.0
 	run.advance(0.1)
 	var report: Dictionary = run.core_ux_snapshot().get("latest_wave_report", {})
-	var top: Dictionary = _lane_entry(report.get("lanes", []), "top")
+	var front: Dictionary = _front_entry(report.get("fronts", []), "front")
 	_expect(int(report.get("wave_number", 0)) == 1, "resolved tutorial wave creates one wave report", failures)
-	_expect(int(top.get("enemy_defeated", 0)) == 1, "wave report counts the actual defeated enemy in its lane", failures)
-	_expect(str(top.get("cause_code", "")) == "clean_defense", "wave report derives a cause code from recorded metrics", failures)
+	_expect(int(front.get("enemy_defeated", 0)) == 1, "wave report counts the actual defeated enemy on its front", failures)
+	_expect(str(front.get("cause_code", "")) == "clean_defense", "wave report derives a cause code from recorded metrics", failures)
 
 
 func _test_snapshot_determinism(failures: PackedStringArray) -> void:
@@ -215,9 +226,9 @@ func _building_entry(entries: Array, building_id: String) -> Dictionary:
 	return {}
 
 
-func _lane_entry(entries: Array, lane_id: String) -> Dictionary:
+func _front_entry(entries: Array, front_id: String) -> Dictionary:
 	for entry in entries:
-		if str(entry.get("lane_id", "")) == lane_id:
+		if str(entry.get("front_id", "")) == front_id:
 			return entry
 	return {}
 

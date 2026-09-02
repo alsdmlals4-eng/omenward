@@ -4,10 +4,20 @@
 
 ## 시작
 
-```bash
-python <Base checkout>/tools/check_project_operating_contract.py --project-root . --base-repository <Base checkout> --check
-python -m unittest discover -s tests/python -v
+```powershell
+$validatorBase = '<Base current validator checkout>'
+$releasedBase = '<Base v9.4.4 exact checkout>'
+python "$validatorBase/tools/check_approved_project_operating_contract.py" `
+  --project-root . `
+  --base-repository $releasedBase `
+  --protected-base 9a67a267a69c80fba6f25d5a37e360a15dcc2419 `
+  --approval docs/approvals/PROJECT_PROTECTED_CHANGE_APPROVAL_GLOBAL_ROSTER_AND_STRATEGIC_MAP_2026-08-30.json `
+  --external-approval true `
+  --check
+python -m unittest tests.test_base_v944_reuse_first_adoption tests.python.test_project_base_adapter_freshness -v
 ```
+
+The released Base v9.4.4 content and the current Base validator are intentionally separate: the former owns the semantic pin, while the latter verifies generated Git bytes safely across Windows line endings. An unreleased Base candidate is never adopted by this command.
 
 현재 자동 라우팅 정본은 `.agents/skills/omenward-workflow-router/SKILL.md`이며, 이 Router는
 `skills/PROJECT_BASE_ADAPTER.json`과 생성된 `skills/PROJECT_SKILL_SNAPSHOT.json`만 읽는다.
@@ -17,9 +27,11 @@ python -m unittest discover -s tests/python -v
 
 - `SHARED_EXECUTION_CONTRACT.md`: 모든 Skill이 공유하는 우선순위·Work Mode·검증 계약
 - `SKILL_REGISTRY.json`: Omenward 고유 활성 Skill 4개의 기계 판독 정본
-- `PROJECT_BASE_ADAPTER.json`: Base pin, 공용·로컬 route, 보호 경로의 계약 정본
+- `PROJECT_BASE_ADAPTER.json`: Base v9.4.4 pin, explicit `omenward` identity, 공용·로컬 route, repository-only migration boundary, 보호 경로의 계약 정본
 - `PROJECT_SKILL_SNAPSHOT.json`: 위 계약에서 생성된 효과 route view
 - `foundation/`, 과거 `disciplines/`, `specialists/`: 레거시·호환 자료; 자동 발견 금지
+
+`PROJECT_BASE_ADAPTER.json`은 schema v2다. Google Sheet는 `GOOGLE_SHEETS_LEGACY_MIGRATION_SOURCE`이며 current human authority가 아니다. Notion은 retired policy에 따라 routine read/write target이 아니다.
 
 활성 Discipline:
 
@@ -38,3 +50,4 @@ python -m unittest discover -s tests/python -v
 - 한 작업의 주 책임 Discipline은 하나이며 지원 Discipline은 최대 하나다.
 - REVIEW는 `foundation.validation-review`와 `specialist.canonical-freshness`를 추가한다.
 - 비활성 Skill, 중복 ID, 고아 패키지, 잘못된 alias·dependency와 과도한 자동 선택은 CI에서 실패한다.
+- 새 system/data/UI/visual/tool/workflow/test에는 current project consumer → approved project reference → Base reuse handoff/profile → targeted evidence 순서의 reuse-first preflight를 적용한다.

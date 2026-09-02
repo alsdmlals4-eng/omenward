@@ -1,154 +1,140 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
 ```yaml
-updated_at: 2026-08-25
-common_work_authority: alsdmlals4-eng/Base/AGENTS.md
+updated_at: 2026-09-01
+project_repository: alsdmlals4-eng/omenward
+project_base_adapter: skills/PROJECT_BASE_ADAPTER.json
+base_released_semantic_pin: v9.4.4
+base_release_finalization: 5adc196c0185951f50e49ab5e51586eff8d60886
+base_current_validator_reference: 19355b7ef065a21d0f2b685c7d9be64a4a3970f8
+base_current_candidate_policy_adoption: NONE
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
-contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
-planning_status: RESOLVE_FROM_CURRENT_DECISION_INDEX
+planning_status: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
+implementation_authorized: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
 current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
 current_context: docs/ACTIVE_CONTEXT.md
 current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
-implementation_authorized: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
+repository_only_policy: docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md
 visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
-공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 **영구 routing과 보호 경계**만 소유하며, PR 번호·HEAD·Decision 개수·현재 작업 단계처럼 자주 변하는 live 상태를 복제하지 않는다.
+이 파일은 **얇은 진입 router와 보호 경계**만 소유한다. 현재 전선 구성, 화면 수, 자산 상태, PR 번호, runtime 결과처럼 변하는 제품 사실은 여기로 복제하지 않고 아래의 current owner에서 읽는다.
 
-## 1. 매 작업 시작 read order
+## 1. 권한 우선순위
 
-1. fresh Base `START_HERE.md` / `AGENTS.md` / relevant Skill / main.
-2. fresh OMENWARD `main`, open/draft PR, Issue, target files.
-3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
-4. `docs/ACTIVE_CONTEXT.md`.
-5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md` + relevant owner.
-6. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md` 및 repository의 관련 사람용 owner.
-7. 실제 code/data/scene/test/runtime evidence는 해당 scope가 열렸을 때만 current evidence로 판정한다.
+1. 현재 대화의 최신 사용자 지시와 명시한 승인 범위
+2. 이 `AGENTS.md`, `skills/PROJECT_BASE_ADAPTER.json`, current Decision/Context와 해당 owner
+3. 실제 code, data, Scene, Resource, asset, test, runtime evidence
+4. OMENWARD가 pin한 Base v9.4.4 released contract
+5. fresh Base remote의 release/candidate drift 정보
+6. 과거 chat, PDF, Notion, Google Sheet, historical handoff
 
-과거 채팅·Handoff·오래된 SHA·closed-unmerged PR을 current product truth로 사용하지 않는다. GitHub work-item 상태는 매번 fresh 조회한다.
+PDF 예시는 reference일 뿐 current instruction이나 canon이 아니다. 이전 채팅, closed-unmerged branch, 오래된 SHA 역시 fresh repository truth보다 낮다.
 
-## 2. Current planning route
+## Current product routing receipt
 
-현재 승인 상태와 exact 작업 순서의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 `docs/ACTIVE_CONTEXT.md`다.
+다음은 current owner를 찾기 위한 안정적인 식별자이며, live evidence나 세부 기획을 이 파일이 소유한다는 뜻은 아니다.
 
 ```text
 CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
-VISUAL_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 IMPLEMENTATION_START = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
-RUNTIME_EVIDENCE = RESOLVE_FROM_ACTIVE_CONTEXT_AND_ACTUAL_EXECUTION
-```
-
-이미 승인 owner가 존재하는 질문을 다시 열지 않는다. 각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN` 블록은 **그 Decision 승인 당시의 local sequence**로 읽고 current router로 사용하지 않는다. 특정 구현 패킷이 승인되었다면 그 패킷의 명시 범위만 구현 권한으로 읽고, 프로젝트 전체 구현 권한으로 확대하지 않는다.
-
-## 3. Protected product identity
-
-```text
-ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
-GAMBLING_FANTASY_POSITIONING = FORBIDDEN
-SCRIPTED_FAKE_NEAR_MISS = FORBIDDEN
-RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
-FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
-AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
-TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
-TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
-THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
-IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
-DANGER_STAGE_TYPE = REMOVED
-BOSS_STAGES = 5 / 10 / 15 / 20
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
-RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
-```
-
-Player-facing core:
-
-```text
-징조 관측
-→ 건설 / 동원 인장 / 미래 병력 분포 설계
-→ 3×3 징조륜 결과 / 제한된 행·열 조작
-→ 병력 획득
-→ 세 전선 중 하나에 비가역 커밋
-→ 자동전투 + 제한된 수동 전술
-→ 인과 복기
-```
-
-## 4. Durable world / visual boundary
-
-```text
-PLAYER_ROLE = Omen Warden / 징조수호관
-ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-PRESSURE_LANGUAGE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
-RUN_HISTORY_RESET = FALSE
-
-VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
-UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
-WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
-COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
-BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
-MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
-PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
-FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT
+CURRENT_APPROVED_REPLAN_DECISIONS = 30
+CURRENT_VISUAL_DECISION = OMW-PLAN-20260830-BATTLE-PRIMARY-MARCH-MINIMAP-01
+MAP_TOPOLOGY = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL
+FRONT_STRUCTURE = ONE_WARD_CITADEL -> ONE_ACTIVE_MARCH_FRONT -> ONE_VEIL_CITADEL
 ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
 PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
-THREE_FRONT_VISIBILITY = REQUIRED
-PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
-MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
-NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
-ROULETTE_EXPOSURE = 3×3
-LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
+MARCH_MINIMAP = READ_ONLY_FIVE_SECTOR_CONTEXT
+LEGACY_RUNTIME_BACKDROP = OMW-IMG-20260828-BATTLEFIELD-BACKDROP-V1
+IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED
+FORWARD_BARRICADE = REMOVED__NOT_A_FIXED_DEFENSE_OR_MAP_VISUAL
+DANGER_STAGE_TYPE = REMOVED
+ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
+BOSS_STAGES = 5 / 10 / 15 / 20
+IMAGE_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
 ```
 
-2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
+## 2. 매 작업 시작 read order
 
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` 및 `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`다. 지도 topology는 Ward/Veil 양측 각각 단일 본진과 세 shared front이며, 병렬 3-lane 또는 독립 Ward/Veil 본진 여러 개는 금지한다. map-only board에서 roulette/storyboard는 제외하지만 roulette system 자체는 retained다. 2026-08-25 Decision의 동시 전선 책임은 유지하고, 2026-08-28 close-backdrop Decision은 3×3 inspection만 retained한다. 새 target runtime asset은 Phase 2 Issue·RED test·provenance review 전까지 생성·적용하지 않는다.
+1. fresh `Base`의 `START_HERE.md`, `AGENTS.md`, 필요한 shared Skill과 v9.4.4 release lock을 읽는다.
+2. project `main`, active worktree, 같은 목적의 open/draft PR·Issue, 현재 GitHub head를 fresh query한다.
+3. `skills/PROJECT_BASE_ADAPTER.json`의 adapter test/operating-contract preflight를 실행한 뒤, 생성된 `skills/PROJECT_SKILL_SNAPSHOT.json`과 project router가 가리키는 **필요한 route만** 선택한다.
+4. `docs/CURRENT_CONFIRMED_DECISIONS.md`, `docs/ACTIVE_CONTEXT.md`, `docs/OMENWARD_GDD_CURRENT_CANON.md`, `docs/PROJECT_CORE.md`와 현재 scope owner를 읽는다.
+5. code, data, Scene, asset, provenance, test와 runtime evidence는 해당 scope가 실제로 열렸을 때만 current evidence로 판정한다.
 
-## 5. Runtime / evidence ceiling
+`PROJECT_LOCAL_THEN_BASE_SHARED`가 기본 순서다. Base Skill 본문을 프로젝트에 복사하거나, Base current candidate를 release pin처럼 취급하지 않는다.
 
-현재 runtime·UI·human/player evidence 상태는 `docs/ACTIVE_CONTEXT.md`와 actual execution evidence에서 읽는다.
-
-- 과거 exact evidence가 존재해도 current replan/runtime PASS로 자동 승격하지 않는다.
-- file/Scene/resource 존재만으로 runtime 동작을 주장하지 않는다.
-- runtime/human 검증을 실행하지 않았으면 `NOT_RUN / UNVERIFIED`를 유지한다.
-- 최종 제품 수치는 simulation/runtime/human evidence 없이 확정하지 않는다.
-- 전선별 미니맵 가독성과 SD 병종의 실제 전투 가독성은 runtime/human 검증 전 `NOT_RUN`이다.
-
-## 6. GitHub work-item boundary
+## 3. Base release와 validator를 분리한다
 
 ```text
-CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
+SEMANTIC_OPERATING_CONTRACT = Base v9.4.4 released lock
+CURRENT_VALIDATOR_REFERENCE = Base 19355b7... only for Git-canonical evidence handling
+UNRELEASED_v9_5_POLICY_ADOPTION = NONE
 ```
 
-- open/draft PR은 Base 규칙대로 기본 read-only.
-- closed-unmerged branch 내용을 current product truth로 사용하지 않는다.
-- 과거 runtime execution Issue/PR은 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
+v9.4.4의 release/evidence/finalization identity와 registry hash는 `skills/PROJECT_BASE_ADAPTER.json`이 기계 정본으로 소유한다. 최신 validator reference는 Windows EOL을 포함한 generated artifact의 Git-byte 검증을 안정화하기 위한 실행 참조일 뿐, v9.5 candidate의 workflow·product policy를 채택한 것이 아니다.
 
-## 7. Repository-only authority
+## 4. Reuse-first intake
 
-- Repository: 사람이 보는 전체 그림, Flow, 비교표, Visual/Story/Work Plan과 Markdown/JSON/code/data/scene/resource/test/runtime evidence를 함께 소유한다.
-- Notion: `RETIRED`; 기존 기록은 삭제하지 않지만 future read/write와 destination readback을 하지 않는다.
-- 의미 변경 Decision은 relevant repository owner와 GitHub PR readback에만 동기화한다.
-- Google Sheet와 Notion은 migration/history compatibility input이며 current human authority가 아니다.
-
-## 8. Platform / release / asset-rights durable routing
-
-플랫폼·출시·자산 권리는 current visual/planning next gate와 별개의 durable product boundary다. 제출·등급·권리 PASS를 추정하지 않는다.
-
-- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
-- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
-- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
-- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
+새로 만들거나 의미 있게 바꾸는 system, game data, UI, visual, tool, workflow, test는 구현 전 다음 순서로 조사한다.
 
 ```text
+current project owner / actual consumer
+→ approved project asset and reference
+→ Base PROJECT_WORK_REUSE_HANDOFF and OMENWARD profile
+→ targeted repository evidence or benchmark
+→ required external primary source
+```
+
+`REUSE_FIRST_PREFLIGHT_REQUIRED`와 `REUSE_LEARNING_HANDOFF_REQUIRED`를 적용한다. 단순 문서 정리·mechanical regeneration처럼 새 consumer나 제품 의미가 없는 작업은 근거와 함께 `NOT_APPLICABLE`로 기록한다. 후보 module·외부 asset·Base module은 actual consumer, provenance/rights, rollback과 project adapter route가 확인되기 전 설치하거나 runtime에 연결하지 않는다.
+
+## 5. OMENWARD 제품·자산 경계
+
+- 현재 제품 topology, combat/roulette rule, scene/UI priority는 current Decision, Active Context, GDD와 actual runtime owner가 단일 정본이다.
+- Godot `assets/`, `scenes/`, `scripts/`, `data/`, `addons/`, `project.godot`은 보호 경로다. approved manifest가 있는 변경만 해당 baseline/approval contract로 검증한다.
+- 이미지 상태는 `NEEDED → BRIEF_READY → GENERATED_CANDIDATE → REVIEWED → USER_APPROVED → CANON_REGISTERED → IMPLEMENTED → RUNTIME_VERIFIED`로 구분한다. 이미지는 image model로 생성하고, SVG/Canvas/primitive/vector 대체물로 제품 art를 만들지 않는다.
+- actual consumer, repository path, SHA-256, prompt/source, rights/provenance, approval, implementation state가 함께 있을 때만 asset을 runtime candidate로 취급한다.
+- runtime, human/device, accessibility, player UX, release/rights PASS는 서로 독립이다. 실행하지 않은 검증을 PASS로 쓰지 않는다.
+
+## 6. Repository-only canon과 문서 구조
+
+Repository Markdown/JSON/code/data/scene/resource/test/runtime evidence가 사람·기계 정본이다. Notion은 user-approved migration 완료 후 `RETIRED`이며 future read/write/delete는 금지한다. Google Sheet는 historical compatibility input으로만 보존하며 current authority나 routine synchronization target이 아니다.
+
+문서 구조는 다음처럼 분리한다.
+
+```text
+current product meaning / approval  → Decision + GDD + Active Context owner
+Base adoption / route              → PROJECT_BASE_ADAPTER + generated snapshot
+human operating explanation        → docs/BASE_SHARED_SKILL_INTEGRATION.md
+history / migration evidence       → dated archive or migration owner
+```
+
+동일 사실을 여러 current owner에 복제하지 않는다. current 상태를 고치면 해당 owner, linked test/validator, documentation map만 함께 갱신한다.
+
+## Platform, release, and asset-rights routing
+
+플랫폼/출시/권리의 실제 gate는 다음 owner에서만 판단한다. 이 파일은 NOT_RUN을 PASS로 올리지 않는다.
+
+```text
+docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md
+docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md
+docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md
+docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md
 PC / Steam = COMMITTED_PRIMARY
 Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR
 STOVE = SECONDARY_RELEASE_CANDIDATE
 ```
 
-actual release/submission/compliance 상태는 위 owner와 current evidence에서 읽는다. 아트·오디오·폰트·외부 라이브러리·AI 산출물·외주물은 provenance/상업 이용/배포/원본 재배포/참조 독립성 기록을 확인한 뒤 제품 자산으로 승격한다.
+## 7. 구현·검증·GitHub 안전 규칙
 
-## 9. Historical compatibility markers
+- 의미 변경, public contract, dependency/cost/security, release scope, destructive deletion/migration, final human UX는 before/after, reason, expected effect, rollback을 제시한 별도 승인 뒤에만 바꾼다.
+- 이미 승인된 동일 범위의 implementation continuation은 exact approval reference를 재사용한다. 제품 의미를 확장하지 않는다.
+- test는 affected behavior를 먼저 RED로 고정하고 GREEN으로 만든다. static check, generated artifact check, canonical freshness, runtime(코드 변경 시), exact-head CI 순으로 검증한다.
+- unrelated user changes, uncertain asset, legacy material, open/draft PR을 삭제·reset·force-push·rebase하지 않는다. direct `main` push와 ruleset bypass는 금지한다.
+- completion route는 fetch/reconcile → validate → scoped commit → normal push → exact PR head CI → readback이다. merge는 사용자 명시 지시가 있을 때만 한다.
 
-과거 approval/runtime marker는 historical owner에 보존하고 이 영구 adapter에 live 상태로 복제하지 않는다.
+## 8. 완료 보고와 공용 환류
 
-retained repository change 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`와 최소 5회 full-scope adversarial review를 수행한다. `NOT_RUN`을 PASS로 승격하지 않는다.
+완료 보고는 `작업 전 문제 → 조사·비교 → 채택 구조와 이유 → 구현/준비 → 사용 예 → 기대효과 → 검증 증거 → 자동화·학습 반영 → 미검증·남은 위험` 순서를 따른다. 항상 현재 상태, 권장 조치, 요청 이유, 기대효과를 함께 밝힌다.
+
+프로젝트 특수 교훈은 project owner에만 기록한다. 다른 프로젝트에도 검증된 개선은 Base promotion **candidate**로 제시하되, Base write·release pin 변경은 별도 review/approval 없이는 수행하지 않는다.

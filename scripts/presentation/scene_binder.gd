@@ -21,9 +21,6 @@ func _on_stage_started(_stage_id: StringName, run: Variant) -> void:
 	var scene_root := host.get_parent()
 	if scene_root == null:
 		return
-	var battlefield := scene_root.get_node_or_null("Battlefield")
-	if battlefield != null and battlefield.has_method("bind_run"):
-		battlefield.bind_run(run)
 	var stage_hud := scene_root.get_node_or_null("UI/StageHud")
 	if stage_hud != null and stage_hud.has_method("bind_run"):
 		stage_hud.bind_run(run)

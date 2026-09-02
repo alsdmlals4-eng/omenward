@@ -13,6 +13,7 @@ func _init() -> void:
 	_expect(registry.archetypes.size() == 10, "exactly ten shared archetypes are required", failures)
 	_expect(registry.faction_visuals.size() == 20, "each shared archetype needs two faction visual profiles", failures)
 	_expect(not registry.has_enemy_specific_profile(), "enemy-specific combat data is forbidden", failures)
+	_expect(_all_stage_spawns_use_single_front(registry), "all authored stage spawns must use the one public front id", failures)
 
 	var validator: Variant = BootstrapValidator.new()
 	_expect(validator.validate_registry(registry).is_empty(), "registry must satisfy the shared-archetype contract", failures)
@@ -33,3 +34,15 @@ func _init() -> void:
 func _expect(condition: bool, message: String, failures: PackedStringArray) -> void:
 	if not condition:
 		failures.append(message)
+
+
+func _all_stage_spawns_use_single_front(registry: Variant) -> bool:
+	for stage_id in [&"tutorial_stage", &"regular_stage"]:
+		var stage: Variant = registry.stage_definition(stage_id)
+		if stage == null:
+			return false
+		for wave in stage.waves:
+			for spawn in wave.spawns:
+				if spawn.lane_id != &"front":
+					return false
+	return true

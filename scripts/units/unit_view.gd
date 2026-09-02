@@ -1,7 +1,7 @@
 class_name UnitView
 extends Node2D
 
-const IDLE_DISPLAY_HEIGHT := 56.0
+const IDLE_DISPLAY_HEIGHT := 72.0
 
 var unit: Variant
 var visual_profile: Variant
@@ -71,7 +71,7 @@ func _sync_idle_sprite() -> void:
 	idle_sprite.texture = texture
 	idle_sprite.scale = Vector2.ONE * scale_factor
 	idle_sprite.position = (texture_size * 0.5 - visual_profile.idle_pivot) * scale_factor
-	idle_sprite.flip_h = unit.owner_team_id == &"veil"
+	idle_sprite.flip_h = unit.owner_team_id == &"veil" and visual_profile.idle_mirror_for_veil
 	idle_sprite.modulate = Color.WHITE
 	if str(unit.state) == "dead":
 		idle_sprite.modulate.a = 0.3

@@ -53,8 +53,9 @@ class GameSessionDecouplingContractTests(unittest.TestCase):
         self.assertIn("application.advance(delta)", driver)
         self.assertIn('call_deferred("_start_stage", stage_id)', driver)
         self.assertNotIn("get_node", driver)
-        self.assertIn('get_node_or_null("Battlefield")', binder)
+        self.assertNotIn('get_node_or_null("Battlefield")', binder)
         self.assertIn('get_node_or_null("UI/StageHud")', binder)
+        self.assertIn('get_node_or_null("UI/RunCommandScreen")', binder)
         self.assertIn("host.get_parent()", binder)
         self.assertNotRegex(binder, r"(?m)^\s*func _process\(")
 
