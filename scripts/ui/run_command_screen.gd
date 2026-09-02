@@ -6,12 +6,17 @@ const UNIT_TOKEN_TEXTURE := preload("res://assets/art/units/lumern_shield_guard_
 const TAB_DOMESTIC := &"domestic"
 const TAB_ROULETTE := &"roulette"
 const TAB_FRONT := &"front"
+const BATTLE_FOCUS_RECT := Rect2(Vector2(16, 110), Vector2(926, 304))
+const BATTLE_MINIMAP_RECT := Rect2(Vector2(16, 62), Vector2(926, 40))
+const BATTLE_LOWER_DECK_RECT := Rect2(Vector2(16, 422), Vector2(928, 106))
+const DEFAULT_LOWER_DECK_RECT := Rect2(Vector2(16, 364), Vector2(928, 164))
 
 @onready var _phase_label: Label = $TopBar/PhaseLabel
 @onready var _gold_label: Label = $TopBar/GoldLabel
 @onready var _food_label: Label = $TopBar/FoodLabel
 @onready var _battle_focus: Control = $BattleFocusViewport
 @onready var _march_minimap: Control = $MarchMinimap
+@onready var _lower_deck: Control = $LowerDeck
 @onready var _primary_label: Label = $LowerDeck/PrimaryLabel
 @onready var _building_roster: ItemList = $LowerDeck/PreparePanel/BuildingRoster
 @onready var _prepare_panel: Control = $LowerDeck/PreparePanel
@@ -152,12 +157,14 @@ func selected_roulette_tile_index() -> int:
 func _refresh() -> void:
 	if run == null or run.economy == null:
 		return
+	var phase := StringName(run.command_phase)
+	_apply_phase_layout(phase)
 	_gold_label.text = "Gold %d" % int(run.economy.gold)
 	_food_label.text = "병력 %d/%d" % [int(run.economy.food_used), int(run.economy.food_cap)]
-	_phase_label.text = _phase_title(StringName(run.command_phase))
+	_phase_label.text = _phase_title(phase)
 	_battle_focus.bind_run(run)
 	_march_minimap.bind_run(run)
-	var battle_surface_is_visible: bool = StringName(run.command_phase) == run.BATTLE and visible_work_surface_id() == TAB_FRONT
+	var battle_surface_is_visible: bool = phase == run.BATTLE and visible_work_surface_id() == TAB_FRONT
 	_battle_focus.visible = battle_surface_is_visible
 	_march_minimap.visible = battle_surface_is_visible
 	_refresh_tab_rail()
@@ -165,6 +172,17 @@ func _refresh() -> void:
 	_refresh_building_roster()
 	_refresh_roulette()
 	_refresh_commit()
+
+
+func _apply_phase_layout(phase: StringName) -> void:
+	# BATTLE만 가까운 실제 교전을 주 화면으로 확장한다. 다른 위상은 기존 작업 덱을 유지한다.
+	_battle_focus.position = BATTLE_FOCUS_RECT.position
+	_battle_focus.size = BATTLE_FOCUS_RECT.size
+	_march_minimap.position = BATTLE_MINIMAP_RECT.position
+	_march_minimap.size = BATTLE_MINIMAP_RECT.size
+	var lower_deck_rect := BATTLE_LOWER_DECK_RECT if phase == run.BATTLE else DEFAULT_LOWER_DECK_RECT
+	_lower_deck.position = lower_deck_rect.position
+	_lower_deck.size = lower_deck_rect.size
 
 
 func _refresh_building_roster() -> void:

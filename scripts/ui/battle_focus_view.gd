@@ -26,6 +26,7 @@ const LUMERN_PROP_MAX_X_RATIO := 0.36
 const VEIL_PROP_MIN_X_RATIO := 0.64
 const UNIT_TRAVEL_Y_MIN_RATIO := 0.36
 const UNIT_TRAVEL_Y_MAX_RATIO := 0.80
+const ROLE_DISPLAY_CELL_SIZE := Vector2(104, 104)
 const ROLE_VISUALS := {
 	&"lumern": {
 		&"shield_guard": {&"texture": LUMERN_SHIELD_GUARD_TEXTURE, &"flip_h": false},
@@ -69,6 +70,10 @@ func displayed_unit_count() -> int:
 	if run == null or run.battle == null:
 		return 0
 	return mini(6, (run.battle.front_units(FRONT_ID) as Array).size())
+
+
+func role_display_cell_size() -> Vector2:
+	return ROLE_DISPLAY_CELL_SIZE
 
 
 func resolve_unit_visual(owner_team_id: StringName, archetype_id: StringName) -> Dictionary:
@@ -221,12 +226,10 @@ func _draw_live_units(combat_rect: Rect2) -> void:
 		var position_ratio := clampf(float(unit.lane_position) / 100.0, 0.12, 0.88)
 		var center := combat_rect.position + Vector2(combat_rect.size.x * position_ratio, combat_rect.size.y * 0.62) + _formation_offset(index, owner_team_id)
 		var faction_color := VEIL_COLOR if owner_team_id == &"veil" else WARD_COLOR
-		draw_circle(center + Vector2(0.0, 24.0), 27.0, Color(0.01, 0.02, 0.04, 0.72))
-		draw_circle(center + Vector2(0.0, 17.0), 31.0, Color(faction_color.r, faction_color.g, faction_color.b, 0.28))
-		draw_arc(center + Vector2(0.0, 17.0), 32.0, 0.0, TAU, 20, Color(faction_color.r, faction_color.g, faction_color.b, 0.84), 1.25, true)
-		# 6명 편성에서도 2.5~3등신 SD 실루엣과 무기·마법 이펙트가 읽히도록
-		# 전투 초점의 실제 아트 표시 크기를 약간 키운다.
-		var draw_rect := Rect2(center - Vector2(44.0, 70.0), Vector2(88.0, 88.0))
+		# 전술 말판처럼 보이던 큰 원형 고리를 제거하고, 발밑 그림자만 남긴다.
+		# 확대된 104px role cell이 무기·마법·체급을 전장 안에서 먼저 읽히게 한다.
+		draw_circle(center + Vector2(0.0, 22.0), 22.0, Color(0.01, 0.02, 0.04, 0.34))
+		var draw_rect := Rect2(center - Vector2(52.0, 83.0), ROLE_DISPLAY_CELL_SIZE)
 		if texture != null:
 			_draw_unit_texture(texture, draw_rect, bool(visual.get(&"flip_h", false)))
 		else:

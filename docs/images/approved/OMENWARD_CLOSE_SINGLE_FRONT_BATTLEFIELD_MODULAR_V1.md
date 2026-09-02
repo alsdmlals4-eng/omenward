@@ -61,9 +61,12 @@ resource node, or defense tower.
   close battle view, while its original file remains retained. The root legacy
   `Battlefield` node is deliberately hidden and no longer receives `bind_run`,
   so it cannot render a second wide battlefield behind the close battle view.
-- `scenes/ui/run_command_screen.tscn` gives `BattleFocusViewport` `686×302`
-  logical pixels at `x=16, y=62`; the matching read-only minimap remains at
-  `x=712, y=62, 230×302`. The top `HBoxContainer` holds `내정 / 룰렛 / 전선`.
+- During `BATTLE`, `scripts/ui/run_command_screen.gd` gives
+  `MarchMinimap` the single top-row ribbon rectangle `x=16, y=62, w=926,
+  h=40`, `BattleFocusViewport` the close-battle rectangle `x=16, y=110,
+  w=926, h=304`, and `LowerDeck` the compact action rectangle `x=16, y=422,
+  w=928, h=106`. Outside `BATTLE`, `LowerDeck` returns to `x=16, y=364,
+  w=928, h=164`. The top `HBoxContainer` holds `내정 / 룰렛 / 전선`.
 - Focused contract: `tests/headless/close_battlefield_redesign_contract_test.gd`
   verifies exact asset existence, full-rectangle side-band limits, empty unit
   corridor, one tower boundary, removal of the legacy backdrop consumer and

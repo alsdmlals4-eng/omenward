@@ -7,6 +7,9 @@ const WARD_COLOR := Color(0.46, 0.7, 0.98, 1.0)
 const VEIL_COLOR := Color(0.72, 0.38, 0.8, 1.0)
 const CLASH_COLOR := Color(0.96, 0.69, 0.28, 1.0)
 const SECTOR_IDS := [&"ward_citadel", &"ward_forward", &"clash", &"veil_forward", &"veil_citadel"]
+const SECTOR_MARGIN_LEFT := 70.0
+const SECTOR_MARGIN_RIGHT := 16.0
+const SECTOR_GAP := 8.0
 
 var run: Variant
 
@@ -18,6 +21,16 @@ func bind_run(assigned_run: Variant) -> void:
 
 func is_read_only() -> bool:
 	return true
+
+
+func presentation_contract() -> Dictionary:
+	return {
+		"front_count": 1,
+		"sector_count": 5,
+		"top_single_row": true,
+		"read_only": true,
+		"unit_replication": false,
+	}
 
 
 func front_count() -> int:
@@ -68,40 +81,57 @@ func _draw() -> void:
 	frame.corner_radius_bottom_left = 7
 	frame.corner_radius_bottom_right = 7
 	draw_style_box(frame, Rect2(Vector2.ZERO, size))
-	draw_string(ThemeDB.fallback_font, Vector2(12.0, size.y * 0.64), "전진", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.96, 0.9, 0.72, 1.0))
-	var points := _route_points()
-	draw_polyline(points, Color(0.01, 0.02, 0.04, 0.94), 8.0, true)
-	draw_polyline(points, Color(0.54, 0.48, 0.3, 0.88), 4.0, true)
+	draw_string(ThemeDB.fallback_font, Vector2(12.0, size.y * 0.64), "전진", HORIZONTAL_ALIGNMENT_LEFT, 44.0, 11, Color(0.96, 0.9, 0.72, 1.0))
+	_draw_route_connectors()
 	var route := route_state_for(FRONT_ID)
 	for index in SECTOR_IDS.size():
 		_draw_sector(index, SECTOR_IDS[index], route)
 	_draw_tower(route)
 
 
-func _route_points() -> PackedVector2Array:
-	var left := 76.0
-	var right := maxf(left + 4.0, size.x - 26.0)
-	var spacing := (right - left) / float(SECTOR_IDS.size() - 1)
-	var y := size.y * 0.5
-	var points := PackedVector2Array()
-	for index in SECTOR_IDS.size():
-		points.append(Vector2(left + spacing * index, y))
-	return points
+func _sector_rect(index: int) -> Rect2:
+	var available_width := maxf(5.0, size.x - SECTOR_MARGIN_LEFT - SECTOR_MARGIN_RIGHT - SECTOR_GAP * float(SECTOR_IDS.size() - 1))
+	var sector_width := available_width / float(SECTOR_IDS.size())
+	return Rect2(
+		Vector2(SECTOR_MARGIN_LEFT + float(index) * (sector_width + SECTOR_GAP), 6.0),
+		Vector2(sector_width, maxf(1.0, size.y - 12.0))
+	)
+
+
+func _draw_route_connectors() -> void:
+	for index in range(SECTOR_IDS.size() - 1):
+		var left_rect := _sector_rect(index)
+		var right_rect := _sector_rect(index + 1)
+		var y := size.y * 0.5
+		draw_line(Vector2(left_rect.end.x, y), Vector2(right_rect.position.x, y), Color(0.52, 0.47, 0.3, 0.9), 3.0, true)
 
 
 func _draw_sector(index: int, sector_id: StringName, route: Dictionary) -> void:
-	var center := _route_points()[index]
+	var rect := _sector_rect(index)
 	var color := _sector_color(sector_id, route)
-	draw_circle(center, 7.0, Color(0.01, 0.02, 0.04, 0.96))
-	draw_circle(center, 4.0, color)
+	var cell := StyleBoxFlat.new()
+	cell.bg_color = Color(color.r, color.g, color.b, 0.18)
+	cell.border_width_left = 1
+	cell.border_width_top = 1
+	cell.border_width_right = 1
+	cell.border_width_bottom = 1
+	cell.border_color = Color(1.0, 0.84, 0.38, 0.96) if current_sector_id() == sector_id else Color(color.r, color.g, color.b, 0.72)
+	cell.corner_radius_top_left = 4
+	cell.corner_radius_top_right = 4
+	cell.corner_radius_bottom_left = 4
+	cell.corner_radius_bottom_right = 4
+	draw_style_box(cell, rect)
+	draw_circle(rect.position + Vector2(10.0, rect.size.y * 0.5), 3.5, color)
 	if current_sector_id() == sector_id:
-		draw_arc(center, 10.0, 0.0, TAU, 18, Color(1.0, 0.84, 0.38, 0.96), 1.5, true)
-	var label_position := center + Vector2(10.0, 4.0)
-	draw_string(ThemeDB.fallback_font, label_position, _sector_label(sector_id), HORIZONTAL_ALIGNMENT_LEFT, 56.0, 9, Color(0.94, 0.94, 0.9, 0.95))
+		draw_arc(rect.get_center(), minf(rect.size.y * 0.5 + 3.0, 14.0), 0.0, TAU, 18, Color(1.0, 0.84, 0.38, 0.96), 1.25, true)
+	draw_string(ThemeDB.fallback_font, rect.position + Vector2(18.0, rect.size.y * 0.64), _sector_label(sector_id), HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 24.0, 10, Color(0.94, 0.94, 0.9, 0.98))
 
 
 func _draw_tower(route: Dictionary) -> void:
-	var center := _route_points()[1] + Vector2(-14.0, 0.0)
+	if fixed_tower_count() == 0:
+		return
+	var rect := _sector_rect(1)
+	var center := rect.position + Vector2(rect.size.x - 14.0, rect.size.y * 0.5)
 	var color := Color(0.38, 0.42, 0.5, 0.95)
 	if bool(route.get("tower_active", false)):
 		color = _owner_color(StringName(route.get("tower_owner_team_id", &"")), color)
@@ -130,8 +160,8 @@ func _owner_color(owner_team_id: StringName, fallback: Color) -> Color:
 
 func _sector_label(sector_id: StringName) -> String:
 	match sector_id:
-		&"ward_citadel": return "수호"
-		&"ward_forward": return "전진"
+		&"ward_citadel": return "수호 성채"
+		&"ward_forward": return "수호 전진"
 		&"clash": return "접전"
-		&"veil_forward": return "장막"
-	return "베일"
+		&"veil_forward": return "장막 전진"
+	return "베일 성채"

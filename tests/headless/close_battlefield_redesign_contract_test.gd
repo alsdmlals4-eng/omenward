@@ -43,10 +43,10 @@ func _init() -> void:
 
 func _test_scene_layout(failures: PackedStringArray) -> void:
 	var scene_text := FileAccess.get_file_as_string(RUN_COMMAND_SCENE_PATH)
-	_expect(scene_text.contains("offset_left = 16.0\noffset_top = 108.0\noffset_right = 942.0"), "battle focus uses the full width below the top minimap strip", failures)
+	_expect(scene_text.contains("offset_left = 16.0\noffset_top = 110.0\noffset_right = 942.0\noffset_bottom = 414.0"), "battle focus reserves the recovered full-width BATTLE frame below the top minimap strip", failures)
 	_expect(scene_text.contains('[node name="TopTabRail" type="HBoxContainer" parent="TopBar"]'), "three work-surface tabs live inside the top command rail", failures)
 	_expect(not scene_text.contains('[node name="TabRail" type="VBoxContainer" parent="."]'), "vertical tab rail no longer steals battle width", failures)
-	_expect(scene_text.contains('[node name="MarchMinimap" type="Control" parent="."]\nvisible = false\nlayout_mode = 0\noffset_left = 16.0\noffset_top = 62.0\noffset_right = 942.0\noffset_bottom = 98.0'), "march minimap is one full-width top strip", failures)
+	_expect(scene_text.contains('[node name="MarchMinimap" type="Control" parent="."]\nvisible = false\nlayout_mode = 0\noffset_left = 16.0\noffset_top = 62.0\noffset_right = 942.0\noffset_bottom = 102.0'), "march minimap is one recovered full-width top strip", failures)
 
 
 func _test_single_active_battle_renderer(failures: PackedStringArray) -> void:
@@ -68,7 +68,7 @@ func _test_prop_geometry(failures: PackedStringArray) -> void:
 	if not battle_focus.has_method("terrain_prop_layout") or not battle_focus.has_method("is_terrain_prop_placement_allowed"):
 		battle_focus.free()
 		return
-	var combat_rect := Rect2(Vector2.ZERO, Vector2(686.0, 292.0))
+	var combat_rect := Rect2(Vector2.ZERO, Vector2(926.0, 265.0))
 	var travel_rect := Rect2(
 		Vector2(0.0, combat_rect.size.y * UNIT_TRAVEL_Y_MIN_RATIO),
 		Vector2(combat_rect.size.x, combat_rect.size.y * (UNIT_TRAVEL_Y_MAX_RATIO - UNIT_TRAVEL_Y_MIN_RATIO))
