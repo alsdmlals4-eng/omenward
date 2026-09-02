@@ -184,7 +184,7 @@ Use `current_blueprint = OMW-BLUEPRINT-20260902-BATTLE-PRIMARY-HIERARCHY-RECOVER
 
 Run the project-local validator, every headless test, and the full Python suite. Do not write PASS until the fresh commands exit successfully.
 
-- [ ] **Step 4: Capture only if a live Omenward Hera editor is available**
+- [x] **Step 4: Capture only if a live Omenward Hera editor is available**
 
 Use the real BATTLE fixture and record its exact Git head, screenshot path, diagnostics, and caveats. If no Omenward editor is available, record `RUNTIME_TECHNICAL_SMOKE = NOT_RUN_IN_THIS_TURN` rather than opening or changing another project.
 

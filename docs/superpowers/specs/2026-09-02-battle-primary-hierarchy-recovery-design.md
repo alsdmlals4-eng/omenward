@@ -2,7 +2,7 @@
 
 ```yaml
 blueprint_id: OMW-BLUEPRINT-20260902-BATTLE-PRIMARY-HIERARCHY-RECOVERY-V2
-status: USER_CONFIRMED__IMPLEMENTED__FULL_MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PRECOMMIT_CAPTURED__HUMAN_NOT_RUN
+status: USER_CONFIRMED__IMPLEMENTED__FULL_MACHINE_VERIFIED__RUNTIME_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN
 approved_authoring_at: 2026-09-02 KST
 approval_source: USER_CHAT__"승인,권장안대로 작업진행해 그리고 블루프린트가 이전버전보다 퇴행했다. 다시 확인하고 작업해"
 scope: SINGLE_FRONT_BATTLE_SCREEN_HIERARCHY / BLUEPRINT_DRIFT_REPAIR / CURRENT_CONSUMER_ALIGNMENT
@@ -131,12 +131,13 @@ TERRAIN_PROPS_OUTSIDE_TRAVEL_CORRIDOR = retained
 | RED 계약 | 새 배치·리본·표시 셀 조건이 변경 전 실제 씬에서 실패 | PASS — 2026-09-02 변경 전 의도된 7개 조건 실패 확인 |
 | Godot focused | 새 계약과 기존 battle/minimap/layout 계약 통과 | PASS — 새 V2 + retained contract 3개 |
 | 전체 기계 검증 | 영향 범위의 headless·Python·project validator 통과 | PASS — Godot headless 34/34, Python 570/570, approved project operating contract |
-| 런타임 기술 캡처 | 현재 exact HEAD 960×540 BATTLE 캡처와 오류/경고 확인 | PRECOMMIT_CAPTURED — exact commit capture and evidence record remain pending |
+| 런타임 기술 캡처 | 현재 exact HEAD 960×540 BATTLE 캡처와 오류/경고 확인 | PASS — `35010062`, 960×540 capture, diagnostics errors/warnings 0; multi-unit human reading remains NOT_RUN |
 | 사람 가독성 | 병종·전선 맥락·전투 우선성을 실제 사람이 확인 | NOT_RUN |
 | 권리·출시 | 기존 separate gate | NOT_RUN |
 
 ## 8. 문서 정합성 및 롤백
 
 - `docs/images/approved/OMENWARD_CLOSE_SINGLE_FRONT_BATTLEFIELD_MODULAR_V1.md`의 폐기된 우측 미니맵 치수는 이 V2의 실제 BATTLE 격자로 갱신한다.
+- `docs/qa/OMENWARD_BATTLE_PRIMARY_HIERARCHY_RUNTIME_SMOKE_2026-09-02.md`는 이 V2의 exact-head technical capture와 그 evidence ceiling을 소유한다.
 - V1 블루프린트, 넓은 전략 보드, 이전 캡처 및 승인 자산은 역사·참고 자료로 보존한다. 삭제나 바이너리 교체는 하지 않는다.
 - 롤백은 이 V2 후속 커밋을 되돌리고, 원래의 scene/script rect와 marker drawing으로 복귀하는 것이다. 저장·자산·도메인 데이터에는 마이그레이션이 없다.
