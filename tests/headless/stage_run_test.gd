@@ -25,8 +25,8 @@ func _init() -> void:
 	_expect(wave_director_ready, "wave director service loads and can instantiate", failures)
 	_expect(bypass_ready, "assassin bypass state loads and can instantiate", failures)
 	_expect(battle_ready, "battle simulator loads and can instantiate", failures)
-	if stage_run_ready and progression_ready:
-		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, failures)
+	if stage_run_ready and progression_ready and wave_director_ready:
+		_test_tutorial_unlock_and_regular_wave_progression(stage_run_script, progression_script, wave_director_script, failures)
 		_test_roulette_storage_and_deployment(stage_run_script, progression_script, failures)
 		_test_building_roster_preparation_gate(stage_run_script, progression_script, failures)
 	if bypass_ready:
@@ -36,7 +36,7 @@ func _init() -> void:
 	_finish(failures)
 
 
-func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:
+func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScript, progression_script: GDScript, wave_director_script: GDScript, failures: PackedStringArray) -> void:
 	var tutorial: Resource = ResourceLoader.load(TUTORIAL_STAGE_PATH)
 	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
 	var progression: Variant = progression_script.new()
@@ -49,18 +49,16 @@ func _test_tutorial_unlock_and_regular_wave_progression(stage_run_script: GDScri
 	_expect(run.current_wave == 4, "tutorial reaches W4 from its declared data", failures)
 	run.submit_command({"action": "stage_victory"})
 	_expect(progression.regular_unlocked, "tutorial victory unlocks the regular stage for this session", failures)
-	run.start(regular, 1001)
-	_expect(run.begin_battle(), "regular stage enters the battle phase before simulation advances", failures)
-	run.battle.objectives_enabled = false
-	_advance_waves(run, 15)
-	_expect(run.current_wave == 15, "regular progression reaches W15", failures)
-	_expect(run.wave_director.current_wave().boss_kind == &"legendary", "W15 uses the existing legendary wave definition", failures)
-	_advance_waves(run, 16)
+	var full_regular_director: Variant = wave_director_script.new(regular)
+	full_regular_director.advance(60.0 * 15.0)
+	_expect(full_regular_director.current_wave_number == 15, "regular data still exposes W15 through the generic full-stage wave reader", failures)
+	_expect(full_regular_director.current_wave().boss_kind == &"legendary", "W15 retains the existing legendary wave definition", failures)
+	full_regular_director.advance(60.0)
 	for wave_number in range(16, 20):
-		_expect(run.wave_director.wave_at(wave_number).is_overtime, "W%s is marked as overtime" % wave_number, failures)
-	_advance_waves(run, 20)
-	_expect(run.current_wave == 20, "regular progression reaches W20", failures)
-	_expect(run.wave_director.current_wave().boss_kind == &"mythic", "W20 uses the existing mythic wave definition", failures)
+		_expect(full_regular_director.wave_at(wave_number).is_overtime, "W%s remains marked as overtime" % wave_number, failures)
+	full_regular_director.advance(60.0 * 4.0)
+	_expect(full_regular_director.current_wave_number == 20, "regular data still exposes W20", failures)
+	_expect(full_regular_director.current_wave().boss_kind == &"mythic", "W20 retains the existing mythic wave definition", failures)
 
 
 func _test_roulette_storage_and_deployment(stage_run_script: GDScript, progression_script: GDScript, failures: PackedStringArray) -> void:

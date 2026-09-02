@@ -20,6 +20,7 @@ REQUIRED_FILES = (
     "scripts/core/stage_run.gd",
     "scripts/buildings/building_service.gd",
     "tests/headless/c2_battle_objective_test.gd",
+    "tests/headless/five_sequential_front_maps_contract_test.gd",
     "docs/C2_BATTLE_OBJECTIVE_AUDIT_2026-07-22.md",
     HISTORICAL_STATUS,
 )
@@ -40,6 +41,7 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
     economy = (root / "scripts/core/stage_economy.gd").read_text(encoding="utf-8")
     unit_profile = (root / "scripts/data/unit_archetype_profile.gd").read_text(encoding="utf-8")
     contract_test = (root / "tests/headless/c2_battle_objective_test.gd").read_text(encoding="utf-8")
+    sequential_contract = (root / "tests/headless/five_sequential_front_maps_contract_test.gd").read_text(encoding="utf-8")
     workflow = (root / CURRENT_WORKFLOW).read_text(encoding="utf-8")
 
     for term in (
@@ -57,7 +59,11 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "legendary_boss_unit_id",
         "_resolve_natural_result",
         "enemy_base_destroyed",
-        "wave_15_legendary_boss_defeated",
+        "_finish_current_front_map_victory",
+        "front_map_result",
+        "enter_next_front_map",
+        "_current_front_map_wave_package_resolved",
+        "has_living_units_for",
     ):
         if term not in stage_run:
             errors.append(f"stage run missing natural result contract: {term}")
@@ -84,10 +90,20 @@ def validate(root: pathlib.Path = ROOT) -> list[str]:
         "enemy base destruction from one-front unit attacks produces a natural battle victory",
         "player base destruction produces a natural battle defeat",
         "enemy base destruction closes StageRun as victory",
-        "W15 legendary boss defeat produces standard victory",
+        "W15 remains a legendary pressure wave, not a premature Stage victory",
     ):
         if phrase not in contract_test:
             errors.append(f"C2 regression test missing: {phrase}")
+
+    for phrase in (
+        "real enemy-base destruction clears only the active non-final map",
+        "natural handoff reaches Ward Forward preparation",
+        "enemy-base destruction before W1 through W4 cannot skip the assigned Wave package",
+        "a surviving Lumern bypass unit endures the local-map reset",
+        "a living Veil bypass blocks a package-clear map result",
+    ):
+        if phrase not in sequential_contract:
+            errors.append(f"sequential front-map regression test missing: {phrase}")
 
     for term in (
         "name: Validate Omenward Core",

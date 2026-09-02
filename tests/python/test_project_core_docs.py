@@ -87,8 +87,8 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / CURRENT_SPEC
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_APPROVED_REPLAN_DECISIONS = 30",
                 "CURRENT_APPROVED_REPLAN_DECISIONS = 31",
+                "CURRENT_APPROVED_REPLAN_DECISIONS = 32",
                 1,
             )
             path.write_text(body, encoding="utf-8")
@@ -115,13 +115,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "CURRENT_NEXT = HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK",
+                "CURRENT_NEXT = RUNTIME_TECHNICAL_SMOKE_OF_SEQUENTIAL_FRONT_TRANSITION__THEN_USER_VISUAL_CONFIRMATION",
                 "CURRENT_NEXT = RUN_COMMAND_VERTICAL_SLICE_EXECUTION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK" in error for error in errors), errors)
+            self.assertTrue(any("RUNTIME_TECHNICAL_SMOKE_OF_SEQUENTIAL_FRONT_TRANSITION__THEN_USER_VISUAL_CONFIRMATION" in error for error in errors), errors)
 
     def test_current_storybook_shield_guard_pair_record_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -184,13 +184,13 @@ class CurrentProjectCoreDocumentationTests(unittest.TestCase):
             self.copy(root)
             path = root / "docs/ACTIVE_CONTEXT.md"
             body = path.read_text(encoding="utf-8").replace(
-                "implementation_scope: BATTLE_PRIMARY_MARCH_MINIMAP__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN",
+                "implementation_scope: FIVE_SEQUENTIAL_FRONT_MAPS__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN",
                 "implementation_scope: ALL_PRODUCT_IMPLEMENTATION",
                 1,
             )
             path.write_text(body, encoding="utf-8")
             errors = validate(root)
-            self.assertTrue(any("BATTLE_PRIMARY_MARCH_MINIMAP__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN" in error for error in errors), errors)
+            self.assertTrue(any("FIVE_SEQUENTIAL_FRONT_MAPS__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN" in error for error in errors), errors)
 
     def test_current_visual_spec_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

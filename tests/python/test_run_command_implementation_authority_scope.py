@@ -49,8 +49,8 @@ class RunCommandImplementationAuthorityScopeTests(unittest.TestCase):
         decisions = (ROOT / "docs/CURRENT_CONFIRMED_DECISIONS.md").read_text(encoding="utf-8")
         active = (ROOT / "docs/ACTIVE_CONTEXT.md").read_text(encoding="utf-8")
         self.assertIn("IMPLEMENTATION_AUTHORITY = SCOPED_APPROVED", decisions)
-        self.assertIn("CURRENT_NEXT = HUMAN_USABILITY_AND_MULTI_UNIT_COMBAT_READABILITY_CHECK", decisions)
-        self.assertIn("implementation_scope: BATTLE_PRIMARY_MARCH_MINIMAP__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN", active)
+        self.assertIn("CURRENT_NEXT = RUNTIME_TECHNICAL_SMOKE_OF_SEQUENTIAL_FRONT_TRANSITION__THEN_USER_VISUAL_CONFIRMATION", decisions)
+        self.assertIn("implementation_scope: FIVE_SEQUENTIAL_FRONT_MAPS__ON_RETAINED_SINGLE_FRONT_AND_THREE_TAB_DOMAIN", active)
         self.assertIn("current_chat_runtime_status: CLOSE_SINGLE_FRONT_BATTLEFIELD__FULL_HEADLESS_SUITE_PASS__LIVE_CAPTURED_TECHNICAL_SMOKE_PASS__HUMAN_NOT_RUN", active)
         self.assertNotIn("CURRENT_GODOT_RUNTIME = PASS", active)
 

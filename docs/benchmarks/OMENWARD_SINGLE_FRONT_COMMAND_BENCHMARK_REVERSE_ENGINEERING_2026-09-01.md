@@ -86,3 +86,15 @@ MAP_BUILDING_PLACEMENT = FORBIDDEN
 - 이 조사는 각 공식 출처에 공개된 게임 구조와 사용자가 제공한 참조 화면을 해석한 결과다. 플레이 시간, 내부 데이터, 접근성, 밸런스, 상업적 성공 원인에 대한 증거는 아니다.
 - 벤치마크는 OMENWARD의 승인 결정·코드·자산을 덮어쓰지 않는다. 충돌 시 `CURRENT_CONFIRMED_DECISIONS.md`와 실제 consumer가 항상 우선한다.
 - 외부 게임의 이미지·텍스처·폰트·사운드·UI 스크린샷은 OMENWARD 제품 자산이 아니다. 이후 생성 자산은 독립 brief, repository path, SHA-256, provenance, approval 상태, consumer를 별도로 기록한다.
+
+## 6. 2026-09-02 순차 전선 맵 재대조
+
+새 요청의 핵심은 작은 지형을 고를 수 있는 다섯 갈래 캠페인이 아니라, **수호 성채에서 베일 성채까지 한 방향으로만 이동하는 다섯 번의 전투**다. 따라서 기존 조사와 현재 공식 설명을 다음처럼 다시 적용한다.
+
+| Case | 관찰한 공식 구조 | 판정 | OMENWARD 경계 |
+|---|---|---|---|
+| [Bad North](https://store.steampowered.com/app/688420/Bad_North?l=english) | 서로 다른 작은 전술 지형과 enemy 정보가 전투 판단을 바꾼다. | ADAPT | 다섯 맵은 서로 다른 지형과 wave package를 가져야 한다. 섬 선택·격자 배치·복제된 UI는 거절한다. |
+| [The Last Spell](https://store.steampowered.com/app/1105670/The_Last_Spell/?l=english) | 서로 다른 Haven과 후속/최종 맵 개방 구조가 있다. | ADAPT | 현재 맵 승리 뒤 다음 하나만 해금하고 마지막 맵만 run victory를 만든다. 턴제/도시 복구는 거절한다. |
+| [Kingdom Two Crowns](https://store.steampowered.com/app/701160/Kingdom_Two_Crowns/) | 준비·방어·진군의 한 방향 위협 축이 있다. | ADAPT | 전역 준비의 결과가 다음 전투까지 이어지는 단일 축만 사용한다. 벽/건물 지도 배치는 거절한다. |
+
+결론: `독립 지형 + 순차 해금 + 전역 준비 보존`을 채택하고, 병렬 전선·자유 맵 선택·지도 건설은 거절한다. 이 기록은 외부 규칙이나 자산을 복사하지 않는다.

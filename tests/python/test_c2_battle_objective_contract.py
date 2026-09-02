@@ -71,6 +71,20 @@ class C2BattleObjectiveContractTests(unittest.TestCase):
             test_file.write_text(test_file.read_text(encoding="utf-8").replace("the one enemy gate collapses from same-front siege attacks", "single-front gate progression omitted"), encoding="utf-8")
             self.assertTrue(any("the one enemy gate collapses from same-front siege attacks" in error for error in validate(root)))
 
+    def test_nonfinal_map_result_regression_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            self._copy_contract_files(root)
+            test_file = root / "tests/headless/five_sequential_front_maps_contract_test.gd"
+            test_file.write_text(
+                test_file.read_text(encoding="utf-8").replace(
+                    "real enemy-base destruction clears only the active non-final map",
+                    "nonfinal map result omitted",
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(any("real enemy-base destruction clears only the active non-final map" in error for error in validate(root)))
+
     def test_stale_pr49_current_state_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)

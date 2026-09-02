@@ -10,18 +10,20 @@ var stage: Variant
 var active_combat_seconds := 0.0
 var current_wave_number := 0
 var _next_wave_index := 0
+var _waves: Array = []
 
 
-func _init(assigned_stage: Variant) -> void:
+func _init(assigned_stage: Variant, assigned_waves: Array = []) -> void:
 	stage = assigned_stage
+	_waves = assigned_waves.duplicate() if not assigned_waves.is_empty() else (stage.waves.duplicate() if stage != null else [])
 
 
 func advance(delta: float) -> Array:
 	active_combat_seconds += maxf(0.0, delta)
 	var emitted: Array = []
-	while _next_wave_index < stage.waves.size():
-		var wave: Variant = stage.waves[_next_wave_index]
-		if active_combat_seconds + 0.000001 < float(wave.wave_number) * WAVE_INTERVAL_SECONDS:
+	while _next_wave_index < _waves.size():
+		var wave: Variant = _waves[_next_wave_index]
+		if active_combat_seconds + 0.000001 < float(_next_wave_index + 1) * WAVE_INTERVAL_SECONDS:
 			break
 		current_wave_number = wave.wave_number
 		emitted.append(wave)
@@ -34,13 +36,13 @@ func current_wave() -> Variant:
 
 
 func next_wave() -> Variant:
-	if stage == null or _next_wave_index >= stage.waves.size():
+	if _next_wave_index >= _waves.size():
 		return null
-	return stage.waves[_next_wave_index]
+	return _waves[_next_wave_index]
 
 
 func wave_at(wave_number: int) -> Variant:
-	for wave in stage.waves:
+	for wave in _waves:
 		if wave.wave_number == wave_number:
 			return wave
 	return null
@@ -50,7 +52,15 @@ func seconds_until_next_wave() -> float:
 	var wave: Variant = next_wave()
 	if wave == null:
 		return 0.0
-	return maxf(0.0, float(wave.wave_number) * WAVE_INTERVAL_SECONDS - active_combat_seconds)
+	return maxf(0.0, float(_next_wave_index + 1) * WAVE_INTERVAL_SECONDS - active_combat_seconds)
+
+
+func is_exhausted() -> bool:
+	return _next_wave_index >= _waves.size()
+
+
+func wave_package_snapshot() -> Array:
+	return _waves.duplicate()
 
 
 func omen_phase() -> StringName:

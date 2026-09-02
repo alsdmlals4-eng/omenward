@@ -11,6 +11,7 @@ var base_max_health: float = 0.0
 var tutorial_stage := false
 var wave_count: int
 var waves: Array[Dictionary] = []
+var front_maps: Array[Dictionary] = []
 var input_log: Array[Dictionary] = []
 
 func to_json() -> String:
@@ -26,4 +27,5 @@ func to_json() -> String:
 		"tutorial_stage": tutorial_stage,
 		"wave_count": wave_count,
 		"waves": waves,
+		"front_maps": front_maps,
 	})

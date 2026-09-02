@@ -37,6 +37,7 @@ var fixed_towers := {}
 var bypasses: Array = []
 var result_state: StringName = RUNNING
 var objectives_enabled := true
+var _base_max_health := 0.0
 
 var _rng := RandomNumberGenerator.new()
 var _accumulator := 0.0
@@ -48,6 +49,7 @@ var _events: Array[Dictionary] = []
 func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health: float = 0.0) -> void:
 	registry = assigned_registry
 	seed = seed_value
+	_base_max_health = base_max_health
 	_rng.seed = seed
 	for lane_id in LANE_IDS:
 		lanes[lane_id] = LaneStateScript.new(lane_id)
@@ -72,6 +74,47 @@ func _init(assigned_registry: DataRegistry, seed_value: int = 0, base_max_health
 	_refresh_fixed_towers()
 
 
+func reset_for_next_front_map() -> void:
+	# 살아남은 아군은 같은 단일 전선을 계속 행군한다. 적/거점/성문/탑만 새 전투 맵의
+	# local state로 다시 만든다. 전역 경제와 건물은 BattleSimulator가 소유하지 않는다.
+	var survivors: Array = []
+	var survivor_ids := {}
+	for unit in front_units(FRONT_ID):
+		if unit.owner_team_id == &"lumern" and unit.is_alive():
+			survivors.append(unit)
+			survivor_ids[unit.unit_id] = true
+	for entry: Dictionary in bypasses:
+		var bypass_unit: Variant = entry.get("unit")
+		if bypass_unit != null and bypass_unit.owner_team_id == &"lumern" and bypass_unit.is_alive() and not survivor_ids.has(bypass_unit.unit_id):
+			survivors.append(bypass_unit)
+			survivor_ids[bypass_unit.unit_id] = true
+	lanes[FRONT_ID] = LaneStateScript.new(FRONT_ID)
+	for unit in survivors:
+		unit.lane_position = 10.0
+		unit.target_unit_id = -1
+		unit.state = "idle"
+		lanes[FRONT_ID].add_unit(unit)
+	bypasses.clear()
+	gates = {
+		&"lumern": {FRONT_ID: GateStateScript.new()},
+		&"veil": {FRONT_ID: GateStateScript.new()},
+	}
+	bases = {
+		&"lumern": BaseStateScript.new(_base_max_health),
+		&"veil": BaseStateScript.new(_base_max_health),
+	}
+	outposts = {
+		&"lumern": {FRONT_ID: OutpostStateScript.new()},
+		&"veil": {FRONT_ID: OutpostStateScript.new(&"veil", true)},
+	}
+	clash_zones[FRONT_ID] = ClashZoneStateScript.new(FRONT_ID)
+	fixed_towers[FRONT_ID] = FixedTowerStateScript.new(FRONT_ID)
+	result_state = RUNNING
+	_accumulator = 0.0
+	_events.clear()
+	_refresh_fixed_towers()
+
+
 func can_spawn_unit(spawn: UnitSpawnDefinition) -> bool:
 	return spawn != null and registry != null and registry.archetypes.has(str(spawn.archetype_id)) and accepts_front_id(spawn.lane_id)
 
@@ -88,6 +131,17 @@ func front_units(front_id: StringName = FRONT_ID) -> Array:
 	if not accepts_front_id(front_id):
 		return []
 	return lanes[FRONT_ID].ordered_units()
+
+
+func has_living_units_for(team_id: StringName) -> bool:
+	for unit in front_units(FRONT_ID):
+		if unit.owner_team_id == team_id and unit.is_alive():
+			return true
+	for entry: Dictionary in bypasses:
+		var bypass_unit: Variant = entry.get("unit")
+		if bypass_unit != null and bypass_unit.owner_team_id == team_id and bypass_unit.is_alive():
+			return true
+	return false
 
 
 func ward_forward_is_stable_for(team_id: StringName) -> bool:

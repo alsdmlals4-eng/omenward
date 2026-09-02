@@ -8,6 +8,7 @@ const BattleSimulator = preload("res://scripts/battle/battle_simulator.gd")
 const UnitSpawnDefinition = preload("res://scripts/data/unit_spawn_definition.gd")
 const StageRun = preload("res://scripts/core/stage_run.gd")
 const StageProgression = preload("res://scripts/core/stage_progression.gd")
+const WaveDirector = preload("res://scripts/waves/wave_director.gd")
 
 const BOOTSTRAP_CATALOG_PATH := "res://data/bootstrap_catalog.tres"
 const TUTORIAL_STAGE_PATH := "res://data/stages/tutorial_stage.tres"
@@ -174,21 +175,13 @@ func _test_stage_natural_results(failures: PackedStringArray) -> void:
 	defeat_run.battle.bases[&"lumern"].apply_damage(100000.0, true)
 	defeat_run.advance(0.1)
 	_expect(defeat_run.result_state == defeat_run.DEFEAT, "player base destruction closes StageRun as defeat", failures)
-	var progression := StageProgression.new()
-	progression.regular_unlocked = true
 	var regular: Resource = ResourceLoader.load(REGULAR_STAGE_PATH)
-	var boss_run := StageRun.new(progression)
-	boss_run.start(regular, 507)
-	_expect(boss_run.begin_battle(), "boss run enters battle before wave progression", failures)
-	boss_run.battle.objectives_enabled = false
-	while boss_run.current_wave < 15:
-		boss_run.advance(60.0)
-	_expect(boss_run.legendary_boss_unit_id > 0, "W15 records the legendary boss runtime identity", failures)
-	var boss: Variant = boss_run.battle.get_unit_by_id(boss_run.legendary_boss_unit_id)
-	if boss != null:
-		boss.health = 0.0
-	boss_run.advance(0.1)
-	_expect(boss_run.result_state == boss_run.VICTORY, "W15 legendary boss defeat produces standard victory", failures)
+	var full_regular_director := WaveDirector.new(regular)
+	full_regular_director.advance(60.0 * 15.0)
+	_expect(full_regular_director.current_wave_number == 15, "the retained regular data still contains W15", failures)
+	_expect(full_regular_director.current_wave().boss_kind == &"legendary", "W15 remains a legendary pressure wave, not a premature Stage victory", failures)
+	full_regular_director.advance(60.0 * 5.0)
+	_expect(full_regular_director.current_wave_number == 20 and full_regular_director.current_wave().boss_kind == &"mythic", "W20 remains the final mythic pressure wave", failures)
 
 
 func _registry() -> Variant:

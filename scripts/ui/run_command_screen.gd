@@ -26,6 +26,9 @@ const DEFAULT_LOWER_DECK_RECT := Rect2(Vector2(16, 364), Vector2(928, 164))
 @onready var _commit_panel: Control = $LowerDeck/CommitPanel
 @onready var _battle_panel: Control = $LowerDeck/BattlePanel
 @onready var _review_panel: Control = $LowerDeck/ReviewPanel
+@onready var _review_label: Label = $LowerDeck/ReviewPanel/Label
+@onready var _next_front_map_button: Button = $LowerDeck/ReviewPanel/NextFrontMapButton
+@onready var _retry_button: Button = $LowerDeck/ReviewPanel/RetryButton
 @onready var _board_grid: GridContainer = $LowerDeck/RoulettePanel/BoardGrid
 @onready var _result_label: Label = $LowerDeck/RoulettePanel/ResultLabel
 @onready var _move_label: Label = $LowerDeck/RoulettePanel/MoveLabel
@@ -133,6 +136,11 @@ func _on_retry_pressed() -> void:
 	var session := get_node_or_null("../../GameSession")
 	if session != null:
 		session.retry_stage()
+
+
+func _on_next_front_map_pressed() -> void:
+	if run != null:
+		run.enter_next_front_map()
 
 
 func _move_row(row_index: int, direction: int) -> void:
@@ -249,6 +257,23 @@ func _refresh_phase_panels() -> void:
 			_primary_label.text = "가까운 전투 장면을 읽고, 전진 미니맵으로 행군 위치를 확인한다"
 		run.REVIEW:
 			_primary_label.text = "이번 설계와 배치가 만든 결과를 복기한다"
+	_refresh_review()
+
+
+func _refresh_review() -> void:
+	if run == null or StringName(run.command_phase) != run.REVIEW:
+		return
+	var can_enter_next := false
+	if run.has_method(&"can_enter_next_front_map"):
+		can_enter_next = bool(run.can_enter_next_front_map())
+	_next_front_map_button.visible = can_enter_next
+	_retry_button.visible = not can_enter_next
+	if can_enter_next:
+		var current: Dictionary = run.current_front_map()
+		_review_label.text = "%s 전선을 확보했습니다. 전역 로스터와 재화는 유지한 채 다음 전선의 준비로 이동합니다." % str(current.get("display_name", "현재"))
+		_next_front_map_button.text = "다음 전선 진입"
+	else:
+		_review_label.text = "전선 결과는 실제 전투 이벤트를 기반으로 다음 준비에 연결됩니다."
 
 
 func _refresh_tab_rail() -> void:

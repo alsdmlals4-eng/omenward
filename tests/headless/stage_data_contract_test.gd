@@ -26,6 +26,7 @@ func _init() -> void:
 		if waves.size() >= 20:
 			_expect(waves[14].boss_kind == &"legendary", "W15 is legendary", failures)
 			_expect(waves[19].boss_kind == &"mythic", "W20 is mythic", failures)
+		_assert_regular_front_map_contract(regular as StageDefinition, failures)
 		_assert_regular_manifest_contract(regular as StageDefinition, failures)
 
 	_expect_spawn_is_rejected(
@@ -89,6 +90,11 @@ func _assert_regular_manifest_contract(regular: StageDefinition, failures: Packe
 	_expect(manifest.get("starting_food_cap") == 12, "manifest includes starting food cap", failures)
 	_expect(manifest.get("tutorial_stage") == false, "manifest identifies the regular stage", failures)
 	_expect(manifest.get("wave_count") == 20, "manifest includes the regular wave count", failures)
+	var manifest_front_maps: Array = manifest.get("front_maps", []) as Array
+	_expect(manifest_front_maps.size() == 5, "manifest includes five sequential front maps", failures)
+	if manifest_front_maps.size() == 5:
+		_expect((manifest_front_maps[0] as Dictionary).get("map_id") == "ward_citadel", "manifest starts at Ward Citadel", failures)
+		_expect((manifest_front_maps[4] as Dictionary).get("map_id") == "veil_citadel", "manifest ends at Veil Citadel", failures)
 
 	var manifest_waves: Array = manifest.get("waves", []) as Array
 	_expect(manifest_waves.size() == 20, "manifest includes resolved waves", failures)
@@ -111,6 +117,17 @@ func _assert_regular_manifest_contract(regular: StageDefinition, failures: Packe
 	_expect(input_log is Array, "manifest includes an input log array", failures)
 	if input_log is Array:
 		_expect((input_log as Array).is_empty(), "new manifests begin with an empty input log", failures)
+
+
+func _assert_regular_front_map_contract(regular: StageDefinition, failures: PackedStringArray) -> void:
+	var map_ids := [&"ward_citadel", &"ward_forward", &"clash", &"veil_forward", &"veil_citadel"]
+	_expect(regular.front_maps.size() == 5, "regular stage declares five front maps", failures)
+	if regular.front_maps.size() != 5:
+		return
+	for index in regular.front_maps.size():
+		var front_map: Variant = regular.front_maps[index]
+		_expect(front_map.map_id == map_ids[index], "front map order is a one-way Ward-to-Veil route", failures)
+		_expect(front_map.wave_first == index * 4 + 1 and front_map.wave_last == index * 4 + 4, "each regular map owns exactly four contiguous waves", failures)
 
 
 func _expect_spawn_is_rejected(

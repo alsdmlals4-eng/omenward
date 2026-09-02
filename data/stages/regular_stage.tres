@@ -1,8 +1,9 @@
-[gd_resource type="Resource" load_steps=46 format=3]
+[gd_resource type="Resource" load_steps=51 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/stage_definition.gd" id="1_stage"]
 [ext_resource type="Script" path="res://scripts/data/wave_definition.gd" id="2_wave"]
 [ext_resource type="Script" path="res://scripts/data/unit_spawn_definition.gd" id="3_spawn"]
+[ext_resource type="Script" path="res://scripts/data/front_map_definition.gd" id="4_front_map"]
 
 [sub_resource type="Resource" id="SpawnShield"]
 script = ExtResource("3_spawn")
@@ -172,7 +173,48 @@ wave_number = 20
 spawns = [SubResource("SpawnGiantMythic")]
 boss_kind = &"mythic"
 
+[sub_resource type="Resource" id="FrontMapWardCitadel"]
+script = ExtResource("4_front_map")
+map_id = &"ward_citadel"
+display_name = "수호 성채"
+terrain_id = &"ward_citadel"
+wave_first = 1
+wave_last = 4
+
+[sub_resource type="Resource" id="FrontMapWardForward"]
+script = ExtResource("4_front_map")
+map_id = &"ward_forward"
+display_name = "수호 전진"
+terrain_id = &"ward_forward"
+wave_first = 5
+wave_last = 8
+
+[sub_resource type="Resource" id="FrontMapClash"]
+script = ExtResource("4_front_map")
+map_id = &"clash"
+display_name = "접전"
+terrain_id = &"clash"
+wave_first = 9
+wave_last = 12
+
+[sub_resource type="Resource" id="FrontMapVeilForward"]
+script = ExtResource("4_front_map")
+map_id = &"veil_forward"
+display_name = "장막 전진"
+terrain_id = &"veil_forward"
+wave_first = 13
+wave_last = 16
+
+[sub_resource type="Resource" id="FrontMapVeilCitadel"]
+script = ExtResource("4_front_map")
+map_id = &"veil_citadel"
+display_name = "베일 성채"
+terrain_id = &"veil_citadel"
+wave_first = 17
+wave_last = 20
+
 [resource]
 script = ExtResource("1_stage")
 stage_id = &"regular_stage"
 waves = [SubResource("Wave1"), SubResource("Wave2"), SubResource("Wave3"), SubResource("Wave4"), SubResource("Wave5"), SubResource("Wave6"), SubResource("Wave7"), SubResource("Wave8"), SubResource("Wave9"), SubResource("Wave10"), SubResource("Wave11"), SubResource("Wave12"), SubResource("Wave13"), SubResource("Wave14"), SubResource("Wave15"), SubResource("Wave16"), SubResource("Wave17"), SubResource("Wave18"), SubResource("Wave19"), SubResource("Wave20")]
+front_maps = [SubResource("FrontMapWardCitadel"), SubResource("FrontMapWardForward"), SubResource("FrontMapClash"), SubResource("FrontMapVeilForward"), SubResource("FrontMapVeilCitadel")]

@@ -50,6 +50,11 @@ func route_state_for(front_id: StringName) -> Dictionary:
 
 
 func current_sector_id() -> StringName:
+	if run != null and run.has_method(&"current_front_map"):
+		var current: Dictionary = run.current_front_map()
+		var map_id := StringName(current.get("map_id", &""))
+		if SECTOR_IDS.has(map_id):
+			return map_id
 	var route := route_state_for(FRONT_ID)
 	if route.is_empty():
 		return &"ward_forward"
@@ -108,29 +113,39 @@ func _draw_route_connectors() -> void:
 
 func _draw_sector(index: int, sector_id: StringName, route: Dictionary) -> void:
 	var rect := _sector_rect(index)
-	var color := _sector_color(sector_id, route)
+	var map_entry := front_map_entry_for(sector_id)
+	var state := StringName(map_entry.get("state", &"locked"))
+	var color := _sector_color(sector_id, route, state)
 	var cell := StyleBoxFlat.new()
-	cell.bg_color = Color(color.r, color.g, color.b, 0.18)
+	cell.bg_color = Color(color.r, color.g, color.b, 0.28 if state == &"current" else 0.14)
 	cell.border_width_left = 1
 	cell.border_width_top = 1
 	cell.border_width_right = 1
 	cell.border_width_bottom = 1
-	cell.border_color = Color(1.0, 0.84, 0.38, 0.96) if current_sector_id() == sector_id else Color(color.r, color.g, color.b, 0.72)
+	cell.border_color = Color(1.0, 0.84, 0.38, 0.96) if state == &"current" else Color(color.r, color.g, color.b, 0.72)
 	cell.corner_radius_top_left = 4
 	cell.corner_radius_top_right = 4
 	cell.corner_radius_bottom_left = 4
 	cell.corner_radius_bottom_right = 4
 	draw_style_box(cell, rect)
 	draw_circle(rect.position + Vector2(10.0, rect.size.y * 0.5), 3.5, color)
-	if current_sector_id() == sector_id:
+	if state == &"current":
 		draw_arc(rect.get_center(), minf(rect.size.y * 0.5 + 3.0, 14.0), 0.0, TAU, 18, Color(1.0, 0.84, 0.38, 0.96), 1.25, true)
-	draw_string(ThemeDB.fallback_font, rect.position + Vector2(18.0, rect.size.y * 0.64), _sector_label(sector_id), HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 24.0, 10, Color(0.94, 0.94, 0.9, 0.98))
+	var label_color := Color(0.94, 0.94, 0.9, 0.98) if state != &"locked" else Color(0.58, 0.59, 0.65, 0.92)
+	draw_string(ThemeDB.fallback_font, rect.position + Vector2(18.0, rect.size.y * 0.64), _sector_label(sector_id), HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 24.0, 10, label_color)
+	if state == &"cleared":
+		draw_string(ThemeDB.fallback_font, rect.position + Vector2(rect.size.x - 26.0, rect.size.y * 0.64), "완료", HORIZONTAL_ALIGNMENT_RIGHT, 22.0, 8, Color(0.72, 0.93, 0.78, 0.96))
+	elif state == &"available":
+		draw_string(ThemeDB.fallback_font, rect.position + Vector2(rect.size.x - 26.0, rect.size.y * 0.64), "다음", HORIZONTAL_ALIGNMENT_RIGHT, 22.0, 8, Color(1.0, 0.84, 0.38, 0.96))
+	elif state == &"locked":
+		draw_string(ThemeDB.fallback_font, rect.position + Vector2(rect.size.x - 22.0, rect.size.y * 0.64), "잠김", HORIZONTAL_ALIGNMENT_RIGHT, 18.0, 8, Color(0.55, 0.56, 0.62, 0.92))
 
 
 func _draw_tower(route: Dictionary) -> void:
 	if fixed_tower_count() == 0:
 		return
-	var rect := _sector_rect(1)
+	var index := maxi(0, SECTOR_IDS.find(current_sector_id()))
+	var rect := _sector_rect(index)
 	var center := rect.position + Vector2(rect.size.x - 14.0, rect.size.y * 0.5)
 	var color := Color(0.38, 0.42, 0.5, 0.95)
 	if bool(route.get("tower_active", false)):
@@ -139,7 +154,13 @@ func _draw_tower(route: Dictionary) -> void:
 	draw_circle(center + Vector2(0.0, -5.0), 2.0, color)
 
 
-func _sector_color(sector_id: StringName, route: Dictionary) -> Color:
+func _sector_color(sector_id: StringName, route: Dictionary, map_state: StringName = &"") -> Color:
+	if map_state == &"locked":
+		return Color(0.38, 0.38, 0.46, 1.0)
+	if map_state == &"cleared":
+		return WARD_COLOR
+	if map_state == &"available":
+		return CLASH_COLOR
 	if sector_id == &"ward_citadel":
 		return WARD_COLOR
 	if sector_id == &"veil_citadel":
@@ -148,6 +169,18 @@ func _sector_color(sector_id: StringName, route: Dictionary) -> Color:
 	if bool(state.get("contested", false)):
 		return CLASH_COLOR
 	return _owner_color(StringName(state.get("owner_team_id", &"")), CLASH_COLOR)
+
+
+func front_map_entry_for(sector_id: StringName) -> Dictionary:
+	if run != null and run.has_method(&"front_map_snapshot"):
+		for entry in run.front_map_snapshot():
+			if StringName((entry as Dictionary).get("map_id", &"")) == sector_id:
+				return (entry as Dictionary).duplicate(true)
+	return {
+		"map_id": str(sector_id),
+		"state": &"current" if sector_id == current_sector_id() else &"locked",
+		"selectable": false,
+	}
 
 
 func _owner_color(owner_team_id: StringName, fallback: Color) -> Color:

@@ -54,6 +54,11 @@ func bind_run(assigned_run: Variant) -> void:
 
 
 func current_sector_id() -> StringName:
+	if run != null and run.has_method(&"current_front_map"):
+		var current: Dictionary = run.current_front_map()
+		var map_id := StringName(current.get("map_id", &""))
+		if map_id != &"":
+			return map_id
 	if run == null or run.battle == null:
 		return &"ward_forward"
 	var route: Dictionary = run.battle.route_state_for(FRONT_ID)
@@ -64,6 +69,18 @@ func current_sector_id() -> StringName:
 	if StringName((route.get("veil_forward", {}) as Dictionary).get("owner_team_id", &"")) != &"lumern":
 		return &"veil_forward"
 	return &"veil_citadel"
+
+
+func current_terrain_id() -> StringName:
+	# Map art remains deliberately decoupled from progression: the current locked
+	# shared foundation stays on screen until an exact five-map candidate set has
+	# passed the separate user visual-confirmation and canon-registration gates.
+	if run != null and run.has_method(&"current_front_map"):
+		var current: Dictionary = run.current_front_map()
+		var terrain_id := StringName(current.get("terrain_id", &""))
+		if terrain_id != &"":
+			return terrain_id
+	return &"shared_foundation_pending"
 
 
 func displayed_unit_count() -> int:
@@ -287,7 +304,10 @@ func _draw_unit_health(center: Vector2, health_ratio: float, faction_color: Colo
 
 
 func _draw_footer(combat_rect: Rect2) -> void:
-	var sector_hint := "전진기지 확보 전" if current_sector_id() == &"ward_forward" else "현 구간 교전 중"
+	var sector_hint := "%s 전선 교전 중" % _sector_title(current_sector_id())
+	if run != null and run.has_method(&"current_front_map"):
+		var current: Dictionary = run.current_front_map()
+		sector_hint = "%s · W%d–W%d" % [str(current.get("display_name", _sector_title(current_sector_id()))), int(current.get("wave_first", 0)), int(current.get("wave_last", 0))]
 	draw_string(ThemeDB.fallback_font, combat_rect.position + Vector2(10.0, combat_rect.size.y - 10.0), sector_hint, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color(0.95, 0.92, 0.8, 0.96))
 
 

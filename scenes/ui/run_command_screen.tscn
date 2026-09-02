@@ -551,6 +551,15 @@ offset_right = 884.0
 offset_bottom = 70.0
 text = "Stage 다시 시작"
 
+[node name="NextFrontMapButton" type="Button" parent="LowerDeck/ReviewPanel"]
+visible = false
+layout_mode = 0
+offset_left = 440.0
+offset_top = 30.0
+offset_right = 630.0
+offset_bottom = 70.0
+text = "다음 전선 진입"
+
 [connection signal="pressed" from="LowerDeck/PreparePanel/BarracksButton" to="." method="_on_barracks_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/TowerButton" to="." method="_on_tower_pressed"]
 [connection signal="pressed" from="LowerDeck/PreparePanel/FarmButton" to="." method="_on_farm_pressed"]
@@ -579,3 +588,4 @@ text = "Stage 다시 시작"
 [connection signal="pressed" from="LowerDeck/CommitPanel/ConfirmDeploymentButton" to="." method="_on_commit_pressed"]
 [connection signal="pressed" from="LowerDeck/CommitPanel/BeginBattleButton" to="." method="_on_begin_battle_pressed"]
 [connection signal="pressed" from="LowerDeck/ReviewPanel/RetryButton" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="LowerDeck/ReviewPanel/NextFrontMapButton" to="." method="_on_next_front_map_pressed"]

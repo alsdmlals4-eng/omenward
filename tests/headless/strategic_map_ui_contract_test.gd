@@ -11,6 +11,10 @@ const REGULAR_STAGE_PATH := "res://data/stages/regular_stage.tres"
 
 
 func _init() -> void:
+	call_deferred("_run")
+
+
+func _run() -> void:
 	var failures: Array[String] = []
 	var screen := (load(RUN_COMMAND_SCREEN_PATH) as PackedScene).instantiate()
 	var battle_focus := screen.get_node_or_null("BattleFocusViewport")
@@ -25,6 +29,7 @@ func _init() -> void:
 		_expect(march_minimap.has_method("bind_run"), "minimap reads StageRun state", failures)
 	screen.free()
 	_test_single_route_projection(failures)
+	await _test_review_next_map_cta(failures)
 	_test_battlefield_alignment(failures)
 	_finish(failures)
 
@@ -40,14 +45,39 @@ func _test_single_route_projection(failures: Array[String]) -> void:
 	var route := map.route_state_for(&"front")
 	_expect(route.has_all(["ward_forward", "clash", "veil_forward"]), "front projection retains the three capturable anchors", failures)
 	_expect(map.has_method("current_sector_id"), "minimap exposes the currently emphasized route sector", failures)
+	_expect(map.has_method("front_map_entry_for"), "minimap exposes read-only sequential map state", failures)
 	if map.has_method("current_sector_id"):
-		_expect(map.current_sector_id() == &"ward_forward", "opening sector emphasizes the unheld Ward Forward objective", failures)
+		_expect(map.current_sector_id() == &"ward_citadel", "opening sector emphasizes the first active battlefield map", failures)
+	if map.has_method("front_map_entry_for"):
+		_expect(StringName(map.front_map_entry_for(&"ward_citadel").get("state", &"")) == &"current", "opening map is current", failures)
+		_expect(StringName(map.front_map_entry_for(&"ward_forward").get("state", &"")) == &"locked", "second map starts locked", failures)
 	var battle_focus := BattleFocusView.new()
 	battle_focus.bind_run(run)
-	_expect(battle_focus.current_sector_id() == &"ward_forward", "battle focus and minimap start at the same route sector", failures)
+	_expect(battle_focus.current_sector_id() == &"ward_citadel", "battle focus and minimap start at the same active battlefield map", failures)
+	_expect(battle_focus.has_method("current_terrain_id"), "battle focus resolves a terrain consumer key from the active map package", failures)
+	if battle_focus.has_method("current_terrain_id"):
+		_expect(battle_focus.current_terrain_id() == &"ward_citadel", "opening battle focus resolves Ward Citadel terrain rather than a guessed capture sector", failures)
 	_expect(battle_focus.has_method("displayed_unit_count"), "battle focus exposes its bounded live formation projection", failures)
 	battle_focus.free()
 	map.free()
+
+
+func _test_review_next_map_cta(failures: Array[String]) -> void:
+	var screen := (load(RUN_COMMAND_SCREEN_PATH) as PackedScene).instantiate()
+	var run: Variant = _new_run(4103)
+	root.add_child(screen)
+	await process_frame
+	screen.bind_run(run)
+	run.submit_command({"action": "stage_victory"})
+	screen.call("_refresh")
+	var next_button := screen.get_node_or_null("LowerDeck/ReviewPanel/NextFrontMapButton") as Button
+	var retry_button := screen.get_node_or_null("LowerDeck/ReviewPanel/RetryButton") as Button
+	_expect(next_button != null and next_button.visible, "non-final map review shows the explicit next-front CTA", failures)
+	_expect(retry_button != null and not retry_button.visible, "non-final map review does not mislabel progression as a full Stage retry", failures)
+	screen.call("_on_next_front_map_pressed")
+	_expect(run.front_map_index == 1 and run.command_phase == run.PREPARE, "review CTA performs the one-way next-map handoff", failures)
+	screen.free()
+	await process_frame
 
 
 func _test_battlefield_alignment(failures: Array[String]) -> void:
