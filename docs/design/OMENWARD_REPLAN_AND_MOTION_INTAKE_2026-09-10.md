@@ -11,6 +11,8 @@ motion: PLANNED_WITH_ART_FROM_START
 runtime_replacement: NOT_STARTED
 core_direction: ROULETTE_ARMY_BUILDING_AND_SINGLE_FRONT_AUTOBATTLE_RETAINED
 research_owner: docs/benchmarks/OMENWARD_SYSTEM_SCREEN_ART_REDESIGN_REVIEW_2026-09-10.md
+blueprint_owner: docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md
+recommended_direction_approval: USER_APPROVED_2026_09_10_CONTINUE
 ```
 
 이 문서는 2026-09-10 사용자의 재기획 요청과 이번 조사 결과를 소유한다. 기존 게임의 완성 선언이나 새로운 장르 확정서가 아니다. 이전 이미지의 승인 이력은 역사로 보존하되 새 기획의 시각 정본으로 자동 계승하지 않는다. 기존 빌드의 이미지 참조는 새 자산 전환 때 교체한다. 원본 삭제나 저장 데이터 초기화는 이번 작업에 포함하지 않는다.

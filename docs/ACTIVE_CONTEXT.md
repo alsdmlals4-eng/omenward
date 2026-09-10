@@ -1,6 +1,6 @@
 # [현행] OMENWARD Active Context
 
-현재 작업(2026-09-10): 핵심 유지 확인 완료. 시스템·화면·아트 재설계 조사 결과는 `docs/benchmarks/OMENWARD_SYSTEM_SCREEN_ART_REDESIGN_REVIEW_2026-09-10.md`. 다음은 해당 제안의 화면/흐름 명세와 대표 편성 사례 구체화다. 재설계 runtime·신규 아트·모션은 아직 미제작이다.
+현재 작업(2026-09-10): 예고·군수 중심 권장안으로 진행 승인. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md`에 화면/시간/입력 흐름과 대표 편성 사례, 신규 전장·키포즈 후보 V2를 연결했다. 다음은 후보 시각 검토와 대표 병종의 개별 동작 프레임 제작이다. 신규 gameplay runtime과 재생용 모션은 아직 미구현이다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 
