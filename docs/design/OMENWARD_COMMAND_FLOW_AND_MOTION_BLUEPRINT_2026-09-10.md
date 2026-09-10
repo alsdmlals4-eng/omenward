@@ -131,6 +131,41 @@ Use case: stylized-concept. Create ONE NEW polished OMENWARD allied shield infan
 
 검증: project operating contract 및 core documentation 검사 PASS; PNG 디코드/크기/hash readback PASS; 비교 HTML의 동일 PNG 참조 4개 확인. HTML 실제 브라우저 시각 검수, Godot 배경 배치와 필터 비교, 모션, 사용자 최종 품질 판정은 NOT_RUN. 전체 변경 검토에서 원본/기존 PR 보호, 승인 범위, 아트 품질, 실제 alpha, 크기 비교의 증거 한계를 대조했고 intake/roadmap의 낡은 상태 설명도 함께 교정했다.
 
+### 6.2 비인간 베일 pair와 전장 적합성 후보
+
+사용자 후속 ‘좋아 권장안대로 계속 진행해’에 따라 방패병 V3 품질 방향으로 제작을 이어갔다. 이번 새 결과의 최종 승인/정본 등록/런타임 적용은 별도다.
+
+| 후보 | 소비 목적 | 저장소 경로 | SHA-256 |
+|---|---|---|---|
+| Veil shield V1 | 비인간 방어병 외형·재질·역할과 축소 비교 | `docs/images/candidates/replan-20260910/veil-shield-quality-v1.png` | `8BEC8EC60DA8DBE9F06613060DCE7FD5DE371C33EFE65AC994AFB58A3A8A1994` |
+| Shield pair field fit V1 | 새 양 진영과 기존 지형 구도의 화풍 적합성 비교 | `docs/images/candidates/replan-20260910/shield-pair-field-fit-v1.png` | `FB5A93AE39F693A722C8DD14302766639828B3C8C231E8B6F70920DAB206B2D2` |
+
+두 후보 모두 built-in image model 산출물이며 USER_SELECTION_PENDING. 기존 파일을 덮어쓰지 않았다. 원본 경로는 `C:/Users/user/.codex/generated_images/01a04af4-0452-7a13-9b6e-1a6077568d72/` 아래 각각 `exec-e06b2df5-13ce-4626-b321-0f3fb069db9f.png`, `exec-79497d82-2c3c-4a2c-85db-380edab9161b.png`이다.
+
+파일 검증: 베일 1254×1254 RGB, 전장 시안 1672×941 RGB. SHA-256 readback 일치, 비교 HTML의 이미지 참조 9개 실재 확인, core documentation 검사와 diff 형식 검사 PASS. 제품 scripts/scenes/data/assets/skills 변경 없음. 실제 HTML 브라우저 검수·Godot·Human·권리 최종 검수는 NOT_RUN.
+
+베일 비교: 인간 기사 recolor는 REJECT, 참고 원화 수준의 금속성/갑각 명암은 ADAPT, 주둥이·이빨·비늘 관절·발톱을 통한 비인간성은 ADOPT. 방어 역할은 큰 방패와 낮은 자세로 유지한다. 이번 후보는 주둥이와 발톱이 명확하나 방패가 화면 앞 왼쪽에 놓이라는 요청은 반영되지 않았다. 측면 동작 제작에서 방패 면의 방향을 다시 확인한다. 크기와 외곽선은 아군과 함께 검토하되 단일 후보로 베일 전체 종족을 확정하지 않는다.
+
+전장 비교: 아군 3/베일 3, 좌측 방어탑 1개, 끊기지 않는 넓은 이동 공간, 소품 가장자리 배치 확인. 합성 결과에서 검/방패 형태의 세부 변형과 원근에 따른 크기 차이가 있다. 따라서 실제 원화 픽셀 합성, 인게임 캡처, 충돌 범위 또는 애니메이션 continuity의 증거가 아니다. 합성 이미지는 게임 배경 텍스처로 넣지 않는다. 배경과 소품을 분리한다는 제작 계약도 유지한다.
+
+생성 프롬프트 — 베일:
+
+```text
+Use case: stylized-concept. Make ONE new OMENWARD Veil shield infantry monster, standalone full body character on a perfectly plain warm ivory background. Reference image is ONLY the shared rendering quality, hand-painted dimensional storybook-fantasy SD style, contour weight and finish. Do NOT recolor the human knight. Create a clearly NONHUMAN compact 2.5-to-3 head creature, hunched powerful torso, digitigrade clawed legs with exposed gray-violet scaled joints, two arms, two legs, horned chitin head grown directly from the body, a short blunt bestial muzzle with a few visible ivory teeth and luminous violet eyes, NO human skin, NO human face, NO wearable human helmet. Layered obsidian-violet carapace plates interlock with dark weathered metal-like edge highlights; convincing curved surfaces and deep overlap shadows matching the reference's painting quality, controlled watercolor grain, not photorealistic gore. Defensive role: huge thick asymmetric carapace buckler in its front LEFT side of image, broad rounded-angular silhouette with 3 short defensive spikes, a small restrained violet fissure near its center. Other clawed hand grips a short heavy chipped cleaver held low, wholly visible. Body faces SCREEN LEFT in three-quarter side view, prepared to brace against the allied shield soldier. Same regular infantry scale and SD world, not a gigantic boss; shoulders broad but not disproportionate. A few short torn dark purple cloth strips at waist, no royal cape or ornament overload. Distinguish carapace, exposed skin, cleaver metal and cloth through painted materials. Clear silhouette, all feet, horns, shield and blade within frame with margin, no floor shadow, no VFX cloud hiding anatomy. Not cute human in demon costume, not a recolored ally, not insect with six limbs, not skull knight, no text, no sheet, no labels. Premium polished character illustration, plain warm ivory background, no checkerboard. This is one still art candidate, not an animation.
+```
+
+생성 프롬프트 — 화풍 적합성 합성:
+
+```text
+Use case: compositing. Create a WIDE 16:9 OMENWARD battlefield ART FIT PREVIEW, not a screenshot. Input 1 = terrain composition reference: retain its broad uninterrupted ochre battle ground, distant green hills/citadel to the left and gray-violet rocky ridge to right, restrained storybook watercolor palette, single small left defense tower, foreground rocks and shrubs confined to bottom outer edge. Remove ALL old characters, remove bottom white pose strip and ALL labels; do not create roads split by rivers or obstacles. Input 2 = EXACT allied shield soldier design and rendering quality; input 3 = EXACT Veil monster shield soldier design and rendering quality. Integrate only these two unit types: three allies on LEFT facing RIGHT and three monsters on RIGHT facing LEFT, sparse loosely staggered battle formation. All are regular infantry of comparable head/body height, no giant boss. Two foremost soldiers approaching center within sword reach, behind them two per side, no overlap hiding silhouettes. Keep character painted metal/chitin volume, cute SD ally face, nonhuman clawed monster muzzle, gold/navy ally, obsidian violet enemy. Do not simplify units to flat blobs and do not return to the old units from input 1. Units occupy about 20 percent of image height, grounded with subtle contact shadow, foreground units on same baseline, balanced faction numbers. Show background fitting the units, retain airy terrain composition with clear battlefield band. No UI, no text, no labels, no split-screen, no pose chart, no arrows, no river, no building nodes, no new props in movement path. The output is only visual style-fit artwork; preserve the two candidate identities without new equipment or additional arms.
+```
+
+검토 순서: (1) 모든 변경의 승인 범위와 기존 자산 보호 (2) 두 신규 이미지의 외형/장비/실루엣 및 역할 (3) 문서와 크기 비교의 source/hash/표시 의미 (4) 원화·합성·모션·runtime 증거의 혼동 (5) Active Context/Decisions/로드맵과 Git/CI 상태를 전 범위 재대조. 방패 위치 미반영과 합성 장비 drift는 위에 남겼으며 runtime 승격 금지로 제한했다. 리뷰를 사용자 품질 승인으로 처리하지 않는다.
+
+자동화 교훈: 동일 캐릭터를 여러 명 배치한 이미지 모델 시안도 장비 동일성을 보장하지 못한다. 이후 motion/engine은 단일 원화와 상태별 검증 프레임을 사용해야 한다. 새 공용 도구 제작이나 Base 계약 변경 없이 기존 alpha/geometry/readback 규칙으로 처리한다.
+
+남은 작업: 새 베일/전장 방향 확인 → 원화 투명 경계·방향 보정 → 방패병 이동/공격의 개별 프레임 pilot → Aseprite duration/pivot/export → 실제 Godot 배치와 이벤트 재생. 아직 프레임 정리 대상이 없어 이번 Aseprite 실행은 NOT_RUN. 기존 정본/계약 CI는 신규 문서·후보 경로를 허용하지 않는 범위 불일치로 실패했으며 검사를 완화하지 않았다. 승인된 재기획을 정확히 표현하는 계약 교정은 별도 검토가 필요하다.
+
 ## 7. 모션 납품 계약
 
 선행 순서는 §6의 품질 교정을 우선한다. V2의 평면적 캐릭터를 모션 원화로 확장하지 않는다.
