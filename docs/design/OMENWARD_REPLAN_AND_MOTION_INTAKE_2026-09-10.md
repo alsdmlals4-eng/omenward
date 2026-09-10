@@ -2,13 +2,15 @@
 
 ```yaml
 decision_id: OMW-PLAN-20260910-RESTART-01
-status: USER_REQUEST_ACCEPTED__CORE_DIRECTION_CLARIFICATION_PENDING
+status: CORE_RETAINED__SYSTEM_SCREEN_ART_REDESIGN_RESEARCH_ACTIVE
 authority: latest-user-request-2026-09-10
 planning: REOPENED_FROM_FOUNDATION
 existing_images_for_new_design: REFERENCE_ONLY
 new_art: REQUIRED_AFTER_CONSUMER_AND_STYLE_BRIEF
 motion: PLANNED_WITH_ART_FROM_START
 runtime_replacement: NOT_STARTED
+core_direction: ROULETTE_ARMY_BUILDING_AND_SINGLE_FRONT_AUTOBATTLE_RETAINED
+research_owner: docs/benchmarks/OMENWARD_SYSTEM_SCREEN_ART_REDESIGN_REVIEW_2026-09-10.md
 ```
 
 이 문서는 2026-09-10 사용자의 재기획 요청과 이번 조사 결과를 소유한다. 기존 게임의 완성 선언이나 새로운 장르 확정서가 아니다. 이전 이미지의 승인 이력은 역사로 보존하되 새 기획의 시각 정본으로 자동 계승하지 않는다. 기존 빌드의 이미지 참조는 새 자산 전환 때 교체한다. 원본 삭제나 저장 데이터 초기화는 이번 작업에 포함하지 않는다.
@@ -56,7 +58,7 @@ runtime_replacement: NOT_STARTED
 
 | 순서 | 검토 가능한 결과 | 선행 조건 | 완료 증거 |
 |---|---|---|---|
-| 1 | 핵심 경험·승패·선택의 의미·장르 유지/재검토 범위 | 사용자의 핵심 유지 여부 답변 | 한 장 concept brief와 비교 대안 |
+| 1 | 핵심 유지 확인 완료; 시스템·화면·아트 대안 비교 | 2026-09-10 사용자 답변 수신 | research_owner의 11개 비교·SWOT·요소 판정 |
 | 2 | 첫 플레이 루프·자원·병력·전선 진행·실패/재시도 | concept 방향 | 상태 흐름과 정상/실패 사례 |
 | 3 | 화면별 와이어프레임과 기능 관계도 | 플레이 루프 | 각 조작의 입력/결과/다음 화면 설명 |
 | 4 | 신규 아트 방향과 실제 화면 크기의 병종 시안 | 화면·역할·camera | 대표 배경+아군+적군을 함께 배치한 비교 |
@@ -65,7 +67,7 @@ runtime_replacement: NOT_STARTED
 | 7 | Godot 표시와 전투 이벤트 연결 | 검증된 파일 계약 | 이동/공격/피격/사망 전환과 중단/재개 실제 실행 |
 | 8 | 확인된 방식으로 병종·전장·UI 확장 | pilot 검증 | 상태 누락 없는 자산 목록과 전투 화면 검수 |
 
-기획 초기에 모든 병종 이미지를 대량 생성하지 않는다. 첫 pilot이 제작 방식·실제 크기·동작 일관성을 증명한 뒤 확장한다. 기존 5맵/룰렛/내정은 비교 입력이며 새 장르·핵심 확정 전 자동 확정하지 않는다.
+기획 초기에 모든 병종 이미지를 대량 생성하지 않는다. 첫 pilot이 제작 방식·실제 크기·동작 일관성을 증명한 뒤 확장한다. 사용자가 핵심 유지와 시스템·화면·아트 재설계를 명시했다. 룰렛 병력 구성·단일 전선 자동전투는 유지하며 나머지 요소는 조사 owner에서 유지/보완/변경/추가/폐기 후보로 평가한다. 이전 5맵·건물 슬롯 등의 구체 승인 규칙을 실제 변경하려면 변경점과 근거를 명시한다.
 
 ## 새 모션 명세의 필수 연결 (제안, 수치 미확정)
 
@@ -82,7 +84,7 @@ runtime_replacement: NOT_STARTED
 
 ## 남은 결정·검증과 롤백
 
-- 사용자에게 핵심 장르도 재검토할지, 룰렛+단일전선 핵심은 유지할지 질문했다. 답변 전 새 핵심을 확정하지 않는다.
+- 사용자 답변 수신: 시스템·화면·아트를 새로 설계하고 기존 요소를 인터넷·벤치마크·실무·SWOT·독창성·창의성 관점에서 검토한다. 핵심 유지 여부 질문은 해결됐으며 반복하지 않는다.
 - 이번 조사와 도구 확인은 새 게임 기획/아트/동작 제작 완료가 아니다. 새 아트 생성, 모션, 엔진 통합, Human은 NOT_RUN.
 - 기존 코드를 삭제하거나 기존 이미지 원본을 덮어쓰지 않았다. 새 문서 분기는 main에서 만들었고 기존 열린 PR은 수정하지 않았다.
 - project lesson: 상태 이름 목록과 실제 프레임/타격 이벤트 소비처를 반드시 대조한다.
