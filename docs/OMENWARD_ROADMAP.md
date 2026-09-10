@@ -1,5 +1,17 @@
 # [현행] OMENWARD Roadmap
 
+v3 현재: 일반/특수 분리·10병종·T3 심화 교정과 기획 데이터 자동검사 완료. 누락 2병종 도감 후보 추가. 다음은 특수병영 등 누락 건물 원화, 실제 투명 전투 상태군, 경제/전투 검증 및 정본 CI 드리프트 교정, 최종 승인이다. 문서 검사 PASS는 인게임 구현 준비 전체 PASS가 아니다.
+
+61쪽 v2 보완: 병종 pair 도감/등급 스킬/건물 특화/영웅 후보까지 추가. 다음은 특화 비용·기본 방패 편성 생존 fixture, 그림 경계·영웅 SD·군수소 및 모션 상태군 보완, PDF 전체 검수와 보호된 원격 동기화다. 사용자 최종 승인 전 runtime 변경 금지.
+
+2026-09-11 우선 순서: 통합 Blueprint 검토 PDF → 부족한 alpha/병종 상태군/5맵/탑·분리 소품 제작 및 검수 → 명세·경제 fixture 교차 검증 → 최종 사용자 승인 → 승인 패킷 구현. 이미지 보류는 해제되었다. 현재 PDF는 39쪽 REVIEW_EDITION이며 전체 납품 자산 완료로 표시하지 않는다. 상세 owner: `docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md`.
+
+최우선 순서 변경: 맵/라운드/웨이브 상세 기획 검토 → 경제·점령·병력 계승/실패 사례 검토 → 화면 흐름 정합성 → 구현 패킷 판단. 이미지와 모션은 보류하며 아래 이전 아트 순서는 현재 실행 지시가 아니다. 진행 설계 owner는 Blueprint §1의 현행 상세 진행 설계다. 이번에는 권장안만 명세하고 제품 코드는 변경하지 않는다.
+
+2026-09-10 우선 순서: 핵심 유지·연구 비교 → 화면/흐름 Blueprint → 방패병 V3·비인간 베일 pair → 내려베기 V2 5키포즈/Aseprite·브라우저 재생 검사 → 장비 continuity·투명 경계 교정 → Godot 검증 → 콘텐츠 확장. 회복 포즈를 추가했지만 아트 일관성은 PARTIAL이다. 현재 상세 owner는 `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8이다.
+
+> **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
+
 ```yaml
 updated_at: 2026-08-29
 status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED
