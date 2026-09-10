@@ -1,6 +1,6 @@
 # [현행] OMENWARD Active Context
 
-현재 작업(2026-09-10): 방패병 V3의 품질 방향으로 후속 진행 승인. 비인간 베일 방어병 V1과 양 진영 전장 적합성 합성 V1을 제작하고 크기 비교 보기에 추가했다. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §6.2가 후보·검증·다음 순서를 소유한다. 새 베일/전장 시안은 최종 승인 전이며 투명 sprite·모션·runtime은 미완료다. 현재 PR의 기존 정본/계약 파일 허용 범위 불일치도 병합 전 해결 대상이다.
+현재 작업(2026-09-10): 후속 승인 범위에서 방패병 공격 3키포즈 pilot과 Aseprite 파일/시트/metadata를 제작했다. 입력 픽셀 보존·duration·크기를 검증했다. 장비 세부 drift, 중간 프레임, 투명화, 피벗과 runtime은 미완료여서 제품 자산으로 승격하지 않았다. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8이 현행 증거·다음 교정을 소유한다. 브라우저 미리보기 열기는 timeout; 현재 PR의 정본/계약 파일 허용 범위 불일치도 병합 전 해결 대상이다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 

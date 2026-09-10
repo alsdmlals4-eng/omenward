@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OMENWARD 공격 키포즈 검토</title>
+<style>body{margin:24px;background:#eee9df;color:#263047;font:16px/1.6 system-ui}main{max-width:900px;margin:auto}.stage{width:min(460px,90vw);aspect-ratio:1;background-image:url('attack-sheet.png');background-size:300% 100%;background-position:0% 0%;border:1px solid #bbb}.small{width:112px;aspect-ratio:1;background-image:url('attack-sheet.png');background-size:300% 100%;background-position:0% 0%}.views{display:flex;align-items:end;gap:24px;flex-wrap:wrap}button{font:inherit;padding:8px 14px;margin:8px 8px 8px 0}img{max-width:100%}</style>
+<main><h1>방패병 공격 · 3키포즈 시험 재생</h1><p>준비 → 찌르기 → 대기 자세 복귀. 중간 프레임·투명화 전의 후보이며 게임 실행 화면이 아닙니다. 자동 재생하지 않습니다.</p>
+<div class="views"><div class="stage" role="img" aria-label="현재 공격 키포즈"></div><div><div class="small" role="img" aria-label="112픽셀 축소 표시"></div><p>112px 참고</p></div></div>
+<p id="state" aria-live="polite">준비 · 180ms</p><button id="play">재생</button><button id="step">다음 포즈</button><button id="reset">처음</button>
+<p>검토 시간: 180 / 100 / 320ms, 총 600ms. 게임 공격속도 확정값이 아닙니다. 마지막 프레임은 기존 대기 원화 재사용이며 별도 회복 동작이 아닙니다.</p>
+<details><summary>정지 시트와 남은 문제</summary><img src="attack-sheet.png" alt="준비 찌르기 대기 원화 순서의 3프레임"><p>불투명 배경, 검 폭·어깨판·천 장식의 변화, 중간 프레임 부재를 교정해야 합니다. 발 위치는 육안상 유사하지만 픽셀 단위 고정 판정은 미완료입니다.</p></details>
+</main><script>
+const durations=[180,100,320], names=['준비','찌르기','대기 자세 복귀'];let index=0,playing=false,timer=null;
+function show(){document.querySelectorAll('.stage,.small').forEach(el=>el.style.backgroundPosition=`${index*50}% 0%`);document.getElementById('state').textContent=`${names[index]} · ${durations[index]}ms`;}
+function stop(){playing=false;clearTimeout(timer);timer=null;document.getElementById('play').textContent='재생';}
+function tick(){timer=setTimeout(()=>{index=(index+1)%3;show();if(playing)tick();},durations[index]);}
+document.getElementById('play').onclick=()=>{if(playing){stop();return;}playing=true;document.getElementById('play').textContent='정지';tick();};
+document.getElementById('step').onclick=()=>{stop();index=(index+1)%3;show();};document.getElementById('reset').onclick=()=>{stop();index=0;show();};document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+</script></html>

@@ -186,6 +186,28 @@ Aseprite는 생성된 개별 프레임을 후보 복사본에서 정리한다. �
 
 ## 8. 검증과 다음 작업
 
-문서 검사·이미지 hash/크기 확인은 이번 작업 범위다. 새 상태 consumer 구현, 수치 시뮬레이션, 모션 프레임 생성, Aseprite 상태 sheet, Godot runtime, Human은 미완료다. 새 아트 후보 선택 후 첫 pair의 개별 frame pilot으로 이어진다. 스타일 보정 시 이 후보만 교체하며 기존 빌드 자산은 보존한다.
+### 2026-09-10 공격 키포즈 pilot V1
+
+후속 진행 승인에 따라 아군 방패병의 동작 제작 가능성을 확인했다. 제품 애니메이션 납품보다 앞선 불투명 키포즈 시험이며 투명 sprite 선행 조건을 통과한 것으로 처리하지 않는다. 방향은 유지하고 테스트 단계만 분리했다.
+
+- 보기: [재생/정지/단계 넘기기](../images/candidates/replan-20260910/attack-pilot-v1/preview.html).
+- 납품 위치: `docs/images/candidates/replan-20260910/attack-pilot-v1/`.
+- 입력: 모델 신규 anticipation/contact 각 1장 + 기존 ward-shield-quality-v3의 ready 자세. 마지막은 회복 중간 동작이 아니라 대기 자세 재사용이다.
+- 모델 원본: generated_images의 기존 thread 폴더 아래 `exec-e1bc5d7a-e29c-4482-b28d-e77daaa0c2c6.png`, `exec-6369f88d-56dc-48c4-a9ac-d71f546e31c8.png`.
+- 입력 SHA-256: anticipation `1c29c2a10d4e8efc573a01a4111261b5348fd2a0734cf87c540f1545f0c981ba`; contact `74763321c3933ff10daed5d61e33bfbafb88b34e6ca78bc5c208bffcdc7d8783`; ready는 §6.1과 동일.
+- Aseprite 1.3.18.5-dev native MCP 실제 호출: 1254×1254 canvas, character layer, 3 frames, 180/100/320ms, 총 600ms. 시간은 관찰용 임시값이며 게임 공격속도를 변경하지 않음.
+- 후보 작업 경로: `C:/Users/user/.local/share/aseprite-local/candidates/omenward-attack-pilot-20260910-v1/`. 원본 복사본만 처리했고 .aseprite/PNG/JSON을 저장소 후보 위치에 보존했다. 실행 파일이나 도구 코드를 저장소에 넣지 않았다.
+- export: horizontal, scale1, padding0, trim/rotation 없음, 3762×1254. 두 레이어 중 기본 Layer1은 빈 레이어, character가 실제 입력이다. tags 없음.
+- SHA-256: `.aseprite` `cc6976d7be0b5747715d3d8dbfd9de2139955a2a2da78bae1541f620c0b10fdc`; sheet PNG `b897905fcbe887e5f8c3a37a89c6be760df9c3694d47cb9179e77fbe8efdc940`; JSON `8ec5c43e6c9877d06aaeb6871071e901e87491bc6c592093c690ac8094f86b60`.
+- MACHINE: 3프레임의 RGB 픽셀이 각 입력과 전부 일치; alpha는 모두255로 불투명; 크기·duration·hash 검사 PASS. Aseprite 패키징 검증이며 그림 완성도 PASS가 아님.
+- 시각 검토: 준비→찌르기의 팔 동작은 구분되지만 어깨판·검 폭·천 장식 drift가 있다. 발 위치는 유사하나 정확한 고정/피벗 측정은 미완료다. 3프레임으로 부드러운 회복을 표현하지 못한다. `ART_CONTINUITY_NEEDS_REVISION / NOT_RUNTIME_READY`.
+- preview는 시트의 각 cell을 표시하고 같은 duration으로 넘기며 자동 시작하지 않는다. 로컬 브라우저 열기가 timeout되어 실제 브라우저 동작 검수는 NOT_RUN. 페이지 존재를 재생 성공으로 처리하지 않는다.
+- 필요한 다음 교정: 독립 생성 프레임의 장비 변화 축소, 준비/타격/복귀 중간 연결, 투명 경계, 발 기준/pivot, 실제 engine 임포트. 공격 판정 event는 미연결이다.
+
+프롬프트 요약: exact source soldier, same ivory/gold/navy armor/shield/emblem/sword, same square framing and planted boots; anticipation draws sword arm back; contact advances sword horizontally right with slight torso lean; exactly two arms, no motion blur/extra weapon/labels; preserve dimensional rendering and plain ivory backdrop. 접촉 입력에는 원화와 준비 프레임을 함께 제공했다. 모든 창작 편집은 built-in image model, Aseprite는 픽셀을 바꾸지 않는 프레임 패키징만 수행했다.
+
+교훈: 한 장의 품질 승인과 연속 프레임의 디자인 유지 능력은 별도다. 이번 pilot은 중간 프레임 양산 전에 반복되는 장비 drift를 드러냈다. 대량 병종 제작을 시작하지 않는다. 공용 Base 변경 없이 기존 continuity 검사 기준을 적용했다.
+
+초기 보드 작업 이후 위 pilot까지 진행했다. 신규 상태 consumer, 수치 시뮬레이션, 최종 모션 연속성·투명화, Godot runtime, Human은 미완료다. 키포즈 생성과 Aseprite 패키징은 위 증거 범위에서만 완료다. 교정 시에도 기존 빌드 자산은 보존한다.
 
 검토 항목: 1) 단일전선/3탭 유지 2) 탭과 시간 소유권 분리 3) 사례의 미지원 능력 가정 방지 4) 그림 크기 보정과 프레임 상태 구별 5) 기존 PR/저장/자산 보호. 실패/반증 조건은 각 절에 기록했다.
