@@ -89,7 +89,7 @@ flowchart LR
 ![전장과 공격 키포즈 후보](../images/candidates/replan-20260910/field-and-motion-study-v2.png)
 
 - ID: OMW-REPLAN-ART-20260910-FIELD-MOTION-V2.
-- 상태: GENERATED_CANDIDATE / ASSISTANT_VISUAL_REVIEWED / USER_SELECTION_PENDING.
+- 상태: LAYOUT_REFERENCE_ONLY / CHARACTER_QUALITY_REJECTED_BY_USER_FEEDBACK.
 - consumer: 이 Blueprint의 전장·병종·공격 키포즈 검토. runtime consumer 없음.
 - 생성: built-in image model; 기존 그림을 재사용하지 않은 신규 board. V1에서 베일 크기가 과도해 V2로 크기만 보정.
 - source: `C:/Users/user/.codex/generated_images/01a04af4-0452-7a13-9b6e-1a6077568d72/exec-31a9dbb7-8102-44e9-8d36-3214ee20ad9a.png`.
@@ -98,7 +98,42 @@ flowchart LR
 - Prompt: original single-front side-view storybook SD tactical miniatures, navy/ivory allies, nonhuman violet carapace Veil, open ochre ground, edge-only props, one left tower; lower strip same shield soldier anticipation/contact/recovery. Correction: regular enemy scale comparable to allies, preserve board layout and poses.
 - 검토: 열린 이동 공간, 진영 대비, 괴물형 베일 및 공격 키포즈 확인. 하단 포즈는 동일 cell/pivot의 연속 프레임이 아니므로 재생 sheet로 사용 금지. 원경 병사 중 일부는 저대비이며 실제 전투 개체로 납품하지 않음.
 
+### 6.1 사용자 품질 피드백과 방패병 V3
+
+2026-09-10 사용자: 기존 이미지보다 품질 저하 → 기존 원화 수준의 갑옷 입체감·금속/천 구별·눈매·SD 매력을 회복하는 권장안 진행 승인. 이는 새 결과의 최종 승인과 구별한다. 비교에서는 단일 원화와 전장 보드의 크기 차이를 고려하되 V2의 평면화 자체도 교정한다.
+
+![방패병 품질 교정 후보](../images/candidates/replan-20260910/ward-shield-quality-v3.png)
+
+- ID: OMW-REPLAN-ART-20260910-WARD-SHIELD-V3.
+- 상태: GENERATED_CANDIDATE / ASSISTANT_VISUAL_REVIEWED / USER_SELECTION_PENDING. Runtime 미적용.
+- consumer: 방패병 원화 품질 검토와 [동일 이미지 크기 비교](../images/candidates/replan-20260910/ward-shield-quality-review.html). 최종 예정 consumer는 UnitView지만 현재 연결하지 않음.
+- 참고: 사용자 제공 `C:/Users/user/Downloads/GameAssetInbox/exec-fa7d9874-ec24-40f3-a408-04f28bcf5e5b.png`. 품질/시각 언어 참고용이며 제품에 재사용하지 않음. 권리·참조 독립성 최종 판정은 미완료.
+- 도구: built-in image model, 신규 생성 후 배경 한정 교정 1회. Aseprite는 아직 필요한 프레임 정리가 없어 미사용.
+- source: `C:/Users/user/.codex/generated_images/01a04af4-0452-7a13-9b6e-1a6077568d72/exec-d1f434d9-a55f-4b48-8d9a-22261f4a266e.png`.
+- repository: `docs/images/candidates/replan-20260910/ward-shield-quality-v3.png`.
+- SHA-256: `55C111E94BC254144533CE2244C8B5886E5F146D86569713642518F028065C8D`.
+- 디코드: 1254×1254 RGB, alpha 없음. 정지 원화이며 투명 sprite/animation으로 등록 금지.
+- 검토: 눈매와 금속 면의 명암, 남색 천의 볼륨, 전면 방패와 검, 양발 잘림 없는 구도 확인. 원본 참고와 외형 유사성이 높고 장식 밀도가 높으므로 다른 병종 확장 및 작은 크기에서는 재검토 필요. 사용자 선호 통과를 대신 선언하지 않음.
+- 실패와 수정: 최초 `exec-4fcd79c8-4203-40a7-836a-890005fb9245.png`는 투명 배경 요청에도 RGB 바둑판이 들어왔다. 파일 디코드로 확인 후 모델로 불투명 아이보리 배경 검토본을 만들었다. 실패본은 저장소/런타임에 추가하지 않았다. 육안의 바둑판 표시를 실제 alpha 증거로 사용하지 않는다.
+- 축소 비교: 동일 PNG를 56/80/112 CSS px로 표시. 56은 현재 UnitView 전체 texture 높이와 대응하고, 112는 2배 표시 참고다. Godot 필터/전투 배경 검증을 대체하지 않는다.
+
+최초 생성 프롬프트:
+
+```text
+Use case: stylized-concept. Create ONE NEW polished OMENWARD allied shield infantry character candidate, full-body cutout on a genuinely transparent background. Input image is a rendering-quality and visual-language REFERENCE ONLY, not an edit target. Match its premium hand-painted storybook-fantasy SD charm, layered dimensional ivory metal armor, warm gold bevels, deep navy cloth, bright expressive blue eye, restrained fine watercolor grain and dark crisp contour. Do not flatten into vector shapes or crude board-game tokens. New character design with 2.5–3-head compact proportions, rounded layered breastplate, elegant crescent-wing helmet cheek guards and short swept navy plume, navy scarf and modest cape. Broad navy kite shield with raised ivory vertical inlay and a simple gold compass-star ward emblem, short steel arming sword. THREE-QUARTER SIDE VIEW FACING SCREEN RIGHT, readiness stance suited to side-view battle, shield held toward the right/front, sword angled low to the right with clear silhouette. One character only, exactly two arms and two legs, one hand naturally holds sword and the other holds shield from behind; visible determined cute eye, no extra weapons, no flag, no environment, no lettering or logo. Metal should have convincing curved highlights, deep contact shadows between overlapping plates, separate gold/ivory materials; fabric softly folded with rich navy volumes, controlled hand-painted details, not gritty photorealism or plastic 3D. Keep limbs readable, both boots wholly visible, cape behind body, no floating ornaments. Comfortable empty margin all around, complete sword and shield in frame. High-resolution square illustration, character uses most of canvas. This is single static concept art, NOT an animation sheet. Prioritize the exquisite finish of the reference while making an original usable shield-infantry design.
+```
+
+배경 교정 프롬프트: Preserve the single shield soldier design, pose, eye, outlines, armor, sword, shield, cape, plume, painted details, proportions and framing. Remove all gray checkerboard outside the silhouette including gaps; use uniform warm ivory #F3EEE4. No shadow, objects, text or vignette. Clean flat-background concept preview, not a transparent sprite. 모델 편집이므로 캐릭터 픽셀의 동일성까지 보증하지 않는다.
+
+남은 순서: 방패병 품질 확인 → 동일 완성도의 비인간 베일 pair → 승인 후보의 투명 경계와 실제 전장 비교 → 이동/공격 pilot → Aseprite frame/export 검사 → Godot 이벤트 연동. 게임플레이·세이브·기존 승인 자산은 수정하지 않는다.
+
+프로젝트 교훈: 원화 품질과 축소 가독성을 별도 평가한다. 실루엣 우선은 재질/표정 제거 명령이 아니다. 생성 alpha를 반드시 디코드 검사한다. Base 승격은 반복 검증 전까지 후보 교훈으로만 유지하며 공용 규칙을 변경하지 않는다.
+
+검증: project operating contract 및 core documentation 검사 PASS; PNG 디코드/크기/hash readback PASS; 비교 HTML의 동일 PNG 참조 4개 확인. HTML 실제 브라우저 시각 검수, Godot 배경 배치와 필터 비교, 모션, 사용자 최종 품질 판정은 NOT_RUN. 전체 변경 검토에서 원본/기존 PR 보호, 승인 범위, 아트 품질, 실제 alpha, 크기 비교의 증거 한계를 대조했고 intake/roadmap의 낡은 상태 설명도 함께 교정했다.
+
 ## 7. 모션 납품 계약
+
+선행 순서는 §6의 품질 교정을 우선한다. V2의 평면적 캐릭터를 모션 원화로 확장하지 않는다.
 
 대표 방어병 pair를 첫 후보로 삼는다. 각 상태는 새 이미지 모델에서 동일 캐릭터/장비/크기/방향을 유지하며 제작한다. 기존 board를 잘라 움직이는 것만으로 완료 처리하지 않는다.
 

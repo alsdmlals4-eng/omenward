@@ -1,5 +1,7 @@
 # OMENWARD · Current Confirmed Decisions
 
+2026-09-10 아트 품질 교정 승인: 기존 첨부 원화의 입체감·재질·표정 수준을 기준으로 방패병부터 다시 제작한다. 단순화된 보드 V2는 캐릭터 품질 기준에서 제외한다. 신규 후보 자체의 최종 승인은 별도이며 상세 기록은 현행 Blueprint §6을 따른다.
+
 2026-09-10 후속 확인: 룰렛 병력 구성·단일전선 자동전투 핵심 유지. 시스템·화면·아트는 조사/벤치마킹/SWOT/독창성 검토를 통해 재설계한다. 확인 owner는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`; 상세 제안은 그 문서의 research_owner를 따른다. 제안별 효과와 수치가 모두 승인됐다는 뜻은 아니다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
