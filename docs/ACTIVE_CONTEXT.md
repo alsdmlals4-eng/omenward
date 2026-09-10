@@ -1,6 +1,6 @@
 # [현행] OMENWARD Active Context
 
-현재 작업(2026-09-10): 후속 승인 범위에서 방패병 공격 3키포즈 pilot과 Aseprite 파일/시트/metadata를 제작했다. 입력 픽셀 보존·duration·크기를 검증했다. 장비 세부 drift, 중간 프레임, 투명화, 피벗과 runtime은 미완료여서 제품 자산으로 승격하지 않았다. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8이 현행 증거·다음 교정을 소유한다. 브라우저 미리보기 열기는 timeout; 현재 PR의 정본/계약 파일 허용 범위 불일치도 병합 전 해결 대상이다.
+현재 작업(2026-09-10): 사용자 지시로 방패병 공격을 찌르기에서 대각선 내려베기로 변경했다. 새 포즈 3개와 대기 원화로 4프레임 Aseprite 후보를 구성하고 입력 픽셀·duration·geometry를 검증했다. 검 길이/장식 continuity, 회복 연결, 투명화, 피벗과 runtime은 미완료다. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8의 현행 slash pilot이 owner다. 기존 찌르기는 비교 이력만 유지. PR 정본/계약 범위 불일치도 병합 전 해결 대상이다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 

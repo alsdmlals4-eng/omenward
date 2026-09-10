@@ -1,6 +1,6 @@
 # [현행] OMENWARD Roadmap
 
-2026-09-10 우선 순서: 핵심 유지·연구 비교 → 화면/흐름 Blueprint → 방패병 V3·비인간 베일 pair·화풍 적합성 후보 → 공격 키포즈/Aseprite 패키징 pilot(장비 drift 확인) → continuity·중간 프레임·투명 경계 교정 → Godot 검증 → 콘텐츠 확장. 불투명 pilot은 최종 모션이 아니다. V2는 배치 참고이며 캐릭터 품질 기준에서 제외한다. 현재 상세 owner는 `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8이다.
+2026-09-10 우선 순서: 핵심 유지·연구 비교 → 화면/흐름 Blueprint → 방패병 V3·비인간 베일 pair → 사용자 지정 내려베기 4키포즈/Aseprite pilot → 장비 continuity·회복 연결·투명 경계 교정 → Godot 검증 → 콘텐츠 확장. 찌르기는 이전 이력이며 불투명 베기 pilot도 최종 모션은 아니다. 현재 상세 owner는 `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8이다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 

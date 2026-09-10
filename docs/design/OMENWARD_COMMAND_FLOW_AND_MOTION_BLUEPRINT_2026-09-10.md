@@ -186,7 +186,26 @@ Aseprite는 생성된 개별 프레임을 후보 복사본에서 정리한다. �
 
 ## 8. 검증과 다음 작업
 
+### 현행: 2026-09-10 내려베기 pilot V1
+
+사용자 ‘베기 모션으로 하자’가 이전 찌르기 제작 방향을 대체한다. 기본 공격 아트는 올려 준비 → 앞쪽 대각선 내려베기 → 낮은 후속 자세 → 대기 복귀로 제작한다. 광역 피해/공격속도/사거리 변경을 뜻하지 않는다. 원본·기존 게임 코드·찌르기 검증 이력은 삭제하지 않는다.
+
+- [베기 검토 페이지](../images/candidates/replan-20260910/slash-pilot-v1/preview.html), `docs/images/candidates/replan-20260910/slash-pilot-v1/`에 Aseprite/PNG/JSON 보관.
+- 새 모델 포즈 3개: windup / cut / follow. ready는 기존 방패병 V3 재사용. 실제 회복 중간 프레임은 아직 없음.
+- built-in image model 원본: 기존 generated_images thread 폴더의 `exec-b9bf9463-9f9c-4697-9f12-b7d975c5e482.png`, `exec-51b93522-20da-42fe-b2e8-7a5bf1b5642c.png`, `exec-b9c30179-0150-4be3-8353-6d1ed3429495.png`. 각 다음 포즈는 앞 포즈를 모델 참조로 사용.
+- 프롬프트: exact source soldier/equipment/style/canvas/boot positions; windup sword high upper-left; mid-cut blade crosses front pointing upper-right; follow-through lowers blade down-right, same shield hand and two arms, no thrust/VFX/text/background change. 기존 찌르기 프레임은 입력으로 쓰지 않음.
+- Aseprite native MCP 1.3.18.5-dev, 별도 후보 폴더 `C:/Users/user/.local/share/aseprite-local/candidates/omenward-slash-pilot-20260910-v1/`에서 복사본만 처리. 1254×1254 cell, 4 frames, 200/70/150/280ms. 관찰용 700ms이며 gameplay 수치가 아님.
+- export: packed 2×2, 2508×2508, scale1/padding0, trim/rotation 없음. 4개 RGB frame 전부 입력 픽셀과 일치. alpha 255로 불투명. frame count/duration/geometry/readback PASS.
+- SHA-256: source `.aseprite` `5deab35f5c1c3ebda4255db8de2ac40a1f5dbe34e05f65162b82ffc8cd621c82`; sheet `b38dc31bf0d0b8cbc3f548aeef075e3edd6ea7f6d22489f0bb987403b3b29f05`; JSON `e9063fa1393cf9c0e0cf3a3991ab454e68ad0213c12685d16b5408f43a1db47f`.
+- 시각 검토: 검이 올라갔다 내려오는 베기 키포즈는 구분됨. 원화 대비 검 길이 변화, 어깨판/천 장식 차이와 망토·깃털 변화가 남아 `CONTINUITY_NEEDS_REVISION`. 4장의 연결은 최종 부드러운 모션을 증명하지 않는다.
+- 상태: GENERATED_CANDIDATE / PACKAGING_MACHINE_VERIFIED; 실제 브라우저 재생, 투명 sprite, pivot/접촉 이벤트, Godot runtime, Human 품질 승인은 NOT_RUN.
+- 다음: 베기 방향은 재질문하지 않고 유지. 검·장비 기하 교정과 회복 연결 프레임 → 투명화·실제 크기 → Godot 이벤트 연결. 프레임 수 증가만으로 품질 개선을 간주하지 않는다.
+
+검토 경계: 사용자 베기 지시, 장비/해부 구조, 프레임 패키징/픽셀 일치, consumer와 미검증 표기, 이전 이력 및 Git 보호를 대조했다. Base version lock이나 CI 허용 경로를 변경하지 않았다.
+
 ### 2026-09-10 공격 키포즈 pilot V1
+
+이하 찌르기 pilot은 이전 비교/검증 이력이다. 현행 공격 제작에는 사용하지 않는다.
 
 후속 진행 승인에 따라 아군 방패병의 동작 제작 가능성을 확인했다. 제품 애니메이션 납품보다 앞선 불투명 키포즈 시험이며 투명 sprite 선행 조건을 통과한 것으로 처리하지 않는다. 방향은 유지하고 테스트 단계만 분리했다.
 
