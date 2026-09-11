@@ -1,5 +1,20 @@
 # Roster / building / hero candidate provenance
 
+## Veil local alpha follow-up · 2026-09-12
+
+User explicitly authorized local background/mask processing after opaque checkerboard attempts failed. Source artwork is unchanged: `veil-roster.png` and lower Veil row of `special-roster-additions.png`. `tools/veil_cutout.py` changes alpha only; all cropped RGB bytes match their source. This is not new image-model artwork or production-art approval.
+
+| Candidate | Dimensions | SHA-256 | Consumer |
+|---|---|---|---|
+| veil-roster-alpha.png | 1774 × 887 | 8aca2bd1139c293648a0f4224d0e2f8d3d621bc01eea7e1d0a68c34d1cbeb442 | front_art.gd side=1, eight existing roles |
+| veil-special-alpha.png | 1254 × 644 | 10740f80b4646660f48934c1f48e6e8a54ee126f5a72d92830e4c101c662c067 | front_art.gd side=1 assassin/flying |
+
+Aseprite USED_STATIC_ONLY: each PNG imported into its same-basename `.aseprite`, frame 1 exported, complete RGBA bytes matched. No motion tags/new attack frames. Original opaque atlas sources used imagegen and did not use Aseprite. Alpha zero pixels: 893374 / 507919 respectively. Special crop y=610 uses the empty gutter above the wing at y=618, not the destructive nominal y=627 split.
+
+Independent review found pale priest anatomy erased by the first generic mask. Corrected priest cell uses a conservative threshold; actual head pixels (1450,100)/(1480,100) are regression-tested opaque. Cutout tests 3 PASS; Godot model 39 checks and UI/save/10-role alpha checks PASS. Edge quality remains PARTIAL: pale paper fringe/residue can remain, especially priest; hard alpha and enclosed pale areas require visual refinement. Approval PENDING. Static candidate runtime wiring is not complete animated-character delivery.
+
+User cleanup policy: failed alpha generations, identical generated copies with repository originals retained, and superseded/staging outputs are moved to `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912`, not deleted. `ALL_FILES.csv` owns exact paths/hashes/reasons. Unclassified historical sources remain untouched. Previous original-location statements below do not imply duplicate generated copies still occupy that location.
+
 ## UI/alpha follow-up · 2026-09-11
 
 - `ward-shield-slash-alpha-candidate.png`: built-in image model, candidate only; source `exec-ea64ba8f-ecf7-4c90-aa9c-382f13513f1b.png`; SHA-256 `d291307bf45e3ebf910bc1385c80c0aa30f28bb4aaa5411a41b2653dfecd99ce`.

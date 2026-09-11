@@ -18,6 +18,10 @@ func tile(file: String, columns: int, rows: int, index: int) -> Texture2D:
 	return cache[key]
 
 func unit(role: String, side: int) -> Texture2D:
+	if side == 1:
+		if role in ["assassin", "flying"]:
+			return tile("veil-special-alpha.png", 2, 1, 0 if role == "assassin" else 1)
+		return tile("veil-roster-alpha.png", 4, 2, ROLES.find(role))
 	if role == "shield_guard" and side == 0:
 		# Only the clean idle cell is consumed; crossed slash cells are NOT animation-ready.
 		return tile("ward-shield-slash-alpha-candidate.png", 2, 2, 0)

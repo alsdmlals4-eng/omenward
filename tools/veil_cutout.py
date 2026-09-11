@@ -1,0 +1,53 @@
+"""User-approved local alpha-only cutouts; never redraw or overwrite source pixels."""
+from pathlib import Path
+import hashlib
+import numpy as np
+from PIL import Image, ImageDraw, ImageOps
+
+ROOT = Path(__file__).resolve().parents[1]
+ART = ROOT / 'docs/images/candidates/blueprint-20260911'
+
+def cutout(source, minimum=155):
+    rgb = source.convert('RGB')
+    pixels = np.asarray(rgb).astype(np.int16)
+    # Conservative paper mask. Enclosed pale anatomy remains opaque.
+    paper = (pixels.min(axis=2) > minimum) & ((pixels.max(axis=2) - pixels.min(axis=2)) < 65)
+    mask = ImageOps.expand(Image.fromarray((paper * 255).astype('uint8')), border=1, fill=255)
+    ImageDraw.floodfill(mask, (0, 0), 128, thresh=0)
+    connected = np.asarray(mask)[1:-1, 1:-1] == 128
+    result = rgb.convert('RGBA')
+    result.putalpha(Image.fromarray(np.where(connected, 0, 255).astype('uint8')))
+    return result
+
+def main():
+    jobs = [('veil-roster.png', 'veil-roster-alpha.png', False),
+            ('special-roster-additions.png', 'veil-special-alpha.png', True)]
+    for original, target, lower_half in jobs:
+        source_path, output = ART / original, ART / target
+        if output.exists():
+            raise FileExistsError(output)
+        digest = hashlib.sha256(source_path.read_bytes()).hexdigest()
+        with Image.open(source_path) as source:
+            image = source.convert('RGB')
+        if lower_half:
+            # Source row 605..617 is empty; the Veil wing begins at 618,
+            # above the nominal 627 split. Use the verified empty gutter.
+            if image.size != (1254, 1254):
+                raise ValueError('Re-review the special atlas crop for changed source dimensions')
+            image = image.crop((0, 610, image.width, image.height))
+        result = cutout(image)
+        if not lower_half:
+            if image.size != (1774, 887):
+                raise ValueError('Re-review priest protection for changed atlas dimensions')
+            # Pale grub anatomy is connected to paper: protect its whole cell.
+            # Residual paper is preferable to removing the creature's exterior.
+            priest = (1330, 0, image.width, 444)
+            result.paste(cutout(image.crop(priest), minimum=210), priest)
+        result.save(output)
+        assert hashlib.sha256(source_path.read_bytes()).hexdigest() == digest
+        assert result.convert('RGB').tobytes() == image.tobytes()
+        print(target, result.size, 'transparent=', result.getchannel('A').histogram()[0],
+              'sha256=', hashlib.sha256(output.read_bytes()).hexdigest())
+
+if __name__ == '__main__':
+    main()

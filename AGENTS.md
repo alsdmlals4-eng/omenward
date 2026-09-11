@@ -1,5 +1,7 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
+> **2026-09-12 정리 방식 사용자 변경:** 삭제 가능하다고 검증된 파일도 직접 삭제하지 않는다. 정확한 원래 경로·사유·SHA-256을 기록하고 별도 삭제 검토 폴더로 이동하여 사용자에게 링크를 제공한다. 최종 삭제는 사용자가 한다. 현재 사용 자산·불명확한 원본·다른 작업/PR 파일은 보존한다. 이 규칙은 임시 파일과 자동검사 산출물에도 적용한다. 베일 투명화에는 사용자가 로컬 배경 제거/마스크 도구를 명시 승인했으며 원화 RGB 변경 없이 alpha만 처리한다.
+
 > **2026-09-11 명시 승인된 UI/투명 이미지/모션 BUILD 계약 전환:** `docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md`를 따른다. Base 원검사는 그대로 실행·보고한다. 그 실패가 이번 승인된 exact 파일의 보호 경로 변경뿐일 때만 `python tools/replan_scope.py --base-repository <pinned Base checkout>`의 별도 `PROJECT_SCOPED_BUILD` 판정으로 이 작업을 진행한다. 이 한정 승인 외에는 router fail-closed를 유지한다. Base lock·adapter·보호 목록·Git 보호는 변경하지 않는다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.

@@ -9,6 +9,12 @@ func verify() -> void:
 	root.add_child(screen)
 	await process_frame
 	var failed := false
+	for role in screen.run.definitions:
+		var veil: AtlasTexture = screen.art.unit(role, 1)
+		var veil_image := veil.atlas.get_image()
+		if veil_image.detect_alpha() == Image.ALPHA_NONE:
+			push_error("Veil role still uses opaque atlas: " + role)
+			failed = true
 	var idle: AtlasTexture = screen.art.unit("shield_guard", 0)
 	var source := idle.atlas.get_image()
 	if source.detect_alpha() == Image.ALPHA_NONE or source.get_pixel(0, 0).a != 0:
@@ -55,7 +61,7 @@ func verify() -> void:
 		failed = true
 		push_error("Save/load button path loses gold")
 	print("REPLAN_SCREEN_TEST: ", "FAIL" if failed else "PASS")
-	DirAccess.remove_absolute(screen.save_path)
+	# User deletes disposable files manually; leave this deterministic test save for collection.
 	screen.queue_free()
 	await process_frame
 	quit(1 if failed else 0)

@@ -14,6 +14,8 @@ The project router's generic stop rule is superseded **only for this explicit ap
 
 ## Evidence and integration
 
+2026-09-12 exact amendment under the user's Veil transparency request and explicit local-mask approval: `tools/veil_cutout.py`, `tests/test_veil_cutout.py`, and `veil-roster-alpha.png/.aseprite`, `veil-special-alpha.png/.aseprite` under the existing candidate folder. RGB is preserved, only alpha is derived locally. Native Aseprite files are static inspection sources, not animation evidence. Final art approval remains pending. The user now requires moving disposable files into a linked review folder, never deleting them directly; the screen test therefore leaves its test save for collection. Existing historical deletion readback below predates this instruction.
+
 Asset amendment in this scope: `docs/images/candidates/blueprint-20260911/ward-shield-slash-alpha-candidate.png` and its optional Godot import metadata. Only the top-left idle cell is used by the review consumer. This does not authorize other assets or final art promotion.
 
 Tests must reject old StageRun changes, sibling scripts, traversal, absolute paths, addon changes and mixed approved/unapproved failures. Parent planning PR/main integration is still separate. Original historical contract tests remain active. Candidate art approval, alpha checks, Aseprite work, runtime and Human are separate statuses.

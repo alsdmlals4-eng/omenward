@@ -1,5 +1,7 @@
 # [현행] OMENWARD Active Context
 
+2026-09-12: 사용자는 로컬 배경 제거/마스크 도구와 삭제 대신 별도 폴더 보관을 승인했다. 베일 10종은 기존 원화 RGB를 보존한 RGBA 정적 후보로 검토판에 연결했다. 사제형 밝은 외피 유실을 검수에서 발견해 해당 셀만 보수 처리했으며 특수 비행병은 y=610 빈 간격에서 잘라 날개를 보존했다. 잔여 종이색 가장자리 품질은 PARTIAL, 새 공격 프레임은 미제작이다. Aseprite 정적 native 저장/PNG 왕복 RGBA 일치, cutout 3검사, Godot 모델 39검사/화면·저장 PASS. 전체 모션/Human 승인 아님. 삭제 검토 위치는 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912`; 최종 목록 `ALL_FILES.csv`와 `README.md`를 따른다. 직접 삭제하지 않는다. 세부 출처·상태는 ROSTER_PROVENANCE, 승인 범위는 기존 UI/motion owner를 따른다.
+
 2026-09-11 후속 UI/투명 이미지: 사용자가 기획 전용 계약의 한정 BUILD 전환을 승인했다. owner: `docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md`. Base v9.4.3 원검사의 protected-path FAIL과 프로젝트 한정 승인 PASS를 분리한다. 버전/기준점/보호 목록은 유지한다. 탭 선택, 일시정지/재개, 현재 배속, 한국어 phase를 연결했다. 아군 방패병 대기 1셀만 실제 RGBA 후보로 연결했다. 베기 시트는 셀 침범 때문에 모션 미연결; 간격 교정본은 RGB 체크무늬로 실패했다. Aseprite 이번 후보 미사용. 전투 규칙 39검사, 화면/저장/알파 검사, 실제 GPU 전투·건설 캡처 PASS. 전체 모션·나머지 병종 투명화·Human/제품 완료는 아님. 새 원격 CI 상태는 exact HEAD로 별도 확인한다.
 
 2026-09-11 현재 BUILD: 사용자 승인에 따라 `scenes/replan/front_slice.tscn`에 별도 단일 전선 검토판을 구현했다. 이 작업 공간의 기본 실행은 검토판이며 기존 장면은 ‘기존 빌드’ 버튼으로 보존한다. 새 앱 이름으로 저장 공간을 분리했다. 실제 규칙 모델 `scripts/replan/front_run.gd`, UI `front_screen.gd`, 아틀라스 소비 `front_art.gd`. 상세 범위·검사·잔여 작업은 `docs/superpowers/plans/2026-09-11-visible-battle-slice.md`. 아래 구현 보류와 제품 코드 미변경 기록은 이 범위에서 역사다. 원격 main 통합 완료를 뜻하지 않는다.

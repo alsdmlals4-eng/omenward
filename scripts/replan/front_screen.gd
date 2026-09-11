@@ -77,7 +77,7 @@ func _make_shell() -> void:
 	ui.position = Vector2(24, 519)
 	ui.size = Vector2(1232, 170)
 	add_child(ui)
-	_label("아트 후보: 아군 방패병 대기만 투명 · 나머지 카드 | Aseprite 미사용 · 베기 모션/T3/영웅/등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
+	_label("투명 후보: 베일 10종·아군 방패병 대기 | 베일 Aseprite 검수 · 공격 프레임/T3/영웅/등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
 
 func _restart() -> void:
 	# Explicit confirmation prevents accidental loss of a running battle.
@@ -219,7 +219,7 @@ func _draw() -> void:
 		var rect := Rect2(x - 26 + movement, y - 32, 52, 52)
 		draw_texture_rect(art.unit(unit.role, int(unit.side)), rect, false, Color(1, 0.65, 0.65) if unit.flash > 0 else Color.WHITE)
 		var side_color := Color("48b5ee") if unit.side == 0 else Color("ae57d3")
-		if not (unit.role == "shield_guard" and unit.side == 0):
+		if unit.side == 0 and unit.role != "shield_guard":
 			draw_rect(rect, side_color, false, 2)
 		draw_rect(Rect2(x - 26, y + 23, 52, 5), Color("302d36"))
 		draw_rect(Rect2(x - 26, y + 23, 52 * clampf(float(unit.hp) / float(run.definitions[unit.role][4]), 0, 1), 5), side_color)

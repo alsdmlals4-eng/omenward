@@ -10,6 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
+    'tools/veil_cutout.py', 'tests/test_veil_cutout.py',
+    'docs/images/candidates/blueprint-20260911/veil-roster-alpha.png',
+    'docs/images/candidates/blueprint-20260911/veil-special-alpha.png',
+    'docs/images/candidates/blueprint-20260911/veil-roster-alpha.aseprite',
+    'docs/images/candidates/blueprint-20260911/veil-special-alpha.aseprite',
     'AGENTS.md', APPROVAL,
     'project.godot', 'scenes/replan/front_slice.tscn',
     'scripts/replan/front_art.gd', 'scripts/replan/front_art.gd.uid',
