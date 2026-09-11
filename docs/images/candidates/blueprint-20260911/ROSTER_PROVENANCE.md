@@ -2,16 +2,20 @@
 
 ## Veil local alpha follow-up · 2026-09-12
 
+Follow-up edge refinement: ADAPT Pillow GaussianBlur(0.5) on alpha only, clamped by the original alpha (inward feather); REJECT whole-RGB blur and broad erosion because they alter detail or thin silhouettes. Official method reference: https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html#PIL.ImageFilter.GaussianBlur. Source RGB remains byte-identical. Feathering alone preserves occupied pixels; a separately reviewed priest ground ROI (local x>=150, y>=405) clears 1860 old occupied paper/shadow pixels. Left-side magical glow is excluded and regression-tested. Five cutout tests cover head, lower glow, ground, wing top, and bounded feather. This does not remove every enclosed light region or all paper residue: quality remains PARTIAL.
+
+Motion follow-up attempt: built-in imagegen `exec-013a8336-f4b7-40e8-9a34-7493fc909f6c.png`, 1254 square RGB, not RGBA. Brief: same ivory/gold/navy knight, 2x2 idle/windup/downward slash/recovery, constant scale and baseline, 18% clear margins, no painted checkerboard. Output violated true-alpha and margin expectations; REJECTED_FOR_RUNTIME and parked in manual-deletion review. No new motion was connected. Next preparation should separate individual poses and validate extraction/pivot before atlas assembly, not keep retrying full-sheet transparency prompts.
+
 User explicitly authorized local background/mask processing after opaque checkerboard attempts failed. Source artwork is unchanged: `veil-roster.png` and lower Veil row of `special-roster-additions.png`. `tools/veil_cutout.py` changes alpha only; all cropped RGB bytes match their source. This is not new image-model artwork or production-art approval.
 
 | Candidate | Dimensions | SHA-256 | Consumer |
 |---|---|---|---|
-| veil-roster-alpha.png | 1774 × 887 | 8aca2bd1139c293648a0f4224d0e2f8d3d621bc01eea7e1d0a68c34d1cbeb442 | front_art.gd side=1, eight existing roles |
-| veil-special-alpha.png | 1254 × 644 | 10740f80b4646660f48934c1f48e6e8a54ee126f5a72d92830e4c101c662c067 | front_art.gd side=1 assassin/flying |
+| veil-roster-alpha.png | 1774 × 887 | d3120d16fdcedf9c4fb5761d9b6b23709fac0c48e1c1be0f6ba677413bff9101 | front_art.gd side=1, eight existing roles |
+| veil-special-alpha.png | 1254 × 644 | c3f33f82bdad820cc1b775376bbf6fb07ae306cf8a9e271b84fa55bf38e50f26 | front_art.gd side=1 assassin/flying |
 
-Aseprite USED_STATIC_ONLY: each PNG imported into its same-basename `.aseprite`, frame 1 exported, complete RGBA bytes matched. No motion tags/new attack frames. Original opaque atlas sources used imagegen and did not use Aseprite. Alpha zero pixels: 893374 / 507919 respectively. Special crop y=610 uses the empty gutter above the wing at y=618, not the destructive nominal y=627 split.
+Aseprite USED_STATIC_ONLY: each PNG imported into its same-basename `.aseprite`, frame 1 exported, complete RGBA bytes matched. No motion tags/new attack frames. Original opaque atlas sources used imagegen and did not use Aseprite. Alpha zero pixels: 895234 / 507919 respectively. Special crop y=610 uses the empty gutter above the wing at y=618, not the destructive nominal y=627 split.
 
-Independent review found pale priest anatomy erased by the first generic mask. Corrected priest cell uses a conservative threshold; actual head pixels (1450,100)/(1480,100) are regression-tested opaque. Cutout tests 3 PASS; Godot model 39 checks and UI/save/10-role alpha checks PASS. Edge quality remains PARTIAL: pale paper fringe/residue can remain, especially priest; hard alpha and enclosed pale areas require visual refinement. Approval PENDING. Static candidate runtime wiring is not complete animated-character delivery.
+Independent review found pale priest anatomy erased by the first generic mask. Corrected priest cell uses a conservative threshold; actual head pixels (1450,100)/(1480,100) are regression-tested opaque. Earlier cutout tests 3 PASS; Godot model 39 checks and UI/save/10-role alpha checks PASS. Edge quality remains PARTIAL: pale paper fringe/residue can remain, especially priest; enclosed pale areas require visual refinement. Approval PENDING. Static candidate runtime wiring is not complete animated-character delivery.
 
 User cleanup policy: failed alpha generations, identical generated copies with repository originals retained, and superseded/staging outputs are moved to `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912`, not deleted. `ALL_FILES.csv` owns exact paths/hashes/reasons. Unclassified historical sources remain untouched. Previous original-location statements below do not imply duplicate generated copies still occupy that location.
 

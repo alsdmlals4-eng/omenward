@@ -2,10 +2,17 @@
 from pathlib import Path
 import hashlib
 import numpy as np
-from PIL import Image, ImageDraw, ImageOps
+from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
 
 ROOT = Path(__file__).resolve().parents[1]
 ART = ROOT / 'docs/images/candidates/blueprint-20260911'
+
+def soften_edges(source):
+    """Subpixel inward feather: no new silhouette pixels, no RGB alteration."""
+    result = source.copy()
+    alpha = source.getchannel('A')
+    result.putalpha(ImageChops.darker(alpha, alpha.filter(ImageFilter.GaussianBlur(0.5))))
+    return result
 
 def cutout(source, minimum=155):
     rgb = source.convert('RGB')
@@ -42,7 +49,11 @@ def main():
             # Pale grub anatomy is connected to paper: protect its whole cell.
             # Residual paper is preferable to removing the creature's exterior.
             priest = (1330, 0, image.width, 444)
-            result.paste(cutout(image.crop(priest), minimum=210), priest)
+            priest_threshold = np.full((444, image.width - 1330), 210)
+            # Reviewed ground strip below the pale body; keep dark leg tips.
+            priest_threshold[405:, 150:] = 140
+            result.paste(cutout(image.crop(priest), minimum=priest_threshold), priest)
+        result = soften_edges(result)
         result.save(output)
         assert hashlib.sha256(source_path.read_bytes()).hexdigest() == digest
         assert result.convert('RGB').tobytes() == image.tobytes()
