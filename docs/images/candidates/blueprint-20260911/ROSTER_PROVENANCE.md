@@ -1,5 +1,15 @@
 # Roster / building / hero candidate provenance
 
+## UI/alpha follow-up · 2026-09-11
+
+- `ward-shield-slash-alpha-candidate.png`: built-in image model, candidate only; source `exec-ea64ba8f-ecf7-4c90-aa9c-382f13513f1b.png`; SHA-256 `d291307bf45e3ebf910bc1385c80c0aa30f28bb4aaa5411a41b2653dfecd99ce`.
+- Actual PIL readback: RGBA, 1254×1254, alpha range 0–255, 805895 completely transparent pixels. Godot checks transparent corner, alpha detection and exact 627×627 idle region. No code-based background removal.
+- Consumer: `front_art.gd::unit(shield_guard, 0)` → `front_screen.gd`, **top-left idle cell only**, no rectangular card border in battlefield. Other classes remain opaque candidate cards. Final approval PENDING; Aseprite NOT_USED for this file.
+- Four generated poses exist, but bottom-left sword crosses its cell; not a valid four-frame animation. Spacing repair outputs again had painted checkerboard and are not copied into the project. No slash playback/impact synchronization claim.
+- Origin: style/identity reference `ward-roster.png` top-left soldier → four distinct 2×2 slash poses (`exec-5385a573-3a70-4811-805a-7e6c354272a5.png`, RGB checkerboard rejected) → image-model alpha extraction. Source unchanged; only selected output copied to repository.
+- Exact successful extraction prompt: "Use case: background-extraction. Edit target: the provided four-frame knight sheet. Remove ONLY all the visible gray/white checkerboard pixels in the background. Preserve the four knights, their poses, colors and pixels as closely as possible. Return a PNG image with a TRUE alpha channel, completely transparent outside the characters and in holes around arms, weapons, and cloaks. The checkerboard currently in the input is incorrectly painted into RGB. It must be removed, not redrawn. No solid white background, no black background, no gray background, no checkerboard rendering. Actual RGBA transparent cutout. Do not add anything. Keep canvas and character positions identical."
+- Learning: transparency can regress on a later spacing edit. Re-test alpha after **every** image edit, not only initial extraction. Project regression checks now reject opaque replacements. Base promotion remains a proposal, not a change to shared policy.
+
 2026-09-11 scoped execution preview: `scripts/replan/front_art.gd` now consumes battlefield-layer, ward-roster, veil-roster, building-tree, special-roster-additions and ui-icons in `scenes/replan/front_slice.tscn`. State remains GENERATED_CANDIDATE; this is a visible review consumer, not final asset registration. UI portraits and battlefield card tokens are opaque static images, Aseprite NOT_USED. Missing special facility art uses an explicitly generic icon. Heroes and historical Aseprite slash are not wired. Source images are unchanged; no duplicated source pixels. Godot GPU captures are implementation evidence, not image approval.
 
 ## v3 additions and correction

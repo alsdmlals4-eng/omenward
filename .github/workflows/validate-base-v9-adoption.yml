@@ -8,6 +8,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: python -m unittest tests.test_base_v9_adoption
+      - run: python tests/test_replan_scope.py
   adversarial-gate:
     needs: ci-gate
     runs-on: ubuntu-latest
@@ -16,5 +17,7 @@ jobs:
         with: {fetch-depth: 0}
       - run: |
           git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.sha }}" > changed.txt
-          if grep -E '^(scripts/|scenes/|data/|assets/|addons/|project\.godot$)' changed.txt; then exit 1; fi
+          if grep -E '^(scripts/|scenes/|data/|assets/|addons/|project\.godot$)' changed.txt; then
+            python tools/replan_scope.py --base "${{ github.event.pull_request.base.sha }}"
+          fi
           test -f skills/BASE_V9_ADAPTER.json

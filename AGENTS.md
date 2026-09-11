@@ -1,5 +1,7 @@
 # OMENWARD 프로젝트 AI 작업 규칙
 
+> **2026-09-11 명시 승인된 UI/투명 이미지/모션 BUILD 계약 전환:** `docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md`를 따른다. Base 원검사는 그대로 실행·보고한다. 그 실패가 이번 승인된 exact 파일의 보호 경로 변경뿐일 때만 `python tools/replan_scope.py --base-repository <pinned Base checkout>`의 별도 `PROJECT_SCOPED_BUILD` 판정으로 이 작업을 진행한다. 이 한정 승인 외에는 router fail-closed를 유지한다. Base lock·adapter·보호 목록·Git 보호는 변경하지 않는다.
+
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 
 ```yaml

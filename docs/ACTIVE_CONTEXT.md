@@ -1,5 +1,7 @@
 # [현행] OMENWARD Active Context
 
+2026-09-11 후속 UI/투명 이미지: 사용자가 기획 전용 계약의 한정 BUILD 전환을 승인했다. owner: `docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md`. Base v9.4.3 원검사의 protected-path FAIL과 프로젝트 한정 승인 PASS를 분리한다. 버전/기준점/보호 목록은 유지한다. 탭 선택, 일시정지/재개, 현재 배속, 한국어 phase를 연결했다. 아군 방패병 대기 1셀만 실제 RGBA 후보로 연결했다. 베기 시트는 셀 침범 때문에 모션 미연결; 간격 교정본은 RGB 체크무늬로 실패했다. Aseprite 이번 후보 미사용. 전투 규칙 39검사, 화면/저장/알파 검사, 실제 GPU 전투·건설 캡처 PASS. 전체 모션·나머지 병종 투명화·Human/제품 완료는 아님. 새 원격 CI 상태는 exact HEAD로 별도 확인한다.
+
 2026-09-11 현재 BUILD: 사용자 승인에 따라 `scenes/replan/front_slice.tscn`에 별도 단일 전선 검토판을 구현했다. 이 작업 공간의 기본 실행은 검토판이며 기존 장면은 ‘기존 빌드’ 버튼으로 보존한다. 새 앱 이름으로 저장 공간을 분리했다. 실제 규칙 모델 `scripts/replan/front_run.gd`, UI `front_screen.gd`, 아틀라스 소비 `front_art.gd`. 상세 범위·검사·잔여 작업은 `docs/superpowers/plans/2026-09-11-visible-battle-slice.md`. 아래 구현 보류와 제품 코드 미변경 기록은 이 범위에서 역사다. 원격 main 통합 완료를 뜻하지 않는다.
 
 현행 v3: 일반병/특수병 분리 사용자 교정을 반영했다. 일반 5+특수 5=10병종, 별도 T1 뿌리와 T2 전문화, T3 동일 병종 심화로 데이터/본문을 교정했다. 이전 8병종·단일 병영 트리는 superseded. 특수 T1 추첨/토큰, 등급 체계와 영웅은 권장안이다. 68쪽 v3 검토 PDF, 기획 데이터 검사 12개 PASS. 암살자/비행병 아군·베일 정적 도감 후보 추가(Aseprite 미사용). 전체 구현 착수 준비는 PARTIAL; 제품 코드는 변경하지 않았다.

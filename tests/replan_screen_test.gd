@@ -9,6 +9,32 @@ func verify() -> void:
 	root.add_child(screen)
 	await process_frame
 	var failed := false
+	var idle: AtlasTexture = screen.art.unit("shield_guard", 0)
+	var source := idle.atlas.get_image()
+	if source.detect_alpha() == Image.ALPHA_NONE or source.get_pixel(0, 0).a != 0:
+		push_error("Shield idle must use genuine transparent pixels")
+		failed = true
+	if idle.region != Rect2(0, 0, 627, 627):
+		push_error("Only the reviewed idle cell may be consumed")
+		failed = true
+	if not screen.has_method("phase_label"):
+		push_error("Missing localized battle phase presentation")
+		quit(1)
+		return
+	if screen.phase_label() != "출정 준비":
+		failed = true
+	for button in screen.find_children("*", "Button", true, false):
+		if button.text == "전선":
+			button.pressed.emit()
+			if not button.button_pressed or screen.tab != "전선":
+				failed = true
+	screen.tab = "내정"
+	screen._refresh_panel()
+	screen.paused = true
+	screen._process(0.0)
+	if screen.pause_button.text != "계속 진행":
+		failed = true
+	screen.paused = false
 	for node in screen.find_children("*", "TextureRect", true, false):
 		if node.size.x > 130 or node.size.y > 130:
 			push_error("Atlas picture exceeds its UI allocation: %s" % node.size)

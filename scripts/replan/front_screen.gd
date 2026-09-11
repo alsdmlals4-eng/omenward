@@ -12,6 +12,9 @@ var ui: Control
 var header: Label
 var notice: Label
 var start_button: Button
+var pause_button: Button
+var speed_button: Button
+var tab_buttons: Dictionary = {}
 var detail: Label
 var panel_key := ""
 var selected := 0
@@ -61,9 +64,11 @@ func _make_shell() -> void:
 	start_button = _button("공세 시작", Rect2(1070, 76, 185, 34), func(): run.begin_round(); _refresh_panel())
 	for i in range(3):
 		var title: String = ["내정", "징조륜", "전선"][i]
-		_button(title, Rect2(24 + i * 130, 473, 122, 36), func(): tab = title; _refresh_panel())
-	_button("일시정지", Rect2(445, 473, 116, 36), func(): paused = not paused)
-	_button("속도 1× / 3×", Rect2(569, 473, 150, 36), func(): speed = 3.0 if speed == 1.0 else 1.0)
+		var tab_button := _button(title, Rect2(24 + i * 130, 473, 122, 36), func(): tab = title; _refresh_panel())
+		tab_button.toggle_mode = true
+		tab_buttons[title] = tab_button
+	pause_button = _button("일시정지", Rect2(445, 473, 116, 36), func(): paused = not paused)
+	speed_button = _button("속도 1×", Rect2(569, 473, 150, 36), func(): speed = 3.0 if speed == 1.0 else 1.0)
 	_button("저장", Rect2(800, 473, 95, 36), _save)
 	_button("불러오기", Rect2(903, 473, 115, 36), _load_save)
 	_button("새 출정", Rect2(1026, 473, 112, 36), _restart)
@@ -72,7 +77,7 @@ func _make_shell() -> void:
 	ui.position = Vector2(24, 519)
 	ui.size = Vector2(1232, 170)
 	add_child(ui)
-	_label("아트: 정적 후보 카드 · Aseprite 미사용 | 베기 프레임/투명 전투 스프라이트·T3·영웅·등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
+	_label("아트 후보: 아군 방패병 대기만 투명 · 나머지 카드 | Aseprite 미사용 · 베기 모션/T3/영웅/등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
 
 func _restart() -> void:
 	# Explicit confirmation prevents accidental loss of a running battle.
@@ -94,6 +99,8 @@ func _picture(texture: Texture2D, rect: Rect2, parent: Node) -> void:
 	parent.add_child(picture)
 
 func _refresh_panel() -> void:
+	for title in tab_buttons:
+		tab_buttons[title].set_pressed_no_signal(title == tab)
 	for child in ui.get_children():
 		ui.remove_child(child)
 		child.queue_free()
@@ -180,11 +187,17 @@ func _process(delta: float) -> void:
 		refresh_clock = 0
 		if panel_key != _state_key():
 			_refresh_panel()
-	header.text = "%s  |  라운드 %d/10  ·  공세 %d/3  ·  %02d초  |  %dG  ·  출전 %d/18  |  %s" % [run.phase, run.round_number, run.wave_index, ceili(maxf(0, 60 - run.elapsed)), run.gold, run.capacity_used(), "정지" if paused else "%d×" % int(speed)]
+	header.text = "%s  |  라운드 %d/10  ·  공세 %d/3  ·  %02d초  |  %dG  ·  출전 %d/18  |  %s" % [phase_label(), run.round_number, run.wave_index, ceili(maxf(0, 60 - run.elapsed)), run.gold, run.capacity_used(), "정지" if paused else "%d×" % int(speed)]
+	pause_button.text = "계속 진행" if paused else "일시정지"
+	speed_button.text = "속도 %d×" % int(speed)
+	speed_button.tooltip_text = "누르면 %d배속으로 변경" % (1 if speed == 3.0 else 3)
 	notice.text = run.message
 	start_button.text = "다음 라운드" if run.phase == "REFIT" else "공세 시작"
 	start_button.disabled = run.phase not in ["PREPARE", "REFIT"]
 	queue_redraw()
+
+func phase_label() -> String:
+	return {"PREPARE": "출정 준비", "BATTLE": "전투 중", "REFIT": "재정비", "VICTORY": "승리", "DEFEAT": "패배"}.get(run.phase, run.phase)
 
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, 1280, 720), Color("111c2b"))
@@ -206,7 +219,8 @@ func _draw() -> void:
 		var rect := Rect2(x - 26 + movement, y - 32, 52, 52)
 		draw_texture_rect(art.unit(unit.role, int(unit.side)), rect, false, Color(1, 0.65, 0.65) if unit.flash > 0 else Color.WHITE)
 		var side_color := Color("48b5ee") if unit.side == 0 else Color("ae57d3")
-		draw_rect(rect, side_color, false, 2)
+		if not (unit.role == "shield_guard" and unit.side == 0):
+			draw_rect(rect, side_color, false, 2)
 		draw_rect(Rect2(x - 26, y + 23, 52, 5), Color("302d36"))
 		draw_rect(Rect2(x - 26, y + 23, 52 * clampf(float(unit.hp) / float(run.definitions[unit.role][4]), 0, 1), 5), side_color)
 		if unit.action > 0:
