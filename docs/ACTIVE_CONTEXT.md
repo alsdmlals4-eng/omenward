@@ -1,5 +1,7 @@
 # [현행] OMENWARD Active Context
 
+2026-09-11 현재 BUILD: 사용자 승인에 따라 `scenes/replan/front_slice.tscn`에 별도 단일 전선 검토판을 구현했다. 이 작업 공간의 기본 실행은 검토판이며 기존 장면은 ‘기존 빌드’ 버튼으로 보존한다. 새 앱 이름으로 저장 공간을 분리했다. 실제 규칙 모델 `scripts/replan/front_run.gd`, UI `front_screen.gd`, 아틀라스 소비 `front_art.gd`. 상세 범위·검사·잔여 작업은 `docs/superpowers/plans/2026-09-11-visible-battle-slice.md`. 아래 구현 보류와 제품 코드 미변경 기록은 이 범위에서 역사다. 원격 main 통합 완료를 뜻하지 않는다.
+
 현행 v3: 일반병/특수병 분리 사용자 교정을 반영했다. 일반 5+특수 5=10병종, 별도 T1 뿌리와 T2 전문화, T3 동일 병종 심화로 데이터/본문을 교정했다. 이전 8병종·단일 병영 트리는 superseded. 특수 T1 추첨/토큰, 등급 체계와 영웅은 권장안이다. 68쪽 v3 검토 PDF, 기획 데이터 검사 12개 PASS. 암살자/비행병 아군·베일 정적 도감 후보 추가(Aseprite 미사용). 전체 구현 착수 준비는 PARTIAL; 제품 코드는 변경하지 않았다.
 
 최신 보완: 사용자 요청으로 아군/베일 병종 이미지, 티어·등급 스킬, 영웅, 건물 이미지를 추가한 61쪽 v2 검토판을 제작했다. T1 병영=방패병, 업그레이드 후 전문 병종 공급이 사용자 확정이며 이전 자유 공급변경/전문시설 직접건설 권장안을 교정했다. 세부 분기·숙련/정예·영웅 3명은 RECOMMENDED. 도감 이미지 4시트는 RGB 카드 후보이며 전투 sprite/모션 아님. 관련 owner는 아래 동일 문서/JSON, 자산 검토는 `docs/images/candidates/blueprint-20260911/ROSTER_PROVENANCE.md`. 제품 구현·전체 자산 준비·Git 원격 반영 완료는 주장하지 않는다.

@@ -1,5 +1,7 @@
 # Roster / building / hero candidate provenance
 
+2026-09-11 scoped execution preview: `scripts/replan/front_art.gd` now consumes battlefield-layer, ward-roster, veil-roster, building-tree, special-roster-additions and ui-icons in `scenes/replan/front_slice.tscn`. State remains GENERATED_CANDIDATE; this is a visible review consumer, not final asset registration. UI portraits and battlefield card tokens are opaque static images, Aseprite NOT_USED. Missing special facility art uses an explicitly generic icon. Heroes and historical Aseprite slash are not wired. Source images are unchanged; no duplicated source pixels. Godot GPU captures are implementation evidence, not image approval.
+
 ## v3 additions and correction
 
 `special-roster-additions.png`: source `exec-3a276565-c6c5-4642-8f77-94f3cb47644f.png`, image_gen generated, Aseprite NOT_USED. 2x2 opaque codex layout: allied assassin/flying, Veil assassin/flying. Static candidate, user approval pending, not a battle animation. Wing/weapon margin remains a review concern. All new image hashes are in the v3 receipt.
