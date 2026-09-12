@@ -240,6 +240,12 @@ func forecast_text() -> String:
 	var timing := "%d초 후" % ceili(forecast.seconds) if run.phase == "BATTLE" else "공세 시작 후 %d초" % ceili(forecast.seconds)
 	return "다음 공세 · %d라운드 %d/3 · %s%s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "  /  ".join(groups)]
 
+func unit_draw_anchor(unit: Dictionary) -> Vector2:
+	# Stable display-only stagger: never feed these coordinates into combat.
+	var rear := -1.0 if int(unit.side) == 0 else 1.0
+	var stagger := (int(unit.id) / 4 % 2) * 24.0
+	return Vector2(65 + float(unit.x) * 11.5 + rear * stagger, 262 + (int(unit.id) % 4) * 32)
+
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, 1280, 720), Color("111c2b"))
 	if backdrop == null:
@@ -253,22 +259,27 @@ func _draw() -> void:
 		draw_circle(Vector2(x, 200), 5, color)
 	# Tower is a labeled UI marker in this candidate preview, not invented artwork.
 	draw_string(font, Vector2(567, 222), "탑  %s" % ("아군" if run.points[1] == 1 else "베일" if run.points[1] == -1 else "중립"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("253249"))
-	for unit in run.units:
-		var x: float = 65 + float(unit.x) * 11.5
-		var y: float = 292 + (int(unit.id) % 3) * 38
+	var actors: Array = run.units.duplicate()
+	actors.sort_custom(func(a, b):
+		var ay: float = unit_draw_anchor(a).y
+		var by: float = unit_draw_anchor(b).y
+		return int(a.id) < int(b.id) if is_equal_approx(ay, by) else ay < by)
+	for unit in actors:
+		var anchor := unit_draw_anchor(unit)
+		var x: float = anchor.x
+		var y: float = anchor.y
 		var movement := float(unit.action) * 15 * (1 if unit.side == 0 else -1)
 		var rect := Rect2(x - 26 + movement, y - 32, 52, 52)
 		if unit.side == 0 and unit.role == "shield_guard":
 			# Native 768px frames share foot pivot (384,700); do not slide the whole sprite.
 			rect = Rect2(x - 34, y + 20 - 700.0 / 768.0 * 68, 68, 68)
 		draw_texture_rect(art.unit(unit.role, int(unit.side), art.motion_frame(unit)), rect, false, Color(1, 0.65, 0.65) if unit.flash > 0 else Color.WHITE)
+	# Draw status after every sprite, so later actors cannot cover health bars.
+	for unit in actors:
+		var anchor := unit_draw_anchor(unit)
 		var side_color := Color("48b5ee") if unit.side == 0 else Color("ae57d3")
-		if unit.side == 0 and unit.role != "shield_guard":
-			draw_rect(rect, side_color, false, 2)
-		draw_rect(Rect2(x - 26, y + 23, 52, 5), Color("302d36"))
-		draw_rect(Rect2(x - 26, y + 23, 52 * clampf(float(unit.hp) / float(run.definitions[unit.role][4]), 0, 1), 5), side_color)
-		if unit.action > 0:
-			draw_string(font, Vector2(x - 12, y - 38), "+" if unit.role == "priest" else "공격", HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("15283e"))
+		draw_rect(Rect2(anchor.x - 20, anchor.y + 23, 40, 5), Color("172235"))
+		draw_rect(Rect2(anchor.x - 19, anchor.y + 24, 38 * clampf(float(unit.hp) / float(run.definitions[unit.role][4]), 0, 1), 3), side_color)
 	draw_rect(Rect2(26, 388, 185, 31), Color("14293b"))
 	draw_rect(Rect2(1065, 388, 190, 31), Color("35213d"))
 	draw_string(font, Vector2(35, 409), "수호 성채 %d" % maxi(0, int(run.bases[0])), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("c3e8fb"))

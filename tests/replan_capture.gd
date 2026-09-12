@@ -35,6 +35,15 @@ func capture() -> void:
 	await process_frame
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://output/front-battle.png")
+	root.size = Vector2i(1920, 1080)
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var hd := root.get_texture().get_image()
+	hd.save_png("res://output/front-battle-1080.png")
+	if hd.get_size() != Vector2i(1920, 1080):
+		push_error("Full HD capture has wrong dimensions")
+		quit(1)
+		return
 	print("REPLAN_RENDER: damage_events=", screen.run.damage_events, " units=", screen.run.units.size())
 	print("SHIELD_RUNTIME_POSES: ", captured.size(), "/3")
 	screen.queue_free()

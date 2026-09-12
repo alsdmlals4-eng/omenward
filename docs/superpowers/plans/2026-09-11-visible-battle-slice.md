@@ -1,5 +1,17 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-13 approved bounded combat-readability plan and readback
+
+User approved the preceding plan: reproduce crowding, compare shrink/stagger/status approaches, keep combat rules, verify two resolutions. PLAN was presented before BUILD. REUSE existing atlas/draw consumer; ADAPT stable four-depth stagger (0/24px rear offset); REJECT global shrinking and physical collision changes because those alter readability or combat tuning beyond this unit. Godot custom drawing order supports the final status overlay: https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html . Existing Into the Breach threat-readability research remains context, not a claim that this layout replicates that game.
+
+- [x] RED: screen test rejects missing bounded projection.
+- [x] BUILD: front_screen.gd owns display-only unit_draw_anchor; depth-sort a copied array, preserve all model coordinates, draw health status after sprites, remove repeated attack text/placeholder unit frames.
+- [x] VERIFY: eight co-located consecutive IDs have distinct bounded anchors; projection does not mutate snapshot; 230 simulation steps match control snapshot; existing 68 model checks/UI-save/default gate pass.
+- [x] GPU: real natural battle remains19damage/16units and shield3/3poses. 1280x720 and1920x1080 inspected. Extra capture path exact-scoped. No new art generated.
+- [x] REVIEW: independent five-pass scope/rules/state/visual/tests review found no blocker. Residual sprite/bar overlap remains; eight-ID pattern repeats. Not collision-free or Human PASS. Current capture is predominantly shields/Veil; full mixed-role visual stress remains pending.
+
+Base remote still d830c0f6; pinned v9.4.3 unchanged, raw protected-path FAIL/scoped BUILD PASS. Parent PR/main remain unmerged. Next plan: mixed-role crowding stress and role/status readability before first-map end-to-end completion. Rollback this display/test change; save schema and simulation need no migration.
+
 ## 2026-09-12 continuous improvement: forecast and supply observability
 
 Outcome: RED missing-query/UI checks preceded implementation; GREEN model 68/68, actual UI/save/default-scene gate, 109 selected existing contract tests and 12 scoped/alpha/motion tests. GPU 1280×720 capture: 19 damage events /16 units, shield windup/impact/recovery 3/3. Five-scope independent review found paused/terminal production wording; corrected and tested, including paused+locked substring regression. `git diff --check` clean. Base raw FAIL is the same eight approved runtime paths; project scoped BUILD PASS, not Base raw PASS. Full 559-test suite not rerun in this iteration; the historical `_base_recovery` fixture problem remains unverified. Human/device/accessibility/1920×1080/full-product NOT_RUN. Exact remote CI is checked after commit, not inferred from these local results.

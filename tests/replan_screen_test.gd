@@ -9,6 +9,33 @@ func verify() -> void:
 	root.add_child(screen)
 	await process_frame
 	var failed := false
+	if not screen.has_method("unit_draw_anchor"):
+		push_error("Missing bounded presentation projection")
+		quit(1)
+		return
+	var before_layout: Dictionary = screen.run.snapshot()
+	var anchors: Array = []
+	for id in range(8):
+		var anchor: Vector2 = screen.unit_draw_anchor({"id": id, "side": 0, "x": 50.0})
+		if anchors.has(anchor) or absf(anchor.x - 640.0) > 24 or anchor.y < 260 or anchor.y > 360:
+			push_error("Crowded units need distinct bounded display anchors")
+			failed = true
+		anchors.append(anchor)
+	if before_layout != screen.run.snapshot():
+		push_error("Presentation must not mutate combat or save state")
+		failed = true
+	var control = screen.Model.new()
+	screen.run.begin_round()
+	control.begin_round()
+	for step in range(230):
+		screen.run.advance(0.1)
+		for actor in screen.run.units:
+			screen.unit_draw_anchor(actor)
+		control.advance(0.1)
+	if screen.run.snapshot() != control.snapshot():
+		push_error("Display projection changed deterministic battle outcome")
+		failed = true
+	screen.run.restore(before_layout)
 	for role in screen.run.definitions:
 		var veil: AtlasTexture = screen.art.unit(role, 1)
 		var veil_image := veil.atlas.get_image()

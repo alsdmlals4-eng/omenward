@@ -32,6 +32,7 @@ ALLOWED = {
     'docs/images/candidates/blueprint-20260911/ward-shield-slash-alpha-candidate.png.import',
     'docs/superpowers/plans/2026-09-11-visible-battle-slice.md',
     'output/front-battle.png', 'output/front-building.png',
+    'output/front-battle-1080.png',
     'output/front-shield-windup.png', 'output/front-shield-impact.png', 'output/front-shield-recover.png',
     'tests/replan_slice_test.gd', 'tests/replan_slice_test.gd.uid',
     'tests/replan_screen_test.gd', 'tests/replan_screen_test.gd.uid',
