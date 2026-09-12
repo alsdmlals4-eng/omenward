@@ -1,5 +1,9 @@
 # Approved project-local replan BUILD scope
 
+Exact omen runtime evidence output: `output/front-omen.png` (existing actual observation UI; no new art).
+
+2026-09-13 continued implementation: latest user requests completing remaining blueprint connections without routine reapproval. Existing front_run/front_screen and replan tests now cover weighted reserve capacity and observation/adjust/bonus/confirm, with versioned pending-save validation. Exact existing consumer paths only; no Base lock/protected list change. Existing capture outputs may show this flow.
+
 ## Authority
 
 User requested UI correction and transparent units with connected motion, then explicitly approved the assistant's proposal to update the planning-only contract for that work: **진행해**. This authorizes this bounded transition, not general removal of protection or main/admin bypass.

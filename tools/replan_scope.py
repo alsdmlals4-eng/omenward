@@ -35,6 +35,7 @@ ALLOWED = {
     'output/front-battle-1080.png',
     'output/front-mixed.png', 'output/front-mixed-1080.png',
     'output/front-recovery.png',
+    'output/front-omen.png',
     'output/front-shield-windup.png', 'output/front-shield-impact.png', 'output/front-shield-recover.png',
     'tests/replan_slice_test.gd', 'tests/replan_slice_test.gd.uid',
     'tests/replan_screen_test.gd', 'tests/replan_screen_test.gd.uid',

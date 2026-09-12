@@ -14,6 +14,23 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.tab = "징조륜"
+	screen._refresh_panel()
+	var observe = screen.find_child("ObserveOmen", true, false)
+	if observe == null:
+		push_error("Missing player omen transaction controls")
+		quit(1)
+		return
+	observe.pressed.emit()
+	if not screen.run.omen_pending or not screen.run.reserve.is_empty():
+		failed = true
+	screen.find_child("ShiftRow0", true, false).pressed.emit()
+	if screen.run.omen_moves != 2:
+		failed = true
+	screen.find_child("ConfirmOmen", true, false).pressed.emit()
+	if screen.run.omen_pending:
+		failed = true
+	screen.run.restore(before_layout)
 	screen.tab = "전선"
 	screen._refresh_panel()
 	var recovery_button = screen.find_child("OpenRecovery", true, false)

@@ -24,6 +24,9 @@ var damage_events := 0
 var rng := RandomNumberGenerator.new()
 var free_spin := true
 var last_board: Array = []
+var omen_pending := false
+var omen_moves := 0
+var omen_reserved := 0
 var message := "병영을 건설하고 공세를 시작하세요."
 var income_clock := 0.0
 var point_clock := 0.0
@@ -73,13 +76,13 @@ func production_status(slot: int) -> Dictionary:
 		state = "LOCKED"
 	elif phase != "BATTLE":
 		state = "FROZEN"
-	elif reserve.size() >= int(catalog.economy.queue_capacity):
+	elif queue_used() + int(definitions[building.unit][11]) > int(catalog.economy.queue_capacity):
 		state = "QUEUE_FULL"
 	return {"state": state, "remaining": maxf(0, interval - float(building.clock)),
 		"progress": clampf(float(building.clock) / interval, 0, 1)}
 
 func construct(id: String) -> bool:
-	if phase not in ["PREPARE", "REFIT"] or id not in ["barracks", "special_barracks"]:
+	if omen_pending or phase not in ["PREPARE", "REFIT"] or id not in ["barracks", "special_barracks"]:
 		return false
 	if buildings.size() >= unlocked_slots() or gold < int(facilities[id][2]):
 		return false
@@ -92,7 +95,7 @@ func construct(id: String) -> bool:
 	return true
 
 func upgrade(slot: int, id: String) -> bool:
-	if phase not in ["PREPARE", "REFIT"] or (round_number < 2 and phase != "REFIT") or not building_active(slot):
+	if omen_pending or phase not in ["PREPARE", "REFIT"] or (round_number < 2 and phase != "REFIT") or not building_active(slot):
 		return false
 	if not branches.has(id) or branches[id][1] != buildings[slot].id:
 		return false
@@ -144,33 +147,100 @@ func deploy(role: String) -> bool:
 	message = "%s 출전" % definitions[role][1]
 	return true
 
+func queue_used() -> int:
+	var used := 0
+	for role in reserve:
+		used += int(definitions[role][11])
+	return used
+
+func spin_required_capacity() -> int:
+	var maximum := int(definitions.shield_guard[11])
+	for i in range(buildings.size()):
+		if building_active(i):
+			maximum = maxi(maximum, int(definitions[buildings[i].unit][11]))
+	return 4 * maximum
+
+func can_spin() -> bool:
+	return not omen_pending and phase in ["PREPARE", "REFIT"] and queue_used() + spin_required_capacity() <= int(catalog.economy.queue_capacity) and (free_spin or gold >= int(catalog.economy.paid_spin))
+
 func spin() -> bool:
-	if phase not in ["PREPARE", "REFIT"] or reserve.size() > 20:
-		return false
-	if not free_spin and gold < int(catalog.economy.paid_spin):
+	if not can_spin():
 		return false
 	if not free_spin:
 		gold -= int(catalog.economy.paid_spin)
 	free_spin = false
+	omen_pending = true
+	omen_moves = 3
+	omen_reserved = spin_required_capacity()
 	var pool: Array = ["shield_guard", "shield_guard", "", ""]
 	for i in range(buildings.size()):
 		if building_active(i):
 			pool.append(buildings[i].unit)
 	last_board.clear()
-	var counts: Dictionary = {}
 	for i in range(9):
 		var role: String = pool[rng.randi_range(0, pool.size() - 1)]
 		last_board.append(role)
+	message = "관측 완료 · 행/열 이동 후 결과를 확정하세요."
+	return true
+
+func shift_board(axis: String, index: int) -> bool:
+	if not omen_pending or omen_moves <= 0 or axis not in ["row", "column"] or index < 0 or index > 2:
+		return false
+	var ids: Array = [index * 3, index * 3 + 1, index * 3 + 2] if axis == "row" else [index, index + 3, index + 6]
+	var last: String = last_board[ids[2]]
+	last_board[ids[2]] = last_board[ids[1]]
+	last_board[ids[1]] = last_board[ids[0]]
+	last_board[ids[0]] = last
+	omen_moves -= 1
+	return true
+
+func bonus_options() -> Array:
+	var options: Array = []
+	if last_board.size() != 9:
+		return options
+	for line in [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]:
+		var role: String = last_board[line[0]]
+		if role != "" and role == last_board[line[1]] and role == last_board[line[2]] and not options.has(role):
+			options.append(role)
+	return options
+
+func omen_rewards(bonus: String = "") -> Array:
+	var counts: Dictionary = {}
+	for role in last_board:
 		if role != "":
 			counts[role] = counts.get(role, 0) + 1
+	var rewards: Array = []
 	for role in counts:
 		for i in range(int(counts[role]) / 3):
-			reserve.append(role)
-	message = "징조륜 기본 추첨 완료 · 행/열 조작과 완성선 보너스는 후속 구현"
+			rewards.append(role)
+	var options := bonus_options()
+	if options.size() == 1:
+		rewards.append(options[0])
+	elif options.has(bonus):
+		rewards.append(bonus)
+	return rewards
+
+func confirm_omen(bonus: String = "") -> bool:
+	if not omen_pending or phase not in ["PREPARE", "REFIT"]:
+		return false
+	var options := bonus_options()
+	if (options.size() > 1 and not options.has(bonus)) or (bonus != "" and not options.has(bonus)):
+		return false
+	var rewards := omen_rewards(bonus)
+	var cost := 0
+	for role in rewards:
+		cost += int(definitions[role][11])
+	if queue_used() + cost > int(catalog.economy.queue_capacity):
+		return false
+	reserve.append_array(rewards)
+	omen_pending = false
+	omen_moves = 0
+	omen_reserved = 0
+	message = "징조륜 확정 · %d명 대기열 합류" % rewards.size()
 	return true
 
 func begin_round() -> bool:
-	if phase not in ["PREPARE", "REFIT"]:
+	if omen_pending or phase not in ["PREPARE", "REFIT"]:
 		return false
 	if phase == "REFIT":
 		round_number += 1
@@ -219,7 +289,7 @@ func _tick(dt: float) -> void:
 		var building: Dictionary = buildings[i]
 		var interval: float = float(facilities[building.id][5])
 		building.clock = minf(float(building.clock) + dt, interval)
-		if building.clock + 0.0001 >= interval and reserve.size() < int(catalog.economy.queue_capacity):
+		if building.clock + 0.0001 >= interval and queue_used() + int(definitions[building.unit][11]) <= int(catalog.economy.queue_capacity):
 			reserve.append(building.unit)
 			building.clock = 0.0
 	for unit in units:
@@ -335,7 +405,7 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		damage_events += 1
 
 func snapshot() -> Dictionary:
-	return {"version": 1, "gold": gold, "phase": phase, "round": round_number,
+	return {"version": 2, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
 		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
@@ -344,8 +414,13 @@ func snapshot() -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 
 func restore(value: Variant) -> bool:
-	if not value is Dictionary or value.get("version") != 1:
+	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2):
 		return false
+	value = value.duplicate(true)
+	if value.version == 1:
+		value.omen_pending = false
+		value.omen_moves = 0
+		value.omen_reserved = 0
 	for key in snapshot():
 		if not value.has(key):
 			return false
@@ -405,6 +480,30 @@ func restore(value: Variant) -> bool:
 	for role in value.reserve:
 		if not definitions.has(role):
 			return false
+	var queue_cost := 0
+	for role in value.reserve:
+		queue_cost += int(definitions[role][11])
+	if not value.omen_pending is bool or not _finite_number(value.omen_moves) or value.omen_moves != floorf(value.omen_moves) or value.omen_moves < 0 or value.omen_moves > 3 or not _finite_number(value.omen_reserved):
+		return false
+	if value.omen_pending:
+		var max_cost := int(definitions.shield_guard[11])
+		var allowed_roles: Array = ["", "shield_guard"]
+		for i in range(value.buildings.size()):
+			if i < 6 + value.points.count(1):
+				max_cost = maxi(max_cost, int(definitions[value.buildings[i].unit][11]))
+				allowed_roles.append(value.buildings[i].unit)
+		for role in value.board:
+			if not allowed_roles.has(role):
+				return false
+		if value.phase not in ["PREPARE", "REFIT"] or value.board.size() != 9 or value.free_spin or value.omen_reserved != max_cost * 4:
+			return false
+	elif value.omen_moves != 0 or value.omen_reserved != 0:
+		return false
+	if queue_cost + int(value.omen_reserved) > int(catalog.economy.queue_capacity):
+		return false
+	omen_pending = value.omen_pending
+	omen_moves = int(value.omen_moves)
+	omen_reserved = int(value.omen_reserved)
 	gold = int(value.gold)
 	phase = value.phase
 	round_number = int(value.round)

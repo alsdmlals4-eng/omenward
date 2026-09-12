@@ -14,6 +14,12 @@ func capture() -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://output/front-building.png")
 	screen.run.spin()
+	screen.tab = "징조륜"
+	screen._refresh_panel()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://output/front-omen.png")
+	screen.run.confirm_omen()
 	while screen.run.reserve.has("shield_guard"):
 		if not screen.run.deploy("shield_guard"):
 			break

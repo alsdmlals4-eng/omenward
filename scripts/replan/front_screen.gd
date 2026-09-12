@@ -24,6 +24,7 @@ var refresh_clock := 0.0
 var forecast_label: Label
 var production_label: Label
 var production_bar: ProgressBar
+var selected_bonus := ""
 
 func _ready() -> void:
 	get_window().content_scale_size = Vector2i(1280, 720)
@@ -162,15 +163,15 @@ func _build_panel() -> void:
 			var id: String = options[j]
 			var button := _button("%s %sG" % [run.facilities[id][1], run.facilities[id][2]], Rect2(714 + (j % 3) * 170, 54 + (j / 3) * 39, 164, 35), func(): run.upgrade(selected, id); _refresh_panel(), ui)
 			button.add_theme_font_size_override("font_size", 13)
-			button.disabled = not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or (run.round_number < 2 and run.phase != "REFIT") or run.gold < int(run.facilities[id][2])
+			button.disabled = run.omen_pending or not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or (run.round_number < 2 and run.phase != "REFIT") or run.gold < int(run.facilities[id][2])
 			button.tooltip_text = "T2: 1라운드 재정비부터 / 활성 슬롯에서만 가능 / 전문화 시 생산 시간 초기화"
 	else:
 		_picture(art.building("barracks"), Rect2(578, 12, 125, 125), ui)
 		_label("T1부터 건설 → T2에서 같은 계열 전문화", Rect2(714, 0, 510, 28), ui)
 		var normal := _button("일반 병영 · 방패병 · 40G", Rect2(714, 39, 490, 43), func(): run.construct("barracks"); _refresh_panel(), ui)
 		var special := _button("특수 병영 · 특수병 1종 고정 추첨 · 75G", Rect2(714, 90, 490, 43), func(): run.construct("special_barracks"); _refresh_panel(), ui)
-		normal.disabled = run.phase not in ["PREPARE", "REFIT"] or run.gold < 40 or run.buildings.size() >= run.unlocked_slots()
-		special.disabled = run.phase not in ["PREPARE", "REFIT"] or run.gold < 75 or run.buildings.size() >= run.unlocked_slots()
+		normal.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 40 or run.buildings.size() >= run.unlocked_slots()
+		special.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 75 or run.buildings.size() >= run.unlocked_slots()
 		_label("건설은 첫 빈 슬롯에 배치됩니다. 특수 병영 추첨은 저장됩니다.", Rect2(714, 137, 510, 25), ui, 13)
 
 func _omen_panel() -> void:
@@ -180,16 +181,44 @@ func _omen_panel() -> void:
 			_picture(art.unit(run.last_board[i], 0), rect, ui)
 		else:
 			_label("—", rect, ui)
-	var b := _button("징조륜 관측 · %s" % ("무료" if run.free_spin else "20G"), Rect2(195, 5, 285, 42), func(): run.spin(); _refresh_panel(), ui)
-	b.disabled = run.phase not in ["PREPARE", "REFIT"] or run.reserve.size() > 20 or (not run.free_spin and run.gold < 20)
-	_label("건설한 시설이 확률 풀에 공급 병종을 추가합니다.\n같은 병종 3칸마다 1명 → 전선 탭에서 출전\n현재 기본 추첨 검토판: 행/열 이동·보너스 미구현", Rect2(195, 58, 780, 100), ui)
+	var b := _button("관측 · %s" % ("무료" if run.free_spin else "20G"), Rect2(290, 0, 195, 38), func(): run.spin(); selected_bonus = ""; _refresh_panel(), ui)
+	b.name = "ObserveOmen"
+	b.disabled = not run.can_spin()
+	b.tooltip_text = "미확정 결과를 먼저 확정하세요." if run.omen_pending else "준비/재정비 전용. 최대 지급 %d칸의 대기 공간과 회전 비용이 필요합니다." % run.spin_required_capacity()
+	for i in range(3):
+		var row := _button("%d행 →" % (i + 1), Rect2(172, i * 53, 103, 32), func(): run.shift_board("row", i); selected_bonus = ""; _refresh_panel(), ui)
+		row.name = "ShiftRow%d" % i
+		row.disabled = not run.omen_pending or run.omen_moves == 0
+		var column := _button("%d열 ↓" % (i + 1), Rect2(290 + i * 95, 43, 88, 32), func(): run.shift_board("column", i); selected_bonus = ""; _refresh_panel(), ui)
+		column.disabled = row.disabled
+	var options: Array = run.bonus_options()
+	if not options.has(selected_bonus):
+		selected_bonus = ""
+	var choose := OptionButton.new()
+	choose.position = Vector2(592, 0)
+	choose.size = Vector2(280, 38)
+	choose.add_item("완성선 보너스 병종 선택")
+	for role in options:
+		choose.add_item(run.definitions[role][1])
+	if options.has(selected_bonus):
+		choose.select(options.find(selected_bonus) + 1)
+	choose.disabled = not run.omen_pending or options.size() < 2
+	choose.item_selected.connect(func(index): selected_bonus = options[index - 1] if index > 0 else ""; _refresh_panel())
+	ui.add_child(choose)
+	var confirm := _button("결과 확정 → 병력 지급", Rect2(889, 0, 320, 38), func(): run.confirm_omen(selected_bonus); _refresh_panel(), ui)
+	confirm.name = "ConfirmOmen"
+	confirm.disabled = not run.omen_pending or (options.size() > 1 and selected_bonus == "")
+	var names: Array = []
+	for role in run.omen_rewards(selected_bonus):
+		names.append(run.definitions[role][1])
+	_label("남은 이동 %d회 · 대기 용량 %d/24 · 예약 %d칸\n%s\n3칸당 1명 + 완성선 보너스 최대 1명. 확정 전 지급 없음." % [run.omen_moves, run.queue_used(), run.omen_reserved, ("예상: " + (", ".join(names) if not names.is_empty() else "병력 없음")) if run.omen_pending else "관측 → 행/열 이동 → 보너스 선택 → 확정 → 전선 출전"], Rect2(290, 83, 915, 78), ui, 15)
 
 func _reserve_panel() -> void:
 	var recovery := _button("부상병 치료 · 비용 확인", Rect2(970, 0, 240, 32), _show_recovery, ui)
 	recovery.name = "OpenRecovery"
 	recovery.disabled = run.phase not in ["PREPARE", "REFIT"]
 	recovery.tooltip_text = "준비·재정비 중 생존한 아군을 골드로 회복합니다."
-	_label("대기 병력 %s/24 · 출전 %s/18 · 생산된 병종 카드를 눌러 전장에 투입" % [run.reserve.size(), run.capacity_used()], Rect2(0, 0, 1210, 26), ui)
+	_label("대기 용량 %s/24 · 출전 %s/18 · 병종 카드를 눌러 전장에 투입" % [run.queue_used(), run.capacity_used()], Rect2(0, 0, 950, 26), ui)
 	var counts: Dictionary = {}
 	for role in run.reserve:
 		counts[role] = counts.get(role, 0) + 1
@@ -228,7 +257,7 @@ func _process(delta: float) -> void:
 		production_label.text = "%s · 남은 %d초" % [state, ceili(status.remaining)]
 		production_bar.value = status.progress * 100
 	start_button.text = "다음 라운드" if run.phase == "REFIT" else "공세 시작"
-	start_button.disabled = run.phase not in ["PREPARE", "REFIT"]
+	start_button.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"]
 	queue_redraw()
 
 func phase_label() -> String:

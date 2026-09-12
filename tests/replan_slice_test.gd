@@ -16,7 +16,55 @@ func _initialize() -> void:
 		return
 	var model = load("res://scripts/replan/front_run.gd")
 	var r = model.new()
-	for policy in ["reinforcement", "ranged", "mixed"]:
+	if not r.has_method("confirm_omen"):
+		check(false, "Missing observation adjustment confirmation transaction")
+		quit(1)
+		return
+	var omen = model.new()
+	check(omen.spin() and omen.reserve.is_empty(), "Observation grants no troops before confirmation")
+	check(not omen.spin() and not omen.begin_round() and not omen.construct("barracks"), "Pending result locks reroll battle and pool mutation")
+	omen.last_board = ["shield_guard", "archer", "mage", "shield_guard", "archer", "mage", "shield_guard", "archer", "mage"]
+	check(omen.bonus_options() == ["shield_guard", "archer", "mage"], "Three completed columns offer distinct bonus choices")
+	check(not omen.confirm_omen(), "Multiple bonus roles require explicit choice")
+	check(omen.confirm_omen("mage") and omen.reserve == ["shield_guard", "archer", "mage", "mage"], "Confirmation grants base plus selected single bonus")
+	check(not omen.confirm_omen("mage"), "Cannot confirm twice")
+	var moving = model.new()
+	moving.spin()
+	moving.last_board = ["shield_guard", "archer", "mage", "", "", "", "", "", ""]
+	check(moving.shift_board("row", 0) and moving.last_board.slice(0, 3) == ["mage", "shield_guard", "archer"], "Row shifts one cell with wrapping")
+	moving.shift_board("row", 0)
+	moving.shift_board("row", 0)
+	check(moving.last_board.slice(0, 3) == ["shield_guard", "archer", "mage"] and not moving.shift_board("column", 0), "Returning to original board still consumes all three moves")
+	var pending_save = model.new()
+	moving.last_board = ["shield_guard", "", "", "", "", "", "", "", ""]
+	check(pending_save.restore(JSON.parse_string(JSON.stringify(moving.snapshot()))) and pending_save.omen_pending and pending_save.omen_moves == 0 and pending_save.last_board == moving.last_board and pending_save.rng.state == moving.rng.state, "Pending moves board and RNG survive JSON save")
+	var corrupt_pending = moving.snapshot()
+	corrupt_pending.board.fill("giant")
+	var before_corrupt = pending_save.snapshot()
+	check(not pending_save.restore(corrupt_pending) and pending_save.snapshot() == before_corrupt, "Pending save rejects roles outside locked source pool without mutation")
+	check(pending_save.confirm_omen() and pending_save.reserve.is_empty(), "Blank/nonmatching result can confirm without bonus")
+	var full_queue = model.new()
+	full_queue.reserve = ["giant", "giant", "giant", "giant", "shield_guard"]
+	var unchanged = full_queue.snapshot()
+	check(not full_queue.spin() and full_queue.snapshot() == unchanged, "Weighted capacity rejects before payment free-token or RNG mutation")
+	var legacy = model.new().snapshot()
+	legacy.version = 1
+	for key in ["omen_pending", "omen_moves", "omen_reserved"]:
+		legacy.erase(key)
+	check(full_queue.restore(legacy) and not full_queue.omen_pending, "Actual v1 save migrates without pending reward")
+	legacy.reserve = ["giant", "giant", "giant", "giant", "giant"]
+	unchanged = full_queue.snapshot()
+	check(not full_queue.restore(legacy) and full_queue.snapshot() == unchanged, "Overweight legacy queue rejected without loss or mutation")
+	var paid = model.new()
+	paid.free_spin = false
+	paid.gold = 19
+	unchanged = paid.snapshot()
+	check(not paid.spin() and paid.snapshot() == unchanged, "Poor paid spin preserves RNG and gold")
+	paid.gold = 20
+	check(paid.spin() and paid.gold == 0, "Paid observation charges exactly twenty once")
+	paid.last_board = ["shield_guard", "", "", "", "", "", "", "", ""]
+	check(paid.shift_board("column", 0) and paid.last_board[3] == "shield_guard" and paid.last_board[0] == "", "Column shift moves down one cell")
+	for policy in ["reinforcement", "ranged", "mixed", "paid_mobilization"]:
 		run_policy(model, policy)
 	verify_model(model, r)
 
@@ -48,6 +96,17 @@ func run_policy(model: Script, policy: String) -> void:
 				journey.upgrade(0, "range")
 			if journey.free_spin:
 				journey.spin()
+			if journey.omen_pending:
+				var options: Array = journey.bonus_options()
+				journey.confirm_omen(options[0] if not options.is_empty() else "")
+			if policy == "paid_mobilization":
+				for attempt in range(8):
+					for role in journey.reserve.duplicate():
+						journey.deploy(role)
+					if not journey.spin():
+						break
+					var options: Array = journey.bonus_options()
+					journey.confirm_omen(options[0] if not options.is_empty() else "")
 			for survivor in journey.units:
 				var previous_gold: int = journey.gold
 				journey.heal_unit(int(survivor.id))

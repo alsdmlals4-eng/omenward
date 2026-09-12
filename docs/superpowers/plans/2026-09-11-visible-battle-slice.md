@@ -1,5 +1,19 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-13 Omen transaction implementation
+
+Execution complete for this transaction: RED missing API/UI then GREEN99 model checks + UI/save/default + scope5. GPU front-omen.png and natural combat19damage/17units/3shieldposes. Review found pending saves could inject unavailable units; corrected allowed-pool validation before state mutation with RED regression. JSON version membership was type-sensitive; explicit numeric comparison fixes real disk load. v1 overflow rejected without mutation, no truncation. Five-perspective independent rereview clean (not independent runtime). Real-resource paid_mobilization policy reaches first refit with5allies/9enemies versus0allies in three free-only policies, but all lose round2. Policy does not optimize shifts and does not establish balance/Human PASS. No new Base reusable module proven; project-only lesson is validate pending reward source and reservation together. Below checklist records original plan.
+
+User continuation authorizes existing blueprint completion without routine approval. Scope: front_run.gd/front_screen.gd, existing model/UI/capture tests and current owners. Spec: Human Blueprint 룰렛의 구체 처리 / 경제. No new art/combat stat tuning/Base lock change.
+
+Research: Slotbound official https://store.steampowered.com/app/4906570/ (3x3 + autobattle, ADAPT acquisition-to-battle connection; REJECT jackpot positioning); Commander Quest https://flywaygames.com/en/game/commander-quest (composition/synergy, ADAPT visible unit outcome). Current immediate-award preview is not the specified choice loop. Alternatives: tune combat now (defer: acquisition incomplete); weighted capacity only (leaves decision absent); complete observation/adjust/confirm transaction (selected: connects player agency). REUSE existing model/UI/catalog/art, no toolkit.
+
+- [ ] RED: confirm API; no early grant; weighted capacity rejection without RNG/payment; three shifts; line bonus choice; repeat confirmation; pending save restoration.
+- [ ] Model interfaces: queue_used, spin_required_capacity, can_spin, shift_board, bonus_options, omen_rewards, confirm_omen. spin starts pending transaction, reserves 4*maximum pool unit cost. Building mutation/round start locked while pending. Snapshot v2; accept v1 only when weighted queue fits, no unit discard or rejected-save overwrite.
+- [ ] UI: 3x3 cards, six cyclic row/column controls, remaining moves, eligible bonus choice, predicted rewards, single confirmation. Shared spin guard, existing art.
+- [ ] Local model/UI/default + scope + GPU + review, then real-resource policy comparison using confirmation.
+- [ ] Current owners/readback, selective commit/current branch CI, disposable test saves to user deletion review folder.
+
 ## Current completion loop: research -> specification -> connected implementation -> playtest
 
 Latest execution evidence (supersedes the single-policy 79-check sample below): 81 model checks, UI/save/default scene PASS. Three actual-resource policies at seed1947 and 0.1-second steps: reinforcement/ranged/mixed all DEFEAT in round2; first refit allied0, enemy12/12/13, gold22/101/25, home HP1000; recovery spend0. No resource injection. These are reproducible policy diagnostics, not proof of optimal-play impossibility. Next investigate production, surviving enemy carryover and unimplemented acquisition decisions before tuning numbers. Independent five-perspective read-only review found no P0-P2 blocker; execution evidence remains separately owned by local test output and GPU capture. Recovery dialog first had overlapping direct children; fixed with one VBox content owner and visually rechecked.
