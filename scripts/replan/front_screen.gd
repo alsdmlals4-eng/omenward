@@ -240,6 +240,22 @@ func forecast_text() -> String:
 	var timing := "%d초 후" % ceili(forecast.seconds) if run.phase == "BATTLE" else "공세 시작 후 %d초" % ceili(forecast.seconds)
 	return "다음 공세 · %d라운드 %d/3 · %s%s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "  /  ".join(groups)]
 
+func _get_tooltip(at_position: Vector2) -> String:
+	if not Rect2(20, 225, 1240, 160).has_point(at_position):
+		return ""
+	var lines: PackedStringArray = []
+	var count := 0
+	for unit in run.units:
+		if float(unit.hp) <= 0 or unit_draw_anchor(unit).distance_to(at_position) > 42:
+			continue
+		count += 1
+		if lines.size() < 6:
+			var row: Array = run.definitions[unit.role]
+			lines.append("%s · %s · 체력 %d/%d" % ["아군" if unit.side == 0 else "베일", row[1] if unit.side == 0 else row[3], ceili(unit.hp), int(row[4])])
+	if count > 6:
+		lines.append("근처 병력 %d명 더 있음 · 정지 후 위치를 옮겨 확인" % (count - 6))
+	return "\n".join(lines)
+
 func unit_draw_anchor(unit: Dictionary) -> Vector2:
 	# Stable display-only stagger: never feed these coordinates into combat.
 	var rear := -1.0 if int(unit.side) == 0 else 1.0

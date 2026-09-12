@@ -1,5 +1,13 @@
 # Visible battle and construction implementation plan
 
+## Mixed-role follow-up: plan, implementation, evidence
+
+User approved continuing the mixed-role readability loop. PLAN: reproduce shields/archers/mages/priests/spears on both sides, add bounded read-only hover inspection instead of increasing physical spacing or shrinking art, verify unchanged model and two resolutions. Existing Control tooltip is reused (https://docs.godotengine.org/en/stable/classes/class_control.html#class-control-private-method-get-tooltip); no third-party component or art replacement.
+
+RED missing inspection → GREEN actual faction/role/current-max HP, outside-field blank, dead exclusion, snapshot preservation, maximum6 rows plus overflow. Model68/UI-save/default PASS, scope5 PASS. Natural scenario19damage/16units/shield3poses unchanged. Separate TEST-ONLY mixed fixture spawns5roles per side then runs0.6s actual combat:10units/10damage. Not ordinary acquisition, encounter balance, whole campaign or Human evidence.
+
+GPU720/1080 captures are output/front-mixed.png and front-mixed-1080.png. Added actual InputEventMouseMotion through viewport and waited0.8s;720 capture shows native tooltip with live Ward names/HP. Independent five-pass reviewer found no blocking code issue; hover runtime capture was added after that review and inspected by main agent. Remaining: Ward non-shield cards are opaque (visible white rectangles), some Veil edges remain, mixed units overlap, hover-only is not keyboard/touch accessibility. Next plan prioritizes Ward transparent combat consumers; do not label mixed art complete. Model/save/approved art untouched.
+
 ## 2026-09-13 approved bounded combat-readability plan and readback
 
 User approved the preceding plan: reproduce crowding, compare shrink/stagger/status approaches, keep combat rules, verify two resolutions. PLAN was presented before BUILD. REUSE existing atlas/draw consumer; ADAPT stable four-depth stagger (0/24px rear offset); REJECT global shrinking and physical collision changes because those alter readability or combat tuning beyond this unit. Godot custom drawing order supports the final status overlay: https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html . Existing Into the Breach threat-readability research remains context, not a claim that this layout replicates that game.

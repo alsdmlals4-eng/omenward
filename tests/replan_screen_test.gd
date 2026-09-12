@@ -14,6 +14,38 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	if not screen.has_method("_get_tooltip"):
+		push_error("Missing crowd inspection")
+		quit(1)
+		return
+	screen.run.units.clear()
+	screen.run.spawn("archer", 0, 50)
+	screen.run.spawn("mage", 1, 50)
+	var inspect_at: Vector2 = screen.unit_draw_anchor(screen.run.units[0])
+	var info: String = screen._get_tooltip(inspect_at)
+	if not info.contains("아군") or not info.contains("궁병") or not info.contains("체력"):
+		push_error("Crowd inspection must identify actual faction, role and health")
+		quit(1)
+		return
+	if screen._get_tooltip(Vector2(10, 500)) != "":
+		failed = true
+	var inspect_before: Dictionary = screen.run.snapshot()
+	for side in range(2):
+		for i in range(12):
+			screen.run.spawn("priest", side, 50)
+	var crowded: Dictionary = screen.run.snapshot()
+	var crowd_info: String = screen._get_tooltip(inspect_at)
+	if not crowd_info.contains("더 있음") or crowd_info.split("\n").size() > 7:
+		push_error("Dense inspection must bound tooltip length and disclose overflow")
+		failed = true
+	if crowded != screen.run.snapshot():
+		failed = true
+	screen.run.restore(inspect_before)
+	screen.run.units[0].hp = 0
+	if screen._get_tooltip(inspect_at).contains("궁병"):
+		push_error("Dead actors must not appear in live inspection")
+		failed = true
+	screen.run.restore(before_layout)
 	var anchors: Array = []
 	for id in range(8):
 		var anchor: Vector2 = screen.unit_draw_anchor({"id": id, "side": 0, "x": 50.0})

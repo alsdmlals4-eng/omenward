@@ -14,6 +14,8 @@ The project router's generic stop rule is superseded **only for this explicit ap
 
 ## Evidence and integration
 
+2026-09-13 mixed-role continuation: read-only native tooltip in existing screen and explicitly labeled mixed-role GPU fixture. Exact output/front-mixed.png and output/front-mixed-1080.png added; no model, save, art source or acquisition changes. Fixture uses spawn only in tests and is not ordinary gameplay/balance evidence.
+
 2026-09-13 user approved the presented combat-readability plan. Display-only bounded stagger/depth order and health-bar presentation stay in front_screen.gd; front_run rules/save remain unchanged. Add exact output/front-battle-1080.png for the required second-resolution GPU capture under the same scope. No new art or game rule is approved by this amendment.
 
 2026-09-12 shield motion continuation: exact files `tools/ward_motion.py`, `tests/test_ward_motion.py`, and candidate `ward-shield-motion.png/.png.import/.aseprite/.json` are added under the existing UI/motion approval. Four disconnected poses from the existing RGBA source are translated to a common foot pivot without redrawing or recoloring. The prior idle-only restriction is superseded for this four-pose review consumer. Windup 180ms, impact 100ms, recovery 150ms; damage happens at windup completion with target/range revalidation. This is candidate implementation, not final art/Human approval.
