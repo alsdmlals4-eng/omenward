@@ -2,6 +2,9 @@ extends RefCounted
 ## Replan preview model. The blueprint owns base numbers; this model owns simulation.
 
 const CATALOG_PATH := "res://docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json"
+const SHIELD_WINDUP := 0.18
+const SHIELD_IMPACT := 0.10
+const SHIELD_RECOVERY := 0.15
 var catalog: Dictionary
 var definitions: Dictionary = {}
 var facilities: Dictionary = {}
@@ -127,7 +130,8 @@ func begin_round() -> bool:
 func spawn(role: String, side: int, x: float) -> void:
 	var row: Array = definitions[role]
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
-		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0})
+		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
+		"windup": 0.0, "pending_target": -1})
 	next_id += 1
 
 func advance(delta: float) -> void:
@@ -172,6 +176,21 @@ func _tick(dt: float) -> void:
 		unit.action = maxf(0, float(unit.action) - dt)
 		unit.cooldown = maxf(0, float(unit.cooldown) - dt)
 		var row: Array = definitions[unit.role]
+		if float(unit.get("windup", 0.0)) > 0:
+			unit.windup = maxf(0, float(unit.windup) - dt)
+			if unit.windup <= 0.00001:
+				unit.windup = 0.0
+				unit.action = SHIELD_IMPACT + SHIELD_RECOVERY
+				if unit.pending_target == -2:
+					if unit.x >= 99:
+						bases[1] -= float(row[5])
+				else:
+					for victim in units:
+						if victim.id == unit.pending_target and victim.hp > 0 and victim.side != unit.side and absf(float(unit.x) - float(victim.x)) <= float(row[9]) * 3.0:
+							_hit(unit, victim)
+							break
+				unit.pending_target = -1
+			continue
 		var target: Dictionary = {}
 		var distance := INF
 		for other in units:
@@ -190,6 +209,10 @@ func _tick(dt: float) -> void:
 		if not target.is_empty() and distance <= float(row[9]) * 3.0:
 			if unit.cooldown <= 0:
 				unit.cooldown = float(row[10])
+				if unit.side == 0 and unit.role == "shield_guard":
+					unit.windup = SHIELD_WINDUP
+					unit.pending_target = int(target.id)
+					continue
 				unit.action = 0.25
 				if unit.role == "priest":
 					target.hp = minf(float(target.hp) + 12, float(definitions[target.role][4]))
@@ -201,6 +224,11 @@ func _tick(dt: float) -> void:
 			unit.x = clampf(float(unit.x) + direction * float(row[8]) * dt * 2.2, 0, 100)
 			if (unit.x >= 99 and unit.side == 0) or (unit.x <= 1 and unit.side == 1):
 				if unit.cooldown <= 0 and float(row[5]) > 0:
+					if unit.side == 0 and unit.role == "shield_guard":
+						unit.cooldown = float(row[10])
+						unit.windup = SHIELD_WINDUP
+						unit.pending_target = -2
+						continue
 					bases[1 - int(unit.side)] -= float(row[5]) * (1.5 if unit.role == "giant" else 1.0)
 					unit.cooldown = float(row[10])
 					unit.action = 0.25
@@ -305,6 +333,12 @@ func restore(value: Variant) -> bool:
 		if (unit.side != 0 and unit.side != 1) or unit.x < 0 or unit.x > 110 or unit.id < 0 or unit.id >= value.next_id or seen_ids.has(unit.id):
 			return false
 		seen_ids.append(unit.id)
+		var windup: Variant = unit.get("windup", 0.0)
+		var pending: Variant = unit.get("pending_target", -1)
+		if not _finite_number(windup) or windup < 0 or windup > SHIELD_WINDUP or not _finite_number(pending) or pending != floorf(float(pending)) or pending < -2 or pending >= value.next_id:
+			return false
+		if windup > 0 and (unit.side != 0 or unit.role != "shield_guard" or pending == -1):
+			return false
 	for building in value.buildings:
 		if not building is Dictionary or not facilities.has(building.get("id", "")) or not definitions.has(building.get("unit", "")) or not building.has("clock"):
 			return false
@@ -324,6 +358,9 @@ func restore(value: Variant) -> bool:
 	elapsed = float(value.elapsed)
 	wave_index = int(value.wave)
 	units = value.units.duplicate(true)
+	for unit in units:
+		unit.windup = float(unit.get("windup", 0.0))
+		unit.pending_target = int(unit.get("pending_target", -1))
 	buildings = value.buildings.duplicate(true)
 	reserve = value.reserve.duplicate()
 	points = value.points.map(func(owner): return int(owner))

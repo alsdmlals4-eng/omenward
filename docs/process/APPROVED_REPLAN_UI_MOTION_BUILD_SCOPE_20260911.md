@@ -14,6 +14,8 @@ The project router's generic stop rule is superseded **only for this explicit ap
 
 ## Evidence and integration
 
+2026-09-12 shield motion continuation: exact files `tools/ward_motion.py`, `tests/test_ward_motion.py`, and candidate `ward-shield-motion.png/.png.import/.aseprite/.json` are added under the existing UI/motion approval. Four disconnected poses from the existing RGBA source are translated to a common foot pivot without redrawing or recoloring. The prior idle-only restriction is superseded for this four-pose review consumer. Windup 180ms, impact 100ms, recovery 150ms; damage happens at windup completion with target/range revalidation. This is candidate implementation, not final art/Human approval.
+
 2026-09-12 exact amendment under the user's Veil transparency request and explicit local-mask approval: `tools/veil_cutout.py`, `tests/test_veil_cutout.py`, and `veil-roster-alpha.png/.aseprite`, `veil-special-alpha.png/.aseprite` under the existing candidate folder. RGB is preserved, only alpha is derived locally. Native Aseprite files are static inspection sources, not animation evidence. Final art approval remains pending. The user now requires moving disposable files into a linked review folder, never deleting them directly; the screen test therefore leaves its test save for collection. Existing historical deletion readback below predates this instruction.
 
 Asset amendment in this scope: `docs/images/candidates/blueprint-20260911/ward-shield-slash-alpha-candidate.png` and its optional Godot import metadata. Only the top-left idle cell is used by the review consumer. This does not authorize other assets or final art promotion.
@@ -25,6 +27,8 @@ Tests must reject old StageRun changes, sibling scripts, traversal, absolute pat
 Scoped contract tests and CI → UI corrections → image model transparent candidates → alpha inspection → frame/pivot/timing → Godot consumer → runtime capture. No new image is considered alpha-ready merely because its background looks white/checkered. No static transform is reported as a newly drawn animation frame.
 
 ## Execution readback
+
+Latest shield continuation: model55 checks, screen/save/native timing, default scene, source/export2, scope5 and Veil5 tests PASS. Real GPU natural combat shows19damage/16units and all3 action states. Read-only reviewer performed five full-scope passes and independently decoded native frame RGBA/timing: no blocker. Added PNG export regression after review recommendation. Historical full discovery:558/559 passed; one environment failure because `_base_recovery` exact historical CI checkout is absent locally, not a combat regression. Do not label full discovery PASS or change the historical test/pin to hide it. Editor import exits0 but existing Hera shutdown leaks45objects/22resources remain. Cleanup moved26 files, verified all118 inventory hashes, total149958418bytes; no direct deletion. Repository/current native and source remain. This work does not merge parent planning PR or main.
 
 - Scope regression: 5 tests PASS. Historical CI suite: 109 tests PASS after removal of 14 ignored Godot-generated CSV translation/import files; original CSVs retained. This existing hygiene test checks local file existence despite its `tracked` name. Editor reimport can reproduce the artifacts; cleanup is not a permanent importer fix.
 - Godot: model 39 checks/0 failures; UI/save/real alpha/idle region/current controls PASS; default scene smoke PASS. GPU capture: 19 damage events, 16 units; building and combat outputs updated.

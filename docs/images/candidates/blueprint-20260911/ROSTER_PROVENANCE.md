@@ -1,5 +1,19 @@
 # Roster / building / hero candidate provenance
 
+## Shield four-pose motion · 2026-09-12
+
+Reuse of `ward-shield-slash-alpha-candidate.png` (SHA-256 `d291307bf45e3ebf910bc1385c80c0aa30f28bb4aaa5411a41b2653dfecd99ce`), not new generated artwork. Four disconnected components can be separated despite crossing the old 2×2 grid. `tools/ward_motion.py` preserves every source pixel with alpha >8 exactly; only disconnected background specks with alpha <=8 are omitted. No scaling, rotation, deformation or RGB repainting. Translation offsets: idle(71,83), windup(-553,79), impact(37,-474), recover(-569,-476). Each 768×768 frame has foot pivot (384,700).
+
+| File | SHA-256 | Role |
+|---|---|---|
+| ward-shield-motion.png | 9047aab8a8b0ecc4275ddf69ae5bd419c630ee0a64fb99bf6ff50010f026cb4c | 3072×768 RGBA atlas; front_art.gd ally shield frames0–3 |
+| ward-shield-motion.aseprite | 2831a69669b2158a90e892f653926f83b392ccbf813238374195feeb2eca1227 | Native editable four frames, shield layer |
+| ward-shield-motion.json | Recompute on metadata changes | Frame geometry and 400/180/100/150ms timing; filename labels normalized after export |
+
+Aseprite USED: imported existing raster poses into four initially empty frames and set durations. A failed attempt duplicated populated cels and overlaid poses; the corrected native and export match all four input RGBA frames exactly. Lesson: create blank frames before imports, then compare every export frame to its source. Automated export regression now prevents this failure from silently returning. No new freehand drawing was done in Aseprite. Idle's400ms is preview timing only; actual runtime idle lasts until combat state changes.
+
+Consumer: front_screen.gd selects frame from actual windup/action state. Windup180ms, impact100ms, recovery150ms are simulation-time values; runtime substeps can quantize transitions by up to50ms. Damage occurs at windup completion with target/range revalidation. Existing damage and cooldown values remain; first strike is delayed. Savev1 missing optional fields remains readable. Model55 checks and UI/native timing checks PASS. Actual GPU natural combat captures `output/front-shield-windup.png`, `front-shield-impact.png`, `front-shield-recover.png` show all three action states; these are unedited screen captures, not posed mockups. Quality remains a four-pose candidate, not smooth full animation, walk/hit/death or Human/final art approval. Original source retained because extraction tests consume it. Rollback is the previous idle-only consumer plus pre-windup model, not overwriting other units or saves.
+
 ## Veil local alpha follow-up · 2026-09-12
 
 Follow-up edge refinement: ADAPT Pillow GaussianBlur(0.5) on alpha only, clamped by the original alpha (inward feather); REJECT whole-RGB blur and broad erosion because they alter detail or thin silhouettes. Official method reference: https://pillow.readthedocs.io/en/stable/reference/ImageFilter.html#PIL.ImageFilter.GaussianBlur. Source RGB remains byte-identical. Feathering alone preserves occupied pixels; a separately reviewed priest ground ROI (local x>=150, y>=405) clears 1860 old occupied paper/shadow pixels. Left-side magical glow is excluded and regression-tested. Five cutout tests cover head, lower glow, ground, wing top, and bounded feather. This does not remove every enclosed light region or all paper residue: quality remains PARTIAL.

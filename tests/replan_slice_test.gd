@@ -79,5 +79,60 @@ func _initialize() -> void:
 	refit.construct("barracks")
 	refit.phase = "REFIT"
 	check(refit.upgrade(0, "range"), "Round 1 refit prepares round 2 specialization")
+	var duel = model.new()
+	duel.units.clear()
+	duel.spawn("shield_guard", 0, 50.0)
+	duel.spawn("shield_guard", 1, 51.0)
+	duel.units[1].cooldown = 10.0
+	duel.phase = "BATTLE"
+	duel.advance(0.05)
+	check(duel.damage_events == 0 and duel.units[0].get("windup", 0) > 0, "Shield must prepare before damage")
+	var windup_save = duel.snapshot()
+	var resumed = model.new()
+	check(resumed.restore(JSON.parse_string(JSON.stringify(windup_save))), "Save during windup restores")
+	duel.advance(0.14)
+	check(duel.damage_events == 0, "No early hit during preparation")
+	duel.advance(0.05)
+	check(duel.damage_events == 1 and duel.units[0].action > 0, "Impact frame and single damage occur together")
+	resumed.advance(0.19)
+	check(resumed.damage_events == 1, "Restored windup hits once")
+	duel.advance(0.2)
+	check(duel.damage_events == 1, "Recovery never deals duplicate damage")
+	var missed = model.new()
+	missed.restore(windup_save)
+	missed.units[1].x = 90.0
+	missed.advance(0.2)
+	check(missed.damage_events == 0, "Out-of-range windup does not hit a replacement target")
+	var siege = model.new()
+	siege.units.clear()
+	siege.spawn("shield_guard", 0, 100.0)
+	siege.phase = "BATTLE"
+	siege.advance(0.05)
+	check(siege.bases[1] == 1000, "Base strike also waits for preparation")
+	siege.advance(0.2)
+	check(siege.bases[1] < 1000, "Base strike resolves on impact")
+	var legacy = windup_save.duplicate(true)
+	for u in legacy.units:
+		u.erase("windup")
+		u.erase("pending_target")
+	check(resumed.restore(legacy), "Old v1 saves remain readable")
+	var dead = model.new()
+	dead.restore(windup_save)
+	dead.units[0].hp = 0
+	dead.advance(0.2)
+	check(dead.damage_events == 0, "Dead attacker cannot finish pending strike")
+	dead.restore(windup_save)
+	dead.units[1].hp = 0
+	dead.advance(0.2)
+	check(dead.damage_events == 0, "Dead target cannot receive pending strike")
+	resumed.restore(windup_save)
+	resumed.phase = "REFIT"
+	var frozen = resumed.snapshot()
+	resumed.advance(0.5)
+	check(resumed.snapshot() == frozen, "Refit freezes in-progress animation and damage")
+	for invalid in [-1.0, 99.0, NAN]:
+		var bad = windup_save.duplicate(true)
+		bad.units[0].windup = invalid
+		check(not resumed.restore(bad) and resumed.snapshot() == frozen, "Invalid windup fails atomically")
 	print("REPLAN_SLICE_TEST: %s checks, %s failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)

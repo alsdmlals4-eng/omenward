@@ -10,6 +10,11 @@ ROOT = Path(__file__).resolve().parents[1]
 APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
+    'tools/ward_motion.py', 'tests/test_ward_motion.py',
+    'docs/images/candidates/blueprint-20260911/ward-shield-motion.png',
+    'docs/images/candidates/blueprint-20260911/ward-shield-motion.png.import',
+    'docs/images/candidates/blueprint-20260911/ward-shield-motion.aseprite',
+    'docs/images/candidates/blueprint-20260911/ward-shield-motion.json',
     'tools/veil_cutout.py', 'tests/test_veil_cutout.py',
     'docs/images/candidates/blueprint-20260911/veil-roster-alpha.png',
     'docs/images/candidates/blueprint-20260911/veil-special-alpha.png',
@@ -27,6 +32,7 @@ ALLOWED = {
     'docs/images/candidates/blueprint-20260911/ward-shield-slash-alpha-candidate.png.import',
     'docs/superpowers/plans/2026-09-11-visible-battle-slice.md',
     'output/front-battle.png', 'output/front-building.png',
+    'output/front-shield-windup.png', 'output/front-shield-impact.png', 'output/front-shield-recover.png',
     'tests/replan_slice_test.gd', 'tests/replan_slice_test.gd.uid',
     'tests/replan_screen_test.gd', 'tests/replan_screen_test.gd.uid',
     'tests/replan_capture.gd', 'tests/replan_capture.gd.uid',

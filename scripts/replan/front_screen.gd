@@ -77,7 +77,7 @@ func _make_shell() -> void:
 	ui.position = Vector2(24, 519)
 	ui.size = Vector2(1232, 170)
 	add_child(ui)
-	_label("투명 후보: 베일 10종·아군 방패병 대기 | 베일 Aseprite 검수 · 공격 프레임/T3/영웅/등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
+	_label("투명 후보: 베일 10종 · 방패병 베기 4자세/Aseprite 연결 | 나머지 공격 모션·T3·영웅·등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
 
 func _restart() -> void:
 	# Explicit confirmation prevents accidental loss of a running battle.
@@ -217,7 +217,10 @@ func _draw() -> void:
 		var y: float = 292 + (int(unit.id) % 3) * 38
 		var movement := float(unit.action) * 15 * (1 if unit.side == 0 else -1)
 		var rect := Rect2(x - 26 + movement, y - 32, 52, 52)
-		draw_texture_rect(art.unit(unit.role, int(unit.side)), rect, false, Color(1, 0.65, 0.65) if unit.flash > 0 else Color.WHITE)
+		if unit.side == 0 and unit.role == "shield_guard":
+			# Native 768px frames share foot pivot (384,700); do not slide the whole sprite.
+			rect = Rect2(x - 34, y + 20 - 700.0 / 768.0 * 68, 68, 68)
+		draw_texture_rect(art.unit(unit.role, int(unit.side), art.motion_frame(unit)), rect, false, Color(1, 0.65, 0.65) if unit.flash > 0 else Color.WHITE)
 		var side_color := Color("48b5ee") if unit.side == 0 else Color("ae57d3")
 		if unit.side == 0 and unit.role != "shield_guard":
 			draw_rect(rect, side_color, false, 2)

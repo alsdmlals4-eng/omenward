@@ -20,8 +20,23 @@ func verify() -> void:
 	if source.detect_alpha() == Image.ALPHA_NONE or source.get_pixel(0, 0).a != 0:
 		push_error("Shield idle must use genuine transparent pixels")
 		failed = true
-	if idle.region != Rect2(0, 0, 627, 627):
-		push_error("Only the reviewed idle cell may be consumed")
+	if idle.region != Rect2(0, 0, 768, 768):
+		push_error("Shield must use the aligned motion atlas")
+		failed = true
+	if not screen.art.has_method("motion_frame"):
+		push_error("Missing combat-state motion selection")
+		quit(1)
+		return
+	for sample in [[0.0, 0.0, 0], [0.1, 0.0, 1], [0.0, 0.25, 2], [0.0, 0.1, 3]]:
+		var unit := {"side": 0, "role": "shield_guard", "windup": sample[0], "action": sample[1]}
+		var frame: int = screen.art.motion_frame(unit)
+		var pose: AtlasTexture = screen.art.unit("shield_guard", 0, frame)
+		if frame != sample[2] or pose.region != Rect2(sample[2] * 768, 0, 768, 768):
+			push_error("Combat state selected wrong shield pose")
+			failed = true
+	var motion = JSON.parse_string(FileAccess.get_file_as_string(screen.art.ROOT + "ward-shield-motion.json"))
+	if not is_equal_approx(motion.frames[1].duration / 1000.0, screen.run.SHIELD_WINDUP) or not is_equal_approx(motion.frames[2].duration / 1000.0, screen.run.SHIELD_IMPACT) or not is_equal_approx(motion.frames[3].duration / 1000.0, screen.run.SHIELD_RECOVERY):
+		push_error("Aseprite timing differs from actual combat timing")
 		failed = true
 	if not screen.has_method("phase_label"):
 		push_error("Missing localized battle phase presentation")
