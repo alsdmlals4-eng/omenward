@@ -110,6 +110,29 @@ func capacity_used() -> int:
 			result += int(definitions[unit.role][11])
 	return result
 
+func heal_cost(unit_id: int) -> int:
+	for unit in units:
+		if int(unit.id) != unit_id or unit.side != 0 or unit.hp <= 0:
+			continue
+		var row: Array = definitions[unit.role]
+		var missing := maxf(0, float(row[4]) - float(unit.hp))
+		return ceili(float(row[12]) * missing / float(row[4]) * float(catalog.economy.heal_coefficient))
+	return 0
+
+func heal_unit(unit_id: int) -> bool:
+	if phase not in ["PREPARE", "REFIT"]:
+		return false
+	var cost := heal_cost(unit_id)
+	if cost <= 0 or gold < cost:
+		return false
+	for unit in units:
+		if int(unit.id) == unit_id and unit.side == 0 and unit.hp > 0:
+			gold -= cost
+			unit.hp = float(definitions[unit.role][4])
+			message = "%s 치료 완료 · %dG 사용" % [definitions[unit.role][1], cost]
+			return true
+	return false
+
 func deploy(role: String) -> bool:
 	if phase not in ["PREPARE", "REFIT", "BATTLE"] or not reserve.has(role):
 		return false

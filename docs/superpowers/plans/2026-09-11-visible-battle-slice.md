@@ -1,5 +1,23 @@
 # Visible battle and construction implementation plan
 
+## Current completion loop: research -> specification -> connected implementation -> playtest
+
+Latest execution evidence (supersedes the single-policy 79-check sample below): 81 model checks, UI/save/default scene PASS. Three actual-resource policies at seed1947 and 0.1-second steps: reinforcement/ranged/mixed all DEFEAT in round2; first refit allied0, enemy12/12/13, gold22/101/25, home HP1000; recovery spend0. No resource injection. These are reproducible policy diagnostics, not proof of optimal-play impossibility. Next investigate production, surviving enemy carryover and unimplemented acquisition decisions before tuning numbers. Independent five-perspective read-only review found no P0-P2 blocker; execution evidence remains separately owned by local test output and GPU capture. Recovery dialog first had overlapping direct children; fixed with one VBox content owner and visually rechecked.
+
+Latest user correction: the loop is whole-game completion through comparable-game research, specification, integration and testing, not cosmetic-only iteration. Each unit starts with an implementation plan and covers model/data/UI/assets/save/tests as applicable. Do not stop merely because one screenshot improves; identify the next gameplay gap. Routine technical decisions are delegated; core user rules, protected Git and final art/Human boundaries remain.
+
+Current gap map: (1) first-map preparation/combat/refit/result and viable initial choices, (2) roulette adjustment/commit/reserved capacity, (3) remaining troop abilities/T3/grades, (4) heroes, (5) five-map campaign/retention, (6) complete transparent art/motion, (7) front door/settings/release. Current UI-only next priority is superseded by connected first-map loop; opaque Ward art remains required, not discarded.
+
+### Paid recovery integration
+
+PLAN before code: connect existing Blueprint economics/recovery to refit decisions. ADAPT Thronefall economy-versus-defense preparation (https://store.steampowered.com/app/2239150/Thronefall/), The Last Spell rebuilding between attacks (https://store.steampowered.com/app/1105670/The_Last_Spell/), Commander Quest army composition (https://store.steampowered.com/app/2697930/Commander_Quest/). REJECT adopting kill-all night endings, hero turn control or new resources. Price is our existing Blueprint formula, not a copied game's price.
+
+Spec: heal_cost reads replenishment price units[row12], missingHP/maxHP and economy.heal_coefficient; heal_unit accepts living allied injured units only during PREPARE/REFIT, charges once and restores maxHP. No resurrection/automatic healing/combat-command heal. UI previews each target cost and remaining gold; insufficient funds disables actions. No save-schema change. This creates the concrete choice of recovery versus construction/specialization using the same gold.
+
+Implemented model and real frontline recovery dialog. RED missing transaction/entry -> GREEN 79model checks and UI/save/default gate. Tests include rounding, repeated request, enemy/dead/absent target, affordability, combat rejection, two buttons targeting separate units and save readback. GPU revealed overlapping dialog children: replaced separate auto-fitted children with a vertical content container, re-rendered successfully. Capture output/front-recovery.png is a labeled UI boundary fixture, not proof that the mixed army survived a full round.
+
+Real-resource first-map policy (no HP/gold injections): one general barracks per preparation until two, then archer specialization, free spin, affordable healing, deploy reserves and advance. Result DEFEAT round2, refits1, recovery_spend0. This is a reproducible weak-policy observation, NOT evidence all strategies fail or healing is balanced. Next loop compares multiple initial spend/production policies and identifies missing role/queue rules before tuning numbers. Do not silently tune the blueprint to make one scripted policy win.
+
 ## Mixed-role follow-up: plan, implementation, evidence
 
 User approved continuing the mixed-role readability loop. PLAN: reproduce shields/archers/mages/priests/spears on both sides, add bounded read-only hover inspection instead of increasing physical spacing or shrinking art, verify unchanged model and two resolutions. Existing Control tooltip is reused (https://docs.godotengine.org/en/stable/classes/class_control.html#class-control-private-method-get-tooltip); no third-party component or art replacement.

@@ -16,6 +16,75 @@ func _initialize() -> void:
 		return
 	var model = load("res://scripts/replan/front_run.gd")
 	var r = model.new()
+	for policy in ["reinforcement", "ranged", "mixed"]:
+		run_policy(model, policy)
+	verify_model(model, r)
+
+func run_policy(model: Script, policy: String) -> void:
+	var journey = model.new()
+	var refits := 0
+	var spent_on_healing := 0
+	for step in range(6500):
+		if journey.phase in ["VICTORY", "DEFEAT"]:
+			break
+		if journey.phase in ["PREPARE", "REFIT"]:
+			if journey.phase == "REFIT":
+				refits += 1
+				var allied := 0
+				for unit in journey.units:
+					allied += int(unit.side == 0)
+				print("FIRST_MAP_REFIT: policy=", policy, " round=", journey.round_number, " allied=", allied, " enemy=", journey.units.size() - allied, " gold=", journey.gold, " base_hp=", journey.bases[0])
+			if policy == "reinforcement":
+				while journey.construct("barracks"):
+					pass
+			elif policy == "mixed":
+				if journey.buildings.is_empty():
+					journey.construct("barracks")
+				if journey.buildings.size() < 2:
+					journey.construct("special_barracks")
+			elif journey.buildings.is_empty():
+				journey.construct("barracks")
+			elif journey.buildings[0].id == "barracks":
+				journey.upgrade(0, "range")
+			if journey.free_spin:
+				journey.spin()
+			for survivor in journey.units:
+				var previous_gold: int = journey.gold
+				journey.heal_unit(int(survivor.id))
+				spent_on_healing += previous_gold - journey.gold
+			journey.begin_round()
+		for role in journey.reserve.duplicate():
+			journey.deploy(role)
+		journey.advance(0.1)
+	check(journey.phase in ["VICTORY", "DEFEAT"], "Real-resource first-map policy reaches terminal state")
+	print("FIRST_MAP_POLICY: policy=", policy, " phase=", journey.phase, " round=", journey.round_number, " refits=", refits, " recovery_spend=", spent_on_healing, " base_hp=", journey.bases[0])
+
+func verify_model(model: Script, r) -> void:
+	if not r.has_method("heal_unit"):
+		check(false, "Missing preparation recovery transaction")
+		quit(1)
+		return
+	var recovery = model.new()
+	recovery.units[0].hp = 90.0
+	check(recovery.heal_cost(0) == 9, "Half shield: ceil(30 * .5 * .6) = 9G")
+	check(recovery.heal_unit(0) and recovery.gold == 111 and recovery.units[0].hp == 180, "Paid recovery restores and charges once")
+	check(not recovery.heal_unit(0) and recovery.gold == 111, "Full health cannot repeat payment")
+	recovery.units[0].hp = 179.0
+	check(recovery.heal_cost(0) == 1, "Fractional recovery price rounds up")
+	recovery.gold = 0
+	check(not recovery.heal_unit(0) and recovery.units[0].hp == 179, "Insufficient funds preserves HP")
+	recovery.gold = 120
+	recovery.begin_round()
+	check(not recovery.heal_unit(0), "Combat recovery command forbidden")
+	recovery.phase = "REFIT"
+	check(recovery.heal_unit(0), "Refit recovery enabled")
+	recovery.spawn("shield_guard", 1, 60)
+	recovery.units[-1].hp = 90
+	check(not recovery.heal_unit(recovery.units[-1].id), "Cannot heal enemy by paid command")
+	recovery.units[0].hp = 0
+	check(not recovery.heal_unit(0) and not recovery.heal_unit(-1), "No resurrection or absent target")
+	var recovered = model.new()
+	check(recovered.restore(recovery.snapshot()) and recovered.snapshot() == recovery.snapshot(), "Recovery survives existing save format")
 	check(r.gold == 120 and r.units.size() == 4, "Start: 120G and four shields")
 	check(r.construct("barracks"), "Build T1 general barracks")
 	check(r.gold == 80 and r.buildings[0].unit == "shield_guard", "Charge once and supply shield")

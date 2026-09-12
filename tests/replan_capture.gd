@@ -71,6 +71,15 @@ func capture() -> void:
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://output/front-mixed-1080.png")
 	print("MIXED_FIXTURE: units=", screen.run.units.size(), " damage_events=", screen.run.damage_events)
+	# Recovery dialog boundary fixture, not evidence this army survived a full round.
+	root.size = Vector2i(1280, 720)
+	screen.run.phase = "REFIT"
+	screen.run.message = "치료 UI 경계 검증 · 혼합 편성의 부상 상태 사용"
+	screen._refresh_panel()
+	screen._show_recovery()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://output/front-recovery.png")
 	screen.queue_free()
 	await process_frame
 	quit(0 if captured.size() == 3 else 1)

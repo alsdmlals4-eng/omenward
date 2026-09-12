@@ -14,6 +14,34 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.tab = "전선"
+	screen._refresh_panel()
+	var recovery_button = screen.find_child("OpenRecovery", true, false)
+	if recovery_button == null:
+		push_error("Missing player recovery entry")
+		quit(1)
+		return
+	screen.run.units[0].hp = 90.0
+	screen.run.units[1].hp = 90.0
+	recovery_button.pressed.emit()
+	var recovery_dialog = screen.find_child("RecoveryDialog", true, false)
+	var heal_button = screen.find_child("HealUnit0", true, false)
+	if recovery_dialog == null or heal_button == null or not heal_button.text.contains("9G"):
+		push_error("Recovery must preview individual cost")
+		failed = true
+	else:
+		heal_button.pressed.emit()
+		if screen.run.gold != 111 or screen.run.units[0].hp != 180 or not heal_button.disabled:
+			push_error("Recovery UI must charge model once and disable healed target")
+			failed = true
+		var second = screen.find_child("HealUnit1", true, false)
+		second.pressed.emit()
+		if screen.run.gold != 102 or screen.run.units[1].hp != 180:
+			push_error("Each recovery button must bind its own unit")
+			failed = true
+		recovery_dialog.queue_free()
+		await process_frame
+	screen.run.restore(before_layout)
 	if not screen.has_method("_get_tooltip"):
 		push_error("Missing crowd inspection")
 		quit(1)

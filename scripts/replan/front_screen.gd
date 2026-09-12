@@ -185,6 +185,10 @@ func _omen_panel() -> void:
 	_label("건설한 시설이 확률 풀에 공급 병종을 추가합니다.\n같은 병종 3칸마다 1명 → 전선 탭에서 출전\n현재 기본 추첨 검토판: 행/열 이동·보너스 미구현", Rect2(195, 58, 780, 100), ui)
 
 func _reserve_panel() -> void:
+	var recovery := _button("부상병 치료 · 비용 확인", Rect2(970, 0, 240, 32), _show_recovery, ui)
+	recovery.name = "OpenRecovery"
+	recovery.disabled = run.phase not in ["PREPARE", "REFIT"]
+	recovery.tooltip_text = "준비·재정비 중 생존한 아군을 골드로 회복합니다."
 	_label("대기 병력 %s/24 · 출전 %s/18 · 생산된 병종 카드를 눌러 전장에 투입" % [run.reserve.size(), run.capacity_used()], Rect2(0, 0, 1210, 26), ui)
 	var counts: Dictionary = {}
 	for role in run.reserve:
@@ -239,6 +243,54 @@ func forecast_text() -> String:
 		groups.append("%s ×%d" % [run.definitions[role][3], forecast.units[role]])
 	var timing := "%d초 후" % ceili(forecast.seconds) if run.phase == "BATTLE" else "공세 시작 후 %d초" % ceili(forecast.seconds)
 	return "다음 공세 · %d라운드 %d/3 · %s%s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "  /  ".join(groups)]
+
+func _show_recovery() -> void:
+	if run.phase not in ["PREPARE", "REFIT"] or find_child("RecoveryDialog", true, false) != null:
+		return
+	var dialog := AcceptDialog.new()
+	dialog.name = "RecoveryDialog"
+	dialog.title = "부상병 치료 · 건설과 같은 골드 사용"
+	dialog.ok_button_text = "돌아가기"
+	add_child(dialog)
+	var content := VBoxContainer.new()
+	dialog.add_child(content)
+	var balance := _label("보유 %dG · 선택한 병사를 최대 체력까지 회복" % run.gold, Rect2(0, 0, 570, 30), content, 16)
+	balance.custom_minimum_size.y = 30
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(580, 310)
+	content.add_child(scroll)
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(list)
+	var count := 0
+	for unit in run.units:
+		var id: int = int(unit.id)
+		var cost: int = run.heal_cost(id)
+		if cost <= 0:
+			continue
+		count += 1
+		var button := Button.new()
+		button.name = "HealUnit%d" % id
+		button.custom_minimum_size = Vector2(540, 40)
+		button.text = "%s · 체력 %d/%d → 완전 회복 · %dG" % [run.definitions[unit.role][1], ceili(unit.hp), int(run.definitions[unit.role][4]), cost]
+		button.disabled = run.gold < cost
+		list.add_child(button)
+		button.pressed.connect(func():
+			if run.heal_unit(id):
+				button.text = "%s · 치료 완료" % run.definitions[unit.role][1]
+			balance.text = "보유 %dG · 선택한 병사를 최대 체력까지 회복" % run.gold
+			for option in list.get_children():
+				if option is Button:
+					var target_id := int(String(option.name).trim_prefix("HealUnit"))
+					var price: int = run.heal_cost(target_id)
+					option.disabled = price <= 0 or run.gold < price)
+	if count == 0:
+		var empty := Label.new()
+		empty.text = "치료할 생존 아군이 없습니다."
+		list.add_child(empty)
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	dialog.popup_centered(Vector2i(620, 420))
 
 func _get_tooltip(at_position: Vector2) -> String:
 	if not Rect2(20, 225, 1240, 160).has_point(at_position):

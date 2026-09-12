@@ -14,6 +14,8 @@ The project router's generic stop rule is superseded **only for this explicit ap
 
 ## Evidence and integration
 
+Latest user clarified autonomous completion means research -> specify -> connect -> implement -> playtest across the game, not repeated cosmetic-only fixes. This bounded continuation implements the already specified paid individual recovery in front_run/front_screen with tests and exact output/front-recovery.png. Blueprint formula and heal_coefficient remain owner inputs. No automatic healing, resurrection, combat healing command, save schema change or Base protection bypass. Broader blueprint features still need explicit per-unit planning/specification and exact scope amendments under this delegation.
+
 2026-09-13 mixed-role continuation: read-only native tooltip in existing screen and explicitly labeled mixed-role GPU fixture. Exact output/front-mixed.png and output/front-mixed-1080.png added; no model, save, art source or acquisition changes. Fixture uses spawn only in tests and is not ordinary gameplay/balance evidence.
 
 2026-09-13 user approved the presented combat-readability plan. Display-only bounded stagger/depth order and health-bar presentation stay in front_screen.gd; front_run rules/save remain unchanged. Add exact output/front-battle-1080.png for the required second-resolution GPU capture under the same scope. No new art or game rule is approved by this amendment.
