@@ -1,5 +1,15 @@
 # Visible battle and construction implementation plan
 
+## Follow-on: wave data parity
+
+Final109 checks add full-state midwave comparison (absolute1e-9 floating tolerance, exact categorical/RNG strings) and v3 legacy resave. Five-perspective independent static review found no blocker. Exact JSON text initially differed by int/float representation and ~3e-15 timer rounding; no production quantization introduced to hide this. Scope5PASS, project-scoped PASS / Base raw protected-path FAIL retained.
+
+Executed RED missing wave API -> GREEN107 model/UI/save/default. New firstwave arrives1enemy at5s,5by6.6s; thirdwave B5shield+2greatsword; round2A4shield+3archer. Midwave save restores no duplicate; v2 legacy instantaneous behavior retained and unknown profile rejected atomically. GPU20damage15units and3shieldposes. Current four baseline policies still lose round2; paid_mobilization first refit5allies11enemies and2G healing. No optimal shift search or multi-seed fairness evidence yet. This is implementation parity, not tuning success. Renderer inspected at720p/1080p outputs; independent review separate.
+
+Compare actual `_tick` repeated instantaneous wave against Blueprint cycle, 3% round scale and0.4s arrival. ADAPT Into the Breach official https://www.subsetgames.com/itb.html telegraphed threats: forecast and spawning share composition, not separate hard-coded guesses. Alternatives: tune counts now (reject until parity), merely change preview (reject mismatch), shared data-driven composition with scheduled arrivals (selected). Existing first-map pressure1.0, no invented difficulty modifier.
+
+Plan: RED first event count1 at5s, five events by6.6s, third wave B, round2 ceil count4/3, mid-wave save no duplicate; implement `wave_composition(round,wave)` plus event crossing at0.4s. Existing elapsed and wave cursor suffice; do not add redundant scheduled queue. Save v3 records `wave_rules`; older v1/v2 keeps legacy instant-wave rules for that run, new runs use staggered rules. UI/forecast, automatic policy comparison, GPU, review and owners updated together. Same exact runtime/test paths; no asset or combat-stat change.
+
 ## 2026-09-13 Omen transaction implementation
 
 Execution complete for this transaction: RED missing API/UI then GREEN99 model checks + UI/save/default + scope5. GPU front-omen.png and natural combat19damage/17units/3shieldposes. Review found pending saves could inject unavailable units; corrected allowed-pool validation before state mutation with RED regression. JSON version membership was type-sensitive; explicit numeric comparison fixes real disk load. v1 overflow rejected without mutation, no truncation. Five-perspective independent rereview clean (not independent runtime). Real-resource paid_mobilization policy reaches first refit with5allies/9enemies versus0allies in three free-only policies, but all lose round2. Policy does not optimize shifts and does not establish balance/Human PASS. No new Base reusable module proven; project-only lesson is validate pending reward source and reservation together. Below checklist records original plan.

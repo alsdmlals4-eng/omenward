@@ -271,7 +271,7 @@ func forecast_text() -> String:
 	for role in forecast.units:
 		groups.append("%s ×%d" % [run.definitions[role][3], forecast.units[role]])
 	var timing := "%d초 후" % ceili(forecast.seconds) if run.phase == "BATTLE" else "공세 시작 후 %d초" % ceili(forecast.seconds)
-	return "다음 공세 · %d라운드 %d/3 · %s%s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "  /  ".join(groups)]
+	return "다음 공세 · %d라운드 %d/3 · %s%s · %s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "0.4초 간격 출현" if run.wave_rules == "staggered_v1" else "구형 저장 공세 유지", "  /  ".join(groups)]
 
 func _show_recovery() -> void:
 	if run.phase not in ["PREPARE", "REFIT"] or find_child("RecoveryDialog", true, false) != null:

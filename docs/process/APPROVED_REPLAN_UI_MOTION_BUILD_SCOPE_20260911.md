@@ -1,5 +1,7 @@
 # Approved project-local replan BUILD scope
 
+Same continuation includes existing Blueprint wave-cycle composition, round pressure and0.4s sequential arrivals in front_run with shared forecast. Save v3 wave profile keeps imported v1/v2 runs on legacy instant-wave behavior, avoiding duplicate arrivals or silent old-run difficulty migration. Existing replan test/output scope only.
+
 Exact omen runtime evidence output: `output/front-omen.png` (existing actual observation UI; no new art).
 
 2026-09-13 continued implementation: latest user requests completing remaining blueprint connections without routine reapproval. Existing front_run/front_screen and replan tests now cover weighted reserve capacity and observation/adjust/bonus/confirm, with versioned pending-save validation. Exact existing consumer paths only; no Base lock/protected list change. Existing capture outputs may show this flow.

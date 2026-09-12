@@ -9,6 +9,25 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func equivalent_state(left: Variant, right: Variant) -> bool:
+	if left is Dictionary and right is Dictionary:
+		if left.size() != right.size():
+			return false
+		for key in left:
+			if not right.has(key) or not equivalent_state(left[key], right[key]):
+				return false
+		return true
+	if left is Array and right is Array:
+		if left.size() != right.size():
+			return false
+		for i in range(left.size()):
+			if not equivalent_state(left[i], right[i]):
+				return false
+		return true
+	if (left is int or left is float) and (right is int or right is float):
+		return absf(float(left) - float(right)) <= 0.000000001
+	return left == right
+
 func _initialize() -> void:
 	if not ResourceLoader.exists("res://scripts/replan/front_run.gd"):
 		check(false, "Missing approved single-front construction/combat model")
@@ -16,6 +35,38 @@ func _initialize() -> void:
 		return
 	var model = load("res://scripts/replan/front_run.gd")
 	var r = model.new()
+	if not r.has_method("wave_composition"):
+		check(false, "Missing blueprint wave composition and staggered arrivals")
+		quit(1)
+		return
+	var waves = model.new()
+	check(waves.wave_composition(1, 2) == {"shield_guard":5, "greatsword_warrior":2}, "Third first-round wave uses cycle B")
+	check(waves.wave_composition(2, 0) == {"shield_guard":4, "archer":3}, "Round scale applies ceiling to each group")
+	waves.begin_round()
+	for i in range(50):
+		waves.advance(0.1)
+	check(waves.next_id == 5, "At five seconds only first enemy has arrived")
+	var midwave = model.new()
+	check(midwave.restore(JSON.parse_string(JSON.stringify(waves.snapshot()))), "Midwave disk save loads")
+	for i in range(17):
+		waves.advance(0.1)
+		midwave.advance(0.1)
+	check(waves.next_id == 9 and midwave.next_id == 9, "Five sequential arrivals without duplicate after restore")
+	check(equivalent_state(waves.snapshot(), midwave.snapshot()), "Midwave full-state continuation within 1e-9 JSON floating-point tolerance")
+	var old_wave = model.new().snapshot()
+	old_wave.version = 2
+	old_wave.erase("wave_rules")
+	check(midwave.restore(old_wave) and midwave.wave_rules == "legacy", "Old run preserves instantaneous wave rules")
+	midwave.begin_round()
+	for i in range(50):
+		midwave.advance(0.1)
+	check(midwave.next_id == 9, "Legacy run still spawns all five at old boundary")
+	var legacy_again = model.new()
+	check(legacy_again.restore(midwave.snapshot()) and legacy_again.snapshot() == midwave.snapshot(), "Migrated legacy profile survives v3 resave")
+	old_wave = waves.snapshot()
+	old_wave.wave_rules = "unknown"
+	var previous_wave = midwave.snapshot()
+	check(not midwave.restore(old_wave) and midwave.snapshot() == previous_wave, "Unknown wave profile rejected without mutation")
 	if not r.has_method("confirm_omen"):
 		check(false, "Missing observation adjustment confirmation transaction")
 		quit(1)
@@ -274,12 +325,14 @@ func verify_model(model: Script, r) -> void:
 	intel.begin_round()
 	for i in range(5):
 		intel.advance(1.0)
+	check(intel.wave_forecast().wave == 2 and is_equal_approx(intel.wave_forecast().seconds, 17), "Forecast advances after first arrival")
+	intel.advance(1.0)
+	intel.advance(0.7)
 	var actual: Dictionary = {}
 	for actor in intel.units:
 		if actor.side == 1:
 			actual[actor.role] = actual.get(actor.role, 0) + 1
 	check(actual == forecast.units, "Forecast exactly matches spawned role counts")
-	check(intel.wave_forecast().wave == 2 and is_equal_approx(intel.wave_forecast().seconds, 17), "Forecast advances after wave arrival")
 	intel.wave_index = 3
 	check(intel.wave_forecast().is_empty(), "No invented fourth wave")
 	intel.phase = "REFIT"

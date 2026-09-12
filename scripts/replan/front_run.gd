@@ -14,6 +14,7 @@ var phase := "PREPARE"
 var round_number := 1
 var elapsed := 0.0
 var wave_index := 0
+var wave_rules := "staggered_v1"
 var units: Array = []
 var buildings: Array = []
 var reserve: Array = []
@@ -51,6 +52,15 @@ func unlocked_slots() -> int:
 func building_active(slot: int) -> bool:
 	return slot >= 0 and slot < buildings.size() and slot < unlocked_slots()
 
+func wave_composition(round_id: int, wave_id: int) -> Dictionary:
+	var cycle_index := round_id - 1 + (wave_id if wave_rules == "staggered_v1" else 0)
+	var template: String = catalog.wave_cycle[cycle_index % catalog.wave_cycle.size()]
+	var scale := float(catalog.maps[0].pressure) * (1.0 + 0.03 * (round_id - 1)) if wave_rules == "staggered_v1" else 1.0
+	var composition: Dictionary = {}
+	for group in catalog.wave_templates[template]:
+		composition[group[0]] = composition.get(group[0], 0) + ceili(float(group[1]) * scale)
+	return composition
+
 func wave_forecast() -> Dictionary:
 	if phase in ["VICTORY", "DEFEAT"]:
 		return {}
@@ -58,10 +68,7 @@ func wave_forecast() -> Dictionary:
 	var next_wave := wave_index if phase == "BATTLE" else 0
 	if next_round > int(catalog.maps[0].rounds) or next_wave >= catalog.economy.wave_times.size():
 		return {}
-	var template: String = catalog.wave_cycle[(next_round - 1) % catalog.wave_cycle.size()]
-	var composition: Dictionary = {}
-	for group in catalog.wave_templates[template]:
-		composition[group[0]] = composition.get(group[0], 0) + int(group[1])
+	var composition := wave_composition(next_round, next_wave)
 	return {"round": next_round, "wave": next_wave + 1,
 		"seconds": maxf(0, float(catalog.economy.wave_times[next_wave]) - (elapsed if phase == "BATTLE" else 0.0)),
 		"units": composition}
@@ -268,13 +275,25 @@ func advance(delta: float) -> void:
 		remaining -= step
 
 func _tick(dt: float) -> void:
+	var before := elapsed
 	elapsed += dt
 	while wave_index < 3 and elapsed + 0.0001 >= float(catalog.economy.wave_times[wave_index]):
-		var template: String = catalog.wave_cycle[(round_number - 1) % catalog.wave_cycle.size()]
-		for group in catalog.wave_templates[template]:
-			for i in range(int(group[1])):
-				spawn(group[0], 1, 95.0 + float(i) * 1.2)
+		if wave_rules == "legacy":
+			var groups := wave_composition(round_number, wave_index)
+			for role in groups:
+				for i in range(int(groups[role])):
+					spawn(role, 1, 95.0 + float(i) * 1.2)
 		wave_index += 1
+	if wave_rules == "staggered_v1":
+		for wave in range(wave_index):
+			var groups := wave_composition(round_number, wave)
+			var order := 0
+			for role in groups:
+				for i in range(int(groups[role])):
+					var arrival := float(catalog.economy.wave_times[wave]) + order * 0.4
+					if before + 0.0001 < arrival and elapsed + 0.0001 >= arrival:
+						spawn(role, 1, 95.0)
+					order += 1
 	income_clock += dt
 	point_clock += dt
 	if income_clock >= 20.0:
@@ -405,7 +424,7 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		damage_events += 1
 
 func snapshot() -> Dictionary:
-	return {"version": 2, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
+	return {"version": 3, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
 		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
@@ -414,9 +433,11 @@ func snapshot() -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 
 func restore(value: Variant) -> bool:
-	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2):
+	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3):
 		return false
 	value = value.duplicate(true)
+	if value.version < 3:
+		value.wave_rules = "legacy"
 	if value.version == 1:
 		value.omen_pending = false
 		value.omen_moves = 0
@@ -424,6 +445,8 @@ func restore(value: Variant) -> bool:
 	for key in snapshot():
 		if not value.has(key):
 			return false
+	if value.wave_rules not in ["legacy", "staggered_v1"]:
+		return false
 	if value.phase not in ["PREPARE", "BATTLE", "REFIT", "VICTORY", "DEFEAT"]:
 		return false
 	if not value.units is Array or not value.buildings is Array or not value.reserve is Array:
@@ -502,6 +525,7 @@ func restore(value: Variant) -> bool:
 	if queue_cost + int(value.omen_reserved) > int(catalog.economy.queue_capacity):
 		return false
 	omen_pending = value.omen_pending
+	wave_rules = value.wave_rules
 	omen_moves = int(value.omen_moves)
 	omen_reserved = int(value.omen_reserved)
 	gold = int(value.gold)
