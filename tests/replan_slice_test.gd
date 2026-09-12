@@ -134,5 +134,47 @@ func _initialize() -> void:
 		var bad = windup_save.duplicate(true)
 		bad.units[0].windup = invalid
 		check(not resumed.restore(bad) and resumed.snapshot() == frozen, "Invalid windup fails atomically")
+	var intel = model.new()
+	check(intel.has_method("wave_forecast") and intel.has_method("production_status"), "Missing live forecast and production queries")
+	if not intel.has_method("wave_forecast") or not intel.has_method("production_status"):
+		quit(1)
+		return
+	var untouched = intel.snapshot()
+	var forecast = intel.wave_forecast()
+	check(forecast.round == 1 and forecast.wave == 1 and forecast.seconds == 5, "Preparation forecasts first actual wave")
+	check(intel.snapshot() == untouched, "Inspecting forecast never consumes RNG or alters battle")
+	intel.begin_round()
+	for i in range(5):
+		intel.advance(1.0)
+	var actual: Dictionary = {}
+	for actor in intel.units:
+		if actor.side == 1:
+			actual[actor.role] = actual.get(actor.role, 0) + 1
+	check(actual == forecast.units, "Forecast exactly matches spawned role counts")
+	check(intel.wave_forecast().wave == 2 and is_equal_approx(intel.wave_forecast().seconds, 17), "Forecast advances after wave arrival")
+	intel.wave_index = 3
+	check(intel.wave_forecast().is_empty(), "No invented fourth wave")
+	intel.phase = "REFIT"
+	check(intel.wave_forecast().round == 2 and intel.wave_forecast().seconds == 5, "Refit forecasts next round, not finished round")
+	intel.phase = "VICTORY"
+	check(intel.wave_forecast().is_empty(), "No forecast after victory")
+	intel = model.new()
+	intel.construct("barracks")
+	check(intel.production_status(0).state == "FROZEN", "Production reports preparation freeze")
+	intel.begin_round()
+	intel.advance(1)
+	check(intel.production_status(0).state == "PRODUCING" and is_equal_approx(intel.production_status(0).remaining, 29), "Production exposes actual clock")
+	for i in range(24):
+		intel.reserve.append("shield_guard")
+	check(intel.production_status(0).state == "QUEUE_FULL", "Full queue is visible")
+	check(intel.production_status(8).state == "EMPTY", "Empty slot has no invented production")
+	intel.gold = 1000
+	intel.phase = "PREPARE"
+	for i in range(5):
+		intel.construct("barracks")
+	intel.points[0] = 1
+	intel.construct("barracks")
+	intel.points[0] = 0
+	check(intel.production_status(6).state == "LOCKED", "Lost territory reports disabled production")
 	print("REPLAN_SLICE_TEST: %s checks, %s failures" % [checks, failures])
 	quit(0 if failures == 0 else 1)

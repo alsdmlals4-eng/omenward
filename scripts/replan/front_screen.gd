@@ -21,6 +21,9 @@ var selected := 0
 var font := SystemFont.new()
 var backdrop: Texture2D
 var refresh_clock := 0.0
+var forecast_label: Label
+var production_label: Label
+var production_bar: ProgressBar
 
 func _ready() -> void:
 	get_window().content_scale_size = Vector2i(1280, 720)
@@ -57,6 +60,12 @@ func _make_shell() -> void:
 	_label("OMENWARD  /  전선 실전 검토판", Rect2(22, 5, 600, 35), self, 22)
 	header = _label("", Rect2(24, 73, 1050, 30))
 	notice = _label("", Rect2(24, 430, 1230, 30))
+	var forecast_panel := Panel.new()
+	forecast_panel.position = Vector2(26, 120)
+	forecast_panel.size = Vector2(1228, 51)
+	forecast_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(forecast_panel)
+	forecast_label = _label("", Rect2(12, 4, 1204, 44), forecast_panel, 15)
 	for i in range(5):
 		var map: Dictionary = run.catalog.maps[i]
 		var label := _label(("◆ " if i == 0 else "◇ ") + map.name, Rect2(25 + i * 250, 40, 240, 28))
@@ -99,6 +108,8 @@ func _picture(texture: Texture2D, rect: Rect2, parent: Node) -> void:
 	parent.add_child(picture)
 
 func _refresh_panel() -> void:
+	production_label = null
+	production_bar = null
 	for title in tab_buttons:
 		tab_buttons[title].set_pressed_no_signal(title == tab)
 	for child in ui.get_children():
@@ -130,10 +141,19 @@ func _build_panel() -> void:
 		b.add_theme_font_size_override("font_size", 13)
 		b.modulate = Color("f7d27d") if selected == i else Color.WHITE
 		b.disabled = i >= run.unlocked_slots()
+		b.tooltip_text = "점령지 확보 시 위에서부터 해금됩니다. 잠긴 건물은 보존되지만 생산을 멈춥니다." if b.disabled else "선택한 시설의 공급 병종과 생산 상태를 확인합니다."
 	if selected < run.buildings.size():
 		var b: Dictionary = run.buildings[selected]
 		_picture(art.building(b.id), Rect2(570, 8, 130, 130), ui)
 		_label("%s → %s\n자동 생산 %s초 / 대기열로 공급" % [run.facilities[b.id][1], run.definitions[b.unit][1], run.facilities[b.id][5]], Rect2(714, 0, 510, 48), ui)
+		production_bar = ProgressBar.new()
+		production_bar.position = Vector2(570, 143)
+		production_bar.size = Vector2(130, 12)
+		production_bar.show_percentage = false
+		production_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ui.add_child(production_bar)
+		production_label = _label("", Rect2(714, 132, 510, 30), ui, 13)
+		production_label.name = "ProductionStatus"
 		var options: Array = []
 		for id in run.branches:
 			if run.branches[id][1] == b.id:
@@ -142,8 +162,8 @@ func _build_panel() -> void:
 			var id: String = options[j]
 			var button := _button("%s %sG" % [run.facilities[id][1], run.facilities[id][2]], Rect2(714 + (j % 3) * 170, 54 + (j / 3) * 39, 164, 35), func(): run.upgrade(selected, id); _refresh_panel(), ui)
 			button.add_theme_font_size_override("font_size", 13)
-			button.disabled = run.phase not in ["PREPARE", "REFIT"] or (run.round_number < 2 and run.phase != "REFIT") or run.gold < int(run.facilities[id][2])
-		_label("T2: 2라운드 준비부터 · 변경 시 생산 시간 초기화", Rect2(714, 139, 510, 26), ui, 13)
+			button.disabled = not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or (run.round_number < 2 and run.phase != "REFIT") or run.gold < int(run.facilities[id][2])
+			button.tooltip_text = "T2: 1라운드 재정비부터 / 활성 슬롯에서만 가능 / 전문화 시 생산 시간 초기화"
 	else:
 		_picture(art.building("barracks"), Rect2(578, 12, 125, 125), ui)
 		_label("T1부터 건설 → T2에서 같은 계열 전문화", Rect2(714, 0, 510, 28), ui)
@@ -172,6 +192,7 @@ func _reserve_panel() -> void:
 	var i := 0
 	for role in counts:
 		var b := _button("", Rect2(i * 122, 32, 116, 126), func(): run.deploy(role); _refresh_panel(), ui)
+		b.tooltip_text = "%s · %s\n체력 %s · 공격 %s · 출전 한도 %s칸\n현재 검토판: 기본 공격/범위/치료만 구현. 도감의 고유 능력은 후속." % [run.definitions[role][1], run.definitions[role][2], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11]]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
 		_label("%s ×%s\n출전" % [run.definitions[role][1], counts[role]], Rect2(5, 79, 108, 44), b, 13)
 		b.disabled = run.capacity_used() + int(run.definitions[role][11]) > 18 or run.phase in ["VICTORY", "DEFEAT"]
@@ -192,12 +213,32 @@ func _process(delta: float) -> void:
 	speed_button.text = "속도 %d×" % int(speed)
 	speed_button.tooltip_text = "누르면 %d배속으로 변경" % (1 if speed == 3.0 else 3)
 	notice.text = run.message
+	forecast_label.text = forecast_text()
+	if is_instance_valid(production_label):
+		var status: Dictionary = run.production_status(selected)
+		var state: String = {"LOCKED": "슬롯 잠김 · 생산 중단", "FROZEN": "전투 외 시간 · 생산 동결", "QUEUE_FULL": "대기열 가득 참 · 출전 후 공급", "PRODUCING": "생산 중", "EMPTY": "빈 슬롯"}[status.state]
+		if run.phase in ["VICTORY", "DEFEAT"]:
+			state = "전투 종료 · 생산 종료"
+		elif paused:
+			state = "일시정지 · " + ("생산 정지" if status.state == "PRODUCING" else state)
+		production_label.text = "%s · 남은 %d초" % [state, ceili(status.remaining)]
+		production_bar.value = status.progress * 100
 	start_button.text = "다음 라운드" if run.phase == "REFIT" else "공세 시작"
 	start_button.disabled = run.phase not in ["PREPARE", "REFIT"]
 	queue_redraw()
 
 func phase_label() -> String:
 	return {"PREPARE": "출정 준비", "BATTLE": "전투 중", "REFIT": "재정비", "VICTORY": "승리", "DEFEAT": "패배"}.get(run.phase, run.phase)
+
+func forecast_text() -> String:
+	var forecast: Dictionary = run.wave_forecast()
+	if forecast.is_empty():
+		return "전투 종료 · 결과를 확인하세요." if run.phase in ["VICTORY", "DEFEAT"] else "이번 라운드 추가 공세 없음 · 남은 적과 전선 유지"
+	var groups := PackedStringArray()
+	for role in forecast.units:
+		groups.append("%s ×%d" % [run.definitions[role][3], forecast.units[role]])
+	var timing := "%d초 후" % ceili(forecast.seconds) if run.phase == "BATTLE" else "공세 시작 후 %d초" % ceili(forecast.seconds)
+	return "다음 공세 · %d라운드 %d/3 · %s%s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "  /  ".join(groups)]
 
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, 1280, 720), Color("111c2b"))
@@ -208,10 +249,10 @@ func _draw() -> void:
 	for i in range(3):
 		var color := Color("7bc7ec") if run.points[i] == 1 else Color("cf8bdf") if run.points[i] == -1 else Color("e6d8b6")
 		var x := 65.0 + (25 + i * 25) * 11.5
-		draw_string(font, Vector2(x - 40, 146), ["수호 전진지", "접전 / 방어탑", "장막 전진지"][i], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("172235"))
-		draw_circle(Vector2(x, 156), 5, color)
+		draw_string(font, Vector2(x - 40, 190), ["수호 전진지", "접전 / 방어탑", "장막 전진지"][i], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("172235"))
+		draw_circle(Vector2(x, 200), 5, color)
 	# Tower is a labeled UI marker in this candidate preview, not invented artwork.
-	draw_string(font, Vector2(567, 178), "탑  %s" % ("아군" if run.points[1] == 1 else "베일" if run.points[1] == -1 else "중립"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("253249"))
+	draw_string(font, Vector2(567, 222), "탑  %s" % ("아군" if run.points[1] == 1 else "베일" if run.points[1] == -1 else "중립"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("253249"))
 	for unit in run.units:
 		var x: float = 65 + float(unit.x) * 11.5
 		var y: float = 292 + (int(unit.id) % 3) * 38

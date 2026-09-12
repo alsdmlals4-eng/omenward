@@ -1,5 +1,34 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-12 continuous improvement: forecast and supply observability
+
+Outcome: RED missing-query/UI checks preceded implementation; GREEN model 68/68, actual UI/save/default-scene gate, 109 selected existing contract tests and 12 scoped/alpha/motion tests. GPU 1280×720 capture: 19 damage events /16 units, shield windup/impact/recovery 3/3. Five-scope independent review found paused/terminal production wording; corrected and tested, including paused+locked substring regression. `git diff --check` clean. Base raw FAIL is the same eight approved runtime paths; project scoped BUILD PASS, not Base raw PASS. Full 559-test suite not rerun in this iteration; the historical `_base_recovery` fixture problem remains unverified. Human/device/accessibility/1920×1080/full-product NOT_RUN. Exact remote CI is checked after commit, not inferred from these local results.
+
+Next continuous unit: reproduce overlapping active soldiers at normal display size and improve combat readability without changing combat rules; then complete missing motion and blueprint/runtime gaps in bounded, researched units. No repeat approval for routine implementation; final art/core semantic decisions and protected integration remain distinct. This is not whole-game completion.
+
+Direction: keep the approved single-front / three-tab / time-limited-round loop; let players read actual incoming pressure and why a selected facility is not supplying units. Approval: latest user requested fresh Base read, benchmarking and implementation/improvement without routine reapproval. This is existing UI/production scope, not approval for unrelated PR absorption, release or core-rule replacement.
+
+Freshness: project implementation source47726ad79e0c49fffbee9b8b9ff2778d44137723; current-task PR259 remains stacked/draft, main and other PRs read-only. Base remote main d830c0f6 was fetched and its AGENTS, intake and continuous-work owners read. Its receipt/HiGodot/2-round-review policies are DRIFT_REFERENCE_ONLY; project v9.4.3 lock, scoped validator and explicit five-pass review are retained. No migration of adapter/generated contracts. Root planning checkout and historical three-front owners are COMPATIBILITY/history; this worktree's current context and actual preview consumer own implementation status. No age-based deletion.
+
+Work modes: PLAN benchmark/alternatives → BUILD existing FrontRun/FrontScreen queries and labels → REVIEW tests/render/readback. Project UX skill supplies the hypothesis: can players identify the next threat and explain why production is paused? Human task/think-aloud remains NOT_RUN; tests establish only correct displayed information.
+
+benchmark_preflight_state: PASS for this bounded UI improvement. Existing 12-game research and current actual consumer were compared before selecting new work. No reusable external system is needed: REUSE FrontRun clocks/catalog and Godot controls, ADAPT presentation. No cross-project code absorption or new plugin/framework.
+
+| Source and evidence (read2026-09-12) | Observed pattern | Project fit / disposition |
+|---|---|---|
+| https://media.gdcvault.com/gdc2019/presentations/Into%20the%20Breach%20Postmortem%20Final.pdf, pp13–17 text | Telegraphed attacks shape threat/response decisions | ADAPT actual upcoming wave preview; REJECT replacing real-time combat with fully deterministic grid turns. PDF text inspected, not full talk watched. Official homepage timeout was not substituted for body evidence. |
+| https://store.steampowered.com/app/2239150/Thronefall/ About | Build by day, defend by night; economy/defense trade-off | ADAPT clear preparation/production freeze feedback; REJECT kill-all night ending because user requires timed rounds. |
+| https://store.steampowered.com/app/2697930/Commander_Quest/ About | Deck/army synergy and covering weaknesses | ADAPT implemented role labels and troop capacity information; no claim to reproduce its proprietary systems. |
+| https://store.steampowered.com/app/4906570/Slotbound_Demo/ About | 3×3 summons feed an autobattler; absorption/evolution | REFERENCE_ONLY for summon-to-army readability; REJECT jackpot rescue/absorption as automatic additions. Demo marketing is not measured balance evidence. |
+| https://docs.godotengine.org/en/stable/classes/class_progressbar.html | Native percentage control and shared Range/Control behavior | ADOPT native progress bar bound to actual production clock, no bitmap progress decoration. |
+| https://www.aseprite.org/docs/frame-duration/ | Frame properties define duration | RETAIN shield native timing checks; static pose reuse is not newly drawn motion. |
+
+Three alternatives: (A) modal next-wave popup, clear but interrupts viewing/input; (B) permanent full army dashboard, rich but crowds1280×720; (C) compact shared two-line forecast plus selected-facility status. ADOPT C for lowest display cost, same game rules, easy removal, and no new save schema. Risk: incorrect future prediction; mitigation: read-only model query and equality test against actual spawned role counts. Risk: masking battlefield; mitigate upper strip outside soldier path. No game assets copied from references.
+
+Acceptance: preview first/next/refit waves and none after victory; queries do not mutate RNG/snapshot; production distinguishes producing/frozen/full/locked/empty; UI reads model each frame without recreating panels every clock tick; locked selected facility cannot appear upgradeable; save/production/combat regressions and native motion remain valid. Existing numeric data is unchanged. Blueprint's more elaborate per-wave variation remains unimplemented; preview intentionally tells the truth about current runtime, not a fictional future implementation.
+
+Learning: reuse existing catalog/clock owner for UI and verify against spawn behavior, rather than a second authored forecast table. Project-only lesson retained here; no Base promotion claimed. Rollback: revert this UI/query commit without touching saves, art, Base locks or other PRs.
+
 **Goal:** 사용자가 병영 건설 → 생산 → 출전 → 단일 전선 전투를 직접 확인한다.
 **Authority:** 2026-09-11 최신 사용자 ‘인게임에서 전투하는 거, 병종건설도 볼 수 있게. 이미지 연결’. 기존 기획-only 상태를 이 구간에 한해 supersede한다.
 **Spec:** `docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json` 및 사람용 Blueprint v3.

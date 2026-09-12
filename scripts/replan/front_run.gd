@@ -48,6 +48,36 @@ func unlocked_slots() -> int:
 func building_active(slot: int) -> bool:
 	return slot >= 0 and slot < buildings.size() and slot < unlocked_slots()
 
+func wave_forecast() -> Dictionary:
+	if phase in ["VICTORY", "DEFEAT"]:
+		return {}
+	var next_round := round_number + (1 if phase == "REFIT" else 0)
+	var next_wave := wave_index if phase == "BATTLE" else 0
+	if next_round > int(catalog.maps[0].rounds) or next_wave >= catalog.economy.wave_times.size():
+		return {}
+	var template: String = catalog.wave_cycle[(next_round - 1) % catalog.wave_cycle.size()]
+	var composition: Dictionary = {}
+	for group in catalog.wave_templates[template]:
+		composition[group[0]] = composition.get(group[0], 0) + int(group[1])
+	return {"round": next_round, "wave": next_wave + 1,
+		"seconds": maxf(0, float(catalog.economy.wave_times[next_wave]) - (elapsed if phase == "BATTLE" else 0.0)),
+		"units": composition}
+
+func production_status(slot: int) -> Dictionary:
+	if slot < 0 or slot >= buildings.size():
+		return {"state": "EMPTY", "remaining": 0.0, "progress": 0.0}
+	var building: Dictionary = buildings[slot]
+	var interval: float = float(facilities[building.id][5])
+	var state := "PRODUCING"
+	if not building_active(slot):
+		state = "LOCKED"
+	elif phase != "BATTLE":
+		state = "FROZEN"
+	elif reserve.size() >= int(catalog.economy.queue_capacity):
+		state = "QUEUE_FULL"
+	return {"state": state, "remaining": maxf(0, interval - float(building.clock)),
+		"progress": clampf(float(building.clock) / interval, 0, 1)}
+
 func construct(id: String) -> bool:
 	if phase not in ["PREPARE", "REFIT"] or id not in ["barracks", "special_barracks"]:
 		return false

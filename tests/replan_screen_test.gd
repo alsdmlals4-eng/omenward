@@ -44,6 +44,13 @@ func verify() -> void:
 		return
 	if screen.phase_label() != "출정 준비":
 		failed = true
+	if not screen.has_method("forecast_text"):
+		push_error("Missing visible wave forecast")
+		quit(1)
+		return
+	if not screen.forecast_text().contains("갑각수 ×3") or not screen.forecast_text().contains("5초"):
+		push_error("Forecast must name actual Veil composition and arrival")
+		failed = true
 	for button in screen.find_children("*", "Button", true, false):
 		if button.text == "전선":
 			button.pressed.emit()
@@ -69,12 +76,53 @@ func verify() -> void:
 	if not found or screen.run.buildings.size() != 1 or screen.run.gold != 80:
 		failed = true
 		push_error("Build button does not consume the real model")
+	screen._process(0.0)
+	var production = screen.find_child("ProductionStatus", true, false)
+	if production == null or not production.text.contains("동결"):
+		push_error("Production must explain preparation freeze")
+		failed = true
 	screen._save()
 	screen.run.gold = 1
 	screen._load_save()
 	if screen.run.gold != 80:
 		failed = true
 		push_error("Save/load button path loses gold")
+	screen.run.phase = "BATTLE"
+	screen.paused = true
+	screen._process(1.0)
+	production = screen.find_child("ProductionStatus", true, false)
+	if not production.text.contains("일시정지") or not is_zero_approx(screen.run.buildings[0].clock):
+		failed = true
+		push_error("Paused production must stop both countdown and status")
+	screen.run.phase = "VICTORY"
+	screen._process(0.0)
+	if not production.text.contains("생산 종료"):
+		failed = true
+		push_error("Completed battle must show production ended")
+	screen.paused = false
+	screen.run.gold = 1000
+	screen.run.phase = "REFIT"
+	screen.run.points = [1, 0, 0]
+	while screen.run.buildings.size() < 7:
+		screen.run.construct("barracks")
+	screen.selected = 6
+	screen.run.points = [0, 0, 0]
+	screen._refresh_panel()
+	await process_frame
+	screen._process(0.0)
+	production = screen.find_child("ProductionStatus", true, false)
+	if production == null or not production.text.contains("슬롯 잠김"):
+		failed = true
+		push_error("Lost territory must explain selected building lock")
+	screen.paused = true
+	screen._process(0.0)
+	if not production.text.contains("생산 중단") or production.text.contains("정지단"):
+		failed = true
+		push_error("Paused locked facility must preserve its lock reason")
+	for button in screen.find_children("*", "Button", true, false):
+		if button.tooltip_text.begins_with("T2:") and not button.disabled:
+			failed = true
+			push_error("Locked building must not offer enabled specialization")
 	print("REPLAN_SCREEN_TEST: ", "FAIL" if failed else "PASS")
 	# User deletes disposable files manually; leave this deterministic test save for collection.
 	screen.queue_free()
