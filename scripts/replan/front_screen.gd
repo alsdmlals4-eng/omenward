@@ -91,7 +91,7 @@ func _make_shell() -> void:
 		tab_button.toggle_mode = true
 		tab_buttons[title] = tab_button
 	pause_button = _button("일시정지", Rect2(445, 473, 116, 36), func(): paused = not paused)
-	speed_button = _button("속도 1×", Rect2(569, 473, 150, 36), func(): speed = 3.0 if speed == 1.0 else 1.0)
+	speed_button = _button("속도 1×", Rect2(569, 473, 150, 36), func(): speed = 2.0 if speed == 1.0 else 1.0)
 	_button("저장", Rect2(800, 473, 95, 36), _save)
 	_button("불러오기", Rect2(903, 473, 115, 36), _load_save)
 	_button("새 출정", Rect2(1026, 473, 112, 36), _restart)
@@ -273,7 +273,7 @@ func _process(delta: float) -> void:
 		map_labels[i].modulate = Color("f6d687") if i == run.current_map else Color("8796ad")
 	pause_button.text = "계속 진행" if paused else "일시정지"
 	speed_button.text = "속도 %d×" % int(speed)
-	speed_button.tooltip_text = "누르면 %d배속으로 변경" % (1 if speed == 3.0 else 3)
+	speed_button.tooltip_text = "누르면 %d배속으로 변경" % (1 if speed == 2.0 else 2)
 	notice.text = run.message
 	forecast_label.text = forecast_text()
 	if is_instance_valid(production_label):

@@ -10,11 +10,13 @@ static func _failure(reason: String, recoverable: bool = false) -> Dictionary:
 static func _unsupported(value: Variant) -> bool:
 	if not value is Dictionary:
 		return false
-	# This transport currently serves versions 1–6 only. Do not downgrade future envelopes.
-	if value.has("schema_version") or value.has("ruleset_id"):
+	# Envelope formats remain unsupported; known v7 is a flat model snapshot.
+	if value.has("schema_version"):
 		return true
 	var version: Variant = value.get("version")
-	return (version is float or version is int) and version > 6
+	if value.has("ruleset_id") and (version != 7 or value.ruleset_id != Model.FIXED_RULESET):
+		return true
+	return (version is float or version is int) and version > 7
 
 static func _read(path: String) -> Dictionary:
 	if not FileAccess.file_exists(path):

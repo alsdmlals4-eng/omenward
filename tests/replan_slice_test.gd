@@ -9,6 +9,107 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func verify_fixed_clock(model: Script) -> void:
+	var reference = model.new()
+	check(reference.has_method("advance_ticks"), "P01 missing fixed tick driver")
+	if not reference.has_method("advance_ticks"):
+		return
+	reference.begin_round()
+	reference.advance_ticks(300)
+	for fps in [30, 60, 144]:
+		var run = model.new()
+		run.begin_round()
+		for frame in range(fps * 10):
+			run.advance(1.0 / fps)
+		check(run.simulation_tick() == 300, "No fractional tick loss at %d FPS" % fps)
+		check(run.snapshot() == reference.snapshot(), "Identical combat at %d FPS" % fps)
+	var delayed = model.new()
+	delayed.begin_round()
+	delayed.advance(10)
+	check(delayed.simulation_tick() == 120 and delayed.tick_debt == 180, "Frame work bounded without losing deferred ticks")
+	for frame in range(20):
+		delayed.advance(0)
+	check(delayed.snapshot() == reference.snapshot(), "Long frame debt must not be discarded")
+	var partial = model.new()
+	partial.begin_round()
+	partial.advance(0.01)
+	var restored = model.new()
+	check(restored.restore(JSON.parse_string(JSON.stringify(partial.snapshot()))), "Fractional accumulator restores")
+	partial.advance(0.03)
+	restored.advance(0.03)
+	check(equivalent_state(partial.snapshot(), restored.snapshot()) and partial.simulation_tick() == 1, "Save retains fractional time")
+	var before: Dictionary = partial.snapshot()
+	for delta in [NAN, INF, -1.0, 1e308, 1e18]:
+		partial.advance(delta)
+	check(partial.snapshot() == before, "Invalid delta cannot poison simulation")
+	partial.phase = "REFIT"
+	before = partial.snapshot()
+	partial.advance(30)
+	partial.advance_ticks(30)
+	check(partial.snapshot() == before, "Refit freezes simulation and debt")
+	for field in ["tick", "tick_debt"]:
+		var bad: Dictionary = reference.snapshot()
+		bad[field] = -1
+		check(not partial.restore(bad), "Invalid clock rejected: " + field)
+	var timer = model.new()
+	timer.begin_round()
+	timer.units[0].cooldown = 0.18
+	var timer_save: Dictionary = timer.snapshot()
+	check(timer_save.get("timer_units") == "ticks" and timer_save.units[0].cooldown == 6, "New save stores duration as integer ceil ticks")
+	var timer_load = model.new()
+	check(timer_load.restore(JSON.parse_string(JSON.stringify(timer_save))), "Integer duration save restores")
+	timer.advance_ticks(5)
+	timer_load.advance_ticks(5)
+	check(equivalent_state(timer.snapshot(), timer_load.snapshot()), "Quantized duration continues identically after load")
+	var legacy: Dictionary = model.new().snapshot()
+	legacy.version = 6
+	for key in ["ruleset_id", "tick", "tick_debt", "timer_units"]:
+		legacy.erase(key)
+	legacy.map_entry = {}
+	check(timer_load.restore(legacy), "Legacy v6 remains loadable")
+	timer_load.begin_round()
+	timer_load.advance(0.01)
+	check(timer_load.simulation_tick() == 0 and is_equal_approx(timer_load.elapsed, 0.01), "Legacy fractional integration retained")
+	timer_load.phase = "VICTORY"
+	timer_load.next_map()
+	check(timer_load.snapshot().version == 6, "Next map must not upgrade legacy rules")
+	var ending = model.new()
+	ending.begin_round()
+	ending.advance(0.01)
+	ending.bases[1] = 0
+	ending.advance_ticks(1)
+	check(ending.tick_debt == 0 and ending.phase == "VICTORY", "Direct ticks clear battle-exit debt")
+	ending.next_map()
+	check(model.new().restore(JSON.parse_string(JSON.stringify(ending.snapshot()))), "Mixed drivers produce a restorable next-map checkpoint")
+	for version in range(1, 7):
+		var old = model.new()
+		var fixture: Dictionary = old.snapshot()
+		fixture.version = version
+		fixture.map_entry = {}
+		for key in ["ruleset_id", "tick", "tick_debt", "timer_units"]:
+			fixture.erase(key)
+		# Hand-authored seconds, not a v7 duration copied and relabelled.
+		fixture.units[0].cooldown = 0.18
+		check(old.restore(JSON.parse_string(JSON.stringify(fixture))), "Historical seconds fixture v%d" % version)
+		old.begin_round()
+		old.advance(0.01)
+		check(is_equal_approx(old.units[0].cooldown, 0.17), "Legacy timer preserves seconds v%d" % version)
+		var original_wave: String = old.wave_rules
+		old.phase = "VICTORY"
+		old.next_map()
+		check(old.wave_rules == original_wave and old.snapshot().version == 6, "Legacy rules survive next map v%d" % version)
+	var economy = model.new()
+	economy.units.clear()
+	economy.begin_round()
+	economy.advance_ticks(599)
+	check(economy.gold == 120, "Base income not paid before tick600")
+	economy.advance_ticks(1)
+	check(economy.gold == 125, "Base income paid exactly at tick600")
+	var unsupported: Dictionary = reference.snapshot()
+	unsupported.ruleset_id = "unknown-future"
+	var unchanged: Dictionary = partial.snapshot()
+	check(not partial.restore(unsupported) and partial.snapshot() == unchanged, "Unknown ruleset cannot mutate live run")
+
 func verify_statuses(model: Script) -> void:
 	var run = model.new()
 	check(run.has_method("apply_status"), "Missing shared status behavior")
@@ -272,6 +373,7 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	verify_fixed_clock(model)
 	verify_campaign(model)
 	verify_statuses(model)
 	var r = model.new()
@@ -364,8 +466,9 @@ func _initialize() -> void:
 	check(waves.next_id == 9 and midwave.next_id == 9, "Five sequential arrivals without duplicate after restore")
 	check(equivalent_state(waves.snapshot(), midwave.snapshot()), "Midwave full-state continuation within 1e-9 JSON floating-point tolerance")
 	var old_wave = model.new().snapshot()
-	var v3_wave = waves.snapshot()
+	var v3_wave = old_wave.duplicate(true)
 	v3_wave.version = 3
+	v3_wave.map_pressure = waves.map_pressure
 	v3_wave.erase("map_pressure")
 	var migrated = model.new()
 	check(migrated.restore(v3_wave) and migrated.map_pressure == 1.0 and migrated.wave_composition(2, 0) == waves.wave_composition(2, 0), "V3 staggered migration preserves actual wave pressure")
@@ -631,9 +734,17 @@ func verify_model(model: Script, r) -> void:
 	siege.advance(0.2)
 	check(siege.bases[1] < 1000, "Base strike resolves on impact")
 	var legacy = windup_save.duplicate(true)
+	legacy.version = 1
+	legacy.map_entry = {}
+	for key in ["ruleset_id", "tick", "tick_debt", "timer_units"]:
+		legacy.erase(key)
 	for u in legacy.units:
 		u.erase("windup")
 		u.erase("pending_target")
+		# Historical fixtures use seconds; use a literal active cooldown.
+		u.cooldown = 0.5
+		u.flash = 0.0
+		u.action = 0.0
 	check(resumed.restore(legacy), "Old v1 saves remain readable")
 	var dead = model.new()
 	dead.restore(windup_save)

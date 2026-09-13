@@ -5,6 +5,13 @@ const CATALOG_PATH := "res://docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911
 const SHIELD_WINDUP := 0.18
 const SHIELD_IMPACT := 0.10
 const SHIELD_RECOVERY := 0.15
+const FIXED_RULESET := "fixed30-v1"
+const TICK_RATE := 30
+const MAX_FRAME_TICKS := 120
+var ruleset_id := FIXED_RULESET
+var tick := 0
+# Debt is measured in ticks, including the fraction not yet executable.
+var tick_debt := 0.0
 var catalog: Dictionary
 var definitions: Dictionary = {}
 var facilities: Dictionary = {}
@@ -63,7 +70,7 @@ func next_map() -> bool:
 			held_points.append("%s:%d" % [catalog.maps[current_map].id, i])
 	current_map += 1
 	map_pressure = float(catalog.maps[current_map].pressure)
-	wave_rules = "staggered_v1"
+	# Loaded legacy runs retain their wave and simulation rules across maps.
 	phase = "PREPARE"
 	round_number = 1
 	elapsed = 0.0
@@ -318,18 +325,49 @@ func spawn(role: String, side: int, x: float) -> void:
 	next_id += 1
 
 func advance(delta: float) -> void:
-	if phase != "BATTLE" or delta <= 0.0:
+	if phase != "BATTLE" or not is_finite(delta) or delta < 0.0:
 		return
-	# Fixed substeps keep movement/attack ordering stable under UI speed changes.
+	if ruleset_id == FIXED_RULESET:
+		if delta > (100000000.0 - tick_debt) / TICK_RATE:
+			return
+		tick_debt += delta * TICK_RATE
+		var count := mini(MAX_FRAME_TICKS, int(floorf(tick_debt + 0.00000001)))
+		tick_debt = maxf(0, tick_debt - count)
+		advance_ticks(count)
+		if phase != "BATTLE":
+			tick_debt = 0.0
+		return
+	# Historical v1-v6 integration is intentionally retained for loaded runs.
 	var remaining: float = minf(delta, 1.0)
 	while remaining > 0.00001 and phase == "BATTLE":
 		var step: float = minf(remaining, 0.05)
 		_tick(step)
 		remaining -= step
 
+func simulation_tick() -> int:
+	return tick
+
+func advance_ticks(count: int) -> void:
+	if ruleset_id != FIXED_RULESET or phase != "BATTLE":
+		return
+	for index in range(maxi(0, count)):
+		if phase != "BATTLE":
+			break
+		tick += 1
+		_tick(1.0 / TICK_RATE)
+	if phase != "BATTLE":
+		tick_debt = 0.0
+
+func _countdown(seconds: float, dt: float) -> float:
+	if ruleset_id == FIXED_RULESET:
+		return maxi(0, ceili(seconds * TICK_RATE - 0.00000001) - 1) / float(TICK_RATE)
+	return maxf(0, seconds - dt)
+
 func _tick(dt: float) -> void:
 	var before := elapsed
 	elapsed += dt
+	if ruleset_id == FIXED_RULESET:
+		elapsed = minf(float(catalog.economy.round_seconds), elapsed)
 	while wave_index < 3 and elapsed + 0.0001 >= float(catalog.economy.wave_times[wave_index]):
 		if wave_rules == "legacy":
 			var groups := wave_composition(round_number, wave_index)
@@ -372,15 +410,15 @@ func _tick(dt: float) -> void:
 	for unit in units:
 		if unit.hp <= 0:
 			continue
-		unit.flash = maxf(0, float(unit.flash) - dt)
-		unit.action = maxf(0, float(unit.action) - dt)
-		unit.cooldown = maxf(0, float(unit.cooldown) - dt)
+		unit.flash = _countdown(float(unit.flash), dt)
+		unit.action = _countdown(float(unit.action), dt)
+		unit.cooldown = _countdown(float(unit.cooldown), dt)
 		if stunned.has(unit.id) or float(unit.get("effects", {}).get("stun", 0)) > 0:
 			unit.brace = 0.0
 			continue
 		var row: Array = definitions[unit.role]
 		if float(unit.get("windup", 0.0)) > 0:
-			unit.windup = maxf(0, float(unit.windup) - dt)
+			unit.windup = _countdown(float(unit.windup), dt)
 			if unit.windup <= 0.00001:
 				unit.windup = 0.0
 				unit.action = SHIELD_IMPACT + SHIELD_RECOVERY
@@ -394,7 +432,7 @@ func _tick(dt: float) -> void:
 							break
 				unit.pending_target = -1
 			continue
-		unit.ambush = maxf(0, float(unit.get("ambush", 0.0)) - dt)
+		unit.ambush = _countdown(float(unit.get("ambush", 0.0)), dt)
 		var target := choose_target(unit)
 		var distance := absf(float(unit.x) - float(target.x)) if not target.is_empty() else INF
 		if not target.is_empty() and distance <= float(row[9]) * 3.0:
@@ -516,17 +554,17 @@ func _tick_effects(unit: Dictionary, dt: float) -> void:
 	var effects: Dictionary = unit.get("effects", {})
 	for key in ["immune", "barrier_time"]:
 		if effects.has(key):
-			effects[key] = maxf(0, float(effects[key]) - dt)
+			effects[key] = _countdown(float(effects[key]), dt)
 	if float(effects.get("barrier_time", 0)) <= 0:
 		effects.erase("barrier")
 	if float(effects.get("stun", 0)) > 0:
-		effects.stun = maxf(0, float(effects.stun) - dt)
+		effects.stun = _countdown(float(effects.stun), dt)
 		if effects.stun <= 0.00001:
 			effects.stun = 0.0
 			effects.immune = 1.0
 	if effects.has("slows"):
 		for slow in effects.slows:
-			slow.time = maxf(0, float(slow.time) - dt)
+			slow.time = _countdown(float(slow.time), dt)
 		effects.slows = effects.slows.filter(func(slow): return slow.time > 0.00001)
 	unit.effects = effects
 
@@ -650,18 +688,59 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		damage_events += 1
 
 func snapshot(include_entry: bool = true) -> Dictionary:
-	return {"version": 6, "map_entry": map_entry.duplicate(true) if include_entry else {}, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
+	var result := {"version": 6, "map_entry": map_entry.duplicate(true) if include_entry else {}, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
 		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
 		"damage_events": damage_events, "rng": str(rng.state), "free_spin": free_spin,
 		"board": last_board.duplicate(), "income": income_clock, "point_clock": point_clock,
 		"tower_clock": tower_clock, "message": message}
+	if ruleset_id == FIXED_RULESET:
+		result.merge({"version": 7, "ruleset_id": ruleset_id, "tick": tick, "tick_debt": tick_debt, "timer_units": "ticks"}, true)
+		_convert_duration_units(result, true)
+	return result
+
+# Model-facing seconds are retained for presentation. Disk durations are integer ticks.
+# This mutates only a snapshot/deep copy, never the live model or caller's save object.
+func _convert_duration_units(state: Dictionary, encode: bool) -> bool:
+	if not state.get("units") is Array:
+		return false
+	for unit in state.units:
+		if not unit is Dictionary:
+			return false
+		var groups: Array = [{"value": unit, "keys": ["cooldown", "flash", "action", "windup", "brace", "ambush"]}]
+		var effects: Variant = unit.get("effects", {})
+		if not effects is Dictionary or not effects.get("slows", []) is Array:
+			return false
+		groups.append({"value": effects, "keys": ["barrier_time", "stun", "immune"]})
+		for slow in effects.get("slows", []):
+			if not slow is Dictionary:
+				return false
+			groups.append({"value": slow, "keys": ["time"]})
+		for group in groups:
+			for key in group.keys:
+				if not group.value.has(key):
+					continue
+				var number: Variant = group.value[key]
+				if not _finite_number(number) or number < 0 or (not encode and (number != floorf(number) or number > 1800)):
+					return false
+				group.value[key] = maxi(0, ceili(number * TICK_RATE - 0.00000001)) if encode else float(number) / TICK_RATE
+	return true
 
 func restore(value: Variant) -> bool:
-	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3 and value.get("version") != 4 and value.get("version") != 5 and value.get("version") != 6):
+	if not value is Dictionary or not _finite_number(value.get("version")) or value.version != floorf(value.version) or value.version < 1 or value.version > 7 or value.has("schema_version"):
 		return false
 	value = value.duplicate(true)
+	if value.version == 7:
+		if value.get("ruleset_id") != FIXED_RULESET or value.get("timer_units") != "ticks":
+			return false
+		for field in ["tick", "tick_debt"]:
+			if not _finite_number(value.get(field)) or value[field] < 0 or value[field] > 100000000:
+				return false
+		if value.tick != floorf(value.tick):
+			return false
+		if not _convert_duration_units(value, false):
+			return false
 	if value.version < 6:
 		value.map_entry = {}
 	if value.version < 5:
@@ -676,6 +755,8 @@ func restore(value: Variant) -> bool:
 		value.omen_moves = 0
 		value.omen_reserved = 0
 	for key in snapshot():
+		if key in ["ruleset_id", "tick", "tick_debt", "timer_units"] and value.version < 7:
+			continue
 		if not value.has(key):
 			return false
 	if value.wave_rules not in ["legacy", "staggered_v1"]:
@@ -749,7 +830,7 @@ func restore(value: Variant) -> bool:
 		var pending: Variant = unit.get("pending_target", -1)
 		if float(unit.get("effects", {}).get("stun", 0)) > 0 and (windup != 0 or pending != -1):
 			return false
-		if not _finite_number(windup) or windup < 0 or windup > SHIELD_WINDUP or not _finite_number(pending) or pending != floorf(float(pending)) or pending < -2 or pending >= value.next_id:
+		if not _finite_number(windup) or windup < 0 or windup > (0.2 if value.version == 7 else SHIELD_WINDUP) or not _finite_number(pending) or pending != floorf(float(pending)) or pending < -2 or pending >= value.next_id:
 			return false
 		if windup > 0 and (unit.side != 0 or unit.role != "shield_guard" or pending == -1):
 			return false
@@ -801,12 +882,17 @@ func restore(value: Variant) -> bool:
 			return false
 		if not probe.restore(entry):
 			return false
+		if value.version == 7 and (entry.get("version") != 7 or entry.get("ruleset_id") != value.ruleset_id or entry.get("tick", 0) > value.tick or entry.get("tick_debt") != 0):
+			return false
 		for owner in probe.points:
 			if owner != 0:
 				return false
 		for hp in probe.bases:
 			if hp != 1000:
 				return false
+	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
+	tick = int(value.get("tick", 0)) if value.version == 7 else 0
+	tick_debt = float(value.get("tick_debt", 0)) if value.version == 7 else 0.0
 	omen_pending = value.omen_pending
 	map_entry = value.map_entry.duplicate(true)
 	current_map = int(value.current_map)

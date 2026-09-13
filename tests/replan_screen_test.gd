@@ -14,6 +14,13 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.speed_button.pressed.emit()
+	if screen.speed != 2.0:
+		push_error("Speed control must select 2x without changing combat constants")
+		failed = true
+	screen.speed_button.pressed.emit()
+	if screen.speed != 1.0:
+		failed = true
 	screen.tab = "징조륜"
 	screen._refresh_panel()
 	var observe = screen.find_child("ObserveOmen", true, false)

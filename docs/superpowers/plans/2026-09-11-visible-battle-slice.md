@@ -14,6 +14,12 @@
 
 ### 후속 승인 및 첫 구현 증분
 
+고정 시계 증분 검증 결과: 모델312/0실패, 저장43/0실패, 실제 화면 노드의 속도 버튼/저장/복구 검사 PASS, 기본 headless 씬 PASS, scope7/문서88 PASS. 고정 API 누락 RED→구현,2× UI RED→수정, 정수 duration 저장 RED→구현, 재정비 debt 동결 RED→수정. JSON float version membership 거절을 수치 검증으로 교정했다. 독립5회 정적 검토와 재검토에서 battle-exit debt/유한 큰 delta/legacy fixture 문제를 처리했다. v1–v6에 비영 cooldown 초 단위 fixture를 추가했고 버전1로 표시만 했던 검사를 실제 version1로 수정했다. GPU 캡처·Human·전체원정 PASS는 이번 증거가 아니다. 실제 사용완료 임시 검사 산출물은 사용자 삭제 검토 대상으로만 보존한다.
+
+**현재 연속 구현 — 고정 시계 증분:** 최신 사용자가 전체 구현 루프를 명시하여 아래 계획 준비 전용 문장을 이력으로 한정한다. P01을 실행 중이다. [Fix Your Timestep 원저자 실무 설명](https://gafferongames.com/post/fix_your_timestep/)의 고정 간격 누산 방식을 ADAPT하고, [Godot 공식 고정 physics/render 분리](https://docs.godotengine.org/en/stable/tutorials/physics/interpolation/physics_interpolation_introduction.html)를 참고했다. 가변 조각(REJECT: FPS에 따라 판정 변화), engine 전역 속도 변경(REJECT: UI까지 영향), 모델 소유30Hz+프레임당120tick상한+잔여 보존(ADAPT)을 비교했다. 예제의 시간 clamp는 채택하지 않는다. 과도 입력은 상태 변경 전 거절하고 실제 performance 최적값은 측정 전 확정하지 않는다.
+
+현재 flat v7은 기존 model snapshot의 연속이며 별도 envelope를 만들지 않는다. `ruleset_id=fixed30-v1`, 누적 `tick`, 분수/지연 `tick_debt`, `timer_units=ticks`를 추가하고 단위/상태효과 countdown을 정수 tick으로 직렬화한다. 화면/모델 API는 초 단위를 유지한다. catalog_hash/run_id/사건 ID/보상 ledger/점령/투사체는 실제 후속 consumer와 함께 추가할 대상으로 남기며 빈 framework로 완료 표시하지 않는다. 따라서 P01 전체 완료가 아니다. v1–v6는 원래 가변 적분과 wave_rules를 다음 맵에서도 유지한다. UI는1×/2×로 연결했다. 테스트/독립 검토 진행 중이며 최종 결과는 아래 추가한다.
+
 사용자 후속 승인 ‘좋아 권장안대로 작업진행해’로 아래 계획 준비 전용 상태를 해당 턴의 이력으로 전환한다. P00의 네 안정 진입점에 현재 owner와 역사 경계를 연결했고 scope는 exact8경로만 추가했다. 해시 고정 Skill/adapter는 유지하고 obsolete 제품 의미는 Registry의 override 경계로 명시했다.
 
 P01은 저장 transport부터 진행했다. Ruling: 고정 시계·v7 전환과 파일 I/O 변경을 한 번에 섞지 않는다 — 구형 저장의 실제 복구 경로를 먼저 확보하고 이후 시뮬레이션 차이의 원인을 분리하기 위함 — P01 전체 완료는 아직 아니다. `front_save.gd`는 Model.restore를 검증기로 재사용하며 새 저장 모델을 만들지 않는다. 기존 파일 방식과 비교한 대안: 직접 덮어쓰기(REJECT, 실패 시 정상본 유실), temp+rename만 유지(REJECT, 검증/backup 없음), temp 재읽기+검증된 이전 정상본+교체(ADAPT). Godot 공식 FileAccess/DirAccess 문서를 확인했고 파일 크기4MiB 한도·flush/close·모델 검증·해시 대조를 결합했다. OS 전원손실까지 완전한 원자성/내구성을 보장한다는 주장은 하지 않는다.
