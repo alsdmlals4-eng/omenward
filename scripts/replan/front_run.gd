@@ -15,6 +15,7 @@ var round_number := 1
 var elapsed := 0.0
 var wave_index := 0
 var wave_rules := "staggered_v1"
+var map_pressure := 1.0
 var units: Array = []
 var buildings: Array = []
 var reserve: Array = []
@@ -42,6 +43,7 @@ func _init() -> void:
 	for row in catalog.building_tree:
 		branches[row[0]] = row
 	gold = int(catalog.economy.starting_gold)
+	map_pressure = float(catalog.maps[0].pressure)
 	rng.seed = 1947
 	for i in range(4):
 		spawn("shield_guard", 0, 8.0 + i * 1.4)
@@ -55,7 +57,7 @@ func building_active(slot: int) -> bool:
 func wave_composition(round_id: int, wave_id: int) -> Dictionary:
 	var cycle_index := round_id - 1 + (wave_id if wave_rules == "staggered_v1" else 0)
 	var template: String = catalog.wave_cycle[cycle_index % catalog.wave_cycle.size()]
-	var scale := float(catalog.maps[0].pressure) * (1.0 + 0.03 * (round_id - 1)) if wave_rules == "staggered_v1" else 1.0
+	var scale := map_pressure * (1.0 + 0.03 * (round_id - 1)) if wave_rules == "staggered_v1" else 1.0
 	var composition: Dictionary = {}
 	for group in catalog.wave_templates[template]:
 		composition[group[0]] = composition.get(group[0], 0) + ceili(float(group[1]) * scale)
@@ -261,7 +263,7 @@ func spawn(role: String, side: int, x: float) -> void:
 	var row: Array = definitions[role]
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
 		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
-		"windup": 0.0, "pending_target": -1})
+		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0})
 	next_id += 1
 
 func advance(delta: float) -> void:
@@ -349,6 +351,10 @@ func _tick(dt: float) -> void:
 				distance = d
 				target = other
 		if not target.is_empty() and distance <= float(row[9]) * 3.0:
+			if unit.role == "cavalry" and float(unit.get("charge", 0.0)) < 2.0:
+				unit.charge = 0.0
+			if unit.role == "spear_guard":
+				unit.brace = minf(0.6, float(unit.get("brace", 0.0)) + dt)
 			if unit.cooldown <= 0:
 				unit.cooldown = float(row[10])
 				if unit.side == 0 and unit.role == "shield_guard":
@@ -363,7 +369,12 @@ func _tick(dt: float) -> void:
 					_hit(unit, target)
 		else:
 			var direction: float = 1.0 if unit.side == 0 else -1.0
+			var previous_x: float = unit.x
 			unit.x = clampf(float(unit.x) + direction * float(row[8]) * dt * 2.2, 0, 100)
+			if unit.role == "spear_guard":
+				unit.brace = 0.0
+			if unit.role == "cavalry":
+				unit.charge = minf(2.0, float(unit.get("charge", 0.0)) + absf(float(unit.x) - previous_x))
 			if (unit.x >= 99 and unit.side == 0) or (unit.x <= 1 and unit.side == 1):
 				if unit.cooldown <= 0 and float(row[5]) > 0:
 					if unit.side == 0 and unit.role == "shield_guard":
@@ -407,8 +418,19 @@ func _tick(dt: float) -> void:
 		free_spin = true
 		message = "전 병력·생산 동결 · 건설/전문화/출전 후 다음 공세" if phase == "REFIT" else "모든 공세 생존 · 승리"
 
+func shield_guarding(unit: Dictionary) -> bool:
+	if phase != "BATTLE" or unit.role != "shield_guard" or unit.hp <= 0:
+		return false
+	for other in units:
+		if other.hp > 0 and other.side != unit.side and absf(float(other.x) - float(unit.x)) <= float(definitions.shield_guard[9]) * 3.0:
+			return true
+	return false
+
 func _hit(attacker: Dictionary, target: Dictionary) -> void:
 	var row: Array = definitions[attacker.role]
+	var charged: bool = attacker.role == "cavalry" and float(attacker.get("charge", 0.0)) >= 2.0
+	if attacker.role == "cavalry":
+		attacker.charge = 0.0
 	var targets: Array = [target]
 	if attacker.role in ["mage", "greatsword_warrior"]:
 		var limit: int = 4 if attacker.role == "mage" else 3
@@ -419,12 +441,20 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 				targets.append(other)
 	for victim in targets:
 		var armor: float = float(definitions[victim.role][7 if attacker.role == "mage" else 6])
-		victim.hp -= maxf(1, float(row[5]) * 100.0 / (100.0 + armor))
+		var damage := maxf(1, float(row[5]) * 100.0 / (100.0 + armor))
+		if charged:
+			damage *= 1.5
+			if victim.role == "spear_guard" and float(victim.get("brace", 0.0)) >= 0.6:
+				damage = maxf(1, damage * 0.5)
+		var forward := (float(attacker.x) - float(victim.x)) * (1.0 if victim.side == 0 else -1.0)
+		if attacker.role == "archer" and forward > 0 and shield_guarding(victim):
+			damage = maxf(1, damage * 0.75)
+		victim.hp -= damage
 		victim.flash = 0.2
 		damage_events += 1
 
 func snapshot() -> Dictionary:
-	return {"version": 3, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
+	return {"version": 4, "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
 		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
@@ -433,9 +463,11 @@ func snapshot() -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 
 func restore(value: Variant) -> bool:
-	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3):
+	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3 and value.get("version") != 4):
 		return false
 	value = value.duplicate(true)
+	if value.version < 4:
+		value.map_pressure = 1.0
 	if value.version < 3:
 		value.wave_rules = "legacy"
 	if value.version == 1:
@@ -446,6 +478,8 @@ func restore(value: Variant) -> bool:
 		if not value.has(key):
 			return false
 	if value.wave_rules not in ["legacy", "staggered_v1"]:
+		return false
+	if not _finite_number(value.map_pressure) or value.map_pressure <= 0 or value.map_pressure > 2:
 		return false
 	if value.phase not in ["PREPARE", "BATTLE", "REFIT", "VICTORY", "DEFEAT"]:
 		return false
@@ -485,6 +519,10 @@ func restore(value: Variant) -> bool:
 			return false
 		seen_ids.append(unit.id)
 		var windup: Variant = unit.get("windup", 0.0)
+		for ability in ["charge", "brace"]:
+			var amount: Variant = unit.get(ability, 0.0)
+			if not _finite_number(amount) or amount < 0 or amount > (2.0 if ability == "charge" else 0.6):
+				return false
 		var pending: Variant = unit.get("pending_target", -1)
 		if not _finite_number(windup) or windup < 0 or windup > SHIELD_WINDUP or not _finite_number(pending) or pending != floorf(float(pending)) or pending < -2 or pending >= value.next_id:
 			return false
@@ -526,6 +564,7 @@ func restore(value: Variant) -> bool:
 		return false
 	omen_pending = value.omen_pending
 	wave_rules = value.wave_rules
+	map_pressure = float(value.map_pressure)
 	omen_moves = int(value.omen_moves)
 	omen_reserved = int(value.omen_reserved)
 	gold = int(value.gold)
@@ -535,6 +574,8 @@ func restore(value: Variant) -> bool:
 	wave_index = int(value.wave)
 	units = value.units.duplicate(true)
 	for unit in units:
+		unit.charge = float(unit.get("charge", 0.0))
+		unit.brace = float(unit.get("brace", 0.0))
 		unit.windup = float(unit.get("windup", 0.0))
 		unit.pending_target = int(unit.get("pending_target", -1))
 	buildings = value.buildings.duplicate(true)

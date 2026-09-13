@@ -1,5 +1,11 @@
 # Approved project-local replan BUILD scope
 
+First-map provisional tuning continuation: existing Blueprint JSON first-map pressure0.4 consumed by front_run; savev4 persists map_pressure, v1–v3 migrate historical1.0. Same approved runtime/test files and existing planning owners; no other-map implementation, Base lock replacement, final balance approval or main write.
+
+Paired cavalry/spear existing ability continuation: movement2 -> firsthit1.5 and stationary0.6 -> charge reduction50%; same runtime/UI/tests, optional unit timers with reject-before-mutation validation. No base stat changes, new art or lock update.
+
+Current continuation connects existing shield25% frontal physical-ranged defense: derived engaged stance, no new resource or save schema, both faction equivalents, same runtime/test/UI consumers. Technical definition and exclusions in existing execution plan.
+
 Same continuation includes existing Blueprint wave-cycle composition, round pressure and0.4s sequential arrivals in front_run with shared forecast. Save v3 wave profile keeps imported v1/v2 runs on legacy instant-wave behavior, avoiding duplicate arrivals or silent old-run difficulty migration. Existing replan test/output scope only.
 
 Exact omen runtime evidence output: `output/front-omen.png` (existing actual observation UI; no new art).

@@ -1,5 +1,19 @@
 # Visible battle and construction implementation plan
 
+## First-map pressure experiment and provisional adoption
+
+After role connections, compare unchanged starting resources across four scripted policies/three seeds, then pressure0.4/0.5/0.6/0.8. Baseline1.0:12 losses. Pressure0.4 paid mobilization:3 seeds win round2 by citadel capture; other6 tested runs lose rounds3–4. Pressure0.5:8 losses. Adopt catalog first map0.4 provisionally, not final balance; other maps unchanged. Persist run pressure with savev4; v1–v3 migrate1.0. Regression covers v3 staggered composition, v4 JSON roundtrip and invalid/missing pressure atomic rejection. Existing PDF predates tune. Cavalry role multiplier currently targets unit combat, not structure damage; siege multiplier remains giant-specific. Five-view independent review corrected partial charge accumulation across interrupted advances; no other blocking findings. Strategic diversity remains unverified.
+
+## Follow-on cavalry / spear counter
+
+Existing blueprint defines cavalry2distance continuous advance then first hit1.5x and spear stationary0.6s halves charge damage. Implement as paired roles, not isolated cavalry buff. Reuse _tick/_hit/unit snapshot; movement accumulates charge capped2 for cavalry, stationary brace capped0.6 for spear, movement clears brace, attack consumes charge. No added manual command/art. Both factions. Optional per-unit charge/brace fields default0 for old saves, strict finite bounded validation before restore. UI keeps base stats plus implemented capability. RED charge versus ordinary target, uncharged normal hit, braced spear50%, unbraced spear normal, real movement/stop/save continuations; GREEN local+GPU+review. Numeric base stats unchanged. AOE official unit-counter benchmark reused, role mechanics from project not copied.
+
+## 2026-09-13 shield role connection
+
+Bounded existing combat completion, user explicitly delegates technical decisions without repeated approvals. Source: Blueprint build input shield row, frontal ranged25% defense stance. Definition: automatic stance when live shield has a live enemy within its melee reach (therefore holds position); forward is +x Ward/-x Veil. Only archer physical shots reduced, not magic/melee/rear attacks. Derived state avoids new save fields, applies to both factions' shield equivalents. No base HP/damage/production tuning.
+
+Benchmark https://www.ageofempires.com/learn-to-play/military-and-economy-aoe2/ differentiates arrow-resistant frontliners from generic HP; ADAPT role-specific counter, REJECT importing its numeric armor system. Alternatives: global shield HP buff (reject blurs weaknesses), always-on ranged reduction (reject removes stance), derived engaged stance (selected fits auto-combat and existing25% spec). REUSE _hit and tooltip; no new art/toolkit. RED frontal25%, rear/magic/unengaged unaffected, symmetry; GREEN model/UI/default/GPU and independent review, then multi-seed policy diagnostics. Existing front_run/front_screen/test scope only.
+
 ## Follow-on: wave data parity
 
 Final109 checks add full-state midwave comparison (absolute1e-9 floating tolerance, exact categorical/RNG strings) and v3 legacy resave. Five-perspective independent static review found no blocker. Exact JSON text initially differed by int/float representation and ~3e-15 timer rounding; no production quantization introduced to hide this. Scope5PASS, project-scoped PASS / Base raw protected-path FAIL retained.

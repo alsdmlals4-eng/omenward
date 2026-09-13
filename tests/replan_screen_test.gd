@@ -152,7 +152,7 @@ func verify() -> void:
 		push_error("Missing visible wave forecast")
 		quit(1)
 		return
-	if not screen.forecast_text().contains("갑각수 ×3") or not screen.forecast_text().contains("5초"):
+	if not screen.forecast_text().contains("갑각수 ×2") or not screen.forecast_text().contains("5초"):
 		push_error("Forecast must name actual Veil composition and arrival")
 		failed = true
 	for button in screen.find_children("*", "Button", true, false):

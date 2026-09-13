@@ -35,11 +35,81 @@ func _initialize() -> void:
 		return
 	var model = load("res://scripts/replan/front_run.gd")
 	var r = model.new()
+	check(r.wave_composition(1, 0) == {"shield_guard":2, "archer":1}, "New first-map playtest pressure starts with two shields and one archer")
+	var charge = model.new()
+	charge.units.clear()
+	charge.spawn("cavalry", 0, 50)
+	charge.spawn("spear_guard", 1, 52)
+	charge.units[0].charge = 2.0
+	charge.units[1].brace = 0.6
+	charge._hit(charge.units[0], charge.units[1])
+	check(is_equal_approx(charge.units[1].hp, 145 - 19.0 / 1.16 * 1.5 * 0.5), "Braced spear halves cavalry charge")
+	check(charge.units[0].charge == 0.0, "Charge consumed on first hit")
+	charge.units[1].hp = 145.0
+	charge._hit(charge.units[0], charge.units[1])
+	check(is_equal_approx(charge.units[1].hp, 145 - 19.0 / 1.16), "Following uncharged hit not reduced by brace")
+	charge.units[1].hp = 145.0
+	charge.units[1].brace = 0.0
+	charge.units[0].charge = 2.0
+	charge._hit(charge.units[0], charge.units[1])
+	check(is_equal_approx(charge.units[1].hp, 145 - 19.0 / 1.16 * 1.5), "Unprepared spear receives full charge")
+	var motion = model.new()
+	motion.units.clear()
+	motion.spawn("cavalry", 0, 10)
+	motion.spawn("spear_guard", 1, 50)
+	motion.begin_round()
+	motion.advance(0.6)
+	check(motion.units[0].charge == 2.0 and motion.units[1].brace == 0.0, "Real movement prepares charge but not spear brace")
+	motion.units[0].x = 48.0
+	motion.units[0].cooldown = 10.0
+	motion.advance(0.7)
+	check(motion.units[1].brace == 0.6, "Spear holding melee contact becomes braced")
+	var saved_roles = motion.snapshot()
+	var resumed_roles = model.new()
+	check(resumed_roles.restore(JSON.parse_string(JSON.stringify(saved_roles))) and resumed_roles.units[0].charge == 2.0 and resumed_roles.units[1].brace == 0.6, "Role preparation persists through disk save")
+	saved_roles.units[0].charge = NAN
+	var before_roles = resumed_roles.snapshot()
+	check(not resumed_roles.restore(saved_roles) and resumed_roles.snapshot() == before_roles, "Invalid role timer rejected before mutation")
+	motion.units[0].charge = 1.0
+	motion.advance(0.1)
+	check(motion.units[0].charge == 0.0, "Interrupted partial cavalry advance resets before movement resumes")
+	var guarding = model.new()
+	guarding.units.clear()
+	guarding.phase = "BATTLE"
+	guarding.spawn("shield_guard", 0, 50)
+	guarding.spawn("shield_guard", 1, 52)
+	guarding.spawn("archer", 1, 60)
+	guarding._hit(guarding.units[2], guarding.units[0])
+	check(is_equal_approx(guarding.units[0].hp, 180.0 - 18.0 / 1.24 * 0.75), "Engaged shield reduces frontal arrow damage25 percent")
+	guarding.units[0].hp = 180.0
+	guarding.units[2].x = 40.0
+	guarding._hit(guarding.units[2], guarding.units[0])
+	check(is_equal_approx(guarding.units[0].hp, 180.0 - 18.0 / 1.24), "Rear arrows bypass shield stance")
+	guarding.units[0].hp = 180.0
+	guarding.units[2].x = 60.0
+	guarding.units[1].x = 70.0
+	guarding._hit(guarding.units[2], guarding.units[0])
+	check(is_equal_approx(guarding.units[0].hp, 180.0 - 18.0 / 1.24), "Advancing shield gets no stationary defense")
+	guarding.units[1].x = 52.0
+	guarding.spawn("mage", 1, 58.0)
+	guarding.units[0].hp = 180.0
+	guarding._hit(guarding.units[3], guarding.units[0])
+	check(is_equal_approx(guarding.units[0].hp, 180.0 - 22.0 / 1.16), "Magic bypasses frontal arrow defense")
+	guarding.units[0].hp = 180.0
+	guarding._hit(guarding.units[1], guarding.units[0])
+	check(is_equal_approx(guarding.units[0].hp, 180.0 - 12.0 / 1.24), "Melee bypasses arrow defense")
+	guarding.spawn("archer", 0, 42.0)
+	guarding._hit(guarding.units[4], guarding.units[1])
+	check(is_equal_approx(guarding.units[1].hp, 180.0 - 18.0 / 1.24 * 0.75), "Veil shield uses mirrored forward defense")
+	guarding.units[0].hp = 0
+	guarding.units[4].x = 40
+	check(not guarding.shield_guarding(guarding.units[1]), "Dead nearby enemy cannot activate guard")
 	if not r.has_method("wave_composition"):
 		check(false, "Missing blueprint wave composition and staggered arrivals")
 		quit(1)
 		return
 	var waves = model.new()
+	waves.map_pressure = 1.0 # Explicit formula fixture, separate from tuned new-run default.
 	check(waves.wave_composition(1, 2) == {"shield_guard":5, "greatsword_warrior":2}, "Third first-round wave uses cycle B")
 	check(waves.wave_composition(2, 0) == {"shield_guard":4, "archer":3}, "Round scale applies ceiling to each group")
 	waves.begin_round()
@@ -54,9 +124,25 @@ func _initialize() -> void:
 	check(waves.next_id == 9 and midwave.next_id == 9, "Five sequential arrivals without duplicate after restore")
 	check(equivalent_state(waves.snapshot(), midwave.snapshot()), "Midwave full-state continuation within 1e-9 JSON floating-point tolerance")
 	var old_wave = model.new().snapshot()
+	var v3_wave = waves.snapshot()
+	v3_wave.version = 3
+	v3_wave.erase("map_pressure")
+	var migrated = model.new()
+	check(migrated.restore(v3_wave) and migrated.map_pressure == 1.0 and migrated.wave_composition(2, 0) == waves.wave_composition(2, 0), "V3 staggered migration preserves actual wave pressure")
+	check(migrated.restore(JSON.parse_string(JSON.stringify(migrated.snapshot()))) and migrated.map_pressure == 1.0, "Migrated pressure survives v4 disk roundtrip")
+	for invalid_pressure in [NAN, 0.0, 2.01, -1.0]:
+		var bad_pressure = migrated.snapshot()
+		bad_pressure.map_pressure = invalid_pressure
+		var before_pressure = migrated.snapshot()
+		check(not migrated.restore(bad_pressure) and migrated.snapshot() == before_pressure, "Invalid pressure rejected atomically")
+	var missing_pressure = migrated.snapshot()
+	missing_pressure.erase("map_pressure")
+	var before_missing = migrated.snapshot()
+	check(not migrated.restore(missing_pressure) and migrated.snapshot() == before_missing, "V4 missing pressure rejected atomically")
 	old_wave.version = 2
 	old_wave.erase("wave_rules")
 	check(midwave.restore(old_wave) and midwave.wave_rules == "legacy", "Old run preserves instantaneous wave rules")
+	check(midwave.map_pressure == 1.0, "Old save keeps historical pressure rather than new default")
 	midwave.begin_round()
 	for i in range(50):
 		midwave.advance(0.1)
@@ -115,12 +201,21 @@ func _initialize() -> void:
 	check(paid.spin() and paid.gold == 0, "Paid observation charges exactly twenty once")
 	paid.last_board = ["shield_guard", "", "", "", "", "", "", "", ""]
 	check(paid.shift_board("column", 0) and paid.last_board[3] == "shield_guard" and paid.last_board[0] == "", "Column shift moves down one cell")
-	for policy in ["reinforcement", "ranged", "mixed", "paid_mobilization"]:
-		run_policy(model, policy)
+	for seed_value in [1947, 1948, 1949]:
+		for policy in ["reinforcement", "ranged", "mixed", "paid_mobilization"]:
+			run_policy(model, policy, seed_value)
+	for pressure in [0.4, 0.6, 0.8]:
+		run_policy(model, "paid_mobilization", 1947, pressure)
+	for pressure in [0.4, 0.5]:
+		for seed_value in [1948, 1949]:
+			for policy in ["reinforcement", "ranged", "mixed", "paid_mobilization"]:
+				run_policy(model, policy, seed_value, pressure)
 	verify_model(model, r)
 
-func run_policy(model: Script, policy: String) -> void:
+func run_policy(model: Script, policy: String, seed_value: int, pressure: float = 1.0) -> void:
 	var journey = model.new()
+	journey.rng.seed = seed_value
+	journey.map_pressure = pressure # Diagnostic fixture, never persists to catalog.
 	var refits := 0
 	var spent_on_healing := 0
 	for step in range(6500):
@@ -132,7 +227,7 @@ func run_policy(model: Script, policy: String) -> void:
 				var allied := 0
 				for unit in journey.units:
 					allied += int(unit.side == 0)
-				print("FIRST_MAP_REFIT: policy=", policy, " round=", journey.round_number, " allied=", allied, " enemy=", journey.units.size() - allied, " gold=", journey.gold, " base_hp=", journey.bases[0])
+				print("FIRST_MAP_REFIT: seed=", seed_value, " policy=", policy, " round=", journey.round_number, " allied=", allied, " enemy=", journey.units.size() - allied, " gold=", journey.gold, " base_hp=", journey.bases[0])
 			if policy == "reinforcement":
 				while journey.construct("barracks"):
 					pass
@@ -167,7 +262,7 @@ func run_policy(model: Script, policy: String) -> void:
 			journey.deploy(role)
 		journey.advance(0.1)
 	check(journey.phase in ["VICTORY", "DEFEAT"], "Real-resource first-map policy reaches terminal state")
-	print("FIRST_MAP_POLICY: policy=", policy, " phase=", journey.phase, " round=", journey.round_number, " refits=", refits, " recovery_spend=", spent_on_healing, " base_hp=", journey.bases[0])
+	print("FIRST_MAP_POLICY: seed=", seed_value, " pressure=", pressure, " policy=", policy, " phase=", journey.phase, " round=", journey.round_number, " refits=", refits, " recovery_spend=", spent_on_healing, " base_hp=", journey.bases[0])
 
 func verify_model(model: Script, r) -> void:
 	if not r.has_method("heal_unit"):

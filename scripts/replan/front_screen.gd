@@ -226,6 +226,10 @@ func _reserve_panel() -> void:
 	for role in counts:
 		var b := _button("", Rect2(i * 122, 32, 116, 126), func(): run.deploy(role); _refresh_panel(), ui)
 		b.tooltip_text = "%s · %s\n체력 %s · 공격 %s · 출전 한도 %s칸\n현재 검토판: 기본 공격/범위/치료만 구현. 도감의 고유 능력은 후속." % [run.definitions[role][1], run.definitions[role][2], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11]]
+		if role == "shield_guard":
+			b.tooltip_text = "방패병 · 체력%s · 공격%s · 출전%s칸\n근접 적을 막는 동안 정면 화살 피해25%% 완화\n이동 중·후방·마법·근접 공격에는 미적용" % [run.definitions[role][4], run.definitions[role][5], run.definitions[role][11]]
+		elif role in ["cavalry", "spear_guard"]:
+			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], "2거리 이동 후 첫 타격1.5배" if role == "cavalry" else "접전에서0.6초 정지 후 돌격 피해50% 완화"]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
 		_label("%s ×%s\n출전" % [run.definitions[role][1], counts[role]], Rect2(5, 79, 108, 44), b, 13)
 		b.disabled = run.capacity_used() + int(run.definitions[role][11]) > 18 or run.phase in ["VICTORY", "DEFEAT"]
@@ -332,7 +336,11 @@ func _get_tooltip(at_position: Vector2) -> String:
 		count += 1
 		if lines.size() < 6:
 			var row: Array = run.definitions[unit.role]
-			lines.append("%s · %s · 체력 %d/%d" % ["아군" if unit.side == 0 else "베일", row[1] if unit.side == 0 else row[3], ceili(unit.hp), int(row[4])])
+			lines.append("%s · %s · 체력 %d/%d%s" % ["아군" if unit.side == 0 else "베일", row[1] if unit.side == 0 else row[3], ceili(unit.hp), int(row[4]), " · 정면 화살 방어25%" if run.shield_guarding(unit) else ""])
+			if unit.role == "cavalry" and float(unit.get("charge", 0.0)) >= 2.0:
+				lines[-1] += " · 돌격 준비"
+			elif unit.role == "spear_guard" and float(unit.get("brace", 0.0)) >= 0.6:
+				lines[-1] += " · 돌격 저지 준비"
 	if count > 6:
 		lines.append("근처 병력 %d명 더 있음 · 정지 후 위치를 옮겨 확인" % (count - 6))
 	return "\n".join(lines)
