@@ -25,6 +25,8 @@ var forecast_label: Label
 var production_label: Label
 var production_bar: ProgressBar
 var selected_bonus := ""
+var map_labels: Array = []
+var building_page := 0
 
 func _ready() -> void:
 	get_window().content_scale_size = Vector2i(1280, 720)
@@ -71,7 +73,14 @@ func _make_shell() -> void:
 		var map: Dictionary = run.catalog.maps[i]
 		var label := _label(("◆ " if i == 0 else "◇ ") + map.name, Rect2(25 + i * 250, 40, 240, 28))
 		label.modulate = Color("f6d687") if i == 0 else Color("8796ad")
-	start_button = _button("공세 시작", Rect2(1070, 76, 185, 34), func(): run.begin_round(); _refresh_panel())
+		map_labels.append(label)
+	start_button = _button("공세 시작", Rect2(1070, 76, 185, 34), func():
+		if run.phase == "VICTORY":
+			run.next_map()
+			paused = false
+		else:
+			run.begin_round()
+		_refresh_panel())
 	for i in range(3):
 		var title: String = ["내정", "징조륜", "전선"][i]
 		var tab_button := _button(title, Rect2(24 + i * 130, 473, 122, 36), func(): tab = title; _refresh_panel())
@@ -129,9 +138,16 @@ func _state_key() -> String:
 
 func _build_panel() -> void:
 	_label("건물 %s/%s칸 · 위에서부터 해금 / 잠기면 생산 중단" % [run.buildings.size(), run.unlocked_slots()], Rect2(0, 0, 600, 26), ui)
-	for i in range(9):
-		var y := 29 + (i % 3) * 43
-		var x := (i / 3) * 185
+	var pages := ceili((6 + (run.current_map + 1) * 3) / 9.0)
+	building_page = mini(building_page, pages - 1)
+	if pages > 1:
+		_button("슬롯 %d/%d ▸" % [building_page + 1, pages], Rect2(425, 0, 135, 26), func(): building_page = (building_page + 1) % pages; _refresh_panel(), ui)
+	for local_slot in range(9):
+		var i := local_slot + building_page * 9
+		if i >= 6 + (run.current_map + 1) * 3:
+			break
+		var y := 29 + (local_slot % 3) * 43
+		var x := (local_slot / 3) * 185
 		var text := "%d 잠김" % (i + 1)
 		if i < run.buildings.size():
 			var building: Dictionary = run.buildings[i]
@@ -245,7 +261,10 @@ func _process(delta: float) -> void:
 		refresh_clock = 0
 		if panel_key != _state_key():
 			_refresh_panel()
-	header.text = "%s  |  라운드 %d/10  ·  공세 %d/3  ·  %02d초  |  %dG  ·  출전 %d/18  |  %s" % [phase_label(), run.round_number, run.wave_index, ceili(maxf(0, 60 - run.elapsed)), run.gold, run.capacity_used(), "정지" if paused else "%d×" % int(speed)]
+	header.text = "%s  |  라운드 %d/%d  ·  공세 %d/3  ·  %02d초  |  %dG  ·  출전 %d/18  |  %s" % [phase_label(), run.round_number, int(run.catalog.maps[run.current_map].rounds), run.wave_index, ceili(maxf(0, 60 - run.elapsed)), run.gold, run.capacity_used(), "정지" if paused else "%d×" % int(speed)]
+	for i in range(map_labels.size()):
+		map_labels[i].text = ("◆ " if i == run.current_map else "✓ " if i < run.current_map else "◇ ") + run.catalog.maps[i].name
+		map_labels[i].modulate = Color("f6d687") if i == run.current_map else Color("8796ad")
 	pause_button.text = "계속 진행" if paused else "일시정지"
 	speed_button.text = "속도 %d×" % int(speed)
 	speed_button.tooltip_text = "누르면 %d배속으로 변경" % (1 if speed == 3.0 else 3)
@@ -262,6 +281,9 @@ func _process(delta: float) -> void:
 		production_bar.value = status.progress * 100
 	start_button.text = "다음 라운드" if run.phase == "REFIT" else "공세 시작"
 	start_button.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"]
+	if run.phase == "VICTORY":
+		start_button.text = "다음 맵 준비" if run.current_map < run.catalog.maps.size() - 1 else "원정 완료"
+		start_button.disabled = run.current_map >= run.catalog.maps.size() - 1
 	queue_redraw()
 
 func phase_label() -> String:

@@ -10,6 +10,8 @@ ROOT = Path(__file__).resolve().parents[1]
 APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
+    'docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json',
+    'docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md',
     'tools/ward_motion.py', 'tests/test_ward_motion.py',
     'docs/images/candidates/blueprint-20260911/ward-shield-motion.png',
     'docs/images/candidates/blueprint-20260911/ward-shield-motion.png.import',
@@ -36,6 +38,7 @@ ALLOWED = {
     'output/front-mixed.png', 'output/front-mixed-1080.png',
     'output/front-recovery.png',
     'output/front-omen.png',
+    'output/front-campaign.png',
     'output/front-shield-windup.png', 'output/front-shield-impact.png', 'output/front-shield-recover.png',
     'tests/replan_slice_test.gd', 'tests/replan_slice_test.gd.uid',
     'tests/replan_screen_test.gd', 'tests/replan_screen_test.gd.uid',

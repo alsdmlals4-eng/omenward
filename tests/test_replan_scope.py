@@ -22,6 +22,11 @@ class ScopeTests(unittest.TestCase):
         self.assertIsNotNone(self.module)
         self.assertEqual(['scripts/core/stage_run.gd'], self.module.unapproved(['scripts/core/stage_run.gd']))
 
+    def test_current_blueprint_consumers_are_explicit(self):
+        self.assertEqual([], self.module.unapproved([
+            'docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json',
+            'docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md']))
+
     def test_sibling_and_traversal_rejected(self):
         self.assertIsNotNone(self.module)
         for path in ['scripts/replan/other.gd', 'scripts/replan/../core/stage_run.gd', '/scripts/replan/front_run.gd', 'addons/gut/plugin.gd']:

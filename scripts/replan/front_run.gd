@@ -16,6 +16,8 @@ var elapsed := 0.0
 var wave_index := 0
 var wave_rules := "staggered_v1"
 var map_pressure := 1.0
+var current_map := 0
+var held_points: Array = []
 var units: Array = []
 var buildings: Array = []
 var reserve: Array = []
@@ -49,7 +51,37 @@ func _init() -> void:
 		spawn("shield_guard", 0, 8.0 + i * 1.4)
 
 func unlocked_slots() -> int:
-	return 6 + points.count(1)
+	return 6 + held_points.size() + points.count(1)
+
+func next_map() -> bool:
+	if phase != "VICTORY" or current_map + 1 >= catalog.maps.size():
+		return false
+	for i in range(points.size()):
+		if points[i] == 1:
+			held_points.append("%s:%d" % [catalog.maps[current_map].id, i])
+	current_map += 1
+	map_pressure = float(catalog.maps[current_map].pressure)
+	wave_rules = "staggered_v1"
+	phase = "PREPARE"
+	round_number = 1
+	elapsed = 0.0
+	wave_index = 0
+	points = [0, 0, 0]
+	bases = [1000.0, 1000.0]
+	income_clock = 0.0
+	point_clock = 0.0
+	tower_clock = 0.0
+	free_spin = true
+	last_board = []
+	units = units.filter(func(unit): return unit.side == 0 and unit.hp > 0)
+	for i in range(units.size()):
+		var unit: Dictionary = units[i]
+		unit.x = 5.0 + (i % 9) * 0.4
+		for key in ["cooldown", "flash", "action", "windup", "charge", "brace"]:
+			unit[key] = 0.0
+		unit.pending_target = -1
+	message = "%s 진입 · 병력 체력/시설/골드 계승" % catalog.maps[current_map].name
+	return true
 
 func building_active(slot: int) -> bool:
 	return slot >= 0 and slot < buildings.size() and slot < unlocked_slots()
@@ -68,7 +100,7 @@ func wave_forecast() -> Dictionary:
 		return {}
 	var next_round := round_number + (1 if phase == "REFIT" else 0)
 	var next_wave := wave_index if phase == "BATTLE" else 0
-	if next_round > int(catalog.maps[0].rounds) or next_wave >= catalog.economy.wave_times.size():
+	if next_round > int(catalog.maps[current_map].rounds) or next_wave >= catalog.economy.wave_times.size():
 		return {}
 	var composition := wave_composition(next_round, next_wave)
 	return {"round": next_round, "wave": next_wave + 1,
@@ -302,7 +334,7 @@ func _tick(dt: float) -> void:
 		gold += 5
 		income_clock -= 20.0
 	if point_clock >= 15.0:
-		gold += points.count(1)
+		gold += held_points.size() + points.count(1)
 		point_clock -= 15.0
 	for i in range(buildings.size()):
 		if not building_active(i):
@@ -414,7 +446,7 @@ func _tick(dt: float) -> void:
 		phase = "VICTORY"
 		message = "베일 본진 점령 · 승리"
 	elif elapsed + 0.0001 >= float(catalog.economy.round_seconds):
-		phase = "VICTORY" if round_number >= int(catalog.maps[0].rounds) else "REFIT"
+		phase = "VICTORY" if round_number >= int(catalog.maps[current_map].rounds) else "REFIT"
 		free_spin = true
 		message = "전 병력·생산 동결 · 건설/전문화/출전 후 다음 공세" if phase == "REFIT" else "모든 공세 생존 · 승리"
 
@@ -454,7 +486,7 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		damage_events += 1
 
 func snapshot() -> Dictionary:
-	return {"version": 4, "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
+	return {"version": 5, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
 		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
@@ -463,9 +495,12 @@ func snapshot() -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 
 func restore(value: Variant) -> bool:
-	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3 and value.get("version") != 4):
+	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3 and value.get("version") != 4 and value.get("version") != 5):
 		return false
 	value = value.duplicate(true)
+	if value.version < 5:
+		value.current_map = 0
+		value.held_points = []
 	if value.version < 4:
 		value.map_pressure = 1.0
 	if value.version < 3:
@@ -479,6 +514,17 @@ func restore(value: Variant) -> bool:
 			return false
 	if value.wave_rules not in ["legacy", "staggered_v1"]:
 		return false
+	if not _finite_number(value.current_map) or value.current_map != floorf(value.current_map) or value.current_map < 0 or value.current_map >= catalog.maps.size() or not value.held_points is Array:
+		return false
+	var valid_points: Array = []
+	for map_index in range(int(value.current_map)):
+		for point in range(3):
+			valid_points.append("%s:%d" % [catalog.maps[map_index].id, point])
+	var seen_points: Array = []
+	for point in value.held_points:
+		if point not in valid_points or point in seen_points:
+			return false
+		seen_points.append(point)
 	if not _finite_number(value.map_pressure) or value.map_pressure <= 0 or value.map_pressure > 2:
 		return false
 	if value.phase not in ["PREPARE", "BATTLE", "REFIT", "VICTORY", "DEFEAT"]:
@@ -504,9 +550,9 @@ func restore(value: Variant) -> bool:
 	for role in value.board:
 		if role != "" and not definitions.has(role):
 			return false
-	if value.buildings.size() > 9 or value.units.size() > 500 or value.reserve.size() > 24:
+	if value.buildings.size() > 6 + (int(value.current_map) + 1) * 3 or value.units.size() > 500 or value.reserve.size() > 24:
 		return false
-	if value.points.size() != 3 or value.bases.size() != 2 or int(value.round) < 1 or int(value.round) > 10:
+	if value.points.size() != 3 or value.bases.size() != 2 or int(value.round) < 1 or int(value.round) > int(catalog.maps[int(value.current_map)].rounds):
 		return false
 	var seen_ids: Array = []
 	for unit in value.units:
@@ -550,7 +596,7 @@ func restore(value: Variant) -> bool:
 		var max_cost := int(definitions.shield_guard[11])
 		var allowed_roles: Array = ["", "shield_guard"]
 		for i in range(value.buildings.size()):
-			if i < 6 + value.points.count(1):
+			if i < 6 + value.held_points.size() + value.points.count(1):
 				max_cost = maxi(max_cost, int(definitions[value.buildings[i].unit][11]))
 				allowed_roles.append(value.buildings[i].unit)
 		for role in value.board:
@@ -563,6 +609,8 @@ func restore(value: Variant) -> bool:
 	if queue_cost + int(value.omen_reserved) > int(catalog.economy.queue_capacity):
 		return false
 	omen_pending = value.omen_pending
+	current_map = int(value.current_map)
+	held_points = value.held_points.duplicate()
 	wave_rules = value.wave_rules
 	map_pressure = float(value.map_pressure)
 	omen_moves = int(value.omen_moves)

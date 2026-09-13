@@ -9,6 +9,56 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func verify_campaign(model: Script) -> void:
+	var campaign = model.new()
+	if not campaign.has_method("next_map"):
+		check(false, "Missing sequential campaign transition")
+		return
+	var before = campaign.snapshot()
+	check(not campaign.next_map() and campaign.snapshot() == before, "Cannot skip an uncleared map")
+	campaign.construct("barracks")
+	campaign.units[0].hp = 77.0
+	campaign.reserve.append("archer")
+	for stage in range(4):
+		campaign.points = [1, 0, -1]
+		campaign.phase = "VICTORY"
+		var funds = campaign.gold
+		check(campaign.next_map(), "Victory opens next map")
+		check(campaign.current_map == stage + 1 and campaign.round_number == 1 and campaign.phase == "PREPARE", "Next map begins in preparation")
+		check(campaign.gold == funds and campaign.units[0].hp == 77.0 and campaign.reserve == ["archer"] and campaign.buildings.size() == 1, "Campaign preserves economy wounded survivors and supply")
+		check(campaign.unlocked_slots() == 7 + stage and campaign.points == [0, 0, 0], "Only actually held old points unlock persistent slots")
+		var loaded = model.new()
+		check(loaded.restore(JSON.parse_string(JSON.stringify(campaign.snapshot()))) and equivalent_state(loaded.snapshot(), campaign.snapshot()), "Campaign disk continuation")
+	campaign.phase = "VICTORY"
+	before = campaign.snapshot()
+	check(not campaign.next_map() and campaign.snapshot() == before, "Final map never creates sixth map")
+	for point_list in [["ward_citadel:0", "ward_citadel:0"], ["veil_citadel:0"], ["unknown:0"]]:
+		var corrupt = campaign.snapshot()
+		corrupt.held_points = point_list
+		check(not campaign.restore(corrupt) and campaign.snapshot() == before, "Invalid campaign points rejected atomically")
+	var old_save = model.new().snapshot()
+	old_save.version = 4
+	old_save.erase("current_map")
+	old_save.erase("held_points")
+	check(campaign.restore(old_save) and campaign.current_map == 0 and campaign.held_points.is_empty(), "V4 save migrates to first map without invented captures")
+	for map_index in range(5):
+		var ending = model.new()
+		ending.current_map = map_index
+		ending.phase = "BATTLE"
+		ending.round_number = int(ending.catalog.maps[map_index].rounds)
+		ending.elapsed = 59.95
+		ending.wave_index = 3
+		ending.units.clear()
+		ending.advance(0.1)
+		check(ending.phase == "VICTORY", "Each map uses its own survival round total")
+		var roundtrip = model.new()
+		check(roundtrip.restore(JSON.parse_string(JSON.stringify(ending.snapshot()))), "Late map round count survives disk validation")
+	for invalid_map in [-1, 0.5, 5, NAN]:
+		var corrupt = campaign.snapshot()
+		corrupt.current_map = invalid_map
+		var stable = campaign.snapshot()
+		check(not campaign.restore(corrupt) and campaign.snapshot() == stable, "Invalid map index rejected atomically")
+
 func equivalent_state(left: Variant, right: Variant) -> bool:
 	if left is Dictionary and right is Dictionary:
 		if left.size() != right.size():
@@ -34,6 +84,7 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	verify_campaign(model)
 	var r = model.new()
 	check(r.wave_composition(1, 0) == {"shield_guard":2, "archer":1}, "New first-map playtest pressure starts with two shields and one archer")
 	var charge = model.new()

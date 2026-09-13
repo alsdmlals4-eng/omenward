@@ -227,6 +227,26 @@ func verify() -> void:
 		if button.tooltip_text.begins_with("T2:") and not button.disabled:
 			failed = true
 			push_error("Locked building must not offer enabled specialization")
+	screen.run = screen.Model.new()
+	screen.run.phase = "VICTORY"
+	screen._process(0.0)
+	if screen.start_button.disabled or screen.start_button.text != "다음 맵 준비":
+		failed = true
+	screen.start_button.pressed.emit()
+	screen._process(0.0)
+	if screen.run.current_map != 1 or not screen.map_labels[1].text.begins_with("◆") or not screen.map_labels[0].text.begins_with("✓"):
+		push_error("Campaign button must advance and update map ribbon")
+		failed = true
+	screen.tab = "내정"
+	screen.building_page = 1
+	screen._refresh_panel()
+	var tenth_slot := false
+	for button in screen.find_children("*", "Button", true, false):
+		if button.text.begins_with("10 "):
+			tenth_slot = true
+	if not tenth_slot:
+		push_error("Second building page must expose slots beyond nine")
+		failed = true
 	print("REPLAN_SCREEN_TEST: ", "FAIL" if failed else "PASS")
 	# User deletes disposable files manually; leave this deterministic test save for collection.
 	screen.queue_free()

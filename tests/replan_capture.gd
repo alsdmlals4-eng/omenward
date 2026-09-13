@@ -88,4 +88,19 @@ func capture() -> void:
 	root.get_texture().get_image().save_png("res://output/front-recovery.png")
 	screen.queue_free()
 	await process_frame
+	var campaign_screen = load("res://scenes/replan/front_slice.tscn").instantiate()
+	root.add_child(campaign_screen)
+	await process_frame
+	campaign_screen.paused = true
+	campaign_screen.run.points = [1, 0, 0]
+	campaign_screen.run.phase = "VICTORY"
+	campaign_screen.start_button.pressed.emit()
+	campaign_screen.paused = true
+	campaign_screen.run.message = "맵 전환 경계 검증 · 실제 전체 맵 승리 기록 아님 · 배경 공통 임시 사용"
+	campaign_screen._process(0.0)
+	await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://output/front-campaign.png")
+	campaign_screen.queue_free()
+	await process_frame
 	quit(0 if captured.size() == 3 else 1)
