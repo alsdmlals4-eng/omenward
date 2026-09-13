@@ -231,3 +231,6 @@ IMPLEMENTATION_EXECUTION = IMPLEMENTED__HEADLESS_CONTRACTS_AND_THREE_RESOLUTION_
 ```
 
 For this handoff workstream, the operational action is exact-head PR verification → safe merge → post-merge main readback → stop.
+# 2026-09-13 transparency continuation
+
+Ward and eight facility portraits now consume alpha-only derivatives; source RGB preserved. Existing shield motion retained, new native Aseprite/motion not produced. Remaining: enclosed pale remnants/cell margins and generic UI icons; then shared statuses, other grade abilities, T3/heroes and five-map balance. Whole-game completion remains open.

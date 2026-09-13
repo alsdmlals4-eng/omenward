@@ -114,6 +114,16 @@ func verify() -> void:
 		failed = true
 	screen.run.restore(before_layout)
 	for role in screen.run.definitions:
+		var ward: AtlasTexture = screen.art.unit(role, 0)
+		if ward == null or ward.atlas.get_image().detect_alpha() == Image.ALPHA_NONE:
+			push_error("Ward role must use transparent atlas: " + role)
+			failed = true
+	for building_id in screen.art.BUILDINGS:
+		var facility: AtlasTexture = screen.art.building(building_id)
+		if facility == null or facility.atlas.get_image().detect_alpha() == Image.ALPHA_NONE:
+			push_error("Facility must use transparent atlas: " + building_id)
+			failed = true
+	for role in screen.run.definitions:
 		var veil: AtlasTexture = screen.art.unit(role, 1)
 		var veil_image := veil.atlas.get_image()
 		if veil_image.detect_alpha() == Image.ALPHA_NONE:

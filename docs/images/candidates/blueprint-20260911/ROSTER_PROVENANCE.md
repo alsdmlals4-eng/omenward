@@ -1,5 +1,19 @@
 # Roster / building / hero candidate provenance
 
+## Ward/facility alpha-only continuation · 2026-09-13
+
+User-approved local extraction: `tools/veil_cutout.py --ward`, connected exterior paper removal and inward 0.5px alpha feather; RGB byte-for-byte preserved, no source overwrite or redraw. Sources remain the corresponding original files in this directory. Special atlas crops `(0,0,1254,610)` at the reviewed empty gutter. `front_art.gd` consumes Ward portraits and facility portraits; building rows split at y407 to preserve chapel spire. Shield uses its existing motion asset instead. These remain runtime candidate derivatives, not final art approval.
+
+| Output | SHA-256 |
+|---|---|
+| ward-roster-alpha.png | 9554b87382f742c5429e30bcfeb79569de718b0116e05bf782a3265c5803ec99 |
+| ward-special-alpha.png | dfe2bf87d9cb4d8cfd854cb71054878db64c81c0c27ccc255c2541d91811f232 |
+| building-tree-alpha.png | 2c33babaca340318d00ec52a84372219ad7193ac58987dc8aff91e58b775d5ce |
+
+Source hashes: ward-roster.png `8b2d56769fa8b123c0158f7b2aac8a3c253060ee6b1373e3e66561781d609e2c`; special-roster-additions.png `a35fcf30c33284f56f98772eb43fbb217257925ddfca9b20bb5f16d53a6cb820`; building-tree.png `c915b277179ed33fe08c20d07f85d931cb9378a98245de99ece4a98f813e6216`.
+
+This operation did not use Aseprite or produce new animation frames. Existing shield/native Veil files are unchanged. RGB/alpha automated checks and sampled pale anatomy plus mixed GPU inspection are not exhaustive segmentation approval. Enclosed paper remnants, narrow cell/weapon margins, generic facility fallback icons and remaining motion families are still partial/unimplemented. No source image may be removed because it binds provenance and regression tests.
+
 ## Shield four-pose motion · 2026-09-12
 
 Reuse of `ward-shield-slash-alpha-candidate.png` (SHA-256 `d291307bf45e3ebf910bc1385c80c0aa30f28bb4aaa5411a41b2653dfecd99ce`), not new generated artwork. Four disconnected components can be separated despite crossing the old 2×2 grid. `tools/ward_motion.py` preserves every source pixel with alpha >8 exactly; only disconnected background specks with alpha <=8 are omitted. No scaling, rotation, deformation or RGB repainting. Translation offsets: idle(71,83), windup(-553,79), impact(37,-474), recover(-569,-476). Each 768×768 frame has foot pivot (384,700).

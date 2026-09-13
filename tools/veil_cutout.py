@@ -1,6 +1,7 @@
 """User-approved local alpha-only cutouts; never redraw or overwrite source pixels."""
 from pathlib import Path
 import hashlib
+import argparse
 import numpy as np
 from PIL import Image, ImageChops, ImageDraw, ImageFilter, ImageOps
 
@@ -26,7 +27,33 @@ def cutout(source, minimum=155):
     result.putalpha(Image.fromarray(np.where(connected, 0, 255).astype('uint8')))
     return result
 
+def ward_assets():
+    jobs = [('ward-roster.png', 'ward-roster-alpha.png', (1774, 887)),
+            ('special-roster-additions.png', 'ward-special-alpha.png', (1254, 1254)),
+            ('building-tree.png', 'building-tree-alpha.png', (1774, 887))]
+    for original, target, dimensions in jobs:
+        source_path, output = ART / original, ART / target
+        if output.exists():
+            raise FileExistsError(output)
+        digest = hashlib.sha256(source_path.read_bytes()).hexdigest()
+        with Image.open(source_path) as source:
+            image = source.convert('RGB')
+        if image.size != dimensions:
+            raise ValueError('Re-review changed source dimensions')
+        if original == 'special-roster-additions.png':
+            image = image.crop((0, 0, 1254, 610))
+        result = soften_edges(cutout(image))
+        assert result.convert('RGB').tobytes() == image.tobytes()
+        assert hashlib.sha256(source_path.read_bytes()).hexdigest() == digest
+        result.save(output)
+        print(target, 'sha256=', hashlib.sha256(output.read_bytes()).hexdigest())
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--ward', action='store_true', help='Create Ward and facility derivatives only')
+    if parser.parse_args().ward:
+        ward_assets()
+        return
     jobs = [('veil-roster.png', 'veil-roster-alpha.png', False),
             ('special-roster-additions.png', 'veil-special-alpha.png', True)]
     for original, target, lower_half in jobs:

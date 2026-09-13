@@ -1,5 +1,7 @@
 # Approved project-local replan BUILD scope
 
+Transparent Ward/facility continuation adds exact ward-roster-alpha.png, ward-special-alpha.png, building-tree-alpha.png under existing blueprint candidate directory and tests/test_ward_cutout.py. Reuse user-approved RGB-preserving local extraction; no source overwrite, final art promotion, new motion claim or Base lock change. Facility consumer splits at reviewed y407 gutter to avoid chapel spire contamination.
+
 Survival progression continuation in same model/UI/tests: optional survived/focus fields,2/5 grade thresholds, one completion award, Ward-only survival growth, veteran archer/greatsword first consumers. Other grade abilities remain pending shared status implementation. No generic stat multiplier or art promotion.
 
 Existing catalog target-role completion in same files: archer in-range flying priority, flying backline priority, assassin 4-distance backline approach and10s firsthit1.4 multiplier; optional ambush state finite0..10 persisted. No teleport/air invulnerability/art approval. Existing tests and GPU outputs only.

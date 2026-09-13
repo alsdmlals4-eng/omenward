@@ -35,12 +35,17 @@ func unit(role: String, side: int, frame: int = 0) -> Texture2D:
 	if role == "shield_guard" and side == 0:
 		return tile("ward-shield-motion.png", 4, 1, clampi(frame, 0, 3))
 	if role in ["assassin", "flying"]:
-		return tile("special-roster-additions.png", 2, 2, (0 if role == "assassin" else 1) + side * 2)
-	return tile("ward-roster.png" if side == 0 else "veil-roster.png", 4, 2, ROLES.find(role))
+		return tile("ward-special-alpha.png", 2, 1, 0 if role == "assassin" else 1)
+	return tile("ward-roster-alpha.png", 4, 2, ROLES.find(role))
 
 func building(id: String) -> Texture2D:
 	var index := BUILDINGS.find(id)
 	if index >= 0:
-		return tile("building-tree.png", 4, 2, index)
+		var facility: AtlasTexture = tile("building-tree-alpha.png", 4, 2, index)
+		# The chapel spire begins above the nominal half-height. Split at
+		# the reviewed empty gutter, not through the cross at y=420.
+		facility.region.position.y = 0 if index < 4 else 407
+		facility.region.size.y = 407 if index < 4 else 480
+		return facility
 	# Explicit generic facility emblem, not a falsely identified building portrait.
 	return tile("ui-icons.png", 4, 4, 8 if id == "shield_hall" else 2)
