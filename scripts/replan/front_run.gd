@@ -79,7 +79,7 @@ func next_map() -> bool:
 	for i in range(units.size()):
 		var unit: Dictionary = units[i]
 		unit.x = 5.0 + (i % 9) * 0.4
-		for key in ["cooldown", "flash", "action", "windup", "charge", "brace"]:
+		for key in ["cooldown", "flash", "action", "windup", "charge", "brace", "ambush"]:
 			unit[key] = 0.0
 		unit.pending_target = -1
 	message = "%s 진입 · 병력 체력/시설/골드 계승" % catalog.maps[current_map].name
@@ -307,7 +307,7 @@ func spawn(role: String, side: int, x: float) -> void:
 	var row: Array = definitions[role]
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
 		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
-		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0})
+		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0})
 	next_id += 1
 
 func advance(delta: float) -> void:
@@ -379,21 +379,9 @@ func _tick(dt: float) -> void:
 							break
 				unit.pending_target = -1
 			continue
-		var target: Dictionary = {}
-		var distance := INF
-		for other in units:
-			if other.hp <= 0 or other.id == unit.id:
-				continue
-			var friendly: bool = other.side == unit.side
-			if unit.role == "priest":
-				if not friendly or other.hp >= float(definitions[other.role][4]):
-					continue
-			elif friendly:
-				continue
-			var d: float = absf(float(unit.x) - float(other.x))
-			if d < distance:
-				distance = d
-				target = other
+		unit.ambush = maxf(0, float(unit.get("ambush", 0.0)) - dt)
+		var target := choose_target(unit)
+		var distance := absf(float(unit.x) - float(target.x)) if not target.is_empty() else INF
 		if not target.is_empty() and distance <= float(row[9]) * 3.0:
 			if unit.role == "cavalry" and float(unit.get("charge", 0.0)) < 2.0:
 				unit.charge = 0.0
@@ -413,6 +401,8 @@ func _tick(dt: float) -> void:
 					_hit(unit, target)
 		else:
 			var direction: float = 1.0 if unit.side == 0 else -1.0
+			if unit.role in ["flying", "assassin"] and not target.is_empty():
+				direction = signf(float(target.x) - float(unit.x))
 			var previous_x: float = unit.x
 			unit.x = clampf(float(unit.x) + direction * float(row[8]) * dt * 2.2, 0, 100)
 			if unit.role == "spear_guard":
@@ -470,8 +460,35 @@ func shield_guarding(unit: Dictionary) -> bool:
 			return true
 	return false
 
+func choose_target(unit: Dictionary) -> Dictionary:
+	var target: Dictionary = {}
+	var best_priority := 2
+	var best_distance := INF
+	for other in units:
+		if other.hp <= 0 or other.id == unit.id:
+			continue
+		if unit.role == "priest":
+			if other.side != unit.side or other.hp >= float(definitions[other.role][4]):
+				continue
+		elif other.side == unit.side:
+			continue
+		var distance := absf(float(unit.x) - float(other.x))
+		var priority := 1
+		if unit.role == "archer" and other.role == "flying" and distance <= float(definitions.archer[9]) * 3.0:
+			priority = 0
+		elif other.role in ["archer", "mage", "priest"] and (unit.role == "flying" or (unit.role == "assassin" and distance <= 12.0)):
+			priority = 0
+		if priority < best_priority or (priority == best_priority and distance < best_distance):
+			best_priority = priority
+			best_distance = distance
+			target = other
+	return target
+
 func _hit(attacker: Dictionary, target: Dictionary) -> void:
 	var row: Array = definitions[attacker.role]
+	var ambush: bool = attacker.role == "assassin" and target.role in ["archer", "mage", "priest"] and float(attacker.get("ambush", 0.0)) <= 0
+	if ambush:
+		attacker.ambush = 10.0
 	var charged: bool = attacker.role == "cavalry" and float(attacker.get("charge", 0.0)) >= 2.0
 	if attacker.role == "cavalry":
 		attacker.charge = 0.0
@@ -486,6 +503,8 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 	for victim in targets:
 		var armor: float = float(definitions[victim.role][7 if attacker.role == "mage" else 6])
 		var damage := maxf(1, float(row[5]) * 100.0 / (100.0 + armor))
+		if ambush:
+			damage *= 1.4
 		if charged:
 			damage *= 1.5
 			if victim.role == "spear_guard" and float(victim.get("brace", 0.0)) >= 0.6:
@@ -579,9 +598,9 @@ func restore(value: Variant) -> bool:
 			return false
 		seen_ids.append(unit.id)
 		var windup: Variant = unit.get("windup", 0.0)
-		for ability in ["charge", "brace"]:
+		for ability in ["charge", "brace", "ambush"]:
 			var amount: Variant = unit.get(ability, 0.0)
-			if not _finite_number(amount) or amount < 0 or amount > (2.0 if ability == "charge" else 0.6):
+			if not _finite_number(amount) or amount < 0 or amount > (10.0 if ability == "ambush" else 2.0 if ability == "charge" else 0.6):
 				return false
 		var pending: Variant = unit.get("pending_target", -1)
 		if not _finite_number(windup) or windup < 0 or windup > SHIELD_WINDUP or not _finite_number(pending) or pending != floorf(float(pending)) or pending < -2 or pending >= value.next_id:
@@ -657,6 +676,7 @@ func restore(value: Variant) -> bool:
 	wave_index = int(value.wave)
 	units = value.units.duplicate(true)
 	for unit in units:
+		unit.ambush = float(unit.get("ambush", 0.0))
 		unit.charge = float(unit.get("charge", 0.0))
 		unit.brace = float(unit.get("brace", 0.0))
 		unit.windup = float(unit.get("windup", 0.0))

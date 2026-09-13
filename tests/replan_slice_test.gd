@@ -11,6 +11,49 @@ func check(ok: bool, message: String) -> void:
 
 func verify_campaign(model: Script) -> void:
 	var campaign = model.new()
+	var roles = model.new()
+	if roles.has_method("choose_target"):
+		roles.units.clear()
+		roles.spawn("archer", 0, 50)
+		roles.spawn("shield_guard", 1, 52)
+		roles.spawn("flying", 1, 58)
+		check(roles.choose_target(roles.units[0]).id == roles.units[2].id, "Archer prioritizes in-range flying target")
+		roles.units[2].x = 95.0
+		check(roles.choose_target(roles.units[0]).id == roles.units[1].id, "Distant flyer does not suppress valid archer shot")
+		roles.units[0].role = "assassin"
+		roles.spawn("mage", 1, 56)
+		check(roles.choose_target(roles.units[0]).role == "mage", "Assassin seeks backline over nearer frontliner")
+		roles.units[3].x = 80.0
+		check(roles.choose_target(roles.units[0]).role == "shield_guard", "Assassin does not skip frontline for backline beyond four scaled distance")
+		roles.units[3].x = 56.0
+		var hp: float = roles.units[3].hp
+		roles._hit(roles.units[0], roles.units[3])
+		check(is_equal_approx(hp - roles.units[3].hp, 26.0 / 1.05 * 1.4), "Assassin first backline hit burst")
+		hp = roles.units[3].hp
+		roles._hit(roles.units[0], roles.units[3])
+		check(is_equal_approx(hp - roles.units[3].hp, 26.0 / 1.05), "Assassin repeat during cooldown is ordinary damage")
+		var restored_role = model.new()
+		check(restored_role.restore(JSON.parse_string(JSON.stringify(roles.snapshot()))) and restored_role.units[0].ambush == 10.0, "Ambush cooldown survives disk save")
+		roles.units[0].role = "flying"
+		roles.units[3].hp = 100.0
+		check(roles.choose_target(roles.units[0]).role == "mage", "Flyer seeks living ground backline")
+		roles.units[3].hp = 0.0
+		check(roles.choose_target(roles.units[0]).role == "shield_guard", "Dead backline does not attract flyer")
+		for side in range(2):
+			var movement = model.new()
+			movement.units.clear()
+			movement.spawn("assassin", side, 50)
+			movement.spawn("mage", 1 - side, 40 if side == 0 else 60)
+			movement.units[0].ambush = 1.0
+			movement.phase = "REFIT"
+			movement.advance(0.5)
+			check(movement.units[0].ambush == 1.0, "Ambush timer freezes outside battle")
+			movement.begin_round()
+			movement.advance(0.5)
+			check(movement.units[0].x < 50 if side == 0 else movement.units[0].x > 50, "Both factions move toward backline behind their facing")
+			check(is_equal_approx(movement.units[0].ambush, 0.5), "Ambush timer ticks only in battle")
+	else:
+		check(false, "Missing role target selection")
 	if campaign.has_method("retry_map"):
 		var entry = campaign.snapshot()
 		check(not campaign.retry_map(), "Retry unavailable before defeat")

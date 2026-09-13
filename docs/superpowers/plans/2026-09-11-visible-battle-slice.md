@@ -1,5 +1,11 @@
 # Visible battle and construction implementation plan
 
+Target-role detail readback correction: progression row constrains assassin backline search to4 combat distance (12 model x); nearest fallback outside. Movement target-facing is restricted to assassin/flying to preserve other roles.224 model checks plus UI/save/default PASS,5-view static review no blocking findings, later tests cover both-side backward approach and frozen cooldown. Full campaign still loses second map in3seed; no balance success inflation.
+
+## Target-role completion
+
+Connect catalog archer anti-air priority, flying/assassin backline priority and assassin first backline hit1.4x/10s cooldown. Technical defaults: backline roles archer/mage/priest; archer prefers flying only within current attack reach, otherwise nearest target; flying prefers nearest enemy ground backline, assassin nearest backline. No teleport/invulnerability or physical collision engine invented. Move toward selected target (including behind) rather than always toward enemy base. Existing nearest fallback and priest ally heal retained. Both factions. Assassin cooldown advances only BATTLE, stores optional0..10 unit field, clears at map entry. RED target ordering/air-out-of-range fallback/first burst and repeat cooldown; local+GPU+independent review. Reuse role-counter benchmark in earlier section, no new art claimed.
+
 ## Campaign retry transaction
 
 Next dependency: capture map-entry state before any preparation purchase or spin; defeat-only retry restores exactly gold/HP/facilities/queue/RNG/previous completed points, rolling back failed-map gains. Store one nonrecursive checkpoint in v6. Validate checkpoint with same model validator before live mutation, require same map/history and pristine PREPARE round1/time0, reject nested checkpoints. Old v1–v5 saves have no authentic entry evidence: keep playing but retry unavailable until next map; do not invent historical gold/RNG. UI uses existing outcome button with explicit unavailable reason. RED no retry during battle, loss rollback, repeat retry after disk, malformed checkpoint atomic rejection. No new images or save-file deletion.

@@ -1,5 +1,7 @@
 # Approved project-local replan BUILD scope
 
+Existing catalog target-role completion in same files: archer in-range flying priority, flying backline priority, assassin 4-distance backline approach and10s firsthit1.4 multiplier; optional ambush state finite0..10 persisted. No teleport/air invulnerability/art approval. Existing tests and GPU outputs only.
+
 Same campaign continuation includes v6 one-level map-entry snapshot and defeat-only retry in existing model/UI/tests. Legacy saves without authentic entry stay playable but retry unavailable. Validation must reject nested/non-pristine checkpoints before mutation; no player save deletion or arbitrary resource restoration.
 
 Whole-game continuation authorized by latest explicit user instruction: sequential campaign in existing front_run/front_screen/tests plus exact output/front-campaign.png evidence. Add exact docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json and docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md to local allowlist because they own consumed map values and rules. No wildcard or Base lock change. Retry and further features follow reviewed plans.

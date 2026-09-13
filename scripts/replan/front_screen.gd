@@ -250,6 +250,8 @@ func _reserve_panel() -> void:
 			b.tooltip_text = "방패병 · 체력%s · 공격%s · 출전%s칸\n근접 적을 막는 동안 정면 화살 피해25%% 완화\n이동 중·후방·마법·근접 공격에는 미적용" % [run.definitions[role][4], run.definitions[role][5], run.definitions[role][11]]
 		elif role in ["cavalry", "spear_guard"]:
 			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], "2거리 이동 후 첫 타격1.5배" if role == "cavalry" else "접전에서0.6초 정지 후 돌격 피해50% 완화"]
+		elif role in ["archer", "flying", "assassin"]:
+			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], {"archer": "사거리 안 공중 표적 우선 사격", "flying": "지상 후열 우선 접근 · 무적 아님", "assassin": "후열 우선 · 후열 타격1.4배 / 10초 재사용"}[role]]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
 		_label("%s ×%s\n출전" % [run.definitions[role][1], counts[role]], Rect2(5, 79, 108, 44), b, 13)
 		b.disabled = run.capacity_used() + int(run.definitions[role][11]) > 18 or run.phase in ["VICTORY", "DEFEAT"]
