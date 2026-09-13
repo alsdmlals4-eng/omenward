@@ -25,7 +25,7 @@ func capture() -> void:
 			break
 	screen.run.begin_round()
 	var captured: Dictionary = {}
-	for i in range(230):
+	for i in range(600):
 		screen.run.advance(0.1)
 		for actor in screen.run.units:
 			if actor.side != 0 or actor.role != "shield_guard":
@@ -37,6 +37,8 @@ func capture() -> void:
 				await RenderingServer.frame_post_draw
 				root.get_texture().get_image().save_png("res://output/front-shield-%s.png" % ["idle", "windup", "impact", "recover"][pose])
 				captured[pose] = true
+		if captured.size() == 3:
+			break
 	screen.tab = "전선"
 	screen._refresh_panel()
 	await process_frame
@@ -94,6 +96,7 @@ func capture() -> void:
 	campaign_screen.paused = true
 	campaign_screen.run.points = [1, 0, 0]
 	campaign_screen.run.phase = "VICTORY"
+	campaign_screen.run._settle_map(false)
 	campaign_screen.start_button.pressed.emit()
 	campaign_screen.paused = true
 	campaign_screen.run.message = "맵 전환 경계 검증 · 실제 전체 맵 승리 기록 아님 · 배경 공통 임시 사용"

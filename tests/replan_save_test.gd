@@ -67,6 +67,14 @@ func _initialize() -> void:
 	mixed_format.schema_version = 7
 	check(not storage.write_verified(folder + "/mixed.json", mixed_format).ok, "Unknown schema input cannot masquerade as v6")
 	var interrupted := folder + "/interrupted.json"
+	var future_capture: Dictionary = initial.duplicate(true)
+	future_capture.capture_rules = "future-capture-v99"
+	var capture_path := folder + "/future-capture.json"
+	write_fixture(capture_path, JSON.stringify(future_capture))
+	write_fixture(capture_path + ".bak", JSON.stringify(initial))
+	digest = FileAccess.get_sha256(capture_path)
+	check(not storage.read_verified(capture_path).ok, "Unknown capture rules cannot silently fall back")
+	check(not storage.write_verified(capture_path, initial).ok and FileAccess.get_sha256(capture_path) == digest, "Unknown capture rules cannot be overwritten")
 	write_fixture(interrupted + ".bak", JSON.stringify(initial))
 	check(storage.read_verified(interrupted).ok, "Missing primary can recover valid backup")
 	write_fixture(interrupted + ".bak", "[]")

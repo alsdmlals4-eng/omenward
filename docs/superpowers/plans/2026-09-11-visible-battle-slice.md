@@ -14,6 +14,16 @@
 
 ### 후속 승인 및 첫 구현 증분
 
+P02 증분 결과: 모델339/0실패·저장47/0실패·화면/기본headless PASS. 타워 마지막 타격, 불완전 capture, checkpoint rule/work, 선정산 ledger, 살아있는 본진의 claim priming, 보급 단위/상한, 미래capture 저장 덮어쓰기 RED→수정→GREEN. 최종 독립5회 전체범위 정적 재검토에서 추가 차단 결함 없음. 자연5맵완주/최종Human/투사체·탑아트는 NOT_RUN/잔여. 사용완료한7개 검사 폴더91파일236683bytes는 해시 검증 후 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/P01-P02-tests-20260914`로 이동했다. README/복원경로/SHA-256 manifest 포함, 직접 삭제0. 실제 사용자 저장과 다른 작업 산출물은 이동하지 않았다.
+
+**P02 실행 중:** P01의 실제 시계/저장 consumer 위에 점령과 정산을 연결했다. 사건 ID/지연 projectile은 P04/P07의 실제 consumer에서 확장하며 빈 queue를 선제 구축하지 않는 것으로 실행 의존을 구체화했다. 신규 원정만 `capture_rules=timed_v1`; marker 없는 기존 v7 및 v1–v6는 이전 즉시 점령/본진HP 규칙으로 유지한다. 반경3/1명8초/2명이상4초/혼재 동결/이탈초당10%/중립화→점령을 JSON owner에서 읽고, 정수 work로 저장한다. 실제 자동행군은 빈 거점 확보까지 대기하고 적이 들어오면 전투 접근을 재개한다. 암살자는 유효 후열 추격 우선이며 비행병은 점령에 기여하지 않는다.
+
+비교 근거: [Company of Heroes 공식 배포 매뉴얼](https://steamcdn-a.akamaihd.net/steam/apps/20540/manuals/CoH_ToV_G4W_MNL.pdf)의 거점→자원/인구와 지도 표시 연결을 ADAPT, 보급선 단절과 다중 자원은 REJECT했다. [Age of Empires IV 공식 시작 안내](https://www.ageofempires.com/news/quickstart-guide-age-of-empires-iv/)의 특정 지점 확보·유지라는 별도 승리 목표를 ADAPT하되 전체 성지 동시 보유 규칙을 복제하지 않았다. 8초/반경3 등 숫자는 위 게임에서 추출한 값이 아니라 OMENWARD 권장값이다. 내부 엔진 역공학 또는 비교 게임 직접 플레이 검증으로 표현하지 않는다.
+
+본진 방어HP0→지상 점령, 아군HP0패배 우선, 조기승리 잔여 기본보급(전체 맵 예산−이미 지급한 기본보급)1회 지급을 연결했다. ledger는 외부 공통 ledger가 아니라 각 run snapshot 내부의 연속 map index 목록이므로 불필요한 전역run_id는 아직 만들지 않는다. map checkpoint는 이전 맵 ledger만 보존하며 현재 점령 work/기본보급0을 검증한다. 살아 있는 본진의 사전 claim, BATTLE의 선정산, 비연속 이력,5G단위가 아닌 보급, 누락/미래점령규칙을 거절한다. 타워 피해·사망을 점령보다 먼저 처리하여 마지막 점령자가 해당 tick에 사망하면 중립화를 완료하지 못한다. 타워 투사체/전용 아트는 여전히 P07 잔여다.
+
+이번 GPU 실행: 자연 동원→진군→전투12피해/13유닛, 방패3상태/3, 혼합 fixture10유닛/10피해, 효과 fixture barrier7/stun0.3/move0.85 확인. live Hera에 대상 프로젝트 editor는 없었고 다른 세 프로젝트에는 연결/변경하지 않았다. 로컬 Godot renderer로 기존 캡처 검증기를 실행했다. 축소 병력의 가독성/겹침·탑 marker는 최종아트 승인 대상이 아니며 P06/P07 개선 대상이다. 점령 UI 생성 중 null parent 오류는 실패 실행으로 분리했고 self 부모로 교정 후 screen PASS; 오류로 계속 돌던 정확한 두 테스트 프로세스만 종료했다.
+
 고정 시계 증분 검증 결과: 모델312/0실패, 저장43/0실패, 실제 화면 노드의 속도 버튼/저장/복구 검사 PASS, 기본 headless 씬 PASS, scope7/문서88 PASS. 고정 API 누락 RED→구현,2× UI RED→수정, 정수 duration 저장 RED→구현, 재정비 debt 동결 RED→수정. JSON float version membership 거절을 수치 검증으로 교정했다. 독립5회 정적 검토와 재검토에서 battle-exit debt/유한 큰 delta/legacy fixture 문제를 처리했다. v1–v6에 비영 cooldown 초 단위 fixture를 추가했고 버전1로 표시만 했던 검사를 실제 version1로 수정했다. GPU 캡처·Human·전체원정 PASS는 이번 증거가 아니다. 실제 사용완료 임시 검사 산출물은 사용자 삭제 검토 대상으로만 보존한다.
 
 **현재 연속 구현 — 고정 시계 증분:** 최신 사용자가 전체 구현 루프를 명시하여 아래 계획 준비 전용 문장을 이력으로 한정한다. P01을 실행 중이다. [Fix Your Timestep 원저자 실무 설명](https://gafferongames.com/post/fix_your_timestep/)의 고정 간격 누산 방식을 ADAPT하고, [Godot 공식 고정 physics/render 분리](https://docs.godotengine.org/en/stable/tutorials/physics/interpolation/physics_interpolation_introduction.html)를 참고했다. 가변 조각(REJECT: FPS에 따라 판정 변화), engine 전역 속도 변경(REJECT: UI까지 영향), 모델 소유30Hz+프레임당120tick상한+잔여 보존(ADAPT)을 비교했다. 예제의 시간 clamp는 채택하지 않는다. 과도 입력은 상태 변경 전 거절하고 실제 performance 최적값은 측정 전 확정하지 않는다.

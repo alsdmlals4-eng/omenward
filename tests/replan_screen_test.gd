@@ -14,6 +14,28 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	var capture_label = screen.find_child("CaptureStatus1", true, false)
+	if capture_label == null:
+		push_error("Timed capture must expose progress on battlefield")
+		failed = true
+	else:
+		screen.run.capture[1] = {"side": 1, "work": 600}
+		screen._process(0)
+		if not capture_label.text.contains("50%"):
+			push_error("Capture UI must consume actual model progress")
+			failed = true
+		screen.run.restore(before_layout)
+	var base_label = screen.find_child("BaseClaimStatus", true, false)
+	if base_label == null:
+		push_error("Breached base needs visible claim progress")
+		failed = true
+	else:
+		screen.run.bases[1] = 0
+		screen.run.base_claim_work = 600
+		screen._process(0)
+		if not base_label.text.contains("50%"):
+			failed = true
+		screen.run.restore(before_layout)
 	screen.speed_button.pressed.emit()
 	if screen.speed != 2.0:
 		push_error("Speed control must select 2x without changing combat constants")
@@ -240,6 +262,7 @@ func verify() -> void:
 		failed = true
 		push_error("Paused production must stop both countdown and status")
 	screen.run.phase = "VICTORY"
+	screen.run._settle_map(false)
 	screen._process(0.0)
 	if not production.text.contains("생산 종료"):
 		failed = true
@@ -270,6 +293,7 @@ func verify() -> void:
 			push_error("Locked building must not offer enabled specialization")
 	screen.run = screen.Model.new()
 	screen.run.phase = "VICTORY"
+	screen.run._settle_map(false)
 	screen._process(0.0)
 	if screen.start_button.disabled or screen.start_button.text != "다음 맵 준비":
 		failed = true

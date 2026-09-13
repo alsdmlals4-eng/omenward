@@ -9,6 +9,127 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func verify_capture(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("capture_state"), "P02 missing timed capture")
+	if not run.has_method("capture_state"):
+		return
+	run.units.clear()
+	run.spawn("shield_guard", 0, 25)
+	run.apply_status(run.units[0], "stun", 0, 30)
+	run.begin_round()
+	run.advance_ticks(239)
+	check(run.points[0] == 0, "One ground unit cannot capture before eight seconds")
+	var restored = model.new()
+	check(restored.restore(JSON.parse_string(JSON.stringify(run.snapshot()))), "Partial capture survives disk")
+	run.advance_ticks(1)
+	restored.advance_ticks(1)
+	check(run.points[0] == 1 and restored.points[0] == 1, "Ground unit captures at240ticks after save")
+	run = model.new()
+	run.units.clear()
+	for i in range(10):
+		run.spawn("flying", 0, 25)
+		run.apply_status(run.units[-1], "stun", 0, 30)
+	run.begin_round()
+	run.advance_ticks(240)
+	check(run.points[0] == 0 and run.capture_state(0).progress == 0, "Flying units cannot capture")
+	run = model.new()
+	run.units.clear()
+	for side in [0, 1]:
+		run.spawn("shield_guard", side, 50)
+		run.apply_status(run.units[-1], "stun", 0, 30)
+	run.begin_round()
+	run.advance_ticks(30)
+	check(run.capture_state(1).progress == 0, "Contested point freezes without ownership change")
+	run.units.pop_back()
+	run.advance_ticks(120)
+	check(is_equal_approx(run.capture_state(1).progress, 0.5), "Half claim after four seconds")
+	run.units[0].x = 30
+	run.advance_ticks(30)
+	check(is_equal_approx(run.capture_state(1).progress, 0.4), "Abandoned capture decays one tenth per second")
+	run = model.new()
+	run.units.clear()
+	run.points[1] = -1
+	for i in range(2):
+		run.spawn("shield_guard", 0, 50)
+		run.apply_status(run.units[-1], "stun", 0, 30)
+	run.begin_round()
+	run.advance_ticks(120)
+	check(run.points[1] == 0, "Two ground units neutralize enemy tower in four seconds")
+	run.advance_ticks(120)
+	check(run.points[1] == 1, "Neutralized tower requires a second claim leg")
+	var marching = model.new()
+	marching.units.clear()
+	marching.spawn("shield_guard", 0, 25)
+	marching.begin_round()
+	marching.advance_ticks(240)
+	check(marching.points[0] == 1, "Automatic ground advance holds long enough to secure empty point")
+	var held_x: float = marching.units[0].x
+	marching.advance_ticks(1)
+	check(marching.units[0].x > held_x, "Secured point releases automatic advance")
+	var contested = model.new()
+	contested.units.clear()
+	contested.spawn("shield_guard", 0, 22)
+	contested.spawn("shield_guard", 1, 28)
+	contested.begin_round()
+	contested.advance_ticks(1)
+	check(contested.units[0].x > 22 and contested.units[1].x < 28, "Contested edge holders close distance instead of deadlocking")
+	var siege = model.new()
+	siege.units.clear()
+	siege.begin_round()
+	siege.advance_ticks(600)
+	check(siege.gold == 125 and siege.basic_gold_paid == 5, "Early settlement excludes already paid basic income")
+	siege.spawn("giant", 0, 100)
+	# Spawned waves precede the new giant in the array.
+	siege.apply_status(siege.units[-1], "stun", 0, 30)
+	siege.bases[1] = 0
+	siege.advance_ticks(239)
+	check(siege.phase == "BATTLE", "Breached base needs ground claim, not HP-only victory")
+	siege.advance_ticks(1)
+	check(siege.phase == "VICTORY" and siege.gold == 270, "Base claim settles remaining145G of map basic income once")
+	var paid: Dictionary = siege.snapshot()
+	check(model.new().restore(JSON.parse_string(JSON.stringify(paid))), "Settled map saves correctly")
+	siege.advance_ticks(300)
+	check(siege.snapshot() == paid, "Repeated updates after victory cannot duplicate reward")
+	var both = model.new()
+	both.begin_round()
+	both.bases = [0, 0]
+	both.advance_ticks(1)
+	check(both.phase == "DEFEAT" and both.gold == 120, "Home destruction wins simultaneous outcome and denies reward")
+	var untouched: Dictionary = restored.snapshot()
+	for mode in ["missing", "checkpoint_work", "checkpoint_rule"]:
+		var bad: Dictionary = restored.snapshot()
+		if mode == "missing":
+			bad.erase("capture")
+		elif mode == "checkpoint_work":
+			bad.map_entry.capture[0] = {"side": 1, "work": 600}
+		else:
+			bad.map_entry.capture_rules = "legacy"
+		var input_before := bad.duplicate(true)
+		check(not restored.restore(bad) and restored.snapshot() == untouched and bad == input_before, "Capture corruption rejects atomically: " + mode)
+	for mode in ["premature_ledger", "primed_base", "overpaid", "fractional_paid"]:
+		var bad: Dictionary = restored.snapshot()
+		if mode == "premature_ledger":
+			bad.settled_maps = [0]
+		elif mode == "primed_base":
+			bad.base_claim_work = 1199
+		elif mode == "overpaid":
+			bad.basic_gold_paid = 1000
+		else:
+			bad.basic_gold_paid = 3
+		check(not restored.restore(bad) and restored.snapshot() == untouched, "Invalid reward relation rejected: " + mode)
+	var tower = model.new()
+	tower.units.clear()
+	tower.spawn("shield_guard", 0, 50)
+	tower.units[0].hp = 1
+	tower.apply_status(tower.units[0], "stun", 0, 1)
+	tower.points[1] = -1
+	tower.capture[1] = {"side": 1, "work": 1195}
+	tower.tower_clock = 2
+	tower.begin_round()
+	tower.advance_ticks(1)
+	check(tower.points[1] == -1, "Tower hit resolves before dead soldier can finish neutralization")
+
 func verify_fixed_clock(model: Script) -> void:
 	var reference = model.new()
 	check(reference.has_method("advance_ticks"), "P01 missing fixed tick driver")
@@ -74,6 +195,8 @@ func verify_fixed_clock(model: Script) -> void:
 	timer_load.next_map()
 	check(timer_load.snapshot().version == 6, "Next map must not upgrade legacy rules")
 	var ending = model.new()
+	ending.capture_rules = "legacy"
+	ending.map_entry = ending.snapshot(false)
 	ending.begin_round()
 	ending.advance(0.01)
 	ending.bases[1] = 0
@@ -310,6 +433,8 @@ func verify_campaign(model: Script) -> void:
 	for stage in range(4):
 		campaign.points = [1, 0, -1]
 		campaign.phase = "VICTORY"
+		# Authored transition fixture includes the settlement a real victory performs.
+		campaign._settle_map(false)
 		var funds = campaign.gold
 		check(campaign.next_map(), "Victory opens next map")
 		check(campaign.current_map == stage + 1 and campaign.round_number == 1 and campaign.phase == "PREPARE", "Next map begins in preparation")
@@ -318,6 +443,7 @@ func verify_campaign(model: Script) -> void:
 		var loaded = model.new()
 		check(loaded.restore(JSON.parse_string(JSON.stringify(campaign.snapshot()))) and equivalent_state(loaded.snapshot(), campaign.snapshot()), "Campaign disk continuation")
 	campaign.phase = "VICTORY"
+	campaign._settle_map(false)
 	before = campaign.snapshot()
 	check(not campaign.next_map() and campaign.snapshot() == before, "Final map never creates sixth map")
 	for point_list in [["ward_citadel:0", "ward_citadel:0"], ["veil_citadel:0"], ["unknown:0"]]:
@@ -332,6 +458,7 @@ func verify_campaign(model: Script) -> void:
 	for map_index in range(5):
 		var ending = model.new()
 		ending.current_map = map_index
+		ending.settled_maps = range(map_index)
 		ending.map_entry = ending.snapshot(false)
 		ending.phase = "BATTLE"
 		ending.round_number = int(ending.catalog.maps[map_index].rounds)
@@ -373,6 +500,7 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	verify_capture(model)
 	verify_fixed_clock(model)
 	verify_campaign(model)
 	verify_statuses(model)

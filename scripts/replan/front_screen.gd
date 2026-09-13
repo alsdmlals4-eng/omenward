@@ -14,6 +14,8 @@ var notice: Label
 var start_button: Button
 var pause_button: Button
 var speed_button: Button
+var capture_labels: Array[Label] = []
+var base_claim_label: Label
 var tab_buttons: Dictionary = {}
 var detail: Label
 var panel_key := ""
@@ -74,6 +76,14 @@ func _make_shell() -> void:
 		var label := _label(("◆ " if i == 0 else "◇ ") + map.name, Rect2(25 + i * 250, 40, 240, 28))
 		label.modulate = Color("f6d687") if i == 0 else Color("8796ad")
 		map_labels.append(label)
+	for i in range(3):
+		var label := _label("", Rect2(65 + (25 + i * 25) * 11.5 - 90, 194, 220, 24), self, 14)
+		label.name = "CaptureStatus%d" % i
+		label.tooltip_text = "지상 1명 8초 / 2명 4초. 적 거점은 중립화 후 다시 점령. 양측 혼재 시 정지, 이탈 시 진행 감소."
+		capture_labels.append(label)
+	base_claim_label = _label("", Rect2(915, 365, 335, 24), self, 15)
+	base_claim_label.name = "BaseClaimStatus"
+	base_claim_label.tooltip_text = "아군 성채 HP 0은 즉시 패배. 베일 본진은 방어 HP 0 뒤 지상 점령을 완료해야 승리합니다."
 	start_button = _button("공세 시작", Rect2(1070, 76, 185, 34), func():
 		if run.phase == "DEFEAT":
 			run.retry_map()
@@ -271,7 +281,18 @@ func _process(delta: float) -> void:
 	for i in range(map_labels.size()):
 		map_labels[i].text = ("◆ " if i == run.current_map else "✓ " if i < run.current_map else "◇ ") + run.catalog.maps[i].name
 		map_labels[i].modulate = Color("f6d687") if i == run.current_map else Color("8796ad")
+	for i in range(capture_labels.size()):
+		var state: Dictionary = run.capture_state(i)
+		capture_labels[i].tooltip_text = "구형 저장 규칙 · 범위 내 한 진영이 있으면 즉시 점령" if run.capture_rules == "legacy" else "지상 1명 8초 / 2명 4초. 중립화 뒤 점령. 교전 없는 거점은 확보 후 진군, 암살자는 후열 추격 우선."
+		var owner_text := "아군" if state.owner == 1 else "베일" if state.owner == -1 else "중립"
+		capture_labels[i].text = owner_text
+		if state.progress > 0:
+			capture_labels[i].text += " · %s %d%%" % ["중립화" if state.leg == "NEUTRALIZE" else "점령", floori(state.progress * 100)]
 	pause_button.text = "계속 진행" if paused else "일시정지"
+	base_claim_label.text = ""
+	if run.capture_rules == "timed_v1" and run.bases[1] <= 0:
+		base_claim_label.text = "베일 방어 붕괴 · 지상 점령 %d%%" % floori(float(run.base_claim_work) / run._capture_total() * 100)
+	base_claim_label.tooltip_text = "구형 저장 · 양 본진 HP 0으로 승패 판정" if run.capture_rules == "legacy" else "아군 HP 0 즉시 패배 / 적 HP 0 뒤 지상 점령 완료로 승리"
 	speed_button.text = "속도 %d×" % int(speed)
 	speed_button.tooltip_text = "누르면 %d배속으로 변경" % (1 if speed == 2.0 else 2)
 	notice.text = run.message
@@ -404,7 +425,7 @@ func _draw() -> void:
 		var color := Color("7bc7ec") if run.points[i] == 1 else Color("cf8bdf") if run.points[i] == -1 else Color("e6d8b6")
 		var x := 65.0 + (25 + i * 25) * 11.5
 		draw_string(font, Vector2(x - 40, 190), ["수호 전진지", "접전 / 방어탑", "장막 전진지"][i], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("172235"))
-		draw_circle(Vector2(x, 200), 5, color)
+		draw_circle(Vector2(x - 102, 206), 5, color)
 	# Tower is a labeled UI marker in this candidate preview, not invented artwork.
 	draw_string(font, Vector2(567, 222), "탑  %s" % ("아군" if run.points[1] == 1 else "베일" if run.points[1] == -1 else "중립"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("253249"))
 	var actors: Array = run.units.duplicate()

@@ -12,6 +12,11 @@ var ruleset_id := FIXED_RULESET
 var tick := 0
 # Debt is measured in ticks, including the fraction not yet executable.
 var tick_debt := 0.0
+var capture_rules := "timed_v1"
+var capture: Array = [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0, "work": 0}]
+var base_claim_work := 0
+var basic_gold_paid := 0
+var settled_maps: Array = []
 var catalog: Dictionary
 var definitions: Dictionary = {}
 var facilities: Dictionary = {}
@@ -76,6 +81,9 @@ func next_map() -> bool:
 	elapsed = 0.0
 	wave_index = 0
 	points = [0, 0, 0]
+	capture = [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0, "work": 0}]
+	base_claim_work = 0
+	basic_gold_paid = 0
 	bases = [1000.0, 1000.0]
 	income_clock = 0.0
 	point_clock = 0.0
@@ -389,6 +397,7 @@ func _tick(dt: float) -> void:
 	point_clock += dt
 	if income_clock >= 20.0:
 		gold += 5
+		basic_gold_paid += 5
 		income_clock -= 20.0
 	if point_clock >= 15.0:
 		gold += held_points.size() + points.count(1)
@@ -452,6 +461,9 @@ func _tick(dt: float) -> void:
 				else:
 					_hit(unit, target)
 		else:
+			if (unit.role != "assassin" or target.is_empty()) and _holds_for_capture(unit):
+				unit.charge = 0.0
+				continue
 			var direction: float = 1.0 if unit.side == 0 else -1.0
 			if unit.role in ["flying", "assassin"] and not target.is_empty():
 				direction = signf(float(target.x) - float(unit.x))
@@ -472,40 +484,128 @@ func _tick(dt: float) -> void:
 					unit.cooldown = float(row[10])
 					unit.action = 0.25
 	units = units.filter(func(u): return u.hp > 0)
-	for i in range(3):
-		var ward := false
-		var veil := false
+	if ruleset_id == FIXED_RULESET and capture_rules == "timed_v1":
+		_tick_tower(dt)
+		units = units.filter(func(u): return u.hp > 0)
+		_tick_capture()
+		_tick_base_claim()
+	else:
+		for i in range(3):
+			var ward := false
+			var veil := false
+			for unit in units:
+				if absf(float(unit.x) - float(25 + 25 * i)) < 5:
+					ward = ward or unit.side == 0
+					veil = veil or unit.side == 1
+			if ward and not veil:
+				points[i] = 1
+			elif veil and not ward:
+				points[i] = -1
+		_tick_tower(dt)
+	if bases[0] <= 0:
+		phase = "DEFEAT"
+		message = "수호 성채 함락 · 새 출정으로 다시 도전하세요."
+	elif bases[1] <= 0 and (capture_rules == "legacy" or base_claim_work >= _capture_total()):
+		phase = "VICTORY"
+		message = "베일 본진 점령 · 승리"
+		_settle_map(true)
+	elif elapsed + 0.0001 >= float(catalog.economy.round_seconds):
+		phase = "VICTORY" if round_number >= int(catalog.maps[current_map].rounds) else "REFIT"
+		free_spin = true
+		message = "전 병력·생산 동결 · 건설/전문화/출전 후 다음 공세" if phase == "REFIT" else "모든 공세 생존 · 승리"
+		if phase == "VICTORY":
+			_settle_map(false)
+	if phase in ["REFIT", "VICTORY"]:
 		for unit in units:
-			if absf(float(unit.x) - float(25 + 25 * i)) < 5:
-				ward = ward or unit.side == 0
-				veil = veil or unit.side == 1
-		if ward and not veil:
-			points[i] = 1
-		elif veil and not ward:
-			points[i] = -1
+			if unit.side == 0 and unit.hp > 0:
+				unit.survived = mini(53, int(unit.get("survived", 0)) + 1)
+
+func _tick_tower(dt: float) -> void:
 	tower_clock += dt
 	if tower_clock >= 2.0:
 		tower_clock -= 2.0
 		if points[1] != 0:
 			var enemy: int = 1 if points[1] == 1 else 0
 			for unit in units:
-				if unit.side == enemy and absf(float(unit.x) - 50) <= 12:
+				if unit.hp > 0 and unit.side == enemy and absf(float(unit.x) - 50) <= 12:
 					take_damage(unit, 18)
 					break
-	if bases[0] <= 0:
-		phase = "DEFEAT"
-		message = "수호 성채 함락 · 새 출정으로 다시 도전하세요."
-	elif bases[1] <= 0:
-		phase = "VICTORY"
-		message = "베일 본진 점령 · 승리"
-	elif elapsed + 0.0001 >= float(catalog.economy.round_seconds):
-		phase = "VICTORY" if round_number >= int(catalog.maps[current_map].rounds) else "REFIT"
-		free_spin = true
-		message = "전 병력·생산 동결 · 건설/전문화/출전 후 다음 공세" if phase == "REFIT" else "모든 공세 생존 · 승리"
-	if phase in ["REFIT", "VICTORY"]:
+
+func _capture_total() -> int:
+	return ceili(float(catalog.capture_rules.claim_seconds) * TICK_RATE) * 5
+
+func _tick_base_claim() -> void:
+	if bases[1] > 0:
+		return
+	var counts := [0, 0]
+	for unit in units:
+		if unit.hp > 0 and unit.role != "flying" and float(unit.x) >= 100.0 - float(catalog.capture_rules.radius):
+			counts[int(unit.side)] += 1
+	if counts[0] > 0 and counts[1] > 0:
+		return
+	if counts[0] == 0:
+		base_claim_work = maxi(0, base_claim_work - roundi(_capture_total() * float(catalog.capture_rules.decay_per_second) / TICK_RATE))
+	else:
+		base_claim_work = mini(_capture_total(), base_claim_work + mini(int(catalog.capture_rules.max_contributors), counts[0]) * 5)
+
+func _settle_map(captured: bool) -> void:
+	if capture_rules != "timed_v1" or settled_maps.has(current_map):
+		return
+	if captured:
+		gold += maxi(0, int(catalog.maps[current_map].rounds) * int(catalog.economy.base_gold_per_round) - basic_gold_paid)
+	settled_maps.append(current_map)
+
+func _holds_for_capture(unit: Dictionary) -> bool:
+	if ruleset_id != FIXED_RULESET or capture_rules != "timed_v1" or unit.role == "flying":
+		return false
+	var settings: Dictionary = catalog.capture_rules
+	var owner := 1 if unit.side == 0 else -1
+	for index in range(3):
+		var position: float = settings.point_positions[index]
+		if points[index] == owner or absf(float(unit.x) - position) > float(settings.radius):
+			continue
+		for other in units:
+			if other.hp > 0 and other.side != unit.side and other.role != "flying" and absf(float(other.x) - position) <= float(settings.radius):
+				return false
+		return true
+	return false
+
+func capture_state(index: int) -> Dictionary:
+	if index < 0 or index >= 3:
+		return {}
+	var state: Dictionary = capture[index]
+	var total := ceili(float(catalog.capture_rules.claim_seconds) * TICK_RATE) * 5
+	return {"owner": points[index], "capturing_side": state.side, "progress": float(state.work) / total,
+		"leg": "CLAIM" if points[index] == 0 else "NEUTRALIZE"}
+
+func _tick_capture() -> void:
+	var settings: Dictionary = catalog.capture_rules
+	var total := ceili(float(settings.claim_seconds) * TICK_RATE) * 5
+	var decay := roundi(total * float(settings.decay_per_second) / TICK_RATE)
+	for index in range(3):
+		var counts := [0, 0]
 		for unit in units:
-			if unit.side == 0 and unit.hp > 0:
-				unit.survived = mini(53, int(unit.get("survived", 0)) + 1)
+			if unit.hp > 0 and unit.role != "flying" and absf(float(unit.x) - float(settings.point_positions[index])) <= float(settings.radius):
+				counts[int(unit.side)] += 1
+		if counts[0] > 0 and counts[1] > 0:
+			continue
+		var side := 1 if counts[0] > 0 else -1 if counts[1] > 0 else 0
+		var state: Dictionary = capture[index]
+		if side == 0 or side == points[index]:
+			state.work = maxi(0, int(state.work) - decay)
+			if state.work == 0:
+				state.side = 0
+			continue
+		if state.side != side:
+			state.side = side
+			state.work = 0
+		state.work += mini(int(settings.max_contributors), counts[0] if side == 1 else counts[1]) * 5
+		if state.work >= total:
+			state.work -= total
+			points[index] = side if points[index] == 0 else 0
+			if points[index] == side:
+				state.work = 0
+				state.side = 0
 
 func unit_grade(unit: Dictionary) -> int:
 	var survived := int(unit.get("survived", 0))
@@ -697,6 +797,9 @@ func snapshot(include_entry: bool = true) -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 	if ruleset_id == FIXED_RULESET:
 		result.merge({"version": 7, "ruleset_id": ruleset_id, "tick": tick, "tick_debt": tick_debt, "timer_units": "ticks"}, true)
+		result.merge({"capture_rules": capture_rules, "capture": capture.duplicate(true)}, true)
+		if capture_rules == "timed_v1":
+			result.merge({"base_claim_work": base_claim_work, "basic_gold_paid": basic_gold_paid, "settled_maps": settled_maps.duplicate()}, true)
 		_convert_duration_units(result, true)
 	return result
 
@@ -741,6 +844,29 @@ func restore(value: Variant) -> bool:
 			return false
 		if not _convert_duration_units(value, false):
 			return false
+		if value.get("capture_rules", "legacy") not in ["legacy", "timed_v1"]:
+			return false
+		if (value.get("capture_rules") == "timed_v1" and not value.has("capture")) or (not value.has("capture_rules") and value.has("capture")):
+			return false
+		if value.get("capture_rules") == "timed_v1":
+			for field in ["base_claim_work", "basic_gold_paid"]:
+				if not _finite_number(value.get(field)) or value[field] != floorf(value[field]) or value[field] < 0:
+					return false
+			if value.base_claim_work > _capture_total() or value.basic_gold_paid > 1000 or not _finite_number(value.get("current_map")) or not value.get("settled_maps") is Array or value.settled_maps.size() > 5:
+				return false
+			var previous := -1
+			for map_index in value.settled_maps:
+				if not _finite_number(map_index) or map_index != floorf(map_index) or map_index <= previous or map_index > value.get("current_map", -1):
+					return false
+				previous = int(map_index)
+		var saved_capture: Variant = value.get("capture", [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0, "work": 0}])
+		if not saved_capture is Array or saved_capture.size() != 3:
+			return false
+		for state in saved_capture:
+			if not state is Dictionary or not _finite_number(state.get("side")) or state.side != floorf(state.side) or absf(state.side) > 1 or not _finite_number(state.get("work")) or state.work != floorf(state.work) or state.work < 0 or state.work >= ceili(float(catalog.capture_rules.claim_seconds) * TICK_RATE) * 5 or (state.side == 0 and state.work != 0):
+				return false
+		value.capture_rules = value.get("capture_rules", "legacy")
+		value.capture = saved_capture
 	if value.version < 6:
 		value.map_entry = {}
 	if value.version < 5:
@@ -755,7 +881,7 @@ func restore(value: Variant) -> bool:
 		value.omen_moves = 0
 		value.omen_reserved = 0
 	for key in snapshot():
-		if key in ["ruleset_id", "tick", "tick_debt", "timer_units"] and value.version < 7:
+		if key in ["ruleset_id", "tick", "tick_debt", "timer_units", "capture_rules", "capture", "base_claim_work", "basic_gold_paid", "settled_maps"] and (value.version < 7 or (key in ["base_claim_work", "basic_gold_paid", "settled_maps"] and value.get("capture_rules") == "legacy")):
 			continue
 		if not value.has(key):
 			return false
@@ -801,6 +927,15 @@ func restore(value: Variant) -> bool:
 		return false
 	if value.points.size() != 3 or value.bases.size() != 2 or int(value.round) < 1 or int(value.round) > int(catalog.maps[int(value.current_map)].rounds):
 		return false
+	if value.version == 7 and value.capture_rules == "timed_v1":
+		if (value.bases[1] > 0 and value.base_claim_work != 0) or int(value.basic_gold_paid) % 5 != 0 or value.basic_gold_paid > int(value.round) * int(catalog.economy.base_gold_per_round):
+			return false
+		var expected_count := int(value.current_map) + (1 if value.phase == "VICTORY" else 0)
+		if value.settled_maps.size() != expected_count:
+			return false
+		for index in range(expected_count):
+			if value.settled_maps[index] != index:
+				return false
 	var seen_ids: Array = []
 	for unit in value.units:
 		if not unit is Dictionary or not definitions.has(unit.get("role", "")):
@@ -882,6 +1017,12 @@ func restore(value: Variant) -> bool:
 			return false
 		if not probe.restore(entry):
 			return false
+		if value.version == 7:
+			if probe.capture_rules != value.capture_rules or probe.base_claim_work != 0 or probe.basic_gold_paid != 0:
+				return false
+			for state in probe.capture:
+				if state.side != 0 or state.work != 0:
+					return false
 		if value.version == 7 and (entry.get("version") != 7 or entry.get("ruleset_id") != value.ruleset_id or entry.get("tick", 0) > value.tick or entry.get("tick_debt") != 0):
 			return false
 		for owner in probe.points:
@@ -891,6 +1032,11 @@ func restore(value: Variant) -> bool:
 			if hp != 1000:
 				return false
 	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
+	capture_rules = value.get("capture_rules", "legacy") if value.version == 7 else "legacy"
+	base_claim_work = int(value.get("base_claim_work", 0)) if capture_rules == "timed_v1" else 0
+	basic_gold_paid = int(value.get("basic_gold_paid", 0)) if capture_rules == "timed_v1" else 0
+	settled_maps = value.get("settled_maps", []).map(func(index): return int(index)) if capture_rules == "timed_v1" else []
+	capture = value.get("capture", [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0, "work": 0}]).duplicate(true) if value.version == 7 else [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0, "work": 0}]
 	tick = int(value.get("tick", 0)) if value.version == 7 else 0
 	tick_debt = float(value.get("tick_debt", 0)) if value.version == 7 else 0.0
 	omen_pending = value.omen_pending
