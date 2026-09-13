@@ -1,7 +1,7 @@
 param([Parameter(Mandatory = $true)][string]$Godot)
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
-foreach ($testScript in @('tests/replan_slice_test.gd', 'tests/replan_screen_test.gd')) {
+foreach ($testScript in @('tests/replan_slice_test.gd', 'tests/replan_save_test.gd', 'tests/replan_screen_test.gd')) {
     $testOutput = & $Godot --headless --path $projectRoot --script $testScript 2>&1
     $testExit = $LASTEXITCODE
     $testOutput | Write-Output

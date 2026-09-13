@@ -1,5 +1,22 @@
 # [현행] OMENWARD Document Lifecycle Registry
 
+## 현재 재기획 owner 등록 (2026-09-14)
+
+이 절이 아래 2026-08의 current 표기보다 우선한다. 아래 본문은 `HISTORICAL_DISCOVERY / COMPATIBILITY_ANCHOR`이며 이전 기획과 검증 증거를 보존한다. 새 실행 권한·최종 아트·현재 구현 완료로 해석하지 않는다.
+
+| 책임 | 현재 경로 | 발행/증거 경계 |
+|---|---|---|
+| 결정 / 실행 상태 | `docs/CURRENT_CONFIRMED_DECISIONS.md` / `docs/ACTIVE_CONTEXT.md` | source_only; 매 실행 fresh-read |
+| 사람용 규칙 | `docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md` | milestone_sync; PDF는 source snapshot, 현재 runtime 증거 아님 |
+| 수치·로스터 | `docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json` | 모델이 직접 소비; 수치는 권장 실험값 |
+| 작업 순서·명세 | `docs/superpowers/plans/2026-09-11-visible-battle-slice.md` | source_only; P00–P09 현재 절, 과거 next는 history |
+| 자산 출처·상태 | `docs/images/candidates/blueprint-20260911/ROSTER_PROVENANCE.md` | 원화/alpha/Aseprite/runtime/final 구분 |
+| 실제 구현 | `scripts/replan/front_run.gd`, `scripts/replan/front_screen.gd`, `scripts/replan/front_art.gd`, `scenes/replan/front_slice.tscn` | 파일 존재와 실행 PASS는 별개 |
+
+고정 Skill/adapter의 three-line·construction-node·Sheet 표현은 2026-09-10 재기획과 repository-only 결정으로 해당 제품 의미만 대체한다. 버전/해시/생성 snapshot은 수정하지 않으며 공유 절차·보호 경계는 그대로 적용한다. 이 문서는 경로·생명주기만 소유하고 게임 수치를 복제하지 않는다.
+
+## 보존된 2026-08 등록 이력
+
 ```yaml
 updated_at: 2026-08-30
 status: CURRENT_DOCUMENT_LIFECYCLE_REGISTRY

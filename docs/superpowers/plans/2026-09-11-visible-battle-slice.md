@@ -12,6 +12,18 @@
 
 ## 2026-09-14 남은 작업 설계·구현 명세 — 현재 실행 순서
 
+### 후속 승인 및 첫 구현 증분
+
+사용자 후속 승인 ‘좋아 권장안대로 작업진행해’로 아래 계획 준비 전용 상태를 해당 턴의 이력으로 전환한다. P00의 네 안정 진입점에 현재 owner와 역사 경계를 연결했고 scope는 exact8경로만 추가했다. 해시 고정 Skill/adapter는 유지하고 obsolete 제품 의미는 Registry의 override 경계로 명시했다.
+
+P01은 저장 transport부터 진행했다. Ruling: 고정 시계·v7 전환과 파일 I/O 변경을 한 번에 섞지 않는다 — 구형 저장의 실제 복구 경로를 먼저 확보하고 이후 시뮬레이션 차이의 원인을 분리하기 위함 — P01 전체 완료는 아직 아니다. `front_save.gd`는 Model.restore를 검증기로 재사용하며 새 저장 모델을 만들지 않는다. 기존 파일 방식과 비교한 대안: 직접 덮어쓰기(REJECT, 실패 시 정상본 유실), temp+rename만 유지(REJECT, 검증/backup 없음), temp 재읽기+검증된 이전 정상본+교체(ADAPT). Godot 공식 FileAccess/DirAccess 문서를 확인했고 파일 크기4MiB 한도·flush/close·모델 검증·해시 대조를 결합했다. OS 전원손실까지 완전한 원자성/내구성을 보장한다는 주장은 하지 않는다.
+
+실제 consumer는 `front_screen._save/_load_save`. 정상 primary를 검증한 backup으로 보존하고, 손상 primary를 읽을 때 backup에서 복구하되 원본을 변경하지 않는다. 복구 후 저장 시 손상본은 고유 rejected 이름으로 보존한다. 미래 `version`뿐 아니라 `schema_version/ruleset_id` 표지가 있는 primary/backup 모두 구형 writer에서 차단한다. v1–v6 gameplay와 저장 schema는 그대로 유지했다.
+
+검증: 기존 모델268/0실패; 새 저장43/0실패; 화면 저장→손상→이전 정상본 복구→재저장 PASS; 기본씬 headless PASS; scope7 PASS. 새 파일 미존재 RED, 미래 envelope4실패 RED→수정, 미래 backup4실패 RED→수정→43 GREEN. 중간 테스트 변수 타입 파서 오류는 별도 교정했으며 기능 RED/PASS로 계산하지 않는다. 독립 검수자는5회 전체 범위 정적 검토 및 두 차례 수정 재검토를 수행했고 미래형식/백업 보호·최상단 현재상태 문제를 해결 확인했다. 독립 검수자 runtime/Human은 NOT_RUN. Base raw protected-path FAIL/scoped PASS 유지. 30Hz·정수 duration·v7·사건 순서는 다음 P01 증분으로 남는다.
+
+참조 전파: Registry/Documentation Map/GDD locator/Project Core는 must-update, Decisions/Active/Roadmap은 current-mutable, 과거2026-08문서/PDF는 history, adapter/생성snapshot/기존모델은 compatibility-preserved. 새로운 runtime asset 없음. 이번 사용완료 검사 fixture56개(129741bytes)는 사용자 삭제 검토 폴더 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/P01-save-20260914`에 해시 대조 후 이동했고 직접 삭제하지 않았다. 장기 lesson: 미래 format의 primary뿐 아니라 backup도 downgrade 보호해야 한다. 공용 Base 승격은 아직 후보이며 외부 저장소 변경 없음.
+
 문서 상태: `SPECIFIED_RECOMMENDATION / IMPLEMENTATION_NOT_RUN_THIS_TURN`. 이번 사용자 요청은 남은 작업과 명세 준비다. 게임 코드·자산·수치 입력은 이번에 변경하지 않는다. 이 절 이전의 실행 결과는 이력이고 아래쪽 과거 `next` 문장은 현재 작업 순서가 아니다.
 
 검토 기준: 작업 브랜치 `codex/visible-battle-20260911`의 `496bc3b1573f0d6f6554c220baac8f83d58b2a8c`, fetch한 main `9ea3245b`, 작업 PR #259 → 부모 #258 → main. #257/#212/#209/#205의 열린 작업은 읽기 전용 중첩 조사 대상이며 흡수하지 않았다. main은 현 검토판과 동일 제품 상태가 아니다. Base remote `d830c0f6`와 채택 v9.4.3을 비교했고 lock은 유지했다. 재개할 때 SHA와 PR 상태를 다시 확인한다.

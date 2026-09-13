@@ -10,6 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
+    'docs/DOCUMENT_LIFECYCLE_REGISTRY.md', 'docs/DOCUMENTATION_MAP.md',
+    'docs/OMENWARD_GDD_CURRENT_CANON.md', 'docs/PROJECT_CORE.md',
+    'scripts/replan/front_save.gd', 'scripts/replan/front_save.gd.uid',
+    'tests/replan_save_test.gd', 'tests/replan_save_test.gd.uid',
     'output/front-status.png',
     'tests/test_ward_cutout.py',
     'docs/images/candidates/blueprint-20260911/ward-roster-alpha.png',

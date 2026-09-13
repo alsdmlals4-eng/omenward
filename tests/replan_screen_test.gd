@@ -208,6 +208,23 @@ func verify() -> void:
 	if screen.run.gold != 80:
 		failed = true
 		push_error("Save/load button path loses gold")
+	screen.run.gold = 60
+	screen._save()
+	var damaged := FileAccess.open(screen.save_path, FileAccess.WRITE)
+	damaged.store_string("{broken")
+	damaged.close()
+	screen.run.gold = 1
+	screen._load_save()
+	if screen.run.gold != 80 or not screen.run.message.contains("이전 정상"):
+		failed = true
+		push_error("UI must recover previous valid save and disclose rollback")
+	if FileAccess.get_file_as_string(screen.save_path) != "{broken":
+		failed = true
+		push_error("Loading backup must preserve corrupt primary evidence")
+	screen._save()
+	if not screen.run.message.begins_with("저장 완료"):
+		failed = true
+		push_error("Recovered player must be able to save continued run")
 	screen.run.phase = "BATTLE"
 	screen.paused = true
 	screen._process(1.0)

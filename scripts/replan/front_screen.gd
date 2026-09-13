@@ -434,21 +434,13 @@ func _draw() -> void:
 	draw_string(font, Vector2(1078, 409), "베일 본진 %d" % maxi(0, int(run.bases[1])), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("f0c8ff"))
 
 func _save() -> void:
-	var file := FileAccess.open(save_path + ".tmp", FileAccess.WRITE)
-	if file == null:
-		run.message = "저장 파일을 열 수 없습니다."
-		return
-	file.store_string(JSON.stringify(run.snapshot()))
-	file.close()
-	var result := DirAccess.rename_absolute(save_path + ".tmp", save_path)
-	run.message = "저장 완료 · 현재 전투/생산 상태 보존" if result == OK else "저장 교체 실패 · 기존 파일 유지"
+	var result: Dictionary = preload("res://scripts/replan/front_save.gd").write_verified(save_path, run.snapshot())
+	run.message = "저장 완료 · 검증된 현재 상태와 이전 정상본 보존" if result.ok else "저장 실패 · 기존 파일 보존: " + result.reason
 
 func _load_save() -> void:
-	if not FileAccess.file_exists(save_path):
-		run.message = "저장된 검토판 출정이 없습니다."
-		return
-	if run.restore(JSON.parse_string(FileAccess.get_file_as_string(save_path))):
-		run.message = "불러오기 완료"
+	var result: Dictionary = preload("res://scripts/replan/front_save.gd").read_verified(save_path)
+	if result.ok and run.restore(result.state):
+		run.message = "이전 정상 저장본으로 복구 · 손상 원본은 보존했습니다." if result.recovered else "불러오기 완료"
 	else:
-		run.message = "저장 형식이 맞지 않습니다. 현재 출정을 유지합니다."
+		run.message = "불러오기 실패 · 현재 출정 유지: " + result.reason
 	_refresh_panel()
