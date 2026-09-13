@@ -1,5 +1,321 @@
 # Visible battle and construction implementation plan
 
+> **For agentic workers:** Use `superpowers:executing-plans` for sequential implementation and review checkpoints. Do not start code merely because this plan exists. Fresh-read current authority and exact task scope first.
+
+**Goal:** 단일 전선 원정을 마지막 맵까지 실제로 플레이할 수 있게 남은 기획·구현·자산·검증 작업을 연결한다.
+
+**Architecture:** `front_run.gd`가 판정과 저장 가능한 전투 상태를 소유하고 `front_screen.gd`는 명령·표시만 담당한다. 기존 모델을 일괄 재작성하지 않으며, 저장 입출력·이벤트·화면의 명확한 책임만 단계적으로 분리한다. 실제 규칙 수치는 Blueprint JSON을 소비하고 화면에 독립 상수를 복제하지 않는다.
+
+**Tech Stack:** Godot 4 / GDScript / JSON / 기존 SceneTree 테스트 / PowerShell 검증기 / Python 자산 검사 / 이미지 모델 원화 / Aseprite 조립·타이밍·메타데이터.
+
+**Spec:** [사람용 규칙](../../design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md), [수치·로스터 입력](../../design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json), [현행 결정](../../CURRENT_CONFIRMED_DECISIONS.md). 아래는 그 원본을 대체하는 새 GDD가 아니라 **미구현 차이와 실행 계약**이다.
+
+## 2026-09-14 남은 작업 설계·구현 명세 — 현재 실행 순서
+
+문서 상태: `SPECIFIED_RECOMMENDATION / IMPLEMENTATION_NOT_RUN_THIS_TURN`. 이번 사용자 요청은 남은 작업과 명세 준비다. 게임 코드·자산·수치 입력은 이번에 변경하지 않는다. 이 절 이전의 실행 결과는 이력이고 아래쪽 과거 `next` 문장은 현재 작업 순서가 아니다.
+
+검토 기준: 작업 브랜치 `codex/visible-battle-20260911`의 `496bc3b1573f0d6f6554c220baac8f83d58b2a8c`, fetch한 main `9ea3245b`, 작업 PR #259 → 부모 #258 → main. #257/#212/#209/#205의 열린 작업은 읽기 전용 중첩 조사 대상이며 흡수하지 않았다. main은 현 검토판과 동일 제품 상태가 아니다. Base remote `d830c0f6`와 채택 v9.4.3을 비교했고 lock은 유지했다. 재개할 때 SHA와 PR 상태를 다시 확인한다.
+
+발행: 기존 실행 계획의 repository-native 운영 문서 갱신. 새 본책·PDF·독립 수치표를 만들지 않는다. 이전 사람용 PDF는 최신 구현 증거가 아니며 P09 milestone에서 원본 갱신 후 재발행한다.
+
+### Global Constraints
+
+- 사용자 확정: 전선 1개, 순차 맵 5개, 맵 → 시간제 10+α 라운드 → 복수 웨이브 → 재정비, 전체 라운드 생존 또는 적 본진 점령 승리.
+- 사용자 확정: 상단 한 줄 미니맵, 룰렛/내정/전선 탭, 건물은 목록에만, 방어탑은 현재 전선에 한 개, 이동 영역 밖 분리 소품.
+- 사용자 확정: 슬롯은 상단부터 `6 + 보유 점령지 수`; 잠긴 건물은 보존하되 비활성. 일반/특수 병종 계열은 별도, 일반 병영 T1은 방패병부터 전문화.
+- 세 전선·강으로 끊긴 경로·건설 노드·기존 이미지의 자동 최종승인 복원 금지. 수치/영웅/등급 세부는 권장 초깃값과 사용자 확정을 구분한다.
+- 전투용 유닛·건물 카드의 분리 오브젝트·소품·VFX는 실제 알파 채널을 검사한다. 불투명 배경화와 투명 오브젝트를 혼동하지 않는다.
+- 생성 후보 → 검수 → 사용자 최종 아트 승인 → 정본 등록 → 소비처 적용 → 실제 화면 검증은 별개다. Aseprite 저장만으로 모션 완료를 주장하지 않는다.
+- 기존 저장·승인 원화·다른 작업 변경을 보존한다. 삭제 후보는 출처/해시/복구 안내와 함께 사용자 삭제 검토 폴더로만 이동한다.
+- 아래 `Create` 경로/API는 **제안이며 아직 존재하지 않는다**. 현 exact-path BUILD allowlist는 신규 모듈을 자동 허용하지 않는다. 각 패킷 착수 때 scope owner와 해당 경로만 검토·추가하고 Base 보호 계약을 우회하지 않는다.
+
+### 1. 지금 무엇이 남았는가
+
+| 영역 | 실제 상태와 차이 | 작업 / 완료 증거 |
+|---|---|---|
+| 원정 진행 | 5맵 전환·53라운드 설정·재도전 checkpoint 존재. 자연 5맵 완주는 미확인 | P01/P02/P08: 시간·점령·보상 정합성, 실제 자원 완주 로그 |
+| 시간 | 프레임 delta를 최대 1초로 잘라 최대 0.05초 가변 조각 처리. 30Hz 정수 tick 명세와 다름 | P01: FPS/배속/저장 재개 동일 사건 결과 |
+| 점령 | 반경 5 내 한쪽 병력이면 즉시 소유권 변경, 공중도 기여. 본진 HP 0이면 즉시 승리 | P02: 반경 3 지상 점령·중립화·본진 최종 점령·시각 진행률 |
+| 경제 | 기본 20초/5G·거점 15초/1G 존재. 조기 점령 잔여 기본 보급 정산 없음 | P02: 한 번만 정산, retry/로드 보상 중복 0 |
+| 건물/군수 | T1/T2 일부 연결, T3·군수소·철거 없음. 대기열은 병종 문자열이라 출생 티어가 없음 | P03: 고정 슬롯 ID·출생 정보·한도·기존 병력 비소급 |
+| 병종 | 10역할 기본 전투, 일부 숙련/정예·공통 상태효과 연결. 전 효과 완성 아님 | P04: 남은 스킬·비재귀 추가타·양 진영 경계 테스트 |
+| 영웅 | 도감/설계 3명, 실제 출정 선택·전투 소비처 없음 | P05: 선택/수동 능력/사망/복귀/저장 |
+| 화면 | 검토판 3탭, 예보·치료·저장 있음. 완성형 메인/맵 선택/결과/설정 없음 | P06: 시작부터 결과까지 실제 입력으로 왕복 |
+| 아트/모션 | Ward/Veil 정적 투명 파생본, 시설8종, 방패4자세만 일부 연결 | P07: 20병종 외형+3영웅 필수 상태군, 시설/탑/5맵 소비처 |
+| 공세/밸런스 | 6템플릿에 창병·암살자·비행병이 빠짐. 자동 정책 3seed 모두 2맵2라운드 패배 | P08: 53라운드 전체 콘텐츠/다중 전략/회복 가능성 비교 |
+| 최종 전달 | Draft 스택, 구형 문서와 최신 검토판 불일치, 출시/기기/Human 미완료 | P09: 보호된 main 통합·패키지·권리·사람 검증 분리 |
+
+### 2. 조사·비교 및 채택 판단
+
+기존 수치 입력의 `sources`에 있는 12게임 벤치마크를 유지한다. 이번에 모든 게임을 새로 플레이하거나 역공학한 것은 아니다. 새 확인은 준비/전투 구조와 Godot 저장·애니메이션 계약에 한정한다. 게임 소개 자료로 내부 알고리즘을 알아냈다고 주장하지 않는다.
+
+| 근거 | 판단 | 프로젝트 적용 / 배제 |
+|---|---|---|
+| [Thronefall 공식 판매 페이지](https://store.steampowered.com/app/2239150/) | ADAPT | 준비 선택과 공세 결과를 분리해서 학습시키기. 전장 건설 위치/전멸제 종료를 복제하지 않음 |
+| 기존 Into the Breach 비교 | ADAPT | 동일 공세 데이터로 예보와 실제 출현 생성. 비공개 편성 맞춤 하드카운터 배제 |
+| 기존 Commander Quest/Monster Train 비교 | ADAPT | 병종 상호작용·배치/성장의 인과 표현. 다층/3전선 지형 배제 |
+| 기존 Slotbound/Luck be a Landlord 비교 | ADAPT | 건물이 미래 동원 분포를 바꾸는 엔진. 조작된 아깝게 실패 연출·잭팟 필수 구원 배제 |
+| [Godot Saving games](https://docs.godotengine.org/en/stable/tutorials/io/saving_games.html) | ADAPT | 저장 가능한 상태를 명시적으로 직렬화. JSON 타입 한계 검사, 설정은 별도 저장. 문서 예제만으로 원자 교체/백업까지 보장된다고 해석하지 않음 |
+| [Godot SpriteFrames](https://docs.godotengine.org/en/stable/classes/class_spriteframes.html) | ADOPT/ADAPT | 상태별 프레임·재생속도·반복 여부의 표현, 실제 타격은 모델 사건이 소유. 애니메이션 종료 콜백으로 중복 피해를 만들지 않음 |
+
+**독창성을 강화할 축:** 확률 엔진을 만드는 내정, 생존과 진격의 이중 목적, 살아남은 개체의 성장, 점령으로 열리는 군수 슬롯이 서로 연결되어야 한다. 새 메타 성장·장비 랜덤 옵션·멀티플레이를 더하지 않고 이 네 가지의 선택 결과를 먼저 완성한다.
+
+| 현재 약점/위험 | 강화·개선 | 기대효과와 실패 판정 |
+|---|---|---|
+| S: 두 승리조건이 있으나 현재 즉시 본진 파괴로 진격만 유리해질 수 있음 | 점령 마무리와 남은 기본 보급을 명확히 표시 | 방어/진격 선택이 성립; 한 정책이 모든 seed/맵에서 지배하면 재조정 |
+| W: 숫자·모션·저장 시계가 어긋날 가능성 | 공통 tick·사건 ID·출생 데이터·손상 없는 저장부터 | 재개 시 피해/보상 복제 0; 실패하면 새 스킬 추가보다 기반 수정 |
+| O: 생존 병사의 성장과 시설 전문화 조합 | 티어와 등급을 별도 표기, 결과에서 성장 원인 설명 | 병사를 지키는 가치가 보임; 죽은 병사/신규 병사에 성장 전이되면 실패 |
+| T: 점령의 골드+슬롯+탑 눈덩이 | 기본6칸으로 대응 가능한 공세, 상실 후 재점령 시나리오 | 병력 강제 삭제 없이 회복 가능; 보유 슬롯 규칙 자체를 몰래 약화하지 않음 |
+| T: 지연 파밍/유료 동원 단일 정답 | 즉시 점령/장기 생존의 순자산·시간·손실 비교 | 기본 보급 정산만으로 해결 선언 금지; 미래 거점 수입과 생산 차이도 측정 |
+
+### 3. 의존 순서와 공통 실행 절차
+
+```text
+P00 현재 정본/범위 정합성
+ → P01 고정 시계·저장 기반
+ → P02 점령·본진·보상
+ → P03 슬롯·군수·T3 출생 정보
+ → P04 남은 병종 효과
+ → P05 영웅
+ → P06 전체 화면 흐름
+ → P07 아트·모션 완성
+ → P08 전체 공세·밸런스
+ → P09 통합·사용자 전달·출시 준비
+```
+
+P07의 소비처별 원화 준비는 P03~P06의 규격이 고정된 부분부터 가능하다. 그러나 검증 전 이미지를 대량 제작하지 않는다. P08의 측정기는 P01부터 쓰되 최종 밸런스 판정은 P03~P07 연결 이후다.
+
+각 패킷은 독립적으로 거절/롤백 가능한 단위다. 구현자는 다음 순서로 진행한다.
+
+- [ ] 패킷이 참조하는 현재 파일과 범위 allowlist를 다시 읽고 변경 경로를 한정한다.
+- [ ] 아래 명시된 반례를 `tests/replan_slice_test.gd` 또는 `tests/replan_screen_test.gd`에 추가한다. 없는 API는 `has_method`로 검사 후 조기 반환하여 RED 이유를 식별한다.
+- [ ] 기존 검증기를 실행해 기대한 미구현/행동 불일치로 RED인지 확인한다. 파서 오류나 환경 실패는 기능 RED와 구분한다.
+- [ ] 한 규칙과 해당 저장/표시 소비처만 최소 구현한다. 수치 변경은 JSON owner에 먼저 반영한다.
+- [ ] 같은 반례 GREEN → 전체 인접 회귀 → 실제 화면/입력/저장 검사 → 5회 전체 범위 적대적 검토를 수행한다.
+- [ ] Active Context의 현재 상태와 이 계획의 패킷 증거를 갱신하고 허용 파일만 commit/push한다. exact-head CI를 확인하며 main 통합을 추정하지 않는다.
+
+공통 기존 실행 명령(구현 때 사용; 이번 문서 작업에서 게임 검증을 다시 실행했다는 뜻 아님):
+
+```powershell
+$godotExe = 'C:/Users/user/Downloads/Godot_v4.7.1-stable_win64.exe/Godot_v4.7.1-stable_win64_console.exe'
+& $godotExe --headless --path . --script tests/replan_slice_test.gd
+./tools/validate_replan_slice.ps1 -Godot $godotExe
+python -m unittest discover -s tests -p 'test_replan_scope.py'
+python tools/replan_scope.py --base-repository ../_base-validator-19355-blueprint
+```
+
+### P00 — 정본 차이와 실행 범위 교정
+
+**상태:** REQUIRED_BEFORE_NEW_MODULES. **문제:** 오래된 lifecycle registry/GDD/skill 본문이 여전히 3전선 또는 구현 전 상태를 current로 표시한다. 최신 AGENTS 상단 재기획 예외가 우선하지만 cold-read 혼선을 남긴다.
+
+**Modify(착수 시 범위 확인):** `docs/DOCUMENT_LIFECYCLE_REGISTRY.md`, `docs/DOCUMENTATION_MAP.md`, `docs/OMENWARD_GDD_CURRENT_CANON.md`, `docs/PROJECT_CORE.md`, `docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md`, `tools/replan_scope.py`. 현재 lock/생성 snapshot은 교체하지 않는다.
+
+**작업:** 현재 질문별 owner를 최신 결정→Blueprint→실제 consumer에 연결하고 이전 3전선 본문은 삭제 없이 history로 분류한다. 공유 Skill의 낡은 게임 규칙은 로컬 override의 정확한 대체 범위를 기록한다. 생성 snapshot을 수동 편집하지 않는다. 새 JSON 필드/모듈 경로만 exact allowlist amendment로 추가한다.
+
+**합격:** 같은 사실의 active owner 한 개, 폐기된 3전선이 신규 실행 경로로 복원되지 않음, 부모/다른 PR 내용 미흡수. Base raw FAIL과 scoped PASS를 계속 별도로 보고한다. 문서 정합성이 보호된 main 통합 완료를 뜻하지 않는다.
+
+### P01 — 고정 시계·저장·사건 기반
+
+**Modify:** `scripts/replan/front_run.gd`의 `advance/_tick/snapshot/restore`, `scripts/replan/front_screen.gd`의 `_process/_save/_load_save`; 기존 모델/화면 테스트. **Create 제안:** `scripts/replan/front_save.gd`(파일 입출력만), `tests/replan_save_test.gd`(실파일 실패 경계), 검증기의 해당 테스트 호출.
+
+**인터페이스 제안:** `advance(delta: float) -> void` 유지; `advance_ticks(count: int) -> void`, `simulation_tick() -> int`; `FrontSave.write_verified(path: String, state: Dictionary) -> Dictionary`, `FrontSave.read_verified(path: String) -> Dictionary` → `{ok: bool, reason: String, state: Dictionary}`. 실패는 live run을 수정하지 않는다.
+
+**설계:** 신규 ruleset은 30Hz 고정, `ceil(seconds * 30)` duration tick. 프레임 누산기는 잔여 시간을 보존하고 한 프레임 실행량이 제한되어도 빚을 버리지 않는다. 일시정지/재정비에는 모델 tick 증가 없음. UI 배속은 명세의 1×/2×, 모델 공격 속도 상수를 곱하지 않는다. 큰 delta를 현재처럼 1초로 자르지 않는다. 렌더 보간은 상태에 역기록하지 않는다.
+
+**동일 tick 순서:** 명령 검증 → 만료 처리 → 예정 공세/생산/수입 → 표적·이동 → 준비완료/발사 → 적중·효과 → 사망 정리 → 점령 → 본진/라운드 종료 → 종료 보상·성장 1회. 동일 종류는 생성 ID 오름차순. 종료 tick과 같은 신규 공세는 생성하지 않는다. 사망 전 발사된 사건은 유효하지만 미발사 공격은 취소한다.
+
+**저장 v7 제안:** `schema_version`, `ruleset_id`, `catalog_hash`, `run_id`, `tick`, `next_event_id`, `rng_state`, `map_entry`, `reward_ledger`, `units`, `buildings`, `reserve`, `capture`, `pending_events`. 모든 숫자는 유한/범위/정수 조건 검증. ID 중복·알 수 없는 필수 ruleset·미래 버전은 원본 보존 후 거절. UI 선택/음량은 별도 설정이며 RNG에 섞지 않는다.
+
+**호환:** v1~v6 진행 중 원정에 새 점령/경제 규칙을 무음 적용하지 않는다. 구형을 기존 경로로 계속 실행하고 새 원정부터 v7을 사용한다. 파일을 읽었다는 이유만으로 덮어쓰지 않는다. 다음 맵에서 자동 전환도 하지 않는다. 장기적으로 구형 adapter는 해당 fixture와 실제 사용자 호환 범위가 끝났다고 확인된 뒤 정리한다.
+
+**입출력:** temp 쓰기→닫기→다시 읽고 모델 검증→기존 유효 파일을 backup으로 보존→교체. 실패 단계별 이전 정상본 유지/복구, backup도 검증 후만 사용. 원자 교체 성공을 OS별 실행 없이 주장하지 않는다. snapshot hash는 손상 탐지용이지 부정행위 방지 서명이 아니다.
+
+**RED 예시(새 API 제안, 테스트 함수에 삽입):**
+
+```gdscript
+var a = model.new()
+var b = model.new()
+check(a.has_method("advance_ticks"), "P01 requires fixed ticks")
+if not a.has_method("advance_ticks"):
+    return
+check(b.restore(a.snapshot()), "Share identical seed, run ID and entry state")
+a.begin_round()
+b.begin_round()
+a.advance_ticks(30)
+for i in range(30):
+    b.advance_ticks(1)
+check(a.snapshot() == b.snapshot(), "Tick batching must not alter state")
+```
+
+**추가 합격:** 동일 seed/input으로 30/60/144FPS·1×/2× 결과 사건 순서 일치, 중간 저장→재개 일치, 2.5초 delta 시간 유실 없음, 손상 temp/rename 실패/잘린 JSON 때 이전 정상본 보존, legacy fixture unchanged. 부동소수 위치까지 cross-platform bit-identical이라는 목표는 세우지 않으며 동일 실행 환경의 허용 오차를 따로 명시한다.
+
+### P02 — 점령·탑·승리·정산
+
+**Modify:** `front_run.gd`, `front_screen.gd`, Blueprint JSON의 점령/정산 명시 키, 모델/화면 테스트. **Consumes:** P01 tick/사건/저장. **Produces 제안:** `capture_state(point_id: String) -> Dictionary`, `settle_map(reason: String) -> bool`.
+
+**좌표 계약:** 지도 좌표 0~100의 점령 반경은 3 그대로다. 병종 사거리의 전투 거리→지도 좌표 변환(현재 ×3)과 섞지 않는다. 점령 위치 25/50/75, 탑은 50의 한 개. 지상 생존 병력만 기여하며 진영별 인원 기여는 최대 2. 영웅의 점령 기여는 P05의 기본값에 명시한다.
+
+**점령 상태 제안:** `{point_id, owner: -1|0|1, capturing_side: -1|0|1, progress: 0..1, leg: NEUTRALIZE|CLAIM}`. 여기 side 코드 역시 현재 점령 owner 관례(0중립/1Ward/-1Veil)를 사용하며 unit.side(0Ward/1Veil)와 변환 함수를 둔다. 혼재하면 정지, 공격측이 없으면 progress가 초당0.1 감소. 한 병력은8초/두 병력은4초. 빈 중립 거점은 CLAIM 한 단계. 적 소유 거점은 NEUTRALIZE 후 CLAIM 각8초라는 **모호성 해소 권장값**; 총16초(2인8초)를 툴팁에 표시한다. 단계를 넘은 잔여 tick을 다음 단계에 전달한다.
+
+적 본진 HP0 이후 `BREACHED` 상태, 수리/자동 HP 복원 없음, 지상 병력의 CLAIM 완료 때 승리. 아군 HP0은 즉시 패배. 아군 함락→적 점령→최종 라운드 생존 순서 유지. 거점 반복 점령의 일회성 골드 없음. 적/아군이 빈 거점을 떠나면 기존 소유권은 유지한다.
+
+**탑:** 소유권은 중앙 거점 owner에서 파생. 중립은 공격하지 않으며 다음 발사부터 새 진영. 예정 투사체는 `source_side_at_launch`를 보존. 시각만 늦게 날아가는데 피해는 먼저 들어가는 상태를 완성판으로 두지 않는다(P07 연결). 다른 두 거점에 탑을 추가하지 않는다.
+
+**정산 기본값:** 맵의 기본 보급 예산 `rounds * base_gold_per_round`에서 이미 지급한 기본 보급만 뺀 값을 CAPTURE 승리 때 한 번 지급한다. 거점 수입·미생산 병력은 제외. `reward_ledger[run_id/map_id]`로 중복 방지하며 맵 진입 재도전은 실패 원정 ledger까지 되돌린다. 이 전체 맵 예산 해석은 권장안이며 밸런스 검증 전 확정 수익률로 표현하지 않는다.
+
+**RED/합격:** 지상1명239tick 미점령/240tick(8초) 점령; 비행10명 기여0; 양측 혼재 진행0; 떠남/복귀 decay; 중립화 완료 때 탑 중지(완료 전 기존 소유 유지); 본진 HP0이지만 점령 미완료면 계속 전투; 동시 함락 패배; 같은 settle/로드/버튼 두 번 보상1회. 10라운드 맵에서 기본5G 수령 후 조기 승리 정산145G, 거점 수입은 차감 대상 아님. 재정비 점령/투사체 동결·반경 양진영 대칭 검사.
+
+### P03 — 건물·군수·T3와 출생 정보
+
+**Modify:** `front_run.gd`의 건설/전문화/생산/징조륜/출전/저장, `front_screen.gd`의 내정·대기열·용량 표시, JSON 시설 입력, 기존 테스트. **API 제안:** `capacity_limit() -> int`, `upgrade_tier(slot: int) -> bool`, `demolish(slot: int) -> bool`, `deploy_entry(entry_id: int) -> bool`.
+
+**상태:** 건물 `{instance_id, slot_index, facility_id, tier, fixed_special_role, production_ticks}`. 철거는 해당 슬롯만 빈칸으로 만들고 뒤 건물을 당기지 않는다. 새 건설은 첫 해금 빈칸. 건설/전문화/철거는 PREPARE/REFIT이면서 omen_pending=false일 때만. 철거 UI는 무환급·토큰/생산 중단·용량 감소를 확인하며 기존 병력과 이미 확정된 대기는 남긴다.
+
+**군수:** `capacity_limit = 18 + 6 * active_logistics_count`; 잠긴 군수소 효과0. 사용량이 한도를 초과해도 생존 병력을 삭제하지 않고 추가 출전만 차단한다. 대기 한도24는 별개다. 모든 표시와 버튼은 API 값을 사용하고 `/18` 하드코딩을 제거한다.
+
+**티어:** T2는 첫 맵2라운드 준비부터, T3는 첫 맵6라운드 준비부터라는 catalog 권장 gate. 다음 맵1라운드에서 다시 잠기지 않도록 `(map_index > 0 or round >= threshold)`로 판정한다. T3 비용/간격은 원본 `capstones`와 시설 가격을 참조한다. 일반↔특수 계열 이동 없음. T2→T3는 같은 역할 하나이며 T3 추가 분기 없음.
+
+**출생 계약:** 대기열 문자열을 `{entry_id, role_id, birth_tier, source_facility_id, survived: 0}`로 변경. unit에 동일 출생 정보를 보존. 생산 완료/징조륜 확정 시점에 출생을 고정한다. 징조륜 token에는 role뿐 아니라 source/tier를 보존하고 같은 역할 매칭은 `role_id`로 판정한다. 선택 보너스의 추가 병력은 완성선의 가장 낮은 tier를 사용한다는 권장값으로 고급 한 토큰의 무한 복제를 방지한다. 구형 string 대기는 tier1로만 호환하고 임의 T3 승급하지 않는다.
+
+**RED 예시:**
+
+```gdscript
+var run = model.new()
+check(run.has_method("capacity_limit"), "P03 requires shared capacity")
+if not run.has_method("capacity_limit"):
+    return
+check(run.capacity_limit() == 18, "Base capacity")
+check(run.construct("logistics"), "Build affordable logistics")
+check(run.capacity_limit() == 24, "Active logistics adds six")
+```
+
+**추가 합격:** 점령지 상실로 잠긴 군수소/생산/다음 토큰 모두 비활성, 회복 시 원래 슬롯/생산 잔여 복원; 철거로 슬롯 압축 불가; 업그레이드 전 대기/출전은 기존tier, 이후 생산만tier3; 저장후 source/tier/특수 추첨 불변; pending 중 변조/이중 비용 차감 불가. 예외적으로 공개 기본 토큰에는 출처 `base`/tier1 사용.
+
+### P04 — 남은 숙련·정예·T3 전투 효과
+
+**Modify:** `front_run.gd`의 `_hit/take_damage/heal_target/choose_target`와 저장; JSON progression/capstones의 구조 키; tooltip; 모델 테스트. **Create 제안:** `scripts/replan/front_combat_events.gd`는 아래 사건 처리 추출이 실제 중복을 줄일 때만 도입, 범용 ECS/이벤트 버스 재설계 금지.
+
+**인터페이스 제안:** `resolve_hit(event: Dictionary) -> void`; event 필수값 `{event_id, parent_event_id, attack_id, source_id, target_id, side_at_launch, kind: BASIC|SECONDARY|COUNTER, damage_type, is_ranged, base_damage}`. 기본 적중만 기본타 카운터를 증가. secondary/counter는 추가타를 다시 발동하지 않는다. 동일 event_id 재처리는 피해0. 범위 대상은 거리→ID로 정렬, 대검은 공격 방향 앞쪽만. 점령 반경과 전투 사거리 변환은 P02 계약을 따른다.
+
+기존 연결을 다시 구현하지 않는다: 숙련 방패/궁병/대검/기병/마법사, 숙련·정예 사제, 공통 보호막/둔화/경직. 아래 수치의 책임 원본은 JSON `unit_progression`/`capstones`; 여기서는 빠진 트리거/경계만 특정한다.
+
+| 역할 | 아직 연결할 등급 효과 | 경계 및 합격 반례 |
+|---|---|---|
+| 방패 | 정예 인접 아군 보호 | 8초, 자기 제외, 인접은 전투거리1.5 권장, 거리→ID 1명. 대상 없으면 재사용 소비 안 함 |
+| 궁병 | 정예 5타 관통 | 주표적 뒤쪽 전투거리1 내 적 1명 권장. 원 피해의50%, 추가타 카운터/집중사격 재발동 없음 |
+| 마법사 | 정예 4타 반경 증가 | 네 번째 기본 발사에만 반경0.8; target cap은 T3와 독립. 한 번의 범위 적중은 공격1회 |
+| 창병 | 숙련 돌격자 둔화·정예 반격 | 실제 brace 저지 성공 때만, counter 6초. 양 창병 상호 반격 무한루프0 |
+| 대검 | 정예 4타 방어 감소 | 물리 방어-10/2초, 같은 원천 갱신·동일 효과 max. T3와 합산0, 방어 하한0 |
+| 기병 | 정예 재돌격 | 3초간 근접 표적 없음 및 피해받음 없음이라는 이탈 기본값. 단순 공격 cooldown 대기만으로 충전하지 않음 |
+| 거인 | 숙련 구조물 누적·정예 충격파 | 구조물 연속 적중 후 다음 공격 +10%씩 최대30%, 비구조물 적중 뒤 stack0 권장. 3번째 기본타 주변2체40%, 본체 중복 제외 |
+| 암살자 | 숙련 지원 급소·정예 교란 | support=사제. 유효 ambush 첫타에1.4×1.1, 준비 지연0.3은 경직 아닌 준비/다음 공격 시각 연장, 대상 면역6초 |
+| 비행 | 숙련 활공·정예 급강하 | 실제 이동 중 ranged 피해-10%; 첫 교전 경직과8초 재사용. 정지 중 감소0, 저장 재개로 재충전 불가 |
+
+**T3:** 열 병종의 capstone 전부 별도 테스트. 등급과 티어는 독립: T3 명사수의 집중 사격은 숙련 조건이 충족될 때25→35% 강화, T3 대검과 정예 대검의 같은 방어 감소는 한 효과. T3 방패 경직 감소는 방어 자세일 때만, 무한 면역 아님. 기병/암살자 피해감소는 자기 상태로 시간 저장. 비행 재교전8초와 정예 급강하8초는 각각의 능력 준비 여부를 보존한다.
+
+**피해 순서 권장:** 기본 공격/공성/집중 보너스 → 물리/마법 방어 → 조건부 받는 피해 배율(서로 다른 효과 곱, 동일 효과 max) → 보호막 → HP. 소수 피해는 모델 float 유지, 화면 반올림만. 추가 피해 기준은 이차 피해의 방어 적용 전 값을 정의해 방어 이중 적용하지 않는다.
+
+**합격:** 전 역할 양진영 대칭(성장 획득은 Ward만), 2/5생존 임계/재정비/맵 이동/재도전, T3×grade 교차 조합, 취소/빗나감/죽은 표적은 적중횟수 증가0, 1000사건 스트레스 재귀/중복0. 상대 정예는 authored wave 데이터로만 부여하며 플레이어 성장에서 자동 추론하지 않는다.
+
+### P05 — 영웅 3명과 수동 전술
+
+**Modify:** 모델·화면·저장·JSON heroes; 모델/화면 테스트. **API 제안:** `select_hero(hero_id: String) -> bool`, `hero_skill_targets() -> Array`, `cast_hero_skill(target: Dictionary) -> bool`.
+
+새 원정 첫 준비 전에3명 중1명 선택. 영웅은 별도1슬롯, 출전18용량/징조륜/병사 생존등급과 분리. 원정 도중 교체 없음, 재도전은 진입 snapshot의 같은 영웅. 영웅 지상 개체는 점령력1이라는 권장값. HP/공격/사거리/능력 수치는 JSON heroes를 소비한다.
+
+| 영웅 | 실제 소비처 | 구현 상세 권장값 |
+|---|---|---|
+| 아우렐 | 전열 인접 방어·군기 보호막 | 인접 반경1.5, 자기 제외, 받는 피해8% 감소. 지정영역 반경4 내 가까운6체에40/5초, CD30초 |
+| 리라 | 대공/지원 우선·표식 | 사거리 내 공중→사제→거리/ID. 단일적 표식 ranged 받는 피해20%/5초, CD25초 |
+| 세렌 | 최저 체력비율 치료·범위 회복 | 기본3초/15HP, 자기 제외·사거리 내 비율→거리→ID. 지정영역 반경4 가까운5체30HP+둔화 정화, CD35초 |
+
+수동 능력: 전투 중 선택→유효 대상 미리보기→확정, ESC/빈 공간 취소. 범위 선택은 지도좌표로 변환; 대상0/사망영웅/정지 상태/재사용 중이면 비용·CD 소비0. pause 중 미리보기는 가능하되 확정은 재개 후 다시 검증. 맵 전환은 HP계승/CD초기화, 재정비는 CD동결. 전투 중 사망하면 해당 라운드 불참, 정상 재정비 진입에만50%HP 1회 복귀 권장; 패배에서 부활로 결과를 뒤집지 않는다.
+
+**합격:** 무효 표적/중복클릭/로드 직후 무료 시전0, 양진영 죽은 대상 제외, 보호막 비합산, 세렌 치료로 공격 트리거 발동0, 사망→재정비 부활 중복0. 이름·서사·최종 외형은 후보/권장 상태를 유지하고 전투 기능 PASS와 최종 캐릭터 승인을 분리한다.
+
+### P06 — 전체 UI/UX와 결과의 인과 설명
+
+**Modify:** `front_screen.gd`, `scenes/replan/front_slice.tscn`, `project.godot`, 화면 테스트. **Create 제안:** `scripts/replan/front_menu.gd`/`scenes/replan/front_menu.tscn`(메인·설정), `scripts/replan/front_results.gd`(결과 표시), `scripts/replan/front_settings.gd`(ConfigFile 설정). 기능 단위로만 분리하고 런타임 모델 복제 금지.
+
+```text
+메인 [새 원정 / 이어하기(불가 사유) / 설정]
+ → 영웅 선택 → 원정 지도(현재 도전 가능 맵만 진입)
+ → 준비 [상단5맵 한줄 + 공통자원 + 룰렛/내정/전선]
+ → 전투 [근접 전투 화면 + 공세예보 + 영웅 + pause/1×/2×]
+ → 재정비 [부상/성장/손실 → 치료/시설/동원 → 다음 라운드]
+ → 맵 결과 [생존/점령, 기본/거점/정산 분리 → 다음 맵]
+ → 최종 원정 결과 → 메인
+패배 → 맵 진입 재도전 / 메인 (저장 없는 구형은 불가 사유)
+```
+
+맵 선택이라는 이름으로 이전 맵 자유 재방문·자원 파밍을 추가하지 않는다. 완료 맵은 요약 열람, 현재 맵은 이어하기, 미래 맵은 잠김. 결과에는 실제 ledger의 수입/지출, 손실·생존·등급 변화, 탑/점령 획득과 승리 이유만 표시한다. 고정 문구로 ‘좋은 전략’ 판정을 날조하지 않는다.
+
+**와이어 배치(1280×720 기준 권장):** 상단0~56 공통자원·5맵 리본,56~104 공세 예보; 중앙104~480 전투; 하단480~720 선택 탭/카드. 전투 화면을 지도 전체 도로로 되돌리지 않는다. 좁은 화면에서는 카드 스크롤, 전장 비율은 보존. 실제폰트/클릭영역 검증 후 좌표조정 가능.
+
+**가독성/설정:** 본문18px 이상·조작영역44px 이상을 기준으로720p/1080p 검수; 텍스트 배율100/125/150%, master/music/SFX 분리, 모션감소·화면흔들림0옵션, 색+아이콘+텍스트 병행. 키보드 focus 순서/Enter/ESC/Tab, 입력 재지정 충돌 안내. Android터치는 이후 실제기기 gate이며 PC캡처로 PASS 금지.
+
+**합격:** 새 원정→건설→전문화→징조륜→출전→영웅→재정비→저장→메인→이어하기→결과를 실제 입력으로 수행. tab교체/정지/배속이 모델에 추가 명령을 만들지 않음. 불가 버튼에 이유, 만석·골드부족·잠긴시설·손상저장 경로,150%텍스트 잘림,키보드전용 왕복 검사.
+
+### P07 — 투명 아트·아틀라스·모션·5개 맵
+
+**Modify:** `front_art.gd`, 상태 사건을 읽는 `front_screen.gd`, 기존 `ROSTER_PROVENANCE.md`, 해당 자산 카탈로그/QA/캡처. 신규 경로는 소비처 Visual Requirement가 고정된 뒤 exact scope에 등록한다. 이 계획은 실제 생성/최종승인 기록이 아니다.
+
+| 자산군 | 준비할 범위 | 연결·합격 조건 |
+|---|---|---|
+| Ward10+Veil10 병종 | 각 idle/move/attack/hit/death, 지원은 cast/heal; 기병 charge·창병 brace·비행 glide·암살 approach | 최소5상태×20외형의 커버리지표. 정적 원화 복제는 move/attack 완료가 아님 |
+| 영웅3 | 기본5상태+active cast, 죽음/라운드복귀 | P05 actor/state/event와 결합, 카드 원화와 전투 sprite 분리 |
+| 시설 | 현재 catalog13종(2뿌리+10전문화+군수소), T3 심화 식별 | 13개별 식별 그림, 잠김/선택/생산중은 UI 상태, T3는 원화+표식 조합 가능. 카드 불투명 종이 배경을 전장 오브젝트로 쓰지 않음 |
+| 방어탑 | 한 개 형태의 중립/Ward/Veil 소유 상태, 발사·파손 필요 상태 | 한 전선 한 개. 소유색만 아닌 문장/형태 표식, RGBA 발사효과 |
+| 전장5 | 성채외곽→수호전진→접전→장막전진→베일성채 | 각 별도맵 배경, 중앙 통행 영역 유지. 금빛/청색에서 자색으로 소재·조명 연속성 |
+| 분리소품 | 성벽조각/깃발/수목/바위/침식체 등 필요한 종류 | 배경과 별도 RGBA, 중앙 이동영역 외부 anchor만 허용. 생성 개수보다 재배치 가능성 검증 |
+| UI/효과 | 병종/영웅/시설 아이콘, 투사체/보호막/둔화/경직/표식/치료, 메인/워드마크 | 실제 버튼/상태/사건 ID를 소유하며 장식용 대량 후보 금지 |
+
+**스타일:** 동화풍 판타지 수채 SD2.5~3등신, 궁병/마법사와 재질·윤곽 일치. Veil은 인간의 검은 갑옷 색변경이 아니라 catalog의 갑각수·포자괴 등 몬스터 실루엣. 기존 이미지들은 비교자료이며 재기획 이전 승인을 자동 복원하지 않는다.
+
+**공정:** 이미지 모델 자세별 원화→실알파 검수→공통발피벗/방향 정렬→Aseprite frame/tag/duration 조립→PNG/JSON export→원화/출력 hash·alpha QA→모델사건 연결→GPU실전캡처. Aseprite 사용 여부는 자산별 `source_generation`, `alpha_processing`, `aseprite_assembly`, `runtime_animation`을 따로 기록한다.
+
+현재 방패4자세는768셀/pivot(384,700)을 보존한다. 과거512/pivot(256,448) 문구에 맞추려고 승인 픽셀을 무조건 축소하지 않는다. 소비자는 자산별 frame_size/pivot를 읽는다. 정적 Veil의 Aseprite 왕복과 Ward 파생본의 Aseprite 미사용을 혼합 표기하지 않는다.
+
+**모션 계약:** 공격은 windup→release/contact→recover. 모델 attack_id에당 피해1회, 경직/사망으로 발사전 취소, 발사후 투사체는 원진영/목표ID/위치/잔여tick 저장. 단일탄 표적 사망은 소멸, 범위탄은 발사지정위치 착탄이라는 권장값. 모션 감소에서도 피해시점과 판독 가능한 최소 효과는 유지. 장식 흔들림이 공격 준비를 가리지 않음.
+
+**합격:** RGBA 알파0 실제존재·가짜체커보드0·흰테두리/잔여종이 검수·셀침범0·발위치 흔들림·무기/손/날개 연속성; 밝은/어두운/실전 배경 모두 확인. 20외형 혼합720/1080과23캐릭터 상태 전이, 빗나감/취소/사망 실제 타격동기화. 사람 최종아트는 별도. 새 파일/이미지는 사용 끝난 임시파일과 원본 provenance를 구별한다.
+
+### P08 — 53라운드 콘텐츠·경제·오디오·밸런스
+
+**Modify:** JSON `wave_templates/wave_cycle/maps`, 모델의 공세 읽기, 예보/결과 소비처. **Create 제안:** `tests/replan_campaign_test.gd`(자원주입 없는 정책 실행/로그), `scripts/replan/front_audio.gd`(사건 기반 SFX와 music bus). 유닛/효과 사양 완료 전에 단순 pressure하향을 최종안으로 고정하지 않는다.
+
+**콘텐츠:** 10/10/10/11/12라운드, 각3공세=159공세 슬롯에 stable `map_id/round_id/wave_id`와 등장순서·지연·병종·수·등급을 매핑. 생성식 유지 가능하지만 expanded 결과가 예보와 같아야 한다. 현재 빠진 창병/암살자/비행병을 단계적으로 도입한다. 처음 등장하기 전 위협/두 대응을 예고하고 해당 준비 시점에 적어도 두 합법 대응 경로가 있어야 한다. 고정 RNG 결과가 모든 대응을 제거하면 설계 실패다.
+
+**권장 학습 순서:** 1맵 전열/궁병/치료,2맵 기병/창병과 점령,3맵 범위/특수후열,4맵 공중/공성/유지,5맵 기존 역할 혼합. 이는 독립 보스 시스템이나 추가병종 약속이 아니다. 각 맵 마지막 라운드의 정예 공세는 명시 데이터로 예고한다.
+
+**측정:** 고정 seed 0~29 × 방어/진격/경제전문화/혼합/최소행동 정책. 저장재개 on/off 한 쌍, 조기승리/지연승리 같은 seed 비교. 기록 필수: 완료맵·라운드·승리유형·순자산·원천별수입·치료지출·사망역할·등급생존·시설이용·대기포화·점령상실/회복·실제전투시간. RNG 재굴림·자원주입·결과상태 강제는 자연완주 증거에서 제외한다.
+
+**합격 목표:** 완주 가능한 자연 경로 최소 하나 먼저 확인하고, 그 다음 두 개 이상의 서로 다른 투자정책이 전체원정 성공하는 표본 확보. 전 seed 성공/모든 전략 동률을 요구하지 않는다. 특정 공세에서 합법 대응0, 영구적 UI진행불가, 순자산 무한증식은 차단 결함. 승률 목표/최종난이도는 사람 플레이 후 정하고 자동정책 패배를 인간 불가능으로 단정하지 않는다.
+
+**오디오:** 버튼/건설/동원확정/공세예고/공격/치료/점령/승패를 사건에 연결. 동시 효과음 제한16개 초깃값, 같은 소리 짧은 중복 억제, 중요한 경고 우선. 음량/음소거 저장·재개 실제 적용, 시각 대체 알림. 없는 음원은 무료/현재보유·권리확인 소스 우선, 출시권리 미확인을 자동승인하지 않음.
+
+**성능:** 대상 PC와 해상도를 기록한 실제 export에서 대표/최대병력/장시간을 측정. 초깃목표60FPS의16.7ms 프레임예산, p95/p99·메모리·로딩을 함께 기록. 측정기기 없이 목표를 PASS로 쓰지 않는다. Android는 별도기기와 품질옵션 gate.
+
+### P09 — 정본·패키지·최종 검증
+
+**Modify:** 현재 상태/로드맵/승인 결정/사람용 Blueprint source·생성 결과, `project.godot`와 export 설정(착수 때 실제경로 확인), 플랫폼·자산권리 owner. 과거 PDF를 새 구현의 증거로 인용하지 않는다.
+
+**순서:** 패킷별 실제 coverage 대조→Blueprint milestone 재발행·전페이지확인→현재 PR/부모/중첩 재조회→허용된 보호절차로 통합→main exact SHA readback→동일 SHA export→시작/이어하기/원정/결과/종료 smoke→사용자 실행파일·조작법·알려진 제한 전달. 부모 PR의 미해결 정본 충돌을 우회해 현재main에 직접 push하지 않는다.
+
+**필수 분리:** 문서 검사 / 모델 자동검사 / GPU실행·입력 / 기기·성능·접근성 / 사용자 재미·최종아트 / main통합 / 실제 출시·등급·권리. 앞 단계PASS가 다음 단계PASS가 아니다. Steam PC가 주대상, Android는 기존 약속대로 출시근접 실제기기 검증을 남긴다. 공개배포·유료계정·법률/스토어 제출은 이 명세로 자동 실행하지 않는다.
+
+### 4. 이번 문서 작업의 검증과 다음 인계
+
+현재 코드/씬/JSON/Blueprint/열린PR/채택Base를 대조했다. 발견한 instant capture·가변시계·T3출생정보 누락·군수 한도 고정·메인/전체모션 공백은 위 패킷의 반례로 연결했다. 이전 268모델 검사 및 GPU 결과는 **이전 구현의 증거**이며 이번에 신규 기능을 검증한 결과가 아니다.
+
+5회 문서 자체 검토 관점: (1) 사용자 확정/권장값 구분 (2) 시계·저장·retry 안전성 (3) 경제·출생·효과 상호작용 (4) UI·투명아트·모션 실제소비처 (5) Git/계약/완료 주장 경계. 이 검토는 독립 작업자의 실행검증이나 Human 승인으로 표기하지 않는다.
+
+이번 문서 정적 검증: P00~P09 10개 섹션·신규 절의 로컬 Markdown 링크·코드 fence 짝 검사 PASS, 변경4문서 `git diff --check` PASS, 기존 scope 회귀6개 PASS, 채택 Base 검사에 대한 `PROJECT_SCOPED_BUILD: PASS`. `BASE_RAW_RESULT: FAIL`은 기존 승인 예외8개 protected runtime 경로로 남아 있으며 이번에 우회/수정하지 않았다. 검토 중 예제의 새 run ID 차이와 30Hz 점령 경계 표현을 교정했다. 게임 실행/신규아트/전체원정/Human은 이번 작업에서 NOT_RUN.
+
+다음 구현 시작점은 P00→P01이다. 이유는 점령·스킬·영웅·투사체를 더하기 전에 시간과 저장 계약이 안정되어야 이후 구현을 다시 뜯지 않기 때문이다. 최종수치/영웅서사/아트확정은 아직 별도이며, 전체작업 준비 문서가 존재한다고 전체제품 또는 모든 패킷의 런타임 준비가 완료된 것은 아니다.
+
+## 이전 구현 계획과 검증 이력
+
 ## 2026-09-13 transparent Ward and facility continuation
 
 Bounded consumer fix: non-shield Ward currently uses opaque ward-roster, special upper-row and building-tree. Reuse explicitly user-approved local alpha-only processor, preserve RGB/source hashes, no redrawing or new art approval. Alternatives: image-model re-extraction (identity/alpha drift risk observed), whole pale-color removal (reject armor damage), edge-connected paper removal with enclosed pale details retained (ADAPT existing tested tool). Outputs ward-roster-alpha.png, ward-special-alpha.png (upper610px verified gutter), building-tree-alpha.png. Existing shield motion and Veil remain unchanged. Native static Aseprite only if available; never claim motion. Tests fail on missing alpha outputs, RGB changes or pale anatomy erasure; actual Godot consumer alpha and mixed/building GPU after wiring. Margins/weapon cross-cell and enclosed paper remain explicit quality limits; don't mislabel as final animation.
