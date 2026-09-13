@@ -103,4 +103,34 @@ func capture() -> void:
 	root.get_texture().get_image().save_png("res://output/front-campaign.png")
 	campaign_screen.queue_free()
 	await process_frame
-	quit(0 if captured.size() == 3 else 1)
+	var status_screen = load("res://scenes/replan/front_slice.tscn").instantiate()
+	root.add_child(status_screen)
+	await process_frame
+	status_screen.paused = true
+	status_screen.run.units.clear()
+	status_screen.run.spawn("mage", 0, 45)
+	status_screen.run.spawn("priest", 0, 44)
+	status_screen.run.spawn("shield_guard", 0, 47)
+	status_screen.run.spawn("giant", 1, 50)
+	status_screen.run.units[0].survived = 2
+	status_screen.run.units[1].survived = 5
+	status_screen.run.units[2].survived = 2
+	status_screen.run.units[2].hit_count = 3
+	status_screen.run.units[2].hp = 175
+	# Observe the shield before the giant consumes it; fixture timing only.
+	status_screen.run.units[3].cooldown = 2.0
+	status_screen.run.begin_round()
+	status_screen.run.advance(0.25)
+	var guard: Dictionary = status_screen.run.units[2]
+	var giant: Dictionary = status_screen.run.units[3]
+	var controlled: bool = float(giant.effects.get("stun", 0)) > 0 and is_equal_approx(status_screen.run.movement_factor(giant), 0.85) and float(guard.effects.get("barrier", 0)) == 7
+	status_screen.run.message = "효과 시험 편성 · 거인 둔화15%/경직 · 방패병 보호막7 · 일반 성장 획득 증거 아님"
+	status_screen._refresh_panel()
+	status_screen.queue_redraw()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://output/front-status.png")
+	print("STATUS_RUNTIME: ", controlled, " barrier=", guard.effects.get("barrier", 0), " stun=", giant.effects.get("stun", 0), " move=", status_screen.run.movement_factor(giant))
+	status_screen.queue_free()
+	await process_frame
+	quit(0 if captured.size() == 3 and controlled else 1)

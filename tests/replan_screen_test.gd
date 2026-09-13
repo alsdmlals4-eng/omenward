@@ -67,6 +67,13 @@ func verify() -> void:
 	screen.run.spawn("archer", 0, 50)
 	screen.run.spawn("mage", 1, 50)
 	var inspect_at: Vector2 = screen.unit_draw_anchor(screen.run.units[0])
+	screen.run.apply_status(screen.run.units[0], "barrier", 12, 3)
+	screen.run.apply_status(screen.run.units[0], "slow", 0.3, 1)
+	screen.run.apply_status(screen.run.units[0], "stun", 0, 0.3)
+	var status_info: String = screen._get_tooltip(inspect_at)
+	if not status_info.contains("보호막12") or not status_info.contains("둔화30%") or not status_info.contains("경직"):
+		push_error("Unit hover must expose actual active statuses")
+		failed = true
 	var info: String = screen._get_tooltip(inspect_at)
 	if not info.contains("아군") or not info.contains("궁병") or not info.contains("체력"):
 		push_error("Crowd inspection must identify actual faction, role and health")

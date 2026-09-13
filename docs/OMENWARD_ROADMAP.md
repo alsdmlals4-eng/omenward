@@ -234,3 +234,6 @@ For this handoff workstream, the operational action is exact-head PR verificatio
 # 2026-09-13 transparency continuation
 
 Ward and eight facility portraits now consume alpha-only derivatives; source RGB preserved. Existing shield motion retained, new native Aseprite/motion not produced. Remaining: enclosed pale remnants/cell margins and generic UI icons; then shared statuses, other grade abilities, T3/heroes and five-map balance. Whole-game completion remains open.
+# 2026-09-13 shared effects continuation
+
+Implemented shared barrier/slow/stun with deterministic simulation timers, save validation, refit freeze and map reset. First consumers: veteran shield/cavalry/mage, priest cleanse and elite overheal. Remaining progression: spear slow/counter, giant/assassin/flying, other elites; T3 and heroes, five-map economic pressure remain open. Status GPU fixture is not natural progression/balance approval. Existing transparent art remains unchanged; dedicated status VFX is not yet produced.

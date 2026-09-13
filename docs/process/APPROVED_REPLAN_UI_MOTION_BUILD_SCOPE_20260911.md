@@ -1,5 +1,7 @@
 # Approved project-local replan BUILD scope
 
+Shared status continuation: existing front_run/front_screen/model and screen tests implement Blueprint nonstack barrier, strongest independently expiring slows, interrupt+1s immunity, veteran shield/cavalry/mage and priest cleanse/elite overheal. Optional validated save fields; same next-map reset. Exact output/front-status.png is a labeled test-composition GPU consumer, not ordinary acquisition or new artwork. No lock, player save, final art or main boundary change.
+
 Transparent Ward/facility continuation adds exact ward-roster-alpha.png, ward-special-alpha.png, building-tree-alpha.png under existing blueprint candidate directory and tests/test_ward_cutout.py. Reuse user-approved RGB-preserving local extraction; no source overwrite, final art promotion, new motion claim or Base lock change. Facility consumer splits at reviewed y407 gutter to avoid chapel spire contamination.
 
 Survival progression continuation in same model/UI/tests: optional survived/focus fields,2/5 grade thresholds, one completion award, Ward-only survival growth, veteran archer/greatsword first consumers. Other grade abilities remain pending shared status implementation. No generic stat multiplier or art promotion.

@@ -84,6 +84,9 @@ func next_map() -> bool:
 		unit.pending_target = -1
 		unit.focus_target = -1
 		unit.focus_count = 0
+		unit.effects = {}
+		unit.hit_count = 0
+		unit.heal_count = 0
 	message = "%s 진입 · 병력 체력/시설/골드 계승" % catalog.maps[current_map].name
 	map_entry = snapshot(false)
 	return true
@@ -310,7 +313,8 @@ func spawn(role: String, side: int, x: float) -> void:
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
 		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
 		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0,
-		"survived": 0, "focus_target": -1, "focus_count": 0})
+		"survived": 0, "focus_target": -1, "focus_count": 0,
+		"effects": {}, "hit_count": 0, "heal_count": 0})
 	next_id += 1
 
 func advance(delta: float) -> void:
@@ -360,12 +364,20 @@ func _tick(dt: float) -> void:
 		if building.clock + 0.0001 >= interval and queue_used() + int(definitions[building.unit][11]) <= int(catalog.economy.queue_capacity):
 			reserve.append(building.unit)
 			building.clock = 0.0
+	var stunned: Array = []
+	for actor in units:
+		if float(actor.get("effects", {}).get("stun", 0)) > 0:
+			stunned.append(actor.id)
+		_tick_effects(actor, dt)
 	for unit in units:
 		if unit.hp <= 0:
 			continue
 		unit.flash = maxf(0, float(unit.flash) - dt)
 		unit.action = maxf(0, float(unit.action) - dt)
 		unit.cooldown = maxf(0, float(unit.cooldown) - dt)
+		if stunned.has(unit.id) or float(unit.get("effects", {}).get("stun", 0)) > 0:
+			unit.brace = 0.0
+			continue
 		var row: Array = definitions[unit.role]
 		if float(unit.get("windup", 0.0)) > 0:
 			unit.windup = maxf(0, float(unit.windup) - dt)
@@ -398,8 +410,7 @@ func _tick(dt: float) -> void:
 					continue
 				unit.action = 0.25
 				if unit.role == "priest":
-					target.hp = minf(float(target.hp) + 12, float(definitions[target.role][4]))
-					target.flash = 0.2
+					heal_target(unit, target)
 				else:
 					_hit(unit, target)
 		else:
@@ -407,7 +418,7 @@ func _tick(dt: float) -> void:
 			if unit.role in ["flying", "assassin"] and not target.is_empty():
 				direction = signf(float(target.x) - float(unit.x))
 			var previous_x: float = unit.x
-			unit.x = clampf(float(unit.x) + direction * float(row[8]) * dt * 2.2, 0, 100)
+			unit.x = clampf(float(unit.x) + direction * float(row[8]) * dt * 2.2 * movement_factor(unit), 0, 100)
 			if unit.role == "spear_guard":
 				unit.brace = 0.0
 			if unit.role == "cavalry":
@@ -441,8 +452,7 @@ func _tick(dt: float) -> void:
 			var enemy: int = 1 if points[1] == 1 else 0
 			for unit in units:
 				if unit.side == enemy and absf(float(unit.x) - 50) <= 12:
-					unit.hp -= 18
-					unit.flash = 0.2
+					take_damage(unit, 18)
 					break
 	if bases[0] <= 0:
 		phase = "DEFEAT"
@@ -462,6 +472,100 @@ func _tick(dt: float) -> void:
 func unit_grade(unit: Dictionary) -> int:
 	var survived := int(unit.get("survived", 0))
 	return 2 if survived >= 5 else 1 if survived >= 2 else 0
+
+func apply_status(unit: Dictionary, kind: String, amount: float, duration: float) -> bool:
+	if unit.hp <= 0 or not is_finite(amount) or not is_finite(duration) or duration <= 0 or duration > 60 or amount < 0:
+		return false
+	var effects: Dictionary = unit.get("effects", {})
+	match kind:
+		"stun":
+			if float(effects.get("stun", 0)) > 0 or float(effects.get("immune", 0)) > 0:
+				return false
+			effects.stun = duration
+			if float(unit.get("charge", 0)) < 2.0:
+				unit.charge = 0.0
+			unit.windup = 0.0
+			unit.pending_target = -1
+			unit.action = 0.0
+		"barrier":
+			if amount <= 0 or amount > 1000:
+				return false
+			if amount >= float(effects.get("barrier", 0)):
+				effects.barrier = amount
+				effects.barrier_time = duration
+		"slow":
+			var slows: Array = effects.get("slows", [])
+			var strength := minf(amount, 0.5)
+			if strength <= 0:
+				return false
+			for slow in slows:
+				if is_equal_approx(float(slow.amount), strength):
+					slow.time = maxf(float(slow.time), duration)
+					unit.effects = effects
+					return true
+			if slows.size() >= 16:
+				return false
+			slows.append({"amount": strength, "time": duration})
+			effects.slows = slows
+		_:
+			return false
+	unit.effects = effects
+	return true
+
+func _tick_effects(unit: Dictionary, dt: float) -> void:
+	var effects: Dictionary = unit.get("effects", {})
+	for key in ["immune", "barrier_time"]:
+		if effects.has(key):
+			effects[key] = maxf(0, float(effects[key]) - dt)
+	if float(effects.get("barrier_time", 0)) <= 0:
+		effects.erase("barrier")
+	if float(effects.get("stun", 0)) > 0:
+		effects.stun = maxf(0, float(effects.stun) - dt)
+		if effects.stun <= 0.00001:
+			effects.stun = 0.0
+			effects.immune = 1.0
+	if effects.has("slows"):
+		for slow in effects.slows:
+			slow.time = maxf(0, float(slow.time) - dt)
+		effects.slows = effects.slows.filter(func(slow): return slow.time > 0.00001)
+	unit.effects = effects
+
+func movement_factor(unit: Dictionary) -> float:
+	var strongest := 0.0
+	for slow in unit.get("effects", {}).get("slows", []):
+		strongest = maxf(strongest, float(slow.amount))
+	return maxf(0.5, 1.0 - strongest)
+
+func take_damage(unit: Dictionary, amount: float) -> void:
+	if unit.hp <= 0 or not is_finite(amount) or amount <= 0:
+		return
+	var effects: Dictionary = unit.get("effects", {})
+	var absorbed := minf(amount, float(effects.get("barrier", 0)))
+	if absorbed > 0:
+		effects.barrier -= absorbed
+	unit.hp -= amount - absorbed
+	unit.flash = 0.2
+	unit.effects = effects
+
+func heal_target(healer: Dictionary, target: Dictionary) -> void:
+	if healer.hp <= 0 or target.hp <= 0 or healer.side != target.side or healer.id == target.id:
+		return
+	var healed := minf(12, maxf(0, float(definitions[target.role][4]) - float(target.hp)))
+	target.hp += healed
+	target.flash = 0.2
+	healer.heal_count = (int(healer.get("heal_count", 0)) + 1) % 3
+	if unit_grade(healer) >= 1 and healer.heal_count == 0:
+		var effects: Dictionary = target.get("effects", {})
+		var slows: Array = effects.get("slows", [])
+		if not slows.is_empty():
+			var strongest := 0
+			for i in range(1, slows.size()):
+				if float(slows[i].amount) > float(slows[strongest].amount):
+					strongest = i
+			slows.remove_at(strongest)
+		target.effects = effects
+	if unit_grade(healer) >= 2 and healed < 12:
+		apply_status(target, "barrier", 12 - healed, 3)
 
 func shield_guarding(unit: Dictionary) -> bool:
 	if phase != "BATTLE" or unit.role != "shield_guard" or unit.hp <= 0:
@@ -496,6 +600,9 @@ func choose_target(unit: Dictionary) -> Dictionary:
 	return target
 
 func _hit(attacker: Dictionary, target: Dictionary) -> void:
+	if attacker.hp <= 0 or target.hp <= 0:
+		return
+	attacker.hit_count = (int(attacker.get("hit_count", 0)) + 1) % 4
 	var row: Array = definitions[attacker.role]
 	var focused := false
 	if attacker.role == "archer":
@@ -532,8 +639,14 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		var forward := (float(attacker.x) - float(victim.x)) * (1.0 if victim.side == 0 else -1.0)
 		if attacker.role == "archer" and forward > 0 and shield_guarding(victim):
 			damage = maxf(1, damage * 0.75)
-		victim.hp -= damage
-		victim.flash = 0.2
+		take_damage(victim, damage)
+		if unit_grade(attacker) >= 1:
+			if attacker.role == "mage":
+				apply_status(victim, "slow", 0.15, 1)
+			elif attacker.role == "shield_guard" and attacker.hit_count == 0:
+				apply_status(victim, "stun", 0, 0.3)
+			elif charged:
+				apply_status(victim, "stun", 0, 0.4)
 		damage_events += 1
 
 func snapshot(include_entry: bool = true) -> Dictionary:
@@ -618,6 +731,12 @@ func restore(value: Variant) -> bool:
 			return false
 		seen_ids.append(unit.id)
 		var windup: Variant = unit.get("windup", 0.0)
+		if not _valid_effects(unit.get("effects", {})):
+			return false
+		for counter in ["hit_count", "heal_count"]:
+			var count: Variant = unit.get(counter, 0)
+			if not _finite_number(count) or count != floorf(count) or count < 0 or count > (3 if counter == "hit_count" else 2):
+				return false
 		for counter in ["survived", "focus_count", "focus_target"]:
 			var number: Variant = unit.get(counter, -1 if counter == "focus_target" else 0)
 			var limit: int = int(value.next_id) - 1 if counter == "focus_target" else 2 if counter == "focus_count" else 53
@@ -628,6 +747,8 @@ func restore(value: Variant) -> bool:
 			if not _finite_number(amount) or amount < 0 or amount > (10.0 if ability == "ambush" else 2.0 if ability == "charge" else 0.6):
 				return false
 		var pending: Variant = unit.get("pending_target", -1)
+		if float(unit.get("effects", {}).get("stun", 0)) > 0 and (windup != 0 or pending != -1):
+			return false
 		if not _finite_number(windup) or windup < 0 or windup > SHIELD_WINDUP or not _finite_number(pending) or pending != floorf(float(pending)) or pending < -2 or pending >= value.next_id:
 			return false
 		if windup > 0 and (unit.side != 0 or unit.role != "shield_guard" or pending == -1):
@@ -701,6 +822,9 @@ func restore(value: Variant) -> bool:
 	wave_index = int(value.wave)
 	units = value.units.duplicate(true)
 	for unit in units:
+		unit.effects = unit.get("effects", {})
+		unit.hit_count = int(unit.get("hit_count", 0))
+		unit.heal_count = int(unit.get("heal_count", 0))
 		unit.survived = int(unit.get("survived", 0))
 		unit.focus_count = int(unit.get("focus_count", 0))
 		unit.focus_target = int(unit.get("focus_target", -1))
@@ -726,3 +850,21 @@ func restore(value: Variant) -> bool:
 
 func _finite_number(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value))
+
+func _valid_effects(value: Variant) -> bool:
+	if not value is Dictionary:
+		return false
+	for key in value:
+		if key not in ["barrier", "barrier_time", "stun", "immune", "slows"]:
+			return false
+		if key == "slows":
+			if not value.slows is Array or value.slows.size() > 16:
+				return false
+			for slow in value.slows:
+				if not slow is Dictionary or slow.size() != 2 or not _finite_number(slow.get("amount")) or not _finite_number(slow.get("time")):
+					return false
+				if slow.amount <= 0 or slow.amount > 0.5 or slow.time <= 0 or slow.time > 60:
+					return false
+		elif not _finite_number(value[key]) or value[key] < 0 or value[key] > (1000 if key == "barrier" else 1 if key == "immune" else 60):
+			return false
+	return float(value.get("barrier", 0)) <= 0 or float(value.get("barrier_time", 0)) > 0

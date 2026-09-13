@@ -280,3 +280,6 @@ Open/draft work not owned by the current task remains read-only. Fresh GitHub st
 8. current GDD/Project Core + `APPROVED_OMENWARD_OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCK_2026-08-29.md` + `APPROVED_OMENWARD_OPEN_BATTLEFIELD_TOWER_ONLY_FORWARD_LAYOUT_2026-08-28.md` + occupation-node owner + relevant owners, treating fixed-barrier/fenced-base wording as superseded;
 9. Google Sheet only as compatibility/history;
 10. only resume runtime/code work or image generation after an explicit user request and fresh authority/readback.
+# Continuing implementation readback · 2026-09-13
+
+Under existing user whole-game implementation delegation, shared status semantics from Human Blueprint are now consumed by selected grade skills. No new game direction or final art approval. Active Context and existing execution plan own detailed evidence. Most powerful single slow is cleansed; unfinished charge resets on stun; invalid stunned pending attacks are rejected on load.

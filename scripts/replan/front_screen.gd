@@ -100,7 +100,7 @@ func _make_shell() -> void:
 	ui.position = Vector2(24, 519)
 	ui.size = Vector2(1232, 170)
 	add_child(ui)
-	_label("베일 투명10종 · 방패 베기/Aseprite · 생존 등급/궁병·대검 숙련 연결 | 나머지 등급효과·모션·T3·영웅 미연결", Rect2(24, 691, 1240, 25), self, 13)
+	_label("양측 투명 병종 · 방패 베기/Aseprite · 보호막/둔화/경직·일부 등급 스킬 연결 | 전체 모션·T3·영웅 미완료", Rect2(24, 691, 1240, 25), self, 13)
 
 func _restart() -> void:
 	# Explicit confirmation prevents accidental loss of a running battle.
@@ -371,6 +371,15 @@ func _get_tooltip(at_position: Vector2) -> String:
 			var row: Array = run.definitions[unit.role]
 			lines.append("%s · %s · 체력 %d/%d%s" % ["아군" if unit.side == 0 else "베일", row[1] if unit.side == 0 else row[3], ceili(unit.hp), int(row[4]), " · 정면 화살 방어25%" if run.shield_guarding(unit) else ""])
 			lines[-1] += " · %s(생존%d)" % [["일반", "숙련", "정예"][run.unit_grade(unit)], int(unit.get("survived", 0))]
+			var effects: Dictionary = unit.get("effects", {})
+			if float(effects.get("barrier", 0)) > 0:
+				lines[-1] += " · 보호막%d(%.1f초)" % [ceili(effects.barrier), effects.barrier_time]
+			if run.movement_factor(unit) < 1:
+				lines[-1] += " · 둔화%d%%" % roundi((1 - run.movement_factor(unit)) * 100)
+			if float(effects.get("stun", 0)) > 0:
+				lines[-1] += " · 경직 %.1f초" % effects.stun
+			elif float(effects.get("immune", 0)) > 0:
+				lines[-1] += " · 경직 면역 %.1f초" % effects.immune
 			if unit.role == "cavalry" and float(unit.get("charge", 0.0)) >= 2.0:
 				lines[-1] += " · 돌격 준비"
 			elif unit.role == "spear_guard" and float(unit.get("brace", 0.0)) >= 0.6:

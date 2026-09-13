@@ -9,6 +9,98 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func verify_statuses(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("apply_status"), "Missing shared status behavior")
+	if not run.has_method("apply_status"):
+		return
+	run.units.clear()
+	run.spawn("shield_guard", 0, 20)
+	var actor: Dictionary = run.units[0]
+	run.phase = "BATTLE"
+	run.apply_status(actor, "slow", 0.3, 0.2)
+	run.apply_status(actor, "slow", 0.15, 1.0)
+	check(is_equal_approx(run.movement_factor(actor), 0.7), "Slow takes strongest, not sum")
+	run.advance(0.25)
+	check(is_equal_approx(run.movement_factor(actor), 0.85), "Weaker slow resumes after stronger expires")
+	run.apply_status(actor, "slow", 0.9, 1)
+	check(is_equal_approx(run.movement_factor(actor), 0.5), "Movement never falls below half from slows")
+	run.apply_status(actor, "barrier", 20, 3)
+	run.apply_status(actor, "barrier", 12, 5)
+	var hp: float = actor.hp
+	run.take_damage(actor, 25)
+	check(is_equal_approx(actor.hp, hp - 5), "Barrier absorbs before HP and does not sum")
+	run.apply_status(actor, "barrier", 12, 0.1)
+	run.advance(0.15)
+	hp = actor.hp
+	run.take_damage(actor, 5)
+	check(is_equal_approx(actor.hp, hp - 5), "Expired barrier cannot absorb")
+	actor.windup = 0.18
+	actor.pending_target = -2
+	run.apply_status(actor, "stun", 0, 0.3)
+	check(actor.windup == 0 and actor.pending_target == -1, "Stun cancels unlaunched strike")
+	var x: float = actor.x
+	run.advance(0.3)
+	check(is_equal_approx(actor.x, x), "Stun blocks movement for its duration")
+	check(not run.apply_status(actor, "stun", 0, 0.4), "One second immunity blocks chain stun")
+	var save: Dictionary = run.snapshot()
+	var restored = model.new()
+	check(restored.restore(JSON.parse_string(JSON.stringify(save))), "Status survives real JSON roundtrip")
+	check(is_equal_approx(restored.movement_factor(restored.units[0]), 0.5), "Restored slow retains strength")
+	for bad_effect in [{"stun": -1}, {"immune": NAN}, {"slows": [{"amount": 0.9, "time": 1}]}, {"barrier": 5, "barrier_time": 0}]:
+		var bad := save.duplicate(true)
+		bad.units[0].effects = bad_effect
+		var before: Dictionary = restored.snapshot()
+		check(not restored.restore(bad) and restored.snapshot() == before, "Malformed effects rejected before mutation")
+	run.phase = "REFIT"
+	var frozen: Dictionary = run.snapshot()
+	run.advance(1)
+	check(run.snapshot() == frozen, "Refit freezes statuses")
+	run.phase = "BATTLE"
+	run.advance(1)
+	check(run.apply_status(actor, "stun", 0, 0.3), "Stun can apply after immunity expires")
+	run.phase = "VICTORY"
+	run.next_map()
+	check(run.units[0].effects.is_empty(), "New map clears temporary combat effects")
+	for role in ["shield_guard", "cavalry", "mage"]:
+		var duel = model.new()
+		duel.units.clear()
+		duel.spawn(role, 0, 50)
+		duel.spawn("giant", 1, 51)
+		duel.units[0].survived = 2
+		duel.units[0].charge = 2.0
+		for i in range(4 if role == "shield_guard" else 1):
+			duel._hit(duel.units[0], duel.units[1])
+		check(duel.units[1].effects.get("stun", 0) > 0 if role != "mage" else is_equal_approx(duel.movement_factor(duel.units[1]), 0.85), "Veteran role consumes common control: " + role)
+	var healer = model.new()
+	healer.units.clear()
+	healer.spawn("priest", 0, 20)
+	healer.spawn("shield_guard", 0, 21)
+	healer.units[0].survived = 5
+	for i in range(3):
+		healer.units[1].hp = 175
+		healer.apply_status(healer.units[1], "slow", 0.3, 1)
+		healer.heal_target(healer.units[0], healer.units[1])
+	check(healer.movement_factor(healer.units[1]) == 1, "Veteran priest cleanses every third heal")
+	check(healer.units[1].effects.get("barrier", 0) == 7, "Elite priest converts only overheal to barrier")
+	healer.units[0].heal_count = 2
+	healer.apply_status(healer.units[1], "slow", 0.3, 1)
+	healer.apply_status(healer.units[1], "slow", 0.15, 2)
+	healer.heal_target(healer.units[0], healer.units[1])
+	check(is_equal_approx(healer.movement_factor(healer.units[1]), 0.85), "Cleanse removes only strongest single slow")
+	var rider = model.new()
+	rider.units.clear()
+	rider.spawn("cavalry", 0, 20)
+	rider.units[0].charge = 1.0
+	rider.apply_status(rider.units[0], "stun", 0, 0.3)
+	check(rider.units[0].charge == 0, "Stun breaks unfinished consecutive charge")
+	var interrupted = model.new()
+	interrupted.apply_status(interrupted.units[0], "stun", 0, 0.3)
+	var invalid_pending: Dictionary = interrupted.snapshot()
+	invalid_pending.units[0].windup = 0.1
+	invalid_pending.units[0].pending_target = -2
+	check(not interrupted.restore(invalid_pending), "Stunned save cannot resurrect cancelled pending attack")
+
 func verify_campaign(model: Script) -> void:
 	var campaign = model.new()
 	if campaign.has_method("unit_grade"):
@@ -181,6 +273,7 @@ func _initialize() -> void:
 		return
 	var model = load("res://scripts/replan/front_run.gd")
 	verify_campaign(model)
+	verify_statuses(model)
 	var r = model.new()
 	check(r.wave_composition(1, 0) == {"shield_guard":2, "archer":1}, "New first-map playtest pressure starts with two shields and one archer")
 	var charge = model.new()
