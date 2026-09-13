@@ -82,6 +82,8 @@ func next_map() -> bool:
 		for key in ["cooldown", "flash", "action", "windup", "charge", "brace", "ambush"]:
 			unit[key] = 0.0
 		unit.pending_target = -1
+		unit.focus_target = -1
+		unit.focus_count = 0
 	message = "%s 진입 · 병력 체력/시설/골드 계승" % catalog.maps[current_map].name
 	map_entry = snapshot(false)
 	return true
@@ -307,7 +309,8 @@ func spawn(role: String, side: int, x: float) -> void:
 	var row: Array = definitions[role]
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
 		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
-		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0})
+		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0,
+		"survived": 0, "focus_target": -1, "focus_count": 0})
 	next_id += 1
 
 func advance(delta: float) -> void:
@@ -451,6 +454,14 @@ func _tick(dt: float) -> void:
 		phase = "VICTORY" if round_number >= int(catalog.maps[current_map].rounds) else "REFIT"
 		free_spin = true
 		message = "전 병력·생산 동결 · 건설/전문화/출전 후 다음 공세" if phase == "REFIT" else "모든 공세 생존 · 승리"
+	if phase in ["REFIT", "VICTORY"]:
+		for unit in units:
+			if unit.side == 0 and unit.hp > 0:
+				unit.survived = mini(53, int(unit.get("survived", 0)) + 1)
+
+func unit_grade(unit: Dictionary) -> int:
+	var survived := int(unit.get("survived", 0))
+	return 2 if survived >= 5 else 1 if survived >= 2 else 0
 
 func shield_guarding(unit: Dictionary) -> bool:
 	if phase != "BATTLE" or unit.role != "shield_guard" or unit.hp <= 0:
@@ -486,6 +497,11 @@ func choose_target(unit: Dictionary) -> Dictionary:
 
 func _hit(attacker: Dictionary, target: Dictionary) -> void:
 	var row: Array = definitions[attacker.role]
+	var focused := false
+	if attacker.role == "archer":
+		attacker.focus_count = (int(attacker.get("focus_count", 0)) + 1) % 3 if int(attacker.get("focus_target", -1)) == int(target.id) else 1
+		attacker.focus_target = int(target.id)
+		focused = unit_grade(attacker) >= 1 and attacker.focus_count == 0
 	var ambush: bool = attacker.role == "assassin" and target.role in ["archer", "mage", "priest"] and float(attacker.get("ambush", 0.0)) <= 0
 	if ambush:
 		attacker.ambush = 10.0
@@ -503,6 +519,10 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 	for victim in targets:
 		var armor: float = float(definitions[victim.role][7 if attacker.role == "mage" else 6])
 		var damage := maxf(1, float(row[5]) * 100.0 / (100.0 + armor))
+		if focused:
+			damage *= 1.25
+		if attacker.role == "greatsword_warrior" and victim.id == target.id and unit_grade(attacker) >= 1:
+			damage *= 1.2
 		if ambush:
 			damage *= 1.4
 		if charged:
@@ -598,6 +618,11 @@ func restore(value: Variant) -> bool:
 			return false
 		seen_ids.append(unit.id)
 		var windup: Variant = unit.get("windup", 0.0)
+		for counter in ["survived", "focus_count", "focus_target"]:
+			var number: Variant = unit.get(counter, -1 if counter == "focus_target" else 0)
+			var limit: int = int(value.next_id) - 1 if counter == "focus_target" else 2 if counter == "focus_count" else 53
+			if not _finite_number(number) or number != floorf(number) or number < (-1 if counter == "focus_target" else 0) or number > limit:
+				return false
 		for ability in ["charge", "brace", "ambush"]:
 			var amount: Variant = unit.get(ability, 0.0)
 			if not _finite_number(amount) or amount < 0 or amount > (10.0 if ability == "ambush" else 2.0 if ability == "charge" else 0.6):
@@ -676,6 +701,9 @@ func restore(value: Variant) -> bool:
 	wave_index = int(value.wave)
 	units = value.units.duplicate(true)
 	for unit in units:
+		unit.survived = int(unit.get("survived", 0))
+		unit.focus_count = int(unit.get("focus_count", 0))
+		unit.focus_target = int(unit.get("focus_target", -1))
 		unit.ambush = float(unit.get("ambush", 0.0))
 		unit.charge = float(unit.get("charge", 0.0))
 		unit.brace = float(unit.get("brace", 0.0))

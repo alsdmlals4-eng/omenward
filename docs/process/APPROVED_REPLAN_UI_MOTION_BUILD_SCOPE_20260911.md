@@ -1,5 +1,7 @@
 # Approved project-local replan BUILD scope
 
+Survival progression continuation in same model/UI/tests: optional survived/focus fields,2/5 grade thresholds, one completion award, Ward-only survival growth, veteran archer/greatsword first consumers. Other grade abilities remain pending shared status implementation. No generic stat multiplier or art promotion.
+
 Existing catalog target-role completion in same files: archer in-range flying priority, flying backline priority, assassin 4-distance backline approach and10s firsthit1.4 multiplier; optional ambush state finite0..10 persisted. No teleport/air invulnerability/art approval. Existing tests and GPU outputs only.
 
 Same campaign continuation includes v6 one-level map-entry snapshot and defeat-only retry in existing model/UI/tests. Legacy saves without authentic entry stay playable but retry unavailable. Validation must reject nested/non-pristine checkpoints before mutation; no player save deletion or arbitrary resource restoration.

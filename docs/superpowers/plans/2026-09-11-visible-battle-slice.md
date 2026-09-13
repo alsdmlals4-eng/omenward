@@ -1,5 +1,9 @@
 # Visible battle and construction implementation plan
 
+## Survival progression foundation and first consumers
+
+Current Blueprint recommends surviving2 completed rounds -> veteran,5 -> elite, no blanket HP/ATK multiplier. Add optional integer survived0..53 to each unit, increment living Ward survivors once on BATTLE -> REFIT/VICTORY (including early capture), not defeat/pause/reload. Carry through map/retry snapshots. Label grade in hover without claiming all grade skills implemented. First actual consumers: veteran greatsword primary hit+20%; veteran archer same-target third and later streak? Resolve literal '연속3타째' as every third consecutive same-target hit, reset on target change. Store attack streak/target to preserve reload; no recursive extra hits. Grade0 unchanged. Remaining grade skills require shared timed status system and follow in later steps. RED2/5 thresholds, no duplicate completion, defeat exclusion, disk/retry, target-switch streak and primary-only bonus. No new art.
+
 Target-role detail readback correction: progression row constrains assassin backline search to4 combat distance (12 model x); nearest fallback outside. Movement target-facing is restricted to assassin/flying to preserve other roles.224 model checks plus UI/save/default PASS,5-view static review no blocking findings, later tests cover both-side backward approach and frozen cooldown. Full campaign still loses second map in3seed; no balance success inflation.
 
 ## Target-role completion

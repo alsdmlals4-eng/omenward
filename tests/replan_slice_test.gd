@@ -11,6 +11,40 @@ func check(ok: bool, message: String) -> void:
 
 func verify_campaign(model: Script) -> void:
 	var campaign = model.new()
+	if campaign.has_method("unit_grade"):
+		for completed in range(5):
+			campaign.phase = "BATTLE"
+			campaign.elapsed = 59.95
+			campaign.wave_index = 3
+			campaign.advance(0.1)
+			check(campaign.units[0].survived == completed + 1, "Living soldier gains exactly one completed round")
+			campaign.advance(1.0)
+			check(campaign.units[0].survived == completed + 1, "Refit cannot farm survival grade")
+		check(campaign.unit_grade(campaign.units[0]) == 2, "Five survived rounds reach elite")
+		var veteran = model.new()
+		veteran.units.clear()
+		veteran.spawn("archer", 0, 50)
+		veteran.spawn("giant", 1, 55)
+		veteran.units[0].survived = 2
+		check(veteran.unit_grade(veteran.units[0]) == 1, "Two survived rounds reach veteran")
+		for hit in range(3):
+			var hp: float = veteran.units[1].hp
+			veteran._hit(veteran.units[0], veteran.units[1])
+			check(is_equal_approx(hp - veteran.units[1].hp, 18.0 / 1.3 * (1.25 if hit == 2 else 1.0)), "Veteran archer third consecutive shot bonus only")
+			if hit == 1:
+				var two_shots = model.new()
+				check(two_shots.restore(JSON.parse_string(JSON.stringify(veteran.snapshot()))) and two_shots.units[0].focus_count == 2 and two_shots.units[0].focus_target == veteran.units[1].id, "Second-shot save preserves pending third-shot bonus")
+				veteran = two_shots
+		var loaded_veteran = model.new()
+		check(loaded_veteran.restore(JSON.parse_string(JSON.stringify(veteran.snapshot()))) and loaded_veteran.units[0].survived == 2, "Survival and attack streak survive disk")
+		veteran.units[0].role = "greatsword_warrior"
+		veteran.spawn("giant", 1, 56)
+		veteran.units[1].hp = 320.0
+		veteran._hit(veteran.units[0], veteran.units[1])
+		check(is_equal_approx(320 - veteran.units[1].hp, 20.0 / 1.3 * 1.2) and is_equal_approx(320 - veteran.units[2].hp, 20.0 / 1.3), "Veteran greatsword boosts only primary target")
+		campaign = model.new()
+	else:
+		check(false, "Missing survival grade progression")
 	var roles = model.new()
 	if roles.has_method("choose_target"):
 		roles.units.clear()

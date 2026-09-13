@@ -100,7 +100,7 @@ func _make_shell() -> void:
 	ui.position = Vector2(24, 519)
 	ui.size = Vector2(1232, 170)
 	add_child(ui)
-	_label("투명 후보: 베일 10종 · 방패병 베기 4자세/Aseprite 연결 | 나머지 공격 모션·T3·영웅·등급 스킬 미연결", Rect2(24, 691, 1240, 25), self, 13)
+	_label("베일 투명10종 · 방패 베기/Aseprite · 생존 등급/궁병·대검 숙련 연결 | 나머지 등급효과·모션·T3·영웅 미연결", Rect2(24, 691, 1240, 25), self, 13)
 
 func _restart() -> void:
 	# Explicit confirmation prevents accidental loss of a running battle.
@@ -370,6 +370,7 @@ func _get_tooltip(at_position: Vector2) -> String:
 		if lines.size() < 6:
 			var row: Array = run.definitions[unit.role]
 			lines.append("%s · %s · 체력 %d/%d%s" % ["아군" if unit.side == 0 else "베일", row[1] if unit.side == 0 else row[3], ceili(unit.hp), int(row[4]), " · 정면 화살 방어25%" if run.shield_guarding(unit) else ""])
+			lines[-1] += " · %s(생존%d)" % [["일반", "숙련", "정예"][run.unit_grade(unit)], int(unit.get("survived", 0))]
 			if unit.role == "cavalry" and float(unit.get("charge", 0.0)) >= 2.0:
 				lines[-1] += " · 돌격 준비"
 			elif unit.role == "spear_guard" and float(unit.get("brace", 0.0)) >= 0.6:
