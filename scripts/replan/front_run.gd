@@ -18,6 +18,7 @@ var wave_rules := "staggered_v1"
 var map_pressure := 1.0
 var current_map := 0
 var held_points: Array = []
+var map_entry: Dictionary = {}
 var units: Array = []
 var buildings: Array = []
 var reserve: Array = []
@@ -49,6 +50,7 @@ func _init() -> void:
 	rng.seed = 1947
 	for i in range(4):
 		spawn("shield_guard", 0, 8.0 + i * 1.4)
+	map_entry = snapshot(false)
 
 func unlocked_slots() -> int:
 	return 6 + held_points.size() + points.count(1)
@@ -81,6 +83,16 @@ func next_map() -> bool:
 			unit[key] = 0.0
 		unit.pending_target = -1
 	message = "%s 진입 · 병력 체력/시설/골드 계승" % catalog.maps[current_map].name
+	map_entry = snapshot(false)
+	return true
+
+func retry_map() -> bool:
+	if phase != "DEFEAT" or map_entry.is_empty():
+		return false
+	var entry := map_entry.duplicate(true)
+	if not restore(entry):
+		return false
+	map_entry = entry
 	return true
 
 func building_active(slot: int) -> bool:
@@ -485,8 +497,8 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		victim.flash = 0.2
 		damage_events += 1
 
-func snapshot() -> Dictionary:
-	return {"version": 5, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
+func snapshot(include_entry: bool = true) -> Dictionary:
+	return {"version": 6, "map_entry": map_entry.duplicate(true) if include_entry else {}, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
 		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
@@ -495,9 +507,11 @@ func snapshot() -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 
 func restore(value: Variant) -> bool:
-	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3 and value.get("version") != 4 and value.get("version") != 5):
+	if not value is Dictionary or (value.get("version") != 1 and value.get("version") != 2 and value.get("version") != 3 and value.get("version") != 4 and value.get("version") != 5 and value.get("version") != 6):
 		return false
 	value = value.duplicate(true)
+	if value.version < 6:
+		value.map_entry = {}
 	if value.version < 5:
 		value.current_map = 0
 		value.held_points = []
@@ -608,7 +622,28 @@ func restore(value: Variant) -> bool:
 		return false
 	if queue_cost + int(value.omen_reserved) > int(catalog.economy.queue_capacity):
 		return false
+	if not value.map_entry is Dictionary:
+		return false
+	if not value.map_entry.is_empty():
+		var entry: Dictionary = value.map_entry
+		if not entry.get("map_entry") is Dictionary or not entry.map_entry.is_empty() or entry.get("current_map") != value.current_map or entry.get("held_points") != value.held_points or entry.get("phase") != "PREPARE" or entry.get("round") != 1 or entry.get("elapsed") != 0:
+			return false
+		var probe = get_script().new()
+		for key in ["wave", "omen_moves", "omen_reserved", "income", "point_clock", "tower_clock"]:
+			if entry.get(key) != 0:
+				return false
+		if entry.get("omen_pending") != false or entry.get("free_spin") != true:
+			return false
+		if not probe.restore(entry):
+			return false
+		for owner in probe.points:
+			if owner != 0:
+				return false
+		for hp in probe.bases:
+			if hp != 1000:
+				return false
 	omen_pending = value.omen_pending
+	map_entry = value.map_entry.duplicate(true)
 	current_map = int(value.current_map)
 	held_points = value.held_points.duplicate()
 	wave_rules = value.wave_rules

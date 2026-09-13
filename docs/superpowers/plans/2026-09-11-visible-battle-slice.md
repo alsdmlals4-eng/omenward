@@ -1,5 +1,9 @@
 # Visible battle and construction implementation plan
 
+## Campaign retry transaction
+
+Next dependency: capture map-entry state before any preparation purchase or spin; defeat-only retry restores exactly gold/HP/facilities/queue/RNG/previous completed points, rolling back failed-map gains. Store one nonrecursive checkpoint in v6. Validate checkpoint with same model validator before live mutation, require same map/history and pristine PREPARE round1/time0, reject nested checkpoints. Old v1–v5 saves have no authentic entry evidence: keep playing but retry unavailable until next map; do not invent historical gold/RNG. UI uses existing outcome button with explicit unavailable reason. RED no retry during battle, loss rollback, repeat retry after disk, malformed checkpoint atomic rejection. No new images or save-file deletion.
+
 ## Whole-game continuation: sequential campaign
 
 Latest user explicitly sets whole-game implementation as goal, superseding slice-only stopping. First missing dependency: five labels currently decorative, model always maps[0]. Implement current_map, archived global owned-point ids, next-map transaction only from victory, survivor HP/gold/buildings/reserve carryover, reset combat references/clocks/bases, dynamic round count and terminal final-map UI. Savev5 defaults old saves to map0/no prior points, validates ids before mutation. RED blocked early advance, carryover/no healing/no enemy carry, no duplicate points, all five maps/final boundary, disk resume. ADAPT campaign continuity from official Kingdom developer interview https://news.xbox.com/en-us/2024/10/08/kingdom-two-crowns-call-of-olympus-out-now/; REJECT its island revisiting, use project sequential canon. Reuse existing background as explicit temporary visual, not five-map art completion. Entry snapshot retry is next dependent step, not falsely included in this first transaction. Full product authorization does not authorize main bypass or final art approval.

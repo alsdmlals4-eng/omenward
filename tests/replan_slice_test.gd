@@ -11,6 +11,24 @@ func check(ok: bool, message: String) -> void:
 
 func verify_campaign(model: Script) -> void:
 	var campaign = model.new()
+	if campaign.has_method("retry_map"):
+		var entry = campaign.snapshot()
+		check(not campaign.retry_map(), "Retry unavailable before defeat")
+		campaign.construct("barracks")
+		campaign.phase = "DEFEAT"
+		var disk = model.new()
+		check(disk.restore(JSON.parse_string(JSON.stringify(campaign.snapshot()))) and disk.retry_map() and equivalent_state(disk.snapshot(), entry), "Disk retry rolls back preparation purchases to exact map entry")
+		var invalid_entry = disk.snapshot()
+		invalid_entry.map_entry.map_entry = {"nested": true}
+		var stable_entry = disk.snapshot()
+		check(not disk.restore(invalid_entry) and disk.snapshot() == stable_entry, "Nested retry snapshot rejected without mutation")
+		invalid_entry = disk.snapshot()
+		invalid_entry.map_entry.wave = 1
+		check(not disk.restore(invalid_entry) and disk.snapshot() == stable_entry, "Checkpoint must be pristine before first wave")
+		disk.phase = "DEFEAT"
+		check(disk.retry_map() and equivalent_state(disk.snapshot(), entry), "Repeat retry restores identical entry without accumulating rewards")
+	else:
+		check(false, "Missing map-entry retry transaction")
 	if not campaign.has_method("next_map"):
 		check(false, "Missing sequential campaign transition")
 		return
@@ -44,6 +62,7 @@ func verify_campaign(model: Script) -> void:
 	for map_index in range(5):
 		var ending = model.new()
 		ending.current_map = map_index
+		ending.map_entry = ending.snapshot(false)
 		ending.phase = "BATTLE"
 		ending.round_number = int(ending.catalog.maps[map_index].rounds)
 		ending.elapsed = 59.95
@@ -261,15 +280,20 @@ func _initialize() -> void:
 		for seed_value in [1948, 1949]:
 			for policy in ["reinforcement", "ranged", "mixed", "paid_mobilization"]:
 				run_policy(model, policy, seed_value, pressure)
+	for seed_value in [1947, 1948, 1949]:
+		run_policy(model, "paid_mobilization", seed_value, -1.0, true)
 	verify_model(model, r)
 
-func run_policy(model: Script, policy: String, seed_value: int, pressure: float = 1.0) -> void:
+func run_policy(model: Script, policy: String, seed_value: int, pressure: float = 1.0, whole_campaign: bool = false) -> void:
 	var journey = model.new()
 	journey.rng.seed = seed_value
-	journey.map_pressure = pressure # Diagnostic fixture, never persists to catalog.
+	if pressure > 0:
+		journey.map_pressure = pressure # Diagnostic fixture, never persists to catalog.
 	var refits := 0
 	var spent_on_healing := 0
-	for step in range(6500):
+	for step in range(33000 if whole_campaign else 6500):
+		if whole_campaign and journey.phase == "VICTORY" and journey.next_map():
+			print("CAMPAIGN_ENTER: seed=", seed_value, " map=", journey.current_map + 1, " gold=", journey.gold, " units=", journey.units.size())
 		if journey.phase in ["VICTORY", "DEFEAT"]:
 			break
 		if journey.phase in ["PREPARE", "REFIT"]:
@@ -313,7 +337,7 @@ func run_policy(model: Script, policy: String, seed_value: int, pressure: float 
 			journey.deploy(role)
 		journey.advance(0.1)
 	check(journey.phase in ["VICTORY", "DEFEAT"], "Real-resource first-map policy reaches terminal state")
-	print("FIRST_MAP_POLICY: seed=", seed_value, " pressure=", pressure, " policy=", policy, " phase=", journey.phase, " round=", journey.round_number, " refits=", refits, " recovery_spend=", spent_on_healing, " base_hp=", journey.bases[0])
+	print("CAMPAIGN_POLICY: " if whole_campaign else "FIRST_MAP_POLICY: ", "seed=", seed_value, " map=", journey.current_map + 1, " pressure=", journey.map_pressure, " policy=", policy, " phase=", journey.phase, " round=", journey.round_number, " refits=", refits, " recovery_spend=", spent_on_healing, " base_hp=", journey.bases[0])
 
 func verify_model(model: Script, r) -> void:
 	if not r.has_method("heal_unit"):

@@ -247,6 +247,14 @@ func verify() -> void:
 	if not tenth_slot:
 		push_error("Second building page must expose slots beyond nine")
 		failed = true
+	screen.run.phase = "DEFEAT"
+	screen._process(0.0)
+	if screen.start_button.disabled or screen.start_button.text != "맵 진입부터 재도전":
+		failed = true
+	screen.start_button.pressed.emit()
+	if screen.run.phase != "PREPARE" or screen.run.current_map != 1:
+		push_error("Retry button must restore current map entry")
+		failed = true
 	print("REPLAN_SCREEN_TEST: ", "FAIL" if failed else "PASS")
 	# User deletes disposable files manually; leave this deterministic test save for collection.
 	screen.queue_free()

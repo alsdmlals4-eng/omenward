@@ -75,7 +75,11 @@ func _make_shell() -> void:
 		label.modulate = Color("f6d687") if i == 0 else Color("8796ad")
 		map_labels.append(label)
 	start_button = _button("공세 시작", Rect2(1070, 76, 185, 34), func():
-		if run.phase == "VICTORY":
+		if run.phase == "DEFEAT":
+			run.retry_map()
+			selected = 0
+			paused = false
+		elif run.phase == "VICTORY":
 			run.next_map()
 			paused = false
 		else:
@@ -284,6 +288,11 @@ func _process(delta: float) -> void:
 	if run.phase == "VICTORY":
 		start_button.text = "다음 맵 준비" if run.current_map < run.catalog.maps.size() - 1 else "원정 완료"
 		start_button.disabled = run.current_map >= run.catalog.maps.size() - 1
+	start_button.tooltip_text = ""
+	if run.phase == "DEFEAT":
+		start_button.text = "맵 진입부터 재도전"
+		start_button.disabled = run.map_entry.is_empty()
+		start_button.tooltip_text = "구형 저장에는 맵 진입 기록이 없어 재도전할 수 없습니다. 새 출정은 가능합니다." if run.map_entry.is_empty() else "이 맵에서 사용하거나 얻은 자원·병력·추첨을 진입 당시로 되돌립니다."
 	queue_redraw()
 
 func phase_label() -> String:
