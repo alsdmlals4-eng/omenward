@@ -14,6 +14,26 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.run.construct("barracks")
+	screen.run.gold = 1000
+	screen.run.phase = "VICTORY"
+	screen.run._settle_map(false)
+	screen.run.next_map()
+	screen.selected = 0
+	screen._refresh_panel()
+	var specialization: Button = null
+	for candidate in screen.ui.find_children("*", "Button", true, false):
+		if candidate.text.begins_with("사격장"):
+			specialization = candidate
+	if specialization == null or specialization.disabled:
+		push_error("Later map preparation must keep specialization card enabled")
+		failed = true
+	else:
+		specialization.pressed.emit()
+		if screen.run.buildings[0].id != "range":
+			failed = true
+	screen.run.restore(before_layout)
+	screen._refresh_panel()
 	screen.run.construct("logistics")
 	screen.selected = 0
 	screen._refresh_panel()

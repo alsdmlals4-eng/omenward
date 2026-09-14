@@ -198,8 +198,13 @@ func construct(id: String) -> bool:
 	message = "군수소 건설 · 출전 한도 +6" if id == "logistics" else "%s 건설 · %s 공급" % [facilities[id][1], definitions[role][1]]
 	return true
 
+func specialization_unlocked() -> bool:
+	if facility_rules != "slots_v1":
+		return round_number >= 2 or phase == "REFIT"
+	return current_map > 0 or round_number + (1 if phase == "REFIT" else 0) >= int(catalog.facility_progression.specialization_round)
+
 func upgrade(slot: int, id: String) -> bool:
-	if omen_pending or phase not in ["PREPARE", "REFIT"] or (round_number < 2 and phase != "REFIT") or not building_active(slot):
+	if omen_pending or phase not in ["PREPARE", "REFIT"] or not specialization_unlocked() or not building_active(slot):
 		return false
 	if not branches.has(id) or branches[id][1] != buildings[slot].id:
 		return false

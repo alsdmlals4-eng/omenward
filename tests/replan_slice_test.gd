@@ -44,6 +44,13 @@ func verify_logistics(model: Script) -> void:
 
 func verify_fixed_slots(model: Script) -> void:
 	var run = model.new()
+	var gate = model.new()
+	gate.gold = 1000
+	gate.construct("barracks")
+	check(not gate.upgrade(0, "range"), "First round preparation keeps T2 locked")
+	gate.phase = "VICTORY"
+	gate._settle_map(false)
+	check(gate.next_map() and gate.upgrade(0, "range"), "T2 must remain open in second map round1")
 	check(run.has_method("demolish"), "P03 missing fixed-slot demolition")
 	if not run.has_method("demolish"):
 		return

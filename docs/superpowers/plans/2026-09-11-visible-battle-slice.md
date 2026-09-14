@@ -1,5 +1,11 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-14 P03 specialization gate readback
+
+New slots_v1 runs retain T2 access in later-map round1. First-map timing is owned by Blueprint `facility_progression.specialization_round=2`, with REFIT counting the upcoming round. Model and actual upgrade buttons consume `specialization_unlocked`; phase, pending omen, active slot, branch and cost guards remain. Older profiles keep their former gate. T3 and birth metadata are not implemented by this increment.
+
+RED: corrected fixture facility id from nonexistent archery to range before establishing the meaningful old-gate failure; actual next-map range button also failed. GREEN: model368/save51/screen/default gate PASS; docs and scope7 PASS. Independent five-perspective static review found no blocker. No separate GPU capture for this increment. Validation receipt: external OMENWARD_원본근거/20260914_specialization_gate_validation.txt. Existing PDF v0.1 predates this increment and is not silently replaced.
+
 > **For agentic workers:** Use `superpowers:executing-plans` for sequential implementation and review checkpoints. Do not start code merely because this plan exists. Fresh-read current authority and exact task scope first.
 
 **Goal:** 단일 전선 원정을 마지막 맵까지 실제로 플레이할 수 있게 남은 기획·구현·자산·검증 작업을 연결한다.

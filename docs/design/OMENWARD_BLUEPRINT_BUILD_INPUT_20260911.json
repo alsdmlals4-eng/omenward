@@ -38,6 +38,7 @@
   ],
   "unit_families":{"general":["shield_guard","greatsword_warrior","spear_guard","archer","cavalry"],"special":["mage","priest","assassin","flying","giant"]},
   "progression_status":"RECOMMENDED_DETAILS_USER_CONFIRMED_SEPARATE_GENERAL_SPECIAL",
+  "facility_progression":{"specialization_round":2},
   "building_tree":[
     ["barracks",null,1,"병영","shield_guard",40],
     ["shield_hall","barracks",2,"방패병 훈련소","shield_guard",50],

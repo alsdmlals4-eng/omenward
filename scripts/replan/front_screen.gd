@@ -194,7 +194,7 @@ func _build_panel() -> void:
 			var id: String = options[j]
 			var button := _button("%s %sG" % [run.facilities[id][1], run.facilities[id][2]], Rect2(714 + (j % 3) * 170, 54 + (j / 3) * 39, 164, 35), func(): run.upgrade(selected, id); _refresh_panel(), ui)
 			button.add_theme_font_size_override("font_size", 13)
-			button.disabled = run.omen_pending or not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or (run.round_number < 2 and run.phase != "REFIT") or run.gold < int(run.facilities[id][2])
+			button.disabled = run.omen_pending or not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or not run.specialization_unlocked() or run.gold < int(run.facilities[id][2])
 			button.tooltip_text = "T2: 1라운드 재정비부터 / 활성 슬롯에서만 가능 / 전문화 시 생산 시간 초기화"
 		var demolish_button := _button("철거…", Rect2(1050, 134, 154, 36), _request_demolish, ui)
 		demolish_button.name = "DemolishFacility"
