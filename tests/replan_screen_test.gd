@@ -14,6 +14,36 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	var logistics = screen.find_child("BuildLogistics", true, false)
+	if logistics == null:
+		push_error("Logistics needs a build control in domestic tab")
+		failed = true
+	else:
+		logistics.pressed.emit()
+		screen._process(0)
+		if screen.run.capacity_limit() != 24 or not screen.header.text.contains("/24"):
+			push_error("Logistics UI and header must consume same capacity")
+			failed = true
+		screen.run.units.clear()
+		for i in range(9):
+			screen.run.spawn("shield_guard", 0, 5)
+		screen.run.reserve.append("shield_guard")
+		screen.tab = "전선"
+		screen._refresh_panel()
+		var deployment: Button = null
+		for button in screen.ui.find_children("*", "Button", true, false):
+			if button.tooltip_text.begins_with("방패병"):
+				deployment = button
+		if deployment == null or deployment.disabled:
+			push_error("Active logistics must enable actual reserve card above18")
+			failed = true
+		else:
+			deployment.pressed.emit()
+			if screen.run.capacity_used() != 20:
+				failed = true
+		screen.run.restore(before_layout)
+		screen.tab = "내정"
+		screen._refresh_panel()
 	var capture_label = screen.find_child("CaptureStatus1", true, false)
 	if capture_label == null:
 		push_error("Timed capture must expose progress on battlefield")

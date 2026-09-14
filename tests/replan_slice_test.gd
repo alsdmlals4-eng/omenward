@@ -9,6 +9,38 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func verify_logistics(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("capacity_limit"), "P03 missing shared logistics capacity")
+	if not run.has_method("capacity_limit"):
+		return
+	check(run.capacity_limit() == 18 and run.construct("logistics"), "Logistics is buildable at base capacity")
+	check(run.capacity_limit() == 24 and run.gold == 85, "Active logistics adds6 for35G")
+	var slot = run.production_status(0)
+	check(slot.state == "PASSIVE", "Logistics exposes passive supply, not unit production")
+	var restored = model.new()
+	check(restored.restore(JSON.parse_string(JSON.stringify(run.snapshot()))) and restored.capacity_limit() == 24, "Logistics survives validated save")
+	run.begin_round()
+	run.advance_ticks(120)
+	check(run.reserve.is_empty(), "Logistics never creates blank units")
+	run = model.new()
+	run.gold = 1000
+	for i in range(6):
+		run.construct("barracks")
+	run.points[0] = 1
+	check(run.construct("logistics") and run.capacity_limit() == 24, "Territory slot can host logistics")
+	run.units.clear()
+	for i in range(10):
+		run.spawn("shield_guard", 0, 5)
+	run.reserve.append("shield_guard")
+	run.points[0] = 0
+	check(run.capacity_limit() == 18 and run.units.size() == 10 and not run.deploy("shield_guard"), "Lost slot disables capacity without deleting overcap army")
+	run.points[0] = 1
+	check(run.deploy("shield_guard") and run.capacity_used() == 22, "Recaptured slot re-enables deployment")
+	var pool_before: int = run.spin_required_capacity()
+	run.points[0] = 0
+	check(run.spin_required_capacity() == pool_before, "Logistics never adds an omen unit source")
+
 func verify_capture(model: Script) -> void:
 	var run = model.new()
 	check(run.has_method("capture_state"), "P02 missing timed capture")
@@ -500,6 +532,7 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	verify_logistics(model)
 	verify_capture(model)
 	verify_fixed_clock(model)
 	verify_campaign(model)

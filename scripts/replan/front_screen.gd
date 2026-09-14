@@ -176,7 +176,8 @@ func _build_panel() -> void:
 	if selected < run.buildings.size():
 		var b: Dictionary = run.buildings[selected]
 		_picture(art.building(b.id), Rect2(570, 8, 130, 130), ui)
-		_label("%s → %s\n자동 생산 %s초 / 대기열로 공급" % [run.facilities[b.id][1], run.definitions[b.unit][1], run.facilities[b.id][5]], Rect2(714, 0, 510, 48), ui)
+		var summary: String = "군수소 · 활성 시 출전 한도 +%d\n병력·징조 토큰 생산 없음 · 공용 시설 표식" % int(run.catalog.economy.logistics_capacity_bonus) if b.id == "logistics" else "%s → %s\n자동 생산 %s초 / 대기열로 공급" % [run.facilities[b.id][1], run.definitions[b.unit][1], run.facilities[b.id][5]]
+		_label(summary, Rect2(714, 0, 510, 48), ui)
 		production_bar = ProgressBar.new()
 		production_bar.position = Vector2(570, 143)
 		production_bar.size = Vector2(130, 12)
@@ -198,11 +199,14 @@ func _build_panel() -> void:
 	else:
 		_picture(art.building("barracks"), Rect2(578, 12, 125, 125), ui)
 		_label("T1부터 건설 → T2에서 같은 계열 전문화", Rect2(714, 0, 510, 28), ui)
-		var normal := _button("일반 병영 · 방패병 · 40G", Rect2(714, 39, 490, 43), func(): run.construct("barracks"); _refresh_panel(), ui)
-		var special := _button("특수 병영 · 특수병 1종 고정 추첨 · 75G", Rect2(714, 90, 490, 43), func(): run.construct("special_barracks"); _refresh_panel(), ui)
+		var normal := _button("일반 병영 · 방패병 · 40G", Rect2(714, 32, 490, 34), func(): run.construct("barracks"); _refresh_panel(), ui)
+		var special := _button("특수 병영 · 특수병 1종 고정 추첨 · 75G", Rect2(714, 72, 490, 34), func(): run.construct("special_barracks"); _refresh_panel(), ui)
+		var logistics := _button("군수소 · 출전 한도 +6 · 35G", Rect2(714, 112, 490, 34), func(): run.construct("logistics"); _refresh_panel(), ui)
+		logistics.name = "BuildLogistics"
+		logistics.disabled = run.facility_rules != "logistics_v1" or run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < int(run.facilities.logistics[2]) or run.buildings.size() >= run.unlocked_slots()
 		normal.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 40 or run.buildings.size() >= run.unlocked_slots()
 		special.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 75 or run.buildings.size() >= run.unlocked_slots()
-		_label("건설은 첫 빈 슬롯에 배치됩니다. 특수 병영 추첨은 저장됩니다.", Rect2(714, 137, 510, 25), ui, 13)
+		_label("첫 빈 슬롯에 건설 · 잠긴 군수소 효과 중지 / 기존 병력 유지", Rect2(714, 149, 510, 25), ui, 13)
 
 func _omen_panel() -> void:
 	for i in range(9):
@@ -248,7 +252,7 @@ func _reserve_panel() -> void:
 	recovery.name = "OpenRecovery"
 	recovery.disabled = run.phase not in ["PREPARE", "REFIT"]
 	recovery.tooltip_text = "준비·재정비 중 생존한 아군을 골드로 회복합니다."
-	_label("대기 용량 %s/24 · 출전 %s/18 · 병종 카드를 눌러 전장에 투입" % [run.queue_used(), run.capacity_used()], Rect2(0, 0, 950, 26), ui)
+	_label("대기 용량 %s/24 · 출전 %s/%s · 병종 카드를 눌러 전장에 투입" % [run.queue_used(), run.capacity_used(), run.capacity_limit()], Rect2(0, 0, 950, 26), ui)
 	var counts: Dictionary = {}
 	for role in run.reserve:
 		counts[role] = counts.get(role, 0) + 1
@@ -264,7 +268,7 @@ func _reserve_panel() -> void:
 			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], {"archer": "사거리 안 공중 표적 우선 사격", "flying": "지상 후열 우선 접근 · 무적 아님", "assassin": "후열 우선 · 후열 타격1.4배 / 10초 재사용"}[role]]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
 		_label("%s ×%s\n출전" % [run.definitions[role][1], counts[role]], Rect2(5, 79, 108, 44), b, 13)
-		b.disabled = run.capacity_used() + int(run.definitions[role][11]) > 18 or run.phase in ["VICTORY", "DEFEAT"]
+		b.disabled = run.capacity_used() + int(run.definitions[role][11]) > run.capacity_limit() or run.phase in ["VICTORY", "DEFEAT"]
 		i += 1
 	if counts.is_empty():
 		_label("대기 병력이 없습니다. 병영 자동 생산 또는 징조륜으로 보충하세요.", Rect2(20, 54, 1150, 40), ui)
@@ -277,7 +281,7 @@ func _process(delta: float) -> void:
 		refresh_clock = 0
 		if panel_key != _state_key():
 			_refresh_panel()
-	header.text = "%s  |  라운드 %d/%d  ·  공세 %d/3  ·  %02d초  |  %dG  ·  출전 %d/18  |  %s" % [phase_label(), run.round_number, int(run.catalog.maps[run.current_map].rounds), run.wave_index, ceili(maxf(0, 60 - run.elapsed)), run.gold, run.capacity_used(), "정지" if paused else "%d×" % int(speed)]
+	header.text = "%s  |  라운드 %d/%d  ·  공세 %d/3  ·  %02d초  |  %dG  ·  출전 %d/%d  |  %s" % [phase_label(), run.round_number, int(run.catalog.maps[run.current_map].rounds), run.wave_index, ceili(maxf(0, 60 - run.elapsed)), run.gold, run.capacity_used(), run.capacity_limit(), "정지" if paused else "%d×" % int(speed)]
 	for i in range(map_labels.size()):
 		map_labels[i].text = ("◆ " if i == run.current_map else "✓ " if i < run.current_map else "◇ ") + run.catalog.maps[i].name
 		map_labels[i].modulate = Color("f6d687") if i == run.current_map else Color("8796ad")
@@ -299,7 +303,7 @@ func _process(delta: float) -> void:
 	forecast_label.text = forecast_text()
 	if is_instance_valid(production_label):
 		var status: Dictionary = run.production_status(selected)
-		var state: String = {"LOCKED": "슬롯 잠김 · 생산 중단", "FROZEN": "전투 외 시간 · 생산 동결", "QUEUE_FULL": "대기열 가득 참 · 출전 후 공급", "PRODUCING": "생산 중", "EMPTY": "빈 슬롯"}[status.state]
+		var state: String = {"PASSIVE": "군수 지원 · 출전 한도 +6 · 생산 없음", "LOCKED": "슬롯 잠김 · 효과/생산 중단", "FROZEN": "전투 외 시간 · 생산 동결", "QUEUE_FULL": "대기열 가득 참 · 출전 후 공급", "PRODUCING": "생산 중", "EMPTY": "빈 슬롯"}[status.state]
 		if run.phase in ["VICTORY", "DEFEAT"]:
 			state = "전투 종료 · 생산 종료"
 		elif paused:

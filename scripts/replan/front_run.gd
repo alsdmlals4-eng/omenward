@@ -17,6 +17,7 @@ var capture: Array = [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0
 var base_claim_work := 0
 var basic_gold_paid := 0
 var settled_maps: Array = []
+var facility_rules := "logistics_v1"
 var catalog: Dictionary
 var definitions: Dictionary = {}
 var facilities: Dictionary = {}
@@ -143,6 +144,8 @@ func production_status(slot: int) -> Dictionary:
 	if slot < 0 or slot >= buildings.size():
 		return {"state": "EMPTY", "remaining": 0.0, "progress": 0.0}
 	var building: Dictionary = buildings[slot]
+	if building.id == "logistics":
+		return {"state": "PASSIVE" if building_active(slot) else "LOCKED", "remaining": 0.0, "progress": 0.0}
 	var interval: float = float(facilities[building.id][5])
 	var state := "PRODUCING"
 	if not building_active(slot):
@@ -155,16 +158,16 @@ func production_status(slot: int) -> Dictionary:
 		"progress": clampf(float(building.clock) / interval, 0, 1)}
 
 func construct(id: String) -> bool:
-	if omen_pending or phase not in ["PREPARE", "REFIT"] or id not in ["barracks", "special_barracks"]:
+	if omen_pending or phase not in ["PREPARE", "REFIT"] or (id not in ["barracks", "special_barracks"] and not (id == "logistics" and facility_rules == "logistics_v1")):
 		return false
 	if buildings.size() >= unlocked_slots() or gold < int(facilities[id][2]):
 		return false
-	var role: String = branches[id][4]
+	var role: String = "" if id == "logistics" else branches[id][4]
 	if role == "random_special":
 		role = catalog.unit_families.special[rng.randi_range(0, 4)]
 	gold -= int(facilities[id][2])
 	buildings.append({"id": id, "unit": role, "clock": 0.0})
-	message = "%s 건설 · %s 공급" % [facilities[id][1], definitions[role][1]]
+	message = "군수소 건설 · 출전 한도 +6" if id == "logistics" else "%s 건설 · %s 공급" % [facilities[id][1], definitions[role][1]]
 	return true
 
 func upgrade(slot: int, id: String) -> bool:
@@ -178,6 +181,14 @@ func upgrade(slot: int, id: String) -> bool:
 	buildings[slot] = {"id": id, "unit": branches[id][4], "clock": 0.0}
 	message = "%s 전문화 완료" % facilities[id][1]
 	return true
+
+func capacity_limit() -> int:
+	var result := int(catalog.economy.starting_capacity)
+	if facility_rules == "logistics_v1":
+		for slot in range(buildings.size()):
+			if building_active(slot) and buildings[slot].id == "logistics":
+				result += int(catalog.economy.logistics_capacity_bonus)
+	return result
 
 func capacity_used() -> int:
 	var result := 0
@@ -212,7 +223,7 @@ func heal_unit(unit_id: int) -> bool:
 func deploy(role: String) -> bool:
 	if phase not in ["PREPARE", "REFIT", "BATTLE"] or not reserve.has(role):
 		return false
-	if capacity_used() + int(definitions[role][11]) > int(catalog.economy.starting_capacity):
+	if capacity_used() + int(definitions[role][11]) > capacity_limit():
 		message = "출전 한도가 부족합니다. 대기 병력은 보존됩니다."
 		return false
 	reserve.erase(role)
@@ -229,7 +240,7 @@ func queue_used() -> int:
 func spin_required_capacity() -> int:
 	var maximum := int(definitions.shield_guard[11])
 	for i in range(buildings.size()):
-		if building_active(i):
+		if building_active(i) and buildings[i].unit != "":
 			maximum = maxi(maximum, int(definitions[buildings[i].unit][11]))
 	return 4 * maximum
 
@@ -247,7 +258,7 @@ func spin() -> bool:
 	omen_reserved = spin_required_capacity()
 	var pool: Array = ["shield_guard", "shield_guard", "", ""]
 	for i in range(buildings.size()):
-		if building_active(i):
+		if building_active(i) and buildings[i].unit != "":
 			pool.append(buildings[i].unit)
 	last_board.clear()
 	for i in range(9):
@@ -406,6 +417,8 @@ func _tick(dt: float) -> void:
 		if not building_active(i):
 			continue
 		var building: Dictionary = buildings[i]
+		if building.id == "logistics":
+			continue
 		var interval: float = float(facilities[building.id][5])
 		building.clock = minf(float(building.clock) + dt, interval)
 		if building.clock + 0.0001 >= interval and queue_used() + int(definitions[building.unit][11]) <= int(catalog.economy.queue_capacity):
@@ -798,6 +811,7 @@ func snapshot(include_entry: bool = true) -> Dictionary:
 	if ruleset_id == FIXED_RULESET:
 		result.merge({"version": 7, "ruleset_id": ruleset_id, "tick": tick, "tick_debt": tick_debt, "timer_units": "ticks"}, true)
 		result.merge({"capture_rules": capture_rules, "capture": capture.duplicate(true)}, true)
+		result.facility_rules = facility_rules
 		if capture_rules == "timed_v1":
 			result.merge({"base_claim_work": base_claim_work, "basic_gold_paid": basic_gold_paid, "settled_maps": settled_maps.duplicate()}, true)
 		_convert_duration_units(result, true)
@@ -844,6 +858,9 @@ func restore(value: Variant) -> bool:
 			return false
 		if not _convert_duration_units(value, false):
 			return false
+		if value.get("facility_rules", "legacy") not in ["legacy", "logistics_v1"]:
+			return false
+		value.facility_rules = value.get("facility_rules", "legacy")
 		if value.get("capture_rules", "legacy") not in ["legacy", "timed_v1"]:
 			return false
 		if (value.get("capture_rules") == "timed_v1" and not value.has("capture")) or (not value.has("capture_rules") and value.has("capture")):
@@ -881,7 +898,7 @@ func restore(value: Variant) -> bool:
 		value.omen_moves = 0
 		value.omen_reserved = 0
 	for key in snapshot():
-		if key in ["ruleset_id", "tick", "tick_debt", "timer_units", "capture_rules", "capture", "base_claim_work", "basic_gold_paid", "settled_maps"] and (value.version < 7 or (key in ["base_claim_work", "basic_gold_paid", "settled_maps"] and value.get("capture_rules") == "legacy")):
+		if key in ["ruleset_id", "tick", "tick_debt", "timer_units", "capture_rules", "capture", "base_claim_work", "basic_gold_paid", "settled_maps", "facility_rules"] and (value.version < 7 or (key in ["base_claim_work", "basic_gold_paid", "settled_maps"] and value.get("capture_rules") == "legacy")):
 			continue
 		if not value.has(key):
 			return false
@@ -970,6 +987,10 @@ func restore(value: Variant) -> bool:
 		if windup > 0 and (unit.side != 0 or unit.role != "shield_guard" or pending == -1):
 			return false
 	for building in value.buildings:
+		if building is Dictionary and building.get("id") == "logistics":
+			if value.version != 7 or value.facility_rules != "logistics_v1" or building.get("unit") != "" or not _finite_number(building.get("clock")) or building.clock != 0:
+				return false
+			continue
 		if not building is Dictionary or not facilities.has(building.get("id", "")) or not definitions.has(building.get("unit", "")) or not building.has("clock"):
 			return false
 		if not branches.has(building.id) or not _finite_number(building.clock) or building.clock < 0:
@@ -991,7 +1012,7 @@ func restore(value: Variant) -> bool:
 		var max_cost := int(definitions.shield_guard[11])
 		var allowed_roles: Array = ["", "shield_guard"]
 		for i in range(value.buildings.size()):
-			if i < 6 + value.held_points.size() + value.points.count(1):
+			if i < 6 + value.held_points.size() + value.points.count(1) and value.buildings[i].unit != "":
 				max_cost = maxi(max_cost, int(definitions[value.buildings[i].unit][11]))
 				allowed_roles.append(value.buildings[i].unit)
 		for role in value.board:
@@ -1018,6 +1039,8 @@ func restore(value: Variant) -> bool:
 		if not probe.restore(entry):
 			return false
 		if value.version == 7:
+			if probe.facility_rules != value.facility_rules:
+				return false
 			if probe.capture_rules != value.capture_rules or probe.base_claim_work != 0 or probe.basic_gold_paid != 0:
 				return false
 			for state in probe.capture:
@@ -1032,6 +1055,7 @@ func restore(value: Variant) -> bool:
 			if hp != 1000:
 				return false
 	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
+	facility_rules = value.get("facility_rules", "legacy") if value.version == 7 else "legacy"
 	capture_rules = value.get("capture_rules", "legacy") if value.version == 7 else "legacy"
 	base_claim_work = int(value.get("base_claim_work", 0)) if capture_rules == "timed_v1" else 0
 	basic_gold_paid = int(value.get("basic_gold_paid", 0)) if capture_rules == "timed_v1" else 0

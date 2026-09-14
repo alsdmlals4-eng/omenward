@@ -75,6 +75,14 @@ func _initialize() -> void:
 	digest = FileAccess.get_sha256(capture_path)
 	check(not storage.read_verified(capture_path).ok, "Unknown capture rules cannot silently fall back")
 	check(not storage.write_verified(capture_path, initial).ok and FileAccess.get_sha256(capture_path) == digest, "Unknown capture rules cannot be overwritten")
+	var future_facility: Dictionary = initial.duplicate(true)
+	future_facility.facility_rules = "future-facility-v99"
+	var facility_path := folder + "/future-facility.json"
+	write_fixture(facility_path, JSON.stringify(future_facility))
+	write_fixture(facility_path + ".bak", JSON.stringify(initial))
+	digest = FileAccess.get_sha256(facility_path)
+	check(not storage.read_verified(facility_path).ok, "Unknown facility rules cannot silently fall back")
+	check(not storage.write_verified(facility_path, initial).ok and FileAccess.get_sha256(facility_path) == digest, "Unknown facility rules cannot be overwritten")
 	write_fixture(interrupted + ".bak", JSON.stringify(initial))
 	check(storage.read_verified(interrupted).ok, "Missing primary can recover valid backup")
 	write_fixture(interrupted + ".bak", "[]")

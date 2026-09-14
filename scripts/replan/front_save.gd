@@ -18,6 +18,8 @@ static func _unsupported(value: Variant) -> bool:
 		return true
 	if value.has("capture_rules") and value.capture_rules not in ["legacy", "timed_v1"]:
 		return true
+	if value.has("facility_rules") and value.facility_rules not in ["legacy", "logistics_v1"]:
+		return true
 	return (version is float or version is int) and version > 7
 
 static func _read(path: String) -> Dictionary:

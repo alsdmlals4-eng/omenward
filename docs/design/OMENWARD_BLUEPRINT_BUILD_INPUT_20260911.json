@@ -90,7 +90,7 @@
     "F":[["giant",1],["shield_guard",3]]
   },
   "wave_cycle": ["A","A","B","A","C","D","B","E","F","E","D","F"],
-  "economy": {"starting_gold":120,"starting_capacity":18,"queue_capacity":24,"paid_spin":20,"free_spins_per_round":1,"round_seconds":60,"wave_times":[5,22,40],"base_gold_per_round":15,"point_gold_per_round":4,"heal_coefficient":0.6,"upgrade_multiplier":1.25},
+  "economy": {"starting_gold":120,"starting_capacity":18,"logistics_capacity_bonus":6,"queue_capacity":24,"paid_spin":20,"free_spins_per_round":1,"round_seconds":60,"wave_times":[5,22,40],"base_gold_per_round":15,"point_gold_per_round":4,"heal_coefficient":0.6,"upgrade_multiplier":1.25},
   "sources": [
     ["Slotbound","https://store.steampowered.com/app/4459590/","확률 소환 비교 / 흡수·잭팟 구원 복제 제외"],
     ["Commander Quest","https://flywaygames.com/en/game/commander-quest","편성·전장 시너지 참고"],
