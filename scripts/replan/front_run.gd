@@ -919,11 +919,21 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		var limit: int = 4 if attacker.role == "mage" else 3
 		if is_capstone(attacker) and attacker.role == "mage":
 			limit = int(catalog.capstone_rules.mage_target_limit)
+		var candidates: Array = []
 		for other in units:
-			if targets.size() >= limit:
-				break
-			if other.hp > 0 and other.side != attacker.side and other.id != target.id and absf(float(other.x) - float(target.x)) <= 1.8:
-				targets.append(other)
+			if other.hp <= 0 or other.side == attacker.side or other.id == target.id or absf(float(other.x) - float(target.x)) > 1.8:
+				continue
+			if attacker.role == "greatsword_warrior" and (float(other.x) - float(attacker.x)) * (1.0 if attacker.side == 0 else -1.0) < 0:
+				continue
+			candidates.append(other)
+		# Never reorder live simulation units. Explicit ID tie-break makes the
+		# capped selection independent of the engine's unstable sorting algorithm.
+		candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+			var distance_a := absf(float(a.x) - float(target.x))
+			var distance_b := absf(float(b.x) - float(target.x))
+			return a.id < b.id if distance_a == distance_b else distance_a < distance_b)
+		for other in candidates.slice(0, limit - 1):
+			targets.append(other)
 	for victim in targets:
 		var armor: float = float(definitions[victim.role][7 if attacker.role == "mage" else 6])
 		if attacker.role != "mage" and float(victim.get("effects", {}).get("armor_break_time", 0)) > 0:

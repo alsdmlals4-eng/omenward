@@ -10,6 +10,7 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 
 func verify_birth_records(model: Script) -> void:
+	verify_area_selection(model)
 	verify_capstones(model)
 	var run = model.new()
 	check(run.has_method("deploy_entry"), "P03 must preserve production birth identity through exact deployment")
@@ -83,6 +84,56 @@ func verify_birth_records(model: Script) -> void:
 	invalid = run.snapshot()
 	invalid.map_entry.next_facility_id = 999
 	check(not copy.restore(invalid), "Checkpoint cannot contain future facility counter")
+
+func verify_area_selection(model: Script) -> void:
+	for side in [0, 1]:
+		var run = model.new()
+		run.units.clear()
+		var direction: float = 1.0 if side == 0 else -1.0
+		run.spawn("greatsword_warrior", side, 50)
+		run.spawn("giant", 1 - side, 50 + direction * 0.5)
+		run.spawn("giant", 1 - side, 50 - direction * 0.5)
+		run.spawn("giant", 1 - side, 50 + direction * 1.0)
+		run._hit(run.units[0], run.units[1])
+		check(run.units[2].hp == 320 and run.units[3].hp < 320, "Greatsword sweep excludes rear enemies on either side")
+		check(run.units[0].hit_count == 1 and run.damage_events == 2, "Area hit counts one basic swing and one hit per selected target")
+	var run = model.new()
+	run.units.clear()
+	run.spawn("mage", 0, 10)
+	run.spawn("giant", 1, 20)
+	run.spawn("giant", 1, 21.5)
+	run.spawn("giant", 1, 20.25)
+	run.spawn("giant", 1, 20.5)
+	run.spawn("giant", 1, 19.5)
+	run.spawn("giant", 0, 20.1)
+	run.spawn("giant", 1, 20.1)
+	run.units.back().hp = 0
+	var attacker: Dictionary = run.units[0]
+	var primary: Dictionary = run.units[1]
+	var farther: Dictionary = run.units[2]
+	var tied_first: Dictionary = run.units[4]
+	var tied_second: Dictionary = run.units[5]
+	run.units.reverse()
+	run._hit(attacker, primary)
+	check(farther.hp == 320 and tied_first.hp < 320 and tied_second.hp < 320, "Mage cap selects closest candidates independent of live array order")
+	check(run.damage_events == 4 and attacker.hit_count == 1, "Mage primary appears once and dead/allied candidates are excluded")
+	# With one nearer extra, only the lower ID of an equidistant pair fits the remaining cap.
+	for unit in run.units:
+		if unit.hp > 0:
+			unit.hp = float(run.definitions[unit.role][4])
+	run.spawn("giant", 1, 20.1)
+	run._hit(attacker, primary)
+	check(tied_first.hp < 320 and tied_second.hp == 320, "Equal-distance final slot uses lower unit ID, not array order")
+	# Existing save validation permits distinct fractional numeric unit IDs.
+	tied_first.id = 4.1
+	tied_second.id = 4.9
+	for order in range(2):
+		for unit in run.units:
+			if unit.hp > 0:
+				unit.hp = float(run.definitions[unit.role][4])
+		run.units.reverse()
+		run._hit(attacker, primary)
+		check(tied_first.hp < 320 and tied_second.hp == 320, "Distinct legacy numeric IDs retain deterministic tie priority")
 
 func verify_capstones(model: Script) -> void:
 	var run = model.new()

@@ -253,6 +253,8 @@ check(run.capacity_limit() == 24, "Active logistics adds six")
 
 ### P04 — 남은 숙련·정예·T3 전투 효과
 
+**2026-09-14 execution order refinement:** First correct the existing area-hit consumer: preserve the primary target, select additional living enemies by distance from the primary then unique unit ID, and exclude enemies behind the greatsword attacker. Do not sort the live units array or change caps/radius/grade ownership in this correction. RED fixtures cover insertion-order independence, equal-distance ID ties, mirrored sides, dead/allied candidates, primary once, and no extra basic-hit increments. ADOPT Godot `Array.sort_custom`; ADAPT with explicit ID tie-break because the engine sort is not stable; REJECT sorting global units or a new event bus for this existing synchronous selection. Source: https://docs.godotengine.org/en/stable/classes/class_array.html#class-array-method-sort-custom . Subsequent grade proc additions still require the P04 event/save contract; this correction does not claim those effects complete.
+
 **Modify:** `front_run.gd`의 `_hit/take_damage/heal_target/choose_target`와 저장; JSON progression/capstones의 구조 키; tooltip; 모델 테스트. **Create 제안:** `scripts/replan/front_combat_events.gd`는 아래 사건 처리 추출이 실제 중복을 줄일 때만 도입, 범용 ECS/이벤트 버스 재설계 금지.
 
 **인터페이스 제안:** `resolve_hit(event: Dictionary) -> void`; event 필수값 `{event_id, parent_event_id, attack_id, source_id, target_id, side_at_launch, kind: BASIC|SECONDARY|COUNTER, damage_type, is_ranged, base_damage}`. 기본 적중만 기본타 카운터를 증가. secondary/counter는 추가타를 다시 발동하지 않는다. 동일 event_id 재처리는 피해0. 범위 대상은 거리→ID로 정렬, 대검은 공격 방향 앞쪽만. 점령 반경과 전투 사거리 변환은 P02 계약을 따른다.
