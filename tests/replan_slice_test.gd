@@ -10,6 +10,7 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 
 func verify_birth_records(model: Script) -> void:
+	verify_capstones(model)
 	var run = model.new()
 	check(run.has_method("deploy_entry"), "P03 must preserve production birth identity through exact deployment")
 	if not run.has_method("deploy_entry"):
@@ -82,6 +83,185 @@ func verify_birth_records(model: Script) -> void:
 	invalid = run.snapshot()
 	invalid.map_entry.next_facility_id = 999
 	check(not copy.restore(invalid), "Checkpoint cannot contain future facility counter")
+
+func verify_capstones(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("upgrade_tier"), "P03 requires guarded T3 purchase connected to birth records")
+	if not run.has_method("upgrade_tier"):
+		return
+	run.gold = 1000
+	run.construct("barracks")
+	check(not run.upgrade_tier(0), "T1 cannot skip specialization")
+	run.phase = "REFIT"
+	run.upgrade(0, "range")
+	check(not run.upgrade_tier(0), "T3 stays locked before first-map round6")
+	run.round_number = 5
+	run._enqueue("archer", 2, 1)
+	var price_before: int = run.gold
+	check(run.upgrade_tier(0) and run.gold == price_before - 63 and run.facility_tier(0) == 3, "Round5 refit enables T3 at ceil50*1.25 cost")
+	check(not run.upgrade_tier(0) and run.reserve[0].birth_tier == 2, "T3 cannot purchase twice or upgrade existing reserve")
+	run.phase = "BATTLE"
+	run.buildings[0].clock = 99
+	run.advance_ticks(1)
+	check(run.reserve[1].birth_tier == 3, "Subsequent production carries T3")
+	var copy = model.new()
+	check(copy.restore(JSON.parse_string(JSON.stringify(run.snapshot()))) and copy.facility_tier(0) == 3, "T3 building and recruits round-trip")
+	check(run.deploy_entry(int(run.reserve[1].entry_id)) and run.units.back().birth_tier == 3, "Exact T3 recruit deploys without promoting older one")
+	run.units.clear()
+	run.spawn("priest", 0, 10)
+	run.spawn("shield_guard", 0, 11)
+	run.units[0].birth_tier = 3
+	run.units[1].hp = 100
+	run.heal_target(run.units[0], run.units[1])
+	check(run.units[1].hp == 115, "T3 priest heals15 rather than base12")
+	run.units.clear()
+	run.spawn("spear_guard", 0, 10)
+	run.units[0].birth_tier = 3
+	check(is_equal_approx(run.attack_range(run.units[0]), 5.4), "T3 spear has actual1.8 range in model units")
+	var fight = model.new()
+	fight.units.clear()
+	fight.phase = "BATTLE"
+	fight.spawn("archer", 0, 10)
+	fight.spawn("giant", 1, 15)
+	fight.units[0].birth_tier = 3
+	fight.units[0].survived = 2
+	fight._hit(fight.units[0], fight.units[1])
+	fight._hit(fight.units[0], fight.units[1])
+	var before: float = fight.units[1].hp
+	fight._hit(fight.units[0], fight.units[1])
+	check(is_equal_approx(before - fight.units[1].hp, 18.0 * 100 / 130 * 1.35), "T3 veteran archer enhances third shot to1.35")
+	fight.units.clear()
+	fight.spawn("mage", 0, 10)
+	fight.units[0].birth_tier = 3
+	for i in range(5):
+		fight.spawn("giant", 1, 15 + i * 0.1)
+	fight._hit(fight.units[0], fight.units[1])
+	check(fight.units[5].hp < 320, "T3 mage hits fifth clustered target")
+	fight.units.clear()
+	fight.spawn("shield_guard", 0, 10)
+	fight.spawn("shield_guard", 1, 11)
+	fight.units[0].birth_tier = 3
+	fight.apply_status(fight.units[0], "stun", 0, 0.6)
+	check(is_equal_approx(fight.units[0].effects.stun, 0.3), "T3 guarding shield halves stun duration")
+	fight.units.clear()
+	fight.spawn("cavalry", 0, 10)
+	fight.spawn("giant", 1, 11)
+	fight.units[0].birth_tier = 3
+	fight.units[0].charge = 2.0
+	fight._hit(fight.units[0], fight.units[1])
+	before = fight.units[0].hp
+	fight.take_damage(fight.units[0], 100)
+	check(is_equal_approx(before - fight.units[0].hp, 85), "T3 charge provides15percent reduction after impact")
+	for i in range(60):
+		fight._tick_effects(fight.units[0], 1.0 / 30.0)
+	before = fight.units[0].hp
+	fight.take_damage(fight.units[0], 10)
+	check(is_equal_approx(before - fight.units[0].hp, 10), "Charge guard expires rather than persisting forever")
+	fight.units.clear()
+	fight.spawn("assassin", 0, 10)
+	fight.spawn("archer", 1, 11)
+	fight.units[0].birth_tier = 3
+	fight._hit(fight.units[0], fight.units[1])
+	before = fight.units[0].hp
+	fight._hit(fight.units[1], fight.units[0])
+	check(is_equal_approx(before - fight.units[0].hp, 18.0 * 100 / 108 * 0.75), "T3 ambush guards against immediate ranged retaliation")
+	fight.units.clear()
+	fight.spawn("flying", 0, 10)
+	fight.spawn("giant", 1, 11)
+	fight.units[0].birth_tier = 3
+	fight._hit(fight.units[0], fight.units[1])
+	check(is_equal_approx(320 - fight.units[1].hp, 20.0 * 100 / 130 * 1.3), "T3 flying opening multiplier applies once")
+	before = fight.units[1].hp
+	fight._hit(fight.units[0], fight.units[1])
+	check(is_equal_approx(before - fight.units[1].hp, 20.0 * 100 / 130), "Flying second hit cannot reuse opening")
+	fight.units.clear()
+	fight.spawn("greatsword_warrior", 0, 10)
+	fight.spawn("giant", 1, 11)
+	fight.units[0].birth_tier = 3
+	for i in range(4):
+		fight._hit(fight.units[0], fight.units[1])
+	check(fight.units[1].effects.get("armor_break", 0) == 10, "T3 fourth slash applies nonstacking armor reduction")
+	fight.units.clear()
+	fight.spawn("giant", 0, 100)
+	fight.units[0].birth_tier = 3
+	fight.advance_ticks(1)
+	check(is_equal_approx(1000 - fight.bases[1], 34 * 1.7), "T3 giant applies actual1.7 structure multiplier")
+	var states = model.new()
+	states.gold = 1000
+	states.construct("barracks")
+	states.phase = "REFIT"
+	states.upgrade(0, "stable")
+	states.round_number = 5
+	states.upgrade_tier(0)
+	states._enqueue("cavalry", 3, 1)
+	states.units.clear()
+	states.deploy_entry(int(states.reserve[0].entry_id))
+	states.spawn("giant", 1, 6)
+	states.units[0].charge = 2
+	states._hit(states.units[0], states.units[1])
+	var saved: Dictionary = states.snapshot()
+	check(saved.units[0].effects.damage_guard == 60 and copy.restore(JSON.parse_string(JSON.stringify(saved))), "Guard saves in integer ticks and restores")
+	check(is_equal_approx(copy.units[0].effects.damage_guard, 2.0), "Guard restore returns same model duration")
+	saved.units[0].effects.damage_guard = 61
+	check(not copy.restore(saved), "Guard cannot restore longer than2seconds")
+	saved = states.snapshot()
+	saved.units[1].effects = {"armor_break": 10}
+	check(not copy.restore(saved), "Armor reduction requires matching live duration")
+	saved = states.snapshot()
+	saved.units[1].effects = {"damage_guard": 30}
+	check(not copy.restore(saved), "Charge-only guard cannot attach to unrelated giant")
+	var old = model.new()
+	saved = old.snapshot()
+	saved.birth_rules = "birth_v1"
+	saved.map_entry.birth_rules = "birth_v1"
+	check(old.restore(saved), "Previous birth_v1 profile remains supported")
+	saved.units[0].effects = {"armor_break": 10, "armor_break_time": 30}
+	check(not old.restore(saved), "Previous ruleset rejects newly introduced effect fields")
+	old.gold = 1000
+	old.construct("barracks")
+	old.phase = "REFIT"
+	old.upgrade(0, "range")
+	old.round_number = 5
+	check(not old.upgrade_tier(0), "Previous profile does not silently gain T3 rules")
+	states.phase = "REFIT"
+	states.spin()
+	var t3_token := {"role_id": "cavalry", "birth_tier": 3, "source_facility_id": 1}
+	states.last_board = [t3_token, t3_token.duplicate(), t3_token.duplicate(), "", "", "", "", "", ""]
+	check(copy.restore(JSON.parse_string(JSON.stringify(states.snapshot()))) and copy.confirm_omen() and copy.reserve[0].birth_tier == 3, "T3 pending tokens restore and award T3 recruits")
+	fight.units.clear()
+	fight.spawn("flying", 0, 10)
+	fight.spawn("giant", 1, 11)
+	fight.units[0].birth_tier = 3
+	fight.units[0].air_reengage = 0.1
+	fight.apply_status(fight.units[0], "stun", 0, 0.1)
+	fight.advance_ticks(1)
+	check(is_equal_approx(fight.units[0].air_reengage, 8), "Stunned flying unit still counts nearby engagement for rearm")
+	fight.units.clear()
+	fight.spawn("assassin", 0, 50)
+	fight.units[0].birth_tier = 3
+	fight.units[0].effects = {"ranged_guard": 1.0}
+	fight.points[1] = -1
+	fight.tower_clock = 0
+	fight._tick_tower(2)
+	check(is_equal_approx(fight.units[0].hp, 96.5), "T3 ranged guard also protects against tower shots")
+	before = fight.units[0].hp
+	fight.take_damage(fight.units[0], 10)
+	check(is_equal_approx(before - fight.units[0].hp, 10), "Ranged guard never reduces melee/untyped damage")
+	fight.units.clear()
+	fight.spawn("flying", 1, 90)
+	fight.spawn("giant", 0, 89)
+	fight.units[0].birth_tier = 3
+	fight._hit(fight.units[0], fight.units[1])
+	check(is_equal_approx(320 - fight.units[1].hp, 20.0 * 100 / 130 * 1.3), "Veil uses the same T3 opening rule when explicitly authored")
+	fight.units[1].x = 0
+	fight.units[1].cooldown = 60
+	fight.units[0].cooldown = 60
+	fight.wave_index = 3
+	fight.elapsed = 0
+	fight.advance_ticks(239)
+	check(fight.units[0].air_reengage > 0, "Flying rearm cannot finish before eight seconds away")
+	fight.advance_ticks(1)
+	check(is_zero_approx(fight.units[0].air_reengage), "Flying rearms after full eight seconds away")
 
 func verify_logistics(model: Script) -> void:
 	verify_birth_records(model)

@@ -26,6 +26,32 @@ func capture() -> void:
 		quit(1)
 		return
 	print("DEMOLITION_RUNTIME: confirmation captured, cancel preserved state")
+	# Explicit late-round setup fixture, not evidence of natural round6 progression.
+	screen.run.gold = 1000
+	screen.run.phase = "REFIT"
+	screen.run.round_number = 5
+	screen.run.upgrade(0, "range")
+	if not screen.run.upgrade_tier(0):
+		push_error("T3 fixture purchase failed")
+		quit(1)
+		return
+	screen.run.begin_round()
+	screen.run.buildings[0].clock = 99
+	screen.run.advance_ticks(1)
+	var born_tier: int = screen.run.reserve[0].birth_tier
+	screen.run.deploy_entry(int(screen.run.reserve[0].entry_id))
+	screen._refresh_panel()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://output/front-tier3.png")
+	if born_tier != 3 or screen.run.units.back().birth_tier != 3:
+		push_error("T3 fixture did not retain birth on deployment")
+		quit(1)
+		return
+	print("T3_RUNTIME: purchase + production + exact deployment tier3, fixture not natural progression")
+	if not screen.run.restore(before_demolition):
+		quit(1)
+		return
 	screen.run.spin()
 	screen.tab = "징조륜"
 	screen._refresh_panel()

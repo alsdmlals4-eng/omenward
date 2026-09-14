@@ -1,6 +1,14 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-14 T3 connected readback
+
+Implemented new birth_v2 (v1 preserved) T3 same-role upgrade, round6/later-map gate, ceil1.25 price, same interval/reset production, nonretroactive tier3 entries/tokens and all ten capstone consumers. Numeric rules reside in Blueprint JSON. UI purchase and descriptions consume the same model/catalog; old runs explain T3 requires a new run. Tower damage is ranged in centralized damage input; melee remains untyped/nonranged.
+
+Final local gate426 model/55save/UI/default PASS, docs/scope7 PASS. Ten effects and added timer/invalid profile/partial-state guards covered. Independent five-perspective review found stunned flying contact failed to reset rearm and tower bypassed ranged mitigation; reproduced then corrected. Additional no-melee-mitigation, full8seconds disengagement, Veil opening, guard integer ticks/maxima, armor-duration coupling and old-profile injection checks passed. GPU `output/front-tier3.png` is explicit round5-refit setup→purchase→begin round6→production→exact deployment fixture, not natural progression. Existing combat12damage13units/shield3poses/mixed10damage/status remain verified. No new raster art; P04 remaining grade triggers/event work and P05–P09 are not done.
+
 ## 2026-09-14 P03 birth records implementation
+
+Next T3 execution: new birth_v2 marks support for tier3, v1 remains readable without silently gaining T3. Existing v7 envelope stays, transport rejects unknown marker at main/checkpoint. Add facility tier3 only on T2 branch, no role branching; cost ceil(T2price*1.25), first map next-round6 gate, later maps retained, same production interval and reset progress. Source/entry invariants stay. Wire all ten existing capstone meanings with numeric JSON input and saved temporary mitigation/reengagement fields in P04 tests, rather than granting an inactive T3 purchase. No new stat-wide multiplier or new art needed for this scope. Test first: upgrade gates/nonretroactivity, born3 through omen/deploy/save, each effect, interruption, timers and legacy preservation.
 
 ADOPT source-frozen JSON dictionaries and deep snapshots, following [Godot Dictionary reference/copy semantics](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) and [saving games](https://docs.godotengine.org/en/stable/tutorials/io/saving_games.html). ADAPT existing flat v7 with fail-closed `birth_rules=birth_v1` marker; REJECT parallel role/metadata arrays and deferred source lookup from current slot (drift after demolition/upgrades). This is implementation research, not a new player benchmark.
 

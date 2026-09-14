@@ -110,7 +110,7 @@ func _make_shell() -> void:
 	ui.position = Vector2(24, 519)
 	ui.size = Vector2(1232, 170)
 	add_child(ui)
-	_label("양측 투명 병종 · 방패 베기/Aseprite · 보호막/둔화/경직·일부 등급 스킬 연결 | 전체 모션·T3·영웅 미완료", Rect2(24, 691, 1240, 25), self, 13)
+	_label("양측 투명 병종 · 방패 베기/Aseprite · T3/일부 등급 효과 연결 | 전체 모션·나머지 등급·영웅 미완료", Rect2(24, 691, 1240, 25), self, 13)
 
 func _restart() -> void:
 	# Explicit confirmation prevents accidental loss of a running battle.
@@ -196,6 +196,19 @@ func _build_panel() -> void:
 			button.add_theme_font_size_override("font_size", 13)
 			button.disabled = run.omen_pending or not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or not run.specialization_unlocked() or run.gold < int(run.facilities[id][2])
 			button.tooltip_text = "T2: 1라운드 재정비부터 / 활성 슬롯에서만 가능 / 전문화 시 생산 시간 초기화"
+		if run.facility_tier(selected) >= 2:
+			var tier_button := _button("T3 심화 · %dG" % run.tier_upgrade_cost(selected) if run.facility_tier(selected) == 2 else "T3 심화 완료", Rect2(714, 54, 490, 35), func():
+				if run.building_present(selected) and is_same(run.buildings[selected], b):
+					run.upgrade_tier(selected)
+				_refresh_panel(), ui)
+			tier_button.name = "UpgradeTier"
+			tier_button.disabled = not run.can_upgrade_tier(selected)
+			tier_button.tooltip_text = "첫 맵6라운드 준비부터 / 이후 맵 해금 유지 / 기존 병력 소급 강화 없음 / 생산 시간 초기화"
+			if run.birth_rules != "birth_v2":
+				tier_button.tooltip_text = "구형 원정은 기존 규칙을 유지합니다. T3는 새 출정부터 사용할 수 있습니다."
+			for capstone in run.catalog.capstones:
+				if capstone[0] == b.unit:
+					_label("%s · %s" % [capstone[1], capstone[2]], Rect2(714, 94, 490, 36), ui, 13)
 		var demolish_button := _button("철거…", Rect2(1050, 134, 154, 36), _request_demolish, ui)
 		demolish_button.name = "DemolishFacility"
 		demolish_button.disabled = run.facility_rules != "slots_v1" or run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or not run.building_active(selected)
@@ -314,6 +327,10 @@ func _reserve_panel() -> void:
 			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], {"archer": "사거리 안 공중 표적 우선 사격", "flying": "지상 후열 우선 접근 · 무적 아님", "assassin": "후열 우선 · 후열 타격1.4배 / 10초 재사용"}[role]]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
 		b.tooltip_text += "\n다음 출전 T%d · 생성 당시 티어 유지 · 같은 병종 선입순" % tier
+		if tier == 3:
+			for capstone in run.catalog.capstones:
+				if capstone[0] == role:
+					b.tooltip_text += "\nT3 %s · %s" % [capstone[1], capstone[2]]
 		if entry is Dictionary:
 			b.tooltip_text += "\n병력 #%d · 생산 시설 #%d (0=기본/구형 출처)" % [entry_id, int(entry.source_facility_id)]
 		_label("%s ×%s\nT%d 출전" % [run.definitions[role][1], counts[role], tier], Rect2(5, 79, 108, 44), b, 13)

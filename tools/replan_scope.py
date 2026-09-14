@@ -11,6 +11,7 @@ APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
 	'output/front-demolition.png',
+    'output/front-tier3.png',
     'docs/DOCUMENT_LIFECYCLE_REGISTRY.md', 'docs/DOCUMENTATION_MAP.md',
     'docs/OMENWARD_GDD_CURRENT_CANON.md', 'docs/PROJECT_CORE.md',
     'scripts/replan/front_save.gd', 'scripts/replan/front_save.gd.uid',

@@ -64,6 +64,17 @@ func verify() -> void:
 		specialization.pressed.emit()
 		if screen.run.buildings[0].id != "range":
 			failed = true
+		screen._refresh_panel()
+		var capstone = screen.find_child("UpgradeTier", true, false)
+		if capstone == null or capstone.disabled:
+			push_error("Later-map specialized facility must expose affordable T3 purchase")
+			failed = true
+		else:
+			var before_gold: int = screen.run.gold
+			capstone.pressed.emit()
+			if screen.run.facility_tier(0) != 3 or screen.run.gold != before_gold - 63:
+				push_error("T3 button must apply exact purchase once")
+				failed = true
 	screen.run.restore(before_layout)
 	screen._refresh_panel()
 	screen.run.construct("logistics")

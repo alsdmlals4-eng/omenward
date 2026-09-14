@@ -23,7 +23,7 @@ static func _unsupported_state(value: Variant) -> bool:
 		return true
 	if value.has("facility_rules") and value.facility_rules not in ["legacy", "logistics_v1", "slots_v1"]:
 		return true
-	if value.has("birth_rules") and value.birth_rules not in ["legacy", "birth_v1"]:
+	if value.has("birth_rules") and value.birth_rules not in ["legacy", "birth_v1", "birth_v2"]:
 		return true
 	return (version is float or version is int) and version > 7
 

@@ -18,7 +18,8 @@ var base_claim_work := 0
 var basic_gold_paid := 0
 var settled_maps: Array = []
 var facility_rules := "slots_v1"
-var birth_rules := "birth_v1"
+const BIRTH_RULES := ["birth_v1", "birth_v2"]
+var birth_rules := "birth_v2"
 var next_facility_id := 1
 var next_entry_id := 1
 var catalog: Dictionary
@@ -98,7 +99,7 @@ func next_map() -> bool:
 	for i in range(units.size()):
 		var unit: Dictionary = units[i]
 		unit.x = 5.0 + (i % 9) * 0.4
-		for key in ["cooldown", "flash", "action", "windup", "charge", "brace", "ambush"]:
+		for key in ["cooldown", "flash", "action", "windup", "charge", "brace", "ambush", "air_reengage"]:
 			unit[key] = 0.0
 		unit.pending_target = -1
 		unit.focus_target = -1
@@ -194,7 +195,7 @@ func construct(id: String) -> bool:
 		role = catalog.unit_families.special[rng.randi_range(0, 4)]
 	gold -= int(facilities[id][2])
 	var building := {"id": id, "unit": role, "clock": 0.0}
-	if birth_rules == "birth_v1":
+	if birth_rules in BIRTH_RULES:
 		building.instance_id = next_facility_id
 		next_facility_id += 1
 	if slot == buildings.size():
@@ -219,10 +220,38 @@ func upgrade(slot: int, id: String) -> bool:
 	gold -= int(facilities[id][2])
 	var instance_id: int = int(buildings[slot].get("instance_id", 0))
 	buildings[slot] = {"id": id, "unit": branches[id][4], "clock": 0.0}
-	if birth_rules == "birth_v1":
+	if birth_rules in BIRTH_RULES:
 		buildings[slot].instance_id = instance_id
 	message = "%s 전문화 완료" % facilities[id][1]
 	return true
+
+func facility_tier(slot: int) -> int:
+	if not building_present(slot) or buildings[slot].id == "logistics":
+		return 0
+	return int(buildings[slot].get("tier", branches[buildings[slot].id][2]))
+
+func tier_upgrade_cost(slot: int) -> int:
+	if not building_present(slot) or not branches.has(buildings[slot].id):
+		return 0
+	return ceili(float(facilities[buildings[slot].id][2]) * float(catalog.facility_progression.capstone_cost_multiplier))
+
+func can_upgrade_tier(slot: int) -> bool:
+	return birth_rules == "birth_v2" and facility_rules == "slots_v1" and not omen_pending and phase in ["PREPARE", "REFIT"] and building_active(slot) and facility_tier(slot) == 2 and (current_map > 0 or round_number + (1 if phase == "REFIT" else 0) >= int(catalog.facility_progression.capstone_round)) and gold >= tier_upgrade_cost(slot)
+
+func upgrade_tier(slot: int) -> bool:
+	if not can_upgrade_tier(slot):
+		return false
+	gold -= tier_upgrade_cost(slot)
+	buildings[slot].tier = 3
+	buildings[slot].clock = 0.0
+	message = "T3 심화 완료 · 이후 생산/징조 토큰 적용 · 기존 병력 유지"
+	return true
+
+func is_capstone(unit: Dictionary) -> bool:
+	return birth_rules == "birth_v2" and int(unit.get("birth_tier", 1)) == 3
+
+func attack_range(unit: Dictionary) -> float:
+	return (float(catalog.capstone_rules.spear_range) if is_capstone(unit) and unit.role == "spear_guard" else float(definitions[unit.role][9])) * 3.0
 
 func capacity_limit() -> int:
 	var result := int(catalog.economy.starting_capacity)
@@ -274,7 +303,7 @@ func _birth_record(role: String, tier: int = 1, source: int = 0) -> Dictionary:
 	return entry
 
 func _enqueue(role: String, tier: int = 1, source: int = 0) -> void:
-	reserve.append(_birth_record(role, tier, source) if birth_rules == "birth_v1" else role)
+	reserve.append(_birth_record(role, tier, source) if birth_rules in BIRTH_RULES else role)
 
 func deploy(entry: Variant) -> bool:
 	var role := entry_role(entry)
@@ -299,7 +328,7 @@ func _deploy_index(index: int) -> bool:
 		return false
 	reserve.remove_at(index)
 	spawn(role, 0, 5.0)
-	if birth_rules == "birth_v1" and entry is Dictionary:
+	if birth_rules in BIRTH_RULES and entry is Dictionary:
 		for key in ["entry_id", "birth_tier", "source_facility_id", "survived"]:
 			units.back()[key] = entry[key]
 	message = "%s 출전" % definitions[role][1]
@@ -333,7 +362,7 @@ func spin() -> bool:
 	var pool: Array = ["shield_guard", "shield_guard", "", ""]
 	for i in range(buildings.size()):
 		if building_active(i) and buildings[i].unit != "":
-			pool.append({"role_id": buildings[i].unit, "birth_tier": int(branches[buildings[i].id][2]), "source_facility_id": int(buildings[i].get("instance_id", 0))} if birth_rules == "birth_v1" else buildings[i].unit)
+			pool.append({"role_id": buildings[i].unit, "birth_tier": facility_tier(i), "source_facility_id": int(buildings[i].get("instance_id", 0))} if birth_rules in BIRTH_RULES else buildings[i].unit)
 	last_board.clear()
 	for i in range(9):
 		var token: Variant = pool[rng.randi_range(0, pool.size() - 1)]
@@ -431,10 +460,10 @@ func spawn(role: String, side: int, x: float) -> void:
 	var row: Array = definitions[role]
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
 		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
-		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0,
+		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0, "air_reengage": 0.0,
 		"survived": 0, "focus_target": -1, "focus_count": 0,
 		"effects": {}, "hit_count": 0, "heal_count": 0})
-	if birth_rules == "birth_v1" and side == 0:
+	if birth_rules in BIRTH_RULES and side == 0:
 		var birth := _birth_record(role)
 		for key in ["entry_id", "birth_tier", "source_facility_id"]:
 			units.back()[key] = birth[key]
@@ -519,7 +548,7 @@ func _tick(dt: float) -> void:
 		var interval: float = float(facilities[building.id][5])
 		building.clock = minf(float(building.clock) + dt, interval)
 		if building.clock + 0.0001 >= interval and queue_used() + int(definitions[building.unit][11]) <= int(catalog.economy.queue_capacity):
-			_enqueue(building.unit, int(branches[building.id][2]), int(building.get("instance_id", 0)))
+			_enqueue(building.unit, facility_tier(i), int(building.get("instance_id", 0)))
 			building.clock = 0.0
 	var stunned: Array = []
 	for actor in units:
@@ -532,6 +561,10 @@ func _tick(dt: float) -> void:
 		unit.flash = _countdown(float(unit.flash), dt)
 		unit.action = _countdown(float(unit.action), dt)
 		unit.cooldown = _countdown(float(unit.cooldown), dt)
+		if is_capstone(unit) and unit.role == "flying" and float(unit.get("air_reengage", 0)) > 0:
+			var engagement := choose_target(unit)
+			var near: bool = not engagement.is_empty() and absf(float(unit.x) - float(engagement.x)) <= attack_range(unit)
+			unit.air_reengage = float(catalog.capstone_rules.flying_reengage_seconds) if near else _countdown(float(unit.air_reengage), dt)
 		if stunned.has(unit.id) or float(unit.get("effects", {}).get("stun", 0)) > 0:
 			unit.brace = 0.0
 			continue
@@ -546,7 +579,7 @@ func _tick(dt: float) -> void:
 						bases[1] -= float(row[5])
 				else:
 					for victim in units:
-						if victim.id == unit.pending_target and victim.hp > 0 and victim.side != unit.side and absf(float(unit.x) - float(victim.x)) <= float(row[9]) * 3.0:
+						if victim.id == unit.pending_target and victim.hp > 0 and victim.side != unit.side and absf(float(unit.x) - float(victim.x)) <= attack_range(unit):
 							_hit(unit, victim)
 							break
 				unit.pending_target = -1
@@ -554,7 +587,7 @@ func _tick(dt: float) -> void:
 		unit.ambush = _countdown(float(unit.get("ambush", 0.0)), dt)
 		var target := choose_target(unit)
 		var distance := absf(float(unit.x) - float(target.x)) if not target.is_empty() else INF
-		if not target.is_empty() and distance <= float(row[9]) * 3.0:
+		if not target.is_empty() and distance <= attack_range(unit):
 			if unit.role == "cavalry" and float(unit.get("charge", 0.0)) < 2.0:
 				unit.charge = 0.0
 			if unit.role == "spear_guard":
@@ -590,7 +623,8 @@ func _tick(dt: float) -> void:
 						unit.windup = SHIELD_WINDUP
 						unit.pending_target = -2
 						continue
-					bases[1 - int(unit.side)] -= float(row[5]) * (1.5 if unit.role == "giant" else 1.0)
+					var structure_multiplier := (float(catalog.capstone_rules.giant_structure_multiplier) if is_capstone(unit) else 1.5) if unit.role == "giant" else 1.0
+					bases[1 - int(unit.side)] -= float(row[5]) * structure_multiplier
 					unit.cooldown = float(row[10])
 					unit.action = 0.25
 	units = units.filter(func(u): return u.hp > 0)
@@ -638,7 +672,7 @@ func _tick_tower(dt: float) -> void:
 			var enemy: int = 1 if points[1] == 1 else 0
 			for unit in units:
 				if unit.hp > 0 and unit.side == enemy and absf(float(unit.x) - 50) <= 12:
-					take_damage(unit, 18)
+					take_damage(unit, 18, true)
 					break
 
 func _capture_total() -> int:
@@ -729,7 +763,7 @@ func apply_status(unit: Dictionary, kind: String, amount: float, duration: float
 		"stun":
 			if float(effects.get("stun", 0)) > 0 or float(effects.get("immune", 0)) > 0:
 				return false
-			effects.stun = duration
+			effects.stun = duration * (float(catalog.capstone_rules.shield_stun_multiplier) if is_capstone(unit) and shield_guarding(unit) else 1.0)
 			if float(unit.get("charge", 0)) < 2.0:
 				unit.charge = 0.0
 			unit.windup = 0.0
@@ -762,11 +796,13 @@ func apply_status(unit: Dictionary, kind: String, amount: float, duration: float
 
 func _tick_effects(unit: Dictionary, dt: float) -> void:
 	var effects: Dictionary = unit.get("effects", {})
-	for key in ["immune", "barrier_time"]:
+	for key in ["immune", "barrier_time", "damage_guard", "ranged_guard", "armor_break_time"]:
 		if effects.has(key):
 			effects[key] = _countdown(float(effects[key]), dt)
 	if float(effects.get("barrier_time", 0)) <= 0:
 		effects.erase("barrier")
+	if float(effects.get("armor_break_time", 0)) <= 0:
+		effects.erase("armor_break")
 	if float(effects.get("stun", 0)) > 0:
 		effects.stun = _countdown(float(effects.stun), dt)
 		if effects.stun <= 0.00001:
@@ -784,10 +820,14 @@ func movement_factor(unit: Dictionary) -> float:
 		strongest = maxf(strongest, float(slow.amount))
 	return maxf(0.5, 1.0 - strongest)
 
-func take_damage(unit: Dictionary, amount: float) -> void:
+func take_damage(unit: Dictionary, amount: float, ranged: bool = false) -> void:
 	if unit.hp <= 0 or not is_finite(amount) or amount <= 0:
 		return
 	var effects: Dictionary = unit.get("effects", {})
+	if float(effects.get("damage_guard", 0)) > 0:
+		amount *= float(catalog.capstone_rules.cavalry_damage_multiplier)
+	if ranged and float(effects.get("ranged_guard", 0)) > 0:
+		amount *= float(catalog.capstone_rules.assassin_ranged_multiplier)
 	var absorbed := minf(amount, float(effects.get("barrier", 0)))
 	if absorbed > 0:
 		effects.barrier -= absorbed
@@ -798,7 +838,8 @@ func take_damage(unit: Dictionary, amount: float) -> void:
 func heal_target(healer: Dictionary, target: Dictionary) -> void:
 	if healer.hp <= 0 or target.hp <= 0 or healer.side != target.side or healer.id == target.id:
 		return
-	var healed := minf(12, maxf(0, float(definitions[target.role][4]) - float(target.hp)))
+	var healing := float(catalog.capstone_rules.priest_heal) if is_capstone(healer) else 12.0
+	var healed := minf(healing, maxf(0, float(definitions[target.role][4]) - float(target.hp)))
 	target.hp += healed
 	target.flash = 0.2
 	healer.heal_count = (int(healer.get("heal_count", 0)) + 1) % 3
@@ -812,8 +853,8 @@ func heal_target(healer: Dictionary, target: Dictionary) -> void:
 					strongest = i
 			slows.remove_at(strongest)
 		target.effects = effects
-	if unit_grade(healer) >= 2 and healed < 12:
-		apply_status(target, "barrier", 12 - healed, 3)
+	if unit_grade(healer) >= 2 and healed < healing:
+		apply_status(target, "barrier", minf(12, healing - healed), 3)
 
 func shield_guarding(unit: Dictionary) -> bool:
 	if phase != "BATTLE" or unit.role != "shield_guard" or unit.hp <= 0:
@@ -861,11 +902,23 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 	if ambush:
 		attacker.ambush = 10.0
 	var charged: bool = attacker.role == "cavalry" and float(attacker.get("charge", 0.0)) >= 2.0
+	var opening: bool = is_capstone(attacker) and attacker.role == "flying" and float(attacker.get("air_reengage", 0)) <= 0
+	if opening:
+		attacker.air_reengage = float(catalog.capstone_rules.flying_reengage_seconds)
+	if is_capstone(attacker):
+		var effects: Dictionary = attacker.get("effects", {})
+		if charged:
+			effects.damage_guard = float(catalog.capstone_rules.cavalry_guard_seconds)
+		if ambush:
+			effects.ranged_guard = float(catalog.capstone_rules.assassin_guard_seconds)
+		attacker.effects = effects
 	if attacker.role == "cavalry":
 		attacker.charge = 0.0
 	var targets: Array = [target]
 	if attacker.role in ["mage", "greatsword_warrior"]:
 		var limit: int = 4 if attacker.role == "mage" else 3
+		if is_capstone(attacker) and attacker.role == "mage":
+			limit = int(catalog.capstone_rules.mage_target_limit)
 		for other in units:
 			if targets.size() >= limit:
 				break
@@ -873,9 +926,13 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 				targets.append(other)
 	for victim in targets:
 		var armor: float = float(definitions[victim.role][7 if attacker.role == "mage" else 6])
+		if attacker.role != "mage" and float(victim.get("effects", {}).get("armor_break_time", 0)) > 0:
+			armor = maxf(0, armor - float(victim.effects.get("armor_break", 0)))
 		var damage := maxf(1, float(row[5]) * 100.0 / (100.0 + armor))
 		if focused:
-			damage *= 1.25
+			damage *= float(catalog.capstone_rules.archer_focus_multiplier) if is_capstone(attacker) else 1.25
+		if opening:
+			damage *= float(catalog.capstone_rules.flying_opening_multiplier)
 		if attacker.role == "greatsword_warrior" and victim.id == target.id and unit_grade(attacker) >= 1:
 			damage *= 1.2
 		if ambush:
@@ -887,7 +944,12 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		var forward := (float(attacker.x) - float(victim.x)) * (1.0 if victim.side == 0 else -1.0)
 		if attacker.role == "archer" and forward > 0 and shield_guarding(victim):
 			damage = maxf(1, damage * 0.75)
-		take_damage(victim, damage)
+		take_damage(victim, damage, attacker.role in ["archer", "mage"])
+		if is_capstone(attacker) and attacker.role == "greatsword_warrior" and attacker.hit_count == 0 and victim.id == target.id:
+			var effects: Dictionary = victim.get("effects", {})
+			effects.armor_break = float(catalog.capstone_rules.blade_armor_reduction)
+			effects.armor_break_time = float(catalog.capstone_rules.blade_armor_seconds)
+			victim.effects = effects
 		if unit_grade(attacker) >= 1:
 			if attacker.role == "mage":
 				apply_status(victim, "slow", 0.15, 1)
@@ -910,7 +972,7 @@ func snapshot(include_entry: bool = true) -> Dictionary:
 		result.merge({"capture_rules": capture_rules, "capture": capture.duplicate(true)}, true)
 		result.facility_rules = facility_rules
 		result.birth_rules = birth_rules
-		if birth_rules == "birth_v1":
+		if birth_rules in BIRTH_RULES:
 			result.next_facility_id = next_facility_id
 			result.next_entry_id = next_entry_id
 		if capture_rules == "timed_v1":
@@ -926,11 +988,11 @@ func _convert_duration_units(state: Dictionary, encode: bool) -> bool:
 	for unit in state.units:
 		if not unit is Dictionary:
 			return false
-		var groups: Array = [{"value": unit, "keys": ["cooldown", "flash", "action", "windup", "brace", "ambush"]}]
+		var groups: Array = [{"value": unit, "keys": ["cooldown", "flash", "action", "windup", "brace", "ambush", "air_reengage"]}]
 		var effects: Variant = unit.get("effects", {})
 		if not effects is Dictionary or not effects.get("slows", []) is Array:
 			return false
-		groups.append({"value": effects, "keys": ["barrier_time", "stun", "immune"]})
+		groups.append({"value": effects, "keys": ["barrier_time", "stun", "immune", "damage_guard", "ranged_guard", "armor_break_time"]})
 		for slow in effects.get("slows", []):
 			if not slow is Dictionary:
 				return false
@@ -949,9 +1011,9 @@ func restore(value: Variant) -> bool:
 	if not value is Dictionary or not _finite_number(value.get("version")) or value.version != floorf(value.version) or value.version < 1 or value.version > 7 or value.has("schema_version"):
 		return false
 	value = value.duplicate(true)
-	if value.version == 7 and value.get("birth_rules", "legacy") not in ["legacy", "birth_v1"]:
+	if value.version == 7 and value.get("birth_rules", "legacy") not in ["legacy", "birth_v1", "birth_v2"]:
 		return false
-	var has_birth: bool = value.version == 7 and value.get("birth_rules") == "birth_v1"
+	var has_birth: bool = value.version == 7 and value.get("birth_rules") in BIRTH_RULES
 	if value.version == 7 and not has_birth:
 		if value.has("next_entry_id") or value.has("next_facility_id"):
 			return false
@@ -1094,6 +1156,17 @@ func restore(value: Variant) -> bool:
 		var windup: Variant = unit.get("windup", 0.0)
 		if not _valid_effects(unit.get("effects", {})):
 			return false
+		var effects: Dictionary = unit.get("effects", {})
+		for key in ["damage_guard", "ranged_guard", "armor_break", "armor_break_time"]:
+			if effects.has(key) and (value.version != 7 or value.get("birth_rules") != "birth_v2"):
+				return false
+		for pair in [["damage_guard", "cavalry"], ["ranged_guard", "assassin"]]:
+			if float(effects.get(pair[0], 0)) > 0 and (unit.role != pair[1] or unit.get("birth_tier", 1) != 3):
+				return false
+		if not _finite_number(unit.get("air_reengage", 0)) or unit.get("air_reengage", 0) < 0 or unit.get("air_reengage", 0) > 8:
+			return false
+		if unit.get("air_reengage", 0) > 0 and (unit.role != "flying" or unit.get("birth_tier", 1) != 3 or value.get("birth_rules") != "birth_v2"):
+			return false
 		for counter in ["hit_count", "heal_count"]:
 			var count: Variant = unit.get(counter, 0)
 			if not _finite_number(count) or count != floorf(count) or count < 0 or count > (3 if counter == "hit_count" else 2):
@@ -1116,6 +1189,9 @@ func restore(value: Variant) -> bool:
 			return false
 	var seen_facilities: Array = []
 	for building in value.buildings:
+		if building is Dictionary and building.has("tier"):
+			if not has_birth or value.get("birth_rules") != "birth_v2" or not branches.has(building.get("id", "")) or int(branches[building.id][2]) != 2 or building.tier != 3:
+				return false
 		if has_birth and building is Dictionary and building.get("id") != "":
 			if not _valid_integer(building.get("instance_id"), 1, int(value.next_facility_id) - 1) or building.instance_id in seen_facilities:
 				return false
@@ -1163,7 +1239,7 @@ func restore(value: Variant) -> bool:
 				var found := false
 				for i in range(value.buildings.size()):
 					var building: Dictionary = value.buildings[i]
-					if i < 6 + value.held_points.size() + value.points.count(1) and building.unit == token.role_id and building.get("instance_id", 0) == token.source_facility_id and int(branches[building.id][2]) == token.birth_tier:
+					if i < 6 + value.held_points.size() + value.points.count(1) and building.unit == token.role_id and building.get("instance_id", 0) == token.source_facility_id and int(building.get("tier", branches[building.id][2])) == token.birth_tier:
 						found = true
 				if not found:
 					return false
@@ -1208,7 +1284,7 @@ func restore(value: Variant) -> bool:
 			if hp != 1000:
 				return false
 	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
-	birth_rules = "birth_v1" if has_birth else "legacy"
+	birth_rules = value.birth_rules if has_birth else "legacy"
 	next_facility_id = int(value.get("next_facility_id", 1)) if has_birth else 1
 	next_entry_id = int(value.get("next_entry_id", 1)) if has_birth else 1
 	facility_rules = value.get("facility_rules", "legacy") if value.version == 7 else "legacy"
@@ -1247,12 +1323,15 @@ func restore(value: Variant) -> bool:
 		unit.focus_count = int(unit.get("focus_count", 0))
 		unit.focus_target = int(unit.get("focus_target", -1))
 		unit.ambush = float(unit.get("ambush", 0.0))
+		unit.air_reengage = float(unit.get("air_reengage", 0.0))
 		unit.charge = float(unit.get("charge", 0.0))
 		unit.brace = float(unit.get("brace", 0.0))
 		unit.windup = float(unit.get("windup", 0.0))
 		unit.pending_target = int(unit.get("pending_target", -1))
 	buildings = value.buildings.duplicate(true)
 	for building in buildings:
+		if building.has("tier"):
+			building.tier = int(building.tier)
 		if building.has("instance_id"):
 			if has_birth:
 				building.instance_id = int(building.instance_id)
@@ -1284,10 +1363,10 @@ func _valid_integer(value: Variant, minimum: int, maximum: int) -> bool:
 	return _finite_number(value) and value == floorf(value) and value >= minimum and value <= maximum
 
 func _valid_birth(entry: Dictionary, state: Dictionary) -> bool:
-	return _valid_integer(entry.get("entry_id"), 1, int(state.next_entry_id) - 1) and _valid_integer(entry.get("birth_tier"), 1, 2) and _valid_integer(entry.get("source_facility_id"), 0, int(state.next_facility_id) - 1) and (entry.source_facility_id != 0 or entry.birth_tier == 1)
+	return _valid_integer(entry.get("entry_id"), 1, int(state.next_entry_id) - 1) and _valid_integer(entry.get("birth_tier"), 1, 3 if state.birth_rules == "birth_v2" else 2) and _valid_integer(entry.get("source_facility_id"), 0, int(state.next_facility_id) - 1) and (entry.source_facility_id != 0 or entry.birth_tier == 1)
 
 func _valid_token(token: Dictionary, state: Dictionary) -> bool:
-	return token.size() == 3 and definitions.has(token.get("role_id", "")) and _valid_integer(token.get("birth_tier"), 1, 2) and _valid_integer(token.get("source_facility_id"), 0, int(state.next_facility_id) - 1) and (token.source_facility_id != 0 or token.birth_tier == 1)
+	return token.size() == 3 and definitions.has(token.get("role_id", "")) and _valid_integer(token.get("birth_tier"), 1, 3 if state.birth_rules == "birth_v2" else 2) and _valid_integer(token.get("source_facility_id"), 0, int(state.next_facility_id) - 1) and (token.source_facility_id != 0 or token.birth_tier == 1)
 
 func _finite_number(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value))
@@ -1295,8 +1374,14 @@ func _finite_number(value: Variant) -> bool:
 func _valid_effects(value: Variant) -> bool:
 	if not value is Dictionary:
 		return false
+	var limits := {"damage_guard": float(catalog.capstone_rules.cavalry_guard_seconds), "ranged_guard": float(catalog.capstone_rules.assassin_guard_seconds), "armor_break": float(catalog.capstone_rules.blade_armor_reduction), "armor_break_time": float(catalog.capstone_rules.blade_armor_seconds)}
+	for key in limits:
+		if value.has(key) and (not _finite_number(value[key]) or value[key] < 0 or value[key] > limits[key]):
+			return false
+	if float(value.get("armor_break", 0)) > 0 and float(value.get("armor_break_time", 0)) <= 0:
+		return false
 	for key in value:
-		if key not in ["barrier", "barrier_time", "stun", "immune", "slows"]:
+		if key not in ["barrier", "barrier_time", "stun", "immune", "slows", "damage_guard", "ranged_guard", "armor_break", "armor_break_time"]:
 			return false
 		if key == "slows":
 			if not value.slows is Array or value.slows.size() > 16:
