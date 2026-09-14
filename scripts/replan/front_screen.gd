@@ -237,8 +237,14 @@ func _request_demolish() -> void:
 func _omen_panel() -> void:
 	for i in range(9):
 		var rect := Rect2((i % 3) * 55, (i / 3) * 55, 50, 50)
-		if i < run.last_board.size() and run.last_board[i] != "":
-			_picture(art.unit(run.last_board[i], 0), rect, ui)
+		if i < run.last_board.size() and run.entry_role(run.last_board[i]) != "":
+			_picture(art.unit(run.entry_role(run.last_board[i]), 0), rect, ui)
+			var token: Variant = run.last_board[i]
+			var tier: int = int(token.birth_tier) if token is Dictionary else 1
+			var marker := _label("T%d" % tier, Rect2(rect.position + Vector2(2, 31), Vector2(46, 19)), ui, 13)
+			marker.name = "OmenTier_%d" % i
+			marker.mouse_filter = Control.MOUSE_FILTER_STOP
+			marker.tooltip_text = "생산 티어 T%d · 출처 #%d · 혼합 완성선은 가장 낮은 티어 적용" % [tier, int(token.source_facility_id) if token is Dictionary else 0]
 		else:
 			_label("—", rect, ui)
 	var b := _button("관측 · %s" % ("무료" if run.free_spin else "20G"), Rect2(290, 0, 195, 38), func(): run.spin(); selected_bonus = ""; _refresh_panel(), ui)
@@ -269,8 +275,8 @@ func _omen_panel() -> void:
 	confirm.name = "ConfirmOmen"
 	confirm.disabled = not run.omen_pending or (options.size() > 1 and selected_bonus == "")
 	var names: Array = []
-	for role in run.omen_rewards(selected_bonus):
-		names.append(run.definitions[role][1])
+	for token in run.omen_reward_tokens(selected_bonus):
+		names.append("%s T%d" % [run.definitions[token.role_id][1], int(token.birth_tier)])
 	_label("남은 이동 %d회 · 대기 용량 %d/24 · 예약 %d칸\n%s\n3칸당 1명 + 완성선 보너스 최대 1명. 확정 전 지급 없음." % [run.omen_moves, run.queue_used(), run.omen_reserved, ("예상: " + (", ".join(names) if not names.is_empty() else "병력 없음")) if run.omen_pending else "관측 → 행/열 이동 → 보너스 선택 → 확정 → 전선 출전"], Rect2(290, 83, 915, 78), ui, 15)
 
 func _reserve_panel() -> void:
@@ -280,11 +286,25 @@ func _reserve_panel() -> void:
 	recovery.tooltip_text = "준비·재정비 중 생존한 아군을 골드로 회복합니다."
 	_label("대기 용량 %s/24 · 출전 %s/%s · 병종 카드를 눌러 전장에 투입" % [run.queue_used(), run.capacity_used(), run.capacity_limit()], Rect2(0, 0, 950, 26), ui)
 	var counts: Dictionary = {}
-	for role in run.reserve:
+	var first_entries: Dictionary = {}
+	for role in run.reserve_roles():
 		counts[role] = counts.get(role, 0) + 1
+	for entry in run.reserve:
+		var role: String = run.entry_role(entry)
+		if not first_entries.has(role):
+			first_entries[role] = entry
 	var i := 0
 	for role in counts:
-		var b := _button("", Rect2(i * 122, 32, 116, 126), func(): run.deploy(role); _refresh_panel(), ui)
+		var entry: Variant = first_entries[role]
+		var entry_id: int = int(entry.entry_id) if entry is Dictionary else -1
+		var tier: int = int(entry.birth_tier) if entry is Dictionary else 1
+		var b := _button("", Rect2(i * 122, 32, 116, 126), func():
+			if entry_id >= 0:
+				run.deploy_entry(entry_id)
+			else:
+				run.deploy(role)
+			_refresh_panel(), ui)
+		b.name = "Deploy_" + role
 		b.tooltip_text = "%s · %s\n체력 %s · 공격 %s · 출전 한도 %s칸\n현재 검토판: 기본 공격/범위/치료만 구현. 도감의 고유 능력은 후속." % [run.definitions[role][1], run.definitions[role][2], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11]]
 		if role == "shield_guard":
 			b.tooltip_text = "방패병 · 체력%s · 공격%s · 출전%s칸\n근접 적을 막는 동안 정면 화살 피해25%% 완화\n이동 중·후방·마법·근접 공격에는 미적용" % [run.definitions[role][4], run.definitions[role][5], run.definitions[role][11]]
@@ -293,7 +313,10 @@ func _reserve_panel() -> void:
 		elif role in ["archer", "flying", "assassin"]:
 			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], {"archer": "사거리 안 공중 표적 우선 사격", "flying": "지상 후열 우선 접근 · 무적 아님", "assassin": "후열 우선 · 후열 타격1.4배 / 10초 재사용"}[role]]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
-		_label("%s ×%s\n출전" % [run.definitions[role][1], counts[role]], Rect2(5, 79, 108, 44), b, 13)
+		b.tooltip_text += "\n다음 출전 T%d · 생성 당시 티어 유지 · 같은 병종 선입순" % tier
+		if entry is Dictionary:
+			b.tooltip_text += "\n병력 #%d · 생산 시설 #%d (0=기본/구형 출처)" % [entry_id, int(entry.source_facility_id)]
+		_label("%s ×%s\nT%d 출전" % [run.definitions[role][1], counts[role], tier], Rect2(5, 79, 108, 44), b, 13)
 		b.disabled = run.capacity_used() + int(run.definitions[role][11]) > run.capacity_limit() or run.phase in ["VICTORY", "DEFEAT"]
 		i += 1
 	if counts.is_empty():

@@ -14,6 +14,38 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.run._enqueue("shield_guard", 1, 0)
+	screen.run.construct("barracks")
+	screen.run._enqueue("shield_guard", 2, int(screen.run.buildings[0].instance_id))
+	screen.tab = "전선"
+	screen._refresh_panel()
+	var recruit_card = screen.find_child("Deploy_shield_guard", true, false)
+	if recruit_card == null or not "T1" in recruit_card.tooltip_text:
+		push_error("Reserve card must disclose frozen tier and bind an exact recruit")
+		failed = true
+	else:
+		var first_id: int = screen.run.reserve[0].entry_id
+		screen.run.deploy_entry(first_id)
+		recruit_card.pressed.emit()
+		if screen.run.reserve.size() != 1 or screen.run.reserve[0].birth_tier != 2:
+			push_error("Stale recruit card cannot deploy a different recruit of same role")
+			failed = true
+	screen.run.restore(before_layout)
+	screen.run.construct("barracks")
+	screen.run.gold = 1000
+	screen.run.phase = "REFIT"
+	screen.run.upgrade(0, "shield_hall")
+	screen.run.spin()
+	var token := {"role_id": "shield_guard", "birth_tier": 2, "source_facility_id": 1}
+	screen.run.last_board = [token, token.duplicate(), token.duplicate(), "", "", "", "", "", ""]
+	screen.tab = "징조륜"
+	screen._refresh_panel()
+	var tier_label = screen.find_child("OmenTier_0", true, false)
+	if tier_label == null or tier_label.text != "T2":
+		push_error("Pending omen cell must expose the token tier before committing")
+		failed = true
+	screen.run.restore(before_layout)
+	screen.tab = "내정"
 	screen.run.construct("barracks")
 	screen.run.gold = 1000
 	screen.run.phase = "VICTORY"

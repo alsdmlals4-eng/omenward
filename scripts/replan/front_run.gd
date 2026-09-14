@@ -18,6 +18,9 @@ var base_claim_work := 0
 var basic_gold_paid := 0
 var settled_maps: Array = []
 var facility_rules := "slots_v1"
+var birth_rules := "birth_v1"
+var next_facility_id := 1
+var next_entry_id := 1
 var catalog: Dictionary
 var definitions: Dictionary = {}
 var facilities: Dictionary = {}
@@ -191,6 +194,9 @@ func construct(id: String) -> bool:
 		role = catalog.unit_families.special[rng.randi_range(0, 4)]
 	gold -= int(facilities[id][2])
 	var building := {"id": id, "unit": role, "clock": 0.0}
+	if birth_rules == "birth_v1":
+		building.instance_id = next_facility_id
+		next_facility_id += 1
 	if slot == buildings.size():
 		buildings.append(building)
 	else:
@@ -211,7 +217,10 @@ func upgrade(slot: int, id: String) -> bool:
 	if gold < int(facilities[id][2]):
 		return false
 	gold -= int(facilities[id][2])
+	var instance_id: int = int(buildings[slot].get("instance_id", 0))
 	buildings[slot] = {"id": id, "unit": branches[id][4], "clock": 0.0}
+	if birth_rules == "birth_v1":
+		buildings[slot].instance_id = instance_id
 	message = "%s 전문화 완료" % facilities[id][1]
 	return true
 
@@ -253,21 +262,53 @@ func heal_unit(unit_id: int) -> bool:
 			return true
 	return false
 
-func deploy(role: String) -> bool:
-	if phase not in ["PREPARE", "REFIT", "BATTLE"] or not reserve.has(role):
+func entry_role(entry: Variant) -> String:
+	return str(entry.get("role_id", "")) if entry is Dictionary else str(entry)
+
+func reserve_roles() -> Array:
+	return reserve.map(func(entry): return entry_role(entry))
+
+func _birth_record(role: String, tier: int = 1, source: int = 0) -> Dictionary:
+	var entry := {"entry_id": next_entry_id, "role_id": role, "birth_tier": tier, "source_facility_id": source, "survived": 0}
+	next_entry_id += 1
+	return entry
+
+func _enqueue(role: String, tier: int = 1, source: int = 0) -> void:
+	reserve.append(_birth_record(role, tier, source) if birth_rules == "birth_v1" else role)
+
+func deploy(entry: Variant) -> bool:
+	var role := entry_role(entry)
+	for index in range(reserve.size()):
+		if entry_role(reserve[index]) == role:
+			return _deploy_index(index)
+	return false
+
+func deploy_entry(entry_id: int) -> bool:
+	for index in range(reserve.size()):
+		if reserve[index] is Dictionary and int(reserve[index].entry_id) == entry_id:
+			return _deploy_index(index)
+	return false
+
+func _deploy_index(index: int) -> bool:
+	if phase not in ["PREPARE", "REFIT", "BATTLE"]:
 		return false
+	var entry: Variant = reserve[index]
+	var role := entry_role(entry)
 	if capacity_used() + int(definitions[role][11]) > capacity_limit():
 		message = "출전 한도가 부족합니다. 대기 병력은 보존됩니다."
 		return false
-	reserve.erase(role)
+	reserve.remove_at(index)
 	spawn(role, 0, 5.0)
+	if birth_rules == "birth_v1" and entry is Dictionary:
+		for key in ["entry_id", "birth_tier", "source_facility_id", "survived"]:
+			units.back()[key] = entry[key]
 	message = "%s 출전" % definitions[role][1]
 	return true
 
 func queue_used() -> int:
 	var used := 0
-	for role in reserve:
-		used += int(definitions[role][11])
+	for entry in reserve:
+		used += int(definitions[entry_role(entry)][11])
 	return used
 
 func spin_required_capacity() -> int:
@@ -292,11 +333,11 @@ func spin() -> bool:
 	var pool: Array = ["shield_guard", "shield_guard", "", ""]
 	for i in range(buildings.size()):
 		if building_active(i) and buildings[i].unit != "":
-			pool.append(buildings[i].unit)
+			pool.append({"role_id": buildings[i].unit, "birth_tier": int(branches[buildings[i].id][2]), "source_facility_id": int(buildings[i].get("instance_id", 0))} if birth_rules == "birth_v1" else buildings[i].unit)
 	last_board.clear()
 	for i in range(9):
-		var role: String = pool[rng.randi_range(0, pool.size() - 1)]
-		last_board.append(role)
+		var token: Variant = pool[rng.randi_range(0, pool.size() - 1)]
+		last_board.append(token.duplicate(true) if token is Dictionary else token)
 	message = "관측 완료 · 행/열 이동 후 결과를 확정하세요."
 	return true
 
@@ -304,7 +345,7 @@ func shift_board(axis: String, index: int) -> bool:
 	if not omen_pending or omen_moves <= 0 or axis not in ["row", "column"] or index < 0 or index > 2:
 		return false
 	var ids: Array = [index * 3, index * 3 + 1, index * 3 + 2] if axis == "row" else [index, index + 3, index + 6]
-	var last: String = last_board[ids[2]]
+	var last: Variant = last_board[ids[2]]
 	last_board[ids[2]] = last_board[ids[1]]
 	last_board[ids[1]] = last_board[ids[0]]
 	last_board[ids[0]] = last
@@ -316,25 +357,43 @@ func bonus_options() -> Array:
 	if last_board.size() != 9:
 		return options
 	for line in [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]:
-		var role: String = last_board[line[0]]
-		if role != "" and role == last_board[line[1]] and role == last_board[line[2]] and not options.has(role):
+		var role := entry_role(last_board[line[0]])
+		if role != "" and role == entry_role(last_board[line[1]]) and role == entry_role(last_board[line[2]]) and not options.has(role):
 			options.append(role)
 	return options
 
 func omen_rewards(bonus: String = "") -> Array:
-	var counts: Dictionary = {}
-	for role in last_board:
-		if role != "":
-			counts[role] = counts.get(role, 0) + 1
+	return omen_reward_tokens(bonus).map(func(token): return entry_role(token))
+
+func _lowest_token(tokens: Array) -> Dictionary:
+	var result: Dictionary = {}
+	for token in tokens:
+		var normalized: Dictionary = token.duplicate(true) if token is Dictionary else {"role_id": token, "birth_tier": 1, "source_facility_id": 0}
+		if result.is_empty() or normalized.birth_tier < result.birth_tier:
+			result = normalized
+	return result
+
+func omen_reward_tokens(bonus: String = "") -> Array:
+	var groups: Dictionary = {}
+	for token in last_board:
+		var role := entry_role(token)
+		if role == "":
+			continue
+		if not groups.has(role):
+			groups[role] = []
+		groups[role].append(token)
 	var rewards: Array = []
-	for role in counts:
-		for i in range(int(counts[role]) / 3):
-			rewards.append(role)
+	for role in groups:
+		for i in range(groups[role].size() / 3):
+			rewards.append(_lowest_token(groups[role].slice(i * 3, i * 3 + 3)))
 	var options := bonus_options()
-	if options.size() == 1:
-		rewards.append(options[0])
-	elif options.has(bonus):
-		rewards.append(bonus)
+	var selected: String = options[0] if options.size() == 1 else bonus
+	if options.has(selected):
+		var line_tokens: Array = []
+		for line in [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]]:
+			if entry_role(last_board[line[0]]) == selected and entry_role(last_board[line[1]]) == selected and entry_role(last_board[line[2]]) == selected:
+				line_tokens.append_array([last_board[line[0]], last_board[line[1]], last_board[line[2]]])
+		rewards.append(_lowest_token(line_tokens))
 	return rewards
 
 func confirm_omen(bonus: String = "") -> bool:
@@ -343,13 +402,14 @@ func confirm_omen(bonus: String = "") -> bool:
 	var options := bonus_options()
 	if (options.size() > 1 and not options.has(bonus)) or (bonus != "" and not options.has(bonus)):
 		return false
-	var rewards := omen_rewards(bonus)
+	var rewards := omen_reward_tokens(bonus)
 	var cost := 0
-	for role in rewards:
-		cost += int(definitions[role][11])
+	for token in rewards:
+		cost += int(definitions[token.role_id][11])
 	if queue_used() + cost > int(catalog.economy.queue_capacity):
 		return false
-	reserve.append_array(rewards)
+	for token in rewards:
+		_enqueue(token.role_id, int(token.birth_tier), int(token.source_facility_id))
 	omen_pending = false
 	omen_moves = 0
 	omen_reserved = 0
@@ -374,6 +434,10 @@ func spawn(role: String, side: int, x: float) -> void:
 		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0,
 		"survived": 0, "focus_target": -1, "focus_count": 0,
 		"effects": {}, "hit_count": 0, "heal_count": 0})
+	if birth_rules == "birth_v1" and side == 0:
+		var birth := _birth_record(role)
+		for key in ["entry_id", "birth_tier", "source_facility_id"]:
+			units.back()[key] = birth[key]
 	next_id += 1
 
 func advance(delta: float) -> void:
@@ -455,7 +519,7 @@ func _tick(dt: float) -> void:
 		var interval: float = float(facilities[building.id][5])
 		building.clock = minf(float(building.clock) + dt, interval)
 		if building.clock + 0.0001 >= interval and queue_used() + int(definitions[building.unit][11]) <= int(catalog.economy.queue_capacity):
-			reserve.append(building.unit)
+			_enqueue(building.unit, int(branches[building.id][2]), int(building.get("instance_id", 0)))
 			building.clock = 0.0
 	var stunned: Array = []
 	for actor in units:
@@ -836,15 +900,19 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 func snapshot(include_entry: bool = true) -> Dictionary:
 	var result := {"version": 6, "map_entry": map_entry.duplicate(true) if include_entry else {}, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
 		"elapsed": elapsed, "wave": wave_index, "units": units.duplicate(true),
-		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(),
+		"buildings": buildings.duplicate(true), "reserve": reserve.duplicate(true),
 		"points": points.duplicate(), "bases": bases.duplicate(), "next_id": next_id,
 		"damage_events": damage_events, "rng": str(rng.state), "free_spin": free_spin,
-		"board": last_board.duplicate(), "income": income_clock, "point_clock": point_clock,
+		"board": last_board.duplicate(true), "income": income_clock, "point_clock": point_clock,
 		"tower_clock": tower_clock, "message": message}
 	if ruleset_id == FIXED_RULESET:
 		result.merge({"version": 7, "ruleset_id": ruleset_id, "tick": tick, "tick_debt": tick_debt, "timer_units": "ticks"}, true)
 		result.merge({"capture_rules": capture_rules, "capture": capture.duplicate(true)}, true)
 		result.facility_rules = facility_rules
+		result.birth_rules = birth_rules
+		if birth_rules == "birth_v1":
+			result.next_facility_id = next_facility_id
+			result.next_entry_id = next_entry_id
 		if capture_rules == "timed_v1":
 			result.merge({"base_claim_work": base_claim_work, "basic_gold_paid": basic_gold_paid, "settled_maps": settled_maps.duplicate()}, true)
 		_convert_duration_units(result, true)
@@ -881,6 +949,16 @@ func restore(value: Variant) -> bool:
 	if not value is Dictionary or not _finite_number(value.get("version")) or value.version != floorf(value.version) or value.version < 1 or value.version > 7 or value.has("schema_version"):
 		return false
 	value = value.duplicate(true)
+	if value.version == 7 and value.get("birth_rules", "legacy") not in ["legacy", "birth_v1"]:
+		return false
+	var has_birth: bool = value.version == 7 and value.get("birth_rules") == "birth_v1"
+	if value.version == 7 and not has_birth:
+		if value.has("next_entry_id") or value.has("next_facility_id"):
+			return false
+	if has_birth:
+		for key in ["next_entry_id", "next_facility_id"]:
+			if not _valid_integer(value.get(key), 1, 100000000):
+				return false
 	if value.version == 7:
 		if value.get("ruleset_id") != FIXED_RULESET or value.get("timer_units") != "ticks":
 			return false
@@ -931,6 +1009,8 @@ func restore(value: Variant) -> bool:
 		value.omen_moves = 0
 		value.omen_reserved = 0
 	for key in snapshot():
+		if key in ["birth_rules", "next_entry_id", "next_facility_id"]:
+			continue
 		if key in ["ruleset_id", "tick", "tick_debt", "timer_units", "capture_rules", "capture", "base_claim_work", "basic_gold_paid", "settled_maps", "facility_rules"] and (value.version < 7 or (key in ["base_claim_work", "basic_gold_paid", "settled_maps"] and value.get("capture_rules") == "legacy")):
 			continue
 		if not value.has(key):
@@ -954,6 +1034,13 @@ func restore(value: Variant) -> bool:
 		return false
 	if not value.units is Array or not value.buildings is Array or not value.reserve is Array:
 		return false
+	if value.version == 7 and not has_birth:
+		for unit in value.units:
+			if unit is Dictionary and (unit.has("entry_id") or unit.has("birth_tier") or unit.has("source_facility_id")):
+				return false
+		for building in value.buildings:
+			if building is Dictionary and building.has("instance_id"):
+				return false
 	for key in ["points", "bases", "board"]:
 		if not value[key] is Array:
 			return false
@@ -970,7 +1057,10 @@ func restore(value: Variant) -> bool:
 			return false
 	if value.board.size() not in [0, 9]:
 		return false
-	for role in value.board:
+	for token in value.board:
+		if token is Dictionary and (not has_birth or not _valid_token(token, value)):
+			return false
+		var role := entry_role(token)
 		if role != "" and not definitions.has(role):
 			return false
 	if value.buildings.size() > 6 + (int(value.current_map) + 1) * 3 or value.units.size() > 500 or value.reserve.size() > 24:
@@ -987,6 +1077,7 @@ func restore(value: Variant) -> bool:
 			if value.settled_maps[index] != index:
 				return false
 	var seen_ids: Array = []
+	var seen_birth_ids: Array = []
 	for unit in value.units:
 		if not unit is Dictionary or not definitions.has(unit.get("role", "")):
 			return false
@@ -996,6 +1087,10 @@ func restore(value: Variant) -> bool:
 		if (unit.side != 0 and unit.side != 1) or unit.x < 0 or unit.x > 110 or unit.id < 0 or unit.id >= value.next_id or seen_ids.has(unit.id):
 			return false
 		seen_ids.append(unit.id)
+		if has_birth and (unit.has("entry_id") or unit.has("birth_tier") or unit.has("source_facility_id")):
+			if not _valid_birth(unit, value) or unit.entry_id in seen_birth_ids:
+				return false
+			seen_birth_ids.append(unit.entry_id)
 		var windup: Variant = unit.get("windup", 0.0)
 		if not _valid_effects(unit.get("effects", {})):
 			return false
@@ -1019,7 +1114,12 @@ func restore(value: Variant) -> bool:
 			return false
 		if windup > 0 and (unit.side != 0 or unit.role != "shield_guard" or pending == -1):
 			return false
+	var seen_facilities: Array = []
 	for building in value.buildings:
+		if has_birth and building is Dictionary and building.get("id") != "":
+			if not _valid_integer(building.get("instance_id"), 1, int(value.next_facility_id) - 1) or building.instance_id in seen_facilities:
+				return false
+			seen_facilities.append(building.instance_id)
 		if building is Dictionary and building.get("id") == "":
 			if value.version != 7 or value.facility_rules != "slots_v1" or building.size() != 3 or building.get("unit") != "" or not _finite_number(building.get("clock")) or building.clock != 0:
 				return false
@@ -1037,12 +1137,16 @@ func restore(value: Variant) -> bool:
 				return false
 		elif building.unit != branches[building.id][4]:
 			return false
-	for role in value.reserve:
-		if not definitions.has(role):
+	for entry in value.reserve:
+		if entry is Dictionary:
+			if not has_birth or not _valid_birth(entry, value) or entry.entry_id in seen_birth_ids or entry.get("survived") != 0:
+				return false
+			seen_birth_ids.append(entry.entry_id)
+		if not definitions.has(entry_role(entry)):
 			return false
 	var queue_cost := 0
-	for role in value.reserve:
-		queue_cost += int(definitions[role][11])
+	for entry in value.reserve:
+		queue_cost += int(definitions[entry_role(entry)][11])
 	if not value.omen_pending is bool or not _finite_number(value.omen_moves) or value.omen_moves != floorf(value.omen_moves) or value.omen_moves < 0 or value.omen_moves > 3 or not _finite_number(value.omen_reserved):
 		return false
 	if value.omen_pending:
@@ -1052,9 +1156,17 @@ func restore(value: Variant) -> bool:
 			if i < 6 + value.held_points.size() + value.points.count(1) and value.buildings[i].unit != "":
 				max_cost = maxi(max_cost, int(definitions[value.buildings[i].unit][11]))
 				allowed_roles.append(value.buildings[i].unit)
-		for role in value.board:
-			if not allowed_roles.has(role):
+		for token in value.board:
+			if not allowed_roles.has(entry_role(token)):
 				return false
+			if token is Dictionary:
+				var found := false
+				for i in range(value.buildings.size()):
+					var building: Dictionary = value.buildings[i]
+					if i < 6 + value.held_points.size() + value.points.count(1) and building.unit == token.role_id and building.get("instance_id", 0) == token.source_facility_id and int(branches[building.id][2]) == token.birth_tier:
+						found = true
+				if not found:
+					return false
 		if value.phase not in ["PREPARE", "REFIT"] or value.board.size() != 9 or value.free_spin or value.omen_reserved != max_cost * 4:
 			return false
 	elif value.omen_moves != 0 or value.omen_reserved != 0:
@@ -1076,6 +1188,10 @@ func restore(value: Variant) -> bool:
 		if not probe.restore(entry):
 			return false
 		if value.version == 7:
+			if probe.birth_rules != value.get("birth_rules", "legacy"):
+				return false
+			if has_birth and (probe.next_facility_id > value.next_facility_id or probe.next_entry_id > value.next_entry_id):
+				return false
 			if probe.facility_rules != value.facility_rules:
 				return false
 			if probe.capture_rules != value.capture_rules or probe.base_claim_work != 0 or probe.basic_gold_paid != 0:
@@ -1092,6 +1208,9 @@ func restore(value: Variant) -> bool:
 			if hp != 1000:
 				return false
 	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
+	birth_rules = "birth_v1" if has_birth else "legacy"
+	next_facility_id = int(value.get("next_facility_id", 1)) if has_birth else 1
+	next_entry_id = int(value.get("next_entry_id", 1)) if has_birth else 1
 	facility_rules = value.get("facility_rules", "legacy") if value.version == 7 else "legacy"
 	capture_rules = value.get("capture_rules", "legacy") if value.version == 7 else "legacy"
 	base_claim_work = int(value.get("base_claim_work", 0)) if capture_rules == "timed_v1" else 0
@@ -1116,6 +1235,12 @@ func restore(value: Variant) -> bool:
 	units = value.units.duplicate(true)
 	for unit in units:
 		unit.effects = unit.get("effects", {})
+		for key in ["entry_id", "birth_tier", "source_facility_id"]:
+			if unit.has(key):
+				if has_birth:
+					unit[key] = int(unit[key])
+				else:
+					unit.erase(key)
 		unit.hit_count = int(unit.get("hit_count", 0))
 		unit.heal_count = int(unit.get("heal_count", 0))
 		unit.survived = int(unit.get("survived", 0))
@@ -1127,19 +1252,42 @@ func restore(value: Variant) -> bool:
 		unit.windup = float(unit.get("windup", 0.0))
 		unit.pending_target = int(unit.get("pending_target", -1))
 	buildings = value.buildings.duplicate(true)
-	reserve = value.reserve.duplicate()
+	for building in buildings:
+		if building.has("instance_id"):
+			if has_birth:
+				building.instance_id = int(building.instance_id)
+			else:
+				building.erase("instance_id")
+	reserve = value.reserve.duplicate(true)
+	for entry in reserve:
+		if entry is Dictionary:
+			for key in ["entry_id", "birth_tier", "source_facility_id", "survived"]:
+				entry[key] = int(entry[key])
 	points = value.points.map(func(owner): return int(owner))
 	bases = value.bases.duplicate()
 	next_id = int(value.next_id)
 	damage_events = int(value.damage_events)
 	rng.state = int(value.rng)
 	free_spin = value.free_spin
-	last_board = value.board.duplicate()
+	last_board = value.board.duplicate(true)
+	for token in last_board:
+		if token is Dictionary:
+			token.birth_tier = int(token.birth_tier)
+			token.source_facility_id = int(token.source_facility_id)
 	income_clock = float(value.income)
 	point_clock = float(value.point_clock)
 	tower_clock = float(value.tower_clock)
 	message = value.message
 	return true
+
+func _valid_integer(value: Variant, minimum: int, maximum: int) -> bool:
+	return _finite_number(value) and value == floorf(value) and value >= minimum and value <= maximum
+
+func _valid_birth(entry: Dictionary, state: Dictionary) -> bool:
+	return _valid_integer(entry.get("entry_id"), 1, int(state.next_entry_id) - 1) and _valid_integer(entry.get("birth_tier"), 1, 2) and _valid_integer(entry.get("source_facility_id"), 0, int(state.next_facility_id) - 1) and (entry.source_facility_id != 0 or entry.birth_tier == 1)
+
+func _valid_token(token: Dictionary, state: Dictionary) -> bool:
+	return token.size() == 3 and definitions.has(token.get("role_id", "")) and _valid_integer(token.get("birth_tier"), 1, 2) and _valid_integer(token.get("source_facility_id"), 0, int(state.next_facility_id) - 1) and (token.source_facility_id != 0 or token.birth_tier == 1)
 
 func _finite_number(value: Variant) -> bool:
 	return (value is int or value is float) and is_finite(float(value))

@@ -8,6 +8,9 @@ static func _failure(reason: String, recoverable: bool = false) -> Dictionary:
 	return {"ok": false, "reason": reason, "state": {}, "recovered": false, "recoverable": recoverable}
 
 static func _unsupported(value: Variant) -> bool:
+	return _unsupported_state(value) or (value is Dictionary and _unsupported_state(value.get("map_entry")))
+
+static func _unsupported_state(value: Variant) -> bool:
 	if not value is Dictionary:
 		return false
 	# Envelope formats remain unsupported; known v7 is a flat model snapshot.
@@ -19,6 +22,8 @@ static func _unsupported(value: Variant) -> bool:
 	if value.has("capture_rules") and value.capture_rules not in ["legacy", "timed_v1"]:
 		return true
 	if value.has("facility_rules") and value.facility_rules not in ["legacy", "logistics_v1", "slots_v1"]:
+		return true
+	if value.has("birth_rules") and value.birth_rules not in ["legacy", "birth_v1"]:
 		return true
 	return (version is float or version is int) and version > 7
 

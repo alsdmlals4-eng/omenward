@@ -9,7 +9,82 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func verify_birth_records(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("deploy_entry"), "P03 must preserve production birth identity through exact deployment")
+	if not run.has_method("deploy_entry"):
+		return
+	run.gold = 1000
+	run.construct("barracks")
+	var original_id: int = run.buildings[0].instance_id
+	run.phase = "BATTLE"
+	run.buildings[0].clock = 99.0
+	run.advance_ticks(1)
+	check(run.reserve[0] is Dictionary and run.reserve[0].birth_tier == 1 and run.reserve[0].source_facility_id == original_id, "Production records actual T1 source")
+	var born: Dictionary = run.reserve[0].duplicate(true)
+	run.phase = "REFIT"
+	check(run.upgrade(0, "range") and run.buildings[0].instance_id == original_id, "Specialization retains facility instance")
+	run.phase = "BATTLE"
+	run.buildings[0].clock = 99.0
+	run.advance_ticks(1)
+	check(run.reserve[1].role_id == "archer" and run.reserve[1].birth_tier == 2 and run.reserve[0] == born, "New T2 production never rewrites old T1 recruit")
+	check(run.deploy_entry(int(born.entry_id)) and run.units.back().birth_tier == 1 and run.units.back().source_facility_id == original_id, "Exact entry deployment carries frozen birth fields")
+	check(not run.deploy_entry(int(born.entry_id)), "Entry cannot deploy twice")
+	run.phase = "REFIT"
+	run.demolish(0)
+	run.construct("barracks")
+	check(run.buildings[0].instance_id > original_id, "Rebuilt same slot cannot reuse old source identity")
+	var copy = model.new()
+	var loaded: bool = copy.restore(JSON.parse_string(JSON.stringify(run.snapshot())))
+	check(loaded, "Birth state accepts valid disk JSON")
+	check(copy.reserve == run.reserve, "Birth records preserve typed fields through JSON")
+	var corrupt: Dictionary = run.snapshot()
+	corrupt.reserve[0].birth_tier = 4
+	check(not copy.restore(corrupt), "Invalid birth tier fails closed")
+	check(run.reserve[0].birth_tier == 2, "Snapshot is deeply isolated from live recruits")
+	corrupt = run.snapshot()
+	corrupt.reserve[0].entry_id = born.entry_id
+	check(not copy.restore(corrupt), "Duplicate deployed/reserve birth identity rejected")
+	var omen = model.new()
+	omen.gold = 1000
+	omen.construct("barracks")
+	omen.phase = "REFIT"
+	omen.upgrade(0, "shield_hall")
+	omen.spin()
+	var token := {"role_id": "shield_guard", "birth_tier": 2, "source_facility_id": 1}
+	omen.last_board = [token.duplicate(), token.duplicate(), token.duplicate(), "", "", "", "", "", ""]
+	check(omen.has_method("omen_reward_tokens"), "Omen must preserve token birth metadata rather than returning role-only recruits")
+	if not omen.has_method("omen_reward_tokens"):
+		return
+	check(omen.confirm_omen() and omen.reserve.size() == 2 and omen.reserve[0].birth_tier == 2 and omen.reserve[1].birth_tier == 2, "T2 line yields both actual T2 base reward and bonus")
+	check(omen.reserve[0].source_facility_id == 1 and omen.reserve[0].entry_id != omen.reserve[1].entry_id, "Omen keeps facility source but issues unique recruit identities")
+	omen.spin()
+	omen.last_board = [token.duplicate(), "shield_guard", token.duplicate(), "", "", "", "", "", ""]
+	var pending = model.new()
+	check(pending.restore(JSON.parse_string(JSON.stringify(omen.snapshot()))), "Pending mixed-tier tokens survive verified JSON restore")
+	check(omen.confirm_omen() and omen.reserve[2].birth_tier == 1 and omen.reserve[3].birth_tier == 1, "Mixed-tier group and line use lowest tier instead of duplicating a high token")
+	var future: Dictionary = omen.snapshot()
+	future.birth_rules = "birth_v999"
+	check(not copy.restore(future), "Unknown birth rules are rejected")
+	var invalid: Dictionary = run.snapshot()
+	invalid.units[0].erase("entry_id")
+	check(not copy.restore(invalid), "Partial unit birth metadata cannot bypass validation")
+	invalid = run.snapshot()
+	invalid.buildings[0].erase("instance_id")
+	check(not copy.restore(invalid), "New facility identity cannot be omitted")
+	invalid = run.snapshot()
+	invalid.reserve[0].source_facility_id = 0
+	check(not copy.restore(invalid), "Base source cannot manufacture T2 recruit")
+	invalid = model.new().snapshot()
+	invalid.erase("birth_rules")
+	invalid.map_entry.erase("birth_rules")
+	check(not copy.restore(invalid), "Missing marker cannot silently downgrade birth records")
+	invalid = run.snapshot()
+	invalid.map_entry.next_facility_id = 999
+	check(not copy.restore(invalid), "Checkpoint cannot contain future facility counter")
+
 func verify_logistics(model: Script) -> void:
+	verify_birth_records(model)
 	verify_fixed_slots(model)
 	var run = model.new()
 	check(run.has_method("capacity_limit"), "P03 missing shared logistics capacity")
@@ -588,6 +663,11 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	if "--birth-only" in OS.get_cmdline_user_args():
+		verify_birth_records(model)
+		print("REPLAN_BIRTH_TEST: %d checks, %d failures" % [checks, failures])
+		quit(0 if failures == 0 else 1)
+		return
 	verify_logistics(model)
 	verify_capture(model)
 	verify_fixed_clock(model)
@@ -723,7 +803,7 @@ func _initialize() -> void:
 	omen.last_board = ["shield_guard", "archer", "mage", "shield_guard", "archer", "mage", "shield_guard", "archer", "mage"]
 	check(omen.bonus_options() == ["shield_guard", "archer", "mage"], "Three completed columns offer distinct bonus choices")
 	check(not omen.confirm_omen(), "Multiple bonus roles require explicit choice")
-	check(omen.confirm_omen("mage") and omen.reserve == ["shield_guard", "archer", "mage", "mage"], "Confirmation grants base plus selected single bonus")
+	check(omen.confirm_omen("mage") and omen.reserve_roles() == ["shield_guard", "archer", "mage", "mage"], "Confirmation grants base plus selected single bonus")
 	check(not omen.confirm_omen("mage"), "Cannot confirm twice")
 	var moving = model.new()
 	moving.spin()
@@ -875,7 +955,7 @@ func verify_model(model: Script, r) -> void:
 	r.begin_round()
 	for i in range(350):
 		r.advance(0.1)
-	check(r.reserve.has("archer"), "Barracks automatically produces into reserve")
+	check(r.reserve_roles().has("archer"), "Barracks automatically produces into reserve")
 	check(r.wave_index >= 2, "Timed waves actually spawn")
 	check(r.damage_events > 0, "Opposing soldiers actually deal damage")
 	var count = r.units.size()

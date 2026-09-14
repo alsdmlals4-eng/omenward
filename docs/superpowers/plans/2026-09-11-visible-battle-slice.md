@@ -1,5 +1,15 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-14 P03 birth records implementation
+
+ADOPT source-frozen JSON dictionaries and deep snapshots, following [Godot Dictionary reference/copy semantics](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) and [saving games](https://docs.godotengine.org/en/stable/tutorials/io/saving_games.html). ADAPT existing flat v7 with fail-closed `birth_rules=birth_v1` marker; REJECT parallel role/metadata arrays and deferred source lookup from current slot (drift after demolition/upgrades). This is implementation research, not a new player benchmark.
+
+Actual compatibility adapter: retain existing facility id/unit/clock fields plus positive monotonic instance_id; array index remains slot identity and empty sentinel stays unchanged. Save next_facility_id and next_entry_id. Upgrade retains instance; rebuilding a hole gets a new instance. New reserve entries contain entry_id/role_id/birth_tier/source_facility_id/survived=0. Source0 means base/legacy and requires tier1. Production and omen confirmation freeze source/tier; spawn/deploy preserves fields. New snapshots deep-copy both reserve and board. Legacy strings remain tier1/source0 inputs; older rulesets keep old acquisition behavior and never infer T2/T3. T3 is still excluded from this increment.
+
+Omen cell dictionaries keep role/tier/source through shifts. Match by role only; each row-major group of3 produces its lowest tier. A selected bonus across multiple same-role completed lines uses the lowest tier across those completed lines, deterministic tie by first occurrence. Tier is shown before confirmation and in projected rewards. Role-grouped reserve cards bind the exact first entry ID and show next tier/source; arbitrary within-role tier selection is not implemented. No new art generation.
+
+RED→GREEN coverage includes birth through production/upgrade/deploy/demolition/save, independent entry identities, lowest-tier group/bonus, stale card, pending cell tier, deep-copy isolation, partial-field rejection, positive unique facilities, base-source cap, marker contradiction, future checkpoint transport protection and checkpoint counters not ahead of live counters. Review found five save-boundary defects and all were reproduced/corrected. Initial full gate390/55 passed; final gate includes one added checkpoint regression. Existing GPU capture checks12damage/13units, shield3poses, mixed10damage and status fixture; no natural5map/Human approval. Latest counts are recorded in Active Context after final command completion.
+
 ## 2026-09-14 P03 specialization gate readback
 
 New slots_v1 runs retain T2 access in later-map round1. First-map timing is owned by Blueprint `facility_progression.specialization_round=2`, with REFIT counting the upcoming round. Model and actual upgrade buttons consume `specialization_unlocked`; phase, pending omen, active slot, branch and cost guards remain. Older profiles keep their former gate. T3 and birth metadata are not implemented by this increment.

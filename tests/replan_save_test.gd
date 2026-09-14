@@ -67,6 +67,14 @@ func _initialize() -> void:
 	mixed_format.schema_version = 7
 	check(not storage.write_verified(folder + "/mixed.json", mixed_format).ok, "Unknown schema input cannot masquerade as v6")
 	var interrupted := folder + "/interrupted.json"
+	var future_birth: Dictionary = initial.duplicate(true)
+	future_birth.map_entry.birth_rules = "birth_v999"
+	var birth_path := folder + "/future-birth-checkpoint.json"
+	write_fixture(birth_path, JSON.stringify(future_birth))
+	write_fixture(birth_path + ".bak", JSON.stringify(initial))
+	var birth_hash := FileAccess.get_sha256(birth_path)
+	check(not storage.read_verified(birth_path).ok, "Future checkpoint cannot silently recover older backup")
+	check(not storage.write_verified(birth_path, initial).ok and FileAccess.get_sha256(birth_path) == birth_hash, "Future checkpoint bytes protected from older writer")
 	var future_capture: Dictionary = initial.duplicate(true)
 	future_capture.capture_rules = "future-capture-v99"
 	var capture_path := folder + "/future-capture.json"
