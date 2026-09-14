@@ -151,7 +151,7 @@ func _state_key() -> String:
 	return "%s:%s:%s:%s:%s:%s" % [run.phase, run.gold, run.reserve, run.buildings.size(), run.points, run.capacity_used()]
 
 func _build_panel() -> void:
-	_label("건물 %s/%s칸 · 위에서부터 해금 / 잠기면 생산 중단" % [run.buildings.size(), run.unlocked_slots()], Rect2(0, 0, 600, 26), ui)
+	_label("건물 %s개 / 해금 %s칸 · 잠기면 생산 중단" % [run.building_count(), run.unlocked_slots()], Rect2(0, 0, 600, 26), ui)
 	var pages := ceili((6 + (run.current_map + 1) * 3) / 9.0)
 	building_page = mini(building_page, pages - 1)
 	if pages > 1:
@@ -163,7 +163,7 @@ func _build_panel() -> void:
 		var y := 29 + (local_slot % 3) * 43
 		var x := (local_slot / 3) * 185
 		var text := "%d 잠김" % (i + 1)
-		if i < run.buildings.size():
+		if run.building_present(i):
 			var building: Dictionary = run.buildings[i]
 			text = "%d %s" % [i + 1, run.facilities[building.id][1]]
 		elif i < run.unlocked_slots():
@@ -173,7 +173,7 @@ func _build_panel() -> void:
 		b.modulate = Color("f7d27d") if selected == i else Color.WHITE
 		b.disabled = i >= run.unlocked_slots()
 		b.tooltip_text = "점령지 확보 시 위에서부터 해금됩니다. 잠긴 건물은 보존되지만 생산을 멈춥니다." if b.disabled else "선택한 시설의 공급 병종과 생산 상태를 확인합니다."
-	if selected < run.buildings.size():
+	if run.building_present(selected):
 		var b: Dictionary = run.buildings[selected]
 		_picture(art.building(b.id), Rect2(570, 8, 130, 130), ui)
 		var summary: String = "군수소 · 활성 시 출전 한도 +%d\n병력·징조 토큰 생산 없음 · 공용 시설 표식" % int(run.catalog.economy.logistics_capacity_bonus) if b.id == "logistics" else "%s → %s\n자동 생산 %s초 / 대기열로 공급" % [run.facilities[b.id][1], run.definitions[b.unit][1], run.facilities[b.id][5]]
@@ -196,6 +196,11 @@ func _build_panel() -> void:
 			button.add_theme_font_size_override("font_size", 13)
 			button.disabled = run.omen_pending or not run.building_active(selected) or run.phase not in ["PREPARE", "REFIT"] or (run.round_number < 2 and run.phase != "REFIT") or run.gold < int(run.facilities[id][2])
 			button.tooltip_text = "T2: 1라운드 재정비부터 / 활성 슬롯에서만 가능 / 전문화 시 생산 시간 초기화"
+		var demolish_button := _button("철거…", Rect2(1050, 134, 154, 36), _request_demolish, ui)
+		demolish_button.name = "DemolishFacility"
+		demolish_button.disabled = run.facility_rules != "slots_v1" or run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or not run.building_active(selected)
+		demolish_button.tooltip_text = "무환급 · 생산/토큰 공급 중단 · 기존 병력과 확정 대기는 보존 · 다음 창에서 확인"
+		production_label.size.x = 328
 	else:
 		_picture(art.building("barracks"), Rect2(578, 12, 125, 125), ui)
 		_label("T1부터 건설 → T2에서 같은 계열 전문화", Rect2(714, 0, 510, 28), ui)
@@ -203,10 +208,31 @@ func _build_panel() -> void:
 		var special := _button("특수 병영 · 특수병 1종 고정 추첨 · 75G", Rect2(714, 72, 490, 34), func(): run.construct("special_barracks"); _refresh_panel(), ui)
 		var logistics := _button("군수소 · 출전 한도 +6 · 35G", Rect2(714, 112, 490, 34), func(): run.construct("logistics"); _refresh_panel(), ui)
 		logistics.name = "BuildLogistics"
-		logistics.disabled = run.facility_rules != "logistics_v1" or run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < int(run.facilities.logistics[2]) or run.buildings.size() >= run.unlocked_slots()
-		normal.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 40 or run.buildings.size() >= run.unlocked_slots()
-		special.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 75 or run.buildings.size() >= run.unlocked_slots()
+		logistics.disabled = run.facility_rules not in ["logistics_v1", "slots_v1"] or run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < int(run.facilities.logistics[2]) or run.next_build_slot() < 0
+		normal.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 40 or run.next_build_slot() < 0
+		special.disabled = run.omen_pending or run.phase not in ["PREPARE", "REFIT"] or run.gold < 75 or run.next_build_slot() < 0
 		_label("첫 빈 슬롯에 건설 · 잠긴 군수소 효과 중지 / 기존 병력 유지", Rect2(714, 149, 510, 25), ui, 13)
+
+func _request_demolish() -> void:
+	if not run.building_active(selected) or get_node_or_null("DemolishConfirmation") != null:
+		return
+	var slot := selected
+	var requested_run = run
+	var requested_building: Dictionary = run.buildings[slot]
+	var dialog := ConfirmationDialog.new()
+	dialog.name = "DemolishConfirmation"
+	dialog.title = "%d번 시설 철거" % (slot + 1)
+	dialog.dialog_text = "건설·전문화 비용은 환급되지 않습니다.\n생산과 징조 토큰 공급이 중단됩니다.\n군수소라면 출전 한도가 감소합니다.\n기존 병력과 이미 확정된 대기는 남습니다."
+	dialog.ok_button_text = "무환급 철거"
+	dialog.cancel_button_text = "유지"
+	dialog.confirmed.connect(func():
+		if run == requested_run and run.building_present(slot) and is_same(run.buildings[slot], requested_building):
+			run.demolish(slot)
+		dialog.queue_free()
+		_refresh_panel())
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered(Vector2i(540, 210))
 
 func _omen_panel() -> void:
 	for i in range(9):

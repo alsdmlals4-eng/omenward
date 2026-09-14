@@ -10,6 +10,7 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 
 func verify_logistics(model: Script) -> void:
+	verify_fixed_slots(model)
 	var run = model.new()
 	check(run.has_method("capacity_limit"), "P03 missing shared logistics capacity")
 	if not run.has_method("capacity_limit"):
@@ -40,6 +41,54 @@ func verify_logistics(model: Script) -> void:
 	var pool_before: int = run.spin_required_capacity()
 	run.points[0] = 0
 	check(run.spin_required_capacity() == pool_before, "Logistics never adds an omen unit source")
+
+func verify_fixed_slots(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("demolish"), "P03 missing fixed-slot demolition")
+	if not run.has_method("demolish"):
+		return
+	run.gold = 1000
+	for i in range(6):
+		run.construct("barracks")
+	run.points[0] = 1
+	run.construct("logistics")
+	run.points[0] = 0
+	run.spin()
+	run.confirm_omen()
+	check(not run.reserve.is_empty(), "Demolition preservation fixture has confirmed troops")
+	var before_gold: int = run.gold
+	var before_reserve: Array = run.reserve.duplicate()
+	var before_units: Array = run.units.duplicate(true)
+	check(not run.demolish(6), "Locked facility cannot be demolished")
+	check(run.demolish(0) and run.buildings.size() == 7, "Demolition leaves an uncompressed slot")
+	check(run.gold == before_gold and run.reserve == before_reserve and run.units == before_units, "Demolition has no refund or army loss")
+	check(run.buildings[6].id == "logistics" and run.capacity_limit() == 18, "Locked logistics cannot slide into active slots")
+	check(run.production_status(0).state == "EMPTY" and not run.building_active(0), "Empty slot never produces")
+	var restored = model.new()
+	check(restored.restore(JSON.parse_string(JSON.stringify(run.snapshot()))) and restored.buildings[6].id == "logistics" and restored.reserve == before_reserve, "Sparse slots preserve indices and confirmed troops through save")
+	check(restored.construct("special_barracks") and restored.buildings[0].id == "special_barracks" and restored.buildings.size() == 7, "Construction reuses first unlocked hole")
+	var broken: Dictionary = run.snapshot()
+	broken.buildings[0].unit = "shield_guard"
+	check(not restored.restore(broken), "Empty slot cannot carry a hidden unit")
+	broken = run.snapshot()
+	broken.facility_rules = "logistics_v1"
+	check(not restored.restore(broken), "Old facility schema cannot import sparse slots")
+	check(not run.demolish(0) and not run.demolish(-1) and not run.demolish(99), "Empty and invalid slots reject demolition")
+	run.points[0] = 1
+	check(run.demolish(6) and run.capacity_limit() == 18, "Active logistics removal drops capacity")
+	run = model.new()
+	run.construct("barracks")
+	run.spin()
+	check(not run.demolish(0), "Pending omen source cannot be removed")
+	run.confirm_omen()
+	run.begin_round()
+	check(not run.demolish(0), "Combat rejects demolition")
+	run.phase = "REFIT"
+	check(run.demolish(0), "Refit permits demolition")
+	run = model.new()
+	run.facility_rules = "logistics_v1"
+	run.construct("barracks")
+	check(not run.demolish(0), "Existing logistics profile keeps its prior rules")
 
 func verify_capture(model: Script) -> void:
 	var run = model.new()

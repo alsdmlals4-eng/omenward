@@ -199,6 +199,10 @@ check(a.snapshot() == b.snapshot(), "Tick batching must not alter state")
 
 ### P03 — 건물·군수·T3와 출생 정보
 
+고정슬롯 증분 검증 결과: 기존349모델/51저장 baseline PASS → missing demolish RED → 모델/저장 구현 → missing confirmation UI RED → UI연결 →365모델/51저장 PASS. 독립5관점 검토 후 실제 비어있지 않은 확정대기 보존 검사를 보강하고 동일값복원 후 오래된 확인창 RED를 재현했다. 값동등성을 [Godot is_same 참조 동일성](https://docs.godotengine.org/en/stable/classes/class_@globalscope.html#class-globalscope-method-is-same)으로 교정해 최종366모델/51저장/화면/기본실행 PASS. GPU 철거 확인창/취소상태보존·전투12피해13유닛·방패3자세/혼합10피해·상태효과 확인. 전페이지 게임/Human 검증은 아님. 최신 Hera에는 다른4프로젝트만 있어 접속/변경하지 않고 프로젝트 standalone renderer를 사용했다. Base remote d830c0f6와 프로젝트 잠금v9.4.3 유지, 원검사보호9경로FAIL/scopedPASS. 독립 최종 재검토의 차단 결함 없음. 프로젝트 교훈: 되돌릴 수 없는 명령 확인은 값이 같은 새 데이터가 아니라 확인 당시의 실제 객체를 대조해야 한다. Base 승격은 후보이며 공용 파일 수정 없음.
+
+2026-09-14 후속 실행 계약(고정 슬롯·철거): 기존 건물 배열의 위치를 유지하는 빈 슬롯 marker를 채택한다. 배열 압축은 잠긴 시설이 앞으로 당겨지는 규칙 우회를 만들므로 REJECT, slot-key Dictionary 전환은 모든 기존 consumer/저장을 재작성해야 하므로 이번 증분에서는 REJECT, 기존 배열+검증된 빈칸은 ADAPT. [Godot Array 공식 문서](https://docs.godotengine.org/en/stable/classes/class_array.html)의 인덱스/참조 동작과 [ConfirmationDialog](https://docs.godotengine.org/en/stable/classes/class_confirmationdialog.html)의 confirmed/cancelled 흐름을 확인했다. 기존 CoH 거점·경제 연결 비교는 REUSED_EVIDENCE이며 새 직접 플레이 조사로 표현하지 않는다. 신규 원정만 facility_rules=slots_v1을 사용하고 이전 logistics_v1/legacy는 원래 규칙을 보존한다. 빈칸은 id/unit 빈 문자열·clock0만 허용, 첫 해금 빈칸에 재건설, 철거는 준비/재정비·pending없음·활성시설에서만 무환급으로 실행한다. UI는 확인 전 모델 변경0, 취소0, 확정 후 해당 칸만 비우기·확정대기/생존병력 보존·군수 효과즉시감소를 검증한다. 재로드/미래규칙 차단/잠긴시설 이동 방지까지 기존 테스트로 확인한다. T3·출생정보는 뒤따르는 별도 증분이며 이번 marker만으로 완료하지 않는다.
+
 **Modify:** `front_run.gd`의 건설/전문화/생산/징조륜/출전/저장, `front_screen.gd`의 내정·대기열·용량 표시, JSON 시설 입력, 기존 테스트. **API 제안:** `capacity_limit() -> int`, `upgrade_tier(slot: int) -> bool`, `demolish(slot: int) -> bool`, `deploy_entry(entry_id: int) -> bool`.
 
 **상태:** 건물 `{instance_id, slot_index, facility_id, tier, fixed_special_role, production_ticks}`. 철거는 해당 슬롯만 빈칸으로 만들고 뒤 건물을 당기지 않는다. 새 건설은 첫 해금 빈칸. 건설/전문화/철거는 PREPARE/REFIT이면서 omen_pending=false일 때만. 철거 UI는 무환급·토큰/생산 중단·용량 감소를 확인하며 기존 병력과 이미 확정된 대기는 남긴다.

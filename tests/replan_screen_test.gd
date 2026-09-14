@@ -14,6 +14,44 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.run.construct("logistics")
+	screen.selected = 0
+	screen._refresh_panel()
+	var demolish_button = screen.find_child("DemolishFacility", true, false)
+	if demolish_button == null:
+		push_error("P03 missing demolition confirmation control")
+		failed = true
+	else:
+		demolish_button.pressed.emit()
+		var dialog = screen.find_child("DemolishConfirmation", true, false)
+		if dialog == null or not dialog.visible or screen.run.capacity_limit() != 24:
+			push_error("Demolition must wait for visible confirmation")
+			failed = true
+		else:
+			dialog.canceled.emit()
+			await process_frame
+			if screen.run.capacity_limit() != 24:
+				failed = true
+			demolish_button.pressed.emit()
+			dialog = screen.find_child("DemolishConfirmation", true, false)
+			var same_state: Dictionary = screen.run.snapshot()
+			screen.run.restore(same_state)
+			dialog.confirmed.emit()
+			await process_frame
+			if screen.run.capacity_limit() != 24:
+				push_error("Stale demolition must not affect restored same-value building")
+				failed = true
+			screen.run.restore(same_state)
+			screen._refresh_panel()
+			screen.find_child("DemolishFacility", true, false).pressed.emit()
+			dialog = screen.find_child("DemolishConfirmation", true, false)
+			dialog.confirmed.emit()
+			await process_frame
+			if screen.run.capacity_limit() != 18 or screen.run.building_present(0) or screen.find_child("BuildLogistics", true, false) == null:
+				push_error("Confirmed demolition must expose reusable empty slot")
+				failed = true
+	screen.run.restore(before_layout)
+	screen._refresh_panel()
 	var logistics = screen.find_child("BuildLogistics", true, false)
 	if logistics == null:
 		push_error("Logistics needs a build control in domestic tab")

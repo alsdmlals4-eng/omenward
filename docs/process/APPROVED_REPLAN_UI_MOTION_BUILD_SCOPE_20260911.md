@@ -1,5 +1,7 @@
 # Approved project-local replan BUILD scope
 
+2026-09-14 P03 continuation adds exact `output/front-demolition.png` for the existing facility confirmation UI consumer. Same approved model/screen/save/tests support sparse slot retention and no-refund demolition. This is a real runtime screenshot, not newly generated art or a final UI/Human approval. No wildcard, addon, Base lock, external editor, player-save, or main boundary change.
+
 2026-09-14 user approved the presented P00–P09 sequence (좋아 권장안대로 작업진행해). First exact P00/P01 amendment: docs/DOCUMENT_LIFECYCLE_REGISTRY.md, docs/DOCUMENTATION_MAP.md, docs/OMENWARD_GDD_CURRENT_CANON.md, docs/PROJECT_CORE.md; scripts/replan/front_save.gd/.uid and tests/replan_save_test.gd/.uid. Existing model/screen/tests/validator remain in scope. This adds save readback/backup without changing old run rules; fixed clock follows as a separate verified increment. No wildcard, lock, registry snapshot, raw Base validator or addon edits. Preserve historical sources and unvalidated player files; a failed save must not destroy the last valid save.
 
 Shared status continuation: existing front_run/front_screen/model and screen tests implement Blueprint nonstack barrier, strongest independently expiring slows, interrupt+1s immunity, veteran shield/cavalry/mage and priest cleanse/elite overheal. Optional validated save fields; same next-map reset. Exact output/front-status.png is a labeled test-composition GPU consumer, not ordinary acquisition or new artwork. No lock, player save, final art or main boundary change.

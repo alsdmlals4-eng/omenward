@@ -17,7 +17,7 @@ var capture: Array = [{"side": 0, "work": 0}, {"side": 0, "work": 0}, {"side": 0
 var base_claim_work := 0
 var basic_gold_paid := 0
 var settled_maps: Array = []
-var facility_rules := "logistics_v1"
+var facility_rules := "slots_v1"
 var catalog: Dictionary
 var definitions: Dictionary = {}
 var facilities: Dictionary = {}
@@ -117,7 +117,30 @@ func retry_map() -> bool:
 	return true
 
 func building_active(slot: int) -> bool:
-	return slot >= 0 and slot < buildings.size() and slot < unlocked_slots()
+	return building_present(slot) and slot < unlocked_slots()
+
+func building_present(slot: int) -> bool:
+	return slot >= 0 and slot < buildings.size() and buildings[slot].id != ""
+
+func building_count() -> int:
+	var count := 0
+	for slot in range(buildings.size()):
+		if building_present(slot):
+			count += 1
+	return count
+
+func next_build_slot() -> int:
+	for slot in range(unlocked_slots()):
+		if not building_present(slot):
+			return slot
+	return -1
+
+func demolish(slot: int) -> bool:
+	if facility_rules != "slots_v1" or omen_pending or phase not in ["PREPARE", "REFIT"] or not building_active(slot):
+		return false
+	buildings[slot] = {"id": "", "unit": "", "clock": 0.0}
+	message = "%d번 시설 철거 · 환급 없음 · 기존 병력/확정 대기 보존" % (slot + 1)
+	return true
 
 func wave_composition(round_id: int, wave_id: int) -> Dictionary:
 	var cycle_index := round_id - 1 + (wave_id if wave_rules == "staggered_v1" else 0)
@@ -141,7 +164,7 @@ func wave_forecast() -> Dictionary:
 		"units": composition}
 
 func production_status(slot: int) -> Dictionary:
-	if slot < 0 or slot >= buildings.size():
+	if not building_present(slot):
 		return {"state": "EMPTY", "remaining": 0.0, "progress": 0.0}
 	var building: Dictionary = buildings[slot]
 	if building.id == "logistics":
@@ -158,15 +181,20 @@ func production_status(slot: int) -> Dictionary:
 		"progress": clampf(float(building.clock) / interval, 0, 1)}
 
 func construct(id: String) -> bool:
-	if omen_pending or phase not in ["PREPARE", "REFIT"] or (id not in ["barracks", "special_barracks"] and not (id == "logistics" and facility_rules == "logistics_v1")):
+	if omen_pending or phase not in ["PREPARE", "REFIT"] or (id not in ["barracks", "special_barracks"] and not (id == "logistics" and facility_rules in ["logistics_v1", "slots_v1"])):
 		return false
-	if buildings.size() >= unlocked_slots() or gold < int(facilities[id][2]):
+	var slot := next_build_slot()
+	if slot < 0 or gold < int(facilities[id][2]):
 		return false
 	var role: String = "" if id == "logistics" else branches[id][4]
 	if role == "random_special":
 		role = catalog.unit_families.special[rng.randi_range(0, 4)]
 	gold -= int(facilities[id][2])
-	buildings.append({"id": id, "unit": role, "clock": 0.0})
+	var building := {"id": id, "unit": role, "clock": 0.0}
+	if slot == buildings.size():
+		buildings.append(building)
+	else:
+		buildings[slot] = building
 	message = "군수소 건설 · 출전 한도 +6" if id == "logistics" else "%s 건설 · %s 공급" % [facilities[id][1], definitions[role][1]]
 	return true
 
@@ -184,7 +212,7 @@ func upgrade(slot: int, id: String) -> bool:
 
 func capacity_limit() -> int:
 	var result := int(catalog.economy.starting_capacity)
-	if facility_rules == "logistics_v1":
+	if facility_rules in ["logistics_v1", "slots_v1"]:
 		for slot in range(buildings.size()):
 			if building_active(slot) and buildings[slot].id == "logistics":
 				result += int(catalog.economy.logistics_capacity_bonus)
@@ -858,7 +886,7 @@ func restore(value: Variant) -> bool:
 			return false
 		if not _convert_duration_units(value, false):
 			return false
-		if value.get("facility_rules", "legacy") not in ["legacy", "logistics_v1"]:
+		if value.get("facility_rules", "legacy") not in ["legacy", "logistics_v1", "slots_v1"]:
 			return false
 		value.facility_rules = value.get("facility_rules", "legacy")
 		if value.get("capture_rules", "legacy") not in ["legacy", "timed_v1"]:
@@ -987,8 +1015,12 @@ func restore(value: Variant) -> bool:
 		if windup > 0 and (unit.side != 0 or unit.role != "shield_guard" or pending == -1):
 			return false
 	for building in value.buildings:
+		if building is Dictionary and building.get("id") == "":
+			if value.version != 7 or value.facility_rules != "slots_v1" or building.size() != 3 or building.get("unit") != "" or not _finite_number(building.get("clock")) or building.clock != 0:
+				return false
+			continue
 		if building is Dictionary and building.get("id") == "logistics":
-			if value.version != 7 or value.facility_rules != "logistics_v1" or building.get("unit") != "" or not _finite_number(building.get("clock")) or building.clock != 0:
+			if value.version != 7 or value.facility_rules not in ["logistics_v1", "slots_v1"] or building.get("unit") != "" or not _finite_number(building.get("clock")) or building.clock != 0:
 				return false
 			continue
 		if not building is Dictionary or not facilities.has(building.get("id", "")) or not definitions.has(building.get("unit", "")) or not building.has("clock"):

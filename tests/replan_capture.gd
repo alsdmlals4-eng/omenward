@@ -13,6 +13,19 @@ func capture() -> void:
 	await process_frame
 	await RenderingServer.frame_post_draw
 	root.get_texture().get_image().save_png("res://output/front-building.png")
+	var before_demolition: Dictionary = screen.run.snapshot()
+	screen._request_demolish()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	root.get_texture().get_image().save_png("res://output/front-demolition.png")
+	var demolition_dialog = screen.get_node("DemolishConfirmation")
+	demolition_dialog.canceled.emit()
+	await process_frame
+	if screen.run.snapshot() != before_demolition:
+		push_error("Demolition preview/cancel changed gameplay state")
+		quit(1)
+		return
+	print("DEMOLITION_RUNTIME: confirmation captured, cancel preserved state")
 	screen.run.spin()
 	screen.tab = "징조륜"
 	screen._refresh_panel()
