@@ -1,5 +1,7 @@
 # [현행] OMENWARD Active Context
 
+2026-09-16 마무리 readback: 구현33c61fb7 원격 CI5 SUCCESS, 작업 브랜치 local/origin 차이0/0 확인. 기존 미제출 월간PDF v0.2에 E11 당일 요약/실제 화면2쪽을 누적해14쪽으로 갱신(새 v0.3 생성 없음). 이전12쪽 추출 텍스트 보존, 추가2쪽 렌더 시각 검수. SHA bbe47fe27906d08d8b3400e3cd979227a2b7b50cd1714ccc823dbdcd58be684a. 사용완료 저장검사3폴더60파일214254bytes는 `Downloads/OMENWARD_DELETE_REVIEW_20260912/three-front-tests-20260916`로 해시검증 이동; 이전PDF 복구사본/렌더도 그곳에 보존, 직접삭제 없음. PR259는 부모 기획브랜치 대상 Draft 유지, main 미통합. 이번 사용자 요청은 기능 연결·당일 누적·작업브랜치 동기화로 마무리하며 최종 아트/전체게임 완료로 표시하지 않는다.
+
 2026-09-16 최신 사용자 요청 구현: 신규 three_v1 원정은 3전선 동시 진행·기본 전황 미니맵·경로 클릭/버튼으로 선택 전선 확대·전체 복귀. 시계/경제/양측 본진은 공유하고 공격·치료·점령·탑은 전선별 분리한다. 각 중앙 거점/탑1개, 초기병력2/1/1, 기존 공세 총량 순환분배. 선택은 미래 출전 목적지만 변경한다. JSON front_layout을 모델이 소비한다. 구형 single 저장은 기존 규칙과 3거점 확대 화면을 유지하며 자동 분할하지 않는다.
 
 최종 로컬 모델455/저장59/UI·기본실행 PASS, scope7/docs PASS. Base 원검사는 기존9보호경로 FAIL, 승인된 PROJECT_SCOPED_BUILD PASS로 분리한다. 독립5관점 검토의 직접치료 교차전선 및 legacy 기본화면 거점누락을 RED→GREEN으로 교정했다. GPU 실제 중앙 경로 좌표 클릭→확대→복귀 및 선택 외 전체 snapshot 불변 PASS; output/front-overview.png / front-inspection.png 직접 시각 검수. 도식 미니맵은 기능 UI이며 최종 지형아트/3전선 전체 밸런스/Human/출시 PASS가 아니다. P04 잔여등급→P05 영웅→P06~P09는 남는다. 현재 요청의 마무리는 기존 미제출 월간PDF에 날짜별 누적 및 현재 PR259 작업 브랜치 동기화이며 부모/main 통합은 별개다. 새 Base 승격은 없고 프로젝트 회귀검사에 교차전선·legacy 표기·실제 입력 경계를 보존했다.
