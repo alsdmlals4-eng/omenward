@@ -10,6 +10,7 @@ func check(ok: bool, message: String) -> void:
 		push_error(message)
 
 func verify_birth_records(model: Script) -> void:
+	verify_three_fronts(model)
 	verify_area_selection(model)
 	verify_capstones(model)
 	var run = model.new()
@@ -84,6 +85,78 @@ func verify_birth_records(model: Script) -> void:
 	invalid = run.snapshot()
 	invalid.map_entry.next_facility_id = 999
 	check(not copy.restore(invalid), "Checkpoint cannot contain future facility counter")
+
+func verify_three_fronts(model: Script) -> void:
+	var run = model.new()
+	check(run.has_method("enable_three_fronts"), "New game must support three concurrently simulated fronts")
+	if not run.has_method("enable_three_fronts"):
+		return
+	run.enable_three_fronts()
+	check(run.front_count() == 3 and run.units[1].front == 1 and run.units[2].front == 2, "Initial defenders distribute among all three fronts")
+	run.units.clear()
+	run.spawn("mage", 0, 50, 0)
+	run.spawn("giant", 1, 51, 1)
+	check(run.choose_target(run.units[0]).is_empty(), "Identical positions on other fronts are not attack targets")
+	run.spawn("giant", 1, 51, 0)
+	run._hit(run.units[0], run.units[2])
+	check(run.units[1].hp == 320 and run.units[2].hp < 320, "Area damage cannot leak across fronts")
+	run.phase = "BATTLE"
+	run.points = [1, 0, 0]
+	run._tick_tower(2)
+	check(run.units[1].hp == 320, "Owned tower cannot damage another front")
+	run.units.clear()
+	run.spawn("shield_guard", 0, 50, 2)
+	run.points = [0, 0, 0]
+	for i in range(240):
+		run._tick_capture()
+	check(run.points == [0, 0, 1], "Single frontline soldier claims only its front midpoint")
+	run.selected_front = 1
+	run._enqueue("archer")
+	check(run.deploy_entry(int(run.reserve[0].entry_id)) and run.units.back().front == 1, "Exact reserve deployment commits to selected front")
+	var restored = model.new()
+	check(restored.restore(JSON.parse_string(JSON.stringify(run.snapshot()))) and restored.front_count() == 3 and restored.selected_front == 1, "Three-front snapshot preserves selection and real unit assignment")
+	var bad: Dictionary = run.snapshot()
+	bad.units[0].front = 3
+	check(not restored.restore(bad), "Out-of-range front rejected without mutation")
+	bad = run.snapshot()
+	bad.front_rules = "three_future"
+	check(not restored.restore(bad), "Unknown front rules fail closed")
+	check(restored.restore(model.new().snapshot()) and restored.front_count() == 1, "Existing single-front game is not silently migrated")
+	var waves = model.new()
+	waves.enable_three_fronts()
+	waves.begin_round()
+	waves.advance_ticks(270)
+	var lanes: Array = []
+	for unit in waves.units:
+		if unit.side == 1 and not lanes.has(unit.front):
+			lanes.append(unit.front)
+	check(lanes.size() == 3, "Existing wave total reaches all three fronts without view dependence")
+	var old_waves = model.new()
+	old_waves.begin_round()
+	old_waves.advance_ticks(270)
+	check(waves.units.filter(func(u): return u.side == 1).size() == old_waves.units.filter(func(u): return u.side == 1).size(), "Three fronts distribute rather than triple the same wave")
+	var live_before: Dictionary = run.snapshot()
+	for selection in [-1, 3, 1.5, null]:
+		bad = live_before.duplicate(true)
+		bad.selected_front = selection
+		var input_before := bad.duplicate(true)
+		check(not run.restore(bad) and run.snapshot() == live_before and bad == input_before, "Invalid selection is rejected atomically without mutating input")
+	bad = live_before.duplicate(true)
+	bad.units[0].erase("front")
+	check(not run.restore(bad), "Missing front on a three-front unit fails closed")
+	bad = live_before.duplicate(true)
+	bad.map_entry.front_rules = "single_v1"
+	check(not run.restore(bad), "Checkpoint cannot silently change front topology")
+	run.units.clear()
+	run.spawn("priest", 0, 50, 0)
+	run.spawn("shield_guard", 0, 50, 1)
+	run.units[0].survived = 5
+	run.units[0].heal_count = 2
+	run.units[1].hp = 179
+	run.apply_status(run.units[1], "slow", 0.3, 1)
+	var untouched: Array = run.units.duplicate(true)
+	run.heal_target(run.units[0], run.units[1])
+	check(run.units == untouched, "Direct cross-front heal cannot heal, cleanse, shield or advance counters")
 
 func verify_area_selection(model: Script) -> void:
 	for side in [0, 1]:

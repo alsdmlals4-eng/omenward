@@ -68,3 +68,6 @@ Latest shield continuation: model55 checks, screen/save/native timing, default s
 - Godot: model 39 checks/0 failures; UI/save/real alpha/idle region/current controls PASS; default scene smoke PASS. GPU capture: 19 damage events, 16 units; building and combat outputs updated.
 - Independent reviewer read all 16 changed files in five full-scope passes (scope escape, CI, execution regression, approval/evidence, maintenance). No new blocker found; reviewed both GPU captures and hash. Reviewer did not execute Godot; this is not five runtime tests or Human approval.
 - Branch remains stacked on the planning branch. Direct comparison to main fails the narrow allowlist as expected because parent planning changes are outside this implementation approval. Do not broaden the list to conceal that integration dependency.
+# 2026-09-16 user-approved amendment
+
+The latest user explicitly returns to three fronts: strategic minimap default and selected single-front enlarged inspection. Extend the existing model/screen/save/test owners only, with exact GPU evidence `output/front-overview.png` and `output/front-inspection.png`. Preserve older single-front saves and Base lock/protected-main rules. Existing monthly worklog is updated cumulatively by date; do not create another versioned journal for this task.

@@ -8,6 +8,38 @@ func capture() -> void:
 	var screen = load("res://scenes/replan/front_slice.tscn").instantiate()
 	root.add_child(screen)
 	screen.paused = true
+	if "--three-front-only" in OS.get_cmdline_user_args():
+		screen.run.begin_round()
+		screen.run.advance_ticks(900)
+		screen._refresh_panel()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("res://output/front-overview.png")
+		var before_view: Dictionary = screen.run.snapshot()
+		var click := InputEventMouseButton.new()
+		click.position = Vector2(465, 292)
+		click.button_index = MOUSE_BUTTON_LEFT
+		click.pressed = true
+		root.push_input(click, true)
+		var release := click.duplicate()
+		release.pressed = false
+		root.push_input(release, true)
+		await process_frame
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("res://output/front-inspection.png")
+		before_view.selected_front = 1
+		if screen.overview or screen.run.snapshot() != before_view:
+			push_error("Inspection must preserve concurrent gameplay state")
+			quit(1)
+			return
+		screen.get_node("OverviewButton").pressed.emit()
+		if not screen.overview:
+			quit(1)
+			return
+		print("THREE_FRONT_GPU: overview -> center inspection -> overview; view switch preserved simulation")
+		quit()
+		return
+	screen.inspect_front(0)
 	screen.run.construct("barracks")
 	screen._refresh_panel()
 	await process_frame

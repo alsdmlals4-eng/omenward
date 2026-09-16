@@ -28,6 +28,17 @@ func _initialize() -> void:
 	check(DirAccess.make_dir_recursive_absolute(folder) == OK, "Create isolated fixture directory")
 	var path := folder + "/run.json"
 	var initial: Dictionary = model.snapshot()
+	var multi = load("res://scripts/replan/front_run.gd").new()
+	multi.enable_three_fronts()
+	multi.selected_front = 2
+	var multi_path := folder + "/three.json"
+	check(storage.write_verified(multi_path, multi.snapshot()).ok and storage.read_verified(multi_path).state.selected_front == 2, "Three-front deployment selection survives actual disk transport")
+	check(storage.write_verified(multi_path, multi.snapshot()).ok, "Three-front valid backup available")
+	var future_front: Dictionary = multi.snapshot()
+	future_front.map_entry.front_rules = "three_v999"
+	write_fixture(multi_path, JSON.stringify(future_front))
+	var future_digest := FileAccess.get_sha256(multi_path)
+	check(not storage.read_verified(multi_path).ok and not storage.write_verified(multi_path, multi.snapshot()).ok and FileAccess.get_sha256(multi_path) == future_digest, "Future topology checkpoint blocks backup rollback and overwrite")
 	check(storage.write_verified(path, initial).ok, "First save commits")
 	check(storage.read_verified(path).state.gold == 120, "Disk read restores initial gold")
 	model.gold = 80

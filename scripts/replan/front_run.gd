@@ -53,6 +53,30 @@ var message := "병영을 건설하고 공세를 시작하세요."
 var income_clock := 0.0
 var point_clock := 0.0
 var tower_clock := 0.0
+var front_rules := "single_v1"
+var selected_front := 0
+
+func front_count() -> int:
+	return int(catalog.front_layout.count) if front_rules == "three_v1" else 1
+
+func enable_three_fronts() -> bool:
+	if phase != "PREPARE" or tick != 0 or current_map != 0 or not buildings.is_empty() or not reserve.is_empty() or omen_pending:
+		return false
+	front_rules = "three_v1"
+	selected_front = 0
+	for i in range(units.size()):
+		units[i].front = i % 3
+	map_entry = snapshot(false)
+	return true
+
+func same_front(a: Dictionary, b: Dictionary) -> bool:
+	return front_count() == 1 or a.get("front", 0) == b.get("front", 0)
+
+func point_position(index: int) -> float:
+	return float(catalog.front_layout.point_position) if front_count() == 3 else float(catalog.capture_rules.point_positions[index])
+
+func point_contains(index: int, unit: Dictionary) -> bool:
+	return (front_count() == 1 or unit.get("front", 0) == index) and absf(float(unit.x) - point_position(index)) <= float(catalog.capture_rules.radius)
 
 func _init() -> void:
 	catalog = JSON.parse_string(FileAccess.get_file_as_string(CATALOG_PATH))
@@ -456,13 +480,15 @@ func begin_round() -> bool:
 	message = "공세 시작 · 5 / 22 / 40초에 적이 진입합니다."
 	return true
 
-func spawn(role: String, side: int, x: float) -> void:
+func spawn(role: String, side: int, x: float, front: int = -1) -> void:
 	var row: Array = definitions[role]
 	units.append({"id": next_id, "role": role, "side": side, "x": x,
 		"hp": float(row[4]), "cooldown": 0.0, "flash": 0.0, "action": 0.0,
 		"windup": 0.0, "pending_target": -1, "charge": 0.0, "brace": 0.0, "ambush": 0.0, "air_reengage": 0.0,
 		"survived": 0, "focus_target": -1, "focus_count": 0,
 		"effects": {}, "hit_count": 0, "heal_count": 0})
+	if front_count() == 3:
+		units.back().front = selected_front if front < 0 else clampi(front, 0, 2)
 	if birth_rules in BIRTH_RULES and side == 0:
 		var birth := _birth_record(role)
 		for key in ["entry_id", "birth_tier", "source_facility_id"]:
@@ -528,7 +554,7 @@ func _tick(dt: float) -> void:
 				for i in range(int(groups[role])):
 					var arrival := float(catalog.economy.wave_times[wave]) + order * 0.4
 					if before + 0.0001 < arrival and elapsed + 0.0001 >= arrival:
-						spawn(role, 1, 95.0)
+						spawn(role, 1, 95.0, (order + wave) % front_count())
 					order += 1
 	income_clock += dt
 	point_clock += dt
@@ -579,7 +605,7 @@ func _tick(dt: float) -> void:
 						bases[1] -= float(row[5])
 				else:
 					for victim in units:
-						if victim.id == unit.pending_target and victim.hp > 0 and victim.side != unit.side and absf(float(unit.x) - float(victim.x)) <= attack_range(unit):
+						if victim.id == unit.pending_target and victim.hp > 0 and same_front(unit, victim) and victim.side != unit.side and absf(float(unit.x) - float(victim.x)) <= attack_range(unit):
 							_hit(unit, victim)
 							break
 				unit.pending_target = -1
@@ -668,10 +694,12 @@ func _tick_tower(dt: float) -> void:
 	tower_clock += dt
 	if tower_clock >= 2.0:
 		tower_clock -= 2.0
-		if points[1] != 0:
-			var enemy: int = 1 if points[1] == 1 else 0
+		for index in (range(3) if front_count() == 3 else [1]):
+			if points[index] == 0:
+				continue
+			var enemy: int = 1 if points[index] == 1 else 0
 			for unit in units:
-				if unit.hp > 0 and unit.side == enemy and absf(float(unit.x) - 50) <= 12:
+				if unit.hp > 0 and unit.side == enemy and (front_count() == 1 or unit.get("front", 0) == index) and absf(float(unit.x) - 50) <= 12:
 					take_damage(unit, 18, true)
 					break
 
@@ -705,11 +733,11 @@ func _holds_for_capture(unit: Dictionary) -> bool:
 	var settings: Dictionary = catalog.capture_rules
 	var owner := 1 if unit.side == 0 else -1
 	for index in range(3):
-		var position: float = settings.point_positions[index]
-		if points[index] == owner or absf(float(unit.x) - position) > float(settings.radius):
+		var position: float = point_position(index)
+		if points[index] == owner or not point_contains(index, unit):
 			continue
 		for other in units:
-			if other.hp > 0 and other.side != unit.side and other.role != "flying" and absf(float(other.x) - position) <= float(settings.radius):
+			if other.hp > 0 and other.side != unit.side and same_front(unit, other) and other.role != "flying" and absf(float(other.x) - position) <= float(settings.radius):
 				return false
 		return true
 	return false
@@ -729,7 +757,7 @@ func _tick_capture() -> void:
 	for index in range(3):
 		var counts := [0, 0]
 		for unit in units:
-			if unit.hp > 0 and unit.role != "flying" and absf(float(unit.x) - float(settings.point_positions[index])) <= float(settings.radius):
+			if unit.hp > 0 and unit.role != "flying" and point_contains(index, unit):
 				counts[int(unit.side)] += 1
 		if counts[0] > 0 and counts[1] > 0:
 			continue
@@ -836,7 +864,7 @@ func take_damage(unit: Dictionary, amount: float, ranged: bool = false) -> void:
 	unit.effects = effects
 
 func heal_target(healer: Dictionary, target: Dictionary) -> void:
-	if healer.hp <= 0 or target.hp <= 0 or healer.side != target.side or healer.id == target.id:
+	if healer.hp <= 0 or target.hp <= 0 or healer.side != target.side or healer.id == target.id or not same_front(healer, target):
 		return
 	var healing := float(catalog.capstone_rules.priest_heal) if is_capstone(healer) else 12.0
 	var healed := minf(healing, maxf(0, float(definitions[target.role][4]) - float(target.hp)))
@@ -860,7 +888,7 @@ func shield_guarding(unit: Dictionary) -> bool:
 	if phase != "BATTLE" or unit.role != "shield_guard" or unit.hp <= 0:
 		return false
 	for other in units:
-		if other.hp > 0 and other.side != unit.side and absf(float(other.x) - float(unit.x)) <= float(definitions.shield_guard[9]) * 3.0:
+		if other.hp > 0 and same_front(unit, other) and other.side != unit.side and absf(float(other.x) - float(unit.x)) <= float(definitions.shield_guard[9]) * 3.0:
 			return true
 	return false
 
@@ -869,7 +897,7 @@ func choose_target(unit: Dictionary) -> Dictionary:
 	var best_priority := 2
 	var best_distance := INF
 	for other in units:
-		if other.hp <= 0 or other.id == unit.id:
+		if other.hp <= 0 or other.id == unit.id or not same_front(unit, other):
 			continue
 		if unit.role == "priest":
 			if other.side != unit.side or other.hp >= float(definitions[other.role][4]):
@@ -889,7 +917,7 @@ func choose_target(unit: Dictionary) -> Dictionary:
 	return target
 
 func _hit(attacker: Dictionary, target: Dictionary) -> void:
-	if attacker.hp <= 0 or target.hp <= 0:
+	if attacker.hp <= 0 or target.hp <= 0 or not same_front(attacker, target):
 		return
 	attacker.hit_count = (int(attacker.get("hit_count", 0)) + 1) % 4
 	var row: Array = definitions[attacker.role]
@@ -921,7 +949,7 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 			limit = int(catalog.capstone_rules.mage_target_limit)
 		var candidates: Array = []
 		for other in units:
-			if other.hp <= 0 or other.side == attacker.side or other.id == target.id or absf(float(other.x) - float(target.x)) > 1.8:
+			if other.hp <= 0 or not same_front(attacker, other) or other.side == attacker.side or other.id == target.id or absf(float(other.x) - float(target.x)) > 1.8:
 				continue
 			if attacker.role == "greatsword_warrior" and (float(other.x) - float(attacker.x)) * (1.0 if attacker.side == 0 else -1.0) < 0:
 				continue
@@ -979,6 +1007,8 @@ func snapshot(include_entry: bool = true) -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 	if ruleset_id == FIXED_RULESET:
 		result.merge({"version": 7, "ruleset_id": ruleset_id, "tick": tick, "tick_debt": tick_debt, "timer_units": "ticks"}, true)
+		if front_count() == 3:
+			result.merge({"front_rules": front_rules, "selected_front": selected_front})
 		result.merge({"capture_rules": capture_rules, "capture": capture.duplicate(true)}, true)
 		result.facility_rules = facility_rules
 		result.birth_rules = birth_rules
@@ -1021,6 +1051,14 @@ func restore(value: Variant) -> bool:
 	if not value is Dictionary or not _finite_number(value.get("version")) or value.version != floorf(value.version) or value.version < 1 or value.version > 7 or value.has("schema_version"):
 		return false
 	value = value.duplicate(true)
+	var saved_fronts: String = str(value.get("front_rules", "single_v1"))
+	if saved_fronts not in ["single_v1", "three_v1"]:
+		return false
+	if saved_fronts == "three_v1":
+		if value.version != 7 or value.get("capture_rules") != "timed_v1" or value.get("wave_rules") != "staggered_v1" or not _valid_integer(value.get("selected_front"), 0, 2):
+			return false
+	elif value.has("selected_front"):
+		return false
 	if value.version == 7 and value.get("birth_rules", "legacy") not in ["legacy", "birth_v1", "birth_v2"]:
 		return false
 	var has_birth: bool = value.version == 7 and value.get("birth_rules") in BIRTH_RULES
@@ -1081,7 +1119,7 @@ func restore(value: Variant) -> bool:
 		value.omen_moves = 0
 		value.omen_reserved = 0
 	for key in snapshot():
-		if key in ["birth_rules", "next_entry_id", "next_facility_id"]:
+		if key in ["birth_rules", "next_entry_id", "next_facility_id", "front_rules", "selected_front"]:
 			continue
 		if key in ["ruleset_id", "tick", "tick_debt", "timer_units", "capture_rules", "capture", "base_claim_work", "basic_gold_paid", "settled_maps", "facility_rules"] and (value.version < 7 or (key in ["base_claim_work", "basic_gold_paid", "settled_maps"] and value.get("capture_rules") == "legacy")):
 			continue
@@ -1152,6 +1190,11 @@ func restore(value: Variant) -> bool:
 	var seen_birth_ids: Array = []
 	for unit in value.units:
 		if not unit is Dictionary or not definitions.has(unit.get("role", "")):
+			return false
+		if saved_fronts == "three_v1":
+			if not _valid_integer(unit.get("front"), 0, 2):
+				return false
+		elif unit.has("front"):
 			return false
 		for key in ["id", "side", "x", "hp", "cooldown", "flash", "action"]:
 			if not unit.has(key) or not _finite_number(unit[key]):
@@ -1273,6 +1316,8 @@ func restore(value: Variant) -> bool:
 			return false
 		if not probe.restore(entry):
 			return false
+		if probe.front_rules != saved_fronts:
+			return false
 		if value.version == 7:
 			if probe.birth_rules != value.get("birth_rules", "legacy"):
 				return false
@@ -1294,6 +1339,8 @@ func restore(value: Variant) -> bool:
 			if hp != 1000:
 				return false
 	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
+	front_rules = saved_fronts
+	selected_front = int(value.get("selected_front", 0))
 	birth_rules = value.birth_rules if has_birth else "legacy"
 	next_facility_id = int(value.get("next_facility_id", 1)) if has_birth else 1
 	next_entry_id = int(value.get("next_entry_id", 1)) if has_birth else 1

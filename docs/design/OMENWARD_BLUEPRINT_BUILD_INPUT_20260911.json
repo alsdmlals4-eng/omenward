@@ -1,6 +1,7 @@
 {
   "status": "REVIEW_EDITION_NOT_FINAL_IMPLEMENTATION_READY",
   "scope": "기획 최종 검토용. 수치는 권장 구현 초깃값이며 밸런스 검증값 아님. 제품 구현은 최종 승인 후.",
+  "front_layout": {"profile":"three_v1","count":3,"point_position":50,"base_ownership":"shared","default_view":"overview","legacy_profile":"single_v1","wave_allocation":"round_robin_preserve_total"},
   "capture_rules": {"radius":3,"claim_seconds":8,"max_contributors":2,"decay_per_second":0.1,"point_positions":[25,50,75]},
   "maps": [
     {"id":"ward_citadel","name":"수호 성채","rounds":10,"theme":"황금빛 성채 외곽","pressure":0.4,"lesson":"전열 유지와 후열 보호"},

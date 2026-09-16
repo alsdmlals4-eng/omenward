@@ -14,6 +14,29 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	if not screen.has_method("inspect_front"):
+		push_error("Default minimap must open one actual frontline inspection")
+		quit(1)
+		return
+	if screen.run.front_count() != 3 or not screen.overview:
+		push_error("Fresh screen must start in three-front overview")
+		failed = true
+	var before_tick: int = screen.run.tick
+	screen.inspect_front(2)
+	if screen.overview or screen.run.selected_front != 2 or screen.run.tick != before_tick:
+		push_error("Inspection changes view and deployment front only, not simulation time")
+		failed = true
+	screen.show_overview()
+	if not screen.overview:
+		failed = true
+	screen.run.restore(before_layout)
+	screen.run.restore(screen.Model.new().snapshot())
+	screen.show_overview()
+	if screen.overview:
+		push_error("Legacy single-front save must keep all three old capture points visible in inspection")
+		failed = true
+	screen.run.restore(before_layout)
+	screen.show_overview()
 	screen.run._enqueue("shield_guard", 1, 0)
 	screen.run.construct("barracks")
 	screen.run._enqueue("shield_guard", 2, int(screen.run.buildings[0].instance_id))
@@ -226,6 +249,7 @@ func verify() -> void:
 	screen.run.units.clear()
 	screen.run.spawn("archer", 0, 50)
 	screen.run.spawn("mage", 1, 50)
+	screen.inspect_front(0)
 	var inspect_at: Vector2 = screen.unit_draw_anchor(screen.run.units[0])
 	screen.run.apply_status(screen.run.units[0], "barrier", 12, 3)
 	screen.run.apply_status(screen.run.units[0], "slow", 0.3, 1)
@@ -269,6 +293,7 @@ func verify() -> void:
 		push_error("Presentation must not mutate combat or save state")
 		failed = true
 	var control = screen.Model.new()
+	control.enable_three_fronts()
 	screen.run.begin_round()
 	control.begin_round()
 	for step in range(230):

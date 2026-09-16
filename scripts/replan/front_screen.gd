@@ -29,8 +29,24 @@ var production_bar: ProgressBar
 var selected_bonus := ""
 var map_labels: Array = []
 var building_page := 0
+var overview := true
+var front_buttons: Array[Button] = []
+var overview_button: Button
+
+func inspect_front(index: int) -> void:
+	if index < 0 or index >= run.front_count():
+		return
+	run.selected_front = index
+	overview = false
+	_refresh_panel()
+	queue_redraw()
+
+func show_overview() -> void:
+	overview = run.front_count() == 3
+	queue_redraw()
 
 func _ready() -> void:
+	run.enable_three_fronts()
 	get_window().content_scale_size = Vector2i(1280, 720)
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 	get_window().content_scale_stretch = Window.CONTENT_SCALE_STRETCH_FRACTIONAL
@@ -81,6 +97,15 @@ func _make_shell() -> void:
 		label.name = "CaptureStatus%d" % i
 		label.tooltip_text = "지상 1명 8초 / 2명 4초. 적 거점은 중립화 후 다시 점령. 양측 혼재 시 정지, 이탈 시 진행 감소."
 		capture_labels.append(label)
+	overview_button = _button("전체 전선", Rect2(24, 435, 125, 32), show_overview)
+	overview_button.name = "OverviewButton"
+	for i in range(3):
+		var front_button := _button(["북부", "중앙", "남부"][i] + " 전선 확대", Rect2(163 + i * 180, 435, 170, 32), func(): inspect_front(i))
+		front_button.name = "InspectFront%d" % i
+		front_buttons.append(front_button)
+	notice.position = Vector2(718, 435)
+	notice.size = Vector2(535, 32)
+	notice.add_theme_font_size_override("font_size", 13)
 	base_claim_label = _label("", Rect2(915, 365, 335, 24), self, 15)
 	base_claim_label.name = "BaseClaimStatus"
 	base_claim_label.tooltip_text = "아군 성채 HP 0은 즉시 패배. 베일 본진은 방어 HP 0 뒤 지상 점령을 완료해야 승리합니다."
@@ -117,7 +142,7 @@ func _restart() -> void:
 	var dialog := ConfirmationDialog.new()
 	dialog.dialog_text = "현재 출정을 끝내고 새로 시작할까요? 저장 파일은 유지됩니다."
 	add_child(dialog)
-	dialog.confirmed.connect(func(): run = Model.new(); selected = 0; paused = false; _refresh_panel(); dialog.queue_free())
+	dialog.confirmed.connect(func(): run = Model.new(); run.enable_three_fronts(); overview = true; selected = 0; paused = false; _refresh_panel(); dialog.queue_free())
 	dialog.canceled.connect(dialog.queue_free)
 	dialog.popup_centered()
 
@@ -297,7 +322,7 @@ func _reserve_panel() -> void:
 	recovery.name = "OpenRecovery"
 	recovery.disabled = run.phase not in ["PREPARE", "REFIT"]
 	recovery.tooltip_text = "준비·재정비 중 생존한 아군을 골드로 회복합니다."
-	_label("대기 용량 %s/24 · 출전 %s/%s · 병종 카드를 눌러 전장에 투입" % [run.queue_used(), run.capacity_used(), run.capacity_limit()], Rect2(0, 0, 950, 26), ui)
+	_label("대기 %s/24 · 출전 %s/%s · 배치: %s 전선 · 출전 후 이동 불가" % [run.queue_used(), run.capacity_used(), run.capacity_limit(), ["북부", "중앙", "남부"][run.selected_front] if run.front_count() == 3 else "기존"], Rect2(0, 0, 950, 26), ui)
 	var counts: Dictionary = {}
 	var first_entries: Dictionary = {}
 	for role in run.reserve_roles():
@@ -352,6 +377,11 @@ func _process(delta: float) -> void:
 		map_labels[i].text = ("◆ " if i == run.current_map else "✓ " if i < run.current_map else "◇ ") + run.catalog.maps[i].name
 		map_labels[i].modulate = Color("f6d687") if i == run.current_map else Color("8796ad")
 	for i in range(capture_labels.size()):
+		capture_labels[i].visible = not overview and (run.front_count() == 1 or i == run.selected_front)
+		if run.front_count() == 3:
+			capture_labels[i].position = Vector2(590, 194)
+		else:
+			capture_labels[i].position = Vector2(65 + (25 + i * 25) * 11.5 - 90, 194)
 		var state: Dictionary = run.capture_state(i)
 		capture_labels[i].tooltip_text = "구형 저장 규칙 · 범위 내 한 진영이 있으면 즉시 점령" if run.capture_rules == "legacy" else "지상 1명 8초 / 2명 4초. 중립화 뒤 점령. 교전 없는 거점은 확보 후 진군, 암살자는 후열 추격 우선."
 		var owner_text := "아군" if state.owner == 1 else "베일" if state.owner == -1 else "중립"
@@ -359,6 +389,10 @@ func _process(delta: float) -> void:
 		if state.progress > 0:
 			capture_labels[i].text += " · %s %d%%" % ["중립화" if state.leg == "NEUTRALIZE" else "점령", floori(state.progress * 100)]
 	pause_button.text = "계속 진행" if paused else "일시정지"
+	overview_button.visible = run.front_count() == 3
+	for i in range(front_buttons.size()):
+		front_buttons[i].visible = i < run.front_count()
+		front_buttons[i].text = ("● " if i == run.selected_front else "") + (["북부", "중앙", "남부"][i] if run.front_count() == 3 else "기존") + " 전선 확대"
 	base_claim_label.text = ""
 	if run.capture_rules == "timed_v1" and run.bases[1] <= 0:
 		base_claim_label.text = "베일 방어 붕괴 · 지상 점령 %d%%" % floori(float(run.base_claim_work) / run._capture_total() * 100)
@@ -450,12 +484,12 @@ func _show_recovery() -> void:
 	dialog.popup_centered(Vector2i(620, 420))
 
 func _get_tooltip(at_position: Vector2) -> String:
-	if not Rect2(20, 225, 1240, 160).has_point(at_position):
+	if overview or not Rect2(20, 225, 1240, 160).has_point(at_position):
 		return ""
 	var lines: PackedStringArray = []
 	var count := 0
 	for unit in run.units:
-		if float(unit.hp) <= 0 or unit_draw_anchor(unit).distance_to(at_position) > 42:
+		if (run.front_count() == 3 and unit.get("front", 0) != run.selected_front) or float(unit.hp) <= 0 or unit_draw_anchor(unit).distance_to(at_position) > 42:
 			continue
 		count += 1
 		if lines.size() < 6:
@@ -487,18 +521,24 @@ func unit_draw_anchor(unit: Dictionary) -> Vector2:
 
 func _draw() -> void:
 	draw_rect(Rect2(0, 0, 1280, 720), Color("111c2b"))
+	if overview:
+		_draw_overview()
+		return
 	if backdrop == null:
 		return
 	draw_texture_rect(backdrop, Rect2(20, 115, 1240, 310), false)
 	draw_rect(Rect2(20, 115, 1240, 310), Color("b99b65"), false, 2)
 	for i in range(3):
+		if run.front_count() == 3 and i != run.selected_front:
+			continue
 		var color := Color("7bc7ec") if run.points[i] == 1 else Color("cf8bdf") if run.points[i] == -1 else Color("e6d8b6")
-		var x := 65.0 + (25 + i * 25) * 11.5
-		draw_string(font, Vector2(x - 40, 190), ["수호 전진지", "접전 / 방어탑", "장막 전진지"][i], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("172235"))
+		var x := 65.0 + run.point_position(i) * 11.5
+		draw_string(font, Vector2(x - 40, 190), "접전 / 방어탑" if run.front_count() == 3 else ["수호 전진지", "접전 / 방어탑", "장막 전진지"][i], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("172235"))
 		draw_circle(Vector2(x - 102, 206), 5, color)
 	# Tower is a labeled UI marker in this candidate preview, not invented artwork.
-	draw_string(font, Vector2(567, 222), "탑  %s" % ("아군" if run.points[1] == 1 else "베일" if run.points[1] == -1 else "중립"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("253249"))
-	var actors: Array = run.units.duplicate()
+	var tower: int = run.points[run.selected_front if run.front_count() == 3 else 1]
+	draw_string(font, Vector2(567, 222), "탑  %s" % ("아군" if tower == 1 else "베일" if tower == -1 else "중립"), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color("253249"))
+	var actors: Array = run.units.filter(func(unit): return run.front_count() == 1 or unit.get("front", 0) == run.selected_front)
 	actors.sort_custom(func(a, b):
 		var ay: float = unit_draw_anchor(a).y
 		var by: float = unit_draw_anchor(b).y
@@ -524,6 +564,53 @@ func _draw() -> void:
 	draw_string(font, Vector2(35, 409), "수호 성채 %d" % maxi(0, int(run.bases[0])), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("c3e8fb"))
 	draw_string(font, Vector2(1078, 409), "베일 본진 %d" % maxi(0, int(run.bases[1])), HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("f0c8ff"))
 
+func _overview_position(front: int, progress: float) -> Vector2:
+	var start := Vector2(105, 370)
+	var finish := Vector2(820, 215)
+	var midpoint: Vector2 = [Vector2(240, 215), Vector2(465, 292), Vector2(710, 370)][front]
+	var t := clampf(progress / 100.0, 0, 1)
+	return start.lerp(midpoint, t * 2) if t <= 0.5 else midpoint.lerp(finish, (t - 0.5) * 2)
+
+func _draw_overview() -> void:
+	# Functional strategic indicators, not generated terrain artwork.
+	draw_rect(Rect2(20, 178, 1240, 247), Color("1b2d36"))
+	for front in range(run.front_count()):
+		var path := PackedVector2Array([_overview_position(front, 0), _overview_position(front, 50), _overview_position(front, 100)])
+		draw_polyline(path, Color("627d78"), 10, true)
+		draw_polyline(path, Color("e0c88f") if front == run.selected_front else Color("a0aaa0"), 2, true)
+		var midpoint := _overview_position(front, 50)
+		var ward := 0
+		var veil := 0
+		for unit in run.units:
+			if run.front_count() == 3 and unit.get("front", 0) != front:
+				continue
+			ward += 1 if unit.side == 0 else 0
+			veil += 1 if unit.side == 1 else 0
+			var position := _overview_position(front, float(unit.x)) + Vector2(0, (int(unit.id) % 3 - 1) * 5)
+			draw_circle(position, 3, Color("67cbff") if unit.side == 0 else Color("f292bd"))
+		var point := front if run.front_count() == 3 else 1
+		var owner: int = run.points[point]
+		draw_rect(Rect2(midpoint - Vector2(6, 6), Vector2(12, 12)), Color("67cbff") if owner == 1 else Color("f292bd") if owner == -1 else Color("e5d2a4"))
+		draw_string(font, midpoint + Vector2(-35, -18), ["북부", "중앙", "남부"][front], HORIZONTAL_ALIGNMENT_LEFT, -1, 17)
+		draw_string(font, Vector2(915, 221 + front * 53), "%s  아군 %d / 베일 %d" % [["북부", "중앙", "남부"][front], ward, veil], HORIZONTAL_ALIGNMENT_LEFT, -1, 17)
+		draw_string(font, Vector2(915, 240 + front * 53), "거점 %s · 확보 %d%%" % ["아군" if owner == 1 else "베일" if owner == -1 else "중립", floori(run.capture_state(point).progress * 100)], HORIZONTAL_ALIGNMENT_LEFT, -1, 13)
+	draw_string(font, Vector2(42, 402), "수호 성채 %d" % maxi(0, int(run.bases[0])), HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("67cbff"))
+	draw_string(font, Vector2(735, 195), "베일 본진 %d" % maxi(0, int(run.bases[1])), HORIZONTAL_ALIGNMENT_LEFT, -1, 17, Color("f292bd"))
+
+func _gui_input(event: InputEvent) -> void:
+	if not overview or not event is InputEventMouseButton or not event.pressed or event.button_index != MOUSE_BUTTON_LEFT:
+		return
+	var nearest := -1
+	var distance := 22.0
+	for front in range(run.front_count()):
+		for step in range(101):
+			var candidate := _overview_position(front, step).distance_to(event.position)
+			if candidate < distance:
+				distance = candidate
+				nearest = front
+	if nearest >= 0:
+		inspect_front(nearest)
+
 func _save() -> void:
 	var result: Dictionary = preload("res://scripts/replan/front_save.gd").write_verified(save_path, run.snapshot())
 	run.message = "저장 완료 · 검증된 현재 상태와 이전 정상본 보존" if result.ok else "저장 실패 · 기존 파일 보존: " + result.reason
@@ -531,6 +618,7 @@ func _save() -> void:
 func _load_save() -> void:
 	var result: Dictionary = preload("res://scripts/replan/front_save.gd").read_verified(save_path)
 	if result.ok and run.restore(result.state):
+		show_overview()
 		run.message = "이전 정상 저장본으로 복구 · 손상 원본은 보존했습니다." if result.recovered else "불러오기 완료"
 	else:
 		run.message = "불러오기 실패 · 현재 출정 유지: " + result.reason
