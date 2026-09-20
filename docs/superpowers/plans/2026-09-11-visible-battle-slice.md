@@ -600,3 +600,16 @@ Recommended implementation detail under delegated authority: existing three cont
 ADAPT Riot's three routes between shared bases and overview readability; REJECT its three towers per lane, jungle and hero economy. Source: https://www.leagueoflegends.com/en-sg/how-to-play/ . ADOPT Godot CanvasItem dynamic indicators for the functional minimap, not replacement raster art: https://docs.godotengine.org/en/stable/classes/class_canvasitem.html . Reuse current transparent units and battle backdrop in inspection.
 
 Order: (1) model/save RED tests for isolation/capture/towers/dispatch/roundtrip/legacy/future markers; (2) minimum front field and point mapping; (3) overview/select/back UI and runtime inspection; (4) whole regression and independent five-pass review; (5) append 2026-09-16 daily summary to the existing monthly worklog/PDF, no new versioned worklog; (6) push the current task branch and exact-head CI readback. Do not bypass protected main or integrate unrelated PRs.
+# 2026-09-20 현재 승인 묶음: 통합 준비 + 첫 맵 정보/입력 검증
+
+기존 계획 누적. 게임 수치/저장/자산 승인과 다른 작업 폴더를 보호한다. 부모 PR258의 정확한 준비 파일 분류와 PDF 바이너리 교정을 연결했다. PR258/259는 Draft 유지하며 이번 묶음으로 전체 병합을 승인한 것으로 보지 않는다.
+
+실행 순서: 기존 Godot gate → 예보 회귀 테스트 RED → 실제 순환 배분 그대로 전선별 읽기 전용 예보/UI → 신규 출정의 건설/징조륜/전선 선택/배치/전투/재정비/결과를 실제 화면·공개 조작 경로로 확인 → 독립 검토/범위 검사/원격 정확한 HEAD 확인. 기존 전체 gate PASS, 저장 59 checks PASS, 화면 PASS를 확인한 뒤 시작했다.
+
+재미 가설 F1: 플레이어가 어느 전선으로 증원할지 예보·현재 병력을 보고 설명할 수 있다. 반례: 숫자만 보고도 전선 배분을 오해하거나 확대 후 다른 전선이 멈춘다고 생각한다. 자동 검사는 예보/실제 배분 일치와 화면 전환의 무변경만 확인한다. F2: 시설/징조륜 선택의 자원 비용과 실제 입대 결과가 이해된다. F3: 재정비의 회복/건설 선택이 다음 공세 대응으로 이어진다. 사람 관찰은 첫 맵 한 판에서 선택 이유·예상과 실제 차이·반복 피로를 짧게 기록하며 현재 HUMAN_NOT_RUN이다. 화면 캡처/AI 평가로 재미 PASS를 선언하지 않는다.
+
+실행 근거: 첫 예보의 전선 키 누락 RED → `wave_forecast().fronts`의 실제 병종 순서/공세 offset 순환 배분 → 화면의 전선별 합계/선택 병종 및 legacy 회귀 GREEN. 초기 숫자를 잘못 가정한 테스트는 실제 pressure0.4의 2갑각수+1절단수로 교정했다(전선별1명); 제품 수치는 건드리지 않았다. 예보 query는 snapshot/RNG를 변경하지 않고 반환 배열 수정은 모델에 전파되지 않는다.
+
+Godot4.7.1 `tools/validate_replan_slice.ps1` 전체 local gate PASS(모델, 저장59, 화면, 기본씬). Python 기획 관련63개와 BUILD exact scope9개 PASS. GPU `--first-map-only`는 병영1개/초기120G에서 정상40G 지불, 정상 무료 징조, 적은 아군 수 전선으로 실제 배치, 실제 마우스 확대/버튼 복귀, 재정비2회 후 3라운드 본진 점령으로 끝났다. 251G/아군 본진1000; 회복·특화·다른 정책 또는 모든 맵 성공 근거는 아니다. 화면은 `output/front-first-map-prepare.png`, `front-overview.png`, `front-inspection.png`, `front-first-map-refit.png`, `front-first-map-result.png`. capture의 UI 갱신 지연은 촬영 전 기존 refresh 호출로 보정했으며 제품 UI를 우회해 규칙을 바꾸지 않았다.
+
+독립 검토1/2: 준비 모드가 작은 운영-only 변경을 가로채는 P2 발견 → 부모8810ae00에서 기존 모드 우선순위 보존, 동일반례 RED→GREEN. 그 외 제품 수치/저장/승인 자산 변경 없음. 사람 재미·접근성·기기·최종아트·전체캠페인·release NOT_RUN. 실제 원본 Base 보호경로 FAIL9개와 승인된 PROJECT_SCOPED_BUILD PASS를 함께 유지한다.

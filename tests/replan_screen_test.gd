@@ -22,7 +22,13 @@ func verify() -> void:
 		push_error("Fresh screen must start in three-front overview")
 		failed = true
 	var before_tick: int = screen.run.tick
+	if not screen.forecast_text().contains("북부 1") or not screen.forecast_text().contains("중앙 1") or not screen.forecast_text().contains("남부 1"):
+		push_error("Three-front forecast must show where incoming enemies will appear")
+		failed = true
 	screen.inspect_front(2)
+	if not screen.forecast_text().contains("선택 남부"):
+		push_error("Forecast composition must follow inspected deployment front")
+		failed = true
 	if screen.overview or screen.run.selected_front != 2 or screen.run.tick != before_tick:
 		push_error("Inspection changes view and deployment front only, not simulation time")
 		failed = true
@@ -31,6 +37,9 @@ func verify() -> void:
 		failed = true
 	screen.run.restore(before_layout)
 	screen.run.restore(screen.Model.new().snapshot())
+	if not screen.forecast_text().contains("갑각수 ×2") or screen.forecast_text().contains("선택 남부"):
+		push_error("Legacy forecast keeps total composition without invented fronts")
+		failed = true
 	screen.show_overview()
 	if screen.overview:
 		push_error("Legacy single-front save must keep all three old capture points visible in inspection")
@@ -354,7 +363,7 @@ func verify() -> void:
 		push_error("Missing visible wave forecast")
 		quit(1)
 		return
-	if not screen.forecast_text().contains("갑각수 ×2") or not screen.forecast_text().contains("5초"):
+	if not screen.forecast_text().contains("갑각수 ×1") or not screen.forecast_text().contains("5초"):
 		push_error("Forecast must name actual Veil composition and arrival")
 		failed = true
 	for button in screen.find_children("*", "Button", true, false):

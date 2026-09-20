@@ -187,9 +187,19 @@ func wave_forecast() -> Dictionary:
 	if next_round > int(catalog.maps[current_map].rounds) or next_wave >= catalog.economy.wave_times.size():
 		return {}
 	var composition := wave_composition(next_round, next_wave)
+	# Same ordered distribution as staggered arrivals; inspection never changes it.
+	var fronts: Array = []
+	for front in range(front_count()):
+		fronts.append({})
+	var order := 0
+	for role in composition:
+		for i in range(int(composition[role])):
+			var front := (order + next_wave) % front_count()
+			fronts[front][role] = fronts[front].get(role, 0) + 1
+			order += 1
 	return {"round": next_round, "wave": next_wave + 1,
 		"seconds": maxf(0, float(catalog.economy.wave_times[next_wave]) - (elapsed if phase == "BATTLE" else 0.0)),
-		"units": composition}
+		"units": composition, "fronts": fronts}
 
 func production_status(slot: int) -> Dictionary:
 	if not building_present(slot):

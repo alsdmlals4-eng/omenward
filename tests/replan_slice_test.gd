@@ -124,6 +124,16 @@ func verify_three_fronts(model: Script) -> void:
 	check(restored.restore(model.new().snapshot()) and restored.front_count() == 1, "Existing single-front game is not silently migrated")
 	var waves = model.new()
 	waves.enable_three_fronts()
+	var forecast_before: Dictionary = waves.snapshot()
+	var forecast: Dictionary = waves.wave_forecast()
+	check(forecast.has("fronts"), "Forecast must disclose actual next-wave assignment for each front")
+	if forecast.has("fronts"):
+		check(forecast.fronts == [{"shield_guard": 1}, {"shield_guard": 1}, {"archer": 1}], "First wave distributes actual two shields and one archer without multiplying them")
+		waves.selected_front = 2
+		check(waves.wave_forecast() == forecast, "Inspection cannot change incoming enemy assignments")
+		waves.selected_front = 0
+		forecast.fronts[0]["shield_guard"] = 999
+		check(waves.snapshot() == forecast_before and waves.wave_forecast().fronts[0].shield_guard == 1, "Forecast projection must be read-only and deeply isolated")
 	waves.begin_round()
 	waves.advance_ticks(270)
 	var lanes: Array = []
@@ -131,6 +141,14 @@ func verify_three_fronts(model: Script) -> void:
 		if unit.side == 1 and not lanes.has(unit.front):
 			lanes.append(unit.front)
 	check(lanes.size() == 3, "Existing wave total reaches all three fronts without view dependence")
+	if forecast.has("fronts"):
+		var arrived: Array = [{}, {}, {}]
+		for unit in waves.units:
+			if unit.side == 1:
+				arrived[unit.front][unit.role] = arrived[unit.front].get(unit.role, 0) + 1
+		var preview = model.new()
+		preview.enable_three_fronts()
+		check(arrived == preview.wave_forecast().fronts, "Displayed frontline counts match real first-wave arrivals")
 	var old_waves = model.new()
 	old_waves.begin_round()
 	old_waves.advance_ticks(270)

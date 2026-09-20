@@ -73,3 +73,6 @@ Latest shield continuation: model55 checks, screen/save/native timing, default s
 # 2026-09-16 user-approved amendment
 
 The latest user explicitly returns to three fronts: strategic minimap default and selected single-front enlarged inspection. Extend the existing model/screen/save/test owners only, with exact GPU evidence `output/front-overview.png` and `output/front-inspection.png`. Preserve older single-front saves and Base lock/protected-main rules. Existing monthly worklog is updated cumulatively by date; do not create another versioned journal for this task.
+# 2026-09-20 첫 맵 검토 증거 범위
+
+기존 승인된 통합 준비/3전선 첫 맵 검토에서 `tests/replan_capture.gd --first-map-only`와 `output/front-first-map-prepare.png`, `output/front-first-map-refit.png`, `output/front-first-map-result.png`를 기존 exact BUILD 목록에 추가한다. 기존 overview/inspection 캡처는 이번 검토로 갱신한다. 새 게임 자원 그대로 실제 UI 콜백과 고정 시계로 조작하며 진도·체력·골드·난수 결과 주입 없이 종결 상태를 확인한다. 화면 관측 및 자동 정책은 사람 플레이/재미/밸런스 통과가 아니다. 수치·아트·저장 스키마는 변경하지 않는다.

@@ -1,13 +1,103 @@
 extends SceneTree
 ## Natural battle first; explicitly labeled mixed-role stress fixture second.
+
+func save_review_frame(screen: Control, filename: String) -> void:
+	screen._refresh_panel()
+	screen._process(0.0)
+	screen.queue_redraw()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var error := root.get_texture().get_image().save_png("res://output/" + filename)
+	assert(error == OK, "Capture must be written, not only claimed")
+
+func deploy_review_reserves(screen: Control) -> void:
+	screen.tab_buttons["전선"].pressed.emit()
+	for entry in screen.run.reserve.duplicate():
+		var counts := [0, 0, 0]
+		for unit in screen.run.units:
+			if unit.side == 0:
+				counts[unit.front] += 1
+		screen.front_buttons[counts.find(counts.min())].pressed.emit()
+		var button = screen.find_child("Deploy_" + screen.run.entry_role(entry), true, false)
+		if button != null and not button.disabled:
+			button.pressed.emit()
+
+func capture_first_map(screen: Control) -> void:
+	# A deterministic real-resource policy, not human play or balance approval.
+	# Pause wall time; advance the real fixed clock only. Never grant gold/units/HP.
+	for button in screen.ui.find_children("*", "Button", true, false):
+		if button.text.begins_with("일반 병영"):
+			button.pressed.emit()
+			break
+	assert(screen.run.building_count() == 1 and screen.run.gold == 80)
+	screen.tab_buttons["징조륜"].pressed.emit()
+	screen.find_child("ObserveOmen", true, false).pressed.emit()
+	assert(screen.run.omen_pending)
+	await save_review_frame(screen, "front-first-map-prepare.png")
+	screen.find_child("ConfirmOmen", true, false).pressed.emit()
+	assert(not screen.run.omen_pending)
+	deploy_review_reserves(screen)
+	screen.start_button.pressed.emit()
+	assert(screen.run.phase == "BATTLE")
+	var refits := 0
+	var saw_battle := false
+	for second in range(720):
+		if screen.run.phase in ["VICTORY", "DEFEAT"]:
+			break
+		deploy_review_reserves(screen)
+		screen.run.advance_ticks(30)
+		if not saw_battle and screen.run.elapsed >= 30.0:
+			screen.show_overview()
+			await save_review_frame(screen, "front-overview.png")
+			var before: Dictionary = screen.run.snapshot()
+			var click := InputEventMouseButton.new()
+			click.position = Vector2(465, 292)
+			click.button_index = MOUSE_BUTTON_LEFT
+			click.pressed = true
+			root.push_input(click, true)
+			click = click.duplicate()
+			click.pressed = false
+			root.push_input(click, true)
+			await save_review_frame(screen, "front-inspection.png")
+			before.selected_front = 1
+			assert(not screen.overview and screen.run.snapshot() == before)
+			screen.overview_button.pressed.emit()
+			saw_battle = true
+		if screen.run.phase == "REFIT":
+			refits += 1
+			screen.show_overview()
+			if refits == 1:
+				await save_review_frame(screen, "front-first-map-refit.png")
+			screen.tab_buttons["징조륜"].pressed.emit()
+			var observe = screen.find_child("ObserveOmen", true, false)
+			if not observe.disabled:
+				observe.pressed.emit()
+				var confirm = screen.find_child("ConfirmOmen", true, false)
+				assert(not confirm.disabled, "Single barracks should not need ambiguous bonus selection")
+				confirm.pressed.emit()
+			deploy_review_reserves(screen)
+			screen.start_button.pressed.emit()
+		await process_frame
+	assert(saw_battle and refits > 0 and screen.run.phase in ["VICTORY", "DEFEAT"])
+	screen.show_overview()
+	await save_review_frame(screen, "front-first-map-result.png")
+	print("FIRST_MAP_UI_REVIEW: fronts=", screen.run.front_count(), " phase=", screen.run.phase, " round=", screen.run.round_number, " refits=", refits, " gold=", screen.run.gold, " base_hp=", screen.run.bases[0], "; real starting resources, accelerated fixed clock; HUMAN_NOT_RUN")
+	screen.queue_free()
+	await process_frame
+	quit()
+
 func _initialize() -> void:
 	call_deferred("capture")
 
 func capture() -> void:
 	root.gui_embed_subwindows = true
 	var screen = load("res://scenes/replan/front_slice.tscn").instantiate()
+	screen.save_path = "user://replan-capture-%d.json" % OS.get_process_id()
 	root.add_child(screen)
 	screen.paused = true
+	if "--first-map-only" in OS.get_cmdline_user_args():
+		await capture_first_map(screen)
+		return
 	if "--three-front-only" in OS.get_cmdline_user_args():
 		screen.run.begin_round()
 		screen.run.advance_ticks(900)

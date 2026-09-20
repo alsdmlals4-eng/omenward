@@ -13,6 +13,8 @@ from project_operating import project_router, selected_source_errors
 APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
+    'output/front-first-map-prepare.png', 'output/front-first-map-refit.png',
+    'output/front-first-map-result.png',
     'output/front-overview.png', 'output/front-inspection.png',
 	'output/front-demolition.png',
     'output/front-tier3.png',

@@ -428,12 +428,22 @@ func phase_label() -> String:
 func forecast_text() -> String:
 	var forecast: Dictionary = run.wave_forecast()
 	if forecast.is_empty():
-		return "전투 종료 · 결과를 확인하세요." if run.phase in ["VICTORY", "DEFEAT"] else "이번 라운드 추가 공세 없음 · 남은 적과 전선 유지"
+		return "전투 종료 · 결과를 확인하세요." if run.phase in ["VICTORY", "DEFEAT"] else "추가 공세 예보 없음 · 출현 중인 적과 잔여 전투 계속"
 	var groups := PackedStringArray()
-	for role in forecast.units:
-		groups.append("%s ×%d" % [run.definitions[role][3], forecast.units[role]])
+	var composition: Dictionary = forecast.fronts[run.selected_front] if run.front_count() == 3 else forecast.units
+	for role in composition:
+		groups.append("%s ×%d" % [run.definitions[role][3], composition[role]])
+	var detail_text := "  /  ".join(groups) if not groups.is_empty() else "이번 공세 배정 없음"
+	if run.front_count() == 3:
+		var totals := PackedStringArray()
+		for front in range(3):
+			var total := 0
+			for count in forecast.fronts[front].values():
+				total += int(count)
+			totals.append("%s %d" % [["북부", "중앙", "남부"][front], total])
+		detail_text = "%s  |  선택 %s: %s" % [" · ".join(totals), ["북부", "중앙", "남부"][run.selected_front], detail_text]
 	var timing := "%d초 후" % ceili(forecast.seconds) if run.phase == "BATTLE" else "공세 시작 후 %d초" % ceili(forecast.seconds)
-	return "다음 공세 · %d라운드 %d/3 · %s%s · %s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "0.4초 간격 출현" if run.wave_rules == "staggered_v1" else "구형 저장 공세 유지", "  /  ".join(groups)]
+	return "다음 공세 · %d라운드 %d/3 · %s%s · %s\n%s" % [forecast.round, forecast.wave, timing, " (정지)" if paused else "", "0.4초 간격 출현" if run.wave_rules == "staggered_v1" else "구형 저장 공세 유지", detail_text]
 
 func _show_recovery() -> void:
 	if run.phase not in ["PREPARE", "REFIT"] or find_child("RecoveryDialog", true, false) != null:
