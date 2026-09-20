@@ -1,156 +1,44 @@
-# OMENWARD 프로젝트 AI 작업 규칙
+# OMENWARD 프로젝트 작업 규칙
 
-> **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
+한국어를 쓰는 1인 개발자와 협업한다. 결과부터 설명하고 중요한 변경은 이유·작동 방식·직접 시험하는 방법을 알려준다.
 
-```yaml
-updated_at: 2026-08-25
-common_work_authority: alsdmlals4-eng/Base/AGENTS.md
-planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
-contract_adapter: THIN_ADAPTER_DO_NOT_DUPLICATE_BASE_CANON
-planning_status: RESOLVE_FROM_CURRENT_DECISION_INDEX
-current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md
-current_context: docs/ACTIVE_CONTEXT.md
-current_gdd: docs/OMENWARD_GDD_CURRENT_CANON.md
-implementation_authorized: RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
-visual_generation: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
-```
+이 작업 브랜치의 재기획 범위는 현재 Decisions와 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`에서 복원한다. 이전 제품값은 역사/비교 자료이며 이번 운영 변경은 기획·자산 승인을 바꾸지 않는다.
 
-공통 TDD·벤치마킹·PR·적대적 검토·정본 freshness는 매 작업 시작 시 fresh `alsdmlals4-eng/Base` current authority를 따른다. 이 문서는 OMENWARD의 **영구 routing과 보호 경계**만 소유하며, PR 번호·HEAD·Decision 개수·현재 작업 단계처럼 자주 변하는 live 상태를 복제하지 않는다.
+채택 planning 계약: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8.
+이미지 제작 권한 표식: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES. 실제 범위와 최종 승인은 현재 Decision에서 확인한다.
 
-## 1. 매 작업 시작 read order
+## Current-authority read order
 
-1. fresh Base `START_HERE.md` / `AGENTS.md` / relevant Skill / main.
-2. fresh OMENWARD `main`, open/draft PR, Issue, target files.
-3. `docs/CURRENT_CONFIRMED_DECISIONS.md`.
-4. `docs/ACTIVE_CONTEXT.md`.
-5. `docs/OMENWARD_GDD_CURRENT_CANON.md` + `docs/PROJECT_CORE.md` + relevant owner.
-6. `docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md` 및 repository의 관련 사람용 owner.
-7. 실제 code/data/scene/test/runtime evidence는 해당 scope가 열렸을 때만 current evidence로 판정한다.
+1. 이 저장소의 최신 AGENTS와 작업 폴더 변경사항을 확인한다.
+2. 최신 원격 main, [현재 결정](docs/CURRENT_CONFIRMED_DECISIONS.md), [Active Context](docs/ACTIVE_CONTEXT.md)를 읽는다. 작업 브랜치의 승인·구현 상태와 main 상태를 구분한다.
+3. 해당 결정의 기획 owner, 실제 코드·씬·데이터·자산 consumer, 관련 열린 PR과 중첩을 확인한다. [문서 지도](docs/DOCUMENTATION_MAP.md)에서 필요한 owner만 찾는다.
+4. [채택 기록](docs/BASE_RULES_VERSION.md)과 [Base 계약](skills/PROJECT_BASE_ADAPTER.json)을 확인한 뒤 Base 최신 main과 적용되는 규칙·스킬·참조만 비교한다. 채택 lock 전체를 임의 교체하지 않는다.
 
-과거 채팅·Handoff·오래된 SHA·closed-unmerged PR을 current product truth로 사용하지 않는다. GitHub work-item 상태는 매번 fresh 조회한다.
+과거 대화·메모리·PDF·고정 SHA·phase·닫힌 미병합 PR은 현재 실행 권한이 아니다. 충돌은 최신 사용자 지시와 현재 승인 owner, 실제 파일·검증 증거로 판정한다. 실행 사실이 승인되지 않은 제품 변경의 권한을 만들지는 않는다.
 
-## 2. Current planning route
+## 승인과 실행
 
-현재 승인 상태와 exact 작업 순서의 복원 owner는 `docs/CURRENT_CONFIRMED_DECISIONS.md`와 `docs/ACTIVE_CONTEXT.md`다.
+- 새 변경은 의도·현재 상태·변경/보호 범위·방법·완료/검증 기준을 설명하고 승인받는다. 같은 승인 범위에서는 재질문·재계획을 반복하지 않는다.
+- 승인 범위 안에서 구현·필수 자산 연결·검증·교정·정본 갱신·허용된 정상 PR 병합·main 재확인까지 이어간다. 새 방향·범위·비용·보안·파괴적 작업은 별도로 확인한다.
+- 승인된 현재 게임 규칙·엔진·저장 호환성·자산은 보호한다. 제품 수치·전선 수·화면·아트 방향은 이 문서에 복제하지 않고 해당 결정 owner에서 읽는다.
+- 기존 구현·승인 자산·Base 재사용 사례를 먼저 본다. 새로운 판단에 필요한 공식 자료·벤치마크만 추가 조사한다. 조사·스킬·문서의 양을 완료 기준으로 삼지 않는다.
+- [공통 실행 계약](skills/SHARED_EXECUTION_CONTRACT.md)이 작업별 검토 예산과 증거 경계를 소유한다. 같은 승인 계보에서 전체 검토를 단계마다 초기화하지 않는다.
 
-```text
-CURRENT_ROUTE = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
-VISUAL_GENERATION = USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES
-IMPLEMENTATION_START = RESOLVE_FROM_CURRENT_DECISION_INDEX_AND_ACTIVE_CONTEXT
-RUNTIME_EVIDENCE = RESOLVE_FROM_ACTIVE_CONTEXT_AND_ACTUAL_EXECUTION
-```
+## 스킬과 검증
 
-이미 승인 owner가 존재하는 질문을 다시 열지 않는다. 각 개별 Decision owner 안의 과거 `CURRENT_NEXT / THEN` 블록은 **그 Decision 승인 당시의 local sequence**로 읽고 current router로 사용하지 않는다. 특정 구현 패킷이 승인되었다면 그 패킷의 명시 범위만 구현 권한으로 읽고, 프로젝트 전체 구현 권한으로 확대하지 않는다.
+[프로젝트 라우터](.agents/skills/omenward-workflow-router/SKILL.md)를 통해 필요한 스킬만 선택한다. 새 스킬·서버·대시보드는 기존 책임으로 해결되지 않는 독립 필요가 있을 때만 제안한다.
 
-## 3. Protected product identity
+- 기능·자동 검사, 실제 Godot 실행/화면, 기기·접근성, 사람 검수, 최종 자산 승인, 병합과 출시를 구분한다. 미실행은 NOT_RUN이다.
+- Godot 작업은 project.godot와 현재 편집기/실행 대상이 같은 프로젝트인지 확인하고 테스트 저장은 실사용 저장과 격리한다.
+- 플레이어 경험 변경은 [재미 검증 연결](docs/BASE_RULES_VERSION.md#재미-검증의-프로젝트-연결)을 따른다. 자동 검사·AI 판단으로 재미 통과를 선언하지 않는다. 사람 검수가 없어도 승인된 구현은 계속할 수 있다.
+- 이미지 제작은 현재 시각 owner·실제 consumer·규격부터 확인한다. 필요한 실제 이미지 도구로 제작하며 후보·승인·등록·런타임 연결·화면 검증을 구분한다. 투명 오브젝트는 크로마키 제작 후 배경 제거와 alpha 검수를 연결하고, Aseprite 사용 여부는 실제 작업대로 기록한다.
 
-```text
-ROULETTE_IDENTITY = PLAYER_CONSTRUCTED_PROBABILITY_ENGINE
-GAMBLING_FANTASY_POSITIONING = FORBIDDEN
-SCRIPTED_FAKE_NEAR_MISS = FORBIDDEN
-RNG_CAN_REMOVE_ALL_VALID_RESPONSES = FORBIDDEN
-FORECASTED_PRESSURE_MULTIPLE_RESPONSE_AXES_REQUIRED = TRUE
-AUTO_PRODUCTION_AND_TOKEN_SOURCE = SEPARATE_ACQUISITION_PATHS
-TOKEN_INSTANCES_PER_REEL_PER_ACTIVE_SOURCE = 1
-TOTAL_TOKEN_INSTANCES_PER_ACTIVE_SOURCE = 3
-THREE_REELS_TO_THREE_LANES_FIXED_MAPPING = FORBIDDEN
-IRREVERSIBLE_LANE_COMMITMENT = REQUIRED
-DANGER_STAGE_TYPE = REMOVED
-BOSS_STAGES = 5 / 10 / 15 / 20
-ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE
-PRESCRIPTIVE_NEXT_BUILD_COMMAND = FORBIDDEN
-RUN_COMMAND_SCREEN = PREPARE -> COMMIT -> BATTLE -> REVIEW
-```
+## 보호와 기록
 
-Player-facing core:
-
-```text
-징조 관측
-→ 건설 / 동원 인장 / 미래 병력 분포 설계
-→ 3×3 징조륜 결과 / 제한된 행·열 조작
-→ 병력 획득
-→ 세 전선 중 하나에 비가역 커밋
-→ 자동전투 + 제한된 수동 전술
-→ 인과 복기
-```
-
-## 4. Durable world / visual boundary
-
-```text
-PLAYER_ROLE = Omen Warden / 징조수호관
-ONE_MAPRUN = ONE_WARD_CITADEL + ONE_20_STAGE_OMEN_CYCLE
-PRESSURE_LANGUAGE = MASS / ARMORED / FLYING / INFILTRATION / SIEGE
-VEIL = 적 종족 하나가 아니라 현실과 겹쳐지는 적대적 경계 현상
-RUN_HISTORY_RESET = FALSE
-
-VISUAL_STYLE = STORYBOOK_WATERCOLOR_SD_TACTICAL_ILLUSTRATION
-UNIT_PROPORTION = 2.5_TO_3_HEAD_SD_TACTICAL_MINIATURE
-WORLD_TONE = FANTASY_WARD_CITADEL + MAGIC_WARFARE
-COMMANDER_ROLE_ANCHOR = LONG_COMMAND_FLAG
-BATTLEFIELD_PRESENTATION = ONE_SIMULTANEOUS_THREE_FRONT_STRATEGIC_MAP
-MAP_TOPOLOGY = ONE_WARD_CITADEL_ROOT__THREE_SHARED_FRONTS__ONE_VEIL_CITADEL_ROOT
-PARALLEL_THREE_LANE_COMPOSITION = FORBIDDEN
-FRONT_STRUCTURE = ONE_WARD_CITADEL_ROOT -> THREE_SHARED_FRONTS -> ONE_VEIL_CITADEL_ROOT
-ROUTE_STATE_GRAMMAR = WARD_CITADEL_HOME_BASE -> WARD_FORWARD_BASE -> CONTESTED_CLASH_ZONE -> VEIL_FORWARD_BASE -> VEIL_CITADEL_HOME_BASE
-PROJECT_CORE_SCENE_VISUAL_BOARD_SCOPE = STRATEGIC_MAP_ONLY__LOWER_UI_STORYBOARD_REMOVED
-THREE_FRONT_VISIBILITY = REQUIRED
-PER_FRONT_MINIMAP = ABSORBED_INTO_PRIMARY_STRATEGIC_MAP
-MINIMAP_IS_CONTEXT_NOT_SECOND_BATTLEFIELD = TRUE
-NORMAL_COMBAT_UNIT_RULE = SILHOUETTE_FIRST
-ROULETTE_EXPOSURE = 3×3
-LOWER_CONTROL_DECK = FOCUS_ADAPTIVE_COMPACT
-```
-
-2026-08-25 이전의 `ANIME_PIXEL_ART + CLEAN_PIXEL_ART`, 긴 3전선 도로 전체표시, 미니맵 비요구 표현은 current Decision이 해당 범위에서 supersede한다. 세 전선 **동시 가독성** 자체와 전장-primary / 하단-secondary, 병종 역할 실루엣 원칙은 유지한다.
-
-Visual 작업은 current Decision index에서 active visual owner를 복원한다. 현재 전장 map/style owner는 `OMW-VISUAL-20260828-STORYBOOK-SD-THREE-FRONT-STRATEGIC-MAP-01` 및 `docs/superpowers/specs/2026-08-28-storybook-sd-three-front-strategic-map-design.md`다. 지도 topology는 Ward/Veil 양측 각각 단일 본진과 세 shared front이며, 병렬 3-lane 또는 독립 Ward/Veil 본진 여러 개는 금지한다. map-only board에서 roulette/storyboard는 제외하지만 roulette system 자체는 retained다. 2026-08-25 Decision의 동시 전선 책임은 유지하고, 2026-08-28 close-backdrop Decision은 3×3 inspection만 retained한다. 새 target runtime asset은 Phase 2 Issue·RED test·provenance review 전까지 생성·적용하지 않는다.
-
-## 5. Runtime / evidence ceiling
-
-현재 runtime·UI·human/player evidence 상태는 `docs/ACTIVE_CONTEXT.md`와 actual execution evidence에서 읽는다.
-
-- 과거 exact evidence가 존재해도 current replan/runtime PASS로 자동 승격하지 않는다.
-- file/Scene/resource 존재만으로 runtime 동작을 주장하지 않는다.
-- runtime/human 검증을 실행하지 않았으면 `NOT_RUN / UNVERIFIED`를 유지한다.
-- 최종 제품 수치는 simulation/runtime/human evidence 없이 확정하지 않는다.
-- 전선별 미니맵 가독성과 SD 병종의 실제 전투 가독성은 runtime/human 검증 전 `NOT_RUN`이다.
-
-## 6. GitHub work-item boundary
-
-```text
-CURRENT_OPEN_PRS_AND_ISSUES = FRESH_GITHUB_QUERY_REQUIRED
-```
-
-- open/draft PR은 Base 규칙대로 기본 read-only.
-- closed-unmerged branch 내용을 current product truth로 사용하지 않는다.
-- 과거 runtime execution Issue/PR은 future implementation 때 fresh main + current Decisions + actual runtime과 재대조한다.
-
-## 7. Repository-only authority
-
-- Repository: 사람이 보는 전체 그림, Flow, 비교표, Visual/Story/Work Plan과 Markdown/JSON/code/data/scene/resource/test/runtime evidence를 함께 소유한다.
-- Notion: `RETIRED`; 기존 기록은 삭제하지 않지만 future read/write와 destination readback을 하지 않는다.
-- 의미 변경 Decision은 relevant repository owner와 GitHub PR readback에만 동기화한다.
-- Google Sheet와 Notion은 migration/history compatibility input이며 current human authority가 아니다.
-
-## 8. Platform / release / asset-rights durable routing
-
-플랫폼·출시·자산 권리는 current visual/planning next gate와 별개의 durable product boundary다. 제출·등급·권리 PASS를 추정하지 않는다.
-
-- `docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md`
-- `docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md`
-- `docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md`
-- `docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md`
-
-```text
-PC / Steam = COMMITTED_PRIMARY
-Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR
-STOVE = SECONDARY_RELEASE_CANDIDATE
-```
-
-actual release/submission/compliance 상태는 위 owner와 current evidence에서 읽는다. 아트·오디오·폰트·외부 라이브러리·AI 산출물·외주물은 provenance/상업 이용/배포/원본 재배포/참조 독립성 기록을 확인한 뒤 제품 자산으로 승격한다.
-
-## 9. Historical compatibility markers
-
-과거 approval/runtime marker는 historical owner에 보존하고 이 영구 adapter에 live 상태로 복제하지 않는다.
-
-retained repository change 뒤에는 Base current `POST_CHANGE_MONITOR_LOOP`와 최소 5회 full-scope adversarial review를 수행한다. `NOT_RUN`을 PASS로 승격하지 않는다.
+- 사용자 변경·다른 작업 폴더·열린 PR은 보호한다. 다른 PR의 수정·병합은 해당 범위의 명시적 권한이 있을 때만 한다. 강제 push나 보호 규칙 우회는 하지 않는다.
+- 오래된 이름만으로 삭제하지 않는다. 사용처·폐기 근거를 확인한 정리 대상은 복구 정보와 함께 삭제 검토 폴더로 모아 링크를 준다. 사용자가 직접 삭제한다.
+- 설치 플러그인·전역 설정·외부 서비스를 임의 변경하지 않는다.
+- [저장소 정본 정책](docs/process/APPROVED_OMENWARD_REPOSITORY_ONLY_CANON_AND_NOTION_RETIREMENT_2026-08-28.md)을 유지한다. Notion은 RETIRED로 미래 read/write를 하지 않으며 Sheet는 역사 호환 자료이지 현재 기획 owner가 아니다.
+- 플랫폼·출시·권리는 [플랫폼 승인](docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md), [기존 프로필](docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md), [자산 권리 기록](docs/ASSET_RIGHTS_AND_PROVENANCE_RECORD.md), [출시 근거](docs/GAME_RELEASE_COMPLIANCE_EVIDENCE_PACK.md)를 따른다.
+- 진행·다음 작업·근거는 기존 Active Context/책임 원본에 짧게 누적한다. 작업일지는 날짜별로 기존 월간 문서에 추가하며 매 작업마다 별도 PDF를 만들지 않는다.
+- 완료보고는 달라진 점·이유·검증 결과·시험 방법·남은 위험 중심으로 작성한다. 문서만 바꾼 경우 게임 실행 완료로 보고하지 않는다.

@@ -110,8 +110,8 @@ class CurrentCanonReconciliationTests(unittest.TestCase):
             self.assertIn(CURRENT_IMAGE_POLICY, text, relative)
 
         agents = read("AGENTS.md")
-        self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
-        self.assertIn("current_context: docs/ACTIVE_CONTEXT.md", agents)
+        self.assertIn("docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
+        self.assertIn("docs/ACTIVE_CONTEXT.md", agents)
         self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
 
     def test_north_star_lineage_is_retained_but_current_visual_override_routes_new_owner(self) -> None:

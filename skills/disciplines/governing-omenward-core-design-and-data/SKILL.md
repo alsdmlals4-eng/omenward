@@ -1,29 +1,27 @@
-# Omenward Core Design and Data
+---
+name: governing-omenward-core-design-and-data
+description: Use when changing OMENWARD game rules, unit roles, balance or structured game data.
+---
 
-Skill ID: `discipline.omenward-core-design`
+# OMENWARD Core Design and Data
 
-`skills/SHARED_EXECUTION_CONTRACT.md`를 따른다.
+현재 등록 ID: `omenward-core-design`; 역사 호환 ID: `discipline.omenward-core-design`.
+[공통 계약](../../SHARED_EXECUTION_CONTRACT.md)을 따른다.
 
 ## 사용 조건
-핵심 코어, 3개 레인, 건설 노드, 룰렛, 병종, 자동전투 규칙, 밸런스, 데이터 계약을 기획·수정·검토할 때 사용한다.
-
+게임 규칙·병종·성장·경제·밸런스·데이터 계약에 적용한다.
 ## 사용하지 않는 조건
-순수 Godot 코드 수정, 화면 가독성 검증, 에셋 제작만 수행할 때는 주 Skill로 사용하지 않는다.
-
+순수 코드 정리·아트 제작은 해당 전문 스킬로 보낸다.
 ## 고유 책임
-예고된 위협을 읽고 제한된 건설 노드로 확률을 바꾸고 룰렛 보상을 받아 레인에 배치한 뒤 자동전투 결과와 실패 원인이 다음 선택으로 이어지는 코어 루프를 보존한다. 규칙·수치·데이터 정본 사이의 충돌을 차단한다.
-
+현재 Decision/GDD와 실제 데이터의 의미를 연결한다. 전선 수·건설 방식·수치·기획 단계는 여기서 고정하지 않는다.
 ## 입력
-`docs/PROJECT_CORE.md`, 현재 승인 기획서, 데이터 정의, 관련 Issue·PR, 실제 구현 상태.
-
+docs/CURRENT_CONFIRMED_DECISIONS.md → 해당 승인 owner, docs/OMENWARD_GDD_CURRENT_CANON.md, 실제 데이터·consumer·테스트.
 ## 절차
-1. 변경이 코어 루프의 어느 선택과 피드백을 바꾸는지 명시한다.
-2. 규칙, 데이터 필드, 예외, 성공·실패 조건을 하나의 계약으로 정리한다.
-3. C1~C4 검증 게이트와 플레이어 경험 영향을 연결한다.
-4. 승인 전에는 구현 사실로 기록하지 않는다.
-
+1. 변경 기능 ID와 경험 원본의 path/section, 입력·상태·규칙·선택·결과·실패 조건을 기존 Spec에 연결한다.
+2. [재미 검증 연결](../../../docs/BASE_RULES_VERSION.md#재미-검증의-프로젝트-연결)을 적용해 가설과 반증을 정한다. 기준 없는 수치는 HYPOTHESIS로 둔다.
+3. 기존 구현·유효한 조사부터 재사용하고 새 판단만 필요한 공식 자료/벤치마크와 ADOPT/ADAPT/REJECT로 비교한다.
+4. 실제 consumer가 없으면 PLANNED, 필요한 사람 경험은 NOT_RUN으로 구분한다. 규칙 효과의 권위와 UI/아트 표현을 분리한다.
 ## 출력
-변경된 규칙 계약, 영향받는 정본 파일, 검증 항목, 미결정 사항, 롤백 기준.
-
+기존 owner에 규칙·데이터·consumer·성공/실패/중단 기준과 최소 검증·교정 방향을 연결한다. 별도 재미 문서나 스킬을 만들지 않는다.
 ## 고유 검수
-세 레인·룰렛·건설 노드·병종 배치·자동전투·실패 원인 피드백 중 하나라도 끊기거나 중복 정본이 생기면 실패다.
+오래된 스킬 예시로 현재 결정을 되돌리거나, 구현 사실만으로 새 규칙을 승인하거나, 데이터와 표현 코드가 규칙을 이중 소유하면 실패다.
