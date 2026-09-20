@@ -16,6 +16,8 @@
 
 Ruling: 기존 접수와 구현 계획을 실행 기록으로 재사용한다. 별도 ledger/PDF를 만드는 일반 스킬 관례보다 사용자 요청의 기존 정본 누적을 우선한다. 이번 계약의 검토는 전체 최대2회에서 공유하고 이전 운영 계약의 완료 검토를 재실행하지 않는다.
 
+검증: 기존 실패를 재현한 뒤 준비 범위·PDF 분류 집중/회귀 62개 PASS, Git diff whitespace PASS. 독립 검토 1/2에서 작은 기존 운영 변경이 새 모드에 먼저 포착되는 P2를 발견했다. 기존 허용 모드 우선순위를 보존하고 동일 반례 RED→GREEN, 63개 회귀 PASS로 교정한다. PDF 데이터는 변경하지 않는다. 후속 첫 맵 검토의 코드·화면·결과는 BUILD 브랜치의 기존 visible-battle 계획에 기록한다. 루트의 사용자 미커밋 command Blueprint와 후보/미등록 PDF는 스테이징하지 않는다.
+
 ```yaml
 decision_id: OMW-PLAN-20260910-RESTART-01
 status: CORE_RETAINED__SYSTEM_SCREEN_ART_REDESIGN_RESEARCH_ACTIVE

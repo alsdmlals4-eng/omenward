@@ -10,6 +10,9 @@ ANCHORS = ['docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md',
 
 
 class ReplanIntegrationScopeTests(unittest.TestCase):
+    def test_existing_lean_subset_keeps_its_original_contract(self):
+        self.assertEqual(validate_canon_freshness_scope({"AGENTS.md", "docs/BASE_RULES_VERSION.md"}), [])
+
     def test_exact_candidate_can_be_reviewed_with_authority_anchors(self):
         self.assertEqual([], validate_canon_freshness_scope(ANCHORS + [
             'docs/images/candidates/blueprint-20260911/ward-roster.png']))
