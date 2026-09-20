@@ -52,5 +52,21 @@ class ScopeTests(unittest.TestCase):
         errors = ['Protected-path changes detected: scripts/replan/front_run.gd, addons/gut/plugin.gd']
         self.assertEqual(errors, self.module.unresolved(errors))
 
+    def test_governance_ci_consumer_only_is_allowed(self):
+        self.assertEqual([], self.module.unapproved(['.github/workflows/validate-project-base-adapter.yml']))
+        for path in ['skills/unrelated.json', '.github/workflows/other.yml', 'assets/new.png']:
+            self.assertEqual([path], self.module.unapproved([path]))
+
+    def test_project_projection_retains_unrelated_errors_and_baseline(self):
+        from unittest.mock import Mock, patch
+        contract = Mock()
+        contract.validation_errors.return_value = ['hash mismatch', 'Generated artifact mismatch: other']
+        with patch.object(self.module, 'selected_source_errors', return_value=[]):
+            errors = self.module.project_validation_errors(contract, ROOT, 'trusted-base')
+        self.assertEqual(errors, contract.validation_errors.return_value)
+        contract.validation_errors.assert_called_once_with(ROOT, ROOT, check_generated=True,
+                                                          protected_base='trusted-base')
+        self.assertEqual(contract._project_router.__name__, 'project_router')
+
 if __name__ == '__main__':
     unittest.main()

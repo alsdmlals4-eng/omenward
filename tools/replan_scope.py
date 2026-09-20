@@ -2,11 +2,14 @@
 from __future__ import annotations
 import argparse
 import importlib
+import json
 from pathlib import Path
 import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'tools'))
+from project_operating import project_router, selected_source_errors
 APPROVAL = 'docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md'
 # Exact files only: adding a sibling module requires a reviewed scope amendment.
 ALLOWED = {
@@ -58,6 +61,7 @@ ALLOWED = {
     'tools/validate_replan_slice.ps1', 'tools/replan_scope.py', 'tests/test_replan_scope.py',
     '.github/workflows/validate-base-v9-adoption.yml',
     '.github/workflows/validate-active-integrated-contract-v4-4.yml',
+    '.github/workflows/validate-project-base-adapter.yml',
 }
 
 def unapproved(paths):
@@ -74,24 +78,36 @@ def unresolved(errors):
         remaining.append(error)
     return remaining
 
+def project_validation_errors(module, base, protected_base=''):
+    adapter = json.loads((ROOT / 'skills/PROJECT_BASE_ADAPTER.json').read_text(encoding='utf-8'))
+    module._project_router = project_router
+    return selected_source_errors(adapter, base) + module.validation_errors(
+        ROOT, base, check_generated=True, protected_base=protected_base)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base-repository', type=Path)
+    parser.add_argument('--base-tools', type=Path)
+    parser.add_argument('--protected-base', default='')
     parser.add_argument('--base', help='Git comparison base for the scoped PR check')
     args = parser.parse_args()
     if not (ROOT / APPROVAL).is_file():
         parser.error('Missing project approval owner')
     if args.base_repository:
         # Execute the unchanged pinned validator including locks/schema/authority checks.
-        sys.path.insert(0, str(args.base_repository.resolve() / 'tools'))
+        base_tools = args.base_tools or (args.base_repository.resolve() / 'tools')
+        sys.path.insert(0, str(base_tools.resolve()))
         module = importlib.import_module('project_operating_contract')
         release = importlib.import_module('base_release_index')
         release.install_release_lock_paths(module)
-        errors = module.validation_errors(ROOT, args.base_repository.resolve(), check_generated=True)
+        errors = module.validation_errors(ROOT, args.base_repository.resolve(), check_generated=True,
+                                          protected_base=args.protected_base)
         print('BASE_RAW_RESULT:', 'FAIL' if errors else 'PASS')
         for error in errors:
             print('BASE:', error)
-        pending = unresolved(errors)
+        projected = project_validation_errors(module, args.base_repository.resolve(), args.protected_base)
+        pending = unresolved(projected)
         if pending:
             print('PROJECT_SCOPED_BUILD: FAIL', pending)
             return 1

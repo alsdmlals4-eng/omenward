@@ -76,16 +76,12 @@ jobs:
 
       - name: Check generated operating artifacts
         run: |
-          python tools/project_operating.py --base-tools .base-contract/tools \
-            --project-root . \
+          python tools/replan_scope.py --base-tools .base-contract/tools \
             --base-repository .base-contract \
-            --protected-base "$PROTECTED_BASE_SHA" \
-            --check
+            --protected-base "$PROTECTED_BASE_SHA"
 
       - name: Validate adapter against trusted protected baseline
         run: |
-          python tools/project_operating.py --base-tools .base-contract/tools \
-            --project-root . \
+          python tools/replan_scope.py --base-tools .base-contract/tools \
             --base-repository .base-contract \
-            --protected-base "$PROTECTED_BASE_SHA" \
-            --check
+            --protected-base "$PROTECTED_BASE_SHA"
