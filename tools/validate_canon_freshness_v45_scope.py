@@ -754,6 +754,7 @@ LEAN_OPERATING_ALLOWED_FILES = {
     "tests/python/test_project_base_adapter_freshness.py",
     "tests/python/test_quality_guardrails_elite_boss_cadence.py",
     "tests/test_base_v942_planning_first_adoption.py", "tests/test_base_v9_adoption.py",
+    "tests/test_base_v94_ai_operations_adoption.py",
 }
 LEAN_OPERATING_REQUIRED = {"AGENTS.md", "docs/BASE_RULES_VERSION.md"}
 

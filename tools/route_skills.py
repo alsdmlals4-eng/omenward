@@ -65,7 +65,10 @@ def load_registry(path):
 def route_current(request,registry,forced_mode=None,forced_skills=None):
  """Select available routes, not implicit legacy dependencies or approval grants."""
  root=pathlib.Path(registry['_registry_path']).parent.parent
- from validate_skill_system import validate
+ if __package__:
+  from .validate_skill_system import validate
+ else:
+  from validate_skill_system import validate
  errors=validate(pathlib.Path(registry['_registry_path']),root)
  if errors:raise ValueError('; '.join(errors))
  adapter=load_registry(root/'skills/PROJECT_BASE_ADAPTER.json')

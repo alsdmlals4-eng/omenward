@@ -27,7 +27,10 @@ def validate(path,root=ROOT):
   try:
    a=json.loads((root/'skills/PROJECT_BASE_ADAPTER.json').read_text(encoding='utf-8'))
    snap=json.loads((root/'skills/PROJECT_SKILL_SNAPSHOT.json').read_text(encoding='utf-8'))
-   from project_operating import selected_source_errors
+   if __package__:
+    from .project_operating import selected_source_errors
+   else:
+    from project_operating import selected_source_errors
    e.extend(selected_source_errors(a))
    expected={}
    for source,key in [('BASE_SHARED','base_routes'),('PROJECT_LOCAL','project_routes')]:

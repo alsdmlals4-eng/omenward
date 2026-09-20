@@ -57,7 +57,7 @@
 1. 최신 main에서 별도 작업 폴더, dirty 사용자 파일/타 PR 보호 — 확인.
 2. 기존 router의 legacy 기본 로드와 과도한 REVIEW stack을 테스트로 재현 — RED 확인.
 3. AGENTS/공통 계약/4개 스킬/adapter/CLI/검사를 함께 교정하고 생성 view 갱신 — 완료.
-4. 1차 독립 full-scope 검토 완료: 생성기/CI 불일치(P1), 선택 source 검증·영어 trigger 오분류(P2) 교정. 2차 독립 full-scope 검토 — 대기.
+4. full-scope 독립 검토 2/2 완료. 1차: 생성기/CI 불일치(P1), 선택 source 검증·영어 trigger 오분류(P2) 교정. 2차: 07c30fa4 기준 P0/P1/P2 지적 0건. 이후에는 해당 finding/CI 경로의 교정·회귀만 수행하며 전체 예산을 재시작하지 않는다.
 5. 정상 PR 검사/병합/main readback, 승인된 작업 브랜치의 운영 파일만 동기화 — 대기.
 
 Ruling: 승인된 적용안을 이 기존 채택 기록에 계획/진행으로 누적한다. 별도 Plan/ledger/PDF를 늘리는 일반 스킬 관례보다 사용자의 기존 정본 누적 요청을 따른다. 보호된 게임·자산 경로는 변경하지 않는다.
@@ -65,6 +65,8 @@ Ruling: 승인된 적용안을 이 기존 채택 기록에 계획/진행으로 �
 검증 기록(2026-09-20): Python 전체 569개, 실패/오류/skip 0; released 채택 검사 11개 통과; 현재 router 반례 10개 통과; Project Core 문서 및 프로젝트 특화 Base 계약 검사 통과. 첫 실행의 UTF-8 출력 오류는 이번 프로세스의 -X utf8로 분리했다. Registry의 raw hash는 약화하지 않고 해당 파일에만 LF checkout을 명시했다. 독립 baseline/forward-test는 옛 read order·리뷰 중복·고정 건설 노드·alpha/저장 보호 누락을 확인했으며, 교정 후 남은 UX 고정 질문을 현재 가설 기반으로 바꿨다.
 
 기존 CI backend bfdc9e44의 Windows raw-byte health 검사에서는 CRLF checkout 때문에 Sheet 역사 증거 hash가 불일치했다. 최신 프로젝트 검증 backend 19355b7e는 Git canonical bytes를 사용해 통과한다. Linux CI backend의 실제 결과는 PR에서 별도 확인한다. 역사 증거를 현재 Sheet 권한으로 승격하거나 hash를 덮어쓰지 않는다.
+
+PR #260 첫 원격 검사에서 단독 test module 실행 시 Python sibling import 실패를 확인했다. 전체 discovery가 먼저 sys.path를 추가해 가리던 결함이며 단독 실행 RED→package/CLI 양쪽 import 교정→19개 통과로 확인했다. 별도 tests/ 루트 검사 22개도 실행해 v9.4.0을 요구하던 낡은 released 기대값을 현재 v9.4.3으로 교정했다. router 원본 경로 표시는 생성 source에서 보충했다. 게임·기기·사람 평가 및 과거 기록 정리의 제외 판단은 유지하며 기존 문제를 새 게임 결함으로 꾸미지 않는다.
 
 ## 검사와 복구
 

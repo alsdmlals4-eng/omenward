@@ -14,3 +14,5 @@ AGENTS.md의 current-authority read order를 따른다. docs/BASE_RULES_VERSION.
 
 선택은 실행 승인이 아니다. adapter/effective snapshot과 current registry만 사용하며 과거 docs/base registry는 명시 호환 검사 전용이다. Base 원문을 복사하지 않는다.
 이 파일은 adapter.shared_overrides의 router_body에서 tools/project_operating.py가 생성한다. 직접 편집하지 않는다.
+
+기계 정본: skills/PROJECT_BASE_ADAPTER.json, skills/PROJECT_SKILL_SNAPSHOT.json, skills/SKILL_REGISTRY.json.
