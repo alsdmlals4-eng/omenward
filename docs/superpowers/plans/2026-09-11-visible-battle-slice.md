@@ -613,3 +613,7 @@ Order: (1) model/save RED tests for isolation/capture/towers/dispatch/roundtrip/
 Godot4.7.1 `tools/validate_replan_slice.ps1` 전체 local gate PASS(모델, 저장59, 화면, 기본씬). Python 기획 관련63개와 BUILD exact scope9개 PASS. GPU `--first-map-only`는 병영1개/초기120G에서 정상40G 지불, 정상 무료 징조, 적은 아군 수 전선으로 실제 배치, 실제 마우스 확대/버튼 복귀, 재정비2회 후 3라운드 본진 점령으로 끝났다. 251G/아군 본진1000; 회복·특화·다른 정책 또는 모든 맵 성공 근거는 아니다. 화면은 `output/front-first-map-prepare.png`, `front-overview.png`, `front-inspection.png`, `front-first-map-refit.png`, `front-first-map-result.png`. capture의 UI 갱신 지연은 촬영 전 기존 refresh 호출로 보정했으며 제품 UI를 우회해 규칙을 바꾸지 않았다.
 
 독립 검토1/2: 준비 모드가 작은 운영-only 변경을 가로채는 P2 발견 → 부모8810ae00에서 기존 모드 우선순위 보존, 동일반례 RED→GREEN. 그 외 제품 수치/저장/승인 자산 변경 없음. 사람 재미·접근성·기기·최종아트·전체캠페인·release NOT_RUN. 실제 원본 Base 보호경로 FAIL9개와 승인된 PROJECT_SCOPED_BUILD PASS를 함께 유지한다.
+
+마감 readback(2026-09-20): 독립 검토자의 한정 재확인에서 기존 운영-only 허용/누락 intake 거절/제품 경로 거절 5개 PASS로 finding 해결. 부모 PR258 `8810ae00` 원격10 PASS/1조건부SKIP. 첫 Linux Godot import 종료가 native double-free(134)로 실패했으며 같은 HEAD 실패 작업을1회 재실행해 PASS(35505734755 attempt2); 원인을 영구 수정한 것은 아니다. BUILD PR259 `e5a5bb92` 원격6 PASS(기존5개 workflow + adapter1개), 로컬=origin 확인. 두 PR은 Draft 유지; main `90493888` 그대로. GitHub 병합·전체게임 완료로 표현하지 않는다.
+
+기록/정리: 기존 `C:/Users/user/Documents/증빙서류/9월 증빙서류/OMENWARD_원본근거/README.md`에 당일 수행·입력 한계·커밋·검증·실패 이력을 추가했다. 이번에는 PDF 재발행 없이 원본만 누적하며 다음 월간 발행 대기다. 새 저장 테스트2폴더40파일은 SHA256 대조 후 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/first-map-review-20260920`에 복구 manifest와 함께 이동했다. 실사용 저장·기존 사용자 파일·27개 addon import 변경은 보존; 직접 삭제 없음.
