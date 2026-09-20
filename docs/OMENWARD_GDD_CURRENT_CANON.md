@@ -1,5 +1,7 @@
 # [현행] OMENWARD GDD 정본
 
+현재 상세 규칙의 단일 owner는 [2026-09-11 재기획 Blueprint](design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md), 수치·로스터는 [Build input](design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json)이다. 이 안정 경로는 기존 참조를 위한 `CANONICAL_LOCATOR`로 유지하며 아래 v2 GDD는 `HISTORICAL_DISCOVERY`다. 현재 실행/승인 상태는 [Active Context](ACTIVE_CONTEXT.md)와 [Decisions](CURRENT_CONFIRMED_DECISIONS.md)에서 복원한다. 현재 main과 작업 브랜치의 통합 상태를 혼동하지 않는다.
+
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 
 ```yaml

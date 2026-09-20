@@ -2,7 +2,7 @@
 
 한국어를 쓰는 1인 개발자와 협업한다. 결과부터 설명하고 중요한 변경은 이유·작동 방식·직접 시험하는 방법을 알려준다.
 
-이 작업 브랜치의 재기획 범위는 현재 Decisions와 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`에서 복원한다. 이전 제품값은 역사/비교 자료이며 이번 운영 변경은 기획·자산 승인을 바꾸지 않는다.
+이 작업 브랜치의 재기획·UI/모션 구현 범위는 현재 Decisions와 `docs/process/APPROVED_REPLAN_UI_MOTION_BUILD_SCOPE_20260911.md`에서 복원한다. 원본 Base 판정과 승인 범위별 PROJECT_SCOPED_BUILD를 구분하며, 이번 운영 변경은 게임·저장·자산 승인을 바꾸지 않는다.
 
 채택 planning 계약: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8.
 이미지 제작 권한 표식: USER_AUTHORIZED_AUTONOMOUS_REQUIRED_IMAGES. 실제 범위와 최종 승인은 현재 Decision에서 확인한다.
@@ -36,6 +36,7 @@
 - 이미지 제작은 현재 시각 owner·실제 consumer·규격부터 확인한다. 필요한 실제 이미지 도구로 제작하며 후보·승인·등록·런타임 연결·화면 검증을 구분한다. 투명 오브젝트는 크로마키 제작 후 배경 제거와 alpha 검수를 연결하고, Aseprite 사용 여부는 실제 작업대로 기록한다.
 
 ## 보호와 기록
+
 - 사용자 변경·다른 작업 폴더·열린 PR은 보호한다. 다른 PR의 수정·병합은 해당 범위의 명시적 권한이 있을 때만 한다. 강제 push나 보호 규칙 우회는 하지 않는다.
 - 오래된 이름만으로 삭제하지 않는다. 사용처·폐기 근거를 확인한 정리 대상은 복구 정보와 함께 삭제 검토 폴더로 모아 링크를 준다. 사용자가 직접 삭제한다.
 - 설치 플러그인·전역 설정·외부 서비스를 임의 변경하지 않는다.

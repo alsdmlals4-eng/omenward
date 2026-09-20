@@ -1,8 +1,10 @@
 {
   "status": "REVIEW_EDITION_NOT_FINAL_IMPLEMENTATION_READY",
   "scope": "기획 최종 검토용. 수치는 권장 구현 초깃값이며 밸런스 검증값 아님. 제품 구현은 최종 승인 후.",
+  "front_layout": {"profile":"three_v1","count":3,"point_position":50,"base_ownership":"shared","default_view":"overview","legacy_profile":"single_v1","wave_allocation":"round_robin_preserve_total"},
+  "capture_rules": {"radius":3,"claim_seconds":8,"max_contributors":2,"decay_per_second":0.1,"point_positions":[25,50,75]},
   "maps": [
-    {"id":"ward_citadel","name":"수호 성채","rounds":10,"theme":"황금빛 성채 외곽","pressure":1.0,"lesson":"전열 유지와 후열 보호"},
+    {"id":"ward_citadel","name":"수호 성채","rounds":10,"theme":"황금빛 성채 외곽","pressure":0.4,"lesson":"전열 유지와 후열 보호"},
     {"id":"ward_forward","name":"수호 전진지","rounds":10,"theme":"푸른 군기와 보급로","pressure":1.12,"lesson":"돌파 대응과 점령 투자"},
     {"id":"contested","name":"접전지","rounds":10,"theme":"금빛과 자색의 경계","pressure":1.24,"lesson":"밀집 공세와 편성 전환"},
     {"id":"veil_forward","name":"장막 전진지","rounds":11,"theme":"침식된 평야","pressure":1.36,"lesson":"유지 지원과 집중 공격"},
@@ -37,6 +39,8 @@
   ],
   "unit_families":{"general":["shield_guard","greatsword_warrior","spear_guard","archer","cavalry"],"special":["mage","priest","assassin","flying","giant"]},
   "progression_status":"RECOMMENDED_DETAILS_USER_CONFIRMED_SEPARATE_GENERAL_SPECIAL",
+  "facility_progression":{"specialization_round":2,"capstone_round":6,"capstone_cost_multiplier":1.25},
+  "capstone_rules":{"spear_range":1.8,"priest_heal":15,"archer_focus_multiplier":1.35,"mage_target_limit":5,"giant_structure_multiplier":1.7,"shield_stun_multiplier":0.5,"cavalry_guard_seconds":2,"cavalry_damage_multiplier":0.85,"assassin_guard_seconds":1,"assassin_ranged_multiplier":0.75,"flying_opening_multiplier":1.3,"flying_reengage_seconds":8,"blade_armor_reduction":10,"blade_armor_seconds":2},
   "building_tree":[
     ["barracks",null,1,"병영","shield_guard",40],
     ["shield_hall","barracks",2,"방패병 훈련소","shield_guard",50],
@@ -63,6 +67,7 @@
     ["flying","천공창기병","첫 교전 타격 1.3배; 재교전 8초 이후 재준비"],
     ["giant","파성거인","구조물 피해 배수 1.5에서 1.7로 증가"]
   ],
+  "grade_proc_rules":{"archer_every":5,"archer_multiplier":0.5,"archer_behind_range":1.0,"spear_slow":0.3,"spear_slow_seconds":1.0,"spear_counter_seconds":6.0},
   "unit_progression":[
     ["shield_guard",1,"방패 자세: 정면 원거리 피해 25% 감소","방패 밀기: 매 4회 기본타 적 1체 0.3초 경직","수호선: 8초마다 인접 아군 1체에 20 보호막/3초","갑각 방어 / 매 4타 충격 / 인접 개체 보호"],
     ["archer",2,"공중 표적 우선 단일 사격","조준: 같은 표적 연속 3타째 피해 +25%","관통 화살: 매 5타 뒤쪽 적 1체에 50% 피해","가시 사출 / 집중 가시 / 관통 가시"],
@@ -89,7 +94,7 @@
     "F":[["giant",1],["shield_guard",3]]
   },
   "wave_cycle": ["A","A","B","A","C","D","B","E","F","E","D","F"],
-  "economy": {"starting_gold":120,"starting_capacity":18,"queue_capacity":24,"paid_spin":20,"free_spins_per_round":1,"round_seconds":60,"wave_times":[5,22,40],"base_gold_per_round":15,"point_gold_per_round":4,"heal_coefficient":0.6,"upgrade_multiplier":1.25},
+  "economy": {"starting_gold":120,"starting_capacity":18,"logistics_capacity_bonus":6,"queue_capacity":24,"paid_spin":20,"free_spins_per_round":1,"round_seconds":60,"wave_times":[5,22,40],"base_gold_per_round":15,"point_gold_per_round":4,"heal_coefficient":0.6,"upgrade_multiplier":1.25},
   "sources": [
     ["Slotbound","https://store.steampowered.com/app/4459590/","확률 소환 비교 / 흡수·잭팟 구원 복제 제외"],
     ["Commander Quest","https://flywaygames.com/en/game/commander-quest","편성·전장 시너지 참고"],

@@ -103,6 +103,10 @@ jobs:
       - name: Enforce bounded non-product planning scope
         if: github.event_name == 'pull_request'
         run: |
+          if python tools/replan_scope.py --base "origin/${GITHUB_BASE_REF}"; then
+            python tests/test_replan_scope.py
+            exit 0
+          fi
           if python tools/validate_canon_freshness_v45_scope.py \
             --base "origin/${GITHUB_BASE_REF}" \
             --head HEAD; then

@@ -1,0 +1,78 @@
+# Approved project-local replan BUILD scope
+
+2026-09-20 approved governance synchronization (#260 and its post-merge correction): preserve every game/save/asset change in this Draft branch. The released v9.4.3 lock and protected baseline remain unchanged; only the approved operating adapter, router, skills and their tests follow main. This supersedes the older no-adapter-edit wording only for that governance adoption. Add exact `.github/workflows/validate-project-base-adapter.yml` to the scoped consumer list (not other workflows/skills/assets). The CI forwards the trusted base revision unchanged. `replan_scope.py` first reports the unchanged BASE_RAW_RESULT, then applies the same `project_operating.project_router` generated projection and selected-source validation. Only the existing exact approved protected-path diagnostic is resolved; hash/schema/lock/other generated errors still block. Never label PROJECT_SCOPED_BUILD as raw Base, game, Human or main PASS. Existing 2/2 governance review budget is shared; older five-pass histories are not a new minimum.
+
+2026-09-14 P03 continuation adds exact `output/front-demolition.png` for the existing facility confirmation UI consumer and `output/front-tier3.png` for the T3 purchase/production runtime fixture. Same approved model/screen/save/tests support sparse slot retention, no-refund demolition and birth-bound T3 effects. These are real runtime screenshots, not newly generated art or final UI/Human approval. No wildcard, addon, Base lock, external editor, player-save, or main boundary change.
+
+2026-09-14 user approved the presented P00–P09 sequence (좋아 권장안대로 작업진행해). First exact P00/P01 amendment: docs/DOCUMENT_LIFECYCLE_REGISTRY.md, docs/DOCUMENTATION_MAP.md, docs/OMENWARD_GDD_CURRENT_CANON.md, docs/PROJECT_CORE.md; scripts/replan/front_save.gd/.uid and tests/replan_save_test.gd/.uid. Existing model/screen/tests/validator remain in scope. This adds save readback/backup without changing old run rules; fixed clock follows as a separate verified increment. No wildcard, lock, registry snapshot, raw Base validator or addon edits. Preserve historical sources and unvalidated player files; a failed save must not destroy the last valid save.
+
+Shared status continuation: existing front_run/front_screen/model and screen tests implement Blueprint nonstack barrier, strongest independently expiring slows, interrupt+1s immunity, veteran shield/cavalry/mage and priest cleanse/elite overheal. Optional validated save fields; same next-map reset. Exact output/front-status.png is a labeled test-composition GPU consumer, not ordinary acquisition or new artwork. No lock, player save, final art or main boundary change.
+
+Transparent Ward/facility continuation adds exact ward-roster-alpha.png, ward-special-alpha.png, building-tree-alpha.png under existing blueprint candidate directory and tests/test_ward_cutout.py. Reuse user-approved RGB-preserving local extraction; no source overwrite, final art promotion, new motion claim or Base lock change. Facility consumer splits at reviewed y407 gutter to avoid chapel spire contamination.
+
+Survival progression continuation in same model/UI/tests: optional survived/focus fields,2/5 grade thresholds, one completion award, Ward-only survival growth, veteran archer/greatsword first consumers. Other grade abilities remain pending shared status implementation. No generic stat multiplier or art promotion.
+
+Existing catalog target-role completion in same files: archer in-range flying priority, flying backline priority, assassin 4-distance backline approach and10s firsthit1.4 multiplier; optional ambush state finite0..10 persisted. No teleport/air invulnerability/art approval. Existing tests and GPU outputs only.
+
+Same campaign continuation includes v6 one-level map-entry snapshot and defeat-only retry in existing model/UI/tests. Legacy saves without authentic entry stay playable but retry unavailable. Validation must reject nested/non-pristine checkpoints before mutation; no player save deletion or arbitrary resource restoration.
+
+Whole-game continuation authorized by latest explicit user instruction: sequential campaign in existing front_run/front_screen/tests plus exact output/front-campaign.png evidence. Add exact docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json and docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md to local allowlist because they own consumed map values and rules. No wildcard or Base lock change. Retry and further features follow reviewed plans.
+
+First-map provisional tuning continuation: existing Blueprint JSON first-map pressure0.4 consumed by front_run; savev4 persists map_pressure, v1–v3 migrate historical1.0. Same approved runtime/test files and existing planning owners; no other-map implementation, Base lock replacement, final balance approval or main write.
+
+Paired cavalry/spear existing ability continuation: movement2 -> firsthit1.5 and stationary0.6 -> charge reduction50%; same runtime/UI/tests, optional unit timers with reject-before-mutation validation. No base stat changes, new art or lock update.
+
+Current continuation connects existing shield25% frontal physical-ranged defense: derived engaged stance, no new resource or save schema, both faction equivalents, same runtime/test/UI consumers. Technical definition and exclusions in existing execution plan.
+
+Same continuation includes existing Blueprint wave-cycle composition, round pressure and0.4s sequential arrivals in front_run with shared forecast. Save v3 wave profile keeps imported v1/v2 runs on legacy instant-wave behavior, avoiding duplicate arrivals or silent old-run difficulty migration. Existing replan test/output scope only.
+
+Exact omen runtime evidence output: `output/front-omen.png` (existing actual observation UI; no new art).
+
+2026-09-13 continued implementation: latest user requests completing remaining blueprint connections without routine reapproval. Existing front_run/front_screen and replan tests now cover weighted reserve capacity and observation/adjust/bonus/confirm, with versioned pending-save validation. Exact existing consumer paths only; no Base lock/protected list change. Existing capture outputs may show this flow.
+
+## Authority
+
+User requested UI correction and transparent units with connected motion, then explicitly approved the assistant's proposal to update the planning-only contract for that work: **진행해**. This authorizes this bounded transition, not general removal of protection or main/admin bypass.
+
+## Contract
+
+The existing pinned Base v9.4.3 validator has no approved-runtime exception interface. Its result remains unchanged and is reported as BASE_RAW_RESULT. `tools/replan_scope.py` owns a separate PROJECT_SCOPED_BUILD decision: only the exact protected-path-change diagnostic for the explicitly enumerated replan files is resolved by this approval. Every other Base error remains blocking. The Base source, lock, adapter, protected path list and trusted baseline are not edited.
+
+The exact file allowlist is `tools/replan_scope.py::ALLOWED`. It covers the current preview dependency (model, view, atlas, scene, entry configuration), tests, screenshots, affected status owners and the two obsolete planning-only workflow scope checks. Unlisted scripts, scenes, data, assets and all addons remain forbidden. New asset/animation files require an explicit list amendment under this same UI/motion task, not broad directory access.
+
+The project router's generic stop rule is superseded **only for this explicit approved recovery**: after running the unchanged Base validator, run the project-scoped evaluator. Proceed only if it reports PASS. Do not report this as Base PASS. Normal unrelated work retains the original router.
+
+## Evidence and integration
+
+Latest user clarified autonomous completion means research -> specify -> connect -> implement -> playtest across the game, not repeated cosmetic-only fixes. This bounded continuation implements the already specified paid individual recovery in front_run/front_screen with tests and exact output/front-recovery.png. Blueprint formula and heal_coefficient remain owner inputs. No automatic healing, resurrection, combat healing command, save schema change or Base protection bypass. Broader blueprint features still need explicit per-unit planning/specification and exact scope amendments under this delegation.
+
+2026-09-13 mixed-role continuation: read-only native tooltip in existing screen and explicitly labeled mixed-role GPU fixture. Exact output/front-mixed.png and output/front-mixed-1080.png added; no model, save, art source or acquisition changes. Fixture uses spawn only in tests and is not ordinary gameplay/balance evidence.
+
+2026-09-13 user approved the presented combat-readability plan. Display-only bounded stagger/depth order and health-bar presentation stay in front_screen.gd; front_run rules/save remain unchanged. Add exact output/front-battle-1080.png for the required second-resolution GPU capture under the same scope. No new art or game rule is approved by this amendment.
+
+2026-09-12 shield motion continuation: exact files `tools/ward_motion.py`, `tests/test_ward_motion.py`, and candidate `ward-shield-motion.png/.png.import/.aseprite/.json` are added under the existing UI/motion approval. Four disconnected poses from the existing RGBA source are translated to a common foot pivot without redrawing or recoloring. The prior idle-only restriction is superseded for this four-pose review consumer. Windup 180ms, impact 100ms, recovery 150ms; damage happens at windup completion with target/range revalidation. This is candidate implementation, not final art/Human approval.
+
+2026-09-12 exact amendment under the user's Veil transparency request and explicit local-mask approval: `tools/veil_cutout.py`, `tests/test_veil_cutout.py`, and `veil-roster-alpha.png/.aseprite`, `veil-special-alpha.png/.aseprite` under the existing candidate folder. RGB is preserved, only alpha is derived locally. Native Aseprite files are static inspection sources, not animation evidence. Final art approval remains pending. The user now requires moving disposable files into a linked review folder, never deleting them directly; the screen test therefore leaves its test save for collection. Existing historical deletion readback below predates this instruction.
+
+Asset amendment in this scope: `docs/images/candidates/blueprint-20260911/ward-shield-slash-alpha-candidate.png` and its optional Godot import metadata. Only the top-left idle cell is used by the review consumer. This does not authorize other assets or final art promotion.
+
+Tests must reject old StageRun changes, sibling scripts, traversal, absolute paths, addon changes and mixed approved/unapproved failures. Parent planning PR/main integration is still separate. Original historical contract tests remain active. Candidate art approval, alpha checks, Aseprite work, runtime and Human are separate statuses.
+
+## Remaining sequence
+
+Scoped contract tests and CI → UI corrections → image model transparent candidates → alpha inspection → frame/pivot/timing → Godot consumer → runtime capture. No new image is considered alpha-ready merely because its background looks white/checkered. No static transform is reported as a newly drawn animation frame.
+
+## Execution readback
+
+Latest shield continuation: model55 checks, screen/save/native timing, default scene, source/export2, scope5 and Veil5 tests PASS. Real GPU natural combat shows19damage/16units and all3 action states. Read-only reviewer performed five full-scope passes and independently decoded native frame RGBA/timing: no blocker. Added PNG export regression after review recommendation. Historical full discovery:558/559 passed; one environment failure because `_base_recovery` exact historical CI checkout is absent locally, not a combat regression. Do not label full discovery PASS or change the historical test/pin to hide it. Editor import exits0 but existing Hera shutdown leaks45objects/22resources remain. Cleanup moved26 files, verified all118 inventory hashes, total149958418bytes; no direct deletion. Repository/current native and source remain. This work does not merge parent planning PR or main.
+
+- Scope regression: 5 tests PASS. Historical CI suite: 109 tests PASS after removal of 14 ignored Godot-generated CSV translation/import files; original CSVs retained. This existing hygiene test checks local file existence despite its `tracked` name. Editor reimport can reproduce the artifacts; cleanup is not a permanent importer fix.
+- Godot: model 39 checks/0 failures; UI/save/real alpha/idle region/current controls PASS; default scene smoke PASS. GPU capture: 19 damage events, 16 units; building and combat outputs updated.
+- Independent reviewer read all 16 changed files in five full-scope passes (scope escape, CI, execution regression, approval/evidence, maintenance). No new blocker found; reviewed both GPU captures and hash. Reviewer did not execute Godot; this is not five runtime tests or Human approval.
+- Branch remains stacked on the planning branch. Direct comparison to main fails the narrow allowlist as expected because parent planning changes are outside this implementation approval. Do not broaden the list to conceal that integration dependency.
+# 2026-09-16 user-approved amendment
+
+The latest user explicitly returns to three fronts: strategic minimap default and selected single-front enlarged inspection. Extend the existing model/screen/save/test owners only, with exact GPU evidence `output/front-overview.png` and `output/front-inspection.png`. Preserve older single-front saves and Base lock/protected-main rules. Existing monthly worklog is updated cumulatively by date; do not create another versioned journal for this task.
+# 2026-09-20 첫 맵 검토 증거 범위
+
+기존 승인된 통합 준비/3전선 첫 맵 검토에서 `tests/replan_capture.gd --first-map-only`와 `output/front-first-map-prepare.png`, `output/front-first-map-refit.png`, `output/front-first-map-result.png`를 기존 exact BUILD 목록에 추가한다. 기존 overview/inspection 캡처는 이번 검토로 갱신한다. 새 게임 자원 그대로 실제 UI 콜백과 고정 시계로 조작하며 진도·체력·골드·난수 결과 주입 없이 종결 상태를 확인한다. 화면 관측 및 자동 정책은 사람 플레이/재미/밸런스 통과가 아니다. 수치·아트·저장 스키마는 변경하지 않는다.

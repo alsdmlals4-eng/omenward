@@ -2,6 +2,14 @@
 
 > 2026-09-20 운영 개선: [Base 선택 채택·재미 검증 연결·작업 순서](BASE_RULES_VERSION.md). v9.4.3 lock과 기존 제품 승인/구현 상태는 유지한다. 최신 게임 작업 브랜치를 main 구현 완료로 간주하지 않는다. 운영 진척과 검증은 이 링크에 누적한다.
 
+## 현재 읽기 경로 (2026-09-14)
+
+`AGENTS.md` → fresh main/작업 PR → `docs/CURRENT_CONFIRMED_DECISIONS.md` → `docs/ACTIVE_CONTEXT.md` → [현재 분야 owner 등록](DOCUMENT_LIFECYCLE_REGISTRY.md) → 실제 코드/데이터/씬/자산/테스트 → 채택 Base 및 최신 remote drift. 이전 Handoff·PDF는 현재 실행 권한이 아니다.
+
+상세 규칙은 [사람용 Blueprint](design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md), 구현 순서는 [P00–P09 실행 계획](superpowers/plans/2026-09-11-visible-battle-slice.md)에서 읽는다. 아래 2026-08 목록·상태는 검색/호환 이력으로 보존하며 새로운 읽기 순서나 3전선 구현 지시로 사용하지 않는다.
+
+## 보존된 2026-08 문서 지도
+
 ```yaml
 updated_at: 2026-08-30
 planning_contract: PROJECT_TOTAL_PLANNING_IMPLEMENTATION_AND_DELIVERY_INSTRUCTION_v4.8
