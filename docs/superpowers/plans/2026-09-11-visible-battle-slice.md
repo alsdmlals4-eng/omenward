@@ -1,5 +1,32 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-20 연속 작업 — 첫 맵 정책 비교·저장 재개
+
+최신 진행 승인으로 직전 묶음의 다음 순서를 실행한다. 분산/북부집중/궁병특화/일반특수혼합 × seed1947~1949를 정상 초기 자원·실제 시설/징조/배치/공세 명령으로 비교한다. 정상 연속 실행과 첫 라운드22초의 JSON 저장 복원을 대조해 모든 최종 상태가 같은지 검사한다. 승률 자체에 합격선을 붙이지 않으며 결과를 보고 수치를 임의 변경하지 않는다. P04 잔여 효과는 기존 아래 명세/순서를 유지하며 이번 비교 결과를 먼저 읽는다.
+
+경험 F1/F2 반증의 기술 관찰만 확장한다. 인간의 전략 선택/자기보고/반복 피로는 NOT_RUN. 완료 기준: 모든 표본이 제한된 첫맵 시간 안에 종료, 저장 재개 일치, 규칙/실사용 저장/다른 프로젝트 보존, 기존 gate와 원격 정확한 HEAD 확인. Ruling: 작업별 문서/스킬/서버를 새로 만들지 않고 이 계획·기존 모델 테스트를 누적한다. 기존 전체 검토1/2를 계승하여 마지막 검토로 이 연속 증분을 확인한다. 다른 프로젝트 Hera 세션에는 연결하지 않고 명시 project path의 Godot CLI만 실행한다.
+
+### 정책 비교에서 발견한 저장 결함과 교정
+
+실제 비교에서 기본 JSON 정밀도로 저장한 12조합 중5조합은 연속 실행과 최종 HP/공격횟수/적 잔존 상태가 달랐다. production `front_save.write_verified/read_verified`에 위치12.123456789012345와 HP179.12345678901235를 통과시킨 회귀도61검사 중1실패(RED)했다. 원인은 기본 `JSON.stringify`의 float 출력 자리수 손실이었다. **ADOPT** [Godot 공식 full_precision 계약](https://docs.godotengine.org/en/stable/classes/class_json.html#class-json-method-stringify): writer에 `full_precision=true`만 지정한다. **REJECT** 전투 좌표/피해 반올림, 스키마 변경, RNG 재추첨, 임의 밸런스 조정. 기존 파일은 계속 읽되 이미 반올림된 옛 값의 원래 정밀도를 복구했다고 주장하지 않는다.
+
+정책 회귀는 임시 serializer가 아니라 실제 검증 저장 경로를 사용한다. 최종 snapshot 숫자 비교 허용오차는1e-9이며 별도 저장 회귀는 위치/HP의 정확한 동등성을 검사한다. 시간/난수/공세·큐·점령·시설·병력 상태도 비교하고 종료 때 특화/혼합 시설의 실제 존재를 확인한다. 자원이나 생존 HP를 주입하지 않는다.
+
+| 정책 | seed1947 | seed1948 | seed1949 |
+|---|---|---|---|
+| 적은 병력 전선에 분산 | 승리 R3 /1000HP /251G | 패배 R3 /-16HP /141G | 승리 R3 /1000HP /251G |
+| 북부 집중 증원 | 승리 R2 /856HP /236G | 패배 R2 /-12HP /112G | 승리 R2 /856HP /236G |
+| 궁병 특화 후 분산 | 승리 R3 /1000HP /200G | 패배 R3 /-6HP /91G | 승리 R3 /1000HP /199G |
+| 일반·특수 병영 후 분산 | 패배 R4 /-2HP /73G | 패배 R4 /-13HP /85G | 승리 R3 /1000HP /174G |
+
+음수 HP는 모델 종결 snapshot 값이며 UI 표시 제안이 아니다. 1948 네 정책 패배와 혼합 두 표본 패배는 **초기 징조/초기 지출 의존성 조사 후보**다. 3seed·단순 자동 정책 표본만으로 승률·최적 전략·재미를 판정하지 않는다. F1/F2 정보 이해 및 수동 선택 반례는 HUMAN_NOT_RUN. 이 결함을 먼저 닫고 P04 비재귀 사건/저장 계약으로 이어간다.
+
+검토2/2: 독립 read-only 검토 P0/P1/P2 없음, P3 정책 구매 실재 확인을 보완했다. 같은 계보 전체 검토를 초기화하지 않는다. 최종 로컬/원격 결과·정리 위치는 아래 마감 기록에 누적한다. 새로운 GPU/아트/사람/후속 맵/출시 승인 근거는 이번 증분에 없다.
+
+최종 로컬(2026-09-20): 모델715/저장61 실패0, 화면/기본씬 PASS; 정책 집중255 실패0 및12조합 모두 실제 디스크 재개와 연속 실행 동일. 전체 원문 `output/save-precision-final-gate-20260920.log`. 프로젝트 스킬4개 검사 및 scope9 Python PASS, 원본 Base 보호경로9 FAIL / PROJECT_SCOPED_BUILD PASS 구별 유지. 검토 P3는 한정 재확인으로 해결. 실행은 명시 OMENWARD path의 Godot4.7.1 headless이며, 다른 프로젝트 Hera 편집기/실사용 저장은 조작하지 않았다.
+
+사용완료 격리 시험폴더8개/132파일과 이전 로그1개(총637687bytes)를 SHA256 대조 후 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/save-precision-20260920`로 이동했다. 두 manifest에 원위치/복구 위치/해시가 있고 직접 삭제는 하지 않았다. 최신 gate 로그만 저장소에 보존한다. 기존 월간 원본 README에9/20을 누적하며 PDF 새 발행/제출은 하지 않는다. 부모 PR258/main/사용자 기획 미커밋 파일과27개 addon import dirt는 보존한다. 이번 GitHub 검증은 PR259의 새 정확한 HEAD를 기준으로 확인하며 Draft 전체 병합 권한으로 확대하지 않는다.
+
 ## 2026-09-16 current request readback
 
 The latest three-front request below supersedes earlier single-front sequencing. Implemented shared-clock/economy/base overview → per-front inspection, isolated combat/healing/capture/towers, conservative legacy profile and fail-closed transport. Model455/save59/UI/default local gate PASS; docs/scope7 PASS with Base raw protected-path failure kept separate. Five-perspective independent review found direct cross-front healing and hidden legacy points; both received regression fixes. GPU uses actual viewport mouse input on center route, verifies only selected_front changes and returns to overview. Current mini-map is schematic UI, not final terrain art. No new raster/Aseprite work. Append September16 into existing unsubmitted monthly PDF; sync current-task PR259 branch only. Remaining product work stays P04→P05→P06–P09, not whole-game completion.

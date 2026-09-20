@@ -985,6 +985,11 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	if "--front-policy-only" in OS.get_cmdline_user_args():
+		verify_front_policies(model)
+		print("REPLAN_FRONT_POLICY_TEST: %d checks, %d failures" % [checks, failures])
+		quit(0 if failures == 0 else 1)
+		return
 	if "--birth-only" in OS.get_cmdline_user_args():
 		verify_birth_records(model)
 		print("REPLAN_BIRTH_TEST: %d checks, %d failures" % [checks, failures])
@@ -994,6 +999,7 @@ func _initialize() -> void:
 	verify_capture(model)
 	verify_fixed_clock(model)
 	verify_campaign(model)
+	verify_front_policies(model)
 	verify_statuses(model)
 	var r = model.new()
 	check(r.wave_composition(1, 0) == {"shield_guard":2, "archer":1}, "New first-map playtest pressure starts with two shields and one archer")
@@ -1175,6 +1181,77 @@ func _initialize() -> void:
 	for seed_value in [1947, 1948, 1949]:
 		run_policy(model, "paid_mobilization", seed_value, -1.0, true)
 	verify_model(model, r)
+
+func verify_front_policies(model: Script) -> void:
+	# Diagnostic policies, not stand-ins for human choices or a win-rate target.
+	# Catch save/restore dropping in-flight front, queue, cooldown or RNG state.
+	var folder := "user://front-policy-%d-%d" % [OS.get_process_id(), Time.get_ticks_usec()]
+	check(DirAccess.make_dir_recursive_absolute(folder) == OK, "Create isolated policy save folder")
+	print("FRONT_POLICY_SAVE_FOLDER: ", ProjectSettings.globalize_path(folder))
+	for seed_value in [1947, 1948, 1949]:
+		for policy in ["balanced", "north_focus", "ranged", "mixed"]:
+			var continuous := front_policy_result(model, policy, seed_value, false)
+			var resumed := front_policy_result(model, policy, seed_value, true, folder + "/%s-%d.json" % [policy, seed_value])
+			check(not continuous.is_empty() and not resumed.is_empty(), "Policy must finish within first-map time budget")
+			check(equivalent_state(continuous, resumed), "Mid-wave JSON resume must preserve policy outcome: %s/%d" % [policy, seed_value])
+			if not equivalent_state(continuous, resumed):
+				for key in continuous:
+					if not equivalent_state(continuous[key], resumed.get(key)):
+						print("POLICY_DIFF: ", policy, "/", seed_value, " field=", key)
+			if not continuous.is_empty():
+				print("THREE_FRONT_POLICY: seed=", seed_value, " policy=", policy, " phase=", continuous.phase, " round=", continuous.round, " base_hp=", continuous.bases[0], " gold=", continuous.gold, " resume_equal=", equivalent_state(continuous, resumed))
+
+func front_policy_result(model: Script, policy: String, seed_value: int, resume_once: bool, save_path: String = "") -> Dictionary:
+	var journey = model.new()
+	journey.rng.seed = seed_value
+	journey.enable_three_fronts()
+	var original_pressure: float = journey.map_pressure
+	var restored := false
+	for second in range(720):
+		if journey.phase in ["VICTORY", "DEFEAT"]:
+			check(journey.map_pressure == original_pressure and journey.current_map == 0, "Diagnostic must not lower difficulty or advance maps")
+			check(not resume_once or restored, "Resumed policy must actually traverse JSON restore")
+			var facilities: Array = []
+			for building in journey.buildings:
+				facilities.append(building.id)
+			if policy == "ranged":
+				check("range" in facilities, "Ranged policy must actually purchase its specialization")
+			if policy == "mixed":
+				check("barracks" in facilities and "special_barracks" in facilities, "Mixed policy must actually purchase both troop families")
+			return journey.snapshot()
+		if journey.phase in ["PREPARE", "REFIT"]:
+			if journey.building_count() == 0:
+				check(journey.construct("barracks"), "Policy buys normal starting barracks")
+			if policy == "mixed" and journey.building_count() == 1:
+				journey.construct("special_barracks")
+			if policy == "ranged" and journey.buildings[0].id == "barracks":
+				journey.upgrade(0, "range")
+			if journey.free_spin and journey.spin():
+				var options: Array = journey.bonus_options()
+				check(journey.confirm_omen(options[0] if not options.is_empty() else ""), "Policy confirms actual rolled recruits")
+			check(journey.begin_round(), "Policy advances through real round transition")
+		for entry in journey.reserve.duplicate():
+			var counts := [0, 0, 0]
+			for unit in journey.units:
+				if unit.side == 0:
+					counts[unit.front] += 1
+			journey.selected_front = 0 if policy == "north_focus" else counts.find(counts.min())
+			journey.deploy_entry(int(entry.entry_id))
+		journey.advance_ticks(30)
+		if resume_once and not restored and journey.phase == "BATTLE" and journey.elapsed >= 22.0:
+			var storage = load("res://scripts/replan/front_save.gd")
+			var written: Dictionary = storage.write_verified(save_path, journey.snapshot())
+			check(written.ok, "Natural mid-wave state must reach production disk transport")
+			if not written.ok:
+				return {}
+			var disk: Dictionary = storage.read_verified(save_path)
+			var copy = model.new()
+			if not disk.ok or not copy.restore(disk.state):
+				check(false, "Natural mid-wave save must restore")
+				return {}
+			journey = copy
+			restored = true
+	return {}
 
 func run_policy(model: Script, policy: String, seed_value: int, pressure: float = 1.0, whole_campaign: bool = false) -> void:
 	var journey = model.new()

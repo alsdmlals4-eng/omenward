@@ -28,6 +28,13 @@ func _initialize() -> void:
 	check(DirAccess.make_dir_recursive_absolute(folder) == OK, "Create isolated fixture directory")
 	var path := folder + "/run.json"
 	var initial: Dictionary = model.snapshot()
+	var precise: Dictionary = initial.duplicate(true)
+	precise.units[0].x = 12.123456789012345
+	precise.units[0].hp = 179.12345678901235
+	var precision_path := folder + "/precision.json"
+	check(storage.write_verified(precision_path, precise).ok, "Write legitimate fractional combat state")
+	var precise_disk: Dictionary = storage.read_verified(precision_path)
+	check(precise_disk.ok and precise_disk.state.units[0].x == precise.units[0].x and precise_disk.state.units[0].hp == precise.units[0].hp, "Disk transport must not round positions or HP and alter future target/hit boundaries")
 	var multi = load("res://scripts/replan/front_run.gd").new()
 	multi.enable_three_fronts()
 	multi.selected_front = 2

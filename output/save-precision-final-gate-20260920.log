@@ -1,0 +1,141 @@
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+FRONT_POLICY_SAVE_FOLDER: C:/Users/user/AppData/Roaming/Godot/app_userdata/OMENWARD Replan Preview/front-policy-21520-1206178
+THREE_FRONT_POLICY: seed=1947 policy=balanced phase=VICTORY round=3 base_hp=1000.0 gold=251 resume_equal=true
+THREE_FRONT_POLICY: seed=1947 policy=north_focus phase=VICTORY round=2 base_hp=856.0 gold=236 resume_equal=true
+THREE_FRONT_POLICY: seed=1947 policy=ranged phase=VICTORY round=3 base_hp=1000.0 gold=200 resume_equal=true
+THREE_FRONT_POLICY: seed=1947 policy=mixed phase=DEFEAT round=4 base_hp=-2.0 gold=73 resume_equal=true
+THREE_FRONT_POLICY: seed=1948 policy=balanced phase=DEFEAT round=3 base_hp=-16.0 gold=141 resume_equal=true
+THREE_FRONT_POLICY: seed=1948 policy=north_focus phase=DEFEAT round=2 base_hp=-12.0 gold=112 resume_equal=true
+THREE_FRONT_POLICY: seed=1948 policy=ranged phase=DEFEAT round=3 base_hp=-6.0 gold=91 resume_equal=true
+THREE_FRONT_POLICY: seed=1948 policy=mixed phase=DEFEAT round=4 base_hp=-13.0 gold=85 resume_equal=true
+THREE_FRONT_POLICY: seed=1949 policy=balanced phase=VICTORY round=3 base_hp=1000.0 gold=251 resume_equal=true
+THREE_FRONT_POLICY: seed=1949 policy=north_focus phase=VICTORY round=2 base_hp=856.0 gold=236 resume_equal=true
+THREE_FRONT_POLICY: seed=1949 policy=ranged phase=VICTORY round=3 base_hp=1000.0 gold=199 resume_equal=true
+THREE_FRONT_POLICY: seed=1949 policy=mixed phase=VICTORY round=3 base_hp=1000.0 gold=174 resume_equal=true
+FIRST_MAP_REFIT: seed=1947 policy=reinforcement round=1 allied=2 enemy=11 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=reinforcement round=2 allied=0 enemy=31 gold=24 base_hp=322.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=1.0 policy=reinforcement phase=DEFEAT round=3 refits=2 recovery_spend=15 base_hp=-6.0
+FIRST_MAP_REFIT: seed=1947 policy=ranged round=1 allied=0 enemy=12 gold=100 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=1.0 policy=ranged phase=DEFEAT round=2 refits=1 recovery_spend=0 base_hp=-52.0
+FIRST_MAP_REFIT: seed=1947 policy=mixed round=1 allied=0 enemy=13 gold=25 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=1.0 policy=mixed phase=DEFEAT round=2 refits=1 recovery_spend=0 base_hp=-6.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=1 allied=9 enemy=8 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=2 allied=0 enemy=29 gold=22 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=1.0 policy=paid_mobilization phase=DEFEAT round=3 refits=2 recovery_spend=0 base_hp=-68.0
+FIRST_MAP_REFIT: seed=1948 policy=reinforcement round=1 allied=1 enemy=12 gold=20 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=1.0 policy=reinforcement phase=DEFEAT round=2 refits=1 recovery_spend=9 base_hp=-18.0
+FIRST_MAP_REFIT: seed=1948 policy=ranged round=1 allied=0 enemy=14 gold=100 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=1.0 policy=ranged phase=DEFEAT round=2 refits=1 recovery_spend=0 base_hp=-10.0
+FIRST_MAP_REFIT: seed=1948 policy=mixed round=1 allied=0 enemy=14 gold=25 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=1.0 policy=mixed phase=DEFEAT round=2 refits=1 recovery_spend=0 base_hp=-24.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=1 allied=8 enemy=8 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=2 allied=0 enemy=29 gold=22 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=1.0 policy=paid_mobilization phase=DEFEAT round=3 refits=2 recovery_spend=0 base_hp=-20.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=1 allied=2 enemy=11 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=2 allied=0 enemy=31 gold=24 base_hp=322.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=1.0 policy=reinforcement phase=DEFEAT round=3 refits=2 recovery_spend=15 base_hp=-6.0
+FIRST_MAP_REFIT: seed=1949 policy=ranged round=1 allied=0 enemy=12 gold=100 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=1.0 policy=ranged phase=DEFEAT round=2 refits=1 recovery_spend=0 base_hp=-28.0
+FIRST_MAP_REFIT: seed=1949 policy=mixed round=1 allied=2 enemy=11 gold=25 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=1.0 policy=mixed phase=DEFEAT round=2 refits=1 recovery_spend=13 base_hp=0.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=1 allied=9 enemy=8 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=2 allied=0 enemy=29 gold=22 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=1.0 policy=paid_mobilization phase=DEFEAT round=3 refits=2 recovery_spend=0 base_hp=-20.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=1 allied=9 enemy=1 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=2 allied=9 enemy=1 gold=28 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=3 allied=9 enemy=0 gold=27 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=0.4 policy=paid_mobilization phase=VICTORY round=4 refits=3 recovery_spend=26 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=1 allied=8 enemy=4 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=2 allied=0 enemy=14 gold=23 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=0.6 policy=paid_mobilization phase=DEFEAT round=3 refits=2 recovery_spend=0 base_hp=-24.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=1 allied=9 enemy=7 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=2 allied=0 enemy=21 gold=22 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1947 map=1 pressure=0.8 policy=paid_mobilization phase=DEFEAT round=3 refits=2 recovery_spend=0 base_hp=-46.0
+FIRST_MAP_REFIT: seed=1948 policy=reinforcement round=1 allied=6 enemy=3 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=reinforcement round=2 allied=3 enemy=4 gold=30 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=reinforcement round=3 allied=0 enemy=10 gold=48 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.4 policy=reinforcement phase=DEFEAT round=4 refits=3 recovery_spend=18 base_hp=-17.0
+FIRST_MAP_REFIT: seed=1948 policy=ranged round=1 allied=3 enemy=4 gold=100 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=ranged round=2 allied=0 enemy=9 gold=39 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.4 policy=ranged phase=DEFEAT round=3 refits=2 recovery_spend=33 base_hp=-12.0
+FIRST_MAP_REFIT: seed=1948 policy=mixed round=1 allied=3 enemy=4 gold=25 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=mixed round=2 allied=0 enemy=8 gold=27 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.4 policy=mixed phase=DEFEAT round=3 refits=2 recovery_spend=21 base_hp=-24.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=1 allied=9 enemy=1 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=2 allied=8 enemy=2 gold=26 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=3 allied=2 enemy=8 gold=33 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=4 allied=0 enemy=15 gold=30 base_hp=708.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.4 policy=paid_mobilization phase=DEFEAT round=5 refits=4 recovery_spend=3 base_hp=-14.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=1 allied=7 enemy=2 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=2 allied=5 enemy=5 gold=28 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=3 allied=0 enemy=11 gold=45 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.4 policy=reinforcement phase=DEFEAT round=4 refits=3 recovery_spend=25 base_hp=-7.0
+FIRST_MAP_REFIT: seed=1949 policy=ranged round=1 allied=5 enemy=2 gold=100 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=ranged round=2 allied=0 enemy=6 gold=43 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.4 policy=ranged phase=DEFEAT round=3 refits=2 recovery_spend=30 base_hp=-4.0
+FIRST_MAP_REFIT: seed=1949 policy=mixed round=1 allied=7 enemy=2 gold=25 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=mixed round=2 allied=2 enemy=6 gold=26 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=mixed round=3 allied=0 enemy=12 gold=45 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.4 policy=mixed phase=DEFEAT round=4 refits=3 recovery_spend=27 base_hp=-1.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=1 allied=9 enemy=1 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=2 allied=9 enemy=1 gold=28 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=3 allied=9 enemy=0 gold=27 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.4 policy=paid_mobilization phase=VICTORY round=4 refits=3 recovery_spend=39 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=reinforcement round=1 allied=5 enemy=4 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=reinforcement round=2 allied=0 enemy=10 gold=27 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.5 policy=reinforcement phase=DEFEAT round=3 refits=2 recovery_spend=16 base_hp=-40.0
+FIRST_MAP_REFIT: seed=1948 policy=ranged round=1 allied=3 enemy=5 gold=100 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=ranged round=2 allied=0 enemy=14 gold=34 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.5 policy=ranged phase=DEFEAT round=3 refits=2 recovery_spend=38 base_hp=-8.0
+FIRST_MAP_REFIT: seed=1948 policy=mixed round=1 allied=3 enemy=5 gold=25 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=mixed round=2 allied=0 enemy=15 gold=23 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.5 policy=mixed phase=DEFEAT round=3 refits=2 recovery_spend=24 base_hp=-18.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=1 allied=9 enemy=2 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=2 allied=6 enemy=10 gold=25 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=3 allied=0 enemy=21 gold=26 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1948 map=1 pressure=0.5 policy=paid_mobilization phase=DEFEAT round=4 refits=3 recovery_spend=0 base_hp=-16.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=1 allied=7 enemy=3 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=reinforcement round=2 allied=0 enemy=10 gold=30 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.5 policy=reinforcement phase=DEFEAT round=3 refits=2 recovery_spend=13 base_hp=-52.0
+FIRST_MAP_REFIT: seed=1949 policy=ranged round=1 allied=5 enemy=3 gold=100 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=ranged round=2 allied=0 enemy=11 gold=42 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.5 policy=ranged phase=DEFEAT round=3 refits=2 recovery_spend=31 base_hp=-52.0
+FIRST_MAP_REFIT: seed=1949 policy=mixed round=1 allied=7 enemy=3 gold=25 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=mixed round=2 allied=0 enemy=10 gold=25 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.5 policy=mixed phase=DEFEAT round=3 refits=2 recovery_spend=23 base_hp=-24.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=1 allied=9 enemy=2 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=2 allied=9 enemy=8 gold=28 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=3 allied=0 enemy=19 gold=30 base_hp=1000.0
+FIRST_MAP_POLICY: seed=1949 map=1 pressure=0.5 policy=paid_mobilization phase=DEFEAT round=4 refits=3 recovery_spend=17 base_hp=-38.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=1 allied=9 enemy=1 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=2 allied=9 enemy=1 gold=28 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=3 allied=9 enemy=0 gold=27 base_hp=1000.0
+CAMPAIGN_ENTER: seed=1947 map=2 gold=118 units=9
+FIRST_MAP_REFIT: seed=1947 policy=paid_mobilization round=1 allied=8 enemy=17 gold=71 base_hp=1000.0
+CAMPAIGN_POLICY: seed=1947 map=2 pressure=1.12 policy=paid_mobilization phase=DEFEAT round=2 refits=4 recovery_spend=52 base_hp=-38.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=1 allied=9 enemy=1 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=2 allied=8 enemy=2 gold=26 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=3 allied=2 enemy=8 gold=33 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1948 policy=paid_mobilization round=4 allied=0 enemy=15 gold=30 base_hp=708.0
+CAMPAIGN_POLICY: seed=1948 map=1 pressure=0.4 policy=paid_mobilization phase=DEFEAT round=5 refits=4 recovery_spend=3 base_hp=-14.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=1 allied=9 enemy=1 gold=20 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=2 allied=9 enemy=1 gold=28 base_hp=1000.0
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=3 allied=9 enemy=0 gold=27 base_hp=1000.0
+CAMPAIGN_ENTER: seed=1949 map=2 gold=125 units=9
+FIRST_MAP_REFIT: seed=1949 policy=paid_mobilization round=1 allied=9 enemy=17 gold=91 base_hp=1000.0
+CAMPAIGN_POLICY: seed=1949 map=2 pressure=1.12 policy=paid_mobilization phase=DEFEAT round=2 refits=4 recovery_spend=52 base_hp=-8.0
+REPLAN_SLICE_TEST: 715 checks, 0 failures
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+REPLAN_SAVE_TEST: 61 checks, 0 failures; fixtures retained at C:/Users/user/AppData/Roaming/Godot/app_userdata/OMENWARD Replan Preview/save-test-37856-363843
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+REPLAN_SCREEN_TEST: PASS
+Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org
+
+[godot_ai game_helper] registered mcp capture (debugger active=false, logger=true)
+REPLAN_LOCAL_GATE_PASS (model + UI/save + default scene; not full-project/Human/CI approval)

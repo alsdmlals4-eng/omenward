@@ -78,7 +78,8 @@ static func write_verified(path: String, state: Dictionary) -> Dictionary:
 	var backup := _read(path + ".bak")
 	if not backup.ok and not backup.recoverable:
 		return _failure("BACKUP_PROTECTED: " + backup.reason)
-	var text := JSON.stringify(state)
+	# Preserve combat positions/HP exactly; rounded floats can change later hits.
+	var text := JSON.stringify(state, "", true, true)
 	if text.to_utf8_buffer().size() > MAX_BYTES:
 		return _failure("TOO_LARGE")
 	var temp := path + ".tmp"
