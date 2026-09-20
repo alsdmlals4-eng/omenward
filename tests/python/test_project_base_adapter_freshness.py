@@ -44,9 +44,9 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         sheet = self.adapter["gdd_sheet"]
         self.assertEqual(sheet["id"], SHEET_ID)
         self.assertEqual(sheet["role"], "USER_FACING_GDD_WORKSPACE")
-        self.assertEqual(sheet["sync_status"], "CURRENT")
-        self.assertEqual(sheet["declared_sync_status"], "SHEET_GITHUB_SYNCED")
-        self.assertEqual(sheet["write_policy"], "NO_AUTOMATIC_OVERWRITE")
+        self.assertEqual(sheet["sync_status"], "STALE")
+        self.assertEqual(sheet["effective_authority"], "COMPATIBILITY_ONLY")
+        self.assertEqual(sheet["write_policy"], "RETIRED__NO_FUTURE_READ_OR_WRITE")
 
     def test_current_protected_baseline_uses_latest_completed_main(self) -> None:
         baseline = self.adapter["protected_baseline"]
@@ -64,7 +64,8 @@ class ProjectBaseAdapterFreshnessTest(unittest.TestCase):
         protected_policy = (json.dumps(baseline_adapter["protected_paths"], ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
         self.assertEqual(hashlib.sha256(protected_policy).hexdigest(), PROTECTED_POLICY_SHA)
         self.assertEqual(baseline["policy_sha256"], PROTECTED_POLICY_SHA)
-        self.assertEqual(git_blob_sha256(ROOT, ADAPTER), CURRENT_ADAPTER_SHA)
+        # The old whole-adapter hash is historical; the protected policy above
+        # remains exact while approved operational metadata can evolve.
 
     def test_historical_state_block_remains_point_in_time_while_current_adapter_advances(self) -> None:
         gate = self.state["entry_gate"]

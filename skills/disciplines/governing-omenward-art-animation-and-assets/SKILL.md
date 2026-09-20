@@ -1,35 +1,28 @@
-# Omenward Art, Animation, and Assets
+---
+name: governing-omenward-art-animation-and-assets
+description: Use when creating or connecting OMENWARD images, sprites, animation, VFX or asset imports.
+---
 
-Skill ID: `discipline.omenward-art-assets`
+# OMENWARD Art, Animation and Assets
 
-`skills/SHARED_EXECUTION_CONTRACT.md`를 따른다.
+현재 ID: `omenward-art-assets`; 역사 호환 ID: `discipline.omenward-art-assets`.
+[공통 계약](../../SHARED_EXECUTION_CONTRACT.md)을 따른다.
 
 ## 사용 조건
-아트 방향, 스프라이트·아이콘·환경, 애니메이션, 임포트 규격, 전장 연출, 에셋 교체와 검수에 사용한다.
-
+이미지·모션·VFX·임포트·자산 교체.
 ## 사용하지 않는 조건
-핵심 규칙만 바꾸거나 내부 로직만 수정하는 작업에는 주 Skill로 사용하지 않는다.
-
+규칙만 수정하거나 내부 코드만 정리하는 경우.
 ## 고유 책임
-오멘워드의 전장 정보 계층과 세계관을 보존하면서 에셋 규격, 애니메이션 타이밍, 판정·연출 동기화, Godot 임포트 경계를 하나의 제작 계약으로 관리한다.
-
+현재 시각 owner와 실제 소비 크기에 맞는 자산·상태군·모션을 연결한다.
 ## 입력
-아트 정본, 실제 에셋과 `.import` 영향, 애니메이션·판정 계약, 대상 해상도, 화면 캡처.
-
+현재 Decision의 visual owner, 실제 Scene/Node/Resource consumer, 승인 자산·규격·권리 기록.
 ## 절차
-1. 에셋의 게임플레이 정보 기능과 시각 역할을 정의한다.
-2. 크기·피벗·프레임·방향·명명·임포트·대체 경로를 고정한다.
-3. 판정 시점과 시각·음향 피드백 시점을 대조한다.
-4. 화면 가독성과 회귀 영향을 실제 장면에서 검수한다.
-
+1. 필요한 시각 정보·경험, 실제 consumer, 표시 크기·방향·pivot·여백·상태군·fallback을 기존 자산 기록에 정한다. consumer가 예정이면 PLANNED다.
+2. 재사용 가능성을 확인한 뒤 필요한 raster는 실제 이미지 도구로 제작한다. 투명 오브젝트는 단색 크로마키 배경으로 만든 후 제거한다. 배경 그림 전체를 투명화하는 규칙은 아니다.
+3. RGBA alpha·밝고 어두운 배경의 테두리 잔색·잘림·발 접지·프레임 연속성을 확인한다. Aseprite 사용/미사용과 실제 작업·도구를 구분한다.
+4. idle/이동/공격/피격 등 필요한 모션과 판정 이벤트를 연결한다. 상태군을 임의 누락하거나 표시 callback이 피해를 재계산하지 않게 한다.
+5. 효과·정보의 시점/강도·반복·중단·복귀는 [경험→표현 채택](../../../docs/BASE_RULES_VERSION.md#재미-검증의-프로젝트-연결)을 적용한다. 실제 전장과 UI에 배치해 가독성·연출/판정 일치를 검증한다.
 ## 출력
-에셋 제작 계약, 파일 경로·규격, 적용·롤백 절차, 화면 검수 증거.
-
+기존 manifest에 원본·제작 근거·hash·규격·상태군·consumer·검수 결과를 연결한다. 후보/승인/정본 등록/런타임 연결/화면 검증은 별도 상태다.
 ## 고유 검수
-에셋이 레인·위협·보상·유닛 상태를 가리거나, 애니메이션과 판정이 불일치하거나, 원본·임포트·런타임 파일 책임이 중복되면 실패다.
-
-## BCA image modes
-
-- `planning-visualization`: 3릴·3전선·건물·HUD의 기획 모순을 비교한다.
-- `final-visual-candidate`: Demo·스토어·인게임 후보를 만든다.
-- `visual-qa-and-approval`: 실제 화면 가독성·권리·오류·일관성·승인 상태를 판정한다.
+투명 배경처럼 보이기만 하는 이미지, 손상된 alpha, 모션/판정 불일치, 출처 미확인, 실제 consumer 없는 최종 자산 주장을 통과시키지 않는다. 미실행 화면·사람 검수는 NOT_RUN이다.

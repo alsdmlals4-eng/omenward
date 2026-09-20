@@ -143,8 +143,7 @@ class PcAndroidCoreAdapterArchitectureContractTests(unittest.TestCase):
         agents = read(AGENTS)
         for marker in (
             "docs/APPROVED_PC_ANDROID_PLATFORM_RELEASE_AUTHORITY_2026-08-05.md",
-            "PC / Steam = COMMITTED_PRIMARY",
-            "Android / Google Play = COMMITTED_RELEASE_TARGET_DEFERRED_RELEASE_NEAR",
+            "docs/PLATFORM_RELEASE_AND_ASSET_RIGHTS_PROFILE.md",
         ):
             self.assertIn(marker, agents, "AGENTS.md")
         for live_gate in (

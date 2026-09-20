@@ -1,5 +1,7 @@
 # [현행] OMENWARD Active Context
 
+> 2026-09-20 운영 개선: [Base 선택 채택·재미 검증 연결·작업 순서](BASE_RULES_VERSION.md). v9.4.3 lock과 기존 제품 승인/구현 상태는 유지한다. 최신 게임 작업 브랜치를 main 구현 완료로 간주하지 않는다. 운영 진척과 검증은 이 링크에 누적한다.
+
 2026-09-16 마무리 readback: 구현33c61fb7 원격 CI5 SUCCESS, 작업 브랜치 local/origin 차이0/0 확인. 기존 미제출 월간PDF v0.2에 E11 당일 요약/실제 화면2쪽을 누적해14쪽으로 갱신(새 v0.3 생성 없음). 이전12쪽 추출 텍스트 보존, 추가2쪽 렌더 시각 검수. SHA bbe47fe27906d08d8b3400e3cd979227a2b7b50cd1714ccc823dbdcd58be684a. 사용완료 저장검사3폴더60파일214254bytes는 `Downloads/OMENWARD_DELETE_REVIEW_20260912/three-front-tests-20260916`로 해시검증 이동; 이전PDF 복구사본/렌더도 그곳에 보존, 직접삭제 없음. PR259는 부모 기획브랜치 대상 Draft 유지, main 미통합. 이번 사용자 요청은 기능 연결·당일 누적·작업브랜치 동기화로 마무리하며 최종 아트/전체게임 완료로 표시하지 않는다.
 
 2026-09-16 최신 사용자 요청 구현: 신규 three_v1 원정은 3전선 동시 진행·기본 전황 미니맵·경로 클릭/버튼으로 선택 전선 확대·전체 복귀. 시계/경제/양측 본진은 공유하고 공격·치료·점령·탑은 전선별 분리한다. 각 중앙 거점/탑1개, 초기병력2/1/1, 기존 공세 총량 순환분배. 선택은 미래 출전 목적지만 변경한다. JSON front_layout을 모델이 소비한다. 구형 single 저장은 기존 규칙과 3거점 확대 화면을 유지하며 자동 분할하지 않는다.
@@ -371,9 +373,9 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 
 ## Resume order
 
-1. fresh Base current authority and open PRs;
+1. `AGENTS.md`의 current-authority read order;
 2. fresh OMENWARD main/open PR/Issue inventory;
-3. `AGENTS.md`;
+3. below owners, actual consumers, then selected Base contract/latest drift;
 4. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
 5. this file;
 6. `docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md`;
