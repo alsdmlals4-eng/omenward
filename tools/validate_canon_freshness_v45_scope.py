@@ -873,7 +873,6 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
-        (REPLAN_PREPARATION_ALLOWED_FILES, REPLAN_PREPARATION_REQUIRED, "approved replan integration preparation"),
         (LEAN_OPERATING_ALLOWED_FILES, LEAN_OPERATING_REQUIRED, "approved lean operating migration"),
         (RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES, RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_REQUIRED_ANCHORS, "Run Command machine-QA evidence sync"),
         (CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES, CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS, "current v4.8 visual closeout"),
@@ -907,6 +906,8 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
         (ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_ALLOWED_FILES, ONE_WARD_CITADEL_THREE_BRANCHES_CORRECTION_REQUIRED_ANCHORS, "one Ward Citadel three-branches visual correction"),
         (STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_ALLOWED_FILES, STORYBOOK_SD_THREE_FRONT_STRATEGIC_MAP_DIRECTION_LOCK_REQUIRED_ANCHORS, "storybook SD three-front strategic-map direction lock"),
         (ACTIVATION_ALLOWED_FILES, ACTIVATION_REQUIRED_ANCHORS, "activation"),
+        # Preserve existing mode precedence for overlapping small maintenance sets.
+        (REPLAN_PREPARATION_ALLOWED_FILES, REPLAN_PREPARATION_REQUIRED, "approved replan integration preparation"),
     )
     for allowed, required, label in modes:
         if changed <= allowed:
