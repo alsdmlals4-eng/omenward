@@ -58,7 +58,9 @@
 2. 기존 router의 legacy 기본 로드와 과도한 REVIEW stack을 테스트로 재현 — RED 확인.
 3. AGENTS/공통 계약/4개 스킬/adapter/CLI/검사를 함께 교정하고 생성 view 갱신 — 완료.
 4. full-scope 독립 검토 2/2 완료. 1차: 생성기/CI 불일치(P1), 선택 source 검증·영어 trigger 오분류(P2) 교정. 2차: 07c30fa4 기준 P0/P1/P2 지적 0건. 이후에는 해당 finding/CI 경로의 교정·회귀만 수행하며 전체 예산을 재시작하지 않는다.
-5. 정상 PR 검사/병합/main readback, 승인된 작업 브랜치의 운영 파일만 동기화 — 대기.
+5. PR #260을 정상 병합했다(main `7168c36706fcc1e5fbd1d1ca78b785a571b660ad`). PR 검사는 14 PASS/1 조건부 SKIP, 병합 후 로컬 569+22 검사 PASS. main의 Linux 3종/Godot는 PASS였으나 Windows 3종은 새 테스트의 인코딩 누락 1건씩 실패했다. 아래 한정 교정과 exact-head 재검증을 완료 기준으로 삼는다. 승인된 PR258/259에는 운영 변경만 동기화하며 두 제품 PR은 Draft/미병합으로 유지한다.
+
+2026-09-20 병합 후 교정: cp1252로 한글 adapter를 읽을 때 같은 UnicodeDecodeError를 재현했다. 테스트의 파일 읽기/쓰기에 UTF-8을 명시하고, 기존 router projection을 BUILD 소비자가 재사용할 수 있는 함수로 추출했다. 전역 인코딩/엔진/플러그인 변경은 없다. 전체 검토 2/2 근거는 재사용하며 이 교정의 집중 검사·전체 회귀·원격 Windows 결과를 별도로 확인한다. 이 절의 오류 이력은 후속 PASS로 지우지 않는다.
 
 Ruling: 승인된 적용안을 이 기존 채택 기록에 계획/진행으로 누적한다. 별도 Plan/ledger/PDF를 늘리는 일반 스킬 관례보다 사용자의 기존 정본 누적 요청을 따른다. 보호된 게임·자산 경로는 변경하지 않는다.
 
