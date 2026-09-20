@@ -1,5 +1,7 @@
 # OMENWARD · Current Confirmed Decisions
 
+> 2026-09-20 운영 개선: [Base 선택 채택·재미 검증 연결·작업 순서](BASE_RULES_VERSION.md). v9.4.3 lock과 기존 제품 승인/구현 상태는 유지한다. 최신 게임 작업 브랜치를 main 구현 완료로 간주하지 않는다. 운영 진척과 검증은 이 링크에 누적한다.
+
 ```yaml
 updated_at: 2026-08-29
 status: CURRENT_DECISION_RECOVERY_INDEX

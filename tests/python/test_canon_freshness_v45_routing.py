@@ -129,13 +129,9 @@ class CanonFreshnessV45RoutingTest(unittest.TestCase):
         self.assertIn("PROJECT_CORE_SCENE_VISUAL_BOARD = USER_CONFIRMED_PLANNING_LOCK__V6_OPEN_BATTLEFIELD_NO_BARRICADE__NOT_RUNTIME_ASSET", decisions)
 
         agents = AGENTS.read_text(encoding="utf-8")
-        self.assertIn("current_decision_index: docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
-        self.assertIn("current_context: docs/ACTIVE_CONTEXT.md", agents)
-        self.assertIn(CURRENT_VISUAL_DECISION, agents)
-        self.assertIn(CURRENT_MAP_TOPOLOGY, agents)
-        self.assertIn(CURRENT_FRONT_STRUCTURE, agents)
-        self.assertIn(CURRENT_ROUTE_STATE_GRAMMAR, agents)
-        self.assertIn(CURRENT_MAP_ONLY_BOARD_SCOPE, agents)
+        self.assertIn("docs/CURRENT_CONFIRMED_DECISIONS.md", agents)
+        self.assertIn("docs/ACTIVE_CONTEXT.md", agents)
+        # Product values are checked above at their owner, not duplicated in bootstrap.
         self.assertNotIn("CURRENT_APPROVED_REPLAN_DECISIONS = 19", agents)
 
         active = ACTIVE_CONTEXT.read_text(encoding="utf-8")
