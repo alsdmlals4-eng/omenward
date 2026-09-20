@@ -48,10 +48,16 @@ class CurrentRoutingTests(unittest.TestCase):
 
     def test_bad_selected_source_is_rejected(self):
         from tools.project_operating import selected_source_errors
-        data = json.loads((ROOT / 'skills/PROJECT_BASE_ADAPTER.json').read_text())
+        data = json.loads((ROOT / 'skills/PROJECT_BASE_ADAPTER.json').read_text(encoding='utf-8'))
         data['shared_overrides']['managing-game-project-operating-system']['selected_source'] = {
             'commit': 'not-a-commit', 'path': '../../missing/SKILL.md'}
         self.assertTrue(selected_source_errors(data))
+
+    def test_shared_router_projection_preserves_utf8_source(self):
+        from tools.project_operating import project_router
+        adapter = {'shared_overrides': {'managing-game-project-operating-system':
+                                      {'router_body': '한국어 router\n\n'}}}
+        self.assertEqual(project_router(adapter), '한국어 router\n'.encode('utf-8'))
 
     def test_stale_snapshot_is_rejected_by_current_validator(self):
         import shutil
@@ -59,9 +65,9 @@ class CurrentRoutingTests(unittest.TestCase):
             root = pathlib.Path(temp)
             shutil.copytree(ROOT / 'skills', root / 'skills')
             path = root / 'skills/PROJECT_SKILL_SNAPSHOT.json'
-            value = json.loads(path.read_text())
+            value = json.loads(path.read_text(encoding='utf-8'))
             value['effective_routes']['omenward-godot']['status'] = 'INACTIVE'
-            path.write_text(json.dumps(value))
+            path.write_text(json.dumps(value), encoding='utf-8')
             self.assertTrue(validate_skill_system.validate(root / 'skills/SKILL_REGISTRY.json', root))
 
     def test_current_registry_validates_without_legacy_package_shape(self):
@@ -73,7 +79,7 @@ class CurrentRoutingTests(unittest.TestCase):
             path = root / 'skills/SKILL_REGISTRY.json'
             path.parent.mkdir()
             path.write_text(json.dumps({'schema_version': 1, 'skills': [
-                {'skill_id': 'bad', 'path': '../../outside/SKILL.md', 'status': 'ACTIVE'}]}))
+                {'skill_id': 'bad', 'path': '../../outside/SKILL.md', 'status': 'ACTIVE'}]}), encoding='utf-8')
             self.assertTrue(validate_skill_system.validate(path, root))
 
     def test_governance_scope_rejects_product_and_unrelated_paths(self):
