@@ -95,6 +95,43 @@ func capture() -> void:
 	screen.save_path = "user://replan-capture-%d.json" % OS.get_process_id()
 	root.add_child(screen)
 	screen.paused = true
+	if "--procs-only" in OS.get_cmdline_user_args():
+		# Deliberately prepared elite/cooldown fixture, not natural acquisition.
+		screen.inspect_front(0)
+		screen.run.units.clear()
+		screen.run.spawn("archer", 0, 36, 0)
+		screen.run.spawn("giant", 1, 42, 0)
+		screen.run.spawn("shield_guard", 1, 44, 0)
+		screen.run.spawn("spear_guard", 0, 60, 0)
+		screen.run.spawn("cavalry", 1, 61, 0)
+		for unit in screen.run.units:
+			unit.cooldown = 10.0
+		screen.run.units[0].cooldown = 0.0
+		screen.run.units[0].survived = 5
+		screen.run.units[0].pierce_count = 4
+		screen.run.units[3].survived = 5
+		screen.run.units[3].brace = 0.6
+		screen.run.units[4].cooldown = 0.0
+		screen.run.units[4].charge = 2.0
+		screen.run.begin_round()
+		screen.run.advance_ticks(1)
+		var valid: bool = screen.run.units[2].hp < 180 and screen.run.units[0].pierce_count == 0 and screen.run.units[4].hp < 165 and screen.run.units[3].counter_cd == 6.0
+		screen.run.message = "정예 효과 시험 편성 · 관통1회/저지 반격1회 · 실제 성장 획득 기록 아님"
+		screen._refresh_panel()
+		screen.queue_redraw()
+		await process_frame
+		var hover := InputEventMouseMotion.new()
+		hover.position = screen.unit_draw_anchor(screen.run.units[3])
+		hover.global_position = hover.position
+		root.push_input(hover)
+		await create_timer(0.8).timeout
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png("res://output/front-status.png")
+		print("PROC_GPU_FIXTURE: ", valid, " secondary_hp=", screen.run.units[2].hp, " cavalry_hp=", screen.run.units[4].hp, " counter_cd=", screen.run.units[3].counter_cd)
+		screen.queue_free()
+		await process_frame
+		quit(0 if valid else 1)
+		return
 	if "--first-map-only" in OS.get_cmdline_user_args():
 		await capture_first_map(screen)
 		return

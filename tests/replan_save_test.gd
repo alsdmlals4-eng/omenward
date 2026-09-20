@@ -41,6 +41,20 @@ func _initialize() -> void:
 	var multi_path := folder + "/three.json"
 	check(storage.write_verified(multi_path, multi.snapshot()).ok and storage.read_verified(multi_path).state.selected_front == 2, "Three-front deployment selection survives actual disk transport")
 	check(storage.write_verified(multi_path, multi.snapshot()).ok, "Three-front valid backup available")
+	var proc_path := folder + "/proc.json"
+	multi.spawn("archer", 0, 30, 0)
+	multi.units.back().pierce_count = 4
+	multi.spawn("spear_guard", 0, 32, 0)
+	multi.units.back().counter_cd = 6.0
+	check(storage.write_verified(proc_path, multi.snapshot()).ok, "Proc counters reach actual disk transport")
+	var proc_copy = load("res://scripts/replan/front_run.gd").new()
+	check(proc_copy.restore(storage.read_verified(proc_path).state) and proc_copy.units[-2].pierce_count == 4 and proc_copy.units[-1].counter_cd == 6.0, "Disk restore preserves near-proc count and fixed-tick cooldown")
+	check(storage.write_verified(proc_path, multi.snapshot()).ok, "Proc backup exists")
+	var future_proc: Dictionary = multi.snapshot()
+	future_proc.map_entry.combat_rules = "proc_v999"
+	write_fixture(proc_path, JSON.stringify(future_proc))
+	var proc_digest := FileAccess.get_sha256(proc_path)
+	check(not storage.read_verified(proc_path).ok and not storage.write_verified(proc_path, multi.snapshot()).ok and FileAccess.get_sha256(proc_path) == proc_digest, "Future combat checkpoint protects primary from backup rollback and overwrite")
 	var future_front: Dictionary = multi.snapshot()
 	future_front.map_entry.front_rules = "three_v999"
 	write_fixture(multi_path, JSON.stringify(future_front))

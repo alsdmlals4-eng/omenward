@@ -18,6 +18,8 @@ static func _unsupported_state(value: Variant) -> bool:
 		return true
 	if value.has("front_rules") and value.front_rules not in ["single_v1", "three_v1"]:
 		return true
+	if value.has("combat_rules") and value.combat_rules not in ["legacy", "proc_v1"]:
+		return true
 	var version: Variant = value.get("version")
 	if value.has("ruleset_id") and (version != 7 or value.ruleset_id != Model.FIXED_RULESET):
 		return true

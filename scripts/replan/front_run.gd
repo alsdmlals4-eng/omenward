@@ -55,6 +55,10 @@ var point_clock := 0.0
 var tower_clock := 0.0
 var front_rules := "single_v1"
 var selected_front := 0
+var combat_rules := "legacy"
+var event_serial := 0
+# Transient synchronous transaction only; snapshots are taken between impacts.
+var _active_attack := 0
 
 func front_count() -> int:
 	return int(catalog.front_layout.count) if front_rules == "three_v1" else 1
@@ -63,6 +67,7 @@ func enable_three_fronts() -> bool:
 	if phase != "PREPARE" or tick != 0 or current_map != 0 or not buildings.is_empty() or not reserve.is_empty() or omen_pending:
 		return false
 	front_rules = "three_v1"
+	combat_rules = "proc_v1"
 	selected_front = 0
 	for i in range(units.size()):
 		units[i].front = i % 3
@@ -131,6 +136,10 @@ func next_map() -> bool:
 		unit.effects = {}
 		unit.hit_count = 0
 		unit.heal_count = 0
+		if unit.has("pierce_count"):
+			unit.pierce_count = 0
+		if unit.has("counter_cd"):
+			unit.counter_cd = 0.0
 	message = "%s 진입 · 병력 체력/시설/골드 계승" % catalog.maps[current_map].name
 	map_entry = snapshot(false)
 	return true
@@ -499,6 +508,11 @@ func spawn(role: String, side: int, x: float, front: int = -1) -> void:
 		"effects": {}, "hit_count": 0, "heal_count": 0})
 	if front_count() == 3:
 		units.back().front = selected_front if front < 0 else clampi(front, 0, 2)
+	if combat_rules == "proc_v1":
+		if role == "archer":
+			units.back().pierce_count = 0
+		if role == "spear_guard":
+			units.back().counter_cd = 0.0
 	if birth_rules in BIRTH_RULES and side == 0:
 		var birth := _birth_record(role)
 		for key in ["entry_id", "birth_tier", "source_facility_id"]:
@@ -833,6 +847,8 @@ func apply_status(unit: Dictionary, kind: String, amount: float, duration: float
 	return true
 
 func _tick_effects(unit: Dictionary, dt: float) -> void:
+	if unit.has("counter_cd"):
+		unit.counter_cd = _countdown(float(unit.counter_cd), dt)
 	var effects: Dictionary = unit.get("effects", {})
 	for key in ["immune", "barrier_time", "damage_guard", "ranged_guard", "armor_break_time"]:
 		if effects.has(key):
@@ -927,6 +943,75 @@ func choose_target(unit: Dictionary) -> Dictionary:
 	return target
 
 func _hit(attacker: Dictionary, target: Dictionary) -> void:
+	if combat_rules == "proc_v1":
+		resolve_hit({"event_id": event_serial + 1, "attack_id": event_serial + 1, "parent_event_id": 0,
+			"kind": "BASIC", "source_id": attacker.id, "target_id": target.id, "side_at_launch": attacker.side})
+	else:
+		_basic_hit(attacker, target)
+
+func resolve_hit(event: Dictionary) -> bool:
+	if combat_rules != "proc_v1" or not _valid_integer(event.get("event_id"), 1, 100000000) or event.event_id != event_serial + 1:
+		return false
+	var kind: String = str(event.get("kind", ""))
+	if kind not in ["BASIC", "SECONDARY", "COUNTER"]:
+		return false
+	var basic := kind == "BASIC"
+	if basic:
+		if _active_attack != 0 or event.get("parent_event_id") != 0 or event.get("attack_id") != event.event_id:
+			return false
+	elif _active_attack == 0 or event.get("parent_event_id") != _active_attack or event.get("attack_id") != _active_attack or not _finite_number(event.get("base_damage")) or event.base_damage <= 0:
+		return false
+	var attacker: Dictionary = {}
+	var target: Dictionary = {}
+	for unit in units:
+		if unit.id == event.get("source_id"):
+			attacker = unit
+		if unit.id == event.get("target_id"):
+			target = unit
+	if attacker.is_empty() or target.is_empty() or attacker.hp <= 0 or target.hp <= 0 or attacker.side == target.side or attacker.side != event.get("side_at_launch") or not same_front(attacker, target):
+		return false
+	if float(attacker.get("effects", {}).get("stun", 0)) > 0:
+		return false
+	if basic and absf(float(attacker.x) - float(target.x)) > attack_range(attacker):
+		return false
+	event_serial = int(event.event_id)
+	if basic:
+		_active_attack = event_serial
+		_basic_hit(attacker, target)
+		_active_attack = 0
+	else:
+		var armor := float(definitions[target.role][6])
+		if float(target.get("effects", {}).get("armor_break_time", 0)) > 0:
+			armor = maxf(0, armor - float(target.effects.armor_break))
+		var damage := maxf(1, float(event.base_damage) * 100.0 / (100.0 + armor))
+		var ranged := kind == "SECONDARY"
+		var forward := (float(attacker.x) - float(target.x)) * (1.0 if target.side == 0 else -1.0)
+		if ranged and forward > 0 and shield_guarding(target):
+			damage = maxf(1, damage * 0.75)
+		take_damage(target, damage, ranged)
+		if kind == "COUNTER":
+			attacker.action = 0.25
+		damage_events += 1
+	return true
+
+func _secondary_hit(attacker: Dictionary, target: Dictionary, kind: String, base_damage: float) -> bool:
+	return resolve_hit({"event_id": event_serial + 1, "attack_id": _active_attack, "parent_event_id": _active_attack,
+		"kind": kind, "source_id": attacker.id, "target_id": target.id, "side_at_launch": attacker.side, "base_damage": base_damage})
+
+func _pierce_target(attacker: Dictionary, primary: Dictionary) -> Dictionary:
+	var candidates: Array = []
+	var direction := 1.0 if attacker.side == 0 else -1.0
+	for other in units:
+		var distance := (float(other.x) - float(primary.x)) * direction
+		if other.hp > 0 and other.side != attacker.side and other.id != primary.id and same_front(attacker, other) and distance > 0 and distance <= float(catalog.grade_proc_rules.archer_behind_range) * 3.0:
+			candidates.append(other)
+	candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var a_distance := absf(float(a.x) - float(primary.x))
+		var b_distance := absf(float(b.x) - float(primary.x))
+		return int(a.id) < int(b.id) if a_distance == b_distance else a_distance < b_distance)
+	return candidates[0] if not candidates.is_empty() else {}
+
+func _basic_hit(attacker: Dictionary, target: Dictionary) -> void:
 	if attacker.hp <= 0 or target.hp <= 0 or not same_front(attacker, target):
 		return
 	attacker.hit_count = (int(attacker.get("hit_count", 0)) + 1) % 4
@@ -936,6 +1021,8 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		attacker.focus_count = (int(attacker.get("focus_count", 0)) + 1) % 3 if int(attacker.get("focus_target", -1)) == int(target.id) else 1
 		attacker.focus_target = int(target.id)
 		focused = unit_grade(attacker) >= 1 and attacker.focus_count == 0
+		if combat_rules == "proc_v1":
+			attacker.pierce_count = (int(attacker.get("pierce_count", 0)) + 1) % int(catalog.grade_proc_rules.archer_every)
 	var ambush: bool = attacker.role == "assassin" and target.role in ["archer", "mage", "priest"] and float(attacker.get("ambush", 0.0)) <= 0
 	if ambush:
 		attacker.ambush = 10.0
@@ -993,6 +1080,12 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 		if attacker.role == "archer" and forward > 0 and shield_guarding(victim):
 			damage = maxf(1, damage * 0.75)
 		take_damage(victim, damage, attacker.role in ["archer", "mage"])
+		if combat_rules == "proc_v1" and charged and victim.role == "spear_guard" and float(victim.get("brace", 0)) >= 0.6 and victim.hp > 0 and float(victim.get("effects", {}).get("stun", 0)) <= 0:
+			if unit_grade(victim) >= 1:
+				apply_status(attacker, "slow", float(catalog.grade_proc_rules.spear_slow), float(catalog.grade_proc_rules.spear_slow_seconds))
+			if unit_grade(victim) >= 2 and float(victim.get("counter_cd", 0)) <= 0:
+				if _secondary_hit(victim, attacker, "COUNTER", float(definitions.spear_guard[5])):
+					victim.counter_cd = float(catalog.grade_proc_rules.spear_counter_seconds)
 		if is_capstone(attacker) and attacker.role == "greatsword_warrior" and attacker.hit_count == 0 and victim.id == target.id:
 			var effects: Dictionary = victim.get("effects", {})
 			effects.armor_break = float(catalog.capstone_rules.blade_armor_reduction)
@@ -1006,6 +1099,13 @@ func _hit(attacker: Dictionary, target: Dictionary) -> void:
 			elif charged:
 				apply_status(victim, "stun", 0, 0.4)
 		damage_events += 1
+	if combat_rules == "proc_v1" and attacker.role == "archer" and unit_grade(attacker) >= 2 and attacker.pierce_count == 0:
+		var behind := _pierce_target(attacker, target)
+		if not behind.is_empty():
+			var raw := float(row[5]) * float(catalog.grade_proc_rules.archer_multiplier)
+			if focused:
+				raw *= float(catalog.capstone_rules.archer_focus_multiplier) if is_capstone(attacker) else 1.25
+			_secondary_hit(attacker, behind, "SECONDARY", raw)
 
 func snapshot(include_entry: bool = true) -> Dictionary:
 	var result := {"version": 6, "map_entry": map_entry.duplicate(true) if include_entry else {}, "current_map": current_map, "held_points": held_points.duplicate(), "map_pressure": map_pressure, "wave_rules": wave_rules, "omen_pending": omen_pending, "omen_moves": omen_moves, "omen_reserved": omen_reserved, "gold": gold, "phase": phase, "round": round_number,
@@ -1017,6 +1117,8 @@ func snapshot(include_entry: bool = true) -> Dictionary:
 		"tower_clock": tower_clock, "message": message}
 	if ruleset_id == FIXED_RULESET:
 		result.merge({"version": 7, "ruleset_id": ruleset_id, "tick": tick, "tick_debt": tick_debt, "timer_units": "ticks"}, true)
+		if combat_rules == "proc_v1":
+			result.merge({"combat_rules": combat_rules, "event_serial": event_serial})
 		if front_count() == 3:
 			result.merge({"front_rules": front_rules, "selected_front": selected_front})
 		result.merge({"capture_rules": capture_rules, "capture": capture.duplicate(true)}, true)
@@ -1038,7 +1140,7 @@ func _convert_duration_units(state: Dictionary, encode: bool) -> bool:
 	for unit in state.units:
 		if not unit is Dictionary:
 			return false
-		var groups: Array = [{"value": unit, "keys": ["cooldown", "flash", "action", "windup", "brace", "ambush", "air_reengage"]}]
+		var groups: Array = [{"value": unit, "keys": ["cooldown", "flash", "action", "windup", "brace", "ambush", "air_reengage", "counter_cd"]}]
 		var effects: Variant = unit.get("effects", {})
 		if not effects is Dictionary or not effects.get("slows", []) is Array:
 			return false
@@ -1061,6 +1163,14 @@ func restore(value: Variant) -> bool:
 	if not value is Dictionary or not _finite_number(value.get("version")) or value.version != floorf(value.version) or value.version < 1 or value.version > 7 or value.has("schema_version"):
 		return false
 	value = value.duplicate(true)
+	var saved_combat: String = str(value.get("combat_rules", "legacy"))
+	if saved_combat not in ["legacy", "proc_v1"]:
+		return false
+	if saved_combat == "proc_v1":
+		if value.version != 7 or not _valid_integer(value.get("event_serial"), 0, 100000000):
+			return false
+	elif value.has("event_serial"):
+		return false
 	var saved_fronts: String = str(value.get("front_rules", "single_v1"))
 	if saved_fronts not in ["single_v1", "three_v1"]:
 		return false
@@ -1129,7 +1239,7 @@ func restore(value: Variant) -> bool:
 		value.omen_moves = 0
 		value.omen_reserved = 0
 	for key in snapshot():
-		if key in ["birth_rules", "next_entry_id", "next_facility_id", "front_rules", "selected_front"]:
+		if key in ["birth_rules", "next_entry_id", "next_facility_id", "front_rules", "selected_front", "combat_rules", "event_serial"]:
 			continue
 		if key in ["ruleset_id", "tick", "tick_debt", "timer_units", "capture_rules", "capture", "base_claim_work", "basic_gold_paid", "settled_maps", "facility_rules"] and (value.version < 7 or (key in ["base_claim_work", "basic_gold_paid", "settled_maps"] and value.get("capture_rules") == "legacy")):
 			continue
@@ -1217,6 +1327,15 @@ func restore(value: Variant) -> bool:
 				return false
 			seen_birth_ids.append(unit.entry_id)
 		var windup: Variant = unit.get("windup", 0.0)
+		if saved_combat == "proc_v1":
+			if unit.role == "archer" and not _valid_integer(unit.get("pierce_count"), 0, int(catalog.grade_proc_rules.archer_every) - 1):
+				return false
+			if unit.role == "spear_guard" and (not _finite_number(unit.get("counter_cd")) or unit.counter_cd < 0 or unit.counter_cd > float(catalog.grade_proc_rules.spear_counter_seconds)):
+				return false
+		if unit.has("pierce_count") and (saved_combat != "proc_v1" or unit.role != "archer"):
+			return false
+		if unit.has("counter_cd") and (saved_combat != "proc_v1" or unit.role != "spear_guard"):
+			return false
 		if not _valid_effects(unit.get("effects", {})):
 			return false
 		var effects: Dictionary = unit.get("effects", {})
@@ -1328,6 +1447,8 @@ func restore(value: Variant) -> bool:
 			return false
 		if probe.front_rules != saved_fronts:
 			return false
+		if probe.combat_rules != saved_combat or probe.event_serial > int(value.get("event_serial", 0)):
+			return false
 		if value.version == 7:
 			if probe.birth_rules != value.get("birth_rules", "legacy"):
 				return false
@@ -1350,6 +1471,9 @@ func restore(value: Variant) -> bool:
 				return false
 	ruleset_id = FIXED_RULESET if value.version == 7 else "legacy"
 	front_rules = saved_fronts
+	combat_rules = saved_combat
+	event_serial = int(value.get("event_serial", 0))
+	_active_attack = 0
 	selected_front = int(value.get("selected_front", 0))
 	birth_rules = value.birth_rules if has_birth else "legacy"
 	next_facility_id = int(value.get("next_facility_id", 1)) if has_birth else 1
@@ -1378,6 +1502,10 @@ func restore(value: Variant) -> bool:
 	units = value.units.duplicate(true)
 	for unit in units:
 		unit.effects = unit.get("effects", {})
+		if unit.has("pierce_count"):
+			unit.pierce_count = int(unit.pierce_count)
+		if unit.has("counter_cd"):
+			unit.counter_cd = float(unit.counter_cd)
 		for key in ["entry_id", "birth_tier", "source_facility_id"]:
 			if unit.has(key):
 				if has_birth:

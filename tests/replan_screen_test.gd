@@ -14,6 +14,22 @@ func verify() -> void:
 		quit(1)
 		return
 	var before_layout: Dictionary = screen.run.snapshot()
+	screen.inspect_front(0)
+	screen.run.units.clear()
+	screen.run.spawn("archer", 0, 30, 0)
+	screen.run.units.back().survived = 5
+	screen.run.units.back().pierce_count = 4
+	if not screen._get_tooltip(screen.unit_draw_anchor(screen.run.units.back())).contains("관통 4/5"):
+		push_error("Elite archer tooltip must reflect current pierce count")
+		failed = true
+	screen.run.spawn("spear_guard", 0, 40, 0)
+	screen.run.units.back().survived = 5
+	screen.run.units.back().counter_cd = 3.0
+	if not screen._get_tooltip(screen.unit_draw_anchor(screen.run.units.back())).contains("반격 3.0초"):
+		push_error("Elite spear tooltip must reflect remaining counter cooldown")
+		failed = true
+	screen.run.restore(before_layout)
+	screen.show_overview()
 	if not screen.has_method("inspect_front"):
 		push_error("Default minimap must open one actual frontline inspection")
 		quit(1)

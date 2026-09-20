@@ -1,5 +1,27 @@
 # Visible battle and construction implementation plan
 
+## 2026-09-20 P04 연속 실행 — 관통·저지·반격
+
+기존 P04/Blueprint unit_progression의 궁병 정예5타 뒤1체50%, 창병 숙련 돌격 저지 둔화30%/1초·정예 즉시1타/6초를 연결한다. 기존 front_run/front_save/front_screen, Blueprint JSON, 세 replan test와 기존 상태 기록만 수정한다. 수치 owner는 JSON `grade_proc_rules`로 구조화하며 이미 명세된 값을 새 밸런스 확정으로 표시하지 않는다.
+
+순서/합격: (1) 실제 전투 회귀 RED (2) 새 원정 proc_v1 표식과 동기 BASIC/SECONDARY/COUNTER 처리 (3) 궁병 거리→ID 후방 선택·창병 저지 소비 (4) 저장/미래 표식/맵 진입 교차 검사와 tooltip 연결 (5) 전체 gate·현재 PR exact scope·원격 확인. 양진영, 전선 격리, 죽음/아군/경직/잘못된 ID, 중복1000회, 관통 직전/반격 재사용 중 저장을 시험한다.
+
+Ruling: 기존 즉시 처리에 범용 이벤트 버스·새 모듈을 만들지 않는다. BASIC은 기존 공격 consumer에 연결하고 SECONDARY/COUNTER는 피해만 처리해 기본 적중 카운터·추가 발동을 재실행하지 않는다. 단조 증가 event_id를 저장하고 완료한 ID 재입력은 거절한다. 자식은 현재 동기 기본 공격 안에서만 허용; 비동기 투사체/순서 재배열 queue는 아직 소비처가 없어 후속 P07로 남긴다. 저장은 이벤트 전체 처리 사이에서만 가능하다. 틀린 가정이 확인되면 비동기 consumer와 함께 queue/ledger를 확장해야 한다.
+
+호환: 새 3전선 원정 생성 시 proc_v1, 기존 marker 없는 원정은 legacy 유지. 미래 표식은 primary/backup/map-entry에서 fail-closed. 새 카운터·시간은 저장하고 맵 전환 때 일시 효과/횟수 초기화, 사건 순번은 원정 안에서 유지한다. 이미 시작한 구형 원정에 능력을 몰래 추가하지 않는다. 방어 성공 시 생존한 창병의 반격은 해당 기본 공격의 후속 경직 적용 전 해결하며 사망/기존 경직/반격 대기 중에는 발동하지 않는다.
+
+경험 가설: 살아남은 정예 궁병이 밀집 후열을 관통하고 준비한 창병이 돌격을 억제해 병종/전선 선택 이유를 만든다. 반례는 다른 전선의 피해·추가타의 무한 발동·불러오기 후 재충전·툴팁과 효과 불일치. 모델→HP/flash/action·대기 tooltip가 현재 표현 consumer이며 새 최종 VFX/아트·사람 재미는 NOT_RUN이다. 공식 Godot JSON 숫자 타입/정밀도와 Array의 참조/정렬 제약을 적용한다(위 P04 공식 출처 및 https://docs.godotengine.org/en/stable/classes/class_json.html). 기존 장르 조사/역할 명세를 재사용하고 장르·핵심 규칙을 재설계하지 않는다.
+
+프로세스: 현재 AGENTS·Base23ecad5a 선택 채택/v9.4.3 lock 확인, BUILD scope PASS/Base raw 보호경로 FAIL 분리. 전체 검토 예산2/2는 계승하며 초기화하지 않는다. 이번 증분은 작성자 경계 검토·새 실패 회귀·원격 검사로 확인하고 과거 독립 검토를 새 코드의 검토로 주장하지 않는다. 기존 작업계획/월간 원본에 누적하고 신규 작업일지/스킬/전역 설정은 만들지 않는다. 현재 Hera는 urban-legend이므로 명시 OMENWARD CLI만 실행한다.
+
+### P04 이번 증분 검증 결과
+
+RED→GREEN: typed resolver 미구현, 사거리 밖 BASIC 수락, 새 효과 tooltip 누락을 각각 검사로 확인한 뒤 교정했다. 최종 효과 집중64 실패0, 전체 모델779/저장66 실패0·화면/기본씬 PASS. 첫 전체773 이후 맵 전환/재도전/저장 후 중복 입력6개를 추가하고 전체779를 다시 실행했다. Python 문서/범위97 PASS, 스킬4개 PASS. 첫 Python 호출은 존재하지 않는 모듈명을 지정해89중1 import 오류였고 실제 tests.test_replan_scope로 교정한97개 실행과 구별한다. 원본 Base 보호9 FAIL / 승인 PROJECT_SCOPED_BUILD PASS 유지, 커밋 후 정확한 PR 경로 검사를 별도 수행한다.
+
+실제 Godot4.7.1 GPU tests/replan_capture.gd -- --procs-only: 새 원정에 의도적으로 정예/충전 상태를 준비하고 실제 advance_ticks(1)을 소비했다. 관통 표적172.741935483871, 돌격자151.440677966102, 창병 반격재사용6.0 확인. 실제 마우스 hover의 반격 tooltip 포함 output/front-status.png를 시각 검수했다(SHA256 a933d5d6d555887251d5323f76bb3ee45f98f5c209b317b855c18c21a907b6ab). 이는 자연 성장 획득·전체 밸런스·최종 모션/Human 검증이 아니다. 기존 투명 아트 재사용, 새 래스터/Aseprite 없음.
+
+전체 자동 로그는 기존 월간 원본 C:/Users/user/Documents/증빙서류/9월 증빙서류/OMENWARD_원본근거/20260920_grade_procs_validation.log에 두 실행을 누적했다(SHA256 783ff2b8743f6738fa11d01fe6f31025581d085648bef015c7a97d0680a84309). 신규 PDF/지원기관 제출 없음. 다음 P04는 방패 인접보호→마법사/대검→기병/거인/암살자/비행 및 T3 교차검증이다. 아래 P04 표의 궁병·창병 행은 이 증분으로 구현됐고 나머지 행은 미완료다. Draft PR259 동기화만 이번 범위이며 부모258/main 병합 권한으로 확대하지 않는다.
+
 ## 2026-09-20 연속 작업 — 첫 맵 정책 비교·저장 재개
 
 최신 진행 승인으로 직전 묶음의 다음 순서를 실행한다. 분산/북부집중/궁병특화/일반특수혼합 × seed1947~1949를 정상 초기 자원·실제 시설/징조/배치/공세 명령으로 비교한다. 정상 연속 실행과 첫 라운드22초의 JSON 저장 복원을 대조해 모든 최종 상태가 같은지 검사한다. 승률 자체에 합격선을 붙이지 않으며 결과를 보고 수치를 임의 변경하지 않는다. P04 잔여 효과는 기존 아래 명세/순서를 유지하며 이번 비교 결과를 먼저 읽는다.

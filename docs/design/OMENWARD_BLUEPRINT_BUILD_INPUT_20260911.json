@@ -67,6 +67,7 @@
     ["flying","천공창기병","첫 교전 타격 1.3배; 재교전 8초 이후 재준비"],
     ["giant","파성거인","구조물 피해 배수 1.5에서 1.7로 증가"]
   ],
+  "grade_proc_rules":{"archer_every":5,"archer_multiplier":0.5,"archer_behind_range":1.0,"spear_slow":0.3,"spear_slow_seconds":1.0,"spear_counter_seconds":6.0},
   "unit_progression":[
     ["shield_guard",1,"방패 자세: 정면 원거리 피해 25% 감소","방패 밀기: 매 4회 기본타 적 1체 0.3초 경직","수호선: 8초마다 인접 아군 1체에 20 보호막/3초","갑각 방어 / 매 4타 충격 / 인접 개체 보호"],
     ["archer",2,"공중 표적 우선 단일 사격","조준: 같은 표적 연속 3타째 피해 +25%","관통 화살: 매 5타 뒤쪽 적 1체에 50% 피해","가시 사출 / 집중 가시 / 관통 가시"],

@@ -352,6 +352,10 @@ func _reserve_panel() -> void:
 			b.tooltip_text = "%s · 체력%s · 공격%s · 출전%s칸\n%s" % [run.definitions[role][1], run.definitions[role][4], run.definitions[role][5], run.definitions[role][11], {"archer": "사거리 안 공중 표적 우선 사격", "flying": "지상 후열 우선 접근 · 무적 아님", "assassin": "후열 우선 · 후열 타격1.4배 / 10초 재사용"}[role]]
 		_picture(art.unit(role, 0), Rect2(20, 4, 76, 76), b)
 		b.tooltip_text += "\n다음 출전 T%d · 생성 당시 티어 유지 · 같은 병종 선입순" % tier
+		if run.combat_rules == "proc_v1" and role == "archer":
+			b.tooltip_text += "\n정예(5라운드 생존): 매%d타 뒤쪽 적1체에%d%% 관통 피해" % [int(run.catalog.grade_proc_rules.archer_every), roundi(float(run.catalog.grade_proc_rules.archer_multiplier) * 100)]
+		elif run.combat_rules == "proc_v1" and role == "spear_guard":
+			b.tooltip_text += "\n숙련: 돌격 저지 시 둔화%d%% / 정예: 저지 반격1회, %.0f초 재사용" % [roundi(float(run.catalog.grade_proc_rules.spear_slow) * 100), float(run.catalog.grade_proc_rules.spear_counter_seconds)]
 		if tier == 3:
 			for capstone in run.catalog.capstones:
 				if capstone[0] == role:
@@ -506,6 +510,11 @@ func _get_tooltip(at_position: Vector2) -> String:
 			var row: Array = run.definitions[unit.role]
 			lines.append("%s · %s · 체력 %d/%d%s" % ["아군" if unit.side == 0 else "베일", row[1] if unit.side == 0 else row[3], ceili(unit.hp), int(row[4]), " · 정면 화살 방어25%" if run.shield_guarding(unit) else ""])
 			lines[-1] += " · %s(생존%d)" % [["일반", "숙련", "정예"][run.unit_grade(unit)], int(unit.get("survived", 0))]
+			if run.combat_rules == "proc_v1" and run.unit_grade(unit) >= 2:
+				if unit.role == "archer":
+					lines[-1] += " · 관통 %d/%d" % [int(unit.get("pierce_count", 0)), int(run.catalog.grade_proc_rules.archer_every)]
+				elif unit.role == "spear_guard":
+					lines[-1] += " · 반격 %.1f초" % float(unit.get("counter_cd", 0)) if float(unit.get("counter_cd", 0)) > 0 else " · 반격 준비"
 			var effects: Dictionary = unit.get("effects", {})
 			if float(effects.get("barrier", 0)) > 0:
 				lines[-1] += " · 보호막%d(%.1f초)" % [ceili(effects.barrier), effects.barrier_time]

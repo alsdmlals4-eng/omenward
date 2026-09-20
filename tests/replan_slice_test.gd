@@ -9,6 +9,162 @@ func check(ok: bool, message: String) -> void:
 		failures += 1
 		push_error(message)
 
+func proc_fixture(model: Script, side: int = 0):
+	var run = model.new()
+	run.enable_three_fronts()
+	run.units.clear()
+	run.phase = "BATTLE"
+	var direction := 1.0 if side == 0 else -1.0
+	run.spawn("archer", side, 50.0, 0)
+	run.spawn("giant", 1 - side, 50.0 + direction * 6.0, 0)
+	run.spawn("shield_guard", 1 - side, 50.0 + direction * 8.0, 0)
+	run.units[0].survived = 5
+	return run
+
+func verify_grade_procs(model: Script) -> void:
+	var initial = proc_fixture(model)
+	check(initial.has_method("resolve_hit"), "P04 needs typed, replay-safe basic and secondary combat resolution")
+	if not initial.has_method("resolve_hit"):
+		return
+	for side in [0, 1]:
+		var run = proc_fixture(model, side)
+		for hit in range(4):
+			run._hit(run.units[0], run.units[1])
+		check(run.units[2].hp == 180 and run.units[0].pierce_count == 4, "Archer must not pierce before fifth basic hit")
+		var copy = model.new()
+		check(copy.restore(JSON.parse_string(JSON.stringify(run.snapshot(), "", true, true))), "Pre-pierce snapshot restores")
+		run._hit(run.units[0], run.units[1])
+		copy._hit(copy.units[0], copy.units[1])
+		check(is_equal_approx(run.units[2].hp, 180.0 - 9.0 * 100.0 / 124.0), "Pierce applies half raw damage against secondary armor exactly once, both sides")
+		check(run.units[0].hit_count == 1 and run.units[0].focus_count == 2 and run.damage_events == 6, "Secondary does not advance basic/focus counters")
+		check(equivalent_state(run.snapshot(), copy.snapshot()), "Saving on fourth hit preserves fifth-hit outcome")
+		var before: Dictionary = run.snapshot()
+		var replay := {"event_id": 5, "attack_id": 5, "parent_event_id": 0, "kind": "BASIC", "source_id": run.units[0].id, "target_id": run.units[1].id, "side_at_launch": side}
+		for attempt in range(1000):
+			if run.resolve_hit(replay):
+				check(false, "Already resolved event cannot apply twice")
+		check(run.snapshot() == before, "1000 old event replays are mutation-free")
+		var spear = model.new()
+		spear.enable_three_fronts()
+		spear.units.clear()
+		spear.phase = "BATTLE"
+		spear.spawn("cavalry", 1 - side, 51.0, 0)
+		spear.spawn("spear_guard", side, 50.0, 0)
+		spear.units[0].charge = 2.0
+		spear.units[1].brace = 0.6
+		spear.units[1].survived = 5
+		spear._hit(spear.units[0], spear.units[1])
+		check(is_equal_approx(spear.units[0].hp, 165.0 - 16.0 * 100.0 / 118.0), "Successful brace retaliates once against charging cavalry")
+		check(is_equal_approx(spear.movement_factor(spear.units[0]), 0.7), "Veteran brace slows actual charger")
+		check(spear.units[1].counter_cd == 6.0 and spear.units[1].hit_count == 0 and spear.damage_events == 2, "Counter uses cooldown without recursive basic hits")
+		var loaded = model.new()
+		check(loaded.restore(JSON.parse_string(JSON.stringify(spear.snapshot(), "", true, true))), "Counter cooldown restores")
+		var hp: float = loaded.units[0].hp
+		loaded.units[0].charge = 2.0
+		loaded._hit(loaded.units[0], loaded.units[1])
+		check(loaded.units[0].hp == hp and loaded.units[1].counter_cd == 6.0, "Resume cannot refresh counter cooldown")
+		for i in range(180):
+			loaded._tick_effects(loaded.units[1], 1.0 / 30.0)
+		check(loaded.units[1].counter_cd == 0.0, "Counter cooldown expires after exactly 180 fixed ticks")
+		loaded.units[0].charge = 2.0
+		loaded._hit(loaded.units[0], loaded.units[1])
+		check(loaded.units[0].hp < hp, "A new brace can retaliate after cooldown")
+	var legacy = model.new()
+	legacy.units.clear()
+	legacy.spawn("archer", 0, 30)
+	legacy.spawn("giant", 1, 36)
+	legacy.spawn("shield_guard", 1, 38)
+	legacy.units[0].survived = 5
+	for i in range(5):
+		legacy._hit(legacy.units[0], legacy.units[1])
+	check(legacy.units[2].hp == 180 and not legacy.snapshot().has("combat_rules"), "Legacy unmarked run does not silently gain procs")
+	for variation in ["wrong_front", "ally", "dead", "behind_attacker", "too_far", "same_position"]:
+		var run = proc_fixture(model)
+		match variation:
+			"wrong_front": run.units[2].front = 1
+			"ally": run.units[2].side = 0
+			"dead": run.units[2].hp = 0
+			"behind_attacker": run.units[2].x = 49.0
+			"too_far": run.units[2].x = 60.0
+			"same_position": run.units[2].x = run.units[1].x
+		var hp: float = run.units[2].hp
+		for i in range(5): run._hit(run.units[0], run.units[1])
+		check(run.units[2].hp == hp, "Pierce excludes invalid secondary: " + variation)
+	var sorted_run = proc_fixture(model)
+	sorted_run.spawn("shield_guard", 1, 57.0, 0)
+	sorted_run.spawn("shield_guard", 1, 57.0, 0)
+	var archer: Dictionary = sorted_run.units[0]
+	var primary: Dictionary = sorted_run.units[1]
+	var near_low: Dictionary = sorted_run.units[3]
+	var near_high: Dictionary = sorted_run.units[4]
+	sorted_run.units.reverse()
+	var ordering: Array = sorted_run.units.map(func(unit): return unit.id)
+	for i in range(5): sorted_run._hit(archer, primary)
+	check(near_low.hp < 180 and near_high.hp == 180 and sorted_run.units.map(func(unit): return unit.id) == ordering, "Pierce distance/ID tie-break is stable without reordering live units")
+	for invalid in ["dead", "ally", "wrong_front", "stunned", "too_far"]:
+		var run = proc_fixture(model)
+		match invalid:
+			"dead": run.units[1].hp = 0
+			"ally": run.units[1].side = 0
+			"wrong_front": run.units[1].front = 1
+			"stunned": run.apply_status(run.units[0], "stun", 0, 0.3)
+			"too_far": run.units[1].x = 90
+		var before: Dictionary = run.snapshot()
+		run._hit(run.units[0], run.units[1])
+		check(run.snapshot() == before, "Invalid basic hit cannot spend counts or event IDs: " + invalid)
+	for variation in ["ordinary", "veteran", "unbraced", "uncharged", "dies", "stunned"]:
+		var run = model.new()
+		run.enable_three_fronts()
+		run.units.clear()
+		run.phase = "BATTLE"
+		run.spawn("cavalry", 1, 51, 0)
+		run.spawn("spear_guard", 0, 50, 0)
+		run.units[0].charge = 2.0
+		run.units[1].brace = 0.6
+		run.units[1].survived = 5
+		match variation:
+			"ordinary": run.units[1].survived = 0
+			"veteran": run.units[1].survived = 2
+			"unbraced": run.units[1].brace = 0.0
+			"uncharged": run.units[0].charge = 0.0
+			"dies": run.units[1].hp = 1.0
+			"stunned": run.apply_status(run.units[1], "stun", 0, 0.3)
+		run._hit(run.units[0], run.units[1])
+		check(run.units[0].hp == 165 and run.units[1].counter_cd == 0, "No counter outside eligible living elite brace: " + variation)
+		check(is_equal_approx(run.movement_factor(run.units[0]), 0.7 if variation == "veteran" else 1.0), "Slow requires actual living veteran brace: " + variation)
+	var atomic = proc_fixture(model)
+	var snapshot: Dictionary = atomic.snapshot()
+	for field in ["combat_rules", "event_serial", "pierce_count", "missing_counter", "checkpoint"]:
+		var bad: Dictionary = snapshot.duplicate(true)
+		match field:
+			"combat_rules": bad.combat_rules = "proc_v999"
+			"event_serial": bad.event_serial = -1
+			"pierce_count": bad.units[0].pierce_count = 5
+			"missing_counter": bad.units[0].erase("pierce_count")
+			"checkpoint": bad.map_entry.erase("combat_rules")
+		check(not atomic.restore(bad) and atomic.snapshot() == snapshot, "Invalid proc state rejected atomically: " + field)
+	var child := {"event_id": 1, "attack_id": 1, "parent_event_id": 1, "kind": "COUNTER", "source_id": atomic.units[0].id, "target_id": atomic.units[1].id, "side_at_launch": 0, "base_damage": 100}
+	check(not atomic.resolve_hit(child) and atomic.snapshot() == snapshot, "Orphan secondary/counter cannot bypass live basic attack")
+	var transition = proc_fixture(model)
+	for i in range(4): transition._hit(transition.units[0], transition.units[1])
+	transition.spawn("spear_guard", 0, 45, 0)
+	transition.units.back().counter_cd = 3.0
+	var serial: int = transition.event_serial
+	transition.phase = "VICTORY"
+	transition._settle_map(false)
+	check(transition.next_map() and transition.units[0].pierce_count == 0 and transition.units[1].counter_cd == 0.0 and transition.event_serial == serial, "Map transition clears temporary proc progress but preserves event sequence")
+	transition.units[0].pierce_count = 3
+	transition.phase = "DEFEAT"
+	check(transition.retry_map() and transition.units[0].pierce_count == 0 and transition.combat_rules == "proc_v1", "Retry restores entry profile and cleared proc progress")
+	var restored = model.new()
+	check(restored.restore(snapshot), "Replay guard snapshot restores")
+	var basic := {"event_id": 1, "attack_id": 1, "parent_event_id": 0, "kind": "BASIC", "source_id": restored.units[0].id, "target_id": restored.units[1].id, "side_at_launch": 0}
+	check(restored.resolve_hit(basic), "First typed basic event applies")
+	var again = model.new()
+	check(again.restore(JSON.parse_string(JSON.stringify(restored.snapshot(), "", true, true))), "Processed event serial survives save roundtrip")
+	var after: Dictionary = again.snapshot()
+	check(not again.resolve_hit(basic) and again.snapshot() == after, "Processed basic cannot replay after load")
+
 func verify_birth_records(model: Script) -> void:
 	verify_three_fronts(model)
 	verify_area_selection(model)
@@ -985,6 +1141,11 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var model = load("res://scripts/replan/front_run.gd")
+	if "--procs-only" in OS.get_cmdline_user_args():
+		verify_grade_procs(model)
+		print("REPLAN_PROC_TEST: %d checks, %d failures" % [checks, failures])
+		quit(0 if failures == 0 else 1)
+		return
 	if "--front-policy-only" in OS.get_cmdline_user_args():
 		verify_front_policies(model)
 		print("REPLAN_FRONT_POLICY_TEST: %d checks, %d failures" % [checks, failures])
@@ -1000,6 +1161,7 @@ func _initialize() -> void:
 	verify_fixed_clock(model)
 	verify_campaign(model)
 	verify_front_policies(model)
+	verify_grade_procs(model)
 	verify_statuses(model)
 	var r = model.new()
 	check(r.wave_composition(1, 0) == {"shield_guard":2, "archer":1}, "New first-map playtest pressure starts with two shields and one archer")
