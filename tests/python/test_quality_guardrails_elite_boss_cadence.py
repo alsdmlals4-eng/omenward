@@ -55,7 +55,8 @@ class QualityGuardrailsEliteBossCadenceTest(unittest.TestCase):
             self.assertIn(marker, text)
 
     def test_current_consumers_route_durable_cadence_without_historical_decision_ids(self) -> None:
-        combined = "\n".join(path.read_text(encoding="utf-8") for path in (AGENTS, ACTIVE, PENDING))
+        # Cadence belongs to the game owner, not stable bootstrap instructions.
+        combined = (ROOT / "docs/PROJECT_CORE.md").read_text(encoding="utf-8")
         for marker in (
             "DANGER_STAGE_TYPE = REMOVED",
             "ELITE_ESCALATION = EVERY_STAGE_FINAL_WAVE",

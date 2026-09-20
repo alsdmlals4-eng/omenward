@@ -19,12 +19,14 @@
     ]
   },
   "gdd_sheet": {
-    "declared_sync_status": "SHEET_GITHUB_SYNCED",
+    "declared_sync_status": "HISTORICAL_ONLY__REPOSITORY_AUTHORITY",
     "id": "1VLwRtXGDtyj0JFt98wdIOtG6Zqc3wtdfCzSF9Fo6lpw",
     "role": "USER_FACING_GDD_WORKSPACE",
     "sheet_only_change_policy": "PROPOSED_SHEET_CHANGE",
-    "sync_status": "CURRENT",
-    "write_policy": "NO_AUTOMATIC_OVERWRITE"
+    "sync_status": "STALE",
+    "write_policy": "RETIRED__NO_FUTURE_READ_OR_WRITE",
+    "effective_authority": "COMPATIBILITY_ONLY",
+    "role_semantics": "LEGACY_SCHEMA_FIELD_ONLY__NOT_CURRENT_AUTHORITY"
   },
   "project": {
     "engine": "Godot 4.7",
@@ -168,7 +170,98 @@
     "maintaining-project-context-and-handoff": {},
     "managing-base-change-proposals": {},
     "managing-design-documents": {},
-    "managing-game-project-operating-system": {},
+    "managing-game-project-operating-system": {
+      "selected_source": {
+        "commit": "23ecad5a3084f97c4e5d1e39a9a6d70d1eeb37ef",
+        "path": "skills/managing-game-project-operating-system/SKILL.md",
+        "reviewed_at": "2026-09-20",
+        "policy": "SELECTIVE_ADOPTION__RELEASE_LOCK_UNCHANGED"
+      },
+      "project_routing": {
+        "trigger_groups": [
+          {
+            "terms": [
+              "agents",
+              "작업구조",
+              "운영 계약",
+              "경량화"
+            ],
+            "routes": [
+              "managing-game-project-operating-system"
+            ],
+            "exclusive": true
+          },
+          {
+            "terms": [
+              "godot",
+              "gdscript",
+              "저장",
+              "버그",
+              "성능",
+              "save",
+              "bug",
+              "gdscript",
+              "runtime"
+            ],
+            "routes": [
+              "omenward-godot"
+            ]
+          },
+          {
+            "terms": [
+              "이미지",
+              "아트",
+              "스프라이트",
+              "투명",
+              "모션"
+            ],
+            "routes": [
+              "omenward-art-assets"
+            ]
+          },
+          {
+            "terms": [
+              "ui",
+              "ux",
+              "hud",
+              "가독성",
+              "재미",
+              "플레이테스트"
+            ],
+            "routes": [
+              "omenward-core-ux"
+            ]
+          },
+          {
+            "terms": [
+              "룰렛",
+              "확률",
+              "병종",
+              "밸런스",
+              "게임 규칙"
+            ],
+            "routes": [
+              "omenward-core-design"
+            ]
+          }
+        ],
+        "fallback": {
+          "PLAN": "managing-project-intake-and-work-contract",
+          "BUILD": "managing-project-intake-and-work-contract",
+          "REVIEW": "reviewing-and-validating-project-changes"
+        }
+      },
+      "policy_owner": "skills/SHARED_EXECUTION_CONTRACT.md",
+      "adoption_record": "docs/BASE_RULES_VERSION.md",
+      "fun_verification": {
+        "base_commit": "23ecad5a3084f97c4e5d1e39a9a6d70d1eeb37ef",
+        "source": "skills/analyzing-and-refining-game-concepts/references/concept-evidence-and-gates.md",
+        "presentation_source": "docs/knowledge/game-development/EXPERIENCE_TO_PRESENTATION_GUIDE.md",
+        "project_binding": "docs/BASE_RULES_VERSION.md#재미-검증의-프로젝트-연결",
+        "evidence_ceiling": "METHOD_ADOPTED__GAME_HUMAN_NOT_RUN"
+      },
+      "router_body": "---\nname: omenward-workflow-router\ndescription: Use when selecting OMENWARD project skills or validating its adopted Base operating contract.\n---\n\n# OMENWARD workflow router\n\nAGENTS.md의 current-authority read order를 따른다. docs/BASE_RULES_VERSION.md가 release lock, 선택 채택 및 검사 도구를 연결한다.\n\n1. 프로젝트 루트에서 `python -X utf8 tools/validate_skill_system.py`를 실행한다.\n2. `python -X utf8 tools/project_operating.py --base-tools <채택 Base tools 경로> --base-repository <Base checkout> --check`로 release/protected/generated 계약을 검사한다. 실패 원인·범위를 분류한다. 승인된 운영 교정은 가능하나 보호 baseline 이동이나 실패 은폐는 금지한다. 제품 의존 실행은 해당 범위 검사 전 보류한다.\n3. `python -X utf8 tools/route_skills.py --request \"<현재 요청>\"`로 후보를 확인하고 필요한 패키지만 읽는다. 명시 선택은 --skill, 사용법은 --help.\n4. 로컬 경로는 현재 checkout 기준, Base는 출력 commit의 원문이다. selected_source는 선택 채택이고 나머지는 기존 release다. 최신 Base main도 조회해 drift를 구분한다.\n\n선택은 실행 승인이 아니다. adapter/effective snapshot과 current registry만 사용하며 과거 docs/base registry는 명시 호환 검사 전용이다. Base 원문을 복사하지 않는다.\n이 파일은 adapter.shared_overrides의 router_body에서 tools/project_operating.py가 생성한다. 직접 편집하지 않는다.\n"
+    },
     "managing-project-intake-and-work-contract": {
       "first_prompt_governance": {
         "actual_project_instruction_execution": "NOT_RUN",
@@ -201,6 +294,12 @@
         "planning_conflict_state": "GRILL_ME_REQUIRED",
         "post_merge_sheet_state": "SYNCED_TO_MAIN",
         "pre_merge_sheet_state": "APPROVED_PENDING_MERGE"
+      },
+      "selected_source": {
+        "commit": "23ecad5a3084f97c4e5d1e39a9a6d70d1eeb37ef",
+        "path": "skills/managing-project-intake-and-work-contract/SKILL.md",
+        "reviewed_at": "2026-09-20",
+        "policy": "SELECTIVE_ADOPTION__RELEASE_LOCK_UNCHANGED"
       }
     },
     "optimizing-ai-model-and-prompt-costs": {
@@ -230,7 +329,14 @@
       "work_package_source": "templates/ai/DEEPSEEK_WORK_PACKAGE.md",
       "worktree_parent": ".worktrees/"
     },
-    "reviewing-and-validating-project-changes": {}
+    "reviewing-and-validating-project-changes": {
+      "review_budget": {
+        "full_scope_rounds": 2,
+        "scope": "ONE_APPROVED_CONTRACT",
+        "reset_per_stage": false
+      },
+      "policy_owner": "skills/SHARED_EXECUTION_CONTRACT.md"
+    }
   },
   "skill_registry": {
     "base": {

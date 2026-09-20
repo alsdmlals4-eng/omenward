@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,json,pathlib,re
-ROOT=pathlib.Path(__file__).resolve().parents[1];DEFAULT_REGISTRY=ROOT/'docs'/'base'/'SKILL_REGISTRY.json'
+import argparse,json,pathlib,re,hashlib
+ROOT=pathlib.Path(__file__).resolve().parents[1];DEFAULT_REGISTRY=ROOT/'skills'/'SKILL_REGISTRY.json'
 REQ=('## 사용 조건','## 사용하지 않는 조건','## 고유 책임','## 입력','## 절차','## 출력','## 고유 검수')
 def cycles(skills,errors):
  k={s['id']:s for s in skills};p=set();t=set()
@@ -15,6 +15,35 @@ def cycles(skills,errors):
  for i in k:v(i)
 def validate(path,root=ROOT):
  e=[];r=json.loads(path.read_text(encoding='utf-8'));skills=r.get('skills',[]);ids=[s.get('id') for s in skills];paths=[s.get('path') for s in skills]
+ if r.get('schema_version')==1:
+  ids=[s.get('skill_id') for s in skills]
+  if not skills or len(ids)!=len(set(ids)):e.append('missing skills or duplicate Skill IDs')
+  if len(paths)!=len(set(paths)):e.append('duplicate Skill paths')
+  for s in skills:
+   p=(root/'skills'/s.get('path','')).resolve()
+   if not p.is_relative_to((root/'skills').resolve()) or not p.is_file():
+    e.append(f'invalid package path: {s.get("path")}');continue
+   if s.get('status') not in ('ACTIVE','INACTIVE'):e.append(f'invalid status: {s.get("skill_id")}')
+  try:
+   a=json.loads((root/'skills/PROJECT_BASE_ADAPTER.json').read_text(encoding='utf-8'))
+   snap=json.loads((root/'skills/PROJECT_SKILL_SNAPSHOT.json').read_text(encoding='utf-8'))
+   from project_operating import selected_source_errors
+   e.extend(selected_source_errors(a))
+   expected={}
+   for source,key in [('BASE_SHARED','base_routes'),('PROJECT_LOCAL','project_routes')]:
+    for item in a['routing'][key]:
+     if item['status']=='ACTIVE':expected[item['route_id']]=(item['skill_id'],source)
+   actual={rid:(item['skill_id'],item['source']) for rid,item in snap['effective_routes'].items() if item['status']=='ACTIVE'}
+   if expected!=actual:e.append('stale effective routing snapshot')
+   if hashlib.sha256(path.read_bytes()).hexdigest()!=a['skill_registry']['project']['sha256']:
+    e.append('project registry hash mismatch')
+   policy=a['shared_overrides']['managing-game-project-operating-system']['project_routing']
+   targets=list(policy['fallback'].values())
+   for group in policy['trigger_groups']:targets.extend(group['routes'])
+   if any(sid not in actual for sid in targets):e.append('routing policy references unavailable skill')
+  except (KeyError,TypeError,ValueError,OSError) as error:
+   e.append(f'invalid current routing contract: {error}')
+  return e
  if r.get('schema_version')!=4:e.append('schema_version must be 4')
  if len(ids)!=len(set(ids)):e.append('duplicate Skill IDs')
  if len(paths)!=len(set(paths)):e.append('duplicate Skill paths')
@@ -46,5 +75,5 @@ def main():
  except Exception as x:e=[f'validator could not read contract: {x}']
  if e:
   print('Skill system validation FAILED');[print(f'- {x}') for x in e];return 1
- r=json.loads(a.registry.read_text(encoding='utf-8'));active=sum(s.get('status','active')=='active' for s in r['skills']);print(f'Skill system validation PASSED: {active} active / {len(r["skills"])} registered');return 0
+ r=json.loads(a.registry.read_text(encoding='utf-8'));active=sum(s.get('status','active').upper()=='ACTIVE' for s in r['skills']);print(f'Skill system validation PASSED: {active} active / {len(r["skills"])} registered');return 0
 if __name__=='__main__':raise SystemExit(main())

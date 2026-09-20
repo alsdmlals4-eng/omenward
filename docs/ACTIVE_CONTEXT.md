@@ -1,5 +1,7 @@
 # [현행] OMENWARD Active Context
 
+> 2026-09-20 운영 개선: [Base 선택 채택·재미 검증 연결·작업 순서](BASE_RULES_VERSION.md). v9.4.3 lock과 기존 제품 승인/구현 상태는 유지한다. 최신 게임 작업 브랜치를 main 구현 완료로 간주하지 않는다. 운영 진척과 검증은 이 링크에 누적한다.
+
 ```yaml
 updated_at: 2026-08-29
 status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED
@@ -285,9 +287,9 @@ Unrelated open/draft work remains read-only. Fresh GitHub state overrides handof
 
 ## Resume order
 
-1. fresh Base current authority and open PRs;
+1. `AGENTS.md`의 current-authority read order;
 2. fresh OMENWARD main/open PR/Issue inventory;
-3. `AGENTS.md`;
+3. below owners, actual consumers, then selected Base contract/latest drift;
 4. `docs/CURRENT_CONFIRMED_DECISIONS.md`;
 5. this file;
 6. `docs/handoffs/2026-08-29-open-battlefield-v6-visual-lock-handoff.md`;

@@ -16,6 +16,10 @@ on:
       - "tests/python/test_project_base_adapter_freshness.py"
       - "tests/python/test_active_integrated_contract_v4_4.py"
       - "tools/validate_active_integrated_contract_v4_4.py"
+      - "tools/project_operating.py"
+      - "tools/route_skills.py"
+      - "tools/validate_skill_system.py"
+      - "tests/python/test_current_skill_routing.py"
       - ".github/workflows/validate-project-base-adapter.yml"
 
 permissions:
@@ -59,15 +63,12 @@ jobs:
         run: |
           set -euo pipefail
           ADAPTER_PATH="skills/PROJECT_BASE_ADAPTER.json"
-          ADAPTER_CHANGES="$(git diff --name-only "$PR_BASE_SHA"...HEAD -- "$ADAPTER_PATH")"
-          if printf '%s\n' "$ADAPTER_CHANGES" | grep -Fxq "$ADAPTER_PATH"; then
-            PROTECTED_BASE_SHA="$PR_BASE_SHA"
-          else
-            PROTECTED_BASE_SHA="$(
+          # Read the trusted base's policy even when unrelated adapter metadata changes.
+          # The validator rejects a candidate baseline/policy change against this value.
+          PROTECTED_BASE_SHA="$(
               git show "$PR_BASE_SHA:$ADAPTER_PATH" |
                 python -c 'import json, sys; payload = json.load(sys.stdin); print(payload["protected_baseline"]["commit"])'
-            )"
-          fi
+          )"
           python -c 'import re, sys; value = sys.argv[1]; raise SystemExit(0 if re.fullmatch(r"[0-9a-f]{40}", value) else 1)' "$PROTECTED_BASE_SHA"
           git cat-file -e "$PROTECTED_BASE_SHA^{commit}"
           git merge-base --is-ancestor "$PROTECTED_BASE_SHA" "$PR_BASE_SHA"
@@ -75,7 +76,7 @@ jobs:
 
       - name: Check generated operating artifacts
         run: |
-          python .base-contract/tools/build_project_operating_artifacts.py \
+          python tools/project_operating.py --base-tools .base-contract/tools \
             --project-root . \
             --base-repository .base-contract \
             --protected-base "$PROTECTED_BASE_SHA" \
@@ -83,7 +84,7 @@ jobs:
 
       - name: Validate adapter against trusted protected baseline
         run: |
-          python .base-contract/tools/check_project_operating_contract.py \
+          python tools/project_operating.py --base-tools .base-contract/tools \
             --project-root . \
             --base-repository .base-contract \
             --protected-base "$PROTECTED_BASE_SHA" \

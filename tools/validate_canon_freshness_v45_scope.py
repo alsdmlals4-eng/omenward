@@ -730,7 +730,35 @@ OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_REQUIRED_ANCHORS = set(
     OPEN_BATTLEFIELD_V6_VISUAL_LOCK_CANON_SYNC_ALLOWED_FILES
 )
 
+# User-approved 2026-09-20 operating-only migration. Exact paths, no product glob.
+LEAN_OPERATING_ALLOWED_FILES = {
+    ".gitattributes", ".github/workflows/validate-project-base-adapter.yml",
+    "AGENTS.md", ".agents/skills/omenward-workflow-router/SKILL.md",
+    "docs/ACTIVE_CONTEXT.md", "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/DOCUMENTATION_MAP.md", "docs/BASE_RULES_VERSION.md",
+    "docs/PROJECT_OPERATING_DASHBOARD.html",
+    "skills/PROJECT_BASE_ADAPTER.json", "skills/PROJECT_SKILL_SNAPSHOT.json",
+    "skills/BASE_V9_ADAPTER.json", "skills/PROJECT_BASE_SKILL_ADAPTER.json",
+    "skills/SHARED_EXECUTION_CONTRACT.md",
+    "skills/disciplines/evaluating-omenward-core-ux-and-playtests/SKILL.md",
+    "skills/disciplines/governing-omenward-core-design-and-data/SKILL.md",
+    "skills/disciplines/governing-omenward-art-animation-and-assets/SKILL.md",
+    "skills/disciplines/planning-and-validating-omenward-godot-implementation/SKILL.md",
+    "tools/route_skills.py", "tools/validate_skill_system.py", "tools/project_operating.py",
+    "tools/validate_project_core_docs.py", "tools/validate_canon_freshness_v45_scope.py",
+    "tests/python/test_current_skill_routing.py",
+    "tests/python/test_adversarial_review_contract.py",
+    "tests/python/test_canon_freshness_v45_routing.py",
+    "tests/python/test_current_canon_reconciliation_20260821.py",
+    "tests/python/test_pc_android_core_adapter_architecture_contract.py",
+    "tests/python/test_project_base_adapter_freshness.py",
+    "tests/python/test_quality_guardrails_elite_boss_cadence.py",
+    "tests/test_base_v942_planning_first_adoption.py", "tests/test_base_v9_adoption.py",
+}
+LEAN_OPERATING_REQUIRED = {"AGENTS.md", "docs/BASE_RULES_VERSION.md"}
+
 APPROVED_FILES = (
+    LEAN_OPERATING_ALLOWED_FILES |
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
     | PHASE_C_C0_TOOLCHAIN_GATE_ALLOWED_FILES
@@ -794,6 +822,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (LEAN_OPERATING_ALLOWED_FILES, LEAN_OPERATING_REQUIRED, "approved lean operating migration"),
         (RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES, RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_REQUIRED_ANCHORS, "Run Command machine-QA evidence sync"),
         (CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES, CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS, "current v4.8 visual closeout"),
         (RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_ALLOWED_FILES, RUN_COMMAND_IMPLEMENTATION_AUTHORITY_SYNC_REQUIRED_ANCHORS, "Run Command implementation-authority sync"),
