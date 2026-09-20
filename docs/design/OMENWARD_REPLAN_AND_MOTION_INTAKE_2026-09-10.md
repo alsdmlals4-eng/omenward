@@ -1,5 +1,21 @@
 # OMENWARD 재기획 · 신규 이미지 · 모션 제작 접수
 
+## 2026-09-20 승인된 통합 준비와 첫 맵 검토
+
+사용자는 제안된 첫 작업 묶음(통합 검사 정리 + 3전선 첫 맵 조작/재미 검토)을 승인했다. 기존 기획 PR258의 정확한 파일은 tools/validate_canon_freshness_v45_scope.py의 REPLAN_PREPARATION_ALLOWED_FILES로 등록한다. 디렉터리 전체/제품 코드/플러그인/미등록 후보는 허용하지 않는다. 후보를 저장소 검토 대상으로 인정하는 것과 최종 아트·수치·제품 승인은 별개다. 기존 사용자 미커밋 Blueprint/후보는 수정·스테이징하지 않는다.
+
+| 분류 | 기존 파일과 책임 | 이번 처리 |
+|---|---|---|
+| 현재 승인/진행 원본 | AGENTS, Decisions, Active Context, Core/GDD/Roadmap, 본 접수 | 최신 전선 결정과 실행 범위를 연결; 아래 9/10 단일전선은 역사 |
+| 권장 상세 설계 | benchmarks 재설계 검토, 9/10 command Blueprint, 9/11 human Blueprint 및 JSON | 수치/영웅/전체 기능을 자동 확정하지 않음 |
+| 후보 시각 자료 | blueprint-20260911의 roster/building/hero/background/icon PNG 및 provenance | 실제 후속 consumer와 연결하되 최종 승인 상태는 유지 |
+| 역사·비교 자료 | replan-20260910의 attack/slash pilot·field study·quality 후보, HTML/JSON/Aseprite | 폐기/삭제하거나 새 모션 완료로 표시하지 않음 |
+| 파생 보고/검사 | v3 PDF/receipt, publisher, Blueprint tests | PDF는 바이너리 분류, 내용·원본 hash 불변; 문서 검사는 게임 검증 아님 |
+
+작업 순서: 검사 실패 재현 → exact 범위/바이너리 분류 교정 → PR259에 부모 교정 연결 → 첫 맵의 정보·입력·결과 검증 → 기존 기록/원격 검사 갱신. 게임/저장/자산 수치 변경, 전체 게임 완료, 최종 아트 승인은 포함하지 않는다. 기존 승인이 있는 독립 구현을 막지는 않지만, 두 Draft PR의 전체 main 병합은 이번 '통합 준비'만으로 자동 실행하지 않는다.
+
+Ruling: 기존 접수와 구현 계획을 실행 기록으로 재사용한다. 별도 ledger/PDF를 만드는 일반 스킬 관례보다 사용자 요청의 기존 정본 누적을 우선한다. 이번 계약의 검토는 전체 최대2회에서 공유하고 이전 운영 계약의 완료 검토를 재실행하지 않는다.
+
 ```yaml
 decision_id: OMW-PLAN-20260910-RESTART-01
 status: CORE_RETAINED__SYSTEM_SCREEN_ART_REDESIGN_RESEARCH_ACTIVE
