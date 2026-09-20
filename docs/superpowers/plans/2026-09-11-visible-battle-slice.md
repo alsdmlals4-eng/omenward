@@ -16,6 +16,8 @@ Ruling: 기존 즉시 처리에 범용 이벤트 버스·새 모듈을 만들지
 
 ### P04 이번 증분 검증 결과
 
+원격 마감: f0681f81ae61ddee5f7b8a5f53c4ea58ca11704c(2026-09-20T20:36:25+09:00)의 정확한 PR259 HEAD에6개 PASS, local=origin. 커밋 후 부모 origin/codex/replan-authority-20260910 대비 exact-path 검사 PASS; Base projection 검사와 둘 다 수행했다. CI adversarial-gate를 이번 독립 코드 검토로 해석하지 않는다. 사용완료 격리시험6폴더114파일498652bytes는 SHA256 검증 후 C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/grade-procs-20260920로 이동만 했으며 manifest/README에 원위치·복구 안내가 있다. 기존27 addon import/사용자 기획 dirt는 보호했고 부모258/main90493888은 변경하지 않았다.
+
 RED→GREEN: typed resolver 미구현, 사거리 밖 BASIC 수락, 새 효과 tooltip 누락을 각각 검사로 확인한 뒤 교정했다. 최종 효과 집중64 실패0, 전체 모델779/저장66 실패0·화면/기본씬 PASS. 첫 전체773 이후 맵 전환/재도전/저장 후 중복 입력6개를 추가하고 전체779를 다시 실행했다. Python 문서/범위97 PASS, 스킬4개 PASS. 첫 Python 호출은 존재하지 않는 모듈명을 지정해89중1 import 오류였고 실제 tests.test_replan_scope로 교정한97개 실행과 구별한다. 원본 Base 보호9 FAIL / 승인 PROJECT_SCOPED_BUILD PASS 유지, 커밋 후 정확한 PR 경로 검사를 별도 수행한다.
 
 실제 Godot4.7.1 GPU tests/replan_capture.gd -- --procs-only: 새 원정에 의도적으로 정예/충전 상태를 준비하고 실제 advance_ticks(1)을 소비했다. 관통 표적172.741935483871, 돌격자151.440677966102, 창병 반격재사용6.0 확인. 실제 마우스 hover의 반격 tooltip 포함 output/front-status.png를 시각 검수했다(SHA256 a933d5d6d555887251d5323f76bb3ee45f98f5c209b317b855c18c21a907b6ab). 이는 자연 성장 획득·전체 밸런스·최종 모션/Human 검증이 아니다. 기존 투명 아트 재사용, 새 래스터/Aseprite 없음.
