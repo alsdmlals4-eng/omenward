@@ -7,3 +7,6 @@
 /skills/PROJECT_SKILL_SNAPSHOT.json text eol=lf
 /skills/SKILL_REGISTRY.json text eol=lf
 /skills/PROJECT_BASE_ADAPTER.json text eol=lf
+
+# PDF streams are binary; do not rewrite valid xref whitespace or use textconv.
+/output/pdf/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911_v3.pdf binary

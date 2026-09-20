@@ -758,7 +758,57 @@ LEAN_OPERATING_ALLOWED_FILES = {
 }
 LEAN_OPERATING_REQUIRED = {"AGENTS.md", "docs/BASE_RULES_VERSION.md"}
 
+# Approved 2026-09-20 integration preparation. Candidate/history files are
+# admitted for review only; this does not promote art or authorize runtime edits.
+REPLAN_PREPARATION_ALLOWED_FILES = {
+    ".gitattributes",
+    "AGENTS.md",
+    "docs/ACTIVE_CONTEXT.md",
+    "docs/BASE_RULES_VERSION.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md",
+    "docs/OMENWARD_GDD_CURRENT_CANON.md",
+    "docs/OMENWARD_ROADMAP.md",
+    "docs/PROJECT_CORE.md",
+    "docs/benchmarks/OMENWARD_SYSTEM_SCREEN_ART_REDESIGN_REVIEW_2026-09-10.md",
+    "docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json",
+    "docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md",
+    "docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md",
+    "docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md",
+    "docs/images/candidates/blueprint-20260911/ROSTER_PROVENANCE.md",
+    "docs/images/candidates/blueprint-20260911/battlefield-layer.png",
+    "docs/images/candidates/blueprint-20260911/building-tree.png",
+    "docs/images/candidates/blueprint-20260911/heroes.png",
+    "docs/images/candidates/blueprint-20260911/special-roster-additions.png",
+    "docs/images/candidates/blueprint-20260911/ui-icons.png",
+    "docs/images/candidates/blueprint-20260911/veil-roster.png",
+    "docs/images/candidates/blueprint-20260911/ward-roster.png",
+    "docs/images/candidates/replan-20260910/attack-pilot-v1/attack-sheet.json",
+    "docs/images/candidates/replan-20260910/attack-pilot-v1/attack-sheet.png",
+    "docs/images/candidates/replan-20260910/attack-pilot-v1/attack.aseprite",
+    "docs/images/candidates/replan-20260910/attack-pilot-v1/preview.html",
+    "docs/images/candidates/replan-20260910/field-and-motion-study-v2.png",
+    "docs/images/candidates/replan-20260910/shield-pair-field-fit-v1.png",
+    "docs/images/candidates/replan-20260910/slash-pilot-v1/preview.html",
+    "docs/images/candidates/replan-20260910/slash-pilot-v1/slash-sheet.json",
+    "docs/images/candidates/replan-20260910/slash-pilot-v1/slash-sheet.png",
+    "docs/images/candidates/replan-20260910/slash-pilot-v1/slash.aseprite",
+    "docs/images/candidates/replan-20260910/veil-shield-quality-v1.png",
+    "docs/images/candidates/replan-20260910/ward-shield-quality-review.html",
+    "docs/images/candidates/replan-20260910/ward-shield-quality-v3.png",
+    "output/pdf/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911_v3.pdf",
+    "output/pdf/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911_v3.receipt.json",
+    "tests/python/test_replan_integration_scope.py",
+    "tests/test_blueprint_review_contract.py",
+    "tools/publish_human_blueprint_review.py",
+    "tools/validate_canon_freshness_v45_scope.py",
+}
+REPLAN_PREPARATION_REQUIRED = {
+    "docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md",
+    "docs/CURRENT_CONFIRMED_DECISIONS.md", "docs/ACTIVE_CONTEXT.md",
+}
+
 APPROVED_FILES = (
+    REPLAN_PREPARATION_ALLOWED_FILES |
     LEAN_OPERATING_ALLOWED_FILES |
     ACTIVATION_ALLOWED_FILES
     | PHASE_B_POSTMERGE_FULL_SUITE_ALLOWED_FILES
@@ -823,6 +873,7 @@ def validate_canon_freshness_scope(changed_files: Iterable[str]) -> list[str]:
     if errors:
         return errors
     modes = (
+        (REPLAN_PREPARATION_ALLOWED_FILES, REPLAN_PREPARATION_REQUIRED, "approved replan integration preparation"),
         (LEAN_OPERATING_ALLOWED_FILES, LEAN_OPERATING_REQUIRED, "approved lean operating migration"),
         (RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_ALLOWED_FILES, RUN_COMMAND_MACHINE_QA_EVIDENCE_SYNC_REQUIRED_ANCHORS, "Run Command machine-QA evidence sync"),
         (CURRENT_V48_VISUAL_CLOSEOUT_ALLOWED_FILES, CURRENT_V48_VISUAL_CLOSEOUT_REQUIRED_ANCHORS, "current v4.8 visual closeout"),
