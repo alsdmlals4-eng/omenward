@@ -1,0 +1,111 @@
+{
+  "status": "REVIEW_EDITION_NOT_FINAL_IMPLEMENTATION_READY",
+  "scope": "기획 최종 검토용. 수치는 권장 구현 초깃값이며 밸런스 검증값 아님. 제품 구현은 최종 승인 후.",
+  "maps": [
+    {"id":"ward_citadel","name":"수호 성채","rounds":10,"theme":"황금빛 성채 외곽","pressure":1.0,"lesson":"전열 유지와 후열 보호"},
+    {"id":"ward_forward","name":"수호 전진지","rounds":10,"theme":"푸른 군기와 보급로","pressure":1.12,"lesson":"돌파 대응과 점령 투자"},
+    {"id":"contested","name":"접전지","rounds":10,"theme":"금빛과 자색의 경계","pressure":1.24,"lesson":"밀집 공세와 편성 전환"},
+    {"id":"veil_forward","name":"장막 전진지","rounds":11,"theme":"침식된 평야","pressure":1.36,"lesson":"유지 지원과 집중 공격"},
+    {"id":"veil_citadel","name":"베일 성채","rounds":12,"theme":"자색 균열과 먼 성채","pressure":1.48,"lesson":"종합 공세와 최종 진격"}
+  ],
+  "units": [
+    ["shield_guard","방패병","전열","갑각수",180,12,24,16,1.0,1.0,1.4,2,30,"정면 원거리 피해 25% 완화(방어 자세)","밀집 마법·낮은 돌파력"],
+    ["archer","궁병","원거리","가시사출수",95,18,6,8,1.0,4.0,1.2,2,30,"공중 우선 단일 사격","장갑·접근한 적"],
+    ["mage","마법사","범위","포자괴",100,22,5,20,1.0,3.0,2.2,3,45,"반경 0.6 범위 공격, 최대 4대상","흩어진 적·단일 강적"],
+    ["priest","사제","지원","봉합충",105,0,7,18,1.0,3.0,2.0,3,45,"단일 아군 12HP 치료, 자기치료 없음","폭딜·직접 공격 없음"],
+    ["spear_guard","창병","저지","관통각수",145,16,16,12,1.0,1.5,1.5,2,30,"정지 0.6초 후 돌격 피해 50% 완화","경량 다수·원거리"],
+    ["greatsword_warrior","대검병","근접 범위","절단수",155,20,14,10,1.0,1.0,1.8,3,45,"전방 0.6 안 최대 3대상 베기","접근 중 피해"],
+    ["cavalry","기병","돌파","질주수",165,19,18,10,1.6,1.0,1.5,4,60,"2거리 연속 이동 뒤 첫 타격 1.5배","창병·밀집 전열"],
+    ["giant","거인","공성","파성거수",320,34,30,20,0.7,1.5,2.8,5,75,"구조물 피해 1.5배","비용·느린 공격"],
+    ["assassin","암살자","후열 제거","그림자잠복수",110,26,8,12,1.3,1.0,1.2,3,45,"후열 표적 접근 후 첫 타격 1.4배, 10초 재사용","노출 후 집중 공격"],
+    ["flying","비행병","공중 우회","장막익수",135,20,8,16,1.4,1.2,1.6,4,60,"지상 충돌 우회, 지상 후열 우선","궁병·대공 마법"]
+  ],
+  "buildings": [
+    ["barracks","병영",40,"방패병","방패병",30],
+    ["shield_hall","방패병 훈련소",50,"방패병","방패병",30],
+    ["special_barracks","특수병 병영",75,"고정 추첨 특수병","고정 추첨 특수병",60],
+    ["assassin_hall","은밀 훈련소",75,"암살자","암살자",50],
+    ["sky_hall","천공 훈련소",90,"비행병","비행병",60],
+    ["spear_hall","창병 훈련소",50,"창병","창병",35],
+    ["range","사격장",50,"궁병","궁병",35],
+    ["academy","마법학당",65,"마법사","마법사",45],
+    ["chapel","성소",65,"사제","사제",50],
+    ["blade_hall","대검 연무장",80,"대검병","대검병",45],
+    ["stable","기병 훈련소",90,"기병","기병",55],
+    ["siege","거인 훈련소",100,"거인","거인",65],
+    ["logistics","군수소",35,"출전 한도 +6","없음",0]
+  ],
+  "unit_families":{"general":["shield_guard","greatsword_warrior","spear_guard","archer","cavalry"],"special":["mage","priest","assassin","flying","giant"]},
+  "progression_status":"RECOMMENDED_DETAILS_USER_CONFIRMED_SEPARATE_GENERAL_SPECIAL",
+  "building_tree":[
+    ["barracks",null,1,"병영","shield_guard",40],
+    ["shield_hall","barracks",2,"방패병 훈련소","shield_guard",50],
+    ["spear_hall","barracks",2,"창병 훈련소","spear_guard",50],
+    ["range","barracks",2,"사격장","archer",50],
+    ["blade_hall","barracks",2,"대검 연무장","greatsword_warrior",80],
+    ["stable","barracks",2,"기병 훈련소","cavalry",90],
+    ["special_barracks",null,1,"특수병 병영","random_special",75],
+    ["academy","special_barracks",2,"마법학당","mage",65],
+    ["chapel","special_barracks",2,"성소","priest",65],
+    ["assassin_hall","special_barracks",2,"은밀 훈련소","assassin",75],
+    ["sky_hall","special_barracks",2,"천공 훈련소","flying",90],
+    ["siege","special_barracks",2,"거인 훈련소","giant",100]
+  ],
+  "capstones":[
+    ["shield_guard","철벽수호병","정지 방어 중 경직 지속 50% 감소"],
+    ["greatsword_warrior","파쇄검병","매 4타 첫 대상 방어 10 감소/2초; 정예 효과와 합산 금지"],
+    ["spear_guard","장창병","기본 사거리 1.5에서 1.8로 증가"],
+    ["archer","명사수","동일 표적 집중 사격 보너스 25%에서 35%로 강화"],
+    ["cavalry","중기병","돌격 직후 2초간 받는 피해 15% 감소"],
+    ["mage","원소술사","범위 공격 최대 대상 4에서 5로 증가"],
+    ["priest","치유사제","기본 치료 12에서 15HP로 증가"],
+    ["assassin","그림자암살자","접근 첫 타격 후 1초간 받는 원거리 피해 25% 감소"],
+    ["flying","천공창기병","첫 교전 타격 1.3배; 재교전 8초 이후 재준비"],
+    ["giant","파성거인","구조물 피해 배수 1.5에서 1.7로 증가"]
+  ],
+  "unit_progression":[
+    ["shield_guard",1,"방패 자세: 정면 원거리 피해 25% 감소","방패 밀기: 매 4회 기본타 적 1체 0.3초 경직","수호선: 8초마다 인접 아군 1체에 20 보호막/3초","갑각 방어 / 매 4타 충격 / 인접 개체 보호"],
+    ["archer",2,"공중 표적 우선 단일 사격","조준: 같은 표적 연속 3타째 피해 +25%","관통 화살: 매 5타 뒤쪽 적 1체에 50% 피해","가시 사출 / 집중 가시 / 관통 가시"],
+    ["mage",2,"폭발: 반경 0.6 최대 4체","잔광: 적중 적 이동 -15%, 1초","마력 파동: 매 4타 폭발 반경 0.8","포자 폭발 / 점착 포자 / 포자 확산"],
+    ["priest",2,"치료: 2초마다 아군 1체 12HP, 자기 제외","정화: 매 3회 치료 시 이동 둔화 1개 제거","축복: 과잉치료 최대 12를 3초 보호막으로","봉합 / 독성 이물 제거 / 재생막"],
+    ["spear_guard",2,"창벽: 정지 0.6초 후 돌격 피해 50% 완화","저지: 돌격자 첫 타 이동 -30%, 1초","반격: 돌격 저지 성공 시 즉시 기본타 1회, 6초 재사용","관통각 고정 / 걸기 / 각 반격"],
+    ["greatsword_warrior",2,"휩쓸기: 전방 0.6 최대 3체","중심 베기: 첫 표적 피해 +20%","균열 베기: 매 4타 물리 방어 10 감소, 2초","쌍낫 절단 / 중심 절단 / 갑각 균열"],
+    ["cavalry",2,"돌격: 연속 2거리 이동 후 첫 타 1.5배","충격: 돌격 적중 표적 0.4초 경직","재돌격: 전투 이탈 3초 후 돌격 재준비","질주 강타 / 충돌 / 재질주"],
+    ["giant",2,"공성: 구조물 피해 1.5배","파쇄: 구조물 적중 시 다음 공격 피해 +10%, 최대 3중첩","충격파: 매 3타 반경 0.6 적 2체에 40% 피해","파성 / 누적 균열 / 지면 충격"],
+    ["assassin",2,"후열 접근: 10초마다 거리 4 안 후열 1체 접근, 첫 타 1.4배","급소: 지원 표적 첫 타 추가 피해 10%","교란: 첫 타에 능력 준비 0.3초 지연; 대상별 6초 면역","잠복 접근 / 약점 찌르기 / 감각 교란"],
+    ["flying",2,"비행: 지상 충돌 우회, 후열 우선","활공: 이동 중 원거리 피해 10% 감소","급강하: 첫 교전 표적 0.3초 경직, 8초 재사용","비막 비행 / 회피 활공 / 낙하 충격"]
+  ],
+  "heroes":[
+    ["aurel","아우렐 · 성벽의 기수","전열 지휘","인접 아군 받는 피해 8% 감소; 중첩 없음","수호 군기: 선택 지점 반경 4의 아군 최대 6체에 40 보호막/5초; 재사용 30초",320,18,1.5],
+    ["lyra","리라 · 별빛 추적자","후열 요격","공중/지원 적 우선 단일 사격","별빛 표식: 적 1체 받는 원거리 피해 +20%/5초; 재사용 25초",190,24,4.5],
+    ["seren","세렌 · 새벽의 사제","회복 지원","3초마다 체력 비율 최저 아군 1체 15HP 치료","새벽의 장막: 반경 4 아군 최대 5체에 30HP 회복+둔화 제거; 재사용 35초",210,0,3.5]
+  ],
+  "wave_templates": {
+    "A":[["shield_guard",3],["archer",2]],
+    "B":[["shield_guard",5],["greatsword_warrior",2]],
+    "C":[["cavalry",2],["archer",2]],
+    "D":[["shield_guard",3],["mage",2]],
+    "E":[["shield_guard",3],["priest",1],["archer",2]],
+    "F":[["giant",1],["shield_guard",3]]
+  },
+  "wave_cycle": ["A","A","B","A","C","D","B","E","F","E","D","F"],
+  "economy": {"starting_gold":120,"starting_capacity":18,"queue_capacity":24,"paid_spin":20,"free_spins_per_round":1,"round_seconds":60,"wave_times":[5,22,40],"base_gold_per_round":15,"point_gold_per_round":4,"heal_coefficient":0.6,"upgrade_multiplier":1.25},
+  "sources": [
+    ["Slotbound","https://store.steampowered.com/app/4459590/","확률 소환 비교 / 흡수·잭팟 구원 복제 제외"],
+    ["Commander Quest","https://flywaygames.com/en/game/commander-quest","편성·전장 시너지 참고"],
+    ["Luck be a Landlord","https://store.steampowered.com/app/1404850/","심볼 공급 변화 / 임대료 구조 제외"],
+    ["Balatro","https://store.steampowered.com/app/2379780/","작은 규칙의 조합 / 카지노 표현 제외"],
+    ["Slay the Spire","https://store.steampowered.com/app/646570/","선택과 빌드 변화 / 분기 지도 제외"],
+    ["Monster Train 공식","https://store.steampowered.com/app/1102190/","역할 조합 / 다층 전장 제외"],
+    ["Into the Breach","https://store.steampowered.com/app/590380/","예고와 대응 / 완전 결정론 퍼즐 제외"],
+    ["Thronefall","https://store.steampowered.com/app/2239150/","준비·공세 / 전멸제 종료 제외"],
+    ["Bad North","https://store.steampowered.com/app/688420/","큰 지시·자동 교전 / 다방향 지형 제외"],
+    ["The Last Spell","https://lastspell.com/","재정비·재건 / 영웅별 턴 조작 제외"],
+    ["Kingdom Two Crowns","https://store.steampowered.com/app/701160/","측면 전진감 / 좌우 복수 방어 제외"],
+    ["The King is Watching","https://store.steampowered.com/app/2753900/","군수 투자 기회비용 / 시선조작 제외"],
+    ["Age of Empires 공식 기술 트리","https://www.ageofempires.com/learn-to-play/civilizations-game-modes-aoe2/","ADAPT: 선행 조건과 해금 가시화 / 문명별 전체 테크 복제 제외"],
+    ["Ironhide 마법사 역할 설명","https://support.ironhidegames.com/support/solutions/articles/4000223662-sorcerer-mage-skills-breakdown-kingdom-rush-battles-tower-guide","ADAPT: 직접 피해 외 유틸리티 차별화 / 스킬 그대로 복제 제외"],
+    ["Godot AtlasTexture","https://docs.godotengine.org/en/stable/classes/class_atlastexture.html","region/filter_clip 소비처 확인"],
+    ["Godot Sprite animation","https://docs.godotengine.org/en/stable/tutorials/2d/2d_sprite_animation.html","SpriteFrames 재생 경로 확인"]
+  ]
+}

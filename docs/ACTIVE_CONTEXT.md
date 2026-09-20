@@ -1,7 +1,22 @@
 # [현행] OMENWARD Active Context
 
+> 2026-09-20 현재 승인 작업: [통합 준비·첫 맵 검토](design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md#2026-09-20-승인된-통합-준비와-첫-맵-검토). 이 planning 브랜치와 후속 BUILD PR259를 구분한다. 현행 제품 방향은 3전선 동시 진행 / 기본 전체 미니맵 / 선택 전선 확대이며 아래 단일전선·구현 보류 기록은 역사다. 실제 최신 구현·시험 근거는 PR259의 기존 visible-battle 계획에서 읽는다. 이번 준비가 전체 PR 병합·최종 자산 승인 권한을 추가하지 않는다.
+
 > 2026-09-20 운영 개선: [Base 선택 채택·재미 검증 연결·작업 순서](BASE_RULES_VERSION.md). v9.4.3 lock과 기존 제품 승인/구현 상태는 유지한다. 최신 게임 작업 브랜치를 main 구현 완료로 간주하지 않는다. 운영 진척과 검증은 이 링크에 누적한다.
 
+현행 v3: 일반병/특수병 분리 사용자 교정을 반영했다. 일반 5+특수 5=10병종, 별도 T1 뿌리와 T2 전문화, T3 동일 병종 심화로 데이터/본문을 교정했다. 이전 8병종·단일 병영 트리는 superseded. 특수 T1 추첨/토큰, 등급 체계와 영웅은 권장안이다. 68쪽 v3 검토 PDF, 기획 데이터 검사 12개 PASS. 암살자/비행병 아군·베일 정적 도감 후보 추가(Aseprite 미사용). 전체 구현 착수 준비는 PARTIAL; 제품 코드는 변경하지 않았다.
+
+최신 보완: 사용자 요청으로 아군/베일 병종 이미지, 티어·등급 스킬, 영웅, 건물 이미지를 추가한 61쪽 v2 검토판을 제작했다. T1 병영=방패병, 업그레이드 후 전문 병종 공급이 사용자 확정이며 이전 자유 공급변경/전문시설 직접건설 권장안을 교정했다. 세부 분기·숙련/정예·영웅 3명은 RECOMMENDED. 도감 이미지 4시트는 RGB 카드 후보이며 전투 sprite/모션 아님. 관련 owner는 아래 동일 문서/JSON, 자산 검토는 `docs/images/candidates/blueprint-20260911/ROSTER_PROVENANCE.md`. 제품 구현·전체 자산 준비·Git 원격 반영 완료는 주장하지 않는다.
+
+2026-09-11 최신 우선 지시: 다른 프로젝트 PDF의 편집 구조만 참고하여 사람용 통합 블루프린트를 제작한다. 필요한 인게임용 이미지 후보 제작은 다시 허용되었으며 아래 이미지 보류 기록을 supersede한다. 제품 구현은 사용자 최종 승인 전 보류한다. 현행 검토 owner는 `docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md`, 숫자 입력은 `docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json`. 39쪽 검토 PDF를 생성했으나 전체 자산/모션이 준비되지 않아 FINAL_IMPLEMENTATION_READY가 아니다. 실제 Godot/밸런스/Human은 NOT_RUN.
+
+후속 기획 검토: Blueprint §1 H~L에 재미 축·누적 12게임 비교 연결·방어/진격/경제 운영·10라운드 학습 흐름·고의 지연 보상 위험·선택 치료 후보를 추가했다. main 기반 단일 대상 공격 경로에서는 사제 치료/마법사 범위공격 태그의 실제 효과를 확인하지 못해 기획과 구현을 분리했다. 부분 코드 감사이며 재미/밸런스 시험은 NOT_RUN. 다음 안전 작업은 병종 역할과 공급/회복 비용의 검증용 명세이며 이미지/구현 보류는 유지한다.
+
+최우선 작업 변경: 이미지/모션 제작과 구현 보류. 사용자 확정은 맵→10+α 시간제 라운드→복수 웨이브, 라운드 후 재정비, 전체 라운드 생존 또는 적 본진 점령 승리다. 상세 조사·권장 설계는 `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §1의 현행 상세 진행 설계가 소유한다. 아래 아트 작업은 보존된 이전 작업이며 다음 실행 순서가 아니다. 권장 수치/동결 계승/재시도는 SPECIFIED_RECOMMENDATION, runtime/Human NOT_RUN.
+
+현재 작업(2026-09-10): 베기 V2에서 후속 자세의 긴 검을 보정하고 별도 회복 포즈를 추가해 5프레임 후보를 구성했다. Aseprite 입력 픽셀·시간·기하 및 실제 로컬 브라우저의 단계/재생/정지/모바일 배치를 검사했다. 회복 프레임의 검/갑옷 차이가 남아 아트는 PARTIAL; 투명화·피벗·Godot는 미완료다. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8의 V2가 owner다. PR 정본/계약 범위 불일치도 병합 전 해결 대상이다.
+
+> **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
 ```yaml
 updated_at: 2026-08-29
 status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED

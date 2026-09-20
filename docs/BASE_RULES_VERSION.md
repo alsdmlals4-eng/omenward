@@ -72,6 +72,16 @@ PR #260 첫 원격 검사에서 단독 test module 실행 시 Python sibling imp
 
 ## 검사와 복구
 
+### 2026-09-20 완료 readback (작업 브랜치)
+
+- 정상 병합: [#260](https://github.com/alsdmlals4-eng/omenward/pull/260), Windows 후속 교정 [#261](https://github.com/alsdmlals4-eng/omenward/pull/261). 재확인 main은 `90493888c51391e946d3a1c6fa1e81e2b5dc26eb`; 검토한 #261 전체 tree와 일치했다. 이후 작업은 이 SHA를 영구 lock으로 삼지 않고 최신 main을 조회한다.
+- 이 main에서 로컬 Python 570개와 별도 루트 22개 PASS, project router/protected/release/generated 계약 PASS. [main 원격 전체 검사](https://github.com/alsdmlals4-eng/omenward/actions/runs/35478697995)는 Linux/Windows × Python 3.11/3.12/3.13 여섯 조합과 Godot 헤드리스 PASS. 사람·실제 화면·기기·재미·최종 자산·출시 검수로 승격하지 않는다.
+- PR258 기획 브랜치와 PR259 구현 브랜치에는 운영 변경만 동기화하고 main/부모와의 운영 충돌을 정리했다. 전후 scripts/scenes/data/assets/project.godot/addons 제품 diff는 0. 사용자 미커밋 Blueprint의 raw hash도 유지했다. PR259의 범위/adapter 포함 원격 6개 검사 PASS(208daf55). 원본 Base는 기존 승인된 9개 보호 경로 때문에 FAIL이며 PROJECT_SCOPED_BUILD만 PASS다.
+- PR258 원격 검사는 기존 재기획 파일의 main 통합 범위 미등록 2건과 기존 PDF의 텍스트 공백 판정 1건 때문에 FAIL이다. 이는 이번 운영 diff가 아니라 부모 기획 PR 전체 통합 문제이며, 후보 자산/기획을 일괄 승인하거나 scope를 넓혀 숨기지 않았다. 두 PR은 Draft/미병합이다. 다음 게임 작업 전 이 통합 범위를 현재 승인과 대조해야 한다.
+- 재미 기준은 METHOD_ADOPTED. 구현 브랜치의 후속 기능은 현재 Blueprint/visible-battle-slice 계획 → scripts/replan/front_run.gd(규칙), front_screen.gd(정보/표현), front_art.gd(자산), front_save.gd(저장), tests/replan_* 및 실제 화면을 연결한다. 경험 가설·반증/관찰은 해당 기능 작업에서 구체화하며 이번에 게임 재미 PASS를 주장하지 않는다.
+
+### 실행 방법
+
 프로젝트 루트에서:
 - `python -X utf8 tools/validate_skill_system.py`
 - `python -X utf8 tools/route_skills.py --request "AGENTS 작업구조 검토" --mode REVIEW`

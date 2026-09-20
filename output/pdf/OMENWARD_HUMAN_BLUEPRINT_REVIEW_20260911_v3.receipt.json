@@ -1,0 +1,178 @@
+{
+  "status": "REVIEW_EDITION",
+  "pages": [
+    "01 · 화면 아틀라스",
+    "읽는 순서와 승인 경계",
+    "핵심 경험과 세계관",
+    "SWOT S · 강점을 강화하는 계획",
+    "SWOT W · 약점을 개선하는 계획",
+    "SWOT O · 기회를 검증하는 계획",
+    "SWOT T · 위험과 중단 기준",
+    "한 원정의 흐름",
+    "시간·전장·재정비",
+    "전선과 점령의 명세",
+    "군수와 건물 공급",
+    "룰렛의 구체 처리",
+    "경제·치료·초기 편성",
+    "맵 계승·저장·재시도",
+    "화면별 입력 계약과 접근성",
+    "자산 납품 계약과 아틀라스",
+    "구현 작업 순서와 테스트",
+    "티어·등급·영웅을 구분하는 계약",
+    "제작 도구와 구현 준비도",
+    "영웅 편성 · 권장안",
+    "실무 조사와 증거의 한계",
+    "최종 승인 전 남은 게이트",
+    "시스템 연결 · 누가 무엇을 소비하는가",
+    "병종 도감 · 방패병 / 갑각수",
+    "병종 명세 · 방패병",
+    "병종 도감 · 궁병 / 가시사출수",
+    "병종 명세 · 궁병",
+    "병종 도감 · 마법사 / 포자괴",
+    "병종 명세 · 마법사",
+    "병종 도감 · 사제 / 봉합충",
+    "병종 명세 · 사제",
+    "병종 도감 · 창병 / 관통각수",
+    "병종 명세 · 창병",
+    "병종 도감 · 대검병 / 절단수",
+    "병종 명세 · 대검병",
+    "병종 도감 · 기병 / 질주수",
+    "병종 명세 · 기병",
+    "병종 도감 · 거인 / 파성거수",
+    "병종 명세 · 거인",
+    "병종 도감 · 암살자 / 그림자잠복수",
+    "병종 명세 · 암살자",
+    "병종 도감 · 비행병 / 장막익수",
+    "병종 명세 · 비행병",
+    "별도 계열 · 일반병 병영",
+    "별도 계열 · 특수병 병영",
+    "T3 심화 · T2 병종 정체성을 유지",
+    "건물 도감 · 병영",
+    "건물 도감 · 창병 훈련소",
+    "건물 도감 · 사격장",
+    "건물 도감 · 대검 연무장",
+    "건물 도감 · 기병 훈련소",
+    "건물 도감 · 마법학당",
+    "건물 도감 · 성소",
+    "건물 도감 · 거인 훈련소",
+    "영웅 후보 · 아우렐 · 성벽의 기수",
+    "영웅 후보 · 리라 · 별빛 추적자",
+    "영웅 후보 · 세렌 · 새벽의 사제",
+    "맵 공세 데이터 · 수호 성채",
+    "맵 공세 데이터 · 수호 전진지",
+    "맵 공세 데이터 · 접전지",
+    "맵 공세 데이터 · 장막 전진지",
+    "맵 공세 데이터 · 베일 성채",
+    "자산 아틀라스 · 전투 배경 레이어",
+    "자산 아틀라스 · UI 아이콘 16종",
+    "자산 준비도 · 빈칸을 완성으로 표시하지 않는다",
+    "조사 출처 · 채택 / 변형 / 제외",
+    "조사 출처 · 채택 / 변형 / 제외",
+    "조사 출처 · 채택 / 변형 / 제외"
+  ],
+  "page_count": 68,
+  "pdf_sha256": "9938a3de997ab555787fcf7aa6690a5a1e912bc4b1c0c7b03568c917875e76d5",
+  "sources": {
+    "docs/design/OMENWARD_HUMAN_BLUEPRINT_REVIEW_20260911.md": "a1efd29f88d5677cf297a273c451a0e973229b3cb7c27f50ab6baf9baf789496",
+    "docs/design/OMENWARD_BLUEPRINT_BUILD_INPUT_20260911.json": "c1d9795f1f22fa4eee2fe56c3bf9128f04b69fcf0321befa0d1734f64ad4ae59"
+  },
+  "assets": [
+    {
+      "path": "docs/images/candidates/blueprint-20260911/battlefield-layer.png",
+      "sha256": "bfe826c1571963e4adb169559f996ba8eafc8e2b239b1ad197298c3ebdad8696",
+      "size": [
+        1672,
+        941
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    },
+    {
+      "path": "docs/images/candidates/blueprint-20260911/ui-icons.png",
+      "sha256": "16746edd7fd79efde0ed2332863d27f237d3717e63e36b382aa6d7d670f1d1a2",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    },
+    {
+      "path": "docs/images/candidates/blueprint-20260911/ward-roster.png",
+      "sha256": "8b2d56769fa8b123c0158f7b2aac8a3c253060ee6b1373e3e66561781d609e2c",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    },
+    {
+      "path": "docs/images/candidates/blueprint-20260911/veil-roster.png",
+      "sha256": "1d2270c2eae1a1171e6549c5e02fb856cf06afcac64e322cd2e6f74cd8536279",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    },
+    {
+      "path": "docs/images/candidates/blueprint-20260911/building-tree.png",
+      "sha256": "c915b277179ed33fe08c20d07f85d931cb9378a98245de99ece4a98f813e6216",
+      "size": [
+        1774,
+        887
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    },
+    {
+      "path": "docs/images/candidates/blueprint-20260911/heroes.png",
+      "sha256": "579d7b44a37bf2fb4af34cf3bdd54c0a147ef3d0ac6bb54ce955355f28803a4f",
+      "size": [
+        2172,
+        724
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    },
+    {
+      "path": "docs/images/candidates/blueprint-20260911/special-roster-additions.png",
+      "sha256": "a35fcf30c33284f56f98772eb43fbb217257925ddfca9b20bb5f16d53a6cb820",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "state": "GENERATED_CANDIDATE",
+      "runtime": "NOT_RUN",
+      "tool": "image_gen",
+      "approval": "PENDING"
+    }
+  ],
+  "rounds": 53,
+  "waves": 159,
+  "static_layout": "PASS",
+  "runtime": "NOT_RUN",
+  "human": "NOT_RUN",
+  "visual_review": "PENDING"
+}
