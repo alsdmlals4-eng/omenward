@@ -43,6 +43,12 @@ def selected_source_errors(adapter, base=None):
     return errors
 
 
+def project_router(adapter):
+    """One projection shared by cold-start and approved BUILD scope consumers."""
+    body = adapter['shared_overrides']['managing-game-project-operating-system']['router_body']
+    return (body.rstrip() + '\n').encode('utf-8')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base-tools', type=pathlib.Path, required=True)
@@ -58,11 +64,7 @@ def main():
     contract = importlib.import_module('project_operating_contract')
     importlib.import_module('base_release_index').install_release_lock_paths(contract)
 
-    def router(adapter):
-        body = adapter['shared_overrides']['managing-game-project-operating-system']['router_body']
-        return (body.rstrip() + '\n').encode('utf-8')
-
-    contract._project_router = router
+    contract._project_router = project_router
     root, base = args.project_root.resolve(), args.base_repository.resolve()
     try:
         adapter = json.loads((root / 'skills/PROJECT_BASE_ADAPTER.json').read_text(encoding='utf-8'))
