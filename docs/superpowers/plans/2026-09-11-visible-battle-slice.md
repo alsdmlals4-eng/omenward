@@ -23,9 +23,11 @@
 
 검토2/2: 독립 read-only 검토 P0/P1/P2 없음, P3 정책 구매 실재 확인을 보완했다. 같은 계보 전체 검토를 초기화하지 않는다. 최종 로컬/원격 결과·정리 위치는 아래 마감 기록에 누적한다. 새로운 GPU/아트/사람/후속 맵/출시 승인 근거는 이번 증분에 없다.
 
-최종 로컬(2026-09-20): 모델715/저장61 실패0, 화면/기본씬 PASS; 정책 집중255 실패0 및12조합 모두 실제 디스크 재개와 연속 실행 동일. 전체 원문 `output/save-precision-final-gate-20260920.log`. 프로젝트 스킬4개 검사 및 scope9 Python PASS, 원본 Base 보호경로9 FAIL / PROJECT_SCOPED_BUILD PASS 구별 유지. 검토 P3는 한정 재확인으로 해결. 실행은 명시 OMENWARD path의 Godot4.7.1 headless이며, 다른 프로젝트 Hera 편집기/실사용 저장은 조작하지 않았다.
+최종 로컬(2026-09-20): 모델715/저장61 실패0, 화면/기본씬 PASS; 정책 집중255 실패0 및12조합 모두 실제 디스크 재개와 연속 실행 동일. 전체 원문은 기존 월간 증빙 원본 `C:/Users/user/Documents/증빙서류/9월 증빙서류/OMENWARD_원본근거/20260920_save_precision_validation.log`(SHA256 b5b4f159c8994657c7f7f97e3dc1ac950e7b1157d75dbe3239a176d41b6ace27). 프로젝트 스킬4개 검사 및 scope9 Python PASS, 원본 Base 보호경로9 FAIL / PROJECT_SCOPED_BUILD PASS 구별 유지. 검토 P3는 한정 재확인으로 해결. 실행은 명시 OMENWARD path의 Godot4.7.1 headless이며, 다른 프로젝트 Hera 편집기/실사용 저장은 조작하지 않았다.
 
-사용완료 격리 시험폴더8개/132파일과 이전 로그1개(총637687bytes)를 SHA256 대조 후 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/save-precision-20260920`로 이동했다. 두 manifest에 원위치/복구 위치/해시가 있고 직접 삭제는 하지 않았다. 최신 gate 로그만 저장소에 보존한다. 기존 월간 원본 README에9/20을 누적하며 PDF 새 발행/제출은 하지 않는다. 부모 PR258/main/사용자 기획 미커밋 파일과27개 addon import dirt는 보존한다. 이번 GitHub 검증은 PR259의 새 정확한 HEAD를 기준으로 확인하며 Draft 전체 병합 권한으로 확대하지 않는다.
+사용완료 격리 시험폴더8개/132파일과 이전 로그1개(총637687bytes)를 SHA256 대조 후 `C:/Users/user/Downloads/OMENWARD_DELETE_REVIEW_20260912/save-precision-20260920`로 이동했다. 두 manifest에 원위치/복구 위치/해시가 있고 직접 삭제는 하지 않았다. 최신 gate 로그는 위 월간 증빙 원본에 보존한다. 기존 월간 원본 README에9/20을 누적하며 PDF 새 발행/제출은 하지 않는다. 부모 PR258/main/사용자 기획 미커밋 파일과27개 addon import dirt는 보존한다. 이번 GitHub 검증은 PR259의 새 정확한 HEAD를 기준으로 확인하며 Draft 전체 병합 권한으로 확대하지 않는다.
+
+원격 교정: d0658c5b의 첫 원격 검사4 PASS/2 FAIL은 신규 output 로그 경로가 exact BUILD 허용목록에 없었기 때문이다. 앞선 로컬 `--base-repository` 판정은 전체 PR 경로 allowlist의 대체가 아니었다. 원본 로그를 기존 외부 증빙 폴더로 해시검증 이동하고 저장소 참조를 교정했다. 허용목록·CI·제품 코드는 넓히거나 우회하지 않았다. 이후에는 커밋한 정확한 HEAD에서 `--base origin/codex/replan-authority-20260910` 검사도 수행한다.
 
 ## 2026-09-16 current request readback
 
