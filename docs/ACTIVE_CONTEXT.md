@@ -15,7 +15,6 @@
 현재 작업(2026-09-10): 베기 V2에서 후속 자세의 긴 검을 보정하고 별도 회복 포즈를 추가해 5프레임 후보를 구성했다. Aseprite 입력 픽셀·시간·기하 및 실제 로컬 브라우저의 단계/재생/정지/모바일 배치를 검사했다. 회복 프레임의 검/갑옷 차이가 남아 아트는 PARTIAL; 투명화·피벗·Godot는 미완료다. `docs/design/OMENWARD_COMMAND_FLOW_AND_MOTION_BLUEPRINT_2026-09-10.md` §8의 V2가 owner다. PR 정본/계약 범위 불일치도 병합 전 해결 대상이다.
 
 > **2026-09-10 재기획 우선 적용:** 사용자는 기획부터 다시 시작하고 기존 이미지는 참고자료로만 사용하며 새 이미지와 모션을 함께 제작하도록 지시했다. 현재 접수·근거·작업 순서는 `docs/design/OMENWARD_REPLAN_AND_MOTION_INTAKE_2026-09-10.md`가 소유한다. 아래의 이전 제품 기획·시각 승인·phase·완료 상태는 새 기획의 실행 권한이 아닌 기존 빌드의 역사/비교 자료다. 보안·저장 보호·권리·Git 보호 경계는 유지한다. 읽기 순서는 프로젝트 최신 AGENTS → 최신 main → Decisions/Active Context → 실제 consumer와 열린 PR 중첩 → 적용 Base 지침이다. Base version lock은 변경하지 않는다.
-
 ```yaml
 updated_at: 2026-08-29
 status: FIRST5_FTUE_CORE_LOOP_RECONCILIATION__OPEN_BATTLEFIELD_V6_VISUAL_DIRECTION_LOCKED
